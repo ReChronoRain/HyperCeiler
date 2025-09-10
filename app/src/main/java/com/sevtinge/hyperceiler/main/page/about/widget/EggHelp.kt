@@ -42,7 +42,7 @@ object EggHelp {
             picInfo = picInfo
         )
         val right = IslandApi.ImageTextInfo(
-            picInfo = picInfo,
+            textInfo = IslandApi.TextInfo(title = " "),
             type = 2
         )
         val bigIsland =

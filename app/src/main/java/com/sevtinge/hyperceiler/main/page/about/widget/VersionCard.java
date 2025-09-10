@@ -61,7 +61,7 @@ import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 import com.sevtinge.hyperceiler.main.page.about.controller.LogoAnimationController;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import fan.cardview.HyperCardView;
 import fan.core.utils.MiuiBlurUtils;
@@ -153,13 +153,13 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         setLogoBlur();
         mLogoView.setOnClickListener(v -> {
             String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
-            int index = new Random().nextInt(messages.length);
+            int index = new SecureRandom().nextInt(messages.length);
             String msg = messages[index];
             Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
         });
         mLogoView.setOnLongClickListener(v -> {
             String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
-            int index = new Random().nextInt(messages.length);
+            int index = new SecureRandom().nextInt(messages.length);
             String msg = messages[index];
 
             if (!hasNotificationPermission()) {
