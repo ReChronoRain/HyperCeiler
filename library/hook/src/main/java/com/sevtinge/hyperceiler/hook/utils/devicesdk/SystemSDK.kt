@@ -154,7 +154,7 @@ data class ModuleInfo(
 
 fun scanModules(basePath: String = "/data/adb/modules", charset: Charset = Charsets.UTF_8): List<ModuleInfo> {
     if (checkRootPermission() != 0) return emptyList()
-    
+
     val moduleDirs = rootExecCmd("sh -c 'ls -1 -- \"$basePath\"'")?.lineSequence()
         ?.map { it.trim() }
         ?.filter { it.isNotEmpty() }
@@ -163,8 +163,10 @@ fun scanModules(basePath: String = "/data/adb/modules", charset: Charset = Chars
     return buildList {
         for (dirName in moduleDirs) {
             val dirPath = "$basePath/$dirName"
-            val checkCmd = "sh -c '[ -f \"$dirPath/module.prop\" ] && [ -f \"$dirPath/lspd\" ] && echo 1 || echo 0'"
+            val checkCmd = "sh -c '[ -f \"$dirPath/module.prop\" ] && [ -f \"$dirPath/daemon.apk\" ] && echo 1 || echo 0'"
             if (rootExecCmd(checkCmd)?.trim() != "1") continue
+            /*val checkPkgCmd = "sh -c 'aapt dump badging \"$dirPath/daemon.apk\" 2>/dev/null | grep -q \"package: name=\\'org.lsposed.daemon\\'\" && echo 1 || echo 0'"
+            if (rootExecCmd(checkPkgCmd)?.trim() != "1") continue*/
 
             val content = rootExecCmd("sh -c 'cat -- \"$dirPath/module.prop\"'") ?: continue
 

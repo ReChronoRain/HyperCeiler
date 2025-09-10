@@ -5,4 +5,11 @@
         <attr name="android:title" />
         <attr name="android:value" />
     </declare-styleable>
+
+    <string-array name="logo_click_egg_messages">
+        <item>@string/logo_egg1</item>
+        <item>@string/logo_egg2</item>
+        <item>@string/logo_egg3</item>
+    </string-array>
+
 </resources>
