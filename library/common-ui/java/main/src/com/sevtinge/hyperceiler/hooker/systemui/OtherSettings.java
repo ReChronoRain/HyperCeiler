@@ -19,7 +19,8 @@
 package com.sevtinge.hyperceiler.hooker.systemui;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.content.ComponentName;
@@ -82,9 +83,11 @@ public class OtherSettings extends DashboardFragment
         if (isMoreSmallVersion(200, 2f)) {
             setFuncHint(mFuckSG, 2);
         }
-        if (isMoreHyperOSVersion(3f)) {
+        if (isHyperOSVersion(2f) && isMoreAndroidVersion(36)) {
             setFuncHint(mVolume, 1);
             setFuncHint(mPower, 1);
+        } else if (isMoreAndroidVersion(36)) {
+            setFuncHint(mVolume, 1);
         }
 
         setStyleMode(mPct);
