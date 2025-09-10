@@ -128,4 +128,7 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
+    <string name="logo_egg1">HyperCeiler has a cat girl in the group</string>
+    <string name="logo_egg2">The hyperceiler development team is a zoo</string>
+    <string name="logo_egg3">Hyperceiler Zoo</string>
 </resources>

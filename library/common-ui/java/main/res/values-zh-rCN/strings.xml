@@ -134,4 +134,8 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
+
+    <string name="logo_egg1">HyperCeiler群里有猫娘</string>
+    <string name="logo_egg2">HyperCeiler开发团队是动物园</string>
+    <string name="logo_egg3">HyperCeiler动物园</string>
 </resources>

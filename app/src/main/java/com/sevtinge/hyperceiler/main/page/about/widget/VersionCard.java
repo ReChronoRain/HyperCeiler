@@ -18,12 +18,16 @@
  */
 package com.sevtinge.hyperceiler.main.page.about.widget;
 
+import static androidx.core.content.ContextCompat.getSystemService;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isAprilFoolsThemeView;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.BlendMode;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -43,9 +47,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
@@ -53,6 +60,8 @@ import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 import com.sevtinge.hyperceiler.main.page.about.controller.LogoAnimationController;
+
+import java.util.Random;
 
 import fan.cardview.HyperCardView;
 import fan.core.utils.MiuiBlurUtils;
@@ -142,6 +151,44 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             mHandler.sendEmptyMessageDelayed(0, 1500L);
         }
         setLogoBlur();
+        mLogoView.setOnClickListener(v -> {
+            String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
+            int index = new Random().nextInt(messages.length);
+            String msg = messages[index];
+            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+        });
+        mLogoView.setOnLongClickListener(v -> {
+            String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
+            int index = new Random().nextInt(messages.length);
+            String msg = messages[index];
+
+            if (!hasNotificationPermission()) {
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                createNotificationChannel();
+                // 发送通知
+                NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
+                int notificationId = "logo_channel_id".hashCode();
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "logo_channel_id")
+                    .setSmallIcon(com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
+                    .setContentTitle("彩蛋触发通知")
+                    .setContentText(msg)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true);
+                builder.addExtras(EggHelp.INSTANCE.focusBuild(msg, getContext()));
+
+                notificationManager.notify(notificationId, builder.build());
+
+                // 5 秒后自动关闭
+                new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                    notificationManager.cancel(notificationId);
+                }, 5000);
+
+
+                return true;
+            }
+        });
     }
 
     public void checkUpdate() {
@@ -291,5 +338,26 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mHandler.removeMessages(0);
+    }
+
+    private boolean hasNotificationPermission() {
+        return ContextCompat.checkSelfPermission(getContext(), android.Manifest.permission.POST_NOTIFICATIONS)
+            == PackageManager.PERMISSION_GRANTED;
+    }
+
+
+    private void createNotificationChannel() {
+        String channelId = "logo_channel_id";
+        String channelName = "彩蛋通知";
+        String channelDescription = "彩蛋触发通知";
+        int importance = NotificationManager.IMPORTANCE_DEFAULT;
+
+        NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
+        channel.setDescription(channelDescription);
+
+        NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
+        if (notificationManager != null) {
+            notificationManager.createNotificationChannel(channel);
+        }
     }
 }
