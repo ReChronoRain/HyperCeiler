@@ -138,7 +138,7 @@
     <string name="logo_egg_NotificationName">彩蛋通知</string>
     <string name="logo_egg_NotificationName_tips">这是彩蛋通知</string>
     <string name="logo_egg_Notification_tips">请在设置里打开通知以查看彩蛋</string>
-    <string name="logo_egg1">HyperCeiler群里有猫娘</string>
-    <string name="logo_egg2">HyperCeiler开发团队是动物园</string>
-    <string name="logo_egg3">HyperCeiler动物园</string>
+    <string name="logo_egg1">HyperCeiler 群里有猫娘</string>
+    <string name="logo_egg2">HyperCeiler 开发团队是动物园</string>
+    <string name="logo_egg3">HyperCeiler 动物园</string>
 </resources>
