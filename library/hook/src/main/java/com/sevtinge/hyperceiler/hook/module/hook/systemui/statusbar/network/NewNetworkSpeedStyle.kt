@@ -23,9 +23,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.core.view.updateLayoutParams
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
@@ -145,24 +143,12 @@ object NewNetworkSpeedStyle : BaseHook() {
     }
 
     private fun align(id: TextView) {
-        // 优先尝试修改 LayoutParams.gravity，以兼容 Android 16 的 FrameLayout 结构
-        if (id.layoutParams is FrameLayout.LayoutParams) {
-            id.updateLayoutParams<FrameLayout.LayoutParams> {
-                gravity = when (align) {
-                    2 -> Gravity.START or Gravity.CENTER_VERTICAL
-                    4 -> Gravity.END or Gravity.CENTER_VERTICAL
-                    else -> Gravity.CENTER
-                }
-            }
-        } else {
-            when (align) {
-                2 -> id.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-                3 -> id.textAlignment = View.TEXT_ALIGNMENT_CENTER
-                4 -> id.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
-            }
+        id.gravity = when (align) {
+            2 -> Gravity.START or Gravity.CENTER_VERTICAL
+            4 -> Gravity.END or Gravity.CENTER_VERTICAL
+            else -> Gravity.CENTER
         }
     }
-
 
     private fun margin(id: TextView) {
         val leftMargin = dp2px(
@@ -177,7 +163,7 @@ object NewNetworkSpeedStyle : BaseHook() {
         } else {
             0
         }
-        
+
         if (networkStyle != 0) {
             id.translationX = (leftMargin - rightMargin).toFloat()
             id.translationY = topMargin.toFloat()
