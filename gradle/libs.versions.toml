@@ -1,6 +1,6 @@
 [versions]
 agp = "8.13.0"
-kotlin-android = "2.2.10"
+kotlin-android = "2.2.20"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -17,7 +17,7 @@ constraintlayout = "2.2.1"
 
 xposed-api = "82"
 
-gson = "2.13.1"
+gson = "2.13.2"
 dexkit = "2.0.6"
 ezxhelper = "3.0.1"
 hiddenapibypass = "6.1"
