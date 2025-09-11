@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -101,11 +102,14 @@ object NewNetworkSpeed : BaseHook() {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun init() {
         runCatching {
-            nsvCls!!.methodFinder().filterByName("updateNetworkSpeed").first().createAfterHook {
-                val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
-                val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
-                if (!TextUtils.equals(mNetworkSpeedNumber, mNetworkSpeedNumberText.text)) {
-                    mNetworkSpeedNumberText.text = mNetworkSpeedNumber
+            if (isMoreAndroidVersion(36)) {
+                // 仅 Android 16 出现末尾加空格的情况
+                nsvCls!!.methodFinder().filterByName("updateNetworkSpeed").first().createAfterHook {
+                    val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
+                    val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
+                    if (!TextUtils.equals(mNetworkSpeedNumber, mNetworkSpeedNumberText.text)) {
+                        mNetworkSpeedNumberText.text = mNetworkSpeedNumber
+                    }
                 }
             }
             nscCls!!.methodFinder().filterByName("updateText").filterByParamCount(1).first().createBeforeHook {
