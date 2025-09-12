@@ -141,4 +141,9 @@
     <string name="logo_egg1">HyperCeiler 群里有猫娘</string>
     <string name="logo_egg2">HyperCeiler 开发团队是动物园</string>
     <string name="logo_egg3">HyperCeiler 动物园</string>
+
+    <string name="unsupported_func_tips">当前您的目标应用疑似为修改版，本模块无法为您提供此目标应用的 hook 服务，请更换版本或开启调试模式后重试</string>
+    <string name="debug_mode">调试模式</string>
+    <string name="open_debug_mode_tips">开启调试模式后，您可以自由选择目标应用需要挂载的版本，但与此同时，如果该目标应用的 hook 出现问题，请**不要**反馈给开发者</string>
+    <string name="debug_mode_running">当前目标应用正在被调试!\n当前应用版本为：%1$s\n选择的目标版本为：%2$s\n是否成功挂钩：%3$s</string>
 </resources>

@@ -74,6 +74,15 @@ public class DialogHelper {
                 .show();
     }
 
+    public static void showDialog(Activity activity, int title, int message, DialogInterface.OnClickListener onClickListener, DialogInterface.OnClickListener onClickListener2) {
+        new AlertDialog.Builder(activity)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, onClickListener)
+            .setNegativeButton(android.R.string.cancel, onClickListener2)
+            .show();
+    }
+
 
     public static void showPositiveButtonDialog(Activity activity, String title, String message, DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(activity)

@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.utils;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.annotation.SuppressLint;
@@ -74,7 +73,7 @@ public class PropUtils {
         try {
             return SystemProperties.get(key, defaultValue);
         } catch (Throwable throwable) {
-            logE("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
+            Log.e("getProp", "key get e: " + key + " will return default: " + defaultValue + " e:" + throwable);
             return defaultValue;
         }
     }
@@ -98,14 +97,6 @@ public class PropUtils {
         } catch (Throwable e) {
             Log.e(TAG, "PropUtils getPropSu String no def", e);
             return "";
-        }
-    }
-
-    public static void setProp(String key, String val) {
-        try {
-            SystemProperties.set(key, val);
-        } catch (Throwable throwable) {
-            logE("setProp", "set key e: " + key + " e:" + throwable);
         }
     }
 

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
@@ -41,6 +42,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     Preference mCmdR;
     Preference mDeleteAllDexKitCache;
     Preference mFixLsposedLog;
+    SwitchPreference mDebugMode;
 
     public interface EditDialogCallback {
         void onInputReceived(String command);
@@ -56,9 +58,26 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
         mCmdR = findPreference("prefs_key_development_cmd_r");
         mDeleteAllDexKitCache = findPreference("prefs_key_development_delete_all_dexkit_cache");
         mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
+        mDebugMode = findPreference("prefs_key_development_debug_mode");
+
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
         mFixLsposedLog.setOnPreferenceClickListener(this);
+
+        mDebugMode.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean isDebug = (boolean) newValue;
+            if (isDebug) {
+                DialogHelper.showDialog(getActivity(), R.string.tip, R.string.open_debug_mode_tips, (dialog, which) -> {
+                    Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
+                    mDebugMode.setChecked(false);
+                    dialog.dismiss();
+                }, (dialog, which) -> {
+                    mDebugMode.setChecked(false);
+                    dialog.dismiss();
+                });
+            }
+            return true;
+        });
     }
 
     @Override
