@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaPicture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaSeekBar;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableInfinitymodeGesture;
@@ -53,6 +54,9 @@ public class SystemUIB extends BaseModule {
     public void handleLoadPackage() {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
+
+        // 锁屏
+        initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
 
         // 状态栏图标
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));

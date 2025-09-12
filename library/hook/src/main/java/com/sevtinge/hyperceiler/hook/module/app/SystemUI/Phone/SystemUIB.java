@@ -48,6 +48,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.Me
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.UnlockCustomActions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaPicture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.media.b.MediaSeekBar;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMultiWinSwitch;
@@ -78,6 +79,9 @@ public class SystemUIB extends BaseModule {
         MiuiStub.createHook();
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
+
+        // 锁屏
+        initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
 
         // 状态栏图标
         initHook(SwapWiFiAndMobileNetwork.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
