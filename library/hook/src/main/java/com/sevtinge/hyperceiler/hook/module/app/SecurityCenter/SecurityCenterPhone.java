@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.app.SecurityCenter.Pad;
+package com.sevtinge.hyperceiler.hook.module.app.SecurityCenter;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
@@ -74,8 +74,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.Un
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookBase(targetPackage = "com.miui.securitycenter", isPad = 1, targetSdk = 35)
-public class SecurityCenterV extends BaseModule {
+@HookBase(targetPackage = "com.miui.securitycenter", isPad = 2)
+public class SecurityCenterPhone extends BaseModule {
 
     @Override
     public void handleLoadPackage() {

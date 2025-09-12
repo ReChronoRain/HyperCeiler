@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.app.SecurityCenter.Phone;
+package com.sevtinge.hyperceiler.hook.module.app.SecurityCenter;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
@@ -74,8 +74,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.Un
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.sidebar.video.VideoDolbyOpen;
 
-@HookBase(targetPackage = "com.miui.securitycenter", isPad = 2, targetSdk = 36)
-public class SecurityCenterB extends BaseModule {
+@HookBase(targetPackage = "com.miui.securitycenter", isPad = 1)
+public class SecurityCenterPad extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -107,7 +107,7 @@ public class SecurityCenterB extends BaseModule {
 
         // 前置摄像助手
         initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face") ||
-            mPrefsMap.getBoolean("security_center_beauty_light_auto"));
+                mPrefsMap.getBoolean("security_center_beauty_light_auto"));
         initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
         initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
 
@@ -135,8 +135,8 @@ public class SecurityCenterB extends BaseModule {
 
         // 全局侧边栏
         boolean isVideoFunc = mPrefsMap.getBoolean("security_center_unlock_memc") ||
-            mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
-            mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
+                mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
+                mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
 
         initHook(NewPrivacyThumbnailBlur.INSTANCE, mPrefsMap.getBoolean("security_center_privacy_thumbnail_blur"));
         initHook(new PowerSaver(), mPrefsMap.getBoolean("security_center_power_saver"));
@@ -156,6 +156,11 @@ public class SecurityCenterB extends BaseModule {
         initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
 
         initHook(new PowerConsumptionRanking(), mPrefsMap.getBoolean("security_center_power_consumption_ranking"));
+
+        // initHook(new EnableGameSpeed(), mPrefsMap.getBoolean("security_center_game_speed"));
+
+        // reshook
+        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
 
     }
 }

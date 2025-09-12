@@ -657,8 +657,6 @@ aplicaciones del sistema</string>
     <string name="system_control_center_old_qs_grid_columns_horizontal">Cantidad de columnas en el panel contraído (horizontal)</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Añadido</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">No añadido</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Eliminar restricciones de notificación de burbaja</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">No hay restricciones en el desenfoque de fondo para materiales prémium de Xiaomi solo para la eliminación en temas no oficiales</string>
     <string name="system_ui_other_title">Otros</string>
     <string name="system_ui_disable_volume">Barra de volumen de AOSP</string>
     <string name="system_ui_disable_power">Menú de apagado nativo</string>
@@ -948,6 +946,7 @@ aplicaciones del sistema</string>
     <string name="home_title_hide_report_text_desc">Ocultar texto del informe en el diálogo de desinstalación</string>
     <string name="home_title_notif_color">Color de fondo del mensaje de notificación personalizado</string>
     <string name="home_title_notif_color_picker">Color personalizado</string>
+    <string name="home_title_icon_size">Tamaño de iconos</string>
     <string name="home_recent">Tareas recientes</string>
     <string name="home_recent_animation_speed">Velocidad de animación</string>
     <string name="home_recent_unlock_pin">Desbloquear aplicaciones fijadas</string>

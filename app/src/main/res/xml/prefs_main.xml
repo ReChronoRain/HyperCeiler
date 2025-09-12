@@ -266,11 +266,11 @@
             android:title="@string/mishare" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.hooker.MiSoundFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_misound"
             android:summary="com.miui.misound"
-            android:title="@string/misound"
-            app:inflatedXml="@xml/misound"/>
+            android:title="@string/misound" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"

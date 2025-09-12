@@ -782,8 +782,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Halte die hinzugefügten Karten gedrückt und ziehe sie, um die Reihenfolge anzupassen</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Hinzugefügt</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Nicht hinzugefügt</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Benachrichtigungs-Unschärfe-Beschränkung entfernen</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Um die Beschränkungen der fehlenden erweiterten Texturen-Hintergrund-Unschärfe nur bei Drittanbieter-Themes zu entfernen</string>
     <string name="system_ui_control_center_unlock_all_focus">Fokus-Benachrichtigungs-Whitelist entfernen</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Benachrichtigungsanzahl-Limit entfernen</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Anzeige von 10, 17 oder mehr Benachrichtigungen erlauben.</string>
@@ -1126,6 +1124,7 @@
     <string name="home_title_hide_report_text_desc">Berichtstext im Deinstallationsdialog ausblenden</string>
     <string name="home_title_notif_color">Benachrichtigungspunkt-Hintergrundfarbe anpassen</string>
     <string name="home_title_notif_color_picker">Benutzerdefinierte Farbe</string>
+    <string name="home_title_icon_size">Symbolgröße</string>
     <string name="home_recent">Anwendungsverlauf</string>
     <string name="home_recent_animation_speed">Animationsgeschwindigkeit</string>
     <string name="home_recent_unlock_pin">Angepinnte Apps entsperren</string>

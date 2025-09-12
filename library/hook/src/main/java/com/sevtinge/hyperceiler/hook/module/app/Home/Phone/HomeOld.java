@@ -116,6 +116,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HiddenAllTitle;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.LargeIconCornerRadius;
@@ -131,8 +132,8 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.miui.home", isPad = 2, targetSdk = 35)
-public class HomeV extends BaseModule {
+@HookBase(targetPackage = "com.miui.home", isPad = 2, targetOSVersion = 2f)
+public class HomeOld extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -233,7 +234,7 @@ public class HomeV extends BaseModule {
         initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
         initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
-        // initHook(new IconScaleHook()/*, mPrefsMap.getInt("home_title_icon_scale", 100) != 100*/);
+        initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
 
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));

@@ -700,8 +700,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Sıralamayı ayarlamak için eklediğiniz kartları basılı tutun ve sürükleyin</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Eklendi</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Eklenmedi</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Bildirim bulanıklığı kısıtlamasını kaldır</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Gelişmiş dokular için arka plan bulanıklığına dair bir kısıtlama yoktur, yalnızca üçüncü taraf tema kaldırma için geçerlidir.</string>
     <string name="system_ui_other_title">Diğer</string>
     <string name="system_ui_disable_volume">Yerel ses çubuğu</string>
     <string name="system_ui_disable_power">Yerel kapatma menüsü</string>

@@ -810,8 +810,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">追加したカードを長押ししてドラッグすると順序を調整できます</string>
     <string name="system_ui_control_center_card_tiles_customization_add">追加済み</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">未追加</string>
-    <string name="system_ui_control_center_unlock_blur_supported">通知ぼかしの制限を無効化</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">サードパーティのテーマで背景ぼかしの制限を削除します</string>
     <string name="system_ui_control_center_unlock_all_focus">フォーカス通知のホワイトリストを削除する</string>
     <string name="system_ui_control_center_remove_notif_num_limit">通知数の制限を削除する</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">10 件、17 件、またはそれ以上の通知を表示できます。</string>

@@ -798,8 +798,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">اضغط مع الاستمرار واسحب البطاقات التي أضفتها لضبط الترتيب</string>
     <string name="system_ui_control_center_card_tiles_customization_add">مضاف</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">غير مضاف</string>
-    <string name="system_ui_control_center_unlock_blur_supported">إزالة تقييد ضبابية الإشعارات</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">لا يوجد تقييد على ضبابية الخلفية للأنسجة المتقدمة، فقط لإزالة السمة من الطرف الثالث.</string>
     <string name="system_ui_control_center_unlock_all_focus">إزالة القائمة البيضاء للإشعارات المركزة</string>
     <string name="system_ui_control_center_remove_notif_num_limit">إزالة حد عدد الإشعارات</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">السماح بعرض 10 أو 17 إشعارًا أو أكثر.</string>
@@ -1142,6 +1140,7 @@
     <string name="home_title_hide_report_text_desc">إخفاء نص التقرير في نافذة حوار إلغاء التثبيت</string>
     <string name="home_title_notif_color">لون خلفية إشعار الرسائل المخصص</string>
     <string name="home_title_notif_color_picker">لون مخصص</string>
+    <string name="home_title_icon_size">حجم الأيقونة</string>
     <string name="home_recent">التطبيقات الحديثة</string>
     <string name="home_recent_animation_speed">سرعة الرسوم المتحركة</string>
     <string name="home_recent_unlock_pin">إلغاء تثبيت التطبيقات المثبتة</string>

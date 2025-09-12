@@ -807,8 +807,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Нажмите, удерживайте и перетащите добавленные вами карточки, чтобы изменить порядок</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Добавлено</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Не добавлено</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Удалить ограничение на размытие уведомлений</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Ограничений на размытие фона для официальных премиум-материалов нет, только при удалении сторонних тем</string>
     <string name="system_ui_control_center_unlock_all_focus">Удалить белый список уведомлений о фокусе</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Удалить ограничение на количество уведомлений</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Разрешить отображение 10, 17 или более уведомлений.</string>

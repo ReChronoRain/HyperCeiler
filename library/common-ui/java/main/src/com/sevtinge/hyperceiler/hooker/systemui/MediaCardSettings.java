@@ -79,9 +79,6 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         mInverseColor.setVisible(mediaBackgroundModeValue == 4);
         mBlurRadius.setVisible(mediaBackgroundModeValue == 2);
 
-        int mediaAlbumModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_media_album_mode", "0"));
-        mOptAlbum.setVisible(mediaAlbumModeValue != 2);
-
         int progressModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_progress_mode", "0"));
         mProgressModeThickness.setVisible(progressModeValue == 2);
         mProgressModeCornerRadius.setVisible(progressModeValue == 2);
@@ -89,8 +86,16 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         mProgressBarColor.setVisible(mediaBackgroundModeValue != 5);
 
         mMediaBackgroundMode.setOnPreferenceChangeListener(this);
-        mAlbumMode.setOnPreferenceChangeListener(this);
         mProgressMode.setOnPreferenceChangeListener(this);
+
+        if (!isMoreHyperOSVersion(3f)) {
+            int mediaAlbumModeValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_control_center_media_control_media_album_mode", "0"));
+            mOptAlbum.setVisible(mediaAlbumModeValue != 2);
+
+            mAlbumMode.setOnPreferenceChangeListener(this);
+        } else {
+            setFuncHint(mOptAlbum, 2);
+        }
     }
 
     @Override
@@ -98,7 +103,9 @@ public class MediaCardSettings extends DashboardFragment implements Preference.O
         if (preference == mMediaBackgroundMode) {
             setMediaBackgroundMode(Integer.parseInt((String) o));
         } else if (preference == mAlbumMode) {
-            mOptAlbum.setVisible(Integer.parseInt((String) o) != 2);
+            if (!isMoreHyperOSVersion(3f)) {
+                mOptAlbum.setVisible(Integer.parseInt((String) o) != 2);
+            }
         } else if (preference == mProgressMode) {
             setCanBeVisibleProgressMode(Integer.parseInt((String) o));
         }

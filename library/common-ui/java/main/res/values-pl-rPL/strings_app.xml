@@ -749,8 +749,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">Naciśnij i przytrzymaj, a następnie przeciągnij karty, które dodałeś(aś), aby dostosować kolejność</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Dodano</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Nie dodano</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Usuń ograniczenie rozmycia powiadomień</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Nie ma ograniczenia rozmycia tła dla zaawansowanych tekstur, tylko dla usuwania motywów firm trzecich.</string>
     <string name="system_ui_control_center_remove_notif_num_limit">Usuń limit ilości powiadomień</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Zezwalaj na wyświetlanie 10, 17 lub więcej powiadomień.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Optymalizuj mieszanie kolorów tła powiadomień</string>

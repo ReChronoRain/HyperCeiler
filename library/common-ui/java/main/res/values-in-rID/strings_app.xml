@@ -595,8 +595,6 @@
     <string name="system_control_center_old_qs_grid_columns_horizontal">Jumlah kolom di panel yang diciutkan (Lanskap)</string>
     <string name="system_ui_control_center_card_tiles_customization_add">Ditambahkan</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">Tidak ditambahkan</string>
-    <string name="system_ui_control_center_unlock_blur_supported">Hapus batasan blur notifikasi</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">Tidak ada batasan keburaman latar belakang untuk materi premium resmi hanya untuk penghapusan tema pihak ketiga</string>
     <string name="system_ui_other_title">Lainnya</string>
     <string name="system_ui_disable_volume">Bilah volume asli</string>
     <string name="system_ui_unlock_clipboard">Buka kunci editor papan klip AOSP</string>

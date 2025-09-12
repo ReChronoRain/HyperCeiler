@@ -809,8 +809,6 @@
     <string name="system_ui_control_center_card_tiles_customization_desc">長按並拖拽已添加的卡片可調整順序</string>
     <string name="system_ui_control_center_card_tiles_customization_add">已添加</string>
     <string name="system_ui_control_center_card_tiles_customization_not_add">未添加</string>
-    <string name="system_ui_control_center_unlock_blur_supported">解除通知背景模糊限制</string>
-    <string name="system_ui_control_center_unlock_blur_supported_desc">僅對三方主題移除沒有高級材質背景模糊的限制</string>
     <string name="system_ui_control_center_unlock_all_focus">移除焦點通知白名單</string>
     <string name="system_ui_control_center_remove_notif_num_limit">移除通知數量限制</string>
     <string name="system_ui_control_center_remove_notif_num_limit_desc">允許顯示 10 條或 17 條及以上的通知</string>
