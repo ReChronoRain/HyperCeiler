@@ -152,42 +152,48 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         }
         setLogoBlur();
         mLogoView.setOnClickListener(v -> {
-            String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
-            int index = new SecureRandom().nextInt(messages.length);
-            String msg = messages[index];
-            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            if (Math.random() >= 0.97) {
+                String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
+                int index = new SecureRandom().nextInt(messages.length);
+                String msg = messages[index];
+                Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+            }
         });
         mLogoView.setOnLongClickListener(v -> {
-            String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
-            int index = new SecureRandom().nextInt(messages.length);
-            String msg = messages[index];
+            if (Math.random() >= 0.6) {
+                String[] messages = getResources().getStringArray(R.array.logo_click_egg_messages);
+                int index = new SecureRandom().nextInt(messages.length);
+                String msg = messages[index];
 
-            if (!hasNotificationPermission()) {
-                Toast.makeText(getContext(), getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_Notification_tips), Toast.LENGTH_SHORT).show();
-                return true;
-            } else {
-                createNotificationChannel();
-                // 发送通知
-                NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
-                int notificationId = "logo_channel_id".hashCode();
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "logo_channel_id")
-                    .setSmallIcon(com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
-                    .setContentTitle(getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_NotificationName))
-                    .setContentText(msg)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setAutoCancel(true);
-                builder.addExtras(EggHelp.INSTANCE.focusBuild(msg, getContext()));
+                if (!hasNotificationPermission()) {
+                    Toast.makeText(getContext(), getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_Notification_tips), Toast.LENGTH_SHORT).show();
+                    return true;
+                } else {
+                    createNotificationChannel();
+                    // 发送通知
+                    NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
+                    int notificationId = "logo_channel_id".hashCode();
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "logo_channel_id")
+                        .setSmallIcon(com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
+                        .setContentTitle(getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_NotificationName))
+                        .setContentText(msg)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setAutoCancel(true);
+                    builder.addExtras(EggHelp.INSTANCE.focusBuild(msg, getContext()));
 
-                notificationManager.notify(notificationId, builder.build());
+                    notificationManager.notify(notificationId, builder.build());
 
-                // 9 秒后自动关闭
-                new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                    notificationManager.cancel(notificationId);
-                }, 9000);
+                    // 9 秒后自动关闭
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
+                        notificationManager.cancel(notificationId);
+                    }, 9000);
 
 
-                return true;
+                    return true;
+                }
+
             }
+            return true;
         });
     }
 

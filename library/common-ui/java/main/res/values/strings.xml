@@ -131,9 +131,9 @@
     <string name="logo_egg_NotificationName">Easter Egg Trigger Notification</string>
     <string name="logo_egg_NotificationName_tips">This is the Easter egg notification channel.</string>
     <string name="logo_egg_Notification_tips">Please enable notifications in Settings to view the Easter egg.</string>
-    <string name="logo_egg1">HyperCeiler has a cat girl in the group</string>
-    <string name="logo_egg2">The hyperceiler development team is a zoo</string>
-    <string name="logo_egg3">Hyperceiler Zoo</string>
+    <string name="logo_egg1">Wow, you actually found this place, that\'s amazing!</string>
+    <string name="logo_egg2">So even hiding here doesn’t work…</string>
+    <string name="logo_egg3">There\'s no Android Eggs here, but HyperCeiler Eggs!</string>
     <string name="unsupported_func_tips">The target app appears to be a modified version. This module cannot provide hook services for that app. Please use a different version or enable debug mode and try again.</string>
     <string name="debug_mode">Debug mode</string>
     <string name="open_debug_mode_tips">After enabling debug mode, you can freely choose which version of the target app to mount. However, if the target app\'s hooks have issues, please do NOT report them to the developers.</string>
