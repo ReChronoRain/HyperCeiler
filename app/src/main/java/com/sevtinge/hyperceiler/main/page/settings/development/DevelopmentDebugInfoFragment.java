@@ -32,6 +32,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBuildDate;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRootGroupsInfo;
@@ -179,10 +180,11 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
             propertiesSystem.put("Host", SystemSDKKt.getHost());
+            propertiesSystem.put("BuildDate", getBuildDate());
+            propertiesSystem.put("UnofficialRom", String.valueOf(com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper.getIsUnofficialRom(requireContext())));
             // propertiesSystem.put("Builder", getBuilder());
             // propertiesSystem.put("RomAuthor", getRomAuthor());
             // propertiesSystem.put("BaseOs", SystemSDKKt.getBaseOs());
-            // propertiesSystem.put("BuildDate", getBuildDate());
         } catch (Exception ignored) {
         }
         try {
