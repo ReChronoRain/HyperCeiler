@@ -27,6 +27,9 @@
     <string name="tiles_snow_leopard_mode">S-Leo режим</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">Сеть 5G</string>
+    <string name="system_ui_statusbar_music_share">Отправить текст песни</string>
+    <string name="system_ui_statusbar_music_send">Отпустите, чтобы отправить</string>
+    <string name="system_ui_statusbar_music_send_share_text">Я поделился текстом песен от %1$s:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">Фокусирование текста уведомлений</string>
     <string name="open_by_default">Открывать по умолчанию</string>
     <string name="security_center_aosp_app_info_label">Информация о приложении AOSP</string>
