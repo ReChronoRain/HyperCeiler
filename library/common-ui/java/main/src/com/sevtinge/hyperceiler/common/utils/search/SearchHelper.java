@@ -31,6 +31,8 @@ import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hooker.securitycenter.OtherSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.MediaCardSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.TileSettings;
 import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.hooker.AodFragment;
 import com.sevtinge.hyperceiler.hooker.CameraNewFragment;
@@ -175,6 +177,20 @@ public class SearchHelper {
                 NavigationSettings.class,
                 R.xml.system_ui_navigation,
                 R.string.system_ui);
+
+        parsePrefXml(context,
+            TileSettings.class,
+            R.xml.system_ui_control_center_tiles,
+            R.string.system_ui,
+            R.string.system_ui_controlcenter_title
+        );
+
+        parsePrefXml(context,
+            MediaCardSettings.class,
+            R.xml.system_ui_control_center_media_cards,
+            R.string.system_ui,
+            R.string.system_ui_controlcenter_title
+        );
 
         parsePrefXml(context,
                 ControlCenterSettings.class,
