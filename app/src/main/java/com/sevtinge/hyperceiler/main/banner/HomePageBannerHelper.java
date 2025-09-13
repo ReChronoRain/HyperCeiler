@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.main.banner;
 
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
@@ -161,7 +162,16 @@ public class HomePageBannerHelper {
 
         boolean hasAdvSettings = isAppInstalled(context, "com.baiyang.settings");
 
-        return hasRomAuthor || isSystemVersionContains || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost) || hasAdvSettings;
+        boolean hasBaiyangLicense = !Objects.equals(getProp("ro.system.baiyang.license", ""), "");
+
+        boolean hasCharacteristics = Objects.equals(getProp("ro.kernel.android.checkjni", ""), "0") &&
+            Objects.equals(getProp("ro.kernel.checkjni", ""), "0") &&
+            Objects.equals(getProp("vendor.bluetooth.startbtlogger", ""), "false") &&
+            Objects.equals(getProp("persist.sys.offlinelog.kernel", ""), "false") &&
+            (Objects.equals(getProp("persist.sys.offlinelog.bootlog", ""), "false") || Objects.equals(getProp("persist.sys.offlinelog.bootlog", ""), "=false")) &&
+            Objects.equals(getProp("sys.miui.ndcd", ""), "off");
+
+        return hasRomAuthor || isSystemVersionContains || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost) || hasAdvSettings || hasBaiyangLicense || hasCharacteristics;
     }
 
     private static boolean isAppInstalled(Context context, String packageName) {
