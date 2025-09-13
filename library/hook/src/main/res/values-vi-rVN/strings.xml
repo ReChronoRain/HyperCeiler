@@ -27,6 +27,9 @@
     <string name="tiles_snow_leopard_mode">Chế độ S-Leo</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">Mạng 5G</string>
+    <string name="system_ui_statusbar_music_share">Chia sẻ lời bài hát</string>
+    <string name="system_ui_statusbar_music_send">Thả để gửi</string>
+    <string name="system_ui_statusbar_music_send_share_text">Tôi đã chia sẻ lời bài hát sau từ %1$s:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">Lời bài hát thông báo Focus</string>
     <string name="open_by_default">Mở theo mặc định</string>
     <string name="security_center_aosp_app_info_label">Thông tin ứng dụng AOSP</string>
