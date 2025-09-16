@@ -588,6 +588,9 @@
 
     <string-array name="market_device_modify_list">
         <item>@string/array_default</item>
+        <item>Xiaomi 17 Pro Max</item>
+        <item>Xiaomi 17 Pro</item>
+        <item>Xiaomi 17</item>
         <item>Xiaomi 15S Pro</item>
         <item>Xiaomi 15 Ultra</item>
         <item>Xiaomi 15 Pro</item>
@@ -614,6 +617,9 @@
 
     <string-array name="market_device_modify_value">
         <item>0</item>
+        <item>111</item>  <!-- Xiaomi 17 Pro Max -->
+        <item>110</item>  <!-- Xiaomi 17 Pro -->
+        <item>109</item>  <!-- Xiaomi 17 -->
         <item>108</item>  <!-- Xiaomi 15S Pro -->
         <item>107</item>  <!-- Xiaomi 15 Ultra -->
         <item>106</item>  <!-- Xiaomi 15 Pro -->
