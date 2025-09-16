@@ -22,6 +22,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
@@ -60,6 +61,17 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
 
+        Thread thread = getThread();
+        thread.start();
+
+        boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
+        if (isHideTip && mShowAppTips != null) {
+            mShowAppTips.setVisible(false);
+        }
+    }
+
+    @NonNull
+    private Thread getThread() {
         Thread thread = new Thread(() -> {
             try {
                 HomePageBannerHelper.init(requireContext().getApplicationContext(), mHeadtipGround);
@@ -75,12 +87,7 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
             }
         });
         thread.setName("HomePageBannerInit");
-        thread.start();
-
-        boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
-        if (isHideTip && mShowAppTips != null) {
-            mShowAppTips.setVisible(false);
-        }
+        return thread;
     }
 
     private void setPreference() {

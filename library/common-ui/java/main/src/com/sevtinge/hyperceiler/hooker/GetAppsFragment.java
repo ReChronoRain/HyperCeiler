@@ -54,15 +54,23 @@ public class GetAppsFragment extends DashboardFragment {
         }
 
         int[] allowedValues = getResources().getIntArray(R.array.market_device_modify_value);
-        int currentValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_market_device_modify_new", "0"));
+
+        int currentValue = 0;
         boolean isAllowed = false;
+        try {
+            String s = getSharedPreferences().getString("prefs_key_market_device_modify_new", "0");
+            currentValue = Integer.parseInt(s);
+        } catch (NumberFormatException ignored) {
+            isAllowed = true;
+        }
+
         for (int v : allowedValues) {
             if (v == currentValue) {
                 isAllowed = true;
                 break;
             }
         }
-        if (!isAllowed) {
+        if (!isAllowed && mDeviceModify != null) {
             cleanKey(mDeviceModify.getKey());
         }
 

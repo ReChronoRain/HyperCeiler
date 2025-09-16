@@ -27,23 +27,23 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 import java.util.Collections
 import java.util.Timer
 import java.util.TimerTask
 import java.util.WeakHashMap
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 object StatusBarClockNew : BaseHook() {
     private val statusBarClass by lazy {
@@ -58,9 +58,32 @@ object StatusBarClockNew : BaseHook() {
 
     private val scheduledTasks: MutableMap<TextView, TimerTask> =
         Collections.synchronizedMap(WeakHashMap())
+    private val formatExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor() }
 
-    private val threadSb = ThreadLocal.withInitial { StringBuilder(128) }
-    private val threadFormatSb = ThreadLocal.withInitial { StringBuilder(128) }
+    private data class CachedClockData(
+        val controllerRef: WeakReference<Any>,
+        val calendarRef: WeakReference<Any>,
+        val calendarClass: Class<*>?,
+        val setTimeMethod: Method?,
+        val formatMethod: Method?
+    )
+
+    private val clockDataCache: MutableMap<TextView, CachedClockData> =
+        Collections.synchronizedMap(WeakHashMap())
+
+    private data class StyleSnapshot(
+        val bold: Boolean,
+        val textSize: Float,
+        val textAlignment: Int,
+        val lineSpacingMult: Float,
+        val paddingLeft: Int,
+        val paddingTop: Int,
+        val paddingRight: Int,
+        val width: Int
+    )
+
+    private val styleSnapshotMap: MutableMap<TextView, StyleSnapshot> =
+        Collections.synchronizedMap(WeakHashMap())
 
     private val sBold by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
@@ -214,74 +237,24 @@ object StatusBarClockNew : BaseHook() {
                                 TypedValue.COMPLEX_UNIT_DIP,
                                 0f
                             )
-                            setPaddingRelative(
-                                1,
-                                0,
-                                0,
-                                0
-                            )
+                            setPaddingRelative(1, 0, 0, 0)
                         }
                     }
 
                     if (getClockStyle != 0 && miuiClockName == "clock")
                         miuiClock.isSingleLine = false
 
-                    // 在 constructor hook 内，当识别为 isSec:
                     if (isSec) {
-                        // 如果已经有定时任务在运行，则不再创建新的任务
-                        if (scheduledTasks.containsKey(miuiClock)) return@createAfterHook
-
                         val updateTimeMethod = updateTimeMethodCache.computeIfAbsent(miuiClock.javaClass) { cls ->
                             runCatching {
                                 findMethodInHierarchy(cls, "updateTime")
                             }.getOrNull()
                         } ?: return@createAfterHook
 
-                        // Runnable：在主线程上调用 updateTime（使用 post 保证在 view 所在的 Looper）
-                        val runnable = Runnable {
-                            runCatching {
-                                updateTimeMethod.isAccessible = true
-                                updateTimeMethod.invoke(miuiClock)
-                            }
-                        }
-
-                        val timerTask = object : TimerTask() {
-                            override fun run() {
-                                runCatching {
-                                    miuiClock.post(runnable)
-                                }
-                            }
-                        }
-
-                        val attachListener = object : View.OnAttachStateChangeListener {
-                            override fun onViewAttachedToWindow(p0: View) {}
-
-                            override fun onViewDetachedFromWindow(p0: View) {
-                                runCatching {
-                                    timerTask.cancel()
-                                }
-                                scheduledTasks.remove(miuiClock)
-                                miuiClock.removeOnAttachStateChangeListener(this)
-                            }
-                        }
-                        miuiClock.addOnAttachStateChangeListener(attachListener)
-
-                        val delay = 1000 - System.currentTimeMillis() % 1000
-                        sharedTimer.schedule(timerTask, delay, 1000)
-                        scheduledTasks[miuiClock] = timerTask
+                        ensureSecTimer(miuiClock, updateTimeMethod)
                     }
                 }
             }
-
-        if (isHyperOSVersion(1f)) {
-            runCatching {
-                loadClassOrNull("com.android.systemui.statusbar.policy.FakeStatusBarClockController")!!
-                    .methodFinder().filterByName("initState")
-                    .first().createHook {
-                        replace { null }
-                    }
-            }
-        }
 
         // 设置格式
         statusBarClass.methodFinder()
@@ -324,7 +297,6 @@ object StatusBarClockNew : BaseHook() {
     }
 
     private fun setMiuiClockStyle(name: String, text: TextView) {
-        // 时钟加粗
         val shouldUseBold = setOf(
             sBold && name == "clock",
             bBold && name == "big_time",
@@ -332,104 +304,131 @@ object StatusBarClockNew : BaseHook() {
             pBold && name == "pad_clock"
         ).any { it }
 
-        if (shouldUseBold) {
-            text.typeface = Typeface.DEFAULT_BOLD
+        val expectedTextSize = when {
+            clockSizeS != 12 && name == "clock" -> clockSizeS.toFloat()
+            clockSizeB != 50 && name == "big_time" -> clockSizeB.toFloat()
+            clockSizeN != 12 && name in setOf("date_time", "horizontal_time") -> clockSizeN.toFloat()
+            clockSizeP != 12 && name == "pad_clock" -> clockSizeP.toFloat()
+            else -> -1f
         }
 
-        // 设置时钟大小
-        setStatusBarClock(name, text)
-
-        if (getClockStyle != 0 && name == "clock") {
-            // 状态栏时钟双排对齐
-            text.textAlignment = when (clockAlign) {
+        val expectedAlign = if (getClockStyle != 0 && name == "clock") {
+            when (clockAlign) {
                 1 -> View.TEXT_ALIGNMENT_CENTER
                 2 -> View.TEXT_ALIGNMENT_TEXT_END
                 else -> View.TEXT_ALIGNMENT_TEXT_START
             }
+        } else null
 
-            // 设置双排时钟行间距
-            text.setLineSpacing(0f, clockTextSpacing * 0.05f)
+        val expectedLineSpacingMult = if (getClockStyle != 0 && name == "clock") clockTextSpacing * 0.05f else null
+
+        val left = when (name) {
+            "clock" -> dp2px(sClockLeftMargin.toFloat())
+            "big_time" -> dp2px(bClockLeftMargin.toFloat())
+            "pad_clock" -> dp2px(pClockLeftMargin.toFloat())
+            else -> dp2px(nClockLeftMargin.toFloat())
         }
-
-        // 设置时钟边距
-        when (name) {
-            "clock" -> {
-                setClockMargin(text, sClockLeftMargin, sClockRightMargin, sClockVerticalOffset)
-                // 固定宽度
-                if (fixedWidth > 30) {
-                    text.width = (text.resources.displayMetrics.density * fixedWidth).toInt()
-                }
-            }
-            "big_time" -> {
-                setClockMargin(text, bClockLeftMargin, bClockRightMargin, bClockVerticalOffset)
-            }
-            "pad_clock" -> {
-                setClockMargin(text, pClockLeftMargin, pClockRightMargin, pClockVerticalOffset)
-            }
-            else -> {
-                setClockMargin(text, nClockLeftMargin, nClockRightMargin, nClockVerticalOffset)
-            }
+        val right = when (name) {
+            "clock" -> dp2px(sClockRightMargin.toFloat())
+            "big_time" -> dp2px(bClockRightMargin.toFloat())
+            "pad_clock" -> dp2px(pClockRightMargin.toFloat())
+            else -> dp2px(nClockRightMargin.toFloat())
         }
-    }
-
-    private fun setStatusBarClock(name: String, text: TextView) {
-        when {
-            clockSizeS != 12 && name == "clock" -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeS.toFloat())
-            }
-
-            clockSizeB != 50 && name == "big_time" -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeB.toFloat())
-            }
-
-            clockSizeN != 12 && name in setOf("date_time", "horizontal_time") -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeN.toFloat())
-            }
-
-            clockSizeP != 12 && name == "pad_clock" -> {
-                text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, clockSizeP.toFloat())
-            }
+        val top = when (name) {
+            "clock" -> if (sClockVerticalOffset != 12) dp2px((sClockVerticalOffset - 12) * 0.5f) else 0
+            "big_time" -> if (bClockVerticalOffset != 12) dp2px((bClockVerticalOffset - 12) * 0.5f) else 0
+            "pad_clock" -> if (pClockVerticalOffset != 12) dp2px((pClockVerticalOffset - 12) * 0.5f) else 0
+            else -> if (nClockVerticalOffset != 12) dp2px((nClockVerticalOffset - 12) * 0.5f) else 0
         }
-    }
+        val expectedWidth = if (name == "clock" && fixedWidth > 30) {
+            (text.resources.displayMetrics.density * fixedWidth).toInt()
+        } else text.width
 
-    private fun setClockMargin(
-        id: TextView,
-        leftMargin: Int,
-        rightMargin: Int,
-        verticalOffset: Int
-    ) {
-        val left = dp2px(leftMargin.toFloat())
-        val right = dp2px(rightMargin.toFloat())
-        var topMargin = 0
-        if (verticalOffset != 12) {
-            topMargin = dp2px((verticalOffset - 12) * 0.5f)
-        }
-        id.setPaddingRelative(left, topMargin, right, 0)
+        val old = styleSnapshotMap[text]
+        val newSnapshot = StyleSnapshot(
+            bold = shouldUseBold,
+            textSize = if (expectedTextSize > 0) expectedTextSize else text.textSize,
+            textAlignment = expectedAlign ?: text.textAlignment,
+            lineSpacingMult = expectedLineSpacingMult ?: 1.0f,
+            paddingLeft = left,
+            paddingTop = top,
+            paddingRight = right,
+            width = expectedWidth
+        )
+
+        if (old == newSnapshot) return
+
+        if (newSnapshot.bold) text.typeface = Typeface.DEFAULT_BOLD
+        if (expectedTextSize > 0) text.setTextSize(TypedValue.COMPLEX_UNIT_DIP, expectedTextSize)
+        if (expectedAlign != null) text.textAlignment = expectedAlign
+        if (expectedLineSpacingMult != null) text.setLineSpacing(0f, expectedLineSpacingMult)
+        text.setPaddingRelative(left, top, right, 0)
+        if (expectedWidth != text.width && expectedWidth > 0) text.width = expectedWidth
+
+        styleSnapshotMap[text] = newSnapshot
     }
 
     private fun setMiuiClockFormat(context: Context?, name: String, textV: TextView?) {
         if (context == null || textV == null) return
 
-        val mCalendar =
-            textV.getObjectField("mMiuiStatusBarClockController")
-                ?.getObjectField("mCalendar") ?: return
+        // 尝试从缓存获取 controller / calendar / method
+        val cached = clockDataCache[textV]
+        val cachedData = runCatching {
+            if (cached != null) return@runCatching cached
+            // 通过反射取 controller & calendar，仅在首次或缓存失效时执行
+            val controller = textV.getObjectField("mMiuiStatusBarClockController") ?: return@runCatching null
+            val calendar = controller.getObjectField("mCalendar") ?: return@runCatching null
+            val calClass = calendar.javaClass
+            val setTime = findMethodInHierarchy(calClass, "setTimeInMillis", Long::class.java)
+            val format = findMethodInHierarchy(calClass, "format", Context::class.java, StringBuilder::class.java, StringBuilder::class.java)
+            val cd = CachedClockData(WeakReference(controller), WeakReference(calendar), calClass, setTime, format)
+            clockDataCache[textV] = cd
+            cd
+        }.getOrNull() ?: return
 
-        val textSb = threadSb.get()?.apply { setLength(0) }
-        val formatSb = threadFormatSb.get()?.apply { setLength(0) }
-
+        val localFormatSb = StringBuilder(64)
         when (name) {
-            "clock" -> formatSb?.append(sClockName)
-            "big_time" -> if (isSync) formatSb?.append(safeFormatB) else formatSb?.append(safeFormatS)
-            "pad_clock" -> formatSb?.append(safeFormatP)
-            else -> formatSb?.append(safeFormatN)
+            "clock" -> localFormatSb.append(sClockName)
+            "big_time" -> if (isSync) localFormatSb.append(safeFormatB) else localFormatSb.append(safeFormatS)
+            "pad_clock" -> localFormatSb.append(safeFormatP)
+            else -> localFormatSb.append(safeFormatN)
         }
 
-        mCalendar.apply {
-            callMethod("setTimeInMillis", System.currentTimeMillis())
-            callMethod("format", context, textSb, formatSb)
+        val calendarObj = cachedData.calendarRef.get() ?: run {
+            clockDataCache.remove(textV)
+            return
         }
+        val setTimeMethod = cachedData.setTimeMethod
+        val formatMethod = cachedData.formatMethod
 
-        textV.text = textSb.toString()
+        formatExecutor.submit {
+            try {
+
+                if (setTimeMethod != null) {
+                    setTimeMethod.isAccessible = true
+                    setTimeMethod.invoke(calendarObj, System.currentTimeMillis())
+                } else {
+                    calendarObj.callMethod("setTimeInMillis", System.currentTimeMillis())
+                }
+
+                if (formatMethod != null) {
+                    val tb = StringBuilder(128)
+                    val fb = localFormatSb
+                    formatMethod.isAccessible = true
+                    formatMethod.invoke(calendarObj, context, tb, fb)
+                    val final = tb.toString()
+                    textV.post { textV.text = final }
+                } else {
+                    val tb = StringBuilder(128)
+                    calendarObj.callMethod("format", context, tb, localFormatSb)
+                    val final = tb.toString()
+                    textV.post { textV.text = final }
+                }
+            } catch (_: Throwable) {
+                // 若失败，移除缓存以后续重试
+                clockDataCache.remove(textV)
+            }
+        }
     }
 
 
@@ -437,7 +436,6 @@ object StatusBarClockNew : BaseHook() {
         return str?.split("\n")?.firstOrNull() ?: ""
     }
 
-    // 向上遍历类层次查找方法（find declared in class or any superclass）
     private fun findMethodInHierarchy(cls: Class<*>, name: String, vararg params: Class<*>): Method? {
         var c: Class<*>? = cls
         while (c != null) {
@@ -450,5 +448,41 @@ object StatusBarClockNew : BaseHook() {
             c = c.superclass
         }
         return null
+    }
+
+    private fun ensureSecTimer(miuiClock: TextView, updateTimeMethod: Method) {
+        if (scheduledTasks.containsKey(miuiClock)) return
+
+        val runnable = Runnable {
+            runCatching {
+                updateTimeMethod.isAccessible = true
+                updateTimeMethod.invoke(miuiClock)
+            }
+        }
+
+        val timerTask = object : TimerTask() {
+            override fun run() {
+                runCatching {
+                    miuiClock.post(runnable)
+                }
+            }
+        }
+
+        val attachListener = object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(p0: View) {}
+
+            override fun onViewDetachedFromWindow(p0: View) {
+                runCatching {
+                    timerTask.cancel()
+                }
+                scheduledTasks.remove(miuiClock)
+                miuiClock.removeOnAttachStateChangeListener(this)
+            }
+        }
+        miuiClock.addOnAttachStateChangeListener(attachListener)
+
+        val delayMillis = 1000L - (System.currentTimeMillis() % 1000L)
+        sharedTimer.schedule(timerTask, delayMillis, 1000L)
+        scheduledTasks[miuiClock] = timerTask
     }
 }
