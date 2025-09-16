@@ -100,7 +100,7 @@
     <string name="notification_view">View</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there\'s a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
-    <string name="headtip_warn_unsupport_xposed">The Xposed framework you are currently using may cause some features to malfunction. If you encounter such issues while using it, please switch to a different version of the Xposed framework and try again.</string>
+    <string name="headtip_warn_unsupport_xposed">The Xposed framework you\'re currently using may cause some features to malfunction. If you experience these issues, try using a different version of the Xposed framework and check if the issue persists.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you\'re using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
     <string name="headtip_tip_auto_safe_mode">Safe mode can unhook some apps in time when they crash multiple times to ensure security. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Safe mode.</string>
@@ -128,14 +128,14 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
-    <string name="logo_egg_NotificationName">Easter Egg Trigger Notification</string>
-    <string name="logo_egg_NotificationName_tips">This is the Easter egg notification channel.</string>
-    <string name="logo_egg_Notification_tips">Please enable notifications in Settings to view the Easter egg.</string>
+    <string name="logo_egg_NotificationName">Easter egg notification</string>
+    <string name="logo_egg_NotificationName_tips">This is an Easter egg notification</string>
+    <string name="logo_egg_Notification_tips">Please enable notifications in Settings to see the Easter eggs</string>
     <string name="logo_egg1">Wow, you actually found this place, that\'s amazing!</string>
-    <string name="logo_egg2">So even hiding here doesn’t work…</string>
-    <string name="logo_egg3">There\'s no Android Eggs here, but HyperCeiler Eggs!</string>
-    <string name="unsupported_func_tips">The target app appears to be a modified version. This module cannot provide hook services for that app. Please use a different version or enable debug mode and try again.</string>
+    <string name="logo_egg2">Damn, will I be found even if I hide here…</string>
+    <string name="logo_egg3">There are no Android eggs here, but there are HyperCeiler eggs!</string>
+    <string name="unsupported_func_tips">The target app appears to be a modified version. This module is unable to provide hook services for it. Try using a different version of the app or enable Debug mode and try again.</string>
     <string name="debug_mode">Debug mode</string>
-    <string name="open_debug_mode_tips">After enabling debug mode, you can freely choose which version of the target app to mount. However, if the target app\'s hooks have issues, please do NOT report them to the developers.</string>
-    <string name="debug_mode_running">The target application is currently being debugged!\nCurrent app version: %1$s\nSelected target version: %2$s\nWhether the hook was successful: %3$s</string>
+    <string name="open_debug_mode_tips">After enabling Debug mode, you\'ll be able to freely choose which version of the target app you want to mount. However, if the hooks for that version encounter issues, don\'t report them to the developers.</string>
+    <string name="debug_mode_running">The target app is being debugged!\nCurrent app version: %1$s\nSelected target version: %2$s\nHook applied successfully: %3$s</string>
 </resources>
