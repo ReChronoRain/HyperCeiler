@@ -33,9 +33,9 @@
             android:title="@string/home_navigation_disable_full_screen_back_gesture" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="60"
             android:key="prefs_key_home_navigation_back_area_height"
             android:title="@string/home_navigation_back_area_height"
+            app:defaultValue="60"
             app:defaultValueTitle="@string/array_default"
             app:format="%s %%"
             app:maxValue="100"
@@ -44,9 +44,9 @@
             app:stepValue="5" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="100"
             android:key="prefs_key_home_navigation_back_area_width"
             android:title="@string/home_navigation_back_area_width"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
             app:format="%s %%"
             app:maxValue="400"

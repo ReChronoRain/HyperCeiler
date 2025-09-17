@@ -18,12 +18,49 @@
 */
 package com.sevtinge.hyperceiler.hooker.home;
 
-import com.sevtinge.hyperceiler.ui.R;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
+
+import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeGestureSettings extends DashboardFragment {
+
+    SwitchPreference mDisableAllGesture;
+    SeekBarPreferenceCompat mHighBackArea;
+    SeekBarPreferenceCompat mWideBackArea;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.home_gesture;
+    }
+
+    @Override
+    public void initPrefs() {
+        mDisableAllGesture = findPreference("prefs_key_home_navigation_disable_full_screen_back_gesture");
+        mHighBackArea = findPreference("prefs_key_home_navigation_back_area_height");
+        mWideBackArea = findPreference("prefs_key_home_navigation_back_area_width");
+
+        boolean mSwitch = getSharedPreferences().getBoolean(mDisableAllGesture.getKey(), false);
+
+        if (isPad()) {
+            setFuncHint(mDisableAllGesture, 1);
+        } else if (isMoreHyperOSVersion(3f)) {
+            mHighBackArea.setEnabled(mSwitch);
+            mWideBackArea.setEnabled(mSwitch);
+        }
+
+        mDisableAllGesture.setOnPreferenceChangeListener(
+            (v, newValue) -> {
+                boolean enabled = (Boolean) newValue;
+                mHighBackArea.setEnabled(enabled);
+                mWideBackArea.setEnabled(enabled);
+                return true;
+            }
+        );
     }
 }

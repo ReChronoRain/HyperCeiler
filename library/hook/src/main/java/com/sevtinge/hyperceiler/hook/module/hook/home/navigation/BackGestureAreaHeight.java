@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.navigation;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
 import android.view.WindowManager;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -55,8 +57,13 @@ public class BackGestureAreaHeight extends BaseHook {
                 @Override
                 protected void after(final MethodHookParam param) throws Throwable {
                     WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
-                    int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);  // 记得改key
-                    lp.height = Math.round(lp.height / 60.0f * pct);
+                    int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);
+                    if (isPad()) {
+                        lp.height = Math.round(lp.height / 100.0f * pct);
+                        lp.width = Math.round(lp.width / 100.0f * pct);
+                    } else {
+                        lp.height = Math.round(lp.height / 100.0f * pct);
+                    }
                     param.setResult(lp);
                 }
             });
