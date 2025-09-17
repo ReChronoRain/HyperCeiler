@@ -455,6 +455,8 @@
     <string name="system_framework_core_patch_shared_user_desc">共有ユーザー署名と異なる署名を持つアプリのインストールを許可します。この機能はやや危険であるため、必要な場合にのみ有効にしてください。</string>
     <string name="system_framework_core_patch_digest_creak">APK 署名検証を無効化</string>
     <string name="system_framework_core_patch_digest_creak_desc">異なる署名を持つアプリの再インストールを許可します</string>
+    <string name="system_framework_core_patch_exact_signature_check">署名の完全一致を無効化</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">APKs 間の署名の完全一致を無効にします。Split APK に異なる署名がある場合でもインストールを許可します。絶対に必要な場合にのみ有効にしてください。</string>
     <string name="system_framework_core_patch_use_pre_signature">インストール済みアプリの署名を使用</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">この機能は非常に危険であるため、絶対に必要な場合のみ有効にしてください</string>
     <string name="system_framework_disable_low_api_check">低 API チェックを無効化</string>
@@ -469,6 +471,8 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">サードパーティーのアプリでシステムアプリのインストールを許可</string>
     <string name="system_framework_core_patch_allow_update_system_app">システムアプリの更新を許可</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">システムアプリの更新が無効化されている場合にシステムアプリのインストールを許可</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">指紋のリセットを無効化</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">特定のパッケージ管理サービスが有効になっている場合、再起動後に指紋がリセットされる問題の解決に役立つ可能性があります。この問題の影響を受けるデバイスのみを対象としています。</string>
     <!--Browser-->
     <string name="browser">ブラウザー</string>
     <string name="browser_debug_mode">開発者オプションの有効化</string>
@@ -907,7 +911,7 @@
     <string name="system_settings_transition_animation_scale">トランジションアニメスケール</string>
     <string name="system_settings_animator_duration_scale">Animator 再生時間スケール</string>
     <string name="system_settings_set_failed_toast">%1$s の値を %2$s に設定できませんでした。</string>
-    <string name="system_settings_allow_never_lock_screen">画面ロックなしの設定を許可</string>
+    <string name="system_settings_allow_never_lock_screen">画面をロックしないことを許可</string>
     <string name="system_settings_anti_ques">デバイス名のセンシティブワード検出を無効化</string>
     <string name="system_settings_anti_ques_desc">地域または国の法律に違反する場合は使用しないでください</string>
     <string name="system_settings_more_vpn_types">その他の VPN タイプ</string>
@@ -1157,6 +1161,7 @@
     <string name="home_title_hide_report_text_desc">アンインストールダイアログでレポートテキストを非表示にする</string>
     <string name="home_title_notif_color">通知ドットの背景色をカスタマイズ</string>
     <string name="home_title_notif_color_picker">カスタムカラー</string>
+    <string name="home_title_icon_size">アイコンのサイズ</string>
     <string name="home_recent">最近のタスク</string>
     <string name="home_recent_animation_speed">アニメーションの速度</string>
     <string name="home_recent_unlock_pin">アプリのピン留めをアンロック</string>
@@ -1197,7 +1202,7 @@
     <string name="home_widget_resizable">ウィジェットのリサイズ制限を無効化</string>
     <string name="home_widget_widget_blur_opt">ウィジェットのぼかしを最適化</string>
     <string name="home_dock">ドック</string>
-    <string name="home_dock_bg_enable">ドックバーの背景を追加</string>
+    <string name="home_dock_bg_enable">ドックに背景ぼかしを追加</string>
     <string name="home_dock_bg_all_app">ドロワーモードとの互換性</string>
     <string name="home_dock_bg_all_app_more">オンにするとドックが切り取られることを防ぎますが、ドックの高さは制限されます。</string>
     <string name="home_dock_bg_height">高さ</string>
@@ -1294,7 +1299,7 @@
     <!--App vault-->
     <string name="personal_assistant">アプリ保管庫</string>
     <string name="personal_assistant_unlock_widget_count_limit">ウィジェット数の制限を解除</string>
-    <string name="personal_assistant_disable_lite_version">Lite バージョンを無効化</string>
+    <string name="personal_assistant_disable_lite_version">簡易版を無効化</string>
     <string name="personal_assistant_widget_widget_blur_opt">ウィジェットのぼかしを最適化</string>
     <!--Battery and performance-->
     <string name="powerkeeper">バッテリーとパフォーマンス</string>
@@ -1305,8 +1310,9 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">バッテリー最適化のホワイトリストの復元を防止</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">ディスプレイ制御コードへのアクセスを無効化</string>
     <string name="powerkeeper_gms_doze_fix">GMS が常にネットワークの接続をできる状態にする</string>
+    <string name="powerkeeper_gms_doze_fix_desc">システムフレームワークと「バッテリーとパフォーマンス」のスコープを有効にする必要があります</string>
     <string name="powerkeeper_conservative_millet">Millet を保守的にする</string>
-    <string name="powerkeeper_conservative_millet_desc">バックエンドの管理ポリシーをより保守的にする</string>
+    <string name="powerkeeper_conservative_millet_desc">バックエンドの管理ポリシーをより保守的にします。システムフレームワークと「バッテリーとパフォーマンス」のスコープを有効にする必要があります。</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">スクリーンレコーダー</string>
     <string name="screen_recorder_force_support_playback_capture">AOSP の画面録画を強制的に有効化</string>
@@ -1348,9 +1354,9 @@
     <string name="security_center_simplify_home">セキュリティのホーム画面を簡略化する</string>
     <string name="security_center_simplify_home_desc">機能推奨カードを削除する</string>
     <string name="security_center_applock_pin_scramble">アプリロックの PIN の順序をランダムにする</string>
-    <string name="security_center_power_saver">ミラーリング時の制限を削除</string>
     <string name="security_center_privacy_thumbnail_blur">プレビュー画像のぼかしを無効化</string>
     <string name="security_center_privacy_thumbnail_blur_desc">この機能を有効にすると、背景をぼかしたプレビュー画像の設定がロックされます。この機能を有効にする前に、プレビューを無効にするアプリを設定することをお勧めします。</string>
+    <string name="security_center_power_saver">ミラーリング時の制限を削除</string>
     <string name="security_center_power_saver_desc">Xiaomi Smart Hub 経由で画面をミラーリングする際にバッテリーセーバーモードを無効にする</string>
     <string name="security_center_applock_pin_scramble_desc">アプリロックの PIN キーパッドの配列をランダムに変更する</string>
     <string name="security_center_beauty_light_auto">フィルライトの明るさの自動調整をアンロック</string>
@@ -1481,7 +1487,7 @@
     <string name="market_disable_start_push_dialog">開始プッシュダイアログを無効にする</string>
     <!--Mi sound-->
     <string name="misound">イヤホン</string>
-    <string name="misound_bluetooth">ヘッドセット接続時にオリジナルサウンドへ自動切り替えする</string>
+    <string name="misound_bluetooth">ヘッドホン接続時に自動でサウンド効果をオリジナルに切り替える</string>
     <string name="misound_bluetooth_desc">変更を適用するには、システムフレームワーク、システム UI、イヤホンのスコープが有効になっていることを確認してから再起動する必要があります。</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
     <!--Mi Settings-->

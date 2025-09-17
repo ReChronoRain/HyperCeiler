@@ -27,6 +27,9 @@
     <string name="tiles_snow_leopard_mode">S-Leo モード</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">5G ネットワーク</string>
+    <string name="system_ui_statusbar_music_share">歌詞を共有する</string>
+    <string name="system_ui_statusbar_music_send">リリースして送信</string>
+    <string name="system_ui_statusbar_music_send_share_text">%1$s から次の歌詞を共有しました:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">歌詞のフォーカス通知</string>
     <string name="open_by_default">デフォルトで開く</string>
     <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>

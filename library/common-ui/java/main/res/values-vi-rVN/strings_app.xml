@@ -457,6 +457,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_core_patch_shared_user_desc">Cho phép cài đặt các ứng dụng có chữ ký khác với người dùng được chia sẻ các ứng dụng đó. Tính năng này hơi nguy hiểm và chỉ nên bật khi cần thiết</string>
     <string name="system_framework_core_patch_digest_creak">Tắt so sánh chữ ký</string>
     <string name="system_framework_core_patch_digest_creak_desc">Cho phép cài đặt lại ứng dụng với chữ kí khác nhau</string>
+    <string name="system_framework_core_patch_exact_signature_check">Tắt khớp chữ ký chính xác</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">Tắt việc khớp chữ ký chính xác giữa các APK, cho phép cài đặt khi mỗi APK phân tách có một chữ ký khác nhau. Chỉ bật khi thực sự cần thiết.</string>
     <string name="system_framework_core_patch_use_pre_signature">Dùng chữ kí đã được cài đặt</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Tính năng này cực kì nguy hiểm. Chỉ nên được kích hoạt khi cần thiết</string>
     <string name="system_framework_disable_low_api_check">Tắt xác minh API phiên bản thấp</string>
@@ -471,6 +473,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">Cho phép các ứng dụng của bên thứ ba cài đặt các ứng dụng hệ thống</string>
     <string name="system_framework_core_patch_allow_update_system_app">Cho phép cập nhật ứng dụng hệ thống</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">Cho phép cài đặt ứng dụng hệ thống khi cập nhật ứng dụng hệ thống bị tắt</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">Tắt đặt lại dấu vân tay</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">Có thể giúp giải quyết vấn đề vân tay bị đặt lại sau khi khởi động lại khi các dịch vụ quản lý gói nhất định được bật. Chỉ dành cho các thiết bị bị ảnh hưởng bởi vấn đề này.</string>
     <!--Browser-->
     <string name="browser">Trình duyệt</string>
     <string name="browser_debug_mode">Tùy chọn nhà phát triển</string>
@@ -1163,6 +1167,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="home_title_hide_report_text_desc">Ẩn văn bản báo cáo trong hộp thoại gỡ cài đặt</string>
     <string name="home_title_notif_color">Tùy chỉnh màu nền thông báo tin nhắn</string>
     <string name="home_title_notif_color_picker">Tùy chỉnh màu</string>
+    <string name="home_title_icon_size">Kích thước biểu tượng</string>
     <string name="home_recent">Gần đây</string>
     <string name="home_recent_animation_speed">Tốc độ của hoạt ảnh</string>
     <string name="home_recent_unlock_pin">Mở khóa các ứng dụng được ghim</string>
@@ -1311,6 +1316,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Ngăn chặn khôi phục danh sách trắng của tối ưu hoá pin</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Tắt để lấy mã điều khiển hiển thị</string>
     <string name="powerkeeper_gms_doze_fix">Cho phép GMS kết nối với mạng bất cứ lúc nào</string>
+    <string name="powerkeeper_gms_doze_fix_desc">Bạn cần bật các phạm vi System Framework, Pin và hiệu năng</string>
     <string name="powerkeeper_conservative_millet">Làm cho Millet cẩn trọng</string>
     <string name="powerkeeper_conservative_millet_desc">Làm cho chính sách quản lý backend trở nên bảo thủ hơn</string>
     <!--Screen Recorder-->
@@ -1354,9 +1360,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="security_center_simplify_home">Đơn giản hóa trang chủ của Trung tâm bảo mật</string>
     <string name="security_center_simplify_home_desc">Xóa thẻ đề xuất tính năng</string>
     <string name="security_center_applock_pin_scramble">Mã PIN khoá ứng dụng ngẫu nhiên</string>
-    <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
     <string name="security_center_privacy_thumbnail_blur">Tắt hình ảnh xem trước bị mờ</string>
     <string name="security_center_privacy_thumbnail_blur_desc">Sau khi bật, cài đặt hình ảnh xem trước làm mờ nền sẽ bị khóa. Bạn nên cấu hình ứng dụng nào sẽ bị tắt tính năng xem trước trước khi bật tính năng này.</string>
+    <string name="security_center_power_saver">Dịch vụ bảo mật không tiết kiệm pin</string>
     <string name="security_center_power_saver_desc">Tắt chế độ tiết kiệm pin khi phản chiếu màn hình qua Mi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Thay đổi ngẫu nhiên thứ tự bàn phím mã PIN khóa ứng dụng</string>
     <string name="security_center_beauty_light_auto">Mở khóa Độ sáng Flash tự động</string>

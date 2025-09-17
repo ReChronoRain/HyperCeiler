@@ -22,11 +22,10 @@
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
     <string name="new_permission_location_desc">Usado para fornecer serviços como latitude e longitude</string>
-    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão Root/Su. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador Root/Su para obter permissões Root/Su.</string>
+    <string name="new_cta_agree_desc">Durante o uso, para fornecer mais recursos, podemos solicitar permissão root. Você pode acessar o Gerenciador de permissões a qualquer momento para ajustar o status de autorização de todas as permissões e ir ao seu gerenciador root para obter permissões root.</string>
     <string name="new_cta_app_main_purpose">Modificar apps do sistema</string>
     <string name="new_cta_app_all_purpose_welcome">Contrato do Usuário &amp; Política de Privacidade</string>
-    <string name="new_cta_app_all_purpose_protocol">Contrato do Usuário</string>
-    <string name="new_cta_app_all_purpose_privacy">Política de Privacidade</string>
+    <string name="new_cta_app_all_purpose_title">Bem-vindo ao HyperCeiler! Este app depende do LSPosed para ser executado. Você pode usar este app para sequestrar e modificar outros apps suportados para aprimorar o sistema. Durante o uso, para fornecer mais funções, podemos solicitar suas permissões root. Você pode gerenciá-lo a qualquer momento acessando seu gerenciador root.\nAo continuar usando o HyperCeiler, você concorda com o nosso <annotation key="protocol">Contrato do Usuário</annotation> e a nossa <annotation key="privacy">Política de Privacidade</annotation>.</string>
     <string name="new_cta_app_all_purpose_agree">Aceitar e continuar</string>
     <string name="new_cta_app_all_purpose_reject">Rejeitar e sair</string>
     <!--HyperCeiler Settings/About Page-->
@@ -175,6 +174,7 @@
     <string name="miuix_alphabet_indexer_name">Barra de índice</string>
     <string name="miuix_appcompat_action_mode_cancel">Cancelar</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Limpar</string>
+    <string name="miuix_preference_text_hint">Intervalo: %1$s ~ %2$s | Valor padrão: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">Valor inválido. Por favor, verifique e digite novamente.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">Transparência</string>
     <string name="miuix_appcompat_color_picker_custom_color">Cor customizada</string>
@@ -455,6 +455,8 @@
     <string name="system_framework_core_patch_shared_user_desc">Permite a instalação de apps com assinaturas diferentes das assinaturas de usuários compartilhados. Esse recurso é um tanto perigoso e só deve ser ativado quando necessário.</string>
     <string name="system_framework_core_patch_digest_creak">Desativar verificação de assinatura do APK</string>
     <string name="system_framework_core_patch_digest_creak_desc">Permite substituir o app com assinaturas diferentes</string>
+    <string name="system_framework_core_patch_exact_signature_check">Desativar correspondência exata de assinatura</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">Desative a correspondência exata de assinaturas entre APKs, permitindo a instalação quando cada split do APK tiver uma assinatura diferente. Ative apenas quando for absolutamente necessário.</string>
     <string name="system_framework_core_patch_use_pre_signature">Usar assinaturas de apps instalados</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">Esse recurso é extremamente perigoso e só deve ser ativado quando for absolutamente necessário</string>
     <string name="system_framework_disable_low_api_check">Desativar verificação de API baixa</string>
@@ -469,6 +471,8 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">Permite que apps de terceiros instalem apps do sistema</string>
     <string name="system_framework_core_patch_allow_update_system_app">Permitir atualizar apps do sistema</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">Permite a instalação de apps do sistema quando a atualização de apps do sistema estiver desativada</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">Desativar redefinição de impressão digital</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">Pode ajudar a resolver o problema de redefinição de impressões digitais após a reinicialização quando determinados serviços de gerenciamento de pacotes estão ativados. Destinado apenas a dispositivos afetados por este problema.</string>
     <!--Browser-->
     <string name="browser">Navegador</string>
     <string name="browser_debug_mode">Desbloquear opções do desenvolvedor</string>
@@ -766,13 +770,15 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">Atualize a cor do texto com animação</string>
     <string name="system_ui_control_center_media_control_inverse_color">Inversão automática de cores</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Capa da mídia</string>
-    <string name="system_ui_control_center_media_control_media_button_title">Botão de mídia</string>
+    <string name="system_ui_control_center_media_control_media_album_mode_desc">Após selecionar \"Invisível\", você também deve ativar a opção de modificação de layout para que ela tenha efeito.</string>
+    <string name="system_ui_control_center_media_control_media_button_title">Controles de mídia</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Ativar modificação de layout</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Ativar modificação de fonte</string>
     <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">Botões de ação alinhados à esquerda</string>
     <string name="system_ui_control_center_media_control_media_button_hide_seamless">Ocultar botão de troca de dispositivo</string>
     <string name="system_ui_control_center_media_control_media_button_mode">Ordem dos botões de mídia</string>
     <string name="system_ui_control_center_media_control_title_margin">Margem superior do título</string>
+    <string name="system_ui_control_center_media_control_title_padding">Preenchimento do título</string>
     <string name="system_ui_control_center_media_control_title_size">Tamanho da fonte do título</string>
     <string name="system_ui_control_center_media_control_artist_size">Tamanho da fonte do artista</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Barra de busca de mídia</string>
@@ -813,6 +819,8 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Permite exibir 10, 17 ou mais notificações.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Otimizar mistura de cores de fundo da notificação de foco</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Restaure o estilo de mistura de cores padrão das notificações e verifique a notificação de foco da lanterna simultaneamente</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced">Aprimorar o foco no fundo da notificação</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">Pode ser incompatível com a Tela ambiente</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Exibir valor do brilho</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Exibir valor do volume</string>
     <string name="system_ui_control_center_zen_fix">Corrigir Não perturbe</string>
@@ -902,6 +910,7 @@
     <string name="system_settings_window_animation_scale">Escala de animação da janela</string>
     <string name="system_settings_transition_animation_scale">Escala de animação de transição</string>
     <string name="system_settings_animator_duration_scale">Escala de duração da animação</string>
+    <string name="system_settings_set_failed_toast">Falha ao definir o valor %1$s como %2$s.</string>
     <string name="system_settings_allow_never_lock_screen">Permitir nunca bloquear a tela</string>
     <string name="system_settings_anti_ques">Desativar verificação de palavras sensíveis no nome do dispositivo</string>
     <string name="system_settings_anti_ques_desc">Você não pode usar esse recurso em violação às leis locais ou nacionais</string>
@@ -1089,7 +1098,7 @@
     <string name="home_folder_shade_gradient">Somente meio</string>
     <string name="home_folder_shade_level_title">Intensidade da cor</string>
     <string name="home_folder_cols_title">Número de colunas nas pastas</string>
-    <string name="home_folder_cols_format">%d colunas</string>
+    <string name="home_folder_cols_format">%s colunas</string>
     <string name="home_folder_rows_format">%s linhas</string>
     <string name="home_folder_horizontal_padding_desc">Distância da pasta da margem lateral da tela</string>
     <string name="home_folder_vertical_spacing_desc">O espaçamento entre as linhas da pasta</string>
@@ -1152,6 +1161,7 @@
     <string name="home_title_hide_report_text_desc">Oculte o texto de relatório na caixa de diálogo de desinstalação</string>
     <string name="home_title_notif_color">Cor de fundo do ponto de notificação personalizada</string>
     <string name="home_title_notif_color_picker">Cor customizada</string>
+    <string name="home_title_icon_size">Tamanho do ícone</string>
     <string name="home_recent">Recentes</string>
     <string name="home_recent_animation_speed">Velocidade da animação</string>
     <string name="home_recent_unlock_pin">Desbloquear apps fixados</string>
@@ -1289,7 +1299,7 @@
     <!--App vault-->
     <string name="personal_assistant">Assistente</string>
     <string name="personal_assistant_unlock_widget_count_limit">Desbloquear limite de contagem de widgets</string>
-    <string name="personal_assistant_disable_lite_version">Desativar versão lite</string>
+    <string name="personal_assistant_disable_lite_version">Desativar versão simplificada</string>
     <string name="personal_assistant_widget_widget_blur_opt">Otimizar blur do widget</string>
     <!--Battery and performance-->
     <string name="powerkeeper">Bateria e desempenho</string>
@@ -1300,7 +1310,9 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Impedir a recuperação da lista de permissões de bateria</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar busca de código do controle de exibição</string>
     <string name="powerkeeper_gms_doze_fix">Permitir que o GMS se conecte à rede a qualquer momento</string>
+    <string name="powerkeeper_gms_doze_fix_desc">Você precisa ativar os escopos Framework do Sistema e Bateria e desempenho</string>
     <string name="powerkeeper_conservative_millet">Tornar Millet conservador</string>
+    <string name="powerkeeper_conservative_millet_desc">Torne a política de gerenciamento de backend mais conservadora. Você precisa ativar os escopos Framework do Sistema e Bateria e desempenho.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>
@@ -1342,8 +1354,9 @@
     <string name="security_center_simplify_home">Simplificar a tela inicial do Segurança</string>
     <string name="security_center_simplify_home_desc">Remove o cartão de recomendação de funções</string>
     <string name="security_center_applock_pin_scramble">Bloqueio de apps com PIN embaralhado</string>
-    <string name="security_center_power_saver">Remover restrições ao espelhar tela</string>
     <string name="security_center_privacy_thumbnail_blur">Desativar prévia em imagens desfocadas</string>
+    <string name="security_center_privacy_thumbnail_blur_desc">Uma vez ativado, o blur de fundo da imagem de prévia será bloqueado. Recomenda-se definir primeiro quais apps devem ter suas prévias desativadas antes de ativar este recurso.</string>
+    <string name="security_center_power_saver">Remover restrições ao espelhar tela</string>
     <string name="security_center_power_saver_desc">Desative a Economia de bateria ao espelhar a tela via Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Altere aleatoriamente a sequência do PIN do Bloqueio de apps</string>
     <string name="security_center_beauty_light_auto">Desbloquear Luz de preenchimento frontal</string>
@@ -1475,6 +1488,7 @@
     <!--Mi sound-->
     <string name="misound">Fones de ouvido</string>
     <string name="misound_bluetooth">Mudar status do fone de ouvido para o som original</string>
+    <string name="misound_bluetooth_desc">Você precisa ativar os escopos Framework do Sistema, UI do Sistema e Fones de ouvido e, em seguida, reiniciar o dispositivo para aplicar as alterações.</string>
     <string name="misound_increase_sampling_rate">Aumentar taxa de amostragem</string>
     <!--Mi Settings-->
     <string name="mi_settings">Configurações Mi</string>

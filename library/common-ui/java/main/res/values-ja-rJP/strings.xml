@@ -100,6 +100,7 @@
     <string name="notification_view">確認</string>
     <string name="tip_default">ヒント: デフォルトのヒントはこちらです。このメッセージが出る場合は HyperCeiler に問題があることを意味します。タイムリーかつ効果的な方法で開発者に報告してください。</string>
     <string name="headtip_warn_not_offical_rom">使用中の ROM は Xiaomi 公式ではないかもしれません。一部の機能が動作しない場合があります。詳細については、ご使用の ROM の提供者にお問い合わせください。</string>
+    <string name="headtip_warn_unsupport_xposed">現在使用中の Xposed フレームワークでは一部の機能が正常に動作しない可能性があります。問題が発生した場合は、別のバージョンの Xposed フレームワークを使用して問題が解消されるかどうかを確認してください。</string>
     <string name="headtip_warn_unsupport_sysver">現在のデバイスは、（完全に）適応していないシステムバージョンで動作しているため、HyperCeiler の機能に問題が発生する可能性があります。</string>
     <string name="headtip_warn_sign_verification_failed">署名の検証に失敗しました。現在 HyperCeiler の公式バージョンを使用していないため、悪意のあるコードが含まれている可能性があります。</string>
     <string name="headtip_tip_auto_safe_mode">セーフモードでは、セキュリティを確保するために複数回クラッシュすると、いくつかのアプリのフックを解除できます。 システムフレームワークのフックスコープを実行する必要があります。セーフモードをオンにするには、システムフレームワークのスコープを確認することを強くお勧めします。</string>
@@ -126,4 +127,14 @@
     <string name="log_level_none">無効</string>
     <string name="disable_suggest">サジェストを無効にする</string>
     <string name="enable_suggest">サジェストを有効にする</string>
+    <string name="logo_egg_NotificationName">イースターエッグ通知</string>
+    <string name="logo_egg_NotificationName_tips">これはイースターエッグの通知です</string>
+    <string name="logo_egg_Notification_tips">イースターエッグを見るには設定で通知を有効にしてください</string>
+    <string name="logo_egg1">わあ、まさかここを見つけられるなんて、すごい！</string>
+    <string name="logo_egg2">くそっ、ここに隠れても見つかるのか……</string>
+    <string name="logo_egg3">ここには Android の卵はありませんが、HyperCeiler の卵があります！</string>
+    <string name="unsupported_func_tips">対象のアプリは改変版であるようです。このモジュールはフックサービスを提供できません。別のバージョンのアプリを使用するか、デバッグモードを有効にして再度お試しください。</string>
+    <string name="debug_mode">デバッグモード</string>
+    <string name="open_debug_mode_tips">デバッグモードを有効にすると、マウントする対象のアプリのバージョンを自由に選択できるようになります。ただし、そのバージョンのフックで問題が発生した場合、開発者に報告しないでください。</string>
+    <string name="debug_mode_running">対象のアプリはデバッグ中です！\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフックが正常に適用されました: %3$s</string>
 </resources>
