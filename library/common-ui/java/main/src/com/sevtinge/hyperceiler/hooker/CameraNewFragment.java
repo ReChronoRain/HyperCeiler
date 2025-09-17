@@ -18,13 +18,35 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
-import com.sevtinge.hyperceiler.ui.R;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class CameraNewFragment extends DashboardFragment {
+
+    SwitchPreference mBlackLeica;
+    SwitchPreference mLeica;
+    SwitchPreference mHighQuality;
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.camera_new;
+    }
+
+    @Override
+    public void initPrefs() {
+        mBlackLeica = findPreference("prefs_key_camera_black_leica");
+        mLeica = findPreference("prefs_key_camera_unlock_leica");
+        mHighQuality = findPreference("prefs_key_camera_super_high_quality");
+
+        // 别问，问就是平板连方法都砍掉了，连支持都不行
+        if (isPad()) {
+            setFuncHint(mBlackLeica, 1);
+            setFuncHint(mLeica, 1);
+            setFuncHint(mHighQuality, 1);
+        }
     }
 }
