@@ -27,6 +27,9 @@
     <string name="tiles_snow_leopard_mode">Modo S-Leo</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">Rede 5G</string>
+    <string name="system_ui_statusbar_music_share">Compartilhar letras</string>
+    <string name="system_ui_statusbar_music_send">Solte para enviar</string>
+    <string name="system_ui_statusbar_music_send_share_text">Compartilhei a seguinte letra de %1$s:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">Letras de notificação de foco</string>
     <string name="open_by_default">Abrir por padrão</string>
     <string name="security_center_aosp_app_info_label">Informações do app AOSP</string>

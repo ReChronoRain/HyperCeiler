@@ -33,8 +33,8 @@
     <string name="provision_terms_of_use_label_use_network_china">Для предоставления вам более качественных услуг вам необходимо прочитать и согласиться с <a href="%1$s">Пользовательским соглашением</a> и <a href="%2$s">Политика конфиденциальности</a> прежде чем вы сможете продолжить использование системы. Мы будем строго соблюдать соответствующие законы и правила, а также политику конфиденциальности для защиты вашей личной информации.</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Мы будем строго соблюдать соответствующие законы, правила и политику конфиденциальности для защиты вашей личной информации.</string>
-    <string name="provision_service_agreement">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями</string>
-    <string name="provision_service_name_download">Управление загрузкой</string>
+    <string name="provision_service_agreement">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями.</string>
+    <string name="provision_service_name_download">Загрузки</string>
     <string name="provision_service_policy_download"><Data>Пожалуйста, прочитайте и примите <a href="%1$s">Политику конфиденциальности </a> и <a href="%2$s">Соглашение о предоставлении сетевых услуг</a></Data></string>
     <string name="provision_congratulation_title">Настройка окончена</string>
     <string name="provision_congratulation_label">Испытайте захватывающую HyperOS!</string>
@@ -56,12 +56,14 @@
     <string name="soft_reboot">Перезагрузка </string>
     <string name="restart_app_desc">Вы точно хотите перезагрузить %1$s?</string>
     <string name="hyperceiler_restart_quick">Быстрый перезапуск приложений</string>
-    <string name="hook_failed">Модуль не активирован. Пожалуйста, проверьте, что вы активировали модуль в LSPosed и перезапустите приложение.</string>
+    <string name="hook_failed">Модуль не активирован. Пожалуйста, убедитесь, что вы активировали модуль в LSPosed и перезапустите приложение.</string>
     <string name="kill_failed">Не удалось закончить процесс. Проверьте, предоставлены ли HyperCeiler разрешения Root/Su.</string>
     <string name="start_failed">Не удалось начать работу. Проверьте, предоставлен ли HyperCeiler Root доступ.</string>
     <string name="pid_failed">Целевое приложение не запущено и не требует перезапуска.</string>
     <string name="reboot_failed">Перезагрузка не удалась. Проверьте, предоставлено ли HyperCeiler разрешение Root/Su.</string>
+    <string name="experimental_features">Экспериментальные функции</string>
     <string name="experimental_reshook_new">Включить новый перехват ресурсов</string>
+    <string name="experimental_reshook_new_desc">Новая версия перехвата ресурсов обеспечивает улучшенную производительность инъекции в систему. Однако это может вызывать проблемы и предназначено только для тестирования.\nПримечание: включение или отключение этой функции требует перезагрузки устройства.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>
@@ -90,28 +92,29 @@
     <string name="error_file_name">Имя файла</string>
     <string name="error_time">Время записи</string>
     <string name="error_version_name">Название версии</string>
-    <string name="error_git_hash">Git хэш</string>
+    <string name="error_git_hash">Git хеш</string>
     <string name="error_build_time">Время сборки</string>
     <string name="copy_ok">Скопировано в буфер обмена</string>
     <string name="notification_channel_app_crash_name">Приложение работает неправильно</string>
     <string name="notification_title_message_emergency_crash">%s вылетал несколько раз</string>
     <string name="notification_content_message">Нажмите, что бы посмотреть подробности</string>
     <string name="notification_view">Посмотреть</string>
-    <string name="tip_default">Совет: Здесь находится совет по умолчанию. Если вы видите это, значит, что в HyperCeiler возникла проблема. Пожалуйста, своевременно и эффективно сообщите об этом разработчику!</string>
+    <string name="tip_default">Совет: Здесь находится совет по умолчанию. Если вы видите это, значит, что в HyperCeiler возникла проблема. Пожалуйста, сообщите об этом разработчику.</string>
     <string name="headtip_warn_not_offical_rom">Источник используемой вами прошивки может быть неофициальной прошивкой Xiaomi, и некоторые функции могут некорректно работать. Для получения более подробной информации обратитесь к разработчику вашей прошивки.</string>
-    <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на версии системы, которая не (полностью) адаптирована, что может привести к проблемам при работе HyperCeiler.</string>
+    <string name="headtip_warn_unsupport_xposed">Используемый вами фреймворк Xposed может привести к неработоспособности некоторых функций. Если вы столкнулись с проблемами, попробуйте использовать другую версию Xposed фреймворка и проверьте, осталась ли проблема.</string>
+    <string name="headtip_warn_unsupport_sysver">Текущее устройство работает на не полностью адаптированной версии системы, что может привести к сбоям в работе HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">Проверка подписи не удалась. Текущая версия, которую вы используете, возможно, не является официальной версией HyperCeiler и может содержать вредоносный код.</string>
     <string name="headtip_tip_auto_safe_mode">Безопасный режим может отцепить некоторые приложения во время нескольких сбоев для обеспечения безопасности. Для запуска этой функции требуется включённый перехват для приложения Системный фреймворк. Для включения безопасного режима настоятельно рекомендуем проверить галочку в Xposed фреймворк.</string>
     <string name="headtip_tip_long_press_to_copy">Вы можете выделить текст долгим или двойным нажатием, скопировать его и отправить разработчику.</string>
     <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler!\nСпасибо за вашу поддержку в течение прошлого года, давайте продолжим работать вместе в этом году!</string>
-    <string name="headtip_tip_fuck_coolapk">Этот день в истории: 14 июля 2022 года Sevtinge выступил с важной речью.</string>
+    <string name="headtip_tip_fuck_coolapk">14 июля 2022 года Sevtinge выступил с важной речью.</string>
     <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.\nКод ошибки: %1$s</string>
     <string name="headtip_notice_dead_logger">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
     <string name="unsupported_system_func">Эта функция не поддерживается в текущей версии системы</string>
-    <string name="supported_system_func">Эта функция официально поддерживается текущей версией системы</string>
+    <string name="supported_system_func">Эта функция официально поддерживается в текущей версии системы</string>
     <string name="feature_doing_func">Текущая функция находится в разработке, следите за обновлениями.</string>
     <!--System UI-->
-    <string name="system_ui">Системная оболочка</string>
+    <string name="system_ui">Интерфейс системы</string>
     <!--System launcher-->
     <string name="mihome">Системный лаунчер</string>
     <!--Settings-->
@@ -125,4 +128,14 @@
     <string name="log_level_none">Отключено</string>
     <string name="disable_suggest">Отключить предложение</string>
     <string name="enable_suggest">Включить предложение</string>
+    <string name="logo_egg_NotificationName">Уведомление о пасхальном яйце</string>
+    <string name="logo_egg_NotificationName_tips">Это уведомление пасхального яйца</string>
+    <string name="logo_egg_Notification_tips">Пожалуйста, включите уведомления в настройках, чтобы увидеть пасхальные яйца</string>
+    <string name="logo_egg1">Вау, вы действительно нашли это место, это удивительно!</string>
+    <string name="logo_egg2">Мда, меня найдут, даже если я скрываюсь здесь…</string>
+    <string name="logo_egg3">Здесь нет пасхальных яиц Android, но есть пасхальные яйца HyperCeiler!</string>
+    <string name="unsupported_func_tips">Целевое приложение похоже на модификацию. Этот модуль не может обеспечить службы захвата для этого приложения. Пожалуйста, используйте другую версию или включите режим отладки и повторите попытку.</string>
+    <string name="debug_mode">Режим отладки</string>
+    <string name="open_debug_mode_tips">Включив режим отладки, вы сможете свободно выбирать, какую версию целевого приложения вы хотите смонтировать. Однако, если при подключении к этой версии возникнут проблемы, не сообщайте о них разработчикам.</string>
+    <string name="debug_mode_running">В настоящее время приложение отлаживается!\nТекущая версия приложения: %1$s\nВыбранная версия: %2$s\nСостояние перехвата успешно: %3$s</string>
 </resources>
