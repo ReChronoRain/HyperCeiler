@@ -42,9 +42,6 @@ public abstract class BaseModule {
 
     public abstract void handleLoadPackage();
 
-    public void initZygote() {
-    }
-
     public void init(LoadPackageParam lpparam) {
         if (!lpparam.isFirstApplication) return;
         if (swappedMap.isEmpty()) {
@@ -70,7 +67,6 @@ public abstract class BaseModule {
         DexKit.ready(lpparam, TAG);
         HCInit.initLoadPackageParam(lpparam);
         try {
-            initZygote();
             handleLoadPackage();
         } catch (Throwable e) {
             DexKit.close();

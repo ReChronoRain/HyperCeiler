@@ -92,7 +92,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         // mXmlTool = new XmlTool(startupParam);
         // load ResourcesTool
         if (!mPrefsMap.getBoolean("module_settings_reshook_new")) {
-            mResHook = new ResourcesTool(startupParam.modulePath);
+            mResHook = ResourcesTool.getInstance(startupParam.modulePath);
         }
 
         // load ZygoteHook
