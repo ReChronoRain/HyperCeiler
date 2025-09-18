@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller;
 
+import android.app.Activity;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -30,6 +32,10 @@ public class InstallSource extends BaseHook {
     public void init() {
 
         mInstallSourcePackageName = mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer");
+
+        findAndHookMethodSilently(Activity.class,
+            "getLaunchedFromPackage",
+            XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
 
         findAndHookMethodSilently("com.miui.packageInstaller.InstallStart",
             "getCallingPackage",
