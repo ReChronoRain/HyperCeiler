@@ -38,45 +38,47 @@ object UnlockLeica : BaseHook() {
         getPackageVersionCode(lpparam) >= 600000000
     }
 
+    private val unlockMethod1 by lazy<Method> {
+        DexKit.findMember("uM1") {
+            // 6.x
+            // 6.2 已合并方法，所以改回最初改颜色的方法
+            it.findMethod {
+                matcher {
+                    declaredClass {
+                        usingEqStrings("pref_qc_camera_sharpness_key", "pref_tint_color")
+                    }
+                    addInvoke("Landroid/app/Application;->getColor(I)I")
+
+                    modifiers = Modifier.STATIC or Modifier.PUBLIC
+                    returnType = "int"
+                }
+                // 因为不知道为什么 DexKit 用 addCaller 筛不出 boolean E6.d.k1() 这种没有 modifiers 的方法，就只能这么写了
+            }.single().invokes.last { get ->
+                get.returnType?.name == "boolean" && get.paramCount == 0
+            }
+        }
+    }
+
     private val unlockMethod2 by lazy<Method> {
         DexKit.findMember("uM2") {
-            if (isNewCamera) {
-                // 6.x
-                // 6.2 已合并方法，所以改回最初改颜色的方法
-                it.findMethod {
-                    matcher {
-                        declaredClass {
-                            usingEqStrings("pref_qc_camera_sharpness_key", "pref_tint_color")
-                        }
-                        addInvoke("Landroid/app/Application;->getColor(I)I")
-
-                        modifiers = Modifier.STATIC or Modifier.PUBLIC
-                        returnType = "int"
-                    }
-                    // 因为不知道为什么 DexKit 用 addCaller 筛不出 boolean E6.d.k1() 这种没有 modifiers 的方法，就只能这么写了
-                }.single().invokes.last { get ->
-                    get.returnType?.name == "boolean" && get.paramCount == 0
-                }
-            } else {
-                // 5.x
-                it.findMethod {
-                    matcher {
+            // 5.x
+            it.findMethod {
+                matcher {
+                    addCaller {
                         addCaller {
-                            addCaller {
-                                declaredClass {
-                                    usingStrings("themeCustomize")
-                                }
-
-                                modifiers = Modifier.STATIC
-                                paramCount = 1
-                                returnType = "void"
+                            declaredClass {
+                                usingStrings("themeCustomize")
                             }
-                            returnType = "boolean"
+
+                            modifiers = Modifier.STATIC
+                            paramCount = 1
+                            returnType = "void"
                         }
-                        returnType = "int"
+                        returnType = "boolean"
                     }
-                }.last()
-            }
+                    returnType = "int"
+                }
+            }.last()
         }
     }
 
@@ -139,14 +141,14 @@ object UnlockLeica : BaseHook() {
     }
 
     override fun init() {
-        /*if (isNewCamera) {
+        if (isNewCamera) {
             unlockMethod1.createHook {
                 returnConstant(true)
             }
-        }*/
-
-        unlockMethod2.createHook {
-            returnConstant(true)
+        } else {
+            unlockMethod2.createHook {
+                returnConstant(0)
+            }
         }
 
         unlockMethod3.createHook {
