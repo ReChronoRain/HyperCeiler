@@ -184,7 +184,7 @@
     <string name="system_ui_statusbar_indicator_expand_title">展开来</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">固定宽度</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素动来动去</string>
-    <string name="system_ui_statusbar_indicator_bold">好... 好粗🥵</string>
+    <string name="system_ui_statusbar_indicator_bold">那粗细呢🥵</string>
     <!--Multi-list Array-->
     <string name="array_close">一定要关掉</string>
     <string name="array_default">啥都不改</string>
@@ -195,7 +195,7 @@
     <string name="array_default_official">官方预设公式化字体</string>
     <string name="array_default_thin">原始人字体</string>
     <string name="array_default_bold">原始人字体，但是粗体</string>
-    <string name="array_bold">好... 好粗🥵</string>
+    <string name="array_bold">那粗细呢🥵</string>
     <string name="array_theme">跟随主题</string>
     <string name="array_global_actions_none">坐以待毙</string>
     <string name="array_global_actions_notif">打开通知中心</string>
@@ -367,7 +367,7 @@
     <string name="system_framework_other_rotation_button">轮班建议</string>
     <string name="system_framework_other_thermal_brightness">禁用沙币的自动降低屏幕亮度</string>
     <string name="system_framework_other_thermal_brightness_more">自动拉高亮度（谁扔闪了）</string>
-    <string name="system_framework_other_disable_cleaner">好大，好爽，都放进来吧❤️</string>
+    <string name="system_framework_other_disable_cleaner">不要杀掉我的后台</string>
     <string name="system_framework_other_disable_cleaner_desc">不是很好的功能，可能使我的内存崩坏。</string>
     <string name="system_framework_other_disable_thermal_desc">杂鱼有什么资格给咱戴锁呢~</string>
     <string name="system_framework_other_disable_thermal">摆脱束缚</string>
@@ -388,7 +388,7 @@
     <string name="system_framework_quick_screenshot_desc">截屏不许延迟！</string>
     <string name="system_framework_disable_link_turbo_toast">烦内，不要提示流量加速好不好</string>
     <string name="system_framework_allow_third_theme">我就要用第三方主题！！！</string>
-    <string name="system_framework_allow_disable_protected_package">大布绒球？进小黑屋去吧</string>
+    <string name="system_framework_allow_disable_protected_package">受保护的应用？进小黑屋去吧</string>
     <string name="system_framework_disable_miui_watermark">请... 请不要留下你的印记</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">老子就是要绕过未知来源的限制</string>
     <!--Package Manager Service-->
@@ -398,7 +398,7 @@
     <string name="system_framework_core_patch_auth_creak">我就要安装！！！</string>
     <string name="system_framework_core_patch_auth_creak_desc">可以换掉布绒球应用，并阻止布绒球应用打赢复活赛</string>
     <string name="system_framework_disable_integrity">注定不完整的人生</string>
-    <string name="system_framework_disable_integrity_desc">阻止布绒球们打赢复活赛</string>
+    <string name="system_framework_disable_integrity_desc">阻止被篡改的应用打赢复活赛</string>
     <string name="system_framework_core_patch_shared_user">老子就是要绕过共享用户签名验证</string>
     <string name="system_framework_core_patch_shared_user_desc">允许安装与其共享用户签名不同的阿泼泼。虽然这个特性有些危险。但——规则，就是用来打破的！🤓👆。</string>
     <string name="system_framework_core_patch_digest_creak">签名是什么？可以吃掉吗？</string>
@@ -582,8 +582,6 @@
     <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
     <string name="home_other">还想... 看更多吗❤️</string>
     <string name="home_other_your_color">染上你的颜色</string>
-    <string name="home_other_toast_slide_again">❤️不要反悔❤️</string>
-    <string name="home_other_disable_prestart">❤️不准提前射，杂鱼❤️</string>
     <!--Gallery Editor-->
     <!--Wallpaper-->
     <string name="miwallpaper_unlock_super_wallpaper">解锁高耗电+烧屏壁纸</string>
@@ -593,7 +591,7 @@
     <!--HTML Viewer-->
     <!--App vault-->
     <!--Battery and performance-->
-    <string name="powerkeeper_do_not_kill_apps">还... 还想要...</string>
+    <string name="powerkeeper_do_not_kill_apps">试着不要杀掉后台应用？</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能会让你的功耗爆炸</string>
     <!--Screen Recorder-->
     <!--Screenshot-->
@@ -604,7 +602,7 @@
     <string name="security_center_skip_waiting_time_direct_desc">我知道我在做什么！</string>
     <string name="security_center_remove_low_battery_reminder_summary">我知道我没电了</string>
     <string name="security_center_no_permission">不给钱还想办事？</string>
-    <string name="security_center_super_wireless_charge">解锁0.1W无线充电</string>
+    <string name="security_center_super_wireless_charge">解锁0.1W超快的无线充电</string>
     <string name="security_center_other_title">还想... 看更多吗❤️</string>
     <string name="security_center_unlock_s_resolution">1080P想上2K？</string>
     <string name="security_center_game_performance_wild_mode">一键获得榨汁机</string>
