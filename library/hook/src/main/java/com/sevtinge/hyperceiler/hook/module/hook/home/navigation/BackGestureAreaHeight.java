@@ -62,7 +62,7 @@ public class BackGestureAreaHeight extends BaseHook {
                         lp.height = Math.round(lp.height / 100.0f * pct);
                         lp.width = Math.round(lp.width / 100.0f * pct);
                     } else {
-                        lp.height = Math.round(lp.height / 100.0f * pct);
+                        lp.height = Math.round(lp.height / 60.0f * pct);
                     }
                     param.setResult(lp);
                 }
