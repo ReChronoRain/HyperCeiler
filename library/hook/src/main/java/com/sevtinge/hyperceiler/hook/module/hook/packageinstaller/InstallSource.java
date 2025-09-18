@@ -33,12 +33,31 @@ public class InstallSource extends BaseHook {
 
         mInstallSourcePackageName = mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer");
 
-        findAndHookMethodSilently(Activity.class,
-            "getLaunchedFromPackage",
-            XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
+        findAndHookMethod(Activity.class, "getLaunchedFromPackage", new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (isCalledFromInstallStart()) param.setResult(mInstallSourcePackageName);
+            }
+        });
 
         findAndHookMethodSilently("com.miui.packageInstaller.InstallStart",
             "getCallingPackage",
             XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
+    }
+
+    private static boolean isCalledFromInstallStart() {
+        try {
+            StackTraceElement[] st = Thread.currentThread().getStackTrace();
+            if (st == null) return false;
+            for (StackTraceElement e : st) {
+                if (e == null) continue;
+                if ("com.miui.packageInstaller.InstallStart".equals(e.getClassName())
+                    && "onCreate".equals(e.getMethodName())) {
+                    return true;
+                }
+            }
+        } catch (Throwable ignore) {
+        }
+        return false;
     }
 }
