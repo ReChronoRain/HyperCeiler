@@ -31,14 +31,23 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodOrNull
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import de.robv.android.xposed.XposedHelpers
+import org.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.query.FindField
+import org.luckypray.dexkit.query.matchers.FieldMatcher
+import org.luckypray.dexkit.result.FieldData
+import org.luckypray.dexkit.result.base.BaseData
 import java.io.File
+import java.lang.reflect.Field
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
@@ -47,14 +56,102 @@ object DisplayMoreApkInfoNew : BaseHook() {
     private var mAppInfoViewObject: Class<*>? = null
     private var mAppInfoViewObjectViewHolder: Class<*>? = null
 
+    private val viewExcludeMethod2 by lazy<Method> {
+        DexKit.findMember("ViewExcludeMethod2") {
+            it.findMethod {
+                matcher {
+                    modifiers = Modifier.PRIVATE or Modifier.FINAL
+                    declaredClass {
+                        usingStrings("{\n            context.ge…ta.versionName)\n        }")
+                    }
+                    returnType = "void"
+                    paramCount = 0
+                    addUsingNumber(1)
+                }
+            }.single()
+        }
+    }
+
+    private val viewExcludeMethod1 by lazy<Method> {
+        DexKit.findMember("ViewExcludeMethod1") {
+            it.findMethod {
+                matcher {
+                    modifiers = Modifier.PRIVATE or Modifier.FINAL
+                    declaredClass {
+                        usingStrings("{\n            context.ge…ta.versionName)\n        }")
+                    }
+                    returnType = "void"
+                    paramCount = 0
+                    addUsingString("")
+                }
+            }.single()
+        }
+    }
+
+    private val viewMethod by lazy<List<Method>> {
+        DexKit.findMemberList("ViewMethod") {
+            it.findMethod {
+                matcher {
+                    modifiers = Modifier.PRIVATE or Modifier.FINAL
+                    declaredClass {
+                        usingStrings("{\n            context.ge…ta.versionName)\n        }")
+                    }
+                    returnType = "void"
+                    paramCount = 0
+                }
+            }
+        }
+    }
+
+    private val entryMethod by lazy<Method> {
+        DexKit.findMember("EntryMethod") {
+            it.findMethod {
+                matcher {
+                    modifiers = Modifier.PUBLIC
+                    declaredClass {
+                        usingStrings("{\n            context.ge…ta.versionName)\n        }")
+                    }
+                    returnType = "void"
+                    paramTypes = listOf("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")
+                }
+            }.single()
+        }
+    }
+
     @SuppressLint("SetTextI18n")
     override fun init() {
+        val viewHolder = DexKit.findMember<Field?>("ViewHolder", object : IDexKit {
+            @Throws(ReflectiveOperationException::class)
+            override fun dexkit(bridge: DexKitBridge): BaseData? {
+                val fieldData: FieldData? = bridge.findField(
+                    FindField.create()
+                        .matcher(
+                            FieldMatcher.create()
+                                .type("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")
+                                .modifiers(Modifier.PRIVATE)
+                                .declaredClass{usingStrings("{\n            context.ge…ta.versionName)\n        }")}
+                        )
+                ).singleOrNull()
+                return fieldData
+            }
+        })
+        var reallyViewMethod: Method? = null
+        for (method in viewMethod) {
+            if (method != viewExcludeMethod1 && method != viewExcludeMethod2)
+                reallyViewMethod = method
+        }
+        if (reallyViewMethod == null) return
+        hookMethod(entryMethod, object : MethodHook() {
+            override fun before(param: MethodHookParam?) {
+                callMethod(reallyViewMethod.name)
+            }
+        })
         // if (!getBoolean("packageinstaller_show_more_apk_info", false)) return
         mApkInfo = findClassIfExists("com.miui.packageInstaller.model.ApkInfo")//.findClassOrNull()
         mAppInfoViewObject =
             findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject")//.findClassOrNull()
         if (mAppInfoViewObject != null) {
-            logI(TAG, this.lpparam.packageName, "mAppInfoViewObject is $mAppInfoViewObject")
+            logD(TAG, this.lpparam.packageName, "mAppInfoViewObject is $mAppInfoViewObject")
             mAppInfoViewObjectViewHolder =
                 findClassIfExists("com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder")//"com.miui.packageInstaller.ui.listcomponets.AppInfoViewObject\$ViewHolder".findClassOrNull()
             val methods: Array<Method> =
@@ -70,22 +167,32 @@ object DisplayMoreApkInfoNew : BaseHook() {
                 }
                 if (apkInfoFieldName == null) return
                 val finalApkInfoFieldName: String = apkInfoFieldName
-                methods[0].hookAfterMethod { hookParam ->
-                    val viewHolder: Any = hookParam.args[0] ?: return@hookAfterMethod
+                logD(TAG, this.lpparam.packageName, "viewMethod is ${reallyViewMethod.declaringClass}.${reallyViewMethod.name}")
+                reallyViewMethod.declaringClass.hookAfterMethod(reallyViewMethod.name) { hookParam ->
+                    val viewHolder: Any =
+                        XposedHelpers.getObjectField(hookParam.thisObject, viewHolder.name)
+                            ?: return@hookAfterMethod
                     val mAppSizeTv =
-                        XposedHelpers.callMethod(viewHolder, "getAppSize") as TextView? ?: return@hookAfterMethod
+                        XposedHelpers.callMethod(viewHolder, "getTvAppVersion") as TextView?
+                            ?: return@hookAfterMethod
                     val mContext = mAppSizeTv.context
                     val isDarkMode =
                         mAppSizeTv.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-                    val apkInfo: Any = XposedHelpers.getObjectField(hookParam.thisObject, finalApkInfoFieldName)
-                    val mAppInfo = apkInfo.callMethodOrNull("getInstalledPackageInfo") as ApplicationInfo?
+                    val apkInfo: Any = XposedHelpers.getObjectField(
+                        hookParam.thisObject,
+                        finalApkInfoFieldName
+                    )
+                    val mAppInfo =
+                        apkInfo.callMethodOrNull("getInstalledPackageInfo") as ApplicationInfo?
                     val mPkgInfo = apkInfo.callMethod("getPackageInfo") as PackageInfo
                     val modRes = getModuleRes(mAppSizeTv.context) as Resources
                     val layout: LinearLayout = mAppSizeTv.parent as LinearLayout
                     layout.removeAllViews()
                     val mContainerView = layout.parent as ViewGroup
                     val mRoundImageView = mContainerView.getChildAt(0) as ImageView
-                    val mAppNameView = mContainerView.getChildAt(1) as TextView
+                    val mAppNameView =
+                        XposedHelpers.callMethod(viewHolder, "getTvAppName") as TextView?
+                            ?: return@hookAfterMethod
                     mContainerView.removeAllViews()
                     val linearLayout = LinearLayout(mContext)
                     linearLayout.orientation = LinearLayout.VERTICAL
