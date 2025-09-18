@@ -164,11 +164,10 @@ object NewNetworkSpeedStyle : BaseHook() {
             0
         }
 
+        id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
         if (networkStyle != 0) {
-            id.translationX = (leftMargin - rightMargin).toFloat()
-            id.translationY = topMargin.toFloat()
-        } else {
-            id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
+            id.translationX = 0f
+            id.translationY = 0f
         }
     }
 }
