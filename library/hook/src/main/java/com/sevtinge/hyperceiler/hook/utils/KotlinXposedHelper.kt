@@ -287,7 +287,7 @@ fun <T> Any.getAdditionalInstanceFieldAs(field: String) = getAdditionalInstanceF
 fun Any.setAdditionalInstanceField(
     field: String,
     value: Any?
-) = setAdditionalInstanceField(this, field, value)
+): Any? = setAdditionalInstanceField(this, field, value)
 
 fun Any.removeAdditionalInstanceField(
     field: String

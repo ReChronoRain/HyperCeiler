@@ -25,23 +25,41 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object InstallRiskDisable : BaseHook() {
-    override fun init() {
-        DexKit.findMemberList<Method>("InstallRiskDisable") {
+    private val a1 by lazy {
+        DexKit.findMember("InstallRiskDisable1") {
             it.findMethod {
                 matcher {
                     addUsingString("secure_verify_enable", StringMatchType.Equals)
                     returnType = "boolean"
                 }
+            }.single()
+        } as Method
+    }
+
+    private val b2 by lazy {
+        DexKit.findMember("InstallRiskDisable2") {
+            it.findMethod {
                 matcher {
                     addUsingString("installerOpenSafetyModel", StringMatchType.Equals)
                     returnType = "boolean"
                 }
+            }.single()
+        } as Method
+    }
+
+    private val c3 by lazy {
+        DexKit.findMember("InstallRiskDisable3") {
+            it.findMethod {
                 matcher {
                     addUsingString("android.provider.MiuiSettings\$Ad", StringMatchType.Equals)
                     returnType = "boolean"
                 }
-            }
-        }.createHooks {
+            }.single()
+        } as Method
+    }
+
+    override fun init() {
+        listOf(a1, b2, c3).createHooks {
             returnConstant(false)
         }
     }
