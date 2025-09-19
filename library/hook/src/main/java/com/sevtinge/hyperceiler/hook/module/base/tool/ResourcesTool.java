@@ -52,6 +52,7 @@ import de.robv.android.xposed.XposedHelpers;
  * 重写资源钩子，希望本钩子能有更好的生命力。
  *
  * @author 焕晨HChen
+ * @co-author Ling Qiqi
  */
 public class ResourcesTool {
     private static final String TAG = "ResourcesTool";
@@ -329,10 +330,49 @@ public class ResourcesTool {
                     continue;
                 }
                 if (value != null) {
-                    if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
-                        if (value instanceof Number) value = ((Number) value).intValue();
+                    Object finalResult = null;
+                    
+                    switch (method) {
+                        case "getInteger":
+                        case "getColor":
+                        case "getDimensionPixelOffset":
+                        case "getDimensionPixelSize":
+                            if (value instanceof Number) {
+                                // 对于像素尺寸，使用四舍五入更精确
+                                finalResult = Math.round(((Number) value).floatValue());
+                            }
+                            break;
+
+                        case "getDimension":
+                        case "getFloat":
+                            if (value instanceof Number) {
+                                finalResult = ((Number) value).floatValue();
+                            }
+                            break;
+
+                        case "getText":
+                            if (value instanceof CharSequence) {
+                                finalResult = value;
+                            }
+                            break;
+                        
+                        case "getBoolean":
+                            if (value instanceof Boolean) {
+                                finalResult = value;
+                            }
+                            break;
+                    
+                        default:
+                            finalResult = value;
+                            break;
                     }
-                    param.setResult(value);
+
+                    if (finalResult != null) {
+                        param.setResult(finalResult);
+                    } else {
+                        // 如果类型转换失败，记录日志并放弃本次替换，避免崩溃
+                        logW(TAG, "Mismatched replacement type for method " + method + ". Got " + value.getClass().getName());
+                    }
                     break;
                 }
             }
@@ -405,8 +445,16 @@ public class ResourcesTool {
         if (replacement != null) {
             switch (replacement.first) {
                 case OBJECT:
+                    if ("getText".equals(method) && !(replacement.second instanceof CharSequence)) {
+                        logW(TAG, "Mismatched type: OBJECT replacement is not a CharSequence for getText method.");
+                        return null;
+                    }
                     return replacement.second;
                 case DENSITY: {
+                    if ("getText".equals(method)) {
+                        logW(TAG, "Mismatched type: DENSITY replacement cannot be used for getText method.");
+                        return null;
+                    }
                     Object repl = replacement.second;
                     if (repl instanceof Number) {
                         return ((Number) repl).floatValue() * res.getDisplayMetrics().density;
