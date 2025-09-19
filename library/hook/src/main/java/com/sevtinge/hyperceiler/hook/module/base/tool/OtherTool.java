@@ -59,7 +59,7 @@ public class OtherTool {
         if (isNewResHook) {
             return context.getResources();
         } else {
-            return ResourcesTool.loadModuleRes(context);
+            return ResourcesTool.getInstance().loadModuleRes(context);
         }
     }
 
