@@ -49,15 +49,26 @@ public class InstallSource extends BaseHook {
         try {
             StackTraceElement[] st = Thread.currentThread().getStackTrace();
             if (st == null) return false;
-            for (StackTraceElement e : st) {
-                if (e == null) continue;
-                if ("com.miui.packageInstaller.InstallStart".equals(e.getClassName())
-                    && "onCreate".equals(e.getMethodName())) {
-                    return true;
+
+            for (int i = 0; i < st.length - 1; i++) {
+                StackTraceElement cur = st[i];
+                StackTraceElement next = st[i + 1];
+
+                if (cur == null || next == null) continue;
+
+                if (cur.getClassName() != null
+                    && cur.getClassName().startsWith("com.miui.packageInstaller")) {
+
+                    if ("com.miui.packageInstaller.InstallStart".equals(next.getClassName())
+                        && "onCreate".equals(next.getMethodName())) {
+                        return true;
+                    }
                 }
             }
-        } catch (Throwable ignore) {
+        } catch (Throwable t) {
+            de.robv.android.xposed.XposedBridge.log("isCalledFromInstallStartStrict error: " + t);
         }
         return false;
     }
+
 }
