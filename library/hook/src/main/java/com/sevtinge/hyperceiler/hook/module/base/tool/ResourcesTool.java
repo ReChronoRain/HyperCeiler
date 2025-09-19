@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.base.tool;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool.ReplacementType.DENSITY;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool.ReplacementType.ID;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool.ReplacementType.OBJECT;
+import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logW;
 
 import android.annotation.SuppressLint;
@@ -37,14 +38,12 @@ import android.util.Pair;
 import android.util.TypedValue;
 
 import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
-import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
@@ -56,13 +55,26 @@ import de.robv.android.xposed.XposedHelpers;
  */
 public class ResourcesTool {
     private static final String TAG = "ResourcesTool";
-    private static boolean hooksApplied = false;
-    private static boolean isInit = false;
-    private static String mModulePath;
-    private static Handler mHandler = null;
-    private static final ArrayList<Resources> resourcesArrayList = new ArrayList<>();
-    private static final ConcurrentHashMap<Integer, Boolean> resMap = new ConcurrentHashMap<>();
-    private static final ArrayList<XC_MethodHook.Unhook> unhooks = new ArrayList<>();
+    private static ResourcesTool sInstance = null;
+
+    private final String mModulePath;
+    private boolean hooksApplied = false;
+    private boolean isInit = false;
+    private Handler mHandler = null;
+    private volatile ResourcesLoader resourcesLoader;
+
+    // 使用线程安全的 CopyOnWriteArrayList
+    private final CopyOnWriteArrayList<Resources> resourcesArrayList = new CopyOnWriteArrayList<>();
+    private final java.util.Set<Integer> resMap = ConcurrentHashMap.newKeySet();
+    private final CopyOnWriteArrayList<XC_MethodHook.Unhook> unhooks = new CopyOnWriteArrayList<>();
+    private final ConcurrentHashMap<ResKey, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
+
+    /**
+     * 结构化键，用于替换 Map 中的字符串拼接
+     */
+    private record ResKey(String pkg, String type, String name) {
+        // 使用 record 自动生成 equals/hashCode/toString，避免手动实现导致不一致
+    }
 
     protected enum ReplacementType {
         ID,
@@ -70,16 +82,37 @@ public class ResourcesTool {
         OBJECT
     }
 
-    private final ConcurrentHashMap<String, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
-
-    public ResourcesTool(String modulePath) {
-        mModulePath = modulePath;
+    // 构造函数私有化
+    private ResourcesTool(String modulePath) {
+        this.mModulePath = modulePath;
         resourcesArrayList.clear();
         resMap.clear();
         unhooks.clear();
         applyHooks();
         isInit = true;
     }
+
+    /**
+     * 获取单例实例，首次调用时必须提供模块路径
+     */
+    public static synchronized ResourcesTool getInstance(String modulePath) {
+        if (sInstance == null) {
+            sInstance = new ResourcesTool(modulePath);
+        }
+        return sInstance;
+    }
+
+    /**
+     * 获取已初始化的单例实例
+     */
+    public static synchronized ResourcesTool getInstance() {
+        if (sInstance == null) {
+            // 避免空指针，但提示需要先初始化
+            logE(TAG, "ResourcesTool not initialized. Call getInstance(String modulePath) first.");
+        }
+        return sInstance;
+    }
+
 
     public boolean isInit() {
         return isInit;
@@ -92,64 +125,72 @@ public class ResourcesTool {
         return 0x7e00f000 | (resourceName.hashCode() & 0x00ffffff);
     }
 
-    public static Resources loadModuleRes(Resources resources, boolean doOnMainLooper) {
+    public Resources loadModuleRes(Resources resources, boolean doOnMainLooper) {
         if (resources == null) {
-            logW(TAG, "Context can't is null!");
+            logW(TAG, "Context can't be null!");
             return null;
         }
-        loadResAboveApi30(resources, doOnMainLooper);
-        if (!resourcesArrayList.contains(resources))
-            resourcesArrayList.add(resources);
+        boolean loaded = loadResAboveApi30(resources, doOnMainLooper);
+        if (loaded) {
+            if (!resourcesArrayList.contains(resources)) {
+                resourcesArrayList.add(resources);
+            }
+        } else {
+            logW(TAG, "loadModuleRes: failed to load resources: " + resources);
+        }
         return resources;
     }
 
-    public static Resources loadModuleRes(Resources resources) {
+    public Resources loadModuleRes(Resources resources) {
         return loadModuleRes(resources, false);
     }
 
-    public static Resources loadModuleRes(Context context, boolean doOnMainLooper) {
+    public Resources loadModuleRes(Context context, boolean doOnMainLooper) {
         return loadModuleRes(context.getResources(), doOnMainLooper);
     }
 
-    public static Resources loadModuleRes(Context context) {
+    public Resources loadModuleRes(Context context) {
         return loadModuleRes(context, false);
     }
 
-    private static ResourcesLoader resourcesLoader;
-
     /**
      * 来自 QA 的方法
-     * <p>
-     * from QA
      */
-    private static boolean loadResAboveApi30(Resources resources, boolean doOnMainLooper) {
+    private boolean loadResAboveApi30(Resources resources, boolean doOnMainLooper) {
         if (resourcesLoader == null) {
-            try (ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(mModulePath),
-                    ParcelFileDescriptor.MODE_READ_ONLY)) {
-                ResourcesProvider provider = ResourcesProvider.loadFromApk(pfd);
-                ResourcesLoader loader = new ResourcesLoader();
-                loader.addProvider(provider);
-                resourcesLoader = loader;
-            } catch (IOException e) {
-                XposedLogUtils.logE(TAG, "Failed to add resource! debug: above api 30.", e);
-                return false;
+            synchronized (this) {
+                if (resourcesLoader == null) {
+                    try (ParcelFileDescriptor pfd = ParcelFileDescriptor.open(new File(mModulePath),
+                        ParcelFileDescriptor.MODE_READ_ONLY)) {
+                        ResourcesProvider provider = ResourcesProvider.loadFromApk(pfd);
+                        ResourcesLoader loader = new ResourcesLoader();
+                        loader.addProvider(provider);
+                        resourcesLoader = loader;
+                    } catch (IOException e) {
+                        logE(TAG, "Failed to add resource! debug: above api 30.", e);
+                        return false;
+                    }
+                }
             }
         }
-        if (doOnMainLooper)
+        if (doOnMainLooper) {
             if (Looper.myLooper() == Looper.getMainLooper()) {
                 return addLoaders(resources);
             } else {
-                if (mHandler == null) {
-                    mHandler = new Handler(Looper.getMainLooper());
+                synchronized (this) {
+                    if (mHandler == null) {
+                        mHandler = new Handler(Looper.getMainLooper());
+                    }
                 }
                 mHandler.post(() -> addLoaders(resources));
-                return true; // 此状态下保持返回 true，请观察日志是否有报错来判断是否成功。
+                return true;
             }
-        else
+        } else {
             return addLoaders(resources);
+        }
     }
 
-    private static boolean addLoaders(Resources resources) {
+    private boolean addLoaders(Resources resources) {
         try {
             resources.addLoaders(resourcesLoader);
         } catch (IllegalArgumentException e) {
@@ -158,29 +199,26 @@ public class ResourcesTool {
                 // fallback to below API 30
                 return loadResBelowApi30(resources);
             } else {
-                XposedLogUtils.logE(TAG, "Failed to add loaders!", e);
+                logE(TAG, "Failed to add loaders!", e);
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * @noinspection JavaReflectionMemberAccess
-     */
     @SuppressLint("DiscouragedPrivateApi")
-    private static boolean loadResBelowApi30(Resources resources) {
+    private boolean loadResBelowApi30(Resources resources) {
         try {
             AssetManager assets = resources.getAssets();
             Method addAssetPath = AssetManager.class.getDeclaredMethod("addAssetPath", String.class);
             addAssetPath.setAccessible(true);
             Integer cookie = (Integer) addAssetPath.invoke(assets, mModulePath);
             if (cookie == null || cookie == 0) {
-                XposedLogUtils.logW(TAG, "Method 'addAssetPath' result 0, maybe load res failed!");
+                logW(TAG, "Method 'addAssetPath' result 0, maybe load res failed!");
                 return false;
             }
         } catch (Throwable e) {
-            XposedLogUtils.logE(TAG, "Failed to add resource! debug: below api 30.", e);
+            logE(TAG, "Failed to add resource! debug: below api 30.", e);
             return false;
         }
         return true;
@@ -247,6 +285,7 @@ public class ResourcesTool {
         }
         unhooks.clear();
         isInit = false;
+        hooksApplied = false; // 允许重新应用
     }
 
     private final HookTool.MethodHook hookTypedBefore = new HookTool.MethodHook() {
@@ -272,13 +311,16 @@ public class ResourcesTool {
         protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
                 Resources resources = loadModuleRes(ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP));
-                resourcesArrayList.add(resources); // 重新加载 res
+                if (resources != null) {
+                    resourcesArrayList.add(resources); // 重新加载 res
+                }
             }
-            if (Boolean.TRUE.equals(resMap.get((int) param.args[0]))) {
+            int reqId = (int) param.args[0];
+            if (resMap.contains(reqId)) {
                 return;
             }
             for (Resources resources : resourcesArrayList) {
-                if (resources == null) return;
+                if (resources == null) continue;
                 String method = param.method.getName();
                 Object value;
                 try {
@@ -288,7 +330,7 @@ public class ResourcesTool {
                 }
                 if (value != null) {
                     if ("getDimensionPixelOffset".equals(method) || "getDimensionPixelSize".equals(method)) {
-                        if (value instanceof Float) value = ((Float) value).intValue();
+                        if (value instanceof Number) value = ((Number) value).intValue();
                     }
                     param.setResult(value);
                     break;
@@ -303,9 +345,9 @@ public class ResourcesTool {
     public void setResReplacement(String pkg, String type, String name, int replacementResId) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(ID, replacementResId));
+            replacements.put(new ResKey(pkg, type, name), new Pair<>(ID, replacementResId));
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, "setResReplacement: " + t);
+            logE(TAG, "setResReplacement failed", t);
         }
     }
 
@@ -315,9 +357,9 @@ public class ResourcesTool {
     public void setDensityReplacement(String pkg, String type, String name, float replacementResValue) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(DENSITY, replacementResValue));
+            replacements.put(new ResKey(pkg, type, name), new Pair<>(DENSITY, replacementResValue));
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, "setDensityReplacement: " + t);
+            logE(TAG, "setDensityReplacement failed", t);
         }
     }
 
@@ -327,61 +369,81 @@ public class ResourcesTool {
     public void setObjectReplacement(String pkg, String type, String name, Object replacementResValue) {
         try {
             applyHooks();
-            replacements.put(pkg + ":" + type + "/" + name, new Pair<>(OBJECT, replacementResValue));
+            replacements.put(new ResKey(pkg, type, name), new Pair<>(OBJECT, replacementResValue));
         } catch (Throwable t) {
-            XposedLogUtils.logE(TAG, "setObjectReplacement: " + t);
+            logE(TAG, "setObjectReplacement failed", t);
         }
     }
 
     private Object getResourceReplacement(Resources resources, Resources res, String method, Object[] args) throws Resources.NotFoundException {
         if (resources == null) return null;
-        String pkgName = null;
-        String resType = null;
-        String resName = null;
+        String pkgName;
+        String resType;
+        String resName;
         try {
-            pkgName = res.getResourcePackageName((int) args[0]);
-            resType = res.getResourceTypeName((int) args[0]);
-            resName = res.getResourceEntryName((int) args[0]);
+            int resId = (int) args[0];
+            // 避免 ID 为 0 时进行无效查询
+            if (resId == 0) return null;
+            pkgName = res.getResourcePackageName(resId);
+            resType = res.getResourceTypeName(resId);
+            resName = res.getResourceEntryName(resId);
         } catch (Throwable ignore) {
+            return null;
         }
+
         if (pkgName == null || resType == null || resName == null) return null;
 
-        String resFullName = pkgName + ":" + resType + "/" + resName;
-        String resAnyPkgName = "*:" + resType + "/" + resName;
+        // 使用 ResKey 进行查找
+        ResKey resFullNameKey = new ResKey(pkgName, resType, resName);
+        ResKey resAnyPkgNameKey = new ResKey("*", resType, resName);
 
-        Object value;
-        Integer modResId;
-        Pair<ReplacementType, Object> replacement = null;
-        if (replacements.containsKey(resFullName)) {
-            replacement = replacements.get(resFullName);
-        } else if (replacements.containsKey(resAnyPkgName)) {
-            replacement = replacements.get(resAnyPkgName);
+        Pair<ReplacementType, Object> replacement = replacements.get(resFullNameKey);
+        if (replacement == null) {
+            replacement = replacements.get(resAnyPkgNameKey);
         }
+
         if (replacement != null) {
             switch (replacement.first) {
-                case OBJECT -> {
+                case OBJECT:
                     return replacement.second;
+                case DENSITY: {
+                    Object repl = replacement.second;
+                    if (repl instanceof Number) {
+                        return ((Number) repl).floatValue() * res.getDisplayMetrics().density;
+                    } else if (repl instanceof String) {
+                        try {
+                            return Float.parseFloat((String) repl) * res.getDisplayMetrics().density;
+                        } catch (NumberFormatException ignored) {
+                        }
+                    }
+                    logW(TAG, "Invalid DENSITY replacement type: " + repl);
+                    return null;
                 }
-                case DENSITY -> {
-                    return (Float) replacement.second * res.getDisplayMetrics().density;
-                }
-                case ID -> {
-                    modResId = (Integer) replacement.second;
+                case ID: {
+                    if (!(replacement.second instanceof Number)) return null;
+                    Integer modResId = ((Number) replacement.second).intValue();
                     if (modResId == 0) return null;
                     try {
+                        // 验证资源是否存在
                         resources.getResourceName(modResId);
                     } catch (Resources.NotFoundException n) {
                         throw n;
                     }
                     if (method == null) return null;
-                    resMap.put(modResId, true);
-                    if ("getDrawable".equals(method))
-                        value = XposedHelpers.callMethod(resources, method, modResId, args[1]);
-                    else if ("getDrawableForDensity".equals(method) || "getFraction".equals(method))
-                        value = XposedHelpers.callMethod(resources, method, modResId, args[1], args[2]);
-                    else
-                        value = XposedHelpers.callMethod(resources, method, modResId);
-                    resMap.remove(modResId);
+                    // 标记正在处理，避免重入
+                    resMap.add(modResId);
+                    Object value;
+                    try {
+                        if ("getDrawable".equals(method) && args.length >= 2) {
+                            value = XposedHelpers.callMethod(resources, method, modResId, args[1]);
+                        } else if (("getDrawableForDensity".equals(method) || "getFraction".equals(method)) && args.length >= 3) {
+                            value = XposedHelpers.callMethod(resources, method, modResId, args[1], args[2]);
+                        } else {
+                            value = XposedHelpers.callMethod(resources, method, modResId);
+                        }
+                    } finally {
+                        resMap.remove(modResId);
+                    }
                     return value;
                 }
             }
@@ -390,34 +452,34 @@ public class ResourcesTool {
     }
 
     private Object getTypedArrayReplacement(Resources resources, int id) {
-        if (id != 0) {
-            String pkgName = null;
-            String resType = null;
-            String resName = null;
-            try {
-                pkgName = resources.getResourcePackageName(id);
-                resType = resources.getResourceTypeName(id);
-                resName = resources.getResourceEntryName(id);
-            } catch (Throwable ignore) {
-            }
-            if (pkgName == null || resType == null || resName == null) return null;
+        if (id == 0) return null;
+        String pkgName;
+        String resType;
+        String resName;
+        try {
+            pkgName = resources.getResourcePackageName(id);
+            resType = resources.getResourceTypeName(id);
+            resName = resources.getResourceEntryName(id);
+        } catch (Throwable ignore) {
+            return null;
+        }
+        if (pkgName == null || resType == null || resName == null) return null;
 
-            try {
-                String resFullName = pkgName + ":" + resType + "/" + resName;
-                String resAnyPkgName = "*:" + resType + "/" + resName;
+        try {
+            // 使用 ResKey 进行查找
+            ResKey resFullNameKey = new ResKey(pkgName, resType, resName);
+            ResKey resAnyPkgNameKey = new ResKey("*", resType, resName);
 
-                Pair<ReplacementType, Object> replacement = null;
-                if (replacements.containsKey(resFullName)) {
-                    replacement = replacements.get(resFullName);
-                } else if (replacements.containsKey(resAnyPkgName)) {
-                    replacement = replacements.get(resAnyPkgName);
-                }
-                if (replacement != null && (Objects.requireNonNull(replacement.first) == ReplacementType.OBJECT)) {
-                    return replacement.second;
-                }
-            } catch (Throwable e) {
-                XposedLogUtils.logE("getTypedArrayReplacement", e);
+            Pair<ReplacementType, Object> replacement = replacements.get(resFullNameKey);
+            if (replacement == null) {
+                replacement = replacements.get(resAnyPkgNameKey);
             }
+
+            if (replacement != null && replacement.first == OBJECT) {
+                return replacement.second;
+            }
+        } catch (Throwable e) {
+            logE(TAG, "getTypedArrayReplacement failed", e);
         }
         return null;
     }
