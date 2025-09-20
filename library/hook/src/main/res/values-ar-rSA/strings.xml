@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Introduction to Xposed Modules-->
+    <string name="xposed_description">اجعل HyperOS عظيمة مرة أخرى!</string>
+    <!--String reuse-->
+    <string name="floating_window">النوافذ المنبثقة</string>
+    <!--Multi-list Array-->
+    <string name="tiles_gms">‏خدمات Google Play</string>
+    <string name="tiles_snow_leopard_mode">وضع S-Leo</string>
+    <string name="tiles_taplus">Taplus</string>
+    <string name="tiles_5g">شبكة الجيل الخامس</string>
+    <string name="system_ui_statusbar_music_share">مشاركة كلمات الأغاني</string>
+    <string name="system_ui_statusbar_music_send">اترك للإرسال</string>
+    <string name="system_ui_statusbar_music_send_share_text">لقد قمت بمشاركة الكلمات التالية من %1$s:\n%2$s</string>
+    <string name="system_ui_statusbar_music_notification">كلمات الأغاني في الإشعارات</string>
+    <string name="open_by_default">الفتح افتراضيًا</string>
+    <string name="security_center_aosp_app_info_label">معلومات التطبيق مثل الاندرويد الخام</string>
+    <string name="security_center_aosp_app_info">إضافة مدخل معلومات تطبيق مثل الاندرويد الخام</string>
+    <string name="security_center_aosp_app_manager_label">مدير التطبيقات مثل الاندرويد الخام</string>
+    <string name="security_center_aosp_app_manager">إضافة مدخل مدير التطبيقات مثل الاندرويد الخام</string>
+    <string name="app_link_open_always">السماح للتطبيق بفتح الروابط المدعومة</string>
+    <string name="app_link_open_never">عدم السماح للتطبيقات بفتح الروابط</string>
+    <string name="dashboard_5g">استخدام 5G</string>
+    <string name="tiles_sunshine_mode">وضع ضوء الشمس</string>
+    <string name="system_cc_showpct_style_1">مضمن</string>
+    <string name="system_cc_showpct_style_2">صريح</string>
+    <string name="media_control_ground_mode_1">الغلاف</string>
+    <string name="media_control_ground_mode_2">غلاف ضبابي</string>
+    <string name="media_control_ground_mode_3">تدرّج شعاعي</string>
+    <string name="media_control_ground_mode_4">تدرّج خطي</string>
+    <string name="media_control_ground_mode_5">ضبابية المواد</string>
+    <string name="media_control_album_mode_1">إخفاء معرف المصدر</string>
+    <string name="media_control_album_mode_2">غير مرئي</string>
+    <string name="media_control_button_mode_1">الزر المخصص في أقصى اليمين</string>
+    <string name="media_control_button_mode_2">زر التشغيل في أقصى اليسار</string>
+    <!--System Framework-->
+    <string name="system_framework_phone_network_title">إعدادات الشبكة</string>
+    <string name="system_ui_hide_navigation_bar">إخفاء شريط الإيماءات</string>
+    <string name="system_ui_hide_navigation_bar_toast">عدم التبديل إلى أزرار التنقل</string>
+    <string name="system_ui_hide_navigation_bar_toast_2">عدم إخفاء خطوط الإيماءات</string>
+    <string name="system_ui_hide_navigation_bar_more">يرجى إعادة تشغيل مشغل التطبيقات وواجهة المستخدم</string>
+    <string name="system_framework_guided_access_status">إخفاء شريط الحالة عند قفل التطبيق</string>
+    <string name="system_framework_guided_access_status_more">طريقة الخروج ستتغير إلى الضغط الطويل على زر الطاقة وسيتم إخفاء شريط الحالة حتى تخرج من وضع القفل.</string>
+    <string name="system_framework_guided_access_sc">عدم السماح بفتح الشريط الجانبي عند تثبيت التطبيقات</string>
+    <string name="system_framework_guided_access_screen">الانتقال إلى شاشة القفل عند إلغاء التثبيت</string>
+    <string name="system_framework_guided_access">التطبيقات الثابتة</string>
+    <string name="system_framework_guided_access_will_lock">اضغط مطولاً لقفل التطبيق</string>
+    <string name="system_framework_guided_access_lock">تطبيق مقفل</string>
+    <string name="system_framework_guided_access_unlock">تطبيق غير مقفل</string>
+    <string name="system_framework_guided_access_will_unlock">اضغط مطولاً لإلغاء قفل التطبيق</string>
+    <string name="system_framework_guided_access_r">استعادة</string>
+    <string name="system_framework_guided_access_e">يرجى فتحه في واجهة التطبيق المقفل</string>
+    <string name="system_framework_guided_access_more">الوصول الموجه مشابه لنظام iOS، الذي يثبت التطبيق الحالي على الشاشة.\nلاستخدامه، اضغط مع الاستمرار على شريط الحالة العلوي؛ للخروج، اضغط مع الاستمرار على شريط الحالة العلوي مرة أخرى.\nعند استخدامه لأول مرة، تحتاج إلى إعادة تشغيل الجهاز.</string>
+    <!--System UI-->
+    <string name="quick_settings_state_change_message_on_my">%1$s مفعل</string>
+    <string name="quick_settings_state_change_message_off_my">%1$s غير مفعل</string>
+    <string name="system_control_center_reduce_bright_colors_tile">تعتيم إضافي</string>
+    <string name="system_control_center_sunshine_mode">وضع ضوء الشمس</string>
+    <string name="system_control_center_sunshine_mode_brightness">سطوع وضع ضوء الشمس</string>
+    <string name="system_control_center_sunshine_mode_brightness_desc">السطوع العالي جدًا قد يؤدي إلى شيخوخة الشاشة، وظهور احتراق الشاشة، وعواقب أخرى لا يمكن إصلاحها. يُوصى باختيار مستوى السطوع المناسب واستخدامه بشكل صحيح.</string>
+    <!--Settings-->
+    <string name="system_settings_wifipassword_btn_title">عرض</string>
+    <string name="system_settings_wifi_password_label">كلمة المرور</string>
+    <string name="system_settings_wifi_password_dlgtitle">تفاصيل الواي فاي</string>
+    <!--Mi Share-->
+    <string name="mishare">مشاركة شاومي</string>
+    <string name="mishare_disable_mishare_auto_off">إيقاف إغلاق مشاركة شاومي التلقائي</string>
+    <string name="mishare_disable_auto_on_location">تعطيل تمكين الموقع التلقائي عند مشاركة المستندات</string>
+    <string name="mishare_unlock_turbo_mode">فتح وضع النقل السريع</string>
+    <string name="mishare_hook_switch_mode_all">الجميع</string>
+    <!--Smart cards-->
+    <string name="tsmclient">البطاقات الذكية</string>
+    <string name="tsmclient_auto_nfc">إدارة NFC تلقائيًا</string>
+    <string name="tsmclient_auto_nfc_desc">يتم تشغيل NFC تلقائيًا عند دخول صفحة التمرير، ويتم إيقافه تلقائيًا عند الخروج.</string>
+    <string name="tsmclient_nfc_turning_on">تشغيل NFC تلقائيًا…</string>
+    <string name="tsmclient_nfc_turn_on_manually">تشغيل NFC يدويًا</string>
+    <string name="tsmclient_nfc_turn_on_failed">فشل في تمكين NFC تلقائيًا</string>
+    <!--Other-->
+    <string name="share_center">مركز شاومي الذكي</string>
+    <string name="new_task">مهمة جديدة</string>
+    <string name="custom_hook">مخصص</string>
+    <string name="various_install_app_info_version_name">اسم الإصدار</string>
+    <string name="various_install_app_info_version_code">رَقْم الإصدار</string>
+    <string name="various_install_app_info_sdk">دعم SDK</string>
+    <string name="various_install_app_size">الحجم</string>
+    <string name="app_details_playstore">فتح باستخدام متجر Play</string>
+    <string name="app_details_launch">فتح</string>
+    <string name="app_details_nolaunch">التطبيق ليس له نشاط افتراضي قابل للتشغيل</string>
+    <string name="app_details_apk_file">مسار ملف ال APK</string>
+    <string name="app_details_apk_version_code">رقم إصدار التطبيق</string>
+    <string name="app_details_data_path">مسار ملف بيانات التطبيق</string>
+    <string name="app_details_app_uid">معرف المستخدم</string>
+    <string name="app_details_sdk">إصدار SDK المستهدف</string>
+    <string name="app_details_min_sdk">أدنى إصدار SDK</string>
+    <string name="disable_app_settings">هذه فكرة سيئة!</string>
+    <string name="disable_app_title">هل أنت متأكد أنك تريد تعطيل التطبيق؟</string>
+    <string name="disable_app_text">إذا كان هذا تطبيقًا ضروريًا للنظام، فإن تعطيله قد يسبب ضررًا.</string>
+    <string name="disable_app_fail">فشل في تغيير حالة التطبيق</string>
+    <string name="system_notifrowmenu_appinfo">معلومات التطبيق</string>
+    <string name="system_notifrowmenu_openinfw">نافذة عائمة</string>
+    <string name="system_notifrowmenu_forceclose">إغلاق إجباري</string>
+</resources>
