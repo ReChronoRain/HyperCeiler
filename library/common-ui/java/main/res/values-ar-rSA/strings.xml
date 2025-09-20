@@ -49,18 +49,21 @@
     <string name="miuix_appcompat_search_action_mode_cancel">إلغاء</string>
     <string name="miuix_appcompat_search_input_description">بحث</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">المزيد</string>
-    <string name="miuix_appcompat_action_mode_inverse">عكس</string>
+    <string name="miuix_appcompat_action_mode_inverse">إلغاء تحديد الكل</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">نصيحة</string>
-    <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الجذر/المستخدم الخارق</string>
+    <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الروت</string>
     <string name="soft_reboot">إعادة التشغيل </string>
-    <string name="restart_app_desc">هل أنت متأكد من أنك تريد إعادة تشغيل %1$s الآن؟</string>
+    <string name="restart_app_desc">هل أنت متأكد من أنك تريد إعادة التشغيل الآن %1$s؟</string>
     <string name="hyperceiler_restart_quick">إعادة التشغيل السريع للتطبيقات</string>
     <string name="hook_failed">لم يتم تفعيل الوحدة بعد. يُرجى التحقق من تفعيل LSPosed. في هذه الحالة، يُرجى إعادة تشغيل الوحدة أو إعادة تحسينها.</string>
     <string name="kill_failed">فشل في إنهاء العملية. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="start_failed">فشل في بدء النشاط. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
+    <string name="experimental_features">الميزات التجريبية</string>
+    <string name="experimental_reshook_new"></string>
+    <string name="experimental_reshook_new_desc">وتقدم النسخة الجديدة من ربط الموارد أداء محسنا لحقن الموارد. غير أنه قد لا يسبب بعض المشاكل ويقصد به أن يكون لأغراض الاختبار فقط.\nملاحظة: تمكين أو تعطيل هذه الميزة يتطلب إعادة تشغيل الجهاز ليتم تأكيد الاختيار.</string>
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>
@@ -97,6 +100,7 @@
     <string name="notification_view">عرض</string>
     <string name="tip_default">نصيحة: هذه هي النصيحة الافتراضية. إذا كنت ترى هذه الرسالة، فهذا يعني أن هناك مشكلة في HyperCeiler. يرجى إبلاغ المطوّر بها في الوقت المناسب وبطريقة فعّالة.</string>
     <string name="headtip_warn_not_offical_rom">قد لا يكون مصدر الروم الذي تستخدمه إصدارًا رسميًا من شاومي، وقد لا تعمل بعض الميزات. يُرجى التواصل مع المورّد الخاص بك للحصول على مزيد من التفاصيل.</string>
+    <string name="headtip_warn_unsupport_xposed">إصدار Lsposed الذي تستخدمه حاليا يمكن ان يسبب عطل في المميزات، إذا واجهتك أي من تلك المشاكل، جرب استخدم اصدار اخر من Lsposed.</string>
     <string name="headtip_warn_unsupport_sysver">الجهاز الحالي يعمل على إصدار نظام غير متوافق (تمامًا)، مما قد يؤدي إلى ظهور أخطاء في وظائف HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">فشلت عملية التحقق من التوقيع، وقد لا يكون الإصدار الحالي الذي تستخدمه الإصدار الرسمي لـ HyperCeiler، وقد يحتوي على تعليمات برمجية ضارة.</string>
     <string name="headtip_tip_auto_safe_mode">يمكن للوضع الآمن فصل بعض التطبيقات بسرعة عندما تتعطل عدة مرات لضمان الأمان. تتطلب هذه الميزة نطاق ربط إطار عمل النظام لتعمل. نوصي بشدة بالتحقق من نطاق إطار عمل النظام لتفعيل الوضع الآمن.</string>
@@ -123,4 +127,14 @@
     <string name="log_level_none">معطل</string>
     <string name="disable_suggest">تعطيل الاقتراحات</string>
     <string name="enable_suggest">تمكين الاقتراحات</string>
+    <string name="logo_egg_NotificationName">إشعار مفاجأة مخفية</string>
+    <string name="logo_egg_NotificationName_tips">هذا إشعار مفاجأة مخفية</string>
+    <string name="logo_egg_Notification_tips">الرجاء تمكين الإشعارات في الإعدادات لمشاهدة المفاجأة المخفية</string>
+    <string name="logo_egg1">واو، لقد وجدت هذا المكان، هذا رائع!</string>
+    <string name="logo_egg2">اللعنة، هل سيتم إيجادي حتى إذا كنت مختبئ هنا…</string>
+    <string name="logo_egg3">لا يوجد مفاجأة أندرويد هنا، ولكن هناك مفاجأة HyperCeiler!</string>
+    <string name="unsupported_func_tips">يبدو أن التطبيق المستهدف هو إصدار معدل. هذه الإضافة غير قادرة على توفير خدمات الربط له. حاول استخدام إصدار مختلف من التطبيق أو تمكين وضع التصحيح وحاول مرة أخرى.</string>
+    <string name="debug_mode">وضع تصحيح الأخطاء</string>
+    <string name="open_debug_mode_tips">بعد تمكين وضع التصحيح، ستتمكن من اختيار الإصدار الذي تريد تحميله من التطبيق المستهدف بحرية. ومع ذلك، إذا واجهت الروابط لهذا الإصدار مشكلات، لا تبلغ المطورين عنها.</string>
+    <string name="debug_mode_running">التطبيق المستهدف قيد التصحيح!\nإصدار التطبيق الحالي: %1$s\nالإصدار المستهدف المحدد: %2$s\nتم تطبيق الرابط بنجاح: %3$s</string>
 </resources>
