@@ -25,6 +25,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.database.ContentObserver;
+import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.Settings;
@@ -38,6 +39,7 @@ import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import de.robv.android.xposed.XposedHelpers;
@@ -62,6 +64,10 @@ public class UiLockApp extends BaseHook {
     boolean isLock = false;
 
     boolean isObserver = false;
+
+    Handler wmshellHandler;
+
+    boolean isObserver2 = false;
 
     @Override
     public void init() throws NoSuchMethodException {
@@ -218,7 +224,7 @@ public class UiLockApp extends BaseHook {
                 }
         );
 
-        safeFindAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
+        safeFindAndHookMethod("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
             "shouldHideCaption",
             new MethodHook() {
                 @Override
@@ -226,6 +232,91 @@ public class UiLockApp extends BaseHook {
                     Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                     if(getLockApp(context) != -1){
                         param.setResult(true);
+                    }
+                }
+            }
+        );
+
+        findAndHookMethod("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiDotView","onDraw", Canvas.class,
+            new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                if(wmshellHandler != null) return;
+                try {
+                    Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                    if (context == null) return;
+                    View view = (View)param.thisObject ;
+                    wmshellHandler = view.getHandler();
+                    logE(TAG,"wmshellHandler :" + wmshellHandler.toString());
+                } catch (Throwable e) {
+                    logE(TAG, "E: " + e);
+                }
+            }
+        });
+
+//        hookAllConstructors("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiTopDecoration",
+//            new MethodHook() {
+//                @Override
+//                protected void after(MethodHookParam param) {
+//                    try {
+//                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+//                        if (context == null) return;
+//                        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+//                            @Override
+//                            public void onChange(boolean selfChange) {
+//                                wmshellHandler.post(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        isLock = getLockApp(context) != -1;; // Update your member variable on the main thread if needed elsewhere
+//                                        if(isLock){
+//                                            XposedHelpers.callMethod(param.thisObject, "releaseViews");
+//                                        }
+//                                        logE(TAG, "hide SUCCESS");
+//                                    }
+//                                });
+//                            }
+//                        };
+//                        context.getContentResolver().registerContentObserver(
+//                            Settings.Global.getUriFor("key_lock_app"),
+//                            false, contentObserver);
+//                    } catch (Throwable e) {
+//                        logE(TAG, "E: " + e);
+//                    }
+//                }
+//            });
+
+        hookAllMethods("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiTopDecoration",
+            "updateRootView",
+            new MethodHook(){
+                @Override
+                protected void before(MethodHookParam param){
+                    if(isObserver2) return;
+                    try {
+                        Context context = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
+                        if (context == null) return;
+                        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+                            @Override
+                            public void onChange(boolean selfChange) {
+                                wmshellHandler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            ((Method)param.method).invoke(param.thisObject,param.args);
+                                        } catch (IllegalAccessException |
+                                                 InvocationTargetException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        logE(TAG, "updateRootView SUCCESS");
+                                    }
+                                });
+                            }
+                        };
+                        context.getContentResolver().registerContentObserver(
+                            Settings.Global.getUriFor("key_lock_app"),
+                            false, contentObserver);
+                        isObserver2 = true;
+                    } catch (Throwable e) {
+                        logE(TAG, "E: " + e);
                     }
                 }
             }
