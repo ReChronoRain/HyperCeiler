@@ -66,7 +66,9 @@ abstract class MusicBaseHook : BaseHook() {
     private val nSize: Float by lazy { mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat() }
     private val hideAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
     private val isAodMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode") }
-
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+    }
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
             runCatching { this@MusicBaseHook.onSuperLyric(data) }
@@ -150,7 +152,7 @@ abstract class MusicBaseHook : BaseHook() {
             val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
 
             val api = when {
-                !hideAodShow && isAodMode -> FocusApi.senddiyFocus(
+                !hideAodShow && isAodMode -> FocusApi.sendDiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -162,9 +164,12 @@ abstract class MusicBaseHook : BaseHook() {
                     rv = remoteDay,
                     timeout = 999_999,
                     picticker = icon,
+                    isShowNotification = isShowNotific,
                     pictickerdark = darkIcon
                 )
-                !hideAodShow && !isAodMode -> FocusApi.senddiyFocus(
+
+                !hideAodShow && !isAodMode -> FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -179,7 +184,9 @@ abstract class MusicBaseHook : BaseHook() {
                     picticker = icon,
                     pictickerdark = darkIcon
                 )
-                else -> FocusApi.senddiyFocus(
+
+                else -> FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     islandFirstFloat = false,
                     addpics = iconsAdd,
                     ticker = text,
@@ -212,6 +219,7 @@ abstract class MusicBaseHook : BaseHook() {
                         island = islandTemplate,
                         baseInfo = baseinfo,
                         updatable = true,
+                        islandFirstFloat = false,
                         enableFloat = false,
                         timeout = 999_999,
                         picticker = icon,
@@ -219,6 +227,7 @@ abstract class MusicBaseHook : BaseHook() {
                     )
                 } else {
                     FocusApi.sendFocus(
+                        islandFirstFloat = false,
                         addpics = iconsAdd,
                         ticker = text,
                         island = islandTemplate,
@@ -264,7 +273,7 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     private fun buildIslandTemplate(modRes: Resources, leftText: String, rightText: String?, musicAppName: String, originalText: String): JSONObject {
-        val shareData = IslandApi.ShareData(
+        val shareData = IslandApi.shareData(
             title = modRes.getString(R.string.system_ui_statusbar_music_share),
             content = modRes.getString(R.string.system_ui_statusbar_music_send),
             sharePic = "miui.focus.share_icon",
@@ -272,18 +281,20 @@ abstract class MusicBaseHook : BaseHook() {
             shareContent = modRes.getString(R.string.system_ui_statusbar_music_send_share_text, musicAppName, originalText)
         )
 
-        val picInfo = if (leftText.length <= 6) IslandApi.PicInfo(pic = "miui.focus.icon") else null
+        val picInfo = if (leftText.length <= 6) IslandApi.picInfo(pic = "miui.focus.icon") else null
 
-        val left = IslandApi.ImageTextInfo(
+        val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
             textInfo = IslandApi.TextInfo(title = leftText)
         )
-        val right = IslandApi.ImageTextInfo(
+        val right = IslandApi.imageTextInfo(
             textInfo = IslandApi.TextInfo(title = rightText ?: ""/*"群里有猫娘"*/),
             type = 2
         )
-        val bigIsland = IslandApi.BigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
-        val smallIsland = IslandApi.SmallIslandArea(picInfo = IslandApi.PicInfo(pic = "miui.focus.icon"))
+        val bigIsland =
+            IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
+        val smallIsland =
+            IslandApi.SmallIslandArea(picInfo = IslandApi.picInfo(pic = "miui.focus.icon"))
         return IslandApi.IslandTemplate(
             shareData = shareData,
             bigIslandArea = bigIsland,
