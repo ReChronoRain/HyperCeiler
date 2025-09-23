@@ -36,19 +36,19 @@ object EggHelp {
     }
 
     private fun buildIslandTemplate(title: String): JSONObject {
-        val picInfo = IslandApi.PicInfo(pic = "miui.focus.pic_ticker")
-        val left = IslandApi.ImageTextInfo(
+        val picInfo = IslandApi.picInfo(pic = "miui.focus.pic_ticker")
+        val left = IslandApi.imageTextInfo(
             textInfo = IslandApi.TextInfo(title = title),
             picInfo = picInfo
         )
-        val right = IslandApi.ImageTextInfo(
+        val right = IslandApi.imageTextInfo(
             textInfo = IslandApi.TextInfo(title = " "),
             type = 2
         )
         val bigIsland =
-            IslandApi.BigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
+            IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
         val smallIsland =
-            IslandApi.SmallIslandArea(picInfo = IslandApi.PicInfo(pic = "miui.focus.pic_ticker"))
+            IslandApi.SmallIslandArea(picInfo = IslandApi.picInfo(pic = "miui.focus.pic_ticker"))
         return IslandApi.IslandTemplate(
             bigIslandArea = bigIsland,
             smallIslandArea = smallIsland

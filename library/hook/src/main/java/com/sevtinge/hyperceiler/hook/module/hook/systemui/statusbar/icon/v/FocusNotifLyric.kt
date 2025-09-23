@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v
 
 import android.os.Bundle
 import android.service.notification.StatusBarNotification
+import android.util.Log
 import android.view.Choreographer
 import android.widget.TextView
 import com.hchen.superlyricapi.SuperLyricData
@@ -71,42 +72,46 @@ object FocusNotifLyric : MusicBaseHook() {
     override fun init() {
         // 拦截构建通知的函数
         if (!isShowNotific) {
-            loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
-                .filterByName("requestPipelineRun").first().createBeforeHook {
-                    val statusBarNotification =
-                        it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
-                    if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
-                        it.result = null
+            if (!isMoreHyperOSVersion(3f)) {
+                loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
+                    .filterByName("requestPipelineRun").first().createBeforeHook {
+                        val statusBarNotification =
+                            it.args[0].getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
+                        if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
+                            it.result = null
+                        }
                     }
-                }
+            }
         }
 
-        // 拦截初始化状态栏焦点通知文本布局
-        var unhook: XC_MethodHook.Unhook? = null
-        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
-            .filterByName("onCreateView")
-            .first().createHook {
-                before {
-                    unhook = loadClass("com.android.systemui.statusbar.widget.FocusedTextView").constructorFinder()
-                        .filterByParamCount(3)
-                        .first().createAfterHook {
-                            focusTextViewList += it.thisObject as TextView
-                        }
+        if (!isMoreHyperOSVersion(3f)) {// 拦截初始化状态栏焦点通知文本布局
+            var unhook: XC_MethodHook.Unhook? = null
+            loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
+                .filterByName("onCreateView")
+                .first().createHook {
+                    before {
+                        unhook =
+                            loadClass("com.android.systemui.statusbar.widget.FocusedTextView").constructorFinder()
+                                .filterByParamCount(3)
+                                .first().createAfterHook {
+                                    focusTextViewList += it.thisObject as TextView
+                                }
+                    }
+                    after {
+                        unhook?.unhook()
+                    }
                 }
-                after {
-                    unhook?.unhook()
-                }
-            }
 
-        // 构建通知栏通知函数
-        // loadClass("com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector").methodFinder()
-        //     .filterByName("createRemoteViews").first())
-        // 重设 mLastAnimationTime，取消闪烁动画(让代码以为刚播放过动画，所以这次不播放)
-        loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptView").methodFinder()
-            .filterByName("setData")
-            .first().createBeforeHook {
-                it.thisObject.setLongField("mLastAnimationTime", System.currentTimeMillis())
-            }
+            // 构建通知栏通知函数
+            // loadClass("com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector").methodFinder()
+            //     .filterByName("createRemoteViews").first())
+            // 重设 mLastAnimationTime，取消闪烁动画(让代码以为刚播放过动画，所以这次不播放)
+            loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptView").methodFinder()
+                .filterByName("setData")
+                .first().createBeforeHook {
+                    it.thisObject.setLongField("mLastAnimationTime", System.currentTimeMillis())
+                }
+        }
 
     }
 
@@ -155,29 +160,31 @@ object FocusNotifLyric : MusicBaseHook() {
 
     override fun onSuperLyric(data: SuperLyricData) {
         val lyric = data.lyric
-        focusTextViewList.forEach { textView ->
-            textView.post {
-                if (lastLyric == textView.text) {
-                    if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
-                        val m0 = textView.getObjectFieldOrNull("mMarquee")
-                        m0?.apply {
-                            // 设置速度并且调用停止函数,重置歌词位置
-                            setFloatField("mPixelsPerMs", 0f)
-                            callMethod("stop")
+        if (!isMoreHyperOSVersion(3f)) {
+            focusTextViewList.forEach { textView ->
+                textView.post {
+                    if (lastLyric == textView.text) {
+                        if (XposedHelpers.getAdditionalStaticField(textView, "is_scrolling") == 1) {
+                            val m0 = textView.getObjectFieldOrNull("mMarquee")
+                            m0?.apply {
+                                // 设置速度并且调用停止函数,重置歌词位置
+                                setFloatField("mPixelsPerMs", 0f)
+                                callMethod("stop")
+                            }
+                        }
+                        textView.text = lyric
+                        lastLyric = lyric
+                    }
+                    val key = textView.hashCode()
+                    val startScroll = runnablePool.getOrPut(key) {
+                        Runnable {
+                            startScroll(textView)
+                            runnablePool.remove(key)
                         }
                     }
-                    textView.text = lyric
-                    lastLyric = lyric
+                    textView.handler?.removeCallbacks(startScroll)
+                    textView.postDelayed(startScroll, MARQUEE_DELAY)
                 }
-                val key = textView.hashCode()
-                val startScroll = runnablePool.getOrPut(key) {
-                    Runnable {
-                        startScroll(textView)
-                        runnablePool.remove(key)
-                    }
-                }
-                textView.handler?.removeCallbacks(startScroll)
-                textView.postDelayed(startScroll, MARQUEE_DELAY)
             }
         }
 
