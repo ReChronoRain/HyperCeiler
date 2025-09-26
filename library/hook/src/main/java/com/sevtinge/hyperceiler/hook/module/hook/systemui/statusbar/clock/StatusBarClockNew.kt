@@ -53,7 +53,7 @@ object StatusBarClockNew : BaseHook() {
 
     private val secondsFrameCallback = SecondsFrameCallback().initial()
 
-    private val updateTimeMethodCache = ConcurrentHashMap<Class<*>, Method?>()
+    private val updateTimeMethodCache = ConcurrentHashMap<Class<*>, Method>()
 
     private val formatExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor() }
 
@@ -249,8 +249,8 @@ object StatusBarClockNew : BaseHook() {
                             updateTimeMethodCache.computeIfAbsent(miuiClock.javaClass) { cls ->
                                 runCatching {
                                     findMethodInHierarchy(cls, "updateTime")
-                                }.getOrNull()
-                            } ?: return@createAfterHook
+                                }.getOrNull()!!
+                            }
 
                         secondsFrameCallback.registerClock(miuiClock, updateTimeMethod)
                     }
@@ -308,12 +308,12 @@ object StatusBarClockNew : BaseHook() {
 
         val expectedTextSize = when {
             clockSizeS != 12 && name == "clock" -> clockSizeS.toFloat()
+            // TODO：通知中心大时钟无法调整字体大小，待排查
             clockSizeB != 50 && name == "big_time" -> clockSizeB.toFloat()
             clockSizeN != 12 && name in setOf(
                 "date_time",
                 "horizontal_time"
             ) -> clockSizeN.toFloat()
-
             clockSizeP != 12 && name == "pad_clock" -> clockSizeP.toFloat()
             else -> -1f
         }
@@ -356,7 +356,7 @@ object StatusBarClockNew : BaseHook() {
             bold = shouldUseBold,
             textSize = if (expectedTextSize > 0) expectedTextSize else text.textSize,
             textAlignment = expectedAlign ?: text.textAlignment,
-            lineSpacingMult = expectedLineSpacingMult ?: 1.0f,
+            lineSpacingMult = expectedLineSpacingMult ?: 0.8f,
             paddingLeft = left,
             paddingTop = top,
             paddingRight = right,
@@ -409,10 +409,7 @@ object StatusBarClockNew : BaseHook() {
         val localFormatSb = StringBuilder(64)
         when (name) {
             "clock" -> localFormatSb.append(sClockName)
-            "big_time" -> if (isSync) localFormatSb.append(safeFormatB) else localFormatSb.append(
-                safeFormatS
-            )
-
+            "big_time" -> if (isSync) localFormatSb.append(safeFormatB) else localFormatSb.append(safeFormatS)
             "pad_clock" -> localFormatSb.append(safeFormatP)
             else -> localFormatSb.append(safeFormatN)
         }
@@ -426,7 +423,6 @@ object StatusBarClockNew : BaseHook() {
 
         formatExecutor.submit {
             try {
-
                 if (setTimeMethod != null) {
                     setTimeMethod.isAccessible = true
                     setTimeMethod.invoke(calendarObj, System.currentTimeMillis())
@@ -436,9 +432,8 @@ object StatusBarClockNew : BaseHook() {
 
                 if (formatMethod != null) {
                     val tb = StringBuilder(128)
-                    val fb = localFormatSb
                     formatMethod.isAccessible = true
-                    formatMethod.invoke(calendarObj, context, tb, fb)
+                    formatMethod.invoke(calendarObj, context, tb, localFormatSb)
                     val final = tb.toString()
                     textV.post { textV.text = final }
                 } else {
@@ -515,7 +510,7 @@ object StatusBarClockNew : BaseHook() {
         fun registerClock(textView: TextView, updateTimeMethod: Method) {
             if (!clockMap.contains(textView)) {
                 updateTimeMethod.isAccessible = true
-                clockMap.put(textView, updateTimeMethod)
+                clockMap[textView] = updateTimeMethod
                 textView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {}
 

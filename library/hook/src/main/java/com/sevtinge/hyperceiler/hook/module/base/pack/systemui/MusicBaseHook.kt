@@ -45,7 +45,6 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.scale
 import com.hchen.superlyricapi.ISuperLyric
 import com.hchen.superlyricapi.SuperLyricData
 import com.hchen.superlyricapi.SuperLyricTool
@@ -142,7 +141,7 @@ abstract class MusicBaseHook : BaseHook() {
 
         val tf = extraData.translation
 
-        // senddiyFocus first, fallback to sendFocus
+        // sendDiyFocus first, fallback to sendFocus
         runCatching {
             // RemoteViews
             val remoteDay = buildRemoteViews(modRes, tf, text)
@@ -150,7 +149,7 @@ abstract class MusicBaseHook : BaseHook() {
             val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
 
             val api = when {
-                !hideAodShow && isAodMode -> FocusApi.senddiyFocus(
+                !hideAodShow && isAodMode -> FocusApi.sendDiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -164,7 +163,7 @@ abstract class MusicBaseHook : BaseHook() {
                     picticker = icon,
                     pictickerdark = darkIcon
                 )
-                !hideAodShow && !isAodMode -> FocusApi.senddiyFocus(
+                !hideAodShow && !isAodMode -> FocusApi.sendDiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -179,7 +178,7 @@ abstract class MusicBaseHook : BaseHook() {
                     picticker = icon,
                     pictickerdark = darkIcon
                 )
-                else -> FocusApi.senddiyFocus(
+                else -> FocusApi.sendDiyFocus(
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -264,7 +263,7 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     private fun buildIslandTemplate(modRes: Resources, leftText: String, rightText: String?, musicAppName: String, originalText: String): JSONObject {
-        val shareData = IslandApi.ShareData(
+        val shareData = IslandApi.shareData(
             title = modRes.getString(R.string.system_ui_statusbar_music_share),
             content = modRes.getString(R.string.system_ui_statusbar_music_send),
             sharePic = "miui.focus.share_icon",
@@ -272,18 +271,18 @@ abstract class MusicBaseHook : BaseHook() {
             shareContent = modRes.getString(R.string.system_ui_statusbar_music_send_share_text, musicAppName, originalText)
         )
 
-        val picInfo = if (leftText.length <= 6) IslandApi.PicInfo(pic = "miui.focus.icon") else null
+        val picInfo = if (leftText.length <= 6) IslandApi.picInfo(pic = "miui.focus.icon") else null
 
-        val left = IslandApi.ImageTextInfo(
+        val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
             textInfo = IslandApi.TextInfo(title = leftText)
         )
-        val right = IslandApi.ImageTextInfo(
+        val right = IslandApi.imageTextInfo(
             textInfo = IslandApi.TextInfo(title = rightText ?: ""/*"群里有猫娘"*/),
             type = 2
         )
-        val bigIsland = IslandApi.BigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
-        val smallIsland = IslandApi.SmallIslandArea(picInfo = IslandApi.PicInfo(pic = "miui.focus.icon"))
+        val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
+        val smallIsland = IslandApi.SmallIslandArea(picInfo = IslandApi.picInfo(pic = "miui.focus.icon"))
         return IslandApi.IslandTemplate(
             shareData = shareData,
             bigIslandArea = bigIsland,
@@ -377,12 +376,6 @@ abstract class MusicBaseHook : BaseHook() {
         return createBitmap(1, 1)
     }
 
-    private fun scaleBitmap(src: Bitmap, scale: Float): Bitmap {
-        val w = maxOf(1, (src.width * scale).toInt())
-        val h = maxOf(1, (src.height * scale).toInt())
-        return src.scale(w, h)
-    }
-
     private fun circleCropBitmap(src: Bitmap): Bitmap {
         // center-crop to a square first
         val size = min(src.width, src.height)
@@ -429,8 +422,7 @@ abstract class MusicBaseHook : BaseHook() {
 
         val chosenCharIndex = when {
             leftValid -> {
-                val leftLen = left
-                if (leftLen > config.maxLength) approxCharIndex else left
+                if (left > config.maxLength) approxCharIndex else left
             }
             rightValid -> right
             else -> approxCharIndex
