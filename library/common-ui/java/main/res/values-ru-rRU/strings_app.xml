@@ -31,7 +31,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">OdiNoKiY KoT</string>
-    <string name="translator_url">https://t.me/hyper_rus https://t.me/da_elki_palki</string>
+    <string name="translator_url">https://t.me/da_elki_palki</string>
     <string name="home">Главная</string>
     <string name="help">Помощь</string>
     <string name="settings">Настройки</string>
