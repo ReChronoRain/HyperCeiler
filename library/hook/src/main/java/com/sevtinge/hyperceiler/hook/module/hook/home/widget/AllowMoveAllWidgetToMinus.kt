@@ -20,15 +20,38 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.widget
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.setBooleanField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AllowMoveAllWidgetToMinus : BaseHook() {
     override fun init() {
-        try {
+        if (!isMoreHyperOSVersion(3f)) {
+            oldHookCode()
+        } else {
+            runCatching {
+                loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
+                    .filterByName("canDragToPa")
+                    .filterByParamCount(2)
+                    .single().createHook {
+                        before {
+                            val dragInfo = it.args[1].callMethod("getDragInfo")
+                            dragInfo?.setBooleanField("isMIUIWidget", true)
+                        }
+                    }
+            }.onFailure {
+                logE(TAG, "init failed, ${it.message} callback OldHook Code")
+                oldHookCode()
+            }
+        }
+    }
+
+    fun oldHookCode() {
+        runCatching {
             loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
                 .filterByName("canDragToPa")
                 .filterByParamCount(2)
@@ -46,7 +69,8 @@ object AllowMoveAllWidgetToMinus : BaseHook() {
                             launcherCallbacks != null && !isDraggingFromAssistant && !isDraggingToAssistant && i != 1
                     }
                 }
-        } catch (_: Exception) {
+        }.onFailure {
+            logE(TAG, "init failed, ${it.message} callback code")
             loadClass("com.miui.home.launcher.Workspace").methodFinder()
                 .filterByName("canDragToPa")
                 .single().createHook {
@@ -70,6 +94,5 @@ object AllowMoveAllWidgetToMinus : BaseHook() {
                     }
                 }
         }
-
     }
 }
