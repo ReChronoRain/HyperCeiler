@@ -25,15 +25,20 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AlwaysShowCleanUp: BaseHook() {
+
+    val hideCleanUp by lazy {
+        mPrefsMap.getBoolean("home_recent_hide_clean_up")
+    }
+
     override fun init() {
         loadClass(
             when (isPad()) {
                 false -> "com.miui.home.recents.views.RecentsContainer"
                 true -> "com.miui.home.recents.views.RecentsDecorations"
             }
-        ).methodFinder().filterByName("updateClearContainerVisible")
+        ).methodFinder().filterByName("isClearContainerVisible")
             .first().createHook {
-                returnConstant(true)
+                returnConstant(!hideCleanUp)
             }
     }
 }

@@ -717,6 +717,11 @@
         <item>@string/android_blur</item>
     </string-array>
 
+    <string-array name="blur_switch_new">
+        <item>@string/no_blur</item>
+        <item>@string/miui_blur</item>
+    </string-array>
+
     <string-array name="blur_switch_per">
         <item>@string/no_blur</item>
         <item>@string/miui_android_blur</item>
@@ -727,6 +732,11 @@
         <item>0</item>
         <item>1</item>
         <item>2</item>
+    </string-array>
+
+    <string-array name="blur_switch_value_new">
+        <item>0</item>
+        <item>1</item>
     </string-array>
 
     <string-array name="log_level">

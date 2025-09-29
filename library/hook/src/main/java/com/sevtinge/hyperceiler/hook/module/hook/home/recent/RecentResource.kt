@@ -40,7 +40,7 @@ object RecentResource : BaseHook() {
             if (hookMap.isKeyExist(resName)) if (hookMap[resName]?.type == resType) {
                 param.result = hookMap[resName]?.afterValue
             }
-        } catch (ignore: Exception) {
+        } catch (_: Throwable) {
         }
     }
 

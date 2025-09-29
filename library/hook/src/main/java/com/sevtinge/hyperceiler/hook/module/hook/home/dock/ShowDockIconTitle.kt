@@ -18,15 +18,22 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.dock
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
+import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.hookBeforeMethod
 
-object ShowDockIconTitle : BaseHook() {
-    override fun init() {
+object ShowDockIconTitle : HomeBaseHookNew() {
 
-        "com.miui.home.launcher.DeviceConfig".hookBeforeMethod("isHotseatsAppTitleHided") {
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        DEVICE_CONFIG_NEW.findClass().hookBeforeMethod("isHotseatsAppTitleHided") {
             it.result = false
         }
+    }
 
+    override fun initBase() {
+        DEVICE_CONFIG_OLD.findClass().hookBeforeMethod("isHotseatsAppTitleHided") {
+            it.result = false
+        }
     }
 }

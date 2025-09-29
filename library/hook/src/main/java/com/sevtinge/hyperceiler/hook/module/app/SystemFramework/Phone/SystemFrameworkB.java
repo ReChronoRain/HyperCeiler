@@ -77,6 +77,8 @@ public class SystemFrameworkB extends BaseModule {
         initHook(ConservativeMilletFramework.INSTANCE, mPrefsMap.getBoolean("powerkeeper_conservative_millet"));
         initHook(GMSDozeFixFramework.INSTANCE, mPrefsMap.getBoolean("powerkeeper_gms_doze_fix"));
 
+        initHook(new PackagePermissions(), true);
+        initHook(new GlobalActions(), true);
         if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
             initHook(new EffectBinderProxy());
             initHook(new AutoEffectSwitchForSystem());

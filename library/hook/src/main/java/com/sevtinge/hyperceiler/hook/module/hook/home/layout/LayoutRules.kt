@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
 import android.content.Context
-import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
@@ -29,8 +29,9 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
 import kotlin.math.max
 
-object LayoutRules : HomeBaseHook() {
+object LayoutRules : HomeBaseHookNew() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
+    private const val PHONE_RULES_NEW = "com.miui.home.common.gridconfig.PhoneDeviceRules"
     private const val HOME_SETTINGS = "com.miui.home.settings.MiuiHomeSettings"
 
     private val isUnlockGridsHook by lazy {
@@ -54,7 +55,74 @@ object LayoutRules : HomeBaseHook() {
     private var currentCellWidth = 0
     private var currentCellHeight = 0
 
-    override fun initForNewHome() {
+    @Version(isPad = false, min = 600000000)
+    private fun isOS3Hook() {
+        if (isUnlockGridsHook) {
+            sCellCountX = mPrefsMap.getInt("home_layout_unlock_grids_cell_x", 0)
+            sCellCountY = mPrefsMap.getInt("home_layout_unlock_grids_cell_y", 0)
+            logI(TAG, lpparam.packageName, "Setup layout rules: ${sCellCountX}x${sCellCountY}")
+
+            findAndHookMethod(
+                HOME_SETTINGS, "setUpScreenCellsConfig",
+                Boolean::class.java, Int::class.java,
+                object : MethodHook() {
+                    override fun before(param: MethodHookParam) {
+                        val settings = param.thisObject
+
+                        val mMiuiHomeConfig = settings.getObjectField("mMiuiHomeConfig")
+                        val mScreenCellsConfig = settings.getObjectField("mScreenCellsConfig")
+
+                        mMiuiHomeConfig?.callMethod("removePreference", mScreenCellsConfig)
+                        logI(
+                            TAG, lpparam.packageName,
+                            "Remove preference($mScreenCellsConfig) form MIUIHomeSettings"
+                        )
+                        param.result = null
+                    }
+                }
+            )
+        }
+
+        findAndHookMethod(
+            PHONE_RULES_NEW, "calGridSize",
+            Context::class.java, Int::class.java, Int::class.java, Int::class.java, Boolean::class.java, Int::class.java,
+            PhoneCalGridSizeHookNew
+        )
+
+        findAndHookMethod(GRID_CONFIG_NEW, "getCellWidth", object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                if (currentCellWidth != 0) {
+                    param.result = currentCellWidth
+                }
+            }
+        })
+
+        findAndHookMethod(GRID_CONFIG_NEW, "getCellHeight", object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                if (currentCellHeight != 0) {
+                    param.result = currentCellHeight
+                }
+            }
+        })
+
+        findAndHookMethod(GRID_CONFIG_NEW, "getCountCellX", object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                if (isUnlockGridsHook && currentCellCountX != 0) {
+                    param.result = currentCellCountX
+                }
+            }
+        })
+
+        findAndHookMethod(GRID_CONFIG_NEW, "getCountCellY", object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                if (isUnlockGridsHook && currentCellCountY != 0) {
+                    param.result = currentCellCountY
+                }
+            }
+        })
+    }
+
+    override fun initBase() {
         if (isUnlockGridsHook) {
             sCellCountX = mPrefsMap.getInt("home_layout_unlock_grids_cell_x", 0)
             sCellCountY = mPrefsMap.getInt("home_layout_unlock_grids_cell_y", 0)
@@ -87,7 +155,7 @@ object LayoutRules : HomeBaseHook() {
             PhoneCalGridSizeHook
         )
 
-        findAndHookMethod(GRID_CONFIG, "getCellWidth", object : MethodHook() {
+        findAndHookMethod(GRID_CONFIG_OLD, "getCellWidth", object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 if (currentCellWidth != 0) {
                     param.result = currentCellWidth
@@ -95,7 +163,7 @@ object LayoutRules : HomeBaseHook() {
             }
         })
 
-        findAndHookMethod(GRID_CONFIG, "getCellHeight", object : MethodHook() {
+        findAndHookMethod(GRID_CONFIG_OLD, "getCellHeight", object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 if (currentCellHeight != 0) {
                     param.result = currentCellHeight
@@ -103,7 +171,7 @@ object LayoutRules : HomeBaseHook() {
             }
         })
 
-        findAndHookMethod(GRID_CONFIG, "getCountCellX", object : MethodHook() {
+        findAndHookMethod(GRID_CONFIG_OLD, "getCountCellX", object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 if (isUnlockGridsHook && currentCellCountX != 0) {
                     param.result = currentCellCountX
@@ -111,13 +179,130 @@ object LayoutRules : HomeBaseHook() {
             }
         })
 
-        findAndHookMethod(GRID_CONFIG, "getCountCellY", object : MethodHook() {
+        findAndHookMethod(GRID_CONFIG_OLD, "getCountCellY", object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 if (isUnlockGridsHook && currentCellCountY != 0) {
                     param.result = currentCellCountY
                 }
             }
         })
+    }
+
+    object PhoneCalGridSizeHookNew : MethodHook() {
+        override fun after(param: MethodHookParam) {
+            val rules = param.thisObject
+
+            val mCellWidth = rules.getIntField("mCellWidth")
+            val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
+            val mCellCountY = rules.getIntField("mCellCountY")
+            val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
+            val mWorkspaceCellPaddingBottom =
+                rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
+                    .callMethodAs<Int>("getValue")
+
+            val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt(
+                        "home_layout_workspace_padding_top",
+                        0
+                    ).toFloat()
+                )
+            } else {
+                -1
+            }
+
+            val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt(
+                        "home_layout_workspace_padding_bottom",
+                        0
+                    ).toFloat()
+                )
+            } else {
+                -1
+            }
+
+            val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt(
+                        "home_layout_workspace_padding_horizontal",
+                        0
+                    ).toFloat()
+                )
+            } else {
+                -1
+            }
+
+            currentCellCountX = if (sCellCountX == 0) {
+                param.args[1] as Int
+            } else {
+                sCellCountX
+            }
+            currentCellCountY = if (sCellCountY == 0) {
+                mCellCountY
+            } else {
+                sCellCountY
+            }
+
+            currentCellWidth = mCellWidth
+            currentCellHeight = mCellWidth
+
+            val cellWorkspaceHeight = mCellWidth * mCellCountY
+
+            if (isUnlockGridsHook || isSetWSPaddingSideHook) {
+                currentCellWidth = (mCellWidth - if (isSetWSPaddingSideHook) {
+                    sWorkspaceCellSide
+                } else {
+                    mWorkspaceCellSideDefault
+                }) / currentCellCountX
+            }
+
+            if (isUnlockGridsHook || isSetWSPaddingTopHook || isSetWSPaddingBottomHook) {
+                currentCellHeight = (cellWorkspaceHeight + if (isSetWSPaddingTopHook) {
+                    mWorkspaceTopPadding - sWorkspacePaddingTop
+                } else {
+                    0
+                } + if (isSetWSPaddingBottomHook) {
+                    mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
+                } else {
+                    0
+                }) / currentCellCountY
+            }
+
+            rules.setIntField("mCellWidth", max(currentCellWidth, currentCellHeight))
+
+            if (isSetWSPaddingTopHook) {
+                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                    .callMethod("setValue", sWorkspacePaddingTop)
+            }
+
+            if (isSetWSPaddingBottomHook) {
+                rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
+                    .callMethod("setValue", sWorkspacePaddingBottom)
+            }
+
+            if (isSetWSPaddingSideHook) {
+                rules.setIntField(
+                    "mWorkspaceCellSide",
+                    (mCellWidth - currentCellWidth * currentCellCountX) / 2
+                )
+            }
+
+            logI(
+                TAG, lpparam.packageName,
+                """ |
+                    |Applied layout rules:
+                    |  cellCountX    => $currentCellCountX
+                    |  cellCountY    => $currentCellCountY
+                    |  paddingTop    => $sWorkspacePaddingTop
+                    |  paddingBottom => $sWorkspacePaddingBottom
+                    |  cellSide      => $sWorkspaceCellSide
+                    |  cellSizeO     => $mCellWidth
+                    |  cellWidth     => $currentCellWidth
+                    |  cellHeight    => $currentCellHeight
+                """.trimMargin()
+            )
+        }
     }
 
     object PhoneCalGridSizeHook : MethodHook() {

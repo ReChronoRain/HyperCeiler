@@ -21,36 +21,36 @@
     app:myLocation="@string/home_dock"
     app:quick_restart="com.miui.home">
     <PreferenceCategory>
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_unlock_hotseat"
-        android:title="@string/home_dock_unlock_hotseat" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_unlock_hotseat"
+            android:title="@string/home_dock_unlock_hotseat" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_icon_title"
-        android:title="@string/home_dock_icon_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_disable_recents_icon"
+            android:title="@string/home_dock_disable_recents_icon" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_dock_disable_recents_icon"
-        android:title="@string/home_dock_disable_recents_icon" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_icon_title"
+            android:title="@string/home_dock_icon_title" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:disableDependentsState="true"
-        android:key="prefs_key_home_dock_hide_dock"
-        android:summary="@string/home_dock_hide_dock_desc"
-        android:title="@string/home_dock_hide_dock"
-        app:isPreferenceVisible="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_home_dock_hide_dock"
+            android:summary="@string/home_dock_hide_dock_desc"
+            android:title="@string/home_dock_hide_dock"
+            app:isPreferenceVisible="false" />
 
-    <SwitchPreference
-        android:defaultValue="false"
-        android:dependency="prefs_key_home_dock_hide_dock"
-        android:key="prefs_key_home_dock_slide_up_only_show_dock"
-        android:summary="@string/home_dock_slide_up_only_show_dock_desc"
-        android:title="@string/home_dock_slide_up_only_show_dock"
-        app:isPreferenceVisible="false" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_dock_hide_dock"
+            android:key="prefs_key_home_dock_slide_up_only_show_dock"
+            android:summary="@string/home_dock_slide_up_only_show_dock_desc"
+            android:title="@string/home_dock_slide_up_only_show_dock"
+            app:isPreferenceVisible="false" />
 
     </PreferenceCategory>
 
@@ -81,11 +81,11 @@
             android:title="@string/home_dock_bg_custom" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="150"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_height"
             android:summary="@string/home_dock_bg_height_desc"
             android:title="@string/home_dock_bg_height"
+            app:defaultValue="150"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="300"
@@ -93,11 +93,11 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="25"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_margin_horizontal"
             android:summary="@string/home_dock_bg_margin_horizontal_desc"
             android:title="@string/home_dock_bg_margin_horizontal"
+            app:defaultValue="25"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="160"
@@ -117,11 +117,11 @@
             app:showSeekBarValue="true" /-->
 
         <SeekBarPreferenceCompat
-            app:defaultValue="15"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_margin_bottom"
             android:summary="@string/home_dock_bg_margin_bottom_desc"
             android:title="@string/bottom_margin"
+            app:defaultValue="15"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="150"
@@ -129,10 +129,10 @@
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
-            app:defaultValue="30"
             android:dependency="prefs_key_home_dock_bg_custom_enable"
             android:key="prefs_key_home_dock_bg_radius"
             android:title="@string/custom_background_corner_radius"
+            app:defaultValue="30"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="60"

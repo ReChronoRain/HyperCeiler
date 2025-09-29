@@ -20,19 +20,25 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.layout;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 
-public class HotSeatsMarginTop extends BaseHook {
+public class HotSeatsMarginTop extends HomeBaseHookNew {
 
-    Class<?> mDeviceConfig;
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod(DEVICE_CONFIG_NEW, "calcHotSeatsMarginTop", Context.class, boolean.class, new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                Context context = (Context) param.args[0];
+                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
+            }
+        });
+    }
 
     @Override
-    public void init() {
-
-        mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
-
-        findAndHookMethod(mDeviceConfig, "calcHotSeatsMarginTop", Context.class, boolean.class, new MethodHook() {
+    public void initBase() {
+        findAndHookMethod(DEVICE_CONFIG_OLD, "calcHotSeatsMarginTop", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.args[0];

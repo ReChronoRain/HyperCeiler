@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.app.Home.Phone;
+package com.sevtinge.hyperceiler.hook.module.app.Home.os2;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
@@ -90,7 +90,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.FreeformCardBackgroundColor;
-import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideCleanUp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideFreeform;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideRecentCard;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideStatusBarWhenEnterRecent;
@@ -133,7 +132,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
 import java.util.Objects;
 
 @HookBase(targetPackage = "com.miui.home", isPad = 2, targetOSVersion = 2f)
-public class HomeOld extends BaseModule {
+public class HomePhoneOld extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -209,10 +208,9 @@ public class HomeOld extends BaseModule {
         initHook(TaskViewHorizontal.INSTANCE, true);
         initHook(TaskViewVertical.INSTANCE, true);
         initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
-        initHook(new HideCleanUp(), mPrefsMap.getBoolean("home_recent_hide_clean_up"));
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
-        initHook(CardTextColor.INSTANCE, true);
-        initHook(CardTextSize.INSTANCE, true);
+        initHook(CardTextSize.INSTANCE, mPrefsMap.getInt("home_recent_text_size", -1) != -1);
+        initHook(CardTextColor.INSTANCE, mPrefsMap.getInt("home_recent_text_color", -1) != -1);
         initHook(UnlockPin.INSTANCE, mPrefsMap.getBoolean("home_recent_unlock_pin"));
         initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
         initHook(RemoveIcon.INSTANCE, mPrefsMap.getBoolean("home_recent_remove_icon"));
@@ -222,7 +220,7 @@ public class HomeOld extends BaseModule {
         initHook(TaskViewHeaderOffset.INSTANCE, mPrefsMap.getInt("task_view_header_horizontal_offset", 30) != 30);
         initHook(TaskViewHeight.INSTANCE, mPrefsMap.getInt("home_recent_task_view_height", 52) != 52);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
-        initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
+        initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up") || mPrefsMap.getBoolean("home_recent_hide_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
         initHook(new ShowLaunch(), mPrefsMap.getBoolean("home_recent_show_launch"));
         initHook(HideRecentCard.INSTANCE, !mPrefsMap.getStringSet("home_recent_hide_card").isEmpty());

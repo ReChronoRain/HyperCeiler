@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 import android.animation.ObjectAnimator
 import android.view.MotionEvent
 import android.view.View
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.findClass
@@ -30,9 +30,18 @@ import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 
-object RemoveCardAnim : BaseHook() {
-    override fun init() {
+object RemoveCardAnim : HomeBaseHookNew() {
 
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        hook(findClass("com.miui.home.common.device.DeviceConfigs"))
+    }
+
+    override fun initBase() {
+        hook(findClass("com.miui.home.launcher.DeviceConfig"))
+    }
+
+    private fun hook(clazz: Class<*>) {
         "com.miui.home.recents.views.SwipeHelperForRecents".hookAfterMethod("onTouchEvent", MotionEvent::class.java) {
             if (it.thisObject.getObjectField("mCurrView") != null) {
                 val taskView2 = it.thisObject.getObjectField("mCurrView") as View
@@ -41,12 +50,13 @@ object RemoveCardAnim : BaseHook() {
                 taskView2.scaleY = 1f
             }
         }
+
         "com.miui.home.recents.TaskStackViewLayoutStyleHorizontal".replaceMethod(
             "createScaleDismissAnimation", View::class.java, Float::class.java
         ) {
             val view = it.args[0] as View
             val getScreenHeight =
-                findClass("com.miui.home.launcher.DeviceConfig").callStaticMethod("getScreenHeight") as Int
+                clazz.callStaticMethod("getScreenHeight") as Int
             val ofFloat =
                 ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.translationY, -getScreenHeight * 1.1484375f)
             ofFloat.duration = 200
@@ -70,6 +80,5 @@ object RemoveCardAnim : BaseHook() {
                 (mTaskViewHeight / 2.0f + afterFrictionValue * 2) - (f3 / 2.0f)
             )
         }
-
     }
 }

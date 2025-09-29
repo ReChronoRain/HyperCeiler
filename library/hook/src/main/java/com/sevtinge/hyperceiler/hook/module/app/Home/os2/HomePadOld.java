@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.app.Home.Pad;
+package com.sevtinge.hyperceiler.hook.module.app.Home.os2;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
@@ -91,7 +91,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.FreeformCardBackgroundColor;
-import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideCleanUp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideFreeform;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideRecentCard;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.HideStatusBarWhenEnterRecent;
@@ -135,7 +134,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
 import java.util.Objects;
 
 @HookBase(targetPackage = "com.miui.home", isPad = 1, targetOSVersion = 2f)
-public class HomeOld extends BaseModule {
+public class HomePadOld extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
@@ -143,16 +142,16 @@ public class HomeOld extends BaseModule {
         // 手势
         initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
         initHook(new CornerSlide(),
-                mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
-                        mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0
+            mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
+                mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0
         );
         initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);
         initHook(new ScreenSwipe(), mPrefsMap.getInt("home_gesture_up_swipe_action", 0) > 0 ||
-                mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0 ||
-                mPrefsMap.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
-                mPrefsMap.getInt("home_gesture_down_swipe2_action", 0) > 0);
+            mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0 ||
+            mPrefsMap.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
+            mPrefsMap.getInt("home_gesture_down_swipe2_action", 0) > 0);
         initHook(new HotSeatSwipe(), mPrefsMap.getInt("home_gesture_left_swipe_action", 0) > 0
-                || mPrefsMap.getInt("home_gesture_right_swipe_action", 0) > 0);
+            || mPrefsMap.getInt("home_gesture_right_swipe_action", 0) > 0);
         initHook(new ShakeDevice(), mPrefsMap.getInt("home_gesture_shake_action", 0) > 0);
         // initHook(new SwipeAndStop(), mPrefsMap.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
 
@@ -206,10 +205,9 @@ public class HomeOld extends BaseModule {
         initHook(TaskViewHorizontal.INSTANCE, true);
         initHook(TaskViewVertical.INSTANCE, true);
         initHook(HideFreeform.INSTANCE, mPrefsMap.getBoolean("home_recent_hide_freeform"));
-        initHook(new HideCleanUp(), mPrefsMap.getBoolean("home_recent_hide_clean_up"));
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
-        initHook(CardTextColor.INSTANCE, true);
-        initHook(CardTextSize.INSTANCE, true);
+        initHook(CardTextSize.INSTANCE, mPrefsMap.getInt("home_recent_text_size", -1) != -1);
+        initHook(CardTextColor.INSTANCE, mPrefsMap.getInt("home_recent_text_color", -1) != -1);
         initHook(UnlockPin.INSTANCE, mPrefsMap.getBoolean("home_recent_unlock_pin"));
         initHook(RecentText.INSTANCE, !Objects.equals(mPrefsMap.getString("home_recent_text", ""), ""));
         initHook(RemoveIcon.INSTANCE, mPrefsMap.getBoolean("home_recent_remove_icon"));
@@ -219,7 +217,7 @@ public class HomeOld extends BaseModule {
         initHook(TaskViewHeaderOffset.INSTANCE, mPrefsMap.getInt("task_view_header_horizontal_offset", 30) != 30);
         initHook(RealMemory.INSTANCE, mPrefsMap.getBoolean("home_recent_show_real_memory"));
         initHook(MemInfoShow.INSTANCE, mPrefsMap.getBoolean("home_recent_show_memory_info"));
-        initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up"));
+        initHook(AlwaysShowCleanUp.INSTANCE, mPrefsMap.getBoolean("always_show_clean_up") || mPrefsMap.getBoolean("home_recent_hide_clean_up"));
         initHook(new BackgroundBlur(), mPrefsMap.getBoolean("home_recent_blur"));
         initHook(new ShowLaunch(), mPrefsMap.getBoolean("home_recent_show_launch"));
         initHook(HideRecentCard.INSTANCE, !mPrefsMap.getStringSet("home_recent_hide_card").isEmpty());
