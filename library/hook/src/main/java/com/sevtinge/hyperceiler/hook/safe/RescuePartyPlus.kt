@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.hook.utils.removeAdditionalInstanceField
 import com.sevtinge.hyperceiler.hook.utils.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHooks
 
 object RescuePartyPlus : BaseHook() {
     private lateinit var handler: CrashHandler
@@ -88,24 +89,24 @@ object RescuePartyPlus : BaseHook() {
                 name == "doRescuePartyPlusStepNew" || name == "doRescuePartyPlusStep"
             }
             .filterByParamTypes(Int::class.java, VersionedPackage::class.java, Context::class.java)
-            .first().createBeforeHook { param ->
+            .toList().createBeforeHooks { param ->
                 val watchdog = param.thisObject
                 val flag = watchdog.getAdditionalInstanceFieldAs<String?>("flag")
                 if (flag == null) {
-                    return@createBeforeHook
+                    return@createBeforeHooks
                 }
 
                 watchdog.removeAdditionalInstanceField("flag")
                 val versionedPackage = param.args[1] as VersionedPackage?
                 if (versionedPackage == null) {
                     param.result = false
-                    return@createBeforeHook
+                    return@createBeforeHooks
                 }
 
                 val mitigationCount = param.args[0] as Int
                 val packageName = versionedPackage.packageName
                 if (packageName != flag) {
-                    return@createBeforeHook
+                    return@createBeforeHooks
                 }
 
                 if (mitigationCount > 1) {
