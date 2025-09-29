@@ -23,10 +23,13 @@ import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
+import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import kotlin.math.max
 
 object LayoutRules : HomeBaseHookNew() {
@@ -84,8 +87,14 @@ object LayoutRules : HomeBaseHookNew() {
         }
 
         findAndHookMethod(
-            PHONE_RULES_NEW, "calGridSize",
-            Context::class.java, Int::class.java, Int::class.java, Int::class.java, Boolean::class.java, Int::class.java,
+            PHONE_RULES_NEW,
+            "calGridSize",
+            Context::class.java,
+            Int::class.java,
+            Int::class.java,
+            Int::class.java,
+            Boolean::class.java,
+            Int::class.java,
             PhoneCalGridSizeHookNew
         )
 
@@ -120,6 +129,20 @@ object LayoutRules : HomeBaseHookNew() {
                 }
             }
         })
+
+        DEVICE_CONFIG_NEW.findClass().methodFinder()
+            .filterByName("getMiuiWidgetSizeSpec")
+            .filterByParamCount(4)
+            .first().createAfterHook { param ->
+                val gridConfig = param.args[0]
+                val spanX = param.args[1] as Int
+                val cellWidth = gridConfig.callMethodAs<Int>("getCellWidth")
+                val iconSize = gridConfig.callMethodAs<Int>("getIconSize")
+
+                val widthSpec = cellWidth * spanX - (cellWidth - iconSize)
+                val spec = param.result as Long
+                param.result = (widthSpec.toLong() shl 32) or (spec and 0xFFFFFFFFL)
+            }
     }
 
     override fun initBase() {
@@ -192,7 +215,9 @@ object LayoutRules : HomeBaseHookNew() {
         override fun after(param: MethodHookParam) {
             val rules = param.thisObject
 
+            val maxGridWidth = rules.getIntField("mScreenWidth")
             val mCellWidth = rules.getIntField("mCellWidth")
+            val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
             val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
@@ -245,12 +270,12 @@ object LayoutRules : HomeBaseHookNew() {
             }
 
             currentCellWidth = mCellWidth
-            currentCellHeight = mCellWidth
+            currentCellHeight = mCellHeight
 
             val cellWorkspaceHeight = mCellWidth * mCellCountY
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
-                currentCellWidth = (mCellWidth - if (isSetWSPaddingSideHook) {
+                currentCellWidth = (maxGridWidth - if (isSetWSPaddingSideHook) {
                     sWorkspaceCellSide
                 } else {
                     mWorkspaceCellSideDefault
@@ -269,7 +294,9 @@ object LayoutRules : HomeBaseHookNew() {
                 }) / currentCellCountY
             }
 
-            rules.setIntField("mCellWidth", max(currentCellWidth, currentCellHeight))
+            val cellSize = max(currentCellWidth, currentCellHeight)
+            rules.setIntField("mCellWidth", cellSize)
+            rules.setIntField("mCellHeight", cellSize)
 
             if (isSetWSPaddingTopHook) {
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
