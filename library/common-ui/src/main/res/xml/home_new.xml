@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory>
+        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
+            android:key="prefs_key_home_gesture"
+            android:title="@string/home_gesture"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings"
+            app:inflatedXml="@xml/home_gesture"/>
+
+        <Preference
+            android:key="prefs_key_home_layout"
+            android:title="@string/home_layout"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeLayoutSettings" />
+
+        <Preference
+            android:key="prefs_key_home_dock"
+            android:title="@string/home_dock"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDockSettings" />
+
+        <Preference
+            android:key="prefs_key_home_drawer"
+            android:title="@string/home_drawer"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDrawerSettings" />
+
+        <Preference
+            android:key="prefs_key_home_recent"
+            android:title="@string/home_recent"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeRecentSettings" />
+
+        <Preference
+            android:key="prefs_key_home_folder"
+            android:title="@string/home_folder"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeFolderSettings" />
+
+    </PreferenceCategory>
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+        android:title="@string/home_widget_allow_moved_to_minus_one_screen" />
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="prefs_key_home_other_disable_prestart"
+        android:title="@string/home_other_disable_prestart" />
+
+    <Preference
+        android:title="@string/home_other_app_icon_hide"
+        android:key="prefs_key_home_other_all_hide_app_activity">
+        <intent
+            android:targetClass="com.miui.home.settings.AllHideAppActivity"
+            android:targetPackage="com.miui.home" />
+    </Preference>
+
+</PreferenceScreen>

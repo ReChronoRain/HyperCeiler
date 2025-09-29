@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.base.pack.home
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 
@@ -93,7 +94,8 @@ abstract class HomeBaseHookNew : BaseHook() {
                         m.isAccessible = true
                         m.invoke(this)
                         return
-                    } catch (_: Exception) {
+                    } catch (t: Throwable) {
+                        logE(TAG, lpparam.packageName, t)
                         // 反射调用失败则继续尝试下一个注解方法
                     }
                 }
@@ -104,9 +106,21 @@ abstract class HomeBaseHookNew : BaseHook() {
         initBase()
     }
 
+    @JvmOverloads
+    protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): MethodHook {
+        return object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                param.result = DisplayUtils.dp2px(
+                    mPrefsMap.getInt(key, defaultValue).toFloat()
+                )
+            }
+        }
+    }
+
     companion object {
         const val DEVICE_CONFIG_OLD = "com.miui.home.launcher.DeviceConfig"
         const val DEVICE_CONFIG_NEW = "com.miui.home.common.device.DeviceConfigs"
-        const val GRID_CONFIG = "com.miui.home.launcher.GridConfig"
+        const val GRID_CONFIG_OLD = "com.miui.home.launcher.GridConfig"
+        const val GRID_CONFIG_NEW = "com.miui.home.common.gridconfig.GridConfig"
     }
 }

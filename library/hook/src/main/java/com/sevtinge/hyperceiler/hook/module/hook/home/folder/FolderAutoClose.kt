@@ -19,13 +19,27 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.folder
 
 import android.view.View
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getBooleanField
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 
-object FolderAutoClose : BaseHook() {
-    override fun init() {
+object FolderAutoClose : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        "com.miui.home.launcher.BaseLauncher".hookAfterMethod(
+            "launch", "com.miui.home.launcher.ShortcutInfo", View::class.java
+        ) {
+            val mHasLaunchedAppFromFolder = it.thisObject.getBooleanField("mHasLaunchedAppFromFolder")
+            if (mHasLaunchedAppFromFolder)
+                it.thisObject.getObjectField("mFolderManager")
+                    ?.callMethod("closeFolder", false, false, false, false)
+        }
+    }
+
+    override fun initBase() {
         "com.miui.home.launcher.Launcher".hookAfterMethod(
             "launch", "com.miui.home.launcher.ShortcutInfo", View::class.java
         ) {

@@ -22,13 +22,28 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 
 import android.view.WindowManager;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class BackGestureAreaHeight extends BaseHook {
+public class BackGestureAreaHeight extends HomeBaseHookNew {
+
+    @Version(isPad = true)
+    private void initPadHook() {
+        findAndHookMethodSilently("com.miui.home.recents.GestureStubView", "getGestureStubWindowParam", new MethodHook() {
+            @Override
+            protected void after(final MethodHookParam param) throws Throwable {
+                WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
+                int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);
+                lp.height = Math.round(lp.height / 100.0f * pct);
+                lp.width = Math.round(lp.width / 100.0f * pct);
+                param.setResult(lp);
+            }
+        });
+    }
+
     @Override
-    public void init() {
+    protected void initBase() {
         try {   // 适用于5.39.10929+
             findAndHookMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new replaceHookedMethod() {
                 @Override

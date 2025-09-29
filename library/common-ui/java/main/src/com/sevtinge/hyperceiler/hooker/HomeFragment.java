@@ -19,6 +19,8 @@
 
 package com.sevtinge.hyperceiler.hooker;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.ui.R;
 
@@ -26,6 +28,9 @@ public class HomeFragment extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {
+        if (isMoreHyperOSVersion(3f)) {
+            return R.xml.home_new;
+        }
         return R.xml.home;
     }
 

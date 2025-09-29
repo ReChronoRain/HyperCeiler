@@ -18,26 +18,42 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
-object HideStatusBarWhenEnterRecent : BaseHook() {
-    override fun init() {
+object HideStatusBarWhenEnterRecent : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        loadClass("com.miui.home.launcher.common.StatusBarUtils").methodFinder()
+            .filterByName("isHideStatusBarWhenEnterRecents")
+            .single().createHook {
+                returnConstant(true)
+            }
+
+        loadClass("com.miui.home.launcher.DeviceConfig").methodFinder()
+            .filterByName("keepStatusBarShowingForBetterPerformance")
+            .single().createHook {
+                returnConstant(false)
+            }
+    }
+
+    override fun initBase() {
         // 不应该在默认情况下强制显示
         // if (mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view")) {
         loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder()
             .filterByName("isHideStatusBarWhenEnterRecents")
             .single().createHook {
-            returnConstant(true)
-        }
+                returnConstant(true)
+            }
 
         loadClass("com.miui.home.launcher.DeviceConfig").methodFinder()
             .filterByName("keepStatusBarShowingForBetterPerformance")
             .single().createHook {
-            returnConstant(false)
-        }
+                returnConstant(false)
+            }
         // } else {
         //     mDeviceLevelClass.methodFinder().first {
         //         name == "isHideStatusBarWhenEnterRecents"

@@ -18,17 +18,26 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.folder
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 
-class BigFolderItemMaxCount : BaseHook() {
-    override fun init() {
+class BigFolderItemMaxCount : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        hook("com.miui.home.folder.FolderIcon2x2", "com.miui.home.folder.FolderIconPreviewContainer2X2_")
+    }
+
+    override fun initBase() {
+        hook("com.miui.home.launcher.folder.FolderIcon2x2", "com.miui.home.launcher.folder.FolderIconPreviewContainer2X2_")
+    }
+
+    private fun hook(clazz: String, clazz2: String) {
         findAndHookMethod(
-            "com.miui.home.launcher.folder.FolderIcon2x2", "createOrRemoveView",
-            object : HookTool.MethodHook() {
+            clazz, "createOrRemoveView",
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     val thisObject = param.thisObject
                     val info = thisObject.getObjectFieldAs<Any>("mInfo")
@@ -58,8 +67,8 @@ class BigFolderItemMaxCount : BaseHook() {
         )
 
         findAndHookMethod(
-            "com.miui.home.launcher.folder.FolderIcon2x2", "addItemOnclickListener",
-            object : HookTool.MethodHook() {
+            clazz, "addItemOnclickListener",
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     val container = param.thisObject.callMethodAs<Any>("getMPreviewContainer")
                     val childCount = container.callMethodAs<Int>("getMRealPvChildCount")
@@ -79,8 +88,8 @@ class BigFolderItemMaxCount : BaseHook() {
 
         val hookFolderIconPreviewContainer = { num: Int ->
             findAndHookMethod(
-                "com.miui.home.launcher.folder.FolderIconPreviewContainer2X2_$num", "preSetup2x2",
-                object : HookTool.MethodHook() {
+                "$clazz2$num", "preSetup2x2",
+                object : MethodHook() {
                     override fun before(param: MethodHookParam) {
                         val container = param.thisObject
                         val childCount = container.callMethodAs<Int>("getMRealPvChildCount")

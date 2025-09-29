@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 
@@ -26,9 +27,9 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.R;
 
 import fan.preference.SeekBarPreferenceCompat;
 
@@ -36,6 +37,10 @@ public class HomeRecentSettings extends DashboardFragment {
 
     Preference mHideRecentCard;
     SeekBarPreferenceCompat mTaskViewHeight;
+    SwitchPreference mShowLaunch;
+    SwitchPreference mHideWorldCirculate;
+    SwitchPreference mHideFreeform;
+    SwitchPreference mUnlockPin;
     SwitchPreference mShowMenInfo;
     SwitchPreference mHideCleanIcon;
     SwitchPreference mNotHideCleanIcon;
@@ -47,6 +52,10 @@ public class HomeRecentSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        mShowLaunch = findPreference("prefs_key_home_recent_show_launch");
+        mHideWorldCirculate = findPreference("prefs_key_home_recent_hide_world_circulate");
+        mHideFreeform = findPreference("prefs_key_home_recent_hide_freeform");
+        mUnlockPin = findPreference("prefs_key_home_recent_unlock_pin");
         mHideRecentCard = findPreference("prefs_key_home_recent_hide_card");
         mTaskViewHeight = findPreference("prefs_key_home_recent_task_view_height");
         mShowMenInfo = findPreference("prefs_key_home_recent_show_memory_info");
@@ -55,6 +64,13 @@ public class HomeRecentSettings extends DashboardFragment {
 
         mTaskViewHeight.setVisible(isPad());
         mShowMenInfo.setVisible(isPad());
+
+        if (isMoreHyperOSVersion(3f)) {
+            setFuncHint(mShowLaunch, 1);
+            setFuncHint(mHideWorldCirculate, isPad() ? 1 : 2);
+            setFuncHint(mHideFreeform, 1);
+            setHide(mUnlockPin, false);
+        }
 
         mHideRecentCard.setOnPreferenceClickListener(
                 preference -> {

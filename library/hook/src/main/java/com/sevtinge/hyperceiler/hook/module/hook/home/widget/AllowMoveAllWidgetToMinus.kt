@@ -18,16 +18,35 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.widget
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.hook.utils.setBooleanField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
-object AllowMoveAllWidgetToMinus : BaseHook() {
-    override fun init() {
+object AllowMoveAllWidgetToMinus : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
+        runCatching {
+            loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
+                .filterByName("canDragToPa")
+                .filterByParamCount(2)
+                .single().createHook {
+                    before {
+                        val dragInfo = it.args[1].callMethod("getDragInfo")
+                        dragInfo?.setBooleanField("isMIUIWidget", true)
+                    }
+                }
+        }.onFailure {
+            logE(TAG, "init failed, ${it.message} callback OldHook Code")
+        }
+    }
+
+    override fun initBase() {
         try {
             loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
                 .filterByName("canDragToPa")
