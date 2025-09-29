@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.various.clipboard;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
@@ -165,11 +166,13 @@ public class UnlockIme extends BaseHook {
     }
 
     /**
-     * 针对A10的修复切换输入法列表
+     * 针对 A10 的修复切换输入法列表
+     * Android 16 已无此方法
      *
      * @param className 声明或继承方法的类的名称
      */
     private void hookDeleteNotSupportIme(String className, ClassLoader classLoader) {
+        if (isMoreAndroidVersion(36)) return;
         try {
             hookAllMethods(findClassIfExists(className, classLoader), "deleteNotSupportIme", MethodHook.returnConstant(null));
         } catch (Throwable throwable) {

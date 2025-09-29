@@ -95,7 +95,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         addUsingField {
                             type = "java.util.List"
                         }
-                        
+
                         returnType = "boolean"
                     }
                 }
