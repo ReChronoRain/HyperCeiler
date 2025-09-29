@@ -38,11 +38,16 @@ object CloudWatermark : BaseHook() {
                     returnType = "boolean"
                 }
             }.single()
-        } as Method
+        } as Method?
     }
 
     override fun init() {
-        cloudMethod.createHook {
+        if (cloudMethod == null) {
+            logD(TAG, lpparam.packageName, "maybe not support this version")
+            return
+        }
+
+        cloudMethod?.createHook {
             returnConstant(true)
         }
     }

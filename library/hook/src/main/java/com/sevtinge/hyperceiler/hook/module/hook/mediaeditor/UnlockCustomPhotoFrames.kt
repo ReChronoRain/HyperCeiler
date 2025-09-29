@@ -81,6 +81,9 @@ object UnlockCustomPhotoFrames : BaseHook() {
                             paramCount = 2
                             returnType = "java.util.LinkedHashMap"
                             modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
+                            addUsingField {
+                                name = "DEVICE"
+                            }
                         }
                         addUsingField {
                             type = "java.util.List"
@@ -92,6 +95,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         addUsingField {
                             type = "java.util.List"
                         }
+                        
                         returnType = "boolean"
                     }
                 }
@@ -120,8 +124,24 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         paramCount = 0
                         returnType = "boolean"
                     }
+                    addUsingField {
+                        name = "DEVICE"
+                    }
                 }
             }.single()
+        }
+    }
+
+    private val methodC by lazy<List<Method>> {
+        DexKit.findMemberList("MC") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    declaredClass = methodA.first().declaringClass.name
+
+                    paramCount = 0
+                    returnType = "boolean"
+                }
+            }
         }
     }
 
@@ -182,19 +202,31 @@ object UnlockCustomPhotoFrames : BaseHook() {
         if (isRedmi) {
             // Redmi Note 13 Pro+ 定制版画框
             runCatching {
-                loadClass("${methodA.first().declaringClass.name}\$a").methodFinder()
+                loadClass($$"$${methodA.first().declaringClass.name}$a").methodFinder()
                     .filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
                     }
             }.recoverCatching {
-                loadClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport$2").methodFinder()
-                    .filterByName("invoke").first()
-                    .createHook {
-                        returnConstant(true)
+                // 虽然不是很好，但是也就只能这么匹配了（
+                val aSigns = methodA.map { m ->
+                    "${m.declaringClass.name}#${m.name}(${m.parameterTypes.joinToString(",") { it.name }})"
+                }.toSet()
+
+                methodC.filter { m ->
+                    val sig = "${m.declaringClass.name}#${m.name}(${m.parameterTypes.joinToString(",") { it.name }})"
+                    sig !in aSigns
+                }.forEach { m ->
+                    try {
+                        m.createHook {
+                            returnConstant(true)
+                        }
+                    } catch (e: Throwable) {
+                        logE(TAG, lpparam.packageName, "Hook failed for ${m.name}: ${e.message}")
                     }
+                }
             }.onFailure {
-                loadClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils\$isVictoriaDeviceSupport$2").methodFinder()
+                loadClass($$"$${methodA.first().declaringClass.name}$2").methodFinder()
                     .filterByName("invoke").first()
                     .createHook {
                         returnConstant(true)
