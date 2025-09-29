@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.hook.module.hook.home.DisablePrestart;
 import com.sevtinge.hyperceiler.hook.module.hook.home.ScreenSwipe;
+import com.sevtinge.hyperceiler.hook.module.hook.home.SeekPoints;
 import com.sevtinge.hyperceiler.hook.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.dock.DisableRecentsIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.drawer.AllAppsContainerViewBlur;
@@ -31,11 +32,21 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.drawer.AppDrawer;
 import com.sevtinge.hyperceiler.hook.module.hook.home.drawer.PinyinArrangement;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.BigFolderItemMaxCount;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderAutoClose;
+import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderColumns;
+import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.HotSeatSwipe;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.ShakeDevice;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsHeight;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginBottom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginTop;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBottom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.LayoutRules;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginBottom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginWidth;
+import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShowAllHideApp;
@@ -80,6 +91,30 @@ public class HomePad extends BaseModule {
         initHook(new ShakeDevice(), mPrefsMap.getInt("home_gesture_shake_action", 0) > 0);
         initHook(new BackGestureAreaHeight(), mPrefsMap.getInt("home_navigation_back_area_height", 60) != 60);
         initHook(new BackGestureAreaWidth(), mPrefsMap.getInt("home_navigation_back_area_width", 100) != 100);
+
+        // 布局
+        initHook(new SeekPoints(), mPrefsMap.getStringAsInt("home_other_seek_points", 0) > 0);
+        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
+            mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+            mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
+            mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));
+        // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
+        initHook(new WorkspacePadding(),
+            mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
+                mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
+        );
+        initHook(new IndicatorMarginBottom(), mPrefsMap.getBoolean("home_layout_indicator_margin_bottom_enable"));
+        initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
+        initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
+        initHook(new HotSeatsMarginBottom(), mPrefsMap.getBoolean("home_layout_hotseats_margin_bottom_enable"));
+        initHook(new SearchBarMarginWidth(), mPrefsMap.getBoolean("home_layout_searchbar_width_enable"));
+        initHook(new SearchBarMarginBottom(), (mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0) &&
+            mPrefsMap.getBoolean("home_layout_searchbar_margin_bottom_enable"));
+        initHook(FolderColumns.INSTANCE, mPrefsMap.getStringAsInt("home_folder_title_pos", 0) != 0 ||
+            mPrefsMap.getBoolean("home_folder_width") ||
+            mPrefsMap.getInt("home_folder_columns", 3) != 3);
+        initHook(FolderVerticalSpacing.INSTANCE, mPrefsMap.getBoolean("home_folder_vertical_spacing_enable"));
 
         // 底栏
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
