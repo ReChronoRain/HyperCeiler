@@ -549,6 +549,8 @@
     <string name="camera_black_leica_desc">Change the Leica watermark color to black when using it. Some devices doesn\'t support it yet.</string>
     <string name="camera_custom_theme_color">Customize theme color</string>
     <string name="camera_custom_theme_color_picker">Choose theme color</string>
+    <string name="camera_cloud_watermark">Force cloud to push watermark</string>
+    <string name="camera_cloud_watermark_desc">Only supported on version 6.2 and above. Maybe affected by Xiaomi cloud servers.</string>
     <!--Calendar-->
     <string name="calendar">Calendar</string>
     <string name="calendar_unlock_subscription">Unlock Subscription</string>

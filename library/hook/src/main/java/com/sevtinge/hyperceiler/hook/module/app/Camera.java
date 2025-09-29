@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.BlackLeica;
+import com.sevtinge.hyperceiler.hook.module.hook.camera.CloudWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomCameraColor;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.camera.EnableLabOptions;
@@ -49,5 +50,6 @@ public class Camera extends BaseModule {
         initHook(UnlockSuperHighQuality.INSTANCE, mPrefsMap.getBoolean("camera_super_high_quality"));
         initHook(Unlock4k60.INSTANCE, mPrefsMap.getBoolean("camera_unlock_4k60"));
         initHook(UnlockLeica.INSTANCE, mPrefsMap.getBoolean("camera_unlock_leica"));
+        initHook(CloudWatermark.INSTANCE, mPrefsMap.getBoolean("camera_cloud_watermark"));
     }
 }

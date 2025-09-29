@@ -491,6 +491,8 @@
     <string name="camera_black_leica_desc">在使用徠卡水印時，將主題色更改為黑色，部分裝置暫不支持</string>
     <string name="camera_custom_theme_color">自定義主題色</string>
     <string name="camera_custom_theme_color_picker">選擇主題色</string>
+    <string name="camera_cloud_watermark">強制伺服器下發浮水印</string>
+    <string name="camera_cloud_watermark_desc">僅支援 6.2 及以上版本，可能會受到 Xiaomi 雲端伺服器影響</string>
     <!--Calendar-->
     <string name="calendar">日曆</string>
     <string name="calendar_unlock_subscription">解鎖訂閱服務</string>

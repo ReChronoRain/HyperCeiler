@@ -69,6 +69,12 @@
             android:summary="@string/camera_black_leica_desc"
             android:title="@string/camera_black_leica" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_camera_cloud_watermark"
+            android:summary="@string/camera_cloud_watermark_desc"
+            android:title="@string/camera_cloud_watermark" />
+
     </PreferenceCategory>
 
     <PreferenceCategory>
