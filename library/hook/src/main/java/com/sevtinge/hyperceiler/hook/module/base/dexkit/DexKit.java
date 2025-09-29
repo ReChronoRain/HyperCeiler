@@ -109,7 +109,7 @@ public class DexKit {
             String pkgVersion = hasPkgVersion ? pkgVersionName + "(" + pkgVersionCode + ")" : null;
 
             if (mMMKV.containsKey("version")) {
-                int version = mMMKV.getInt("version", 0);
+                int version = Integer.parseInt(mMMKV.getString("version", "0"));
                 if (version != mVersion) {
                     XposedLogUtils.logD(TAG, "DexKit version changed, clear all cache: " + version + " -> " + mVersion);
                     needClear = true;
@@ -142,10 +142,11 @@ public class DexKit {
             // 如果任一检测触发，统一清理一次
             if (needClear) {
                 mMMKV.clear();
+                needClear = false;
             }
 
             // 保证必要键存在并写入最新值（覆盖写入可保持一致性）
-            mMMKV.putInt("version", mVersion);
+            mMMKV.putString("version", String.valueOf(mVersion));
             if (hasPkgVersion) {
                 mMMKV.putString("pkgVersion", pkgVersion);
             }
