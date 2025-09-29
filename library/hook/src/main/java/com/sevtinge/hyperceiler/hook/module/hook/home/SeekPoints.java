@@ -57,8 +57,8 @@ public class SeekPoints extends BaseHook {
             }
         );
 
-        findAndHookMethod("com.miui.home.launcher.ScreenView",
-            "updateSeekPoints", int.class,
+        hookAllMethods("com.miui.home.launcher.ScreenView",
+            "updateSeekPoints",
             new MethodHook() {
                 @Override
                 protected void before(final MethodHookParam param) {
