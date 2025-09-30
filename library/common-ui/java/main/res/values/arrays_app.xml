@@ -972,4 +972,16 @@
         <item>open_notification_center</item>
         <item>open_app</item>
     </string-array>
+
+    <string-array name="notes_unlock_ai_mode">
+        <item>@string/array_default</item>
+        <item>@string/notes_unlock_ai_mode_1</item>
+        <item>@string/notes_unlock_ai_mode_2</item>
+    </string-array>
+
+    <string-array name="notes_unlock_ai_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
 </resources>

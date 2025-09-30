@@ -317,6 +317,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_notes_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.miui.notes"
+            android:title="@string/notes" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_package_installer_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.packageinstaller"

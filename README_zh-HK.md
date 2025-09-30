@@ -34,9 +34,11 @@ HyperCeiler 已停止維護 Android 11-13 的 MIUI ROM 和 Android 13/14 的 Hyp
 
 ## 項目規劃
 
-Android 16 預期會在 Xiaomi HyperOS 3.0 大部分設備發佈後逐步適配，但由於 Xiaomi HyperOS 的解鎖規則，仍然有 Root 的設備相比之前會大幅減少。
+Xiaomi HyperOS 3 或 4 將會是本項目的終點，就目前來說，小米官方已選擇性地根據 Xposed 的功能調整了自家的（反人類）功能，模組的功能也隨著系統的更新在逐漸減少。
 
-開發者所擁有的設備也只能勉強適配，無法保證所有功能都能正常使用，或者也有可能會將項目歸檔，不再繼續開發。
+也是一步步看著澎湃從沒 root 不能用到變得差不多能用的樣子（小米平板除外）。
+
+未來本模組會深度適配 HyperOS 3.0 及以上版本（但不保證所有功能都能使用），HyperOS 2 將在後續維護中歸檔（因為變化差距大）。
 
 ## 作用域包含的應用
 
@@ -61,6 +63,7 @@ Android 16 預期會在 Xiaomi HyperOS 3.0 大部分設備發佈後逐步適配�
 | 短信                | com.android.mms                    |
 | 截屏                | com.miui.screenshot                |
 | 日曆                | com.android.calendar               |
+| 筆記                | com.miui.notes                     |
 | 瀏覽器               | com.android.browser                |
 | 鲁班（MTB）           | com.xiaomi.mtb                     |
 | 螢幕錄製              | com.miui.screenrecorder            |

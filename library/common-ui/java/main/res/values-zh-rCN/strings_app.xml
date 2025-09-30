@@ -239,6 +239,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">固定宽度</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">防止相邻元素左右抖动</string>
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
+
+    <string name="unlock_ai">解锁 AI 功能</string>
     <!--多列表 Array-->
     <string name="array_close">关闭</string>
     <string name="array_hide">隐藏</string>
@@ -393,6 +395,9 @@
 
     <string name="media_control_button_mode_1">自定义按钮在最右侧</string>
     <string name="media_control_button_mode_2">播放按钮在最左侧</string>
+
+    <string name="notes_unlock_ai_mode_1">旧版</string>
+    <string name="notes_unlock_ai_mode_2">新版</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -1052,6 +1057,9 @@
     <string name="sound_recorder">录音机</string>
     <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <string name="sound_recorder_unlock_recording_scene">解锁选择录音场景</string>
+    <!--笔记-->
+    <string name="notes">笔记</string>
+    <string name="notes_disable_ai_watermark">禁用水印</string>
     <!--万象息屏-->
     <string name="aod_hyperos">息屏与锁屏编辑</string>
     <string name="aod_unlock_always_on_display">解锁息屏显示时长限制</string>

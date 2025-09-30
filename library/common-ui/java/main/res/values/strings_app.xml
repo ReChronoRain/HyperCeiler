@@ -282,6 +282,7 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Fix content width</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">To prevent horizontal jitter</string>
     <string name="system_ui_statusbar_indicator_bold">Bold</string>
+    <string name="unlock_ai">Unlock AI features</string>
     <!--Multi-list Array-->
     <string name="array_close">Close</string>
     <string name="array_hide">Hide</string>
@@ -1007,6 +1008,9 @@
     <string name="sound_recorder">Sound Recorder</string>
     <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
     <string name="sound_recorder_unlock_recording_scene">Unlock the recording scene</string>
+    <!--Notes-->
+    <string name="notes">Notes</string>
+    <string name="notes_disable_ai_watermark">Disable AI watermark</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Always-on display and Lock screen editor</string>
     <string name="aod_unlock_always_on_display">Unlock the display time limit of the Always-on display</string>

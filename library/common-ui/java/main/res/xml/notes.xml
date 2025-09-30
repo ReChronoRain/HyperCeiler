@@ -14,27 +14,24 @@
   ~ You should have received a copy of the GNU Affero General Public License
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
-  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  ~ Copyright (C) 2023-2024 HyperCeiler Contributions
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:myLocation="@string/sound_recorder"
-    app:quick_restart="com.android.soundrecorder">
+    app:myLocation="@string/notes"
+    app:quick_restart="com.miui.notes">
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_sound_recorder_disable_ai_watermark"
-            android:title="@string/sound_recorder_disable_ai_watermark" />
+            android:key="prefs_key_notes_disable_ai_watermark"
+            android:title="@string/notes_disable_ai_watermark" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_sound_recorder_unlock_recording_scene"
-            android:title="@string/sound_recorder_unlock_recording_scene" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_sound_recorder_unlock_ai"
-            android:title="@string/unlock_ai" />
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_notes_unlock_ai_mode"
+            android:title="@string/unlock_ai"
+            app:entries="@array/notes_unlock_ai_mode"
+            app:entryValues="@array/notes_unlock_ai_mode_value" />
 
     </PreferenceCategory>
 
