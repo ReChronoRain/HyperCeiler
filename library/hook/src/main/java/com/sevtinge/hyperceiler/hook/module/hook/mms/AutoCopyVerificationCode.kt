@@ -24,31 +24,40 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import android.os.PersistableBundle
+import android.util.Log
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import kotlin.math.log
 
 // https://github.com/YunZiA/HyperStar/blob/master/app/src/main/java/com/yunzia/hyperstar/hook/app/mms/AutoCopyVerificationCode.kt
 object AutoCopyVerificationCode : BaseHook() {
     override fun init() {
-
-        PendingIntent::class.java.methodFinder()
-            .filterByName("getActivity")
-            .filterByParamTypes(Context::class.java,
+        PendingIntent::class.java.methodFinder().filterByName("getActivity").apply {
+            filterByParamTypes(Context::class.java,
                 Int::class.java,
                 Intent::class.java,
                 Int::class.java
             ).first().createAfterHook {
-                val intent = it.args[2] as Intent
-                val extraText = intent.getStringExtra("extra_text")
-                if (extraText != null) {
-                    val context = it.args[0] as Context
-                    context.copyVerificationCodeToClipboard(extraText)
-                    logD(TAG, "New verification code: $extraText")
-
+                (it.args[2] as Intent).getStringExtra("extra_text")?.run {
+                    (it.args[0] as Context).copyVerificationCodeToClipboard(this)
+                    logD(TAG, "New verification code: $this")
                 }
             }
+            filterByParamTypes(Context::class.java,
+                Int::class.java,
+                Intent::class.java,
+                Int::class.java,
+                Bundle::class.java
+            ).first().createAfterHook {
+                (it.args[2] as Intent).getStringExtra("extra_text")?.run {
+                    (it.args[0] as Context).copyVerificationCodeToClipboard(this)
+                    logD(TAG, "New verification code: $this")
+                }
+            }
+        }
     }
 
     @SuppressLint("ServiceCast")
