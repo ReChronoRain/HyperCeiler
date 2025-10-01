@@ -26,11 +26,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.util.Log
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import kotlin.math.log
 
 // https://github.com/YunZiA/HyperStar/blob/master/app/src/main/java/com/yunzia/hyperstar/hook/app/mms/AutoCopyVerificationCode.kt
 object AutoCopyVerificationCode : BaseHook() {
@@ -46,6 +44,7 @@ object AutoCopyVerificationCode : BaseHook() {
                     logD(TAG, "New verification code: $this")
                 }
             }
+            
             filterByParamTypes(Context::class.java,
                 Int::class.java,
                 Intent::class.java,
