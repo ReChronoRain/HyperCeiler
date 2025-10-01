@@ -23,7 +23,7 @@ ezxhelper = "3.0.1"
 hiddenapibypass = "6.1"
 hyperfocusapi = "1.10"
 hooktool = "v.2.2.3"
-superLyricApi = "2.3"
+superLyricApi = "2.4"
 mmkv = "2.2.4"
 
 proguard-rules = "proguard-rules.pro"
