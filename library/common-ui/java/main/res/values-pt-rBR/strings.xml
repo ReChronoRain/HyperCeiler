@@ -62,8 +62,8 @@
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha ao reiniciar. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="experimental_features">Recursos experimentais</string>
-    <string name="experimental_reshook_new">Ativar novo gancho de recurso</string>
-    <string name="experimental_reshook_new_desc">A nova versão do recurso de resource hooking oferece melhor desempenho na injeção de recursos. No entanto, ela ainda pode apresentar alguns problemas e é destinada apenas para fins de teste.\nObservação: Ativar ou desativar esse recurso requer a reinicialização do dispositivo para que as alterações tenham efeito.</string>
+    <string name="experimental_reshook_new">Ativar novo resource hooking</string>
+    <string name="experimental_reshook_new_desc">A nova versão do recurso de resource hooking oferece melhor desempenho na injeção de recursos. No entanto, ele ainda pode apresentar alguns problemas e é destinado apenas para fins de teste.\nObservação: Ativar ou desativar esse recurso requer a reinicialização do dispositivo para que as alterações tenham efeito.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Erro</string>
     <string name="warn">Atenção!</string>
@@ -133,7 +133,7 @@
     <string name="logo_egg1">Uau, você realmente encontrou esse lugar, isso é incrível!</string>
     <string name="logo_egg2">Droga, serei encontrado mesmo se eu me esconder aqui…</string>
     <string name="logo_egg3">Não há Android eggs aqui, mas há HyperCeiler eggs!</string>
-    <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Este módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
+    <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Esse módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
     <string name="debug_mode">Modo de depuração</string>
     <string name="open_debug_mode_tips">Após ativar o Modo de depuração, você poderá escolher livremente qual versão do app de destino deseja montar. No entanto, caso os hooks dessa versão apresentem problemas, não os reporte aos desenvolvedores.</string>
     <string name="debug_mode_running">O app de destino está sendo depurado!\nVersão atual do app: %1$s\nVersão de destino selecionada: %2$s\nHook aplicado com sucesso: %3$s</string>
