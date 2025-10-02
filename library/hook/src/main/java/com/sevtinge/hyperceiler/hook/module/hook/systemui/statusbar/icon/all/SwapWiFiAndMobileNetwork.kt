@@ -53,7 +53,7 @@ object SwapWiFiAndMobileNetwork : BaseHook() {
 
                     removedIcons.clear()
                     startIndex = if (isHyperOSVersion(3f)) {
-                        allStatusIcons.indexOf("network_speed")
+                        maxOf(allStatusIcons.indexOf("network_speed"), allStatusIcons.indexOf("hd"))
                     } else {
                         allStatusIcons.indexOf("hd")
                     }
