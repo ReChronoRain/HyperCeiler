@@ -201,7 +201,11 @@ abstract class MusicBaseHook : BaseHook() {
         }.onFailure { e ->
             logE(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
             runCatching {
-                val baseinfo = FocusApi.baseinfo(basetype = 1, title = text)
+                val baseinfo = FocusApi.baseinfo(
+                    basetype = if (tf == null) 1 else 2,
+                    title = text,
+                    content = tf
+                )
                 val apiFallback = if (!hideAodShow) {
                     FocusApi.sendFocus(
                         addpics = iconsAdd,
