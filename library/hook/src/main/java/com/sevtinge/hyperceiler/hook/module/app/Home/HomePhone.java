@@ -50,6 +50,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.DisableFullScreenBackGesture;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.AllowShareApk;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.FreeformShortcutMenu;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.HomeMode;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.InfiniteScroll;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShowAllHideApp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BackgroundBlur;
@@ -66,7 +71,9 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
+import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllowMoveAllWidgetToMinus;
+import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidget;
 
 import java.util.Objects;
 
@@ -157,10 +164,19 @@ public class HomePhone extends BaseModule {
         initHook(new FolderShade(), mPrefsMap.getStringAsInt("home_folder_shade", 1) > 0);
 
         // 小部件
+        initHook(new AllWidgetAnimation(), mPrefsMap.getBoolean("home_widget_all_widget_animation"));
+        initHook(AlwaysShowMiuiWidget.INSTANCE, mPrefsMap.getBoolean("home_widget_show_miui_widget"));
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, mPrefsMap.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
 
         // 其他
+        initHook(new FreeformShortcutMenu(), (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu") || (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"))));
+        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
+        initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
+
+        // initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
+        initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
+        initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
     }
 }

@@ -34,11 +34,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_home_widget_hide_title"
-            android:title="@string/home_widget_hide_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_home_widget_widget_blur_opt"
             android:title="@string/home_widget_widget_blur_opt" />
 

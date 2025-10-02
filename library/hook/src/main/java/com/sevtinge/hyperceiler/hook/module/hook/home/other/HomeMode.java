@@ -18,15 +18,28 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.other;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class HomeMode extends BaseHook {
+public class HomeMode extends HomeBaseHookNew {
 
     Class<?> mDeviceConfig;
 
-    @Override
-    public void init() {
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        mDeviceConfig = findClassIfExists("com.miui.home.common.device.DeviceConfigs");
 
+        findAndHookMethod(mDeviceConfig, "isDarkMode", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                int mHomeMode = mPrefsMap.getStringAsInt("home_other_home_mode", 0);
+                boolean isHomeMode = (mHomeMode == 2);
+                param.setResult(isHomeMode);
+            }
+        });
+    }
+
+    @Override
+    public void initBase() {
         mDeviceConfig = findClassIfExists("com.miui.home.launcher.DeviceConfig");
 
         findAndHookMethod(mDeviceConfig, "isDarkMode", new MethodHook() {
