@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.other;
 
 import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -39,7 +38,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class FreeformShortcutMenu extends BaseHook {
@@ -56,16 +54,14 @@ public class FreeformShortcutMenu extends BaseHook {
 
     Context mContext;
 
-    XC_MethodHook.Unhook mShortCutMenuItemHook;
-
     @Override
     public void init() {
 
-        if (isPad()) {
+        /*if (isPad() && mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
             hookAllMethods("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$SmallWindowShortcutMenuItem", "isValid",
                 MethodHook.returnConstant(true));
             return;
-        }
+        }*/
 
         mActivity = Activity.class;
         mViewDarkModeHelper = findClassIfExists("com.miui.home.launcher.util.ViewDarkModeHelper");
@@ -93,6 +89,7 @@ public class FreeformShortcutMenu extends BaseHook {
                     protected void after(MethodHookParam param) {
                         final Object result = param.getResult();
                         final String rs = String.valueOf(result);
+                        logD(TAG, lpparam.packageName, "rs is " + rs);
                         if ("应用信息".equals(rs)) {
                             param.setResult("信息");
                         } else if ("新建窗口".equals(rs)) {

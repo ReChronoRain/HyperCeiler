@@ -29,6 +29,8 @@ import com.sevtinge.hyperceiler.ui.R;
 public class HomeOtherSettings extends DashboardFragment {
 
     SwitchPreference mMoveToMinusOneScreen;
+    SwitchPreference mWindowedMode;
+    SwitchPreference mShareAPK;
     SwitchPreference mEnableMoreSettings;
 
 
@@ -47,8 +49,15 @@ public class HomeOtherSettings extends DashboardFragment {
             if (isPad()) setFuncHint(mMoveToMinusOneScreen, 1);
         }
 
+        mWindowedMode = findPreference("prefs_key_home_other_freeform_shortcut_menu");
+        mShareAPK = findPreference("prefs_key_home_other_allow_share_apk");
+        if (isPad()) {
+            setFuncHint(mWindowedMode, 2);
+            setFuncHint(mShareAPK, 1);
+        }
+
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
-        mEnableMoreSettings.setVisible(isPad());
+        mEnableMoreSettings.setVisible(isPad() || !isMoreHyperOSVersion(3f));
     }
 
 }

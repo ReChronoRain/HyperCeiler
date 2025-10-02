@@ -60,6 +60,7 @@ abstract class HomeBaseHookNew : BaseHook() {
         // RELEASE-4.50.0.592-0821-09051648 (450000592) 平板端桌面
         if ((version < 600000000 && !isPadDevice()) || (version < 450000000 && isPadDevice())) {
             initBase()
+            logD(TAG, lpparam.packageName, "is load old hook")
             return
         }
 
@@ -77,7 +78,6 @@ abstract class HomeBaseHookNew : BaseHook() {
             val anno = m.getAnnotation(Version::class.java)
             if (anno != null) {
                 // 如果注解显式指定 isPad，则按指定值匹配；未显式指定则忽略 isPad 条件
-                logD(TAG, lpparam.packageName, "Check method ${m.name} for version ${anno.min} to ${anno.max}, isPad=${anno.isPad}")
                 val defaultIsPad = try {
                     Version::class.java.getMethod("isPad").defaultValue as? Boolean ?: false
                 } catch (_: Exception) {
@@ -87,6 +87,7 @@ abstract class HomeBaseHookNew : BaseHook() {
 
                 if (version >= anno.min && version <= anno.max && (!isPadSpecified || anno.isPad == isPadCached)) {
                     try {
+                        logD(TAG, lpparam.packageName, "Check method ${m.name} for version ${anno.min} to ${anno.max}, isPad=${anno.isPad}")
                         m.isAccessible = true
                         m.invoke(this)
                         return
@@ -100,6 +101,7 @@ abstract class HomeBaseHookNew : BaseHook() {
 
         // 都匹配不上则走原有实现
         initBase()
+        logD(TAG, lpparam.packageName, "load nothing, so load old hook")
     }
 
     @JvmOverloads

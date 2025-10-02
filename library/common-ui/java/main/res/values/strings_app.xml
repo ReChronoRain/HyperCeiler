@@ -263,6 +263,8 @@
     <string name="horizontal_margin">Horizontal margin</string>
     <string name="vertical_offset">Up and down offset</string>
     <string name="horizontal_alignment">Horizontal alignment</string>
+    <string name="vertical">Portrait (vertical screen)</string>
+    <string name="horizontal">landscape (horizontal screen)</string>
     <string name="feature">Function</string>
     <string name="recommend">Recommend</string>
     <string name="editor">Editor</string>
