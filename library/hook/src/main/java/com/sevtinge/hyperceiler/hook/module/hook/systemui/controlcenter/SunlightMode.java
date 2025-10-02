@@ -262,7 +262,7 @@ public class SunlightMode extends TileUtils {
         BroadcastReceiver broadcastReceiver = new Screen();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        mContext.registerReceiver(broadcastReceiver, filter);
+        mContext.registerReceiver(broadcastReceiver, filter, Context.RECEIVER_EXPORTED);
         // logE("setBroadcastReceiver: registerReceiver: " + broadcastReceiver + " filter: " + filter);
         XposedHelpers.setAdditionalInstanceField(param.thisObject, "broadcastReceiver", broadcastReceiver);
         intentListening = true;

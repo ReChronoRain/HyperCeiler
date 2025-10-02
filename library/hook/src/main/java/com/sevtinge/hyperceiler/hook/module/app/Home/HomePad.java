@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.CornerSlide;
-import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.HotSeatSwipe;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.ShakeDevice;
@@ -44,15 +43,13 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginBotto
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.LayoutRules;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginBottom;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.AllowShareApk;
+import com.sevtinge.hyperceiler.hook.module.hook.home.other.FreeformShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShortcutItemCount;
@@ -90,7 +87,6 @@ public class HomePad extends BaseModule {
             mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0
         );
-        initHook(new DoubleTap(), mPrefsMap.getInt("home_gesture_double_tap_action", 0) > 0);
         initHook(new ScreenSwipe(), mPrefsMap.getInt("home_gesture_up_swipe_action", 0) > 0 ||
             mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0 ||
             mPrefsMap.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
@@ -103,23 +99,17 @@ public class HomePad extends BaseModule {
 
         // 布局
         initHook(new SeekPoints(), mPrefsMap.getStringAsInt("home_other_seek_points", 0) > 0);
-        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_unlock_grids_new") ||
-            mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
-            mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
-            mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable"));
+        initHook(LayoutRules.INSTANCE, mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
+            mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable"));
         // initHook(new UnlockGridsNoWord(), mPrefsMap.getBoolean("home_layout_unlock_grids_no_word"));
         initHook(new WorkspacePadding(),
             mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable") ||
-                mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable") ||
-                mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
+                mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")
         );
         initHook(new IndicatorMarginBottom(), mPrefsMap.getBoolean("home_layout_indicator_margin_bottom_enable"));
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
         initHook(new HotSeatsMarginBottom(), mPrefsMap.getBoolean("home_layout_hotseats_margin_bottom_enable"));
-        initHook(new SearchBarMarginWidth(), mPrefsMap.getBoolean("home_layout_searchbar_width_enable"));
-        initHook(new SearchBarMarginBottom(), (mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0) &&
-            mPrefsMap.getBoolean("home_layout_searchbar_margin_bottom_enable"));
         initHook(FolderColumns.INSTANCE, mPrefsMap.getStringAsInt("home_folder_title_pos", 0) != 0 ||
             mPrefsMap.getBoolean("home_folder_width") ||
             mPrefsMap.getInt("home_folder_columns", 3) != 3);
@@ -167,7 +157,7 @@ public class HomePad extends BaseModule {
         initHook(AlwaysShowMiuiWidget.INSTANCE, mPrefsMap.getBoolean("home_widget_show_miui_widget"));
 
         // 其他
-        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
+        initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
 
         // initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));

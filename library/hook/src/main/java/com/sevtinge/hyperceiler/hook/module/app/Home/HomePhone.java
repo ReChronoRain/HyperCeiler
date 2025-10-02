@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.folder.FolderVerticalSpaci
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.QuickBackNew;
 import com.sevtinge.hyperceiler.hook.module.hook.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginBottom;
@@ -84,7 +85,7 @@ public class HomePhone extends BaseModule {
     public void handleLoadPackage() {
         // 手势
         initHook(new DisableFullScreenBackGesture(), mPrefsMap.getBoolean("home_navigation_disable_full_screen_back_gesture"));
-        // initHook(QuickBackNew.INSTANCE, mPrefsMap.getBoolean("home_navigation_quick_back"));
+        initHook(QuickBackNew.INSTANCE, mPrefsMap.getBoolean("home_navigation_quick_back"));
         initHook(new CornerSlide(),
             mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0

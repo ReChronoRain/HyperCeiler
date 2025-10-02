@@ -218,6 +218,9 @@
     <string name="vertical_offset">上下偏移量</string>
     <string name="horizontal_alignment">水平对齐</string>
 
+    <string name="vertical">竖屏</string>
+    <string name="horizontal">横屏</string>
+
     <string name="feature">功能</string>
     <string name="recommend">推荐</string>
     <string name="editor">编辑</string>

@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
@@ -172,11 +173,13 @@ object LayoutRules : HomeBaseHookNew() {
             )
         }
 
-        findAndHookMethod(
-            PHONE_RULES, "calGridSize",
-            Context::class.java, Int::class.java, Int::class.java, Boolean::class.java,
-            PhoneCalGridSizeHook
-        )
+        if (!isPad()) {
+            findAndHookMethod(
+                PHONE_RULES, "calGridSize",
+                Context::class.java, Int::class.java, Int::class.java, Boolean::class.java,
+                PhoneCalGridSizeHook
+            )
+        }
 
         findAndHookMethod(GRID_CONFIG_OLD, "getCellWidth", object : MethodHook() {
             override fun before(param: MethodHookParam) {

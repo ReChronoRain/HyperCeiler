@@ -65,8 +65,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBottom;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginBottom;
-import com.sevtinge.hyperceiler.hook.module.hook.home.layout.SearchBarMarginWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
@@ -74,7 +72,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.SetGestureNeedFinger
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationBar;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurRadius;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurWhenShowShortcutMenu;
@@ -85,7 +82,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.OptAppLaunchDelay;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.ShowAllHideApp;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.TasksShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.CardTextColor;
@@ -169,10 +165,6 @@ public class HomePadOld extends BaseModule {
         initHook(new HotSeatsHeight(), mPrefsMap.getBoolean("home_layout_hotseats_height_enable"));
         initHook(new HotSeatsMarginTop(), mPrefsMap.getBoolean("home_layout_hotseats_margin_top_enable"));
         initHook(new HotSeatsMarginBottom(), mPrefsMap.getBoolean("home_layout_hotseats_margin_bottom_enable"));
-        initHook(new SearchBarMarginWidth(), mPrefsMap.getBoolean("home_layout_searchbar_width_enable"));
-        initHook(new SearchBarMarginBottom(), (mPrefsMap.getInt("home_layout_searchbar_margin_bottom", 0) > 0) &&
-                mPrefsMap.getBoolean("home_layout_searchbar_margin_bottom_enable"));
-
 
         // 文件夹
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
@@ -263,8 +255,7 @@ public class HomePadOld extends BaseModule {
         initHook(new LockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
-        initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_freeform_shortcut_menu"));
-        initHook(new TasksShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
+        initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
         initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
         initHook(new HomePortraitReverse(), mPrefsMap.getBoolean("home_other_portrait_reverse"));
         initHook(AlwaysBlurWallpaper.INSTANCE, mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper"));
@@ -300,7 +291,6 @@ public class HomePadOld extends BaseModule {
 
         // reshook
         initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
-        initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
     }
 
 }
