@@ -34,11 +34,9 @@ import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
 import com.sevtinge.hyperceiler.hook.utils.extension.setPadding
 import com.sevtinge.hyperceiler.hook.utils.extension.setPaddingLeft
 import com.sevtinge.hyperceiler.hook.utils.extension.setPaddingSide
-import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterAllMethods
 import com.sevtinge.hyperceiler.hook.utils.setIntField
-import de.robv.android.xposed.XposedHelpers
 
 object FolderColumns : HomeBaseHookNew() {
     private const val FOLDER = "com.miui.home.launcher.Folder"
@@ -283,7 +281,7 @@ object FolderColumns : HomeBaseHookNew() {
         }
     }
 
-    @Version(isPad = false, max = 539309777)
+    /*@Version(isPad = false, max = 539309777)
     private fun initOldHook() {
         val value = mPrefsMap.getInt("home_folder_columns", 3)
         if (value == 3) return
@@ -309,5 +307,5 @@ object FolderColumns : HomeBaseHookNew() {
                 )
             }
         }
-    }
+    }*/
 }

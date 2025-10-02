@@ -19,24 +19,34 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class HomeOtherSettings extends DashboardFragment {
 
+    SwitchPreference mMoveToMinusOneScreen;
     SwitchPreference mEnableMoreSettings;
 
 
     @Override
     public int getPreferenceScreenResId() {
+        if (isMoreHyperOSVersion(3f)) {
+            return R.xml.home_other_new;
+        }
         return R.xml.home_other;
     }
 
     @Override
     public void initPrefs() {
+        if (isMoreHyperOSVersion(3f)) {
+            mMoveToMinusOneScreen = findPreference("prefs_key_home_widget_allow_moved_to_minus_one_screen");
+            if (isPad()) setFuncHint(mMoveToMinusOneScreen, 1);
+        }
+
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");
         mEnableMoreSettings.setVisible(isPad());
     }

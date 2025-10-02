@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import androidx.preference.SwitchPreference;
 
@@ -41,15 +40,11 @@ public class HomeFolderSettings extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {
-        if (isMoreHyperOSVersion(3f)) {
-            return R.xml.home_folder_new;
-        }
         return R.xml.home_folder;
     }
 
     @Override
     public void initPrefs() {
-        if (isMoreHyperOSVersion(3f)) return;
         mFolderShade = findPreference("prefs_key_home_folder_shade");
         mFolderShadeLevel = findPreference("prefs_key_home_folder_shade_level");
         mUnlockFolderBlurSupport = findPreference("prefs_key_home_folder_unlock_blur_supported");

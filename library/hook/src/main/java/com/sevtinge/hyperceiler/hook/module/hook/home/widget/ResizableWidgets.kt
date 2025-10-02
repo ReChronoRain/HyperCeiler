@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.widget
 
 import android.appwidget.AppWidgetProviderInfo
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 
 object ResizableWidgets : BaseHook() {
@@ -29,7 +28,7 @@ object ResizableWidgets : BaseHook() {
             "android.appwidget.AppWidgetHostView",
             null,
             "getAppWidgetInfo",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 @Throws(Throwable::class)
                 override fun after(param: MethodHookParam) {
                     val widgetInfo = param.result as AppWidgetProviderInfo

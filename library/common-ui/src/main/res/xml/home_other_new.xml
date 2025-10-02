@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_other"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory android:title="@string/home_widget">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_all_widget_animation"
+            android:title="@string/home_widget_all_widget_animation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_show_miui_widget"
+            android:summary="@string/home_widget_show_miui_widget_desc"
+            android:title="@string/home_widget_show_miui_widget" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+            android:title="@string/home_widget_allow_moved_to_minus_one_screen" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_folder">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_big_folder_item_max_count"
+            android:title="@string/home_big_folder_item_max_count" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_folder_auto_close"
+            android:summary="@string/home_auto_close_folder_summary"
+            android:title="@string/home_auto_close_folder_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_other_shortcut_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_freeform_shortcut_menu"
+            android:summary="@string/home_other_freeform_shortcut_menu_desc"
+            android:title="@string/home_other_freeform_shortcut_menu" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_tasks_shortcut_menu"
+            android:summary="@string/home_other_tasks_shortcut_menu_desc"
+            android:title="@string/home_other_tasks_shortcut_menu" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_allow_share_apk"
+            android:title="@string/home_other_allow_share_apk" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_shortcut_remove_restrictions"
+            android:title="@string/home_other_shortcut_remove_restrictions" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_other">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_mi_pad_enable_more_setting"
+            android:summary="@string/home_other_mi_pad_enable_more_setting_desc"
+            android:title="@string/home_other_mi_pad_enable_more_setting_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_infinite_scroll"
+            android:summary="@string/home_other_infinite_scroll_desc"
+            android:title="@string/home_other_infinite_scroll" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_disable_prestart"
+            android:title="@string/home_other_disable_prestart" />
+
+        <SwitchPreference
+            app:isPreferenceVisible="false"
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_high_models"
+            android:title="@string/home_other_high_models" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_other_home_mode"
+            android:title="@string/home_other_home_mode"
+            app:entries="@array/home_mode"
+            app:entryValues="@array/home_mode_value" />
+
+        <Preference
+            android:key="prefs_key_home_other_all_hide_app_activity"
+            android:title="@string/home_other_app_icon_hide">
+            <intent
+                android:targetClass="com.miui.home.settings.AllHideAppActivity"
+                android:targetPackage="com.miui.home" />
+        </Preference>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

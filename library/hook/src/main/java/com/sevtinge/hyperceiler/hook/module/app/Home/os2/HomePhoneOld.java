@@ -125,7 +125,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.title.TitleMarquee;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidget;
-import com.sevtinge.hyperceiler.hook.module.hook.home.widget.HideWidgetTitles;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.WidgetBlurOpt;
 
@@ -249,7 +248,6 @@ public class HomePhoneOld extends BaseModule {
         initHook(AlwaysShowMiuiWidget.INSTANCE, mPrefsMap.getBoolean("home_widget_show_miui_widget"));
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, mPrefsMap.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
         initHook(new WidgetCornerRadius(), mPrefsMap.getInt("home_widget_corner_radius", 0) > 0);
-        initHook(HideWidgetTitles.INSTANCE, mPrefsMap.getBoolean("home_widget_hide_title"));
         initHook(ResizableWidgets.INSTANCE, mPrefsMap.getBoolean("home_widget_resizable"));
         initHook(new WidgetBlurOpt(), mPrefsMap.getBoolean("home_widget_widget_blur_opt"));
 

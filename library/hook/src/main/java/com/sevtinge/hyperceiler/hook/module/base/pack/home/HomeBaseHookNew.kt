@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.hook.module.base.pack.home
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 
 abstract class HomeBaseHookNew : BaseHook() {
@@ -47,9 +46,6 @@ abstract class HomeBaseHookNew : BaseHook() {
      */
     private var _cachedAppVersion: Int? = null
     private var _cachedIsPad: Boolean? = null
-    private val isLowVersion by lazy {
-        isHyperOSVersion(2f)
-    }
 
     protected open fun appVersion(): Int = _cachedAppVersion ?: getPackageVersionCode(lpparam).also { _cachedAppVersion = it }
     protected open fun isPadDevice(): Boolean = _cachedIsPad ?: isPad().also { _cachedIsPad = it }
@@ -62,7 +58,7 @@ abstract class HomeBaseHookNew : BaseHook() {
         // 针对目标版本进行筛选
         // RELEASE-6.01.02.1135-09051745 (601021135) 手机端桌面
         // RELEASE-4.50.0.592-0821-09051648 (450000592) 平板端桌面
-        if ((version < 600000000 && !isPadDevice()) || (version < 450000000 && isPadDevice()) || isLowVersion) {
+        if ((version < 600000000 && !isPadDevice()) || (version < 450000000 && isPadDevice())) {
             initBase()
             return
         }

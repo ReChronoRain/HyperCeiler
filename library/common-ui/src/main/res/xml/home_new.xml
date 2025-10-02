@@ -21,54 +21,36 @@
     app:quick_restart="com.miui.home">
     <PreferenceCategory>
         <com.sevtinge.hyperceiler.common.prefs.XmlPreference
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings"
             android:key="prefs_key_home_gesture"
             android:title="@string/home_gesture"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings"
-            app:inflatedXml="@xml/home_gesture"/>
+            app:inflatedXml="@xml/home_gesture" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeLayoutSettings"
             android:key="prefs_key_home_layout"
-            android:title="@string/home_layout"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeLayoutSettings" />
+            android:title="@string/home_layout" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDockSettings"
             android:key="prefs_key_home_dock"
-            android:title="@string/home_dock"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDockSettings" />
+            android:title="@string/home_dock" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDrawerSettings"
             android:key="prefs_key_home_drawer"
-            android:title="@string/home_drawer"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeDrawerSettings" />
+            android:title="@string/home_drawer" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeRecentSettings"
             android:key="prefs_key_home_recent"
-            android:title="@string/home_recent"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeRecentSettings" />
+            android:title="@string/home_recent" />
 
         <Preference
-            android:key="prefs_key_home_folder"
-            android:title="@string/home_folder"
-            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeFolderSettings" />
+            android:key="prefs_key_home_other"
+            android:title="@string/home_other"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeOtherSettings" />
 
     </PreferenceCategory>
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
-        android:title="@string/home_widget_allow_moved_to_minus_one_screen" />
-
-    <SwitchPreference
-        android:defaultValue="false"
-        android:key="prefs_key_home_other_disable_prestart"
-        android:title="@string/home_other_disable_prestart" />
-
-    <Preference
-        android:title="@string/home_other_app_icon_hide"
-        android:key="prefs_key_home_other_all_hide_app_activity">
-        <intent
-            android:targetClass="com.miui.home.settings.AllHideAppActivity"
-            android:targetPackage="com.miui.home" />
-    </Preference>
 
 </PreferenceScreen>
