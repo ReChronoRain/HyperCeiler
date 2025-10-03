@@ -283,6 +283,7 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">To prevent horizontal jitter</string>
     <string name="system_ui_statusbar_indicator_bold">Bold</string>
     <string name="unlock_ai">Unlock AI features</string>
+    <string name="unlock_ai_wallpaper">Unlock AI wallpaper access</string>
     <!--Multi-list Array-->
     <string name="array_close">Close</string>
     <string name="array_hide">Hide</string>

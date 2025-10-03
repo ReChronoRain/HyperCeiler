@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSm
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockAiWallpaper;
 import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockAodAon;
 import com.sevtinge.hyperceiler.hook.module.hook.aod.UnlockShortCuts;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UnlockAlwaysOnDisplay;
@@ -33,5 +34,6 @@ public class Aod extends BaseModule {
         initHook(UnlockShortCuts.INSTANCE, isMoreSmallVersion(200, 2f));
         initHook(new UnlockAlwaysOnDisplay(), mPrefsMap.getBoolean("aod_unlock_always_on_display_hyper"));
         initHook(new UnlockAodAon(), mPrefsMap.getBoolean("aod_unlock_aon"));
+        initHook(UnlockAiWallpaper.INSTANCE, mPrefsMap.getBoolean("aod_unlock_ai_wallpaper"));
     }
 }

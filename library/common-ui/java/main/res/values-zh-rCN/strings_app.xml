@@ -241,6 +241,7 @@
     <string name="system_ui_statusbar_indicator_bold">加粗</string>
 
     <string name="unlock_ai">解锁 AI 功能</string>
+    <string name="unlock_ai_wallpaper">解锁 AI 壁纸入口</string>
     <!--多列表 Array-->
     <string name="array_close">关闭</string>
     <string name="array_hide">隐藏</string>

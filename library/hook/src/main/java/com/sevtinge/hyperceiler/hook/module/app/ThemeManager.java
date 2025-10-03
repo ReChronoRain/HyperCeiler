@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.thememanager.AllowDownloadMore;
 import com.sevtinge.hyperceiler.hook.module.hook.thememanager.AllowThirdTheme;
 import com.sevtinge.hyperceiler.hook.module.hook.thememanager.DisableThemeAdNew;
+import com.sevtinge.hyperceiler.hook.module.hook.thememanager.UnlockAIWallPaper;
 import com.sevtinge.hyperceiler.hook.module.hook.thememanager.VersionCodeModify;
 
 @HookBase(targetPackage = "com.android.thememanager")
@@ -33,6 +34,7 @@ public class ThemeManager extends BaseModule {
         initHook(new AllowThirdTheme(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
         initHook(new DisableThemeAdNew(), mPrefsMap.getBoolean("various_theme_disable_ads"));
         initHook(new AllowDownloadMore(), mPrefsMap.getBoolean("theme_manager_allow_download_more"));
+        initHook(UnlockAIWallPaper.INSTANCE, mPrefsMap.getBoolean("theme_manager_unlock_ai_wallpaper"));
 
         // 修改版本号
         initHook(new VersionCodeModify(), mPrefsMap.getStringAsInt("theme_manager_new_version_code_modify", 0) != 0);
