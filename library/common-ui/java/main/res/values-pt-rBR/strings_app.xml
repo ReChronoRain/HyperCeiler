@@ -1399,7 +1399,6 @@
     <string name="security_center_unlock_side_hide_freeform">Desbloquear ocultar na lateral em janelas flutuantes</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Desbloqueie ocultar na lateral em janelas flutuantes para dispositivos com suporte limitado, porém restritos. Isso também afetará o comportamento do widget quando o dispositivo for cortado em segundo plano.</string>
     <string name="security_center_unlock_smart_charge_title">Funções completas de carregamento e bateria</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Funções completas:\n• Proteção da bateria &gt; Desconexão automática de carregamento\n• Mais recursos de bateria &gt; Emergência de baixa carga</string>
     <string name="security_center_super_wireless_charge">Desbloquear Carregamento rápido sem fio</string>
     <string name="security_center_blur_model">Modelo do blur da barra lateral</string>
     <string name="security_center_invert_color">Inverter cor do ícone</string>

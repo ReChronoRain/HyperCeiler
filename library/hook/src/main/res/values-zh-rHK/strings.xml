@@ -80,8 +80,6 @@
     <!--Mi Share-->
     <string name="mishare">小米互傳</string>
     <string name="mishare_disable_mishare_auto_off">禁用自動關閉小米互傳</string>
-    <string name="mishare_disable_auto_on_location">禁用分享檔案時自動開啟定位服務</string>
-    <string name="mishare_unlock_turbo_mode">解鎖極速傳輸模式</string>
     <string name="mishare_hook_switch_mode_all">所有人</string>
     <!--Smart cards-->
     <string name="tsmclient">小米智能卡</string>

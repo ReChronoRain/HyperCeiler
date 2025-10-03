@@ -27,10 +27,11 @@
             android:title="@string/system_ui_statusbar_network_speed_all_status" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
+    <PreferenceCategory
+        android:title="@string/system_ui_statusbar_indicator_default_title"
+        android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable">
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_system_ui_statusbar_clock_all_status_enable"
             android:key="prefs_key_system_ui_disable_clock_synch"
             android:summary="@string/system_ui_disable_clock_synch_desc"
             android:title="@string/system_ui_disable_clock_synch" />

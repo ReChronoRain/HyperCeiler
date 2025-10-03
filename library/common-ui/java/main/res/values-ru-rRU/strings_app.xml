@@ -1399,7 +1399,6 @@
     <string name="security_center_unlock_side_hide_freeform">Прижимать к краю плавающее окно</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Разблокировать боковое скрытие плавающего окна для базовых устройств с ограничениями. Это также повлияет на поведение виджета при переходе устройства в фоновый режим.</string>
     <string name="security_center_unlock_smart_charge_title">Функции полной зарядки и батареи</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Дополнительные функции:\n• Защита аккумулятора -&gt; Автоматическое отключение зарядки\n• Дополнительные функции аккумулятора -&gt; Быстрая зарядка аккумулятора</string>
     <string name="security_center_super_wireless_charge">Разблокировка быстрой беспроводной зарядки</string>
     <string name="security_center_blur_model">Настройка размытия боковой панели</string>
     <string name="security_center_invert_color">Инверсия цвета иконки</string>

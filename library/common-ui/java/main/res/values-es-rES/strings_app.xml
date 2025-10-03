@@ -1146,8 +1146,7 @@ aplicaciones del sistema</string>
     <string name="security_center_unlock_side_hide_freeform">Ventanas pequeñas pueden ocultarse lateralmente</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Se permite que ventanas pequeñas pueden ocultarse lateralmente en dispositivos con sistemas soportados pero no funciona, lo cual también afectará el comportamiento de las ventanas pequeñas cuando aplicaciones se ponen en el segundo plano</string>
     <string name="security_center_unlock_smart_charge_title">Funciones completas de carga y batería</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Funciones completadas:\n- Protección de Batería -&gt; Protección de interrupción de Carga de Navegación\n- Más características de Batería -&gt; Carga superrápida a la batería baja</string>
-    <string name="security_center_super_wireless_charge">Desbloquear carga súper inalámbrica</string>
+   <string name="security_center_super_wireless_charge">Desbloquear carga súper inalámbrica</string>
     <string name="security_center_blur_model">Modelo de desenfoque de barra lateral</string>
     <string name="security_center_invert_color">Icono invertido</string>
     <string name="security_center_invert_color_summary">Invierta los colores seleccionados de los iconos en algunos fondos para una mejor visibilidad\n Esta función puede tener inversiones de color anormales, habilítela según corresponda</string>

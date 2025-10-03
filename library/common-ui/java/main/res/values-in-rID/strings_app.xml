@@ -1076,7 +1076,6 @@
     <string name="security_center_unlock_side_hide_freeform">Buka kunci bentuk bebas yang disembunyikan di samping</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Buka kunci bentuk bebas sembunyikan samping untuk perangkat dengan dukungan rendah namun terbatas. Hal ini juga akan mempengaruhi perilaku widget saat ponsel beralih ke latar belakang</string>
     <string name="security_center_unlock_smart_charge_title">Fungsi pengisian dan baterai lengkap</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Fungsi yang Selesai:\n- Perlindungan Baterai -&gt; Perlindungan Kerusakan Pengisian Daya Navigasi\n- Fitur Baterai Lainnya -&gt; Darurat Pengisian Daya Rendah</string>
     <string name="security_center_super_wireless_charge">Buka kunci pengisian daya nirkabel Super</string>
     <string name="security_center_blur_model">Model buram bilah sisi</string>
     <string name="security_center_invert_color">Ikon terbalik</string>

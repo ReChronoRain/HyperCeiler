@@ -1358,7 +1358,6 @@
     <string name="security_center_unlock_side_hide_freeform">Seiten-Verstecken schwebendes Fenster freischalten</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Seiten-Verstecken im schwebendes Fenster-Modus für Geräte mit begrenzter Unterstützung freischalten. Dies wird auch das Widget-Verhalten beeinflussen, wenn das Gerät in den Hintergrund wechselt.</string>
     <string name="security_center_unlock_smart_charge_title">Vollständige Lade- und Akku-Funktionen</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Vervollständigte Funktionen:\n• Akku-Schutz -&gt; Automatische Ladeunterbrechung\n• Weitere Akku-Funktionen -&gt; Niedrige Akku-Schnellladung</string>
     <string name="security_center_super_wireless_charge">Schnelles kabelloses Laden freischalten</string>
     <string name="security_center_blur_model">Seitenleisten-Unschärfe-Modell</string>
     <string name="security_center_invert_color">Symbol-Farbe umkehren</string>

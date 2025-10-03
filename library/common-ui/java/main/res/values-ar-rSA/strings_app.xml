@@ -1372,7 +1372,6 @@
     <string name="security_center_unlock_side_hide_freeform">فتح وضع الإخفاء الجانبي في وضع الشكل الحر</string>
     <string name="security_center_unlock_side_hide_freeform_desc">فتح وضع الإخفاء الجانبي للأجهزة ذات الدعم المحدود. هذا سيؤثر أيضًا على سلوك الأدوات المصغرة عند انتقال الجهاز إلى الخلفية.</string>
     <string name="security_center_unlock_smart_charge_title">إكمال وظائف الشحن والبطارية</string>
-    <string name="security_center_unlock_smart_charge_title_summary">الوظائف المكتملة:\n• حماية البطارية -&gt; الفصل التلقائي أثناء الشحن\n• المزيد من ميزات البطارية -&gt; الشحن السريع عند انخفاض البطارية</string>
     <string name="security_center_super_wireless_charge">فتح الشحن اللاسلكي السريع</string>
     <string name="security_center_blur_model">نموذج تمويه الشريط الجانبي</string>
     <string name="security_center_invert_color">عكس الألوان للرموز</string>

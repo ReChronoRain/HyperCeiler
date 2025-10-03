@@ -1307,7 +1307,6 @@
     <string name="security_center_unlock_side_hide_freeform">Odblokuj boczne ukrywanie trybu dowolnego</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Odblokuje boczne ukrywanie w trybie dowolnym dla urządzeń z ograniczonym wsparciem. Ma to również wpływ na zachowanie widżetów, gdy urządzenie zostanie obcięte w tle.</string>
     <string name="security_center_unlock_smart_charge_title">Kompletne funkcje ładowania i baterii</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Ukończone funkcje:\n• Ochrona baterii -&gt; Automatyczne odłączanie ładowania\n• Więcej funkcji baterii -&gt; Szybkie ładowanie przy niskim poziomie baterii</string>
     <string name="security_center_super_wireless_charge">Odblokuj szybkie bezprzewodowe ładowanie</string>
     <string name="security_center_blur_model">Model rozmycia paska bocznego</string>
     <string name="security_center_invert_color">Odwrócone kolory ikon</string>

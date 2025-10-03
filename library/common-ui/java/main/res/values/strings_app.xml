@@ -1459,7 +1459,6 @@
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock side-hide in freeform mode for devices with limited support. This will also affect widget behavior when the device cuts to the background.</string>
     <string name="security_center_unlock_smart_charge_title">Complete charging and battery functions</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Completed functions:\n• Battery protection -> Charging auto-disconnect\n• More battery features -> Low battery fast charging</string>
     <string name="security_center_super_wireless_charge">Unlock Quick wireless charging</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
     <string name="security_center_invert_color">Invert icon color</string>

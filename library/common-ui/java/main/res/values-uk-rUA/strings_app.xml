@@ -1338,7 +1338,6 @@
     <string name="security_center_unlock_side_hide_freeform">Розблокувати бічне приховування плаваючого вікна</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Розблокувати бічне приховування в режимі плаваючого вікна для пристроїв з обмеженою підтримкою. Це також вплине на поведінку віджетів, коли пристрій переходить у фоновий режим.</string>
     <string name="security_center_unlock_smart_charge_title">Повні функції зарядки та батареї</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Додаткові функції:\n• Захист батареї -&gt; Автоматичне відключення зарядки\n• Більше функцій батареї -&gt; Швидка зарядка при низькому рівні</string>
     <string name="security_center_super_wireless_charge">Розблокувати швидку бездротову зарядку</string>
     <string name="security_center_blur_model">Модель розмиття бічної панелі</string>
     <string name="security_center_invert_color">Інвертувати колір іконки</string>

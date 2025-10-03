@@ -1399,7 +1399,6 @@
     <string name="security_center_unlock_side_hide_freeform">サイド非表示フリーフォームをアンロック</string>
     <string name="security_center_unlock_side_hide_freeform_desc">サポートが制限されているデバイスのために、サイド非表示フリーフォームをアンロックします。これは、デバイスがバックグラウンドに切り替わるときのウィジェットの動作にも影響します。</string>
     <string name="security_center_unlock_smart_charge_title">充電とバッテリーの機能をすべてアンロック</string>
-    <string name="security_center_unlock_smart_charge_title_summary">アンロックされる機能:\n• バッテリー保護 -&gt; 充電自動切断\n• その他のバッテリー機能 -&gt; 低バッテリー急速充電</string>
     <string name="security_center_super_wireless_charge">スーパーワイヤレス充電をアンロック</string>
     <string name="security_center_blur_model">サイドバーぼかしのモデル</string>
     <string name="security_center_invert_color">アイコンを反転</string>

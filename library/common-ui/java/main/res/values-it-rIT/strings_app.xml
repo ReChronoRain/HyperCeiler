@@ -1041,7 +1041,6 @@
     <string name="security_center_unlock_side_hide_freeform">Sblocca lato -hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Sblocca la modalità side-hide freeform per i dispositivi poco supportati ma limitati. Ciò influenzerà anche il comportamento del widget quando il telefono passa in background</string>
     <string name="security_center_unlock_smart_charge_title">Funzioni di ricarica e batteria complete</string>
-    <string name="security_center_unlock_smart_charge_title_summary">Funzioni completate:\n- Protezione della batteria -&gt; Protezione dall\'interruzione della ricarica della navigazione\n- Altre funzionalità della batteria -&gt; Emergenza carica bassa</string>
     <string name="security_center_super_wireless_charge">Sblocca ricarica super wireless</string>
     <string name="security_center_blur_model">Modello di sfocatura della barra laterale</string>
     <string name="security_center_invert_color">Icona invertita</string>

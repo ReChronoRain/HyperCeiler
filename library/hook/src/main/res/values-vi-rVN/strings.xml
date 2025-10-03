@@ -83,8 +83,6 @@
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Tắt tính năng tự động tắt Xiaomi Share</string>
-    <string name="mishare_disable_auto_on_location">Tắt tự động bật vị trí khi chia sẻ tài liệu</string>
-    <string name="mishare_unlock_turbo_mode">Mở khóa gửi Turbo</string>
     <string name="mishare_hook_switch_mode_all">Mọi người</string>
     <!--Smart cards-->
     <string name="tsmclient">Thẻ thông minh</string>
