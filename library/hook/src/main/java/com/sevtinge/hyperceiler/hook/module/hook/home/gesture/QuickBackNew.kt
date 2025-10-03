@@ -4,6 +4,8 @@ import android.app.ActivityManager
 import android.app.ActivityOptions
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.os.Handler
+import android.os.Message
 import android.view.View
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.callMethod
@@ -21,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import kotlin.math.abs
 
 object QuickBackNew : BaseHook() {
 
@@ -38,6 +41,9 @@ object QuickBackNew : BaseHook() {
     }
     private val activityManagerClass by lazy {
         "android.app.ActivityManagerNative".findClass()
+    }
+    private val readyStateEnumClass by lazy {
+        $$"com.miui.home.recents.GestureBackArrowView$ReadyState".findClass()
     }
     private val getNextTaskMethod by lazy {
         gestureStubViewClass.methodFinder()
@@ -79,6 +85,66 @@ object QuickBackNew : BaseHook() {
                 }
             }
 
+        $$"com.miui.home.recents.GestureStubView$H".findClass().methodFinder()
+            .filterByName("handleMessage").first().hookBeforeMethod { param ->
+                val msg = param.args[0] as Message
+                val what = msg.what
+
+                if (what != 259 && what != 261) return@hookBeforeMethod
+
+                val stubViewInstance = param.thisObject.getObjectField("this$0")
+
+                if (what == 259) {
+                    // GestureStubView.access$2700(this.this$0)
+                    gestureStubViewClass.callStaticMethod("access$2700", stubViewInstance)
+                    param.result = null
+                    return@hookBeforeMethod
+                }
+
+                // what == 261
+                gestureStubViewClass.callStaticMethod("access$3000", stubViewInstance)
+
+                val arrowViewInstance = gestureStubViewClass.callStaticMethod("access$100", stubViewInstance)
+                val readyStateBack = readyStateEnumClass.getStaticObjectField("READY_STATE_BACK")
+                val readyStateRecent = readyStateEnumClass.getStaticObjectField("READY_STATE_RECENT")
+
+                val isActive1400 = gestureStubViewClass.callStaticMethod("access$1400", stubViewInstance) as Boolean
+                val isActive1300 = gestureStubViewClass.callStaticMethod("access$1300", stubViewInstance, 20) as Boolean
+
+                if (isActive1400) {
+                    if (isActive1300) {
+                        val posStart = gestureStubViewClass.callStaticMethod("access$800", stubViewInstance) as Float
+                        val posEnd = gestureStubViewClass.callStaticMethod("access$1200", stubViewInstance) as Float
+                        val threshold = gestureStubViewClass.callStaticMethod("access$3102", stubViewInstance) as Float
+                        val diff = abs(posStart - posEnd)
+                        if (diff > threshold * 0.33f) {
+                            arrowViewInstance?.callMethod("setReadyFinish", readyStateRecent)
+                        } else {
+                            arrowViewInstance?.callMethod("setReadyFinish", readyStateBack)
+                        }
+                    } else {
+                        val currentState = arrowViewInstance?.callMethod("getCurrentState")
+                        if (currentState != readyStateRecent) {
+                            arrowViewInstance?.callMethod("setReadyFinish", readyStateBack)
+                        }
+                    }
+                } else if (isActive1300) {
+                    val posStart = gestureStubViewClass.callStaticMethod("access$800", stubViewInstance) as Float
+                    val posEnd = gestureStubViewClass.callStaticMethod("access$1200", stubViewInstance) as Float
+                    val threshold = gestureStubViewClass.callStaticMethod("access$3102", stubViewInstance) as Float
+                    val diff = abs(posStart - posEnd)
+                    if (diff < threshold * 0.33f) {
+                        arrowViewInstance?.callMethod("setReadyFinish", readyStateBack)
+                    } else {
+                        arrowViewInstance?.callMethod("setReadyFinish", readyStateRecent)
+                    }
+                }
+
+                val handler = gestureStubViewClass.callStaticMethod("access$200", stubViewInstance) as Handler
+                handler.sendEmptyMessageDelayed(261, 17L)
+                param.result = null
+            }
+
         gestureBackArrowViewClass.replaceMethod("loadRecentTaskIcon") {
             val mNoneTaskIcon = it.thisObject.getObjectFieldAs<Drawable?>("mNoneTaskIcon")
             val obj = it.thisObject as View
@@ -91,12 +157,6 @@ object QuickBackNew : BaseHook() {
         }
 
         gestureStubViewClass.apply {
-            /*replaceMethod("isDisableQuickSwitch") {
-                false
-            }*/
-            hookBeforeMethod("disableQuickSwitch", Boolean::class.java) {
-                it.args[0] = false
-            }
             getNextTaskMethod.hookBeforeMethod { param ->
                 val context = param.args[0] as Context
                 val switch = param.args[1] as Boolean

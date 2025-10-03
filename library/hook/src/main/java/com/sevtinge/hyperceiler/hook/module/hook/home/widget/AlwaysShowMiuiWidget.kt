@@ -20,45 +20,54 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.widget
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
-import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AlwaysShowMiuiWidget : BaseHook() {
+    private val isHookActive = object : ThreadLocal<Boolean>() {
+        override fun initialValue(): Boolean = false
+    }
+
     override fun init() {
-        var hook1: XC_MethodHook.Unhook? = null
-        var hook2: XC_MethodHook.Unhook? = null
-        try {
-            loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder()
-                .filterByName("buildAppWidgetsItems")
-                .single()
-        } catch (_: Exception) {
-            loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder()
-                .filterByName("buildAppWidgetsItems")
-                .single()
-        }.createHook {
+        findBuildAppWidgetsItemsMethod().createHook {
             before {
-                hook1 = loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder()
-                    .filterByName("initMiuiAttribute")
-                    .filterByParamCount(1)
-                    .single().createHook {
-                        after {
-                            it.thisObject.setObjectField("isMIUIWidget", false)
-                        }
-                    }
-                hook2 = loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder()
-                    .filterByName("isMIUIWidgetSupport")
-                    .single().createHook {
-                        after {
-                            it.result = false
-                        }
-                }
+                isHookActive.set(true)
             }
             after {
-                hook1?.unhook()
-                hook2?.unhook()
+                isHookActive.remove()
             }
         }
+
+        loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder()
+            .filterByName("initMiuiAttribute")
+            .filterByParamCount(1)
+            .single().createHook {
+                before {
+                    if (isHookActive.get() == true) {
+                        it.thisObject.setObjectField("isMIUIWidget", false)
+                    }
+                }
+            }
+
+        loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder()
+            .filterByName("isMIUIWidgetSupport")
+            .single().createHook {
+                before {
+                    if (isHookActive.get() == true) {
+                        it.result = false
+                    }
+                }
+            }
+    }
+
+    private fun findBuildAppWidgetsItemsMethod() = try {
+        loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder()
+            .filterByName("buildAppWidgetsItems")
+            .single()
+    } catch (_: Exception) {
+        loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder()
+            .filterByName("buildAppWidgetsItems")
+            .single()
     }
 }
