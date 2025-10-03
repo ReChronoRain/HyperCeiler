@@ -18,10 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.skip;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,9 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 import android.os.Binder;
-import android.os.Handler;
 import android.os.Process;
-import android.view.View;
 
 import androidx.core.content.ContextCompat;
 

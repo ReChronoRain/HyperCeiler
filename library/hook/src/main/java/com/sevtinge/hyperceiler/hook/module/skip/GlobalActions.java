@@ -33,6 +33,8 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
+import androidx.core.content.ContextCompat;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
@@ -75,7 +77,7 @@ public class GlobalActions extends BaseHook {
                 mFilter.addAction(GlobalActionConstants.ACTION_SCREEN_CAPTURE);
                 mFilter.addAction(GlobalActionConstants.ACTION_OPEN_POWER_MENU);
                 mFilter.addAction(GlobalActionConstants.ACTION_LAUNCH_INTENT);
-                mGlobalContext.registerReceiver(mGlobalReceiver, mFilter);
+                mGlobalContext.registerReceiver(mGlobalReceiver, mFilter, ContextCompat.RECEIVER_EXPORTED);
             }
         });
     }
@@ -156,7 +158,7 @@ public class GlobalActions extends BaseHook {
                 Context mContext = (Context) XposedHelpers.getObjectField(param.thisObject, "mContext");
                 IntentFilter intentfilter = new IntentFilter();
                 intentfilter.addAction(GlobalActionConstants.ACTION_RESTART_APPS);
-                mContext.registerReceiver(mRestartReceiver, intentfilter);
+                mContext.registerReceiver(mRestartReceiver, intentfilter, ContextCompat.RECEIVER_NOT_EXPORTED);
             }
         });
     }
