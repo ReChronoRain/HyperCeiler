@@ -72,6 +72,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidget;
@@ -175,6 +176,7 @@ public class HomePhone extends BaseModule {
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
 
         // initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
+        initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);

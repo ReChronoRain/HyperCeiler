@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.hook.home.other;
 
 import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isDarkMode;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 
 import android.annotation.SuppressLint;
@@ -27,10 +28,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -89,7 +93,6 @@ public class FreeformShortcutMenu extends BaseHook {
                     protected void after(MethodHookParam param) {
                         final Object result = param.getResult();
                         final String rs = String.valueOf(result);
-                        logD(TAG, lpparam.packageName, "rs is " + rs);
                         if ("应用信息".equals(rs)) {
                             param.setResult("信息");
                         } else if ("新建窗口".equals(rs)) {
@@ -147,7 +150,7 @@ public class FreeformShortcutMenu extends BaseHook {
             if (mSystemShortcutMenuItem != null) {
                 hookAllMethods(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems", new MethodHook() {
                     @SuppressLint("DiscouragedApi")
-                    @SuppressWarnings({"rawtypes", "unchecked"})
+                    @SuppressWarnings({"unchecked"})
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
 
@@ -159,13 +162,28 @@ public class FreeformShortcutMenu extends BaseHook {
                         final Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
                         final Object mNewTasksInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
 
+                        int tint = isDarkMode() ? Color.WHITE : Color.parseColor("#FF191919");
                         if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
                             callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
-                            callMethod(mSmallWindowInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName())));
+                            Drawable d = ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName()));
+                            if (d != null) {
+                                Drawable wrapped = DrawableCompat.wrap(d).mutate();
+                                DrawableCompat.setTint(wrapped, tint);
+                                callMethod(mSmallWindowInstance, "setIconDrawable", wrapped);
+                            } else {
+                                callMethod(mSmallWindowInstance, "setIconDrawable", d);
+                            }
                         }
                         if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
                             callMethod(mNewTasksInstance, "setShortTitle", modRes.getString(R.string.new_task));
-                            callMethod(mNewTasksInstance, "setIconDrawable", ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_add_pair", "drawable", mContext.getPackageName())));
+                            Drawable d = ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_add_pair", "drawable", mContext.getPackageName()));
+                            if (d != null) {
+                                Drawable wrapped = DrawableCompat.wrap(d).mutate();
+                                DrawableCompat.setTint(wrapped, tint);
+                                callMethod(mSmallWindowInstance, "setIconDrawable", wrapped);
+                            } else {
+                                callMethod(mSmallWindowInstance, "setIconDrawable", d);
+                            }
                         }
 
                         final ArrayList<Object> sAllSystemShortcutMenuItems = new ArrayList<>();
