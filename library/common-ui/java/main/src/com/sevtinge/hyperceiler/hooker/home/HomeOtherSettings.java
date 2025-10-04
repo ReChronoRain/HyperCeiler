@@ -32,6 +32,7 @@ public class HomeOtherSettings extends DashboardFragment {
     SwitchPreference mWindowedMode;
     SwitchPreference mShareAPK;
     SwitchPreference mEnableMoreSettings;
+    SwitchPreference mHideReportText;
 
 
     @Override
@@ -51,9 +52,11 @@ public class HomeOtherSettings extends DashboardFragment {
 
         mWindowedMode = findPreference("prefs_key_home_other_freeform_shortcut_menu");
         mShareAPK = findPreference("prefs_key_home_other_allow_share_apk");
+        mHideReportText = findPreference("prefs_key_home_title_hide_report_text");
         if (isPad()) {
             setFuncHint(mWindowedMode, 2);
             setFuncHint(mShareAPK, 1);
+            setFuncHint(mHideReportText, 1);
         }
 
         mEnableMoreSettings = findPreference("prefs_key_home_other_mi_pad_enable_more_setting");

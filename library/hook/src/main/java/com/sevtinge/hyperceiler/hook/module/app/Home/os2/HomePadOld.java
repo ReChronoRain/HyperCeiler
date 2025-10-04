@@ -111,7 +111,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonetColor
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HiddenAllTitle;
-import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideReportText;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
@@ -263,7 +262,6 @@ public class HomePadOld extends BaseModule {
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
         // initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
-        initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
         initHook(new OptAppLaunchDelay(), mPrefsMap.getBoolean("home_other_opt_app_launch_delay"));
 
