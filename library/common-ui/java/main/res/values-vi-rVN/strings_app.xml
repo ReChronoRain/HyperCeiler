@@ -229,6 +229,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Sửa nội dung ngang</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Ngăn các phần tử liền kề chuyển sang hai bên</string>
     <string name="system_ui_statusbar_indicator_bold">Chữ đậm</string>
+    <string name="unlock_ai">Mở khóa các tính năng AI</string>
+    <string name="unlock_ai_wallpaper">Mở khóa quyền truy cập hình nền AI</string>
     <!--Multi-list Array-->
     <string name="array_close">Đóng</string>
     <string name="array_hide">Ẩn</string>
@@ -498,6 +500,8 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="camera_black_leica_desc">Đổi màu hình mờ Leica thành màu đen khi sử dụng. Một số thiết bị chưa hỗ trợ.</string>
     <string name="camera_custom_theme_color">Tùy chỉnh màu chủ đề</string>
     <string name="camera_custom_theme_color_picker">Chọn màu chủ đề</string>
+    <string name="camera_cloud_watermark">Ép hình mờ từ cloud</string>
+    <string name="camera_cloud_watermark_desc">Chỉ hỗ trợ trên phiên bản 6.2 trở lên. Có thể bị ảnh hưởng bởi máy chủ Xiaomi cloud.</string>
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
@@ -958,6 +962,9 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="sound_recorder">Ghi âm</string>
     <string name="sound_recorder_disable_ai_watermark">Tắt hình mờ AI</string>
     <string name="sound_recorder_unlock_recording_scene">Mở khóa cảnh ghi âm</string>
+    <!--Notes-->
+    <string name="notes">Ghi chú</string>
+    <string name="notes_disable_ai_watermark">Tắt hình mờ AI</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
