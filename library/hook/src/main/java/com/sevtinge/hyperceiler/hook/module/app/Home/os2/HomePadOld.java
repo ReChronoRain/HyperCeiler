@@ -75,7 +75,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.HideNavigationB
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.AlwaysBlurWallpaper;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurRadius;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.BlurWhenShowShortcutMenu;
-import com.sevtinge.hyperceiler.hook.module.hook.home.other.DisableHideGoogle;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.FreeformShortcutMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.HomeMode;
 import com.sevtinge.hyperceiler.hook.module.hook.home.other.InfiniteScroll;
@@ -104,19 +103,19 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.UnlockPin;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.AnimParamCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.BigIconCorner;
-import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideFile;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideApp;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideTheme;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.DownloadAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonetColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonoChrome;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HiddenAllTitle;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideNewInstallIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.LargeIconCornerRadius;
-import com.sevtinge.hyperceiler.hook.module.hook.home.title.NewInstallIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.TitleMarquee;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
@@ -216,19 +215,18 @@ public class HomePadOld extends BaseModule {
         initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
         initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
         initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
-        initHook(DisableHideFile.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file"));
-        initHook(DisableHideGoogle.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_google"));
-        initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("fake_non_default_icon"));
+        initHook(DisableHideApp.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file") || mPrefsMap.getBoolean("home_title_disable_hide_google"));
+        initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("home_title_fake_non_default_icon"));
         initHook(new AnimParamCustom(), mPrefsMap.getBoolean("home_title_custom_anim_param_main"));
         initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
 
         // 标题
         initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
-        initHook(new NewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
+        initHook(new HideNewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
         initHook(new IconTitleCustomization(), mPrefsMap.getBoolean("home_title_title_icontitlecustomization_onoff"));
         initHook(new HiddenAllTitle(), mPrefsMap.getBoolean("home_drawer_font_hidden"));
         initHook(new TitleFontSize());
-        initHook(IconTitleColor.INSTANCE, true);
+        initHook(IconTitleColor.INSTANCE, mPrefsMap.getInt("home_title_title_color", -1) != -1);
         initHook(new UnlockHotseatIcon(), mPrefsMap.getBoolean("home_dock_unlock_hotseat"));
         initHook(new IconMessageColorCustom(), mPrefsMap.getBoolean("home_title_notif_color"));
 

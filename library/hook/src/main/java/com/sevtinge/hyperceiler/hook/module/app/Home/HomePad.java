@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.hook.module.hook.home.DisablePrestart;
 import com.sevtinge.hyperceiler.hook.module.hook.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.hook.module.hook.home.SeekPoints;
+import com.sevtinge.hyperceiler.hook.module.hook.home.SetDeviceLevel;
 import com.sevtinge.hyperceiler.hook.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.dock.DisableRecentsIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.drawer.AllAppsContainerViewBlur;
@@ -44,8 +45,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.layout.HotSeatsMarginTop;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.IndicatorMarginBottom;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.LayoutRules;
 import com.sevtinge.hyperceiler.hook.module.hook.home.layout.WorkspacePadding;
-import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableHideGestureLine;
-import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.EnableMoreSetting;
 import com.sevtinge.hyperceiler.hook.module.hook.home.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.navigation.BackGestureAreaWidth;
@@ -71,6 +70,19 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeaderOffse
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.BigIconCorner;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideApp;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideTheme;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DownloadAnimation;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonetColor;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonoChrome;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideNewInstallIndicator;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleCustomization;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidget;
 
@@ -148,6 +160,24 @@ public class HomePad extends BaseModule {
         initHook(CardTextColor.INSTANCE, mPrefsMap.getInt("home_recent_text_color", -1) != -1);
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
 
+        // 图标
+        initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
+        initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
+        initHook(DisableHideApp.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file") || mPrefsMap.getBoolean("home_title_disable_hide_google"));
+        initHook(DisableHideTheme.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_theme"));
+        initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("home_title_fake_non_default_icon"));
+        initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
+        initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
+        initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
+        initHook(new IconMessageColorCustom(), mPrefsMap.getBoolean("home_title_notif_color"));
+
+        // 标题
+        initHook(new IconTitleCustomization(), mPrefsMap.getBoolean("home_title_title_icontitlecustomization_onoff"));
+        initHook(new HideNewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
+        // initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
+        initHook(new TitleFontSize());
+        initHook(IconTitleColor.INSTANCE, mPrefsMap.getInt("home_title_title_color", -1) != -1);
+
         // 文件夹
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
@@ -160,16 +190,13 @@ public class HomePad extends BaseModule {
         initHook(new FreeformShortcutMenu(), mPrefsMap.getBoolean("home_other_tasks_shortcut_menu"));
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
 
-        // initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
+        initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));
         initHook(new HomeMode(), mPrefsMap.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(ShowAllHideApp.INSTANCE, true); // 桌面快捷方式管理
 
         // 小米/红米平板相关
-        boolean mMoreSetting = mPrefsMap.getBoolean("home_other_mi_pad_enable_more_setting");
         initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
-        initHook(EnableMoreSetting.INSTANCE, mMoreSetting);
-        initHook(EnableHideGestureLine.INSTANCE, mMoreSetting);
     }
 }

@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.hook.module.hook.home.DisablePrestart;
 import com.sevtinge.hyperceiler.hook.module.hook.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.hook.module.hook.home.SeekPoints;
+import com.sevtinge.hyperceiler.hook.module.hook.home.SetDeviceLevel;
 import com.sevtinge.hyperceiler.hook.module.hook.home.UnlockHotseatIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.dock.DockCustomNew;
 import com.sevtinge.hyperceiler.hook.module.hook.home.dock.ShowDockIconTitle;
@@ -72,7 +73,19 @@ import com.sevtinge.hyperceiler.hook.module.hook.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.hook.module.hook.home.recent.TaskViewVertical;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.BigIconCorner;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DisableHideApp;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.DownloadAnimation;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonetColor;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.EnableIconMonoChrome;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.FakeNonDefaultIcon;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideNewInstallIndicator;
 import com.sevtinge.hyperceiler.hook.module.hook.home.title.HideReportText;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconMessageColorCustom;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconSize;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleColor;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.IconTitleCustomization;
+import com.sevtinge.hyperceiler.hook.module.hook.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.hook.module.hook.home.widget.AlwaysShowMiuiWidget;
@@ -159,6 +172,23 @@ public class HomePhone extends BaseModule {
         initHook(CardTextColor.INSTANCE, mPrefsMap.getInt("home_recent_text_color", -1) != -1);
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
 
+        // 图标
+        initHook(new IconSize(), mPrefsMap.getBoolean("home_title_icon_size_enable"));
+        initHook(BigIconCorner.INSTANCE, mPrefsMap.getBoolean("home_title_big_icon_corner"));
+        initHook(DisableHideApp.INSTANCE, mPrefsMap.getBoolean("home_title_disable_hide_file") || mPrefsMap.getBoolean("home_title_disable_hide_google"));
+        initHook(new FakeNonDefaultIcon(), mPrefsMap.getBoolean("home_title_fake_non_default_icon"));
+        initHook(new DownloadAnimation(), mPrefsMap.getBoolean("home_title_download_animation"));
+        initHook(new EnableIconMonoChrome(), mPrefsMap.getBoolean("home_other_icon_mono_chrome"));
+        initHook(EnableIconMonetColor.INSTANCE, mPrefsMap.getBoolean("home_other_icon_monet_color"));
+        initHook(new IconMessageColorCustom(), mPrefsMap.getBoolean("home_title_notif_color"));
+
+        // 标题
+        initHook(new IconTitleCustomization(), mPrefsMap.getBoolean("home_title_title_icontitlecustomization_onoff"));
+        initHook(new HideNewInstallIndicator(), mPrefsMap.getBoolean("home_title_title_new_install"));
+        // initHook(new TitleMarquee(), mPrefsMap.getBoolean("home_title_title_marquee"));
+        initHook(new TitleFontSize());
+        initHook(IconTitleColor.INSTANCE, mPrefsMap.getInt("home_title_title_color", -1) != -1);
+
         // 文件夹
         initHook(new BigFolderItemMaxCount(), mPrefsMap.getBoolean("home_big_folder_item_max_count"));
         initHook(FolderAutoClose.INSTANCE, mPrefsMap.getBoolean("home_folder_auto_close"));
@@ -175,7 +205,7 @@ public class HomePhone extends BaseModule {
         initHook(new AllowShareApk(), mPrefsMap.getBoolean("home_other_allow_share_apk"));
         initHook(ShortcutItemCount.INSTANCE, mPrefsMap.getBoolean("home_other_shortcut_remove_restrictions"));
 
-        // initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
+        initHook(SetDeviceLevel.INSTANCE, mPrefsMap.getBoolean("home_other_high_models"));
         initHook(new HideReportText(), mPrefsMap.getBoolean("home_title_hide_report_text"));
         initHook(new InfiniteScroll(), mPrefsMap.getBoolean("home_other_infinite_scroll"));
         initHook(new DisablePrestart(), mPrefsMap.getBoolean("home_other_disable_prestart"));

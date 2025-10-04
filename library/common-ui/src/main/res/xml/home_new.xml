@@ -47,6 +47,11 @@
             android:title="@string/home_recent" />
 
         <Preference
+            android:key="prefs_key_home_title"
+            android:title="@string/home_title"
+            android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeTitleSettings" />
+
+        <Preference
             android:key="prefs_key_home_other"
             android:title="@string/home_other"
             android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeOtherSettings" />

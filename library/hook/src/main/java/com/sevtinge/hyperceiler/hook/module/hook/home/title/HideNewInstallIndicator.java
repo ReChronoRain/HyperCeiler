@@ -18,11 +18,35 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class NewInstallIndicator extends BaseHook {
+public class HideNewInstallIndicator extends HomeBaseHookNew {
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod("com.miui.home.launcher.ShortcutIcon",
+            "isNewInstalled",
+            boolean.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.setResult(false);
+                }
+            }
+        );
+
+        findAndHookMethod("com.miui.home.folder.FolderIcon",
+            "updateNewInstallIndicator",
+            boolean.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.setResult(null);
+                }
+            }
+        );
+    }
+
     @Override
-    public void init() {
+    public void initBase() {
         findAndHookMethod("com.miui.home.launcher.TitleTextView",
             "updateNewInstallIndicator",
             boolean.class, new MethodHook() {

@@ -153,7 +153,6 @@ public class FreeformShortcutMenu extends BaseHook {
                     @SuppressWarnings({"unchecked"})
                     @Override
                     protected void after(MethodHookParam param) throws Throwable {
-
                         if (mContext == null) return;
                         final Resources modRes = getModuleRes(mContext);
 
@@ -161,38 +160,36 @@ public class FreeformShortcutMenu extends BaseHook {
 
                         final Object mSmallWindowInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
                         final Object mNewTasksInstance = XposedHelpers.newInstance(mAppDetailsShortcutMenuItem);
-
-                        int tint = isDarkMode() ? Color.WHITE : Color.parseColor("#FF191919");
-                        if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
-                            callMethod(mSmallWindowInstance, "setShortTitle", modRes.getString(R.string.floating_window));
-                            Drawable d = ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_small_window", "drawable", mContext.getPackageName()));
-                            if (d != null) {
-                                Drawable wrapped = DrawableCompat.wrap(d).mutate();
-                                DrawableCompat.setTint(wrapped, tint);
-                                callMethod(mSmallWindowInstance, "setIconDrawable", wrapped);
-                            } else {
-                                callMethod(mSmallWindowInstance, "setIconDrawable", d);
-                            }
-                        }
-                        if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
-                            callMethod(mNewTasksInstance, "setShortTitle", modRes.getString(R.string.new_task));
-                            Drawable d = ContextCompat.getDrawable(mContext, mContext.getResources().getIdentifier("ic_task_add_pair", "drawable", mContext.getPackageName()));
-                            if (d != null) {
-                                Drawable wrapped = DrawableCompat.wrap(d).mutate();
-                                DrawableCompat.setTint(wrapped, tint);
-                                callMethod(mSmallWindowInstance, "setIconDrawable", wrapped);
-                            } else {
-                                callMethod(mSmallWindowInstance, "setIconDrawable", d);
-                            }
-                        }
-
                         final ArrayList<Object> sAllSystemShortcutMenuItems = new ArrayList<>();
+
+                        final int tint = isDarkMode() ? Color.WHITE : Color.BLACK;
+
+                        class ItemConfigurer {
+                            void configure(Object instance, int titleResId, String drawableName) {
+                                if (instance == null) return;
+                                callMethod(instance, "setShortTitle", modRes.getString(titleResId));
+                                int resId = mContext.getResources().getIdentifier(drawableName, "drawable", mContext.getPackageName());
+                                Drawable d = resId != 0 ? ContextCompat.getDrawable(mContext, resId) : null;
+                                if (d != null) {
+                                    Drawable wrapped = DrawableCompat.wrap(d).mutate();
+                                    DrawableCompat.setTint(wrapped, tint);
+                                    callMethod(instance, "setIconDrawable", wrapped);
+                                } else {
+                                    callMethod(instance, "setIconDrawable", d);
+                                }
+                            }
+                        }
+                        final ItemConfigurer config = new ItemConfigurer();
+
                         if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
+                            config.configure(mSmallWindowInstance, R.string.floating_window, "ic_task_small_window");
                             sAllSystemShortcutMenuItems.add(mSmallWindowInstance);
                         }
                         if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
+                            config.configure(mNewTasksInstance, R.string.new_task, "ic_task_add_pair");
                             sAllSystemShortcutMenuItems.add(mNewTasksInstance);
                         }
+
                         if (mAllSystemShortcutMenuItems != null) {
                             sAllSystemShortcutMenuItems.addAll(mAllSystemShortcutMenuItems);
                         }

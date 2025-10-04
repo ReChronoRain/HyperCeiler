@@ -92,7 +92,7 @@ abstract class HomeBaseHookNew : BaseHook() {
                         m.invoke(this)
                         return
                     } catch (t: Throwable) {
-                        logE(TAG, lpparam.packageName, t)
+                        logE(TAG, lpparam.packageName, "Invoke method ${m.name} failed", t)
                         // 反射调用失败则继续尝试下一个注解方法
                     }
                 }

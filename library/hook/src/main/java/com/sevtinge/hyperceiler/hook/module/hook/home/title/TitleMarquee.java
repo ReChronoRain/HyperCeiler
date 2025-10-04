@@ -18,28 +18,33 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
 import android.text.TextUtils;
 import android.widget.TextView;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class TitleMarquee extends BaseHook {
+public class TitleMarquee extends HomeBaseHookNew {
     TextView mTitle;
+    TextView mTitleView;
 
-    @Override
-    public void init() {
+    @Version(isPad = true, min = 450000000)
+    private void initPadHook() {
         Class<?> mItemIcon = findClassIfExists("com.miui.home.launcher.ItemIcon");
+        Class<?> mShortcutIcon = findClassIfExists("com.miui.home.launcher.ShortcutIcon");
 
         findAndHookMethod(mItemIcon, "onFinishInflate", new MethodHook() {
             @Override
-            protected void after(MethodHookParam param) throws Throwable {
+            protected void after(MethodHookParam param) {
                 try {
                     mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitleView");
                 } catch (Throwable t) {
-                    mTitle = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitle");
+                    mTitle = (TextView) param.thisObject;
                 }
+                if (mTitle == null) return;
 
                 mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
                 mTitle.setHorizontalFadingEdgeEnabled(true);
@@ -49,5 +54,65 @@ public class TitleMarquee extends BaseHook {
                 mTitle.setHorizontallyScrolling(true);
             }
         });
+
+        if (mShortcutIcon != null) {
+            findAndHookMethod(mShortcutIcon, "setTitle", CharSequence.class, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    mTitle = (TextView) param.thisObject;
+                    if (mTitle == null) return;
+
+                    mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    mTitle.setHorizontalFadingEdgeEnabled(true);
+                    mTitle.setSingleLine();
+                    mTitle.setMarqueeRepeatLimit(-1);
+                    mTitle.setHorizontallyScrolling(true);
+                    mTitle.post(() -> mTitle.setSelected(true));
+                }
+            });
+        }
+    }
+
+    @Override
+    public void initBase() {
+        if (isPad()) {
+            initPadHook();
+            return;
+        }
+
+        Class<?> mItemIcon = findClassIfExists("com.miui.home.ItemIcon");
+        Class<?> mShortcutIcon = findClassIfExists("com.miui.home.launcher.ShortcutIcon");
+
+        findAndHookMethod(mItemIcon, "onFinishInflate", new MethodHook() {
+            @Override
+            protected void after(MethodHookParam param) {
+                mTitleView = (TextView) XposedHelpers.getObjectField(param.thisObject, "mTitleView");
+                if (mTitleView == null) return;
+
+                mTitleView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                mTitleView.setHorizontalFadingEdgeEnabled(true);
+                mTitleView.setSingleLine();
+                mTitleView.setMarqueeRepeatLimit(-1);
+                mTitleView.setHorizontallyScrolling(true);
+                mTitleView.post(() -> mTitleView.setSelected(true));
+            }
+        });
+
+        if (mShortcutIcon != null) {
+            findAndHookMethod(mShortcutIcon, "setTitle", CharSequence.class, new MethodHook() {
+                @Override
+                protected void after(MethodHookParam param) {
+                    mTitle = (TextView) param.thisObject;
+                    if (mTitle == null) return;
+
+                    mTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                    mTitle.setHorizontalFadingEdgeEnabled(true);
+                    mTitle.setSingleLine();
+                    mTitle.setMarqueeRepeatLimit(-1);
+                    mTitle.setHorizontallyScrolling(true);
+                    mTitle.post(() -> mTitle.setSelected(true));
+                }
+            });
+        }
     }
 }
