@@ -56,8 +56,8 @@
     <string name="media_control_album_mode_2">Invisible</string>
     <string name="media_control_button_mode_1">The custom button is on the far right</string>
     <string name="media_control_button_mode_2">The play button is on the far left</string>
-    <string name="notes_unlock_ai_mode_1">Old</string>
-    <string name="notes_unlock_ai_mode_2">New</string>
+    <string name="notes_unlock_ai_mode_1">Old version</string>
+    <string name="notes_unlock_ai_mode_2">New version</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Network settings</string>
     <string name="system_ui_hide_navigation_bar">Hide gesture line</string>
