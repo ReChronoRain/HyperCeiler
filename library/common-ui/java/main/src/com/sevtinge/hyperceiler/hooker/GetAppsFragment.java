@@ -53,27 +53,6 @@ public class GetAppsFragment extends DashboardFragment {
             setFuncHint(mRiskCheck, 1);
         }
 
-        int[] allowedValues = getResources().getIntArray(R.array.market_device_modify_value);
-
-        int currentValue = 0;
-        boolean isAllowed = false;
-        try {
-            String s = getSharedPreferences().getString("prefs_key_market_device_modify_new", "0");
-            currentValue = Integer.parseInt(s);
-        } catch (NumberFormatException ignored) {
-            isAllowed = true;
-        }
-
-        for (int v : allowedValues) {
-            if (v == currentValue) {
-                isAllowed = true;
-                break;
-            }
-        }
-        if (!isAllowed && mDeviceModify != null) {
-            cleanKey(mDeviceModify.getKey());
-        }
-
         if (currentValue == 1) {
             mDevice.setVisible(true);
             mModel.setVisible(true);
