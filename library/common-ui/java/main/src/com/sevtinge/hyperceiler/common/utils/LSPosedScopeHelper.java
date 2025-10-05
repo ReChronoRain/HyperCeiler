@@ -33,7 +33,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LSPosedScopeHelper {
 
@@ -106,34 +108,51 @@ public class LSPosedScopeHelper {
             }
 
             String tableName = "modules";
-            String[] columns = {"mid"};
-            String selection = "module_pkg_name = ?";
-            String[] selectionArgs = {APP_MODULE_ID};
+            cursor = db.query(tableName, null, null, null, null, null, null);
 
-            cursor = db.query(tableName, columns, selection, selectionArgs, null, null, null);
-
-            List<String> totalScope = new ArrayList<>();
+            Set<String> totalScopeSet = new LinkedHashSet<>();
             if (cursor.moveToFirst()) {
-                List<String> scopeMid;
-                List<String> scopeUid;
+                int midCol = cursor.getColumnIndex("mid");
+                int modulePkgCol = cursor.getColumnIndex("module_pkg_name");
+
+                List<String> scopeUid = new ArrayList<>();
+                try {
+                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
+                } catch (Exception e) {
+                    AndroidLogUtils.logW("PreferenceHeader", "Query scope by user_id failed: ", e);
+                }
 
                 do {
-                    String mid = cursor.getString(cursor.getColumnIndex("mid"));
+                    String mid = midCol != -1 ? cursor.getString(midCol) : null;
+                    String modulePkg = modulePkgCol != -1 ? cursor.getString(modulePkgCol) : null;
 
-                    scopeMid = queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true);
-                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
+                    if (modulePkg != null && !modulePkg.equals(APP_MODULE_ID)) continue;
 
-                    List<String> intersection = new ArrayList<>(scopeMid);
-                    intersection.retainAll(scopeUid);
-
-                    for (String pkg : intersection) {
-                        if (!totalScope.contains(pkg)) {
-                            totalScope.add(pkg);
+                    java.util.Set<String> candidates = new java.util.LinkedHashSet<>();
+                    if (mid != null) {
+                        try {
+                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true));
+                        } catch (Exception e) {
+                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by mid failed: ", e);
                         }
                     }
+
+                    if (modulePkg != null) {
+                        try {
+                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "module_pkg_name = ?", new String[]{modulePkg}, true));
+                        } catch (Exception e) {
+                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by module_pkg_name failed: ", e);
+                        }
+                    }
+
+                    if (!scopeUid.isEmpty()) {
+                        candidates.retainAll(scopeUid);
+                    }
+
+                    totalScopeSet.addAll(candidates);
                 } while (cursor.moveToNext());
             }
-            mScope = totalScope;
+            mScope = new ArrayList<>(totalScopeSet);
         } catch (Exception e) {
             isScopeGetFailed = true;
             AndroidLogUtils.logW("PreferenceHeader", "Database error: ", e);
