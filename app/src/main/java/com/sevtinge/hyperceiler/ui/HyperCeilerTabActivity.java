@@ -19,15 +19,16 @@
 package com.sevtinge.hyperceiler.ui;
 
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
+import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -46,10 +47,11 @@ import com.sevtinge.hyperceiler.hook.callback.IResult;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
+import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.main.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
@@ -57,7 +59,10 @@ import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import fan.appcompat.app.AlertDialog;
 import fan.navigator.Navigator;
@@ -71,25 +76,69 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     private Handler mHandler;
     private ArrayList<String> appCrash = new ArrayList<>();
 
-    @Override
+
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mHandler = new Handler(getMainLooper());
+        super.onCreate(savedInstanceState);
+
+        mHandler = new Handler(Looper.getMainLooper());
+
+        Executor mInitExecutor = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "HyperCeiler-init");
+            t.setDaemon(true);
+            return t;
+        });
+
         LogManager.init();
         applyGrayScaleFilter(this);
         HolidayHelper.init(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);
-        super.onCreate(savedInstanceState);
-        SearchHelper.init(this, savedInstanceState != null);
-        XposedActivateHelper.init(this);
         ShellInit.init(this);
-        LogServiceUtils.init(this);
-        LogManager.setLogLevel();
+        XposedActivateHelper.init(this);
 
-        appCrash = CrashData.toPkgList();
-        mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+        final boolean restored = (savedInstanceState != null);
 
-        requestCta();
+        mInitExecutor.execute(() -> {
+            final android.content.Context appCtx = getApplicationContext();
+
+            try {
+                LogServiceUtils.init(appCtx);
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "LogServiceUtils: " + t);
+            }
+
+            try {
+                SearchHelper.init(appCtx, restored);
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "SearchHelper: " + t);
+            }
+
+            try {
+                LogManager.setLogLevel();
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "setLogLevel: " + t);
+            }
+
+            ArrayList<String> computedAppCrash = new ArrayList<>();
+            try {
+                List<?> raw = CrashData.toPkgList();
+                for (Object o : raw) {
+                    if (o instanceof String) {
+                        computedAppCrash.add((String) o);
+                    } else if (o != null) {
+                        computedAppCrash.add(String.valueOf(o));
+                    }
+                }
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "CrashData: " + t);
+            }
+
+            mHandler.post(() -> {
+                appCrash = computedAppCrash;
+                mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+                requestCta();
+            });
+        });
     }
 
     @SuppressLint("StringFormatInvalid")

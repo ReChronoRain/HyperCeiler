@@ -24,6 +24,7 @@ import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
@@ -63,12 +64,34 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         mAppsList = findPreference("prefs_key_apps_list");
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
-        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+
+        Thread thread = getThread();
+        thread.start();
 
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
         if (isHideTip && mShowAppTips != null) {
             mShowAppTips.setVisible(false);
         }
+    }
+
+    @NonNull
+    private Thread getThread() {
+        Thread thread = new Thread(() -> {
+            try {
+                HomePageBannerHelper.init(requireContext().getApplicationContext(), mHeadtipGround);
+            } catch (Exception e) {
+                AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on background thread, retrying on UI thread", e);
+                requireActivity().runOnUiThread(() -> {
+                    try {
+                        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+                    } catch (Exception ex) {
+                        AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on UI thread", ex);
+                    }
+                });
+            }
+        });
+        thread.setName("HomePageBannerInit");
+        return thread;
     }
 
     private void setPreference() {
@@ -97,13 +120,21 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
     private void processPreferenceHeader(String key, String summary, SharedPreferences sp) {
         if (key == null || summary == null) return;
 
+        if (!sp.getBoolean(key + "_state", true)) {
+            PreferenceHeader header = findPreference(key);
+            if (header != null && header.isVisible()) {
+                header.setVisible(false);
+            }
+            return;
+        }
+
         PreferenceHeader header = findPreference(key);
         if (header == null) return;
 
         setIconAndTitle(header, summary);
         String title = header.getTitle() != null ? header.getTitle().toString() : "";
         String summary1 = header.getSummary() != null ? header.getSummary().toString() : "";
-        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1, key, sp));
+        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1));
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
