@@ -33,6 +33,7 @@ fun getHost(): String = Build.HOST
 fun getBuilder(): String = getProp("ro.build.user")
 fun getBaseOs(): String = getProp("ro.build.version.base_os").ifEmpty { "null" }
 fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
+fun getWhoAmI(): String = rootExecCmd("whoami") ?: "unknown"
 fun getRootGroupsInfo(): String = rootExecCmd("id") ?: "unknown"
 fun getCurrentUserId(): Int = Process.myUserHandle().hashCode()
 // 仅获取设备信息，不要用于判断

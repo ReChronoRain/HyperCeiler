@@ -18,12 +18,12 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
+import static com.sevtinge.hyperceiler.hook.BuildConfig.APP_MODULE_ID;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.isDatabaseLocked;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.queryList;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
-import static com.sevtinge.hyperceiler.ui.BuildConfig.APP_MODULE_ID;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -33,7 +33,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 public class LSPosedScopeHelper {
 
@@ -52,18 +54,28 @@ public class LSPosedScopeHelper {
     }
 
     public static boolean isInSelectedScope(Context context, String lable, String pkg) {
+        String normLabel = lable == null ? "" : lable.trim();
+        String normPkg = pkg == null ? null : pkg.trim();
+        String normPkgForEntry = normPkg == null ? "" : normPkg.toLowerCase();
+        String entry = " - " + normLabel + (normPkg != null ? " (" + normPkgForEntry + ")" : "");
+
         if (isUninstall(context, pkg)) {
-            mUninstallApp.add(" - " + lable + " (" + pkg + ")");
+            if (!mUninstallApp.contains(entry)) {
+                mUninstallApp.add(entry);
+            }
             return false;
         } else if (isDisable(context, pkg) || isHidden(context, pkg)) {
-            mDisableOrHiddenApp.add(" - " + lable + " (" + pkg + ")");
+            if (!mDisableOrHiddenApp.contains(entry)) {
+                mDisableOrHiddenApp.add(entry);
+            }
             return false;
         }
         if (pkg != null && !mScope.contains(pkg) && isInitScopeGet && !isScopeGetFailed) {
-            mNotInSelectedScope.add(pkg);
-            String string = " - " + lable + " (" + pkg + ")";
-            if (!mDisableOrHiddenApp.contains(string) && !mUninstallApp.contains(string) && !mNoScoped.contains(string)) {
-                mNoScoped.add(string);
+            if (!mNotInSelectedScope.contains(normPkgForEntry)) {
+                mNotInSelectedScope.add(normPkgForEntry);
+            }
+            if (!mDisableOrHiddenApp.contains(entry) && !mUninstallApp.contains(entry) && !mNoScoped.contains(entry)) {
+                mNoScoped.add(entry);
             }
             return false;
         }
@@ -71,11 +83,11 @@ public class LSPosedScopeHelper {
     }
 
     private static boolean isAndroidPackage(String pkg) {
-        return pkg == null || "android".contentEquals(pkg);
+        return pkg != null && !"android".contentEquals(pkg);
     }
 
     private static boolean isUninstall(Context context, String pkg) {
-        return !isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
+        return isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
     }
 
     private static boolean isDisable(Context context, String pkg) {
@@ -106,34 +118,51 @@ public class LSPosedScopeHelper {
             }
 
             String tableName = "modules";
-            String[] columns = {"mid"};
-            String selection = "module_pkg_name = ?";
-            String[] selectionArgs = {APP_MODULE_ID};
+            cursor = db.query(tableName, null, null, null, null, null, null);
 
-            cursor = db.query(tableName, columns, selection, selectionArgs, null, null, null);
-
-            List<String> totalScope = new ArrayList<>();
+            Set<String> totalScopeSet = new LinkedHashSet<>();
             if (cursor.moveToFirst()) {
-                List<String> scopeMid;
-                List<String> scopeUid;
+                int midCol = cursor.getColumnIndex("mid");
+                int modulePkgCol = cursor.getColumnIndex("module_pkg_name");
+
+                List<String> scopeUid = new ArrayList<>();
+                try {
+                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
+                } catch (Exception e) {
+                    AndroidLogUtils.logW("PreferenceHeader", "Query scope by user_id failed: ", e);
+                }
 
                 do {
-                    String mid = cursor.getString(cursor.getColumnIndex("mid"));
+                    String mid = midCol != -1 ? cursor.getString(midCol) : null;
+                    String modulePkg = modulePkgCol != -1 ? cursor.getString(modulePkgCol) : null;
 
-                    scopeMid = queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true);
-                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
+                    if (modulePkg != null && !modulePkg.equals(APP_MODULE_ID)) continue;
 
-                    List<String> intersection = new ArrayList<>(scopeMid);
-                    intersection.retainAll(scopeUid);
-
-                    for (String pkg : intersection) {
-                        if (!totalScope.contains(pkg)) {
-                            totalScope.add(pkg);
+                    Set<String> candidates = new LinkedHashSet<>();
+                    if (mid != null) {
+                        try {
+                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true));
+                        } catch (Exception e) {
+                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by mid failed: ", e);
                         }
                     }
+
+                    if (modulePkg != null) {
+                        try {
+                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "module_pkg_name = ?", new String[]{modulePkg}, true));
+                        } catch (Exception e) {
+                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by module_pkg_name failed: ", e);
+                        }
+                    }
+
+                    if (!scopeUid.isEmpty()) {
+                        candidates.retainAll(scopeUid);
+                    }
+
+                    totalScopeSet.addAll(candidates);
                 } while (cursor.moveToNext());
             }
-            mScope = totalScope;
+            mScope = new ArrayList<>(totalScopeSet);
         } catch (Exception e) {
             isScopeGetFailed = true;
             AndroidLogUtils.logW("PreferenceHeader", "Database error: ", e);
