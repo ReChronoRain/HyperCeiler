@@ -25,7 +25,7 @@
         <com.sevtinge.hyperceiler.common.prefs.TipsPreference android:key="prefs_key_tips" />
     </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory android:key="prefs_key_apps_list">
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.hooker.SystemFrameworkFragment"

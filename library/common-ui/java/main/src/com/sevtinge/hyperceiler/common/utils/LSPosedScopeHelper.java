@@ -54,18 +54,28 @@ public class LSPosedScopeHelper {
     }
 
     public static boolean isInSelectedScope(Context context, String lable, String pkg) {
+        String normLabel = lable == null ? "" : lable.trim();
+        String normPkg = pkg == null ? null : pkg.trim();
+        String normPkgForEntry = normPkg == null ? "" : normPkg.toLowerCase();
+        String entry = " - " + normLabel + (normPkg != null ? " (" + normPkgForEntry + ")" : "");
+
         if (isUninstall(context, pkg)) {
-            mUninstallApp.add(" - " + lable + " (" + pkg + ")");
+            if (!mUninstallApp.contains(entry)) {
+                mUninstallApp.add(entry);
+            }
             return false;
         } else if (isDisable(context, pkg) || isHidden(context, pkg)) {
-            mDisableOrHiddenApp.add(" - " + lable + " (" + pkg + ")");
+            if (!mDisableOrHiddenApp.contains(entry)) {
+                mDisableOrHiddenApp.add(entry);
+            }
             return false;
         }
         if (pkg != null && !mScope.contains(pkg) && isInitScopeGet && !isScopeGetFailed) {
-            mNotInSelectedScope.add(pkg);
-            String string = " - " + lable + " (" + pkg + ")";
-            if (!mDisableOrHiddenApp.contains(string) && !mUninstallApp.contains(string) && !mNoScoped.contains(string)) {
-                mNoScoped.add(string);
+            if (!mNotInSelectedScope.contains(normPkgForEntry)) {
+                mNotInSelectedScope.add(normPkgForEntry);
+            }
+            if (!mDisableOrHiddenApp.contains(entry) && !mUninstallApp.contains(entry) && !mNoScoped.contains(entry)) {
+                mNoScoped.add(entry);
             }
             return false;
         }
@@ -73,11 +83,11 @@ public class LSPosedScopeHelper {
     }
 
     private static boolean isAndroidPackage(String pkg) {
-        return pkg == null || "android".contentEquals(pkg);
+        return pkg != null && !"android".contentEquals(pkg);
     }
 
     private static boolean isUninstall(Context context, String pkg) {
-        return !isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
+        return isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
     }
 
     private static boolean isDisable(Context context, String pkg) {
@@ -128,7 +138,7 @@ public class LSPosedScopeHelper {
 
                     if (modulePkg != null && !modulePkg.equals(APP_MODULE_ID)) continue;
 
-                    java.util.Set<String> candidates = new java.util.LinkedHashSet<>();
+                    Set<String> candidates = new LinkedHashSet<>();
                     if (mid != null) {
                         try {
                             candidates.addAll(queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true));
