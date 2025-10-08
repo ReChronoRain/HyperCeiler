@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.development;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.fixLsposedLogService;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
@@ -28,18 +27,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
 import fan.appcompat.app.AlertDialog;
-import fan.preference.DropDownPreference;
 
 public class DevelopmentFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
 
