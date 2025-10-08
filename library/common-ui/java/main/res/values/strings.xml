@@ -136,8 +136,10 @@
     <string name="logo_egg3">There are no Android eggs here, but there are HyperCeiler eggs!</string>
     <string name="uninstall_title">Do you really want to uninstall HyperCeiler?</string>
     <string name="uninstall_summary">After uninstalling HyperCeiler, the module configuration remains in the Xposed framework database. To remove it completely, first go to the module settings and reset the module configuration, then uninstall.</string>
-    <string name="unsupported_func_tips">The target app appears to be a modified version. This module is unable to provide hook services for it. Try using a different version of the app or enable Debug mode and try again.</string>
+    <string name="unsupported_func_tips">The target app appears to be a modified version. This module is unable to provide hook services for it. Try using a different official version of the app or enable Debug mode and try again.</string>
     <string name="debug_mode">Debug mode</string>
     <string name="open_debug_mode_tips">After enabling Debug mode, you\'ll be able to freely choose which version of the target app you want to mount. However, if the hooks for that version encounter issues, don\'t report them to the developers.</string>
     <string name="debug_mode_running">The target app is being debugged!\nCurrent app version: %1$s\nSelected target version: %2$s\nHook applied successfully: %3$s</string>
+    <string name="debug_mode_switch">Select debugging version</string>
+    <string name="debug_mode_home_version">Set home version code</string>
 </resources>

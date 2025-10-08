@@ -23,10 +23,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import androidx.activity.result.ActivityResultLauncher;
+
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.ui.R;
-
-import androidx.activity.result.ActivityResultLauncher;
 
 public class CtaUtils {
 
@@ -73,7 +73,7 @@ public class CtaUtils {
         return false;
     }
 
-    public static boolean showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {
+    public static void showCtaDialog(ActivityResultLauncher<Intent> launcher, Activity activity) {
         Intent intent = new Intent();
         int mActivities = activity.getPackageManager().queryIntentActivities(intent, 0).size();
         intent.setAction(mActivities > 0 ? ACTION_START_CTA_V2_NEW : ACTION_START_CTA_V2);
@@ -92,10 +92,8 @@ public class CtaUtils {
         intent.putExtra(KEY_SHOW_LOCK, false);
         try {
             launcher.launch(intent);
-            return true;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
     }
 

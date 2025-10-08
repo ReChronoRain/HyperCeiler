@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
+import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils
 
 abstract class HomeBaseHookNew : BaseHook() {
 
@@ -44,10 +45,21 @@ abstract class HomeBaseHookNew : BaseHook() {
     /**
      * 子类或 BaseHook 可重写以提供真实的版本号/是否平板信息
      */
+
+    private val isDebug: Boolean by lazy {
+        mPrefsMap.getBoolean("development_debug_mode")
+    }
     private var _cachedAppVersion: Int? = null
     private var _cachedIsPad: Boolean? = null
 
-    protected open fun appVersion(): Int = _cachedAppVersion ?: getPackageVersionCode(lpparam).also { _cachedAppVersion = it }
+    protected open fun appVersion(): Int {
+        val v = if (isDebug) {
+            _cachedAppVersion ?: DebugModeUtils.getChooseResult(lpparam.packageName).also { _cachedAppVersion = it }
+        } else {
+            _cachedAppVersion ?: getPackageVersionCode(lpparam).also { _cachedAppVersion = it }
+        }
+        return v
+    }
     protected open fun isPadDevice(): Boolean = _cachedIsPad ?: isPad().also { _cachedIsPad = it }
 
     final override fun init() {
@@ -87,13 +99,12 @@ abstract class HomeBaseHookNew : BaseHook() {
 
                 if (version >= anno.min && version <= anno.max && (!isPadSpecified || anno.isPad == isPadCached)) {
                     try {
-                        logD(TAG, lpparam.packageName, "Check method ${m.name} for version ${anno.min} to ${anno.max}, isPad=${anno.isPad}")
+                        logD(TAG, lpparam.packageName, "Check method ${m.name} for version $version, select ${anno.min} to ${anno.max}, isPad = ${anno.isPad}")
                         m.isAccessible = true
                         m.invoke(this)
                         return
                     } catch (t: Throwable) {
                         logE(TAG, lpparam.packageName, "Invoke method ${m.name} failed", t)
-                        // 反射调用失败则继续尝试下一个注解方法
                     }
                 }
             }
