@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
@@ -43,7 +44,8 @@ import java.util.function.Consumer
 
 object DockCustomNew : BaseHook() {
     private val launcherClass by lazy {
-        loadClass("com.miui.home.launcher.Launcher")
+        loadClassOrNull("com.miui.home.launcher.BaseLauncher")
+            ?: loadClass("com.miui.home.launcher.Launcher")
     }
 
     private val animationCompatComplexClass by lazy {

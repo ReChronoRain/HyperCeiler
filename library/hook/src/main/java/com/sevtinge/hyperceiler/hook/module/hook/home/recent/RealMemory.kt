@@ -34,8 +34,7 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.text.DecimalFormat
 
-object
-RealMemory : BaseHook() {
+object RealMemory : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
         lateinit var context: Context

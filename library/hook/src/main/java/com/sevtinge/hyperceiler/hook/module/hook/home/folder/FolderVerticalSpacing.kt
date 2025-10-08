@@ -18,17 +18,33 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.folder
 
-import android.widget.*
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.*
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import android.widget.GridView
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.findClass
 import com.sevtinge.hyperceiler.hook.utils.hookAfterAllMethods
-import de.robv.android.xposed.*
+import de.robv.android.xposed.XposedHelpers
 
-object FolderVerticalSpacing : BaseHook() {
-    override fun init() {
+object FolderVerticalSpacing : HomeBaseHookNew() {
 
-        val verticalSpacing = mPrefsMap.getInt("home_folder_vertical_spacing", 0)
+    private val verticalSpacing by lazy {
+        mPrefsMap.getInt("home_folder_vertical_spacing", 0)
+    }
+
+
+    @Version(isPad = false, min = 600000000)
+    private fun initForNewHome() {
+        if (verticalSpacing <= 0) return
+        "com.miui.home.folder.FolderView".findClass().hookAfterAllMethods(
+            "bind"
+        ) {
+            val mContent = XposedHelpers.getObjectField(it.thisObject, "mContent") as GridView
+            mContent.verticalSpacing = dp2px(verticalSpacing.toFloat())
+        }
+    }
+
+
+    override fun initBase() {
         if (verticalSpacing <= 0) return
         "com.miui.home.launcher.Folder".findClass().hookAfterAllMethods(
             "bind"

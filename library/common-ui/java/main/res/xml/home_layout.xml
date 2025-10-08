@@ -165,7 +165,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/home_layout_searchbar_title">
+    <PreferenceCategory
+        android:title="@string/home_layout_searchbar_title"
+        android:key="prefs_key_home_layout_searchbar_title" >
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_layout_searchbar_width_enable"
@@ -214,19 +216,37 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:dependency="prefs_key_home_folder_width"
             android:key="prefs_key_home_folder_horizontal_padding_enable"
             android:summary="@string/home_folder_horizontal_padding_desc"
             android:title="@string/horizontal_margin" />
 
         <SeekBarPreferenceCompat
             android:defaultValue="0"
-            android:dependency="prefs_key_home_folder_horizontal_padding_enable"
             android:key="prefs_key_home_folder_horizontal_padding"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
             app:maxValue="50"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_horizontal_padding_pad_h"
+            android:title="@string/horizontal"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="450"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_horizontal_padding_pad_v"
+            android:title="@string/vertical"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="200"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 

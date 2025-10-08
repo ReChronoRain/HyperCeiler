@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.development;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.fixLsposedLogService;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
@@ -27,15 +28,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils;
 import com.sevtinge.hyperceiler.ui.R;
 
 import fan.appcompat.app.AlertDialog;
+import fan.preference.DropDownPreference;
 
 public class DevelopmentFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -43,6 +47,8 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     Preference mDeleteAllDexKitCache;
     Preference mFixLsposedLog;
     SwitchPreference mDebugMode;
+    DropDownPreference mHomeVersion;
+    EditTextPreference mEditHomeVersion;
 
     public interface EditDialogCallback {
         void onInputReceived(String command);
@@ -60,6 +66,9 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
         mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
         mDebugMode = findPreference("prefs_key_development_debug_mode");
 
+        mHomeVersion = findPreference("prefs_key_debug_mode_home");
+        mEditHomeVersion = findPreference("prefs_key_debug_mode_home_edit");
+
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
         mFixLsposedLog.setOnPreferenceClickListener(this);
@@ -68,14 +77,38 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
             boolean isDebug = (boolean) newValue;
             if (isDebug) {
                 DialogHelper.showDialog(getActivity(), R.string.tip, R.string.open_debug_mode_tips, (dialog, which) -> {
-                    Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
-                    mDebugMode.setChecked(false);
+                    /*Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
+                    mDebugMode.setChecked(false);*/
                     dialog.dismiss();
                 }, (dialog, which) -> {
                     mDebugMode.setChecked(false);
                     dialog.dismiss();
                 });
             }
+            return true;
+        });
+
+        int getValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_debug_mode_home", "0"));
+
+        if (isPad()) {
+            mHomeVersion.setEntries(R.array.debug_mode_home_pad);
+            mHomeVersion.setEntryValues(R.array.debug_mode_home_pad_value);
+        }
+
+        mEditHomeVersion.setVisible(getValue == 1);
+
+        mHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
+            int isNewValue = Integer.parseInt((String) newValue);
+            mEditHomeVersion.setVisible(isNewValue == 1);
+            if (isNewValue != 1) {
+                DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
+            }
+            return true;
+        });
+
+        mEditHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
+            int isNewValue = Integer.parseInt((String) newValue);
+            DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
             return true;
         });
     }

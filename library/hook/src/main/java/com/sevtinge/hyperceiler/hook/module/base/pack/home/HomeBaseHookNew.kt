@@ -20,8 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.base.pack.home
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
+import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils
 
 abstract class HomeBaseHookNew : BaseHook() {
 
@@ -44,13 +45,21 @@ abstract class HomeBaseHookNew : BaseHook() {
     /**
      * 子类或 BaseHook 可重写以提供真实的版本号/是否平板信息
      */
+
+    private val isDebug: Boolean by lazy {
+        mPrefsMap.getBoolean("development_debug_mode")
+    }
     private var _cachedAppVersion: Int? = null
     private var _cachedIsPad: Boolean? = null
-    private val isLowVersion by lazy {
-        isHyperOSVersion(2f)
-    }
 
-    protected open fun appVersion(): Int = _cachedAppVersion ?: getPackageVersionCode(lpparam).also { _cachedAppVersion = it }
+    protected open fun appVersion(): Int {
+        val v = if (isDebug) {
+            _cachedAppVersion ?: DebugModeUtils.getChooseResult(lpparam.packageName).also { _cachedAppVersion = it }
+        } else {
+            _cachedAppVersion ?: getPackageVersionCode(lpparam).also { _cachedAppVersion = it }
+        }
+        return v
+    }
     protected open fun isPadDevice(): Boolean = _cachedIsPad ?: isPad().also { _cachedIsPad = it }
 
     final override fun init() {
@@ -61,8 +70,9 @@ abstract class HomeBaseHookNew : BaseHook() {
         // 针对目标版本进行筛选
         // RELEASE-6.01.02.1135-09051745 (601021135) 手机端桌面
         // RELEASE-4.50.0.592-0821-09051648 (450000592) 平板端桌面
-        if ((version < 600000000 && !isPadDevice()) || (version < 450000000 && isPadDevice()) || isLowVersion) {
+        if ((version < 600000000 && !isPadDevice()) || (version < 450000000 && isPadDevice())) {
             initBase()
+            logD(TAG, lpparam.packageName, "is load old hook")
             return
         }
 
@@ -80,7 +90,6 @@ abstract class HomeBaseHookNew : BaseHook() {
             val anno = m.getAnnotation(Version::class.java)
             if (anno != null) {
                 // 如果注解显式指定 isPad，则按指定值匹配；未显式指定则忽略 isPad 条件
-                logD(TAG, lpparam.packageName, "Check method ${m.name} for version ${anno.min} to ${anno.max}, isPad=${anno.isPad}")
                 val defaultIsPad = try {
                     Version::class.java.getMethod("isPad").defaultValue as? Boolean ?: false
                 } catch (_: Exception) {
@@ -90,11 +99,12 @@ abstract class HomeBaseHookNew : BaseHook() {
 
                 if (version >= anno.min && version <= anno.max && (!isPadSpecified || anno.isPad == isPadCached)) {
                     try {
+                        logD(TAG, lpparam.packageName, "Check method ${m.name} for version $version, select ${anno.min} to ${anno.max}, isPad = ${anno.isPad}")
                         m.isAccessible = true
                         m.invoke(this)
                         return
-                    } catch (_: Exception) {
-                        // 反射调用失败则继续尝试下一个注解方法
+                    } catch (t: Throwable) {
+                        logE(TAG, lpparam.packageName, "Invoke method ${m.name} failed", t)
                     }
                 }
             }
@@ -102,11 +112,24 @@ abstract class HomeBaseHookNew : BaseHook() {
 
         // 都匹配不上则走原有实现
         initBase()
+        logD(TAG, lpparam.packageName, "load nothing, so load old hook")
+    }
+
+    @JvmOverloads
+    protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): MethodHook {
+        return object : MethodHook() {
+            override fun before(param: MethodHookParam) {
+                param.result = DisplayUtils.dp2px(
+                    mPrefsMap.getInt(key, defaultValue).toFloat()
+                )
+            }
+        }
     }
 
     companion object {
         const val DEVICE_CONFIG_OLD = "com.miui.home.launcher.DeviceConfig"
         const val DEVICE_CONFIG_NEW = "com.miui.home.common.device.DeviceConfigs"
-        const val GRID_CONFIG = "com.miui.home.launcher.GridConfig"
+        const val GRID_CONFIG_OLD = "com.miui.home.launcher.GridConfig"
+        const val GRID_CONFIG_NEW = "com.miui.home.common.gridconfig.GridConfig"
     }
 }

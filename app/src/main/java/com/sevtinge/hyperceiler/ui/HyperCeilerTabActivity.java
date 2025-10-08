@@ -49,6 +49,7 @@ import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
@@ -135,6 +136,10 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
                 requestCta();
             });
         });
+
+        // 先这样写，后面扩展了其它应用再改
+        boolean check = CheckModifyUtils.INSTANCE.isApkModified(this, "com.miui.home", CheckModifyUtils.XIAOMI_SIGNATURE);
+        CheckModifyUtils.INSTANCE.setCheckResult("com.miui.home", check);
     }
 
     @SuppressLint("StringFormatInvalid")

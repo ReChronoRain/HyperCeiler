@@ -18,12 +18,21 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
-import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 
-class SearchBarMarginWidth : HomeBaseHook() {
-    override fun init() {
+class SearchBarMarginWidth : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
         findAndHookMethod(
-            DEVICE_CONFIG, "getSearchBarWidth",
+            DEVICE_CONFIG_NEW, "getSearchBarWidth",
+            setDimensionPixelSizeFormPrefs("home_layout_searchbar_width")
+        )
+    }
+
+    override fun initBase() {
+        findAndHookMethod(
+            DEVICE_CONFIG_OLD, "getSearchBarWidth",
             setDimensionPixelSizeFormPrefs("home_layout_searchbar_width")
         )
     }

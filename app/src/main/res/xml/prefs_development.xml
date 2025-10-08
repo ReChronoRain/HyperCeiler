@@ -16,7 +16,8 @@
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <PreferenceCategory>
         <Preference
@@ -70,6 +71,22 @@
         <Preference
             android:key="prefs_key_development_fix_lsposed_log"
             android:title="@string/development_fix_lsposed_log" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_development_debug_mode"
+        android:title="@string/home">
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_debug_mode_home"
+            android:title="@string/debug_mode_switch"
+            android:defaultValue="0"
+            app:entries="@array/debug_mode_home"
+            app:entryValues="@array/debug_mode_home_value" />
+
+        <EditTextPreference
+            android:key="prefs_key_debug_mode_home_edit"
+            android:title="@string/debug_mode_home_version" />
 
     </PreferenceCategory>
 

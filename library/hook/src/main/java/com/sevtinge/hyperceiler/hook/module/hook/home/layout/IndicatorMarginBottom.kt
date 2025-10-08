@@ -18,12 +18,21 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
-import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 
-class IndicatorMarginBottom : HomeBaseHook() {
-    override fun init() {
+class IndicatorMarginBottom : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
         findAndHookMethod(
-            DEVICE_CONFIG, "getWorkspaceIndicatorMarginBottom",
+            DEVICE_CONFIG_NEW, "getWorkspaceIndicatorMarginBottom",
+            setDimensionPixelSizeFormPrefs("home_layout_indicator_margin_bottom")
+        )
+    }
+
+    override fun initBase() {
+        findAndHookMethod(
+            DEVICE_CONFIG_OLD, "getWorkspaceIndicatorMarginBottom",
             setDimensionPixelSizeFormPrefs("home_layout_indicator_margin_bottom")
         )
     }

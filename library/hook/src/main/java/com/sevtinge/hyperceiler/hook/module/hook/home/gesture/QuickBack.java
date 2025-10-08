@@ -22,6 +22,8 @@ import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
 
@@ -110,18 +112,7 @@ public class QuickBack extends HCBase {
                             return;
                         }
 
-                        ArrayList<?> stackTasks = (ArrayList<?>) callMethod(taskStack, "getStackTasks");
-                        Object task = null;
-                        for (int i = 0; i < stackTasks.size() - 1; i++) {
-                            Object t = stackTasks.get(i);
-                            if ((int) getField(getField(t, "key"), "id") == runningTask.id) {
-                                task = stackTasks.get(i + 1);
-                                break;
-                            }
-                        }
-                        if (task == null && !stackTasks.isEmpty() && "com.miui.home".equals(runningTask.baseActivity.getPackageName())) {
-                            task = stackTasks.get(0);
-                        }
+                        Object task = getTask(taskStack, runningTask);
 
                         if (task != null && getField(task, "icon") == null) {
                             setField(task, "icon",
@@ -164,6 +155,23 @@ public class QuickBack extends HCBase {
                             return;
                         }
                         setResult(task);
+                    }
+
+                    @NonNull
+                    private Object getTask(Object taskStack, ActivityManager.RunningTaskInfo runningTask) {
+                        ArrayList<?> stackTasks = (ArrayList<?>) callMethod(taskStack, "getStackTasks");
+                        Object task = null;
+                        for (int i = 0; i < stackTasks.size() - 1; i++) {
+                            Object t = stackTasks.get(i);
+                            if ((int) getField(getField(t, "key"), "id") == runningTask.id) {
+                                task = stackTasks.get(i + 1);
+                                break;
+                            }
+                        }
+                        if (task == null && !stackTasks.isEmpty() && "com.miui.home".equals(runningTask.baseActivity.getPackageName())) {
+                            task = stackTasks.get(0);
+                        }
+                        return task;
                     }
                 }
         );

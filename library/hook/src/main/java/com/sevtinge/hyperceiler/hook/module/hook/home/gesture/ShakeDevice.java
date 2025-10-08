@@ -23,19 +23,50 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.hook.utils.ShakeManager;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class ShakeDevice extends BaseHook {
+public class ShakeDevice extends HomeBaseHookNew {
+
+    private final String shakeMgrKey = "MIUIZER_SHAKE_MGR";
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+
+        findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onResume", new MethodHook() {
+            @Override
+            protected void after(final MethodHookParam param) {
+                ShakeManager shakeMgr = (ShakeManager) XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey);
+                if (shakeMgr == null) {
+                    shakeMgr = new ShakeManager((Context) param.thisObject);
+                    XposedHelpers.setAdditionalInstanceField(param.thisObject, shakeMgrKey, shakeMgr);
+                }
+                Activity launcherActivity = (Activity) param.thisObject;
+                SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
+                shakeMgr.reset();
+                sensorMgr.registerListener(shakeMgr, sensorMgr.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), SensorManager.SENSOR_DELAY_NORMAL);
+            }
+        });
+
+        findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onPause", new MethodHook() {
+            @Override
+            protected void after(final MethodHookParam param) {
+                if (XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey) == null) return;
+                Activity launcherActivity = (Activity) param.thisObject;
+                SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
+                sensorMgr.unregisterListener((ShakeManager) XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey));
+            }
+        });
+    }
+
     @Override
-    public void init() {
-        final String shakeMgrKey = "MIUIZER_SHAKE_MGR";
+    public void initBase() {
 
         findAndHookMethod("com.miui.home.launcher.Launcher", "onResume", new MethodHook() {
             @Override
-            protected void after(final MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) {
                 ShakeManager shakeMgr = (ShakeManager) XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey);
                 if (shakeMgr == null) {
                     shakeMgr = new ShakeManager((Context) param.thisObject);
@@ -50,7 +81,7 @@ public class ShakeDevice extends BaseHook {
 
         findAndHookMethod("com.miui.home.launcher.Launcher", "onPause", new MethodHook() {
             @Override
-            protected void after(final MethodHookParam param) throws Throwable {
+            protected void after(final MethodHookParam param) {
                 if (XposedHelpers.getAdditionalInstanceField(param.thisObject, shakeMgrKey) == null) return;
                 Activity launcherActivity = (Activity) param.thisObject;
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);

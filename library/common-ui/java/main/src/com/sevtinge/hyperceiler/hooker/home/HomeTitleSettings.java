@@ -19,23 +19,19 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.preference.Preference;
-import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
-
-import fan.preference.SeekBarPreferenceCompat;
+import com.sevtinge.hyperceiler.ui.R;
 
 public class HomeTitleSettings extends DashboardFragment {
 
@@ -47,20 +43,20 @@ public class HomeTitleSettings extends DashboardFragment {
 
     @Override
     public int getPreferenceScreenResId() {
+        if (isMoreHyperOSVersion(3f)) return R.xml.home_title_new;
         return R.xml.home_title;
     }
 
     @Override
     public void initPrefs() {
-        mIconTitleCustomization = findPreference("prefs_key_home_title_title_icontitlecustomization");
         mDisableMonoChrome = findPreference("prefs_key_home_other_icon_mono_chrome");
 
         mDisableMonoChrome.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableMonetColor = findPreference("prefs_key_home_other_icon_monet_color");
         mDisableMonetColor.setOnPreferenceChangeListener((preference, o) -> true);
         mDisableHideTheme = findPreference("prefs_key_home_title_disable_hide_theme");
-        setHide(mDisableHideTheme, isPad());
 
+        mIconTitleCustomization = findPreference("prefs_key_home_title_title_icontitlecustomization");
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
             intent.putExtra("mode", AppPickerFragment.INPUT_MODE);
@@ -69,26 +65,30 @@ public class HomeTitleSettings extends DashboardFragment {
             return true;
         });
 
+        setHide(mDisableHideTheme, isPad());
 
         Bundle args1 = new Bundle();
         Bundle args2 = new Bundle();
         mRecommend = new RecommendPreference(requireContext());
         getPreferenceScreen().addPreference(mRecommend);
 
-        args1.putString(":settings:fragment_args_key", "prefs_key_home_other_shortcut_background_blur");
-        mRecommend.addRecommendView(getString(R.string.home_other_shortcut_background_blur),
+        args2.putString(":settings:fragment_args_key", "prefs_key_home_other_all_hide_app_activity");
+        mRecommend.addRecommendView(getString(R.string.home_other_app_icon_hide),
+            null,
+            HomeOtherSettings.class,
+            args2,
+            R.string.home_other
+        );
+
+        if (!isMoreHyperOSVersion(3f)) {
+            args1.putString(":settings:fragment_args_key", "prefs_key_home_other_shortcut_background_blur");
+            mRecommend.addRecommendView(getString(R.string.home_other_shortcut_background_blur),
                 null,
                 HomeOtherSettings.class,
                 args1,
                 R.string.home_other
-        );
+            );
+        }
 
-        args2.putString(":settings:fragment_args_key", "prefs_key_home_other_all_hide_app_activity");
-        mRecommend.addRecommendView(getString(R.string.home_other_app_icon_hide),
-                null,
-                HomeOtherSettings.class,
-                args2,
-                R.string.home_other
-        );
     }
 }

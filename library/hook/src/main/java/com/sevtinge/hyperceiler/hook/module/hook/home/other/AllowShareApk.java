@@ -20,11 +20,37 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.other;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class AllowShareApk extends BaseHook{
+public class AllowShareApk extends HomeBaseHookNew {
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod("com.miui.home.common.utils.Utils", "isSecurityCenterSupportShareAPK", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    param.setResult(false);
+                }
+            }
+        );
+
+        findAndHookMethod("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$ShareAppShortcutMenuItem", "isValid", "com.miui.home.model.api.ItemInfo", new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    findAndHookMethod("com.miui.home.launcher.common.Utilities", "isSystemPackage", Context.class, String.class, new MethodHook() {
+                            @Override
+                            protected void before(MethodHookParam param) {
+                                param.setResult(false);
+                            }
+                        }
+                    );
+                }
+            }
+        );
+    }
+
     @Override
-    public void init() throws NoSuchMethodException {
+    public void initBase() {
         findAndHookMethod("com.miui.home.launcher.common.Utilities", "isSecurityCenterSupportShareAPK", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

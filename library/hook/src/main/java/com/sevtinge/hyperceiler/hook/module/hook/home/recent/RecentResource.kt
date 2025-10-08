@@ -40,7 +40,7 @@ object RecentResource : BaseHook() {
             if (hookMap.isKeyExist(resName)) if (hookMap[resName]?.type == resType) {
                 param.result = hookMap[resName]?.afterValue
             }
-        } catch (ignore: Exception) {
+        } catch (_: Throwable) {
         }
     }
 
@@ -56,7 +56,6 @@ object RecentResource : BaseHook() {
             }
         })
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
-            EzXposed.initHandleLoadPackage(lpparam)
             EzXposed.initAppContext(it.args[0] as Context)
 
             Resources::class.java.hookBeforeMethod("getBoolean", Int::class.javaPrimitiveType) { hook(it) }

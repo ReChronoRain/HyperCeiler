@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.recent
 
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -28,14 +29,18 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object RemoveLeftShare : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.recents.views.RecentsWorldCirculateAndSmallWindowCrop").methodFinder()
-            .filterByName("initViewDisplayInDrag")
+        if (isPad()) {
+            loadClass("com.miui.home.recents.views.RecentsTopWindowDropTargetWorldCirculate")
+        } else {
+            loadClass("com.miui.home.recents.views.RecentsWorldCirculateAndSmallWindowCrop")
+        }.methodFinder().filterByName("initViewDisplayInDrag")
             .first().createHook {
                 before {
                     it.thisObject.setObjectField("mIsSupportWorldcirculate", false)
                 }
                 after {
-                    val mWorldcirculateContent = it.thisObject.getObjectField("mWorldcirculateContent") as ViewGroup
+                    val mWorldcirculateContent =
+                        it.thisObject.getObjectField("mWorldcirculateContent") as ViewGroup
                     mWorldcirculateContent.visibility = ViewGroup.GONE
                 }
             }
