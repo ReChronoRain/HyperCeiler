@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout;
 
+import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
+
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
@@ -30,9 +32,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     @Override
     public void initBase() {
-        mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
-        if (mDeviceConfig == null)
-            mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
+        mDeviceConfig = findClassIfExists(getPackageVersionCode(lpparam) < 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
             @Override
