@@ -25,9 +25,8 @@
             android:key="prefs_key_development_debug_info"
             android:title="@string/development_debug_info" />
 
-        <SwitchPreference
-            android:selectable="false"
-            android:defaultValue="false"
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentDebugModeFragment"
             android:key="prefs_key_development_debug_mode"
             android:title="@string/debug_mode" />
 
@@ -71,22 +70,6 @@
         <Preference
             android:key="prefs_key_development_fix_lsposed_log"
             android:title="@string/development_fix_lsposed_log" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:dependency="prefs_key_development_debug_mode"
-        android:title="@string/home">
-        <fan.preference.DropDownPreference
-            android:key="prefs_key_debug_mode_home"
-            android:title="@string/debug_mode_switch"
-            android:defaultValue="0"
-            app:entries="@array/debug_mode_home"
-            app:entryValues="@array/debug_mode_home_value" />
-
-        <EditTextPreference
-            android:key="prefs_key_debug_mode_home_edit"
-            android:title="@string/debug_mode_home_version" />
 
     </PreferenceCategory>
 

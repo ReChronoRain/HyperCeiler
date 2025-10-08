@@ -44,7 +44,7 @@ public class HomeFragment extends DashboardFragment {
         mHeader = findPreference("prefs_key_home_unsupported");
 
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), "com.miui.home");
-        boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
+        boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_debug_mode", false);
         logE("HyperHome", "initPrefs: com.miui.home check: " + check);
         mHeader.setVisible(check && !isDebugMode);
     }

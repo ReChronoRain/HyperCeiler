@@ -100,7 +100,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
-                        Drawable icon = getPackageIcon(summary); // 替换为获取图标的方法
+                        Drawable icon = getPackageIcon(summary);
                         String name = getPackageName(summary);
                         SwitchPreference preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {

@@ -46,9 +46,6 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     Preference mCmdR;
     Preference mDeleteAllDexKitCache;
     Preference mFixLsposedLog;
-    SwitchPreference mDebugMode;
-    DropDownPreference mHomeVersion;
-    EditTextPreference mEditHomeVersion;
 
     public interface EditDialogCallback {
         void onInputReceived(String command);
@@ -64,53 +61,10 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
         mCmdR = findPreference("prefs_key_development_cmd_r");
         mDeleteAllDexKitCache = findPreference("prefs_key_development_delete_all_dexkit_cache");
         mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
-        mDebugMode = findPreference("prefs_key_development_debug_mode");
-
-        mHomeVersion = findPreference("prefs_key_debug_mode_home");
-        mEditHomeVersion = findPreference("prefs_key_debug_mode_home_edit");
 
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
         mFixLsposedLog.setOnPreferenceClickListener(this);
-
-        mDebugMode.setOnPreferenceChangeListener((preference, newValue) -> {
-            boolean isDebug = (boolean) newValue;
-            if (isDebug) {
-                DialogHelper.showDialog(getActivity(), R.string.tip, R.string.open_debug_mode_tips, (dialog, which) -> {
-                    /*Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
-                    mDebugMode.setChecked(false);*/
-                    dialog.dismiss();
-                }, (dialog, which) -> {
-                    mDebugMode.setChecked(false);
-                    dialog.dismiss();
-                });
-            }
-            return true;
-        });
-
-        int getValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_debug_mode_home", "0"));
-
-        if (isPad()) {
-            mHomeVersion.setEntries(R.array.debug_mode_home_pad);
-            mHomeVersion.setEntryValues(R.array.debug_mode_home_pad_value);
-        }
-
-        mEditHomeVersion.setVisible(getValue == 1);
-
-        mHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
-            int isNewValue = Integer.parseInt((String) newValue);
-            mEditHomeVersion.setVisible(isNewValue == 1);
-            if (isNewValue != 1) {
-                DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
-            }
-            return true;
-        });
-
-        mEditHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
-            int isNewValue = Integer.parseInt((String) newValue);
-            DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
-            return true;
-        });
     }
 
     @Override
