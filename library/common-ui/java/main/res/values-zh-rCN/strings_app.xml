@@ -1610,6 +1610,7 @@
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
     <string name="aiasst_all_captions">解锁多语言在线字幕</string>
+    <string name="aiasst_unlock_split_screen_translation">解锁分屏翻译</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
     <string name="barrage_any_barrage">允许所有应用使用弹幕通知</string>

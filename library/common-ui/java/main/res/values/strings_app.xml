@@ -1521,6 +1521,7 @@
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Force enable AI captions</string>
     <string name="aiasst_all_captions">Unlock multi-language online captions</string>
+    <string name="aiasst_unlock_split_screen_translation">Unlock split-screen translation</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">Allow all apps to use barrage notification</string>
