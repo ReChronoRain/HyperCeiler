@@ -38,7 +38,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableCleaner;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiLite;
@@ -60,7 +59,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.QuickScreenshot
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SpeedInstall;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
@@ -72,8 +70,10 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.Display
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.OpenAppInFreeForm;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualNRSupport;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSASupport;

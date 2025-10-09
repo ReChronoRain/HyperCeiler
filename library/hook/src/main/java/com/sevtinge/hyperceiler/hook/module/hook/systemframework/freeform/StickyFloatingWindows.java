@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
+package com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
@@ -306,7 +306,7 @@ public class StickyFloatingWindows extends BaseHook {
         unserializeFwApps(Settings.Global.getString(context.getContentResolver(), ProjectApi.mAppModulePkg + ".fw.apps"));
     }
 
-    private static ActivityOptions patchActivityOptions(Context mContext, ActivityOptions options, String pkgName, Class<?> MiuiMultiWindowUtils) {
+    static ActivityOptions patchActivityOptions(Context mContext, ActivityOptions options, String pkgName, Class<?> MiuiMultiWindowUtils) {
         if (options == null) options = ActivityOptions.makeBasic();
         XposedHelpers.callMethod(options, "setLaunchWindowingMode", 5);
         XposedHelpers.callMethod(options, "setMiuiConfigFlag", 2);

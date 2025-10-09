@@ -20,10 +20,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/system_framework_corepatch_title"
     app:quick_restart="system">
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/system_framework_corepatch_tip" />
+
     <PreferenceCategory android:title="@string/system_ui_statusbar_indicator_default_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_core_patch_enable"
+            android:summary="@string/disable_detailed_log_desc"
             android:title="@string/enable" />
 
         <SwitchPreference
