@@ -403,8 +403,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Ignore the system blacklist and software ban freeform</string>
     <string name="system_framework_freeform_sticky">Remember state and position</string>
     <string name="system_framework_freeform_bubble">Bubble freeform</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Turn all freeform into mini freeform</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Turn all freeform into mini freeform in Recents. This feature is experimental with high instability.</string>
     <string name="system_framework_freeform_jump">Open with freeform when jump to another app</string>
     <string name="system_framework_freeform_foreground_pin">Welt windows force the front desk</string>
     <string name="system_framework_freeform_title_desc">In the following scenarios, when you need to jump to other apps, you\'ll use the freeform to open.</string>

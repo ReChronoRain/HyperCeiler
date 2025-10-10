@@ -51,7 +51,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.LinkTurboToast;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PstedClipboard;
@@ -101,7 +100,6 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(new StickyFloatingWindows(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
         initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
         initHook(new UnForegroundPin(), mPrefsMap.getBoolean("system_framework_freeform_foreground_pin"));
         // initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));

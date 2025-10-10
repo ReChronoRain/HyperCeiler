@@ -265,8 +265,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Ignorare la blacklist di sistema e il divieto di software freeform</string>
     <string name="system_framework_freeform_sticky">Ricorda la posizione</string>
     <string name="system_framework_freeform_bubble">Forma libera bolla</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Trasforma tutte le forme libere in mini forme libere</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Trasforma tutte le forme libere in mini forme libere nelle attività recenti\nQuesta funzione è una caratteristica sperimentale molto instabile</string>
     <string name="system_framework_freeform_jump">Apri in Freeform quando cambi app</string>
     <string name="system_framework_freeform_foreground_pin">Le finestre Welt forzano la home</string>
     <string name="system_framework_freeform_title_desc">Nei seguenti scenari, quando salti ad altre applicazioni, verranno aperte nella forma libera</string>

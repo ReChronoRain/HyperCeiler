@@ -346,8 +346,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Игнорирует системный черный список и программный запрет на малые окна</string>
     <string name="system_framework_freeform_sticky">Запомнить положение и состояние</string>
     <string name="system_framework_freeform_bubble">Всплывающее окно</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Все плавающие окна только маленькие</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Включает многооконный режим для всех маленьких окон в недавних задачах Эта функция является экспериментальной и очень нестабильна.</string>
     <string name="system_framework_freeform_jump">При переходе в другое приложение, открывать с помощью плавающего окна</string>
     <string name="system_framework_freeform_foreground_pin">Вытяжка окна выдерживает переднюю панель</string>
     <string name="system_framework_freeform_title_desc">В следующих сценариях, для перехода к другим приложениям, будет использоваться плавающее окно для открытия.</string>

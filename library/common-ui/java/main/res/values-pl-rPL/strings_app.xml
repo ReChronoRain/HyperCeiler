@@ -335,8 +335,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Zignoruj systemową czarną listę i zakaz oprogramowania dla trybu dowolnego</string>
     <string name="system_framework_freeform_sticky">Zapamiętaj stan i pozycję</string>
     <string name="system_framework_freeform_bubble">Dymki trybu dowolnego</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Przekształć wszystkie okna w mini okienka trybu dowolnego</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Przekształca wszystkie okna w mini okienka w widoku Ostatnich. Ta funkcja jest eksperymentalna i może być bardzo niestabilna.</string>
     <string name="system_framework_freeform_jump">Otwórz w trybie dowolnym, gdy przejdziesz do innej aplikacji</string>
     <string name="system_framework_freeform_foreground_pin">Wymuszenie okna na pierwszym planie</string>
     <string name="system_framework_freeform_title_desc">W następujących przypadkach, gdy musisz przejść do innych aplikacji, użyjesz okna do otwarcia.</string>
