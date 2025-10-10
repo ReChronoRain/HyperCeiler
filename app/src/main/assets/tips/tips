@@ -20,6 +20,7 @@ This is a 2.0 tip!
 This is a 0.9 tip!
 Improve the stability of the module and optimize the module fluency.
 Bugs are just part of the premium experience in HyperCeiler.
+You can never finish filling all the big holes, and you can never finish drawing all the big pies; requirements are varied.
 The system has been destroyed.
 System UI isn't responding.
 Users just need to update the module, but developers have many things to consider.
@@ -49,3 +50,4 @@ Why is the volume adjustment so imprecise? You can go to "System Framework > Vol
 The sound effect is good for the external speaker, but the original sound is better with headphones. It's really annoying to keep switching! You can go to "Earphones > Change headphone status to the original sound" to manage this.
 Why do I have fewer widgets available than others? You can go to "Personal assistant > Disable simplified version" to unlock the same access as everyone else.
 Your dock is so pretty, I want one too! You can go to "System launcher > Dock > Add background blur to dock" to customize your dock.
+If you encounter a scope that keeps restarting repeatedly, be sure to check the "System Framework" scope — it can save you in some situations.
