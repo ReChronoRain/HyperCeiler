@@ -19,15 +19,13 @@
 package com.sevtinge.hyperceiler.hook.utils.shell
 
 import android.content.ComponentName
-import android.util.Log
-import com.sevtinge.hyperceiler.hook.BuildConfig
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils
 
 @Suppress("unused")
 object ShellPackageManager {
     private const val TAG = "ShellPackageManager"
     private const val PM = "pm"
-
-    private val DEBUG = BuildConfig.DEBUG
 
     @JvmStatic
     fun enable(packageName: String): Boolean {
@@ -59,8 +57,8 @@ object ShellPackageManager {
         }
 
         val commandResult = ShellUtils.execCommand("$PM $status $packageName", true)
-        if (DEBUG) {
-            Log.d(TAG, commandResult.toString())
+        if (isDebug()) {
+            AndroidLogUtils.deLogI(TAG, commandResult.toString())
         }
         return commandResult.result == 0
     }

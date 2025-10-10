@@ -86,8 +86,6 @@ public class OtherSettings extends DashboardFragment
         if (isHyperOSVersion(2f) && isMoreAndroidVersion(36)) {
             setFuncHint(mVolume, 1);
             setFuncHint(mPower, 1);
-        } else if (isMoreAndroidVersion(36)) {
-            setFuncHint(mVolume, 1);
         }
 
         setStyleMode(mPct);
