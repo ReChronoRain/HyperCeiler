@@ -74,6 +74,9 @@ abstract class HomeBaseHookNew : BaseHook() {
             initBase()
             logD(TAG, lpparam.packageName, "is load old hook")
             return
+        } else if (version >= 900000000) {
+            logD(TAG, lpparam.packageName, "version $version is too high, skip hook")
+            return
         }
 
         // 优先匹配 isSkip：如果在跳过范围内，直接返回不处理

@@ -150,5 +150,6 @@
     <string name="open_debug_mode_tips">该选项不适用于普通用户，开启调试模式后，您可以自定义部分目标作用域需要挂载的版本，但请注意，开启后 HyperCeiler 无法对您的数据安全和能否成功 hook 做出保障。</string>
     <string name="debug_mode_running">当前目标作用域正处于调试模式，若无必要开启请前往关闭。\n当前应用版本：%1$s\n选择目标版本：%2$s\n是否成功挂钩：%3$s</string>
     <string name="debug_mode_switch">调试版本</string>
-    <string name="debug_mode_home_version">设置 系统桌面 版本</string>
+    <string name="debug_mode_home_version">设置 系统桌面 版本号</string>
+    <string name="debug_mode_home_version_desc">过高的版本号仍旧会被拦截，请认真填写</string>
 </resources>

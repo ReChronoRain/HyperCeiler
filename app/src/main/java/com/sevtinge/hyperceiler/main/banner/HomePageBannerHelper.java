@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.main.banner;
 
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.scanModules;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -132,7 +132,10 @@ public class HomePageBannerHelper {
         try {
             List<ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
             String moduleName = module.getFirst().extractName();
-            return moduleName.contains("LSPosed IT") || moduleName.contains("LSPosed - Irena");
+            if (moduleName.contains("nolog") || moduleName.contains("日志")) {
+                return false;
+            }
+            return moduleName.contains("LSPosed IT") || moduleName.equals("LSPosed - Irena");
         } catch (Throwable e) {
             AndroidLogUtils.logE("isWhileXposed", e);
             return true;

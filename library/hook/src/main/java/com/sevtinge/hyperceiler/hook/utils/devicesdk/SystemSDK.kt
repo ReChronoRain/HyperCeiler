@@ -192,7 +192,7 @@ fun parseModuleProp(propFile: File, moduleDirPath: String, charset: Charset = Ch
                 if (trimmed.isEmpty() || trimmed.startsWith("#")) return@forEach
                 val idx = trimmed.indexOf('=')
                 if (idx <= 0) return@forEach
-                val key = trimmed.substring(0, idx).trim()
+                val key = trimmed.take(idx).trim()
                 val value = trimmed.substring(idx + 1).trim()
                 map[key] = value
             }

@@ -21,26 +21,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <SwitchPreference
-        android:selectable="false"
         android:defaultValue="false"
         android:key="prefs_key_debug_mode"
+        android:selectable="false"
         android:title="@string/debug_mode" />
 
-    <PreferenceCategory
-        android:dependency="prefs_key_debug_mode">
+    <PreferenceCategory android:dependency="prefs_key_debug_mode">
 
         <fan.preference.DropDownPreference
+            android:defaultValue="0"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_debug_mode_home"
-            android:summary="com.miui.home"
             android:layout="@layout/preference_header"
+            android:summary="com.miui.home"
             android:title="@string/mihome"
-            android:defaultValue="0"
             app:entries="@array/debug_mode_home"
             app:entryValues="@array/debug_mode_home_value" />
 
         <EditTextPreference
             android:key="prefs_key_debug_mode_home_edit"
+            android:summary="@string/debug_mode_home_version_desc"
             android:title="@string/debug_mode_home_version" />
 
     </PreferenceCategory>
