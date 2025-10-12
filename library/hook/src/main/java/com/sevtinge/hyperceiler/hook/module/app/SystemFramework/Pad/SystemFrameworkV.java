@@ -109,7 +109,7 @@ public class SystemFrameworkV extends BaseModule {
         // initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         // 音量
-        initHook(new VolumeDefaultStream(), true);
+        initHook(new VolumeDefaultStream(), mPrefsMap.getStringAsInt("system_framework_default_volume_stream", 0) != 0);
         initHook(new VolumeFirstPress(), mPrefsMap.getBoolean("system_framework_volume_first_press"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));

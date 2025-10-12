@@ -43,6 +43,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.Display
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 @HookBase(targetPackage = "android", isPad = 2, targetSdk = 36)
@@ -78,6 +83,13 @@ public class SystemFrameworkB extends BaseModule {
         initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
         initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));*/
+
+        // 音量
+        initHook(new VolumeDefaultStream(), mPrefsMap.getStringAsInt("system_framework_default_volume_stream", 0) != 0);
+        initHook(new VolumeFirstPress(), mPrefsMap.getBoolean("system_framework_volume_first_press"));
+        initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
+        initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
+        initHook(new VolumeDisableSafe(), mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0) != 0);
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));

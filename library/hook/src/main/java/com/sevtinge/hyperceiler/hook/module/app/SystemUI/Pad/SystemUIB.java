@@ -4,6 +4,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
@@ -136,6 +137,7 @@ public class SystemUIB extends BaseModule {
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
 
+        initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
         if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
             initHook(new AutoSEffSwitchForSystemUi().onApplication());
         }
