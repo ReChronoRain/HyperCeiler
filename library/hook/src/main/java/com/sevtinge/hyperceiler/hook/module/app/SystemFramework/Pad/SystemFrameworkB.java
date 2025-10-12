@@ -23,19 +23,27 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isHyperO
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AntiQues;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ConservativeMilletFramework;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePersistent;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableRemoveFingerprintSensorConfig;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.GMSDozeFixFramework;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.LinkTurboToast;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PackagePermissions;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.QuickScreenshot;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
@@ -100,7 +108,16 @@ public class SystemFrameworkB extends BaseModule {
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
 
         // 其它-显示与通知
+        initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
+        initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
+        initHook(new AntiQues(), mPrefsMap.getBoolean("system_settings_anti_ques"));
+        initHook(new DisablePinVerifyPer72h(), mPrefsMap.getBoolean("system_framework_disable_72h_verify"));
+        initHook(new ThermalBrightness(), mPrefsMap.getBoolean("system_framework_other_thermal_brightness"));
+        initHook(new AppLinkVerify(), mPrefsMap.getBoolean("system_framework_disable_app_link_verify"));
+        initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
+        initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
+        initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 
         // 其它-底层

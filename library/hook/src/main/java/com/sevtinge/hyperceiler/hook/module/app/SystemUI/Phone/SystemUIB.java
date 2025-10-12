@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockScr
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.HideLockscreenZenMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.LockScreenDoubleTapToSleep;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.lockscreen.ScramblePIN;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.RotationButtonB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMultiWinSwitch;
@@ -129,6 +130,9 @@ public class SystemUIB extends BaseModule {
             initHook(FocusNotifLyric.INSTANCE);
             initHook(HideFakeStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_hide_clock"));
         }
+
+        // 导航栏
+        initHook(RotationButtonB.INSTANCE, mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 0);
 
         // 控制与通知中心
         initHook(new QSColor(), mPrefsMap.getBoolean("system_ui_control_center_qs_open_color") || mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color"));
