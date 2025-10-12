@@ -24,6 +24,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.BackgroundBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ConservativeMilletFramework;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiWatermark;
@@ -39,7 +40,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightne
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.AllDarkMode;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
@@ -92,6 +97,11 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new VolumeDisableSafe(), mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0) != 0);
 
         // 显示
+        initHook(new BackgroundBlur(), mPrefsMap.getBoolean("system_framework_background_blur_supported"));
+        initHook(EnhanceRecentsVisibility.INSTANCE, mPrefsMap.getBoolean("system_framework_enhance_recents_visibility"));
+        initHook(UseAOSPScreenShot.INSTANCE, mPrefsMap.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
+        initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
+        initHook(new ThemeProvider(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
 
         // 其它-显示与通知

@@ -35,27 +35,34 @@ class AllDarkMode : BaseHook() {
         if (isInternational()) return
         val clazzForceDarkAppListManager =
             loadClass("com.android.server.ForceDarkAppListManager")
-        clazzForceDarkAppListManager.methodFinder().filterByName("getDarkModeAppList").toList()
-            .createHooks {
-                before {
-                    val originalValue = XposedHelpers.getStaticBooleanField(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD")
-                    setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", true)
-                    it.setObjectExtra("originalValue", originalValue)
+
+        clazzForceDarkAppListManager.methodFinder().apply {
+            filterByName("getDarkModeAppList").toList()
+                .createHooks {
+                    before {
+                        val originalValue = XposedHelpers.getStaticBooleanField(
+                            clazzMiuiBuild,
+                            "IS_INTERNATIONAL_BUILD"
+                        )
+                        setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", true)
+                        it.setObjectExtra("originalValue", originalValue)
+                    }
+                    after {
+                        val originalValue = it.getObjectExtra("originalValue")
+                        setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", originalValue)
+                    }
                 }
-                after {
-                    val originalValue = it.getObjectExtra("originalValue")
-                    setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", originalValue)
+
+            filterByName("shouldShowInSettings").toList()
+                .createHooks {
+                    before { param ->
+                        val info = param.args[0] as ApplicationInfo?
+                        param.result =
+                            !(info == null || (
+                                invokeMethodBestMatch(info, "isSystemApp") as Boolean
+                                ) || info.uid < 10000)
+                    }
                 }
-            }
-        clazzForceDarkAppListManager.methodFinder().filterByName("shouldShowInSettings").toList()
-            .createHooks {
-                before { param ->
-                    val info = param.args[0] as ApplicationInfo?
-                    param.result =
-                        !(info == null || (
-                            invokeMethodBestMatch(info, "isSystemApp") as Boolean
-                            ) || info.uid < 10000)
-                }
-            }
+        }
     }
 }
