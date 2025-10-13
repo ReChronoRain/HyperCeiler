@@ -299,8 +299,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">就用就用！就用小窗！不管你让不让我用了！</string>
     <string name="system_framework_freeform_sticky">记忆力惊人</string>
     <string name="system_framework_freeform_bubble">冒泡小窗</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">把所有小窗变得更小（小小的也很可爱☺️）</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">在神秘的遥控器中将所有紫色心情转为跳蛋。此功能正在 experimental，具有较高不稳定性。</string>
     <string name="system_framework_freeform_jump">随心所欲的在 App 里跳来跳去（大家都喜欢！）</string>
     <string name="system_framework_freeform_foreground_pin">小窗不许偷懒</string>
     <string name="system_framework_freeform_title_desc">在下面的场景中，当您需要跳转到其他应用程序时，您将使用自由落体来打开。</string>

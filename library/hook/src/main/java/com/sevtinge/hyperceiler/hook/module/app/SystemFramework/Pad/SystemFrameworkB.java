@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableRemoveFi
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableThermal;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.EffectBinderProxy;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
@@ -39,6 +40,9 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.Allow
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassIsolationViolation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.BypassSignCheckForT;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.DisplayCutout;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 @HookBase(targetPackage = "android", isPad = 1, targetSdk = 36)
@@ -63,6 +67,12 @@ public class SystemFrameworkB extends BaseModule {
         // 手势初始化
         initHook(new PackagePermissions(), true);
         initHook(new GlobalActions(), true);
+
+        // 小窗
+        initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
+        initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
+        initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
+        initHook(new UnForegroundPin(), mPrefsMap.getBoolean("system_framework_freeform_foreground_pin"));
 
         // 显示
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));

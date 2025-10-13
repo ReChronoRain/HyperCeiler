@@ -265,8 +265,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Abaikan daftar hitam sistem dan larangan perangkat lunak berbentuk bebas</string>
     <string name="system_framework_freeform_sticky">Ingat negara bagian</string>
     <string name="system_framework_freeform_bubble">Freeform gelembung</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Ubah semua freeform menjadi bentuk freeform mini</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Ubah semua bentuk bebas menjadi bentuk bebas mini dalam tugas terkini\nFitur ini merupakan fitur eksperimental dengan ketidakstabilan tinggi</string>
     <string name="system_framework_freeform_jump">Buka dengan freeform saat beralih ke aplikasi lain</string>
     <string name="system_framework_freeform_foreground_pin">Jendela Welt memaksa meja depan</string>
     <string name="system_framework_freeform_title_desc">Dalam skenario berikut, saat Anda perlu beralih ke aplikasi lain, Anda akan menggunakan bentuk bebas untuk membukanya</string>

@@ -337,8 +337,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Ігнорувати системний чорний список і програмні заборони на плаваючі вікна</string>
     <string name="system_framework_freeform_sticky">Запам\'ятовувати стан та положення</string>
     <string name="system_framework_freeform_bubble">Плаваючий-бульбашка</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Перетворити всі плаваючі вікна на міні-вікна</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Перетворити всі плаваючі вікна на міні-вікна в Нещодавніх. Ця функція експериментальна і дуже нестабільна.</string>
     <string name="system_framework_freeform_jump">Відкривати в плаваючому вікні при переході до іншого додатка</string>
     <string name="system_framework_freeform_foreground_pin">Примусово виводити вікна на передній план</string>
     <string name="system_framework_freeform_title_desc">У наступних сценаріях, коли вам потрібно перейти до інших додатків, вони будуть відкриватися в плаваючому вікні.</string>

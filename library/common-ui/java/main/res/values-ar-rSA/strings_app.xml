@@ -341,8 +341,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">تجاهل القائمة السوداء للنظام للعرض في نافذه منبثقة</string>
     <string name="system_framework_freeform_sticky">تذكر الحالة والموقع</string>
     <string name="system_framework_freeform_bubble">فقاعات النوافذ المنبثقة</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">تحويل كل النوافذ المنبثقة إلى نوافذ منبثقة مصغرة</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">تحويل جميع النوافذ المنبثقة إلى نوافذ مصغرة في آخر التطبيقات. هذه الميزة تجريبية مع عدم استقرار عالٍ.</string>
     <string name="system_framework_freeform_jump">فتح في نافذة عائمة عند الانتقال إلى تطبيق آخر</string>
     <string name="system_framework_freeform_foreground_pin">السماح بتثبيت النوافذ الحرة في المقدمة</string>
     <string name="system_framework_freeform_title_desc">في السيناريوهات التالية، عندما تحتاج إلى الانتقال إلى تطبيقات أخرى، ستستخدم النوافذ المنبثقة لفتح التطبيق.</string>

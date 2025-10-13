@@ -19,22 +19,33 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 class FreeFormCount : BaseHook() {
     override fun init() {
         val clazzMiuiFreeFormStackDisplayStrategy =
             loadClass("com.android.server.wm.MiuiFreeFormStackDisplayStrategy")
-        // GetMaxMiuiFreeFormStackCount
-        clazzMiuiFreeFormStackDisplayStrategy.methodFinder().filter {
-            name in setOf(
-                "getMaxMiuiFreeFormStackCount",
-                "getMaxMiuiFreeFormStackCountForFlashBack"
-            )
-        }.toList().createHooks {
-            returnConstant(256)
+
+        if (isMoreAndroidVersion(36)) {
+            clazzMiuiFreeFormStackDisplayStrategy.methodFinder()
+                .filterByName("getMaxMiuiFreeFormStackCount")
+                .first().createHook {
+                    returnConstant(256)
+                }
+        } else {
+            // GetMaxMiuiFreeFormStackCount
+            clazzMiuiFreeFormStackDisplayStrategy.methodFinder().filter {
+                name in setOf(
+                    "getMaxMiuiFreeFormStackCount",
+                    "getMaxMiuiFreeFormStackCountForFlashBack"
+                )
+            }.toList().createHooks {
+                returnConstant(256)
+            }
         }
     }
 }

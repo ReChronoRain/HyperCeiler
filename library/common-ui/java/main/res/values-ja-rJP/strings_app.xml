@@ -346,8 +346,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">システムのブラックリストとアプリによるフリーフォームの制限を無視します</string>
     <string name="system_framework_freeform_sticky">状態を記憶</string>
     <string name="system_framework_freeform_bubble">バブルフリーフォーム</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">すべてのフリーフォームをミニフリーフォームに変更する</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">最近のタスクですべてのフリーフォームをミニフリーフォームにします。この機能は実験的なもので非常に不安定です。</string>
     <string name="system_framework_freeform_jump">別のアプリに移動したときにフリーフォームで開く</string>
     <string name="system_framework_freeform_foreground_pin">スモールウィンドウを強制的に前面化</string>
     <string name="system_framework_freeform_title_desc">以下のシナリオでは、他のアプリに移動する必要がある場合、フリーフォームを使用して開きます。</string>

@@ -327,8 +327,6 @@
     <string name="system_framework_disable_freeform_blacklist_desc">Sistem kara listesini yoksay ve yazılım serbest formu yasakla</string>
     <string name="system_framework_freeform_sticky">Durumu hatırla</string>
     <string name="system_framework_freeform_bubble">Kabarcık serbest formu</string>
-    <string name="system_framework_freeform_recents_to_small_freeform">Tüm serbest formu mini serbest forma dönüştürün</string>
-    <string name="system_framework_freeform_recents_to_small_freeform_desc">Son görevlerde tüm serbest formu mini serbest forma dönüştürün\nBu özellik, yüksek kararsızlığa sahip deneysel bir özelliktir</string>
     <string name="system_framework_freeform_jump">Başka uygulamaya geçtiğinde serbest formda aç</string>
     <string name="system_framework_freeform_foreground_pin">Welt penceresi ön sırayı zorluyor</string>
     <string name="system_framework_freeform_title_desc">Aşağıdaki senaryolarda, diğer uygulamalara geçmeniz gerektiğinde, açmak için serbest formu kullanacaksınız.</string>
