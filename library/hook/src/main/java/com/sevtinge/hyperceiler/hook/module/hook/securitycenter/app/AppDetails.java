@@ -141,7 +141,7 @@ public class AppDetails extends BaseHook {
                                         );
 
 
-*/
+
 
                                         if (prefField == null) {
                                             logE(TAG, "Cannot find PreferenceCategory field!");
