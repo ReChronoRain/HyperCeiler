@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.ModuleInfo;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
+import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -202,6 +203,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("RootGroups", getRootGroupsInfo());
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
+            propertiesCheck.put("IsDebugMode", String.valueOf(PrefsUtils.getSharedBoolPrefs(requireContext(), "prefs_key_debug_mode", false)));
             propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(requireContext()));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
