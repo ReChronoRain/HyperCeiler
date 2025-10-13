@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.util.ArraySet;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -25,7 +27,20 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class PstedClipboard extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.android.server.clipboard.ClipboardService",
+
+        if (isMoreAndroidVersion(36)) {
+            findAndHookMethod("com.android.server.clipboard.ClipboardService",
+                "lambda$showAccessNotificationLocked$5",
+                String.class, int.class, ArraySet.class, int.class,
+                new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) {
+                        param.setResult(null);
+                    }
+                }
+            );
+        } else {
+            findAndHookMethod("com.android.server.clipboard.ClipboardService",
                 "lambda$showAccessNotificationLocked$4",
                 String.class, int.class, ArraySet.class,
                 new MethodHook() {
@@ -34,6 +49,7 @@ public class PstedClipboard extends BaseHook {
                         param.setResult(null);
                     }
                 }
-        );
+            );
+        }
     }
 }

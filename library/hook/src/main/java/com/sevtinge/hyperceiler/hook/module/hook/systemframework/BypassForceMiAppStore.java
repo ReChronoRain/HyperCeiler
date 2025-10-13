@@ -102,14 +102,14 @@ public class BypassForceMiAppStore extends BaseHook {
 
                                 //FLAG_ACTIVITY_RESET_TASK_IF_NEEDED 会导致小米应用商店无法打开，原因未知
                                 intent.removeFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-								
+
 								// 如果启用了 bypass_force_mi_appstore，则强制使用 chooser 打开应用商店
-								if (mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore")) {
-									intent = Intent.createChooser(intent, null);    
-                                    
+                                if (mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore")) {
+									intent = Intent.createChooser(intent, null);
+
                                     logI(TAG, "android", "Forced chooser for market://details intent");
 								}
-    
+
                             }
                             param.args[index] = intent;
 

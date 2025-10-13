@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hooker.framework;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -30,9 +32,9 @@ import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.ui.R;
 import com.sevtinge.hyperceiler.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
+import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.concurrent.ExecutorService;
 
@@ -46,6 +48,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
     Preference mAutoStart;
     Preference mClipboardWhitelistApps;
     SwitchPreference mVerifyDisable;
+    SwitchPreference mTrustTouch;
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
     DropDownPreference mLockAppScreen;
@@ -70,21 +73,24 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
         mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen_int");
         mLockAppStatus = findPreference("prefs_key_system_framework_guided_access_status");
+        mTrustTouch = findPreference("prefs_key_system_framework_allow_untrusted_touch");
 
-        mLockApp.setOnPreferenceChangeListener(this);
-        mLockAppSc.setOnPreferenceChangeListener(this);
-        mLockAppScreen.setOnPreferenceChangeListener(this);
-        mLockAppStatus.setOnPreferenceChangeListener(this);
+        if (isMoreAndroidVersion(36)) {
+            setFuncHint(mTrustTouch, 2);
+            setFuncHint(mLockApp, 2);
+        } else {
+            mLockApp.setOnPreferenceChangeListener(this);
+            mLockAppSc.setOnPreferenceChangeListener(this);
+            mLockAppScreen.setOnPreferenceChangeListener(this);
+            mLockAppStatus.setOnPreferenceChangeListener(this);
+        }
 
-        mAutoStart.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(@NonNull Preference preference) {
-                Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
-                intent.putExtra("key", preference.getKey());
-                startActivity(intent);
-                return true;
-            }
+        mAutoStart.setOnPreferenceClickListener(preference -> {
+            Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+            intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
+            intent.putExtra("key", preference.getKey());
+            startActivity(intent);
+            return true;
         });
 
         mCleanShareApps.setOnPreferenceClickListener(preference -> {

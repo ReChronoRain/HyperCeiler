@@ -251,7 +251,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/system_framework_other_title">
+    <PreferenceCategory
+        android:title="@string/system_framework_other_title"
+        app:isPreferenceVisible="false">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_auto_start_menu"
