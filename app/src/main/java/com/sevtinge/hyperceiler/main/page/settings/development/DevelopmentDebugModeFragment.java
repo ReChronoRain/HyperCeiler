@@ -57,7 +57,7 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
 
     @Override
     public void initPrefs() {
-        mDebugMode = findPreference("prefs_key_debug_mode");
+        mDebugMode = findPreference("prefs_key_development_debug_mode");
         mHomeVersion = findPreference("prefs_key_debug_mode_home");
         mEditHomeVersion = findPreference("prefs_key_debug_mode_home_edit");
 
