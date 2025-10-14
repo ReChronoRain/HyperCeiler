@@ -41,7 +41,7 @@
 
         <EditTextPreference
             android:key="prefs_key_debug_mode_home_edit"
-android:summary="@string/debug_mode_home_version_desc"
+            android:summary="@string/debug_mode_home_version_desc"
             android:title="@string/debug_mode_home_version" />
 
     </PreferenceCategory>
