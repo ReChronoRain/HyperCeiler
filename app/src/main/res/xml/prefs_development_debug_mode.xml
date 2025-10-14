@@ -23,11 +23,11 @@
     <SwitchPreference
         android:selectable="false"
         android:defaultValue="false"
-        android:key="prefs_key_debug_mode"
+        android:key="prefs_key_development_debug_mode"
         android:title="@string/debug_mode" />
 
     <PreferenceCategory
-        android:dependency="prefs_key_debug_mode">
+        android:dependency="prefs_key_development_debug_mode">
 
         <fan.preference.DropDownPreference
             android:icon="@drawable/ic_default"
@@ -41,6 +41,7 @@
 
         <EditTextPreference
             android:key="prefs_key_debug_mode_home_edit"
+android:summary="@string/debug_mode_home_version_desc"
             android:title="@string/debug_mode_home_version" />
 
     </PreferenceCategory>
