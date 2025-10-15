@@ -132,16 +132,10 @@ public class AppDetails extends BaseHook {
                                         XposedHelpers.callMethod(textPref, "setTitle", param.args[1]);
                                         XposedHelpers.callMethod(textPref, "setText", param.args[2]);
 
-
-
-
                                         Field prefField = XposedHelpers.findFirstFieldByExactType(
                                             thiz.getClass(),
                                             XposedHelpers.findClass("androidx.preference.PreferenceCategory", cl)
                                         );
-
-
-
 
                                         if (prefField == null) {
                                             logE(TAG, "Cannot find PreferenceCategory field!");
@@ -150,9 +144,6 @@ public class AppDetails extends BaseHook {
 
                                         prefField.setAccessible(true);
                                         Object prefGroup = prefField.get(thiz);
-
-
-
 
                                         XposedHelpers.callMethod(prefGroup, "addP" +
                                             "reference", textPref);
