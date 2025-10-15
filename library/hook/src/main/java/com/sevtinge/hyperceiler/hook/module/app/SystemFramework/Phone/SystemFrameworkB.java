@@ -71,6 +71,11 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSP
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualNRSupport;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.DualSASupport;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N1Band;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N28Band;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.network.N5N8Band;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDefaultStream;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeDisableSafe;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.volume.VolumeFirstPress;
@@ -125,6 +130,13 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new AllDarkMode(), mPrefsMap.getBoolean("system_framework_allow_all_dark_mode"));
         initHook(new ThemeProvider(), mPrefsMap.getBoolean("system_framework_allow_third_theme"));
         initHook(DisplayCutout.INSTANCE, mPrefsMap.getBoolean("system_ui_display_hide_cutout_enable"));
+
+        // 网络
+        initHook(DualNRSupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_nr"));
+        initHook(DualSASupport.INSTANCE, mPrefsMap.getBoolean("phone_double_5g_sa"));
+        initHook(N1Band.INSTANCE, mPrefsMap.getBoolean("phone_n1"));
+        initHook(N5N8Band.INSTANCE, mPrefsMap.getBoolean("phone_n5_n8"));
+        initHook(N28Band.INSTANCE, mPrefsMap.getBoolean("phone_n28"));
 
         // 其它-显示与通知
         initHook(new ScreenRotation(), mPrefsMap.getBoolean("system_framework_screen_all_rotations"));
