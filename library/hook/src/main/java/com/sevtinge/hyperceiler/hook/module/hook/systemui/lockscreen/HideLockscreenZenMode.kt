@@ -32,10 +32,17 @@ object HideLockscreenZenMode : BaseHook() {
     override fun init() {
         // hyperOS fix by hyper helper
         zenModeClass.methodFinder()
+            .filter {
+                name.startsWith("updateVisibility")
+            }.first().createBeforeHook {
+                it.thisObject.setObjectField("manuallyDismissed", true)
+            }
+
+        /*zenModeClass.methodFinder()
             .filterByParamTypes(Boolean::class.java)
             .filterFinal()
             .first().createBeforeHook {
                 it.thisObject.setObjectField("manuallyDismissed", true)
-            }
+            }*/
     }
 }
