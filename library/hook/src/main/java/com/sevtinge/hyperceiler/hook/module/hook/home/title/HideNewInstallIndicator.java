@@ -24,12 +24,12 @@ public class HideNewInstallIndicator extends HomeBaseHookNew {
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
-        findAndHookMethod("com.miui.home.launcher.ShortcutIcon",
-            "isNewInstalled",
+        findAndHookMethod("com.miui.home.icon.TitleTextView",
+            "updateNewInstallIndicator",
             boolean.class, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    param.setResult(false);
+                    param.setResult(null);
                 }
             }
         );
