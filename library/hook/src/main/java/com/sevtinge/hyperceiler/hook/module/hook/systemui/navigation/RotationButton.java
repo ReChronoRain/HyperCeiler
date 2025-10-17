@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.database.ContentObserver;

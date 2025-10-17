@@ -34,13 +34,8 @@ public class VolumeDisableSafe extends BaseHook {
 
     @Override
     public void init() {
-        Class<?> SoundDoseHelperStub;
+        Class<?> SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStubImpl", lpparam.classLoader);
         Class<?> SoundDoseHelper = findClass("com.android.server.audio.SoundDoseHelper", lpparam.classLoader);
-        try {
-            SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStub", lpparam.classLoader);
-        } catch (Throwable t) {
-            SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStubImpl", lpparam.classLoader);
-        }
 
         findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new MethodHook() {
             @Override

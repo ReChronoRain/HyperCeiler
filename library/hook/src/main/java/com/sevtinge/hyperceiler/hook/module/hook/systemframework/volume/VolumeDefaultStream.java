@@ -46,9 +46,7 @@ public class VolumeDefaultStream extends BaseHook {
 
                 int mDefaultVolumeStream = mPrefsMap.getStringAsInt("system_framework_default_volume_stream", 0);
 
-                if (mDefaultVolumeStream > 0) {
-                    param.setResult(mDefaultVolumeStream);
-                }
+                param.setResult(mDefaultVolumeStream);
 
             }
         });
