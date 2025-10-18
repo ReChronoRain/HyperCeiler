@@ -1262,20 +1262,15 @@
     <string name="home_other_opt_app_launch_delay">アプリ起動の遅延を最適化</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">ギャラリーエディター</string>
-    <string name="mediaeditor_tip">使用方法:\n• バージョン 1.7.5.0.4 以上の場合は v2 フックを使用します。1.7.5.0.4 以前の場合は v1 フックを使用します。</string>
-    <string name="mediaeditor_hook_type">ギャラリーエディターのフックタイプ</string>
     <string name="mediaeditor_foundation">基本</string>
     <string name="mediaeditor_authoring">作成</string>
-    <string name="mediaeditor_ai_authoring">AI オーサリング</string>
     <string name="mediaeditor_custom_photo_frames_title">フレームのカスタマイズ</string>
     <string name="mediaeditor_custom_disney_title">コラボレーション機能</string>
     <string name="mediaeditor_unlock_disney_title">ディズニーのカスタマイズ機能をアンロック</string>
-    <string name="mediaeditor_unlock_disney_desc">以下の機能をアンロックします:\n• カスタムフレーム - ディズニーカスタムフレーム (他のカスタムフレームと競合します)\n• ボケ背景 - ミッキーモチーフ\n• ステッカー - ディズニーステッカー</string>
     <string name="mediaeditor_unlock_spring_title">旧正月カスタムピクチャーフレームをアンロック</string>
     <string name="mediaeditor_unlock_spring_desc">旧正月カスタム画像フレームを追加するには前提条件として、Leica または Redmi のカスタムピクチャーフレームが必要です。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">画像の最小トリミング制限を削除</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">フレームのカスタマイズをアンロック</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">フレームの種類をカスタマイズ</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>
     <string name="mediaeditor_unlock_leica_filter_desc">一部のバージョンにのみ対応しています</string>
     <string name="mediaeditor_unlock_aigc">AIGC をアンロック</string>

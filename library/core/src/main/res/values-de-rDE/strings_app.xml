@@ -1216,20 +1216,15 @@
     <string name="home_other_opt_app_launch_delay">App-Startverzögerung optimieren</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Galerie-Editor</string>
-    <string name="mediaeditor_tip">Gebrauchsanweisung:\n• Verwenden Sie den v2-Hook für Versionen 1.7.5.0.4 oder höher. Für Versionen vor 1.7.5.0.4 verwenden Sie den v1-Hook.</string>
-    <string name="mediaeditor_hook_type">Galerie-Editor Hook-Typ</string>
     <string name="mediaeditor_foundation">Grundlegend</string>
     <string name="mediaeditor_authoring">Erstellung</string>
-    <string name="mediaeditor_ai_authoring">KI-Erstellung</string>
     <string name="mediaeditor_custom_photo_frames_title">Rahmen anpassen</string>
     <string name="mediaeditor_custom_disney_title">Kollaborationsfunktion</string>
     <string name="mediaeditor_unlock_disney_title">Disney-Anpassungsfunktionen freischalten</string>
-    <string name="mediaeditor_unlock_disney_desc">Freischaltungen beinhalten die folgenden Funktionen:\n• Benutzerdefinierte Rahmen - Disney-Spezialrahmen (kollidiert mit anderen benutzerdefinierten Rahmen)\n• Bokeh-Hintergrund - Mickey Bokeh\n•Sticker - Disney-Sticker</string>
     <string name="mediaeditor_unlock_spring_title">Chinesische Neujahrs-Bilderrahmen freischalten</string>
     <string name="mediaeditor_unlock_spring_desc">Um den chinesischen Neujahrs-Bilderrahmen dauerhaft zu behalten, ist die Voraussetzung, dass du einen Leica-Bilderrahmen oder einen Redmi-Bilderrahmen besitzt.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mindest-Zuschneidebild-Limit entfernen</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Rahmen anpassen entsperren</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Rahmentyp anpassen</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica-Filter freischalten</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Nur einige Versionen werden unterstützt</string>
     <string name="mediaeditor_unlock_aigc">AIGC freischalten</string>

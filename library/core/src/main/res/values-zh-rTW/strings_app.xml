@@ -1227,20 +1227,15 @@
     <string name="home_other_opt_app_launch_delay">最佳化應用程式啟動延遲</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">小米相簿-編輯</string>
-    <string name="mediaeditor_tip">使用說明：\n- 對於 1.7.5.0.4 或更高版本請用 v2 hook。對於 1.7.5.0.4 之前的版本則使用 v1 hook。</string>
-    <string name="mediaeditor_hook_type">相簿編輯器 hook 類型</string>
     <string name="mediaeditor_foundation">基礎</string>
     <string name="mediaeditor_authoring">創建</string>
-    <string name="mediaeditor_ai_authoring">AI 創作</string>
     <string name="mediaeditor_custom_photo_frames_title">訂製畫框類型</string>
     <string name="mediaeditor_custom_disney_title">協作功能</string>
     <string name="mediaeditor_unlock_disney_title">解鎖 Disney 客製功能</string>
-    <string name="mediaeditor_unlock_disney_desc">解鎖包括以下功能：\n- 訂製畫框-Disney 訂製畫框（與其他訂製畫框衝突）\n- 背景虛化-米奇虛化\n- 貼紙-Disney 貼紙</string>
     <string name="mediaeditor_unlock_spring_title">解鎖龍年春節訂製相框</string>
     <string name="mediaeditor_unlock_spring_desc">永久加入龍年春節訂製相框，前提是您需要徠卡訂製相框或紅米訂製相框。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">解除最小圖片裁切限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">解鎖訂製畫框</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">訂製畫框類型</string>
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾鏡</string>
     <string name="mediaeditor_unlock_leica_filter_desc">僅支援部分版本</string>
     <string name="mediaeditor_unlock_aigc">解鎖 AIGC</string>

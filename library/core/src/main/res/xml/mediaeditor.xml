@@ -20,20 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/mediaeditor"
     app:quick_restart="com.miui.mediaeditor">
-
-    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
-        android:enabled="false"
-        android:layout="@layout/headtip_tip"
-        android:title="@string/mediaeditor_tip" />
-
     <PreferenceCategory>
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_mediaeditor_hook_type"
-            android:title="@string/mediaeditor_hook_type"
-            app:entries="@array/mediaeditor_hook_type"
-            app:entryValues="@array/mediaeditor_hook_type_value" />
-
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_aigc"
@@ -120,31 +107,6 @@
             android:key="prefs_key_mediaeditor_unlock_princess_some_func"
             android:title="@string/mediaeditor_disney_princess" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="prefs_key_mediaeditor_custom_photo_frames_v1"
-        android:title="@string/mediaeditor_ai_authoring">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_spring"
-            android:summary="@string/mediaeditor_unlock_spring_desc"
-            android:title="@string/mediaeditor_unlock_spring_title" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_mediaeditor_unlock_custom_photo_frames"
-            android:title="@string/mediaeditor_unlock_custom_photo_frames_title"
-            app:entries="@array/customize_frame_type_v1"
-            app:entryValues="@array/customize_frame_type_v1_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_mediaeditor_unlock_disney_some_func"
-            android:summary="@string/mediaeditor_unlock_disney_desc"
-            android:title="@string/mediaeditor_unlock_disney_title"
-            app:entries="@array/customize_disney_type"
-            app:entryValues="@array/customize_disney_type_value" />
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -1253,20 +1253,15 @@
     <string name="home_other_opt_app_launch_delay">تحسين تأخير تشغيل التطبيق</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">محرر المعرض</string>
-    <string name="mediaeditor_tip">تعليمات للاستخدام:\n- الرجاء استخدام v2 hook للإصدارات 1.7.5.0.4 وما بعدها، يرجى استخدام v1 hook للإصدارات الأقل من 1.7.5.0.4</string>
-    <string name="mediaeditor_hook_type">نوع خطاف محرر المعرض</string>
     <string name="mediaeditor_foundation">الأساس</string>
     <string name="mediaeditor_authoring">المؤلف</string>
-    <string name="mediaeditor_ai_authoring">الكتابة بواسطة الذكاء الاصطناعي</string>
     <string name="mediaeditor_custom_photo_frames_title">تخصيص الإطار</string>
     <string name="mediaeditor_custom_disney_title">وظيفة مشتركة</string>
     <string name="mediaeditor_unlock_disney_title">فتح ميزات تخصيص ديزني</string>
-    <string name="mediaeditor_unlock_disney_desc">الميزات المفتوحة تشمل ما يلي:\n• الإطارات المخصصة - إطارات مخصصة من ديزني (تتعارض مع الإطارات المخصصة الأخرى)\n• خلفية بوكيه - بوكه ميكي\n• الملصقات - ملصقات ديزني</string>
     <string name="mediaeditor_unlock_spring_title">فتح إطارات الصور المخصصة لعيد رأس السنة الصينية</string>
     <string name="mediaeditor_unlock_spring_desc">لإضافة إطارات صور مخصصة لعيد رأس السنة الصينية بشكل دائم، المطلب الأساسي هو أنك بحاجة إلى إطار صورة مخصص من لايكا أو إطار صورة مخصص من ريدمي.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">إزالة حد القص الأدنى للصورة</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">فتح تخصيص الإطار</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">تخصيص نوع الإطار</string>
     <string name="mediaeditor_unlock_leica_filter_title">فتح فلتر لايكا</string>
     <string name="mediaeditor_unlock_leica_filter_desc">يتم دعم بعض الإصدارات فقط</string>
     <string name="mediaeditor_unlock_aigc">فتح AIGC</string>

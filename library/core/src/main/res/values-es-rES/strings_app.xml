@@ -1025,13 +1025,10 @@ aplicaciones del sistema</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor de Galería</string>
     <string name="mediaeditor_foundation">Funciones básicas</string>
-    <string name="mediaeditor_ai_authoring">Autorización de IA</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear características de personalización de Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Se desbloquean las siguientes características:\n- Marcos personalizados - Marcos personalizados de Disney (en conflicto con otros marcos personalizados)\n- Viñeteado de fondo - Viñeteado de fondo de Mickey\n- Pegatinas - Pegatinas de Disney</string>
     <string name="mediaeditor_unlock_spring_title">Desbloquear fotogramas personalizados de Año Nuevo Chino</string>
     <string name="mediaeditor_unlock_spring_desc">Para añadir permanentemente un marco personalizado de Año Nuevo Chino, lo esencial es un marco de imagen personalizado de Leica o un marco de imagen personalizado Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear el límite mínimo de recorte de imagen</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizar el tipo de marco</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtros de Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Solo en algunas versiones se funciona</string>
     <string name="mediaeditor_unlock_aigc">Desbloquear AIGC</string>

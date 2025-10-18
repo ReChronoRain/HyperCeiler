@@ -927,13 +927,10 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor Galleria</string>
     <string name="mediaeditor_foundation">Foundation</string>
-    <string name="mediaeditor_ai_authoring">AI Authoring</string>
     <string name="mediaeditor_unlock_disney_title">Sblocca funzionalità di personalizzazione Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Gli sblocchi includono le seguenti funzionalità:\n- Cornici personalizzate - Cornici personalizzate Disney (in conflitto con altre cornici personalizzate)\n- Sfondo bokeh - Topolino Mokeh\n- Adesivi - Adesivi Disney</string>
     <string name="mediaeditor_unlock_spring_title">Sblocca cornici personalizzate per il Capodanno cinese</string>
     <string name="mediaeditor_unlock_spring_desc">Per aggiungere permanentemente una cornice personalizzata per il Capodanno cinese, il prerequisito è che tu abbia bisogno di una cornice personalizzata Leica o di un Redmi cornice personalizzata.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Rimuovi il limite minimo di ritaglio dell\'immagine</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Personalizza il tipo di cornice</string>
     <string name="mediaeditor_unlock_leica_filter_title">Sblocca il filtro Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sono supportate solo alcune versioni</string>
     <!--Wallpaper-->
