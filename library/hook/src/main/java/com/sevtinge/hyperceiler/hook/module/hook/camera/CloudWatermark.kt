@@ -20,8 +20,11 @@ package com.sevtinge.hyperceiler.hook.module.hook.camera
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import org.json.JSONObject
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 // thank HolyBear
 object CloudWatermark : BaseHook() {
@@ -30,11 +33,13 @@ object CloudWatermark : BaseHook() {
         // 仅支持 6.2 及以上版本，用于强制获取云下发的新水印内容
         DexKit.findMember("cloud") {
             it.findMethod {
+                searchPackages("com.xiaomi.camera")
                 matcher {
-                    addUsingField {
-                        name = "DEVICE"
+                    addInvoke {
+                        modifiers = Modifier.FINAL
+                        paramTypes(Long::class.java)
+                        returnType = "boolean"
                     }
-                    paramTypes(Long::class.java)
                     returnType = "boolean"
                 }
             }.single()
@@ -50,5 +55,19 @@ object CloudWatermark : BaseHook() {
         cloudMethod?.createHook {
             returnConstant(true)
         }
+
+        JSONObject::class.java.methodFinder()
+            .filterByName("optJSONObject")
+            .first()
+            .createHook {
+                before {
+                    // 忽略时间和机型限制
+                    val limitation = it.args[0] as String
+                    if (limitation.contains("limitation")) {
+                        logD(TAG, lpparam.packageName, "block limitation optJSONObject")
+                        it.result = null
+                    }
+                }
+            }
     }
 }
