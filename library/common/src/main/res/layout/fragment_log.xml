@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 搜索行 -->
+    <!--<include layout="@layout/miuix_appcompat_search_stub" />-->
+
+    <!-- 过滤工具栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="15dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="8dp">
+
+            <EditText
+                android:id="@+id/editSearch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="搜索日志..."
+                android:singleLine="true"
+                android:background="@android:drawable/editbox_background"
+                android:padding="8dp" />
+
+            <Button
+                android:id="@+id/buttonClearFilters"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="清除"
+                android:layout_marginStart="8dp"
+                android:padding="8dp" />
+
+        </LinearLayout>
+
+        <!-- 过滤条件行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- 级别过滤器 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="级别:"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp" />
+
+                <fan.appcompat.widget.Spinner
+                    android:id="@+id/spinnerLevel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!-- 模块过滤器 -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginStart="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="模块:"
+                    android:textSize="12sp"
+                    android:layout_marginEnd="4dp" />
+
+                <fan.appcompat.widget.Spinner
+                    android:id="@+id/spinnerModule"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- 过滤统计 -->
+        <TextView
+            android:id="@+id/textFilterStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="显示: 0/0"
+            android:textSize="10sp"
+            android:textColor="#666666"
+            android:layout_marginTop="4dp" />
+
+    </LinearLayout>
+
+    <!-- 日志列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

@@ -32,7 +32,7 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 
 import fan.appcompat.app.AlertDialog;
 

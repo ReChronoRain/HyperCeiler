@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
+    <string name="miuix_appcompat_cancel_description">Membatalkan</string>
+    <string name="miuix_appcompat_confirm_description">Oke</string>
+    <string name="miuix_appcompat_select_all_description">Pilih Semua</string>
+    <string name="miuix_appcompat_deselect_all_description">Batalkan pilihan semua</string>
+    <string name="miuix_appcompat_delete_description">Menghapus</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Membatalkan</string>
+    <string name="miuix_appcompat_search_input_description">Mencari</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lagi</string>
+    <string name="miuix_appcompat_action_mode_inverse">Terbalik</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Tip</string>
+    <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
+    <string name="soft_reboot">Reboot </string>
+    <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
+    <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
+    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
+    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
+    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
+    <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
+    <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
+    <!--HyperCeiler Tips-->
+    <string name="safe_mode_history">Lihat catatan pengecualian</string>
+    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
+    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_class">Kelas</string>
+    <string name="safe_mode_recorder_method">metode</string>
+    <string name="safe_mode_recorder_line">Garis</string>
+    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
+    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
+    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
+    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
+    <!--System UI-->
+    <string name="system_ui">UI Sistem</string>
+    <!--System launcher-->
+    <string name="mihome">Peluncur sistem</string>
+    <!--Settings-->
+    <string name="system_settings">Pengaturan</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Alat Keamanan</string>
+    <!--Other-->
+    <string name="exit">KELUAR</string>
+    <string name="ignore">Mengabaikan</string>
+    <string name="log_level">tingkat log</string>
+    <string name="log_level_none">Nonaktifkan catatan</string>
+    <string name="disable_suggest">Nonaktifkan Saran</string>
+    <string name="enable_suggest">Aktifkan Saran</string>
+</resources>

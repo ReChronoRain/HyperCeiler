@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">Назад</string>
+    <string name="provision_start_content_description">Почати</string>
+    <string name="provision_next">Далі</string>
+    <string name="provision_skip_underline">Пропустити</string>
+    <string name="provision_permission_settings_title">Налаштування дозволів</string>
+    <string name="provision_terms_and_statement_title">Умови та положення</string>
+    <string name="provision_basic_settings_title">Основні налаштування</string>
+    <string name="provision_agree_and_next">Погоджуюсь</string>
+    <string name="provision_agree_terms">Я прочитав(-ла) та погоджуюся з Угодою користувача та Політикою конфіденційності.</string>
+    <string name="provision_user_agreement">Угода користувача</string>
+    <string name="provision_privacy_policy">Політика конфіденційності</string>
+    <string name="provision_terms_of_use">Умови та положення</string>
+    <string name="provision_terms_of_use_label_use_network_china">Щоб надавати вам кращі послуги, ви повинні прочитати та погодитися з нашою <a href="%1$s">Угодою користувача</a> та <a href="%2$s">Політикою конфіденційності</a>, перш ніж продовжити використання системи. Ми будемо захищати вашу особисту інформацію відповідно до чинного законодавства, нормативних актів та політики конфіденційності.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Ми будемо захищати вашу особисту інформацію відповідно до чинного законодавства, нормативних актів та політики конфіденційності.</string>
+    <string name="provision_service_agreement">Я прочитав(-ла) та погоджуюся з умовами та положеннями.</string>
+    <string name="provision_service_name_download">Завантаження</string>
+    <string name="provision_service_policy_download"><Data>Прочитайте та погодьтеся з <a href="%1$s">Політикою конфіденційності Thunder</a> та <a href="%2$s">Угодою про використання мережевих послуг компанії Thunder</a></Data></string>
+    <string name="provision_congratulation_title">Налаштування завершено</string>
+    <string name="provision_congratulation_label">Спробуйте захоплюючу HyperOS!</string>
+    <string name="provision_complete_text">Увійти до системи</string>
+</resources>

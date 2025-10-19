@@ -18,13 +18,14 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.helper;
 
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
 public class HelpFragment extends SettingsPreferenceFragment {
+
     @Override
     public int getPreferenceScreenResId() {
-        return com.sevtinge.hyperceiler.R.xml.prefs_help;
+        return R.xml.prefs_help;
     }
 
 }

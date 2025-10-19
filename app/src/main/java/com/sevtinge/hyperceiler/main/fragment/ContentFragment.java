@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.view.DraggableViewPager;
 import com.sevtinge.hyperceiler.main.model.TabViewModel;
@@ -72,26 +73,26 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(com.sevtinge.hyperceiler.ui.R.style.NavigatorContentFragmentTheme);
+        setThemeRes(com.sevtinge.hyperceiler.core.R.style.NavigatorContentFragmentTheme);
         if (savedInstanceState != null) {
             mCurrTab = savedInstanceState.getString(CURRENT_TAB);
         }
-        mAppName = getString(com.sevtinge.hyperceiler.ui.R.string.app_name);
-        mPage1Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_home_title);
-        mPage2Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_settings_title);
-        mPage3Name = getString(com.sevtinge.hyperceiler.ui.R.string.navigation_about_title);
+        mAppName = getString(R.string.app_name);
+        mPage1Name = getString(R.string.navigation_home_title);
+        mPage2Name = getString(R.string.navigation_settings_title);
+        mPage3Name = getString(R.string.navigation_about_title);
     }
 
     @Override
     public View onInflateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(com.sevtinge.hyperceiler.ui.R.layout.fragment_content, container, false);
+        return inflater.inflate(R.layout.fragment_content, container, false);
     }
 
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
         setCorrectNestedScrollMotionEventEnabled(true);
-        mViewPager = view.findViewById(com.sevtinge.hyperceiler.ui.R.id.vp_fragments);
+        mViewPager = view.findViewById(R.id.vp_fragments);
         setupViewPager();
         if (Build.IS_TABLET && Navigator.get(this).getNavigationMode() == Navigator.Mode.NLC) {
             Navigator.get(this).navigate(new DetailFragmentNavInfo(-1, DetailFragment.class, new Bundle()));
@@ -299,8 +300,8 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(com.sevtinge.hyperceiler.ui.R.menu.navigation_immersion, menu);
-        mQuickRestartMenuItem = menu.findItem(com.sevtinge.hyperceiler.ui.R.id.quick_restart);
+        getMenuInflater().inflate(R.menu.navigation_immersion, menu);
+        mQuickRestartMenuItem = menu.findItem(R.id.quick_restart);
         return super.onCreateOptionsMenu(menu);
     }
 

@@ -33,7 +33,7 @@ import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.safe.SafeMode;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 
 import java.util.HashMap;
 import java.util.Map;

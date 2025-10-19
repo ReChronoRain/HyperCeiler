@@ -230,5 +230,5 @@ kotlin.jvmToolchain(21)
 
 dependencies {
     implementation(libs.expansion)
-    implementation(projects.library.commonUi)
+    implementation(projects.library.core)
 }

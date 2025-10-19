@@ -75,7 +75,7 @@ public class HomePage extends PageFragment
             mSearchResultView.setAdapter(mSearchAdapter);
             mSearchAdapter.setOnItemClickListener((v, ad) -> onSearchItemClickListener(ad));
         }
-        mSearchInputView.setHint(getResources().getString(com.sevtinge.hyperceiler.ui.R.string.search));
+        mSearchInputView.setHint(getResources().getString(com.sevtinge.hyperceiler.core.R.string.search));
 
         mSearchBar.setOnClickListener(v -> onTextSearch());
     }

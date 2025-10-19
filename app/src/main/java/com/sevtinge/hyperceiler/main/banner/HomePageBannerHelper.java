@@ -35,13 +35,13 @@ import android.widget.TextView;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.ModuleInfo;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.ui.BuildConfig;
-import com.sevtinge.hyperceiler.ui.R;
 
 import java.util.Calendar;
 import java.util.List;

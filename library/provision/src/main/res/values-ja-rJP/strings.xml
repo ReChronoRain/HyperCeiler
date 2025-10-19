@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">戻る</string>
+    <string name="provision_start_content_description">スタート</string>
+    <string name="provision_next">次へ</string>
+    <string name="provision_skip_underline">スキップ</string>
+    <string name="provision_permission_settings_title">権限設定</string>
+    <string name="provision_terms_and_statement_title">利用規約</string>
+    <string name="provision_basic_settings_title">基本設定</string>
+    <string name="provision_agree_and_next">同意する</string>
+    <string name="provision_agree_terms">利用規約とプライバシーポリシーを読んで同意しました。</string>
+    <string name="provision_user_agreement">ユーザー契約</string>
+    <string name="provision_privacy_policy">プライバシーポリシー</string>
+    <string name="provision_terms_of_use">利用規約</string>
+    <string name="provision_terms_of_use_label_use_network_china">より良いサービスを提供するために システムの使用を続けるには、 <a href="%1$s">ユーザー契約</a> および <a href="%2$s">プライバシーポリシー</a> を読み、同意する必要があります。私達は、関連する法令およびプライバシーポリシーに従って、お客様の個人情報を保護します。</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">私達は、ご利用者の個人情報を関連する法令およびプライバシーポリシーに従って保護します。</string>
+    <string name="provision_service_agreement">利用規約を読んで、これらに同意しました。</string>
+    <string name="provision_service_name_download">ダウンロード</string>
+    <string name="provision_service_policy_download"><Data><a href="%1$s">Thunder プライバシーポリシー</a> と <a href="%2$s">Thunder 社ネットワークサービス利用契約</a> を読み、同意します</Data></string>
+    <string name="provision_congratulation_title">セットアップが完了しました</string>
+    <string name="provision_congratulation_label">エキサイティングなHyperOSが今ここに！</string>
+    <string name="provision_complete_text">システムに入る</string>
+</resources>

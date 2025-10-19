@@ -1,0 +1,20 @@
+<!-- res/menu/log_actions.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/miuix_action_end_menu_group">
+        <item
+            android:id="@+id/menu_clear_custom"
+            android:title="清理App日志" />
+        <item
+            android:id="@+id/menu_clear_system"
+            android:title="清理系统日志" />
+        <item
+            android:id="@+id/menu_export"
+            android:title="导出" />
+        <item
+            android:id="@+id/menu_refresh"
+            android:title="刷新/滚动到底部" />
+        <item
+            android:id="@+id/menu_add_test_log"
+            android:title="添加测试日志" />
+    </group>
+</menu>

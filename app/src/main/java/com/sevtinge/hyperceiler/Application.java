@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler;
 import android.content.Context;
 import android.content.Intent;
 
+import com.fan.common.logviewer.LogAppProxy;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
@@ -38,6 +39,7 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LogAppProxy.onCreate(this);
         // 初始化所有应用信息到缓存
         AppInfoCache.getInstance(this).initAllAppInfos();
 

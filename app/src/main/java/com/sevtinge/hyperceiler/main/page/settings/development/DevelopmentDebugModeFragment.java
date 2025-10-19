@@ -65,7 +65,7 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
         mDebugMode.setOnPreferenceChangeListener((preference, newValue) -> {
             boolean isDebug = (boolean) newValue;
             if (isDebug) {
-                DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.ui.R.string.debug_mode, com.sevtinge.hyperceiler.ui.R.string.open_debug_mode_tips, (dialog, which) -> {
+                DialogHelper.showDialog(getActivity(), R.string.debug_mode, R.string.open_debug_mode_tips, (dialog, which) -> {
                     /*Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
                     mDebugMode.setChecked(false);*/
                     dialog.dismiss();
@@ -80,8 +80,8 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
         int getValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_debug_mode_home", "0"));
 
         if (isPad()) {
-            mHomeVersion.setEntries(com.sevtinge.hyperceiler.ui.R.array.debug_mode_home_pad);
-            mHomeVersion.setEntryValues(com.sevtinge.hyperceiler.ui.R.array.debug_mode_home_pad_value);
+            mHomeVersion.setEntries(com.sevtinge.hyperceiler.core.R.array.debug_mode_home_pad);
+            mHomeVersion.setEntryValues(com.sevtinge.hyperceiler.core.R.array.debug_mode_home_pad_value);
         }
 
         mEditHomeVersion.setVisible(getValue == 1);

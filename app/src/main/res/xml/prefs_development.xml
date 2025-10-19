@@ -72,4 +72,12 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory>
+        <Preference android:title="LogViewer">
+            <intent
+                android:targetPackage="com.sevtinge.hyperceiler"
+                android:targetClass="com.fan.common.logviewer.LogViewerActivity"/>
+        </Preference>
+    </PreferenceCategory>
+
 </PreferenceScreen>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="provision_back_description">Back</string>
+    <string name="provision_start_content_description">Start</string>
+    <string name="provision_next">Next</string>
+    <string name="provision_skip_underline">Skip</string>
+    <string name="provision_permission_settings_title">Permission settings</string>
+    <string name="provision_terms_and_statement_title">Terms and conditions</string>
+    <string name="provision_basic_settings_title">Basic settings</string>
+    <string name="provision_agree_and_next">Agree</string>
+    <string name="provision_agree_terms">I\'ve read and agree to the User Agreement and Privacy Policy.</string>
+    <string name="provision_user_agreement">User Agreement</string>
+    <string name="provision_privacy_policy">Privacy Policy</string>
+    <string name="provision_terms_of_use">Terms and conditions</string>
+    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue using the system. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
+    <string name="provision_service_agreement">I\'ve read and agreed to the terms and conditions.</string>
+    <string name="provision_service_name_download">Downloads</string>
+    <string name="provision_service_policy_download"><Data>Read and agree to the <a href="%1$s">Thunder Privacy Policy</a> and <a href="%2$s">Thunder Company Network Service Usage Agreement</a></Data></string>
+    <string name="provision_congratulation_title">Setup complete</string>
+    <string name="provision_congratulation_label">Experience the exciting HyperOS!</string>
+    <string name="provision_complete_text">Enter the system</string>
+</resources>

@@ -26,7 +26,7 @@ import android.util.Log;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
 public class CantSeeAppsFragment extends SettingsPreferenceFragment {

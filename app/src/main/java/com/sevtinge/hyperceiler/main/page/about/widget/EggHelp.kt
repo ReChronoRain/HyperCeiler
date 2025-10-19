@@ -6,16 +6,17 @@ import android.graphics.drawable.Icon
 import android.os.Bundle
 import com.hyperfocus.api.FocusApi
 import com.hyperfocus.api.IslandApi
+import com.sevtinge.hyperceiler.R
 import org.json.JSONObject
 
 object EggHelp {
     fun focusBuild(string: String, context: Context): Bundle {
 
         val icon =
-            Icon.createWithResource(context, com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
+            Icon.createWithResource(context, R.drawable.ic_hyperceiler)
                 .apply { setTint(Color.WHITE) }
         val darkIcon =
-            Icon.createWithResource(context, com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
+            Icon.createWithResource(context, R.drawable.ic_hyperceiler)
                 .apply { setTint(Color.BLACK) }
         val baseinfo = FocusApi.baseinfo(basetype = 1, title = string)
 

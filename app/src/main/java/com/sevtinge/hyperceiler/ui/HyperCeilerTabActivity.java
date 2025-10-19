@@ -38,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
@@ -53,7 +54,7 @@ import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
-import com.sevtinge.hyperceiler.main.holiday.HolidayHelper;
+import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
@@ -148,7 +149,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             Map<String, String> appNameMap = createAppNameMap();
             ArrayList<String> appList = getAppListWithCrashReports(appNameMap);
             String appName = String.join(", ", appList);
-            String msg = getString(com.sevtinge.hyperceiler.ui.R.string.safe_mode_later_desc, appName);
+            String msg = getString(R.string.safe_mode_later_desc, appName);
             msg = cleanUpMessage(msg);
             DialogHelper.showSafeModeDialog(this, msg);
         }
@@ -156,11 +157,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     private Map<String, String> createAppNameMap() {
         Map<String, String> appNameMap = new HashMap<>();
-        appNameMap.put("com.android.systemui", getString(com.sevtinge.hyperceiler.ui.R.string.system_ui));
-        appNameMap.put("com.android.settings", getString(com.sevtinge.hyperceiler.ui.R.string.system_settings));
-        appNameMap.put("com.miui.home", getString(com.sevtinge.hyperceiler.ui.R.string.mihome));
-        appNameMap.put("com.hchen.demo", getString(com.sevtinge.hyperceiler.ui.R.string.demo));
-        appNameMap.put("com.miui.securitycenter", getString(com.sevtinge.hyperceiler.ui.R.string.security_center_hyperos));
+        appNameMap.put("com.android.systemui", getString(R.string.system_ui));
+        appNameMap.put("com.android.settings", getString(R.string.system_settings));
+        appNameMap.put("com.miui.home", getString(R.string.mihome));
+        appNameMap.put("com.hchen.demo", getString(R.string.demo));
+        appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
 
         return appNameMap;
     }
@@ -280,11 +281,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             switch (requestCode) {
                 case BackupUtils.CREATE_DOCUMENT_CODE -> {
                     BackupUtils.handleCreateDocument(this, data.getData());
-                    alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.backup_success);
+                    alert.setTitle(com.sevtinge.hyperceiler.core.R.string.backup_success);
                 }
                 case BackupUtils.OPEN_DOCUMENT_CODE -> {
                     BackupUtils.handleReadDocument(this, data.getData());
-                    alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.rest_success);
+                    alert.setTitle(com.sevtinge.hyperceiler.core.R.string.rest_success);
                 }
                 default -> {
                     return;
@@ -296,8 +297,8 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         } catch (Exception e) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             switch (requestCode) {
-                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.backup_failed);
-                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.rest_failed);
+                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.core.R.string.backup_failed);
+                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.core.R.string.rest_failed);
             }
             alert.setMessage(e.toString());
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {

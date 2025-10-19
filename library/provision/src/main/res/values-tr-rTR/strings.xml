@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">Geri</string>
+    <string name="provision_start_content_description">Başla</string>
+    <string name="provision_next">Sonraki</string>
+    <string name="provision_skip_underline">Geç</string>
+    <string name="provision_permission_settings_title">İzin ayarları</string>
+    <string name="provision_terms_and_statement_title">Şartlar ve koşullar</string>
+    <string name="provision_basic_settings_title">Basit ayarlar</string>
+    <string name="provision_agree_and_next">Kabul et</string>
+    <string name="provision_agree_terms">Kullanıcı Sözleşmesini ve Şartlar ve Koşulları okudum ve kabul ediyorum.</string>
+    <string name="provision_user_agreement">Kullanıcı Sözleşmesi</string>
+    <string name="provision_privacy_policy">Gizlilik Sözleşmesi</string>
+    <string name="provision_terms_of_use">Şartlar ve koşullar</string>
+    <string name="provision_terms_of_use_label_use_network_china">Sistemimizi kullanmaya devam edebilmeniz için, <a href="%1$s">Kullanıcı Sözleşmesi</a>ni ve <a href="%2$s">Gizlilik Politikası</a>nı okumanız ve kabul etmeniz gerekmektedir. Kişisel bilgilerinizi ilgili yasa, yönetmelik ve gizlilik politikalarına uygun şekilde koruyacağız.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Yürürlükteki yasalar, yönetmelikler ve gizlilik politikaları gereğince kişisel bilgilerinizi koruyacağız.</string>
+    <string name="provision_service_agreement">Şartlar ve koşulları kabul ediyorum.</string>
+    <string name="provision_service_name_download">İndirilenler</string>
+    <string name="provision_congratulation_title">Kurulum tamamlandı</string>
+    <string name="provision_congratulation_label">HyperOS\'i deneyimleyin!</string>
+    <string name="provision_complete_text">Sisteme gir</string>
+</resources>

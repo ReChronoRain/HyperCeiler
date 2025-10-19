@@ -166,7 +166,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                 String msg = messages[index];
 
                 if (!hasNotificationPermission()) {
-                    Toast.makeText(getContext(), getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_Notification_tips), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), getResources().getString(R.string.logo_egg_Notification_tips), Toast.LENGTH_SHORT).show();
                     return true;
                 } else {
                     createNotificationChannel();
@@ -174,8 +174,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                     NotificationManager notificationManager = getSystemService(getContext(), NotificationManager.class);
                     int notificationId = "logo_channel_id".hashCode();
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "logo_channel_id")
-                        .setSmallIcon(com.sevtinge.hyperceiler.ui.R.drawable.ic_hyperceiler)
-                        .setContentTitle(getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_NotificationName))
+                        .setSmallIcon(R.drawable.ic_hyperceiler)
+                        .setContentTitle(getResources().getString(R.string.logo_egg_NotificationName))
                         .setContentText(msg)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setAutoCancel(true);
@@ -354,8 +354,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     private void createNotificationChannel() {
         String channelId = "logo_channel_id";
-        String channelName = getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_NotificationName);
-        String channelDescription = getResources().getString(com.sevtinge.hyperceiler.ui.R.string.logo_egg_NotificationName_tips);
+        String channelName = getResources().getString(R.string.logo_egg_NotificationName);
+        String channelDescription = getResources().getString(R.string.logo_egg_NotificationName_tips);
         int importance = NotificationManager.IMPORTANCE_DEFAULT;
 
         NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);

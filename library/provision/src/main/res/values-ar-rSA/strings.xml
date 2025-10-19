@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">رجوع</string>
+    <string name="provision_start_content_description">إبدأ</string>
+    <string name="provision_next">التالي</string>
+    <string name="provision_skip_underline">تخطي</string>
+    <string name="provision_permission_settings_title">إعدادات الأذونات</string>
+    <string name="provision_terms_and_statement_title">الاتفاقية والبيان</string>
+    <string name="provision_basic_settings_title">الإعدادات الأساسية</string>
+    <string name="provision_agree_and_next">الموافقة والمتابعة</string>
+    <string name="provision_agree_terms">لقد قرأت بعناية الشروط الواردة أعلاه ووافقت عليها</string>
+    <string name="provision_user_agreement">إتفاقية المستخدم</string>
+    <string name="provision_privacy_policy">سياسة الخصوصية</string>
+    <string name="provision_terms_of_use">شروط الاستخدام</string>
+    <string name="provision_terms_of_use_label_use_network_china">من أجل تقديم خدمات أفضل لك، تحتاج إلى قراءة والموافقة على <a href="%1$s">اتفاقية المستخدم</a> و<a href="%2$s">سياسة الخصوصية</a> قبل أن تتمكن من متابعة استخدام النظام. سنلتزم التزامًا صارمًا بالقوانين واللوائح وسياسات الخصوصية ذات الصلة لحماية معلوماتك الشخصية.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">سوف نلتزم بشكل صارم بالقوانين واللوائح وسياسات الخصوصية ذات الصلة لحماية معلوماتك الشخصية.</string>
+    <string name="provision_service_agreement">لقد قرأت بعناية الشروط الواردة أعلاه ووافقت عليها</string>
+    <string name="provision_service_name_download">مدير التنزيل</string>
+    <string name="provision_service_policy_download"><Data>يرجى القراءة والموافقة على &lt;a href=%1$s&gt; \"سياسة الخصوصية لـ Thunder\" و &lt;a href=%1$s&gt; \"اتفاقية استخدام خدمة شبكة شركة Thunder\"</Data>/بيانات&gt;</string>
+    <string name="provision_congratulation_title">اكتمل الإعداد</string>
+    <string name="provision_congratulation_label">اختبر روعة HyperOS المثيرة!</string>
+    <string name="provision_complete_text">أدخل النظام</string>
+</resources>
