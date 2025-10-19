@@ -41,6 +41,16 @@ fun getGitHashLong(): String {
     return runGitCommand("rev-parse", "HEAD") ?: "unknown"
 }
 
+fun getGitUrl(): String {
+    return runGitCommand("remote", "get-url", "origin") ?: "unknown"
+}
+
+fun getGitCurrentBranch(): String {
+    return runGitCommand("branch", "--show-current") ?: "unknown"
+}
+
+val gitBranch = """github\.com[:/](.+?)(\.git)?$""".toRegex().find(getGitUrl())?.groupValues?.get(1) + "/" + getGitCurrentBranch()
+
 val getVersionCode: () -> Int = {
     val commitCount = getGitCommitCount()
     val major = 5
@@ -84,6 +94,7 @@ android {
         buildConfigField("String", "BUILD_USER_NAME", "\"$userName\"")
         buildConfigField("String", "BUILD_JAVA_VERSION", "\"$javaVersion\"")
         // buildConfigField("String", "BUILD_JAVA_VENDOR", "\"$javaVendor\"")
+        buildConfigField("String", "GIT_BRANCH", "\"$gitBranch\"")
 
         ndk {
             // noinspection ChromeOsAbiSupport

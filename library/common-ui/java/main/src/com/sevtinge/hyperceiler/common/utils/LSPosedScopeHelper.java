@@ -18,15 +18,16 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
+import static com.sevtinge.hyperceiler.hook.BuildConfig.APP_MODULE_ID;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.isDatabaseLocked;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.queryList;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
-import static com.sevtinge.hyperceiler.ui.BuildConfig.APP_MODULE_ID;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -53,19 +54,29 @@ public class LSPosedScopeHelper {
         if (getWhoAmI().equals("root")) getScope(context);
     }
 
-    public static boolean isInSelectedScope(Context context, String lable, String pkg) {
-        if (isUninstall(context, pkg)) {
-            mUninstallApp.add(" - " + lable + " (" + pkg + ")");
+    public static boolean isInSelectedScope(Context context, String lable, String pkg, String key, SharedPreferences sp) {
+        String normLabel = lable == null ? "" : lable.trim();
+        String normPkg = pkg == null ? null : pkg.trim();
+        String normPkgForEntry = normPkg == null ? "" : normPkg.toLowerCase();
+        String entry = " - " + normLabel + (normPkg != null ? " (" + normPkgForEntry + ")" : "");
+
+        if (isDisable(context, pkg) || isUninstall(context, pkg) || isHidden(context, pkg)) {
+            if (!mUninstallApp.contains(entry)) {
+                mUninstallApp.add(entry);
+            }
             return false;
-        } else if (isDisable(context, pkg) || isHidden(context, pkg)) {
-            mDisableOrHiddenApp.add(" - " + lable + " (" + pkg + ")");
+        } else if (isHiddenByHyperceiler(key, sp)) {
+            if (!mDisableOrHiddenApp.contains(entry)) {
+                mDisableOrHiddenApp.add(entry);
+            }
             return false;
         }
         if (pkg != null && !mScope.contains(pkg) && isInitScopeGet && !isScopeGetFailed) {
-            mNotInSelectedScope.add(pkg);
-            String string = " - " + lable + " (" + pkg + ")";
-            if (!mDisableOrHiddenApp.contains(string) && !mUninstallApp.contains(string) && !mNoScoped.contains(string)) {
-                mNoScoped.add(string);
+            if (!mNotInSelectedScope.contains(normPkgForEntry)) {
+                mNotInSelectedScope.add(normPkgForEntry);
+            }
+            if (!mDisableOrHiddenApp.contains(entry) && !mUninstallApp.contains(entry) && !mNoScoped.contains(entry)) {
+                mNoScoped.add(entry);
             }
             return false;
         }
@@ -73,11 +84,11 @@ public class LSPosedScopeHelper {
     }
 
     private static boolean isAndroidPackage(String pkg) {
-        return pkg == null || "android".contentEquals(pkg);
+        return true;
     }
 
     private static boolean isUninstall(Context context, String pkg) {
-        return !isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
+        return isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
     }
 
     private static boolean isDisable(Context context, String pkg) {
@@ -86,6 +97,10 @@ public class LSPosedScopeHelper {
 
     private static boolean isHidden(Context context, String pkg) {
         return isAndroidPackage(pkg) && PackagesUtils.isHidden(context, pkg);
+    }
+
+    private static boolean isHiddenByHyperceiler(String key, SharedPreferences sp) {
+        return !sp.getBoolean(key + "_state", true);
     }
 
     @SuppressLint("Range")
@@ -128,7 +143,7 @@ public class LSPosedScopeHelper {
 
                     if (modulePkg != null && !modulePkg.equals(APP_MODULE_ID)) continue;
 
-                    java.util.Set<String> candidates = new java.util.LinkedHashSet<>();
+                    Set<String> candidates = new LinkedHashSet<>();
                     if (mid != null) {
                         try {
                             candidates.addAll(queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true));

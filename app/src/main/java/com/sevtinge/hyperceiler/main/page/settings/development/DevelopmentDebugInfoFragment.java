@@ -32,6 +32,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getAndroidVersion;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBuildDate;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRootGroupsInfo;
@@ -39,6 +40,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSmall
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper.getIsUnofficialRom;
 import static com.sevtinge.hyperceiler.utils.XposedActivateHelper.isModuleActive;
 
 import androidx.preference.Preference;
@@ -142,6 +144,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
             propertiesModule.put("BuildOsName", BuildConfig.BUILD_OS_NAME);
             propertiesModule.put("BuildJavaVersion", BuildConfig.BUILD_JAVA_VERSION);
+            propertiesModule.put("GitBranch", BuildConfig.GIT_BRANCH);
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             // propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));
@@ -174,10 +177,11 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
             propertiesSystem.put("Host", SystemSDKKt.getHost());
+            propertiesSystem.put("BuildDate", getBuildDate());
+            propertiesSystem.put("UnofficialRom", String.valueOf(getIsUnofficialRom(requireContext())));
             // propertiesSystem.put("Builder", getBuilder());
             // propertiesSystem.put("RomAuthor", getRomAuthor());
             // propertiesSystem.put("BaseOs", SystemSDKKt.getBaseOs());
-            // propertiesSystem.put("BuildDate", getBuildDate());
         } catch (Exception ignored) {
         }
         try {

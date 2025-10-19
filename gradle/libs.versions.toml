@@ -1,6 +1,6 @@
 [versions]
-agp = "8.12.2"
-kotlin-android = "2.2.10"
+agp = "8.13.0"
+kotlin-android = "2.2.21"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -9,7 +9,7 @@ core = "1.17.0"
 coreKtx = "1.17.0"
 fragment = "1.8.9"
 lunarcalendar = "latest.release"
-miuix = "1.0.9.1"
+miuix = "1.0.10.1"
 expansions = "1.0.0"
 recyclerview = "1.4.0"
 coordinatorlayout = "1.3.0"
@@ -17,14 +17,14 @@ constraintlayout = "2.2.1"
 
 xposed-api = "82"
 
-gson = "2.13.1"
-dexkit = "2.0.6"
+gson = "2.13.2"
+dexkit = "2.0.7"
 ezxhelper = "3.0.1"
 hiddenapibypass = "6.1"
-hyperfocusapi = "1.4"
+hyperfocusapi = "1.10"
 hooktool = "v.2.2.1"
-superLyricApi = "2.3"
-mmkv = "2.2.3"
+superLyricApi = "2.4"
+mmkv = "2.2.4"
 
 proguard-rules = "proguard-rules.pro"
 

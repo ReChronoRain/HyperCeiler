@@ -18,23 +18,25 @@
  */
 package com.sevtinge.hyperceiler.main.banner;
 
+import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
 import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.widget.TextView;
 
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
-import com.sevtinge.hyperceiler.ui.BuildConfig;
 import com.sevtinge.hyperceiler.ui.R;
-import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -84,7 +86,7 @@ public class HomePageBannerHelper {
     }
 
     private void isLoggerAlive(Context context, PreferenceCategory preference) {
-        if (!IS_LOGGER_ALIVE && !BuildConfig.BUILD_TYPE.equals("release")) {
+        if (!IS_LOGGER_ALIVE && !isRelease()) {
             preference.addPreference(createBannerPreference(
                 context,
                 R.layout.headtip_notice
@@ -93,11 +95,11 @@ public class HomePageBannerHelper {
     }
 
     private void checkWarnings(Context context, PreferenceCategory preference) {
-        boolean isOfficialRom = getIsOfficialRom();
+        boolean isUnofficialRom = getIsUnofficialRom(context);
         boolean isFullSupport = isFullSupport();
         boolean isSignPass = SignUtils.isSignCheckPass(context);
 
-        if (!isSignPass || !isFullSupport || isOfficialRom) {
+        if (!isSignPass || !isFullSupport || isUnofficialRom) {
             LayoutPreference layoutPreference = (LayoutPreference) createBannerPreference(
                 context,
                 R.layout.headtip_warn
@@ -105,7 +107,7 @@ public class HomePageBannerHelper {
             TextView titleView = layoutPreference.findViewById(android.R.id.title);
             if (!isSignPass) {
                 titleView.setText(R.string.headtip_warn_sign_verification_failed);
-            } else if (isOfficialRom) {
+            } else if (isUnofficialRom) {
                 titleView.setText(R.string.headtip_warn_not_offical_rom);
             } else if (!isFullSupport) {
                 titleView.setText(R.string.headtip_warn_unsupport_sysver);
@@ -114,9 +116,10 @@ public class HomePageBannerHelper {
         }
     }
 
-    private boolean getIsOfficialRom() {
+    public static boolean getIsUnofficialRom(Context context) {
         String baseOs = getBaseOs();
         String romAuthor = getRomAuthor();
+        String systemVersion = getSystemVersionIncremental();
         String host = SystemSDKKt.getHost();
 
         boolean isNotCustomBaseOs = !baseOs.startsWith("V") &&
@@ -127,12 +130,25 @@ public class HomePageBannerHelper {
 
         boolean hasRomAuthor = !romAuthor.isEmpty();
 
+        boolean isSystemVersionContains = systemVersion.contains("江南") || systemVersion.contains("月色");
+
         boolean isNotCustomHost = !host.startsWith("pangu-build-component-system") &&
             !host.startsWith("builder-system") &&
             !host.startsWith("non-pangu-pod") &&
             !host.equals("xiaomi.com");
 
-        return hasRomAuthor || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost);
+        boolean hasAdvSettings = isAppInstalled(context, "com.baiyang.settings");
+
+        return hasRomAuthor || isSystemVersionContains || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost) || hasAdvSettings;
+    }
+
+    private static boolean isAppInstalled(Context context, String packageName) {
+        try {
+            context.getPackageManager().getApplicationInfo(packageName, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     private void isSupportAutoSafeMode(Context context, PreferenceCategory preference) {
