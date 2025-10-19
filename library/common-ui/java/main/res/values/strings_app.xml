@@ -772,6 +772,7 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_statusbar_music_tip">Notes before using:\n• After turning on this feature, check and restart the System UI scope.\n• This feature needs to be used with the \"SuperLyric\" module.</string>
+    <string name="system_ui_statusbar_music_dependency">Download SuperLyric</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_music_show_app_title">Notification to register in the app</string>
     <string name="system_ui_statusbar_music_show_app_desc">After turning it on, you need to check the scope of the music app.</string>

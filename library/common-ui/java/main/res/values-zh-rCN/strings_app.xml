@@ -805,6 +805,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">这是一条长文本，它将以滚动形式输出</string>
 
     <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面作用域\n- 此功能需要搭配 \"SuperLyric\" 模块使用</string>
+    <string name="system_ui_statusbar_music_dependency">下载 SuperLyric</string>
     <string name="system_ui_statusbar_music_share">分享歌词</string>
     <string name="system_ui_statusbar_music_send">松开即发送</string>
     <string name="system_ui_statusbar_music_send_share_text">我从%1$s分享了如下歌词：\n%2$s</string>
