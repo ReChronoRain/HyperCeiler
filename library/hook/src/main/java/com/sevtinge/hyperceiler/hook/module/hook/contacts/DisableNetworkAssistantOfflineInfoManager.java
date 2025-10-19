@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 public class DisableNetworkAssistantOfflineInfoManager extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.mobile.businesshall.bean.OffLineData$BaseData", String.class, boolean.class, String.class, String.class, String.class, "com.mobile.businesshall.bean.OffLineData$MiHallHomeModule", "com.mobile.businesshall.bean.OffLineData$PhoneChargeModule", "com.mobile.businesshall.bean.OffLineData$FlowModule", "com.mobile.businesshall.bean.OffLineData$VoiceModule", new MethodHook(){
+        hookAllConstructors("com.mobile.businesshall.bean.OffLineData$BaseData", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 setBooleanField(param.thisObject, "isOffline", false);

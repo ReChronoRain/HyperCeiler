@@ -21,16 +21,12 @@ package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
 
 import static de.robv.android.xposed.XposedHelpers.setBooleanField;
 
-import android.content.Context;
-
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
-
-import de.robv.android.xposed.XposedHelpers;
 
 public class DisableNetworkAssistantOfflineInfoManager extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.miui.networkassistant.ui.bean.OffLineData$BaseData", String.class, boolean.class, String.class, String.class, String.class, "com.miui.networkassistant.ui.bean.ClickActionData", "com.miui.networkassistant.ui.bean.OffLineData$NetworkAssistantHomeModule", "com.miui.networkassistant.ui.bean.OffLineData$CardSlotModule", "com.miui.networkassistant.ui.bean.OffLineData$SettingModule", "com.miui.networkassistant.ui.bean.OffLineData$VoiceModule", "com.miui.networkassistant.ui.bean.OffLineData$ReminderModule", new MethodHook(){
+        hookAllConstructors("com.miui.networkassistant.ui.bean.OffLineData$BaseData", new MethodHook(){
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 setBooleanField(param.thisObject, "isOffline", false);
