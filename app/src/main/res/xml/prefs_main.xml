@@ -57,6 +57,13 @@
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_contacts"
+            android:summary="com.android.contacts"
+            android:title="@string/contacts"
+            app:inflatedXml="@xml/contacts"/>
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_file_explorer"
             android:summary="com.android.fileexplorer"
             android:title="@string/fileexplorer"
@@ -166,6 +173,13 @@
             android:summary="com.lbe.security.miui"
             android:title="@string/lbe"
             app:inflatedXml="@xml/lbe_security"/>
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_health"
+            android:summary="com.mi.health"
+            android:title="@string/health"
+            app:inflatedXml="@xml/health" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.hooker.MiLinkFragment"

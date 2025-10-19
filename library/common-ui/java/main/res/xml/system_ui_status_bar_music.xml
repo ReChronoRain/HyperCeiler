@@ -27,7 +27,7 @@
         android:title="@string/system_ui_statusbar_music_tip" />
 
     <Preference
-        android:title="SuperLyric Download">
+        android:title="@string/system_ui_statusbar_music_dependency">
         <intent
             android:action="android.intent.action.VIEW"
             android:data="https://github.com/HChenX/SuperLyric/releases" />

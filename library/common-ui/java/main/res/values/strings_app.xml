@@ -772,6 +772,7 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Text</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">This is a long piece of text that will be output in scrolling form</string>
     <string name="system_ui_statusbar_music_tip">Notes before using:\n• After turning on this feature, check and restart the System UI scope.\n• This feature needs to be used with the \"SuperLyric\" module.</string>
+    <string name="system_ui_statusbar_music_dependency">Download SuperLyric</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_music_show_app_title">Notification to register in the app</string>
     <string name="system_ui_statusbar_music_show_app_desc">After turning it on, you need to check the scope of the music app.</string>
@@ -1500,6 +1501,7 @@
     <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>
     <string name="security_center_unlock_car_sickness">Unlock Motion sickness relief</string>
     <string name="security_center_unlock_car_sickness_desc">Needs \"Barrage\" support</string>
+    <string name="security_center_disable_offline_info_manager">Disable network assistant offline info</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">Disable risk detections</string>
@@ -1583,6 +1585,12 @@
     <string name="bypass_udk_word_legal_check_description">Allows the recording of words from the Wake with voice when offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Set accuracy for Wake with voice detection</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Higher values are more difficult to detect. The default value is 70%, for the keyword XATX it\'s 0%. After setting up, you need to record wake-up phrase again.</string>
+    <!--Contacts-->
+    <string name="contacts">Contacts and dialer</string>
+    <string name="contacts_disable_offline_info_manager">Disable business hall offline info</string>
+    <!--Health-->
+    <string name="health">Mi Fitness</string>
+    <string name="health_disable_splash_ad">Disable splash ad</string>
     <!--Other-->
     <string name="various">Others</string>
     <string name="input_method">Input methods</string>

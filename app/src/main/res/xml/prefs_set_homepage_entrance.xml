@@ -60,6 +60,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_contacts_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.android.contacts"
+            android:title="@string/contacts" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_file_explorer_state"
             android:layout="@layout/preference_header"
             android:summary="com.android.fileexplorer"
@@ -185,6 +193,14 @@
             android:layout="@layout/preference_header"
             android:summary="com.lbe.security.miui"
             android:title="@string/lbe" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_health_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.mi.health"
+            android:title="@string/health" />
 
         <SwitchPreference
             android:defaultValue="true"
