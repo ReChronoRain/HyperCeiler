@@ -149,6 +149,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesModule.put("BuildType", BuildConfig.BUILD_TYPE);
             propertiesModule.put("BuildOsName", BuildConfig.BUILD_OS_NAME);
             propertiesModule.put("BuildJavaVersion", BuildConfig.BUILD_JAVA_VERSION);
+            propertiesModule.put("GitBranch", BuildConfig.GIT_BRANCH);
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
             // propertiesModule.put("Debug", String.valueOf(BuildConfig.DEBUG));
@@ -203,7 +204,7 @@ public class DevelopmentDebugInfoFragment extends SettingsPreferenceFragment {
             propertiesCheck.put("RootGroups", getRootGroupsInfo());
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActive));
-            propertiesCheck.put("IsDebugMode", String.valueOf(PrefsUtils.getSharedBoolPrefs(requireContext(), "prefs_key_development_debug_mode", false)));
+            propertiesCheck.put("DebugModeActivate", String.valueOf(PrefsUtils.getSharedBoolPrefs(requireContext(), "prefs_key_development_debug_mode", false)));
             propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(requireContext()));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(requireContext())));
