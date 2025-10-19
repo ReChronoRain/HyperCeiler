@@ -106,8 +106,8 @@
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
     <string name="help_cant_see_apps_title">Can\'t find the app features on the homepage?</string>
     <string name="help_cant_see_apps_desc">To maintain the simplicity and usability of the homepage, we\'ve hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nCurrently hidden app features:</string>
-    <string name="help_cant_see_apps_uninstall">Uninstalled apps:\n</string>
-    <string name="help_cant_see_apps_disable">Disabled or hidden apps:\n</string>
+    <string name="help_cant_see_apps_uninstall">Uninstalled or disabled apps:\n</string>
+    <string name="help_cant_see_apps_disable">Hidden apps:\n</string>
     <string name="help_cant_see_apps_scope">Not selected as scoped:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we\'ve hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>

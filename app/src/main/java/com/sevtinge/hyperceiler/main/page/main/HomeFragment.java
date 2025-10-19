@@ -120,21 +120,13 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
     private void processPreferenceHeader(String key, String summary, SharedPreferences sp) {
         if (key == null || summary == null) return;
 
-        if (!sp.getBoolean(key + "_state", true)) {
-            PreferenceHeader header = findPreference(key);
-            if (header != null && header.isVisible()) {
-                header.setVisible(false);
-            }
-            return;
-        }
-
         PreferenceHeader header = findPreference(key);
         if (header == null) return;
 
         setIconAndTitle(header, summary);
         String title = header.getTitle() != null ? header.getTitle().toString() : "";
         String summary1 = header.getSummary() != null ? header.getSummary().toString() : "";
-        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1));
+        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1, key, sp));
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
