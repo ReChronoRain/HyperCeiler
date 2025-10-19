@@ -1587,6 +1587,9 @@
     <!--Contacts-->
     <string name="contacts">Contacts and dialer</string>
     <string name="contacts_disable_offline_info_manager">Disable business hall offline info</string>
+    <!--Health-->
+    <string name="health">Mi Fitness</string>
+    <string name="health_disable_splash_ad">Disable splash ad</string>
     <!--Other-->
     <string name="various">Others</string>
     <string name="input_method">Input methods</string>

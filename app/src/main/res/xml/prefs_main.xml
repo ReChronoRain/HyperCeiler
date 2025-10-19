@@ -175,6 +175,13 @@
             app:inflatedXml="@xml/lbe_security"/>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_health"
+            android:summary="com.mi.health"
+            android:title="@string/health"
+            app:inflatedXml="@xml/health" />
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.hooker.MiLinkFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_milink"

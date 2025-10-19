@@ -1680,6 +1680,9 @@
     <!--Contacts-->
     <string name="contacts">通讯录与拨号</string>
     <string name="contacts_disable_offline_info_manager">禁用营业厅离线配置</string>
+    <!--Health-->
+    <string name="health">小米运动健康</string>
+    <string name="health_disable_splash_ad">禁用开屏广告</string>
     <!--其他-->
     <string name="various">其他</string>
     <string name="input_method">输入法</string>

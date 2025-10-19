@@ -197,6 +197,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_health_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.mi.health"
+            android:title="@string/health" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_milink_state"
             android:layout="@layout/preference_header"
             android:summary="com.milink.service"
