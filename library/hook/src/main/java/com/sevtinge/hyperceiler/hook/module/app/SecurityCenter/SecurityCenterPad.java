@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.BypassAdbInstallVerify;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.CtaBypassForHyperceiler;
+import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.DisableNetworkAssistantOfflineInfoManager;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.DisableRootedCheck;
 import com.sevtinge.hyperceiler.hook.module.hook.securitycenter.GetBubbleAppString;
@@ -124,6 +125,7 @@ public class SecurityCenterPad extends BaseModule {
         initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
         initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
         initHook(new UnlockCarSicknessRelief(), mPrefsMap.getBoolean("security_center_unlock_car_sickness"));
+        initHook(new DisableNetworkAssistantOfflineInfoManager(), mPrefsMap.getBoolean("security_center_disable_offline_info_manager"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));

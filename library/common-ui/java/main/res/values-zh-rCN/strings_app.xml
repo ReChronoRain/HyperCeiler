@@ -1582,6 +1582,7 @@
     <string name="secutity_center_battery_show_more_info_desc">实验性功能，具体支持显示内容因设备而异</string>
     <string name="security_center_unlock_car_sickness">解锁晕车缓解</string>
     <string name="security_center_unlock_car_sickness_desc">需要 \"弹幕通知\" 支持</string>
+    <string name="security_center_disable_offline_info_manager">禁用网络助手离线配置</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>
@@ -1676,6 +1677,9 @@
     <string name="sim_activation_service_disable_activate_when_roaming">禁止卡 2 在漫游时激活服务</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">仅支持中国大陆</string>
     <string name="sim_activation_service_disable_activate_when_roaming_radical">使用更激进的漫游过滤方法</string>
+    <!--Contacts-->
+    <string name="contacts">通讯录与拨号</string>
+    <string name="contacts_disable_offline_info_manager">禁用营业厅离线配置</string>
     <!--其他-->
     <string name="various">其他</string>
     <string name="input_method">输入法</string>

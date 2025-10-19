@@ -23,6 +23,7 @@
         <item>com.android.browser</item> <!--浏览器-->
         <item>com.android.calendar</item> <!--日历-->
         <item>com.android.camera</item> <!--相机-->
+        <item>com.android.contacts</item> <!--通讯录与拨号-->
         <item>com.android.externalstorage</item> <!--外部存储设备-->
         <item>com.android.fileexplorer</item> <!--文件管理-->
         <item>com.android.htmlviewer</item> <!--HTML 查看器-->
