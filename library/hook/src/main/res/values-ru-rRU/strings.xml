@@ -51,6 +51,8 @@
     <string name="media_control_album_mode_2">Невидимый</string>
     <string name="media_control_button_mode_1">Настраиваемая кнопка справа</string>
     <string name="media_control_button_mode_2">Кнопка воспроизведения слева</string>
+    <string name="notes_unlock_ai_mode_1">Старый</string>
+    <string name="notes_unlock_ai_mode_2">Новый</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Настройки сети</string>
     <string name="system_ui_hide_navigation_bar">Скрыть полосу навигации</string>
