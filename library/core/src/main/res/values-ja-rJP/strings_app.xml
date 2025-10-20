@@ -210,6 +210,8 @@
     <string name="horizontal_margin">横方向の余白</string>
     <string name="vertical_offset">上下のオフセット</string>
     <string name="horizontal_alignment">水平方向の配置</string>
+    <string name="vertical">縦画面</string>
+    <string name="horizontal">横画面</string>
     <string name="feature">機能</string>
     <string name="recommend">おすすめ</string>
     <string name="editor">エディター</string>
@@ -229,6 +231,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">コンテンツの幅を修正</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">水平ジッタを防止します</string>
     <string name="system_ui_statusbar_indicator_bold">太字</string>
+    <string name="unlock_ai">AI 機能のロックを解除</string>
+    <string name="unlock_ai_wallpaper">AI壁紙アクセスのロックを解除</string>
     <!--Multi-list Array-->
     <string name="array_close">閉じる</string>
     <string name="array_hide">非表示</string>
@@ -442,6 +446,7 @@
     <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正</string>
     <string name="system_framework_bypass_force_downloadui_desc">Quick Share で「ダウンロードを表示」をクリックした時に誤ったリダイレクトが発生する問題を修正する</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">このリストの下の機能は、理解した後にのみ選択的に有効にする必要があります。いくつかのオプションは特定のリスクを伴います。ご注意ください。\nマスタースイッチを除き、通常のオプションはすぐに有効になります。拡張機能ではスイッチの状態にかかわらず再起動が必要です。</string>
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">アプリのダウングレードを許可</string>
     <string name="system_framework_core_patch_downgr_desc">アプリのバージョンが上位の場合、アプリのダウングレードを許可する</string>
@@ -494,6 +499,8 @@
     <string name="camera_black_leica_desc">Leica の透かしの色を黒に変更します。一部のデバイスでは対応していない場合があります。</string>
     <string name="camera_custom_theme_color">テーマカラーをカスタマイズ</string>
     <string name="camera_custom_theme_color_picker">テーマカラーを選択</string>
+    <string name="camera_cloud_watermark">クラウドから透かしを強制</string>
+    <string name="camera_cloud_watermark_desc">バージョン6.2以降でのみサポートされています。Xiaomi クラウドサーバーの影響を受ける可能性があります。</string>
     <!--Calendar-->
     <string name="calendar">カレンダー</string>
     <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
@@ -950,6 +957,9 @@
     <string name="sound_recorder">サウンドレコーダー</string>
     <string name="sound_recorder_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <string name="sound_recorder_unlock_recording_scene">録音シーンのロックを解除</string>
+    <!--Notes-->
+    <string name="notes">備考</string>
+    <string name="notes_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <!--Always-on display-->
     <string name="aod_hyperos">常時オンディスプレイとロック画面エディター</string>
     <string name="aod_unlock_always_on_display">常時オンディスプレイの時間制限をアンロック</string>
@@ -1457,6 +1467,7 @@
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
     <string name="aiasst_all_captions">多言語オンライン字幕をアンロック</string>
+    <string name="aiasst_unlock_split_screen_translation">分割画面翻訳のロックを解除</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
     <string name="barrage_any_barrage">すべてのアプリが弾幕通知を使用できるようにする</string>
@@ -1519,6 +1530,8 @@
     <string name="bypass_udk_word_legal_check_description">オフライン時でも、音声で起動に使う単語を録音できます</string>
     <string name="voicetrigger_accuracy_percent_caption">音声での起動を検出する精度を設定する</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">値が高いほど検出が困難になります。デフォルト値は 70% で、キーワード「XATX」の場合は 0% です。設定後、起動ワードを再度登録する必要があります。</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">その他</string>
     <string name="input_method">入力方式</string>

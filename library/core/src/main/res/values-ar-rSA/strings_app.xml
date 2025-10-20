@@ -24,6 +24,10 @@
     <string name="new_permission_location_desc">تستخدم لتقديم خدمات مثل خطوط العرض وخطوط الطول</string>
     <string name="new_cta_agree_desc">أثناء الاستخدام، من أجل تزويدك بالمزيد من الميزات، قد نتقدم بطلب للحصول على إذن الجذر منك. يمكنك الذهاب إلى إدارة الأذونات في أي وقت لتعديل حالة التفويض لجميع الأذونات، يرجى الذهاب إلى مدير الروت الخاص بك للحصول على أذونات الجذر.</string>
     <string name="new_cta_app_main_purpose">تعديل تطبيقات النظام</string>
+    <string name="new_cta_app_all_purpose_welcome">اتفاقية المستخدم وسياسة الخصوصية</string>
+    <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler! يعتمد هذا التطبيق على اضافة LSposed لتشغيله. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الروت. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الروت الخاص بك.\nبمواصلة استخدام HyperCeiler، فإنك توافق على اتفاقية المستخدم <annotation key="protocol"></annotation> و <annotation key="privacy">سياسة الخصوصية</annotation>.</string>
+    <string name="new_cta_app_all_purpose_agree">الموافقة والاستمرار</string>
+    <string name="new_cta_app_all_purpose_reject">الرفض والخروج</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">العربية</string>
     <string name="translator">Mohamed Zeroug</string>
@@ -170,6 +174,7 @@
     <string name="miuix_alphabet_indexer_name">شريط الفهرس</string>
     <string name="miuix_appcompat_action_mode_cancel">إلغاء</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">مسح</string>
+    <string name="miuix_preference_text_hint">النطاق: %1$s ~ %2$s | القيمة الافتراضية: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">قيمة غير صالحة. الرجاء التحقق منها وإعادة إدخالها.</string>
     <string name="miuix_appcompat_color_picker_alpha_text_transparent">الشفافية</string>
     <string name="miuix_appcompat_color_picker_custom_color">لون مخصص</string>
@@ -448,6 +453,8 @@
     <string name="system_framework_core_patch_shared_user_desc">السماح بتثبيت التطبيقات التي تختلف عن توقيعات المستخدم المشتركة.  هذه الميزة خطيرة إلى حد ما ويجب تمكينها فقط عند الحاجة إليها.</string>
     <string name="system_framework_core_patch_digest_creak">تعطيل المقارنة بين التوقيعات</string>
     <string name="system_framework_core_patch_digest_creak_desc">السماح بإعادة تثبيت التطبيق بتوقيعات مختلفة</string>
+    <string name="system_framework_core_patch_exact_signature_check">تعطيل تطابق التوقيع الدقيق</string>
+    <string name="system_framework_core_patch_exact_signature_check_desc">تعطيل مطابقة التوقيع الدقيق بين APKs، والسماح بالتثبيت عندما يكون لكل جزء APK توقيع مختلف. قم بالتفعيل فقط عند الضرورة القصوى.</string>
     <string name="system_framework_core_patch_use_pre_signature">إستخدم التوقيعات المثبتة</string>
     <string name="system_framework_core_patch_use_pre_signature_desc">هذه الميزة خطيرة للغاية ويجب تمكينها فقط عند الضرورة القصوى</string>
     <string name="system_framework_disable_low_api_check">تعطيل التحقق من الـ API المنخفض</string>
@@ -462,6 +469,8 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">السماح للتطبيقات من طرف ثالث بتثبيت تطبيقات النظام</string>
     <string name="system_framework_core_patch_allow_update_system_app">السماح بتحديث تطبيقات النظام</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">السماح بتثبيت تطبيقات النظام عندما يتم تعطيل تحديث تطبيقات النظام</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">تعطيل إعادة تعيين بصمة الإصبع</string>
+    <string name="system_framework_core_patch_unloss_fingerprint_desc">قد تساعد في حل مشكلة إعادة تعيين بصمات الأصابع بعد إعادة التشغيل عند تمكين خدمات إدارة حزمة معينة. فقط للأجهزة المتأثرة بهذه المشكلة.</string>
     <!--Browser-->
     <string name="browser">متصفح</string>
     <string name="browser_debug_mode">فتح خيارات المطور</string>
@@ -511,6 +520,7 @@
     <string name="mms_disable_overseas_risk_tip">تعطيل نصيحة خطر من الخارج</string>
     <string name="mms_disable_overseas_risk_tip_desc">تعطيل نصيحة \"قد يكون احتيالًا من الخارج\"</string>
     <string name="mms_im_old_device">حظر التعريف كجهاز جديد</string>
+    <string name="mms_verification_code_auto_copy"></string>
     <!--Phone Service-->
     <string name="phone">خدمة الهاتف</string>
     <string name="phone_smart_dual_sim">فتح شريحة SIM الذكية المزدوجة</string>
@@ -758,6 +768,7 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">عربي</string>
     <string name="system_ui_control_center_media_control_inverse_color">عربي</string>
     <string name="system_ui_control_center_media_control_media_album_mode">عربي</string>
+    <string name="system_ui_control_center_media_control_media_album_mode_desc">بعد اختيار \"غير مرئي\"، يجب عليك أيضًا تمكين خِيار تعديل التخطيط حتى يصبح مفعل.</string>
     <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">عربي</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">عربي</string>
@@ -765,6 +776,9 @@
     <string name="system_ui_control_center_media_control_media_button_hide_seamless">عربي</string>
     <string name="system_ui_control_center_media_control_media_button_mode">عربي</string>
     <string name="system_ui_control_center_media_control_title_margin">عربي</string>
+    <string name="system_ui_control_center_media_control_title_padding">المسافة بين العنوان والحافة</string>
+    <string name="system_ui_control_center_media_control_title_size">حجم خط العنوان</string>
+    <string name="system_ui_control_center_media_control_artist_size">حجم خط اسم الفنان</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">شريط البحث عن الوسائط</string>
     <string name="system_ui_control_center_redirect_notice">إعادة توجيه إعدادات الإشعارات</string>
     <string name="system_ui_control_center_redirect_notice_desc">عند فتح قائمة إعدادات الإشعارات، يتم التوجيه إلى إعدادات التطبيق الوجهة بدلاً من تطبيق إعدادات الإشعارات.</string>
@@ -776,6 +790,8 @@
     <string name="system_ui_control_center_mute_visible_notice">كتم الصوت عند تشغيل الشاشة</string>
     <string name="system_ui_control_center_unimportant_notification">منع دمج الإشعارات غير المهمة في الإشعارات السابقة</string>
     <string name="system_ui_control_center_expand_notification">توسيع الإشعارات</string>
+    <string name="system_ui_control_center_auto_clean_expand_notification">الإخفاء التلقائي للإشعارات الموسعة</string>
+    <string name="system_ui_control_center_expand_notification_show_time">مدة العرض</string>
     <string name="system_ui_control_center_mute_visible_notice_desc">عند تشغيل الشاشة، لا يُشغل صوت التنبيه في الإشعار المنبثق.</string>
     <string name="system_ui_control_center_rounded_rect">مربع مستدير الزوايا</string>
     <string name="system_ui_control_center_statusbar_blur">تفعيل تأثير ضبابية الخلفية</string>
@@ -801,6 +817,8 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">السماح بعرض 10 أو 17 إشعارًا أو أكثر.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">تحسين خلط ألوان الخلفية في قسم الإشعارات</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">العودة إلى نمط الإشعارات العادي وخلط الألوان</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced">تعزيز التركيز على خلفية الإشعار</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">قد لا يكون متوافقاً مع AOD كامل الشاشة</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">قيمة سطوع العرض</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">عرض قيمة مستوى الصوت</string>
     <string name="system_ui_control_center_zen_fix">إصلاح وضع عدم الإزعاج</string>
@@ -890,6 +908,7 @@
     <string name="system_settings_window_animation_scale">مقياس الرسوم المتحركة للنافذة</string>
     <string name="system_settings_transition_animation_scale">مقياس الرسوم المتحركة للانتقال</string>
     <string name="system_settings_animator_duration_scale">مقياس مدة الرسوم المتحركة</string>
+    <string name="system_settings_set_failed_toast">فشل في تعيين قيمة %1$s إلى %2$s.</string>
     <string name="system_settings_allow_never_lock_screen">السماح بعدم قفل الشاشة</string>
     <string name="system_settings_anti_ques">تعطيل فحص الكلمات الحساسة في اسم الجهاز</string>
     <string name="system_settings_anti_ques_desc">قد لا تستخدم هذه الميزة في انتهاك للقوانين المحلية أو الوطنية</string>
@@ -931,6 +950,7 @@
     <string name="sound_recorder">مسجل الصوت</string>
     <string name="sound_recorder_disable_ai_watermark">تعطيل العلامة المائية للذكاء الاصطناعي</string>
     <string name="sound_recorder_unlock_recording_scene">افتح موقع التسجيل</string>
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">الشاشة الدائمة ومحرر قفل الشاشة</string>
     <string name="aod_unlock_always_on_display">فتح الحد الزمني لعرض الشاشة الدائمة</string>
@@ -995,6 +1015,7 @@
     <string name="home_navigation_assist_left_slide_desc">مرر للأعلى من الزاوية اليسرى السفلية للشاشة</string>
     <string name="home_navigation_assist_right_slide_desc">مرر للأعلى من الزاوية اليمنى السفلية للشاشة</string>
     <string name="home_navigation_quick_back_more">مرر عبر الشاشة بدءًا من الحافة للرجوع إلى التطبيق السابق</string>
+    <string name="home_navigation_disable_full_screen_back_gesture">تعطيل الإيماءات الخلفية للشاشة الكاملة</string>
     <string name="home_navigation_back_area_height">ارتفاع منطقة الإيماءة للرجوع</string>
     <string name="home_navigation_back_area_width">عرض منطقة الإيماءة للرجوع</string>
     <string name="home_gesture_title2">الإيماءات</string>
@@ -1077,6 +1098,7 @@
     <string name="home_folder_shade_level_title">شدة اللون</string>
     <string name="home_folder_cols_title">عدد الأعمدة في المجلدات</string>
     <string name="home_folder_cols_format">%s عمود</string>
+    <string name="home_folder_rows_format">صف %s</string>
     <string name="home_folder_horizontal_padding_desc">مسافة المجلد عن الحافة الجانبية للشاشة</string>
     <string name="home_folder_vertical_spacing_desc">المسافة بين صفوف المجلد</string>
     <string name="home_folder_title_pos">موقع العنوان</string>
@@ -1150,6 +1172,8 @@
     <string name="home_recent_modify_animation">تعديل الرسوم المتحركة عند إزالة التطبيقات من التطبيقات الحديثة</string>
     <string name="home_recent_text">النص المعروض عند عدم وجود أي مهمة حديثة</string>
     <string name="home_recent_app_name_distance_task_view_card">المسافة بين اسم التطبيق وبطاقة عرض المهمة</string>
+    <string name="home_recent_card_header_horizontal_position">موضع رأس بطاقة التطبيق الأفقي</string>
+    <string name="home_recent_task_view_height">ارتفاع بطاقة عرض المهام الأخيرة</string>
     <string name="home_recent_task_view_card_rounded_corners">الزوايا المستديرة لبطاقة عرض المهمة</string>
     <string name="home_recent_horizontal_task_view_card_size1">حجم الصورة المصغرة للوضع الأفقي-الرأسي</string>
     <string name="home_recent_horizontal_task_view_card_size2">حجم الصورة المصغرة للوضع الأفقي-الأفقي</string>
@@ -1284,7 +1308,9 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">منع استعادة القائمة البيضاء لتحسين البطارية</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">إيقاف الحصول على رمز التحكم في العرض</string>
     <string name="powerkeeper_gms_doze_fix">السماح لـ GMS بالاتصال بالشبكة في أي وقت</string>
+    <string name="powerkeeper_gms_doze_fix_desc">تحتاج إلى تفعيل إطار النظام وتطبيق battery &amp; performance في Lsposed</string>
     <string name="powerkeeper_conservative_millet">جعل ميليت محافظا</string>
+    <string name="powerkeeper_conservative_millet_desc">جعل سياسة الإدارة الخلفية أكثر تحفظا. تحتاج إلى تمكين إطار النظام ونطاقات البطارية والأداء.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">مسجل الشاشة</string>
     <string name="screen_recorder_force_support_playback_capture">تمكين دعم تسجيل الشاشة AOSP بالقوة</string>
@@ -1297,6 +1323,7 @@
     <!--Screenshot-->
     <string name="screenshot">لقطة الشاشة</string>
     <string name="screenshot_unlock_minimum_crop_limit">إزالة حد القص الأدنى للصورة</string>
+    <string name="screenshot_unlock_copy_to_clipboard">فتح نسخ لقطة الشاشة تلقائياً إلى الحافظة</string>
     <string name="screenshot_unlock_privacy_marking_title">فتح الوسم الخصوصي</string>
     <string name="screenshot_unlock_privacy_marking_desc">يجب تثبيت إصدار أعلى من تطبيق Mi AI Engine لاستخدامه بشكل طبيعي</string>
     <string name="screenshot_save_to_pictures_desc">الموقع المحدد لحفظ لقطات الشاشة هو /Pictures/Screenshots</string>
@@ -1325,8 +1352,9 @@
     <string name="security_center_simplify_home">تبسيط شاشة الأمان الرئيسية</string>
     <string name="security_center_simplify_home_desc">إزالة بطاقة التوصية بالوظائف</string>
     <string name="security_center_applock_pin_scramble">قفل التطبيقات مع تشويش الرقم السري</string>
-    <string name="security_center_power_saver">إزالة القيود عند عرض الشاشة</string>
     <string name="security_center_privacy_thumbnail_blur">تعطيل عرض الصور الضبابية عند التشغيل الذاتي</string>
+    <string name="security_center_privacy_thumbnail_blur_desc">بمجرد التفعيل، سيتم قفل عرض صورة الخلفية للصور. من المستحسن أولاً تحديد التطبيقات التي يجب أن تكون معايناتها معطلة قبل تشغيل هذه الميزة.</string>
+    <string name="security_center_power_saver">إزالة القيود عند عرض الشاشة</string>
     <string name="security_center_power_saver_desc">تعطيل وضع توفير البطارية عند عرض الشاشة عبر Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">تغيير عشوائي لترتيب لوحة مفاتيح PIN لقفل التطبيق</string>
     <string name="security_center_beauty_light_auto">فتح إضاءة أمامية</string>
@@ -1408,6 +1436,8 @@
     <string name="security_center_battery_unlock_low_temp_ext_endurance">فتح وضع التحمل البارد</string>
     <string name="secutity_center_battery_show_more_info">عرض المزيد من معلومات البطارية</string>
     <string name="secutity_center_battery_show_more_info_desc">ميزة تجريبية. قد تختلف معلومات البطارية الإضافية المعروضة حسب الجهاز.</string>
+    <string name="security_center_unlock_car_sickness">تفعيل \"التخفيف من دوار الحركة\"</string>
+    <string name="security_center_unlock_car_sickness_desc">تحتاج إلى دعم من تطبيق \"Barrage\"</string>
     <!--MiTrustService-->
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">تعطيل اكتشاف المخاطر</string>
@@ -1431,6 +1461,8 @@
     <!--Barrage-->
     <string name="barrage">المقذوفات</string>
     <string name="barrage_any_barrage">السماح لجميع التطبيقات باستخدام المقذوفات</string>
+    <string name="barrage_global_enable">السماح بالاستخدام الشامل للإشعارات العائمة</string>
+    <string name="barrage_not_touchable">الإشعارات العائمة غير قابلة لللمس</string>
     <string name="barrage_custom_barrage_length">طول المقذوفات المخصص</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
@@ -1453,6 +1485,7 @@
     <!--Mi sound-->
     <string name="misound">السماعات</string>
     <string name="misound_bluetooth">تغيير حالة سماعة الرأس إلى الصوت الأصلي</string>
+    <string name="misound_bluetooth_desc">تحتاج إلى تمكين إطار النظام وواجهة النظام، وتطبيق سماعة الاذن في Lsposed ، ثم إعادة تشغيل الجهاز لتطبيق التغييرات.</string>
     <string name="misound_increase_sampling_rate">زيادة معدل العينة</string>
     <!--Mi Settings-->
     <string name="mi_settings">إعدادات Mi</string>
@@ -1487,8 +1520,11 @@
     <string name="bypass_udk_word_legal_check_description">يسمح بتسجيل الكلمات من كلمة الاستيقاظ بالصوت عند عدم الاتصال بالإنترنت</string>
     <string name="voicetrigger_accuracy_percent_caption">تحديد دقة اكتشاف كلمة الاستيقاظ بالصوت</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">القيم الأعلى تجعل الاكتشاف أكثر صعوبة. القيمة الافتراضية هي 70%، وللكلمة المفتاحية XATX هي 0%. بعد الإعداد، يجب إعادة تشغيل التطبيق المستهدف وإعادة تسجيل كلمة التنشيط.</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">أخرى</string>
+    <string name="input_method">طرق الإدخال</string>
     <string name="app_version_not_supported">إصدار غير مدعوم</string>
     <string name="various_dialog_title">الحوار</string>
     <string name="various_mipad_title">مي باد</string>

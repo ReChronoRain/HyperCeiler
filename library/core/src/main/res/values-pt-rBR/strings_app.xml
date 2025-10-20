@@ -229,6 +229,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Corrigir largura do conteúdo</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Para evitar instabilidade horizontal</string>
     <string name="system_ui_statusbar_indicator_bold">Negrito</string>
+    <string name="unlock_ai">Desbloquear recursos de IA</string>
+    <string name="unlock_ai_wallpaper">Desbloquear acesso ao plano de fundo IA</string>
     <!--Multi-list Array-->
     <string name="array_close">Fechar</string>
     <string name="array_hide">Ocultar</string>
@@ -494,6 +496,8 @@
     <string name="camera_black_leica_desc">Altere a cor da marca d\'água Leica para preto ao usá-la. Alguns dispositivos ainda não são compatíveis.</string>
     <string name="camera_custom_theme_color">Personalizar cor do tema</string>
     <string name="camera_custom_theme_color_picker">Escolher cor do tema</string>
+    <string name="camera_cloud_watermark">Forçar marca d\'água da nuvem</string>
+    <string name="camera_cloud_watermark_desc">Compatível apenas com a versão 6.2 ou superior. Pode ser afetado pelos servidores em nuvem da Xiaomi.</string>
     <!--Calendar-->
     <string name="calendar">Calendário</string>
     <string name="calendar_unlock_subscription">Desbloquear Assinatura</string>
@@ -950,6 +954,9 @@
     <string name="sound_recorder">Gravador</string>
     <string name="sound_recorder_disable_ai_watermark">Desativar marca d\'água IA</string>
     <string name="sound_recorder_unlock_recording_scene">Desbloquear cena de gravação</string>
+    <!--Notes-->
+    <string name="notes">Anotações</string>
+    <string name="notes_disable_ai_watermark">Desativar marca d\'água IA</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Tela ambiente e editor da Tela de bloqueio</string>
     <string name="aod_unlock_always_on_display">Desbloquear limite de tempo de exibição da Tela ambiente</string>
@@ -1519,6 +1526,8 @@
     <string name="bypass_udk_word_legal_check_description">Permite a gravação de palavras do Acorde com voz quando estiver offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Definir precisão da detecção do Acorde com voz</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Valores maiores são mais difíceis de detectar. O valor padrão é 70%, para a palavra-chave XATX é 0%. Após a configuração, você precisa gravar a frase de ativação novamente.</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Outros</string>
     <string name="input_method">Métodos de entrada</string>

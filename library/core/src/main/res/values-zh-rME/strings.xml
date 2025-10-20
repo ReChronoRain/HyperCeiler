@@ -41,6 +41,7 @@
     <string name="pid_failed">还没开呢，重开什么？</string>
     <string name="reboot_failed">没法重启，你是不是又忘了给我 Root/Su 权限ヽ(`Д´) ﾉ</string>
     <!--HyperCeiler Tips-->
+    <string name="error">404</string>
     <string name="tip_default">绀漓手持锟斤拷，口中直呼烫烫烫，如果你能看到这条 Tip，说明 HyperCeiler 又被玩坏了！请与绀漓联系并友好交流解决这个问题。</string>
     <string name="happy_birthday_hyperceiler">今日无事可做？\n
 你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>

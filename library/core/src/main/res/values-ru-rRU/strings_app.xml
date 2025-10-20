@@ -31,7 +31,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Русский</string>
     <string name="translator">OdiNoKiY KoT</string>
-    <string name="translator_url">https://t.me/hyper_rus https://t.me/da_elki_palki</string>
+    <string name="translator_url">https://t.me/da_elki_palki</string>
     <string name="home">Главная</string>
     <string name="help">Помощь</string>
     <string name="settings">Настройки</string>
@@ -210,6 +210,8 @@
     <string name="horizontal_margin">Горизонтальное поле</string>
     <string name="vertical_offset">Смещение вверх и вниз</string>
     <string name="horizontal_alignment">Горизонтальное выравнивание</string>
+    <string name="vertical">Портретный (вертикальный экран)</string>
+    <string name="horizontal">Альбомный (горизонтальный экран)</string>
     <string name="feature">Функции</string>
     <string name="recommend">Рекомендованное</string>
     <string name="editor">Редактор</string>
@@ -229,6 +231,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Исправить ширину содержимого</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Предотвратить дрожание соседних элементов влево и вправо</string>
     <string name="system_ui_statusbar_indicator_bold">Жирный</string>
+    <string name="unlock_ai">Разблокировать ИИ функции</string>
+    <string name="unlock_ai_wallpaper">Разблокировать ИИ обои</string>
     <!--Multi-list Array-->
     <string name="array_close">Отключить</string>
     <string name="array_hide">Скрыть</string>
@@ -442,6 +446,7 @@
     <string name="system_framework_bypass_force_downloadui">Обход принудительного запуска \"Менеджер загрузок\" при открытии страницы загрузки</string>
     <string name="system_framework_bypass_force_downloadui_desc">Решить проблему неправильного перехода при нажатии \"Просмотреть загрузки\" в \"Быстрая передача\"</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">Функции, указанные в этом списке, следует включать выборочно только после того, как вы ознакомитесь с ними; пожалуйста, имейте в виду, что некоторые опции сопряжены с определенными рисками.\nОбычные опции вступают в силу немедленно, за исключением главного переключателя; расширенные функции требуют перезапуска независимо от состояния их переключения.</string>
     <string name="system_framework_corepatch_title">Модификация установщика пакетов</string>
     <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
     <string name="system_framework_core_patch_downgr_desc">Позволяет установить приложение после изменения apk (игнорировать ошибку о неверной подписи)</string>
@@ -494,6 +499,8 @@
     <string name="camera_black_leica_desc">Изменить цвет темы водяного знака Leica на черный при его использовании. Некоторые устройства пока не поддерживают его.</string>
     <string name="camera_custom_theme_color">Настроить цвет темы</string>
     <string name="camera_custom_theme_color_picker">Выбрать цвет темы</string>
+    <string name="camera_cloud_watermark">Принудительно использовать водяной знак из облака</string>
+    <string name="camera_cloud_watermark_desc">Поддерживается только версия 6.2 и выше. Возможно, связано с облачными серверами Xiaomi.</string>
     <!--Calendar-->
     <string name="calendar">Календарь</string>
     <string name="calendar_unlock_subscription">Разблокировать подписку</string>
@@ -950,6 +957,9 @@
     <string name="sound_recorder">Запись звука</string>
     <string name="sound_recorder_disable_ai_watermark">Отключить водяной знак ИИ</string>
     <string name="sound_recorder_unlock_recording_scene">Разблокировать сцену записи</string>
+    <!--Notes-->
+    <string name="notes">Заметки</string>
+    <string name="notes_disable_ai_watermark">Отключить водяной знак ИИ</string>
     <!--Always-on display-->
     <string name="aod_hyperos">AOD</string>
     <string name="aod_unlock_always_on_display">Разблокировать ограничение времени отображения AOD</string>
@@ -1457,6 +1467,7 @@
     <string name="aiasst">Переводчик AI</string>
     <string name="aiasst_ai_captions">Принудительно включить субтитры AI</string>
     <string name="aiasst_all_captions">Разблокировать многоязычные онлайн-субтитры</string>
+    <string name="aiasst_unlock_split_screen_translation">Разблокировать перевод на разделенном экране</string>
     <!--Barrage-->
     <string name="barrage">Защита</string>
     <string name="barrage_any_barrage">Разрешить всем приложениям использовать защиту</string>
@@ -1519,6 +1530,8 @@
     <string name="bypass_udk_word_legal_check_description">Позволяет записывать слова голосом при пробуждении в автономном режиме</string>
     <string name="voicetrigger_accuracy_percent_caption">Установить точность для пробуждения с распознаванием голоса</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Более высокие значения сложнее обнаружить. Значение по умолчанию - 70%, для ключевого слова XATX - 0%. После настройки вам необходимо перезапустить целевое приложение и повторно зарегистрировать слово активации.</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Прочее</string>
     <string name="input_method">Методы ввода</string>

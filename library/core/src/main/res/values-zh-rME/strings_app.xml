@@ -24,6 +24,7 @@
     <string name="new_permission_location_desc">用于提供诸如拉格兰等服务</string>
     <string name="new_cta_agree_desc">要镐蜂您的系统，我们会向您要面具（或者不要面具，但我们需要sudo 给我们权限）。要停止镐蜂您的系统，你可以随时把面具拿走，或者在应用管理里面很长很长的菜单改变红绿灯。</string>
     <string name="new_cta_app_main_purpose">玩坏你的系统应用</string>
+    <string name="new_cta_app_all_purpose_reject">反弹 &amp; 安 全 出 口</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">梗体中文</string>
     <string name="translator">某些不愿透露姓名的 HyperCeiler 全体用户</string>
@@ -35,9 +36,10 @@
     <string name="about_use">参　考　文　献</string>
     <string name="about_use_desc">憨批露吃掉了以下项目的部分或全部内容，你还得谢谢开发这些项目的各位呢（排名不分先后）</string>
     <string name="about_contributer">始　作　俑　者</string>
-    <string name="about_contributer_desc">把系统镐蜂的人就是他们哟（排名不分先后）</string>
+    <string name="about_contributer_desc">把系统镐蜂的人就是他们哟（不管顺序，想到哪个写哪个）</string>
     <string name="about_donation">帮忙发电的人</string>
     <string name="about_donation_desc">V我50，每天都是疯狂星期四</string>
+    <string name="about_device_info_os">CNMIOS版本</string>
     <string name="hyperceiler_notice">拉下手机的窗帘来同时显示五颜六色小开关和烦人的通知</string>
     <string name="delete_all_dexkit_cache_desc">要吃掉所有的 DexKit 缓存吗？</string>
     <string name="delete_all_dexkit_cache_success">成功吃掉所有的 DexKit 缓存</string>
@@ -287,6 +289,7 @@
     <string name="system_ui_statusbar_clock_style_3">顶部通知小时钟喵\n底部状态栏时钟喵</string>
     <string name="mediaeditor_mickey">律师函</string>
     <string name="mediaeditor_strawberry_bear">想要笔记本贴纸了</string>
+    <string name="mediaeditor_disney_princess">迪 士 尼 在 逃 公 主</string>
     <!--System Framework-->
     <string name="system_framework">内嵌在系统的GFW</string>
     <string name="system_framework_volume_title">数量</string>
@@ -427,6 +430,7 @@
     <string name="camera_custom_watermark">水印？我全都要！</string>
     <string name="camera_custom_watermark_manufacturer">制造商的名片</string>
     <string name="camera_custom_watermark_device">设备的名片</string>
+    <string name="camera_unlock_leica">解锁小米为徕卡定制的功能</string>
     <string name="camera_shot_hand_gesture">上锁脚掌慢门</string>
     <string name="camera_settings_lab_options">启用实验室选项</string>
     <string name="camera_settings_track_eyes">解锁眼动追踪</string>
@@ -560,6 +564,7 @@
     <!--Permissions-->
     <!--Cast-->
     <!--Sound Recorder-->
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_unlock_aon">你想要解锁？不是你配吗，要解锁？</string>
     <!--Taplus-->
@@ -580,7 +585,10 @@
     <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
     <string name="home_other">还想... 看更多吗❤️</string>
     <string name="home_other_your_color">染上你的颜色</string>
+    <string name="home_other_toast_slide_again">❤️不要反悔❤️</string>
+    <string name="home_other_disable_prestart">❤️不准提前射，杂鱼❤️</string>
     <!--Gallery Editor-->
+    <string name="mediaeditor_unlock_leica_filter_title">解锁高级的徕卡滤镜功能</string>
     <!--Wallpaper-->
     <string name="miwallpaper_unlock_super_wallpaper">解锁高耗电+烧屏壁纸</string>
     <!--Package installer-->
@@ -629,9 +637,13 @@
     <!--Sim Activation Service-->
     <!--Scanner-->
     <!--Voice Trigger-->
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various_nobrightness">不自由，毋宁死</string>
     <string name="various_disable_folder_cantuse">让我看看</string>
+    <string name="various_mipad_input_bluetooth_version_title">司 机 版 本</string>
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
+    <string name="ic_qs_title_hotspot">非常热门的谁都想来蹭的热点</string>
     <string name="ic_qs_title_flashlight">烫点</string>
 </resources>

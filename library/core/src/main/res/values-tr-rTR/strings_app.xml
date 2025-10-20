@@ -24,6 +24,9 @@
     <string name="new_permission_location_desc">enlem ve boylam gibi hizmetleri sağlamak için kullanılır</string>
     <string name="new_cta_agree_desc">Kullanım sırasında, size daha fazla özellik sunabilmek için sizden Root/Su izni talep edebiliriz. Tüm izinlerin yetki durumunu ayarlamak için istediğiniz zaman İzin Yönetimi\'ne gidebilirsiniz ve Root/Su izinlerini vermek için lütfen Root/Su yöneticinize gidin.</string>
     <string name="new_cta_app_main_purpose">sistem uygulamalarını değiştir</string>
+    <string name="new_cta_app_all_purpose_title">HyperCeiler\'a hoş geldiniz! Bu uygulama çalışmak için Xposed framework\'una dayanır. Bu uygulamayı, sistemi geliştirmek için desteklenen diğer uygulamaları ele geçirmek ve değiştirmek için kullanabilirsiniz. Kullanım sırasında, size daha fazla işlev sağlamak için sizden root izinleri talep edebiliriz. İstediğiniz zaman root yöneticinize giderek bunu yönetebilirsiniz.\nHyperCeiler\'ı kullanmaya devam ederek, <annotation key="protocol">Kullanıcı Sözleşmesi</annotation> ve <annotation key="privacy">Gizlilik Politikası</annotation>\'nı kabul etmiş olursunuz.</string>
+    <string name="new_cta_app_all_purpose_agree">Devam etmek için &amp;\'ı kabul et</string>
+    <string name="new_cta_app_all_purpose_reject">Çıkmak için &amp;\'ı reddedin</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">İngilizce</string>
     <string name="translator">can1gulle</string>
@@ -45,12 +48,19 @@
     <string name="delete_all_dexkit_cache_desc">Tüm DexKit önbelleğini silmek istediğinize emin misiniz?</string>
     <string name="delete_all_dexkit_cache_success">Tüm DexKit önbelleği silindi</string>
     <string name="set_homepage_entrance">Ana sayfa girişini ayarla</string>
+    <string name="set_homepage_entrance_about">Not: Bu ayarın değiştirilmesi yalnızca özelliğin ana sayfadaki görünürlüğünü gizler ve açık olan özellikler kapatılmaz.\nÖzelliğin ana sayfada gizlenmesi hemen etkili olur ve yeniden görünmesi için uygulamanın yeniden başlatılması gerekir.</string>
     <string name="help_cant_see_apps_guide">Uygulama özelliklerini bulamıyor musunuz?</string>
     <string name="help_cant_see_apps_title">Ana ekranda uygulama özelliklerini bulamıyor musunuz?</string>
+    <string name="help_cant_see_apps_desc">Ana sayfanın sadeliğini ve işlevselliğini korumak için, aşağıdaki uygulama özelliklerine erişimi gizledik:\n\n - Şu anda devre dışı veya gizli olanlar\n - Cihazınızda bulunmayanlar\n - Sistemin veya uygulamanın geçerli sürümüyle uyumlu olmayanlar\n - Kapsamlı olarak seçilmemiş olanlar\n\nLütfen yukarıdaki bilgilere göre sorun giderin, HyperCeiler\'ı yeniden başlatın ve tekrar deneyin. Uygulama özelliklerini hala bulamıyorsanız, bu bir hata yada böcek olabilir. Lütfen bize zamanında ve etkili geri bildirim sağlayın.\n\nŞu anda gizli uygulama özellikleri:</string>
     <string name="help_cant_see_apps_uninstall">Kaldırılmış uygulamalar:\n</string>
     <string name="help_cant_see_apps_disable">Devre dışı veya gizli uygulamalar:\n</string>
+    <string name="help_cant_see_apps_scope">Kapsamlı olarak seçilmedi:\n</string>
+    <string name="help_cant_see_apps_desc_no_hidden">Ana sayfanın sadeliğini ve işlevselliğini korumak için, aşağıdaki uygulama özelliklerine erişimi gizledik:\n\n - Şu anda devre dışı veya gizli olanlar\n - Cihazınızda bulunmayanlar\n - Sistemin veya uygulamanın geçerli sürümüyle uyumlu olmayanlar\n - Kapsamlı olarak seçilmemiş olanlar\n\nLütfen yukarıdaki bilgilere göre sorun giderin, HyperCeiler\'ı yeniden başlatın ve tekrar deneyin. Uygulama özelliklerini hala bulamıyorsanız, bu bir hata yada böcek olabilir. Lütfen bize zamanında ve etkili geri bildirim sağlayın.\n\nŞu anda gizli özellik yok!</string>
     <string name="help_cant_see_apps_switch">Ana sayfada bu yardımı gizle</string>
     <string name="help_cant_see_apps_switch_desc">Bu sayfayı Hakkında &gt; Yardım bölümünden bulabilirsiniz. Uygulamak için uygulamayı yeniden başlatın.</string>
+    <string name="help_support_version_title">Geçerli uygulama sürümü destek sistemi versiyon listesi</string>
+    <string name="help_support_version_desc_1">Mevcut uygulama sürümü aşağıdaki sistem sürümlerine tamamen adapte edilmiştir:</string>
+    <string name="help_support_version_desc_2">Aşağıdaki sistem sürümleri mevcut uygulama sürümüne adapte edilmiştir:</string>
     <string name="help_support_version_desc_3">Şu anki sistem sütümü tamamen adapte edildi.</string>
     <string name="help_support_version_desc_4">Şu anki sistem sütümü (tamamen) adapte edilmedi.</string>
     <string name="location_add">Ekle</string>
@@ -78,6 +88,7 @@
     <string name="development_prefs">Tercihi paylaş</string>
     <string name="development_cmd_r">Root ile CMD</string>
     <string name="development_delete_all_dexkit_cache">Tüm DexKit önbelleğini sil</string>
+    <string name="development_close_log_alert_dialog">Kaydedici canlı uyarı diyaloğunu devre dışı bırakma</string>
     <string name="development_fix_lsposed_log">LSPosed günlük servisini düzeltmeyi dene</string>
     <string name="settings_show_title">Göster</string>
     <string name="settings_data_title">Yedekle ve geri yükle.</string>
@@ -154,11 +165,17 @@
     <string name="color_picker_view_page_text_hue">Ton</string>
     <string name="color_picker_view_page_text_lightness">Açıklık</string>
     <string name="color_picker_view_page_text_saturation">Doygunluk</string>
+    <string name="bottomsheet_action_collapse">Alt sayfayı daraltın</string>
+    <string name="bottomsheet_action_expand">Alt sayfayı genişletin</string>
     <string name="bottomsheet_action_expand_halfway">Yarıya kadar genişlet</string>
+    <string name="bottomsheet_drag_handle_clicked">Sürükleme koluna çift dokun</string>
+    <string name="bottomsheet_drag_handle_content_description">Sürükleme tutamacı</string>
     <string name="miuix_alphabet_indexer_name">İndeks çubuğu</string>
     <string name="miuix_appcompat_action_mode_cancel">İptal</string>
     <string name="miuix_appcompat_clearable_edittext_clear_description">Temizle</string>
+    <string name="miuix_preference_text_hint">Menzil: %1$s ~ %2$s | Varsayılan değer: %3$s</string>
     <string name="miuix_appcompat_color_erro_entry">Değer geçersiz. Lütfen kontrol edin ve tekrar girin.</string>
+    <string name="miuix_appcompat_color_picker_alpha_text_transparent">Şeffaflık</string>
     <string name="miuix_appcompat_color_picker_custom_color">Özel renk</string>
     <string name="miuix_appcompat_color_picker_tab_dynamic">Monet</string>
     <string name="miuix_appcompat_color_picker_tab_grid">Izgara</string>
@@ -301,6 +318,7 @@
     <string name="control_center_5g_off">Kapalı</string>
     <string name="control_center_5g_v1">Stil bir</string>
     <string name="control_center_5g_v2">Stil iki</string>
+    <string name="control_center_5g_v3">Üçüncü stil</string>
     <string name="no_blur">Bulanıklık yok</string>
     <string name="miui_blur">HyperOS bulanıklığı</string>
     <string name="miui_android_blur">AOSP Bulanıklık (uygulama tarafından kendi kendine uygulanır)</string>
@@ -376,6 +394,7 @@
     <string name="system_framework_clean_open_menu">Birlikte aç menüsünü temizleyin</string>
     <string name="system_framework_clean_open_apps">Seçilen uygulamalar</string>
     <string name="system_framework_clean_open_apps_desc">Seçili uygulama açık menüde görünmüyor</string>
+    <string name="system_framework_clean_process_text_menu">Metin içerik menüsünü temizle</string>
     <string name="system_framework_clean_process_text_apps">Seçilen uygulamalar</string>
     <string name="system_framework_auto_start_menu">Kısıtlama zinciri istisnaları</string>
     <string name="system_framework_auto_start_apps">Seçilmiş uygulamalar</string>
@@ -485,12 +504,15 @@
     <string name="mms_disable_fraud_risk_tip_desc">\"Olası dolandırıcılık\" ipucunu devre dışı bırakın</string>
     <string name="mms_disable_overseas_risk_tip">Yurtdışı risk ipucunu devre dışı bırakın</string>
     <string name="mms_disable_overseas_risk_tip_desc">\"Denizaşırı dolandırıcılık olabilir\" ipucunu devre dışı bırakın</string>
+    <string name="mms_verification_code_auto_copy">Doğrulama kodunu panoya otomatik kopyala</string>
     <!--Phone Service-->
     <string name="phone">Telefon Hizmetleri</string>
     <string name="phone_smart_dual_sim">Akıllı çift SIM kilidini aç</string>
     <string name="phone_disable_remove_network_mode">Ağ kaldırma modunu devre dışı bırak</string>
     <string name="phone_vice_slot_volte">Vice slot VoLTE\'nin kilidini açın</string>
     <string name="phone_vice_slot_volte_desc">İkincil SIM\'de VoLTE aramaları sırasında mobil veri kullanma</string>
+    <string name="phone_unlock_voice_link">Ses bağlantısının kilidini aç</string>
+    <string name="phone_unlock_voice_link_desc">Wi-Fi aramayı destekleyen bazı SIM\'ler için Ses bağlantısının kilidini açın</string>
     <!--Download management program-->
     <string name="downloads">İndirmeler</string>
     <string name="various_fuck_xlDownload">.xlDownload klasörünün oluşturulmasını engelle</string>
@@ -512,7 +534,9 @@
     <string name="system_ui_lock_screen_show_battery_temperature">Pil sıcaklığını göster</string>
     <string name="system_ui_lock_screen_show_spacing">Ekran yenileme aralığı</string>
     <string name="system_ui_lock_screen_hide_camera">Camerayı gizle</string>
+    <string name="system_ui_lock_screen_bottom_left_button">Alt soldaki düğme</string>
     <string name="system_ui_lock_screen_current">Mevcut</string>
+    <string name="system_ui_lock_screen_blur_button">Bulanıklaştırma Kilit ekranı düğmeleri</string>
     <string name="system_ui_lock_screen_blur_button_radius">Arka plan bulanıklaştırma yarıçapı</string>
     <string name="system_ui_lock_screen_blur_button_bg_color">Arka plan rengi</string>
     <string name="system_ui_lock_screen_double_lock">Kilit ekranı için iki kez dokunun</string>
@@ -544,6 +568,7 @@
     <string name="system_ui_statusbar_network_speed_indicator_title">Ağ hızı göstergesi yönetimi</string>
     <string name="system_ui_statusbar_clock_title">Saat göstergesi yönetimi</string>
     <string name="system_ui_statusbar_strong_toast_title">Akıllı Güçlü Toast</string>
+    <string name="system_ui_statusbar_music_title">Şarkı sözlerine odaklan</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Çift dokunuşla uyutma</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Çift sıralı sinyal çubuğu</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Simge temaları</string>
@@ -609,6 +634,9 @@
     <string name="system_ui_status_bar_icon_pc">PC</string>
     <string name="system_ui_status_bar_icon_phone">Telefon</string>
     <string name="system_ui_status_bar_icon_soundbox">Ses kutusu</string>
+    <string name="system_ui_status_bar_icon_soundbox_screen">Ekranlı ses kutusu</string>
+    <string name="system_ui_status_bar_icon_soundbox_group">Ses kutusu grubu</string>
+    <string name="system_ui_status_bar_icon_soundbox_group_stereo">Ses kutusu stereo grubu</string>
     <string name="system_ui_status_bar_icon_tv">TV</string>
     <string name="system_ui_status_bar_icon_wireless_headset">Kablosuz Kulaklık</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Maksimum bildirim simgesi sayısı</string>
@@ -624,9 +652,11 @@
     <string name="system_ui_status_bar_volume_at_right">Ses sahnesi</string>
     <string name="system_ui_status_bar_hide_icon">Ekran görüntüsü alırken durum çubuğunu gizleyin</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Mobil ağ türü simgesi</string>
+    <string name="system_ui_statusbar_network_speed_all_status">Modifikasyonları etkinleştir</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Ağ hızı güncelleme aralığı</string>
     <string name="system_ui_statusbar_network_speed_font_size">Ağ hızı yazı tipi boyutu</string>
     <string name="system_ui_statusbar_network_speed_font_style">Ağ hızı yazı tipi stili</string>
+    <string name="system_ui_statusbar_network_speed_style">Ağ hızı gösterge stili</string>
     <string name="system_ui_statusbar_network_speed_swap_places">Giden bağlantı ve gelen bağlantı hız ve simge konumlarını değiştirin</string>
     <string name="system_ui_statusbar_network_speed_hide">Yavaş ağ hızını gizle</string>
     <string name="system_ui_statusbar_network_speed_hide_all">Hem giden bağlantı hem de gelen bağlantı yavaş olduğunda gizle</string>
@@ -640,6 +670,9 @@
     <string name="system_ui_statusbar_clock_size">Saat boyutu</string>
     <string name="system_ui_statusbar_clock_double_spacing_desc">Yalnızca iki satır halinde görüntülendiğinde geçerlidir</string>
     <string name="system_ui_statusbar_clock_pad_show">Pad ile alakalı</string>
+    <string name="system_ui_statusbar_clock_pad_hide">Durum çubuğu tarih saatini gizle</string>
+    <string name="system_ui_statusbar_clock_layout_p">Durum çubuğu tarih saati</string>
+    <string name="system_ui_statusbar_clock_editor_p">Durum çubuğu tarih saati formatı</string>
     <string name="system_ui_disable_clock_synch">Durum çubuğu saat ayarları senkronize değil</string>
     <string name="system_ui_statusbar_clock_show">Göster</string>
     <string name="system_ui_statusbar_clock_layout_s">Durum çubuğu saati</string>
@@ -650,6 +683,11 @@
     <string name="system_ui_status_bar_strong_toast_test">Hata ayıklama</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Metin</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Bu, kaydırma biçiminde çıktısı alınacak uzun bir metin parçasıdır</string>
+    <string name="system_ui_statusbar_music_tip">Kullanmadan önce notlar:\n- Bu özelliği açtıktan sonra, Sistem UI kapsamını kontrol edin ve yeniden başlatın.\n- Bu özelliğin \"SuperLyric\" modülü ile kullanılması gerekir.</string>
+    <string name="system_ui_statusbar_music_notification">Bildirim sözlerine odaklan</string>
+    <string name="system_ui_statusbar_music_hide_clock_title">Durum çubuğu saatini gizle</string>
+    <string name="system_ui_statusbar_music_hide_clock_desc">Odak şarkı sözlerini gösterirken durum çubuğu saatini gizle</string>
+    <string name="system_ui_statusbar_music_click_clock_title">Saati göstermek için tıklayın</string>
     <string name="system_ui_controlcenter_title">Kontrol merkezi</string>
     <string name="system_ui_control_center_magnet_tile_settings">Mıknatıs</string>
     <string name="system_ui_control_center_notification_title">Bildirim</string>
@@ -795,6 +833,7 @@
     <string name="milink_allow_camera_devices">Kamera akışı desteğini zorla</string>
     <string name="milink_fuck_hpplay">Hpplay klasörlerinin oluşturulmasını engelleme</string>
     <!--Sound Recorder-->
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_unlock_aon">Aod Aon\'un kilidini aç</string>
     <!--Taplus-->
@@ -807,6 +846,7 @@
     <string name="content_extension_link_open_mode">Bağlantı nasıl açılır</string>
     <string name="content_extension_link_open_mode_desc">Bağlantıyı açmak için bir tarayıcı seçin</string>
     <!--Xiaomi Cloud Service-->
+    <string name="micloud_service_list_summary">Tamamlama işlevleri aşağıdaki gibidir:\n- Cihaz Mi Canvas ile senkronize edilebilir.\n- Mi Browser\'ın Çince ve uluslararası sürümleri aynı anda senkronize edilebilir.\n\nNot: Mi Creation\'ın ilk senkronizasyonu Mi Creation ayarlarından etkinleştirilmelidir, aksi takdirde ağın kullanılamadığını veya sistemin meşgul olduğunu bildirir.</string>
     <!--Mi Mover-->
     <string name="huanji">Mi Taşıyıcı</string>
     <string name="huanji_allow_all_apps">Tüm uygulamaları taşımaya izin ver</string>
@@ -815,8 +855,11 @@
     <string name="backup_allow_all_apps">Tüm uygulamaların yedeklenmesine izin ver</string>
     <string name="backup_unlock_broken_screen_backup">Hasarlı ekrana yedeklemesinin kilidini aç</string>
     <!--Mi Canvas-->
+    <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Cep telefonu kullanımı üzerindeki kısıtlamaları kaldırın</string>
     <!--LPA-->
+    <string name="lpa">LPA</string>
+    <string name="lpa_custom_imei">Özelleştirilmiş IMEI</string>
     <!--Gallery-->
     <string name="gallery">Galeri</string>
     <string name="gallery_enable_hdr_enhanced">Ekran yüksek dinamik aralığının kilidini aç</string>
@@ -831,6 +874,8 @@
     <string name="gallery_enable_un_privacy_watermark_more">Etkinleştirmek, daha uzun kelime sayılarına uyum sağlamak için filigran yoğunluğunu biraz artıracaktır</string>
     <string name="gallery_enable_magic_matting">Kesmenin Kilidini Aç</string>
     <string name="gallery_backup_server">Yedekleme sunucusu</string>
+    <string name="gallery_backup_server_google">Google</string>
+    <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
     <!--System security components-->
     <string name="guard_provider_disable_upload_applist">Yüklü uygulama listesinin otomatik olarak yüklenmesini engelle</string>
     <!--System launcher-->
@@ -846,6 +891,7 @@
     <string name="home_navigation_back_area_width">Geri hareket alanı genişliği</string>
     <string name="home_gesture_title2">Hareket</string>
     <string name="home_gesture_mainscreen_title">Ana ekran</string>
+    <string name="home_gesture_gesture_title">Tam ekran hareketi</string>
     <string name="home_gesture_double_tap">Çift tıklayın</string>
     <string name="home_gesture_double_tap_desc">Ana ekranda herhangi bir yere çift dokunun</string>
     <string name="home_gesture_shake">Sallamak</string>
@@ -870,11 +916,15 @@
     <string name="home_gesture_multi_choose_app_none">Hiçbiri</string>
     <string name="home_layout">Düzen</string>
     <string name="home_layout_home_title">Ana ekran</string>
+    <string name="home_layout_indicator_title">Gösterge</string>
     <string name="home_layout_hotseats_title">Yuva</string>
     <string name="home_layout_searchbar_title">Arama çubuğu</string>
+    <string name="home_layout_searchbar_width">Yükseklik</string>
     <string name="home_layout_seek_points">Sayfa göstergesi</string>
     <string name="home_layout_unlock_grids">Düzenin kilidini aç</string>
     <string name="home_layout_unlock_grids_desc">Ana ekran simgesi düzen boyutu sınırının kilidini aç</string>
+    <string name="home_layout_unlock_grids_new_x">Sütunlar</string>
+    <string name="home_layout_unlock_grids_new_y">Sıralar</string>
     <string name="home_layout_unlock_grids_no_words">Düzenin kilidini aç (kelime modu yok)</string>
     <string name="home_layout_unlock_grids_no_words_desc">Ana ekran simgesi düzen boyutu sınırının kilidini aç</string>
     <string name="home_layout_workspace_padding_bottom_desc">Ana ekran ekranın alt kenar boşluğundan uzaklığı</string>
@@ -1221,6 +1271,8 @@
     <string name="scanner_ppt">Tarama ppt\'sinin kilidini aç</string>
     <string name="scanner_doc_ppt">Tarama dosyalarının kilidini aç</string>
     <!--Voice Trigger-->
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Diğer</string>
     <string name="app_version_not_supported">Desteklenmeyen sürüm</string>

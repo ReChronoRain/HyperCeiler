@@ -875,6 +875,7 @@
     <!--Sound Recorder-->
     <string name="sound_recorder">Dyktafon</string>
     <string name="sound_recorder_disable_ai_watermark">Wyłącz znak wodny SI</string>
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">Ekran zawsze włączony i edytor Ekranu blokady</string>
     <string name="aod_unlock_always_on_display">Odblokuj limit czasu wyświetlania</string>
@@ -1260,8 +1261,8 @@
     <string name="security_center_simplify_home">Uprość ekran główny Bezpieczeństwa</string>
     <string name="security_center_simplify_home_desc">Usuń kartę rekomendacji funkcji</string>
     <string name="security_center_applock_pin_scramble">Blokada aplikacji z zatartym PIN-em</string>
-    <string name="security_center_power_saver">Usuń ograniczenia podczas duplikowania ekranu</string>
     <string name="security_center_privacy_thumbnail_blur">Wyłącz zamglone obrazy podglądu przy automatycznym uruchamianiu</string>
+    <string name="security_center_power_saver">Usuń ograniczenia podczas duplikowania ekranu</string>
     <string name="security_center_power_saver_desc">Wyłącza tryb oszczędzania energii podczas duplikowania ekranu za pomocą Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Losowo zmienia sekwencję klawiatury PIN blokady aplikacji</string>
     <string name="security_center_beauty_light_auto">Odblokuj przednie światło wypełniające</string>
@@ -1413,6 +1414,8 @@
     <string name="bypass_udk_word_legal_check_description">Umożliwia nagrywanie słów z funkcji wybudzenia głosem w trybie offline</string>
     <string name="voicetrigger_accuracy_percent_caption">Ustaw dokładność wybudzenia z wykrywaniem głosu</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Wyższe wartości są trudniejsze do wykrycia. Wartość domyślna to 70%, dla słowa kluczowego XATX to 0%. Po ustawieniu musisz zrestartować aplikację docelową i ponownie zapisać słowo aktywacji.</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Pozostałe</string>
     <string name="app_version_not_supported">Nieobsługiwana wersja</string>

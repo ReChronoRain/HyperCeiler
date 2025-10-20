@@ -43,7 +43,6 @@
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="experimental_features">الميزات التجريبية</string>
-    <string name="experimental_reshook_new"></string>
     <string name="experimental_reshook_new_desc">وتقدم النسخة الجديدة من ربط الموارد أداء محسنا لحقن الموارد. غير أنه قد لا يسبب بعض المشاكل ويقصد به أن يكون لأغراض الاختبار فقط.\nملاحظة: تمكين أو تعطيل هذه الميزة يتطلب إعادة تشغيل الجهاز ليتم تأكيد الاختيار.</string>
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
@@ -72,7 +71,6 @@
     <string name="error_file_name">اسم الملف</string>
     <string name="error_time">وقت التسجيل</string>
     <string name="error_version_name">اسم الإصدار</string>
-    <string name="error_git_hash">Git hash</string>
     <string name="error_build_time">وقت البناء</string>
     <string name="copy_ok">تم نسخه إلى الحافظة</string>
     <string name="notification_channel_app_crash_name">التطبيق يعمل بشكل غير طبيعي</string>

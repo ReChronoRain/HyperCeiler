@@ -947,6 +947,7 @@
     <string name="sound_recorder">錄音機</string>
     <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <string name="sound_recorder_unlock_recording_scene">解鎖選擇錄音場景</string>
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">息屏與鎖定畫面編輯</string>
     <string name="aod_unlock_always_on_display">解鎖息屏顯示時長限制</string>
@@ -1509,6 +1510,8 @@
     <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
     <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精度</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">更大的值意味着更難被檢測到。對於 \"小爱同学\"，其預設值是 0%。設定完毕後，需要重新錄入喚醒詞</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">其他</string>
     <string name="input_method">輸入法</string>

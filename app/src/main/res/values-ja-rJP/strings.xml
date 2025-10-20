@@ -23,7 +23,6 @@
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">すべて選択</string>
     <string name="miuix_appcompat_cancel_description">キャンセル</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="miuix_appcompat_select_all_description">すべて選択</string>
     <string name="miuix_appcompat_deselect_all_description">すべての選択を解除</string>
     <string name="miuix_appcompat_delete_description">削除</string>
@@ -53,7 +52,6 @@
     <string name="module_title_1">基本的なメッセージ</string>
     <string name="module_title_2">スタックメッセージ</string>
     <string name="app_error_desc">HyperCeiler が予期せず閉じられました。この問題を解決するために、以下の情報を入力してください:\n\nメッセージを長押ししてすべてをコピーします。</string>
-    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$sは複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。</string>
     <string name="safe_mode_history">例外記録の表示</string>
     <string name="safe_mode_cancel">セーフモードを無効にする</string>
@@ -72,7 +70,6 @@
     <string name="error_file_name">ファイル名</string>
     <string name="error_time">記録時間</string>
     <string name="error_version_name">バージョン名</string>
-    <string name="error_git_hash">Git hash</string>
     <string name="error_build_time">ビルド日時</string>
     <string name="copy_ok">クリップボードにコピーされました</string>
     <string name="notification_channel_app_crash_name">アプリは異常に動作しています</string>

@@ -22,3 +22,7 @@ files:
   - source: /library/hook/src/main/res/values/strings.xml
     translation: /library/hook/src/main/res/values-%two_letters_code%/%original_file_name%
     type: android
+
+  - source: /library/provision/src/main/res/values/strings.xml
+    translation: /library/provision/src/main/res/values-%two_letters_code%/%original_file_name%
+    type: android
