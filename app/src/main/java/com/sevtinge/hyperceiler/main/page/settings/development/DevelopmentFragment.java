@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.development;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.fixLsposedLogService;
+import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.fixLSPosedLogService;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.view.LayoutInflater;
@@ -30,9 +30,9 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
-import com.sevtinge.hyperceiler.core.R;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -41,10 +41,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     Preference mCmdR;
     Preference mDeleteAllDexKitCache;
     Preference mFixLsposedLog;
-
-    public interface EditDialogCallback {
-        void onInputReceived(String command);
-    }
+    Preference mClearAppProperties;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -56,10 +53,12 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
         mCmdR = findPreference("prefs_key_development_cmd_r");
         mDeleteAllDexKitCache = findPreference("prefs_key_development_delete_all_dexkit_cache");
         mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
+        mClearAppProperties = findPreference("prefs_key_development_clear_app_properties");
 
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
         mFixLsposedLog.setOnPreferenceClickListener(this);
+        mClearAppProperties.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -73,12 +72,20 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                         Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
                     });
             case "prefs_key_development_fix_lsposed_log" -> {
-                String fixReturn = fixLsposedLogService();
+                String fixReturn = fixLSPosedLogService();
                 if (fixReturn.equals("SUCCESS")) {
                     Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.failed) + ": " + fixReturn, Toast.LENGTH_LONG).show();
                 }
+            }
+            case "prefs_key_development_clear_app_properties" -> {
+                DialogHelper.showDialog(getActivity(), R.string.warn, R.string.clear_app_properties_desc, (dialog, which) -> {
+                    rootExecCmd("resetprop --delete persist.hyperceiler.log.level");
+                    rootExecCmd("resetprop --delete persist.service.hyperceiler.crash.report");
+                    rootExecCmd("resetprop --delete persist.hyperceiler.crash.report");
+                    Toast.makeText(getActivity(), R.string.clear_app_properties_success, Toast.LENGTH_LONG).show();
+                });
             }
         }
         return true;

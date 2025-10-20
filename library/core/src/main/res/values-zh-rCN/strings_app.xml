@@ -53,6 +53,8 @@
 
     <string name="delete_all_dexkit_cache_desc">确定要删除全部 DexKit 缓存吗？</string>
     <string name="delete_all_dexkit_cache_success">已删除全部 DexKit 缓存</string>
+    <string name="clear_app_properties_desc">确定重置 HyperCeiler 相关服务的 Prop 吗？</string>
+    <string name="clear_app_properties_success">已重置 HyperCeiler 相关服务的 Prop</string>
 
     <string name="set_homepage_entrance">主页入口设置</string>
     <string name="set_homepage_entrance_about">仅主页设置生效，已经开启的功能不会被关闭。\n关闭后实时生效，重新显示需重启应用。</string>
@@ -100,6 +102,7 @@
     <string name="development_delete_all_dexkit_cache">删除全部 DexKit 缓存</string>
     <string name="development_close_log_alert_dialog">禁用 Logger Live 弹窗</string>
     <string name="development_fix_lsposed_log">尝试修复 LSPosed Log 服务</string>
+    <string name="development_clear_app_properties">重置 HyperCeiler 相关服务的 Prop</string>
 
     <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>
