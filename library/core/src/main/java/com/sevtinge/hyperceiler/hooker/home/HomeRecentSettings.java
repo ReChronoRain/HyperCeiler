@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
 
 import android.content.Intent;
 
@@ -75,7 +76,7 @@ public class HomeRecentSettings extends DashboardFragment {
         mHideRecentCard.setOnPreferenceClickListener(
                 preference -> {
                     Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                    intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
+                    intent.putExtra("mode", LAUNCHER_MODE);
                     intent.putExtra("key", preference.getKey());
                     startActivity(intent);
                     return true;

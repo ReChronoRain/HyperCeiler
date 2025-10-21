@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -54,7 +56,7 @@ public class ControlCenterSettings extends DashboardFragment {
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
                     Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                    intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
+                    intent.putExtra("mode", LAUNCHER_MODE);
                     intent.putExtra("key", preference.getKey());
                     startActivity(intent);
                     return true;

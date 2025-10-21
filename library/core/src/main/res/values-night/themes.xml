@@ -37,6 +37,11 @@
 
     </style>
 
+    <style name="SubPickerTheme" parent="Theme.AppCompat.DayNight">
+        <item name="windowSearchMask">@color/miuix_design_default_color_surface_variant_dark</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
+    </style>
+
 
     <style name="Base.Theme.HyperCeiler.DayNight" parent="Base.Theme.HyperCeiler">
         <item name="android:windowTranslucentNavigation">true</item>
