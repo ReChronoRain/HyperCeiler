@@ -13,7 +13,7 @@ public class LogEntry {
     private boolean mNewLine;
 
     private static final SimpleDateFormat sTimeFormat =
-            new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+        new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
 
     public LogEntry(String level, String module, String message, String tag, boolean newLine) {
         this.mTimestamp = System.currentTimeMillis();
@@ -25,25 +25,42 @@ public class LogEntry {
     }
 
     // Getters
-    public long getTimestamp() { return mTimestamp; }
-    public String getLevel() { return mLevel; }
-    public String getModule() { return mModule; }
-    public String getMessage() { return mMessage; }
-    public String getTag() { return mTag; }
-    public boolean isNewLine() { return mNewLine; }
+    public long getTimestamp() {
+        return mTimestamp;
+    }
+
+    public String getLevel() {
+        return mLevel;
+    }
+
+    public String getModule() {
+        return mModule;
+    }
+
+    public String getMessage() {
+        return mMessage;
+    }
+
+    public String getTag() {
+        return mTag;
+    }
+
+    public boolean isNewLine() {
+        return mNewLine;
+    }
 
     public String getFormattedTime() {
         return sTimeFormat.format(new Date(mTimestamp));
     }
 
     public int getColor() {
-        switch (mLevel) {
-            case "V": return 0xFF909090; // VERBOSE - Gray
-            case "D": return 0xFF2196F3; // DEBUG - Blue
-            case "I": return 0xFF4CAF50; // INFO - Green
-            case "W": return 0xFFFFC107; // WARN - Amber
-            case "E": return 0xFFF44336; // ERROR - Red
-            default: return 0xFF000000;  // Black
-        }
+        return switch (mLevel) {
+            case "V" -> 0xFF909090; // VERBOSE - Gray
+            case "D" -> 0xFF2196F3; // DEBUG - Blue
+            case "I" -> 0xFF4CAF50; // INFO - Green
+            case "W" -> 0xFFFFC107; // WARN - Amber
+            case "E" -> 0xFFF44336; // ERROR - Red
+            default -> 0xFF000000;  // Black
+        };
     }
 }

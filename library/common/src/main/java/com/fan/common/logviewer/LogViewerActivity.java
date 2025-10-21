@@ -62,8 +62,6 @@ public class LogViewerActivity extends BaseActivity {
             .commit();
     }
 
-
-
     private void setupLoggers() {
         // 从Application获取或直接使用静态方法
         mAppLogger = AppLogger.getInstance();

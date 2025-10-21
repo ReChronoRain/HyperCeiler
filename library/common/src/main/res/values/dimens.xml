@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="item_view_height">60dp</dimen>
+    <dimen name="item_view_padding">16dp</dimen>
+
+    <dimen name="item_view_title_size">17sp</dimen>
+    <dimen name="item_view_summary_size">13.799988sp</dimen>
+
+    <dimen name="item_view_margin_end">28dp</dimen>
+    <dimen name="item_view_widget_width">10dp</dimen>
+
+
+    <dimen name="item_view_arrow_right_width">10dp</dimen>
+    <dimen name="item_view_arrow_right_height">16dp</dimen>
+</resources>

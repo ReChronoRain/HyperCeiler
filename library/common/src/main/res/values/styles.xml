@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ItemViewStyle">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:background">@drawable/item_view_background</item>
+        <item name="android:minHeight">@dimen/item_view_height</item>
+        <item name="android:paddingHorizontal">@dimen/item_view_padding</item>
+    </style>
+
+    <style name="ItemViewTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/item_view_title_size</item>
+        <item name="android:textColor">@color/item_view_title_color</item>
+    </style>
+
+    <style name="ItemViewSummaryStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/item_view_summary_size</item>
+        <item name="android:textColor">@color/item_view_summary_color</item>
+    </style>
+</resources>
