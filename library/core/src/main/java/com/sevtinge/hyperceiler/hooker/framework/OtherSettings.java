@@ -19,6 +19,9 @@
 package com.sevtinge.hyperceiler.hooker.framework;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.APP_OPEN_MODE;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.PROCESS_TEXT_MODE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -87,7 +90,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
 
         mAutoStart.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
+            intent.putExtra("mode", LAUNCHER_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -95,7 +98,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
 
         mCleanShareApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", AppPickerFragment.APP_OPEN_MODE);
+            intent.putExtra("mode", APP_OPEN_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -103,7 +106,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
 
         mCleanOpenApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", AppPickerFragment.APP_OPEN_MODE);
+            intent.putExtra("mode", APP_OPEN_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -111,7 +114,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
 
         mCleanProcessTextApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", AppPickerFragment.PROCESS_TEXT_MODE);
+            intent.putExtra("mode", PROCESS_TEXT_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;
@@ -119,7 +122,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
 
         mClipboardWhitelistApps.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", AppPickerFragment.LAUNCHER_MODE);
+            intent.putExtra("mode", LAUNCHER_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;

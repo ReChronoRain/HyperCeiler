@@ -19,16 +19,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingHorizontal="25dp"
-    android:paddingVertical="10dp"
+    android:clipChildren="false"
     android:descendantFocusability="blocksDescendants"
-    android:background="?android:attr/listChoiceBackgroundIndicator">
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common"
+    android:paddingVertical="@dimen/miuix_theme_content_padding_horizontal_common">
 
     <ImageView
         android:id="@android:id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_vertical" />
 
     <LinearLayout
@@ -41,10 +42,10 @@
             android:id="@+id/container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:layout_weight="1"
             android:orientation="vertical">
 
             <TextView
@@ -53,6 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:singleLine="true"
+                android:textColor="@color/textview_black"
                 android:textSize="18sp" />
 
             <TextView
@@ -86,13 +88,13 @@
 
         <CheckBox
             android:id="@android:id/checkbox"
-            android:clickable="false"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="5dp"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:visibility="gone" />
 
         <ImageView

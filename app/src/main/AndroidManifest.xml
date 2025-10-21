@@ -118,6 +118,8 @@
 
         <activity
             android:name=".sub.SubPickerActivity"
+            android:theme="@style/SubPickerTheme"
+            android:label="@string/array_global_actions_launch_choose"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
         <meta-data

@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.fan.common.R;
 
@@ -30,6 +29,9 @@ import fan.animation.Folme;
 import fan.animation.ITouchStyle;
 import fan.animation.base.AnimConfig;
 import fan.appcompat.widget.Spinner;
+import fan.recyclerview.card.CardDefaultItemAnimator;
+import fan.recyclerview.card.CardItemDecoration;
+import fan.recyclerview.widget.RecyclerView;
 
 public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterChangeListener {
 
@@ -57,9 +59,7 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_log, container, false);
-        mRecyclerView = view.findViewById(R.id.recyclerView);
-        return view;
+        return inflater.inflate(R.layout.fragment_log, container, false);
     }
 
     @Override
@@ -77,6 +77,7 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
     }
 
     private void setupFilterViews(View rootView) {
+        mRecyclerView = rootView.findViewById(R.id.recyclerView);
         mSearchEditText = rootView.findViewById(R.id.editSearch);
         mLevelSpinner = rootView.findViewById(R.id.spinnerLevel);
         mModuleSpinner = rootView.findViewById(R.id.spinnerModule);
@@ -288,6 +289,8 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mLogAdapter);
+        mRecyclerView.addItemDecoration(new CardItemDecoration(requireContext()));
+        mRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
 
         // 更新过滤器选项
         updateFilterOptions();

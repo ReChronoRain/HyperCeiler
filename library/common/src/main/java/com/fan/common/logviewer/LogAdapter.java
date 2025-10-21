@@ -21,7 +21,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder>
+import fan.recyclerview.card.CardGroupAdapter;
+
+public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         implements Filterable {
 
     // 数据相关
@@ -189,6 +191,16 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder>
     }
 
     @Override
+    public void setHasStableIds() {
+
+    }
+
+    @Override
+    public int getItemViewGroup(int position) {
+        return 0;
+    }
+
+    @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
         if (position >= 0 && position < mFilteredLogEntries.size()) {
             LogEntry logEntry = mFilteredLogEntries.get(position);
@@ -283,12 +295,12 @@ public class LogAdapter extends RecyclerView.Adapter<LogAdapter.LogViewHolder>
             }
 
             // 设置项背景色（交替颜色便于阅读）
-            int position = getAdapterPosition();
+            /*int position = getAdapterPosition();
             if (position % 2 == 0) {
                 mLogItemView.setBackgroundColor(Color.WHITE);
             } else {
                 mLogItemView.setBackgroundColor(0xFFF5F5F5); // 浅灰色
-            }
+            }*/
         }
 
         private SpannableString highlightText(String text, String keyword) {

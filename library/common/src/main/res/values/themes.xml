@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="LogViewerTheme" parent="Theme.AppCompat.DayNight">
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+    </style>
+</resources>
