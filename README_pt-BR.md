@@ -122,9 +122,11 @@ Junte-se ao nosso grupo para relatar problemas ou obter as atualizações mais r
 
 ## Contribuições de tradução
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+Você pode fornecer traduções para o projeto [aqui](https://hosted.weblate.org/engage/hyperceiler/).
 
-Você pode fornecer traduções para o projeto [aqui](https://crwd.in/cemiuiler).
+<a href="https://hosted.weblate.org/engage/hyperceiler/">
+<img src="https://hosted.weblate.org/widget/hyperceiler/multi-auto.svg" alt="Translation status" />
+</a>
 
 > Observação: Quando o progresso da tradução do novo idioma for maior ou igual a 85%, ele entrará no processo de mesclagem. Se o progresso da tradução do idioma adicionado for menor ou igual a 30% do texto original, ele será removido temporariamente até que o progresso da tradução seja maior ou igual a 85%.
 
