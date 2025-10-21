@@ -424,6 +424,7 @@
     <string name="system_framework_allow_disable_protected_package">Дозволяє вимикати захищені додатки</string>
     <string name="system_framework_disable_miui_watermark">Вимкнути повноекранний водяний знак</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Дозволити всім додаткам встановлювати додатки з невідомих джерел</string>
+    <string name="system_framework_bypass_force_downloadui">Виправити переадресацію завантаження</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">Служба менеджера пакетів</string>
     <string name="system_framework_core_patch_downgr">Дозволити пониження версії додатків</string>
@@ -450,6 +451,7 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">Дозволити стороннім додаткам встановлювати системні додатки</string>
     <string name="system_framework_core_patch_allow_update_system_app">Дозволити оновлення системних додатків</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">Дозволити встановлення системних додатків, коли їх оновлення вимкнено</string>
+    <string name="system_framework_core_patch_unloss_fingerprint">Вимкнути скидання відбитків пальців</string>
     <!--Browser-->
     <string name="browser">Браузер</string>
     <string name="browser_debug_mode">Розблокувати параметри розробника</string>
@@ -499,6 +501,7 @@
     <string name="mms_disable_overseas_risk_tip">Вимкнути сповіщення про ризик із-за кордону</string>
     <string name="mms_disable_overseas_risk_tip_desc">Вимкнути сповіщення \"Може бути шахрайство з-за кордону\"</string>
     <string name="mms_im_old_device">Заборона ідентифікації як нового пристрою</string>
+    <string name="mms_verification_code_auto_copy">Автоматично копіювати код підтвердження в буфер обміну</string>
     <!--Phone Service-->
     <string name="phone">Служба телефону</string>
     <string name="phone_smart_dual_sim">Розблокувати розумну подвійну SIM</string>
@@ -614,6 +617,7 @@
     <string name="system_ui_status_bar_icon_mic">Мікрофон</string>
     <string name="system_ui_status_bar_icon_alarm_clock">Будильник</string>
     <string name="system_ui_status_bar_icon_alarm_clock_n">Показувати іконку будильника тільки перед спрацюванням</string>
+    <string name="system_ui_status_bar_icon_alarm_clock_n_format">%s годин</string>
     <string name="system_ui_status_bar_icon_airplane">Режим польоту</string>
     <string name="system_ui_status_bar_icon_roaming">Приховати іконку роумінгу</string>
     <string name="system_ui_status_bar_icon_vowifi">Приховати іконку VoWiFi</string>
@@ -737,6 +741,12 @@
     <string name="system_ui_control_center_media_control_media_button_custom">Розмір кнопки користувацької дії</string>
     <string name="system_ui_control_center_media_control_media_button">Внутрішній розмір кнопки дії</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Радіус розмиття фону</string>
+    <string name="system_ui_control_center_media_control_background_mode">Стиль фону</string>
+    <string name="system_ui_control_center_media_control_color_anim">Кольорова анімація</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">Обкладинка медіа</string>
+    <string name="system_ui_control_center_media_control_media_button_title">Елементи керування медіа</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">Увімкнути модифікацiю макета</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">Увімкнути модифікацiю шрифта</string>
     <string name="system_ui_control_center_media_control_media_seekbar_title">Повзунок медіа</string>
     <string name="system_ui_control_center_redirect_notice">Перенаправлення налаштувань сповіщень</string>
     <string name="system_ui_control_center_redirect_notice_desc">При відкритті меню налаштувань сповіщень, воно переходить до каналу сповіщень цільового додатка замість налаштувань сповіщень додатка.</string>
@@ -772,6 +782,7 @@
     <string name="system_ui_control_center_remove_notif_num_limit_desc">Дозволити відображення 10, 17 або більше сповіщень.</string>
     <string name="system_ui_control_center_opt_notification_element_background_color">Оптимізувати змішування кольорів фону фокусних сповіщень</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_desc">Відновити стандартний стиль змішування кольорів сповіщень та одночасно перевірити фокусне сповіщення ліхтарика.</string>
+    <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">Може бути несумісним з повноекранним AOD</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Відображати значення яскравості</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Відображати значення гучності</string>
     <string name="system_ui_control_center_zen_fix">Виправлення режиму \"Не турбувати\"</string>
@@ -860,6 +871,7 @@
     <string name="system_settings_window_animation_scale">Масштаб анімації вікон</string>
     <string name="system_settings_transition_animation_scale">Масштаб анімації переходів</string>
     <string name="system_settings_animator_duration_scale">Масштаб тривалості анімації</string>
+    <string name="system_settings_set_failed_toast">Не вдалося змiнити значення %1$s на %2$s.</string>
     <string name="system_settings_allow_never_lock_screen">Дозволити ніколи не блокувати екран</string>
     <string name="system_settings_anti_ques">Вимкнути перевірку на чутливі слова в назві пристрою</string>
     <string name="system_settings_anti_ques_desc">Ви не можете використовувати цю функцію в порушення місцевих або національних законів</string>
@@ -899,7 +911,9 @@
     <string name="milink_fuck_hpplay">Блокувати створення папок hpplay</string>
     <!--Sound Recorder-->
     <string name="sound_recorder">Диктофон</string>
+    <string name="sound_recorder_disable_ai_watermark">Вимкнути водяний знак ШІ</string>
     <string name="sound_recorder_unlock_recording_scene">Розблокувати сцену запису</string>
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">Завжди увімкнений екран та редактор екрана блокування</string>
     <string name="aod_unlock_always_on_display">Розблокувати обмеження часу відображення Always-on display</string>
@@ -1104,6 +1118,7 @@
     <string name="home_title_hide_report_text_desc">Приховати текст звіту в діалоговому вікні видалення</string>
     <string name="home_title_notif_color">Налаштування кольору фону крапки сповіщень</string>
     <string name="home_title_notif_color_picker">Користувацький колір</string>
+    <string name="home_title_icon_size">Розмір іконок</string>
     <string name="home_recent">Нещодавні</string>
     <string name="home_recent_animation_speed">Швидкість анімації</string>
     <string name="home_recent_unlock_pin">Розблокувати закріплені додатки</string>
@@ -1263,6 +1278,7 @@
     <!--Screenshot-->
     <string name="screenshot">Знімок екрана</string>
     <string name="screenshot_unlock_minimum_crop_limit">Зняти обмеження на мінімальне обрізання зображення</string>
+    <string name="screenshot_unlock_copy_to_clipboard">Розблокувати автокопіювання скріншота в буфер обміну</string>
     <string name="screenshot_unlock_privacy_marking_title">Розблокувати маркування конфіденційності</string>
     <string name="screenshot_unlock_privacy_marking_desc">Для нормального використання потрібна вища версія програми Mi AI Engine</string>
     <string name="screenshot_save_to_pictures_desc">Встановити місце збереження знімків екрана в /Pictures/Screenshots</string>
@@ -1291,8 +1307,8 @@
     <string name="security_center_simplify_home">Спростити головний екран Безпеки</string>
     <string name="security_center_simplify_home_desc">Видалити картку рекомендацій функцій</string>
     <string name="security_center_applock_pin_scramble">Блокування додатків з перемішаним PIN-кодом</string>
-    <string name="security_center_power_saver">Зняти обмеження при дублюванні екрана</string>
     <string name="security_center_privacy_thumbnail_blur">Вимкнути автоматичне розмиття зображень попереднього перегляду</string>
+    <string name="security_center_power_saver">Зняти обмеження при дублюванні екрана</string>
     <string name="security_center_power_saver_desc">Вимкнути режим економії заряду при дублюванні екрана через Xiaomi Smart Hub</string>
     <string name="security_center_applock_pin_scramble_desc">Випадково змінювати послідовність клавіатури PIN-коду блокування додатків</string>
     <string name="security_center_beauty_light_auto">Розблокувати фронтальне підсвічування</string>
@@ -1451,8 +1467,11 @@
     <string name="bypass_udk_word_legal_check_caption">Дозволити запис фрази пробудження голосом без інтернету</string>
     <string name="bypass_udk_word_legal_check_description">Дозволяє записувати слова для пробудження голосом в автономному режимі</string>
     <string name="voicetrigger_accuracy_percent_caption">Встановити точність для розпізнавання пробудження голосом</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Інше</string>
+    <string name="input_method">Методи вводу</string>
     <string name="app_version_not_supported">Непідтримувана версія</string>
     <string name="various_dialog_title">Діалог</string>
     <string name="various_mipad_title">Mi Pad</string>

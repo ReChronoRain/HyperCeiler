@@ -34,11 +34,11 @@ HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0/
 
 ## Project planning
 
-Xiaomi HyperOS 3 or 4 will be an endpoint for this project. For now, Xiaomi has selectively incorporated some of Xposed's functions into its own (user‑unfriendly) features, and the module's capabilities have been gradually reduced as the system updates.
+Xiaomi HyperOS 3 or 4 will be the endpoint of this project. For now, Xiaomi has selectively incorporated some of Xposed's features into its own (user‑unfriendly) devices, and the module's capabilities have been gradually reduced as the system is updated.
 
-I've also watched Pengpai (Pangpai?) go from completely unusable without root to becoming almost usable step by step (except for the Xiaomi Pad).
+I also watched Xiaomi HyperOS evolve, step by step, from something completely unusable without root to something almost usable (except for the Xiaomi Pad).
 
-In the future this module will be deeply adapted to HyperOS 3.0 and above (but functionality is not guaranteed). HyperOS 2 will be archived in later maintenance (because the differences are large).
+In the future, this module will be extensively adapted to Xiaomi HyperOS 3.0 and later versions, although there's no guarantee that all features will be available. Xiaomi HyperOS 2 will be discontinued in future maintenance updates due to significant differences compared to the newer versions.
 
 ## Supported apps
 

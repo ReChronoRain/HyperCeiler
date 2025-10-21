@@ -10,6 +10,7 @@ on:
        - library/core/src/main/res/values/strings.xml
        - library/core/src/main/res/values/strings_app.xml
        - library/hook/src/main/res/values/strings.xml
+       - library/provision/src/main/res/values/strings.xml
    schedule:
      - cron: '0 0 * * *'
 

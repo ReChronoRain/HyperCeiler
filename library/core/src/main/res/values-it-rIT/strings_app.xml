@@ -674,6 +674,7 @@
     <string name="milink_allow_camera_devices">Supporto forzato per lo streaming della fotocamera</string>
     <string name="milink_fuck_hpplay">Blocca la creazione di cartelle hpplay</string>
     <!--Sound Recorder-->
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">Display sempre attivo e editor schermata di blocco</string>
     <string name="aod_unlock_always_on_display">Sblocca il limite di tempo di visualizzazione dello schermo sempre attivo</string>
@@ -1126,6 +1127,8 @@
     <string name="scanner_ppt">Sblocca scansiona PPT</string>
     <string name="scanner_doc_ppt">Sblocca scansiona file</string>
     <!--Voice Trigger-->
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Altro</string>
     <string name="app_version_not_supported">Versione non supportata</string>

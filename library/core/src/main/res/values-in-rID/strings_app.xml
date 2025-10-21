@@ -698,6 +698,7 @@
     <string name="milink_allow_camera_devices">Dukungan paksa untuk streaming kamera</string>
     <string name="milink_fuck_hpplay">Blokir pembuatan folder hpplay</string>
     <!--Sound Recorder-->
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">Tampilan Selalu Aktif dan Editor Layar Kunci</string>
     <string name="aod_unlock_always_on_display">Buka kunci batas waktu tampilan layar selalu aktif</string>
@@ -1161,6 +1162,8 @@
     <string name="scanner_ppt">Buka kunci pemindaian PPT</string>
     <string name="scanner_doc_ppt">Buka kunci file pindaian</string>
     <!--Voice Trigger-->
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">Lainnya</string>
     <string name="app_version_not_supported">Versi tidak didukung</string>

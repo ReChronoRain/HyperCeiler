@@ -492,7 +492,6 @@
     <string name="camera_custom_theme_color_picker">選擇主題顏色</string>
     <string name="camera_cloud_watermark">強制伺服器下發浮水印</string>
     <string name="camera_cloud_watermark_desc">僅支援 6.2 及以上版本，可能會受到 Xiaomi 雲端伺服器影響</string>
-
     <!--Calendar-->
     <string name="calendar">日曆</string>
     <string name="calendar_unlock_subscription">解鎖訂閱服務</string>
@@ -926,6 +925,7 @@
     <string name="sound_recorder">錄音機</string>
     <string name="sound_recorder_disable_ai_watermark">停用 AI 浮水印</string>
     <string name="sound_recorder_unlock_recording_scene">解鎖語音場景</string>
+    <!--Notes-->
     <!--Always-on display-->
     <string name="aod_hyperos">待機與鎖定螢幕編輯</string>
     <string name="aod_unlock_always_on_display">解鎖待機顯示時長限制</string>
@@ -1323,8 +1323,8 @@
     <string name="security_center_simplify_home">精簡手機管家首頁</string>
     <string name="security_center_simplify_home_desc">移除功能推薦卡片</string>
     <string name="security_center_applock_pin_scramble">應用程式鎖亂序 PIN</string>
-    <string name="security_center_power_saver">妙享不省電</string>
     <string name="security_center_privacy_thumbnail_blur">停用自啟動最近任務卡片的模糊預覽圖</string>
+    <string name="security_center_power_saver">妙享不省電</string>
     <string name="security_center_power_saver_desc">透過小米妙享中心投影時停用省電模式</string>
     <string name="security_center_applock_pin_scramble_desc">隨機更改應用程式鎖 PIN 鍵盤順序</string>
     <string name="security_center_beauty_light_auto">解鎖智慧調節補光燈亮度</string>
@@ -1487,6 +1487,8 @@
     <string name="bypass_udk_word_legal_check_description">允許在無網狀態下錄入語音喚醒詞</string>
     <string name="voicetrigger_accuracy_percent_caption">設定喚醒詞檢測精準度</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">數值越高越難以被偵測。預設值為 70%，對於「小愛同學」為 0%。設定完成後，您需要重新啟動目標應用程式並重新錄入您的喚醒詞。</string>
+    <!--Contacts-->
+    <!--Health-->
     <!--Other-->
     <string name="various">其他</string>
     <string name="input_method">輸入法</string>

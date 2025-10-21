@@ -21,7 +21,6 @@
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Zaznacz wszystko</string>
     <string name="miuix_appcompat_cancel_description">Anuluj</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="miuix_appcompat_select_all_description">Zaznacz wszystko</string>
     <string name="miuix_appcompat_deselect_all_description">Odznacz wszystko</string>
     <string name="miuix_appcompat_delete_description">Usuń</string>

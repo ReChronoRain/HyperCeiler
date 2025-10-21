@@ -114,8 +114,13 @@
     <string name="logo_egg1">わあ、まさかここを見つけられるなんて、すごい！</string>
     <string name="logo_egg2">くそっ、ここに隠れても見つかるのか……</string>
     <string name="logo_egg3">ここには Android の卵はありませんが、HyperCeiler の卵があります！</string>
+    <string name="uninstall_title">HyperCeilerをアンインストール</string>
+    <string name="uninstall_summary">HyperCeiler をアンインストールすると、モジュールの設定は Xposed フレームワーク データベースに残ります。 完全に削除するには、まずモジュール設定に移動し、モジュール設定をリセットしてからアンインストールしてください。</string>
     <string name="unsupported_func_tips">対象のアプリは改変版であるようです。このモジュールはフックサービスを提供できません。別のバージョンのアプリを使用するか、デバッグモードを有効にして再度お試しください。</string>
     <string name="debug_mode">デバッグモード</string>
     <string name="open_debug_mode_tips">デバッグモードを有効にすると、マウントする対象のアプリのバージョンを自由に選択できるようになります。ただし、そのバージョンのフックで問題が発生した場合、開発者に報告しないでください。</string>
     <string name="debug_mode_running">対象のアプリはデバッグ中です！\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフックが正常に適用されました: %3$s</string>
+    <string name="debug_mode_switch">デバッグバージョン</string>
+    <string name="debug_mode_home_version">ホームバージョンコードを設定</string>
+    <string name="debug_mode_home_version_desc">大きすぎるバージョン番号はまだブロックされるため、慎重に記入してください。</string>
 </resources>

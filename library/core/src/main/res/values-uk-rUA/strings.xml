@@ -42,7 +42,11 @@
     <string name="start_failed">Не вдалося запустити активність. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
     <string name="pid_failed">Цільовий додаток не запущено і не потребує перезапуску.</string>
     <string name="reboot_failed">Перезавантаження не вдалося. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
+    <string name="experimental_features">Експериментальні можливості</string>
     <string name="experimental_reshook_new">Увімкнути новий хук ресурсу</string>
+    <string name="experimental_reshook_new_desc">Нова версія підключення ресурсів забезпечує підвищену продуктивність під час їх підстановки.
+Однак ця функція все ще може мати певні проблеми й призначена лише для тестування.
+\nПримітка: Увімкнення або вимкнення цієї функції потребує перезапуску пристрою для набуття чинності.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Помилка</string>
     <string name="warn">Увага</string>
@@ -105,4 +109,7 @@
     <string name="log_level_none">Вимкнено</string>
     <string name="disable_suggest">Вимкнути пропозиції</string>
     <string name="enable_suggest">Увімкнути пропозиції</string>
+    <string name="logo_egg1">Вау, ти справді знайшов це місце, це чудово!</string>
+    <string name="logo_egg2">Хмм, чи знайдуть мене, навіть якщо я сховаюся тут…</string>
+    <string name="debug_mode">Режим вiдладки</string>
 </resources>

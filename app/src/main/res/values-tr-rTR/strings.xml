@@ -32,7 +32,6 @@
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Dahası</string>
     <string name="miuix_appcompat_action_mode_inverse">Ters</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="tip">Tip</string>
     <string name="root">Bazı özellikler Root/Su izni olmadan kullanılamaz</string>
     <string name="soft_reboot">Hızlı yeniden başlat</string>
     <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>

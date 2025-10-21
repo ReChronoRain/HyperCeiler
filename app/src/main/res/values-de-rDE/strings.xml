@@ -23,7 +23,6 @@
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Alles auswählen</string>
     <string name="miuix_appcompat_cancel_description">Abbrechen</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="miuix_appcompat_select_all_description">Alles auswählen</string>
     <string name="miuix_appcompat_deselect_all_description">Gesamte Auswahl aufheben</string>
     <string name="miuix_appcompat_delete_description">Löschen</string>
@@ -50,7 +49,6 @@
     <string name="module_title_1">Standardnachricht</string>
     <string name="module_title_2">Stapel-Nachricht</string>
     <string name="app_error_desc">HyperCeiler wurde unerwartet geschlossen. Um uns dabei zu helfen, dies zu beheben, geben Sie folgende Informationen an:\n\n Drücken und halten Sie eine Nachricht, um alles zu kopieren.</string>
-    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s ist aufgrund mehrerer Abstürze in den sicheren Modus gewechselt und HyperCeiler-Funktionen wurden vorübergehend deaktiviert.</string>
     <string name="safe_mode_history">Ausnahmen einsehen</string>
     <string name="safe_mode_cancel">Sichereren Modus deaktivieren</string>

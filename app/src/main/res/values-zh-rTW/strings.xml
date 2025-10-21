@@ -69,7 +69,6 @@
     <string name="error_file_name">文件名稱</string>
     <string name="error_time">記錄時間</string>
     <string name="error_version_name">版本名稱</string>
-    <string name="error_git_hash">Git hash</string>
     <string name="error_build_time">構建時間</string>
     <string name="copy_ok">複製到剪貼簿</string>
     <string name="notification_channel_app_crash_name">應用程式運行異常</string>

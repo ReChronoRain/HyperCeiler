@@ -210,6 +210,8 @@
     <string name="horizontal_margin">Lề ngang</string>
     <string name="vertical_offset">Lên và xuống</string>
     <string name="horizontal_alignment">Căn chỉnh theo chiều ngang</string>
+    <string name="vertical">Chân dung (màn hình dọc)</string>
+    <string name="horizontal">Chế độ xem ngang (màn hình ngang)</string>
     <string name="feature">Tính năng</string>
     <string name="recommend">Đề xuất</string>
     <string name="editor">Trình chỉnh sửa</string>
@@ -229,6 +231,8 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Sửa nội dung ngang</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Ngăn các phần tử liền kề chuyển sang hai bên</string>
     <string name="system_ui_statusbar_indicator_bold">Chữ đậm</string>
+    <string name="unlock_ai">Mở khóa các tính năng AI</string>
+    <string name="unlock_ai_wallpaper">Mở khóa quyền truy cập hình nền AI</string>
     <!--Multi-list Array-->
     <string name="array_close">Đóng</string>
     <string name="array_hide">Ẩn</string>
@@ -442,6 +446,7 @@
     <string name="system_framework_bypass_force_downloadui">Bỏ qua việc buộc dùng Download Manager khi mở trang tải xuống</string>
     <string name="system_framework_bypass_force_downloadui_desc">Giải quyết vấn đề nhảy không đúng khi nhấp vào \"Xem tải xuống\" trong Chia sẻ nhanh</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">Các tính năng trong danh sách này chỉ nên được bật có chọn lọc sau khi bạn hiểu rõ chúng; một số tùy chọn có thể mang lại rủi ro nhất định, xin hãy lưu ý.\nCác tùy chọn thông thường có hiệu lực ngay lập tức trừ khi là công tắc chính; các tính năng mở rộng yêu cầu khởi động lại để có hiệu lực bất kể trạng thái công tắc của chúng.</string>
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
     <string name="system_framework_core_patch_downgr_desc">Cho phép hạ cấp ứng dụng</string>
@@ -495,6 +500,8 @@
     <string name="camera_black_leica_desc">Đổi màu hình mờ Leica thành màu đen khi sử dụng. Một số thiết bị chưa hỗ trợ.</string>
     <string name="camera_custom_theme_color">Tùy chỉnh màu chủ đề</string>
     <string name="camera_custom_theme_color_picker">Chọn màu chủ đề</string>
+    <string name="camera_cloud_watermark">Ép hình mờ từ cloud</string>
+    <string name="camera_cloud_watermark_desc">Chỉ hỗ trợ trên phiên bản 6.2 trở lên. Có thể bị ảnh hưởng bởi máy chủ Xiaomi cloud.</string>
     <!--Calendar-->
     <string name="calendar">Lịch</string>
     <string name="calendar_unlock_subscription">Mở khóa đăng ký</string>
@@ -713,6 +720,7 @@
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Văn bản</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Đây là một đoạn văn bản dài sẽ được xuất ra ở dạng cuộn</string>
     <string name="system_ui_statusbar_music_tip">Lưu ý trước khi sử dụng:\n• Sau khi bật tính năng này, hãy kiểm tra và khởi động lại Giao diện người dùng hệ thống và phạm vi âm nhạc tương ứng.\n• Tính năng này cần được sử dụng với mô-đun \"SuperLyric\".\n• Đảm bảo rằng thông báo \"Tập trung vào lời bài hát\" được bật trong danh mục thông báo của ứng dụng âm nhạc tương ứng và trong cài đặt thông báo Focus của ứng dụng.</string>
+    <string name="system_ui_statusbar_music_dependency">Tải xuống SuperLyric</string>
     <string name="system_ui_statusbar_music_notification">Thông báo lời bài hát Focus</string>
     <string name="system_ui_statusbar_music_show_app_title">Thông báo đăng ký trên ứng dụng</string>
     <string name="system_ui_statusbar_music_show_app_desc">Sau khi mở, bạn cần kiểm tra phạm vi của ứng dụng âm nhạc</string>
@@ -955,6 +963,9 @@
     <string name="sound_recorder">Ghi âm</string>
     <string name="sound_recorder_disable_ai_watermark">Tắt hình mờ AI</string>
     <string name="sound_recorder_unlock_recording_scene">Mở khóa cảnh ghi âm</string>
+    <!--Notes-->
+    <string name="notes">Ghi chú</string>
+    <string name="notes_disable_ai_watermark">Tắt hình mờ AI</string>
     <!--Always-on display-->
     <string name="aod_hyperos">Trình chỉnh sửa màn hình khóa và AOD</string>
     <string name="aod_unlock_always_on_display">Mở khóa Giới hạn thời gian</string>
@@ -1449,6 +1460,7 @@
     <string name="secutity_center_battery_show_more_info_desc">Tính năng thử nghiệm. Thông tin bổ sung về pin hiển thị có thể khác nhau tùy theo thiết bị.</string>
     <string name="security_center_unlock_car_sickness">Mở khóa Giảm say xe</string>
     <string name="security_center_unlock_car_sickness_desc">Cần hỗ trợ \"Barrage\"</string>
+    <string name="security_center_disable_offline_info_manager">Tắt thông tin ngoại tuyến của trợ lý mạng</string>
     <!--MiTrustService-->
     <string name="trustservice">Dịch vụ MiTrust</string>
     <string name="trustservice_disable_mrm">Tắt phát hiện rủi ro</string>
@@ -1469,6 +1481,7 @@
     <string name="aiasst">Mi AI dịch</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
     <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
+    <string name="aiasst_unlock_split_screen_translation">Mở khóa dịch màn hình chia đôi</string>
     <!--Barrage-->
     <string name="barrage">Rào cản</string>
     <string name="barrage_any_barrage">Cho phép tất cả ứng dụng sử dụng barrage</string>
@@ -1531,6 +1544,12 @@
     <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
     <string name="voicetrigger_accuracy_percent_caption">Đặt độ chính xác ASR</string>
     <string name="voicetrigger_accuracy_percent_description" formatted="false">Giá trị lớn hơn có nghĩa là khó phát hiện hơn. Đối với \"XiaoAI\", giá trị mặc định của nó là 0%. Sau khi thiết lập xong cần nhập lại từ đánh thức</string>
+    <!--Contacts-->
+    <string name="contacts">Danh bạ và trình gọi điện</string>
+    <string name="contacts_disable_offline_info_manager">Tắt thông tin ngoại tuyến của sảnh doanh nghiệp</string>
+    <!--Health-->
+    <string name="health">Mi Fitness</string>
+    <string name="health_disable_splash_ad">Tắt quảng cáo bật màn hình</string>
     <!--Other-->
     <string name="various">Khác</string>
     <string name="input_method">Phương thức nhập</string>

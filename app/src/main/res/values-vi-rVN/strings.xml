@@ -114,8 +114,13 @@
     <string name="logo_egg1">Ghê, bạn tìm ra được chỗ này à, thật tuyệt vời!</string>
     <string name="logo_egg2">Chết tiệt, liệu tôi có bị phát hiện không nếu tôi trốn ở đây…</string>
     <string name="logo_egg3">Ở đây không có Android Eggs mà chỉ có HyperCeiler Eggs!</string>
+    <string name="uninstall_title">Gỡ cài đặt HyperCeiler</string>
+    <string name="uninstall_summary">Sau khi gỡ cài đặt HyperCeiler, cấu hình mô-đun vẫn còn trong cơ sở dữ liệu của Xposed framework. Để xóa hoàn toàn, trước tiên hãy vào cài đặt mô-đun và đặt lại cấu hình mô-đun, sau đó gỡ cài đặt.</string>
     <string name="unsupported_func_tips">Ứng dụng đích có vẻ là một phiên bản đã được sửa đổi. Mô-đun này không thể cung cấp các dịch vụ hook cho nó. Hãy thử sử dụng một phiên bản khác của ứng dụng hoặc bật chế độ Gỡ lỗi và thử lại.</string>
     <string name="debug_mode">Chế độ gỡ lỗi</string>
     <string name="open_debug_mode_tips">Sau khi bật chế độ gỡ lỗi, bạn sẽ có thể tự do chọn phiên bản ứng dụng đích mà bạn muốn mount. Tuy nhiên, nếu các hook cho phiên bản đó gặp sự cố, đừng báo cáo chúng cho các nhà phát triển.</string>
     <string name="debug_mode_running">Ứng dụng đích đang được gỡ lỗi!\nPhiên bản ứng dụng hiện tại: %1$s\nPhiên bản đích đã chọn: %2$s\nHook áp dụng thành công: %3$s</string>
+    <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
+    <string name="debug_mode_home_version">Đặt mã phiên bản gốc</string>
+    <string name="debug_mode_home_version_desc">Số phiên bản quá cao vẫn sẽ bị chặn, vì vậy hãy điền cẩn thận.</string>
 </resources>
