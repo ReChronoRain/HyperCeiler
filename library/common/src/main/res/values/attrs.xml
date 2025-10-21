@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ItemView">
+        <attr name="android:title" />
+        <attr name="android:summary" />
+        <attr name="android:value" />
+        <attr name="android:widgetLayout" />
+        <attr name="arrowRightShow" format="boolean" />
+
+        <attr name="android:enabled" />
+    </declare-styleable>
+
+    <declare-styleable name="SpinnerItemView">
+        <attr name="android:entries" />
+    </declare-styleable>
+</resources>

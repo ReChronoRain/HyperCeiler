@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="?android:attr/selectableItemBackground"
     android:gravity="center"
     android:minHeight="56dp"
     android:orientation="horizontal"
     android:paddingVertical="8dp"
-    android:paddingHorizontal="15dp">
+    android:paddingHorizontal="15dp"
+    android:clipChildren="false">
 
     <View
         android:id="@+id/level_indicator"

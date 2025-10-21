@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import fan.internal.utils.AnimHelper;
 import fan.recyclerview.card.CardGroupAdapter;
 
 public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
@@ -34,35 +35,51 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     private String mSearchKeyword = "";
     private String mSelectedLevel = "ALL";
     private String mSelectedModule = "ALL";
-    private List<String> mModuleList;
+    private List<String> mLevelList = new ArrayList<>();
+    private List<String> mModuleList = new ArrayList<>();
 
     // 颜色配置
-    private static final int sSearchHighlightColor = Color.YELLOW;
+    private static final int sSearchHighlightColor = Color.RED;
     private static final int sDefaultTextColor = Color.BLACK;
 
     // 监听器
     private OnFilterChangeListener mFilterChangeListener;
 
     public LogAdapter(List<LogEntry> logEntries) {
-        this.mOriginalLogEntries = new ArrayList<>(logEntries);
-        this.mFilteredLogEntries = new ArrayList<>(logEntries);
-        this.mModuleList = new ArrayList<>();
-
+        mOriginalLogEntries = new ArrayList<>(logEntries);
+        mFilteredLogEntries = new ArrayList<>(logEntries);
         // 提取所有可用的模块和级别
-        extractAvailableFilters();
+        extractAvailableList();
     }
 
-    private void extractAvailableModules() {
-        mModuleList.clear();
-        mModuleList.add("ALL");
+    private void extractAvailableList() {
 
+        mLevelList.clear();
+        mModuleList.clear();
+
+        mLevelList.add("全部");
+        mModuleList.add("全部");
+
+        Set<String> levelSet = new HashSet<>();
         Set<String> moduleSet = new HashSet<>();
         for (LogEntry entry : mOriginalLogEntries) {
-            if (entry != null && entry.getModule() != null) {
-                moduleSet.add(entry.getModule());
+            if (entry != null) {
+                if (entry.getLevel() != null) {
+                    switch (entry.getLevel()) {
+                        case "V" -> levelSet.add("Verbose");
+                        case "D" -> levelSet.add("Debug");
+                        case "I" -> levelSet.add("Info");
+                        case "W" -> levelSet.add("Warn");
+                        case "E" -> levelSet.add("Error");
+                    }
+                }
+                if (entry.getModule() != null) {
+                    moduleSet.add(entry.getModule());
+                }
             }
         }
 
+        mLevelList.addAll(levelSet);
         mModuleList.addAll(moduleSet);
     }
 
@@ -72,6 +89,10 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         return new ArrayList<>(mModuleList);
     }
 
+    public List<String> getLevelList() {
+        return new ArrayList<>(mLevelList);
+    }
+
     // 更新数据
     // 安全的更新数据方法
     public void updateData(List<LogEntry> newLogEntries) {
@@ -79,8 +100,8 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             return;
         }
 
-        this.mOriginalLogEntries = new ArrayList<>(newLogEntries);
-        extractAvailableModules();
+        mOriginalLogEntries = new ArrayList<>(newLogEntries);
+        extractAvailableList();
         performFiltering();
     }
 
@@ -130,13 +151,25 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     // 级别过滤
     public void setLevelFilter(String level) {
-        mSelectedLevel = level != null ? level : "ALL";
+        if (level != null) {
+            switch (level) {
+                case "全部" -> mSelectedLevel = "ALL";
+                case "Verbose" -> mSelectedLevel = "V";
+                case "Debug" -> mSelectedLevel = "D";
+                case "Info" -> mSelectedLevel = "I";
+                case "Warn" -> mSelectedLevel = "W";
+                case "Error" -> mSelectedLevel = "E";
+                default -> mSelectedLevel = "ALL";
+            }
+        }
         performFiltering();
     }
 
     // 模块过滤
     public void setModuleFilter(String module) {
-        mSelectedModule = module != null ? module : "ALL";
+        if (module != null) {
+            mSelectedModule = module.equals("全部") ? "ALL" : module;
+        }
         performFiltering();
     }
 
@@ -148,38 +181,9 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         performFiltering();
     }
 
-    // 获取过滤统计信息
-    public String getFilterStats() {
-        return String.format("显示: %d/%d", mFilteredLogEntries.size(), mOriginalLogEntries.size());
-    }
-
     // 设置过滤变化监听器
     public void setOnFilterChangeListener(OnFilterChangeListener listener) {
         mFilterChangeListener = listener;
-    }
-
-    private void extractAvailableFilters() {
-        mModuleList.clear();
-        mModuleList.add("ALL");
-
-        Set<String> moduleSet = new HashSet<>();
-        for (LogEntry entry : mOriginalLogEntries) {
-            if (entry != null && entry.getModule() != null) {
-                moduleSet.add(entry.getModule());
-            }
-        }
-
-        mModuleList.addAll(moduleSet);
-    }
-
-
-    private void notifyFilterChanged() {
-        if (mFilterChangeListener != null) {
-            mFilterChangeListener.onFilterChanged(
-                    mFilteredLogEntries.size(),
-                    mOriginalLogEntries.size()
-            );
-        }
     }
 
     @NonNull
@@ -240,26 +244,19 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         private TextView mLevelTextView;
         private TextView mModuleTextView;
         private TextView mMessageTextView;
-        private View mLogItemView;
 
         public LogViewHolder(@NonNull View itemView) {
             super(itemView);
-            mLogItemView = itemView;
             mLevelIndicator = itemView.findViewById(R.id.level_indicator);
 
             mTimeTextView = itemView.findViewById(R.id.textTime);
             mLevelTextView = itemView.findViewById(R.id.textLevel);
             mModuleTextView = itemView.findViewById(R.id.textModule);
             mMessageTextView = itemView.findViewById(R.id.textMessage);
+            itemView.setOnClickListener(AnimHelper::addItemPressEffect);
         }
 
         public void bind(LogEntry logEntry, String searchKeyword) {
-            String logText = String.format("%s [%s/%s] %s",
-                    logEntry.getFormattedTime(),
-                    logEntry.getModule(),
-                    logEntry.getLevel(),
-                    logEntry.getMessage());
-
             mLevelIndicator.setBackgroundColor(logEntry.getColor());
 
             // 设置时间
@@ -293,14 +290,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                 mMessageTextView.setSingleLine(true);
                 mMessageTextView.setEllipsize(TextUtils.TruncateAt.END);
             }
-
-            // 设置项背景色（交替颜色便于阅读）
-            /*int position = getAdapterPosition();
-            if (position % 2 == 0) {
-                mLogItemView.setBackgroundColor(Color.WHITE);
-            } else {
-                mLogItemView.setBackgroundColor(0xFFF5F5F5); // 浅灰色
-            }*/
         }
 
         private SpannableString highlightText(String text, String keyword) {
@@ -323,49 +312,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             }
 
             return spannable;
-        }
-    }
-
-    private class LogFilter extends Filter {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            List<LogEntry> filteredList = new ArrayList<>();
-
-            String searchLower = mSearchKeyword.toLowerCase();
-            String levelFilter = mSelectedLevel;
-            String moduleFilter = mSelectedModule;
-
-            for (LogEntry entry : mOriginalLogEntries) {
-                // 级别过滤
-                boolean levelMatch = "ALL".equals(levelFilter) ||
-                        levelFilter.equals(entry.getLevel());
-
-                // 模块过滤
-                boolean moduleMatch = "ALL".equals(moduleFilter) ||
-                        moduleFilter.equals(entry.getModule());
-
-                // 搜索过滤
-                boolean searchMatch = TextUtils.isEmpty(mSearchKeyword) ||
-                        entry.getMessage().toLowerCase().contains(searchLower) ||
-                        entry.getModule().toLowerCase().contains(searchLower) ||
-                        entry.getTag().toLowerCase().contains(searchLower) ||
-                        entry.getLevel().toLowerCase().contains(searchLower);
-
-                if (levelMatch && moduleMatch && searchMatch) {
-                    filteredList.add(entry);
-                }
-            }
-
-            results.values = filteredList;
-            results.count = filteredList.size();
-            return results;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            mFilteredLogEntries = (List<LogEntry>) results.values;
-            notifyDataSetChanged();
         }
     }
 

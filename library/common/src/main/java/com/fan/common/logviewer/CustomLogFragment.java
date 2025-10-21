@@ -20,11 +20,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.fan.common.R;
+import com.fan.common.widget.SearchEditText;
+import com.fan.common.widget.SpinnerItemView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import fan.androidbase.widget.ClearableEditText;
 import fan.animation.Folme;
 import fan.animation.ITouchStyle;
 import fan.animation.base.AnimConfig;
@@ -42,18 +45,14 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
     private LogManager mLogManager;
 
     // 过滤UI组件
-    private EditText mSearchEditText;
-    private Spinner mLevelSpinner;
-    private Spinner mModuleSpinner;
+    private SearchEditText mSearchEditText;
+    private SpinnerItemView mLevelSpinner;
+    private SpinnerItemView mModuleSpinner;
     private TextView mFilterStatsTextView;
-    private View mClearFiltersButton;
 
     // 数据列表
-    private List<String> mLevelList;
-    private List<String> mModuleList;
-
-    // 标记是否正在初始化，避免不必要的回调
-    private boolean mIsInitializing = false;
+    private List<String> mLevelList = new ArrayList<>();
+    private List<String> mModuleList = new ArrayList<>();
 
     @Nullable
     @Override
@@ -68,29 +67,45 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
 
         mLogManager = LogManager.getInstance(requireContext());
 
-        // 初始化数据列表
-        mLevelList = new ArrayList<>();
-        mModuleList = new ArrayList<>();
-
-        setupFilterViews(view);
-        setupRecyclerView();
+        setupViews(view);
     }
 
-    private void setupFilterViews(View rootView) {
+    private void setupViews(View rootView) {
         mRecyclerView = rootView.findViewById(R.id.recyclerView);
-        mSearchEditText = rootView.findViewById(R.id.editSearch);
+        mSearchEditText = rootView.findViewById(R.id.input);
         mLevelSpinner = rootView.findViewById(R.id.spinnerLevel);
         mModuleSpinner = rootView.findViewById(R.id.spinnerModule);
         mFilterStatsTextView = rootView.findViewById(R.id.textFilterStats);
-        mClearFiltersButton = rootView.findViewById(R.id.buttonClearFilters);
 
+        mSearchEditText.setHint("搜索日志");
+
+        setupRecyclerView();
         setupSearchFilter();
         setupLevelFilter();
         setupModuleFilter();
-        setupClearFilters();
+    }
 
-        // 初始更新过滤器选项
-        updateFilterOptions();
+    private void setupRecyclerView() {
+        List<LogEntry> logEntries = mLogManager != null ?
+            mLogManager.getLogEntries() : new ArrayList<>();
+
+        mLogAdapter = new LogAdapter(logEntries);
+        mLogAdapter.setOnFilterChangeListener(this);
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mLogAdapter);
+        mRecyclerView.addItemDecoration(new CardItemDecoration(requireContext()));
+        mRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
+
+        // 更新过滤器选项
+        updateList();
+    }
+
+    private void updateList() {
+        if (mLogAdapter != null) {
+            mLevelList.addAll(mLogAdapter.getLevelList());
+            mModuleList.addAll(mLogAdapter.getModuleList());
+        }
     }
 
     private void setupSearchFilter() {
@@ -103,41 +118,26 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mLogAdapter != null && !mIsInitializing) {
+                if (mLogAdapter != null) {
                     mLogAdapter.setSearchKeyword(s.toString());
                 }
             }
         });
+        mSearchEditText.setOnSearchListener(() -> clearAllFilters());
     }
 
     private void setupLevelFilter() {
         // 初始数据
-        // 初始化级别列表 - 使用固定列表避免动态变化
-        mLevelList.clear();
-        mLevelList.add("ALL");
-        mLevelList.add("V");
-        mLevelList.add("D");
-        mLevelList.add("I");
-        mLevelList.add("W");
-        mLevelList.add("E");
-
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
                 requireContext(), fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
         levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mLevelSpinner.setAdapter(levelAdapter);
+        mLevelSpinner.setSelection(0); // 默认选择全部
 
-        mIsInitializing = true;
-        mLevelSpinner.setSelection(0); // 默认选择"ALL"
-        mIsInitializing = false;
-
-        setSpinnerDisplayLocation((ViewGroup) mLevelSpinner.getParent(), mLevelSpinner);
-        mLevelSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mLevelSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mIsInitializing || mLogAdapter == null) {
-                    return;
-                }
-
+                if (mLogAdapter == null) return;
                 try {
                     // 安全地获取选中的级别
                     if (position >= 0 && position < mLevelList.size()) {
@@ -168,50 +168,18 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
         });
     }
 
-    @SuppressLint("ClickableViewAccessibility")
-    public void setSpinnerDisplayLocation(ViewGroup parent, Spinner spinner) {
-        if (parent != null && spinner != null) {
-            spinner.setClickable(false);
-            spinner.setLongClickable(false);
-            spinner.setContextClickable(false);
-            spinner.setOnSpinnerDismissListener(() ->
-                Folme.useAt(parent).touch().touchUp(new AnimConfig[0]));
-            parent.setOnTouchListener((v, event) -> {
-                if (spinner.isEnabled()) {
-                    switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN -> Folme.useAt(v).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).touchDown(new AnimConfig[0]);
-                        case MotionEvent.ACTION_UP -> spinner.performClick(event.getX(), event.getY());
-                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(v).touch().touchUp(new AnimConfig[0]);
-                    }
-                    return true;
-                } else {
-                    return false;
-                }
-            });
-        }
-    }
-
     private void setupModuleFilter() {
-        // 初始化模块列表
-        mModuleList.clear();
-        mModuleList.add("ALL"); // 始终包含ALL
-
+        // 初始数据
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
                 requireContext(), fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
         moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mModuleSpinner.setAdapter(moduleAdapter);
+        mModuleSpinner.setSelection(0); // 默认选择全部
 
-        mIsInitializing = true;
-        mModuleSpinner.setSelection(0); // 默认选择"ALL"
-        mIsInitializing = false;
-
-        setSpinnerDisplayLocation((ViewGroup) mModuleSpinner.getParent(), mModuleSpinner);
-        mModuleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mModuleSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mIsInitializing || mLogAdapter == null) {
-                    return;
-                }
+                if (mLogAdapter == null) return;
 
                 try {
                     // 安全地获取选中的模块 - 这是修复的关键！
@@ -250,15 +218,7 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
         });
     }
 
-    private void setupClearFilters() {
-        mClearFiltersButton.setOnClickListener(v -> {
-            clearAllFilters();
-        });
-    }
-
     private void clearAllFilters() {
-        mIsInitializing = true;
-
         // 清除搜索
         if (mSearchEditText != null) {
             mSearchEditText.setText("");
@@ -272,89 +232,16 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
             mModuleSpinner.setSelection(0);
         }
 
-        mIsInitializing = false;
-
         // 应用清除
         if (mLogAdapter != null) {
             mLogAdapter.clearAllFilters();
         }
     }
 
-    private void setupRecyclerView() {
-        List<LogEntry> logEntries = mLogManager != null ?
-                mLogManager.getLogEntries() : new ArrayList<>();
-
-        mLogAdapter = new LogAdapter(logEntries);
-        mLogAdapter.setOnFilterChangeListener(this);
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mLogAdapter);
-        mRecyclerView.addItemDecoration(new CardItemDecoration(requireContext()));
-        mRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
-
-        // 更新过滤器选项
-        updateFilterOptions();
-    }
-
-    private void updateFilterOptions() {
-        if (mLogAdapter == null) {
-            return;
-        }
-
-        // 更新模块列表
-        updateModuleList();
-    }
-
-    private void updateModuleList() {
-        if (mLogAdapter == null || mModuleSpinner == null) {
-            return;
-        }
-
-        try {
-            mIsInitializing = true;
-
-            // 获取当前选中的模块（在更新前保存）
-            String currentSelection = "ALL";
-            int currentPosition = mModuleSpinner.getSelectedItemPosition();
-            if (currentPosition >= 0 && currentPosition < mModuleList.size()) {
-                currentSelection = mModuleList.get(currentPosition);
-            }
-
-            // 获取可用的模块
-            List<String> availableModules = mLogAdapter.getModuleList();
-            mModuleList.clear();
-            mModuleList.addAll(availableModules);
-
-            // 通知适配器更新
-            ArrayAdapter<String> adapter = (ArrayAdapter<String>) mModuleSpinner.getAdapter();
-            if (adapter != null) {
-                adapter.notifyDataSetChanged();
-            }
-
-            // 尝试恢复之前的选择，如果不存在则选择ALL
-            int newPosition = mModuleList.indexOf(currentSelection);
-            if (newPosition == -1) {
-                newPosition = 0; // ALL
-            }
-            mModuleSpinner.setSelection(newPosition);
-
-            mIsInitializing = false;
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error updating module list", e);
-            mIsInitializing = false;
-
-            // 安全回退
-            if (mModuleSpinner != null) {
-                mModuleSpinner.setSelection(0);
-            }
-        }
-    }
-
     public void refreshLogs() {
         if (mLogAdapter != null && mLogManager != null) {
             mLogAdapter.updateData(mLogManager.getLogEntries());
-            updateFilterOptions();
+            updateList();
 
             // 滚动到底部
             if (mRecyclerView != null && mLogAdapter.getItemCount() > 0) {
@@ -379,12 +266,5 @@ public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterCh
     public void onFilterChanged(int filteredCount, int totalCount) {
         String stats = String.format("显示: %d/%d", filteredCount, totalCount);
         mFilterStatsTextView.setText(stats);
-    }
-
-    @Override
-    public void onDestroyView() {
-        // 清理资源
-        mIsInitializing = true;
-        super.onDestroyView();
     }
 }
