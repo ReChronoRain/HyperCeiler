@@ -1262,20 +1262,15 @@
     <string name="home_other_opt_app_launch_delay">Оптимизация задержки запуска приложения</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Редактор галереи</string>
-    <string name="mediaeditor_tip">Инструкция по применению:\n• Используйте перехват v2 для версий 1.7.5.0.4 и выше. Для версий 1.7.5.0.4 и ниже, используйте перехват v1.</string>
-    <string name="mediaeditor_hook_type">Вариант перехвата для редактора галереи</string>
     <string name="mediaeditor_foundation">Базовый</string>
     <string name="mediaeditor_authoring">Авторизация</string>
-    <string name="mediaeditor_ai_authoring">Создание с ИИ</string>
     <string name="mediaeditor_custom_photo_frames_title">Настройте рамку</string>
     <string name="mediaeditor_custom_disney_title">Совместная функция</string>
     <string name="mediaeditor_unlock_disney_title">Разблокировать кастомизацию от Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Разблокировка включает следующие функции:\n• Пользовательские рамки • Пользовательские рамки Disney (конфликтуют с другими пользовательскими рамками)\n• Фон Боке - Микки Моке\n• Стикеры - Наклейки Disney</string>
     <string name="mediaeditor_unlock_spring_title">Разблокировать рамки для фото, посвященные китайскому Новому году</string>
     <string name="mediaeditor_unlock_spring_desc">Чтобы навсегда добавить специальную рамку для изображения китайского Нового года, необходимо, чтобы вам нужна специальная рамка для изображения Leica или специальная рамка для изображения Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Разблокировать минимальное ограничение на обрезку изображения</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Разблокируйте и настройте рамку</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Изменить тип рамки</string>
     <string name="mediaeditor_unlock_leica_filter_title">Разблокировать фильтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Поддерживаются только некоторые версии</string>
     <string name="mediaeditor_unlock_aigc">Разблокировать AIGC</string>

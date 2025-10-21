@@ -1316,20 +1316,15 @@
     <string name="home_other_opt_app_launch_delay">Optimize app launch delay</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Gallery Editor</string>
-    <string name="mediaeditor_tip">Instructions for use:\n• Use the v2 hook for versions 1.7.5.0.4 or higher. For versions earlier than 1.7.5.0.4, use the v1 hook.</string>
-    <string name="mediaeditor_hook_type">Gallery Editor hook type</string>
     <string name="mediaeditor_foundation">Basic</string>
     <string name="mediaeditor_authoring">Creation</string>
-    <string name="mediaeditor_ai_authoring">AI Creation</string>
     <string name="mediaeditor_custom_photo_frames_title">Customize frame</string>
     <string name="mediaeditor_custom_disney_title">Collaboration function</string>
     <string name="mediaeditor_unlock_disney_title">Unlock Disney customization features</string>
-    <string name="mediaeditor_unlock_disney_desc">Unlocks include the following features:\n• Custom frames - Disney custom frames (conflict with other custom frames)\n• Bokeh background - Mickey Mokeh\n• Stickers - Disney stickers</string>
     <string name="mediaeditor_unlock_spring_title">Unlock Chinese New Year custom picture frames</string>
     <string name="mediaeditor_unlock_spring_desc">To permanently keep the Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Unlock Customize frame</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Customize frame type</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>

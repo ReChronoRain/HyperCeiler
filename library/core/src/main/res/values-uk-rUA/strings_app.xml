@@ -1210,20 +1210,15 @@
     <string name="home_other_opt_app_launch_delay">Оптимізувати затримку запуску додатка</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Редактор Галереї</string>
-    <string name="mediaeditor_tip">Інструкція з використання:\n• Використовуйте хук v2 для версій 1.7.5.0.4 або вище. Для версій, раніших за 1.7.5.0.4, використовуйте хук v1.</string>
-    <string name="mediaeditor_hook_type">Тип хука Редактора Галереї</string>
     <string name="mediaeditor_foundation">Основні</string>
     <string name="mediaeditor_authoring">Створення</string>
-    <string name="mediaeditor_ai_authoring">Створення за допомогою ШІ</string>
     <string name="mediaeditor_custom_photo_frames_title">Налаштувати рамку</string>
     <string name="mediaeditor_custom_disney_title">Функція співпраці</string>
     <string name="mediaeditor_unlock_disney_title">Розблокувати функції налаштування Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Розблокування включає наступні функції:\n• Користувацькі рамки - рамки Disney (конфліктують з іншими користувацькими рамками)\n• Фон боке - боке Міккі\n• Стікери - стікери Disney</string>
     <string name="mediaeditor_unlock_spring_title">Розблокувати кастомні рамки для фото до Китайського Нового року</string>
     <string name="mediaeditor_unlock_spring_desc">Щоб назавжди зберегти кастомну рамку для фото до Китайського Нового року, необхідно мати кастомну рамку Leica або Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Зняти обмеження на мінімальне обрізання зображення</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Розблокувати налаштування рамки</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Налаштувати тип рамки</string>
     <string name="mediaeditor_unlock_leica_filter_title">Розблокувати фільтр Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Підтримуються лише деякі версії</string>
     <string name="mediaeditor_unlock_aigc">Розблокувати AIGC</string>

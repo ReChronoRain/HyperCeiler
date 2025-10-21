@@ -961,13 +961,10 @@
     <!--Gallery Editor-->
     <string name="mediaeditor">Editor Galeri</string>
     <string name="mediaeditor_foundation">Dasar</string>
-    <string name="mediaeditor_ai_authoring">Penulisan AI</string>
     <string name="mediaeditor_unlock_disney_title">Buka kunci fitur penyesuaian Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Buka kunci mencakup fitur berikut:\n- Bingkai Khusus - Bingkai Khusus Disney (bertentangan dengan bingkai khusus lainnya)\n- Latar Belakang Bokeh - Mickey Mokeh\n- Stiker - Stiker Disney</string>
     <string name="mediaeditor_unlock_spring_title">Buka kunci bingkai foto khusus Tahun Baru Imlek</string>
     <string name="mediaeditor_unlock_spring_desc">Untuk menambahkan bingkai foto kustom Tahun Baru Imlek secara permanen, prasyaratnya adalah Anda memerlukan bingkai foto kustom Leica atau bingkai foto kustom Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Buka kunci batas pemotongan gambar minimum</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Sesuaikan jenis bingkai</string>
     <string name="mediaeditor_unlock_leica_filter_title">Buka kunci filter Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Hanya beberapa versi yang didukung</string>
     <!--Wallpaper-->

@@ -1167,15 +1167,11 @@
     <string name="home_other_opt_app_launch_delay">Optymalizuj opóźnienie uruchamiania aplikacji</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Edytor galerii</string>
-    <string name="mediaeditor_tip">Instrukcja użycia:\n- Użyj haka v2 dla wersji 1.7.5.0.4 i nowszych, a haka v1 dla wersji niższych niż 1.7.5.0.4  </string>
-    <string name="mediaeditor_hook_type">Typ haka edytora galerii</string>
     <string name="mediaeditor_foundation">Podkład</string>
     <string name="mediaeditor_authoring">Autorstwo</string>
-    <string name="mediaeditor_ai_authoring">Autoryzacja SI</string>
     <string name="mediaeditor_custom_photo_frames_title">Dostosuj ramkę</string>
     <string name="mediaeditor_custom_disney_title">Wspólna funkcja</string>
     <string name="mediaeditor_unlock_disney_title">Odblokuj funkcje personalizacji Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Odblokowania obejmują następujące funkcje:\n• Niestandardowe ramki Disney (w konflikcie z innymi ramkami niestandardowymi)\n• Tło Mickey Mokeh\n• Naklejki Disney</string>
     <string name="mediaeditor_unlock_spring_title">Odblokuj niestandardowe ramki zdjęciowe na Chiński Nowy Rok</string>
     <string name="mediaeditor_unlock_spring_desc">Aby na stałe dodać niestandardową ramkę zdjęciową na Chiński Nowy Rok, warunkiem jest posiadanie niestandardowej ramki zdjęciowej Leica lub niestandardowej ramki zdjęciowej Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Usuń minimalny limit przycinania obrazu</string>

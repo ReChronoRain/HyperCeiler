@@ -1268,20 +1268,15 @@
     <string name="home_other_opt_app_launch_delay">Tối ưu hóa độ trễ khi mở ứng dụng</string>
     <!--Gallery Editor-->
     <string name="mediaeditor">Chỉnh sửa thư viện</string>
-    <string name="mediaeditor_tip">Hướng dẫn sử dụng:\n- Vui lòng sử dụng v2 hook cho phiên bản 1.7.5.0.4 trở lên và vui lòng sử dụng v1 hook cho phiên bản thấp hơn 1.7.5.0.4</string>
-    <string name="mediaeditor_hook_type">Kiểu hook của trình chỉnh sửa thư viện</string>
     <string name="mediaeditor_foundation">Nền tảng</string>
     <string name="mediaeditor_authoring">Người tạo</string>
-    <string name="mediaeditor_ai_authoring">Sáng tạo AI</string>
     <string name="mediaeditor_custom_photo_frames_title">Tùy chỉnh khung</string>
     <string name="mediaeditor_custom_disney_title">Chức năng chung</string>
     <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
-    <string name="mediaeditor_unlock_disney_desc">Các tính năng được mở khóa bao gồm:\n- Khung tùy chỉnh – Khung tùy chỉnh của Disney (xung đột với các khung tùy chỉnh khác)\n- Làm mờ nền – Làm mờ Mickey\n- Hình dán – Hình dán Disney</string>
     <string name="mediaeditor_unlock_spring_title">Mở khóa khung ảnh tùy chỉnh năm mới Tết Nguyên đán</string>
     <string name="mediaeditor_unlock_spring_desc">Để thêm vĩnh viễn khung ảnh tùy chỉnh Tết Nguyên đán, điều kiện tiên quyết là bạn cần có khung ảnh tùy chỉnh Leica hoặc khung ảnh tùy chỉnh Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Mở khóa tùy chỉnh khung</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Tùy chỉnh loại khung hình</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>

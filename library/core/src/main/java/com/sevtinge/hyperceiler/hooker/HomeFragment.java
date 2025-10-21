@@ -20,7 +20,6 @@
 package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils.logE;
 
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
@@ -44,8 +43,8 @@ public class HomeFragment extends DashboardFragment {
         mHeader = findPreference("prefs_key_home_unsupported");
 
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), "com.miui.home");
-        boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_debug_mode", false);
-        logE("HyperHome", "initPrefs: com.miui.home check: " + check);
+        boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
+
         mHeader.setVisible(check && !isDebugMode);
     }
 

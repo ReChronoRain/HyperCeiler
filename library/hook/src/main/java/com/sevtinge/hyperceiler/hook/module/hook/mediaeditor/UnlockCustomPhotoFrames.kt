@@ -32,35 +32,17 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
-    private val frames by lazy {
-        mPrefsMap.getStringAsInt("mediaeditor_unlock_custom_photo_frames", 0)
-    }
-    private val isHookType by lazy {
-        mPrefsMap.getStringAsInt("mediaeditor_hook_type", 0) == 2
-    }
     private val isOpenSpring by lazy {
         mPrefsMap.getBoolean("mediaeditor_unlock_spring")
     }
     private val isLeica by lazy {
-        if (!isHookType) {
-            frames == 1
-        } else {
-            mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_leica")
-        }
+        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_leica")
     }
     private val isRedmi by lazy {
-        if (!isHookType) {
-            frames == 2
-        } else {
-            mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_redmi")
-        }
+        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_redmi")
     }
     private val isPOCO by lazy {
-        if (!isHookType) {
-            frames == 3
-        } else {
-            mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_poco")
-        }
+        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_poco")
     }
 
     private val methodA by lazy<List<Method>> {
@@ -73,41 +55,29 @@ object UnlockCustomPhotoFrames : BaseHook() {
             // 1.10.0.0.6 之后，类名混淆
             // 所以，它要是再把特征混淆完了的话，那 886 了
             // 这构思玩意都快接近 hook 安全服务了 (2025.3.19)
-            if (isHookType) {
-                // 使用二次查询，虽然慢，但是能找全
-                bridge.findMethod {
-                    matcher {
-                        addCaller {
-                            paramCount = 2
-                            returnType = "java.util.LinkedHashMap"
-                            modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
-                            addUsingField {
-                                name = "DEVICE"
-                            }
-                        }
+            // 使用二次查询，虽然慢，但是能找全
+            bridge.findMethod {
+                matcher {
+                    addCaller {
+                        paramCount = 2
+                        returnType = "java.util.LinkedHashMap"
+                        modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
                         addUsingField {
-                            type = "java.util.List"
+                            name = "DEVICE"
                         }
-                        returnType = "boolean"
                     }
-                }.last().declaredClass?.findMethod {
-                    matcher {
-                        addUsingField {
-                            type = "java.util.List"
-                        }
-
-                        returnType = "boolean"
+                    addUsingField {
+                        type = "java.util.List"
                     }
+                    returnType = "boolean"
                 }
-            } else {
-                bridge.findMethod {
-                    matcher {
-                        declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
-                        addUsingField {
-                            type = "java.util.List"
-                        }
-                        returnType = "boolean"
+            }.last().declaredClass?.findMethod {
+                matcher {
+                    addUsingField {
+                        type = "java.util.List"
                     }
+
+                    returnType = "boolean"
                 }
             }
         }
@@ -152,12 +122,8 @@ object UnlockCustomPhotoFrames : BaseHook() {
                     // 改动日志:
                     // 这里是新春定制画框的解锁，仅在部分版本中存在
                     // 1.10.0.0.6 之后，类名混淆，只能获取 methodA 所属的 Class
-                    if (isHookType) {
-                        // declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
-                        declaredClass(methodA.first().declaringClass.name)
-                    } else {
-                        declaredClass("com.miui.mediaeditor.photo.config.galleryframe.GalleryFrameAccessUtils")
-                    }
+                    // declaredClass("com.miui.mediaeditor.config.galleryframe.GalleryFrameAccessUtils")
+                    declaredClass(methodA.first().declaringClass.name)
                     modifiers = Modifier.STATIC
                     type = "boolean"
                 }
@@ -201,35 +167,34 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
         if (isRedmi) {
             // Redmi Note 13 Pro+ 定制版画框
-            runCatching {
-                loadClass($$"$${methodA.first().declaringClass.name}$a").methodFinder()
-                    .filterByName("invoke").first()
-                    .createHook {
-                        returnConstant(true)
-                    }
-            }.recoverCatching {
-                // 虽然不是很好，但是也就只能这么匹配了（
-                val aSigns = methodA.map { m ->
+            val base = methodA.first().declaringClass.name
+            // 优先尝试常见的内部类名，找到即挂钩，避免不必要的回退计算
+            val target = runCatching { loadClass($$"$${base}$a") }.getOrNull()
+                ?: runCatching { loadClass($$"$${base}$2") }.getOrNull()
+
+            if (target != null) {
+                target.methodFinder()
+                    .filterByName("invoke")
+                    .firstOrNull()
+                    ?.createHook { returnConstant(true) }
+                    ?: logE(TAG, lpparam.packageName, "Invoke method not found in ${target.name}")
+            } else {
+                // 回退：对 methodC 做差集匹配并钩子，延迟构建签名集合以提升性能
+                val aSigns = methodA.asSequence().map { m ->
                     "${m.declaringClass.name}#${m.name}(${m.parameterTypes.joinToString(",") { it.name }})"
                 }.toSet()
 
-                methodC.filter { m ->
-                    val sig = "${m.declaringClass.name}#${m.name}(${m.parameterTypes.joinToString(",") { it.name }})"
-                    sig !in aSigns
-                }.forEach { m ->
-                    try {
-                        m.createHook {
-                            returnConstant(true)
-                        }
-                    } catch (e: Throwable) {
-                        logE(TAG, lpparam.packageName, "Hook failed for ${m.name}: ${e.message}")
+                methodC.asSequence()
+                    .filter { m ->
+                        val sig = "${m.declaringClass.name}#${m.name}(${m.parameterTypes.joinToString(",") { it.name }})"
+                        sig !in aSigns
                     }
-                }
-            }.onFailure {
-                loadClass($$"$${methodA.first().declaringClass.name}$2").methodFinder()
-                    .filterByName("invoke").first()
-                    .createHook {
-                        returnConstant(true)
+                    .forEach { m ->
+                        try {
+                            m.createHook { returnConstant(true) }
+                        } catch (e: Throwable) {
+                            logE(TAG, lpparam.packageName, "Hook failed for ${m.name}: ${e.message}")
+                        }
                     }
             }
         }
