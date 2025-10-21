@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -96,7 +97,7 @@ public class SubPickerActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_app_picker);
-
+        setExtraHorizontalPaddingEnable(true);
         Bundle args = getIntent().getExtras();
         assert args != null;
         modeSelection = args.getInt("mode");
@@ -109,7 +110,21 @@ public class SubPickerActivity extends AppCompatActivity
         initData();
     }
 
+    @Override
+    public void onContentInsetChanged(Rect rect) {
+        super.onContentInsetChanged(rect);
+        if (mAppListRv != null) {
+            mAppListRv.setPadding(
+                mAppListRv.getPaddingLeft(),
+                mAppListRv.getPaddingTop(),
+                mAppListRv.getPaddingRight(),
+                rect.bottom
+            );
+        }
+    }
+
     private void initView() {
+
         mAmProgress = findViewById(R.id.am_progressBar);
 
         mSearchBar = findViewById(R.id.search_bar);
@@ -121,12 +136,12 @@ public class SubPickerActivity extends AppCompatActivity
         registerCoordinateScrollView(mNestedHeader);
 
         mAppListRv = findViewById(R.id.app_list_rv);
-        mSearchBar.setVisibility(View.GONE);
+        mSearchBar.setClickable(false);
         mAppListRv.setVisibility(View.GONE);
 
-        mSearchCallBack = new SearchCallback(this, this, this);
-        mSearchCallBack.setup(mSearchBar, mAppListRv);
-        //mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallBack));
+        mSearchCallBack = new SearchCallback(this, this);
+        mSearchCallBack.setup(mSearchBar, mNestedHeader.getScrollableView());
+        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallBack, 0));
 
         mAppListAdapter = new AppDataAdapter(appDataList, key, modeSelection);
         mAppListRv.setAdapter(mAppListAdapter);
@@ -184,42 +199,46 @@ public class SubPickerActivity extends AppCompatActivity
 
     private void initData() {
         new Thread(() -> mHandler.postDelayed(() -> {
-            appDataList = getAppInfo();
-
-            Collator collator = Collator.getInstance(Locale.getDefault());
-            appDataList.sort((app1, app2) -> collator.compare(app1.label, app2.label));
-
-            AppData tagApp = null;
-            for (AppData app : appDataList) {
-                if ("com.android.apps.tag".equals(app.packageName)) {
-                    tagApp = app;
-                    break;
-                }
-            }
-            if (tagApp != null) {
-                appDataList.remove(tagApp);
-                appDataList.add(0, tagApp);
-            }
-
-            selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
-            List<AppData> selectedAppList = new ArrayList<>();
-            for (String packageName : selectedApps) {
-                for (AppData appData : appDataList) {
-                    if (packageName.equals(appData.packageName)) {
-                        selectedAppList.add(appData);
-                        appDataList.remove(appData);
-                        break;
-                    }
-                }
-            }
-            appDataList.addAll(0, selectedAppList);
+            notifyAppDataList();
 
             mAppListAdapter.updateData(appDataList);
 
             mAmProgress.setVisibility(View.GONE);
-            mSearchBar.setVisibility(View.VISIBLE);
+            mSearchBar.setClickable(true);
             mAppListRv.setVisibility(View.VISIBLE);
         }, 120)).start();
+    }
+
+    public void notifyAppDataList() {
+        appDataList = getAppInfo();
+
+        Collator collator = Collator.getInstance(Locale.getDefault());
+        appDataList.sort((app1, app2) -> collator.compare(app1.label, app2.label));
+
+        AppData tagApp = null;
+        for (AppData app : appDataList) {
+            if ("com.android.apps.tag".equals(app.packageName)) {
+                tagApp = app;
+                break;
+            }
+        }
+        if (tagApp != null) {
+            appDataList.remove(tagApp);
+            appDataList.add(0, tagApp);
+        }
+
+        selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
+        List<AppData> selectedAppList = new ArrayList<>();
+        for (String packageName : selectedApps) {
+            for (AppData appData : appDataList) {
+                if (packageName.equals(appData.packageName)) {
+                    selectedAppList.add(appData);
+                    appDataList.remove(appData);
+                    break;
+                }
+            }
+        }
+        appDataList.addAll(0, selectedAppList);
     }
 
     public List<AppData> getAppInfo() {
@@ -296,7 +315,6 @@ public class SubPickerActivity extends AppCompatActivity
     }
 
 
-
     @Override
     public boolean onQueryTextChange(String newText) {
         mAppListAdapter.resetData();
@@ -318,7 +336,11 @@ public class SubPickerActivity extends AppCompatActivity
 
     @Override
     public void onSearchModeAnimStart(boolean enabled) {
-
+        if (enabled) {
+            mNestedHeader.setInSearchMode(true);
+        } else {
+            mAppListRv.stopScroll();
+        }
     }
 
     @Override
@@ -328,7 +350,10 @@ public class SubPickerActivity extends AppCompatActivity
 
     @Override
     public void onSearchModeAnimStop(boolean enabled) {
-
+        if (!enabled) {
+            mNestedHeader.setInSearchMode(false);
+            mAppListRv.scrollToPosition(0);
+        }
     }
 
     @Override
@@ -351,5 +376,11 @@ public class SubPickerActivity extends AppCompatActivity
     @Override
     public String getMsgFromActivity(String s) {
         return null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unregisterCoordinateScrollView(mNestedHeader);
     }
 }

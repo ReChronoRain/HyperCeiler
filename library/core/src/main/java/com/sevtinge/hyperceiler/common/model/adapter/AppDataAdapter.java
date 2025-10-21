@@ -36,20 +36,22 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
     implements IEditCallback {
 
     private final String TAG = "AppDataAdapter";
-    public ArrayList<AppArrayList> appLists = new ArrayList<>();
-    private List<AppData> appInfoList;
-    private Set<String> selectedApps;
+
     private final String mKey;
     private final int mMode;
-    private List<AppData> originalAppDataList;
+
+    private Set<String> selectedApps;
+    private List<AppData> mAppDataList;
+    private List<AppData> mAppInfoListNew;
+    public ArrayList<AppArrayList> appLists = new ArrayList<>();
 
     private OnItemClickListener mOnItemClickListener;
 
     public AppDataAdapter(List<AppData> appInfoList, String key, int mode) {
-        this.mKey = key;
-        this.mMode = mode;
-        this.appInfoList = new ArrayList<>(appInfoList);
-        this.originalAppDataList = new ArrayList<>(appInfoList);
+        mKey = key;
+        mMode = mode;
+        mAppDataList = new ArrayList<>(appInfoList);
+        mAppInfoListNew = new ArrayList<>(appInfoList);
         getShared();
     }
 
@@ -72,13 +74,13 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        AppData appInfo = appInfoList.get(position);
+        AppData appInfo = mAppInfoListNew.get(position);
         holder.bind(appInfo, position);
     }
 
     @Override
     public int getItemCount() {
-        return appInfoList.size();
+        return mAppInfoListNew.size();
     }
 
     /**
@@ -87,8 +89,8 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
      * @param data Filtered application list data.
      */
     public void updateData(List<AppData> data) {
-        appInfoList.clear();
-        appInfoList.addAll(data);
+        mAppInfoListNew.clear();
+        mAppInfoListNew.addAll(data);
         notifyDataSetChanged();
     }
 
@@ -96,7 +98,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
      * Reset the list data to the original data to clear the search results.
      */
     public void resetData() {
-        updateData(originalAppDataList);
+        updateData(mAppDataList);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -152,7 +154,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
 
             mItemView.setOnClickListener(v -> {
                 if (position != RecyclerView.NO_POSITION) {
-                    mOnItemClickListener.onItemClick(v, appInfoList.get(position), position);
+                    mOnItemClickListener.onItemClick(v, mAppInfoListNew.get(position), position);
                 }
             });
         }

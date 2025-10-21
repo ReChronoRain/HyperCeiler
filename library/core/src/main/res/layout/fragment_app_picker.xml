@@ -27,18 +27,14 @@
         android:layout_height="match_parent"
         app:scrollableView="@id/scrollable_view_group"
         app:headerView="@id/search_bar"
-        app:rangeOffset="1px">
-
-        <include
-            android:id="@+id/search_bar"
-            layout="@layout/miuix_appcompat_search_stub"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        app:rangeOffset="1px"
+        android:clipChildren="false">
 
         <fan.springback.view.SpringBackLayout
             android:id="@+id/scrollable_view_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
             app:scrollableView="@id/app_list_rv">
 
             <fan.recyclerview.widget.RecyclerView
@@ -47,6 +43,12 @@
                 android:layout_height="match_parent" />
 
         </fan.springback.view.SpringBackLayout>
+
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/miuix_appcompat_search_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </fan.nestedheader.widget.NestedHeaderLayout>
 

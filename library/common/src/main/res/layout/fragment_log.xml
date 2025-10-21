@@ -31,7 +31,7 @@
             <!-- 模块过滤器 -->
             <com.fan.common.widget.SpinnerItemView
                 android:id="@+id/spinnerModule"
-                android:title="模块:"
+                android:title="标签:"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
