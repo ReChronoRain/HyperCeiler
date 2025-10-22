@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">تم العثور على نسخة جديدة</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">إضافة وحذف الملفات الموجودة على التخزين الداخلي للجهاز</string>
@@ -25,7 +24,7 @@
     <string name="new_cta_agree_desc">أثناء الاستخدام، من أجل تزويدك بالمزيد من الميزات، قد نتقدم بطلب للحصول على إذن الجذر منك. يمكنك الذهاب إلى إدارة الأذونات في أي وقت لتعديل حالة التفويض لجميع الأذونات، يرجى الذهاب إلى مدير الروت الخاص بك للحصول على أذونات الجذر.</string>
     <string name="new_cta_app_main_purpose">تعديل تطبيقات النظام</string>
     <string name="new_cta_app_all_purpose_welcome">اتفاقية المستخدم وسياسة الخصوصية</string>
-    <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler! يعتمد هذا التطبيق على اضافة LSposed لتشغيله. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الروت. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الروت الخاص بك.\nبمواصلة استخدام HyperCeiler، فإنك توافق على اتفاقية المستخدم <annotation key="protocol"></annotation> و <annotation key="privacy">سياسة الخصوصية</annotation>.</string>
+    <string name="new_cta_app_all_purpose_title">مرحبا بكم في HyperCeiler! يعتمد هذا التطبيق على اضافة LSposed لتشغيله. يمكنك استخدام هذا التطبيق لتعديل التطبيقات الأخرى المدعومة لتعزيز النظام. أثناء الاستخدام، من أجل تزويدك بمزيد من الوظائف، قد نتقدم بطلب أذونات الروت. يمكنك إدارتها في أي وقت عن طريق الذهاب إلى مدير الروت الخاص بك.\nبمواصلة استخدام HyperCeiler، فإنك توافق على اتفاقية المستخدم <annotation key="protocol"/> و <annotation key="privacy">سياسة الخصوصية</annotation>.</string>
     <string name="new_cta_app_all_purpose_agree">الموافقة والاستمرار</string>
     <string name="new_cta_app_all_purpose_reject">الرفض والخروج</string>
     <!--HyperCeiler Settings/About Page-->
@@ -520,7 +519,6 @@
     <string name="mms_disable_overseas_risk_tip">تعطيل نصيحة خطر من الخارج</string>
     <string name="mms_disable_overseas_risk_tip_desc">تعطيل نصيحة \"قد يكون احتيالًا من الخارج\"</string>
     <string name="mms_im_old_device">حظر التعريف كجهاز جديد</string>
-    <string name="mms_verification_code_auto_copy"></string>
     <!--Phone Service-->
     <string name="phone">خدمة الهاتف</string>
     <string name="phone_smart_dual_sim">فتح شريحة SIM الذكية المزدوجة</string>
