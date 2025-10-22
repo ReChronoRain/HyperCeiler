@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Có phiên bản mới</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">thêm và xóa tập tin trên bộ nhớ trong thiết bị</string>
@@ -1654,4 +1653,5 @@
     <string name="custom_hook_mode">Chọn chế độ</string>
     <string name="open_source">Dự án mã nguồn mở</string>
     <string name="close_source">Dự án mã nguồn đóng</string>
+    <string name="debug_info">Không thể lấy thông tin gỡ lỗi.</string>
 </resources>
