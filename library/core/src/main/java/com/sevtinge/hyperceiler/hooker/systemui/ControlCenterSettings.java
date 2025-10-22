@@ -32,7 +32,6 @@ import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.sub.AppPickerFragment;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import fan.preference.SeekBarPreferenceCompat;

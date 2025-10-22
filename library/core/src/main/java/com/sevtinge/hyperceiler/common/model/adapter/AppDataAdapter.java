@@ -1,10 +1,5 @@
 package com.sevtinge.hyperceiler.common.model.adapter;
 
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.APP_OPEN_MODE;
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.INPUT_MODE;
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.PROCESS_TEXT_MODE;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,49 +10,36 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.common.callback.IEditCallback;
 import com.sevtinge.hyperceiler.common.model.data.AppData;
 import com.sevtinge.hyperceiler.common.model.adapter.AppDataAdapter.AppViewHolder;
+import com.sevtinge.hyperceiler.common.model.data.AppEditManager;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import fan.recyclerview.card.CardGroupAdapter;
 
-public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
-    implements IEditCallback {
+public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
     private final String TAG = "AppDataAdapter";
 
     private final String mKey;
     private final int mMode;
+    private final AppEditManager mEditManager;
 
-    private Set<String> selectedApps;
-    private List<AppData> mAppDataList;
-    private List<AppData> mAppInfoListNew;
-    public ArrayList<AppArrayList> appLists = new ArrayList<>();
-
+    private List<AppData> mAppDataList; // 单一数据源
     private OnItemClickListener mOnItemClickListener;
 
     public AppDataAdapter(List<AppData> appInfoList, String key, int mode) {
         mKey = key;
         mMode = mode;
+        mEditManager = (key != null) ? new AppEditManager(key) : null;
         mAppDataList = new ArrayList<>(appInfoList);
-        mAppInfoListNew = new ArrayList<>(appInfoList);
-        getShared();
-    }
-
-    @Override
-    public void setHasStableIds() {
-
     }
 
     @NonNull
@@ -68,37 +50,95 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
     }
 
     @Override
+    public void setHasStableIds() {
+
+    }
+
+    @Override
     public int getItemViewGroup(int position) {
         return 0;
     }
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        AppData appInfo = mAppInfoListNew.get(position);
+        if (position < 0 || position >= mAppDataList.size()) return;
+
+        AppData appInfo = mAppDataList.get(position);
         holder.bind(appInfo, position);
     }
 
     @Override
     public int getItemCount() {
-        return mAppInfoListNew.size();
+        return mAppDataList.size();
     }
 
     /**
-     * Update list data for search function.
-     *
-     * @param data Filtered application list data.
+     * 设置数据并刷新
      */
-    public void updateData(List<AppData> data) {
-        mAppInfoListNew.clear();
-        mAppInfoListNew.addAll(data);
+    public void setData(List<AppData> data) {
+        if (data == null) {
+            mAppDataList.clear();
+        } else {
+            mAppDataList.clear();
+            mAppDataList.addAll(data);
+        }
         notifyDataSetChanged();
     }
 
     /**
-     * Reset the list data to the original data to clear the search results.
+     * 获取当前数据
      */
-    public void resetData() {
-        updateData(mAppDataList);
+    public List<AppData> getData() {
+        return new ArrayList<>(mAppDataList);
+    }
+
+    /**
+     * 刷新选中状态
+     */
+    public void refreshSelections() {
+        if (mKey == null) return;
+
+        Set<String> selectedApps = new LinkedHashSet<>(
+            PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+
+        // 更新所有项目的选中状态
+        for (AppData appData : mAppDataList) {
+            appData.isSelected = selectedApps.contains(appData.packageName);
+        }
+
+        notifyDataSetChanged();
+    }
+
+    /**
+     * 切换指定位置的选中状态
+     */
+    public void toggleSelection(int position) {
+        if (position < 0 || position >= mAppDataList.size() || mKey == null) {
+            return;
+        }
+
+        AppData appData = mAppDataList.get(position);
+        appData.isSelected = !appData.isSelected;
+
+        // 更新 SharedPreferences
+        Set<String> selectedApps = new LinkedHashSet<>(
+            PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+
+        if (appData.isSelected) {
+            selectedApps.add(appData.packageName);
+        } else {
+            selectedApps.remove(appData.packageName);
+        }
+
+        PrefsUtils.mSharedPreferences.edit().putStringSet(mKey, selectedApps).apply();
+
+        notifyItemChanged(position);
+    }
+
+    public void editCallback(String label, String packageName, String edit) {
+        if (mEditManager != null) {
+            mEditManager.editCallback(label, packageName, edit);
+        }
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -111,193 +151,95 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder>
 
     public class AppViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView appIcon;
-        private TextView appName;
-        private TextView appEdit;
-        private CheckBox mSelecte;
-        private View mItemView;
+        private final ImageView mAppIcon;
+        private final TextView mAppName;
+        private final TextView mAppEdit;
+        private final CheckBox mSelectCheckbox;
+        private final View mItemView;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
             mItemView = itemView;
-            appIcon = itemView.findViewById(android.R.id.icon);
-            appName = itemView.findViewById(android.R.id.title);
-            appEdit = itemView.findViewById(android.R.id.summary);
-            mSelecte = itemView.findViewById(android.R.id.checkbox);
+            mAppIcon = itemView.findViewById(android.R.id.icon);
+            mAppName = itemView.findViewById(android.R.id.title);
+            mAppEdit = itemView.findViewById(android.R.id.summary);
+            mSelectCheckbox = itemView.findViewById(android.R.id.checkbox);
         }
 
         public void bind(AppData appInfo, int position) {
-            if (mMode == INPUT_MODE) {
-                String edit = getEdit(appInfo.packageName);
-                if (!edit.isEmpty()) {
-                    appName.setText(edit);
-                } else {
-                    appName.setText(appInfo.label);
-                }
+            if (appInfo == null) return;
+
+            updateAppName(appInfo);
+            updateAppIcon(appInfo);
+            updateCheckboxVisibility(appInfo);
+            setupEditMode(appInfo);
+
+            setupClickListeners();
+        }
+
+        private void updateAppName(AppData appInfo) {
+            if (mMode == SubPickerActivity.INPUT_MODE && mEditManager != null) {
+                String editText = mEditManager.getEdit(appInfo.packageName);
+                mAppName.setText(!editText.isEmpty() ? editText : appInfo.label);
             } else {
-                appName.setText(appInfo.label);
+                mAppName.setText(appInfo.label);
             }
+        }
 
-            appIcon.setImageDrawable(appInfo.icon);
-
-            // appEdit.setText(appInfo.packageName);
-            mSelecte.setChecked(shouldSelect(appInfo.packageName));
-            mSelecte.setVisibility(mMode == LAUNCHER_MODE ||
-                mMode == APP_OPEN_MODE ||
-                mMode == PROCESS_TEXT_MODE ?
-                View.VISIBLE : View.GONE);
-
-            // Log.e(TAG, "getView: " + appInfo.label, null);
-            if (mMode == INPUT_MODE) {
-                addApp(appInfo, appName);
+        private void updateAppIcon(AppData appInfo) {
+            if (appInfo.icon != null) {
+                mAppIcon.setImageDrawable(appInfo.icon);
+            } else {
+                mAppIcon.setImageResource(android.R.drawable.sym_def_app_icon);
             }
+        }
 
+        private void updateCheckboxVisibility(AppData appInfo) {
+            boolean shouldShowCheckbox = (mMode == SubPickerActivity.LAUNCHER_MODE ||
+                mMode == SubPickerActivity.APP_OPEN_MODE ||
+                mMode == SubPickerActivity.PROCESS_TEXT_MODE);
+
+            mSelectCheckbox.setVisibility(shouldShowCheckbox ? View.VISIBLE : View.GONE);
+
+            if (shouldShowCheckbox) {
+                mSelectCheckbox.setChecked(appInfo.isSelected);
+            }
+        }
+
+        private void setupEditMode(AppData appInfo) {
+            if (mMode == SubPickerActivity.INPUT_MODE && mEditManager != null) {
+                mEditManager.addOrUpdateApp(appInfo, mAppName);
+            }
+        }
+
+        private void setupClickListeners() {
+            // Item 点击监听
             mItemView.setOnClickListener(v -> {
-                if (position != RecyclerView.NO_POSITION) {
-                    mOnItemClickListener.onItemClick(v, mAppInfoListNew.get(position), position);
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && position < mAppDataList.size()) {
+                    AppData appData = mAppDataList.get(position);
+
+                    if (mMode == SubPickerActivity.LAUNCHER_MODE ||
+                        mMode == SubPickerActivity.APP_OPEN_MODE ||
+                        mMode == SubPickerActivity.PROCESS_TEXT_MODE) {
+                        // 对于选择模式，点击item也切换选中状态
+                        toggleSelection(position);
+                    } else {
+                        // 其他模式调用原来的点击逻辑
+                        if (mOnItemClickListener != null) {
+                            mOnItemClickListener.onItemClick(v, appData, position);
+                        }
+                    }
                 }
             });
-        }
-    }
 
-    // 以下方法保持不变，从原来的 AppDataAdapter 复制过来
-    public String getEdit(String packageName) {
-        String string1 = "";
-        String string2 = "";
-        Pattern pattern = Pattern.compile(".*฿(.*)฿.*");
-        for (String edit : selectedApps) {
-            if (edit.contains(packageName + "฿")) {
-                Matcher matcher = pattern.matcher(edit);
-                if (matcher.find()) {
-                    string2 = matcher.group(1);
+            // Checkbox 点击监听 - 防止事件冒泡
+            mSelectCheckbox.setOnClickListener(v -> {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    toggleSelection(position);
                 }
-            }
-        }
-        if (string2 != null && !string2.isEmpty()) {
-            for (int i = 0; i < appLists.size(); i++) {
-                AppArrayList arrayList = appLists.get(i);
-                if (arrayList.mPackageName.equals(packageName)) {
-                    arrayList.mEdit = string2;
-                }
-            }
-        }
-        return string2;
-    }
-
-    public void addApp(AppData appData, TextView appName) {
-        boolean appExists = false;
-        if (appLists.isEmpty()) {
-            appLists.add(new AppArrayList(appData.packageName, null, appName));
-        } else {
-            for (int i = 0; i < appLists.size(); i++) {
-                AppArrayList appList = appLists.get(i);
-                if (appList.mPackageName.equals(appData.packageName)) {
-                    if (!appList.mAppName.equals(appName)) {
-                        appList.mAppName = appName;
-                    }
-                    appExists = true;
-                    break;
-                }
-            }
-            if (!appExists) {
-                appLists.add(new AppArrayList(appData.packageName, null, appName));
-            }
-        }
-    }
-
-    public boolean shouldSelect(String pkgName) {
-        return (selectedApps.contains(pkgName));
-    }
-
-    @Override
-    public void editCallback(String label, String packageName, String edit) {
-        boolean appExists = false;
-        String mLastEdit = null;
-        String isOriginal = null;
-        for (int i = 0; i < appLists.size(); i++) {
-            AppArrayList arrayList = appLists.get(i);
-            if (arrayList.mPackageName.equals(packageName)) {
-                if (arrayList.mEdit != null) {
-                    mLastEdit = arrayList.mEdit;
-                }
-                if (edit.equals(label)) {
-                    isOriginal = packageName;
-                    arrayList.mEdit = null;
-                } else {
-                    arrayList.mEdit = edit;
-                }
-                arrayList.mAppName.setText(edit);
-                appExists = true;
-                break;
-            }
-        }
-        if (appExists) {
-            if (mLastEdit != null) {
-                deleteEdit(packageName, mLastEdit);
-            }
-            if (isOriginal != null) {
-                deleteEdit(packageName, isOriginal);
-                return;
-            }
-            getShared();
-            String randomString = generateRandomString(5);
-            selectedApps.add(packageName + "฿" + edit + "฿" + randomString);
-            putShared();
-        }
-    }
-
-    public void getShared() {
-        selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
-    }
-
-    public void putShared() {
-        PrefsUtils.mSharedPreferences.edit().putStringSet(mKey, selectedApps).apply();
-    }
-
-    public void deleteAll() {
-        Collection<String> deleteAll = new ArrayList<>(selectedApps);
-        if (!deleteAll.isEmpty()) {
-            deleteAll.forEach(selectedApps::remove);
-            putShared();
-        }
-    }
-
-    public void deleteEdit(String packageName, String lastEdit) {
-        Collection<String> deleteAll = new ArrayList<>();
-        for (String delete : selectedApps) {
-            if (delete.contains(packageName)) {
-                if (delete.contains(lastEdit)) {
-                    deleteAll.add(delete);
-                }
-            }
-        }
-        if (!deleteAll.isEmpty()) {
-            deleteAll.forEach(selectedApps::remove);
-            putShared();
-        }
-    }
-
-    private String generateRandomString(int length) {
-        String possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        StringBuilder randomStringBuilder = new StringBuilder(length);
-        Random random = new Random();
-        for (int i = 0; i < length; i++) {
-            int randomIndex = random.nextInt(possibleCharacters.length());
-            char randomChar = possibleCharacters.charAt(randomIndex);
-            randomStringBuilder.append(randomChar);
-        }
-        return randomStringBuilder.toString();
-    }
-
-    public static class AppArrayList {
-        public String mPackageName;
-        public String mEdit;
-        public TextView mAppName;
-
-        public AppArrayList(String packageName, String edit, TextView appName) {
-            mPackageName = packageName;
-            mEdit = edit;
-            mAppName = appName;
+            });
         }
     }
 }

@@ -19,23 +19,21 @@
 package com.sevtinge.hyperceiler.sub;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,7 +41,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.sevtinge.hyperceiler.common.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.common.model.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.common.model.data.AppData;
-import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.common.model.data.AppDataManager;
 import com.sevtinge.hyperceiler.common.callback.SearchCallback;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.utils.BitmapUtils;
@@ -51,7 +49,8 @@ import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -68,263 +67,295 @@ public class SubPickerActivity extends AppCompatActivity
     implements IAppSelectCallback, SearchView.OnQueryTextListener,
     SearchCallback.OnSearchListener {
 
-    private final String TAG = "AppPicker";
-    private String key = null;
-    private int modeSelection;
-
-    private View mSearchBar;
-    private TextView mSearchInputView;
-    private ProgressBar mAmProgress;
-
-    private NestedHeaderLayout mNestedHeader;
-
-    private RecyclerView mAppListRv;
-    private AppDataAdapter mAppListAdapter;
-    private Handler mHandler = new Handler();
-    private Set<String> selectedApps;
-    private List<AppData> appDataList = new ArrayList<>();
-    private final HashMap<String, Integer> hashMap = new HashMap<>();
-    private SearchCallback mSearchCallBack;
-
+    private static final String TAG = "AppPicker";
     public static final int APP_OPEN_MODE = 0;
-
     public static final int LAUNCHER_MODE = 1;
     public static final int CALLBACK_MODE = 2;
     public static final int INPUT_MODE = 3;
     public static final int PROCESS_TEXT_MODE = 4;
 
+    private static final int DELAY_LOAD_DATA = 120;
+
+    private String mKey;
+    private int mModeSelection;
+
+    private View mSearchBar;
+    private TextView mSearchInputView;
+    private ProgressBar mProgressBar;
+    private NestedHeaderLayout mNestedHeaderLayout;
+    private RecyclerView mAppListRecyclerView;
+    private AppDataAdapter mAppListAdapter;
+    private Handler mHandler = new Handler();
+    private SearchCallback mSearchCallback;
+
+    private final AppDataManager mAppDataManager = new AppDataManager();
+    private List<AppData> mOriginalAppDataList = new ArrayList<>(); // 原始数据备份
+    private List<AppData> mCurrentAppDataList = new ArrayList<>();  // 当前显示数据
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_app_picker);
+        setContentView(R.layout.activity_app_picker);
         setExtraHorizontalPaddingEnable(true);
+
+        extractIntentData();
+        initializeViews();
+        initializeData();
+    }
+
+    private void extractIntentData() {
         Bundle args = getIntent().getExtras();
-        assert args != null;
-        modeSelection = args.getInt("mode");
-        switch (modeSelection) {
-            case APP_OPEN_MODE, LAUNCHER_MODE, INPUT_MODE, PROCESS_TEXT_MODE ->
-                key = args.getString("key");
-            default -> {}
+        if (args == null) {
+            finish();
+            return;
         }
-        initView();
-        initData();
+
+        mModeSelection = args.getInt("mode", -1);
+        if (isKeyRequiredMode(mModeSelection)) {
+            mKey = args.getString("key");
+            if (mKey == null) {
+                Log.e(TAG, "Key is null for mode: " + mModeSelection);
+                finish();
+            }
+        }
+    }
+
+    private boolean isKeyRequiredMode(int mode) {
+        return mode == APP_OPEN_MODE || mode == LAUNCHER_MODE ||
+            mode == INPUT_MODE || mode == PROCESS_TEXT_MODE;
+    }
+
+    private void initializeViews() {
+        initializeProgressBar();
+        initializeSearchBar();
+        initializeRecyclerView();
+        setupSearchCallback();
+    }
+
+    private void initializeProgressBar() {
+        mProgressBar = findViewById(R.id.am_progressBar);
+    }
+
+    private void initializeSearchBar() {
+        mSearchBar = findViewById(R.id.search_bar);
+        mSearchInputView = mSearchBar.findViewById(android.R.id.input);
+        mSearchInputView.setHint("搜索应用");
+        mSearchBar.setClickable(false);
+    }
+
+    private void initializeRecyclerView() {
+        mNestedHeaderLayout = findViewById(R.id.nested_header_layout);
+        mAppListRecyclerView = findViewById(R.id.app_list_rv);
+        mAppListRecyclerView.setVisibility(View.GONE);
+
+        mAppListAdapter = new AppDataAdapter(new ArrayList<>(), mKey, mModeSelection);
+        mAppListRecyclerView.setAdapter(mAppListAdapter);
+        mAppListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAppListRecyclerView.addItemDecoration(new CardItemDecoration(this));
+        mAppListRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
+
+        setupItemClickListener();
+    }
+
+    private void setupSearchCallback() {
+        mSearchCallback = new SearchCallback(this, this);
+        mSearchCallback.setup(mSearchBar, mNestedHeaderLayout.getScrollableView());
+        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallback, 0));
+    }
+
+    private void setupItemClickListener() {
+        mAppListAdapter.setOnItemClickListener((itemView, appData, position) -> {
+            handleAppItemClick(appData);
+        });
+    }
+
+    private void handleAppItemClick(AppData appData) {
+        switch (mModeSelection) {
+            case CALLBACK_MODE -> {
+                sendCallbackResult(appData);
+            }
+            case INPUT_MODE -> showEditDialog(appData);
+            // LAUNCHER_MODE, APP_OPEN_MODE, PROCESS_TEXT_MODE 已经在Adapter中处理
+        }
+    }
+
+    private void sendCallbackResult(AppData appData) {
+        sendMsgToActivity(
+            appData.icon,
+            appData.label,
+            appData.packageName,
+            appData.versionName + "(" + appData.versionCode + ")",
+            appData.activityName
+        );
+        finish();
+    }
+
+    private void showEditDialog(AppData data) {
+        try {
+            View view = LayoutInflater.from(this).inflate(R.layout.edit_dialog, null);
+            EditText input = view.findViewById(R.id.title);
+            input.setText(data.label);
+
+            new AlertDialog.Builder(this)
+                .setTitle(R.string.edit)
+                .setView(view)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    String userInput = input.getText().toString().trim();
+                    if (!userInput.isEmpty()) {
+                        mAppListAdapter.editCallback(data.label, data.packageName, userInput);
+                        data.label = userInput;
+                    }
+                    dialog.dismiss();
+                })
+                .setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setOnCancelListener(dialog -> dialog.dismiss())
+                .show();
+        } catch (Exception e) {
+            Log.e(TAG, "Error showing edit dialog", e);
+        }
+    }
+
+    private void initializeData() {
+        mProgressBar.setVisibility(View.VISIBLE);
+
+        new Thread(() -> {
+            try {
+                // 模拟加载延迟
+                Thread.sleep(DELAY_LOAD_DATA);
+                mHandler.post(this::loadAppData);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                Log.e(TAG, "Data loading interrupted", e);
+            }
+        }).start();
+    }
+
+    private void loadAppData() {
+        try {
+            List<AppData> loadedData = mAppDataManager.getAppInfo(mModeSelection);
+            processAndDisplayAppData(loadedData);
+        } catch (Exception e) {
+            runOnUiThread(() -> {
+                mProgressBar.setVisibility(View.GONE);
+                Toast.makeText(this, "加载应用列表失败", Toast.LENGTH_SHORT).show();
+            });
+        }
+    }
+
+    private void processAndDisplayAppData(List<AppData> loadedData) {
+        // 处理数据：排序、移动特定应用到顶部等
+        List<AppData> processedData = processAppData(loadedData);
+
+        // 更新原始数据和当前数据
+        mOriginalAppDataList.clear();
+        mOriginalAppDataList.addAll(processedData);
+
+        mCurrentAppDataList.clear();
+        mCurrentAppDataList.addAll(processedData);
+
+        runOnUiThread(() -> {
+            mAppListAdapter.setData(mCurrentAppDataList);
+            mProgressBar.setVisibility(View.GONE);
+            mSearchBar.setClickable(true);
+            mAppListRecyclerView.setVisibility(View.VISIBLE);
+        });
+    }
+
+    private List<AppData> processAppData(List<AppData> data) {
+        if (data == null || data.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        // 1. 排序
+        Collator collator = Collator.getInstance(Locale.getDefault());
+        Collections.sort(data, (app1, app2) -> collator.compare(app1.label, app2.label));
+
+        // 2. 移动特定应用到顶部
+        AppData tagApp = null;
+        Iterator<AppData> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            AppData app = iterator.next();
+            if ("com.android.apps.tag".equals(app.packageName)) {
+                tagApp = app;
+                iterator.remove();
+                break;
+            }
+        }
+        if (tagApp != null) {
+            data.add(0, tagApp);
+        }
+
+        // 3. 移动选中的应用到顶部
+        if (mKey != null) {
+            Set<String> selectedApps = new LinkedHashSet<>(
+                PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+
+            List<AppData> selectedAppList = new ArrayList<>();
+            iterator = data.iterator();
+
+            while (iterator.hasNext()) {
+                AppData appData = iterator.next();
+                if (selectedApps.contains(appData.packageName)) {
+                    appData.isSelected = true;
+                    selectedAppList.add(appData);
+                    iterator.remove();
+                }
+            }
+
+            data.addAll(0, selectedAppList);
+        }
+
+        return data;
     }
 
     @Override
     public void onContentInsetChanged(Rect rect) {
         super.onContentInsetChanged(rect);
-        if (mAppListRv != null) {
-            mAppListRv.setPadding(
-                mAppListRv.getPaddingLeft(),
-                mAppListRv.getPaddingTop(),
-                mAppListRv.getPaddingRight(),
+        if (mAppListRecyclerView != null) {
+            mAppListRecyclerView.setPadding(
+                mAppListRecyclerView.getPaddingLeft(),
+                mAppListRecyclerView.getPaddingTop(),
+                mAppListRecyclerView.getPaddingRight(),
                 rect.bottom
             );
         }
     }
 
-    private void initView() {
-
-        mAmProgress = findViewById(R.id.am_progressBar);
-
-        mSearchBar = findViewById(R.id.search_bar);
-        mSearchInputView = mSearchBar.findViewById(android.R.id.input);
-        mSearchInputView.setHint("搜索应用");
-
-        mNestedHeader = findViewById(R.id.nested_header_layout);
-        mNestedHeader.setHeaderViewVisible(false);
-        registerCoordinateScrollView(mNestedHeader);
-
-        mAppListRv = findViewById(R.id.app_list_rv);
-        mSearchBar.setClickable(false);
-        mAppListRv.setVisibility(View.GONE);
-
-        mSearchCallBack = new SearchCallback(this, this);
-        mSearchCallBack.setup(mSearchBar, mNestedHeader.getScrollableView());
-        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallBack, 0));
-
-        mAppListAdapter = new AppDataAdapter(appDataList, key, modeSelection);
-        mAppListRv.setAdapter(mAppListAdapter);
-        mAppListRv.setLayoutManager(new LinearLayoutManager(this));
-        mAppListRv.addItemDecoration(new CardItemDecoration(this));
-        mAppListRv.setItemAnimator(new CardDefaultItemAnimator());
-
-        mAppListAdapter.setOnItemClickListener((itemView, appData, position) -> {
-            // Log.e(TAG, "onItemClick: " + appData.packageName, null);
-            switch (modeSelection) {
-                case CALLBACK_MODE -> {
-                    sendMsgToActivity(appData.icon,
-                        appData.label,
-                        appData.packageName,
-                        appData.versionName + "(" + appData.versionCode + ")",
-                        appData.activityName);
-                    finish();
-                }
-                case LAUNCHER_MODE, APP_OPEN_MODE, PROCESS_TEXT_MODE -> {
-                    CheckBox checkBox = itemView.findViewById(android.R.id.checkbox);
-                    selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
-                    if (checkBox.isChecked()) {
-                        checkBox.setChecked(false);
-                        selectedApps.remove(appData.packageName);
-                    } else {
-                        checkBox.setChecked(true);
-                        selectedApps.add(appData.packageName);
-                    }
-                    PrefsUtils.mSharedPreferences.edit().putStringSet(key, selectedApps).apply();
-                }
-                case INPUT_MODE -> showEditDialog(appData);
-            }
-        });
-    }
-
-    private void showEditDialog(AppData data) {
-        View view = LayoutInflater.from(this).inflate(R.layout.edit_dialog, null);
-        EditText input = view.findViewById(R.id.title);
-        input.setText(data.label);
-
-        new AlertDialog.Builder(this)
-            .setTitle(R.string.edit)
-            .setView(view)
-            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
-                String userInput = input.getText().toString();
-                mAppListAdapter.editCallback(data.label, data.packageName, userInput);
-                data.label = userInput;
-                dialog.dismiss();
-            })
-            .setNegativeButton(android.R.string.cancel, (dialog, which) -> {
-                dialog.dismiss();
-            })
-            .show();
-    }
-
-    private void initData() {
-        new Thread(() -> mHandler.postDelayed(() -> {
-            notifyAppDataList();
-
-            mAppListAdapter.updateData(appDataList);
-
-            mAmProgress.setVisibility(View.GONE);
-            mSearchBar.setClickable(true);
-            mAppListRv.setVisibility(View.VISIBLE);
-        }, 120)).start();
-    }
-
-    public void notifyAppDataList() {
-        appDataList = getAppInfo();
-
-        Collator collator = Collator.getInstance(Locale.getDefault());
-        appDataList.sort((app1, app2) -> collator.compare(app1.label, app2.label));
-
-        AppData tagApp = null;
-        for (AppData app : appDataList) {
-            if ("com.android.apps.tag".equals(app.packageName)) {
-                tagApp = app;
-                break;
-            }
-        }
-        if (tagApp != null) {
-            appDataList.remove(tagApp);
-            appDataList.add(0, tagApp);
-        }
-
-        selectedApps = new LinkedHashSet<>(PrefsUtils.mSharedPreferences.getStringSet(key, new LinkedHashSet<>()));
-        List<AppData> selectedAppList = new ArrayList<>();
-        for (String packageName : selectedApps) {
-            for (AppData appData : appDataList) {
-                if (packageName.equals(appData.packageName)) {
-                    selectedAppList.add(appData);
-                    appDataList.remove(appData);
-                    break;
-                }
-            }
-        }
-        appDataList.addAll(0, selectedAppList);
-    }
-
-    public List<AppData> getAppInfo() {
-        return switch (modeSelection) {
-            case LAUNCHER_MODE, CALLBACK_MODE, INPUT_MODE ->
-                PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
-                    @Override
-                    public List<Parcelable> getPackageCodeList(PackageManager pm) {
-
-                        Intent intent = new Intent(Intent.ACTION_MAIN);
-                        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-                        List<ResolveInfo> resolveInfoList = new ArrayList<>();
-                        List<ResolveInfo> resolveInfos = pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
-                        List<ResolveInfo> resolveInfosHaveNoLauncher = pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN), PackageManager.GET_ACTIVITIES);
-
-                        hashMap.clear();
-                        for (ResolveInfo resolveInfo : resolveInfosHaveNoLauncher) {
-                            Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
-                            if (added == null || added != 1) {
-                                hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
-                            } else {
-                                continue;
-                            }
-                            resolveInfoList.add(resolveInfo);
-                        }
-
-                        Collator collator = Collator.getInstance(Locale.getDefault());
-                        resolveInfoList.sort((r1, r2) -> {
-                            CharSequence label1 = r1.loadLabel(pm);
-                            CharSequence label2 = r2.loadLabel(pm);
-                            return collator.compare(label1.toString(), label2.toString());
-                        });
-
-                        return new ArrayList<>(resolveInfoList);
-                    }
-                });
-            case APP_OPEN_MODE -> PackagesUtils.getOpenWithApps();
-            case PROCESS_TEXT_MODE ->
-                PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
-                    @Override
-                    public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                        Intent intent = new Intent()
-                            .setAction(Intent.ACTION_PROCESS_TEXT)
-                            .setType("text/plain");
-                        intent.putExtra("HyperCeiler", true);
-                        List<ResolveInfo> resolveInfos =
-                            pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES);
-                        List<ResolveInfo> resolveInfoList = new ArrayList<>();
-                        hashMap.clear();
-                        for (ResolveInfo resolveInfo : resolveInfos) {
-                            Integer added = hashMap.get(resolveInfo.activityInfo.applicationInfo.packageName);
-                            if (added == null || added != 1) {
-                                hashMap.put(resolveInfo.activityInfo.applicationInfo.packageName, 1);
-                            } else {
-                                continue;
-                            }
-                            resolveInfoList.add(resolveInfo);
-                        }
-                        return new ArrayList<>(resolveInfoList);
-                    }
-                });
-            default -> new ArrayList<>();
-        };
-    }
-
     private void filterAppList(String keyword) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            // 搜索为空，恢复原始数据
+            mCurrentAppDataList.clear();
+            mCurrentAppDataList.addAll(mOriginalAppDataList);
+            mAppListAdapter.setData(mCurrentAppDataList);
+            return;
+        }
+
+        // 从原始数据中过滤
         List<AppData> filteredList = new ArrayList<>();
-        for (AppData appData : appDataList) {
-            if (appData.label.toLowerCase().contains(keyword.toLowerCase())) {
+        String searchTerm = keyword.toLowerCase().trim();
+
+        for (AppData appData : mOriginalAppDataList) {
+            if (appData.label != null && appData.label.toLowerCase().contains(searchTerm)) {
                 filteredList.add(appData);
             }
         }
-        mAppListAdapter.updateData(filteredList);
-    }
 
+        // 更新当前显示数据
+        mCurrentAppDataList.clear();
+        mCurrentAppDataList.addAll(filteredList);
+        mAppListAdapter.setData(mCurrentAppDataList);
+
+        Log.d(TAG, "filterAppList: filtered " + filteredList.size() + " items for: " + searchTerm);
+    }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        mAppListAdapter.resetData();
         filterAppList(newText);
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        mAppListAdapter.resetData();
         filterAppList(query);
         return true;
     }
@@ -337,9 +368,9 @@ public class SubPickerActivity extends AppCompatActivity
     @Override
     public void onSearchModeAnimStart(boolean enabled) {
         if (enabled) {
-            mNestedHeader.setInSearchMode(true);
+            mNestedHeaderLayout.setInSearchMode(true);
         } else {
-            mAppListRv.stopScroll();
+            mAppListRecyclerView.stopScroll();
         }
     }
 
@@ -351,14 +382,18 @@ public class SubPickerActivity extends AppCompatActivity
     @Override
     public void onSearchModeAnimStop(boolean enabled) {
         if (!enabled) {
-            mNestedHeader.setInSearchMode(false);
-            mAppListRv.scrollToPosition(0);
+            mNestedHeaderLayout.setInSearchMode(false);
+            mAppListRecyclerView.scrollToPosition(0);
         }
     }
 
     @Override
     public void onDestroySearchMode(ActionMode actionMode) {
-        mAppListAdapter.resetData();
+        // 取消搜索时恢复原始数据
+        mCurrentAppDataList.clear();
+        mCurrentAppDataList.addAll(mOriginalAppDataList);
+        mAppListAdapter.setData(mCurrentAppDataList);
+        mAppListRecyclerView.scrollToPosition(0);
     }
 
     @Override
@@ -376,11 +411,5 @@ public class SubPickerActivity extends AppCompatActivity
     @Override
     public String getMsgFromActivity(String s) {
         return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unregisterCoordinateScrollView(mNestedHeader);
     }
 }
