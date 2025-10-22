@@ -891,7 +891,7 @@
     <string name="system_usb_tethering">USB テザリング</string>
     <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
-    <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
+    <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとして Mi Wallet を選択できません</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Xiaomi HyperAI をアンロック</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">Xiaomi HyperAI オプションは有効にした後設定に表示されます。デバイスの AI 機能のサポートは Xiaomi によって決定されます。</string>
     <string name="system_settings_lab_title">注目の機能</string>
@@ -926,7 +926,7 @@
     <string name="theme_manager_diable_ads">広告を無効化</string>
     <string name="theme_manager_diable_ads_desc">「あなたも好きかもしれません」広告を空白のカードに置き換えて、残りの広告を完全に削除します。</string>
     <string name="theme_manager_allow_download_more">ログインせずにダウンロードできるようにする</string>
-    <string name="theme_manager_allow_download_more_desc">ログインせずに10個以上のアイテムをダウンロードできるようにします</string>
+    <string name="theme_manager_allow_download_more_desc">ログインせずに 10 個以上のアイテムをダウンロードできるようにします</string>
     <!--remotecontroller-->
     <string name="remotecontroller">リモートコントローラー</string>
     <string name="remotecontroller_disable_ad">広告を無効化</string>
@@ -1128,7 +1128,7 @@
     <string name="home_drawer_editor_desc">ドロワーのアプリタブから「編集」ボタンを削除します</string>
     <string name="home_drawer_blur">ドロワーのぼかしを有効化</string>
     <string name="home_drawer_blur_super">ドロワーのファジープレミアムテクスチャ</string>
-    <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を100%に設定してください</string>
+    <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を 100% に設定してください</string>
     <string name="home_drawer_pinyin">ピンイン順に整列</string>
     <string name="home_drawer_pinyin_more">言語が簡体字中国語でない場合でも、ドロワーのアプリをピンイン順で整列します。</string>
     <string name="home_title">アイコンとタイトル</string>
