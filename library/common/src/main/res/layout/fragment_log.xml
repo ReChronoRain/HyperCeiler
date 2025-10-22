@@ -1,67 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fan.nestedheader.widget.NestedHeaderLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:headerView="@id/search_bar"
+    app:scrollableView="@id/scrollable_view_group"
+    app:stickyView="@id/sticky_view">
 
-    <!-- 搜索行 -->
-    <include layout="@layout/search_stub" />
-
-    <fan.cardview.HyperCardView
-        style="@style/HyperCardView.DayNight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginBottom="10dp">
-
-        <!-- 过滤工具栏 -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- 级别过滤器 -->
-            <com.fan.common.widget.SpinnerItemView
-                android:id="@+id/spinnerLevel"
-                android:title="级别:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <!-- 模块过滤器 -->
-            <com.fan.common.widget.SpinnerItemView
-                android:id="@+id/spinnerModule"
-                android:title="标签:"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-    </fan.cardview.HyperCardView>
-
-    <!-- 过滤统计 -->
-    <TextView
-        android:id="@+id/textFilterStats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="显示: 0/0"
-        android:textColor="?preferenceCategoryTextColor"
-        android:textStyle="bold"
-        android:textSize="@dimen/miuix_preference_category_text_size"
-        android:paddingVertical="@dimen/miuix_preference_category_padding_vertical"
-        android:paddingHorizontal="@dimen/miuix_theme_content_total_padding_horizontal"/>
-
-    <!-- 日志列表 -->
     <fan.springback.view.SpringBackLayout
+        android:id="@+id/scrollable_view_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:scrollableView="@id/recyclerView">
 
+        <!-- 日志列表 -->
         <fan.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false" />
 
     </fan.springback.view.SpringBackLayout>
 
-</LinearLayout>
+    <!-- 搜索行 -->
+    <include
+        android:id="@+id/search_bar"
+        layout="@layout/search_stub" />
+
+    <LinearLayout
+        android:id="@id/sticky_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <fan.cardview.HyperCardView
+            style="@style/HyperCardView.DayNight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="10dp">
+
+            <!-- 过滤工具栏 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- 级别过滤器 -->
+                <com.fan.common.widget.SpinnerItemView
+                    android:id="@+id/spinnerLevel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:title="级别:" />
+
+                <!-- 模块过滤器 -->
+                <com.fan.common.widget.SpinnerItemView
+                    android:id="@+id/spinnerModule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:title="标签:" />
+
+            </LinearLayout>
+
+        </fan.cardview.HyperCardView>
+
+        <!-- 过滤统计 -->
+        <TextView
+            android:id="@+id/textFilterStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/miuix_theme_content_total_padding_horizontal"
+            android:paddingVertical="@dimen/miuix_preference_category_padding_vertical"
+            android:text="显示: 0/0"
+            android:textColor="?preferenceCategoryTextColor"
+            android:textSize="@dimen/miuix_preference_category_text_size"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</fan.nestedheader.widget.NestedHeaderLayout>

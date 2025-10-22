@@ -1,23 +1,21 @@
 package com.fan.common.logviewer;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.fan.common.R;
 import com.fan.common.widget.SearchEditText;
@@ -25,16 +23,9 @@ import com.fan.common.widget.SpinnerItemView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
-import fan.androidbase.widget.ClearableEditText;
-import fan.animation.Folme;
-import fan.animation.ITouchStyle;
-import fan.animation.base.AnimConfig;
-import fan.appcompat.widget.Spinner;
 import fan.recyclerview.card.CardDefaultItemAnimator;
 import fan.recyclerview.card.CardItemDecoration;
-import fan.recyclerview.widget.RecyclerView;
 
 public class CustomLogFragment extends Fragment implements LogAdapter.OnFilterChangeListener {
 
