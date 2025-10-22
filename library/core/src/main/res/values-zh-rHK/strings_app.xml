@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">用於xxx</string>
     <string name="new_permission_location_desc">用於提供經緯度等服務</string>
@@ -1615,4 +1614,5 @@
     <string name="custom_hook_mode">選擇模式</string>
     <string name="open_source">開源項目</string>
     <string name="close_source">閉源項目</string>
+    <string name="version_update">發現新版本</string>
 </resources>
