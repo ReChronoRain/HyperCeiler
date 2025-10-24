@@ -76,7 +76,7 @@ android {
         minSdk = 35
         targetSdk = 36
         versionCode = getVersionCode()
-        versionName = "2.6.162"
+        versionName = "2.6.163"
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
