@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">新しいバージョンがあります</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">デバイスの内部ストレージ上のファイルを追加および削除</string>
@@ -232,7 +231,7 @@
     <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">水平ジッタを防止します</string>
     <string name="system_ui_statusbar_indicator_bold">太字</string>
     <string name="unlock_ai">AI 機能のロックを解除</string>
-    <string name="unlock_ai_wallpaper">AI壁紙アクセスのロックを解除</string>
+    <string name="unlock_ai_wallpaper">AI 壁紙へのアクセスをアンロック</string>
     <!--Multi-list Array-->
     <string name="array_close">閉じる</string>
     <string name="array_hide">非表示</string>
@@ -330,8 +329,8 @@
     <string name="android_blur">AOSP のぼかし</string>
     <string name="system_ui_statusbar_network_speed_style_1">値と単位を1行で表示</string>
     <string name="system_ui_statusbar_network_speed_style_2">値と単位を2行で表示</string>
-    <string name="system_ui_statusbar_network_speed_style_3">アップリンクとダウンリンクのネットワーク速度を1行で表示</string>
-    <string name="system_ui_statusbar_network_speed_style_4">アップリンクとダウンリンクのネットワーク速度を2行で表示</string>
+    <string name="system_ui_statusbar_network_speed_style_3">アップリンクとダウンリンクのネットワーク速度を 1 行で表示</string>
+    <string name="system_ui_statusbar_network_speed_style_4">アップリンクとダウンリンクのネットワーク速度を 2 行で表示</string>
     <string name="system_ui_statusbar_clock_style_1">単一行のステータスバー時計</string>
     <string name="system_ui_statusbar_clock_style_2">上部にステータスバーの時計\n下部に通知シェードのミニ時計</string>
     <string name="system_ui_statusbar_clock_style_3">上部に通知シェードのミニ時計\n下部にステータスバーの時計</string>
@@ -365,18 +364,18 @@
     <string name="system_ui_display_cutout_title">画面のノッチ</string>
     <string name="system_ui_display_hide_cutout">画面のノッチを隠す</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP スクリーンショットを使用</string>
-    <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります</string>
-    <string name="phone_double_5g_nr">2枚の SIM で 5G を使用 (SA+NSA)</string>
+    <string name="system_ui_display_use_aosp_screenshot_desc">スクリーンショットアプリを AOSP スクリーンショットにリダイレクトします。HyperOS のスクリーンショットアプリはスクリーンショット操作に応答しなくなります。</string>
+    <string name="phone_double_5g_nr">2 枚の SIM で 5G を使用 (SA+NSA)</string>
     <string name="phone_double_5g_nr_desc">メインとセカンダリの SIM カードで同時に 5G を有効にします (セカンダリ SIM カードは NSA にのみ対応しています)</string>
-    <string name="phone_double_5g_sa">2枚の SIM で SA を使用 (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">実験的な機能です。セカンダリ SIM カードも SA 対応にします</string>
+    <string name="phone_double_5g_sa">2 枚の SIM で SA を使用 (SA+SA)</string>
+    <string name="phone_double_5g_sa_desc">実験的な機能です。セカンダリ SIM カードも SA 対応にします。</string>
     <string name="system_framework_phone_band_title">バンド設定</string>
     <string name="phone_n1">n1 バンド</string>
     <string name="phone_n1_desc">n1 バンド (NR) 対応を有効化します</string>
     <string name="phone_n28">n28 バンド</string>
     <string name="phone_n28_desc">n28 バンド (NR) 対応を有効化します</string>
     <string name="phone_n5_n8">n5/n8 バンド</string>
-    <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して N5/N8 バンドの対応を有効にします。「N5およびN8モードを有効にします」と表示されれば、アクティベートは成功です。</string>
+    <string name="phone_n5_n8_desc">電話アプリで *#*#65686633#*#* と入力して N5/N8 バンドの対応を有効にします。「N5 および N8 モードを有効にします」と表示されれば、アクティベートは成功です。</string>
     <string name="phone_flightmode_hotspot">機内モードでポータブルホットスポットを許可</string>
     <string name="phone_flightmode_hotspot_desc">機内モード中に Wi-Fi ポータブルホットスポットの有効化を許可します</string>
     <string name="phone_additional_network_settings">追加のネットワーク設定</string>
@@ -408,7 +407,7 @@
     <string name="system_other_flag_secure">スクリーンショットを許可</string>
     <string name="system_other_flag_secure_desc">あらゆるアプリでのスクリーンショットや画面録画を許可します</string>
     <string name="system_other_delete_on_post_notification">オーバーレイアプリの通知を無効化</string>
-    <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を削除</string>
+    <string name="system_other_delete_on_post_notification_desc">「他のアプリの上に表示されています」の通知を削除します</string>
     <string name="system_framework_share_menu_test">共有メニューをテスト</string>
     <string name="system_framework_open_with_menu_test">「アプリで開く」メニューのテスト</string>
     <string name="system_framework_other_speed_install">スピードインストール</string>
@@ -417,9 +416,9 @@
     <string name="system_framework_other_thermal_brightness">自動的な明るさ制限を無効化</string>
     <string name="system_framework_other_thermal_brightness_more">高温時でも明るさを減少させないようにします</string>
     <string name="system_framework_other_disable_cleaner">バックグラウンドアプリの強制終了を無効化</string>
-    <string name="system_framework_other_disable_cleaner_desc">実験的な機能です。メモリ使用が異常になる可能性があります</string>
-    <string name="system_framework_other_disable_thermal_desc">リフレッシュレートとぼかし効果の制限を無効にする</string>
-    <string name="system_framework_other_disable_thermal">Thermal を無効にする</string>
+    <string name="system_framework_other_disable_cleaner_desc">実験的な機能です。メモリ使用が異常になる可能性があります。</string>
+    <string name="system_framework_other_disable_thermal_desc">リフレッシュレートとぼかし効果の制限を無効にします</string>
+    <string name="system_framework_other_disable_thermal">温度制御を無効化</string>
     <string name="system_framework_enhance_recents_visibility_desc">システムによって非表示になっている「最近使ったアプリ」画面を再び表示する</string>
     <string name="system_framework_enhance_recents_visibility">最近のタスクを強化する</string>
     <string name="system_framework_other_disable_gesture_monitor">ジェスチャの監視を無効にする</string>
@@ -444,7 +443,7 @@
     <string name="system_framework_market_use_detailmini">GetApps を起動する際に常にフローティングウィンドウで開く</string>
     <string name="system_framework_market_use_detailmini_desc">appClientId を使用せずにアプリが GetApps 内の他のアプリの詳細ページにリダイレクトすることを妨げる制限を削除します。</string>
     <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正</string>
-    <string name="system_framework_bypass_force_downloadui_desc">Quick Share で「ダウンロードを表示」をクリックした時に誤ったリダイレクトが発生する問題を修正する</string>
+    <string name="system_framework_bypass_force_downloadui_desc">Quick Share で「ダウンロードを表示」をクリックした時に誤ったリダイレクトが発生する問題を修正します</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_tip">このリストの下の機能は、理解した後にのみ選択的に有効にする必要があります。いくつかのオプションは特定のリスクを伴います。ご注意ください。\nマスタースイッチを除き、通常のオプションはすぐに有効になります。拡張機能ではスイッチの状態にかかわらず再起動が必要です。</string>
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
@@ -471,9 +470,9 @@
     <string name="system_framework_use_android_package_installer">Android のパッケージインストーラーを使用する</string>
     <string name="system_framework_use_android_package_installer_desc">壊れたパッケージインストーラー API を復元します</string>
     <string name="system_framework_core_patch_bypass_isolation_violation">隔離違反をバイパス</string>
-    <string name="system_framework_core_patch_bypass_isolation_violation_desc">サードパーティーのアプリでシステムアプリのインストールを許可</string>
+    <string name="system_framework_core_patch_bypass_isolation_violation_desc">サードパーティーのアプリでシステムアプリのインストールを許可します</string>
     <string name="system_framework_core_patch_allow_update_system_app">システムアプリの更新を許可</string>
-    <string name="system_framework_core_patch_allow_update_system_app_desc">システムアプリの更新が無効化されている場合にシステムアプリのインストールを許可</string>
+    <string name="system_framework_core_patch_allow_update_system_app_desc">システムアプリの更新が無効になっている場合にシステムアプリのインストールを許可します</string>
     <string name="system_framework_core_patch_unloss_fingerprint">指紋のリセットを無効化</string>
     <string name="system_framework_core_patch_unloss_fingerprint_desc">特定のパッケージ管理サービスが有効になっている場合、再起動後に指紋がリセットされる問題の解決に役立つ可能性があります。この問題の影響を受けるデバイスのみを対象としています。</string>
     <!--Browser-->
@@ -500,7 +499,7 @@
     <string name="camera_custom_theme_color">テーマカラーをカスタマイズ</string>
     <string name="camera_custom_theme_color_picker">テーマカラーを選択</string>
     <string name="camera_cloud_watermark">クラウドから透かしを強制</string>
-    <string name="camera_cloud_watermark_desc">バージョン6.2以降でのみサポートされています。Xiaomi クラウドサーバーの影響を受ける可能性があります。</string>
+    <string name="camera_cloud_watermark_desc">バージョン 6.2 以降でのみサポートされています。Xiaomi Cloud サーバーの影響を受ける可能性があります。</string>
     <!--Calendar-->
     <string name="calendar">カレンダー</string>
     <string name="calendar_unlock_subscription">サブスクリプションをアンロック</string>
@@ -512,7 +511,7 @@
     <!--File Manager-->
     <string name="fileexplorer">ファイルマネージャー</string>
     <string name="file_explorer_can_selectable">フォルダ名の長押しで選択可能にする</string>
-    <string name="file_explorer_is_single_line">フォルダ名を1行で表示</string>
+    <string name="file_explorer_is_single_line">フォルダ名を 1 行で表示</string>
     <string name="file_explorer_unlock_file_parse">ファイル解析をアンロック</string>
     <!--Phone-->
     <string name="incallui">電話</string>
@@ -747,7 +746,7 @@
     <string name="system_ui_control_center_qs_color">アイコンの色</string>
     <string name="system_ui_control_center_qs_open_color">小さなタイルのカスタマイズを有効化</string>
     <string name="system_ui_control_center_qs_big_open_color">大きなタイルのカスタマイズを有効化</string>
-    <string name="system_ui_control_auto_close_more">ステータスバーのタイルをタップしたとき、自動的にステータスバーを閉じるようにします</string>
+    <string name="system_ui_control_auto_close_more">ステータスバーのタイルをタップしたとき、自動的にステータスバーを閉じるようにします。</string>
     <string name="system_control_center_qs_rows">行</string>
     <string name="system_control_center_qs_rows_format">%d 行</string>
     <string name="system_control_center_qs_rows_horizontal">行数 (横画面)</string>
@@ -838,7 +837,7 @@
     <string name="system_ui_unlock_clipboard_desc">アンロック後は HyperOS エディターと一緒にポップアップ表示されます。</string>
     <string name="system_ui_another_title">その他</string>
     <string name="system_ui_disable_miui_multi_win_switch">コンビニエンスウインドウボタンを非表示</string>
-    <string name="system_ui_disable_miui_multi_win_switch_desc">三つのドットとスモールウィンドウの上部、HyperOS for Pad 横画面時の上部中央にあるボタンを非表示にします。機能には影響しません</string>
+    <string name="system_ui_disable_miui_multi_win_switch_desc">三つのドットとスモールウィンドウの上部、HyperOS for Pad 横画面時の上部中央にあるボタンを非表示にします。機能には影響しません。</string>
     <string name="system_ui_remove_miui_multi_win_switch">コンビニエンスウィンドウボタンを無効化</string>
     <string name="system_ui_disable_infinitymode_gesture">無限ズームジェスチャーを無効化</string>
     <string name="system_ui_disable_infinitymode_gesture_sum">タブレットでのみ使用できます</string>
@@ -892,7 +891,7 @@
     <string name="system_usb_tethering">USB テザリング</string>
     <string name="system_settings_connection_sharing_title">ネットワーク接続と共有</string>
     <string name="system_settings_new_nfc_page">新しい NFC ページ</string>
-    <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとしてMiウォレットを選択できません</string>
+    <string name="system_settings_new_nfc_page_desc">これを有効にすると、サポートされていないモデルではデフォルトの支払いアプリとして Mi Wallet を選択できません</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance">Xiaomi HyperAI をアンロック</string>
     <string name="system_settings_unlock_xiaomihyperai_entrance_desc">Xiaomi HyperAI オプションは有効にした後設定に表示されます。デバイスの AI 機能のサポートは Xiaomi によって決定されます。</string>
     <string name="system_settings_lab_title">注目の機能</string>
@@ -904,11 +903,11 @@
     <string name="system_settings_more_notification_settings">その他の通知設定を表示</string>
     <string name="system_settings_restart_systemui_desc">変更を有効にするには、システム UI と設定のスコープを再起動する必要があります</string>
     <string name="system_settings_permission_show_app_up">アプリ一覧を検索せずに「他のアプリの上に重ねて表示」権限を表示</string>
-    <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します</string>
+    <string name="system_settings_permission_show_app_up_desc">「他のアプリの上に重ねて表示」の権限スイッチに直接移動する、古い動作を復元します。</string>
     <string name="system_settings_permission_accessibility">アプリ一覧を検索せずにユーザー補助サービスの権限を付与</string>
     <string name="system_settings_develop_title">開発者オプション</string>
     <string name="system_settings_apps_freezer">「キャッシュに保存されたアプリの実行を停止」を強制的に表示</string>
-    <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、動作するかは不明です</string>
+    <string name="system_settings_apps_freezer_more">有効にすると開発者向けオプションで表示されますが、必ずしも動作するとは限りません。</string>
     <string name="system_settings_develop_speed_mode">エクストリームモードをアンロック</string>
     <string name="system_settings_develop_max_fps">ピークリフレッシュレートの強制をアンロック</string>
     <string name="system_settings_develop_speed_mode_desc">サポートされていないモデルでは、オンにしても設定項目は表示されません</string>
@@ -925,9 +924,9 @@
     <string name="theme_manager_version_code_modify">バージョン検出の調整</string>
     <string name="theme_manager_version_code_modify_desc">新しいバージョンに適合していないテーマも使用できるように、検出されるバージョン情報を調整します</string>
     <string name="theme_manager_diable_ads">広告を無効化</string>
-    <string name="theme_manager_diable_ads_desc">広告を空白のカードに置き換えて、残りの広告を完全に削除します</string>
+    <string name="theme_manager_diable_ads_desc">「あなたも好きかもしれません」広告を空白のカードに置き換えて、残りの広告を完全に削除します。</string>
     <string name="theme_manager_allow_download_more">ログインせずにダウンロードできるようにする</string>
-    <string name="theme_manager_allow_download_more_desc">ログインせずに10個以上のアイテムをダウンロードできるようにします</string>
+    <string name="theme_manager_allow_download_more_desc">ログインせずに 10 個以上のアイテムをダウンロードできるようにします</string>
     <!--remotecontroller-->
     <string name="remotecontroller">リモートコントローラー</string>
     <string name="remotecontroller_disable_ad">広告を無効化</string>
@@ -941,9 +940,9 @@
     <string name="updater_big_version_desc">Xiaomi HyperOS バージョンを偽装するときに記入する必要がある項目です。デフォルトは V816 です。</string>
     <string name="updater_miui_version">ROM バージョンを偽装</string>
     <string name="updater_android_version">Android バージョンを偽装</string>
-    <string name="updater_miui_version_desc">システムアップデートを変更し、一定期間システムアップデートを防止できます</string>
+    <string name="updater_miui_version_desc">アップデーターのみを変更し、一定期間システムアップデートを防止できます。</string>
     <string name="updater_device">アップデーターでデバイスを偽装</string>
-    <string name="updater_device_desc">ターゲットデバイスの ROM パッケージを取得するためのモデルコードを入力してください。この機能は非常に危険です</string>
+    <string name="updater_device_desc">対象デバイスのモデルコードを入力してモデルを指定すると、他のモデルの ROM パッケージを取得できます。この機能は非常に危険です。</string>
     <string name="updater_diable_dialog">「自動更新を有効にする」ダイアログのポップアップを無効化</string>
     <!--Permissions-->
     <string name="lbe">権限</string>
@@ -968,10 +967,10 @@
     <!--Taplus-->
     <string name="content_extension">Taplus</string>
     <string name="content_extension_browser">サードパーティーのブラウザーを使用する</string>
-    <string name="content_extension_browser_desc">Taplus の検索でシステムブラウザの使用を強制しないようにします。デフォルトのブラウザを自分で選択する必要があります</string>
+    <string name="content_extension_browser_desc">Taplus の検索でシステムブラウザの使用を強制しないようにします。デフォルトのブラウザを自分で選択する必要があります。</string>
     <string name="content_extension_unlock_taplus_title">Taplus をアンロック</string>
     <string name="content_extension_unlock_taplus_horizontal_title">横向き画面での Taplus の使用を許可</string>
-    <string name="content_extension_double_press">ジェスチャー：2本指</string>
+    <string name="content_extension_double_press">ジェスチャー: 2 本指</string>
     <string name="content_extension_super_image">最高画質で画像を保存するオプションを有効化</string>
     <string name="content_extension_super_image_summary">デバイスモデルが対応していなければ使用できません</string>
     <string name="content_extension_link_open_mode">リンクの開き方</string>
@@ -1039,15 +1038,15 @@
     <string name="home_gesture_right_swipe">右にスワイプ</string>
     <string name="home_gesture_right_swipe_desc">ホーム画面のドックを右にスワイプする</string>
     <string name="home_gesture_up_swipe">上にスワイプ</string>
-    <string name="home_gesture_up_swipe_desc">ホーム画面の任意の位置を1本指で上にスワイプする</string>
+    <string name="home_gesture_up_swipe_desc">ホーム画面の任意の位置を 1 本指で上にスワイプする</string>
     <string name="home_gesture_down_swipe">下にスワイプ</string>
-    <string name="home_gesture_down_swipe_desc">ホーム画面の任意の位置を1本指で下にスワイプする</string>
-    <string name="home_gesture_up_swipe2">2 本の指で上にスワイプ</string>
-    <string name="home_gesture_up_swipe2_desc">ホーム画面の任意の位置を2本指で上にスワイプする</string>
-    <string name="home_gesture_down_swipe2">2 本の指で下にスワイプ</string>
-    <string name="home_gesture_down_swipe2_desc">ホーム画面の任意の位置を2本指で下にスワイプする</string>
-    <string name="home_gesture_pinch">2本指でピンチ操作</string>
-    <string name="home_gesture_spread">2本指で拡大する操作</string>
+    <string name="home_gesture_down_swipe_desc">ホーム画面の任意の位置を 1 本指で下にスワイプする</string>
+    <string name="home_gesture_up_swipe2">2 本指で上にスワイプ</string>
+    <string name="home_gesture_up_swipe2_desc">ホーム画面の任意の位置を 2 本指で上にスワイプする</string>
+    <string name="home_gesture_down_swipe2">2 本指で下にスワイプ</string>
+    <string name="home_gesture_down_swipe2_desc">ホーム画面の任意の位置を 2 本指で下にスワイプする</string>
+    <string name="home_gesture_pinch">2 本指でピンチ操作</string>
+    <string name="home_gesture_spread">2 本指で拡大操作</string>
     <string name="home_gesture_swipe_and_stop">スワイプして停止</string>
     <string name="home_gesture_swipe_and_stop_desc">ホーム画面以外でスワイプして停止</string>
     <string name="home_gesture_multi_choose_app">アプリを選択</string>
@@ -1078,11 +1077,11 @@
     <string name="home_small_folder_icon_bg">アイコンの背景</string>
     <string name="home_small_folder_icon_bg_custom">背景をカスタムする</string>
     <string name="home_small_folder_icon_bg_size">背景のサイズ</string>
-    <string name="home_big_folder_icon_bg_2x1">横3グリッド背景のカスタム</string>
+    <string name="home_big_folder_icon_bg_2x1">横 3 グリッドの背景をカスタム</string>
     <string name="home_big_folder_icon_bg_2x1_custom">カスタム</string>
     <string name="home_big_folder_icon_bg_width_2x1">背景の幅</string>
     <string name="home_big_folder_icon_bg_height_2x1">背景の高さ</string>
-    <string name="home_big_folder_icon_bg_1x2">縦3グリッド背景のカスタム</string>
+    <string name="home_big_folder_icon_bg_1x2">縦 3 グリッドの背景をカスタム</string>
     <string name="home_big_folder_icon_bg_1x2_custom">カスタム</string>
     <string name="home_big_folder_icon_bg_width_1x2">背景の幅</string>
     <string name="home_big_folder_icon_bg_height_1x2">背景の高さ</string>
@@ -1129,9 +1128,9 @@
     <string name="home_drawer_editor_desc">ドロワーのアプリタブから「編集」ボタンを削除します</string>
     <string name="home_drawer_blur">ドロワーのぼかしを有効化</string>
     <string name="home_drawer_blur_super">ドロワーのファジープレミアムテクスチャ</string>
-    <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を100%に設定してください</string>
+    <string name="home_drawer_blur_desc">この機能を使用するには、アプリドロワー背景の透明度を 100% に設定してください</string>
     <string name="home_drawer_pinyin">ピンイン順に整列</string>
-    <string name="home_drawer_pinyin_more">言語が簡体字中国語でない場合でも、ドロワーのアプリをピンイン順で整列します</string>
+    <string name="home_drawer_pinyin_more">言語が簡体字中国語でない場合でも、ドロワーのアプリをピンイン順で整列します。</string>
     <string name="home_title">アイコンとタイトル</string>
     <string name="home_title_icon_title">アイコン</string>
     <string name="home_title_icon_animation_title">アイコンのアニメーション</string>
@@ -1503,11 +1502,11 @@
     <string name="mtb_auth_desc">これはリスクの高い機能であり、これによって発生する問題は自己責任となります。ベースバンドを必ずバックアップしてください。電話アプリで *#*#MODEMTEST#*#* と入力して MTB 設定を開きます。</string>
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou 入力方法</string>
-    <string name="sogou_xiaomi_clipboard">クリップボードの150個上限を削除</string>
+    <string name="sogou_xiaomi_clipboard">クリップボードの 150 個上限を削除</string>
     <string name="add_clipboard_clear">クリアのクリップボードボタンを追加</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Xiaomi SIM アクティベーションサービス</string>
-    <string name="sim_activation_service_disable_activate_when_roaming">ローミング時は SIM カード2のアクティベーションを無効にする</string>
+    <string name="sim_activation_service_disable_activate_when_roaming">ローミング中に SIM カード 2 のアクティベーションを無効にする</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">中国本土のみサポートされています</string>
     <string name="sim_activation_service_disable_activate_when_roaming_radical">より強力なローミングフィルタを使用する</string>
     <!--Scanner-->
@@ -1554,9 +1553,9 @@
     <string name="various_open_aosp_default_apps_title">デフォルトのアプリ</string>
     <string name="various_mipad_input_title">入力</string>
     <string name="various_mipad_input_restore_esc_title">ESC キー機能を復元</string>
-    <string name="various_mipad_input_restore_esc_desc">Xiaomi Pad システムにより「戻る」機能に強制的に割り当てられた ESC キーを復元します</string>
+    <string name="various_mipad_input_restore_esc_desc">Xiaomi Pad システムにより「戻る」機能に強制的に割り当てられた ESC キーを復元します。</string>
     <string name="various_mipad_input_disable_bluetooth_title">スタイラスの Bluetooth 制限を解除</string>
-    <string name="various_mipad_input_disable_bluetooth_desc">Xiaomi 公式スタイラスでない、互換性のあるスタイラスでも使用できるようにします</string>
+    <string name="various_mipad_input_disable_bluetooth_desc">Xiaomi 公式スタイラスでない、互換性のあるスタイラスでも使用できるようにします。</string>
     <string name="various_mipad_input_bluetooth_version_title">ドライバーバージョン</string>
     <string name="various_mipad_input_bluetooth_version_desc">スタイラスの Bluetooth 制限を解除するために使用するドライバーのバージョン</string>
     <string name="various_mipad_input_ingore_gesture_title">スタイラスボタンジェスチャーを無視</string>
@@ -1630,10 +1629,17 @@
     <string name="ic_qs_title_settings">設定</string>
     <string name="ic_qs_title_airplane">機内モード</string>
     <string name="ic_qs_title_autobrightness">明るさの自動調節</string>
-    <string name="ic_qs_title_vowifi1">VoWiFi SIM1</string>
-    <string name="ic_qs_title_vowifi2">VoWiFi SIM2</string>
+    <string name="ic_qs_title_vowifi1">VoWiFi SIM 1</string>
+    <string name="ic_qs_title_vowifi2">VoWiFi SIM 2</string>
     <string name="custom_hook_new">フックを追加</string>
     <string name="custom_hook_mode">モードを選択</string>
     <string name="open_source">オープンソースプロジェクト</string>
     <string name="close_source">クローズドソースプロジェクト</string>
+    <string name="debug_info">デバッグ情報を取得できません。</string>
+    <string name="system_ui_statusbar_music_dependency">SuperLyric をダウンロード</string>
+    <string name="security_center_disable_offline_info_manager">ネットワークアシスタントのオフライン設定を無効化</string>
+    <string name="contacts">連絡先とダイヤラー</string>
+    <string name="contacts_disable_offline_info_manager">ビジネスホールのオフライン設定を無効化</string>
+    <string name="health_disable_splash_ad">スプラッシュ広告を無効化</string>
+    <string name="health">Mi Fitness</string>
 </resources>

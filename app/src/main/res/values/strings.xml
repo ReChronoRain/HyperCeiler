@@ -16,11 +16,9 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Pull down to enter the private space</string>
     <string name="release_enter_private">Release to enter the private space</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>
     <string name="miuix_appcompat_cancel_description">Cancel</string>
@@ -118,7 +116,7 @@
     <string name="logo_egg3">There are no Android eggs here, but there are HyperCeiler eggs!</string>
     <string name="uninstall_title">Uninstall HyperCeiler</string>
     <string name="uninstall_summary">After uninstalling HyperCeiler, the module configuration remains in the Xposed framework database. To remove it completely, first go to the module settings and reset the module configuration, then uninstall.</string>
-    <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions of this scope have been disabled. Please try switching to an app package released by official Xiaomi, or go to "Settings - Developer options - Debug mode" to specify the mounted version and try again.</string>
+    <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions for this scope have been disabled. Please try switching to an app package released by Xiaomi, or go to \"HyperCeiler Settings – Developer Options – Debug Mode\" to specify the mounted version and try again.</string>
     <string name="debug_mode">Debug mode</string>
     <string name="open_debug_mode_tips">This option is only used to correctly handle the mounted version of the target app and should be used only when necessary.\nFor the app being debugged, functionality cannot be guaranteed. If you enable this, please **do not report** any issues that occur with that target app to the developer.</string>
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>

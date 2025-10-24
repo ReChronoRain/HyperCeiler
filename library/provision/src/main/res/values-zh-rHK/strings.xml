@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="provision_start_content_description">開始</string>
     <string name="provision_next">繼續</string>
     <string name="provision_skip_underline">略過</string>
@@ -38,4 +37,5 @@
     <string name="provision_congratulation_title">設定完成</string>
     <string name="provision_congratulation_label">體驗激動人心的 HyperOS 吧！</string>
     <string name="provision_complete_text">進入系統</string>
+    <string name="provision_back_description">返回</string>
 </resources>
