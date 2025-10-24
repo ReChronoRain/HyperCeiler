@@ -123,7 +123,7 @@
             android:title="@string/about_crwd">
             <intent
                 android:action="android.intent.action.VIEW"
-                android:data="https://crowdin.com/project/cemiuiler" />
+                android:data="https://hosted.weblate.org/engage/hyperceiler/" />
         </Preference>
 
         <Preference android:title="@string/about_offical">
