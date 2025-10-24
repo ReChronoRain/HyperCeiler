@@ -104,14 +104,14 @@ jobs:
 
       - name: Upload Release APK
         if: env.APK_FILE_RELEASE
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: HyperCeiler Release
           path: ${{ env.APK_FILE_RELEASE }}
 
       - name: Upload Beta APK
         if: env.APK_FILE_BETA
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: HyperCeiler Beta
           path: ${{ env.APK_FILE_BETA }}

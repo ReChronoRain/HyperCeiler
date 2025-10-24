@@ -108,7 +108,7 @@ jobs:
           fi
 
       - name: Upload APKs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: ${{ env.APK_FILE_NAME }}
           path: ${{ env.APK_FILE }}
@@ -135,7 +135,7 @@ jobs:
     needs: build_app
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: artifacts
 
@@ -176,7 +176,7 @@ jobs:
     needs: build_app
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: artifacts
 
