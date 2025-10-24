@@ -19,18 +19,13 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.model
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object MobileTypeTextCustom : BaseHook() {
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            loadClass("com.android.systemui.statusbar.pipeline.mobile.domain.interactor.MiuiMobileIconInteractorImpl")
-        } else {
-            loadClass("com.android.systemui.statusbar.connectivity.MobileSignalController")
-        }.methodFinder()
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.domain.interactor.MiuiMobileIconInteractorImpl").methodFinder()
             .filterByName("getMobileTypeName")
             .filterByParamTypes {
                 it[0] == Int::class.java

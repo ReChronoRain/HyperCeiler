@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/mihome"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory android:title="@string/home_title_icon_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_icon_size_enable"
+            android:title="@string/home_title_icon_size" />
+
+        <SeekBarPreferenceCompat
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            android:dependency="prefs_key_home_title_icon_size_enable"
+            android:key="prefs_key_home_title_icon_size"
+            app:format="%s"
+            app:maxValue="360"
+            app:minValue="50"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_big_icon_corner"
+            android:title="@string/home_title_big_icon_corner" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_disable_hide_file"
+            android:title="@string/home_title_disable_hide_file" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_disable_hide_theme"
+            android:title="@string/home_title_disable_hide_theme" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_fake_non_default_icon"
+            android:title="@string/home_title_fake_non_default_icon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_download_animation"
+            android:title="@string/home_title_download_animation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_icon_mono_chrome"
+            android:title="@string/home_other_icon_mono_chrome" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_other_icon_mono_chrome"
+            android:key="prefs_key_home_other_icon_monet_color"
+            android:title="@string/home_other_icon_monet_color" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_other_icon_mono_chrome"
+            android:key="prefs_key_home_other_use_edit_color"
+            android:title="@string/home_other_use_edit_color" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:dependency="prefs_key_home_other_use_edit_color"
+            android:key="prefs_key_home_other_your_color_qwq"
+            android:title="@string/home_other_your_color" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_notif_color"
+            android:title="@string/home_title_notif_color" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:dependency="prefs_key_home_title_notif_color"
+            android:key="prefs_key_home_title_notif_color_picker"
+            android:title="@string/home_title_notif_color_picker" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_title_title_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_title_icontitlecustomization_onoff"
+            android:title="@string/home_title_title_icontitlecustomization" />
+
+        <Preference
+            android:dependency="prefs_key_home_title_title_icontitlecustomization_onoff"
+            android:key="prefs_key_home_title_title_icontitlecustomization"
+            android:title="@string/home_title_title_icontitlecustomization" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_title_title_new_install"
+            android:summary="@string/home_title_title_new_install_more"
+            android:title="@string/home_title_title_new_install" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:key="prefs_key_home_title_title_color"
+            android:title="@string/home_title_title_color" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="12"
+            android:key="prefs_key_home_title_font_size"
+            android:title="@string/home_title_font_size"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s sp"
+            app:maxValue="20"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="12"
+            android:key="prefs_key_home_drawer_title_font_size"
+            android:title="@string/home_drawer_title_font_size"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s sp"
+            app:maxValue="20"
+            app:minValue="0"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

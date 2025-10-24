@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.initPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.mPct
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.removePct
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.mSupportSV
+import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
@@ -35,47 +36,34 @@ import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import java.util.WeakHashMap
 
 object NewShowVolumePct {
+
+    private val streamCache = WeakHashMap<Any, Int>()
     @JvmStatic
     fun initLoader(classLoader: ClassLoader) {
-        if (isMoreHyperOSVersion(2f)) {
-            val volumePanelViewControllerClazz by lazy {
-                loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
-            }
-            val volumePanelViewControllerListener by lazy {
+        val volumePanelViewControllerClazz by lazy {
+            loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
+        }
+        val volumePanelViewControllerListener by lazy {
+            if (isMoreHyperOSVersion(3f)) {
+                loadClass("miui.systemui.controlcenter.panel.main.volume.VolumeSliderController\$seekBarListener$1", classLoader)
+            } else {
                 loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeSeekBarChangeListener", classLoader)
             }
-
-            volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
-                .first().createAfterHook {
-                    val mVolumeView =
-                        it.thisObject.getObjectField("mVolumeView") as View
-                    val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3)
-                }
-
-            mVolumeDisable(volumePanelViewControllerClazz)
-            onProgressChanged(volumePanelViewControllerListener, mSupportSV)
-        } else {
-            val miuiVolumeDialogImplClazz by lazy {
-                loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl", classLoader)
-            }
-            val miuiVolumeDialogImplListener by lazy {
-                loadClass("com.android.systemui.miui.volume.MiuiVolumeDialogImpl\$VolumeSeekBarChangeListener", classLoader)
-            }
-
-            miuiVolumeDialogImplClazz.methodFinder().filterByName("showVolumeDialogH")
-                .first().createAfterHook {
-                    val mVolumeView =
-                        it.thisObject.getObjectField("mDialogView") as View
-                    val windowView = mVolumeView.parent as FrameLayout
-                    initPct(windowView, 3)
-                }
-
-            mVolumeDisable(miuiVolumeDialogImplClazz)
-            onProgressChanged(miuiVolumeDialogImplListener, mSupportSV)
         }
+
+        volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
+            .first().createAfterHook {
+                val mVolumeView =
+                    it.thisObject.getObjectField("mVolumeView") as View
+                val windowView = mVolumeView.parent as FrameLayout
+                initPct(windowView, 3)
+            }
+
+        mVolumeDisable(volumePanelViewControllerClazz)
+        onProgressChanged(volumePanelViewControllerListener, mSupportSV)
     }
 
     private fun mVolumeDisable(clazz: Class<*>) {
@@ -83,6 +71,19 @@ object NewShowVolumePct {
             .first().createAfterHook {
                 removePct(mPct)
             }
+    }
+
+    private fun getOrCacheStream(volumeColumn: Any): Int {
+        streamCache[volumeColumn]?.let { return it }
+        val stream = try {
+            volumeColumn.getObjectFieldOrNullAs<Int>("stream")
+                ?: (volumeColumn.callMethod("getStream") as? Int)
+                ?: -1
+        } catch (_: Throwable) {
+            -1
+        }
+        streamCache[volumeColumn] = stream
+        return stream
     }
 
     @SuppressLint("SetTextI18n")
@@ -95,6 +96,11 @@ object NewShowVolumePct {
                 val seekBar = it.args[0] as SeekBar
                 val arg1 = it.args[1] as Int
                 val arg2 = it.args[2] as Boolean
+                val isObj: Any = if (isMoreHyperOSVersion(3f)) {
+                    it.thisObject.getObjectFieldOrNull("this$0")
+                } else {
+                    it.thisObject
+                } ?: return@createAfterHook
 
                 if (mPct != null && mPct.tag != null) {
                     mTag = mPct.tag as Int
@@ -102,10 +108,11 @@ object NewShowVolumePct {
 
                 if (nowLevel == arg1 || mTag != 3 || mPct == null) return@createAfterHook
 
-                val mColumn = it.thisObject.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
+                val mColumn =
+                    isObj.getObjectFieldOrNull("mColumn") ?: return@createAfterHook
                 val ss = mColumn.getObjectFieldOrNull("ss") ?: return@createAfterHook
 
-                if (mColumn.getIntField("stream") == 10) return@createAfterHook
+                if (getOrCacheStream(mColumn) == 10) return@createAfterHook
 
                 currentLevel = if (arg2) {
                     arg1
@@ -127,7 +134,8 @@ object NewShowVolumePct {
                 val maxLevel = max / 1000
                 if (currentLevel != 0) {
                     val i3 = maxLevel - 1
-                    currentLevel = if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
+                    currentLevel =
+                        if (currentLevel == max) maxLevel else (currentLevel * i3 / max) + 1
                 }
 
                 mPct.text = if (((currentLevel * 100) / maxLevel) == 100 && mSupportSV) {

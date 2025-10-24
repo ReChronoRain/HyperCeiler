@@ -27,14 +27,23 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 // by ljlvink
 object RemoveMiuiMultiWinSwitch : BaseHook() {
     override fun init() {
-        if (isMoreAndroidVersion(35)) {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
+        if (isMoreAndroidVersion(36)) {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDot")
+                .methodFinder()
+                .filterByName("createHandleMenu")
+                .single().createHook {
+                    returnConstant(null)
+                }
+
         } else {
-            loadClass("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration", lpparam.classLoader)
-        }.methodFinder()
-            .filterByName("shouldHideCaption")
-            .single().createHook {
-                returnConstant(true)
-            }
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration")
+                .methodFinder()
+                .filterByName("shouldHideCaption")
+                .single().createHook {
+                    returnConstant(true)
+                }
+        }
+
+
     }
 }

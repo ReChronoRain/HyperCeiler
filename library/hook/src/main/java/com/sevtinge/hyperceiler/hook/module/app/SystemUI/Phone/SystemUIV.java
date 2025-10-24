@@ -30,7 +30,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoCollapse;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.DisableTransparent;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.FuckStatusbarGestures;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.NotificationFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.StickyFloatingWindowsForSystemUI;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UiLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.UnlockClipboard;
@@ -38,7 +37,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.ZenModeFix;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.lockscreen.Keyguard;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AllowAllThemesNotificationBlur;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter.DisableDeviceManaged;
@@ -89,7 +87,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.NavigationC
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.navigation.RotationButton;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.BrightnessPct;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableBottomBar;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableInfinitymodeGesture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.other.NotificationFreeform;
@@ -245,7 +242,6 @@ public class SystemUIV extends BaseModule {
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
         initHook(new FixTilesList(), mPrefsMap.getBoolean("system_ui_control_center_fix_tiles_list"));
-        initHook(new AllowAllThemesNotificationBlur(), mPrefsMap.getBoolean("system_ui_control_center_unlock_blur_supported"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
         initHook(new DisableDeviceManaged(), mPrefsMap.getBoolean("system_ui_control_center_disable_device_managed"));
         initHook(new RemoveNotifNumLimit(), mPrefsMap.getBoolean("system_ui_control_center_remove_notif_num_limit"));
@@ -271,11 +267,9 @@ public class SystemUIV extends BaseModule {
 
         // Other
         initHook(new UiLockApp(), mPrefsMap.getBoolean("system_framework_guided_access"));
-        initHook(new NotificationFix(), mPrefsMap.getBoolean("system_ui_other_notification_fix"));
         initHook(new BrightnessPct(), mPrefsMap.getBoolean("system_showpct_title"));
         initHook(DisableMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_miui_multi_win_switch"));
         initHook(RemoveMiuiMultiWinSwitch.INSTANCE, mPrefsMap.getBoolean("system_ui_remove_miui_multi_win_switch"));
-        initHook(DisableInfinitymodeGesture.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_infinitymode_gesture"));
         initHook(DisableBottomBar.INSTANCE, mPrefsMap.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, mPrefsMap.getBoolean("system_ui_unlock_clipboard"));
 

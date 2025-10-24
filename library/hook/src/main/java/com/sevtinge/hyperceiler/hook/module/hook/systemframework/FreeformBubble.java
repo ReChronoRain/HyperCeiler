@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -27,12 +29,19 @@ import de.robv.android.xposed.XC_MethodReplacement;
 public class FreeformBubble extends BaseHook {
 
     Class<?> mMiuiMultiWindowUtils;
+    Class<?> mMiuiFreeformServiceImpl;
 
     @Override
     public void init() {
 
-        mMiuiMultiWindowUtils = findClassIfExists("android.util.MiuiMultiWindowUtils");
+        if (isMoreAndroidVersion(36)) {
+            mMiuiFreeformServiceImpl = findClassIfExists("com.android.server.wm.MiuiFreeformServiceImpl");
 
-        findAndHookMethod(mMiuiMultiWindowUtils, "multiFreeFormSupported", Context.class, XC_MethodReplacement.returnConstant(true));
+            findAndHookMethod(mMiuiFreeformServiceImpl, "multiFreeFormSupported", Context.class, XC_MethodReplacement.returnConstant(true));
+        } else {
+            mMiuiMultiWindowUtils = findClassIfExists("android.util.MiuiMultiWindowUtils");
+
+            findAndHookMethod(mMiuiMultiWindowUtils, "multiFreeFormSupported", Context.class, XC_MethodReplacement.returnConstant(true));
+        }
     }
 }

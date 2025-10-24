@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fan.nestedheader.widget.NestedHeaderLayout
+        android:id="@+id/nested_header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:scrollableView="@id/scrollable_view_group"
+        app:headerView="@id/search_bar"
+        app:rangeOffset="1px"
+        android:clipChildren="false">
+
+        <fan.springback.view.SpringBackLayout
+            android:id="@+id/scrollable_view_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipChildren="false"
+            app:scrollableView="@id/app_list_rv">
+
+            <fan.recyclerview.widget.RecyclerView
+                android:id="@+id/app_list_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </fan.springback.view.SpringBackLayout>
+
+        <include
+            android:id="@+id/search_bar"
+            layout="@layout/miuix_appcompat_search_stub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </fan.nestedheader.widget.NestedHeaderLayout>
+
+    <ProgressBar
+        android:id="@+id/am_progressBar"
+        style="@style/Widget.ProgressBar.DayNight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+</FrameLayout>

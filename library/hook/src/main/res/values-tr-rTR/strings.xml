@@ -71,8 +71,6 @@
     <!--Mi Share-->
     <string name="mishare">Mi Paylaşım</string>
     <string name="mishare_disable_mishare_auto_off">Mi Paylaşımının otomatik kapanmasını devre dışı bırak</string>
-    <string name="mishare_disable_auto_on_location">Belge paylaşımında konumun otomatik olarak etkinleştirilmesini devre dışı bırak</string>
-    <string name="mishare_unlock_turbo_mode">Turbo transferinin kilidini aç</string>
     <string name="mishare_hook_switch_mode_all">Herkes</string>
     <!--Smart cards-->
     <string name="tsmclient">Akıllı kartlar</string>

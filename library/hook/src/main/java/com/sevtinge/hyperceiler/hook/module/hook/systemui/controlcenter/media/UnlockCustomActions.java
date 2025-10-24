@@ -46,25 +46,21 @@ public class UnlockCustomActions extends BaseHook {
                 }
             );
         } else {
-            findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.systemui.media.controls.domain.pipeline.LegacyMediaDataManagerImpl$createActionsFromState$customActions$1" : "com.android.systemui.media.controls.pipeline.MediaDataManager$createActionsFromState$customActions$1",
+            findAndHookMethod("com.android.systemui.media.controls.domain.pipeline.LegacyMediaDataManagerImpl$createActionsFromState$customActions$1",
                 "invoke", Object.class
                 , new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
                         Class<?> NotificationSettingsManager;
-                        if (isMoreAndroidVersion(35)) {
-                            // k60u
-                            NotificationSettingsManager = findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager");
-                            if (NotificationSettingsManager == null) {
-                                // other
-                                NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager");
-                            }
-                        } else {
-                            NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager$Holder");
+                        // k60u
+                        NotificationSettingsManager = findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager");
+                        if (NotificationSettingsManager == null) {
+                            // other
+                            NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager");
                         }
 
                         Object INSTANCE = XposedHelpers.getStaticObjectField(
-                            NotificationSettingsManager, isMoreAndroidVersion(35) ? "sINSTANCE" : "INSTANCE"
+                            NotificationSettingsManager, "sINSTANCE"
                         );
                         XposedHelpers.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
                     }

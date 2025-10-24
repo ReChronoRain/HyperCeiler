@@ -6,4 +6,6 @@
 
     <color name="logo_overlay_shade_color">#55000000</color>
     <color name="logo_overlay_color">#FF000000</color>
+
+    <color name="ic_launcher_background">#FC5B8D</color>
 </resources>

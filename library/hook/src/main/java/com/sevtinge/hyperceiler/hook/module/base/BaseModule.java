@@ -27,10 +27,12 @@ import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsMap;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
@@ -42,18 +44,10 @@ public abstract class BaseModule {
 
     public abstract void handleLoadPackage();
 
-    public void initZygote() {
-    }
-
     public void init(LoadPackageParam lpparam) {
         if (!lpparam.isFirstApplication) return;
         if (swappedMap.isEmpty()) {
             swappedMap = CrashData.swappedData();
-        }
-
-        if (CrashData.toPkgList(lpparam.packageName)) {
-            XposedLogUtils.logI(TAG, "Entry safe mode: " + lpparam.packageName);
-            return;
         }
 
         if (!PrefsUtils.mPrefsMap.getBoolean("module_settings_reshook_new")) {
@@ -75,7 +69,12 @@ public abstract class BaseModule {
         DexKit.ready(lpparam, TAG);
         HCInit.initLoadPackageParam(lpparam);
         try {
-            initZygote();
+            if (Objects.equals(lpparam.packageName, "com.miui.home")) {
+                boolean check = CheckModifyUtils.INSTANCE.getCheckResult(lpparam.packageName);
+                boolean isDebug = mPrefsMap.getBoolean("development_debug_mode");
+
+                if (check && !isDebug) return;
+            }
             handleLoadPackage();
         } catch (Throwable e) {
             DexKit.close();

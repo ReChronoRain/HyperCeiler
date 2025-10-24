@@ -20,16 +20,17 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.title
 
 import android.util.TypedValue
 import android.widget.TextView
-import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
-class TitleFontSize : HomeBaseHook() {
+class TitleFontSize : HomeBaseHookNew() {
 
-    override fun initForNewHome() {
+    @Version(isPad = false, min = 600000000)
+    private fun initForNewHome() {
         val desktopSp = mPrefsMap.getInt("home_title_font_size", 12).toFloat()
         val drawerSp = mPrefsMap.getInt("home_drawer_title_font_size", 12).toFloat()
         if (desktopSp == 12f && drawerSp == 12f) {
@@ -37,7 +38,7 @@ class TitleFontSize : HomeBaseHook() {
             return
         }
 
-        val defaultSizePx by lazy {  // 必须在hooker内被call，DeviceConfig依赖Context
+        val defaultSizePx by lazy {  // 必须在 hooker 内被 call，DeviceConfig 依赖 Context
             MethodFinder.fromClass("com.miui.home.launcher.DeviceConfig").filterStatic()
                 .filterByName("getIconTitleTextSize").first().invoke(null) as Float
         }
@@ -67,16 +68,21 @@ class TitleFontSize : HomeBaseHook() {
         }
     }
 
-    override fun initForHomeLower9777() {
+    override fun initBase() {
+        runCatching {
+            initForNewHome()
+        }.onFailure {
+            initForHomeLower9777()
+        }
+    }
+
+    private fun initForHomeLower9777() {
         if (mPrefsMap.getInt("home_title_font_size", 12) == 12) return
 
         MethodFinder.fromClass("com.miui.home.launcher.common.Utilities").filterByName("adaptTitleStyleToWallpaper")
             .first().createAfterHook { param ->
                 val mTitle = param.args[1] as? TextView
-                if (mTitle != null && mTitle.id == mTitle.resources.getIdentifier(
-                        "icon_title", "id", "com.miui.home"
-                    )
-                ) {
+                if (mTitle != null && mTitle.id == mTitle.resources.getIdentifier("icon_title", "id", "com.miui.home")) {
                     mTitle.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP, mPrefsMap.getInt("home_title_font_size", 12).toFloat()
                     )

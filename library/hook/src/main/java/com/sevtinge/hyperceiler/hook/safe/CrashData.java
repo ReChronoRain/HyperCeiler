@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.safe;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 
@@ -142,7 +140,7 @@ public class CrashData {
     }
 
     public static ArrayList<String> getReportCrashProp() {
-        String data = PropUtils.getProp("persist.hyperceiler.crash.report", "");
+        String data = PropUtils.getProp("persist.service.hyperceiler.crash.report", "");
         if (data.isEmpty()) {
             return new ArrayList<>();
         }

@@ -12,7 +12,7 @@
 
 ## Currently supported versions
 
-HyperOS for Android 14-15
+HyperOS for Android 15-16
 
 ## Pre-use instructions
 
@@ -20,11 +20,11 @@ Please enable HyperCeiler in [LSPosed](https://github.com/LSPosed/LSPosed/releas
 
 This module <b>does not support</b> `third-party Xiaomi HyperOS ROMs with a lot of modifications`, `system software with a lot of modifications`, and some `international Xiaomi HyperOS ROMs`.
 
-Currently, HyperCeiler is adapted for Xiaomi HyperOS 2.0.200 mobile devices based on Android 15. The coverage isn't very comprehensive and requires ongoing testing and improvements.
+Currently, HyperCeiler is adapted for Xiaomi HyperOS 3.0 mobile devices based on Android 16. The coverage isn't very comprehensive and requires ongoing testing and improvements.
 
 Before submitting feedback, please pay attention to whether there is already the same feedback to avoid causing trouble to developers. Spending the same energy reading the same feedback is a waste of time.
 
-HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0 ROM for Android 13.
+HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0/2.0 ROM for Android 13/14.
 
 > For MIUI ROMs on Android 11-12, please use [this version](https://github.com/ReChronoRain/Cemiuiler/releases/tag/1.3.130).
 >
@@ -34,9 +34,11 @@ HyperCeiler has stopped maintaining MIUI ROMs for Android 11-13 and HyperOS 1.0 
 
 ## Project planning
 
-Android 16 is expected to be gradually adapted to most devices after the release of Xiaomi HyperOS 3.0. However, due to Xiaomi HyperOS's unlocking policies, the number of rooted devices will be significantly reduced compared to the previous version.
+Xiaomi HyperOS 3 or 4 will be the endpoint of this project. For now, Xiaomi has selectively incorporated some of Xposed's features into its own (user‑unfriendly) devices, and the module's capabilities have been gradually reduced as the system is updated.
 
-The devices available to developers can only be partially adapted, and there's no guarantee that all features will work properly. There's also a possibility that the project may be archived and development discontinued.
+I also watched Xiaomi HyperOS evolve, step by step, from something completely unusable without root to something almost usable (except for the Xiaomi Pad).
+
+In the future, this module will be extensively adapted to Xiaomi HyperOS 3.0 and later versions, although there's no guarantee that all features will be available. Xiaomi HyperOS 2 will be discontinued in future maintenance updates due to significant differences compared to the newer versions.
 
 ## Supported apps
 
@@ -61,6 +63,7 @@ The devices available to developers can only be partially adapted, and there's n
 | Messaging                     | com.android.mms                    |
 | Screenshot                    | com.miui.screenshot                |
 | Calendar                      | com.android.calendar               |
+| Notes                         | com.miui.notes                     |
 | Browser                       | com.android.browser                |
 | Rueban (MTB)                  | com.xiaomi.mtb                     |
 | Screen Recorder               | com.miui.screenrecorder            |
@@ -119,11 +122,13 @@ Join our group to report issues or get the latest updates.
 
 ## Translation contributions
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+We used Hosted Weblate to synchronize project translations. You can contribute translations for the HyperCeiler project [here](https://hosted.weblate.org/engage/hyperceiler/)
 
-You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
+<a href="https://hosted.weblate.org/engage/hyperceiler/">
+<img src="https://hosted.weblate.org/widget/hyperceiler/multi-auto.svg" alt="Translation status" />
+</a>
 
-> Note: When the translation progress of the new language is greater than or equal to 90%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 90%.
+> Note: When the translation progress of the new language is greater than or equal to 85%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 85%.
 
 ## Thanks!
 

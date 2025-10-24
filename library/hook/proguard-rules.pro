@@ -30,6 +30,7 @@
 -keep class com.sevtinge.hyperceiler.hook.module.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.base.dexkit.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.module.base.BaseModule { *; }
+-keep class com.sevtinge.hyperceiler.hook.safe.** { *; }
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseModule
 -keep class * extends com.sevtinge.hyperceiler.hook.module.base.BaseHook { <init>(); }
 
@@ -38,18 +39,5 @@
 -keep class com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.res.** { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.ContentModel { *; }
 -keep class com.sevtinge.hyperceiler.hook.utils.input.FileHelper { *; }
-
--dontwarn de.robv.android.xposed.**
--dontwarn miui.**
--dontwarn android.app.AndroidAppHelper
--dontwarn android.content.res.**
-
--dontwarn android.app.ActivityTaskManager$RootTaskInfo
--dontwarn miui.app.MiuiFreeFormManager$MiuiFreeFormStackInfo
--dontwarn javax.annotation.processing.AbstractProcessor
--dontwarn javax.annotation.processing.SupportedAnnotationTypes
--dontwarn javax.annotation.processing.SupportedOptions
--dontwarn javax.annotation.processing.SupportedSourceVersion
--dontwarn javax.annotation.processing.Processor
 
 -allowaccessmodification

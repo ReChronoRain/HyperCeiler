@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_settings"
+    app:quick_restart="com.android.settings">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_control_center_unlock_old"
+            android:title="@string/system_ui_controlcenter_unlock_old_title"
+            android:summary="@string/system_settings_restart_systemui_desc"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_novelty_haptic"
+            android:summary="@string/system_settings_novelty_haptic_desc"
+            android:title="@string/system_settings_novelty_haptic_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_ui_mode"
+            android:title="@string/system_settings_unlock_ui_mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_international_build"
+            android:title="@string/system_settings_international_build" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_google_header"
+            android:title="@string/system_settings_unlock_google_header" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_unlock_xiaomihyperai_entrance"
+            android:summary="@string/system_settings_unlock_xiaomihyperai_entrance_desc"
+            android:title="@string/system_settings_unlock_xiaomihyperai_entrance" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_settings_connection_sharing_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_safe_wifi"
+            android:summary="@string/system_settings_safe_wifi_desc"
+            android:title="@string/system_settings_safe_wifi" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_linkturbo"
+            android:title="@string/system_settings_linkturbo" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_new_nfc_page"
+            android:summary="@string/system_settings_new_nfc_page_desc"
+            android:title="@string/system_settings_new_nfc_page" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_more_vpn_types"
+            android:title="@string/system_settings_more_vpn_types" />
+
+    </PreferenceCategory>
+
+    <!--<PreferenceCategory android:title="@string/system_settings_lab_title">
+
+    </PreferenceCategory>-->
+
+    <PreferenceCategory android:title="@string/system_settings_display_and_lockscreen_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_allow_never_lock_screen"
+            android:title="@string/system_settings_allow_never_lock_screen" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_ai_image_unlock_sr"
+            android:title="@string/system_settings_ai_image_unlock_sr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_ai_image_unlock_ai"
+            android:title="@string/system_settings_ai_image_unlock_ai" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_ai_image_unlock_memc"
+            android:title="@string/system_settings_ai_image_unlock_memc" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_settings_permission_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_more_notification_settings"
+            android:summary="@string/system_settings_restart_systemui_desc"
+            android:title="@string/system_settings_more_notification_settings" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_permission_show_app_up"
+            android:summary="@string/system_settings_permission_show_app_up_desc"
+            android:title="@string/system_settings_permission_show_app_up" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_permission_accessibility"
+            android:title="@string/system_settings_permission_accessibility" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_settings_develop_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_usb_mode"
+            android:title="@string/system_settings_usb_mode" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_settings_usb_mode_choose"
+            android:title="@string/system_settings_usb_mode_choose"
+            app:entries="@array/usb_mode_choose"
+            app:entryValues="@array/usb_mode_choose_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_apps_freezer"
+            android:summary="@string/system_settings_apps_freezer_more"
+            android:title="@string/system_settings_apps_freezer" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_develop_max_fps"
+            android:summary="@string/system_settings_develop_speed_mode_desc"
+            android:title="@string/system_settings_develop_max_fps" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_develop_speed_mode"
+            android:summary="@string/system_settings_develop_speed_mode_desc"
+            android:title="@string/system_settings_develop_speed_mode" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="100"
+            android:key="prefs_key_system_settings_window_animation_scale"
+            android:title="@string/system_settings_window_animation_scale"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
+            app:format="%s f"
+            app:maxValue="500"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="100"
+            android:key="prefs_key_system_settings_transition_animation_scale"
+            android:title="@string/system_settings_transition_animation_scale"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
+            app:format="%s f"
+            app:maxValue="500"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="100"
+            android:key="prefs_key_system_settings_animator_duration_scale"
+            android:title="@string/system_settings_animator_duration_scale"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="100"
+            app:format="%s f"
+            app:maxValue="500"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

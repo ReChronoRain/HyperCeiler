@@ -31,18 +31,27 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class FolderShade extends BaseHook {
+public class FolderShade extends HomeBaseHookNew {
 
     private Class<?> mWallpaperUtilsCls = null;
     private boolean isLight = false;
 
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        hook("com.miui.home.folder.FolderCling");
+    }
+
     @Override
-    public void init() {
+    public void initBase() {
+        hook("com.miui.home.launcher.FolderCling");
+    }
+
+    private void hook(String clazz) {
         mWallpaperUtilsCls = XposedHelpers.findClassIfExists("com.miui.home.launcher.WallpaperUtils", lpparam.classLoader);
 
         MethodHook hook = new MethodHook() {
@@ -84,9 +93,9 @@ public class FolderShade extends BaseHook {
             }
         };
 
-        hookAllConstructors("com.miui.home.launcher.FolderCling", hook);
-        findAndHookMethod("com.miui.home.launcher.FolderCling", "onWallpaperColorChanged", hook);
-        findAndHookMethod("com.miui.home.launcher.FolderCling", "updateLayout", boolean.class, hook);
+        hookAllConstructors(clazz, hook);
+        findAndHookMethod(clazz, "onWallpaperColorChanged", hook);
+        findAndHookMethod(clazz, "updateLayout", boolean.class, hook);
 
         findAndHookMethod("com.miui.home.launcher.Folder", "setBackgroundAlpha", float.class, new MethodHook() {
             @Override

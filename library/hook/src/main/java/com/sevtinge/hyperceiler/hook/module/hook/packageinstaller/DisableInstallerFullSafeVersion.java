@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
@@ -61,17 +62,21 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
         Field field = DexKit.findMember("FullSecurityProtectVersion", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                FieldData fieldData = bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("FullSafeHelper")
-                                )
-                                .type(boolean.class)
-                                .modifiers(Modifier.FINAL)
-                        )).singleOrNull();
+                FieldData fieldData = bridge.findClass(FindClass.create()
+                    .matcher(
+                            ClassMatcher.create().addUsingString("FullSafeHelper")
+                    )
+                ).findField(FindField.create()
+                    .matcher(
+                        FieldMatcher.create()
+                            .type(boolean.class)
+                            .modifiers(Modifier.FINAL)
+                    )).singleOrNull();
                 return fieldData;
             }
         });
-        setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
+        if (field != null) {
+            setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
+        }
     }
 }

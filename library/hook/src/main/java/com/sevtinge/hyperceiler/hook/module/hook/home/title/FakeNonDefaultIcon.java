@@ -18,11 +18,22 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class FakeNonDefaultIcon extends BaseHook {
+public class FakeNonDefaultIcon extends HomeBaseHookNew {
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod("com.miui.home.common.device.DeviceConfigs", "isDefaultMiuiIcon", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
+    }
+
     @Override
-    public void init() {
+    public void initBase() {
         findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isDefaultIcon", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {

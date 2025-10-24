@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.gesture;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
 import android.content.Context;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -28,27 +30,35 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
+import de.robv.android.xposed.XC_MethodHook;
+
 public class HotSeatSwipe extends BaseHook {
 
     private GestureDetector mDetectorHorizontal;
 
     @Override
     public void init() {
-        findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "dispatchTouchEvent", MotionEvent.class, new MethodHook() {
-            @Override
-            protected void before(final MethodHookParam param) throws Throwable {
-                MotionEvent ev = (MotionEvent) param.args[0];
-                if (ev == null) return;
-
-                ViewGroup hotSeat = (ViewGroup) param.thisObject;
-                Context helperContext = hotSeat.getContext();
-                if (helperContext == null) return;
-                if (mDetectorHorizontal == null)
-                    mDetectorHorizontal = new GestureDetector(helperContext, new SwipeListenerHorizontal(hotSeat));
-                mDetectorHorizontal.onTouchEvent(ev);
-            }
-        });
+        if (isPad()) {
+            findAndHookMethod("com.miui.home.launcher.dock.DockContainerView", "dispatchTouchEvent", MotionEvent.class, hook);
+        } else {
+            findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "dispatchTouchEvent", MotionEvent.class, hook);
+        }
     }
+
+    MethodHook hook = new MethodHook() {
+        @Override
+        protected void before(final XC_MethodHook.MethodHookParam param) throws Throwable {
+            MotionEvent ev = (MotionEvent) param.args[0];
+            if (ev == null) return;
+
+            ViewGroup hotSeat = (ViewGroup) param.thisObject;
+            Context helperContext = hotSeat.getContext();
+            if (helperContext == null) return;
+            if (mDetectorHorizontal == null)
+                mDetectorHorizontal = new GestureDetector(helperContext, new SwipeListenerHorizontal(hotSeat));
+            mDetectorHorizontal.onTouchEvent(ev);
+        }
+    };
 
 
     private static class SwipeListenerHorizontal extends GestureDetector.SimpleOnGestureListener {

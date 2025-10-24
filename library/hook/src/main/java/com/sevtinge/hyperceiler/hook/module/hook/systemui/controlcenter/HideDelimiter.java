@@ -19,8 +19,6 @@
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
 
 import android.telephony.SubscriptionInfo;
@@ -112,9 +110,8 @@ public class HideDelimiter extends BaseHook {
             }
 
             if (prefs == 3) {
-                if (isMoreAndroidVersion(35)) {
 
-                    if (!isMoreSmallVersion(200, 2f)) {
+                if (!isMoreSmallVersion(200, 2f)) {
                     findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
@@ -137,76 +134,24 @@ public class HideDelimiter extends BaseHook {
                         }
                     });
 
-                    } else {
-                        findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", int.class, String.class, new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                param.args[0] = 1;
-                                param.args[1] = getProp("persist.sys.device_name");
-                            }
-                        });
-
-                        findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", int.class, int.class, String.class, new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                param.args[0] = 1;
-                                param.args[2] = getProp("persist.sys.device_name");
-                            }
-                        });
-                    }
-                    try {
-                        findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
-                                XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
-                                XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
-                                XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
-                            }
-                        });
-                    } catch(Throwable ignore) {
-                        findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextController", "updateCarrierText", new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) throws Throwable {
-                                XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
-                                XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
-                                XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
-                                XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
-                            }
-                        });
-                    }
-
-
-                    findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.setResult(getProp("persist.sys.device_name"));
-                        }
-                    });
-
                 } else {
-                    findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, new MethodHook() {
+                    findAndHookMethod("miui.stub.statusbar.StatusBarStub$registerMiuiCarrierTextController$1$addCallback$callback$1", "onCarrierTextChanged", int.class, String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
+                            param.args[0] = 1;
+                            param.args[1] = getProp("persist.sys.device_name");
                         }
                     });
 
-                    findAndHookMethod("com.android.keyguard.clock.KeyguardClockContainer$mCarrierTextCallback$1", "onCarrierTextChanged", String.class, int.class, new MethodHook() {
+                    findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", int.class, int.class, String.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
-                            param.args[1] = 1;
+                            param.args[0] = 1;
+                            param.args[2] = getProp("persist.sys.device_name");
                         }
                     });
-
-                    findAndHookMethod("com.android.keyguard.CarrierText$1", "onCarrierTextChanged", String.class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = getProp("persist.sys.device_name");
-                        }
-                    });
-
+                }
+                try {
                     findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "updateCarrierText", new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
@@ -216,23 +161,25 @@ public class HideDelimiter extends BaseHook {
                             XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
                         }
                     });
-
-                    findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook() {
+                } catch(Throwable ignore) {
+                    findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextController", "updateCarrierText", new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) throws Throwable {
-                            param.setResult(getProp("persist.sys.device_name"));
-                        }
-                    });
-
-                    findAndHookMethod("com.android.systemui.statusbar.policy.MiuiCarrierTextControllerImpl", "onCarrierChanged", String[].class, new MethodHook() {
-                        @Override
-                        protected void before(MethodHookParam param) throws Throwable {
-                            param.args[0] = deviceNameList;
+                            XposedHelpers.setObjectField(param.thisObject, "mCurrentCarrier", getProp("persist.sys.device_name"));
+                            XposedHelpers.setObjectField(param.thisObject, "mCustomCarrier", deviceNameList);
+                            XposedHelpers.setObjectField(param.thisObject, "mCarrier", deviceNameList);
                             XposedHelpers.setObjectField(param.thisObject, "mRealCarrier", deviceNameList);
                         }
                     });
-
                 }
+
+
+                findAndHookMethod(SubscriptionInfo.class, "getCarrierName", new MethodHook() {
+                    @Override
+                    protected void before(MethodHookParam param) throws Throwable {
+                        param.setResult(getProp("persist.sys.device_name"));
+                    }
+                });
 
             } else {
                 findAndHookMethod("androidx.constraintlayout.core.PriorityGoalRow$GoalVariableAccessor$$ExternalSyntheticOutline0",

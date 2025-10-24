@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_widget"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_all_widget_animation"
+            android:title="@string/home_widget_all_widget_animation" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_show_miui_widget"
+            android:summary="@string/home_widget_show_miui_widget_desc"
+            android:title="@string/home_widget_show_miui_widget" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_widget_blur_opt"
+            android:title="@string/home_widget_widget_blur_opt" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_resizable"
+            android:title="@string/home_widget_resizable" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_widget_allow_moved_to_minus_one_screen"
+            android:title="@string/home_widget_allow_moved_to_minus_one_screen" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="0"
+            android:key="prefs_key_home_widget_corner_radius"
+            android:title="@string/home_widget_corner_radius"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="30"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

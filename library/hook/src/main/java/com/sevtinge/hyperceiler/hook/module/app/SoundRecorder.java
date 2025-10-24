@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.soundrecorder.DisableAiWatermark;
+import com.sevtinge.hyperceiler.hook.module.hook.soundrecorder.UnlockAIMode;
 import com.sevtinge.hyperceiler.hook.module.hook.soundrecorder.UnlockRecordingScene;
 
 @HookBase(targetPackage = "com.android.soundrecorder")
@@ -31,5 +32,6 @@ public class SoundRecorder extends BaseModule {
     public void handleLoadPackage() {
         initHook(new DisableAiWatermark(), mPrefsMap.getBoolean("sound_recorder_disable_ai_watermark"));
         initHook(UnlockRecordingScene.INSTANCE, mPrefsMap.getBoolean("sound_recorder_unlock_recording_scene"));
+        initHook(UnlockAIMode.INSTANCE, mPrefsMap.getBoolean("sound_recorder_unlock_ai"));
     }
 }

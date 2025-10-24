@@ -35,7 +35,7 @@ import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 
 import java.util.ArrayList;
 import java.util.List;

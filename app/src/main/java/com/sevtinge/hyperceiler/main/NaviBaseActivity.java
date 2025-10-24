@@ -23,6 +23,7 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment;
 
@@ -39,7 +40,7 @@ public class NaviBaseActivity extends NavigatorActivity implements ActivityCallb
     public void checkTheme() {
         if (AttributeResolver.resolve(this, fan.navigator.R.attr.isNavigatorTheme) < 0) {
             Log.d("NotesNaviActivityTAG", "reset Theme");
-            setTheme(com.sevtinge.hyperceiler.ui.R.style.NavigatorActivityTheme);
+            setTheme(R.style.NavigatorActivityTheme);
         }
     }
 
@@ -52,7 +53,7 @@ public class NaviBaseActivity extends NavigatorActivity implements ActivityCallb
 
     @Override
     public int getBottomTabMenu() {
-        return com.sevtinge.hyperceiler.ui.R.menu.bottom_nav_menu;
+        return R.menu.bottom_nav_menu;
     }
 
     @Override
@@ -98,9 +99,9 @@ public class NaviBaseActivity extends NavigatorActivity implements ActivityCallb
         UpdateFragmentNavInfo navInfoToHome = getUpdateFragmentNavInfo(0, 1000);
         UpdateFragmentNavInfo navInfoToSettings = getUpdateFragmentNavInfo(1, 1001);
         UpdateFragmentNavInfo navInfoToAbout = getUpdateFragmentNavInfo(2, 1002);
-        newLabel(getString(com.sevtinge.hyperceiler.ui.R.string.navigation_home_title), com.sevtinge.hyperceiler.ui.R.drawable.ic_navigation_home, navInfoToHome);
-        newLabel(getString(com.sevtinge.hyperceiler.ui.R.string.navigation_settings_title), com.sevtinge.hyperceiler.ui.R.drawable.ic_navigation_settings, navInfoToSettings);
-        newLabel(getString(com.sevtinge.hyperceiler.ui.R.string.navigation_about_title), com.sevtinge.hyperceiler.ui.R.drawable.ic_navigation_about, navInfoToAbout);
+        newLabel(getString(R.string.navigation_home_title), R.drawable.ic_navigation_home, navInfoToHome);
+        newLabel(getString(R.string.navigation_settings_title), R.drawable.ic_navigation_settings, navInfoToSettings);
+        newLabel(getString(R.string.navigation_about_title), R.drawable.ic_navigation_about, navInfoToAbout);
         navigator.navigate(navInfoToHome);
     }
 

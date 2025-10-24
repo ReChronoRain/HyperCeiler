@@ -38,7 +38,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.CleanShareMenu;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ClipboardWhitelist;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableCleaner;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableLowApiCheckForU;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.DisableMiuiLite;
@@ -52,7 +51,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FlagSecure;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.FreeformBubble;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.HookEntry;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.LinkTurboToast;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.MultiFreeFormSupported;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.PstedClipboard;
@@ -60,7 +58,6 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.QuickScreenshot
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SpeedInstall;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.SystemLockApp;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.ThermalBrightness;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.UseAndroidPackageInstaller;
@@ -72,8 +69,10 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.Display
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.display.UseAOSPScreenShot;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.OpenAppInFreeForm;
+import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.hyperceiler.hook.module.hook.systemframework.mipad.RemoveStylusBluetoothRestriction;
@@ -105,13 +104,12 @@ public class SystemFrameworkV extends BaseModule {
         initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(new StickyFloatingWindows(), mPrefsMap.getBoolean("system_framework_freeform_sticky"));
-        initHook(MultiFreeFormSupported.INSTANCE, mPrefsMap.getBoolean("system_framework_freeform_recents_to_small_freeform"));
         initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
         initHook(new UnForegroundPin(), mPrefsMap.getBoolean("system_framework_freeform_foreground_pin"));
         // initHook(new OpenAppInFreeForm(), mPrefsMap.getBoolean("system_framework_freeform_jump"));
 
         // 音量
-        initHook(new VolumeDefaultStream(), true);
+        initHook(new VolumeDefaultStream(), mPrefsMap.getStringAsInt("system_framework_default_volume_stream", 0) != 0);
         initHook(new VolumeFirstPress(), mPrefsMap.getBoolean("system_framework_volume_first_press"));
         initHook(new VolumeSteps(), mPrefsMap.getInt("system_framework_volume_steps", 0) > 0);
         initHook(new VolumeMediaSteps(), mPrefsMap.getBoolean("system_framework_volume_media_steps_enable"));
@@ -157,7 +155,10 @@ public class SystemFrameworkV extends BaseModule {
         initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
 
         // 核心破解
-        initHook(BypassSignCheckForT.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"));
+        initHook(BypassSignCheckForT.INSTANCE,
+            (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"))
+                && mPrefsMap.getBoolean("system_framework_core_patch_enable")
+        );
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
         initHook(new AllowUpdateSystemApp(), mPrefsMap.getBoolean("system_framework_core_patch_allow_update_system_app"));
 

@@ -31,5 +31,11 @@ public class DisableAd extends BaseHook {
                 return null;
             }
         });
+        findAndHookMethod("com.duokan.phone.remotecontroller.operation.SHBusinessManager", "isUserClosedBanner", new replaceHookedMethod() {
+            @Override
+            protected Object replace(MethodHookParam param) throws Throwable {
+                return true;
+            }
+        });
     }
 }

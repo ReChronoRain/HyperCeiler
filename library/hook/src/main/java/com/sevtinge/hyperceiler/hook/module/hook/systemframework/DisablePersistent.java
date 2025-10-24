@@ -27,8 +27,7 @@ public class DisablePersistent extends BaseHook {
 
     @Override
     public void init() {
-        String packageName = isMoreAndroidVersion(35) ? "com.android.server.pm.PackageSetting"
-            : "com.android.server.pm.parsing.pkg.PackageImpl";
+        String packageName = "com.android.server.pm.PackageSetting";
 
         try {
             Class<?> mPackage = findClassIfExists(packageName);

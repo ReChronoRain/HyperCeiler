@@ -34,8 +34,6 @@ import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isLargeUI
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.view.WeatherView
 import de.robv.android.xposed.XposedHelpers.findMethodExactIfExists
@@ -75,11 +73,7 @@ object NotificationWeather : BaseHook() {
     }
 
     override fun init() {
-        if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
-            newNotificationWeather()
-        } else {
-            oldNotificationWeather()
-        }
+        newNotificationWeather()
 
         // 更新资源
         updateResources()
@@ -118,7 +112,7 @@ object NotificationWeather : BaseHook() {
                 val viewGroup = it.thisObject as ViewGroup
                 val context = viewGroup.context
                 val configuration = context.resources.configuration
-                var orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
+                val orientation = viewGroup.getObjectFieldAs<Int>("mOrientation")
                 val screenLayout = viewGroup.getObjectFieldAs<Int>("mScreenLayout")
 
                 if (orientation == configuration.orientation &&
@@ -127,13 +121,8 @@ object NotificationWeather : BaseHook() {
                     return@createBeforeHook
                 }
 
-                orientation = configuration.orientation
-
-                val isVerticalMode = if (isMoreHyperOSVersion(2f) && isMoreAndroidVersion(35)) {
-                    miuiConfigs.callStaticMethodAs("isVerticalMode", context)
-                } else {
-                    orientation == ORIENTATION_PORTRAIT || isLargeUI()
-                }
+                val isVerticalMode =
+                    miuiConfigs.callStaticMethodAs<Boolean>("isVerticalMode", context)
 
                 if (isVerticalMode) {
                     hWeatherView?.visibility = View.GONE
@@ -220,33 +209,6 @@ object NotificationWeather : BaseHook() {
                 hWeatherView?.translationY = it.translationY
             }
         }
-    }
-
-    private fun oldNotificationWeather() {
-        miuiNotificationHeaderView.methodFinder()
-            .filterByName("onFinishInflate")
-            .single().createAfterHook { param ->
-                val viewGroup = param.thisObject as ViewGroup
-                val context = viewGroup.context
-
-                val dateView = viewGroup.findViewById<View>(
-                    context.resources.getIdentifier(
-                        "date_time",
-                        "id",
-                        context.packageName
-                    )
-                )
-                val landClock = viewGroup.findViewById<View>(
-                    context.resources.getIdentifier(
-                        "horizontal_time",
-                        "id",
-                        context.packageName
-                    )
-                )
-
-                addWeatherViewAfterOf(dateView, ORIENTATION_PORTRAIT)
-                addWeatherViewAfterOf(landClock, ORIENTATION_LANDSCAPE)
-            }
     }
 
     private fun addWeatherViewAfterOf(view: View, @Orientation key: Int) {

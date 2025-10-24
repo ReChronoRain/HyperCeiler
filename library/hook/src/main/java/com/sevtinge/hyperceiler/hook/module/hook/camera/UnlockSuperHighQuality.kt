@@ -34,6 +34,8 @@ object UnlockSuperHighQuality : BaseHook() {
                             usingEqStrings("pref_camera_jpegquality_key")
                         }
                         modifiers = Modifier.STATIC or Modifier.PUBLIC
+                        paramCount = 0
+
                         addInvoke("Landroid/content/res/Resources;->getString(I)Ljava/lang/String;")
                     }
 

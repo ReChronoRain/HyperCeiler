@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_layout"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory android:title="@string/home_layout_home_title">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_other_seek_points"
+            android:title="@string/home_layout_seek_points"
+            app:entries="@array/seek_points"
+            app:entryValues="@array/seek_points_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_unlock_grids_new"
+            android:summary="@string/home_layout_unlock_grids_desc"
+            android:title="@string/home_layout_unlock_grids" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_layout_unlock_grids_new"
+            android:key="prefs_key_home_layout_unlock_grids_cell_x"
+            android:title="@string/home_layout_unlock_grids_new_x"
+            app:defaultValue="4"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/home_folder_cols_format"
+            app:maxValue="9"
+            app:minValue="3"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_layout_unlock_grids_new"
+            android:key="prefs_key_home_layout_unlock_grids_cell_y"
+            android:title="@string/home_layout_unlock_grids_new_y"
+            app:defaultValue="6"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/home_folder_rows_format"
+            app:maxValue="13"
+            app:minValue="4"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_unlock_grids_no_word"
+            android:summary="@string/home_layout_unlock_grids_no_words_desc"
+            android:title="@string/home_layout_unlock_grids_no_words"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_workspace_padding_top_enable"
+            android:summary="@string/home_layout_workspace_padding_top_desc"
+            android:title="@string/top_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="30"
+            android:dependency="prefs_key_home_layout_workspace_padding_top_enable"
+            android:key="prefs_key_home_layout_workspace_padding_top"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_workspace_padding_bottom_enable"
+            android:summary="@string/home_layout_workspace_padding_bottom_desc"
+            android:title="@string/bottom_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="120"
+            android:dependency="prefs_key_home_layout_workspace_padding_bottom_enable"
+            android:key="prefs_key_home_layout_workspace_padding_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="240"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_workspace_padding_horizontal_enable"
+            android:summary="@string/home_layout_workspace_padding_horizontal_desc"
+            android:title="@string/horizontal_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="20"
+            android:dependency="prefs_key_home_layout_workspace_padding_horizontal_enable"
+            android:key="prefs_key_home_layout_workspace_padding_horizontal"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="100"
+            app:stepValue="1" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_layout_indicator_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_indicator_margin_bottom_enable"
+            android:summary="@string/home_layout_indicator_margin_bottom_desc"
+            android:title="@string/bottom_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="70"
+            android:dependency="prefs_key_home_layout_indicator_margin_bottom_enable"
+            android:key="prefs_key_home_layout_indicator_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_layout_hotseats_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_hotseats_height_enable"
+            android:title="@string/home_layout_hotseats_height" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_layout_hotseats_height_enable"
+            android:key="prefs_key_home_layout_hotseats_height"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValue="80"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:minValue="60"
+            app:showSeekBarValue="true" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
+            android:summary="@string/home_layout_hotseats_margin_bottom_desc"
+            android:title="@string/bottom_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="70"
+            android:dependency="prefs_key_home_layout_hotseats_margin_bottom_enable"
+            android:key="prefs_key_home_layout_hotseats_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/home_layout_searchbar_title"
+        android:key="prefs_key_home_layout_searchbar_title" >
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_searchbar_width_enable"
+            android:title="@string/home_layout_searchbar_width" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="30"
+            android:dependency="prefs_key_home_layout_searchbar_width_enable"
+            android:key="prefs_key_home_layout_searchbar_width"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="400"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_searchbar_margin_bottom_enable"
+            android:summary="@string/home_layout_searchbar_margin_bottom_desc"
+            android:title="@string/bottom_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="30"
+            android:dependency="prefs_key_home_layout_searchbar_margin_bottom_enable"
+            android:key="prefs_key_home_layout_searchbar_margin_bottom"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_folder">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_title_pos"
+            android:title="@string/home_folder_title_pos"
+            app:entries="@array/home_folder_title_pos"
+            app:entryValues="@array/home_folder_title_pos_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_folder_width"
+            android:title="@string/home_folder_width_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_folder_horizontal_padding_enable"
+            android:summary="@string/home_folder_horizontal_padding_desc"
+            android:title="@string/horizontal_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_horizontal_padding"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="50"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_horizontal_padding_pad_h"
+            android:title="@string/horizontal"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="450"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:key="prefs_key_home_folder_horizontal_padding_pad_v"
+            android:title="@string/vertical"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="200"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_folder_columns"
+            android:title="@string/home_folder_cols_title"
+            app:defaultValue="3"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/home_folder_cols_format"
+            app:maxValue="6"
+            app:minValue="3"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_folder_vertical_spacing_enable"
+            android:summary="@string/home_folder_vertical_spacing_desc"
+            android:title="@string/spacing_margin" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="0"
+            android:dependency="prefs_key_home_folder_vertical_spacing_enable"
+            android:key="prefs_key_home_folder_vertical_spacing"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

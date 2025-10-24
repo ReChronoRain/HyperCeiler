@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network
 
 import android.graphics.Typeface
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -59,53 +60,63 @@ object NewNetworkSpeedStyle : BaseHook() {
                 @Throws(Throwable::class)
                 override fun after(param: MethodHookParam) {
                     val meter = param.thisObject as View
-                    val inited = meter.getTag(viewInitedTag)
-                    if (inited == null && "slot_text_icon" != meter.tag) {
-                        meter.setTag(viewInitedTag, true)
-
-                        if (fixedWidth > 10) {
-                            var lp = meter.layoutParams
-                            val viewWidth =
-                                (meter.resources.displayMetrics.density * fixedWidth).toInt()
-                            if (lp == null) {
-                                lp = ViewGroup.LayoutParams(viewWidth, -1)
-                            } else {
-                                lp.width = viewWidth
-                            }
-                            meter.layoutParams = lp
-                        }
-
-                        meter.postDelayed( {
-                            val number = meter.getObjectField("mNetworkSpeedNumberText") as? TextView ?: return@postDelayed
-                            val unit = meter.getObjectField("mNetworkSpeedUnitText") as? TextView ?: return@postDelayed
-
-                            if (networkStyle != 0) {
-                                unit.visibility = View.GONE
-                                if (networkStyle == 2 || networkStyle == 4) {
-                                    number.isSingleLine = false
-                                    number.maxLines = 2
-                                }
-                                textFont(number) // 加粗
-                                margin(number) // 偏移量设置
-                                align(number) // 水平对齐
-                                textSize(number) // 网速字体大小调整
-                                textLineSpacing(number) // 网速行间距调整
-                            } else {
-                                // 加粗
-                                textFont(number)
-                                textFont(unit)
-                                // 偏移量设置
-                                margin(number)
-                                margin(unit)
-                                // 水平对齐官方的寄，改不了
-                                textSize(number) // 网速字体大小调整
-                                textSize(unit) // 网速字体大小调整
-                            }
-                        }, 150)
+                    if (meter.getTag(viewInitedTag) != null || "slot_text_icon" == meter.tag) {
+                        return
                     }
+                    meter.setTag(viewInitedTag, true)
+
+                    if (fixedWidth > 10) {
+                        var lp = meter.layoutParams
+                        val viewWidth = (meter.resources.displayMetrics.density * fixedWidth).toInt()
+                        if (lp == null) {
+                            lp = ViewGroup.LayoutParams(viewWidth, -1)
+                        } else {
+                            lp.width = viewWidth
+                        }
+                        meter.layoutParams = lp
+                    }
+
+                    meter.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                        override fun onLayoutChange(
+                            v: View, left: Int, top: Int, right: Int, bottom: Int,
+                            oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
+                        ) {
+                            val number = meter.getObjectField("mNetworkSpeedNumberText") as? TextView
+                            val unit = meter.getObjectField("mNetworkSpeedUnitText") as? TextView
+
+                            if (number != null && unit != null) {
+                                // 成功获取视图后，移除监听器以避免重复执行
+                                v.removeOnLayoutChangeListener(this)
+
+                                if (networkStyle != 0) {
+                                    unit.visibility = View.GONE
+                                    if (networkStyle == 2 || networkStyle == 4) {
+                                        number.isSingleLine = false
+                                        number.maxLines = 2
+                                    }
+                                    textFont(number) // 加粗
+                                    margin(number) // 偏移量设置
+                                    align(number) // 水平对齐
+                                    textSize(number) // 网速字体大小调整
+                                    textLineSpacing(number) // 网速行间距调整
+                                } else {
+                                    // 加粗
+                                    textFont(number)
+                                    textFont(unit)
+                                    // 偏移量设置
+                                    margin(number)
+                                    margin(unit)
+                                    // 水平对齐官方的寄，改不了
+                                    textSize(number) // 网速字体大小调整
+                                    textSize(unit) // 网速字体大小调整
+                                }
+                            }
+                        }
+                    })
                 }
             })
     }
+
 
     private fun textLineSpacing(id: TextView) {
         if (networkStyle == 2 || networkStyle == 4) {
@@ -132,10 +143,10 @@ object NewNetworkSpeedStyle : BaseHook() {
     }
 
     private fun align(id: TextView) {
-        when (align) {
-            2 -> id.textAlignment = View.TEXT_ALIGNMENT_TEXT_START
-            3 -> id.textAlignment = View.TEXT_ALIGNMENT_CENTER
-            4 -> id.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
+        id.gravity = when (align) {
+            2 -> Gravity.START or Gravity.CENTER_VERTICAL
+            4 -> Gravity.END or Gravity.CENTER_VERTICAL
+            else -> Gravity.CENTER
         }
     }
 
@@ -152,6 +163,11 @@ object NewNetworkSpeedStyle : BaseHook() {
         } else {
             0
         }
+
         id.setPaddingRelative(leftMargin, topMargin, rightMargin, 0)
+        if (networkStyle != 0) {
+            id.translationX = 0f
+            id.translationY = 0f
+        }
     }
 }

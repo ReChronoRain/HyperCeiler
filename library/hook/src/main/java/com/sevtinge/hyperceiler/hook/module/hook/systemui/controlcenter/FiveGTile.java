@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.annotation.SuppressLint;
@@ -29,7 +28,6 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.database.ContentObserver;
-import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.util.ArrayMap;
@@ -102,7 +100,12 @@ public class FiveGTile extends TileUtils {
                             @Override
                             public void onViewAttachedToWindow(@NonNull View v) {
                                 View view = content;
-                                while ((view = (View) view.getParent()) != null) {
+                                while (true) {
+                                    Object parent = view.getParent();
+                                    if (!(parent instanceof View)) {
+                                        break;
+                                    }
+                                    view = (View) parent;
                                     int id = view.getId();
                                     if (id == View.NO_ID) {
                                         break;
@@ -112,7 +115,7 @@ public class FiveGTile extends TileUtils {
                                     if (idName.endsWith("detail_container")) {
                                         int maxHeight = (int) XposedHelpers.callMethod(view, "getMaxHeight");
                                         XposedHelpers.callMethod(view, "setMaxHeight", maxHeight +
-                                                DisplayUtils.dp2px(45f)
+                                            DisplayUtils.dp2px(45f)
                                         );
                                         break;
                                     }
@@ -223,7 +226,7 @@ public class FiveGTile extends TileUtils {
 
     @Override
     public String setTileProvider() {
-        return isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "nfcTileProvider" : "mNfcTileProvider";
+        return "nfcTileProvider";
     }
 
     @Override
@@ -261,7 +264,7 @@ public class FiveGTile extends TileUtils {
         // 切换5G状态
         manager.setUserFiveGEnabled(!manager.isUserFiveGEnabled());
 
-        logD(TAG, lpparam.packageName, "5G" + manager.isUserFiveGEnabled());
+        logD(TAG, lpparam.packageName, "5G " + manager.isUserFiveGEnabled());
         // 更新磁贴状态
         XposedHelpers.callMethod(param.thisObject, "refreshState");
     }

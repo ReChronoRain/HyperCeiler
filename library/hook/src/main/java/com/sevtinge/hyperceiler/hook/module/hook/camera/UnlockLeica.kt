@@ -30,16 +30,18 @@ import java.lang.reflect.Modifier
 object UnlockLeica : BaseHook() {
     // 这破玩意写了十几个小时，得出的结论是，跨一个大版本就需要改一下特征点
     // 手上只有 5.3 和 6.1 两个版本，其他版本我不保证能解锁
+    // 目前兼容到 6.2 版本
     // 累了，先这样吧
     // 后面如果能优化的话再说
-    // 2025.5.1
+    // 2025.5.1 ~ 2025.9.17
     val isNewCamera by lazy {
         getPackageVersionCode(lpparam) >= 600000000
     }
 
-    // 想单独开启 6.x 的红色就这么匹配
-    /*private val unlockMethod1 by lazy<Method> {
+    private val unlockMethod1 by lazy<Method> {
         DexKit.findMember("uM1") {
+            // 6.x
+            // 6.2 已合并方法，所以改回最初改颜色的方法
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -50,52 +52,33 @@ object UnlockLeica : BaseHook() {
                     modifiers = Modifier.STATIC or Modifier.PUBLIC
                     returnType = "int"
                 }
-            }.single().invokes.single { methodData ->
-                methodData.returnType?.name == "boolean" && methodData.paramCount == 0
+                // 因为不知道为什么 DexKit 用 addCaller 筛不出 boolean E6.d.k1() 这种没有 modifiers 的方法，就只能这么写了
+            }.single().invokes.last { get ->
+                get.returnType?.name == "boolean" && get.paramCount == 0
             }
         }
-    }*/
+    }
 
     private val unlockMethod2 by lazy<Method> {
         DexKit.findMember("uM2") {
-            if (isNewCamera) {
-                // 6.x
-                it.findMethod {
-                    matcher {
-                        declaredClass {
-                            usingEqStrings(
-                                "WatermarkTypePreference",
-                                "watermark_westcoast3_evil_queen"
-                            )
-                        }
-
-                        modifiers = Modifier.FINAL
-                        returnType = "void"
-                        usingStrings("updateViewCV")
-                    }
-                }.single().invokes.single { methodData ->
-                    methodData.returnType?.name == "int" && methodData.paramCount == 0
-                }
-            } else {
-                // 5.x
-                it.findMethod {
-                    matcher {
+            // 5.x
+            it.findMethod {
+                matcher {
+                    addCaller {
                         addCaller {
-                            addCaller {
-                                declaredClass {
-                                    usingStrings("themeCustomize")
-                                }
-
-                                modifiers = Modifier.STATIC
-                                paramCount = 1
-                                returnType = "void"
+                            declaredClass {
+                                usingStrings("themeCustomize")
                             }
-                            returnType = "boolean"
+
+                            modifiers = Modifier.STATIC
+                            paramCount = 1
+                            returnType = "void"
                         }
-                        returnType = "int"
+                        returnType = "boolean"
                     }
-                }.last()
-            }
+                    returnType = "int"
+                }
+            }.last()
         }
     }
 
@@ -105,16 +88,19 @@ object UnlockLeica : BaseHook() {
                 // 6.x
                 it.findMethod {
                     matcher {
-                        addAnnotation {
-                            elementCount(3)
-                            usingStrings("!isSupportThemeCV")
+                        addCaller {
+                            addAnnotation {
+                                elementCount(3)
+                                usingStrings("!isSupportThemeCV")
+                            }
+
+                            returnType = "java.util.List"
                         }
 
-                        returnType = "java.util.List"
+                        returnType = "boolean"
+                        paramCount = 0
                     }
-                }.single().invokes.single { methodData ->
-                    methodData.returnType?.name == "boolean" && methodData.paramCount == 0
-                }
+                }.single()
             } else {
                 // 5.x
                 it.findMethod {
@@ -155,14 +141,14 @@ object UnlockLeica : BaseHook() {
     }
 
     override fun init() {
-        /*if (isNewCamera) {
+        if (isNewCamera) {
             unlockMethod1.createHook {
                 returnConstant(true)
             }
-        }*/
-
-        unlockMethod2.createHook {
-            returnConstant(0)
+        } else {
+            unlockMethod2.createHook {
+                returnConstant(0)
+            }
         }
 
         unlockMethod3.createHook {

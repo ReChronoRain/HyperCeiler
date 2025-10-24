@@ -41,6 +41,16 @@ fun getGitHashLong(): String {
     return runGitCommand("rev-parse", "HEAD") ?: "unknown"
 }
 
+fun getGitUrl(): String {
+    return runGitCommand("remote", "get-url", "origin") ?: "unknown"
+}
+
+fun getGitCurrentBranch(): String {
+    return runGitCommand("branch", "--show-current") ?: "unknown"
+}
+
+val gitBranch = """github\.com[:/](.+?)(\.git)?$""".toRegex().find(getGitUrl())?.groupValues?.get(1) + "/" + getGitCurrentBranch()
+
 val getVersionCode: () -> Int = {
     val commitCount = getGitCommitCount()
     val major = 5
@@ -63,10 +73,10 @@ android {
 
     defaultConfig {
         applicationId = namespace
-        minSdk = 34
+        minSdk = 35
         targetSdk = 36
         versionCode = getVersionCode()
-        versionName = "2.6.162"
+        versionName = "2.6.163"
 
         val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
@@ -84,6 +94,7 @@ android {
         buildConfigField("String", "BUILD_USER_NAME", "\"$userName\"")
         buildConfigField("String", "BUILD_JAVA_VERSION", "\"$javaVersion\"")
         // buildConfigField("String", "BUILD_JAVA_VENDOR", "\"$javaVendor\"")
+        buildConfigField("String", "GIT_BRANCH", "\"$gitBranch\"")
 
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -219,5 +230,5 @@ kotlin.jvmToolchain(21)
 
 dependencies {
     implementation(libs.expansion)
-    implementation(projects.library.commonUi)
+    implementation(projects.library.core)
 }

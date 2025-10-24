@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_controlcenter_title"
+    app:quick_restart="com.android.systemui">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_shade_header_gradient_blur"
+            android:title="@string/system_ui_shade_header_gradient_blur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_show_weather"
+            android:title="@string/system_ui_control_center_show_weather" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_control_center_show_weather"
+            android:key="prefs_key_system_ui_control_center_show_weather_city"
+            android:title="@string/system_ui_control_center_show_weather_city" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_control_center_notification_title">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.MediaCardSettings"
+            android:key="prefs_key_system_ui_control_center_media_control_media_custom"
+            android:title="@string/system_ui_controlcenter_media_card_title" />
+
+        <Preference
+            android:key="prefs_key_system_ui_control_center_expand_notification"
+            android:title="@string/system_ui_control_center_expand_notification" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_auto_clean_expand_notification"
+            android:title="@string/system_ui_control_center_auto_clean_expand_notification" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="45"
+            android:dependency="prefs_key_system_ui_control_center_auto_clean_expand_notification"
+            android:key="prefs_key_system_ui_control_center_expand_notification_show_time"
+            android:title="@string/system_ui_control_center_expand_notification_show_time"
+            app:defaultValueTitle="@string/array_default"
+            app:showDividerValue="10"
+            app:format="%s s"
+            app:maxValue="100"
+            app:minValue="20"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_unimportant_notification"
+            android:title="@string/system_ui_control_center_unimportant_notification" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_mute_visible_notice"
+            android:summary="@string/system_ui_control_center_mute_visible_notice_desc"
+            android:title="@string/system_ui_control_center_mute_visible_notice" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_zen_fix"
+            android:summary="@string/system_ui_control_center_zen_fix_desc"
+            android:title="@string/system_ui_control_center_zen_fix" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_redirect_notice"
+            android:summary="@string/system_ui_control_center_redirect_notice_desc"
+            android:title="@string/system_ui_control_center_redirect_notice" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_remove_notif_num_limit"
+            android:summary="@string/system_ui_control_center_remove_notif_num_limit_desc"
+            android:title="@string/system_ui_control_center_remove_notif_num_limit" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_unlock_all_focus"
+            android:title="@string/system_ui_control_center_unlock_all_focus" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_opt_notification_element_background_color"
+            android:summary="@string/system_ui_control_center_opt_notification_element_background_color_desc"
+            android:title="@string/system_ui_control_center_opt_notification_element_background_color" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_ui_control_center_opt_notification_element_background_color"
+            android:key="prefs_key_system_ui_control_center_opt_notification_element_background_color_advanced"
+            android:summary="@string/system_ui_control_center_opt_notification_element_background_color_advanced_desc"
+            android:title="@string/system_ui_control_center_opt_notification_element_background_color_advanced" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_notification_disable_transparent"
+            android:summary="@string/system_ui_control_center_notification_disable_transparent_desc"
+            android:title="@string/system_ui_control_center_notification_disable_transparent" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_controlcenter_new_title">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.TileSettings"
+            android:key="prefs_key_system_ui_control_center_tile_settings"
+            android:title="@string/system_ui_control_center_magnet_tile_settings" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_hide_edit_botton"
+            android:title="@string/system_ui_control_center_hide_edit_botton" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_disable_device_managed"
+            android:title="@string/system_ui_control_center_disable_device_managed" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_statusbar_blur"
+            android:title="@string/system_ui_control_center_statusbar_blur" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_control_center_hide_operator"
+            android:title="@string/system_ui_control_center_hide_operator"
+            app:entries="@array/system_ui_control_center_hide_operator"
+            app:entryValues="@array/system_ui_control_center_hide_operator_value" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefs_key_system_ui_controlcenter_old"
+        android:title="@string/system_ui_controlcenter_old_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_control_center_old_enable"
+            android:title="@string/system_ui_controlcenter_enable_title" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="3"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_rows"
+            android:title="@string/system_control_center_qs_rows"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_rows_format"
+            app:maxValue="5"
+            app:minValue="2"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="2"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_rows_horizontal"
+            android:title="@string/system_control_center_qs_rows_horizontal"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_rows_format"
+            app:maxValue="3"
+            app:minValue="1"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="4"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_columns"
+            android:title="@string/system_control_center_qs_columns"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_columns_format"
+            app:maxValue="7"
+            app:minValue="3"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="5"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_columns_horizontal"
+            android:title="@string/system_control_center_qs_columns_horizontal"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_columns_format"
+            app:maxValue="8"
+            app:minValue="4"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="5"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_grid_columns"
+            android:title="@string/system_control_center_old_qs_grid_columns"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_columns_format"
+            app:maxValue="7"
+            app:minValue="3"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            app:defaultValue="6"
+            android:dependency="prefs_key_system_control_center_old_enable"
+            android:key="prefs_key_system_control_center_old_qs_grid_columns_horizontal"
+            android:title="@string/system_control_center_old_qs_grid_columns_horizontal"
+            app:defaultValueTitle="@string/array_default"
+            app:format="@string/system_control_center_qs_columns_format"
+            app:maxValue="8"
+            app:minValue="4"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

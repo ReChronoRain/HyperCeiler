@@ -18,14 +18,27 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class EnableIconMonoChrome extends BaseHook {
+public class EnableIconMonoChrome extends HomeBaseHookNew {
+
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod("com.miui.home.icon.MonochromeUtils", "isSupportMonochrome", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                param.setResult(true);
+            }
+        });
+    }
+
+
     @Override
-    public void init() {
+    public void initBase() {
         findAndHookMethod("com.miui.home.launcher.graphics.MonochromeUtils", "isSupportMonochrome", new MethodHook() {
             @Override
-            protected void before(MethodHookParam param) throws Throwable {
+            protected void before(MethodHookParam param) {
                 param.setResult(true);
             }
         });

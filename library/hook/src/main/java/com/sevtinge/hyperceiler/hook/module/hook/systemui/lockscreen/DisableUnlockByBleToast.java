@@ -30,7 +30,7 @@ import java.util.Objects;
 public class DisableUnlockByBleToast extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod(isMoreAndroidVersion(35) ? "com.android.keyguard.KeyguardSecurityContainerController$3" : "com.android.keyguard.KeyguardSecurityContainerController$2", "dismiss", boolean.class, int.class, boolean.class, "com.android.keyguard.KeyguardSecurityModel$SecurityMode", new MethodHook() {
+        findAndHookMethod("com.android.keyguard.KeyguardSecurityContainerController$3", "dismiss", boolean.class, int.class, boolean.class, "com.android.keyguard.KeyguardSecurityModel$SecurityMode", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 findAndHookMethod(Toast.class, "makeText", Context.class, int.class, int.class, new MethodHook() {

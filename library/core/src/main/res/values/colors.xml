@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="titleColor">#000000</color>
+    <color name="IslandTitleColor">#ffffff</color>
+
+
+    <color name="textview_black">#FF000000</color>
+    <color name="textview_white">#F1FFFFFF</color>
+    <color name="textview_blue">#0D84FF</color>
+    <color name="textview_black_title">#000000</color>
+    <color name="textview_black_summary">#80000000</color>
+    <color name="textview_black_watermark">#03000000</color>
+</resources>

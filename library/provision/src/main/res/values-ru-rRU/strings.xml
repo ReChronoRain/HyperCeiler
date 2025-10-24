@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">Назад</string>
+    <string name="provision_start_content_description">Начать</string>
+    <string name="provision_next">Далее</string>
+    <string name="provision_skip_underline">Пропустить</string>
+    <string name="provision_permission_settings_title">Настройки разрешений</string>
+    <string name="provision_terms_and_statement_title">Условия пользования</string>
+    <string name="provision_basic_settings_title">Основные настройки</string>
+    <string name="provision_agree_and_next">Принять</string>
+    <string name="provision_agree_terms">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями.</string>
+    <string name="provision_user_agreement">Пользовательское соглашение</string>
+    <string name="provision_privacy_policy">Политика конфиденциальности</string>
+    <string name="provision_terms_of_use">Условия пользования</string>
+    <string name="provision_terms_of_use_label_use_network_china">Для предоставления вам более качественных услуг вам необходимо прочитать и согласиться с <a href="%1$s">Пользовательским соглашением</a> и <a href="%2$s">Политика конфиденциальности</a> прежде чем вы сможете продолжить использование системы. Мы будем строго соблюдать соответствующие законы и правила, а также политику конфиденциальности для защиты вашей личной информации.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Мы будем строго соблюдать соответствующие законы, правила и политику конфиденциальности для защиты вашей личной информации.</string>
+    <string name="provision_service_agreement">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями.</string>
+    <string name="provision_service_name_download">Загрузки</string>
+    <string name="provision_service_policy_download"><Data>Пожалуйста, прочитайте и примите <a href="%1$s">Политику конфиденциальности </a> и <a href="%2$s">Соглашение о предоставлении сетевых услуг</a></Data></string>
+    <string name="provision_congratulation_title">Настройка окончена</string>
+    <string name="provision_congratulation_label">Испытайте захватывающую HyperOS!</string>
+    <string name="provision_complete_text">Войти в систему</string>
+</resources>

@@ -282,7 +282,7 @@ public class AboutPage extends DashboardFragment
 
         if (lIIllII != null) {
             lIIllII.setTitle(BuildConfig.VERSION_NAME + " | " + BuildConfig.BUILD_TYPE);
-            lIIllII.setSummary(com.sevtinge.hyperceiler.ui.R.string.description_hyperos);
+            lIIllII.setSummary(com.sevtinge.hyperceiler.core.R.string.description_hyperos);
             lIIllII.setOnPreferenceClickListener(lIIllll -> {
                 if (lIIllll instanceof SwitchPreference switchPreference) {
                     switchPreference.setChecked(!switchPreference.isChecked());

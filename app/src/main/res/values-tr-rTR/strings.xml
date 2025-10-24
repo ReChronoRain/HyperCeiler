@@ -20,4 +20,75 @@
 <resources>
     <string name="pull_to_enter_private">Gizli bölmeye girmek için aşağı çekin</string>
     <string name="release_enter_private">Gizli bölmeye girmek için bırakın</string>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Tümünü seç</string>
+    <string name="miuix_appcompat_cancel_description">İptal</string>
+    <string name="miuix_appcompat_confirm_description">Tamam</string>
+    <string name="miuix_appcompat_select_all_description">Tümünü seç</string>
+    <string name="miuix_appcompat_deselect_all_description">Tümünün seçimini kaldır</string>
+    <string name="miuix_appcompat_delete_description">Sil</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">İptal</string>
+    <string name="miuix_appcompat_search_input_description">Ara</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Dahası</string>
+    <string name="miuix_appcompat_action_mode_inverse">Ters</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="root">Bazı özellikler Root/Su izni olmadan kullanılamaz</string>
+    <string name="soft_reboot">Hızlı yeniden başlat</string>
+    <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
+    <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
+    <string name="hook_failed">Modül aktif değil. \nLütfen Xposed yöneticisinin etkin olup olmadığını kontrol edin. Öyleyse lütfen modülü yeniden başlatın veya yeniden optimize edin.</string>
+    <string name="kill_failed">İşlem sonlandırılamadı, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
+    <string name="start_failed">İşlem başlatılamadı, lütfen HyperCeiler\'in root/su izinleri olup olmadığını kontrol ediniz.</string>
+    <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>
+    <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
+    <!--HyperCeiler Tips-->
+    <string name="error">Hata</string>
+    <string name="warn">Dikkat</string>
+    <string name="module_app_failed">Modülde kurtarılamaz hata oluştu</string>
+    <string name="module_app_copy_desc">Kopyalamak için bas</string>
+    <string name="module_title_1">Basit mesaj</string>
+    <string name="app_error_desc">HyperCeiler beklenmedik bir şekilde durduruldu. Bunu düzeltmeye yardım etmek için, aşağıdaki bilgiyi sağlayın:\n\nHer şeyi kopyalamak için herhangi bir mesajı basılı tutun.</string>
+    <string name="app_exit">Tamam</string>
+    <string name="safe_mode_cancel">Güvenli Modu kapat</string>
+    <string name="safe_mode_ok">İptal</string>
+    <string name="safe_mode_later_title">İpucu</string>
+    <string name="safe_mode_later_desc">%1$s güvenli modda ve HyperCeiler özellikleri devre dışı bırakıldı. Güvenli mod devre dışı bırakılsın mı?</string>
+    <string name="safe_mode_recorder_file">Dosya</string>
+    <string name="safe_mode_recorder_class">Sınıf</string>
+    <string name="safe_mode_recorder_method">Metod</string>
+    <string name="safe_mode_recorder_line">Satır</string>
+    <string name="safe_mode_recorder_msg">İstisna mesajı</string>
+    <string name="safe_mode_recorder_st">Yığın izleme</string>
+    <string name="error_message">İstisna Mesajı</string>
+    <string name="error_type">İstisna Türü</string>
+    <string name="error_file_name">Dosya adı</string>
+    <string name="error_time">Hata zamanı</string>
+    <string name="error_version_name">Versiyon adı</string>
+    <string name="error_git_hash">Git özeti</string>
+    <string name="error_build_time">Yapım zamanı</string>
+    <string name="copy_ok">Panoya kopyalandı</string>
+    <string name="notification_channel_app_crash_name">Uygulama anormal çalışıyor</string>
+    <string name="notification_title_message_emergency_crash">%s birçok kez çöktü</string>
+    <string name="notification_content_message">Ayrıntıları görmek için tıklayın</string>
+    <string name="notification_view">Gör</string>
+    <string name="tip_default">İpucu: İşte ipucu. Beni görebiliyorsanız, HyperCeiler ile ilgili bir sorun var demektir. Lütfen bunu zamanında ve etkili bir şekilde geliştiriciye bildirin.</string>
+    <string name="headtip_warn_not_offical_rom">Şu anki kullandığınız ROM\'un kaynağı resmi Xiaomi ROM\'u olmayabilir, ve bazı özellikler çalışmayabilir. Lütfen detaylı bilgi için tedarikçiniz ile iletişime geçin.</string>
+    <string name="headtip_warn_sign_verification_failed">İmza doğrulaması başarısız oldu, ve kullandığınız sürüm HyperCeiler\'in resmi sürümü olmayabilir, ve zararlı kod içerebilir.</string>
+    <string name="unsupported_system_func">Bu özellik geçerli sistem sürümünde desteklenmiyor</string>
+    <string name="supported_system_func">Bu özellik geçerli sistem sürümünde resmi olarak destekleniyor</string>
+    <!--System UI-->
+    <string name="system_ui">Sistem Arayüzü</string>
+    <!--System launcher-->
+    <string name="mihome">Sistem başlatıcı</string>
+    <!--Settings-->
+    <string name="system_settings">Ayarlar</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Güvenlik</string>
+    <!--Other-->
+    <string name="exit">Çık</string>
+    <string name="ignore">Yoksay</string>
+    <string name="log_level">Günlük düzeyi</string>
+    <string name="log_level_none">Devre dışı</string>
+    <string name="disable_suggest">Tavsiyeleri devre dışı bırak</string>
+    <string name="enable_suggest">Tavsiyeleri etkinleştir</string>
 </resources>

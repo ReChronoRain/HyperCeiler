@@ -18,12 +18,21 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.layout
 
-import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 
-class HotSeatsMarginBottom : HomeBaseHook() {
-    override fun init() {
+class HotSeatsMarginBottom : HomeBaseHookNew() {
+
+    @Version(isPad = false, min = 600000000)
+    private fun initOS3Hook() {
         findAndHookMethod(
-            DEVICE_CONFIG, "getHotSeatsMarginBottom",
+            DEVICE_CONFIG_NEW, "getHotSeatsMarginBottom",
+            setDimensionPixelSizeFormPrefs("home_layout_hotseats_margin_bottom", 60)
+        )
+    }
+
+    override fun initBase() {
+        findAndHookMethod(
+            DEVICE_CONFIG_OLD, "getHotSeatsMarginBottom",
             setDimensionPixelSizeFormPrefs("home_layout_hotseats_margin_bottom", 60)
         )
     }

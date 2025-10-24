@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS Great Again!</string>
     <!--String reuse-->
@@ -27,6 +26,9 @@
     <string name="tiles_snow_leopard_mode">S-Leo モード</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">5G ネットワーク</string>
+    <string name="system_ui_statusbar_music_share">歌詞を共有する</string>
+    <string name="system_ui_statusbar_music_send">リリースして送信</string>
+    <string name="system_ui_statusbar_music_send_share_text">%1$s から次の歌詞を共有しました:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">歌詞のフォーカス通知</string>
     <string name="open_by_default">デフォルトで開く</string>
     <string name="security_center_aosp_app_info_label">AOSP のアプリ情報</string>
@@ -80,8 +82,6 @@
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Xiaomi Share の自動無効化を無効にする</string>
-    <string name="mishare_disable_auto_on_location">ドキュメントの共有時に位置情報の自動有効化を無効にする</string>
-    <string name="mishare_unlock_turbo_mode">ターボ転送をアンロック</string>
     <string name="mishare_hook_switch_mode_all">全員</string>
     <!--Smart cards-->
     <string name="tsmclient">スマートカード</string>
@@ -114,4 +114,6 @@
     <string name="system_notifrowmenu_appinfo">アプリ情報</string>
     <string name="system_notifrowmenu_openinfw">フローティングウィンドウ</string>
     <string name="system_notifrowmenu_forceclose">強制終了</string>
+    <string name="notes_unlock_ai_mode_1">古いバージョン</string>
+    <string name="notes_unlock_ai_mode_2">新しいバージョン</string>
 </resources>

@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import com.sevtinge.hyperceiler.hook.utils.findClassOrNull
+import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
+import com.sevtinge.hyperceiler.hook.utils.replaceMethod
 import com.sevtinge.hyperceiler.hook.utils.setBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 object DisableSafeModelTip : BaseHook() {
@@ -34,41 +34,24 @@ object DisableSafeModelTip : BaseHook() {
                     usingEqStrings("android.provider.MiuiSettings\$Ad")
                 }
             }.singleOrNull()
-        }.createHook {
-            returnConstant(false)
+        }.replaceMethod {
+            false
         }
 
-        // 屏蔽每 30 天提示开启安全守护的弹窗（已知问题：完成和打开按钮无反应）
-        /*val result2 = Objects.requireNonNull(
-            mPackageInstallerResultMethodsMap!!["Disable30DaysDialog"]
-        )
-
-        for (descriptor in result2) {
-            val mDisableSafeModelTip = descriptor.getMethodInstance(lpparam.classLoader)
-            mDisableSafeModelTip.createHook {
-                returnConstant(null)
-            }
-        }*/
-
-        var letter = 'a'
-        for (i in 0..25) {
-            try {
-                val classIfExists =
-                    "com.miui.packageInstaller.ui.listcomponets.${letter}0".findClassOrNull()
-                classIfExists?.let {
-                    it.methodFinder().filterByName("a").first().createHook {
-                        after { hookParam ->
-                            try {
-                                hookParam.thisObject.setBooleanField("m", false)
-                            } catch (_: Throwable) {
-                                hookParam.thisObject.setBooleanField("l", false)
-                            }
-                        }
-                    }
+        val field = DexKit.findMember("RecyclerView") {
+            it.findClass {
+                matcher {
+                    className = "com.miui.packageInstaller.ui.listcomponets.SafeModeTipViewObject"
                 }
-            } catch (_: Throwable) {
-                letter++
-            }
+            }.single().superClass?.findField {
+                matcher {
+                    type = "boolean"
+                }
+            }?.single()
+        } as Field
+
+        field.declaringClass.hookAfterMethod("a") {
+            it.thisObject.setBooleanField(field.name, false)
         }
     }
 }

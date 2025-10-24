@@ -19,11 +19,22 @@
 
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class IconSize extends BaseHook {
+public class IconSize extends HomeBaseHookNew {
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        findAndHookMethod("com.miui.home.common.gridconfig.GridConfig$IconConfig", "getIconSize", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(mPrefsMap.getInt("home_title_icon_size", 182));
+            }
+        });
+    }
+
     @Override
-    public void init() throws NoSuchMethodException {
+    public void initBase() {
         /*findAndHookMethod("com.miui.home.settings.IconSizeSeekBar", "getCurrentSetIconSizeValue", new MethodHook() {
             @Override
             protected void before(MethodHookParam param) throws Throwable {

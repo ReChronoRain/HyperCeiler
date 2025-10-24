@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/floating_window"
+    app:quick_restart="system">
+
+    <PreferenceCategory android:title="@string/floating_window">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_freeform_count"
+            android:title="@string/system_framework_freeform_count" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_freeform_blacklist"
+            android:summary="@string/system_framework_disable_freeform_blacklist_desc"
+            android:title="@string/system_framework_disable_freeform_blacklist" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_freeform_sticky"
+            android:title="@string/system_framework_freeform_sticky" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefs_key_system_framework_freeform_bubble_title"
+        android:title="@string/system_framework_bubble_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_freeform_bubble"
+            android:title="@string/system_framework_freeform_bubble" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_other_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_freeform_foreground_pin"
+            android:title="@string/system_framework_freeform_foreground_pin" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_freeform_jump"
+            android:summary="@string/system_framework_freeform_title_desc"
+            android:title="@string/system_framework_freeform_jump" />
+
+        <SwitchPreference
+            android:dependency="prefs_key_system_framework_freeform_jump"
+            android:key="prefs_key_system_framework_freeform_open_notification"
+            android:title="@string/notification_volume" />
+
+        <SwitchPreference
+            android:dependency="prefs_key_system_framework_freeform_jump"
+            android:key="prefs_key_system_framework_freeform_open_notification_fw"
+            android:title="@string/freeform_notification" />
+
+        <SwitchPreference
+            android:dependency="prefs_key_system_framework_freeform_jump"
+            android:key="prefs_key_system_framework_freeform_content_extension"
+            android:summary="@string/system_framework_freeform_content_extension_desc"
+            android:title="@string/content_extension" />
+
+        <SwitchPreference
+            android:dependency="prefs_key_system_framework_freeform_jump"
+            android:key="prefs_key_system_framework_freeform_app_share"
+            android:title="@string/share_app" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

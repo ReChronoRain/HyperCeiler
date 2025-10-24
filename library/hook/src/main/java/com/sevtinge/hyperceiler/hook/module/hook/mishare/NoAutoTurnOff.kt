@@ -22,65 +22,13 @@ import android.content.Context
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.hook.utils.getObjectField
-import com.sevtinge.hyperceiler.hook.utils.setObjectField
-import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
-import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object NoAutoTurnOff : BaseHook() {
-    private val nullMethod by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff1") {
-            it.findMethod {
-                matcher {
-                    usingStrings("MiShareService", "EnabledState")
-                    usingNumbers(600000L)
-                }
-            }.single()
-        }
-    }
-
-    private val nullMethodNew by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff1N") {
-            it.findMethod {
-                matcher {
-                    usingStrings("UnionShare", "EnabledState")
-                }
-            }.single()
-        }
-    }
-
-    private val null2Method by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff2") {
-            it.findMethod {
-                matcher {
-                    declaredClass {
-                        usingStrings("mishare:advertise_lock")
-                    }
-                    paramCount = 2
-                    modifiers = Modifier.STATIC
-                }
-            }.single()
-        }
-    }
-
-    private val null3Method by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff3") {
-            it.findMethod {
-                matcher {
-                    usingStrings("com.miui.mishare.action.GRANT_NFC_TOUCH_PERMISSION")
-                    usingNumbers(600000L)
-                    modifiers = Modifier.PRIVATE
-                }
-            }.single()
-        }
-    }
-
     private val stopAdvertAllMethod by lazy<Method> {
         DexKit.findMember("NoAutoTurnOff9") {
             it.findMethod {
@@ -134,105 +82,13 @@ object NoAutoTurnOff : BaseHook() {
         }
     }
 
-    private val nullField by lazy<Field> {
-        DexKit.findMember("NoAutoTurnOff6") {
-            it.findField {
-                matcher {
-                    addReadMethod {
-                        usingStrings("NfcShareTaskManager")
-                        returnType = "void"
-                        paramCount = 1
-                        modifiers = Modifier.PRIVATE
-                    }
-                    modifiers = Modifier.PRIVATE or Modifier.STATIC or Modifier.FINAL
-                    type = "int"
-                }
-            }.singleOrNull()
-        }
-    }
-
-    private val null2Field by lazy<Field> {
-        DexKit.findMember("NoAutoTurnOff7") {
-            it.findField {
-                matcher {
-                    addReadMethod {
-                        usingStrings("stopAdvertAllDelay")
-                        returnType = "void"
-                        paramCount = 0
-                        modifiers = Modifier.PRIVATE
-                    }
-                    modifiers = Modifier.PRIVATE or Modifier.FINAL
-                    type = "int"
-                }
-            }.singleOrNull()
-        }
-    }
-
-    private val null2FieldMethod by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff8") {
-            it.findMethod {
-                matcher {
-                    usingStrings("stopAdvertAllDelay")
-                    returnType = "void"
-                    paramCount = 0
-                    modifiers = Modifier.PRIVATE
-                }
-            }.single()
-        }
-    }
-
     override fun init() {
 
         // 禁用小米互传功能自动关闭部分
-        if (isMoreHyperOSVersion(2f)) {
-            stopAdvertAllMethod.createHook {
-                returnConstant(null)
-            }
-        } else {
-            runCatching {
-                try {
-                    setOf(nullMethod, null2Method).createHooks {
-                        returnConstant(null)
-                    }
-                } catch (_: Exception) {
-                    setOf(nullMethodNew, null2Method).createHooks {
-                        returnConstant(null)
-                    }
-                }
-            }
-
-            runCatching {
-                null3Method.createHook {
-                    after {
-                        val d = it.thisObject.getObjectField("d")
-                        XposedHelpers.callMethod(d, "removeCallbacks", it.thisObject)
-                        logI(
-                            TAG, this@NoAutoTurnOff.lpparam.packageName,
-                            "null3Method hook success, $d"
-                        )
-                    }
-                }
-            }
-
-            runCatching {
-                findAndHookConstructor(nullField.javaClass, object : MethodHook() {
-                    override fun after(param: MethodHookParam) {
-                        param.thisObject.setObjectField(nullField.name, 2147483647)
-                        logI(TAG, lpparam.packageName, "nullField hook success, $nullField")
-                    }
-                })
-            }
-
-            runCatching {
-                runCatching {
-                    hookMethod(null2FieldMethod, object : MethodHook() {
-                        override fun before(param: MethodHookParam) {
-                            param.thisObject.setObjectField(null2Field.name, 2147483647)
-                        }
-                    })
-                }
-            }
+        stopAdvertAllMethod.createHook {
+            returnConstant(null)
         }
+
 
         // 干掉小米互传十分钟倒计时 Toast
         if (toastMethod.isNotEmpty()) {

@@ -24,16 +24,17 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.os.Looper;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
@@ -107,13 +108,31 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
         // 根据包名获取
         PackageManager pm = requireContext().getPackageManager();
         ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
-        if (appInfo != null) {
-            Drawable icon = appInfo.loadIcon(pm);
-            CharSequence name = appInfo.loadLabel(pm);
-            header.setIcon(icon);
-            if (!"android".equals(packageName)) {
-                header.setTitle(name);
-            }
+        if (appInfo == null) return;
+
+        // 将耗时的 loadIcon/loadLabel 移到后台线程，避免阻塞 UI 线程
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            new Thread(() -> {
+                final Drawable icon = appInfo.loadIcon(pm);
+                final CharSequence name = appInfo.loadLabel(pm);
+                if (!isAdded()) return;
+                requireActivity().runOnUiThread(() -> {
+                    header.setIcon(icon);
+                    if (!"android".equals(packageName)) {
+                        header.setTitle(name);
+                    }
+                });
+            }, "SetIconAndTitle").start();
+        } else {
+            final Drawable icon = appInfo.loadIcon(pm);
+            final CharSequence name = appInfo.loadLabel(pm);
+            if (!isAdded()) return;
+            requireActivity().runOnUiThread(() -> {
+                header.setIcon(icon);
+                if (!"android".equals(packageName)) {
+                    header.setTitle(name);
+                }
+            });
         }
     }
 

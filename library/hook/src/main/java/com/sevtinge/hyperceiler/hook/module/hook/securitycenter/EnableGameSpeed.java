@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
 
-import static com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.setProp;
+import static com.sevtinge.hyperceiler.hook.utils.PropUtils.setProp;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;

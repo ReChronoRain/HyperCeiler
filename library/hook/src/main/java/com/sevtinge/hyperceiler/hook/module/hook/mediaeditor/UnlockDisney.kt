@@ -71,13 +71,6 @@ object UnlockDisney : BaseHook() {
         }
     }
 
-    private val isHookType by lazy {
-        mPrefsMap.getStringAsInt("mediaeditor_hook_type", 0)
-    }
-    private val isType by lazy {
-        mPrefsMap.getStringAsInt("mediaeditor_unlock_disney_some_func", 0)
-    }
-
     private val isMickey by lazy {
         mPrefsMap.getBoolean("mediaeditor_unlock_mickey_some_func")
     }
@@ -89,43 +82,12 @@ object UnlockDisney : BaseHook() {
     }
 
     override fun init() {
-        if (isHookType == 1) {
-            when (isType) {
-                1 -> {
-                    isHook(mickey, true)
-                    isHook(bear, false)
-                    isHook(
-                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
-                        false
-                    )
-                }
-
-                2 -> {
-                    isHook(mickey, false)
-                    isHook(bear, true)
-                    isHook(
-                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
-                        false
-                    )
-                }
-
-                3 -> {
-                    isHook(mickey, false)
-                    isHook(bear, false)
-                    isHook(
-                        princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
-                        true
-                    )
-                }
-            }
-        } else if (isHookType == 2) {
-            isHook(mickey, isMickey)
-            isHook(bear, isBear)
-            isHook(
-                princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
-                isPrincess
-            )
-        }
+        isHook(mickey, isMickey)
+        isHook(bear, isBear)
+        isHook(
+            princess.type.methodFinder().filterByReturnType(Object::class.java).first(),
+            isPrincess
+        )
     }
 
     private fun isHook(method: Method, bool: Boolean) {

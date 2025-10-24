@@ -24,14 +24,19 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.TrafficStats
+import android.text.TextUtils
+import android.widget.TextView
 import androidx.annotation.RequiresPermission
 import com.sevtinge.hyperceiler.hook.R
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.OtherTool.getModuleRes
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
+import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import java.net.NetworkInterface
 import kotlin.math.roundToLong
@@ -90,10 +95,23 @@ object NewNetworkSpeed : BaseHook() {
     private val nscCls by lazy {
         loadClassOrNull("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
     }
+    private val nsvCls by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader)
+    }
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun init() {
         runCatching {
+            if (isMoreAndroidVersion(36) && networkStyle != 0) {
+                // 仅 Android 16 出现末尾加空格的情况
+                nsvCls!!.methodFinder().filterByName("updateNetworkSpeed").first().createAfterHook {
+                    val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
+                    val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
+                    if (!TextUtils.equals(mNetworkSpeedNumber, mNetworkSpeedNumberText.text)) {
+                        mNetworkSpeedNumberText.text = mNetworkSpeedNumber
+                    }
+                }
+            }
             nscCls!!.methodFinder().filterByName("updateText").filterByParamCount(1).first().createBeforeHook {
                 // 获取该方法中的 Context
                 val mContext = it.thisObject.getObjectField("mContext") as Context

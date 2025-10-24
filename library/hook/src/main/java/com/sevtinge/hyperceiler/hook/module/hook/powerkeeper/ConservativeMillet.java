@@ -26,7 +26,8 @@ public class ConservativeMillet extends BaseHook {
     @Override
     public void init() {
         // from https://github.com/kooritea/fcmfix/blob/master/app/src/main/java/com/kooritea/fcmfix/xposed/PowerkeeperFix.java
-        Class<?> MilletConfig = XposedHelpers.findClassIfExists("com.miui.powerkeeper.millet.MilletConfig", lpparam.classLoader);
+        Class<?> MilletConfig = findClassIfExists("com.miui.powerkeeper.millet.MilletConfig");
+        if (MilletConfig == null) return;
         XposedHelpers.setStaticBooleanField(MilletConfig, "isGlobal", true);
     }
 }

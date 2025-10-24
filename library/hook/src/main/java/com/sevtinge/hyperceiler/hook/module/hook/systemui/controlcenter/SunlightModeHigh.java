@@ -118,7 +118,7 @@ public class SunlightModeHigh extends TileUtils {
             useSystem = true;
             logE(TAG, this.lpparam.packageName, "Missing directory, unable to set this mode: true");
         } else {
-            ShellUtils.execCommand("chmod 777 " + path, true, false);
+            ShellUtils.rootExecCmd("chmod 777 " + path);
             // logI("setPath: im get file: " + path);
         }
     }
@@ -302,7 +302,7 @@ public class SunlightModeHigh extends TileUtils {
         BroadcastReceiver broadcastReceiver = new Screen();
         IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
-        mContext.registerReceiver(broadcastReceiver, filter);
+        mContext.registerReceiver(broadcastReceiver, filter, Context.RECEIVER_EXPORTED);
         // logE("setBroadcastReceiver: registerReceiver: " + broadcastReceiver + " filter: " + filter);
         XposedHelpers.setAdditionalInstanceField(param.thisObject, "broadcastReceiver", broadcastReceiver);
         intentListening = true;

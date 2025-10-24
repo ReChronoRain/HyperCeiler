@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -32,9 +30,8 @@ import de.robv.android.xposed.XposedHelpers;
 public class AllowManageAllNotifications extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        Class<?> mNotifyManagerCls = isMoreAndroidVersion(35) ?
-                findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager", lpparam.classLoader) :
-                findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager", lpparam.classLoader);
+        Class<?> mNotifyManagerCls =
+                findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager", lpparam.classLoader);
         XposedHelpers.setStaticBooleanField(mNotifyManagerCls, "USE_WHITE_LISTS", false);
 
         try {

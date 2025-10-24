@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="item_view_bg_normal_color">#ffffffff</color>
+    <color name="item_view_bg_pressed_color">#14000000</color>
+
+
+    <color name="item_view_title_normal_color">#ff000000</color>
+    <color name="item_view_title_disable_color">#4d000000</color>
+
+    <color name="item_view_summary_normal_color">#99000000</color>
+    <color name="item_view_summary_disable_color">#4d000000</color>
+
+    <color name="item_view_arrow_right_normal_fill_color">#66000000</color>
+    <color name="item_view_arrow_right_disable_fill_color">#4d000000</color>
+    <color name="item_view_arrow_right_pressed_fill_color">#66000000</color>
+</resources>

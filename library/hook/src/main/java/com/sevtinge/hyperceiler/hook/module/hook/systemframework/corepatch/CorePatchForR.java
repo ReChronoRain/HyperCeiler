@@ -87,6 +87,7 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + ": UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
+            XposedBridge.log("[HyperCeiler][D][android]" + TAG + " exactSignatureCheck=" + prefs.getBoolean("prefs_key_system_framework_core_patch_exact_signature_check", false));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + " sharedUser=" + prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false));
             XposedBridge.log("[HyperCeiler][D][android]" + TAG + "disableVerificationAgent=" + prefs.getBoolean("prefs_key_system_framework_disable_verification_agent", true));
         }
@@ -410,6 +411,15 @@ public class CorePatchForR extends XposedHelper implements IXposedHookLoadPackag
         );
 
         hookAllMethods(getIsVerificationEnabledClass(loadPackageParam.classLoader), "isVerificationEnabled", new ReturnConstant(prefs, "prefs_key_system_framework_disable_verification_agent", false));
+
+        // Allow apk splits with different signatures to be installed together
+        hookAllMethods(signingDetails, "signaturesMatchExactly", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (prefs.getBoolean("prefs_key_system_framework_core_patch_exact_signature_check", false))
+                    param.setResult(true);
+            }
+        });
 
         if (DEBUG) initializeDebugHook(loadPackageParam);
     }

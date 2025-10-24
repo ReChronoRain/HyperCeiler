@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
@@ -26,6 +25,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+
+import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool;
 
 import java.util.List;
 
@@ -75,10 +76,10 @@ public class CustomCardTiles {
                 }
         );
 
-        findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
-                "updateBackground", new XC_MethodHook(XCallback.PRIORITY_HIGHEST) {
+        HookTool.hookAllMethods("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
+                "updateBackground", new HookTool.MethodHook(XCallback.PRIORITY_HIGHEST) {
                     @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
+                    protected void after(MethodHookParam param) {
                         Object state = XposedHelpers.getObjectField(param.thisObject, "state");
                         if (state == null) return;  // 系统界面组件会先 null 几次才会获取到值，应该是官方写法有问题
                         String spec = (String) XposedHelpers.getObjectField(state, "spec");
@@ -108,15 +109,13 @@ public class CustomCardTiles {
                 }
         );
 
-        if (isMoreHyperOSVersion(2f)) {
-            findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.QSCardsController", classLoader,
-                    "createVoWifiTiles",
-                    new XC_MethodHook() {
-                        @Override
-                        protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param)  {
-                            param.setResult(null);
-                        }
-                    });
-        }
+        findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.QSCardsController", classLoader,
+            "createVoWifiTiles",
+            new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param)  {
+                    param.setResult(null);
+                }
+            });
     }
 }

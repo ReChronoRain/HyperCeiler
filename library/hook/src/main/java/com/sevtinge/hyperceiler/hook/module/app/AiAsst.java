@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.hook.aiasst.NewAiCaptions;
 import com.sevtinge.hyperceiler.hook.module.hook.aiasst.UnlockAllCaptions;
+import com.sevtinge.hyperceiler.hook.module.hook.aiasst.UnlockSplitTranslation;
 
 @HookBase(targetPackage = "com.xiaomi.aiasst.vision")
 public class AiAsst extends BaseModule {
@@ -30,5 +31,6 @@ public class AiAsst extends BaseModule {
     public void handleLoadPackage() {
         initHook(NewAiCaptions.INSTANCE, mPrefsMap.getBoolean("aiasst_ai_captions"));
         initHook(UnlockAllCaptions.INSTANCE, mPrefsMap.getBoolean("aiasst_all_captions"));
+        initHook(UnlockSplitTranslation.INSTANCE, mPrefsMap.getBoolean("aiasst_unlock_split_screen_translation"));
     }
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="provision_back_description">Zurück</string>
+    <string name="provision_start_content_description">Start</string>
+    <string name="provision_next">Weiter</string>
+    <string name="provision_skip_underline">Überspringen</string>
+    <string name="provision_permission_settings_title">Berechtigungseinstellungen</string>
+    <string name="provision_terms_and_statement_title">Nutzungsbedingungen</string>
+    <string name="provision_basic_settings_title">Allgemeine Einstellungen</string>
+    <string name="provision_agree_and_next">Zustimmen</string>
+    <string name="provision_agree_terms">Ich habe die Nutzungsvereinbarung und Datenschutzerklärung gelesen und stimme diesen zu.</string>
+    <string name="provision_user_agreement">Benutzervereinbarung</string>
+    <string name="provision_privacy_policy">Datenschutzerklärung</string>
+    <string name="provision_terms_of_use">Nutzungsbedingungen</string>
+    <string name="provision_terms_of_use_label_use_network_china">Um Ihnen bessere Dienste anbieten zu können, müssen Sie vor der weiteren Nutzung des Systems unsere <a href="%1$s">Nutzungsvereinbarung</a> und <a href="%2$s">Datenschutzrichtlinie</a> lesen und diesen zustimmen. Wir schützen Ihre persönlichen Daten in Übereinstimmung mit den relevanten Gesetzen, Vorschriften und Datenschutzbestimmungen.</string>
+    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_protect_persoanl_info_statement">Wir schützen Ihre persönlichen Daten in Übereinstimmung mit den relevanten Gesetzen, Vorschriften und Datenschutzrichtlinien.</string>
+    <string name="provision_service_agreement">Ich habe die Nutzungsbedingungen gelesen und ihnen zugestimmt.</string>
+    <string name="provision_service_name_download">Downloads</string>
+    <string name="provision_service_policy_download"><Data>Bitte lesen und akzeptieren Sie die <a href="%1$s">Thunder-Datenschutzerklärung</a> und die <a href="%2$s">Nutzungsvereinbarung für die Netzwerkdienste der Thunder Company</a></Data></string>
+    <string name="provision_congratulation_title">Einrichtung abgeschlossen</string>
+    <string name="provision_congratulation_label">Erleben Sie das aufregende HyperOS!</string>
+    <string name="provision_complete_text">System betreten</string>
+</resources>

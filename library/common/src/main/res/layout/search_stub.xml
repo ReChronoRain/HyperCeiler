@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/search_panel"
+    style="@style/Widget.SearchActionMode.Input"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/miuix_appcompat_search_view_default_height"
+    android:paddingHorizontal="@dimen/miuix_appcompat_search_mode_bg_padding">
+
+    <RelativeLayout
+        android:id="@+id/inputArea"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/miuix_appcompat_searchbar_bg_height"
+        android:background="?attr/searchModeEditTextBackground">
+
+        <LinearLayout
+            android:id="@+id/search_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="@dimen/miuix_appcompat_edit_text_search_bg_icon_padding_start"
+                android:paddingEnd="@dimen/miuix_appcompat_edit_text_search_bg_icon_padding_end"
+                android:scaleType="centerInside"
+                android:src="?attr/searchModeEditTextIcon" />
+
+            <com.fan.common.widget.SearchEditText
+                android:id="@+id/input"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.0"
+                android:background="@null"
+                android:drawableEnd="?attr/clearableEditTextIcon"
+                android:gravity="center_vertical"
+                android:paddingStart="0dp"
+                android:scrollbars="none"
+                android:textColorHint="?attr/searchActionModeEditTextHintColor"
+                android:textDirection="locale"
+                android:textSize="@dimen/miuix_appcompat_search_edit_text_size" />
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

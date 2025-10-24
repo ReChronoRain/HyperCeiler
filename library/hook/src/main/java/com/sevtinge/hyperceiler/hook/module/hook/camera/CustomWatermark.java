@@ -58,7 +58,7 @@ public class CustomWatermark extends BaseHook {
         });
         for (Method method : methods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
-            logD(TAG, lpparam.packageName, "Current hooking method is " + method);
+            // logD(TAG, lpparam.packageName, "Current hooking method is " + method);
             try {
                 hookMethod(method, new MethodHook() {
                     @Override

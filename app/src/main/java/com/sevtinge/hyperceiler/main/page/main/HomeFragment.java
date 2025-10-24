@@ -18,10 +18,13 @@
  */
 package com.sevtinge.hyperceiler.main.page.main;
 
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
+import android.os.Looper;
 
+import androidx.annotation.NonNull;
 import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
@@ -47,6 +50,7 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
 
     private TextButtonPreference mShowAppTips;
     private PreferenceCategory mHeadtipGround;
+    private PreferenceCategory mAppsList;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -57,9 +61,12 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
     public void initPrefs() {
         mHeadtipGround = findPreference("prefs_key_headtip_ground");
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
+        mAppsList = findPreference("prefs_key_apps_list");
         HomepageEntrance.setEntranceStateListen(this);
         setPreference();
-        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+
+        Thread thread = getThread();
+        thread.start();
 
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);
         if (isHideTip && mShowAppTips != null) {
@@ -67,20 +74,42 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         }
     }
 
+    @NonNull
+    private Thread getThread() {
+        Thread thread = new Thread(() -> {
+            try {
+                HomePageBannerHelper.init(requireContext().getApplicationContext(), mHeadtipGround);
+            } catch (Exception e) {
+                AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on background thread, retrying on UI thread", e);
+                requireActivity().runOnUiThread(() -> {
+                    try {
+                        HomePageBannerHelper.init(requireContext(), mHeadtipGround);
+                    } catch (Exception ex) {
+                        AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on UI thread", ex);
+                    }
+                });
+            }
+        });
+        thread.setName("HomePageBannerInit");
+        return thread;
+    }
+
     private void setPreference() {
         try {
-            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
-            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_main, this::processPreferenceHeader);
+            final SharedPreferences sp = getSharedPreferences();
+            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_set_homepage_entrance,
+                (key, summary) -> processSwitchPreference(key, sp));
+            XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_main,
+                (key, summary) -> processPreferenceHeader(key, summary, sp));
         } catch (XmlPullParserException | IOException e) {
             AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
         }
     }
 
-    private void processSwitchPreference(String key) {
+    private void processSwitchPreference(String key, SharedPreferences sp) {
         if (key == null) return;
-        String checkKey = key.replace("_state", "");
-        boolean state = getSharedPreferences().getBoolean(key, true);
-        if (!state) {
+        String checkKey = key.endsWith("_state") ? key.substring(0, key.length() - "_state".length()) : key;
+        if (!sp.getBoolean(key, true)) {
             PreferenceHeader preferenceHeader = findPreference(checkKey);
             if (preferenceHeader != null && preferenceHeader.isVisible()) {
                 preferenceHeader.setVisible(false);
@@ -88,33 +117,43 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         }
     }
 
-    private void processPreferenceHeader(String key, String summary) {
+    private void processPreferenceHeader(String key, String summary, SharedPreferences sp) {
         if (key == null || summary == null) return;
+
         PreferenceHeader header = findPreference(key);
-        if (header != null) {
-            setIconAndTitle(header, summary);
-            header.setVisible(
-                LSPosedScopeHelper.isInSelectedScope(
-                    requireContext(),
-                    (String) header.getTitle(),
-                    (String) header.getSummary()
-                )
-            );
-        }
+        if (header == null) return;
+
+        setIconAndTitle(header, summary);
+        String title = header.getTitle() != null ? header.getTitle().toString() : "";
+        String summary1 = header.getSummary() != null ? header.getSummary().toString() : "";
+        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1, key, sp));
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
         if (header == null || packageName == null) return;
-        // 根据包名获取
         PackageManager pm = requireContext().getPackageManager();
         ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
-        if (appInfo != null) {
+        if (appInfo == null || pm == null) return;
+
+        mAppsList.setVisible(false);
+        Runnable loadAndApply = () -> {
             Drawable icon = appInfo.loadIcon(pm);
             CharSequence name = appInfo.loadLabel(pm);
-            header.setIcon(icon);
-            if (!"android".equals(packageName)) {
-                header.setTitle(name);
-            }
+
+            if (!isAdded()) return;
+            requireActivity().runOnUiThread(() -> {
+                header.setIcon(icon);
+                if (!"android".equals(packageName)) {
+                    header.setTitle(name);
+                }
+                mAppsList.setVisible(true);
+            });
+        };
+
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            new Thread(loadAndApply, "SetIconAndTitle").start();
+        } else {
+            loadAndApply.run();
         }
     }
 

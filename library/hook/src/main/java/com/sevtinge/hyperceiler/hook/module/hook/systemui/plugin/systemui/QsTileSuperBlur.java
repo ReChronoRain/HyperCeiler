@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -63,7 +65,7 @@ public class QsTileSuperBlur extends HCBase {
 
         miBlurCompatClass = findClass("miui.systemui.util.MiBlurCompat", classLoader);
         NORMAL = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "NORMAL");
-        SORT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "SORT");
+        if (!isMoreHyperOSVersion(3f)) SORT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "SORT");
         EDIT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "EDIT");
 
         hookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
@@ -190,9 +192,8 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
-            "updateBackground",
-            new IHook() {
+        hookAllMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
+            "updateBackground", new IHook() {
                 @Override
                 public void after() {
                     initRes((Context) callThisMethod("getContext"));
@@ -272,9 +273,13 @@ public class QsTileSuperBlur extends HCBase {
     }
 
     private static void initRes(Context context) {
-        int listItemsBlendColorsId = -1, seekbarFgBlendColorsId = -1, ringerIconBlendColorsId = -1, seekbarAndRingerBgBlendColorsId = -1;
+        int listItemsBlendColorsId, seekbarFgBlendColorsId, ringerIconBlendColorsId, seekbarAndRingerBgBlendColorsId;
         if (listItemsBlendColors == null || seekbarFgBlendColors == null || ringerIconBlendColors == null || seekbarAndRingerBgBlendColors == null) {
-            listItemsBlendColorsId = context.getResources().getIdentifier("control_center_list_items_blend_colors", "array", context.getPackageName());
+            if (isMoreHyperOSVersion(3f)) {
+                listItemsBlendColorsId = context.getResources().getIdentifier("cc_tile_default_blend_colors", "array", context.getPackageName());
+            } else {
+                listItemsBlendColorsId = context.getResources().getIdentifier("control_center_list_items_blend_colors", "array", context.getPackageName());
+            }
             seekbarFgBlendColorsId = context.getResources().getIdentifier("miui_seekbar_fg_blend_colors_collapsed", "array", context.getPackageName());
             ringerIconBlendColorsId = context.getResources().getIdentifier("miui_ringer_icon_blend_colors_collapsed", "array", context.getPackageName());
             seekbarAndRingerBgBlendColorsId = context.getResources().getIdentifier("miui_seekbar_and_ringer_bg_blend_colors_collapsed", "array", context.getPackageName());

@@ -18,12 +18,29 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.home.title;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
-public class DownloadAnimation extends BaseHook {
+public class DownloadAnimation extends HomeBaseHookNew {
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        hookAllMethods("com.miui.home.common.utils.DeviceLevelUtils", "needMamlProgressIcon", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
+        hookAllMethods("com.miui.home.common.utils.DeviceLevelUtils", "needRemoveDownloadAnimationDevice", new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                param.setResult(false);
+            }
+        });
+    }
+
     @Override
-    public void init() {
-        try{
+    public void initBase() {
+        try {
             hookAllMethods("com.miui.home.launcher.common.DeviceLevelUtils", "needMamlProgressIcon", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) throws Throwable {

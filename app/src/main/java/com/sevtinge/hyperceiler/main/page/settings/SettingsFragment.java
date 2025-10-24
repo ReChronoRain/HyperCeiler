@@ -31,12 +31,12 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.tencent.mmkv.MMKV;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
@@ -125,9 +125,9 @@ public class SettingsFragment extends PagePreferenceFragment
         });
 
         findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
-            DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.ui.R.string.reset_title, com.sevtinge.hyperceiler.ui.R.string.reset_desc, (dialog, which) -> {
+            DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_title, R.string.reset_desc, (dialog, which) -> {
                 PrefsUtils.mSharedPreferences.edit().clear().apply();
-                Toast.makeText(getActivity(), com.sevtinge.hyperceiler.ui.R.string.reset_okay, Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
             });
             return true;
         });
@@ -142,7 +142,11 @@ public class SettingsFragment extends PagePreferenceFragment
     }
 
     private void setLogLevel(int level) {
-        ShellInit.getShell().run("setprop persist.hyperceiler.log.level " + level);
+        // ShellInit.getShell().run("setprop persist.hyperceiler.log.level " + level);
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.putInt("persist.hyperceiler.log.level", level);
+
+
     }
 
     private void setIconMode(int mode) {

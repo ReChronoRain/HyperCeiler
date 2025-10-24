@@ -30,6 +30,9 @@
     <string name="tiles_snow_leopard_mode">S-Leo mode</string>
     <string name="tiles_taplus">Taplus</string>
     <string name="tiles_5g">5G network</string>
+    <string name="system_ui_statusbar_music_share">Share lyrics</string>
+    <string name="system_ui_statusbar_music_send">Release to send</string>
+    <string name="system_ui_statusbar_music_send_share_text">I shared the following lyrics from %1$s:\n%2$s</string>
     <string name="system_ui_statusbar_music_notification">Focus notification lyrics</string>
     <string name="system_ui_statusbar_network_speed_Bs" translatable="false">B/s</string>
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
@@ -53,6 +56,8 @@
     <string name="media_control_album_mode_2">Invisible</string>
     <string name="media_control_button_mode_1">The custom button is on the far right</string>
     <string name="media_control_button_mode_2">The play button is on the far left</string>
+    <string name="notes_unlock_ai_mode_1">Old version</string>
+    <string name="notes_unlock_ai_mode_2">New version</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Network settings</string>
     <string name="system_ui_hide_navigation_bar">Hide gesture line</string>
@@ -85,8 +90,6 @@
     <!--Mi Share-->
     <string name="mishare">Xiaomi Share</string>
     <string name="mishare_disable_mishare_auto_off">Disable automatic disable of Xiaomi Share</string>
-    <string name="mishare_disable_auto_on_location">Disable auto enable location when sharing document</string>
-    <string name="mishare_unlock_turbo_mode">Unlock Turbo transfer</string>
     <string name="mishare_hook_switch_mode_all">Everyone</string>
     <!--Smart cards-->
     <string name="tsmclient">Smart cards</string>

@@ -23,6 +23,7 @@ import android.app.ApplicationErrorReport;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
+import android.os.SystemProperties;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
@@ -91,6 +92,7 @@ public class CrashHook extends HookTool {
                         XposedLogUtils.logE("CrashHook", "context: " + mContext + " pkg: " + mContext.getPackageName() + " proc: " + proc + " crash: " + crashInfo + " short: " + shortMsg
                                 + " long: " + longMsg + " stack: " + stackTrace + " time: " + timeMillis + " pid: " + callingPid + " uid: " + callingUid);
                         recordCrash(mContext, proc, crashInfo, shortMsg, longMsg, stackTrace, timeMillis, callingPid, callingUid);
+                        SafeMode.INSTANCE.onHandleCrash(longMsg, stackTrace, crashInfo.throwClassName, crashInfo.throwFileName, crashInfo.throwLineNumber, crashInfo.throwMethodName);
                     }
                 }
         );
@@ -136,7 +138,7 @@ public class CrashHook extends HookTool {
                         }
                     }
                 );
-            } else if (SystemSDKKt.isAndroidVersion(35)) {
+            } else {
                 HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
                         int.class, int.class, String.class, int.class, int.class,
                         "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord",
@@ -153,22 +155,6 @@ public class CrashHook extends HookTool {
                                             "BAL_ALLOW_DEFAULT"
                                     );
                                     param.setResult(balAllowDefault);
-                                }
-                            }
-                        }
-                );
-            } else {
-                HookTool.findAndHookMethod("com.android.server.wm.BackgroundActivityStartController", classLoader, "checkBackgroundActivityStart",
-                        int.class, int.class, String.class, int.class, int.class,
-                        "com.android.server.wm.WindowProcessController", "com.android.server.am.PendingIntentRecord",
-                        "android.app.BackgroundStartPrivileges", Intent.class, ActivityOptions.class,
-                        new MethodHook() {
-                            @Override
-                            protected void before(MethodHookParam param) {
-                                String pkg = (String) param.args[2];
-                                if (pkg == null) return;
-                                if (ProjectApi.mAppModulePkg.equals(pkg)) {
-                                    param.setResult(1);
                                 }
                             }
                         }
@@ -304,12 +290,17 @@ public class CrashHook extends HookTool {
 
         String abbr = scopeMap.get(CrashRecord.getPkg(report.get(0)));
 
-        ShellInit.init();
-        ShellInit.getShell().run("setprop persist.hyperceiler.crash.report " + "\"" + stringBuilder + "\"").sync();
+        try {
+            ShellInit.init();
+            ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + stringBuilder + "\"").sync();
 
-        Intent intent = getIntent(abbr);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(intent);
+            Intent intent = getIntent(abbr);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(intent);
+        } catch (Throwable ignore) {
+            SystemProperties.set("persist.service.hyperceiler.crash.report", abbr);
+            logD("SafeMode", "start CrashActivity failed, try set prop");
+        }
 
         /*Intent intent = getIntent(abbr, stringBuilder);
         mContext.startService(intent);*/
@@ -318,7 +309,7 @@ public class CrashHook extends HookTool {
     private Intent getIntent(String abbr) {
         Intent intent = new Intent();
         intent.setPackage("com.sevtinge.hyperceiler");
-        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safe.CrashActivity");
+        intent.setClassName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safemode.CrashActivity");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.putExtra("key_longMsg", longMsg);
         intent.putExtra("key_stackTrace", stackTrace);

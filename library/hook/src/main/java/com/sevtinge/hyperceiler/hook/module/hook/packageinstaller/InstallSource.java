@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.packageinstaller;
 
+import android.app.Activity;
+
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import de.robv.android.xposed.XC_MethodReplacement;
@@ -31,8 +33,42 @@ public class InstallSource extends BaseHook {
 
         mInstallSourcePackageName = mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer");
 
+        findAndHookMethod(Activity.class, "getLaunchedFromPackage", new MethodHook(){
+            @Override
+            protected void before(MethodHookParam param) throws Throwable {
+                if (isCalledFromInstallStart()) param.setResult(mInstallSourcePackageName);
+            }
+        });
+
         findAndHookMethodSilently("com.miui.packageInstaller.InstallStart",
             "getCallingPackage",
             XC_MethodReplacement.returnConstant(mInstallSourcePackageName));
     }
+
+    private static boolean isCalledFromInstallStart() {
+        try {
+            StackTraceElement[] st = Thread.currentThread().getStackTrace();
+            if (st == null) return false;
+
+            for (int i = 0; i < st.length - 1; i++) {
+                StackTraceElement cur = st[i];
+                StackTraceElement next = st[i + 1];
+
+                if (cur == null || next == null) continue;
+
+                if (cur.getClassName() != null
+                    && cur.getClassName().startsWith("com.miui.packageInstaller")) {
+
+                    if ("com.miui.packageInstaller.InstallStart".equals(next.getClassName())
+                        && "onCreate".equals(next.getMethodName())) {
+                        return true;
+                    }
+                }
+            }
+        } catch (Throwable t) {
+            de.robv.android.xposed.XposedBridge.log("isCalledFromInstallStartStrict error: " + t);
+        }
+        return false;
+    }
+
 }

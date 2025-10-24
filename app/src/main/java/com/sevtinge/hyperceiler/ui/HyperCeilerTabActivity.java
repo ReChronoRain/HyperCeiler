@@ -19,15 +19,16 @@
 package com.sevtinge.hyperceiler.ui;
 
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
+import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -37,6 +38,7 @@ import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
@@ -46,18 +48,24 @@ import com.sevtinge.hyperceiler.hook.callback.IResult;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
-import com.sevtinge.hyperceiler.main.holiday.HolidayHelper;
+import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
+import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import fan.appcompat.app.AlertDialog;
 import fan.navigator.Navigator;
@@ -71,25 +79,68 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     private Handler mHandler;
     private ArrayList<String> appCrash = new ArrayList<>();
 
+    private ExecutorService mInitExecutor;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        mHandler = new Handler(getMainLooper());
+        super.onCreate(savedInstanceState);
+
+        mHandler = new Handler(Looper.getMainLooper());
+
+        mInitExecutor = Executors.newSingleThreadExecutor();
+
         LogManager.init();
         applyGrayScaleFilter(this);
         HolidayHelper.init(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);
-        super.onCreate(savedInstanceState);
-        SearchHelper.init(this, savedInstanceState != null);
-        XposedActivateHelper.init(this);
         ShellInit.init(this);
-        LogServiceUtils.init(this);
-        LogManager.setLogLevel();
+        XposedActivateHelper.init(this);
 
-        appCrash = CrashData.toPkgList();
-        mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+        final boolean restored = (savedInstanceState != null);
 
-        requestCta();
+        mInitExecutor.execute(() -> {
+            final android.content.Context appCtx = getApplicationContext();
+
+            try {
+                LogServiceUtils.init(appCtx);
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "LogServiceUtils" + t);
+            }
+
+            try {
+                SearchHelper.init(appCtx, restored);
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "SearchHelper" + t);
+            }
+
+            try {
+                LogManager.setLogLevel();
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+
+            List<?> computedAppCrash;
+            try {
+                computedAppCrash = CrashData.toPkgList();
+            } catch (Throwable t) {
+                t.printStackTrace();
+                computedAppCrash = java.util.Collections.emptyList();
+            }
+
+            List<?> finalComputedAppCrash = computedAppCrash;
+            mHandler.post(() -> {
+                appCrash = (ArrayList<String>) finalComputedAppCrash;
+
+                mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+
+                requestCta();
+            });
+        });
+
+        // 先这样写，后面扩展了其它应用再改
+        boolean check = CheckModifyUtils.INSTANCE.isApkModified(this, "com.miui.home", CheckModifyUtils.XIAOMI_SIGNATURE);
+        CheckModifyUtils.INSTANCE.setCheckResult("com.miui.home", check);
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -98,7 +149,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             Map<String, String> appNameMap = createAppNameMap();
             ArrayList<String> appList = getAppListWithCrashReports(appNameMap);
             String appName = String.join(", ", appList);
-            String msg = getString(com.sevtinge.hyperceiler.ui.R.string.safe_mode_later_desc, appName);
+            String msg = getString(R.string.safe_mode_later_desc, appName);
             msg = cleanUpMessage(msg);
             DialogHelper.showSafeModeDialog(this, msg);
         }
@@ -106,11 +157,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     private Map<String, String> createAppNameMap() {
         Map<String, String> appNameMap = new HashMap<>();
-        appNameMap.put("com.android.systemui", getString(com.sevtinge.hyperceiler.ui.R.string.system_ui));
-        appNameMap.put("com.android.settings", getString(com.sevtinge.hyperceiler.ui.R.string.system_settings));
-        appNameMap.put("com.miui.home", getString(com.sevtinge.hyperceiler.ui.R.string.mihome));
-        appNameMap.put("com.hchen.demo", getString(com.sevtinge.hyperceiler.ui.R.string.demo));
-        appNameMap.put("com.miui.securitycenter", getString(com.sevtinge.hyperceiler.ui.R.string.security_center_hyperos));
+        appNameMap.put("com.android.systemui", getString(R.string.system_ui));
+        appNameMap.put("com.android.settings", getString(R.string.system_settings));
+        appNameMap.put("com.miui.home", getString(R.string.mihome));
+        appNameMap.put("com.hchen.demo", getString(R.string.demo));
+        appNameMap.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
 
         return appNameMap;
     }
@@ -230,11 +281,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             switch (requestCode) {
                 case BackupUtils.CREATE_DOCUMENT_CODE -> {
                     BackupUtils.handleCreateDocument(this, data.getData());
-                    alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.backup_success);
+                    alert.setTitle(com.sevtinge.hyperceiler.core.R.string.backup_success);
                 }
                 case BackupUtils.OPEN_DOCUMENT_CODE -> {
                     BackupUtils.handleReadDocument(this, data.getData());
-                    alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.rest_success);
+                    alert.setTitle(com.sevtinge.hyperceiler.core.R.string.rest_success);
                 }
                 default -> {
                     return;
@@ -246,8 +297,8 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         } catch (Exception e) {
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             switch (requestCode) {
-                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.backup_failed);
-                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.ui.R.string.rest_failed);
+                case BackupUtils.CREATE_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.core.R.string.backup_failed);
+                case BackupUtils.OPEN_DOCUMENT_CODE -> alert.setTitle(com.sevtinge.hyperceiler.core.R.string.rest_failed);
             }
             alert.setMessage(e.toString());
             alert.setPositiveButton(android.R.string.ok, (dialog, which) -> {
@@ -279,5 +330,18 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         ThreadPoolManager.shutdown();
         mUninstallApp.clear();
         mDisableOrHiddenApp.clear();
+
+        if (mInitExecutor != null) {
+            mInitExecutor.shutdown();
+            try {
+                if (!mInitExecutor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                    mInitExecutor.shutdownNow();
+                }
+            } catch (InterruptedException e) {
+                mInitExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+            mInitExecutor = null;
+        }
     }
 }

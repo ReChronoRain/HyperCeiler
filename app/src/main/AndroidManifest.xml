@@ -118,11 +118,22 @@
 
         <activity
             android:name=".sub.SubPickerActivity"
+            android:theme="@style/SubPickerTheme"
+            android:label="@string/array_global_actions_launch_choose"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+
+        <meta-data
+            android:name="app_description_title"
+            android:resource="@string/uninstall_title" />
+
+        <meta-data
+            android:name="app_description_content"
+            android:resource="@string/uninstall_summary" />
 
         <meta-data
             android:name="miui_keyguard_shortcuts"
             android:resource="@xml/miui_keyguard_shortcuts" />
+
 
         <activity
             android:name="com.sevtinge.hyperceiler.safemode.CrashActivity"

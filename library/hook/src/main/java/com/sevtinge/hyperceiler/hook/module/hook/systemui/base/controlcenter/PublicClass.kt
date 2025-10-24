@@ -48,19 +48,11 @@ object PublicClass {
     }
 
     val notificationUtil by lazy {
-        if (isAndroidVersion(35)) {
-            loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
-        } else {
-            loadClassOrNull("com.android.systemui.statusbar.notification.NotificationUtil")
-        }
+        loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
     }
 
     val mediaViewHolder by lazy {
-        if (isAndroidVersion(35)) {
-            loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
-        } else {
-            loadClassOrNull("com.android.systemui.media.controls.models.player.MediaViewHolder")
-        }
+        loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
     }
 
     val seekBarObserver by lazy {
@@ -70,11 +62,7 @@ object PublicClass {
     }
 
     val playerTwoCircleView by lazy {
-        if (isAndroidVersion(35)) {
-            loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
-        } else {
-            loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.PlayerTwoCircleView")
-        }
+        loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
     }
 
     val statusBarStateControllerImpl by lazy {

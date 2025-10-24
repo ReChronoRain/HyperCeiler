@@ -42,6 +42,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 public class AppDetails extends BaseHook {
@@ -105,6 +107,50 @@ public class AppDetails extends BaseHook {
                                 } else {
                                     addPref[0].setAccessible(true);
                                 }
+
+                                // === 替换 noClickTextPreference 为 TextPreference ===
+                                XposedBridge.hookMethod(addPref[0], new XC_MethodHook() {
+                                    @Override
+                                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                                        Object thiz = param.thisObject;
+                                        ClassLoader cl = thiz.getClass().getClassLoader();
+
+                                        param.setResult(null);
+
+                                        Object prefManager = XposedHelpers.callMethod(thiz, "getPreferenceManager");
+                                        Method[] ctxMethods = XposedHelpers.findMethodsByExactParameters(prefManager.getClass(), Context.class);
+                                        if (ctxMethods.length == 0) {
+                                            logE(TAG, "Cannot find Context method in PreferenceManager!");
+                                            return;
+                                        }
+                                        Context ctx = (Context) XposedHelpers.callMethod(prefManager, ctxMethods[0].getName());
+
+                                        Class<?> textPrefCls = XposedHelpers.findClass("miuix.preference.TextPreference", cl);
+                                        Object textPref = XposedHelpers.newInstance(textPrefCls, ctx);
+
+                                        XposedHelpers.callMethod(textPref, "setKey", param.args[0]);
+                                        XposedHelpers.callMethod(textPref, "setTitle", param.args[1]);
+                                        XposedHelpers.callMethod(textPref, "setText", param.args[2]);
+
+                                        Field prefField = XposedHelpers.findFirstFieldByExactType(
+                                            thiz.getClass(),
+                                            XposedHelpers.findClass("androidx.preference.PreferenceCategory", cl)
+                                        );
+
+                                        if (prefField == null) {
+                                            logE(TAG, "Cannot find PreferenceCategory field!");
+                                            return;
+                                        }
+
+                                        prefField.setAccessible(true);
+                                        Object prefGroup = prefField.get(thiz);
+
+                                        XposedHelpers.callMethod(prefGroup, "addP" +
+                                            "reference", textPref);
+
+                                    }
+                                });
+
                                 addPref[0].invoke(frag, "apk_versioncode", modRes.getString(R.string.app_details_apk_version_code), String.valueOf(mLastPackageInfo.getLongVersionCode()));
                                 addPref[0].invoke(frag, "app_uid", modRes.getString(R.string.app_details_app_uid), String.valueOf(mLastPackageInfo.applicationInfo.uid));
                                 addPref[0].invoke(frag, "data_path", modRes.getString(R.string.app_details_data_path), mLastPackageInfo.applicationInfo.dataDir);

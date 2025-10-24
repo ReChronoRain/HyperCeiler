@@ -99,9 +99,6 @@ object CustomBackground : BaseHook() {
     private val isAndroidB by lazy {
         isMoreAndroidVersion(36)
     }
-    private val isAndroidV by lazy {
-        isAndroidVersion(35)
-    }
 
     override fun init() {
         processor = when (backgroundStyle) {
@@ -113,21 +110,15 @@ object CustomBackground : BaseHook() {
         }
 
         if (!isAndroidB) {
-            if (isAndroidV) {
-                loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaViewController")!!.methodFinder()
-                    .filterByName("resetLayoutResource")
-                    .first()
-                    .replaceMethod {
-                        null
-                    }
-            }
+            loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaViewController")!!.methodFinder()
+                .filterByName("resetLayoutResource")
+                .first()
+                .replaceMethod {
+                    null
+                }
 
             playerTwoCircleView?.apply {
-                if (isAndroidV) {
-                    constructorFinder().filterByParamCount(4)
-                } else {
-                    constructorFinder().filterByParamCount(3)
-                }.first().createAfterHook { param ->
+                constructorFinder().filterByParamCount(4).first().createAfterHook { param ->
                     param.thisObject.getObjectFieldOrNullAs<Paint>("mPaint1")?.alpha = 0
                     param.thisObject.getObjectFieldOrNullAs<Paint>("mPaint2")?.alpha = 0
                     param.thisObject.setObjectField("mRadius", 0.0f)
@@ -160,28 +151,25 @@ object CustomBackground : BaseHook() {
                     }*/
 
 
-                if (isAndroidV) {
-                    // Android 16 在其 com.android.systemui.media.controls.ui.controller.MediaControlPanel 类可见
-                    // Android 15 在其超类中抽象了此方法，并在继承中重写了此方法
-                    // Android 14 查无此方法
-                    methodFinder().filterByName("onDestroy")
-                        .first()
-                        .createAfterHook {
-                            finiMediaViewHolder()
-                        }
+                // Android 16 在其 com.android.systemui.media.controls.ui.controller.MediaControlPanel 类可见
+                // Android 15 在其超类中抽象了此方法，并在继承中重写了此方法
+                methodFinder().filterByName("onDestroy")
+                    .first()
+                    .createAfterHook {
+                        finiMediaViewHolder()
+                    }
 
-                    methodFinder().filterByName("setPlayerBg")
-                        .first()
-                        .replaceMethod {
-                            null
-                        }
+                methodFinder().filterByName("setPlayerBg")
+                    .first()
+                    .replaceMethod {
+                        null
+                    }
 
-                    methodFinder().filterByName("setForegroundColors")
-                        .first()
-                        .replaceMethod {
-                            null
-                        }
-                }
+                methodFinder().filterByName("setForegroundColors")
+                    .first()
+                    .replaceMethod {
+                        null
+                    }
 
 
                 methodFinder().filterByName("bindPlayer")

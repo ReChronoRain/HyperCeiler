@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/theme_manager"
+    app:quick_restart="com.android.thememanager">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:title="@string/theme_manager_diable_ads"
+            android:summary="@string/theme_manager_diable_ads_desc"
+            android:key="prefs_key_various_theme_disable_ads"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/theme_manager_allow_download_more"
+            android:summary="@string/theme_manager_allow_download_more_desc"
+            android:key="prefs_key_theme_manager_allow_download_more"
+            android:defaultValue="false" />
+
+        <SwitchPreference
+            android:title="@string/unlock_ai_wallpaper"
+            android:key="prefs_key_theme_manager_unlock_ai_wallpaper"
+            android:defaultValue="false" />
+
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_theme_manager_new_version_code_modify"
+            android:summary="@string/theme_manager_version_code_modify_desc"
+            android:title="@string/theme_manager_version_code_modify"
+            android:defaultValue="0"
+            app:entries="@array/theme_manager_version_code"
+            app:entryValues="@array/theme_manager_version_code_value"
+            app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

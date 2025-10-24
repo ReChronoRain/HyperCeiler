@@ -22,7 +22,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.securitycenter;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
-
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
@@ -32,12 +31,9 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 
 public class CtaBypassForHyperceiler extends BaseHook {
-
-    public static boolean IS_HOOKED = false;
-
     @Override
     public void init() throws NoSuchMethodException {
-        Method method = DexKit.findMember("CtaAppIfAllow", new IDexKit() {
+        /*Method method = DexKit.findMember("CtaAppIfAllow", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,8 +47,7 @@ public class CtaBypassForHyperceiler extends BaseHook {
             @Override
             protected void before(MethodHookParam param) throws Throwable {
                 param.args[0] = Boolean.TRUE;
-                IS_HOOKED = true;
             }
-        });
+        });*/
     }
 }

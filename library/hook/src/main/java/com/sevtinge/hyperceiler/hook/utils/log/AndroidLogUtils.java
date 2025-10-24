@@ -20,20 +20,26 @@ package com.sevtinge.hyperceiler.hook.utils.log;
 
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.hook.utils.PropUtils;
+import com.tencent.mmkv.MMKV;
 
-/* 不太建议在非 Xposed 代码使用处调用，虽然已经做了 try 处理，但是 detailLog 将始终为 false
- * 可能因为 <BaseHook.mPrefsMap.getBoolean("settings_disable_detailed_log");>
- * 会导致 <java.lang.NoClassDefFoundError: Failed resolution of: Lcom/sevtinge/hyperceiler/XposedInit;> 等
- * 日记:
- * 2025/1/3
- * 我的评价是不要限制这个。
- * 2025/1/4
- * 我爱 prop。
- * */
+/*
+ * 请在非 Xposed 代码下使用此类进行日志记录
+ *
+ */
 public class AndroidLogUtils {
-    private static final String Tag = "[HyperCeiler]: ";
-    private static final int logLevel = PropUtils.getProp("persist.hyperceiler.log.level", 3);
+    private static final String Tag = "HyperCeiler: ";
+    private static final int logLevel;
+    static {
+        int level = 3;
+        try {
+            MMKV mmkv = MMKV.defaultMMKV();
+            level = mmkv.getInt("persist.hyperceiler.log.level", level);
+        } catch (Throwable t) {
+            Log.e("HyperCeiler:AndroidLogUtils", "Failed to get log level from MMKV", t);
+        }
+        logLevel = level;
+    }
+
 
     public static void logI(String tag, String msg) {
         if (logLevel < 3) return;

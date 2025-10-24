@@ -25,7 +25,7 @@
         <com.sevtinge.hyperceiler.common.prefs.TipsPreference android:key="prefs_key_tips" />
     </PreferenceCategory>
 
-    <PreferenceCategory>
+    <PreferenceCategory android:key="prefs_key_apps_list">
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.hooker.SystemFrameworkFragment"
@@ -54,6 +54,13 @@
             android:key="prefs_key_camera_2"
             android:summary="com.android.camera"
             android:title="@string/camera" />
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_contacts"
+            android:summary="com.android.contacts"
+            android:title="@string/contacts"
+            app:inflatedXml="@xml/contacts"/>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
@@ -168,6 +175,13 @@
             app:inflatedXml="@xml/lbe_security"/>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_health"
+            android:summary="com.mi.health"
+            android:title="@string/health"
+            app:inflatedXml="@xml/health" />
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:fragment="com.sevtinge.hyperceiler.hooker.MiLinkFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_milink"
@@ -266,11 +280,11 @@
             android:title="@string/mishare" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:fragment="com.sevtinge.hyperceiler.hooker.MiSoundFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_misound"
             android:summary="com.miui.misound"
-            android:title="@string/misound"
-            app:inflatedXml="@xml/misound"/>
+            android:title="@string/misound" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
@@ -278,6 +292,13 @@
             android:summary="com.miui.miwallpaper"
             android:title="@string/miwallpaper"
             app:inflatedXml="@xml/miwallpaper"/>
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_notes"
+            android:summary="com.miui.notes"
+            android:title="@string/notes"
+            app:inflatedXml="@xml/notes"/>
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_dock"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_unlock_hotseat"
+            android:title="@string/home_dock_unlock_hotseat" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_disable_recents_icon"
+            android:title="@string/home_dock_disable_recents_icon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_icon_title"
+            android:title="@string/home_dock_icon_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_home_dock_hide_dock"
+            android:summary="@string/home_dock_hide_dock_desc"
+            android:title="@string/home_dock_hide_dock"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_dock_hide_dock"
+            android:key="prefs_key_home_dock_slide_up_only_show_dock"
+            android:summary="@string/home_dock_slide_up_only_show_dock_desc"
+            android:title="@string/home_dock_slide_up_only_show_dock"
+            app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_bg_custom_enable"
+            android:title="@string/home_dock_bg_enable" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_dock_bg_all_app"
+            android:summary="@string/home_dock_bg_all_app_more"
+            android:title="@string/home_dock_bg_all_app" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_add_blur"
+            android:title="@string/home_dock_add_blur"
+            app:entries="@array/blur_switch"
+            app:entryValues="@array/blur_switch_value" />
+
+        <Preference
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:fragment="com.sevtinge.hyperceiler.sub.CustomBackgroundSettings"
+            android:key="prefs_key_home_dock_bg_custom"
+            android:title="@string/home_dock_bg_custom" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_height"
+            android:summary="@string/home_dock_bg_height_desc"
+            android:title="@string/home_dock_bg_height"
+            app:defaultValue="150"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="300"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_margin_horizontal"
+            android:summary="@string/home_dock_bg_margin_horizontal_desc"
+            android:title="@string/home_dock_bg_margin_horizontal"
+            app:defaultValue="25"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="160"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <!--SeekBarPreferenceCompat
+            android:key="prefs_key_home_dock_bg_margin_top"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:title="@string/top_margin"
+            android:summary="@string/home_dock_bg_margin_top_desc"
+            android:defaultValue="25"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="150"
+            app:stepValue="1"
+            app:format="%s dp"
+            app:showSeekBarValue="true" /-->
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_margin_bottom"
+            android:summary="@string/home_dock_bg_margin_bottom_desc"
+            android:title="@string/bottom_margin"
+            app:defaultValue="15"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_radius"
+            android:title="@string/custom_background_corner_radius"
+            app:defaultValue="30"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <!--<SeekBarPreferenceCompat
+            app:defaultValue="200"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_custom_background_blur_degree"
+            android:title="@string/custom_background_blur_degree"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s bl"
+            app:maxValue="500"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />-->
+
+        <ColorPickerPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_bg_color"
+            android:title="@string/home_dock_bg_color" />
+
+        <!--<SeekBarPreferenceCompat
+            android:key="prefs_key_home_dock_icon_margin_bottom"
+            android:title="@string/home_dock_icon_margin_bottom"
+            android:summary="@string/home_dock_icon_margin_bottom_desc"
+            android:defaultValue="90"
+            app:maxValue="200"
+            android:format="%d dp"
+            app:stepValue="1"
+            android:dependency="prefs_key_home_dock_bg_custom_enable" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_dock_icon_bottom_margin"
+            android:title="@string/home_dock_icon_bottom_margin"
+            android:defaultValue="35"
+            app:maxValue="100"
+            app:stepValue="1"
+            android:dependency="prefs_key_home_dock_bg_custom_enable" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_dock_margin_bottom"
+            android:title="@string/home_dock_margin_bottom"
+            android:defaultValue="60"
+            app:maxValue="100"
+            app:stepValue="1"
+            android:dependency="prefs_key_home_dock_bg_custom_enable" />-->
+
+    </PreferenceCategory>
+</PreferenceScreen>

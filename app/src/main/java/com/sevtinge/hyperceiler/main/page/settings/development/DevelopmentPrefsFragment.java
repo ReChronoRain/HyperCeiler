@@ -26,7 +26,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 
 import java.util.Arrays;
 import java.util.HashSet;

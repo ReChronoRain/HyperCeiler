@@ -20,25 +20,24 @@ package com.sevtinge.hyperceiler.hook.module.hook.home.other
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
 
 object ShowAllHideApp : BaseHook() {
-    val getClass: Class<*> by lazy {
-        DexKit.findMember("ShowAllHideApp") { bridge ->
-            bridge.findClass {
-                matcher {
-                    usingStrings("appInfo.packageName", "com.android.fileexplorer")
-                }
-            }.single()
-        }
-    }
 
     override fun init() {
-        getClass.methodFinder()
-            .filterByName("isHideAppValid")
-            .single().createHook {
-                returnConstant(true)
-            }
+        DexKit.findMember<Method>("ShowAllHideAppNew") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    declaredClass {
+                        addUsingString("com.android.fileexplorer")
+                    }
+
+                    name = "isHideAppValid"
+                }
+            }.single()
+        }.createHook {
+            returnConstant(true)
+        }
     }
 }

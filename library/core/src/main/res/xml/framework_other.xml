@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_framework_other_title"
+    app:quick_restart="system">
+    <PreferenceCategory android:title="@string/system_framework_screen_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_screen_all_rotations"
+            android:title="@string/system_framework_screen_all_rotations" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_quick_screenshot"
+            android:summary="@string/system_framework_quick_screenshot_desc"
+            android:title="@string/system_framework_quick_screenshot" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_anti_ques"
+            android:summary="@string/system_settings_anti_ques_desc"
+            android:title="@string/system_settings_anti_ques" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_72h_verify"
+            android:title="@string/system_framework_disable_72h_verify" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_thermal_brightness"
+            android:summary="@string/system_framework_other_thermal_brightness_more"
+            android:title="@string/system_framework_other_thermal_brightness" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_app_link_verify"
+            android:summary="@string/system_framework_disable_app_link_verify_desc"
+            android:title="@string/system_framework_disable_app_link_verify" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_various_disable_access_device_logs"
+            android:title="@string/various_disable_access_device_logs" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_link_turbo_toast"
+            android:title="@string/system_framework_disable_link_turbo_toast" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_other_flag_secure"
+            android:summary="@string/system_other_flag_secure_desc"
+            android:title="@string/system_other_flag_secure" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_allow_untrusted_touch"
+            android:title="@string/system_framework_allow_untrusted_touch" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_guided_access"
+            android:summary="@string/system_framework_guided_access_more"
+            android:title="@string/system_framework_guided_access" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_sc"
+            android:title="@string/system_framework_guided_access_sc" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_screen_int"
+            android:title="@string/system_framework_guided_access_screen"
+            app:entries="@array/guided_access_screen_area"
+            app:entryValues="@array/guided_access_screen_area_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_status"
+            android:summary="@string/system_framework_guided_access_status_more"
+            android:title="@string/system_framework_guided_access_status" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_other_delete_on_post_notification"
+            android:summary="@string/system_other_delete_on_post_notification_desc"
+            android:title="@string/system_other_delete_on_post_notification" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_framework_core_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_miui_watermark"
+            android:title="@string/system_framework_disable_miui_watermark" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_speed_install"
+            android:summary="@string/system_framework_other_speed_install_desc"
+            android:title="@string/system_framework_other_speed_install" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_use_android_package_installer"
+            android:summary="@string/system_framework_use_android_package_installer_desc"
+            android:title="@string/system_framework_use_android_package_installer" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_disable_cleaner"
+            android:summary="@string/system_framework_other_disable_cleaner_desc"
+            android:title="@string/system_framework_other_disable_cleaner" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_disable_gesture_monitor"
+            android:summary="@string/system_framework_other_disable_gesture_monitor_desc"
+            android:title="@string/system_framework_other_disable_gesture_monitor" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_other_disable_thermal"
+            android:summary="@string/system_framework_other_disable_thermal_desc"
+            android:title="@string/system_framework_other_disable_thermal" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_hook_entry"
+            android:summary="@string/system_framework_hook_entry_desc"
+            android:title="@string/system_framework_hook_entry" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disable_verify_can_ve_disabled"
+            android:title="@string/system_framework_disable_verify_can_ve_disabled" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_disablt_miuilite_check"
+            android:title="@string/system_framework_disablt_miuilite_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_posted_clipboard"
+            android:title="@string/system_framework_posted_clipboard" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clipboard_whitelist"
+            android:summary="@string/system_framework_clipboard_whitelist_desc"
+            android:title="@string/system_framework_clipboard_whitelist" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_clipboard_whitelist"
+            android:key="prefs_key_system_framework_clipboard_whitelist_apps"
+            android:title="@string/system_framework_clipboard_whitelist_list" />
+
+        <EditTextPreference
+            android:defaultValue="com.fooview.android.fooview"
+            android:key="prefs_key_system_framework_clipboard_whitelist_list"
+            android:summary="@string/system_framework_clipboard_whitelist_list_desc"
+            android:title="@string/system_framework_clipboard_whitelist_list"
+            app:isPreferenceVisible="false" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_allow_disable_protected_package"
+            android:title="@string/system_framework_allow_disable_protected_package" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_unknown_sources_restrictions"
+            android:title="@string/system_framework_bypass_unknown_sources_restrictions" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_force_mi_appstore"
+            android:title="@string/system_framework_bypass_force_mi_appstore" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_market_use_detailmini"
+            android:summary="@string/system_framework_market_use_detailmini_desc"
+            android:title="@string/system_framework_market_use_detailmini" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_force_downloadui"
+            android:summary="@string/system_framework_bypass_force_downloadui_desc"
+            android:title="@string/system_framework_bypass_force_downloadui" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_framework_shortcut_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clean_share_menu"
+            android:title="@string/system_framework_clean_share_menu" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_clean_share_menu"
+            android:key="prefs_key_system_framework_clean_share_apps"
+            android:summary="@string/system_framework_clean_share_apps_desc"
+            android:title="@string/system_framework_clean_share_apps" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clean_open_menu"
+            android:title="@string/system_framework_clean_open_menu" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_clean_open_menu"
+            android:key="prefs_key_system_framework_clean_open_apps"
+            android:summary="@string/system_framework_clean_open_apps_desc"
+            android:title="@string/system_framework_clean_open_apps" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_clean_process_text_menu"
+            android:title="@string/system_framework_clean_process_text_menu" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_clean_process_text_menu"
+            android:key="prefs_key_system_framework_clean_process_text_apps"
+            android:summary="@string/system_framework_clean_process_text_apps_desc"
+            android:title="@string/system_framework_clean_process_text_apps" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/system_framework_other_title"
+        app:isPreferenceVisible="false">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_auto_start_menu"
+            android:title="@string/system_framework_auto_start_menu" />
+
+        <Preference
+            android:dependency="prefs_key_system_framework_auto_start_menu"
+            android:key="prefs_key_system_framework_auto_start_apps"
+            android:summary="@string/system_framework_auto_start_apps_desc"
+            android:title="@string/system_framework_auto_start_apps" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

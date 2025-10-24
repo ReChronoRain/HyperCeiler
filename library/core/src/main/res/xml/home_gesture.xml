@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_navigation_title"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory android:title="@string/home_navigation_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_navigation_quick_back"
+            android:summary="@string/home_navigation_quick_back_more"
+            android:title="@string/home_navigation_quick_back" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_navigation_disable_full_screen_back_gesture"
+            android:title="@string/home_navigation_disable_full_screen_back_gesture" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_navigation_back_area_height"
+            android:title="@string/home_navigation_back_area_height"
+            app:defaultValue="60"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s %%"
+            app:maxValue="100"
+            app:minValue="10"
+            app:showSeekBarValue="true"
+            app:stepValue="5" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_navigation_back_area_width"
+            android:title="@string/home_navigation_back_area_width"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s %%"
+            app:maxValue="400"
+            app:minValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="5" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_gesture_title2">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_double_tap"
+            android:summary="@string/home_gesture_double_tap_desc"
+            android:title="@string/home_gesture_double_tap" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_shake"
+            android:summary="@string/home_gesture_shake_desc"
+            android:title="@string/home_gesture_shake" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_left_swipe"
+            android:summary="@string/home_gesture_left_swipe_desc"
+            android:title="@string/home_gesture_left_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_right_swipe"
+            android:summary="@string/home_gesture_right_swipe_desc"
+            android:title="@string/home_gesture_right_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_up_swipe"
+            android:summary="@string/home_gesture_up_swipe_desc"
+            android:title="@string/home_gesture_up_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_down_swipe"
+            android:summary="@string/home_gesture_down_swipe_desc"
+            android:title="@string/home_gesture_down_swipe" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_navigation_assist_left_slide"
+            android:summary="@string/home_navigation_assist_left_slide_desc"
+            android:title="@string/home_navigation_assist_left_slide" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_navigation_assist_right_slide"
+            android:summary="@string/home_navigation_assist_right_slide_desc"
+            android:title="@string/home_navigation_assist_right_slide" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_up_swipe2"
+            android:summary="@string/home_gesture_up_swipe2_desc"
+            android:title="@string/home_gesture_up_swipe2" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_home_gesture_down_swipe2"
+            android:summary="@string/home_gesture_down_swipe2_desc"
+            android:title="@string/home_gesture_down_swipe2" />
+
+        <!--Preference
+            android:key="prefs_key_home_gesture_swipe_and_stop"
+            android:title="@string/home_gesture_swipe_and_stop"
+            android:summary="@string/home_gesture_swipe_and_stop_desc"
+            android:fragment="com.sevtinge.hyperceiler.main.sub.MultiActionSettings"/-->
+
+        <!--<Preference
+            android:key="prefs_key_home_gesture_pinch"
+            android:title="@string/home_gesture_pinch" />
+
+        <Preference
+            android:key="prefs_key_home_gesture_spread"
+            android:title="@string/home_gesture_spread" />-->
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

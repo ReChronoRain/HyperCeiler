@@ -27,6 +27,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.core.R;
+
 import fan.appcompat.app.Fragment;
 
 public class DetailFragment extends Fragment {
@@ -38,18 +40,18 @@ public class DetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setThemeRes(com.sevtinge.hyperceiler.ui.R.style.NavigatorSecondaryContentTheme);
+        setThemeRes(R.style.NavigatorSecondaryContentTheme);
     }
 
     @Override
     public View onInflateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(com.sevtinge.hyperceiler.ui.R.layout.fragment_detail, container, false);
+        return inflater.inflate(R.layout.fragment_detail, container, false);
     }
 
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
-        mEmptyView = view.findViewById(com.sevtinge.hyperceiler.ui.R.id.empty);
+        mEmptyView = view.findViewById(R.id.empty);
         if (getActionBar() != null) {
             getActionBar().hide();
         }
@@ -65,7 +67,7 @@ public class DetailFragment extends Fragment {
             if (!TextUtils.isEmpty(mFragmentName)) {
                 getChildFragmentManager()
                         .beginTransaction()
-                        .replace(com.sevtinge.hyperceiler.ui.R.id.frame_content, androidx.fragment.app.Fragment.instantiate(requireContext(), mFragmentName, args))
+                        .replace(R.id.frame_content, androidx.fragment.app.Fragment.instantiate(requireContext(), mFragmentName, args))
                         .commit();
 
                 mEmptyView.setVisibility(View.INVISIBLE);

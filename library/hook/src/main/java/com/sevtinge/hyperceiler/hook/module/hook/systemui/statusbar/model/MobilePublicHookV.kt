@@ -32,10 +32,12 @@ import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
 import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import java.util.function.Consumer
 
 class MobilePublicHookV : BaseHook() {
@@ -52,7 +54,14 @@ class MobilePublicHookV : BaseHook() {
 
                 // 双排信号
                 if (isEnableDouble) {
-                    val isVisible = newReadonlyStateFlow(false)
+                    val isVisible = if (isMoreAndroidVersion(36)) {
+                        val pair = loadClass("kotlin.Pair")
+                            .getConstructor(Object::class.java, Object::class.java)
+                            .newInstance(false, false)
+                        newReadonlyStateFlow(pair)
+                    } else {
+                        newReadonlyStateFlow(false)
+                    }
                     cellularIcon.setObjectField("isVisible", isVisible)
                     if (!hideRoaming) {
                         cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
@@ -74,7 +83,14 @@ class MobilePublicHookV : BaseHook() {
                 } else {
                     val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
                     if ((card1 && getSlotIndex == 0) || (card2 && getSlotIndex == 1)) {
-                        cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
+                        if (isMoreAndroidVersion(36)) {
+                            val pair = loadClass("kotlin.Pair")
+                                .getConstructor(Object::class.java, Object::class.java)
+                                .newInstance(false, false)
+                            cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(pair))
+                        } else {
+                            cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
+                        }
                     }
                 }
 

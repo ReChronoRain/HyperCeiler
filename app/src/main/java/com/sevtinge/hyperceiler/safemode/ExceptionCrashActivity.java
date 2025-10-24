@@ -31,7 +31,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.BuildConfig;
 
 import java.io.PrintWriter;

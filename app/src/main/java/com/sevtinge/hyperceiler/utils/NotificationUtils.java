@@ -55,8 +55,8 @@ public class NotificationUtils {
 
     public static Notification getAppCrashNotification(Context context, String packageName, Intent intent) {
         createAppCrashChannel(context);
-        String title = context.getResources().getString(com.sevtinge.hyperceiler.ui.R.string.notification_title_message_emergency_crash);
-        String content = context.getResources().getString(com.sevtinge.hyperceiler.ui.R.string.notification_content_message);
+        String title = context.getResources().getString(R.string.notification_title_message_emergency_crash);
+        String content = context.getResources().getString(R.string.notification_content_message);
 
         intent.putExtra("notification_click", true);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -84,7 +84,7 @@ public class NotificationUtils {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_APP_CRASH);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setColor(ContextCompat.getColor(context, com.sevtinge.hyperceiler.ui.R.color.black));
+        builder.setColor(ContextCompat.getColor(context, com.sevtinge.hyperceiler.core.R.color.textview_black));
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher));
         builder.setContentTitle(title);
         builder.setContentText(content);
@@ -96,7 +96,7 @@ public class NotificationUtils {
         builder.setContentIntent(pendingIntent);
 
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
-        builder.addAction(R.mipmap.ic_launcher, context.getString(com.sevtinge.hyperceiler.ui.R.string.notification_view), pendingIntent);
+        builder.addAction(R.mipmap.ic_launcher, context.getString(R.string.notification_view), pendingIntent);
 
         builder.setGroup(GROUP_KEY_WORK_EMAIL);
 
@@ -186,7 +186,7 @@ public class NotificationUtils {
     }
 
     private static void createAppCrashChannel(Context context) {
-        String name = context.getResources().getString(com.sevtinge.hyperceiler.ui.R.string.notification_channel_app_crash_name);
+        String name = context.getResources().getString(R.string.notification_channel_app_crash_name);
         createNotificationChannel(context, CHANNEL_ID_APP_CRASH, name, "", NotificationManager.IMPORTANCE_HIGH);
     }
 

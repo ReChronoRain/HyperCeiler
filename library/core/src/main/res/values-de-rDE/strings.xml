@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<resources>
+    <string name="pull_to_enter_private">Zum Betreten des privaten Bereichs nach unten ziehen</string>
+    <string name="release_enter_private">Zum Öffnen des privaten Bereichs loslassen</string>
+    <!--Pop-up window/miuix part-->
+    <string name="miuix_appcompat_action_mode_select_all">Alles auswählen</string>
+    <string name="miuix_appcompat_cancel_description">Abbrechen</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
+    <string name="miuix_appcompat_select_all_description">Alles auswählen</string>
+    <string name="miuix_appcompat_deselect_all_description">Gesamte Auswahl aufheben</string>
+    <string name="miuix_appcompat_delete_description">Löschen</string>
+    <string name="miuix_appcompat_search_action_mode_cancel">Abbrechen</string>
+    <string name="miuix_appcompat_search_input_description">Suchen</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Mehr</string>
+    <string name="miuix_appcompat_action_mode_inverse">Gesamte Auswahl aufheben</string>
+    <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Tipp</string>
+    <string name="root">Einige Funktionen sind ohne Root/Su-Berechtigung nicht verfügbar</string>
+    <string name="soft_reboot">Neustart </string>
+    <string name="restart_app_desc">Sind Sie sicher, dass sie %1$s jetzt neu starten wollen?</string>
+    <string name="hyperceiler_restart_quick">Apps schnell neu starten</string>
+    <string name="hook_failed">Das Modul ist noch nicht aktiviert. Bitte prüfen Sie, ob LSPosed an ist. Falls ja, starten Sie das Modul neu oder optimieren Sie es erneut.</string>
+    <string name="kill_failed">Prozess konnte nicht beendet werden. Bitte überprüfen Sie, ob HyperCeiler Root/Su-Berechtigungen erhalten hat.</string>
+    <string name="start_failed">Fehler beim Start der Aktivität. Bitte überprüfen Sie, ob HyperCeiler Root/Su-Berechtigungen erhalten hat.</string>
+    <string name="pid_failed">Die Ziel-App läuft nicht und muss nicht neu gestartet werden.</string>
+    <string name="reboot_failed">Neustart fehlgeschlagen, bitte prüfen sie ob Hyperceiler Root/Su-Berechtigung hat.</string>
+    <!--HyperCeiler Tips-->
+    <string name="error">Fehler</string>
+    <string name="warn">Warnung</string>
+    <string name="module_app_failed">Schwerer Fehler ist im Modul aufgetreten</string>
+    <string name="module_app_copy_desc">Zum Kopieren, Inhalt drücken und halten</string>
+    <string name="module_title_1">Standardnachricht</string>
+    <string name="module_title_2">Stapel-Nachricht</string>
+    <string name="app_error_desc">HyperCeiler wurde unerwartet geschlossen. Um uns dabei zu helfen, dies zu beheben, geben Sie folgende Informationen an:\n\n Drücken und halten Sie eine Nachricht, um alles zu kopieren.</string>
+    <string name="app_exit">OK</string>
+    <string name="safe_mode_desc">%1$s ist aufgrund mehrerer Abstürze in den sicheren Modus gewechselt und HyperCeiler-Funktionen wurden vorübergehend deaktiviert.</string>
+    <string name="safe_mode_history">Ausnahmen einsehen</string>
+    <string name="safe_mode_cancel">Sichereren Modus deaktivieren</string>
+    <string name="safe_mode_ok">Abbrechen</string>
+    <string name="safe_mode_later_title">Tipp</string>
+    <string name="safe_mode_later_desc">%1$s ist noch im gesicherten Modus und HyperCeiler-Funktionen sind deaktiviert. Gesicherten Modus deaktivieren?</string>
+    <string name="safe_mode_recorder_title">Ausnahmen</string>
+    <string name="safe_mode_recorder_file">Datei</string>
+    <string name="safe_mode_recorder_class">Klasse</string>
+    <string name="safe_mode_recorder_method">Verfahren</string>
+    <string name="safe_mode_recorder_line">Zeile</string>
+    <string name="safe_mode_recorder_msg">Ausnahmemeldung</string>
+    <string name="safe_mode_recorder_st">Stacktrace</string>
+    <string name="error_message">Ausnahmemeldung</string>
+    <string name="error_type">Ausnahmetyp</string>
+    <string name="error_file_name">Dateiname</string>
+    <string name="error_time">Aufnahmezeit</string>
+    <string name="error_version_name">Versionsname</string>
+    <string name="error_git_hash">Git Hash</string>
+    <string name="error_build_time">Bauzeit</string>
+    <string name="copy_ok">In Zwischenablage kopiert</string>
+    <string name="notification_channel_app_crash_name">Die App läuft ungewöhnlich</string>
+    <string name="notification_title_message_emergency_crash">%s ist mehrmals abgestürzt</string>
+    <string name="notification_content_message">Für Details klicken</string>
+    <string name="notification_view">Anzeigen</string>
+    <string name="tip_default">Tipp: Dies ist der Standard-Tipp. Wenn Sie mich sehen können, heißt das, dass es ein Problem mit HyperCeiler gibt. Bitte melden Sie es dem Entwickler schnell und effektiv.</string>
+    <string name="headtip_warn_not_offical_rom">Es kann sein, dass die ROM, die Sie nutzen, nicht von Xiaomi stammt. In diesem Fall funktionieren eventuell einige Funktionen nicht wie erwartet. Für weitere Informationen wenden Sie sich bitte an Ihren Händler.</string>
+    <string name="headtip_warn_unsupport_sysver">Das aktuelle Gerät läuft auf einer Systemversion, die nicht (vollständig) angepasst ist, was zu Anomalien in der HyperCeiler-Funktionalität führen kann.</string>
+    <string name="headtip_warn_sign_verification_failed">Die Signaturprüfung ist fehlgeschlagen. Die von Ihnen genutzte Version stammt möglicherweise nicht aus einer offiziellen Quelle und könnte bösartigen Code enthalten.</string>
+    <string name="headtip_tip_auto_safe_mode">Der Sicherheitsmodus kann abstürzende Apps bei wiederholtem Fehlschlag rechtzeitig \'unhooken\', um die Systemsicherheit zu gewährleisten. Diese Funktion erfordert den \'System Framework Hook Scope\', um zu funktionieren. Wir empfehlen dringend, den \'System Framework Scope\' zu aktivieren, um den Sicherheitsmodus einzuschalten.</string>
+    <string name="headtip_tip_long_press_to_copy">Text lässt sich durch langes oder doppeltes Drücken auswählen, kopieren und an den Entwickler zurücksenden.</string>
+    <string name="happy_birthday_hyperceiler">Heute ist HyperCeilers Geburtstag!\nVielen Dank für eure Unterstützung im letzten Jahr. Lasst uns auch dieses Jahr wieder gemeinsam daran arbeiten!</string>
+    <string name="headtip_tip_fuck_coolapk">Heute in Geschichte: Sevtinge hielt am 14. Juli 2022 eine wichtige Rede.</string>
+    <string name="headtip_notice_dead_logger_errcode">Der aktuelle Geräte-Logdienst ist anormal, und die Funktionen von HyperCeiler werden eingeschränkt sein. Bitte stellen Sie den Logdienst wieder her, damit er normal ausgeführt werden kann.\nFehlercode: %1$s</string>
+    <string name="headtip_notice_dead_logger">Der aktuelle Geräte-Logdienst ist anormal, und die Funktionen von HyperCeiler werden eingeschränkt sein. Bitte stellen Sie den Logdienst wieder her, damit er normal ausgeführt werden kann.</string>
+    <string name="unsupported_system_func">Diese Funktion wird von der aktuellen Systemversion nicht unterstützt</string>
+    <string name="supported_system_func">Diese Funktion wird von der aktuellen Systemversion offiziell unterstützt</string>
+    <string name="feature_doing_func">Die aktuelle Funktion befindet sich in Entwicklung, bleibt dran.</string>
+    <!--System UI-->
+    <string name="system_ui">System-UI</string>
+    <!--System launcher-->
+    <string name="mihome">Systemlauncher</string>
+    <!--Settings-->
+    <string name="system_settings">Einstellungen</string>
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Sicherheit</string>
+    <!--Other-->
+    <string name="exit">Beenden</string>
+    <string name="ignore">Ignorieren</string>
+    <string name="log_level">Protokolllevel</string>
+    <string name="log_level_none">Aus</string>
+    <string name="disable_suggest">Vorschlag deaktivieren</string>
+    <string name="enable_suggest">Vorschlag aktivieren</string>
+</resources>

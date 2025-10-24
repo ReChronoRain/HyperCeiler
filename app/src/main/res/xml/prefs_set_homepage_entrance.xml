@@ -60,6 +60,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_contacts_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.android.contacts"
+            android:title="@string/contacts" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_file_explorer_state"
             android:layout="@layout/preference_header"
             android:summary="com.android.fileexplorer"
@@ -189,6 +197,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_health_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.mi.health"
+            android:title="@string/health" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_milink_state"
             android:layout="@layout/preference_header"
             android:summary="com.milink.service"
@@ -313,6 +329,14 @@
             android:layout="@layout/preference_header"
             android:summary="com.miui.miwallpaper"
             android:title="@string/miwallpaper" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_notes_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.miui.notes"
+            android:title="@string/notes" />
 
         <SwitchPreference
             android:defaultValue="true"

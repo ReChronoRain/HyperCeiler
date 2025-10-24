@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
-
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
@@ -41,7 +39,7 @@ public class PackagePermissions extends BaseHook {
         systemPackages.add(ProjectApi.mAppModulePkg);
 
         // Allow signature level permissions for module
-        String PMSCls = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.permission.PermissionManagerServiceImpl" : "com.android.server.pm.permission.PermissionManagerService";
+        String PMSCls = "com.android.server.pm.permission.PermissionManagerServiceImpl";
 
         // Allow signature level permissions for module
         hookAllMethods(PMSCls, "shouldGrantPermissionBySignature", new MethodHook() {
@@ -63,7 +61,7 @@ public class PackagePermissions extends BaseHook {
 
 
         // Make module appear as system app
-        String ActQueryService = isMoreAndroidVersion(Build.VERSION_CODES.TIRAMISU) ? "com.android.server.pm.ComputerEngine" : "com.android.server.pm.PackageManagerService";
+        String ActQueryService = "com.android.server.pm.ComputerEngine";
         hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new MethodHook() {
             @Override
             @SuppressWarnings("unchecked")

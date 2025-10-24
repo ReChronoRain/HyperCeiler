@@ -24,7 +24,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.ui.R;
+import com.sevtinge.hyperceiler.core.R;
 
 public class SupportVersionFragment extends SettingsPreferenceFragment {
 

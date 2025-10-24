@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2025 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_recent"
+    app:quick_restart="com.miui.home">
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_blur"
+            android:title="@string/home_recent_blur" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_show_launch"
+            android:title="@string/home_recent_show_launch" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_recent_show_launch"
+            android:key="prefs_key_home_recent_show_launch_size"
+            android:title="@string/home_recent_show_launch_size"
+            app:defaultValue="95"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s f"
+            app:maxValue="100"
+            app:minValue="20"
+            app:showDividerValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_recent_show_launch"
+            android:key="prefs_key_home_recent_show_launch_alpha"
+            android:title="@string/home_recent_show_launch_alpha"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s f"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showDividerValue="100"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_show_memory_info"
+            android:summary="@string/home_recent_show_memory_info_sum"
+            android:title="@string/home_recent_show_memory_info" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_show_real_memory"
+            android:title="@string/home_recent_show_real_memory" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_modify_animation"
+            android:title="@string/home_recent_modify_animation" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <Preference
+            android:key="prefs_key_home_recent_hide_card"
+            android:summary="@string/home_recent_hide_card_desc"
+            android:title="@string/home_recent_hide_card" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_hide_status_bar_in_task_view"
+            android:title="@string/home_recent_hide_status_bar_in_task_view" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_hide_world_circulate"
+            android:title="@string/home_recent_hide_world_circulate" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_hide_freeform"
+            android:title="@string/home_recent_hide_freeform" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:disableDependentsState="true"
+            android:key="prefs_key_home_recent_hide_clean_up"
+            android:title="@string/home_recent_hide_clean_up" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_home_recent_hide_clean_up"
+            android:key="prefs_key_always_show_clean_up"
+            android:title="@string/home_recent_always_show_clean_up" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_remove_icon"
+            android:title="@string/home_recent_remove_icon" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_recent_unlock_pin"
+            android:title="@string/home_recent_unlock_pin" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory>
+        <EditTextPreference
+            android:key="prefs_key_home_recent_text"
+            android:title="@string/home_recent_text" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_corners"
+            android:title="@string/home_recent_task_view_card_rounded_corners"
+            app:defaultValue="20"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="180"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_header_height"
+            android:title="@string/home_recent_app_name_distance_task_view_card"
+            app:defaultValue="40"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_header_horizontal_offset"
+            android:title="@string/home_recent_card_header_horizontal_position"
+            app:defaultValue="30"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="150"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_recent_animation_speed"
+            android:title="@string/home_recent_animation_speed"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
+            app:maxValue="500"
+            app:minValue="10"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_recent_task_view_height"
+            android:title="@string/home_recent_task_view_height"
+            app:defaultValue="52"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s dp"
+            app:maxValue="70"
+            app:minValue="30"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_horizontal1"
+            android:title="@string/home_recent_horizontal_task_view_card_size1"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
+            app:maxValue="150"
+            app:minValue="50"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_task_view_horizontal2"
+            android:title="@string/home_recent_horizontal_task_view_card_size2"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
+            app:maxValue="150"
+            app:minValue="50"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_recent_vertical_task_view_card_size"
+            android:title="@string/home_recent_vertical_task_view_card_size"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s / 100 f"
+            app:maxValue="150"
+            app:minValue="50"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_home_recent_text_size"
+            android:title="@string/home_recent_text_size"
+            app:defaultValue="14"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s f"
+            app:maxValue="30"
+            app:stepValue="1" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:key="prefs_key_home_recent_text_color"
+            android:title="@string/home_recent_text_color" />
+
+        <ColorPickerPreference
+            android:defaultValue="-1"
+            android:key="prefs_key_home_recent_freeform_background_color"
+            android:title="@string/home_recent_freeform_background_color" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

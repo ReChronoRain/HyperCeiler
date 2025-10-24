@@ -16,12 +16,10 @@
  *
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-
 package com.sevtinge.hyperceiler.hook.module.hook.systemframework;
 
 
 import android.content.Intent;
-import android.net.Uri;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
@@ -74,17 +72,11 @@ public class BypassForceDownloadui extends BaseHook {
                             if (!"android.intent.action.VIEW_DOWNLOADS".equals(intent.getAction()))
                                 return;
 
-
-
                             intent.setPackage(null); // 移除指定包名，如果不移除 documentsui 也会强制跳到 downloads.ui
-
                             Intent chooser = Intent.createChooser(intent, null);
-
                             param.args[index] = chooser;
 
                             logI(TAG, "android", "Forced chooser for android.intent.action.VIEW_DOWNLOADS");
-
-
 
                         } catch (Throwable t) {
                             logE(TAG, "android", "Error - " + Log.getStackTraceString(t));
@@ -93,7 +85,6 @@ public class BypassForceDownloadui extends BaseHook {
                     }
                 });
                 logI(TAG, "android", "Hooked method: " + method);
-
                 break;
             }
 
@@ -101,8 +92,6 @@ public class BypassForceDownloadui extends BaseHook {
             logE(TAG, "android", "Failed to hook -  " + Log.getStackTraceString(t));
 
         }
-
-
 
     }
 }
