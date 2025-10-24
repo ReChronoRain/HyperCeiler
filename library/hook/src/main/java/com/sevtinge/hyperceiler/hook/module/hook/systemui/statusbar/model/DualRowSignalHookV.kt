@@ -41,6 +41,8 @@ import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getBooleanField
 import com.sevtinge.hyperceiler.hook.utils.getIntField
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
@@ -160,26 +162,31 @@ class DualRowSignalHookV : BaseHook() {
             }
     }
 
-    private fun setDualRowStyle() {
+   private fun setDualRowStyle() {
         modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
             .single()
             .createHook {
                 after { param ->
                     val rootView = param.result as ViewGroup
-
                     val subId = rootView.getIntField("subId")
                     val mobileGroup = rootView.findViewByIdName("mobile_group") as LinearLayout
                     mobileGroup.setPadding(
                         DisplayUtils.dp2px(leftMargin * 0.5f), 0,
                         DisplayUtils.dp2px(rightMargin * 0.5f), 0
                     )
+
                     val mobileSignal = mobileGroup.findViewByIdName("mobile_signal") as ImageView
                     val mobileSignal2 = ImageView(mobileSignal.context).apply {
                         adjustViewBounds = true
                         tag = "mobile_signal2"
                     }
-                    val signalGroup = mobileSignal.parent as FrameLayout
+
+                    val signalGroup = if (isMoreAndroidVersion(36)) {
+                        mobileSignal.parent as ViewGroup
+                    } else {
+                        mobileSignal.parent as FrameLayout
+                    }
                     signalGroup.addView(
                         mobileSignal2,
                         ViewGroup.LayoutParams(
@@ -187,34 +194,43 @@ class DualRowSignalHookV : BaseHook() {
                             ViewGroup.LayoutParams.MATCH_PARENT
                         )
                     )
-                    val adjustSmallXX = { view: View ->
-                        view.layoutParams = view.layoutParams.also {
-                            it as FrameLayout.LayoutParams
-                            it.topMargin = -18
+
+                    if (!isMoreHyperOSVersion(3f)) {
+                        fun adjustTopMargin(view: View?) {
+                            (view?.layoutParams as? FrameLayout.LayoutParams)?.let {
+                                it.topMargin = -18
+                                view.layoutParams = it
+                            }
                         }
+                        adjustTopMargin(mobileGroup.findViewByIdName("mobile_small_hd") as? ImageView)
+                        adjustTopMargin(mobileGroup.findViewByIdName("mobile_small_roam") as? ImageView)
+                        adjustTopMargin(mobileGroup.findViewByIdName("mobile_satellite") as? ImageView)
                     }
-                    val smallHD = mobileGroup.findViewByIdName("mobile_small_hd") as ImageView
-                    val smallRoam = mobileGroup.findViewByIdName("mobile_small_roam") as ImageView
-                    val satellite = mobileGroup.findViewByIdName("mobile_satellite") as ImageView
-                    adjustSmallXX(smallHD)
-                    adjustSmallXX(smallRoam)
-                    adjustSmallXX(satellite)
 
                     if (verticalOffset != 40) {
                         signalGroup.translationY = DisplayUtils.dp2px(
                             (verticalOffset - 40) * 0.1f
                         ).toFloat()
                     }
-                    val mobileSignalLp = mobileSignal.layoutParams as FrameLayout.LayoutParams
-                    mobileSignalLp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                    if (iconScale != 10) {
-                        mobileSignalLp.height = DisplayUtils.dp2px(iconScale * 2.0f)
-                        mobileSignalLp.gravity = Gravity.CENTER
+
+                    if (isMoreAndroidVersion(36)) {
+                        val lp = mobileSignal.layoutParams as ViewGroup.LayoutParams
+                        lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                        lp.height = if (iconScale != 10) DisplayUtils.dp2px(iconScale * 2.0f) else ViewGroup.LayoutParams.MATCH_PARENT
+                        mobileSignal.layoutParams = lp
+                        mobileSignal2.layoutParams = lp
                     } else {
-                        mobileSignalLp.height = ViewGroup.LayoutParams.MATCH_PARENT
+                        val lp = mobileSignal.layoutParams as FrameLayout.LayoutParams
+                        lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                        if (iconScale != 10) {
+                            lp.height = DisplayUtils.dp2px(iconScale * 2.0f)
+                            lp.gravity = Gravity.CENTER
+                        } else {
+                            lp.height = ViewGroup.LayoutParams.MATCH_PARENT
+                        }
+                        mobileSignal.layoutParams = lp
+                        mobileSignal2.layoutParams = lp
                     }
-                    mobileSignal.layoutParams = mobileSignalLp
-                    mobileSignal2.layoutParams = mobileSignalLp
 
                     XposedHelpers.setAdditionalInstanceField(mobileSignal, "subId", subId)
                 }
@@ -409,7 +425,11 @@ class DualRowSignalHookV : BaseHook() {
             return
         }
 
-        val signalGroup = mobileSignal.parent as FrameLayout
+        val signalGroup = if (isMoreAndroidVersion(36)) {
+            mobileSignal.parent as ViewGroup
+        } else {
+            mobileSignal.parent as FrameLayout
+        }
         val mobileSignal2 = signalGroup.findViewWithTag<ImageView?>("mobile_signal2")
         val isUseTint = tintLightColor.first
         val isLight = tintLightColor.second

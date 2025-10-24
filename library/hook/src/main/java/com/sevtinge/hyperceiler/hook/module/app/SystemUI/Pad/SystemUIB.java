@@ -45,9 +45,17 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.NewPluginHelper
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.NotificationIconColumns;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.SelectiveHideIconForAlarmClock;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.clock.StatusBarClockNew;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.BatteryStyle;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.HideVoWiFiIcon;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.IconsFromSystemManager;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.StatusBarIcon;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all.WifiNetworkIndicator;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.b.HideBatteryIconB;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.FocusNotifLyric;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.HideFakeStatusBar;
+import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.network.NewNetworkSpeed;
@@ -71,8 +79,23 @@ public class SystemUIB extends BaseModule {
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
 
         // 状态栏图标
+        initHook(new StatusBarIcon(), true);
+        initHook(new IconsFromSystemManager(), true);
+        initHook(WifiStandard.INSTANCE, mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0) > 0);
+        initHook(WifiNetworkIndicator.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_wifi_network_indicator_new"));
+        initHook(HideVoWiFiIcon.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi") || mPrefsMap.getBoolean("system_ui_status_bar_icon_volte"));
+        initHook(new SelectiveHideIconForAlarmClock(), mPrefsMap.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), mPrefsMap.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, mPrefsMap.getBoolean("system_settings_more_notification_settings"));
+
+        // 电池相关
+        boolean isHideBatteryIcon = mPrefsMap.getBoolean("system_ui_status_bar_battery_icon") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_charging");
+        initHook(HideBatteryIconB.INSTANCE, isHideBatteryIcon);
+        initHook(BatteryStyle.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_battery_style_enable_custom") ||
+            mPrefsMap.getBoolean("system_ui_status_bar_battery_style_change_location"));
 
         // 网速指示器
         if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {

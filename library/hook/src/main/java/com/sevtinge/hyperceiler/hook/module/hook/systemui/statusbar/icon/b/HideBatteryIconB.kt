@@ -16,7 +16,7 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.all
+package com.sevtinge.hyperceiler.hook.module.hook.systemui.statusbar.icon.b
 
 import android.view.View
 import android.widget.FrameLayout
@@ -29,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
-object HideBatteryIcon : BaseHook() {
+object HideBatteryIconB : BaseHook() {
     override fun init() {
         val mBatteryMeterViewClass by lazy {
             loadClass("com.android.systemui.statusbar.views.MiuiBatteryMeterView")
@@ -55,7 +55,7 @@ object HideBatteryIcon : BaseHook() {
             }
 
         mBatteryMeterViewClass.methodFinder()
-            .filterByName("updateAll$1")
+            .filterByName("updateAll")
             .single().createHook {
                 after { param ->
                     if (param.thisObject != null) {
@@ -75,14 +75,14 @@ object HideBatteryIcon : BaseHook() {
                         ) {
                             (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize = 0F
                         }
-                        // 隐藏电池内的百分比
+                        // 隐藏电池的百分比
+                        // Todo：内显百分比暂无法隐藏，因为布局已修改
                         if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
                             (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize = 0F
-                            (param.thisObject?.getObjectFieldAs<TextView>("mBatteryTextDigitView"))?.textSize = 0F
                         }
                     }
                 }
-         }
+            }
 
         mBatteryMeterViewClass.methodFinder()
             .filterByName("updateChargeAndText")
@@ -95,16 +95,15 @@ object HideBatteryIcon : BaseHook() {
                         ) {
                             (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize = 0F
                         }
-                        // 隐藏电池内的百分比
+                        // 隐藏电池的百分比
+                        // Todo：内显百分比暂无法隐藏，因为布局已修改
                         if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
                             (param.thisObject?.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize = 0F
-                            (param.thisObject?.getObjectFieldAs<TextView>("mBatteryTextDigitView"))?.textSize = 0F
                         }
 
                         // 隐藏电池充电图标
+                        // Todo：内显闪电图标暂无法隐藏，因为布局已修改
                         if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
-                            (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingInView")).visibility =
-                                View.GONE
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingView")).visibility =
                                 View.GONE
                         }
@@ -112,5 +111,4 @@ object HideBatteryIcon : BaseHook() {
                 }
             }
     }
-
 }

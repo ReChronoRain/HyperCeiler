@@ -24,7 +24,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -138,7 +138,8 @@ object BatteryStyle : BaseHook() {
             XposedHelpers.getObjectField(param.thisObject, "mBatteryTextDigitView") as TextView
 
         // 交换电池图标与电量位置（电量外显下才能正常交换）
-        if (isChangeLocation) {
+        // Todo：HyperOS3 因为修改了布局，需要重新适配
+        if (isChangeLocation && !isHideText && !isMoreHyperOSVersion(3f)) {
             changeLocation(batteryView, mBatteryPercentView, mBatteryPercentMarkView)
         }
 
