@@ -405,6 +405,9 @@
 
     <string name="notes_unlock_ai_mode_1">旧版</string>
     <string name="notes_unlock_ai_mode_2">新版</string>
+
+    <string name="mode_phone">手机</string>
+    <string name="mode_pad">平板</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>

@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.hook.safe.RescuePartyPlus;
 import com.sevtinge.hyperceiler.hook.safe.SafeMode;
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.module.base.DataBase;
 
@@ -178,13 +179,17 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         dataMap.forEach(new BiConsumer<>() {
             @Override
             public void accept(String s, DataBase dataBase) {
+                int debugMode = DebugModeUtils.INSTANCE.getChooseResult("com.miui.securitycenter");
+
                 if (!mPkgName.equals(dataBase.mTargetPackage))
                     return;
                 if (!(dataBase.mTargetSdk == -1) && !isAndroidVersion(dataBase.mTargetSdk))
                     return;
                 if (!(dataBase.mTargetOSVersion == -1F) && !(isHyperOSVersion(dataBase.mTargetOSVersion)))
                     return;
-                if ((dataBase.isPad == 1 && !isPad()) || (dataBase.isPad == 2 && isPad()))
+                if (mPkgName.equals("com.miui.securitycenter") && debugMode != 0) {
+                    if (dataBase.isPad != debugMode) return;
+                } else if ((dataBase.isPad == 1 && !isPad()) || (dataBase.isPad == 2 && isPad()))
                     return;
 
                 try {

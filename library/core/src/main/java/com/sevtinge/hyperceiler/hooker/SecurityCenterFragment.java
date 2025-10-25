@@ -18,13 +18,23 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class SecurityCenterFragment extends DashboardFragment {
+
+    LayoutPreference mHeader;
 
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.security_center;
+    }
+
+    @Override
+    public void initPrefs() {
+        mHeader = findPreference("prefs_key_security_unsupported");
+
+        setAppModWarn(mHeader, "com.miui.securitycenter");
     }
 }

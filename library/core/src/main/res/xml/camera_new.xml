@@ -20,6 +20,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/camera"
     app:quick_restart="com.android.camera">
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_camera_unsupported"
+        android:layout="@layout/headtip_warn"
+        android:title="@string/unsupported_func_tips" />
+
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
