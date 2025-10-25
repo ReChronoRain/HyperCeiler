@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -238,12 +239,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     static class LogViewHolder extends RecyclerView.ViewHolder {
 
-        private View mLevelIndicator;
+        private final View mLevelIndicator;
 
-        private TextView mTimeTextView;
-        private TextView mLevelTextView;
-        private TextView mModuleTextView;
-        private TextView mMessageTextView;
+        private final TextView mTimeTextView;
+        private final TextView mLevelTextView;
+        private final TextView mModuleTextView;
+        private final TextView mMessageTextView;
 
         public LogViewHolder(@NonNull View itemView) {
             super(itemView);

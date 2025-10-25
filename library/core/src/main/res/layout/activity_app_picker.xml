@@ -48,7 +48,8 @@
             android:id="@+id/search_bar"
             layout="@layout/miuix_appcompat_search_stub"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/provision_actionbar_padding_bottom"/>
 
     </fan.nestedheader.widget.NestedHeaderLayout>
 

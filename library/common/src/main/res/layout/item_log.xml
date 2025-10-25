@@ -1,5 +1,6 @@
 <!-- item_log.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
@@ -35,18 +36,18 @@
                 android:text="00:00:00"
                 android:textAlignment="textStart"
                 android:textColor="#666666"
-                android:textSize="10sp" />
+                android:textSize="12sp"
+                tools:ignore="HardcodedText" />
 
             <!-- 模块列 -->
             <TextView
                 android:id="@+id/textModule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toEndOf="@id/textTime"
                 android:singleLine="true"
                 android:text="Module"
                 android:textColor="#666666"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -59,7 +60,7 @@
             android:layout_marginEnd="4dp"
             android:text="I"
             android:textAlignment="textEnd"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <!-- 消息列 -->
