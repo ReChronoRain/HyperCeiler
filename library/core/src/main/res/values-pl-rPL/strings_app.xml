@@ -1229,7 +1229,6 @@
     <string name="screenshot">Zrzut ekranu</string>
     <string name="screenshot_unlock_minimum_crop_limit">Usuń minimalny limit przycinania obrazu</string>
     <string name="screenshot_unlock_privacy_marking_title">Odblokuj oznaczanie prywatności</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Wyższa wersja aplikacji Mi AI Engine musi być zainstalowana wcześniej, aby działała prawidłowo</string>
     <string name="screenshot_save_to_pictures_desc">Lokalizacja, w której zapisywany jest zrzut ekranu: /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Niestandardowy model zrzutu ekranu z powłoką</string>
     <string name="screenshot_device_customize_desc">Proszę wprowadzić kod urządzenia, a kolorowe urządzenie powinno być uzupełnione sufiksem, na przykład:\n• Xiaomi 13, wpisujesz fuxi\n• Xiaomi 14 w różowej kolorystyce, wpisujesz houji_PK</string>

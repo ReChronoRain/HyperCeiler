@@ -1312,7 +1312,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">移除最小裁切圖片限制</string>
     <string name="screenshot_unlock_copy_to_clipboard">解鎖截圖自動寫入到剪貼簿</string>
     <string name="screenshot_unlock_privacy_marking_title">解鎖智能私隱打碼</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要預裝高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定義帶殼截屏機型</string>
     <string name="screenshot_device_customize_desc">填寫請輸入 裝置代號，有顏色的裝置填寫應加上後缀，例如：\n- 小米13，填寫的内容是 fuxi\n- 小米14 粉色版，填寫的内容是 houji_PK</string>

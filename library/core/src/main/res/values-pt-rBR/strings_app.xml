@@ -1326,7 +1326,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
     <string name="screenshot_unlock_copy_to_clipboard">Desbloquear cópia automática de capturas de tela para a área de transferência</string>
     <string name="screenshot_unlock_privacy_marking_title">Desbloquear marcação de privacidade</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Uma versão superior do app Motor Mi IA precisa ser pré-instalada para uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Defina o local para salvar capturas de tela em /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Modelo de captura de tela personalizado</string>
     <string name="screenshot_device_customize_desc">Por favor, insira o código do dispositivo, e o dispositivo colorido deve ser preenchido com um sufixo. Por exemplo:\n• Xiaomi 13, preencha o conteúdo com fuxi\n• Xiaomi 14 versão rosa, preencha o conteúdo com houji_PK</string>

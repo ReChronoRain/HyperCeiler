@@ -1329,7 +1329,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">Разблокировать ограничение на минимальную обрезку изображения</string>
     <string name="screenshot_unlock_copy_to_clipboard">Разблокировать автоматическое копирование снимка экрана в буфер обмена</string>
     <string name="screenshot_unlock_privacy_marking_title">Разблокировать маркировку приватности</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Для обычного использования необходимо предварительно установить более позднюю версию приложения \"HyperAI Engine\"</string>
     <string name="screenshot_save_to_pictures_desc">Место сохранения скриншота в /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Пользовательский скриншот модели с оболочкой</string>
     <string name="screenshot_device_customize_desc">Введите кодовое имя модели</string>

@@ -1328,7 +1328,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">画像の最小トリミング制限を削除</string>
     <string name="screenshot_unlock_copy_to_clipboard">スクリーンショットをクリップボードに自動コピーをアンロック</string>
     <string name="screenshot_unlock_privacy_marking_title">プライバシーマークをアンロック</string>
-    <string name="screenshot_unlock_privacy_marking_desc">「Mi AI Engine」のより新しいバージョンがプリインストールされている必要があります</string>
     <string name="screenshot_save_to_pictures_desc">スクリーンショットの保存場所を /Pictures/Screenshots に設定します</string>
     <string name="screenshot_device_customize_title">デバイスフレームに使うモデルをカスタム</string>
     <string name="screenshot_device_customize_desc">デバイスコードを入力してください。色はアンダーバーで繋げて入力してください。例:\n• Xiaomi 13 の場合は fuxi を入力\n• Xiaomi 14 ピンク色の場合は houji_PK を入力</string>

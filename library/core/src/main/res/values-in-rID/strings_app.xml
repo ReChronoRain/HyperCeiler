@@ -1012,7 +1012,6 @@
     <string name="screenshot">Tangkapan layar</string>
     <string name="screenshot_unlock_minimum_crop_limit">Buka kunci batas pemotongan gambar minimum</string>
     <string name="screenshot_unlock_privacy_marking_title">Buka kunci penanda privasi</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Versi aplikasi \"Mi AI Engine\" yang lebih tinggi perlu diinstal sebelumnya untuk penggunaan normal</string>
     <string name="screenshot_save_to_pictures_desc">Tangkapan layar kanonik menyimpan lokasi ke /Gambar/Tangkapan Layar</string>
     <string name="screenshot_device_customize_title">Model tangkapan layar khusus dengan shell</string>
     <string name="screenshot_device_customize_desc">Silakan masukkan kode model</string>

@@ -1291,7 +1291,6 @@
     <string name="screenshot">截圖</string>
     <string name="screenshot_unlock_minimum_crop_limit">解除最小圖片裁切限制</string>
     <string name="screenshot_unlock_privacy_marking_title">解鎖自動為隱私內容增加馬賽克效果</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要預先安裝更高版本的「Mi AI Engine」應用程式才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截圖儲存位置為 /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自訂帶殼截圖型號</string>
     <string name="screenshot_device_customize_desc">請輸入機型代號，有顏色的裝置填寫時應加上後綴，例如：\n- 小米 13 填寫的內容是 fuxi\n- 小米 14 粉色版填寫的內容是 houji_PK</string>

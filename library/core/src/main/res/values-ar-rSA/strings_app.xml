@@ -1318,7 +1318,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">إزالة حد القص الأدنى للصورة</string>
     <string name="screenshot_unlock_copy_to_clipboard">فتح نسخ لقطة الشاشة تلقائياً إلى الحافظة</string>
     <string name="screenshot_unlock_privacy_marking_title">فتح الوسم الخصوصي</string>
-    <string name="screenshot_unlock_privacy_marking_desc">يجب تثبيت إصدار أعلى من تطبيق Mi AI Engine لاستخدامه بشكل طبيعي</string>
     <string name="screenshot_save_to_pictures_desc">الموقع المحدد لحفظ لقطات الشاشة هو /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">نموذج لقطة الشاشة المخصص باستخدام شل</string>
     <string name="screenshot_device_customize_desc">يرجى إدخال رمز الجهاز، ويجب ملء الجهاز الملون باللاحقة، على سبيل المثال:\n• Xiaomi 13، املأ المحتوى بـ fuxi\n• Xiaomi 14 النسخة الوردية، املأ المحتوى بـ houji_PK</string>

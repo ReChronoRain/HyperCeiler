@@ -1334,7 +1334,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">Mở khóa Giới hạn cắt hình</string>
     <string name="screenshot_unlock_copy_to_clipboard">Mở khóa tự động sao chép ảnh chụp màn hình đến bảng ghi tạm</string>
     <string name="screenshot_unlock_privacy_marking_title">Mở khóa Đánh dấu quyền riêng tư</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Cần cài đặt bản cao hơn của ứng dụng \"Mi AI Engine\"  để sử dụng</string>
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Tuỳ chỉnh khung thiết bị</string>
     <string name="screenshot_device_customize_desc">Vui lòng nhập mã</string>
