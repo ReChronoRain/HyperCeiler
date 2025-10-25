@@ -64,7 +64,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 public class DexKit {
     private static String TAG = "DexKit";
     private static volatile boolean isInit = false;
-    private static final int mVersion = 5;
+    private static final int mVersion = 6;
     private static final String MMKV_PATH = "/files/hyperceiler/mmkv";
     private static XC_LoadPackage.LoadPackageParam mParam;
     private static final String TYPE_METHOD = "METHOD";
@@ -108,8 +108,8 @@ public class DexKit {
             boolean hasPkgVersion = !Objects.equals(pkgVersionName, "null") && pkgVersionCode != -1;
             String pkgVersion = hasPkgVersion ? pkgVersionName + "(" + pkgVersionCode + ")" : null;
 
-            if (mMMKV.containsKey("version")) {
-                int version = Integer.parseInt(mMMKV.getString("version", "0"));
+            if (mMMKV.containsKey(mParam.packageName + "_version")) {
+                int version = Integer.parseInt(mMMKV.getString(mParam.packageName + "_version", "0"));
                 if (version != mVersion) {
                     XposedLogUtils.logD(TAG, "DexKit version changed, clear all cache: " + version + " -> " + mVersion);
                     needClear = true;
@@ -146,7 +146,7 @@ public class DexKit {
             }
 
             // 保证必要键存在并写入最新值（覆盖写入可保持一致性）
-            mMMKV.putString("version", String.valueOf(mVersion));
+            mMMKV.putString(mParam.packageName + "_version", String.valueOf(mVersion));
             if (hasPkgVersion) {
                 mMMKV.putString("pkgVersion", pkgVersion);
             }
