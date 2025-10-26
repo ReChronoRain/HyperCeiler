@@ -34,35 +34,20 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
     @Override
     public void init() {
         try {
-            findClass(collapsedStatusBar).getDeclaredMethod("initMiuiViewsOnViewCreated", View.class);
+            findClass(collapsedStatusBar).getDeclaredMethod("onViewCreated", View.class, Bundle.class);
             findAndHookMethod(collapsedStatusBar,
-                "initMiuiViewsOnViewCreated", View.class, new MethodHook() {
-
+                "onViewCreated", View.class, Bundle.class,
+                new MethodHook() {
                     @Override
                     protected void after(MethodHookParam param) {
                         View view = (View) param.args[0];
-                        // logE(TAG, "1: " + param.args[0]);
+                        // logE(TAG, "2: " + param.args[0]);
                         setCollapsedStatusBar(view);
                     }
                 }
             );
-        } catch (NoSuchMethodException e) {
-            try {
-                findClass(collapsedStatusBar).getDeclaredMethod("onViewCreated", View.class, Bundle.class);
-                findAndHookMethod(collapsedStatusBar,
-                    "onViewCreated", View.class, Bundle.class,
-                    new MethodHook() {
-                        @Override
-                        protected void after(MethodHookParam param) {
-                            View view = (View) param.args[0];
-                            // logE(TAG, "2: " + param.args[0]);
-                            setCollapsedStatusBar(view);
-                        }
-                    }
-                );
-            } catch (NoSuchMethodException f) {
-                logE(TAG, "No such: " + collapsedStatusBar + " method initMiuiViewsOnViewCreated and onViewCreated");
-            }
+        } catch (NoSuchMethodException f) {
+            logE(TAG, "No such: " + collapsedStatusBar + " method initMiuiViewsOnViewCreated and onViewCreated");
         }
     }
 
@@ -78,6 +63,6 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
                 }
             }
         };
-        view.getContext().registerReceiver(br, new IntentFilter("miui.intent.TAKE_SCREENSHOT"));
+        view.getContext().registerReceiver(br, new IntentFilter("miui.intent.TAKE_SCREENSHOT"), Context.RECEIVER_EXPORTED);
     }
 }
