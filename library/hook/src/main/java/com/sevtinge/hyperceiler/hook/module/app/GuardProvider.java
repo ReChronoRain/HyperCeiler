@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.guardprovider.DisableRootedCheck;
-import com.sevtinge.hyperceiler.hook.module.hook.guardprovider.DisableUploadAppListNew;
+import com.sevtinge.hyperceiler.hook.module.rules.guardprovider.DisableRootedCheck;
+import com.sevtinge.hyperceiler.hook.module.rules.guardprovider.DisableUploadAppListNew;
 
 @HookBase(targetPackage = "com.miui.guardprovider")
 public class GuardProvider extends BaseModule {

@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.simactivate.RoamingActivateHelper;
+import com.sevtinge.hyperceiler.hook.module.rules.simactivate.RoamingActivateHelper;
 
 @HookBase(targetPackage = "com.xiaomi.simactivate.service")
 public class SimActivate extends BaseModule {

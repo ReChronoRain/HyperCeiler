@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.downloads.RemoveXlDownload;
+import com.sevtinge.hyperceiler.hook.module.rules.downloads.RemoveXlDownload;
 
 @HookBase(targetPackage = "com.android.providers.downloads")
 public class Downloads extends BaseModule {

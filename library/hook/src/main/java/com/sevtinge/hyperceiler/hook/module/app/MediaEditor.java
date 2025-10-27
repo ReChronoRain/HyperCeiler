@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.CustomWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockAigc;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockCustomPhotoFrames;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockDisney;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockLeicaFilter;
-import com.sevtinge.hyperceiler.hook.module.hook.mediaeditor.UnlockMinimumCropLimit2;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.CustomWatermark;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.UnlockAigc;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.UnlockCustomPhotoFrames;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.UnlockDisney;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.UnlockLeicaFilter;
+import com.sevtinge.hyperceiler.hook.module.rules.mediaeditor.UnlockMinimumCropLimit2;
 
 import java.util.Objects;
 

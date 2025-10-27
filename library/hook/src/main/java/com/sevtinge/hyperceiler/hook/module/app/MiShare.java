@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.mishare.NoAutoTurnOff;
+import com.sevtinge.hyperceiler.hook.module.rules.mishare.NoAutoTurnOff;
 
 @HookBase(targetPackage = "com.miui.mishare.connectivity")
 public class MiShare extends BaseModule {

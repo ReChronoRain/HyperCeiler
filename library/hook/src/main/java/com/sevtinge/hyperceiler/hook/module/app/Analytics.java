@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.analytics.FuckMiuiUpload;
+import com.sevtinge.hyperceiler.hook.module.rules.analytics.FuckMiuiUpload;
 
 @HookBase(targetPackage = "com.miui.analytics")
 public class Analytics extends BaseModule {

@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.browser.DebugMode;
-import com.sevtinge.hyperceiler.hook.module.hook.browser.DisableReadFiles;
-import com.sevtinge.hyperceiler.hook.module.hook.browser.EnableDebugEnvironment;
+import com.sevtinge.hyperceiler.hook.module.rules.browser.DebugMode;
+import com.sevtinge.hyperceiler.hook.module.rules.browser.DisableReadFiles;
+import com.sevtinge.hyperceiler.hook.module.rules.browser.EnableDebugEnvironment;
 
 @HookBase(targetPackage = "com.android.browser")
 public class Browser extends BaseModule {

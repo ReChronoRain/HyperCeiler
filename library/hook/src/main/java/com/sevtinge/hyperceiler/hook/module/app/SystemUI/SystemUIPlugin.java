@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app.SystemUI;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.plugin.systemui.FlashLightNotificationColor;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.plugin.systemui.FlashLightNotificationColor;
 
 @HookBase(targetPackage = "miui.systemui.plugin")
 public class SystemUIPlugin extends BaseModule {

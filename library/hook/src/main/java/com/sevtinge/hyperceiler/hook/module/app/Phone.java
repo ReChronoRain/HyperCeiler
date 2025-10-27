@@ -20,15 +20,15 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.DisableRemoveNetworkMode;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.DualNrSupport;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.DualSaSupport;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.ModemFeature;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.N1BandPhone;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.N28BandPhone;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.N5N8BandPhone;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.UnlockVoiceLink;
-import com.sevtinge.hyperceiler.hook.module.hook.phone.ViceSlotVolteButton;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.DisableRemoveNetworkMode;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.DualNrSupport;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.DualSaSupport;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.ModemFeature;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.N1BandPhone;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.N28BandPhone;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.N5N8BandPhone;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.UnlockVoiceLink;
+import com.sevtinge.hyperceiler.hook.module.rules.phone.ViceSlotVolteButton;
 
 @HookBase(targetPackage = "com.android.phone")
 public class Phone extends BaseModule {

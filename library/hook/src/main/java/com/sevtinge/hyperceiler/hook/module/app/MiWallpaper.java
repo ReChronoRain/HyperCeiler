@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.miwallpaper.UnlockSuperWallpaper;
+import com.sevtinge.hyperceiler.hook.module.rules.miwallpaper.UnlockSuperWallpaper;
 
 @HookBase(targetPackage = "com.miui.miwallpaper")
 public class MiWallpaper extends BaseModule {

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.remotecontroller.DisableAd;
+import com.sevtinge.hyperceiler.hook.module.rules.remotecontroller.DisableAd;
 
 @HookBase(targetPackage = "com.duokan.phone.remotecontroller")
 public class RemoteController extends BaseModule {

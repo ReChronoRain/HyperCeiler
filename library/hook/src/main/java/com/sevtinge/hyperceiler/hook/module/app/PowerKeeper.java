@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.ConservativeMillet;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.CustomRefreshRate;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.DisableGetDisplayCtrlCode;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.DontKillApps;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.GmsDozeFix;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.LockMaxFps;
-import com.sevtinge.hyperceiler.hook.module.hook.powerkeeper.PreventBatteryWitelist;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.ConservativeMillet;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.CustomRefreshRate;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.DisableGetDisplayCtrlCode;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.DontKillApps;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.GmsDozeFix;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.LockMaxFps;
+import com.sevtinge.hyperceiler.hook.module.rules.powerkeeper.PreventBatteryWitelist;
 
 @HookBase(targetPackage = "com.miui.powerkeeper")
 public class PowerKeeper extends BaseModule {

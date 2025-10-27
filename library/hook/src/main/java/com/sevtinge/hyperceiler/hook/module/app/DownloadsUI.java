@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.downloadsui.AlwaysShowDownloadLink;
+import com.sevtinge.hyperceiler.hook.module.rules.downloadsui.AlwaysShowDownloadLink;
 
 @HookBase(targetPackage = "com.android.providers.downloads.ui")
 public class DownloadsUI extends BaseModule {

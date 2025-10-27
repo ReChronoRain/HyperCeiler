@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.community.DeviceModify;
-import com.sevtinge.hyperceiler.hook.module.hook.community.FuckDetection;
+import com.sevtinge.hyperceiler.hook.module.rules.community.DeviceModify;
+import com.sevtinge.hyperceiler.hook.module.rules.community.FuckDetection;
 
 @HookBase(targetPackage = "com.xiaomi.vipaccount")
 public class Community extends BaseModule {

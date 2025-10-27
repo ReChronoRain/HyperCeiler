@@ -22,12 +22,12 @@ import static com.sevtinge.hyperceiler.hook.BuildConfig.DEBUG;
 
 import android.os.Build;
 
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForB;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForR;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForS;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForT;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForU;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.corepatch.CorePatchForV;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForB;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForR;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForS;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForT;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForU;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch.CorePatchForV;
 import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;

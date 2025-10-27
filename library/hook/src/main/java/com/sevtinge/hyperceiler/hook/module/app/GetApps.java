@@ -20,11 +20,11 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.getapps.BypassRiskCheck;
-import com.sevtinge.hyperceiler.hook.module.hook.getapps.DeviceModify;
-import com.sevtinge.hyperceiler.hook.module.hook.getapps.DisableAds;
-import com.sevtinge.hyperceiler.hook.module.hook.getapps.DisablePackageMonitor;
-import com.sevtinge.hyperceiler.hook.module.hook.getapps.DisableStartPushDialog;
+import com.sevtinge.hyperceiler.hook.module.rules.getapps.BypassRiskCheck;
+import com.sevtinge.hyperceiler.hook.module.rules.getapps.DeviceModify;
+import com.sevtinge.hyperceiler.hook.module.rules.getapps.DisableAds;
+import com.sevtinge.hyperceiler.hook.module.rules.getapps.DisablePackageMonitor;
+import com.sevtinge.hyperceiler.hook.module.rules.getapps.DisableStartPushDialog;
 
 @HookBase(targetPackage = "com.xiaomi.market")
 public class GetApps extends BaseModule {

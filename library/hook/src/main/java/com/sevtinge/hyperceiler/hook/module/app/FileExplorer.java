@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.fileexplorer.SelectName;
-import com.sevtinge.hyperceiler.hook.module.hook.fileexplorer.UnlockFileParse;
+import com.sevtinge.hyperceiler.hook.module.rules.fileexplorer.SelectName;
+import com.sevtinge.hyperceiler.hook.module.rules.fileexplorer.UnlockFileParse;
 
 @HookBase(targetPackage = "com.android.fileexplorer")
 public class FileExplorer extends BaseModule {

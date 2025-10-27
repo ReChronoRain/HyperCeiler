@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.tsmclient.AutoNfc;
+import com.sevtinge.hyperceiler.hook.module.rules.tsmclient.AutoNfc;
 
 @HookBase(targetPackage = "com.miui.tsmclient")
 public class TsmClient extends BaseModule {

@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.backup.AllowBackupAllApps;
-import com.sevtinge.hyperceiler.hook.module.hook.backup.UnlockBrokenScreenBackup;
+import com.sevtinge.hyperceiler.hook.module.rules.backup.AllowBackupAllApps;
+import com.sevtinge.hyperceiler.hook.module.rules.backup.UnlockBrokenScreenBackup;
 
 @HookBase(targetPackage = "com.miui.backup")
 public class Backup extends BaseModule {

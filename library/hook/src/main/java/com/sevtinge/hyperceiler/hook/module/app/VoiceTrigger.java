@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.voicetrigger.BypassUDKWordLegalCheck;
+import com.sevtinge.hyperceiler.hook.module.rules.voicetrigger.BypassUDKWordLegalCheck;
 
 @HookBase(targetPackage = "com.miui.voicetrigger")
 public class VoiceTrigger extends BaseModule {

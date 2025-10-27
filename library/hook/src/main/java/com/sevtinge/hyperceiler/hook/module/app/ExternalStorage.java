@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.externalstorage.DisableFolderCantUse;
+import com.sevtinge.hyperceiler.hook.module.rules.externalstorage.DisableFolderCantUse;
 
 @HookBase(targetPackage = "com.android.externalstorage")
 public class ExternalStorage extends BaseModule {

@@ -22,13 +22,13 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.DoublePress;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.HorizontalContentExtension;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.LinkOpenMode;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.SuperImage;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.Taplus;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.UnlockTaplus;
-import com.sevtinge.hyperceiler.hook.module.hook.contentextension.UseThirdPartyBrowser;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.DoublePress;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.HorizontalContentExtension;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.LinkOpenMode;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.SuperImage;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.Taplus;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.UnlockTaplus;
+import com.sevtinge.hyperceiler.hook.module.rules.contentextension.UseThirdPartyBrowser;
 
 @HookBase(targetPackage = "com.miui.contentextension")
 public class ContentExtension extends BaseModule {

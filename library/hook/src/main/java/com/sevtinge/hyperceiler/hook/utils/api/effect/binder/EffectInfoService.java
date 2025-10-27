@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.utils.api.effect.binder;
 import android.os.RemoteException;
 
 import com.sevtinge.hyperceiler.hook.IEffectInfo;
-import com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.hook.utils.api.effect.control.BaseEffectControl;
 
 import java.util.Collections;

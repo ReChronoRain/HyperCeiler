@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.misettings.CustomRefreshRate;
-import com.sevtinge.hyperceiler.hook.module.hook.misettings.ShowMoreFpsList;
+import com.sevtinge.hyperceiler.hook.module.rules.misettings.CustomRefreshRate;
+import com.sevtinge.hyperceiler.hook.module.rules.misettings.ShowMoreFpsList;
 
 @HookBase(targetPackage = "com.xiaomi.misettings")
 public class MiSettings extends BaseModule {

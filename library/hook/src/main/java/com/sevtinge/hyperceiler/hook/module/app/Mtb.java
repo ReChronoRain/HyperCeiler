@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.mtb.BypassAuthentication;
-import com.sevtinge.hyperceiler.hook.module.hook.mtb.IsUserBuild;
+import com.sevtinge.hyperceiler.hook.module.rules.mtb.BypassAuthentication;
+import com.sevtinge.hyperceiler.hook.module.rules.mtb.IsUserBuild;
 
 @HookBase(targetPackage = "com.xiaomi.mtb")
 public class Mtb extends BaseModule {

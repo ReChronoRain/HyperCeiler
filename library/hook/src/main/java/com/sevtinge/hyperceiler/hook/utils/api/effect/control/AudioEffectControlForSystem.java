@@ -26,7 +26,7 @@ import static com.hchen.hooktool.core.CoreTool.findMethodPro;
 import static com.hchen.hooktool.core.CoreTool.hookMethod;
 import static com.hchen.hooktool.core.CoreTool.newInstance;
 import static com.hchen.hooktool.log.XposedLog.logI;
-import static com.sevtinge.hyperceiler.hook.module.hook.systemframework.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
+import static com.sevtinge.hyperceiler.hook.module.rules.systemframework.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_DOLBY_CONTROL;
 import static com.sevtinge.hyperceiler.hook.utils.api.effect.EffectItem.EFFECT_MISOUND;

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.securityadd.DisableGameBoosterAds;
+import com.sevtinge.hyperceiler.hook.module.rules.securityadd.DisableGameBoosterAds;
 
 @HookBase(targetPackage = "com.miui.securityadd")
 public class SecurityAdd extends BaseModule {

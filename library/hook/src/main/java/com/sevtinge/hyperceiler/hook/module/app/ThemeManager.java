@@ -20,11 +20,11 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.thememanager.AllowDownloadMore;
-import com.sevtinge.hyperceiler.hook.module.hook.thememanager.AllowThirdTheme;
-import com.sevtinge.hyperceiler.hook.module.hook.thememanager.DisableThemeAdNew;
-import com.sevtinge.hyperceiler.hook.module.hook.thememanager.UnlockAIWallPaper;
-import com.sevtinge.hyperceiler.hook.module.hook.thememanager.VersionCodeModify;
+import com.sevtinge.hyperceiler.hook.module.rules.thememanager.AllowDownloadMore;
+import com.sevtinge.hyperceiler.hook.module.rules.thememanager.AllowThirdTheme;
+import com.sevtinge.hyperceiler.hook.module.rules.thememanager.DisableThemeAdNew;
+import com.sevtinge.hyperceiler.hook.module.rules.thememanager.UnlockAIWallPaper;
+import com.sevtinge.hyperceiler.hook.module.rules.thememanager.VersionCodeModify;
 
 @HookBase(targetPackage = "com.android.thememanager")
 public class ThemeManager extends BaseModule {

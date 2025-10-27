@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.contacts.DisableNetworkAssistantOfflineInfoManager;
+import com.sevtinge.hyperceiler.hook.module.rules.contacts.DisableNetworkAssistantOfflineInfoManager;
 
 @HookBase(targetPackage = "com.android.contacts")
 public class Contacts extends BaseModule {

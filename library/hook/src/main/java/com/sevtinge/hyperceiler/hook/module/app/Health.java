@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.health.DisableSplashAd;
+import com.sevtinge.hyperceiler.hook.module.rules.health.DisableSplashAd;
 
 @HookBase(targetPackage = "com.mi.health")
 public class Health extends BaseModule {
