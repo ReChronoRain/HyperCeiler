@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getStaticObjectField
@@ -45,10 +46,20 @@ object WifiStandard : BaseHook() {
             bridge.findMethod {
                 matcher {
                     declaredClass {
-                        className("viewmodel.WifiViewModel\$special", StringMatchType.Contains)
+                        if (isMoreAndroidVersion(36)) {
+                            className($$"WifiViewModelInject$special$", StringMatchType.Contains)
+                        } else {
+                            className($$"viewmodel.WifiViewModel$special", StringMatchType.Contains)
+                        }
                     }
                     usingNumbers(5, 0)
                     addInvoke("Ljava/lang/Integer;-><init>(I)V")
+
+                    if (isMoreAndroidVersion(36)) {
+                        addUsingField {
+                            name($$"$this_unsafeFlow")
+                        }
+                    }
                 }
             }.singleOrNull()
         } as? Method
@@ -63,7 +74,7 @@ object WifiStandard : BaseHook() {
                     if (isDebug()) {
                         val wifiStandard = it.thisObject.getObjectFieldAs<Any>("wifiStandard")
                         MiuiStub.javaAdapter.alwaysCollectFlow<Int>(wifiStandard) { i ->
-                            logD("wifiStandard $i")
+                            logD(TAG, lpparam.packageName, "wifiStandard $i")
                         }
 
                         // it.thisObject.setObjectField("inoutLeft", newReadonlyStateFlow(true))
@@ -83,7 +94,7 @@ object WifiStandard : BaseHook() {
                 val wifiStandard = it.args[0]
                 val continuation = it.args[1]
                 if (wifiStandard != 0 && continuation.getObjectField("label") != 0) {
-                    val flow = it.thisObject.getObjectFieldAs<Any>("\$this_unsafeFlow")
+                    val flow = it.thisObject.getObjectFieldAs<Any>($$"$this_unsafeFlow")
                     val obj = flow.callMethod("emit", wifiStandard, continuation)
                     it.result = if (obj == suspended) {
                         suspended
