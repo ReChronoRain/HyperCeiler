@@ -279,9 +279,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                 mMessageTextView.setText(message);
             }
 
-            // 设置消息颜色
-            mMessageTextView.setTextColor(sDefaultTextColor);
-
             // 处理换行显示
             if (logEntry.isNewLine()) {
                 mMessageTextView.setSingleLine(false);

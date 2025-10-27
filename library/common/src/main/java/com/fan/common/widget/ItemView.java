@@ -2,6 +2,7 @@ package com.fan.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -26,8 +27,14 @@ public class ItemView extends LinearLayout {
     private String mSummary;
     private String mValue;
     private int mWidgetLayout;
-    private boolean mShowArrowRight;
     private boolean mEnabled;
+
+    private int mBackgroundRes;
+
+    private int mTitleTextColor;
+    private int mSummaryTextColor;
+
+    private boolean mShowArrowRight;
 
     private View mItemView;
     private TextView mTitleView;
@@ -44,9 +51,8 @@ public class ItemView extends LinearLayout {
     }
 
 
-
     public ItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.ItemViewStyle);
+        this(context, attrs, defStyleAttr, R.style.ItemViewStyle_DayNight);
     }
 
     public ItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -56,8 +62,17 @@ public class ItemView extends LinearLayout {
         mSummary = a.getString(R.styleable.ItemView_android_summary);
         mValue = a.getString(R.styleable.ItemView_android_value);
         mWidgetLayout = a.getResourceId(R.styleable.ItemView_android_widgetLayout, 0);
-        mShowArrowRight = a.getBoolean(R.styleable.ItemView_arrowRightShow, true);
+
         mEnabled = a.getBoolean(R.styleable.ItemView_android_enabled, true);
+
+        mTitleTextColor = a.getColor(R.styleable.ItemView_titleTextColor,
+            getContext().getColor(R.color.item_view_title_color_light));
+
+        mSummaryTextColor = a.getColor(R.styleable.ItemView_summaryTextColor,
+            getContext().getColor(R.color.item_view_summary_color_light));
+
+        mShowArrowRight = a.getBoolean(R.styleable.ItemView_arrowRightShow, true);
+
         a.recycle();
         initView(context);
     }
@@ -79,6 +94,7 @@ public class ItemView extends LinearLayout {
         if (!TextUtils.isEmpty(title)) {
             mTitle = title;
             mTitleView.setText(title);
+            mTitleView.setTextColor(mTitleTextColor);
             if (mTitleView.getVisibility() != View.VISIBLE) {
                 mTitleView.setVisibility(View.VISIBLE);
             }
@@ -97,6 +113,7 @@ public class ItemView extends LinearLayout {
         if (!TextUtils.isEmpty(summary)) {
             mSummary = summary;
             mSummaryView.setText(summary);
+            mSummaryView.setTextColor(mSummaryTextColor);
             if (mSummaryView.getVisibility() != View.VISIBLE) {
                 mSummaryView.setVisibility(View.VISIBLE);
             }

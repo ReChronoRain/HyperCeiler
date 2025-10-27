@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ItemViewStyle.DayNight" parent="ItemViewStyle.Dark" />
+
+    <style name="LogViewerRecyclerViewCardStyle" parent="@style/RecyclerViewCardStyle.DayNight">
+        <item name="cardGroupBackground">@drawable/item_view_background_dark</item>
+    </style>
+</resources>

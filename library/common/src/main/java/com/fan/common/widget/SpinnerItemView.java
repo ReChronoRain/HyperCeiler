@@ -32,7 +32,7 @@ public class SpinnerItemView extends ItemView {
     }
 
     public SpinnerItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.ItemViewStyle);
+        this(context, attrs, defStyleAttr, R.style.ItemViewStyle_DayNight);
     }
 
     public SpinnerItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

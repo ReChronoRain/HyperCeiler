@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="item_view_height">60dp</dimen>
+    <dimen name="item_view_height">56dp</dimen>
     <dimen name="item_view_padding">16dp</dimen>
 
     <dimen name="item_view_title_size">17sp</dimen>

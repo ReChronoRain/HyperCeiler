@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:color="@color/item_view_arrow_right_disable_fill_color" android:state_enabled="false" />
-    <item android:color="@color/item_view_arrow_right_pressed_fill_color" android:state_pressed="true" />
-    <item android:color="@color/item_view_arrow_right_normal_fill_color" />
-</selector>

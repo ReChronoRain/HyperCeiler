@@ -35,7 +35,7 @@
                 android:singleLine="true"
                 android:text="00:00:00"
                 android:textAlignment="textStart"
-                android:textColor="#666666"
+                android:textColor="?itemViewSummaryTextColor"
                 android:textSize="12sp"
                 tools:ignore="HardcodedText" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="Module"
-                android:textColor="#666666"
+                android:textColor="?itemViewSummaryTextColor"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -61,7 +61,8 @@
             android:text="I"
             android:textAlignment="textEnd"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textColor="?itemViewTitleTextColor"/>
 
         <!-- 消息列 -->
         <TextView
@@ -70,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/textLevel"
             android:text="Log message content"
-            android:textColor="#000000"
+            android:textColor="?itemViewTitleTextColor"
             android:textSize="14sp" />
 
     </RelativeLayout>

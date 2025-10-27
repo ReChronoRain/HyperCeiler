@@ -53,14 +53,16 @@
                     android:id="@+id/spinnerLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:title="级别:" />
+                    android:title="级别:"
+                    android:background="@null"/>
 
                 <!-- 模块过滤器 -->
                 <com.fan.common.widget.SpinnerItemView
                     android:id="@+id/spinnerModule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:title="标签:" />
+                    android:title="标签:"
+                    android:background="@null"/>
 
             </LinearLayout>
 
