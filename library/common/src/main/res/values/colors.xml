@@ -25,4 +25,6 @@
     <color name="item_view_arrow_right_normal_fill_color_dark">#66ffffff</color>
     <color name="item_view_arrow_right_disable_fill_color_dark">#4dffffff</color>
     <color name="item_view_arrow_right_pressed_fill_color_dark">#66ffffff</color>
+
+    <color name="spinner_parent_bg">#c6a0a0a0</color>
 </resources>

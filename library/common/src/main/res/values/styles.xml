@@ -37,6 +37,6 @@
 
 
     <style name="LogViewerRecyclerViewCardStyle" parent="@style/RecyclerViewCardStyle.DayNight">
-        <item name="cardGroupBackground">@drawable/item_view_background_light</item>
+        <item name="cardGroupBackground">?itemViewBackgroundColor</item>
     </style>
 </resources>

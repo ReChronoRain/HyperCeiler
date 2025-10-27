@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <fan.nestedheader.widget.NestedHeaderLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nested_header_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -36,11 +37,12 @@
         android:orientation="vertical">
 
         <fan.cardview.HyperCardView
-            style="@style/HyperCardView.DayNight"
+            style="@style/HyperCardView.Border.DayNight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="10dp"
+            app:cardBackgroundColor="?itemViewBackgroundColor">
 
             <!-- 过滤工具栏 -->
             <LinearLayout
@@ -54,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:title="级别:"
-                    android:background="@null"/>
+                    android:background="@null" />
 
                 <!-- 模块过滤器 -->
                 <com.fan.common.widget.SpinnerItemView
@@ -62,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:title="标签:"
-                    android:background="@null"/>
+                    android:background="@null" />
 
             </LinearLayout>
 

@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.common.model.data;
 
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Parcelable;
@@ -27,6 +28,7 @@ public class AppDataManager {
                      SubPickerActivity.INPUT_MODE -> getLauncherApps();
                 case SubPickerActivity.APP_OPEN_MODE -> getOpenWithApps();
                 case SubPickerActivity.PROCESS_TEXT_MODE -> getProcessTextApps();
+                case SubPickerActivity.ALL_APPS_MODE -> getAllApps();
                 default -> new ArrayList<>();
             };
         } catch (Exception e) {
@@ -105,6 +107,40 @@ public class AppDataManager {
                         resolveInfoList.add(resolveInfo);
                     }
                 }
+                return new ArrayList<>(resolveInfoList);
+            }
+        });
+    }
+
+    private List<AppData> getAllApps() {
+        return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
+            @Override
+            public List<Parcelable> getPackageCodeList(PackageManager pm) {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+                List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
+
+                mPackageMap.clear();
+                List<ApplicationInfo> resolveInfoList = new ArrayList<>();
+
+                for (ApplicationInfo appInfo : applicationInfos) {
+                    String packageName = appInfo.packageName;
+                    if (!mPackageMap.containsKey(packageName)) {
+                        mPackageMap.put(packageName, 1);
+                        resolveInfoList.add(appInfo);
+                    }
+                }
+
+                Collator collator = Collator.getInstance(Locale.getDefault());
+                resolveInfoList.sort((r1, r2) -> {
+                    CharSequence label1 = r1.loadLabel(pm);
+                    CharSequence label2 = r2.loadLabel(pm);
+                    return collator.compare(
+                        label1.toString(),
+                        label2.toString()
+                    );
+                });
                 return new ArrayList<>(resolveInfoList);
             }
         });

@@ -74,6 +74,7 @@ public class SubPickerActivity extends AppCompatActivity
     public static final int CALLBACK_MODE = 2;
     public static final int INPUT_MODE = 3;
     public static final int PROCESS_TEXT_MODE = 4;
+    public static final int ALL_APPS_MODE = 5;
 
     private static final int DELAY_LOAD_DATA = 120;
 
@@ -81,6 +82,7 @@ public class SubPickerActivity extends AppCompatActivity
     private int mModeSelection;
 
     private View mSearchBar;
+    private TextView mSearchInputView;
     private ProgressBar mProgressBar;
     private NestedHeaderLayout mNestedHeaderLayout;
     private RecyclerView mAppListRecyclerView;
@@ -122,7 +124,7 @@ public class SubPickerActivity extends AppCompatActivity
 
     private boolean isKeyRequiredMode(int mode) {
         return mode == APP_OPEN_MODE || mode == LAUNCHER_MODE ||
-            mode == INPUT_MODE || mode == PROCESS_TEXT_MODE;
+            mode == INPUT_MODE || mode == PROCESS_TEXT_MODE || mode == ALL_APPS_MODE;
     }
 
     private void initializeViews() {
@@ -138,8 +140,7 @@ public class SubPickerActivity extends AppCompatActivity
 
     private void initializeSearchBar() {
         mSearchBar = findViewById(R.id.search_bar);
-        TextView mSearchInputView = mSearchBar.findViewById(android.R.id.input);
-        mSearchInputView.setHint(R.string.search_apps_hint);
+        mSearchInputView = mSearchBar.findViewById(android.R.id.input);
         mSearchBar.setClickable(false);
     }
 
@@ -251,6 +252,7 @@ public class SubPickerActivity extends AppCompatActivity
 
         runOnUiThread(() -> {
             mAppListAdapter.setData(mCurrentAppDataList);
+            mSearchInputView.setHint(String.format(getString(R.string.search_apps_hint), mAppListAdapter.getData().size()));
             mProgressBar.setVisibility(View.GONE);
             mSearchBar.setClickable(true);
             mAppListRecyclerView.setVisibility(View.VISIBLE);
@@ -389,6 +391,7 @@ public class SubPickerActivity extends AppCompatActivity
         mCurrentAppDataList.clear();
         mCurrentAppDataList.addAll(mOriginalAppDataList);
         mAppListAdapter.setData(mCurrentAppDataList);
+        mSearchInputView.setHint(String.format(getString(R.string.search_apps_hint), mAppListAdapter.getData().size()));
         mAppListRecyclerView.scrollToPosition(0);
     }
 

@@ -197,7 +197,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         private void updateCheckboxVisibility(AppData appInfo) {
             boolean shouldShowCheckbox = (mMode == SubPickerActivity.LAUNCHER_MODE ||
                 mMode == SubPickerActivity.APP_OPEN_MODE ||
-                mMode == SubPickerActivity.PROCESS_TEXT_MODE);
+                mMode == SubPickerActivity.PROCESS_TEXT_MODE || mMode == SubPickerActivity.ALL_APPS_MODE);
 
             mSelectCheckbox.setVisibility(shouldShowCheckbox ? View.VISIBLE : View.GONE);
 

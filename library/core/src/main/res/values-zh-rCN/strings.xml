@@ -104,7 +104,7 @@
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
 
-    <string name="search_apps_hint">搜索应用</string>
+    <string name="search_apps_hint">搜索%d个应用</string>
 
     <string name="logo_egg_NotificationName">彩蛋通知</string>
     <string name="logo_egg_NotificationName_tips">这是彩蛋通知</string>
