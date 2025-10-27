@@ -103,4 +103,19 @@
     <string name="log_level_none">關閉</string>
     <string name="disable_suggest">關閉建議</string>
     <string name="enable_suggest">開啟建議</string>
+    <string name="logo_egg_NotificationName">彩蛋通知</string>
+    <string name="logo_egg_NotificationName_tips">這是彩蛋通知</string>
+    <string name="logo_egg_Notification_tips">請在設定裡打開通知以查看彩蛋</string>
+    <string name="logo_egg1">哇，你居然能找到這裡，太厲害了</string>
+    <string name="logo_egg2">可惡，藏在這裡也會被發現嗎…</string>
+    <string name="logo_egg3">這裡沒有 Android Eggs… 但是有 HyperCeiler Eggs!</string>
+    <string name="uninstall_title">解除安裝 HyperCeiler</string>
+    <string name="uninstall_summary">從此入口解除安裝 HyperCeiler 後，您的模組配置將仍然保留在 Xposed 框架資料庫中，如需徹底清除請先前往模組設定中重置模組配置，再進行解除安裝。</string>
+    <string name="unsupported_func_tips">當前目標作用域來源可能並不是 Xiaomi 官方，出於安全考量，已停止載入此作用域的所有功能，請嘗試更改為 Xiaomi 官方發布的應用包，或前往 "HyperCeiler 設定-開發者選項-調試模式" 指定掛載版本後重試。</string>
+    <string name="debug_mode">調試模式</string>
+    <string name="open_debug_mode_tips">該選項僅用於正確處理目標應用的掛載版本，僅供需要時使用。\n對於被調試的目標應用，無法確保功能能正常使用，開啟後對於該目標應用出現的任何問題請**不要**回報給開發者。</string>
+    <string name="debug_mode_running">當前目標作用域正處於調試模式，若無必要開啟請前往關閉。\n當前應用版本：%1$s\n選擇目標版本：%2$s\n是否成功掛鉤：%3$s</string>
+    <string name="debug_mode_switch">調試版本</string>
+    <string name="debug_mode_home_version">設定 系統桌面 版本號</string>
+    <string name="debug_mode_home_version_desc">過高的版本號仍舊會被攔截，請認真填寫</string>
 </resources>

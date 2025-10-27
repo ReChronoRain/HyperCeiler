@@ -136,8 +136,9 @@ public class DashboardFragment extends SettingsPreferenceFragment {
 
     public void setAppModWarn(Preference p, String pkgName) {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), pkgName);
-        boolean isDebugMode = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) != 0;
+        boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
+        boolean isDebugVersion = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) == 0;
 
-        p.setVisible(check && !isDebugMode);
+        p.setVisible(check && !isDebugMode && isDebugVersion);
     }
 }

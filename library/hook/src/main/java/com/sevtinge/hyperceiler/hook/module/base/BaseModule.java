@@ -82,11 +82,12 @@ public abstract class BaseModule {
         HCInit.initLoadPackageParam(lpparam);
 
         try {
+            boolean isDebug = mPrefsMap.getBoolean("development_debug_mode");
             for (String pkg : checkList) {
                 if (Objects.equals(lpparam.packageName, pkg)) {
                     boolean check = CheckModifyUtils.INSTANCE.getCheckResult(lpparam.packageName);
-                    boolean isDebug = DebugModeUtils.INSTANCE.getChooseResult(lpparam.packageName) != 0;
-                    if (check && !isDebug) return;
+                    boolean isVersion = DebugModeUtils.INSTANCE.getChooseResult(lpparam.packageName) == 0;
+                    if (check && !isDebug && isVersion) return;
                     break;
                 }
             }
