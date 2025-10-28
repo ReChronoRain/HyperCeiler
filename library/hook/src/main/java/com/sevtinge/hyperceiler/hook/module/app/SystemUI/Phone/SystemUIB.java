@@ -85,6 +85,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.Net
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NewNetworkSpeed;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NewNetworkSpeedStyle;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.strongtoast.HideStrongToast;
 import com.sevtinge.hyperceiler.hook.module.skip.StatusBarActions;
 
 import java.util.Objects;
@@ -156,6 +157,9 @@ public class SystemUIB extends BaseModule {
             initHook(FocusNotifLyric.INSTANCE);
             initHook(HideFakeStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_hide_clock"));
         }
+
+        // 灵动舞台
+        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
 
         // 导航栏
         initHook(RotationButtonB.INSTANCE, mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 0);

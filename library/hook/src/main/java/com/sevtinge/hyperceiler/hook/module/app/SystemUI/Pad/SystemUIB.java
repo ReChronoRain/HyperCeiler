@@ -56,12 +56,12 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.all.St
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.all.WifiNetworkIndicator;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.b.HideBatteryIconB;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.v.FocusNotifLyric;
-import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.v.HideFakeStatusBar;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NetworkSpeedSec;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NetworkSpeedSpacing;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NewNetworkSpeed;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.network.NewNetworkSpeedStyle;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.strongtoast.HideStrongToast;
 import com.sevtinge.hyperceiler.hook.module.skip.StatusBarActions;
 
 @HookBase(targetPackage = "com.android.systemui", isPad = 1, targetSdk = 36)
@@ -111,10 +111,11 @@ public class SystemUIB extends BaseModule {
         initHook(StatusBarClockNew.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_clock_all_status_enable"));
 
         // 焦点歌词
-        if (mPrefsMap.getBoolean("system_ui_statusbar_music_switch") && isHyperOSVersion(2f)) {
-            initHook(FocusNotifLyric.INSTANCE);
-            initHook(HideFakeStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_hide_clock"));
-        }
+        initHook(FocusNotifLyric.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch") && isHyperOSVersion(2f));
+
+        // 灵动舞台
+        initHook(HideStrongToast.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
+
 
         // 导航栏
         initHook(RotationButtonB.INSTANCE, mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 0);
