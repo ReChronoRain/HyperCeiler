@@ -20,25 +20,18 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.model
 
 import android.telephony.SubscriptionManager
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.Dependency
-import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.MiuiStub
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobileClass.miuiCellularIconVM
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.card2
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.hideRoaming
-import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.isEnableDouble
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
 import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.setStateFlowValue
-import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
-import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import java.util.function.Consumer
 
 class MobilePublicHookV : BaseHook() {
     override fun init() {
@@ -53,16 +46,15 @@ class MobilePublicHookV : BaseHook() {
                 val subId = mobileIconInteractor.getObjectFieldAs<Int>("subId")
 
                 // 双排信号
-                if (isEnableDouble) {
+                /*if (isEnableDouble) {
                     val isVisible = if (isMoreAndroidVersion(36)) {
                         val pair = loadClass("kotlin.Pair")
                             .getConstructor(Object::class.java, Object::class.java)
                             .newInstance(false, false)
-                        newReadonlyStateFlow(pair)
+                        cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(pair))
                     } else {
-                        newReadonlyStateFlow(false)
+                        cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
                     }
-                    cellularIcon.setObjectField("isVisible", isVisible)
                     if (!hideRoaming) {
                         cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
                     }
@@ -80,7 +72,7 @@ class MobilePublicHookV : BaseHook() {
                                 }
                             )
                         }
-                } else {
+                } else {*/
                     val getSlotIndex = SubscriptionManager.getSlotIndex(subId)
                     if ((card1 && getSlotIndex == 0) || (card2 && getSlotIndex == 1)) {
                         if (isMoreAndroidVersion(36)) {
@@ -92,7 +84,7 @@ class MobilePublicHookV : BaseHook() {
                             cellularIcon.setObjectField("isVisible", newReadonlyStateFlow(false))
                         }
                     }
-                }
+                /*}*/
 
                 if (hideIndicator) {
                     cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
