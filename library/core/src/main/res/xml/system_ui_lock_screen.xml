@@ -121,10 +121,10 @@
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValue="6"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s s"
+            app:format="%.1f s"
             app:maxValue="10"
             app:minValue="2"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
     </PreferenceCategory>
@@ -167,10 +167,10 @@
             android:title="@string/system_ui_lock_screen_linkage_anim_on"
             app:defaultValue="300"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s f"
+            app:format="%.2f f"
             app:maxValue="1600"
             app:minValue="100"
-            app:showDividerValue="100"
+            app:dividerValue="100"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -179,10 +179,10 @@
             android:title="@string/system_ui_lock_screen_linkage_anim_off"
             app:defaultValue="200"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s f"
+            app:format="%.2f f"
             app:maxValue="1600"
             app:minValue="100"
-            app:showDividerValue="100"
+            app:dividerValue="100"
             app:stepValue="1" />
 
     </PreferenceCategory>

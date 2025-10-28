@@ -234,7 +234,7 @@ public class SubPickerActivity extends AppCompatActivity
         } catch (Exception e) {
             runOnUiThread(() -> {
                 mProgressBar.setVisibility(View.GONE);
-                Toast.makeText(this, "加载应用列表失败", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.load_apps_failed), Toast.LENGTH_SHORT).show();
             });
         }
     }

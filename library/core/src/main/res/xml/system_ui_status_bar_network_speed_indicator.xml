@@ -41,10 +41,10 @@
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
             app:defaultValue="13"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="40"
             app:minValue="8"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -89,10 +89,10 @@
             android:title="@string/system_ui_statusbar_network_speed_update_spacing"
             app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s s"
+            app:format="%.1f s"
             app:maxValue="100"
             app:minValue="10"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -144,10 +144,10 @@
             android:title="@string/spacing_margin"
             app:defaultValue="16"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.2f dp"
             app:maxValue="22"
             app:minValue="14"
-            app:showDividerValue="20"
+            app:dividerValue="20"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -155,9 +155,9 @@
             android:title="@string/left_margin"
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="16"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -165,9 +165,9 @@
             android:title="@string/right_margin"
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="16"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -175,11 +175,11 @@
             android:title="@string/vertical_offset"
             app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="80"
             app:minValue="0"
             app:negativeShift="40"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:stepValue="1" />
 
     </PreferenceCategory>

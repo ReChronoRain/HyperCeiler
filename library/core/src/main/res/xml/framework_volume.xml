@@ -67,7 +67,7 @@
             app:isPreferenceVisible="false"
             app:maxValue="500"
             app:minValue="0"
-            app:showDividerValue="100"
+            app:dividerValue="100"
             app:showSeekBarValue="true"
             app:stepValue="25" />
 

@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.ALL_APPS_MODE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -29,9 +29,9 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import fan.preference.SeekBarPreferenceCompat;
@@ -55,7 +55,7 @@ public class ControlCenterSettings extends DashboardFragment {
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
                     Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-                    intent.putExtra("mode", LAUNCHER_MODE);
+                    intent.putExtra("mode", ALL_APPS_MODE);
                     intent.putExtra("key", preference.getKey());
                     startActivity(intent);
                     return true;

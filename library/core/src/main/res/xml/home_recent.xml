@@ -37,10 +37,10 @@
             android:title="@string/home_recent_show_launch_size"
             app:defaultValue="95"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s f"
+            app:format="%.2f f"
             app:maxValue="100"
             app:minValue="20"
-            app:showDividerValue="100"
+            app:dividerValue="100"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -50,10 +50,10 @@
             android:title="@string/home_recent_show_launch_alpha"
             app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s f"
+            app:format="%.2f f"
             app:maxValue="100"
             app:minValue="0"
-            app:showDividerValue="100"
+            app:dividerValue="100"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
