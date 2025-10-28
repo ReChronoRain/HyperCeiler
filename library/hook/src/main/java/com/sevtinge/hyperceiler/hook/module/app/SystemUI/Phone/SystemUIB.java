@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.UnlockClipboard;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.ExpandNotificationKt;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.FixTilesList;
@@ -166,6 +167,7 @@ public class SystemUIB extends BaseModule {
         initHook(AutoDismissExpandedPopupsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_auto_clean_expand_notification"));
         initHook(ExpandNotificationKt.INSTANCE, !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
+        initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
 
         // 磁贴
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));

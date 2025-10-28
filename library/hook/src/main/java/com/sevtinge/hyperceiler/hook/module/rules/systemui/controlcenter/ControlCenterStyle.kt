@@ -19,16 +19,27 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object ControlCenterStyle : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.controlcenter.policy.ControlCenterControllerImpl").declaredConstructors.createHooks {
-            after {
-                it.thisObject.setObjectField("forceUseControlCenterPanel", false)
-            }
+        if (isMoreAndroidVersion(36)) {
+            loadClass("com.miui.systemui.controlcenter.data.repository.ControlCenterSettingsRepositoryImpl")
+                .constructors.createHooks {
+                    after {
+                        it.thisObject.setObjectField("forceUseControlCenter", false)
+                    }
+                }
+        } else {
+            loadClass("com.android.systemui.controlcenter.policy.ControlCenterControllerImpl")
+                .declaredConstructors.createHooks {
+                    after {
+                        it.thisObject.setObjectField("forceUseControlCenterPanel", false)
+                    }
+                }
         }
     }
 }
