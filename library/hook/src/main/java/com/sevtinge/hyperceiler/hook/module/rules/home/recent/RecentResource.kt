@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.hook.module.rules.home.recent
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
 import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookData
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookMap
@@ -31,7 +31,7 @@ import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
-object RecentResource : BaseHook() {
+object RecentResource : HomeBaseHookNew() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()
     private fun hook(param: XC_MethodHook.MethodHookParam) {
         try {
@@ -48,13 +48,51 @@ object RecentResource : BaseHook() {
         mPrefsMap.getInt("task_view_corners", 20)
     }
 
-    override fun init() {
+    @Version(isPad = false, min = 600000000)
+    private fun isNewHomeHook() {
+        // thank nakixii
+        hookAllMethods("com.miui.home.recents.util.WindowCornerRadiusUtil", "setWindowRadius",
+            object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    runCatching {
+                        val f = param.method.declaringClass.getDeclaredField("sTaskViewCornerRadius")
+                        f.isAccessible = true
+                        f.setInt(null, sRoundedCorner)
+                    }
+                }
+            })
 
+        publicHook()
+    }
+
+    @Version(isPad = true, min = 450000000)
+    private fun isNewHomeHookPad() {
+        // thank nakixii
+        hookAllMethods("com.miui.home.recents.util.WindowCornerRadiusUtil", "setWindowRadius",
+            object : MethodHook() {
+                override fun after(param: MethodHookParam) {
+                    runCatching {
+                        val f = param.method.declaringClass.getDeclaredField("sTaskViewCornerRadius")
+                        f.isAccessible = true
+                        f.setInt(null, sRoundedCorner)
+                    }
+                }
+            })
+
+        publicHook()
+    }
+
+    override fun initBase() {
         findAndHookMethod("com.miui.home.recents.util.WindowCornerRadiusUtil", "getTaskViewCornerRadius", object : HookTool.MethodHook(){
             override fun before(param: MethodHookParam?) {
                 param?.result = sRoundedCorner
             }
         })
+
+        publicHook()
+    }
+
+    private fun publicHook() {
         Application::class.java.hookBeforeMethod("attach", Context::class.java) { it ->
             EzXposed.initAppContext(it.args[0] as Context)
 
