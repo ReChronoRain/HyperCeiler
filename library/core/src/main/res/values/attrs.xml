@@ -85,6 +85,7 @@
         <attr name="defaultValueText" format="string" />
         <attr name="displayDividerValue" format="integer" />
 
+
         <!-- Flag indicating whether the TextView next to the seekbar that shows the current seekbar
         value will be displayed. If true, the view is VISIBLE; if false, the view will be GONE.
         By default, this view is GONE. -->

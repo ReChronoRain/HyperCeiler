@@ -65,6 +65,20 @@ abstract class MusicBaseHook : BaseHook() {
     private val nSize: Float by lazy { mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat() }
     private val hideAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
     private val isAodMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode") }
+    private val isShowApp by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_app") }
+
+    // 缓存资源 ID
+    private val resourceIds by lazy {
+        val modRes = OtherTool.getModuleRes(context)
+        ResourceIds(
+            focuslyricLayout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg),
+            focuslyricIslandLayout = modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg),
+            focusaodlyricLayout = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg),
+            focuslyricId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg),
+            focusiconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg),
+            focustflyricId = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
+        )
+    }
 
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
@@ -103,12 +117,8 @@ abstract class MusicBaseHook : BaseHook() {
         val isClickClock = mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
         val (musicAppName, launchIntent) = resolveAppNameAndLaunchIntent(extraData.packageName)
 
-        // 原始图标 (用于通知和 FocusApi 的 picticker 等)
-        val baseBitmap = base64ToBitmap(extraData.base64Icon)
-        val activityIconBitmap = runCatching { launchIntent?.let { context.packageManager.getActivityIcon(it).toBitmap() } }.getOrNull()
-        val primaryBitmap = baseBitmap ?: activityIconBitmap ?: createEmptyBitmapFallback()
-        val icon = Icon.createWithBitmap(primaryBitmap).apply { if (baseBitmap != null) setTint(Color.WHITE) }
-        val darkIcon = Icon.createWithBitmap(primaryBitmap).apply { if (baseBitmap != null) setTint(Color.BLACK) }
+        // 准备图标
+        val iconBundle = prepareIcons(extraData, launchIntent)
 
         // 拆分文字
         val (leftText, rightText) = splitSmart(text, SplitConfig(maxLength = 6))
@@ -116,7 +126,7 @@ abstract class MusicBaseHook : BaseHook() {
         // Notification builder
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle(text)
-            .setSmallIcon(IconCompat.createWithBitmap(primaryBitmap))
+            .setSmallIcon(IconCompat.createWithBitmap(iconBundle.primaryBitmap))
             .setTicker(text)
             .setPriority(NotificationCompat.PRIORITY_LOW)
             .setOngoing(true)
@@ -125,123 +135,10 @@ abstract class MusicBaseHook : BaseHook() {
         // Island template
         val islandTemplate = buildIslandTemplate(modRes, leftText, rightText, musicAppName, text)
 
-        // icons bundle: NOTE - only the "miui.focus.icon" entry should be scaled to 60% and circle-cropped.
-        val circularScaledIconBitmap =
-            if (baseBitmap == null) circleCropBitmap(primaryBitmap) else primaryBitmap
-        val circularIconForBundle = Icon.createWithBitmap(circularScaledIconBitmap)
-            .apply { if (baseBitmap != null) setTint(Color.WHITE) }
-
-        val iconsAdd = Bundle().apply {
-            putParcelable("miui.focus.icon", circularIconForBundle)
-            putParcelable(
-                "miui.focus.share_icon",
-                Icon.createWithBitmap(activityIconBitmap)
-            )// unchanged
-        }
-
         val tf = extraData.translation
 
-        // sendDiyFocus first, fallback to sendFocus
-        runCatching {
-            // RemoteViews
-            val remoteDay = buildRemoteViews(modRes, tf, text)
-            val remoteAod = buildAodRemoteViews(modRes, tf, text, Color.WHITE, icon)
-            val remoteIsland = buildRemoteViewsIsland(modRes, tf, text)
-
-            val api = when {
-                !hideAodShow && isAodMode -> FocusApi.sendDiyFocus(
-                    addpics = iconsAdd,
-                    islandFirstFloat = false,
-                    ticker = text,
-                    island = islandTemplate,
-                    updatable = true,
-                    rvAod = remoteAod,
-                    rvIsLand = remoteIsland,
-                    enableFloat = false,
-                    rv = remoteDay,
-                    timeout = 999_999,
-                    picticker = icon,
-                    pictickerdark = darkIcon
-                )
-                !hideAodShow && !isAodMode -> FocusApi.sendDiyFocus(
-                    addpics = iconsAdd,
-                    islandFirstFloat = false,
-                    ticker = text,
-                    island = islandTemplate,
-                    rvIsLand = remoteIsland,
-                    updatable = true,
-                    aodPic = icon,
-                    aodTitle = text,
-                    enableFloat = false,
-                    rv = remoteDay,
-                    timeout = 999_999,
-                    picticker = icon,
-                    pictickerdark = darkIcon
-                )
-                else -> FocusApi.sendDiyFocus(
-                    addpics = iconsAdd,
-                    islandFirstFloat = false,
-                    ticker = text,
-                    rvIsLand = remoteIsland,
-                    island = islandTemplate,
-                    updatable = true,
-                    enableFloat = false,
-                    rv = remoteDay,
-                    timeout = 999_999,
-                    picticker = icon,
-                    pictickerdark = darkIcon
-                )
-            }
-
-            builder.addExtras(api)
-            builder.extras.putString("app_package", extraData.packageName)
-            val notification = builder.build()
-            (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                .notify(CHANNEL_ID.hashCode(), notification)
-        }.onFailure { e ->
-            logE(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
-            runCatching {
-                val baseinfo = FocusApi.baseinfo(
-                    basetype = if (tf == null) 1 else 2,
-                    title = text,
-                    content = tf
-                )
-                val apiFallback = if (!hideAodShow) {
-                    FocusApi.sendFocus(
-                        addpics = iconsAdd,
-                        ticker = text,
-                        aodTitle = text,
-                        aodPic = icon,
-                        island = islandTemplate,
-                        baseInfo = baseinfo,
-                        updatable = true,
-                        enableFloat = false,
-                        timeout = 999_999,
-                        picticker = icon,
-                        pictickerdark = darkIcon
-                    )
-                } else {
-                    FocusApi.sendFocus(
-                        addpics = iconsAdd,
-                        ticker = text,
-                        island = islandTemplate,
-                        baseInfo = baseinfo,
-                        updatable = true,
-                        enableFloat = false,
-                        timeout = 999_999,
-                        picticker = icon,
-                        pictickerdark = darkIcon
-                    )
-                }
-                builder.addExtras(apiFallback)
-                builder.extras.putString("app_package", extraData.packageName)
-                val notification = builder.build()
-                (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
-                    .notify(CHANNEL_ID.hashCode(), notification)
-            }.onFailure {
-                logE(TAG, lpparam.packageName, "fallback send focus failed: ${it.message}")
-            }
-        }
+        // 发送通知
+        sendFocusNotification(builder, text, tf, iconBundle, islandTemplate, extraData.packageName)
     }
 
     private fun createPendingIntent(isClickClock: Boolean, launchIntent: Intent?): PendingIntent? {
@@ -266,6 +163,162 @@ abstract class MusicBaseHook : BaseHook() {
         }
     }
 
+    private fun prepareIcons(extraData: SuperLyricData, launchIntent: Intent?): IconBundle {
+        val baseBitmap = base64ToBitmap(extraData.base64Icon)
+        val activityIconBitmap = runCatching {
+            launchIntent?.let { context.packageManager.getActivityIcon(it).toBitmap() }
+        }.getOrNull()
+
+        val primaryBitmap = if (extraData.packageName == "com.salt.music") {
+            activityIconBitmap ?: createEmptyBitmapFallback()
+        } else {
+            baseBitmap ?: activityIconBitmap ?: createEmptyBitmapFallback()
+        }
+        val hasTint = baseBitmap != null
+
+        return IconBundle(
+            primaryBitmap = primaryBitmap,
+            icon = Icon.createWithBitmap(primaryBitmap).apply { if (hasTint) setTint(Color.WHITE) },
+            darkIcon = Icon.createWithBitmap(primaryBitmap).apply { if (hasTint) setTint(Color.BLACK) },
+            circularIcon = Icon.createWithBitmap(
+                if (hasTint) primaryBitmap else circleCropBitmap(primaryBitmap)
+            ).apply { if (hasTint) setTint(Color.WHITE) },
+            activityIcon = activityIconBitmap,
+            hasTint = hasTint
+        )
+    }
+
+    private fun createIconsBundle(iconBundle: IconBundle): Bundle = Bundle().apply {
+        putParcelable("miui.focus.icon", iconBundle.circularIcon)
+        putParcelable("miui.focus.share_icon", Icon.createWithBitmap(iconBundle.activityIcon))
+        if (!isShowApp) putParcelable("miui.appIcon", iconBundle.primaryBitmap)
+    }
+
+    private fun sendFocusNotification(
+        builder: NotificationCompat.Builder,
+        text: String,
+        tf: String?,
+        iconBundle: IconBundle,
+        islandTemplate: JSONObject,
+        packageName: String?
+    ) {
+        val iconsAdd = createIconsBundle(iconBundle)
+
+        runCatching {
+            val remoteDay = buildRemoteViews(tf, text, RemoteViewType.DAY)
+            val remoteIsland = buildRemoteViews(tf, text, RemoteViewType.ISLAND)
+
+            val focusExtras = when {
+                !hideAodShow && isAodMode -> {
+                    val remoteAod = buildRemoteViews(tf, text, RemoteViewType.AOD, iconBundle.icon)
+                    FocusApi.sendDiyFocus(
+                        addpics = iconsAdd,
+                        islandFirstFloat = false,
+                        ticker = text,
+                        island = islandTemplate,
+                        updatable = true,
+                        rvAod = remoteAod,
+                        rvIsLand = remoteIsland,
+                        enableFloat = false,
+                        rv = remoteDay,
+                        timeout = 999_999,
+                        picticker = iconBundle.icon,
+                        pictickerdark = iconBundle.darkIcon
+                    )
+                }
+                !hideAodShow && !isAodMode -> FocusApi.sendDiyFocus(
+                    addpics = iconsAdd,
+                    islandFirstFloat = false,
+                    ticker = text,
+                    island = islandTemplate,
+                    rvIsLand = remoteIsland,
+                    updatable = true,
+                    aodPic = iconBundle.icon,
+                    aodTitle = text,
+                    enableFloat = false,
+                    rv = remoteDay,
+                    timeout = 999_999,
+                    picticker = iconBundle.icon,
+                    pictickerdark = iconBundle.darkIcon
+                )
+                else -> FocusApi.sendDiyFocus(
+                    addpics = iconsAdd,
+                    islandFirstFloat = false,
+                    ticker = text,
+                    rvIsLand = remoteIsland,
+                    island = islandTemplate,
+                    updatable = true,
+                    enableFloat = false,
+                    rv = remoteDay,
+                    timeout = 999_999,
+                    picticker = iconBundle.icon,
+                    pictickerdark = iconBundle.darkIcon
+                )
+            }
+
+            postNotification(builder, focusExtras, packageName)
+        }.onFailure { e ->
+            logE(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
+            sendFallbackNotification(builder, text, tf, iconBundle, islandTemplate, packageName, iconsAdd)
+        }
+    }
+
+    private fun sendFallbackNotification(
+        builder: NotificationCompat.Builder,
+        text: String,
+        tf: String?,
+        iconBundle: IconBundle,
+        islandTemplate: JSONObject,
+        packageName: String?,
+        iconsAdd: Bundle
+    ) {
+        runCatching {
+            val baseinfo = FocusApi.baseinfo(
+                basetype = if (tf == null) 1 else 2,
+                title = text,
+                content = tf
+            )
+            val apiFallback = if (!hideAodShow) {
+                FocusApi.sendFocus(
+                    addpics = iconsAdd,
+                    ticker = text,
+                    aodTitle = text,
+                    aodPic = iconBundle.icon,
+                    island = islandTemplate,
+                    baseInfo = baseinfo,
+                    updatable = true,
+                    enableFloat = false,
+                    timeout = 999_999,
+                    picticker = iconBundle.icon,
+                    pictickerdark = iconBundle.darkIcon
+                )
+            } else {
+                FocusApi.sendFocus(
+                    addpics = iconsAdd,
+                    ticker = text,
+                    island = islandTemplate,
+                    baseInfo = baseinfo,
+                    updatable = true,
+                    enableFloat = false,
+                    timeout = 999_999,
+                    picticker = iconBundle.icon,
+                    pictickerdark = iconBundle.darkIcon
+                )
+            }
+            postNotification(builder, apiFallback, packageName)
+        }.onFailure {
+            logE(TAG, lpparam.packageName, "fallback send focus failed: ${it.message}")
+        }
+    }
+
+    private fun postNotification(builder: NotificationCompat.Builder, extras: Bundle, packageName: String?) {
+        builder.addExtras(extras)
+        builder.extras.putString("app_package", packageName)
+        val notification = builder.build()
+        (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager)
+            .notify(CHANNEL_ID.hashCode(), notification)
+    }
+
     private fun buildIslandTemplate(modRes: Resources, leftText: String, rightText: String?, musicAppName: String, originalText: String): JSONObject {
         val shareData = IslandApi.shareData(
             title = modRes.getString(R.string.system_ui_statusbar_music_share),
@@ -282,7 +335,7 @@ abstract class MusicBaseHook : BaseHook() {
             textInfo = IslandApi.TextInfo(title = leftText)
         )
         val right = IslandApi.imageTextInfo(
-            textInfo = IslandApi.TextInfo(title = rightText ?: ""/*"群里有猫娘"*/),
+            textInfo = IslandApi.TextInfo(title = rightText ?: ""),
             type = 2
         )
         val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
@@ -294,58 +347,42 @@ abstract class MusicBaseHook : BaseHook() {
         )
     }
 
-    private fun buildRemoteViews(modRes: Resources, tf: String?, text: String): RemoteViews {
-        val layoutId = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg)
-        val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-        val tfTextId = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
-        return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
-            if (!tf.isNullOrEmpty()) {
-                setViewVisibility(tfTextId, View.VISIBLE)
-                setTextViewText(tfTextId, tf)
-                setTextViewTextSize(tfTextId, TypedValue.COMPLEX_UNIT_SP, nSize)
-            } else {
-                setViewVisibility(tfTextId, View.GONE)
-            }
-            setTextViewText(textId, text)
-            setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
+    private fun buildRemoteViews(
+        tf: String?,
+        text: String,
+        type: RemoteViewType,
+        icon: Icon? = null
+    ): RemoteViews {
+        val layoutId = when (type) {
+            RemoteViewType.DAY -> resourceIds.focuslyricLayout
+            RemoteViewType.ISLAND -> resourceIds.focuslyricIslandLayout
+            RemoteViewType.AOD -> resourceIds.focusaodlyricLayout
         }
-    }
 
-    private fun buildRemoteViewsIsland(modRes: Resources, tf: String?, text: String): RemoteViews {
-        val layoutId = modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg)
-        val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-        val tfTextId = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
         return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
+            // 设置翻译文本
             if (!tf.isNullOrEmpty()) {
-                setViewVisibility(tfTextId, View.VISIBLE)
-                setTextViewText(tfTextId, tf)
-                setTextViewTextSize(tfTextId, TypedValue.COMPLEX_UNIT_SP, nSize)
+                setViewVisibility(resourceIds.focustflyricId, View.VISIBLE)
+                setTextViewText(resourceIds.focustflyricId, tf)
+                setTextViewTextSize(resourceIds.focustflyricId, TypedValue.COMPLEX_UNIT_SP, nSize)
+                if (type == RemoteViewType.AOD) {
+                    setTextColor(resourceIds.focustflyricId, Color.WHITE)
+                }
             } else {
-                setViewVisibility(tfTextId, View.GONE)
+                setViewVisibility(resourceIds.focustflyricId, View.GONE)
             }
-            setTextViewText(textId, text)
-            setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
-        }
-    }
 
-    private fun buildAodRemoteViews(modRes: Resources, tf: String?, text: String, textColor: Int, icon: Icon): RemoteViews {
-        val layoutId = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg)
-        val textId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg)
-        val iconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg)
-        val tfTextId = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
-        return RemoteViews(ProjectApi.mAppModulePkg, layoutId).apply {
-            if (!tf.isNullOrEmpty()) {
-                setViewVisibility(tfTextId, View.VISIBLE)
-                setTextViewText(tfTextId, tf)
-                setTextColor(tfTextId, textColor)
-                setTextViewTextSize(tfTextId, TypedValue.COMPLEX_UNIT_SP, nSize)
-            } else {
-                setViewVisibility(tfTextId, View.GONE)
+            // 设置主文本
+            setTextViewText(resourceIds.focuslyricId, text)
+            setTextViewTextSize(resourceIds.focuslyricId, TypedValue.COMPLEX_UNIT_SP, nSize)
+            if (type == RemoteViewType.AOD) {
+                setTextColor(resourceIds.focuslyricId, Color.WHITE)
             }
-            setTextViewText(textId, text)
-            setTextColor(textId, textColor)
-            setTextViewTextSize(textId, TypedValue.COMPLEX_UNIT_SP, nSize)
-            setImageViewBitmap(iconId, icon.loadDrawable(context)?.toBitmap())
+
+            // AOD 模式设置图标
+            if (type == RemoteViewType.AOD && icon != null) {
+                setImageViewBitmap(resourceIds.focusiconId, icon.loadDrawable(context)?.toBitmap())
+            }
         }
     }
 
@@ -363,25 +400,16 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     /**
-     *
-     * @param [base64] 图片的 Base64
-     * @return [android.graphics.Bitmap] 返回图片的 Bitmap?，传入 Base64 无法转换则为 null
+     * 将 Base64 字符串转换为 Bitmap
      */
-    private fun base64ToBitmap(base64: String): Bitmap? {
-        return try {
-            val bytes = Base64.decode(base64, Base64.DEFAULT)
-            BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-        } catch (_: Exception) {
-            null
-        }
-    }
+    private fun base64ToBitmap(base64: String): Bitmap? = runCatching {
+        val bytes = Base64.decode(base64, Base64.DEFAULT)
+        BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+    }.getOrNull()
 
-    private fun createEmptyBitmapFallback(): Bitmap {
-        return createBitmap(1, 1)
-    }
+    private fun createEmptyBitmapFallback(): Bitmap = createBitmap(1, 1)
 
     private fun circleCropBitmap(src: Bitmap): Bitmap {
-        // center-crop to a square first
         val size = min(src.width, src.height)
         val x = (src.width - size) / 2
         val y = (src.height - size) / 2
@@ -390,8 +418,7 @@ abstract class MusicBaseHook : BaseHook() {
         val output = createBitmap(size, size)
         val canvas = Canvas(output)
         val paint = Paint(Paint.ANTI_ALIAS_FLAG)
-        val shader = BitmapShader(squared, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
-        paint.shader = shader
+        paint.shader = BitmapShader(squared, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP)
 
         val radius = size / 2f
         canvas.drawCircle(radius, radius, radius, paint)
@@ -482,6 +509,37 @@ abstract class MusicBaseHook : BaseHook() {
         }
         return tokens
     }
+}
+
+/**
+ * 资源 ID 缓存
+ */
+private data class ResourceIds(
+    val focuslyricLayout: Int,
+    val focuslyricIslandLayout: Int,
+    val focusaodlyricLayout: Int,
+    val focuslyricId: Int,
+    val focusiconId: Int,
+    val focustflyricId: Int
+)
+
+/**
+ * 图标包
+ */
+private data class IconBundle(
+    val primaryBitmap: Bitmap,
+    val icon: Icon,
+    val darkIcon: Icon,
+    val circularIcon: Icon,
+    val activityIcon: Bitmap?,
+    val hasTint: Boolean
+)
+
+/**
+ * RemoteView 类型
+ */
+private enum class RemoteViewType {
+    DAY, ISLAND, AOD
 }
 
 /**
