@@ -38,6 +38,7 @@ import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,7 @@ public class FreeformShortcutMenu extends BaseHook {
                             void configure(Object instance, int titleResId, String drawableName) {
                                 if (instance == null) return;
                                 callMethod(instance, "setShortTitle", modRes.getString(titleResId));
-                                int resId = mContext.getResources().getIdentifier(drawableName, "drawable", mContext.getPackageName());
+                                int resId = modRes.getIdentifier(drawableName, "drawable", ProjectApi.mAppModulePkg);
                                 Drawable d = resId != 0 ? ContextCompat.getDrawable(mContext, resId) : null;
                                 if (d != null) {
                                     Drawable wrapped = DrawableCompat.wrap(d).mutate();
