@@ -26,10 +26,18 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object UnlockAiWallpaper : BaseHook() {
 
     override fun init() {
-        loadClass("com.miui.keyguard.editor.edit.aiwapper.AIWallPaperManager").methodFinder()
-            .filterByName("isSupportType")
-            .first().createHook {
-                returnConstant(true)
-            }
+        loadClass("com.miui.keyguard.editor.edit.aiwapper.AIWallPaperManager").methodFinder().apply {
+           runCatching {
+               filterByName("isSupportedDevice")
+                   .first().createHook {
+                       returnConstant(true)
+                   }
+           }.onFailure {
+               filterByName("isSupportType")
+                   .first().createHook {
+                       returnConstant(true)
+                   }
+           }
+        }
     }
 }
