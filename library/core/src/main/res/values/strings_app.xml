@@ -1069,6 +1069,8 @@
     <string name="gallery_backup_server_xiaomi">Xiaomi Cloud</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google &amp; OneDrive</string>
+    <string name="gallery_longer_trashbin_time">Extend the automatic deletion time for trash bin to 365 days</string>
+    <string name="gallery_longer_trashbin_time_desc">Experimental feature. Only for China Mainland users.</string>
     <!--System security components-->
     <string name="guard_provider_hyperos">System security components</string>
     <string name="guard_provider_disable_upload_applist">Prevent automatic upload of installed app list</string>

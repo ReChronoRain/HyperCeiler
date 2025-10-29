@@ -1118,6 +1118,8 @@
     <string name="gallery_backup_server_xiaomi">小米云服务</string>
     <string name="gallery_backup_server_google">Google</string>
     <string name="gallery_backup_server_onedrive">Google 与 OneDrive</string>
+    <string name="gallery_longer_trashbin_time">延长最近删除内容保留时间至 365 天</string>
+    <string name="gallery_longer_trashbin_time_desc">实验性功能，仅支持中国大陆用户</string>
     <!--MIUI 安全组件-->
     <string name="guard_provider_hyperos">系统安全组件</string>
     <string name="guard_provider_disable_upload_applist">阻止自动上传已安装应用列表</string>

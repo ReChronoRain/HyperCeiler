@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnableOcrForm;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnablePdf;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnablePhotoMovie;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnableVideoPost;
+import com.sevtinge.hyperceiler.hook.module.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.UnPrivacyWatermark;
 
 @HookBase(targetPackage = "com.miui.gallery")
@@ -36,6 +37,7 @@ public class Gallery extends BaseModule {
 
     @Override
     public void handleLoadPackage() {
+        initHook(new LongerTrashbinTime(), mPrefsMap.getBoolean("gallery_longer_trashbin_time"));
         initHook(new UnPrivacyWatermark(), mPrefsMap.getBoolean("gallery_enable_un_privacy_watermark"));
         initHook(new EnableHdrEnhance(), mPrefsMap.getBoolean("gallery_enable_hdr_enhanced"));
         initHook(new EnablePdf(), mPrefsMap.getBoolean("gallery_enable_pdf"));
