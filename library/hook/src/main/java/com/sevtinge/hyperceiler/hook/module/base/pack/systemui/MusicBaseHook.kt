@@ -65,6 +65,8 @@ abstract class MusicBaseHook : BaseHook() {
     private val nSize: Float by lazy { mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat() }
     private val hideAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
     private val isAodMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode") }
+    private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
+
 
     private val receiver = object : ISuperLyric.Stub() {
         override fun onSuperLyric(data: SuperLyricData) {
@@ -279,10 +281,13 @@ abstract class MusicBaseHook : BaseHook() {
 
         val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
-            textInfo = IslandApi.TextInfo(title = leftText)
+            textInfo = IslandApi.TextInfo(title = leftText, narrowFont = narrowFontMode)
         )
         val right = IslandApi.imageTextInfo(
-            textInfo = IslandApi.TextInfo(title = rightText ?: ""/*"群里有猫娘"*/),
+            textInfo = IslandApi.TextInfo(
+                title = rightText ?: ""/*"群里有猫娘"*/,
+                narrowFont = narrowFontMode
+            ),
             type = 2
         )
         val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
