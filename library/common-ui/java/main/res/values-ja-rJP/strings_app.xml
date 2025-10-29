@@ -444,6 +444,7 @@
     <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正</string>
     <string name="system_framework_bypass_force_downloadui_desc">Quick Share で「ダウンロードを表示」をクリックした時に誤ったリダイレクトが発生する問題を修正する</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">このリストの下の機能は、理解した後にのみ選択的に有効にする必要があります。いくつかのオプションは特定のリスクを伴います。ご注意ください。\nマスタースイッチを除き、通常のオプションはすぐに有効になります。拡張機能ではスイッチの状態にかかわらず再起動が必要です。</string>
     <string name="system_framework_corepatch_title">パッケージマネージャーサービス</string>
     <string name="system_framework_core_patch_downgr">アプリのダウングレードを許可</string>
     <string name="system_framework_core_patch_downgr_desc">アプリのバージョンが上位の場合、アプリのダウングレードを許可する</string>

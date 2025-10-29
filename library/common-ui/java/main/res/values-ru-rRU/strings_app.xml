@@ -443,6 +443,7 @@
     <string name="system_framework_bypass_force_downloadui">Обход принудительного запуска \"Менеджер загрузок\" при открытии страницы загрузки</string>
     <string name="system_framework_bypass_force_downloadui_desc">Решить проблему неправильного перехода при нажатии \"Просмотреть загрузки\" в \"Быстрая передача\"</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">Функции, указанные в этом списке, следует включать выборочно только после того, как вы ознакомитесь с ними; пожалуйста, имейте в виду, что некоторые опции сопряжены с определенными рисками.\nОбычные опции вступают в силу немедленно, за исключением главного переключателя; расширенные функции требуют перезапуска независимо от состояния их переключения.</string>
     <string name="system_framework_corepatch_title">Служба менеджера пакетов</string>
     <string name="system_framework_core_patch_downgr">Разрешить понижение версии</string>
     <string name="system_framework_core_patch_downgr_desc">Позволяет установить приложение после изменения apk (игнорировать ошибку о неверной подписи)</string>

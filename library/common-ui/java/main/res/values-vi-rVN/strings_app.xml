@@ -445,6 +445,7 @@ Chức năng này là chức năng thử nghiệm có độ ổn định cao</st
     <string name="system_framework_bypass_force_downloadui">Bỏ qua việc buộc dùng Download Manager khi mở trang tải xuống</string>
     <string name="system_framework_bypass_force_downloadui_desc">Giải quyết vấn đề nhảy không đúng khi nhấp vào \"Xem tải xuống\" trong Chia sẻ nhanh</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">Các tính năng trong danh sách này chỉ nên được bật có chọn lọc sau khi bạn hiểu rõ chúng; một số tùy chọn có thể mang lại rủi ro nhất định, xin hãy lưu ý.\nCác tùy chọn thông thường có hiệu lực ngay lập tức trừ khi là công tắc chính; các tính năng mở rộng yêu cầu khởi động lại để có hiệu lực bất kể trạng thái công tắc của chúng.</string>
     <string name="system_framework_corepatch_title">Quản lý cài đặt gói</string>
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
     <string name="system_framework_core_patch_downgr_desc">Cho phép hạ cấp ứng dụng</string>

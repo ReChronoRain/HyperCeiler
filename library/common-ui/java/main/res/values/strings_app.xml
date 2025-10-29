@@ -497,6 +497,7 @@
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
     <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">The features under this list should be enabled selectively only after you understand them; some options carry certain risks, please be aware.\nThe normal options take effect immediately except for the master switch; extended features require a restart to take effect regardless of their switch state.</string>
     <string name="system_framework_corepatch_title">Package manager service</string>
     <string name="system_framework_core_patch_downgr">Allow downgrade apps</string>
     <string name="system_framework_core_patch_downgr_desc">Allow downgrade app when the app is at higher version</string>

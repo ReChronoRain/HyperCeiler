@@ -443,6 +443,7 @@
     <string name="system_framework_bypass_force_downloadui">打開下載頁面時不強制使用小米下載管理器</string>
     <string name="system_framework_bypass_force_downloadui_desc">解决 Google 快速分享查看下載内容跳轉錯誤的問題</string>
     <!--Package Manager Service-->
+    <string name="system_framework_corepatch_tip">此列表中的功能需在您了解相關內容後，才可選擇性啟用；部分選項具有一定風險，請注意。\n一般選項（除總開關外）均會立即生效；擴展功能則無論開或關，都需要重啟才能生效。</string>
     <string name="system_framework_corepatch_title">包管理服務</string>
     <string name="system_framework_core_patch_downgr">允許降級安裝應用程式</string>
     <string name="system_framework_core_patch_downgr_desc">允許應用程式在安裝新版本的情况下直接覆蓋安裝舊版本</string>
