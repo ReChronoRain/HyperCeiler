@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.hook.module.hook.gallery;
+package com.sevtinge.hyperceiler.hook.module.rules.gallery;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 

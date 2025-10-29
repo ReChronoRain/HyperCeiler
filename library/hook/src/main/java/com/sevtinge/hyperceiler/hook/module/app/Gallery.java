@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnableOcrForm;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnablePdf;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnablePhotoMovie;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.EnableVideoPost;
+import com.sevtinge.hyperceiler.hook.module.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.hook.module.rules.gallery.UnPrivacyWatermark;
 
 @HookBase(targetPackage = "com.miui.gallery")
