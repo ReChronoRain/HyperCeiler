@@ -19,7 +19,6 @@
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <SwitchPreference
         android:selectable="false"
         android:defaultValue="false"
@@ -43,6 +42,36 @@
             android:key="prefs_key_debug_mode_home_edit"
             android:summary="@string/debug_mode_home_version_desc"
             android:title="@string/debug_mode_home_version" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_development_debug_mode">
+
+        <fan.preference.DropDownPreference
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_debug_mode_security"
+            android:summary="com.miui.securitycenter"
+            android:layout="@layout/preference_header"
+            android:title="@string/security"
+            android:defaultValue="0"
+            app:entries="@array/debug_mode_security"
+            app:entryValues="@array/debug_mode_security_value" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_development_debug_mode">
+
+        <fan.preference.DropDownPreference
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_debug_mode_camera"
+            android:summary="com.android.camera"
+            android:layout="@layout/preference_header"
+            android:title="@string/camera"
+            android:defaultValue="0"
+            app:entries="@array/debug_mode_camera"
+            app:entryValues="@array/debug_mode_camera_value" />
 
     </PreferenceCategory>
 

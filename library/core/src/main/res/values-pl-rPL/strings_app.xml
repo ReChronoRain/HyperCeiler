@@ -1176,7 +1176,6 @@
     <string name="mediaeditor_unlock_spring_desc">Aby na stałe dodać niestandardową ramkę zdjęciową na Chiński Nowy Rok, warunkiem jest posiadanie niestandardowej ramki zdjęciowej Leica lub niestandardowej ramki zdjęciowej Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Usuń minimalny limit przycinania obrazu</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Odblokuj dostosowywanie ramki</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_title">Dostosuj typ ramki</string>
     <string name="mediaeditor_unlock_leica_filter_title">Odblokuj filtr Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Obsługiwane są tylko niektóre wersje</string>
     <string name="mediaeditor_unlock_aigc">Odblokuj AIGC</string>
@@ -1230,7 +1229,6 @@
     <string name="screenshot">Zrzut ekranu</string>
     <string name="screenshot_unlock_minimum_crop_limit">Usuń minimalny limit przycinania obrazu</string>
     <string name="screenshot_unlock_privacy_marking_title">Odblokuj oznaczanie prywatności</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Wyższa wersja aplikacji Mi AI Engine musi być zainstalowana wcześniej, aby działała prawidłowo</string>
     <string name="screenshot_save_to_pictures_desc">Lokalizacja, w której zapisywany jest zrzut ekranu: /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Niestandardowy model zrzutu ekranu z powłoką</string>
     <string name="screenshot_device_customize_desc">Proszę wprowadzić kod urządzenia, a kolorowe urządzenie powinno być uzupełnione sufiksem, na przykład:\n• Xiaomi 13, wpisujesz fuxi\n• Xiaomi 14 w różowej kolorystyce, wpisujesz houji_PK</string>

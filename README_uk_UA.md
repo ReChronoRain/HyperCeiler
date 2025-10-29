@@ -111,9 +111,11 @@ HyperOS для Android 15-16
 
 ## Внесок у переклад
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+Ви можете зробити свій внесок у переклад проєкту HyperCeiler [тут](https://hosted.weblate.org/engage/hyperceiler/).
 
-Ви можете зробити свій внесок у переклад проєкту HyperCeiler [тут](https://crwd.in/cemiuiler).
+<a href="https://hosted.weblate.org/engage/hyperceiler/">
+<img src="https://hosted.weblate.org/widget/hyperceiler/multi-auto.svg" alt="Translation status" />
+</a>
 
 > Примітка: Коли прогрес перекладу новою мовою досягає 85% або більше, він буде доданий до проєкту. Якщо прогрес перекладу доданої мови становить 30% або менше від вихідного тексту, її буде тимчасово видалено, доки прогрес не досягне 85% або більше.
 

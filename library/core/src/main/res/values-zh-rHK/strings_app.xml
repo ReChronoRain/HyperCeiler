@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">用於xxx</string>
     <string name="new_permission_location_desc">用於提供經緯度等服務</string>
@@ -1313,7 +1312,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">移除最小裁切圖片限制</string>
     <string name="screenshot_unlock_copy_to_clipboard">解鎖截圖自動寫入到剪貼簿</string>
     <string name="screenshot_unlock_privacy_marking_title">解鎖智能私隱打碼</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要預裝高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">規範截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定義帶殼截屏機型</string>
     <string name="screenshot_device_customize_desc">填寫請輸入 裝置代號，有顏色的裝置填寫應加上後缀，例如：\n- 小米13，填寫的内容是 fuxi\n- 小米14 粉色版，填寫的内容是 houji_PK</string>
@@ -1615,4 +1613,5 @@
     <string name="custom_hook_mode">選擇模式</string>
     <string name="open_source">開源項目</string>
     <string name="close_source">閉源項目</string>
+    <string name="version_update">發現新版本</string>
 </resources>

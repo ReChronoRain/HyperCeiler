@@ -26,7 +26,7 @@ import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.hook.utils.PropUtils;
+import com.tencent.mmkv.MMKV;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -43,7 +43,7 @@ public class LogManager {
     public static boolean IS_LOGGER_ALIVE;
     public static final int logLevel = getLogLevel();
     public static String LOGGER_CHECKER_ERR_CODE;
-    private static final String PROP_HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
+    private static final String HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
 
     public static void init() {
         IS_LOGGER_ALIVE = isLoggerAlive();
@@ -52,7 +52,9 @@ public class LogManager {
     public static void setLogLevel() {
         int logLevel = Integer.parseInt(mSharedPreferences.getString("prefs_key_log_level", "3"));
         int effectiveLogLevel = isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
-        PropUtils.setProp(PROP_HYPERCEILER_LOG_LEVEL, effectiveLogLevel);
+        /*PropUtils.setProp(PROP_HYPERCEILER_LOG_LEVEL, effectiveLogLevel);*/
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.putInt(HYPERCEILER_LOG_LEVEL, effectiveLogLevel);
     }
 
     public static int getLogLevel() {
@@ -151,7 +153,7 @@ public class LogManager {
         return false;
     }
 
-    public static String fixLsposedLogService() {
+    public static String fixLSPosedLogService() {
         try {
             rootExecCmd("resetprop -n persist.log.tag.LSPosed V");
             rootExecCmd("resetprop -n persist.log.tag.LSPosed-Bridge V");

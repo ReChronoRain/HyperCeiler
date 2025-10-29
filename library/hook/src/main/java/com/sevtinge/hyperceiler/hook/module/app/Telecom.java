@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.telecom.ScamReminderBypass;
+import com.sevtinge.hyperceiler.hook.module.rules.telecom.ScamReminderBypass;
 
 @HookBase(targetPackage = "com.android.server.telecom")
 public class Telecom extends BaseModule {

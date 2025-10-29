@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.DisableLiteVersion;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.UnlockWidgetCountLimit;
-import com.sevtinge.hyperceiler.hook.module.hook.personalassistant.WidgetBlurOpt;
+import com.sevtinge.hyperceiler.hook.module.rules.personalassistant.DisableLiteVersion;
+import com.sevtinge.hyperceiler.hook.module.rules.personalassistant.UnlockWidgetCountLimit;
+import com.sevtinge.hyperceiler.hook.module.rules.personalassistant.WidgetBlurOpt;
 
 @HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseModule {

@@ -22,15 +22,15 @@ import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.AllAsSystemApp;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisableAd;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisableAppInfoUpload;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisableCountChecking;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisableInstallerFullSafeVersion;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisableSafeModelTip;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.DisplayMoreApkInfoNew;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.InstallRiskDisable;
-import com.sevtinge.hyperceiler.hook.module.hook.packageinstaller.InstallSource;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.AllAsSystemApp;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisableAd;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisableAppInfoUpload;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisableCountChecking;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisableInstallerFullSafeVersion;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisableSafeModelTip;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.DisplayMoreApkInfoNew;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.InstallRiskDisable;
+import com.sevtinge.hyperceiler.hook.module.rules.packageinstaller.InstallSource;
 
 @HookBase(targetPackage = "com.miui.packageinstaller")
 public class PackageInstaller extends BaseModule {

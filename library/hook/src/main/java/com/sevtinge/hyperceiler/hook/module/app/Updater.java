@@ -22,12 +22,12 @@ import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.AndroidVersionCode;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.AutoUpdateDialog;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.DeviceModify;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.VabUpdate;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.VersionCodeModify;
-import com.sevtinge.hyperceiler.hook.module.hook.updater.VersionCodeNew;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.AndroidVersionCode;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.AutoUpdateDialog;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.DeviceModify;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.VabUpdate;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.VersionCodeModify;
+import com.sevtinge.hyperceiler.hook.module.rules.updater.VersionCodeNew;
 
 @HookBase(targetPackage = "com.android.updater")
 public class Updater extends BaseModule {

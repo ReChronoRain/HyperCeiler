@@ -19,6 +19,12 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_hyperos">
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_security_unsupported"
+        android:layout="@layout/headtip_warn"
+        android:title="@string/unsupported_func_tips" />
+
     <PreferenceCategory>
         <Preference
             android:fragment="com.sevtinge.hyperceiler.hooker.securitycenter.ApplicationsSettings"

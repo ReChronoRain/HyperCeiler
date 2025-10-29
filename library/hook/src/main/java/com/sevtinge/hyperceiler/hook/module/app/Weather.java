@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.weather.SetCardLightDarkMode;
-import com.sevtinge.hyperceiler.hook.module.hook.weather.SetDeviceLevel;
+import com.sevtinge.hyperceiler.hook.module.rules.weather.SetCardLightDarkMode;
+import com.sevtinge.hyperceiler.hook.module.rules.weather.SetDeviceLevel;
 
 @HookBase(targetPackage = "com.miui.weather2")
 public class Weather extends BaseModule {

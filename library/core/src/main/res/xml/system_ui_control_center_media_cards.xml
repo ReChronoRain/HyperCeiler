@@ -102,9 +102,9 @@
             android:title="@string/system_ui_control_center_media_control_title_margin"
             app:defaultValue="210"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="480"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -114,9 +114,9 @@
             android:title="@string/system_ui_control_center_media_control_title_padding"
             app:defaultValue="20"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="360"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -155,10 +155,10 @@
             android:title="@string/system_ui_control_center_media_control_title_size"
             app:defaultValue="180"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="360"
             app:minValue="120"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -168,10 +168,10 @@
             android:title="@string/system_ui_control_center_media_control_artist_size"
             app:defaultValue="120"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="240"
             app:minValue="80"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -181,10 +181,10 @@
             android:title="@string/system_ui_control_center_media_control_time_view_text_size"
             app:defaultValue="130"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="200"
             app:minValue="50"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 

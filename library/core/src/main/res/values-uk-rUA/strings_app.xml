@@ -1275,7 +1275,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">Зняти обмеження на мінімальне обрізання зображення</string>
     <string name="screenshot_unlock_copy_to_clipboard">Розблокувати автокопіювання скріншота в буфер обміну</string>
     <string name="screenshot_unlock_privacy_marking_title">Розблокувати маркування конфіденційності</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Для нормального використання потрібна вища версія програми Mi AI Engine</string>
     <string name="screenshot_save_to_pictures_desc">Встановити місце збереження знімків екрана в /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Користувацька оболонка моделі для знімків екрана</string>
     <string name="screenshot_device_customize_desc">Будь ласка, введіть код пристрою, а для кольорових пристроїв слід додати суфікс, наприклад:\n• Xiaomi 13, введіть fuxi\n• Xiaomi 14 рожева версія, введіть houji_PK</string>

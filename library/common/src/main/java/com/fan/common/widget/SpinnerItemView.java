@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -20,8 +21,8 @@ import fan.appcompat.widget.Spinner;
 
 public class SpinnerItemView extends ItemView {
 
-    Spinner mSpinner;
-    CharSequence[] mEntries;
+    private Spinner mSpinner;
+    private CharSequence[] mEntries;
 
     public SpinnerItemView(Context context) {
         this(context, null);
@@ -32,7 +33,7 @@ public class SpinnerItemView extends ItemView {
     }
 
     public SpinnerItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        this(context, attrs, defStyleAttr, R.style.ItemViewStyle);
+        this(context, attrs, defStyleAttr, R.style.ItemViewStyle_DayNight);
     }
 
     public SpinnerItemView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -88,14 +89,13 @@ public class SpinnerItemView extends ItemView {
             spinner.setClickable(false);
             spinner.setLongClickable(false);
             spinner.setContextClickable(false);
-            spinner.setOnSpinnerDismissListener(() ->
-                    Folme.useAt(parent).touch().touchUp(new AnimConfig[0]));
+            spinner.setOnSpinnerDismissListener(() -> Folme.useAt(new View[]{parent}).touch().touchUp(new AnimConfig[0]));
             parent.setOnTouchListener((v, event) -> {
                 if (spinner.isEnabled()) {
                     switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN -> Folme.useAt(v).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).touchDown(new AnimConfig[0]);
+                        case MotionEvent.ACTION_DOWN -> Folme.useAt(new View[]{v}).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).touchDown(new AnimConfig[0]);
                         case MotionEvent.ACTION_UP -> spinner.performClick(event.getX(), event.getY());
-                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(v).touch().touchUp(new AnimConfig[0]);
+                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(new View[]{v}).touch().touchUp(new AnimConfig[0]);
                     }
                     return true;
                 } else {

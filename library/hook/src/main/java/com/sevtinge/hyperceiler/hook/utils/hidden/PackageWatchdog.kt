@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.utils.hidden
 
 import android.content.Context
 import android.util.ArrayMap
-import com.sevtinge.hyperceiler.hook.module.hook.systemui.base.api.BaseReflectObject
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.BaseReflectObject
 import com.sevtinge.hyperceiler.hook.utils.api.invokeMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs

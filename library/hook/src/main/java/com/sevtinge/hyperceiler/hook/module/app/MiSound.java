@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.misound.IncreaseSamplingRate;
-import com.sevtinge.hyperceiler.hook.module.hook.misound.NewAutoSEffSwitch;
+import com.sevtinge.hyperceiler.hook.module.rules.misound.IncreaseSamplingRate;
+import com.sevtinge.hyperceiler.hook.module.rules.misound.NewAutoSEffSwitch;
 
 @HookBase(targetPackage = "com.miui.misound")
 public class MiSound extends BaseModule {

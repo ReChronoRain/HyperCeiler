@@ -20,16 +20,16 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.BlackLeica;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.CloudWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomCameraColor;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.CustomWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.EnableLabOptions;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.MaxScreenBrightness;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.Unlock4k60;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockLeica;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockSuperHighQuality;
-import com.sevtinge.hyperceiler.hook.module.hook.camera.UnlockTrackEyes;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.BlackLeica;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.CloudWatermark;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.CustomCameraColor;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.CustomWatermark;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.EnableLabOptions;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.MaxScreenBrightness;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.Unlock4k60;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.UnlockLeica;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.UnlockSuperHighQuality;
+import com.sevtinge.hyperceiler.hook.module.rules.camera.UnlockTrackEyes;
 
 @HookBase(targetPackage = "com.android.camera")
 public class Camera extends BaseModule {

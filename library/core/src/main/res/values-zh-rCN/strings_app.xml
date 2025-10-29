@@ -53,6 +53,8 @@
 
     <string name="delete_all_dexkit_cache_desc">确定要删除全部 DexKit 缓存吗？</string>
     <string name="delete_all_dexkit_cache_success">已删除全部 DexKit 缓存</string>
+    <string name="clear_app_properties_desc">确定重置 HyperCeiler 相关服务的 Prop 吗？</string>
+    <string name="clear_app_properties_success">已重置 HyperCeiler 相关服务的 Prop</string>
 
     <string name="set_homepage_entrance">主页入口设置</string>
     <string name="set_homepage_entrance_about">仅主页设置生效，已经开启的功能不会被关闭。\n关闭后实时生效，重新显示需重启应用。</string>
@@ -100,6 +102,7 @@
     <string name="development_delete_all_dexkit_cache">删除全部 DexKit 缓存</string>
     <string name="development_close_log_alert_dialog">禁用 Logger Live 弹窗</string>
     <string name="development_fix_lsposed_log">尝试修复 LSPosed Log 服务</string>
+    <string name="development_clear_app_properties">重置 HyperCeiler 相关服务的 Prop</string>
 
     <string name="settings_show_title">显示</string>
     <string name="settings_data_title">备份与恢复</string>
@@ -402,6 +405,9 @@
 
     <string name="notes_unlock_ai_mode_1">旧版</string>
     <string name="notes_unlock_ai_mode_2">新版</string>
+
+    <string name="mode_phone">手机</string>
+    <string name="mode_pad">平板</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -748,6 +754,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">网速</string>
     <string name="system_ui_status_bar_volume_at_right">声音情景</string>
     <string name="system_ui_status_bar_hide_icon">截屏时隐藏状态栏</string>
+    <string name="system_ui_status_bar_hide_icon_desc">需要额外勾选 “截屏” 作用域才能生效</string>
     <string name="system_ui_status_bar_mobile_type_single_title">移动网络类型图标</string>
     <string name="system_ui_status_bar_icon_car">汽车</string>
     <string name="system_ui_status_bar_icon_pad">PAD</string>
@@ -1460,7 +1467,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
     <string name="screenshot_unlock_copy_to_clipboard">解锁截图自动写入到剪切板</string>
     <string name="screenshot_unlock_privacy_marking_title">解锁智能隐私打码</string>
-    <string name="screenshot_unlock_privacy_marking_desc">需要预装高版本 \"MiAI引擎\" APP 才能正常使用</string>
     <string name="screenshot_save_to_pictures_desc">规范截屏保存位置到 Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">自定义带壳截屏机型</string>
     <string name="screenshot_device_customize_desc">填写请输入 设备代号，有颜色的设备填写应加上后缀，例如：\n- 小米13，填写的内容是 fuxi\n- 小米14 粉色版，填写的内容是 houji_PK</string>

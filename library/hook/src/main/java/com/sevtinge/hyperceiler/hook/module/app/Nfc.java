@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.nfc.AllowInformationScreen;
-import com.sevtinge.hyperceiler.hook.module.hook.nfc.DisableSound;
+import com.sevtinge.hyperceiler.hook.module.rules.nfc.AllowInformationScreen;
+import com.sevtinge.hyperceiler.hook.module.rules.nfc.DisableSound;
 
 @HookBase(targetPackage = "com.android.nfc")
 public class Nfc extends BaseModule {

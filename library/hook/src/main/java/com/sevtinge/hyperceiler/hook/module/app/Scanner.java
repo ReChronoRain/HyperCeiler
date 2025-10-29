@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.EnableCard;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.EnableDocPpt;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.EnableOcr;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.EnableTranslation;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.document.EnableDocument;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.document.EnableExcel;
-import com.sevtinge.hyperceiler.hook.module.hook.scanner.document.EnablePpt;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.EnableCard;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.EnableDocPpt;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.EnableOcr;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.EnableTranslation;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.document.EnableDocument;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.document.EnableExcel;
+import com.sevtinge.hyperceiler.hook.module.rules.scanner.document.EnablePpt;
 
 @HookBase(targetPackage = "com.xiaomi.scanner")
 public class Scanner extends BaseModule {

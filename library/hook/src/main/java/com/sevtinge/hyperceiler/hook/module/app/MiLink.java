@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.milink.AllowCameraDevices;
-import com.sevtinge.hyperceiler.hook.module.hook.milink.FuckHpplay;
-import com.sevtinge.hyperceiler.hook.module.hook.milink.UnlockMiShare;
+import com.sevtinge.hyperceiler.hook.module.rules.milink.AllowCameraDevices;
+import com.sevtinge.hyperceiler.hook.module.rules.milink.FuckHpplay;
+import com.sevtinge.hyperceiler.hook.module.rules.milink.UnlockMiShare;
 
 @HookBase(targetPackage = "com.milink.service")
 public class MiLink extends BaseModule {

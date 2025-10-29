@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.joyose.DisableCloudControl;
-import com.sevtinge.hyperceiler.hook.module.hook.joyose.EnableGpuTuner;
+import com.sevtinge.hyperceiler.hook.module.rules.joyose.DisableCloudControl;
+import com.sevtinge.hyperceiler.hook.module.rules.joyose.EnableGpuTuner;
 
 @HookBase(targetPackage = "com.xiaomi.joyose")
 public class Joyose extends BaseModule {

@@ -122,9 +122,11 @@ Join our group to report issues or get the latest updates.
 
 ## Translation contributions
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+We used Hosted Weblate to synchronize project translations. You can contribute translations for the HyperCeiler project [here](https://hosted.weblate.org/engage/hyperceiler/)
 
-You can provide translations for the HyperCeiler project [here](https://crwd.in/cemiuiler).
+<a href="https://hosted.weblate.org/engage/hyperceiler/">
+<img src="https://hosted.weblate.org/widget/hyperceiler/multi-auto.svg" alt="Translation status" />
+</a>
 
 > Note: When the translation progress of the new language is greater than or equal to 85%, it will enter the merge process. If the translation progress of the added language is less than or equal to 30% of the source text, it will be temporarily removed until the translation progress is greater than or equal to 85%.
 

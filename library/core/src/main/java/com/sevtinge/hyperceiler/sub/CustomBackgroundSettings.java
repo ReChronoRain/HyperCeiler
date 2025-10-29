@@ -22,15 +22,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
-import androidx.preference.SeekBarPreference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.core.R;
 
 import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;
+import fan.preference.SeekBarPreferenceCompat;
 
 public class CustomBackgroundSettings extends SettingsPreferenceFragment implements Preference.OnPreferenceChangeListener {
 
@@ -44,10 +44,10 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private SwitchPreference mCustomEnabledPreference;
 
     private ColorPickerPreference mColorPickerPreference;
-    private SeekBarPreference mCornerRadiusPreference;
+    private SeekBarPreferenceCompat mCornerRadiusPreference;
 
     private SwitchPreference mBlurEnabledPreference;
-    private SeekBarPreference mBlurRadiusPreference;
+    private SeekBarPreferenceCompat mBlurRadiusPreference;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -95,9 +95,9 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     private void loadData() {
         mCustomEnabledPreference.setChecked(isCustomEnabled());
         mColorPickerPreference.setColor(getColor(-1));
-        mCornerRadiusPreference.setValue(getSeekBarValue(mCornerRadiusKey, 18));
+        mCornerRadiusPreference.setCurrentValue(getSeekBarValue(mCornerRadiusKey, 18));
         mBlurEnabledPreference.setChecked(isBackgroundBlurEnabled());
-        mBlurRadiusPreference.setValue(getSeekBarValue(mBlurRadiusKey, 60));
+        mBlurRadiusPreference.setCurrentValue(getSeekBarValue(mBlurRadiusKey, 60));
     }
 
     private boolean isCustomEnabled() {
@@ -147,7 +147,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private void setBackgroundCornerRadius(int value) {
-        mCornerRadiusPreference.setValue(value);
+        mCornerRadiusPreference.setCurrentValue(value);
         PrefsUtils.mSharedPreferences.edit().putInt(mCornerRadiusKey, value).apply();
     }
 
@@ -157,7 +157,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private void setBackgroundBlurRadius(int value) {
-        mBlurRadiusPreference.setValue(value);
+        mBlurRadiusPreference.setCurrentValue(value);
         PrefsUtils.mSharedPreferences.edit().putInt(mBlurRadiusKey, value).apply();
     }
 }

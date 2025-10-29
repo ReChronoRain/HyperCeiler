@@ -122,9 +122,11 @@ Xiaomi HyperOS 3 or 4 将是本项目的一个终点，就目前来说，小米�
 
 ## 为 HyperCeiler 贡献翻译
 
-[![Crowdin](https://badges.crowdin.net/cemiuiler/localized.svg)](https://crowdin.com/project/cemiuiler)
+我们使用了 Hosted Weblate 进行项目翻译同步，您可以在[这里](https://hosted.weblate.org/engage/hyperceiler/)为 HyperCeiler 项目贡献翻译。
 
-您可以在[这里](https://crwd.in/cemiuiler)为 HyperCeiler 项目贡献翻译。
+<a href="https://hosted.weblate.org/engage/hyperceiler/">
+<img src="https://hosted.weblate.org/widget/hyperceiler/multi-auto.svg" alt="翻译状态" />
+</a>
 
 > 注：当新语言翻译进度大于或等于 85% 时，将会进入合并流程，如果已添加的语言，翻译进度小于或等于源文本的 30%，将会暂时被移除，直到重新满足翻译进度大于或等于 85%。
 

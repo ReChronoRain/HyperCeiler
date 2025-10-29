@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">اسحب لأسفل للدخول إلى المساحة الخاصة</string>
     <string name="release_enter_private">اترك للدخول إلى المساحة الخاصة</string>
     <!--Pop-up window/miuix part-->

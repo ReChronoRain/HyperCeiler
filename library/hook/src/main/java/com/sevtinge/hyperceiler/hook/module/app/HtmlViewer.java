@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.htmlviewer.DisableUpdateCloudAllData;
+import com.sevtinge.hyperceiler.hook.module.rules.htmlviewer.DisableUpdateCloudAllData;
 
 @HookBase(targetPackage = "com.android.htmlviewer")
 public class HtmlViewer extends BaseModule {

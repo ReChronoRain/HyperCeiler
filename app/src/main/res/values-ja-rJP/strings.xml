@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">プルダウンでプライベートスペースに入る</string>
     <string name="release_enter_private">離すとプライベートスペースに入ります</string>
     <!--Pop-up window/miuix part-->
@@ -32,15 +31,15 @@
     <string name="miuix_appcompat_action_mode_inverse">すべての選択を解除</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">ヒント</string>
-    <string name="root">一部の機能は root / su 権限がないと利用できません</string>
+    <string name="root">一部の機能は Root/Su 権限がないと利用できません</string>
     <string name="soft_reboot">再起動 </string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか？</string>
     <string name="hyperceiler_restart_quick">アプリを素早く再起動</string>
-    <string name="hook_failed">モジュールはまだ有効になっていません。LSPosedが有効かどうかを確認してください。もしそうなら、再起動するか、再度モジュールを最適化してください。</string>
-    <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に root/su 権限が付与されているか確認してください。</string>
-    <string name="start_failed">アクティビティの開始に失敗しました。HyperCeiler に root/su 権限を付与しているか確認してください。</string>
+    <string name="hook_failed">モジュールはまだ有効になっていません。LSPosed マネージャーで有効になっているかどうかを確認してください。有効になっている場合は、再起動するか、再度モジュールを最適化してください。</string>
+    <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に Root/Su 権限が付与されているか確認してください。</string>
+    <string name="start_failed">アクティビティの開始に失敗しました。HyperCeiler に Root/Su 権限を付与しているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
-    <string name="reboot_failed">再起動に失敗しました。HyperCeiler に root/su 権限が付与されているか確認してください。</string>
+    <string name="reboot_failed">再起動に失敗しました。HyperCeiler に Root/Su 権限が付与されているか確認してください。</string>
     <string name="experimental_features">実験的な機能</string>
     <string name="experimental_reshook_new">新しいリソースフックを有効化</string>
     <string name="experimental_reshook_new_desc">新しいバージョンのリソースフックでは、リソースインジェクションのパフォーマンスが向上しています。ただし、まだいくつかの問題が発生する可能性があり、テスト目的のみでの使用を想定しています。\n注意: この機能を有効または無効にするには、デバイスを再起動する必要があります。</string>
@@ -52,12 +51,12 @@
     <string name="module_title_1">基本的なメッセージ</string>
     <string name="module_title_2">スタックメッセージ</string>
     <string name="app_error_desc">HyperCeiler が予期せず閉じられました。この問題を解決するために、以下の情報を入力してください:\n\nメッセージを長押ししてすべてをコピーします。</string>
-    <string name="safe_mode_desc">%1$sは複数のクラッシュによりセーフモードに入り、HyperCeiler の機能が一時的に無効になりました。</string>
+    <string name="safe_mode_desc">%1$s は複数のクラッシュによりセーフモードに入り、HyperCeiler の機能は一時的に無効になっています。</string>
     <string name="safe_mode_history">例外記録の表示</string>
     <string name="safe_mode_cancel">セーフモードを無効にする</string>
     <string name="safe_mode_ok">キャンセル</string>
     <string name="safe_mode_later_title">ヒント</string>
-    <string name="safe_mode_later_desc">%1$sはまだセーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
+    <string name="safe_mode_later_desc">%1$s は現在セーフモードになっており、HyperCeiler の機能が無効になっています。セーフモードを無効にしますか？</string>
     <string name="safe_mode_recorder_title">例外記録</string>
     <string name="safe_mode_recorder_file">ファイル</string>
     <string name="safe_mode_recorder_class">クラス</string>
@@ -84,7 +83,7 @@
     <string name="headtip_tip_auto_safe_mode">セーフモードでは、セキュリティを確保するために複数回クラッシュすると、いくつかのアプリのフックを解除できます。 システムフレームワークのフックスコープを実行する必要があります。セーフモードをオンにするには、システムフレームワークのスコープを確認することを強くお勧めします。</string>
     <string name="headtip_tip_long_press_to_copy">長押しまたは二回タップでテキストを選択したり、コピーして開発者にフィードバックしたりできます。</string>
     <string name="happy_birthday_hyperceiler">今日は HyperCeiler の誕生日です！\nこの1年間のご支援ありがとうございました。今年も一緒に頑張りましょう！</string>
-    <string name="headtip_tip_fuck_coolapk">今日は何の日: Sevtinge は2022年7月14日に重要なスピーチを行いました。</string>
+    <string name="headtip_tip_fuck_coolapk">今日は何の日: Sevtinge は 2022 年 7 月 14 日に重要なスピーチを行いました。</string>
     <string name="headtip_notice_dead_logger_errcode">現在のデバイスのログサービスが異常なため、HyperCeiler の機能が制限されます。正常に動作するようにログサービスを復元してください。\nエラーコード: %1$s</string>
     <string name="headtip_notice_dead_logger">現在のデバイスのログサービスが異常なため、HyperCeiler の機能が制限されます。正常に動作するようにログサービスを復元してください。</string>
     <string name="unsupported_system_func">この機能は現在のシステムバージョンではサポートされていません</string>
@@ -111,8 +110,16 @@
     <string name="logo_egg1">わあ、まさかここを見つけられるなんて、すごい！</string>
     <string name="logo_egg2">くそっ、ここに隠れても見つかるのか……</string>
     <string name="logo_egg3">ここには Android の卵はありませんが、HyperCeiler の卵があります！</string>
-    <string name="unsupported_func_tips">対象のアプリは改変版であるようです。このモジュールはフックサービスを提供できません。別のバージョンのアプリを使用するか、デバッグモードを有効にして再度お試しください。</string>
+    <string name="unsupported_func_tips">現在のターゲットスコープのソースは Xiaomi 公式ではない可能性があります。セキュリティ上の理由により、このスコープのすべての機能は無効になっています。Xiaomi がリリースしたアプリパッケージに切り替えるか、「HyperCeiler 設定 &gt; 開発者向けオプション &gt; デバッグモード」でマウントされているバージョンを指定して再度お試しください。</string>
     <string name="debug_mode">デバッグモード</string>
-    <string name="open_debug_mode_tips">デバッグモードを有効にすると、マウントする対象のアプリのバージョンを自由に選択できるようになります。ただし、そのバージョンのフックで問題が発生した場合、開発者に報告しないでください。</string>
+    <string name="open_debug_mode_tips">このオプションは、マウントされた対象アプリのバージョンを正しく処理するためにのみ使用されます。必要な場合にのみ使用してください。\nデバッグ中のアプリでは、機能が正常に使用できるかどうかは保証されません。この機能を有効にした後は、対象アプリで発生した問題を開発者に報告しないでください。</string>
     <string name="debug_mode_running">対象のアプリはデバッグ中です！\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフックが正常に適用されました: %3$s</string>
+    <string name="error_git_hash">Git hash</string>
+    <string name="uninstall_title">HyperCeiler をアンインストールする</string>
+    <string name="uninstall_summary">HyperCeiler をアンインストールした後も、モジュール設定は Xposed フレームワークデータベースに残ります。完全に消去したい場合は、まずモジュール設定に移動して、モジュール設定をリセットしてからアンインストールしてください。</string>
+    <string name="debug_mode_switch">デバッグバージョン</string>
+    <string name="debug_mode_home_version">システムランチャーのバージョン番号を設定する</string>
+    <string name="debug_mode_home_version_desc">バージョン番号が高すぎるとブロックされるため、慎重に入力してください。</string>
+    <string name="miuix_appcompat_confirm_description">確認</string>
+    <string name="app_exit">終了</string>
 </resources>

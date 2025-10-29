@@ -67,10 +67,10 @@
             android:title="@string/system_ui_statusbar_mobile_type_font_size"
             app:defaultValue="27"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="40"
             app:minValue="18"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -78,10 +78,10 @@
             android:title="@string/left_margin"
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="16"
             app:minValue="0"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -89,10 +89,10 @@
             android:title="@string/right_margin"
             app:defaultValue="0"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="16"
             app:minValue="0"
-            app:showDividerValue="2"
+            app:dividerValue="2"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -100,11 +100,11 @@
             android:title="@string/vertical_offset"
             app:defaultValue="40"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
+            app:format="%.1f dp"
             app:maxValue="80"
             app:minValue="0"
             app:negativeShift="40"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:stepValue="1" />
 
     </PreferenceCategory>

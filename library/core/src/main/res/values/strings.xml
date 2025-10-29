@@ -110,6 +110,8 @@
     <string name="log_level_none">Disabled</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
+    <string name="search_apps_hint">Search %d apps</string>
+    <string name="load_apps_failed">Failed to load application list</string>
     <string name="logo_egg_NotificationName">Easter egg notification</string>
     <string name="logo_egg_NotificationName_tips">This is an Easter egg notification</string>
     <string name="logo_egg_Notification_tips">Please enable notifications in Settings to see the Easter eggs</string>

@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.demo.ColorTest;
-import com.sevtinge.hyperceiler.hook.module.hook.demo.CrashDemo;
-import com.sevtinge.hyperceiler.hook.module.hook.demo.ToastTest;
+import com.sevtinge.hyperceiler.hook.module.rules.demo.ColorTest;
+import com.sevtinge.hyperceiler.hook.module.rules.demo.CrashDemo;
+import com.sevtinge.hyperceiler.hook.module.rules.demo.ToastTest;
 
 @HookBase(targetPackage = "com.hchen.demo")
 public class Demo extends BaseModule {

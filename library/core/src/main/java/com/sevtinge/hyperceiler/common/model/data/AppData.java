@@ -31,4 +31,6 @@ public class AppData {
     public String versionCode;
     public boolean isSystemApp;
     public boolean enabled;
+
+    public boolean isSelected;
 }

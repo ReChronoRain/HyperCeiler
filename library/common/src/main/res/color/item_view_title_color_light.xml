@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:color="@color/item_view_title_disable_color_light" android:state_enabled="false" />
+    <item android:color="@color/item_view_title_normal_color_light" />
+</selector>

@@ -1280,7 +1280,6 @@
     <string name="screenshot">Bildschirmfoto</string>
     <string name="screenshot_unlock_minimum_crop_limit">Minimales Bild-Zuschnitt-Limit entfernen</string>
     <string name="screenshot_unlock_privacy_marking_title">Datenschutz-Markierung freischalten</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Eine höhere Version der Mi AI Engine-App muss für normale Nutzung vorinstalliert sein</string>
     <string name="screenshot_save_to_pictures_desc">Screenshot-Speicherort auf /Pictures/Screenshots setzen</string>
     <string name="screenshot_device_customize_title">Benutzerdefinierte Screenshot-Modell-Hülle</string>
     <string name="screenshot_device_customize_desc">Bitte geben Sie den Gerätecode ein, und das farbige Gerät sollte mit einem Suffix ausgefüllt werden, zum Beispiel:\n• Xiaomi 13, der Inhalt ist fuxi\n• Xiaomi 14 rosa Version, der Inhalt ist houji_PK</string>

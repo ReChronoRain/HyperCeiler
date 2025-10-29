@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableO
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
+import static java.util.Arrays.asList;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -44,6 +45,7 @@ import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
+import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.hook.callback.IResult;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
@@ -54,7 +56,6 @@ import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
-import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
@@ -78,6 +79,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     private Handler mHandler;
     private ArrayList<String> appCrash = new ArrayList<>();
+    private final ArrayList<String> checkList = new ArrayList<>(asList(
+        "com.miui.securitycenter",
+        "com.android.camera",
+        "com.miui.home"
+    ));
 
     private ExecutorService mInitExecutor;
 
@@ -87,7 +93,11 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        mInitExecutor = Executors.newSingleThreadExecutor();
+        mInitExecutor = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "HyperCeiler-init");
+            t.setDaemon(true);
+            return t;
+        });
 
         LogManager.init();
         applyGrayScaleFilter(this);
@@ -105,42 +115,54 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             try {
                 LogServiceUtils.init(appCtx);
             } catch (Throwable t) {
-                AndroidLogUtils.logE("HyperCeilerTab", "LogServiceUtils" + t);
+                AndroidLogUtils.logE("HyperCeilerTab", "LogServiceUtils: " + t);
             }
 
             try {
                 SearchHelper.init(appCtx, restored);
             } catch (Throwable t) {
-                AndroidLogUtils.logE("HyperCeilerTab", "SearchHelper" + t);
+                AndroidLogUtils.logE("HyperCeilerTab", "SearchHelper: " + t);
             }
 
             try {
                 LogManager.setLogLevel();
             } catch (Throwable t) {
-                t.printStackTrace();
+                AndroidLogUtils.logE("HyperCeilerTab", "setLogLevel: " + t);
             }
 
-            List<?> computedAppCrash;
             try {
-                computedAppCrash = CrashData.toPkgList();
+                for (String pkg : checkList) {
+                    checkAppMod(pkg);
+                }
             } catch (Throwable t) {
-                t.printStackTrace();
-                computedAppCrash = java.util.Collections.emptyList();
+                AndroidLogUtils.logE("HyperCeilerTab", "checkAppMod: " + t);
             }
 
-            List<?> finalComputedAppCrash = computedAppCrash;
+            ArrayList<String> computedAppCrash = new ArrayList<>();
+            try {
+                List<?> raw = CrashData.toPkgList();
+                for (Object o : raw) {
+                    if (o instanceof String) {
+                        computedAppCrash.add((String) o);
+                    } else if (o != null) {
+                        computedAppCrash.add(String.valueOf(o));
+                    }
+                }
+            } catch (Throwable t) {
+                AndroidLogUtils.logE("HyperCeilerTab", "CrashData: " + t);
+            }
+
             mHandler.post(() -> {
-                appCrash = (ArrayList<String>) finalComputedAppCrash;
-
+                appCrash = computedAppCrash;
                 mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
-
                 requestCta();
             });
         });
+    }
 
-        // 先这样写，后面扩展了其它应用再改
-        boolean check = CheckModifyUtils.INSTANCE.isApkModified(this, "com.miui.home", CheckModifyUtils.XIAOMI_SIGNATURE);
-        CheckModifyUtils.INSTANCE.setCheckResult("com.miui.home", check);
+    private void checkAppMod(String pkg) {
+        boolean check = CheckModifyUtils.INSTANCE.isApkModified(this, pkg, CheckModifyUtils.XIAOMI_SIGNATURE);
+        CheckModifyUtils.INSTANCE.setCheckResult(pkg, check);
     }
 
     @SuppressLint("StringFormatInvalid")

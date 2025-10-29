@@ -16,14 +16,13 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Потяните вниз для входа во второе пространство</string>
     <string name="release_enter_private">Отпустите для перехода во второе пространство</string>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Выбрать все</string>
     <string name="miuix_appcompat_cancel_description">Отмена</string>
-    <string name="miuix_appcompat_confirm_description">OK</string>
+    <string name="miuix_appcompat_confirm_description">ОК</string>
     <string name="miuix_appcompat_select_all_description">Выбрать все</string>
     <string name="miuix_appcompat_deselect_all_description">Отменить выбор</string>
     <string name="miuix_appcompat_delete_description">Удалить</string>

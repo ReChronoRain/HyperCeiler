@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.notes.DisableAiWatermark;
-import com.sevtinge.hyperceiler.hook.module.hook.notes.UnlockAI;
+import com.sevtinge.hyperceiler.hook.module.rules.notes.DisableAiWatermark;
+import com.sevtinge.hyperceiler.hook.module.rules.notes.UnlockAI;
 
 @HookBase(targetPackage = "com.miui.notes")
 public class Notes extends BaseModule {

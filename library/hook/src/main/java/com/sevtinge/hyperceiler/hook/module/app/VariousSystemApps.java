@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.various.CollapseMiuiTitle;
-import com.sevtinge.hyperceiler.hook.module.hook.various.MiuiAppNoOverScroll;
-import com.sevtinge.hyperceiler.hook.module.hook.various.clipboard.NewUnPhraseLimit;
-import com.sevtinge.hyperceiler.hook.module.hook.various.dialog.DialogCustom;
+import com.sevtinge.hyperceiler.hook.module.rules.various.CollapseMiuiTitle;
+import com.sevtinge.hyperceiler.hook.module.rules.various.MiuiAppNoOverScroll;
+import com.sevtinge.hyperceiler.hook.module.rules.various.clipboard.NewUnPhraseLimit;
+import com.sevtinge.hyperceiler.hook.module.rules.various.dialog.DialogCustom;
 
 import java.util.Arrays;
 import java.util.HashSet;

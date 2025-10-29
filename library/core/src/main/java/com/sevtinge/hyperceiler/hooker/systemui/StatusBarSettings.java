@@ -18,14 +18,19 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
+import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+
 import android.os.Bundle;
 
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class StatusBarSettings extends DashboardFragment {
     RecommendPreference mRecommend;
+    SwitchPreference mHideStatusBarOnLockScreen;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -34,6 +39,11 @@ public class StatusBarSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+
+        mHideStatusBarOnLockScreen = findPreference("prefs_key_system_ui_status_bar_hide_icon");
+        if (isMoreSmallVersion(200, 2f)) {
+            mHideStatusBarOnLockScreen.setSummary(R.string.system_ui_status_bar_hide_icon_desc);
+        }
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(requireContext());

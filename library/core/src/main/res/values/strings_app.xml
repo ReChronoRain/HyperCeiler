@@ -101,6 +101,8 @@
     <string name="debug_info">Cannot get debug info.</string>
     <string name="delete_all_dexkit_cache_desc">Are you sure you want to clear all DexKit cache?</string>
     <string name="delete_all_dexkit_cache_success">Successfully cleared all DexKit cache</string>
+    <string name="clear_app_properties_desc">Are you sure you want to reset the Props for HyperCeiler-related services?</string>
+    <string name="clear_app_properties_success">Props for HyperCeiler-related services have been reset</string>
     <string name="set_homepage_entrance">Set up the homepage entry</string>
     <string name="set_homepage_entrance_about">Note: Modifying this setting only hides the visibility of the feature on the homepage, and features that have been turned on won\'t be turned off!\nHiding the feature on the homepage will take effect immediately, and the app will need to be restarted to reappear.</string>
     <string name="help_cant_see_apps_guide">Can\'t find the app features?</string>
@@ -144,6 +146,7 @@
     <string name="development_delete_all_dexkit_cache">Delete all DexKit cache</string>
     <string name="development_close_log_alert_dialog">Disable logger live alert dialog</string>
     <string name="development_fix_lsposed_log">Try to fix LSPosed log service</string>
+    <string name="development_clear_app_properties">Reset the Prop for services related to HyperCeiler</string>
     <string name="settings_show_title">Show</string>
     <string name="settings_data_title">Backup and restore</string>
     <string name="settings_bug_title">Troubleshooting</string>
@@ -731,6 +734,7 @@
     <string name="system_ui_status_bar_network_speed_at_right">Network speed</string>
     <string name="system_ui_status_bar_volume_at_right">Sound scene</string>
     <string name="system_ui_status_bar_hide_icon">Hide status bar when taking screenshot</string>
+    <string name="system_ui_status_bar_hide_icon_desc">You also need to additionally select the /"Screenshot/" scope for it to take effect.</string>
     <string name="system_ui_status_bar_mobile_type_single_title">Mobile network type icon</string>
     <string name="system_ui_statusbar_network_speed_all_status">Enable modification</string>
     <string name="system_ui_statusbar_network_speed_update_spacing">Network speed refresh interval</string>
@@ -1385,7 +1389,6 @@
     <string name="screenshot_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="screenshot_unlock_copy_to_clipboard">Unlock auto-copy screenshot to clipboard</string>
     <string name="screenshot_unlock_privacy_marking_title">Unlock privacy marking</string>
-    <string name="screenshot_unlock_privacy_marking_desc">A higher version of the Mi AI Engine app needs to be pre-installed for normal usage</string>
     <string name="screenshot_save_to_pictures_desc">Set screenshot save location to /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Custom screenshot model shell</string>
     <string name="screenshot_device_customize_desc">Please enter the device code, and the colored device should be filled with a suffix, for example:\n• Xiaomi 13, fill in the content is fuxi\n• Xiaomi 14 pink version, fill in the content is houji_PK</string>

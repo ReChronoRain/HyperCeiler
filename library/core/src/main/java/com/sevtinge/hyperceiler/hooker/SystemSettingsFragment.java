@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -27,17 +26,16 @@ import android.widget.SeekBar;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils;
-import com.sevtinge.hyperceiler.core.R;
 
 import fan.preference.SeekBarPreferenceCompat;
 
 public class SystemSettingsFragment extends DashboardFragment {
     SwitchPreference mUiMode;
-    SwitchPreference mControlCenter;
     RecommendPreference mRecommend;
 
     @Override
@@ -48,13 +46,8 @@ public class SystemSettingsFragment extends DashboardFragment {
     @Override
     public void initPrefs() {
         mUiMode = findPreference("prefs_key_system_settings_unlock_ui_mode");
-        mControlCenter = findPreference("prefs_key_system_control_center_unlock_old");
 
         mUiMode.setVisible(isPad());
-
-        if (isMoreHyperOSVersion(3f)) {
-            setFuncHint(mControlCenter, 1);
-        }
 
         Bundle args1 = new Bundle();
         mRecommend = new RecommendPreference(requireContext());

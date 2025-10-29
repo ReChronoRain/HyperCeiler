@@ -1080,7 +1080,6 @@ aplicaciones del sistema</string>
     <string name="screenshot">Captura de pantalla</string>
     <string name="screenshot_unlock_minimum_crop_limit">Desbloquear el límite mínimo de recorte de imagen</string>
     <string name="screenshot_unlock_privacy_marking_title">Añadir desenfoque automático a los contenidos privados</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Se debe instalar una versión superior de \"Mi AI Engine\" para el uso normal</string>
     <string name="screenshot_save_to_pictures_desc">Ajustar la ubicación de guardado de captura de pantalla en /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Personalizar el modelo de la captura de pantalla con marco de móvil</string>
     <string name="screenshot_device_customize_desc">Ingrese un código de modelo</string>

@@ -24,8 +24,6 @@ public class SearchCallback implements SearchActionMode.Callback {
 
     private String mSearchText = "";
 
-    private Context mContext;
-
     private View mAnimView;
     private View mAnchorView;
     private View mStickyView;
@@ -80,8 +78,7 @@ public class SearchCallback implements SearchActionMode.Callback {
         void onDestroySearchMode(ActionMode actionMode);
     }
 
-    public SearchCallback(Context context, SearchView.OnQueryTextListener onQueryTextListener, OnSearchListener onSearchListener) {
-        mContext = context;
+    public SearchCallback(SearchView.OnQueryTextListener onQueryTextListener, OnSearchListener onSearchListener) {
         mOnQueryTextListener = onQueryTextListener;
         mOnSearchListener = onSearchListener;
     }

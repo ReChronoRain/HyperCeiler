@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.huanji.AllowMoveAllApps;
+import com.sevtinge.hyperceiler.hook.module.rules.huanji.AllowMoveAllApps;
 
 @HookBase(targetPackage = "com.miui.huanji")
 public class Huanji extends BaseModule {

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.trustservice.DisableMrm;
+import com.sevtinge.hyperceiler.hook.module.rules.trustservice.DisableMrm;
 
 @HookBase(targetPackage = "com.xiaomi.trustservice")
 public class TrustService extends BaseModule {

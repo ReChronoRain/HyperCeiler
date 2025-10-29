@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Kéo xuống để vào không gian riêng tư</string>
     <string name="release_enter_private">Thả ra để vào không gian riêng tư</string>
     <!--Pop-up window/miuix part-->

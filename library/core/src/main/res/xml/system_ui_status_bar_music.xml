@@ -99,10 +99,10 @@
             android:title="@string/system_ui_statusbar_music_speed_title"
             app:defaultValue="18"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s x"
+            app:format="%.1f x"
             app:maxValue="48"
             app:minValue="5"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
@@ -110,10 +110,10 @@
             android:title="@string/system_ui_statusbar_music_scroll_delay_title"
             app:defaultValue="12"
             app:defaultValueTitle="@string/array_default"
-            app:format="%s x"
+            app:format="%.1f x"
             app:maxValue="24"
             app:minValue="3"
-            app:showDividerValue="10"
+            app:dividerValue="10"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat

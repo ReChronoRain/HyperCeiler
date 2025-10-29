@@ -4,34 +4,35 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:layout_gravity="center_vertical"
         android:layout_marginEnd="@dimen/item_view_margin_end"
         android:layout_weight="1"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_title"
             style="@style/ItemViewTitleStyle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/tv_summary"
+            style="@style/ItemViewSummaryStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="1.449982dp"
-            android:textAlignment="viewStart"
-            style="@style/ItemViewSummaryStyle"/>
+            android:layout_gravity="center_vertical"/>
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/widget_frame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center|end"
         android:clipChildren="false"
         android:gravity="center"
-        android:layout_gravity="center|end"
         android:minWidth="@dimen/item_view_widget_width"
         android:orientation="vertical" />
 

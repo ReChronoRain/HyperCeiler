@@ -5,5 +5,15 @@
         <item name="searchActionModeInputBackground">@android:color/transparent</item>
 
         <item name="preferenceCategoryTextColor">@color/miuix_preference_category_text_color_dark</item>
+
+        <item name="itemViewTitleTextColor">@color/item_view_title_color_dark</item>
+        <item name="itemViewSummaryTextColor">@color/item_view_summary_color_dark</item>
+        <item name="itemViewArrowRightFillColor">@color/item_view_arrow_right_fill_color_dark</item>
+        <item name="itemViewBackgroundColor">@color/item_view_bg_normal_color_dark</item>
+
+        <item name="textColorDialogSingleChoiceItem">@color/miuix_appcompat_dialog_list_text_single_choice_dark</item>
+
+        <item name="recyclerViewCardStyle">@style/LogViewerRecyclerViewCardStyle</item>
     </style>
+
 </resources>

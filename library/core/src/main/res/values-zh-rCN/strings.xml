@@ -18,7 +18,7 @@
     <string name="soft_reboot">重启 </string>
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
-    <string name="root">未授予Root/Su权限部分功能不可用</string>
+    <string name="root">未授予 Root/Su 权限部分功能不可用</string>
     <string name="experimental_features">实验性功能</string>
     <string name="experimental_reshook_new">启用新版资源挂钩</string>
     <string name="experimental_reshook_new_desc">新版资源挂钩对于资源注入有更好的性能，但可能会有存在一些问题，仅供测试\n开关此功能需重启生效</string>
@@ -103,6 +103,9 @@
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
+
+    <string name="search_apps_hint">搜索 %d 个应用</string>
+    <string name="load_apps_failed">加载应用列表失败</string>
 
     <string name="logo_egg_NotificationName">彩蛋通知</string>
     <string name="logo_egg_NotificationName_tips">这是彩蛋通知</string>

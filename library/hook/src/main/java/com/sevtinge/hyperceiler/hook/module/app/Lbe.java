@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.lbe.AutoStart;
+import com.sevtinge.hyperceiler.hook.module.rules.lbe.AutoStart;
 
 @HookBase(targetPackage = "com.lbe.security.miui")
 public class Lbe extends BaseModule {

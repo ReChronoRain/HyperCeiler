@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.mms.AutoCopyVerificationCode;
-import com.sevtinge.hyperceiler.hook.module.hook.mms.DisableAd;
-import com.sevtinge.hyperceiler.hook.module.hook.mms.DisableRiskTip;
-import com.sevtinge.hyperceiler.hook.module.hook.mms.ImOldDevice;
+import com.sevtinge.hyperceiler.hook.module.rules.mms.AutoCopyVerificationCode;
+import com.sevtinge.hyperceiler.hook.module.rules.mms.DisableAd;
+import com.sevtinge.hyperceiler.hook.module.rules.mms.DisableRiskTip;
+import com.sevtinge.hyperceiler.hook.module.rules.mms.ImOldDevice;
 
 @HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseModule {

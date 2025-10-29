@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.creation.UnlockCreation;
+import com.sevtinge.hyperceiler.hook.module.rules.creation.UnlockCreation;
 
 @HookBase(targetPackage = "com.miui.creation")
 public class Creation extends BaseModule {

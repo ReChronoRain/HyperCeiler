@@ -48,6 +48,8 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
     SwitchPreference mDebugMode;
 
     DropDownPreference mHomeVersion;
+    DropDownPreference mSecurityVersion;
+    DropDownPreference mCameraVersion;
     EditTextPreference mEditHomeVersion;
 
     @Override
@@ -59,8 +61,9 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
     public void initPrefs() {
         mDebugMode = findPreference("prefs_key_development_debug_mode");
         mHomeVersion = findPreference("prefs_key_debug_mode_home");
+        mSecurityVersion = findPreference("prefs_key_debug_mode_security");
+        mCameraVersion = findPreference("prefs_key_debug_mode_camera");
         mEditHomeVersion = findPreference("prefs_key_debug_mode_home_edit");
-
 
         mDebugMode.setOnPreferenceChangeListener((preference, newValue) -> {
             boolean isDebug = (boolean) newValue;
@@ -77,31 +80,52 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
             return true;
         });
 
-        int getValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_debug_mode_home", "0"));
+        int currentHomeValue = parseIntSafe(getSharedPreferences().getString("prefs_key_debug_mode_home", "0"));
 
         if (isPad()) {
             mHomeVersion.setEntries(com.sevtinge.hyperceiler.core.R.array.debug_mode_home_pad);
             mHomeVersion.setEntryValues(com.sevtinge.hyperceiler.core.R.array.debug_mode_home_pad_value);
         }
 
-        mEditHomeVersion.setVisible(getValue == 1);
+        mEditHomeVersion.setVisible(currentHomeValue == 1);
 
         mHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
-            int isNewValue = Integer.parseInt((String) newValue);
-            mEditHomeVersion.setVisible(isNewValue == 1);
-            if (isNewValue != 1) {
-                DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
+            int newVal = parseIntSafe(newValue);
+            mEditHomeVersion.setVisible(newVal == 1);
+            if (newVal != 1) {
+                DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", newVal);
             }
             return true;
         });
 
+        setSimpleDropDownListener(mSecurityVersion, "com.miui.securitycenter");
+        setSimpleDropDownListener(mCameraVersion, "com.android.camera");
+
         mEditHomeVersion.setOnPreferenceChangeListener((preference, newValue) -> {
-            int isNewValue = Integer.parseInt((String) newValue);
-            DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", isNewValue);
+            int newVal = parseIntSafe(newValue);
+            DebugModeUtils.INSTANCE.setChooseResult("com.miui.home", newVal);
             return true;
         });
 
         setPreference();
+    }
+
+    private void setSimpleDropDownListener(DropDownPreference pref, String packageName) {
+        if (pref == null) return;
+        pref.setOnPreferenceChangeListener((preference, newValue) -> {
+            int newVal = parseIntSafe(newValue);
+            DebugModeUtils.INSTANCE.setChooseResult(packageName, newVal);
+            return true;
+        });
+    }
+
+    private int parseIntSafe(Object value) {
+        if (value == null) return 0;
+        try {
+            return Integer.parseInt(value.toString());
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     private void setPreference() {

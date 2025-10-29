@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">Make HyperOS Great Again!</string>
     <!--String reuse-->
@@ -115,4 +114,6 @@
     <string name="system_notifrowmenu_appinfo">アプリ情報</string>
     <string name="system_notifrowmenu_openinfw">フローティングウィンドウ</string>
     <string name="system_notifrowmenu_forceclose">強制終了</string>
+    <string name="notes_unlock_ai_mode_1">古いバージョン</string>
+    <string name="notes_unlock_ai_mode_2">新しいバージョン</string>
 </resources>

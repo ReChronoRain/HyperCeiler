@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.calendar.UnlockSubscription;
+import com.sevtinge.hyperceiler.hook.module.rules.calendar.UnlockSubscription;
 
 @HookBase(targetPackage = "com.android.calendar")
 public class Calendar extends BaseModule {

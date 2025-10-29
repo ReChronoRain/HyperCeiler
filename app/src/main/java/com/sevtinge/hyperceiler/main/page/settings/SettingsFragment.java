@@ -29,14 +29,14 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.tencent.mmkv.MMKV;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.NavigatorFragmentListener;
@@ -142,7 +142,11 @@ public class SettingsFragment extends PagePreferenceFragment
     }
 
     private void setLogLevel(int level) {
-        ShellInit.getShell().run("setprop persist.hyperceiler.log.level " + level);
+        // ShellInit.getShell().run("setprop persist.hyperceiler.log.level " + level);
+        MMKV mmkv = MMKV.defaultMMKV();
+        mmkv.putInt("persist.hyperceiler.log.level", level);
+
+
     }
 
     private void setIconMode(int mode) {

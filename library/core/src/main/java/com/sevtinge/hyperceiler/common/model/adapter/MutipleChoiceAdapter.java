@@ -35,7 +35,7 @@ import fan.androidbase.widget.CheckedTextView;
 public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdapter.ViewHolder> {
 
     // 填充数据的list
-    private List<String> mList;
+    private final List<String> mList;
     // 用来控制CheckBox的选中状况
     private SparseBooleanArray mIsChecked;
 
@@ -110,7 +110,7 @@ public class MutipleChoiceAdapter extends RecyclerView.Adapter<MutipleChoiceAdap
         return mList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public CheckedTextView mCheckBoxTitle;
 
         public ViewHolder(View itemView) {

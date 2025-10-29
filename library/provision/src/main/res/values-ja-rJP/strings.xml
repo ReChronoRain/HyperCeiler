@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="provision_back_description">戻る</string>
     <string name="provision_start_content_description">スタート</string>
     <string name="provision_next">次へ</string>
@@ -37,6 +36,6 @@
     <string name="provision_service_name_download">ダウンロード</string>
     <string name="provision_service_policy_download"><Data><a href="%1$s">Thunder プライバシーポリシー</a> と <a href="%2$s">Thunder 社ネットワークサービス利用契約</a> を読み、同意します</Data></string>
     <string name="provision_congratulation_title">セットアップが完了しました</string>
-    <string name="provision_congratulation_label">エキサイティングなHyperOSが今ここに！</string>
+    <string name="provision_congratulation_label">エキサイティングな HyperOS が今ここに！</string>
     <string name="provision_complete_text">システムに入る</string>
 </resources>

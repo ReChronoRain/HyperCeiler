@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <attr name="itemViewBackgroundColor" format="reference|color" />
+    <attr name="itemViewTitleTextColor" format="reference|color" />
+    <attr name="itemViewSummaryTextColor" format="reference|color" />
+    <attr name="itemViewArrowRightFillColor" format="reference|color" />
+
     <declare-styleable name="ItemView">
         <attr name="android:title" />
         <attr name="android:summary" />
         <attr name="android:value" />
         <attr name="android:widgetLayout" />
-        <attr name="arrowRightShow" format="boolean" />
 
         <attr name="android:enabled" />
+
+        <attr name="titleTextColor" format="reference|color" />
+        <attr name="summaryTextColor" format="reference|color" />
+
+
+        <attr name="arrowRightShow" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="SpinnerItemView">

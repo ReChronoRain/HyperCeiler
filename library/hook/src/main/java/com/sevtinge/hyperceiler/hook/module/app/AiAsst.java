@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.aiasst.NewAiCaptions;
-import com.sevtinge.hyperceiler.hook.module.hook.aiasst.UnlockAllCaptions;
-import com.sevtinge.hyperceiler.hook.module.hook.aiasst.UnlockSplitTranslation;
+import com.sevtinge.hyperceiler.hook.module.rules.aiasst.NewAiCaptions;
+import com.sevtinge.hyperceiler.hook.module.rules.aiasst.UnlockAllCaptions;
+import com.sevtinge.hyperceiler.hook.module.rules.aiasst.UnlockSplitTranslation;
 
 @HookBase(targetPackage = "com.xiaomi.aiasst.vision")
 public class AiAsst extends BaseModule {

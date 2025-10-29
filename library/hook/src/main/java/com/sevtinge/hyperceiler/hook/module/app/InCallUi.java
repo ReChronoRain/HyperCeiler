@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hook.module.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
-import com.sevtinge.hyperceiler.hook.module.hook.incallui.AnswerInHeadUp;
-import com.sevtinge.hyperceiler.hook.module.hook.incallui.HideCrbt;
+import com.sevtinge.hyperceiler.hook.module.rules.incallui.AnswerInHeadUp;
+import com.sevtinge.hyperceiler.hook.module.rules.incallui.HideCrbt;
 
 @HookBase(targetPackage = "com.android.incallui")
 public class InCallUi extends BaseModule {

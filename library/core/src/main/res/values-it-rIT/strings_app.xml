@@ -977,7 +977,6 @@
     <!--Screenshot-->
     <string name="screenshot_unlock_minimum_crop_limit">Rimuovi il limite minimo di ritaglio dell\'immagine</string>
     <string name="screenshot_unlock_privacy_marking_title">Sblocca contrassegno privacy</string>
-    <string name="screenshot_unlock_privacy_marking_desc">Una versione superiore di per l\'uso normale l\'APP \"Mi AI Engine\" deve essere preinstallata</string>
     <string name="screenshot_save_to_pictures_desc">Posizione di salvataggio dello screenshot canonico in /Immagini/Screenshot</string>
     <string name="screenshot_device_customize_title">Modello di screenshot personalizzato con shell</string>
     <string name="screenshot_device_customize_desc">Inserisci il codice del dispositivo e il dispositivo colorato deve essere riempito con un suffisso, ad esempio:\n- Xiaomi 13, inserisci il contenuto è fuxi \n- Versione rosa Xiaomi 14, compilare il contenuto è houji_PK</string>

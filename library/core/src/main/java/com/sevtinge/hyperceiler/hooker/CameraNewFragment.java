@@ -22,14 +22,16 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class CameraNewFragment extends DashboardFragment {
 
     SwitchPreference mBlackLeica;
     SwitchPreference mLeica;
     SwitchPreference mHighQuality;
+    LayoutPreference mHeader;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -48,5 +50,9 @@ public class CameraNewFragment extends DashboardFragment {
             setFuncHint(mLeica, 1);
             setFuncHint(mHighQuality, 1);
         }
+
+        mHeader = findPreference("prefs_key_camera_unsupported");
+
+        setAppModWarn(mHeader, "com.android.camera");
     }
 }
