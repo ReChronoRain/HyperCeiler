@@ -105,12 +105,17 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
 
     private void setIconAndTitle(SwitchPreference header, String packageName) {
         if (header == null || packageName == null) return;
-        // 根据包名获取
         PackageManager pm = requireContext().getPackageManager();
+
+        try {
+            pm.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return;
+        }
+
         ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
         if (appInfo == null) return;
 
-        // 将耗时的 loadIcon/loadLabel 移到后台线程，避免阻塞 UI 线程
         if (Looper.myLooper() == Looper.getMainLooper()) {
             new Thread(() -> {
                 final Drawable icon = appInfo.loadIcon(pm);

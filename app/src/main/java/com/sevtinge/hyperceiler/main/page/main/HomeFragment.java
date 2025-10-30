@@ -132,8 +132,15 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
         if (header == null || packageName == null) return;
         PackageManager pm = requireContext().getPackageManager();
+
+        try {
+            pm.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return;
+        }
+
         ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
-        if (appInfo == null || pm == null) return;
+        if (appInfo == null) return;
 
         mAppsList.setVisible(false);
         Runnable loadAndApply = () -> {

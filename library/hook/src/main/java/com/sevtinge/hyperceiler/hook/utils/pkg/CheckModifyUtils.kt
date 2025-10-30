@@ -67,7 +67,12 @@ object CheckModifyUtils {
 
         val signatures = try {
             val pm = context.packageManager
-            val pi = pm.getPackageArchiveInfo(apkFilePath, PackageManager.GET_SIGNING_CERTIFICATES)
+            val pi = try {
+                pm.getPackageArchiveInfo(apkFilePath, PackageManager.GET_SIGNING_CERTIFICATES)
+            } catch (_: ClassCastException) {
+                // 忽略某些 APK 解析时的系统内部错误
+                null
+            }
             // 某些 Android 版本需要设置以下两项以正确解析签名
             pi?.applicationInfo?.sourceDir = apkFilePath
             pi?.applicationInfo?.publicSourceDir = apkFilePath
