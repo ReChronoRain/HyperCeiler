@@ -28,16 +28,30 @@ import java.util.List;
 public class HideReportText extends BaseHook {
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookMethod("com.miui.home.launcher.uninstall.BaseUninstallDialog", "init", Context.class, List.class, new MethodHook(){
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                findAndHookMethod("com.miui.home.launcher.ShortcutInfo", "getInstallerPackageName", new MethodHook(){
-                    @Override
-                    protected void before(MethodHookParam param) throws Throwable {
-                        param.setResult("com.xiaomi.market");
-                    }
-                });
-            }
-        });
+        try {
+            findAndHookMethod("com.miui.home.launcher.uninstall.BaseUninstallDialog", "init", Context.class, List.class, new MethodHook(){
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    findAndHookMethod("com.miui.home.launcher.ShortcutInfo", "getInstallerPackageName", new MethodHook(){
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            param.setResult("com.xiaomi.market");
+                        }
+                    });
+                }
+            });
+        } catch (Throwable t) {
+            findAndHookMethod("com.miui.home.launcher.uninstall.BaseUninstallDialog", "init", Context.class, List.class, String.class, new MethodHook(){
+                @Override
+                protected void before(MethodHookParam param) throws Throwable {
+                    findAndHookMethod("com.miui.home.launcher.ShortcutInfo", "getInstallerPackageName", new MethodHook(){
+                        @Override
+                        protected void before(MethodHookParam param) throws Throwable {
+                            param.setResult("com.xiaomi.market");
+                        }
+                    });
+                }
+            });
+        }
     }
 }
