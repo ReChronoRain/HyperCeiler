@@ -22,18 +22,34 @@ package com.sevtinge.hyperceiler.hook.module.rules.mediaeditor;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UnlockAigc extends BaseHook {
+
     @Override
     public void init() throws NoSuchMethodException {
-        findAndHookConstructor("com.miui.mediaeditor.aigc.AISupportItem", String.class, List.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) throws Throwable {
-                List<String> mDevices = new ArrayList<>();
-                mDevices.add("*");
-                param.args[1] = mDevices;
-            }
-        });
+
+        try {
+            findAndHookConstructor("com.miui.mediaeditor.aigc.AISupportItem", String.class, List.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    List<String> mDevices = new ArrayList<>();
+                    mDevices.add("*");
+                    param.args[1] = mDevices;
+                }
+            });
+        } catch (Throwable e) {
+            // 2.1.3.2+
+            findAndHookConstructor("com.miui.mediaeditor.aigc.AISupportItem", String.class, List.class, List.class, new MethodHook() {
+                @Override
+                protected void before(MethodHookParam param) {
+                    List<String> mDevices = new ArrayList<>();
+                    mDevices.add("*");
+                    param.args[1] = mDevices;
+                    param.args[2] = Collections.emptyList();
+                }
+            });
+        }
     }
 }
