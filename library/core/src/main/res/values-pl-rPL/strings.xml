@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Zaznacz wszystko</string>
     <string name="miuix_appcompat_cancel_description">Anuluj</string>
@@ -84,4 +83,15 @@
     <string name="log_level_none">Wyłączone</string>
     <string name="disable_suggest">Wyłącz sugestie</string>
     <string name="enable_suggest">Włącz sugestie</string>
+    <string name="pull_to_enter_private">Pociągnij w dół aby otworzyć prywatną przestrzeń</string>
+    <string name="release_enter_private">Póść aby otworzyć prywatną przestrzeń</string>
+    <string name="experimental_features">Eksperymentalne funkcje</string>
+    <string name="experimental_reshook_new">Włącz nowy hook zasobów</string>
+    <string name="experimental_reshook_new_desc">Nowa wersja funkcji zasobów zapewnia lepszą wydajność w zakresie wstrzykiwania zasobów. Jednak nadal może ona powodować pewne problemy i jest przeznaczona wyłącznie do celów testowych.\nUwaga: Włączenie lub wyłączenie tej funkcji wymaga ponownego uruchomienia urządzenia, aby zmiany zaczęły obowiązywać.</string>
+    <string name="error">Error</string>
+    <string name="module_app_failed">Wystąpił błąd krytyczny w module</string>
+    <string name="module_app_copy_desc">Kliknij i przytrzymaj kontent aby go skopiować</string>
+    <string name="module_title_1">Podstawowe wiadomości</string>
+    <string name="app_error_desc">Aplikacja HyperCeiler została nieoczekiwanie zamknięta. Aby pomóc nam to naprawić, podaj poniższe informacje:\n\nNaciśnij i przytrzymaj dowolną wiadomość, aby skopiować całą jej treść.</string>
+    <string name="app_exit">OK</string>
 </resources>

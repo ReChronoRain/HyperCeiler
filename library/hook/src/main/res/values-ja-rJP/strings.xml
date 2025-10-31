@@ -116,4 +116,6 @@
     <string name="system_notifrowmenu_forceclose">強制終了</string>
     <string name="notes_unlock_ai_mode_1">古いバージョン</string>
     <string name="notes_unlock_ai_mode_2">新しいバージョン</string>
+    <string name="mode_phone">スマートフォン</string>
+    <string name="mode_pad">タブレット</string>
 </resources>
