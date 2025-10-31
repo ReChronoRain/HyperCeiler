@@ -1641,4 +1641,10 @@
     <string name="contacts_disable_offline_info_manager">ビジネスホールのオフライン設定を無効化</string>
     <string name="health_disable_splash_ad">スプラッシュ広告を無効化</string>
     <string name="health">Mi Fitness</string>
+    <string name="clear_app_properties_desc">HyperCeiler 関連サービスのプロパティをリセットしてもよろしいですか？</string>
+    <string name="clear_app_properties_success">HyperCeiler 関連サービスのプロパティがリセットされました</string>
+    <string name="development_clear_app_properties">HyperCeiler 関連サービスのプロパティをリセットする</string>
+    <string name="system_ui_status_bar_hide_icon_desc">「スクリーンショット」のスコープを追加で選択する必要があります。</string>
+    <string name="gallery_longer_trashbin_time">最近削除したアイテムの保持期間を 365 日間に延長</string>
+    <string name="gallery_longer_trashbin_time_desc">実験的な機能です。中国本土のユーザーのみが対象です。</string>
 </resources>
