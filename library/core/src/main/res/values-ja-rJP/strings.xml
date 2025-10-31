@@ -115,11 +115,13 @@
     <string name="logo_egg3">ここには Android の卵はありませんが、HyperCeiler の卵があります！</string>
     <string name="uninstall_title">HyperCeiler をアンインストールする</string>
     <string name="uninstall_summary">HyperCeiler をアンインストールした後も、モジュール設定は Xposed フレームワークデータベースに残ります。完全に消去したい場合は、まずモジュール設定に移動して、モジュール設定をリセットしてからアンインストールしてください。</string>
-    <string name="unsupported_func_tips">対象のアプリは改変版であるようです。このモジュールはフックサービスを提供できません。別のバージョンのアプリを使用するか、デバッグモードを有効にして再度お試しください。</string>
+    <string name="unsupported_func_tips">現在のターゲットスコープのソースは Xiaomi 公式ではない可能性があります。セキュリティ上の理由により、このスコープのすべての機能は無効になっています。Xiaomi がリリースしたアプリパッケージに切り替えるか、「HyperCeiler 設定 &gt; 開発者向けオプション &gt; デバッグモード」でマウントされているバージョンを指定して再度お試しください。</string>
     <string name="debug_mode">デバッグモード</string>
     <string name="open_debug_mode_tips">このオプションは、マウントされた対象アプリのバージョンを正しく処理するためにのみ使用されます。必要な場合にのみ使用してください。\nデバッグ中のアプリでは、機能が正常に使用できるかどうかは保証されません。この機能を有効にした後は、対象アプリで発生した問題を開発者に報告しないでください。</string>
     <string name="debug_mode_running">対象のアプリはデバッグ中です！\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフックが正常に適用されました: %3$s</string>
     <string name="debug_mode_switch">デバッグバージョン</string>
     <string name="debug_mode_home_version">システムランチャーのバージョン番号を設定する</string>
     <string name="debug_mode_home_version_desc">バージョン番号が高すぎるとブロックされるため、慎重に入力してください。</string>
+    <string name="search_apps_hint">%d 個のアプリを検索</string>
+    <string name="load_apps_failed">アプリリストの読み込みに失敗しました</string>
 </resources>
