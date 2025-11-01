@@ -19,23 +19,39 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object IgnoreStylusKeyGesture : BaseHook() {
     override fun init() {
-        val clazzMiuiStylusPageKeyListener = loadFirstClass(
-            "com.miui.server.input.stylus.MiuiStylusPageKeyListener",
-            "com.miui.server.stylus.MiuiStylusPageKeyListener"
-        )
-        val methodNames =
-            setOf("isPageKeyEnable", "needInterceptBeforeDispatching", "shouldInterceptKey")
+        if (isMoreAndroidVersion(36)) {
+            val clazzMiuiStylusPageKeyListener =
+                loadClass("com.miui.server.input.stylus.MiuiStylusShortcutManager")
+            val methodNames =
+                setOf("needInterceptBeforeDispatching", "shouldInterceptKey")
 
-        clazzMiuiStylusPageKeyListener.methodFinder().filter {
-           name in methodNames
-        }.toList().createHooks {
-            returnConstant(false)
+            clazzMiuiStylusPageKeyListener.methodFinder().filter {
+                name in methodNames
+            }.toList().createHooks {
+                returnConstant(false)
+            }
+        } else {
+            val clazzMiuiStylusPageKeyListener = loadFirstClass(
+                "com.miui.server.input.stylus.MiuiStylusPageKeyListener",
+                "com.miui.server.stylus.MiuiStylusPageKeyListener"
+            )
+            val methodNames =
+                setOf("isPageKeyEnable", "needInterceptBeforeDispatching", "shouldInterceptKey")
+
+            clazzMiuiStylusPageKeyListener.methodFinder().filter {
+                name in methodNames
+            }.toList().createHooks {
+                returnConstant(false)
+            }
         }
+
     }
 }

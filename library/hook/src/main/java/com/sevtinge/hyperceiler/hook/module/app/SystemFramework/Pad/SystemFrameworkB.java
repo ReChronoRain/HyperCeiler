@@ -71,6 +71,10 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemframework.display.UseAOS
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad.IgnoreStylusKeyGesture;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad.RestoreEsc;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.network.DualNRSupport;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.network.DualSASupport;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.network.N1Band;
@@ -169,6 +173,12 @@ public class SystemFrameworkB extends BaseModule {
         initHook(new CleanShareMenu(), mPrefsMap.getBoolean("system_framework_clean_share_menu"));
         initHook(new CleanOpenMenu(), mPrefsMap.getBoolean("system_framework_clean_open_menu"));
         initHook(new CleanProcessTextMenu(), mPrefsMap.getBoolean("system_framework_clean_process_text_menu"));
+
+        // 小米/红米平板设置相关
+        initHook(IgnoreStylusKeyGesture.INSTANCE, mPrefsMap.getBoolean("mipad_input_ingore_gesture"));
+        initHook(RemoveStylusBluetoothRestriction.INSTANCE, mPrefsMap.getBoolean("mipad_input_disable_bluetooth_new"));
+        initHook(RestoreEsc.INSTANCE, mPrefsMap.getBoolean("mipad_input_restore_esc"));
+        initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
 
         if (mPrefsMap.getBoolean("misound_bluetooth") && isHyperOSVersion(2f)) {
             initHook(new EffectBinderProxy());
