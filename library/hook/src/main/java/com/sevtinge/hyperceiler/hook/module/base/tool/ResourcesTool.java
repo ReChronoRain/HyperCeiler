@@ -56,11 +56,11 @@ import de.robv.android.xposed.XposedHelpers;
  */
 public class ResourcesTool {
     private static final String TAG = "ResourcesTool";
-    private static ResourcesTool sInstance = null;
+    private static volatile ResourcesTool sInstance = null;
 
     private final String mModulePath;
-    private boolean hooksApplied = false;
-    private boolean isInit = false;
+    private volatile boolean hooksApplied = false;
+    private volatile boolean isInit = false;
     private Handler mHandler = null;
     private volatile ResourcesLoader resourcesLoader;
 
@@ -96,9 +96,13 @@ public class ResourcesTool {
     /**
      * 获取单例实例，首次调用时必须提供模块路径
      */
-    public static synchronized ResourcesTool getInstance(String modulePath) {
+    public static ResourcesTool getInstance(String modulePath) {
         if (sInstance == null) {
-            sInstance = new ResourcesTool(modulePath);
+            synchronized (ResourcesTool.class) {
+                if (sInstance == null) {
+                    sInstance = new ResourcesTool(modulePath);
+                }
+            }
         }
         return sInstance;
     }
@@ -311,9 +315,12 @@ public class ResourcesTool {
         @Override
         protected void before(MethodHookParam param) {
             if (resourcesArrayList.isEmpty()) {
-                Resources resources = loadModuleRes(ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP));
-                if (resources != null) {
-                    resourcesArrayList.add(resources); // 重新加载 res
+                Context context = ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP);
+                if (context != null) {
+                    Resources resources = loadModuleRes(context);
+                    if (resources != null) {
+                        resourcesArrayList.add(resources); // 重新加载 res
+                    }
                 }
             }
             int reqId = (int) param.args[0];
