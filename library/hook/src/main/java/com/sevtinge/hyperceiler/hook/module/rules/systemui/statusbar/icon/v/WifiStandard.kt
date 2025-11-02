@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.v
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.MiuiStub
-import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
+import com.sevtinge.hyperceiler.hook.utils.api.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField

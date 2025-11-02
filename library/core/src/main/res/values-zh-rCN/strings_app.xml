@@ -644,6 +644,8 @@
     <string name="system_ui_lock_screen_unlock_notification_restrict">解除通知限制</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict_desc">让所有通知均可以在锁屏页显示</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">隐藏勿扰模式通知</string>
+    <string name="system_ui_lock_screen_keep_notification_title">解锁后保留通知</string>
+    <string name="system_ui_lock_screen_keep_notification_desc">解锁后锁屏通知不会自动清除，直到被手动清除</string>
     <string name="system_ui_lock_screen_unlock_tip_title">隐藏屏幕底部解锁提示</string>
     <string name="system_ui_lock_screen_hide_status_bar">锁屏时隐藏状态栏</string>
     <string name="system_ui_lock_screen_allow_third_face">允许三方锁屏界面唤醒系统验证识别</string>

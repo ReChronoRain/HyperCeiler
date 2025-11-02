@@ -70,6 +70,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.ChargingCV
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.DisableUnlockByBleToast;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.HideLockScreenStatusBar;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.HideLockscreenZenMode;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.KeepNotification;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.LinkageAnimCustomer;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.LockScreenDoubleTapToSleep;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.lockscreen.ScramblePIN;
@@ -249,6 +250,7 @@ public class SystemUIV extends BaseModule {
         initHook(new ScramblePIN(), mPrefsMap.getBoolean("system_ui_lock_screen_scramble_pin"));
         initHook(ChargingCVP.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_show_charging_cv"));
         initHook(LockScreenDoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_double_lock"));
+        initHook(KeepNotification.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_keep_notification"));
         initHook(HideLockscreenZenMode.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_not_disturb_mode"));
         initHook(HideLockScreenStatusBar.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_hide_status_bar"));
         initHook(AllowThirdLockScreenUseFace.INSTANCE, mPrefsMap.getBoolean("system_ui_lock_screen_allow_third_face"));

@@ -29,8 +29,8 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.M
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.hideRoaming
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.isEnableDouble
 import com.sevtinge.hyperceiler.hook.utils.MethodHookParam
-import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.setStateFlowValue
+import com.sevtinge.hyperceiler.hook.utils.api.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.hook.utils.api.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion

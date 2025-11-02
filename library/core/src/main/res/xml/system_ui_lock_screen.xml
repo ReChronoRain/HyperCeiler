@@ -87,6 +87,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_lock_screen_keep_notification"
+            android:summary="@string/system_ui_lock_screen_keep_notification_desc"
+            android:title="@string/system_ui_lock_screen_keep_notification_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_lock_screen_not_disturb_mode"
             android:summary="@string/system_ui_lock_screen_default_theme"
             android:title="@string/system_ui_lock_screen_not_disturb_mode_title" />

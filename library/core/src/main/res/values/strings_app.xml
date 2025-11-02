@@ -624,6 +624,8 @@
     <string name="system_ui_lock_screen_unlock_notification_restrict">Remove notification restriction</string>
     <string name="system_ui_lock_screen_unlock_notification_restrict_desc">Allows all notifications to be displayed on the Lock screen</string>
     <string name="system_ui_lock_screen_not_disturb_mode_title">Hide DND mode notification</string>
+    <string name="system_ui_lock_screen_keep_notification_title">Keep notifications after unlocking</string>
+    <string name="system_ui_lock_screen_keep_notification_desc">Lock screen notifications will not be automatically cleared after unlocking until they are manually dismissed</string>
     <string name="system_ui_lock_screen_unlock_tip_title">Hide unlock tips at the bottom</string>
     <string name="system_ui_lock_screen_hide_status_bar">Hide status bar at Lock screen</string>
     <string name="system_ui_lock_screen_allow_third_face">Allow third-party Lock screen to wake up system verify recognition</string>

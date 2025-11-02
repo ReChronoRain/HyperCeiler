@@ -16,27 +16,38 @@
 
  * Copyright (C) 2023-2025 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.hook.utils
+package com.sevtinge.hyperceiler.hook.utils.api
 
+import com.sevtinge.hyperceiler.hook.utils.callMethod
+import com.sevtinge.hyperceiler.hook.utils.callStaticMethodAs
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.hook.utils.getFirstFieldByExactType
 import de.robv.android.xposed.XposedHelpers
-import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
+import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider
 
 object StateFlowHelper {
-     val STATE_FLOW by lazy {
-        XposedHelpers.findClass("kotlinx.coroutines.flow.StateFlow", classLoader)
+     private val STATE_FLOW by lazy {
+        XposedHelpers.findClass("kotlinx.coroutines.flow.StateFlow",
+            ClassLoaderProvider.classLoader
+        )
     }
 
     private val STATE_FLOW_KT by lazy {
-        XposedHelpers.findClass("kotlinx.coroutines.flow.StateFlowKt", classLoader)
+        XposedHelpers.findClass("kotlinx.coroutines.flow.StateFlowKt",
+            ClassLoaderProvider.classLoader
+        )
     }
 
     private val READONLY_STATE_FLOW by lazy {
-        XposedHelpers.findClass("kotlinx.coroutines.flow.ReadonlyStateFlow", classLoader)
+        XposedHelpers.findClass("kotlinx.coroutines.flow.ReadonlyStateFlow",
+            ClassLoaderProvider.classLoader
+        )
     }
 
     private val MUTABLE_STATE_FLOW by lazy {
-        XposedHelpers.findClass("kotlinx.coroutines.flow.MutableStateFlow", classLoader)
+        XposedHelpers.findClass("kotlinx.coroutines.flow.MutableStateFlow",
+            ClassLoaderProvider.classLoader
+        )
     }
 
     private val READONLY_STATE_FLOW_CONSTRUCTOR by lazy {

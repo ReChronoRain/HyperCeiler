@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.all
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.utils.StateFlowHelper.newReadonlyStateFlow
+import com.sevtinge.hyperceiler.hook.utils.api.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.hook.utils.getStaticObjectField
 import com.sevtinge.hyperceiler.hook.utils.setObjectField
 
