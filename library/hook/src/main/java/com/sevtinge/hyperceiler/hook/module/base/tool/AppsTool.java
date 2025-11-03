@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.hook.module.base.tool;
 
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logI;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 import android.annotation.SuppressLint;
 import android.app.backup.BackupManager;
@@ -115,27 +115,22 @@ public class AppsTool {
         executor.execute(() -> {
             try {
                 Thread.sleep(500);
-            } catch (Throwable ignore) {
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-            File pkgFolder = context.getDataDir();
-            if (pkgFolder.exists()) {
-                pkgFolder.setExecutable(true, false);
-                pkgFolder.setReadable(true, false);
-                pkgFolder.setWritable(true, false);
-            }
-            File sharedPrefsFolder = new File(PrefsUtils.getSharedPrefsPath());
-            if (sharedPrefsFolder.exists()) {
-                sharedPrefsFolder.setExecutable(true, false);
-                sharedPrefsFolder.setReadable(true, false);
-                sharedPrefsFolder.setWritable(true, false);
-            }
-            File sharedPrefsFile = new File(PrefsUtils.getSharedPrefsFile());
-            if (sharedPrefsFile.exists()) {
-                sharedPrefsFile.setReadable(true, false);
-                sharedPrefsFile.setExecutable(true, false);
-                sharedPrefsFile.setWritable(true, false);
-            }
+
+            setFilePermissions(context.getDataDir());
+            setFilePermissions(new File(PrefsUtils.getSharedPrefsPath()));
+            setFilePermissions(new File(PrefsUtils.getSharedPrefsFile()));
         });
+    }
+
+    private static void setFilePermissions(File file) {
+        if (file != null && file.exists()) {
+            file.setExecutable(true, false);
+            file.setReadable(true, false);
+            file.setWritable(true, false);
+        }
     }
 
     public static void registerFileObserver(Context context) {
@@ -192,7 +187,7 @@ public class AppsTool {
             Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             if (apkPath.toString().contains("com.miui.securecenter")) {
-                XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
+                findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         Object arg0 = param.args[0];
