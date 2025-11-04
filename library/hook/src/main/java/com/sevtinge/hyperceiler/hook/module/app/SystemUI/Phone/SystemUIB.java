@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NewFlas
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.OldWeather;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.SnowLeopardModeTile;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.SunlightMode;
@@ -171,6 +172,7 @@ public class SystemUIB extends BaseModule {
         initHook(AutoDismissExpandedPopupsHook.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_auto_clean_expand_notification"));
         initHook(ExpandNotificationKt.INSTANCE, !mPrefsMap.getStringSet("system_ui_control_center_expand_notification").isEmpty());
         initHook(new UnimportantNotification(), mPrefsMap.getBoolean("system_ui_control_center_unimportant_notification"));
+        initHook(RedirectToNotificationChannelSetting.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
 
         // 磁贴

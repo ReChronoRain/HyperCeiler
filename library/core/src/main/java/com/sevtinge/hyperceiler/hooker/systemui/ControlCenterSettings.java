@@ -26,7 +26,6 @@ import android.provider.Settings;
 import android.widget.SeekBar;
 
 import androidx.preference.Preference;
-import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
@@ -39,7 +38,6 @@ import fan.preference.SeekBarPreferenceCompat;
 public class ControlCenterSettings extends DashboardFragment {
 
     Preference mExpandNotification;
-    SwitchPreference mRedirectNotice;
     RecommendPreference mRecommend;
 
     @Override
@@ -50,7 +48,6 @@ public class ControlCenterSettings extends DashboardFragment {
     @Override
     public void initPrefs() {
         mExpandNotification = findPreference("prefs_key_system_ui_control_center_expand_notification");
-        mRedirectNotice = findPreference("prefs_key_system_ui_control_center_redirect_notice");
 
         mExpandNotification.setOnPreferenceClickListener(
                 preference -> {
@@ -61,8 +58,6 @@ public class ControlCenterSettings extends DashboardFragment {
                     return true;
                 }
         );
-
-        setFuncHint(mRedirectNotice, 2);
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
