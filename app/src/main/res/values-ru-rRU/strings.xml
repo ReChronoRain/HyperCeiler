@@ -119,4 +119,8 @@
     <string name="debug_mode_running">В настоящее время приложение отлаживается!\nТекущая версия приложения: %1$s\nВыбранная версия: %2$s\nСостояние перехвата успешно: %3$s</string>
     <string name="miuix_appcompat_confirm_description">ОК</string>
     <string name="uninstall_title">Удалить HyperCeiler</string>
+    <string name="uninstall_summary">После удаления HyperCeiler конфигурация модуля остается в базе данных Xposed framework. Чтобы удалить его полностью, сначала перейдите в настройки модуля и сбросьте конфигурацию модуля, а затем удалите сам модуль.</string>
+    <string name="debug_mode_switch">Версия отладки</string>
+    <string name="debug_mode_home_version">Установить код домашней версии</string>
+    <string name="debug_mode_home_version_desc">Слишком высокий номер версии все равно будет заблокирован, поэтому, пожалуйста, вводите его внимательно.</string>
 </resources>

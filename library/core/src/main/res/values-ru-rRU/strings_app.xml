@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Доступно обновление</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Добавление и удаление файлов во внутренней памяти</string>
@@ -1635,4 +1634,13 @@
     <string name="custom_hook_mode">Выбор режима</string>
     <string name="open_source">Проекты с открытым кодом</string>
     <string name="close_source">Проекты с закрытым кодом</string>
+    <string name="clear_app_properties_desc">Вы уверены, что хотите сбросить настройки для служб, связанных с HyperCeiler?</string>
+    <string name="clear_app_properties_success">Настройки для служб, связанных с HyperCeiler, были сброшены</string>
+    <string name="development_clear_app_properties">Сбросить настройки для служб, связанных с HyperCeiler</string>
+    <string name="system_ui_statusbar_music_dependency">Скачать SuperLyric</string>
+    <string name="security_center_disable_offline_info_manager">Отключить автономную информацию о сетевом помощнике</string>
+    <string name="contacts">Контакты и вызовы</string>
+    <string name="contacts_disable_offline_info_manager">Отключить автономную информацию о бизнес-зале</string>
+    <string name="health">Mi Fitness</string>
+    <string name="debug_info">Не удается получить отладочную информацию.</string>
 </resources>
