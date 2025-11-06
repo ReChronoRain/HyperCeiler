@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.hook.systemui.controlcenter
 
 import android.content.Context
 import android.content.Intent
-import android.os.UserHandle
 import android.provider.Settings
 import android.service.notification.StatusBarNotification
 import android.widget.ImageView
@@ -126,10 +125,11 @@ object RedirectToNotificationChannelSetting : BaseHook() {
                 Settings.EXTRA_CONVERSATION_ID, statusBarNotification.notification.shortcutId
             )
         }
-        val userHandleCurrent =
+        /*val userHandleCurrent =
             UserHandle::class.java.getObjectFieldOrNullAs<UserHandle>("CURRENT")
         invokeMethodBestMatch(
             appContext, "startActivityAsUser", null, intent, userHandleCurrent
-        )
+        )*/
+        appContext.startActivity(intent)
     }
 }

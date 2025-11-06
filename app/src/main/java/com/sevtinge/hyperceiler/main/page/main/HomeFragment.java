@@ -46,8 +46,6 @@ import fan.preference.TextButtonPreference;
 public class HomeFragment extends PagePreferenceFragment implements HomepageEntrance.EntranceState {
 
     private static final String TAG = "HomeFragment";
-    public static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
-
     private TextButtonPreference mShowAppTips;
     private PreferenceCategory mHeadtipGround;
     private PreferenceCategory mAppsList;
@@ -120,28 +118,26 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
     private void processPreferenceHeader(String key, String summary, SharedPreferences sp) {
         if (key == null || summary == null) return;
 
-        if (!sp.getBoolean(key + "_state", true)) {
-            PreferenceHeader header = findPreference(key);
-            if (header != null && header.isVisible()) {
-                header.setVisible(false);
-            }
-            return;
-        }
-
         PreferenceHeader header = findPreference(key);
         if (header == null) return;
 
         setIconAndTitle(header, summary);
         String title = header.getTitle() != null ? header.getTitle().toString() : "";
         String summary1 = header.getSummary() != null ? header.getSummary().toString() : "";
-        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1));
+        header.setVisible(LSPosedScopeHelper.isInSelectedScope(requireContext(), title, summary1, key, sp));
     }
 
     private void setIconAndTitle(PreferenceHeader header, String packageName) {
         if (header == null || packageName == null) return;
         PackageManager pm = requireContext().getPackageManager();
+        try {
+            pm.getPackageInfo(packageName, 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            return;
+        }
+
         ApplicationInfo appInfo = AppInfoCache.getInstance(getContext()).getAppInfo(packageName);
-        if (appInfo == null || pm == null) return;
+        if (appInfo == null) return;
 
         mAppsList.setVisible(false);
         Runnable loadAndApply = () -> {

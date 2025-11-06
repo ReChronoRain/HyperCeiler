@@ -28,14 +28,17 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.api.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import de.robv.android.xposed.XC_MethodHook
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 import java.util.Collections
@@ -256,6 +259,16 @@ object StatusBarClockNew : BaseHook() {
                     }
                 }
             }
+
+        if (isAndroidVersion(34)) {
+            runCatching {
+                loadClassOrNull("com.android.systemui.statusbar.policy.FakeStatusBarClockController")!!
+                    .methodFinder().filterByName("initState")
+                    .first().createHook {
+                        replace { null }
+                    }
+            }
+        }
 
         // 设置格式
         statusBarClass.methodFinder()

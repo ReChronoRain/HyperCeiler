@@ -70,7 +70,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     public final VariousThirdApps mVariousThirdApps = new VariousThirdApps();
 
     @Override
-    public void initZygote(StartupParam startupParam) throws Throwable {
+    public void initZygote(StartupParam startupParam) {
         // load New XSPrefs
         setXSharedPrefs();
         if (!mPrefsMap.getBoolean("allow_hook")) return;
@@ -141,25 +141,30 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     }
 
     private void setXSharedPrefs() {
-        if (mPrefsMap.isEmpty()) {
-            try {
-                XSharedPreferences mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
-                mXSharedPreferences.makeWorldReadable();
-                Map<String, ?> allPrefs = mXSharedPreferences.getAll();
-
-                /*if (allPrefs == null || allPrefs.isEmpty()) {
-                    mXSharedPreferences = new XSharedPreferences(new File(PrefsUtils.mPrefsFile));
+        synchronized (this) {
+            if (mPrefsMap.isEmpty()) {
+                try {
+                    XSharedPreferences mXSharedPreferences = new XSharedPreferences(ProjectApi.mAppModulePkg, PrefsUtils.mPrefsName);
                     mXSharedPreferences.makeWorldReadable();
-                    allPrefs = mXSharedPreferences.getAll();
-                }*/
 
-                if (allPrefs != null && !allPrefs.isEmpty()) {
-                    mPrefsMap.putAll(allPrefs);
-                } else {
-                    logE("UID" + Process.myUid(), "Cannot read SharedPreferences, some mods might not work!");
+                    // 检查文件是否可读
+                    if (!mXSharedPreferences.getFile().canRead()) {
+                        logE("setXSharedPrefs", "Cannot read SharedPreferences file! File: " + mXSharedPreferences.getFile().getAbsolutePath());
+                        logE("UID" + Process.myUid(), "Cannot read SharedPreferences, some mods might not work!");
+                        return;
+                    }
+
+                    Map<String, ?> allPrefs = mXSharedPreferences.getAll();
+
+                    if (allPrefs != null && !allPrefs.isEmpty()) {
+                        mPrefsMap.clear();
+                        mPrefsMap.putAll(allPrefs);
+                    } else {
+                        logE("UID" + Process.myUid(), "SharedPreferences is empty, some mods might not work!");
+                    }
+                } catch (Throwable t) {
+                    logE("setXSharedPrefs", t);
                 }
-            } catch (Throwable t) {
-                logE("setXSharedPrefs", t);
             }
         }
     }
@@ -167,7 +172,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
     private void invokeInit(XC_LoadPackage.LoadPackageParam lpparam) {
         String mPkgName = lpparam.packageName;
         if (mPkgName == null) return;
-        if (isOtherRestrictions(mPkgName)) return;
 
         HashMap<String, DataBase> dataMap = DataBase.get();
         if (dataMap.values().stream().noneMatch(dataBase -> dataBase.mTargetPackage.equals(mPkgName))) {
@@ -209,18 +213,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                 rescuePartyPlus.onCreate(lpparam);
             } catch (Exception e) {
                 logE(TAG, e);
-            }
-        }
-    }
-
-    private boolean isOtherRestrictions(String pkg) {
-        switch (pkg) {
-            case "com.google.android.webview", "com.miui.contentcatcher",
-                 "com.miui.catcherpatch" -> {
-                return true;
-            }
-            default -> {
-                return false;
             }
         }
     }

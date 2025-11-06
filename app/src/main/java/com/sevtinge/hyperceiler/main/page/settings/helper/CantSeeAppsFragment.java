@@ -48,7 +48,7 @@ public class CantSeeAppsFragment extends SettingsPreferenceFragment {
             if (!mDisableOrHiddenApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_disable) + String.join("\n", mDisableOrHiddenApp);
             if (!mUninstallApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_uninstall) + String.join("\n", mUninstallApp);
             if (!mNoScoped.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_scope) + String.join("\n", mNoScoped);
-            Log.d("mHelpCantSeeApps", "initPrefs: "+summary);
+            Log.d("mHelpCantSeeApps", "initPrefs: " + summary);
             mHelpCantSeeApps.setSummary(summary);
         }
     }
