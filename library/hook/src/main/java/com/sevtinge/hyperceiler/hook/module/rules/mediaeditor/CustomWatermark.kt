@@ -37,7 +37,7 @@ object CustomWatermark : BaseHook() {
                     addUsingString("K30 Pro Zoom E", StringMatchType.Equals)
                     // modifiers = Modifier.FINAL // 1.6.5.10.2 改成了 STATIC，所以寄了
                     returnType = "java.lang.String"
-                    paramCount = 2
+                    // paramCount = 2 // 2.0.9.0.6 多了一个 boolean 参数
                 }
             }.single()
         }
