@@ -40,7 +40,6 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.plugin.systemui.Unloc
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.plugin.systemui.VolumeOrQSBrightnessValue
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.statusbar.icon.v.FocusNotifLyric
 import com.sevtinge.hyperceiler.hook.utils.api.PluginFactory
-import com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreSmallVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -269,7 +268,7 @@ object NewPluginHelperKt : BaseHook() {
         for ((name, loader) in loaders) {
             runCatching {
                 loader(classLoader)
-                if (isDebug()) logI(TAG, lpparam.packageName, "$name is loaded success.")
+                logD(TAG, lpparam.packageName, "$name is loaded success.")
             }.onFailure {
                 logE(TAG, lpparam.packageName, "[$tag] $name is fail loaded, log: ${it.stackTraceToString()}" )
             }
