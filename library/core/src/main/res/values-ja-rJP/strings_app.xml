@@ -1647,4 +1647,6 @@
     <string name="system_ui_status_bar_hide_icon_desc">「スクリーンショット」のスコープを追加で選択する必要があります。</string>
     <string name="gallery_longer_trashbin_time">最近削除したアイテムの保持期間を 365 日間に延長</string>
     <string name="gallery_longer_trashbin_time_desc">実験的な機能です。中国本土のユーザーのみが対象です。</string>
+    <string name="system_ui_lock_screen_keep_notification_title">ロック解除後も通知を保持する</string>
+    <string name="system_ui_lock_screen_keep_notification_desc">ロックを解除しても、ロック画面の通知は、手動で消去されるまで自動では消えません</string>
 </resources>
