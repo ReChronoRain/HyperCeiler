@@ -17,7 +17,7 @@
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
   --><resources>
-    <string name="pull_to_enter_private">Потяните вниз для входа во второе пространство</string>
+    <string name="pull_to_enter_private">Потяните вниз для перехода во второе пространство</string>
     <string name="release_enter_private">Отпустите для перехода во второе пространство</string>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Выбрать все</string>
@@ -123,4 +123,6 @@
     <string name="debug_mode_switch">Версия отладки</string>
     <string name="debug_mode_home_version">Установить код домашней версии</string>
     <string name="debug_mode_home_version_desc">Слишком высокий номер версии все равно будет заблокирован, поэтому, пожалуйста, вводите его внимательно.</string>
+    <string name="load_apps_failed">Неудалось загрузить список приложений</string>
+    <string name="search_apps_hint">Поиск %d приложений</string>
 </resources>

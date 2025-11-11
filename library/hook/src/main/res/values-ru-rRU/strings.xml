@@ -29,7 +29,7 @@
     <string name="system_ui_statusbar_music_share">Отправить текст песни</string>
     <string name="system_ui_statusbar_music_send">Отпустите, чтобы отправить</string>
     <string name="system_ui_statusbar_music_send_share_text">Я поделился текстом песен от %1$s:\n%2$s</string>
-    <string name="system_ui_statusbar_music_notification">Фокусирование текста уведомлений</string>
+    <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления текста</string>
     <string name="open_by_default">Открывать по умолчанию</string>
     <string name="security_center_aosp_app_info_label">Информация о приложении AOSP</string>
     <string name="security_center_aosp_app_info">Добавить кнопку перехода в AOSP инфо о приложении</string>
@@ -116,4 +116,6 @@
     <string name="system_notifrowmenu_forceclose">Закрыть принудительно</string>
     <string name="notes_unlock_ai_mode_1">Старая версия</string>
     <string name="notes_unlock_ai_mode_2">Новая версия</string>
+    <string name="mode_phone">Смартфон</string>
+    <string name="mode_pad">Планшет</string>
 </resources>
