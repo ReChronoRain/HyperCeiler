@@ -116,4 +116,6 @@
     <string name="system_notifrowmenu_forceclose">Buộc đóng</string>
     <string name="notes_unlock_ai_mode_1">Phiên bản cũ</string>
     <string name="notes_unlock_ai_mode_2">Phiên bản mới</string>
+    <string name="mode_phone">Điện thoại</string>
+    <string name="mode_pad">Pad</string>
 </resources>
