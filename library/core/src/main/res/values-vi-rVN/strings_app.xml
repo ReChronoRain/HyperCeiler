@@ -1653,4 +1653,12 @@
     <string name="open_source">Dự án mã nguồn mở</string>
     <string name="close_source">Dự án mã nguồn đóng</string>
     <string name="debug_info">Không thể lấy thông tin gỡ lỗi.</string>
+    <string name="clear_app_properties_desc">Bạn có chắc chắn muốn đặt lại Prop cho các dịch vụ liên quan đến HyperCeiler không?</string>
+    <string name="clear_app_properties_success">Đã đặt lại Prop cho các dịch vụ liên quan đến HyperCeiler</string>
+    <string name="development_clear_app_properties">Đặt lại Prop cho các dịch vụ liên quan đến HyperCeiler</string>
+    <string name="system_ui_lock_screen_keep_notification_title">Giữ thông báo sau khi mở khóa</string>
+    <string name="system_ui_lock_screen_keep_notification_desc">Sau khi mở khóa, thông báo trên màn hình khóa sẽ không tự động xóa cho đến khi được xóa thủ công.</string>
+    <string name="system_ui_status_bar_hide_icon_desc">Cần chọn thêm phạm vi “Chụp màn hình” để có hiệu lực</string>
+    <string name="gallery_longer_trashbin_time">Kéo dài thời gian lưu giữ nội dung đã xóa gần đây lên 365 ngày</string>
+    <string name="gallery_longer_trashbin_time_desc">Tính năng thử nghiệm, chỉ hỗ trợ người dùng Trung Quốc Đại lục.</string>
 </resources>
