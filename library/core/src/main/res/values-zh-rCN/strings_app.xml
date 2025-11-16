@@ -1407,6 +1407,7 @@
     <string name="mediaeditor_unlock_spring_desc">永久添加新春定制画框，前置条件是需要有 Leica 定制画框或 Redmi 定制画框，仅支持部分版本</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">移除最小裁切图片限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">解锁定制画框</string>
+    <string name="mediaeditor_unlock_cloud_custom_photo_desc">仅支持 2.0.9.0.6 及之后的版本，可能会受到 Xiaomi 云控配置影响</string>
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
     <string name="mediaeditor_unlock_aigc">解锁 AIGC</string>

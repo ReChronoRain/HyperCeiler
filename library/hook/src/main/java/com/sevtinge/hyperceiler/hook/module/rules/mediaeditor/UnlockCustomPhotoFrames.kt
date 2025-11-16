@@ -27,6 +27,8 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import org.json.JSONObject
+import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -34,6 +36,9 @@ import java.lang.reflect.Modifier
 object UnlockCustomPhotoFrames : BaseHook() {
     private val isOpenSpring by lazy {
         mPrefsMap.getBoolean("mediaeditor_unlock_spring")
+    }
+    private val isCloudData by lazy {
+        mPrefsMap.getBoolean("mediaeditor_unlock_cloud_custom_photo")
     }
     private val isLeica by lazy {
         mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_leica")
@@ -131,6 +136,26 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 
+    private val cloudA by lazy<Method?> {
+        DexKit.findMember("CA") { bridge ->
+            bridge.findClass {
+                matcher {
+                    addUsingString(
+                        "PhotoWatermarkRepository",
+                        StringMatchType.Contains
+                    )
+                }
+            }.findMethod {
+                matcher {
+                    addUsingString(
+                        "https://www.baidu.com",
+                        StringMatchType.Contains
+                    )
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
         var index = 0
         val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi)
@@ -197,6 +222,33 @@ object UnlockCustomPhotoFrames : BaseHook() {
                         }
                     }
             }
+        }
+
+        // 2.0.9.0.6 之后的新水印改成云控方案，和相机一样
+        runCatching {
+            if (isCloudData && cloudA != null) {
+                // 强制拉取云端配置
+                cloudA?.createBeforeHook {
+                    val getConfig = it.args[0]
+                    it.result = getConfig
+                }
+
+                JSONObject::class.java.methodFinder()
+                    .filterByName("optJSONObject")
+                    .first()
+                    .createHook {
+                        before {
+                            // 忽略时间和机型限制
+                            val limitation = it.args[0] as String
+                            if (limitation.contains("limitation")) {
+                                logD(TAG, lpparam.packageName, "block limitation optJSONObject")
+                                it.result = null
+                            }
+                        }
+                    }
+            }
+        }.onFailure {
+            logE(TAG, lpparam.packageName, "Spring field not found, maybe not supported")
         }
     }
 

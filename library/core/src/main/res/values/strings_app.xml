@@ -1333,6 +1333,7 @@
     <string name="mediaeditor_unlock_spring_desc">To permanently keep the Chinese New Year custom picture frame, the prerequisite is that you need a Leica custom picture frame or a Redmi custom picture frame.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remove the minimum crop image limit</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Unlock Customize frame</string>
+    <string name="mediaeditor_unlock_cloud_custom_photo_desc">Only supported in version 2.0.9.0.6 and later; may be affected by Xiaomi cloud control settings.</string>
     <string name="mediaeditor_unlock_leica_filter_title">Unlock Leica filter</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Only some versions are supported</string>
     <string name="mediaeditor_unlock_aigc">Unlock AIGC</string>
