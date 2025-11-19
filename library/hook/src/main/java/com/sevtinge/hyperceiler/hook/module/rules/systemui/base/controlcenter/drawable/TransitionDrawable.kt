@@ -22,7 +22,7 @@ import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.controlcenter.mediabackground.MediaViewColorConfig
-import com.sevtinge.hyperceiler.hook.utils.api.HyperHelperApis.linearInterpolate
+import com.sevtinge.hyperceiler.hook.utils.MathUtils.linearInterpolate
 import kotlin.math.abs
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/b1ab58484326372575a72f6509580cc60c272300/app/src/main/kotlin/dev/lackluster/mihelper/hook/drawable/TransitionDrawable.kt

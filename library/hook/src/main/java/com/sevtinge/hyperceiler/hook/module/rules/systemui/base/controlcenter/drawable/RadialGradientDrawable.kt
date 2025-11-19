@@ -23,7 +23,7 @@ import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.controlcenter.mediabackground.MediaViewColorConfig
-import com.sevtinge.hyperceiler.hook.utils.api.HyperHelperApis.linearInterpolate
+import com.sevtinge.hyperceiler.hook.utils.MathUtils.linearInterpolate
 import kotlin.math.abs
 import kotlin.math.max
 

@@ -21,16 +21,12 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemframework;
 import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
 
 import android.hardware.display.DisplayManager;
-import android.os.Build;
-import android.util.Log;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
@@ -44,55 +40,36 @@ public class FlagSecure extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.server.wm.WindowState", "isSecureLocked", XC_MethodReplacement.returnConstant(false));
     }*/
+    private static Field captureSecureLayersField;
 
     private static final Method deoptimizeMethod;
-    private static Field captureSecureLayersField;
 
     static {
         Method m = null;
         try {
             m = XposedBridge.class.getDeclaredMethod("deoptimizeMethod", Member.class);
         } catch (Throwable t) {
-            XposedBridge.log(t);
+            logE("HookTool", "Failed to get deoptimizeMethod: " + t);
         }
         deoptimizeMethod = m;
     }
 
-    static void deoptimizeMethods(Class<?> clazz, String... names) throws InvocationTargetException, IllegalAccessException {
-        var list = Arrays.asList(names);
-        for (Method method : clazz.getDeclaredMethods()) {
-            if (deoptimizeMethod != null && list.contains(method.getName())) {
-                deoptimizeMethod.invoke(null, method);
-                Log.d("HyperCeiler/FlagSecure", "Deoptimized " + method);
+    public static void deoptimizeMethods(Class<?> c, String n) {
+        for (Method m : c.getDeclaredMethods()) {
+            if (deoptimizeMethod != null && m.getName().equals(n)) {
+                try {
+                    deoptimizeMethod.invoke(null, m);
+                } catch (Throwable t) {
+                    logE("HookTool", "Failed to deoptimize methods " + m + ": " + t);
+                }
             }
         }
     }
-
-    /*static void deoptimizeConstructors(Class<?> clazz) throws InvocationTargetException, IllegalAccessException {
-        for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
-            if (deoptimizeMethod != null) {
-                deoptimizeMethod.invoke(null, constructor);
-                Log.d("FlagSecure", "Deoptimized constructor " + constructor);
-            }
-        }
-    }*/
 
     @Override
     public void init() {
         try {
             deoptimizeMethods(XposedHelpers.findClass("com.android.server.wm.WindowStateAnimator", lpparam.classLoader), "createSurfaceLocked");
-
-                /*deoptimizeMethods(XposedHelpers.findClass("com.android.server.display.DisplayManagerService", lpparam.classLoader),
-                    "setUserPreferredModeForDisplayLocked", "setUserPreferredDisplayModeInternal");
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-                    Class<?> insetsPolicyListenerClass = XposedHelpers.findClass("com.android.server.wm.InsetsPolicy$InsetsPolicyAnimationControlListener", lpparam.classLoader);
-                    deoptimizeConstructors(insetsPolicyListenerClass);
-                }
-
-                deoptimizeMethods(XposedHelpers.findClass("com.android.server.wm.InsetsPolicy", lpparam.classLoader),
-                    "startAnimation", "controlAnimationUnchecked");*/
-
             deoptimizeMethods(XposedHelpers.findClass("com.android.server.wm.WindowManagerService", lpparam.classLoader), "relayoutWindow");
 
             for (int i = 0; i < 20; i++) {
@@ -115,16 +92,14 @@ public class FlagSecure extends BaseHook {
             logE(TAG, this.lpparam.packageName, "deoptimize system server failed", t);
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
-            // Screen record detection (V)
-            try {
-                var windowManagerServiceClazz = XposedHelpers.findClass("com.android.server.wm.WindowManagerService", lpparam.classLoader);
-                var iScreenRecordingCallbackClazz = XposedHelpers.findClass("android.window.IScreenRecordingCallback", lpparam.classLoader);
-                var method = windowManagerServiceClazz.getDeclaredMethod("registerScreenRecordingCallback", iScreenRecordingCallbackClazz);
-                hookMethod(method, MethodHook.returnConstant(false));
-            } catch (Throwable t) {
-                logE(TAG, this.lpparam.packageName, "hook WindowManagerService failed", t);
-            }
+        // Screen record detection (V~Baklava)
+        try {
+            var windowManagerServiceClazz = XposedHelpers.findClass("com.android.server.wm.WindowManagerService", lpparam.classLoader);
+            var iScreenRecordingCallbackClazz = XposedHelpers.findClass("android.window.IScreenRecordingCallback", lpparam.classLoader);
+            var method = windowManagerServiceClazz.getDeclaredMethod("registerScreenRecordingCallback", iScreenRecordingCallbackClazz);
+            hookMethod(method, MethodHook.returnConstant(false));
+        } catch (Throwable t) {
+            logE(TAG, this.lpparam.packageName, "hook WindowManagerService failed", t);
         }
 
         // Screenshot detection (U~Baklava)
@@ -185,10 +160,7 @@ public class FlagSecure extends BaseHook {
         // WifiDisplay (S~Baklava) / OverlayDisplay (S~Baklava) / VirtualDisplay (U~Baklava)
         try {
             var displayControlClazz = XposedHelpers.findClass("com.android.server.display.DisplayControl", lpparam.classLoader);
-            var method = displayControlClazz.getDeclaredMethod(
-                Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM ?
-                    "createVirtualDisplay" :
-                    "createDisplay", String.class, boolean.class);
+            var method = displayControlClazz.getDeclaredMethod("createVirtualDisplay", String.class, boolean.class);
             hookMethod(method, new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {

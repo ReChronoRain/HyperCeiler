@@ -265,4 +265,13 @@ public class MathUtils {
         }
     }
 
+    // HyperHelper
+    public static float linearInterpolate(float start, float stop, float amount) {
+        return start + (stop - start) * amount;
+    }
+
+    public static int linearInterpolate(int start, int stop, float amount) {
+        return start + (int)((stop - start) * amount);
+    }
+
 }
