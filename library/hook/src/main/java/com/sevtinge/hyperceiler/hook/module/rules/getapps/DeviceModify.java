@@ -37,6 +37,11 @@ public class DeviceModify extends BaseHook {
             mDevice = "dijun"; // O2S
             mModel = "25042PN24C";
             mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 112) {
+            // 17u
+            mDevice = "nezha"; // P1
+            mModel = "2512BPNDAC";
+            mManufacturer = "Xiaomi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 111) {
             // 17pm
             mDevice = "popsicle"; // P2
@@ -107,6 +112,16 @@ public class DeviceModify extends BaseHook {
             mDevice = "violin";
             mModel = "25053RP5CC";
             mManufacturer = "Xiaomi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 316) {
+            // k90pm
+            mDevice = "myron";
+            mModel = "25102RKBEC";
+            mManufacturer = "Redmi";
+        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 315) {
+            // k90
+            mDevice = "annibale";
+            mModel = "2510DRK44C";
+            mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 314) {
             // k80u
             mDevice = "dali";
@@ -116,21 +131,6 @@ public class DeviceModify extends BaseHook {
             // k80pc
             mDevice = "miro";
             mModel = "24127RK2CC";
-            mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 312) {
-            // k80p
-            mDevice = "miro";
-            mModel = "24122RKC7C";
-            mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 311) {
-            // k80
-            mDevice = "zorn";
-            mModel = "24117RK2CC";
-            mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 310) {
-            // k70u
-            mDevice = "rothko";
-            mModel = "2407FRK8EC";
             mManufacturer = "Redmi";
         } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 380) {
             // k Pad
