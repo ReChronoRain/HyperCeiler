@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2025 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Kéo xuống để vào không gian riêng tư</string>
     <string name="release_enter_private">Thả ra để vào không gian riêng tư</string>
     <!--Pop-up window/miuix part-->
@@ -123,4 +122,6 @@
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
     <string name="debug_mode_home_version">Thiết lập mã phiên bản gốc</string>
     <string name="debug_mode_home_version_desc">Một số phiên bản quá cao vẫn sẽ bị chặn, vì vậy vui lòng điền cẩn thận.</string>
+    <string name="search_apps_hint">Tìm kiếm %d ứng dụng</string>
+    <string name="load_apps_failed">Không tải được danh sách ứng dụng</string>
 </resources>
