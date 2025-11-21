@@ -43,10 +43,6 @@
     <string name="pid_failed">Цільовий додаток не запущено і не потребує перезапуску.</string>
     <string name="reboot_failed">Перезавантаження не вдалося. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
     <string name="experimental_features">Експериментальні можливості</string>
-    <string name="experimental_reshook_new">Увімкнути новий хук ресурсу</string>
-    <string name="experimental_reshook_new_desc">Нова версія підключення ресурсів забезпечує підвищену продуктивність під час їх підстановки.
-Однак ця функція все ще може мати певні проблеми й призначена лише для тестування.
-\nПримітка: Увімкнення або вимкнення цієї функції потребує перезапуску пристрою для набуття чинності.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Помилка</string>
     <string name="warn">Увага</string>

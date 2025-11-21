@@ -42,7 +42,6 @@
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="experimental_features">الميزات التجريبية</string>
-    <string name="experimental_reshook_new_desc">وتقدم النسخة الجديدة من ربط الموارد أداء محسنا لحقن الموارد. غير أنه قد لا يسبب بعض المشاكل ويقصد به أن يكون لأغراض الاختبار فقط.\nملاحظة: تمكين أو تعطيل هذه الميزة يتطلب إعادة تشغيل الجهاز ليتم تأكيد الاختيار.</string>
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>

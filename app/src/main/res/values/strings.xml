@@ -42,8 +42,6 @@
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
     <string name="reboot_failed">Reboot failed. Please check if HyperCeiler has been granted Root/Su permission.</string>
     <string name="experimental_features">Experimental features</string>
-    <string name="experimental_reshook_new">Enable the new resource hook</string>
-    <string name="experimental_reshook_new_desc">The new version of resource hooking delivers improved performance for resource injection. However, it may still present some issues and is intended for testing purposes only.\nNote: Enabling or disabling this feature requires a device restart to take effect.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Attention</string>

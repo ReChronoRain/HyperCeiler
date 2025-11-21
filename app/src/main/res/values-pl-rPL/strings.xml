@@ -86,8 +86,6 @@
     <string name="release_enter_private">Póść aby otworzyć prywatną przestrzeń</string>
     <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="experimental_features">Eksperymentalne funkcje</string>
-    <string name="experimental_reshook_new">Włącz nowy hook zasobów</string>
-    <string name="experimental_reshook_new_desc">Nowa wersja funkcji zasobów zapewnia lepszą wydajność w zakresie wstrzykiwania zasobów. Jednak nadal może ona powodować pewne problemy i jest przeznaczona wyłącznie do celów testowych.\nUwaga: Włączenie lub wyłączenie tej funkcji wymaga ponownego uruchomienia urządzenia, aby zmiany zaczęły obowiązywać.</string>
     <string name="error">Error</string>
     <string name="module_app_failed">Wystąpił błąd krytyczny w module</string>
     <string name="module_app_copy_desc">Kliknij i przytrzymaj kontent aby go skopiować</string>

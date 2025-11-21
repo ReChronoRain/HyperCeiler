@@ -91,13 +91,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/experimental_features">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_module_settings_reshook_new"
-            android:summary="@string/experimental_reshook_new_desc"
-            android:title="@string/experimental_reshook_new" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

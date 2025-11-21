@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hook.module.base.tool;
 
-import static com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.isNewResHook;
 import static com.sevtinge.hyperceiler.hook.module.base.tool.HookTool.mPrefsMap;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isDarkMode;
 import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
@@ -56,11 +55,7 @@ public class OtherTool {
 
     public static Resources getModuleRes(Context context)
             throws PackageManager.NameNotFoundException {
-        if (isNewResHook) {
-            return context.getResources();
-        } else {
-            return ResourcesTool.getInstance().loadModuleRes(context);
-        }
+        return ResourcesTool.getInstance().loadModuleRes(context);
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {

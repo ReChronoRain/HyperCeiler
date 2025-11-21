@@ -33,7 +33,6 @@ import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import android.os.Process;
 
 import com.hchen.hooktool.HCInit;
-import com.hchen.hooktool.utils.ResInjectTool;
 import com.sevtinge.hyperceiler.hook.module.app.VariousThirdApps;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.base.tool.ResourcesTool;
@@ -92,9 +91,7 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
         mModulePath = startupParam.modulePath;
         // mXmlTool = new XmlTool(startupParam);
         // load ResourcesTool
-        if (!mPrefsMap.getBoolean("module_settings_reshook_new")) {
-            mResHook = ResourcesTool.getInstance(startupParam.modulePath);
-        }
+        mResHook = ResourcesTool.getInstance(startupParam.modulePath);
 
         // load ZygoteHook
         // new BackgroundBlurDrawable().initZygote(startupParam); 留档
@@ -130,11 +127,6 @@ public class XposedInit implements IXposedHookZygoteInit, IXposedHookLoadPackage
                 logI(packageName, "androidVersion = " + getAndroidVersion() + ", hyperosVersion = " + getHyperOSVersion());
             else
                 logI(packageName, "versionName = " + getPackageVersionName(lpparam) + ", versionCode = " + getPackageVersionCode(lpparam));
-
-            // load ResourcesTool
-            if (mPrefsMap.getBoolean("module_settings_reshook_new")) {
-                ResInjectTool.injectModuleRes();
-            }
 
             invokeInit(lpparam);
             androidCrashEventHook(lpparam);

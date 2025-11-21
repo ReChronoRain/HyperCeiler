@@ -42,7 +42,6 @@
     <string name="start_failed">Не вдалося запустити активність. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
     <string name="pid_failed">Цільовий додаток не запущено і не потребує перезапуску.</string>
     <string name="reboot_failed">Перезавантаження не вдалося. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
-    <string name="experimental_reshook_new">Увімкнути новий хук ресурсу</string>
     <!--HyperCeiler Tips-->
     <string name="error">Помилка</string>
     <string name="warn">Увага</string>

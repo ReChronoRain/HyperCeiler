@@ -43,8 +43,6 @@
     <string name="pid_failed">目標應用程序未運行，不需要重新啟動。</string>
     <string name="reboot_failed">重新啟動失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限</string>
     <string name="experimental_features">試驗性功能</string>
-    <string name="experimental_reshook_new">使用新版資源掛鈎</string>
-    <string name="experimental_reshook_new_desc">新版資源掛鈎對於資源注入有更好的性能，但可能會存在部分問題，僅供測試\n開關此功能需要重新啟動生效</string>
     <!--HyperCeiler Tips-->
     <string name="error">異常終止</string>
     <string name="warn">警告</string>

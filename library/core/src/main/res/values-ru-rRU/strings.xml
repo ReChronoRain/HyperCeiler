@@ -42,8 +42,6 @@
     <string name="pid_failed">Целевое приложение не запущено и не требует перезапуска.</string>
     <string name="reboot_failed">Перезагрузка не удалась. Проверьте, предоставлено ли HyperCeiler разрешение Root/Su.</string>
     <string name="experimental_features">Экспериментальные функции</string>
-    <string name="experimental_reshook_new">Включить новый перехват ресурсов</string>
-    <string name="experimental_reshook_new_desc">Новая версия перехвата ресурсов обеспечивает улучшенную производительность инъекции в систему. Однако это может вызывать проблемы и предназначено только для тестирования.\nПримечание: включение или отключение этой функции требует перезагрузки устройства.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Ошибка</string>
     <string name="warn">Предупреждение</string>

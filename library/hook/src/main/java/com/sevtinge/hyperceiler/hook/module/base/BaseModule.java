@@ -60,21 +60,18 @@ public abstract class BaseModule {
             swappedMap = CrashData.swappedData();
         }
 
-        PrefsMap<String, Object> prefs = PrefsUtils.mPrefsMap;
-        if (!prefs.getBoolean("module_settings_reshook_new")) {
-            // 把模块资源加载到目标应用
-            try {
-                if (!Objects.equals(ProjectApi.mAppModulePkg, lpparam.packageName)) {
-                    boolean isAndroid = "android".equals(lpparam.packageName);
-                    ContextUtils.getWaitContext(context -> {
-                        if (context != null) {
-                            XposedInit.mResHook.loadModuleRes(context);
-                        }
-                    }, isAndroid);
-                }
-            } catch (Throwable e) {
-                XposedLogUtils.logE(TAG, "get context failed! " + e);
+        // 把模块资源加载到目标应用
+        try {
+            if (!Objects.equals(ProjectApi.mAppModulePkg, lpparam.packageName)) {
+                boolean isAndroid = "android".equals(lpparam.packageName);
+                ContextUtils.getWaitContext(context -> {
+                    if (context != null) {
+                        XposedInit.mResHook.loadModuleRes(context);
+                    }
+                }, isAndroid);
             }
+        } catch (Throwable e) {
+            XposedLogUtils.logE(TAG, "get context failed! " + e);
         }
 
         mLoadPackageParam = lpparam;

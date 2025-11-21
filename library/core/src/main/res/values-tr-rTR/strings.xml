@@ -43,8 +43,6 @@
     <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>
     <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
     <string name="experimental_features">Deneysel özellikler</string>
-    <string name="experimental_reshook_new">Yeni kaynak kancasını aktifleştir</string>
-    <string name="experimental_reshook_new_desc">Kaynak kancalamasının yeni sürümü, kaynak ekleme için gelişmiş performans sunar. Ancak yine de bazı sorunlar ortaya çıkabilir ve yalnızca test amaçlıdır.\nNot: Bu özelliğin etkinleştirilmesi veya devre dışı bırakılması, etkili olması için cihazın yeniden başlatılmasını ve ağlamasını gerektirir.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Hata</string>
     <string name="warn">Dikkat</string>

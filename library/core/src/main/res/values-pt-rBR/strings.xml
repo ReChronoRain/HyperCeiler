@@ -43,8 +43,6 @@
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha ao reiniciar. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="experimental_features">Recursos experimentais</string>
-    <string name="experimental_reshook_new">Ativar novo resource hooking</string>
-    <string name="experimental_reshook_new_desc">A nova versão do recurso de resource hooking oferece melhor desempenho na injeção de recursos. No entanto, ele ainda pode apresentar alguns problemas e é destinado apenas para fins de teste.\nObservação: Ativar ou desativar esse recurso requer a reinicialização do dispositivo para que as alterações tenham efeito.</string>
     <!--HyperCeiler Tips-->
     <string name="error">Erro</string>
     <string name="warn">Atenção!</string>
