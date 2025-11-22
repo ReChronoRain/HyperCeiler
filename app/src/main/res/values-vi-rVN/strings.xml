@@ -115,7 +115,7 @@
     <string name="logo_egg3">Ở đây không có Android Eggs mà chỉ có HyperCeiler Eggs!</string>
     <string name="uninstall_title">Gỡ cài đặt HyperCeiler</string>
     <string name="uninstall_summary">Sau khi gỡ cài đặt HyperCeiler, cấu hình mô-đun vẫn còn trong cơ sở dữ liệu của Xposed framework. Để xóa hoàn toàn, trước tiên hãy vào cài đặt mô-đun và đặt lại cấu hình mô-đun, sau đó gỡ cài đặt.</string>
-    <string name="unsupported_func_tips">Ứng dụng đích có vẻ là một phiên bản đã được sửa đổi. Mô-đun này không thể cung cấp các dịch vụ hook cho nó. Hãy thử sử dụng một phiên bản khác của ứng dụng hoặc bật chế độ Gỡ lỗi và thử lại.</string>
+    <string name="unsupported_func_tips">Nguồn phạm vi mục tiêu hiện tại có thể không phải là chính thức từ Xiaomi. Vì lý do an toàn, tất cả các chức năng của phạm vi này đã bị dừng tải. Vui lòng thử thay đổi thành gói ứng dụng do Xiaomi chính thức phát hành, hoặc truy cập \"Cài đặt HyperCeiler - Tùy chọn nhà phát triển - Chế độ gỡ lỗi\" để chỉ định phiên bản tải lên rồi thử lại.</string>
     <string name="debug_mode">Chế độ gỡ lỗi</string>
     <string name="open_debug_mode_tips">Sau khi bật chế độ gỡ lỗi, bạn sẽ có thể tự do chọn phiên bản ứng dụng đích mà bạn muốn mount. Tuy nhiên, nếu các hook cho phiên bản đó gặp sự cố, đừng báo cáo chúng cho các nhà phát triển.</string>
     <string name="debug_mode_running">Ứng dụng đích đang được gỡ lỗi!\nPhiên bản ứng dụng hiện tại: %1$s\nPhiên bản đích đã chọn: %2$s\nHook áp dụng thành công: %3$s</string>
