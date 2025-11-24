@@ -91,6 +91,8 @@ abstract class MusicBaseHook : BaseHook() {
     private val isClickClock by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
     }
+    val context: Application by lazy { AndroidAppHelper.currentApplication() }
+    private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
 
     private val circlePaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
@@ -441,10 +443,10 @@ abstract class MusicBaseHook : BaseHook() {
 
         val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
-            textInfo = IslandApi.TextInfo(title = leftText)
+            textInfo = IslandApi.TextInfo(title = leftText, narrowFont = narrowFontMode)
         )
         val right = IslandApi.imageTextInfo(
-            textInfo = IslandApi.TextInfo(title = rightText.orEmpty()),
+            textInfo = IslandApi.TextInfo(title = rightText.orEmpty(), narrowFont = narrowFontMode),
             type = 2
         )
         val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
