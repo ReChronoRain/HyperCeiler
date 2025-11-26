@@ -52,7 +52,7 @@
             app:defaultValue="6"
             app:defaultValueTitle="@string/array_default"
             app:format="@string/home_folder_rows_format"
-            app:maxValue="13"
+            app:maxValue="16"
             app:minValue="4"
             app:stepValue="1" />
 
