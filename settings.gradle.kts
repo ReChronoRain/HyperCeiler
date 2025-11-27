@@ -17,7 +17,7 @@ if (gprUser.isEmpty() || gprKey.isEmpty()) {
         // When building, add gpr.user (GitHub username) and gpr.key (GitHub personal access token) to signing.properties.
         // Do not commit these fields to version control to avoid leaking personal account information.
         gprUser = gprInfo.getProperty("gpr.user") ?: "tonynesss"
-        gprKey = gprInfo.getProperty("gpr.key") ?: "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"
+        gprKey = gprInfo.getProperty("gpr.key") ?: "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"
 
         if (gprUser.isEmpty() || gprKey.isEmpty()) {
             throw GradleException("\'gpr.user\' and \'gpr.key\' must be set in \'signing.properties\'")
