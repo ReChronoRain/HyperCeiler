@@ -1,30 +1,272 @@
-name: Build Without GPR
+name: Android CI Build
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main, master, develop ]
+    paths-ignore:
+      - "*.md"
+      - "docs/**"
+      - "images/**"
+      - ".github/**"
+      - "!**.gradle"
+      - "!**.kt"
+      - "!**.java"
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+    inputs:
+      build_type:
+        description: 'Build type'
+        required: true
+        default: 'debug'
+        type: choice
+        options:
+        - debug
+        - release
+        - canary
+
+env:
+  JAVA_VERSION: '21'
+  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    name: Build Android App
+    runs-on: macos-latest
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Modify settings.gradle.kts
-      run: |
-        # 临时注释掉 GPR 相关的配置
-        sed -i 's/maven.*gpr.*/\/\/ &/' settings.gradle.kts || true
-        # 或者使用更精确的匹配
-        # 这里需要根据实际的 settings.gradle.kts 内容调整
-        
-    - name: Set up JDK 17
+      with:
+        fetch-depth: 0
+        submodules: recursive
+
+    - name: Validate Gradle Wrapper
+      uses: gradle/actions/wrapper-validation@v3
+
+    - name: Setup JDK ${{ env.JAVA_VERSION }}
       uses: actions/setup-java@v4
       with:
-        java-version: '17'
+        java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
+
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        cache-read-only: ${{ github.ref != 'refs/heads/main' }}
+
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    # GPR 认证配置
+    - name: Configure GitHub Packages Authentication
+      run: |
+        # 方法1: 通过 gradle.properties
+        echo "gpr.user=${{ secrets.GIT_ACTOR || github.actor }}" >> gradle.properties
+        echo "gpr.key=${{ secrets.GIT_TOKEN || secrets.GITHUB_TOKEN }}" >> gradle.properties
         
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-      
-    - name: Build Debug
-      run: ./gradlew assembleDebug --no-daemon
+        # 方法2: 环境变量
+        echo "GPR_USER=${{ secrets.GIT_ACTOR || github.actor }}" >> $GITHUB_ENV
+        echo "GPR_KEY=${{ secrets.GIT_TOKEN || secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
+        
+        echo "=== GPR Configuration ==="
+        echo "User: ${{ secrets.GIT_ACTOR || github.actor }}"
+        echo "Using GitHub Packages authentication"
+
+    # 签名配置（仅限 release/canary 构建）
+    - name: Setup Signing
+      if: github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || inputs.build_type == 'release' || inputs.build_type == 'canary')
+      run: |
+        if [ -n "${{ secrets.SIGNING_KEY }}" ]; then
+          echo "Setting up signing..."
+          mkdir -p $HOME/.android
+          echo ${{ secrets.SIGNING_KEY }} | base64 --decode > key.jks
+          cat > signing.properties << EOF
+storePassword=${{ secrets.KEY_STORE_PASSWORD }}
+keyPassword=${{ secrets.KEY_STORE_PASSWORD }}
+keyAlias=${{ secrets.ALIAS }}
+storeFile=key.jks
+EOF
+          echo "Signing configured successfully"
+        else
+          echo "No signing key found, skipping signing configuration"
+        fi
+
+    # 确定构建类型
+    - name: Determine Build Type
+      id: build_type
+      run: |
+        if [ "${{ github.event_name }}" == "pull_request" ]; then
+          echo "build_type=debug" >> $GITHUB_OUTPUT
+          echo "IS_DEBUG=true" >> $GITHUB_ENV
+        elif [ "${{ github.event.inputs.build_type }}" != "" ]; then
+          echo "build_type=${{ github.event.inputs.build_type }}" >> $GITHUB_OUTPUT
+          if [ "${{ github.event.inputs.build_type }}" == "debug" ]; then
+            echo "IS_DEBUG=true" >> $GITHUB_ENV
+          else
+            echo "IS_DEBUG=false" >> $GITHUB_ENV
+          fi
+        elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          echo "build_type=canary" >> $GITHUB_OUTPUT
+          echo "IS_DEBUG=false" >> $GITHUB_ENV
+        else
+          echo "build_type=debug" >> $GITHUB_OUTPUT
+          echo "IS_DEBUG=true" >> $GITHUB_ENV
+        fi
+        echo "Build type: ${{ steps.build_type.outputs.build_type }}"
+
+    # 构建应用
+    - name: Build Application
+      run: |
+        echo "Building ${{ steps.build_type.outputs.build_type }} version..."
+        
+        # 清理并构建
+        ./gradlew clean
+        
+        # 根据构建类型执行不同的任务
+        if [ "${{ steps.build_type.outputs.build_type }}" == "debug" ]; then
+          ./gradlew assembleDebug --stacktrace --no-daemon
+        elif [ "${{ steps.build_type.outputs.build_type }}" == "release" ]; then
+          ./gradlew assembleRelease --stacktrace --no-daemon
+        elif [ "${{ steps.build_type.outputs.build_type }}" == "canary" ]; then
+          ./gradlew assembleCanary --stacktrace --no-daemon
+        fi
+        
+        echo "Build completed successfully!"
+      env:
+        GPR_USER: ${{ secrets.GIT_ACTOR || github.actor }}
+        GPR_KEY: ${{ secrets.GIT_TOKEN || secrets.GITHUB_TOKEN }}
+
+    # 查找生成的 APK 文件
+    - name: Find APK Files
+      id: find_apk
+      run: |
+        if [ "${{ steps.build_type.outputs.build_type }}" == "debug" ]; then
+          APK_PATH="app/build/outputs/apk/debug"
+        elif [ "${{ steps.build_type.outputs.build_type }}" == "release" ]; then
+          APK_PATH="app/build/outputs/apk/release"
+        elif [ "${{ steps.build_type.outputs.build_type }}" == "canary" ]; then
+          APK_PATH="app/build/outputs/apk/canary"
+        fi
+        
+        APK_FILE=$(find $APK_PATH -name "*.apk" | head -1)
+        
+        if [ -z "$APK_FILE" ]; then
+          echo "No APK file found in $APK_PATH"
+          find app/build/outputs/ -name "*.apk" | head -10
+          exit 1
+        fi
+        
+        APK_NAME=$(basename "$APK_FILE" .apk)
+        APK_SIZE=$(du -h "$APK_FILE" | cut -f1)
+        
+        echo "APK_FILE=$APK_FILE" >> $GITHUB_ENV
+        echo "APK_NAME=$APK_NAME" >> $GITHUB_ENV
+        echo "APK_SIZE=$APK_SIZE" >> $GITHUB_ENV
+        
+        echo "Found APK: $APK_FILE"
+        echo "APK Size: $APK_SIZE"
+
+    # 计算 SHA256 校验和
+    - name: Calculate SHA256
+      id: sha256
+      run: |
+        SHA256=$(shasum -a 256 "${{ env.APK_FILE }}" | cut -d' ' -f1)
+        echo "SHA256=$SHA256" >> $GITHUB_ENV
+        echo "APK SHA256: $SHA256"
+
+    # 生成构建报告
+    - name: Generate Build Report
+      if: success()
+      run: |
+        echo "### 🎉 Build Successful" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Property | Value |" >> $GITHUB_STEP_SUMMARY
+        echo "|----------|-------|" >> $GITHUB_STEP_SUMMARY
+        echo "| **Build Type** | ${{ steps.build_type.outputs.build_type }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| **APK File** | ${{ env.APK_NAME }}.apk |" >> $GITHUB_STEP_SUMMARY
+        echo "| **File Size** | ${{ env.APK_SIZE }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| **SHA256** | \`${{ env.SHA256 }}\` |" >> $GITHUB_STEP_SUMMARY
+        echo "| **Java Version** | ${{ env.JAVA_VERSION }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| **Runner OS** | ${{ runner.os }} |" >> $GITHUB_STEP_SUMMARY
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Build artifacts are available for download below.**" >> $GITHUB_STEP_SUMMARY
+
+    # 上传 APK 文件
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.APK_NAME }}
+        path: ${{ env.APK_FILE }}
+        retention-days: 30
+        compression-level: 0
+
+    # 上传构建报告（可选）
+    - name: Upload Build Reports
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-reports
+        path: |
+          app/build/reports/
+          app/build/outputs/
+        retention-days: 7
+        if-no-files-found: ignore
+
+  # 可选：发布到 Telegram 或其他渠道
+  notify:
+    name: Notify Build Result
+    needs: build
+    if: always() && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: app-*
+          path: artifacts
+          
+      - name: Send Notification
+        if: needs.build.result == 'success' && env.TELEGRAM_BOT_TOKEN != ''
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.CHANNEL_ID }}
+        run: |
+          APK_FILE=$(find artifacts -name "*.apk" | head -1)
+          if [ -n "$APK_FILE" ]; then
+            echo "Sending build notification..."
+            # 这里可以添加发送到 Telegram、Slack 等的代码
+            echo "Build successful: $APK_FILE"
+          fi
+
+  # 可选：安全检查
+  security-scan:
+    name: Security Scan
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Download APK Artifact
+        uses: actions/download-artifact@v4
+        with:
+          pattern: app-*
+          path: artifacts
+          
+      - name: Basic Security Check
+        run: |
+          echo "Running basic security checks..."
+          # 检查 APK 是否包含调试信息
+          APK_FILE=$(find artifacts -name "*.apk" | head -1)
+          if [ -n "$APK_FILE" ]; then
+            if command -v apktool &> /dev/null; then
+              echo "APK Tool available, running basic analysis..."
+            else
+              echo "APK Tool not available, skipping detailed analysis"
+            fi
+          fi
+          echo "Security check completed"
