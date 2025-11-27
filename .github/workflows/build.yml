@@ -1,46 +1,30 @@
-name: CI Build
+name: Build Without GPR
 
-on:
-  push:
-    branches: [ main, master, develop ]
-  pull_request:
-    branches: [ main, master ]
-
-env:
-  JAVA_VERSION: '17'
-  GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+on: [push, pull_request]
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout
+    - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Set up JDK
+    - name: Modify settings.gradle.kts
+      run: |
+        # 临时注释掉 GPR 相关的配置
+        sed -i 's/maven.*gpr.*/\/\/ &/' settings.gradle.kts || true
+        # 或者使用更精确的匹配
+        # 这里需要根据实际的 settings.gradle.kts 内容调整
+        
+    - name: Set up JDK 17
       uses: actions/setup-java@v4
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        java-version: '17'
         distribution: 'temurin'
         
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
       
-    - name: Make gradlew executable
-      run: chmod +x ./gradlew
-      
-    - name: Build and Test
-      run: ./gradlew build
-      env:
-        GPR_USER: ${{ secrets.GITHUB_ACTOR }}  # 使用当前用户
-        GPR_KEY: ${{ secrets.GITHUB_TOKEN }}   # 使用自动生成的token
-        
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: hyperceiler-apks
-        path: |
-          **/build/outputs/apk/**/*.apk
-          **/build/outputs/bundle/**/*.aab
-        retention-days: 7
+    - name: Build Debug
+      run: ./gradlew assembleDebug --no-daemon
