@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
-var gprUser = System.getenv("GIT_ACTOR") ?:"tonynesss"
-var gprKey = System.getenv("GIT_TOKEN") ?: "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"
+var gprUser = System.getenv("GIT_ACTOR") ?:""
+var gprKey = System.getenv("GIT_TOKEN") ?: ""
 
 val gprInfoFile = File(rootProject.projectDir, "signing.properties")
 
@@ -16,8 +16,8 @@ if (gprUser.isEmpty() || gprKey.isEmpty()) {
         //
         // When building, add gpr.user (GitHub username) and gpr.key (GitHub personal access token) to signing.properties.
         // Do not commit these fields to version control to avoid leaking personal account information.
-        gprUser = gprInfo.getProperty("gpr.user") ?: "tonynesss"
-        gprKey = gprInfo.getProperty("gpr.key") ?: "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"
+        gprUser = gprInfo.getProperty("gpr.user") ?: ""
+        gprKey = gprInfo.getProperty("gpr.key") ?: ""
 
         if (gprUser.isEmpty() || gprKey.isEmpty()) {
             throw GradleException("\'gpr.user\' and \'gpr.key\' must be set in \'signing.properties\'")
