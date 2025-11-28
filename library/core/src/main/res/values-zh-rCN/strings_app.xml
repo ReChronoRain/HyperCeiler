@@ -1610,6 +1610,8 @@
     <string name="weather_card_display_type_title">卡片显示样式</string>
     <string name="weather_card_display_type_title_2">浅色模式</string>
     <string name="weather_card_display_type_title_3">深色模式</string>
+    <string name="weather_unlock_blur_title">解锁全局高级材质</string>
+    <string name="weather_unlock_blur_desc">仅支持部分版本，且设备需要在 HyperOS3 及以上版本</string>
     <!--Analytics-->
     <string name="analytics">Analytics</string>
     <string name="analytics_fuck_guard">禁止收集遥测数据</string>

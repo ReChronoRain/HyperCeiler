@@ -1518,6 +1518,8 @@
     <string name="weather_card_display_type_title">Card display type</string>
     <string name="weather_card_display_type_title_2">Light mode</string>
     <string name="weather_card_display_type_title_3">Dark mode</string>
+    <string name="weather_unlock_blur_title">Unlock global advanced materials</string>
+    <string name="weather_unlock_blur_desc">Only supported on some versions, and the device must be on HyperOS 3 or later</string>
     <!--Analytics-->
     <string name="analytics">Analytics</string>
     <string name="analytics_fuck_guard">Remove guard</string>
