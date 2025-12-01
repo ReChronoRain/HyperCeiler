@@ -975,10 +975,7 @@
     <string name="content_extension_browser">Sử dụng trình duyệt của bên thứ ba</string>
     <string name="content_extension_browser_desc">Làm cho Taplus không bắt buộc phải sử dụng Trình duyệt MIUI để tìm kiếm. Bạn cần phải tự mình chọn trình duyệt mặc định.</string>
     <string name="content_extension_unlock_taplus_title">Mở khoá Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Cho phép sử dụng Taplus trên màn hình ngang</string>
     <string name="content_extension_double_press">Mở khóa cử chỉ 2 ngón</string>
-    <string name="content_extension_super_image">Bật tùy chọn lưu ảnh ở chất lượng cao nhất</string>
-    <string name="content_extension_super_image_summary">Yêu cầu hỗ trợ cơ bản từ thiết bị</string>
     <string name="content_extension_link_open_mode">Cách mở liên kết</string>
     <string name="content_extension_link_open_mode_desc">Chọn trình duyệt để mở liên kết</string>
     <!--Xiaomi Cloud Service-->
@@ -1272,8 +1269,6 @@
     <string name="mediaeditor_custom_photo_frames_title">Tùy chỉnh khung</string>
     <string name="mediaeditor_custom_disney_title">Chức năng chung</string>
     <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Mở khóa khung ảnh tùy chỉnh năm mới Tết Nguyên đán</string>
-    <string name="mediaeditor_unlock_spring_desc">Để thêm vĩnh viễn khung ảnh tùy chỉnh Tết Nguyên đán, điều kiện tiên quyết là bạn cần có khung ảnh tùy chỉnh Leica hoặc khung ảnh tùy chỉnh Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Mở khóa tùy chỉnh khung</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>

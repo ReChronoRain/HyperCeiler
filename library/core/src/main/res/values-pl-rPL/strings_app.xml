@@ -885,10 +885,7 @@
     <string name="content_extension_browser">Użyj zewnętrznej przeglądarki</string>
     <string name="content_extension_browser_desc">Spraw, by Taplus nie wymagało używania domyślnej przeglądarki systemowej do wyszukiwania, musisz wybrać domyślną przeglądarkę samodzielnie.</string>
     <string name="content_extension_unlock_taplus_title">Odblokuj Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Zezwól na używanie Taplus na ekranach w trybie poziomym</string>
     <string name="content_extension_double_press">Gest: 2 palce</string>
-    <string name="content_extension_super_image">Jakość zapisanych obrazów: Super rozdzielczość</string>
-    <string name="content_extension_super_image_summary">Prawdziwe zachowanie wymaga wsparcia modelu urządzenia</string>
     <string name="content_extension_link_open_mode">Jak otworzyć link</string>
     <string name="content_extension_link_open_mode_desc">Wybierz przeglądarkę, aby otworzyć link</string>
     <!--Xiaomi Cloud Service-->
@@ -1172,8 +1169,6 @@
     <string name="mediaeditor_custom_photo_frames_title">Dostosuj ramkę</string>
     <string name="mediaeditor_custom_disney_title">Wspólna funkcja</string>
     <string name="mediaeditor_unlock_disney_title">Odblokuj funkcje personalizacji Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Odblokuj niestandardowe ramki zdjęciowe na Chiński Nowy Rok</string>
-    <string name="mediaeditor_unlock_spring_desc">Aby na stałe dodać niestandardową ramkę zdjęciową na Chiński Nowy Rok, warunkiem jest posiadanie niestandardowej ramki zdjęciowej Leica lub niestandardowej ramki zdjęciowej Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Usuń minimalny limit przycinania obrazu</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Odblokuj dostosowywanie ramki</string>
     <string name="mediaeditor_unlock_leica_filter_title">Odblokuj filtr Leica</string>

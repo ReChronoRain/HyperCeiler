@@ -967,10 +967,7 @@
     <string name="content_extension_browser">Usar navegador de terceiros</string>
     <string name="content_extension_browser_desc">Deixe o Taplus não forçar o uso do navegador do sistema para pesquisas. Você mesmo precisa escolher o navegador padrão.</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Permitir o uso do Taplus em telas horizontais</string>
     <string name="content_extension_double_press">Gesto de 2 dedos</string>
-    <string name="content_extension_super_image">Qualidade das imagens salvas: Super resolução</string>
-    <string name="content_extension_super_image_summary">A verdadeira preservação requer suporte subjacente do sistema</string>
     <string name="content_extension_link_open_mode">Abrir método de link</string>
     <string name="content_extension_link_open_mode_desc">Escolha um navegador para abrir o link</string>
     <!--Xiaomi Cloud Service-->
@@ -1264,8 +1261,6 @@
     <string name="mediaeditor_custom_photo_frames_title">Personalizar moldura</string>
     <string name="mediaeditor_custom_disney_title">Função conjunta</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear recursos de personalização da Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Desbloquear molduras do Ano Novo Chinês</string>
-    <string name="mediaeditor_unlock_spring_desc">Para manter permanentemente a moldura personalizada do Ano Novo Chinês, o pré-requisito é que você precise de uma moldura personalizada Leica ou de uma moldura personalizada Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Remover limite mínimo de corte de imagem</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Desbloquear Personalizar moldura</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtro Leica</string>

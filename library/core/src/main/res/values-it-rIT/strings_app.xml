@@ -683,10 +683,7 @@
     <string name="content_extension_browser">Utilizza browser di terze parti</string>
     <string name="content_extension_browser_desc">Rendi Taplus non obbligatorio per l\'uso del browser di sistema per la ricerca, devi scegliere tu stesso il browser predefinito</string>
     <string name="content_extension_unlock_taplus_title">Sblocca Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Consenti l\'uso di Taplus su schermi orizzontali</string>
     <string name="content_extension_double_press">Gesture: 2 dita</string>
-    <string name="content_extension_super_image">Qualità delle immagini salvate: Super risoluzione</string>
-    <string name="content_extension_super_image_summary">La vera conservazione richiede il supporto sottostante del modello del dispositivo</string>
     <string name="content_extension_link_open_mode">Come aprire il collegamento</string>
     <string name="content_extension_link_open_mode_desc">Scegliere un browser per aprire il collegamento</string>
     <!--Xiaomi Cloud Service-->
@@ -928,8 +925,6 @@
     <string name="mediaeditor">Editor Galleria</string>
     <string name="mediaeditor_foundation">Foundation</string>
     <string name="mediaeditor_unlock_disney_title">Sblocca funzionalità di personalizzazione Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Sblocca cornici personalizzate per il Capodanno cinese</string>
-    <string name="mediaeditor_unlock_spring_desc">Per aggiungere permanentemente una cornice personalizzata per il Capodanno cinese, il prerequisito è che tu abbia bisogno di una cornice personalizzata Leica o di un Redmi cornice personalizzata.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Rimuovi il limite minimo di ritaglio dell\'immagine</string>
     <string name="mediaeditor_unlock_leica_filter_title">Sblocca il filtro Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sono supportate solo alcune versioni</string>

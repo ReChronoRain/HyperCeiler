@@ -969,10 +969,7 @@
     <string name="content_extension_browser">サードパーティーのブラウザーを使用する</string>
     <string name="content_extension_browser_desc">Taplus の検索でシステムブラウザの使用を強制しないようにします。デフォルトのブラウザを自分で選択する必要があります。</string>
     <string name="content_extension_unlock_taplus_title">Taplus をアンロック</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">横向き画面での Taplus の使用を許可</string>
     <string name="content_extension_double_press">ジェスチャー: 2 本指</string>
-    <string name="content_extension_super_image">最高画質で画像を保存するオプションを有効化</string>
-    <string name="content_extension_super_image_summary">デバイスモデルが対応していなければ使用できません</string>
     <string name="content_extension_link_open_mode">リンクの開き方</string>
     <string name="content_extension_link_open_mode_desc">リンクを開く際のブラウザを選択してください</string>
     <!--Xiaomi Cloud Service-->
@@ -1266,8 +1263,6 @@
     <string name="mediaeditor_custom_photo_frames_title">フレームのカスタマイズ</string>
     <string name="mediaeditor_custom_disney_title">コラボレーション機能</string>
     <string name="mediaeditor_unlock_disney_title">ディズニーのカスタマイズ機能をアンロック</string>
-    <string name="mediaeditor_unlock_spring_title">旧正月カスタムピクチャーフレームをアンロック</string>
-    <string name="mediaeditor_unlock_spring_desc">旧正月カスタム画像フレームを追加するには前提条件として、Leica または Redmi のカスタムピクチャーフレームが必要です。</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">画像の最小トリミング制限を削除</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">フレームのカスタマイズをアンロック</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica フィルターをアンロック</string>

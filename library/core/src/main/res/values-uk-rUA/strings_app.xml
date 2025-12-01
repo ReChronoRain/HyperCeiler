@@ -924,10 +924,7 @@
     <string name="content_extension_browser">Використовувати сторонній браузер</string>
     <string name="content_extension_browser_desc">Дозволити Taplus не примушувати використовувати системний браузер для пошуку, вам потрібно самостійно вибрати браузер за замовчуванням.</string>
     <string name="content_extension_unlock_taplus_title">Розблокувати Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Дозволити використання Taplus на горизонтальних екранах</string>
     <string name="content_extension_double_press">Жест: 2 пальці</string>
-    <string name="content_extension_super_image">Якість збережених зображень: Суперроздільність</string>
-    <string name="content_extension_super_image_summary">Справжнє збереження вимагає підтримки на рівні системи</string>
     <string name="content_extension_link_open_mode">Спосіб відкриття посилань</string>
     <string name="content_extension_link_open_mode_desc">Виберіть браузер для відкриття посилань</string>
     <!--Xiaomi Cloud Service-->
@@ -1215,8 +1212,6 @@
     <string name="mediaeditor_custom_photo_frames_title">Налаштувати рамку</string>
     <string name="mediaeditor_custom_disney_title">Функція співпраці</string>
     <string name="mediaeditor_unlock_disney_title">Розблокувати функції налаштування Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Розблокувати кастомні рамки для фото до Китайського Нового року</string>
-    <string name="mediaeditor_unlock_spring_desc">Щоб назавжди зберегти кастомну рамку для фото до Китайського Нового року, необхідно мати кастомну рамку Leica або Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Зняти обмеження на мінімальне обрізання зображення</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Розблокувати налаштування рамки</string>
     <string name="mediaeditor_unlock_leica_filter_title">Розблокувати фільтр Leica</string>
