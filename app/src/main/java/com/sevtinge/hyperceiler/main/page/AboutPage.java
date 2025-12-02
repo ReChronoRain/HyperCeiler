@@ -197,7 +197,7 @@ public class AboutPage extends DashboardFragment
     @Override
     public void onStart() {
         super.onStart();
-        if (mHandler != null && !isReboot) {
+        if (!isReboot) {
             startRuntimeShader();
         }
         isReboot = false;

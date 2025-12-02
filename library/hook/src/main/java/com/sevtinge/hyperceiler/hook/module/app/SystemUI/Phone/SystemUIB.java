@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.MiuiStub;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.controlcenter.MediaControlBgFactory;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.ControlCenterStyle;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.CustomCarrierText;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.ExpandNotificationKt;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.FiveGTile;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.FixTilesList;
@@ -190,6 +191,7 @@ public class SystemUIB extends BaseModule {
         initHook(new ZenModeFix(), mPrefsMap.getBoolean("system_ui_control_center_zen_fix"));
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
+        initHook(CustomCarrierText.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
 
         // 磁贴
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
