@@ -52,7 +52,7 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (dipValue * scale + 0.5f);
     }
 
@@ -62,7 +62,7 @@ public class DisplayUtils {
     }
 
     public static int sp2px(float spValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
+        final float scale = Resources.getSystem().getDisplayMetrics().scaledDensity;
         return (int) (spValue * scale + 0.5f);
     }
 
@@ -72,7 +72,7 @@ public class DisplayUtils {
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
+        final float scale = Resources.getSystem().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 }
