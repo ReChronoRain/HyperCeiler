@@ -18,16 +18,16 @@
  */
 package com.sevtinge.hyperceiler.hook.module.rules.home.layout;
 
-import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
+// import static com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode;
 
-import android.content.Context;
+// import android.content.Context;
 
 import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
 
 public class WorkspacePadding extends HomeBaseHookNew {
 
-    Context mContext;
+    // Context mContext;
     Class<?> mDeviceConfig;
 
     @Version(isPad = false, min = 600000000)
@@ -44,18 +44,18 @@ public class WorkspacePadding extends HomeBaseHookNew {
     
     private void initBaseCore() {
         
-        findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
-            @Override
-            protected void before(MethodHookParam param) {
-                mContext = (Context) param.args[0];
-            }
-        });
+        // findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
+        //     @Override
+        //     protected void before(MethodHookParam param) {
+        //         mContext = (Context) param.args[0];
+        //     }
+        // });
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dp2px(mContext, mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)));
+                    param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)));
                 }
             });
         }
@@ -63,7 +63,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
             try {
                 // 新版本桌面，先标记，后续再做进一步修改
-                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", Context.class, new MethodHook() {
+                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
                         param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
