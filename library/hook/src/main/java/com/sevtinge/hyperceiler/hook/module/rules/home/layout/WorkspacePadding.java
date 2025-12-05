@@ -32,7 +32,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     @Override
     public void initBase() {
-        mDeviceConfig = findClassIfExists(getPackageVersionCode(lpparam) < 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
+        mDeviceConfig = findClassIfExists(getPackageVersionCode(lpparam) >= 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
             @Override
