@@ -30,10 +30,20 @@ public class WorkspacePadding extends HomeBaseHookNew {
     Context mContext;
     Class<?> mDeviceConfig;
 
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        mDeviceConfig = DEVICE_CONFIG_NEW;
+        initBaseCore();
+    }
+    
     @Override
     public void initBase() {
-        mDeviceConfig = findClassIfExists(getPackageVersionCode(lpparam) >= 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
-
+        mDeviceConfig = DEVICE_CONFIG_OLD;
+        initBaseCore();
+    }
+    
+    private void initBaseCore() {
+        
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
