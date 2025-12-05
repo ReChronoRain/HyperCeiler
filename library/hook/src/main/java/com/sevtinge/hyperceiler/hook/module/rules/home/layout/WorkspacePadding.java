@@ -31,7 +31,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
     Class<?> mDeviceConfig;
 
     @Version(isPad = false, min = 600000000)
-    private fun initOS3Hook() {
+    private void initOS3Hook() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
         initBaseCore();
     }
