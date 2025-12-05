@@ -229,34 +229,19 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_top",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top").toFloat()
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_bottom",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom").toFloat()
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_horizontal",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal").toFloat()
             } else {
                 -1
             }
@@ -349,34 +334,19 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_top",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top").toFloat()
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_bottom",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom").toFloat()
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
-                        "home_layout_workspace_padding_horizontal",
-                        0
-                    ).toFloat()
-                )
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal").toFloat()
             } else {
                 -1
             }
