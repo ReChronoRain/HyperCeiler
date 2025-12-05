@@ -223,9 +223,7 @@ object LayoutRules : HomeBaseHookNew() {
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = 
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
-                    .callMethodAs<Int>("getValue")
+            val mWorkspaceTopPadding = rules.getIntField("mWorkspaceTopPadding")
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethodAs<Int>("getValue")
@@ -314,7 +312,7 @@ object LayoutRules : HomeBaseHookNew() {
                     |Applied layout rules:
                     |  cellCountX    => $currentCellCountX
                     |  cellCountY    => $currentCellCountY
-                    |  paddingTop    => $sWorkspacePaddingTop
+                    |  paddingTop    => $sWorkspacePaddingTop (was: $mWorkspaceTopPadding)
                     |  paddingBottom => $sWorkspacePaddingBottom
                     |  cellSide      => $sWorkspaceCellSide
                     |  cellSizeO     => $mCellWidth
@@ -422,7 +420,7 @@ object LayoutRules : HomeBaseHookNew() {
                     |Applied layout rules:
                     |  cellCountX    => $currentCellCountX
                     |  cellCountY    => $currentCellCountY
-                    |  paddingTop    => $sWorkspacePaddingTop
+                    |  paddingTop    => $sWorkspacePaddingTop (was: $mWorkspaceTopPadding)
                     |  paddingBottom => $sWorkspacePaddingBottom
                     |  cellSide      => $sWorkspaceCellSide
                     |  cellSizeO     => $mCellSize
