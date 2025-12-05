@@ -223,7 +223,9 @@ object LayoutRules : HomeBaseHookNew() {
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = rules.getIntField("mWorkspaceTopPadding")
+            val mWorkspaceTopPadding = 
+                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                    .callMethodAs<Int>("getValue")
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethodAs<Int>("getValue")
