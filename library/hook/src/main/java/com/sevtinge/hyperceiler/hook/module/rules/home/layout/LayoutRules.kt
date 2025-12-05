@@ -229,19 +229,22 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_top", 0).toFloat()
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0).toFloat()
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0).toFloat()
             } else {
                 -1
             }
@@ -334,19 +337,22 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_top", 0).toFloat()
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0).toFloat()
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal")
+                DisplayUtils.dp2px(
+                    mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0).toFloat()
             } else {
                 -1
             }
