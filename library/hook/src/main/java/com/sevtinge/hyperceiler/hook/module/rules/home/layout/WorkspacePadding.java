@@ -52,41 +52,19 @@ public class WorkspacePadding extends HomeBaseHookNew {
         // });
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)));
-                }
-            });
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", 
+                              setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom"));
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
-            try {
-                // 新版本桌面，先标记，后续再做进一步修改
-                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
-                    }
-                });
-            } catch (Throwable t) {
-                findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new MethodHook() {
-                    @Override
-                    protected void before(MethodHookParam param) {
-                        param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_top", 0)));
-                    }
-                });
-            }
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", 
+                              setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top"));
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
             logE("===============home_layout_workspace_padding_horizontal: " + mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0));
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", new MethodHook() {
-                @Override
-                protected void before(MethodHookParam param) {
-                    param.setResult(DisplayUtils.dp2px(mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0)));
-                }
-            });
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", 
+                              setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal"));
         }
     }
 }
