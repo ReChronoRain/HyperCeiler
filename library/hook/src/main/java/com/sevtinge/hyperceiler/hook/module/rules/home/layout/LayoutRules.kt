@@ -219,6 +219,7 @@ object LayoutRules : HomeBaseHookNew() {
             val rules = param.thisObject
 
             val mScreenWidth = rules.getIntField("mScreenWidth")
+            val mScreenHeight = rules.getIntField("mScreenHeight")
             val mCellWidth = rules.getIntField("mCellWidth")
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
@@ -320,6 +321,7 @@ object LayoutRules : HomeBaseHookNew() {
                     |  cellSizeO     => $mCellWidth
                     |  cellWidth     => $currentCellWidth
                     |  cellHeight    => $currentCellHeight
+                    |  Screen HxW    => $mScreenHeight x $mScreenWidth
                 """.trimMargin()
             )
         }
