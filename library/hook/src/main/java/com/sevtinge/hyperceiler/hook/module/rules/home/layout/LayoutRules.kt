@@ -277,12 +277,12 @@ object LayoutRules : HomeBaseHookNew() {
             }
 
             if (isUnlockGridsHook || isSetWSPaddingTopHook || isSetWSPaddingBottomHook) {
-                currentCellHeight = (cellWorkspaceHeight + if (isSetWSPaddingTopHook) {
-                    mWorkspaceTopPadding - sWorkspacePaddingTop
+                currentCellHeight = (mScreenHeight - if (isSetWSPaddingTopHook) {
+                    sWorkspacePaddingTop
                 } else {
                     0
-                } + if (isSetWSPaddingBottomHook) {
-                    mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
+                } - if (isSetWSPaddingBottomHook) {
+                    sWorkspacePaddingBottom
                 } else {
                     0
                 }) / currentCellCountY
