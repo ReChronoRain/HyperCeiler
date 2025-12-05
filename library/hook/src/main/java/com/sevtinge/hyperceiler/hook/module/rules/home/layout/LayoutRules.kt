@@ -229,19 +229,19 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal")
             } else {
                 -1
             }
@@ -334,19 +334,19 @@ object LayoutRules : HomeBaseHookNew() {
                     .callMethodAs<Int>("getValue")
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
-                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal").toFloat()
+                setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal")
             } else {
                 -1
             }
