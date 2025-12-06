@@ -53,12 +53,16 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", 
-                              setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom"));
+                              //setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
+                              mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)
+                             );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", 
-                              setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top"));
+                              //setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
+                              mPrefsMap.getInt("home_layout_workspace_padding_top", 0)
+                             );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
