@@ -56,7 +56,7 @@ public class DisplayUtils {
             return (int) (dipValue * scale + 0.5f);
         } catch (Exception e) {
             logI(
-                TAG, lpparam.packageName,
+                "DeviceSDK", "DisplayUtils",
                 "Error getting density",
                 e);
         }
