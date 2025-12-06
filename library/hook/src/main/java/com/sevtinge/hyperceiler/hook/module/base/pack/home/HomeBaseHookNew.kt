@@ -125,6 +125,7 @@ abstract class HomeBaseHookNew : BaseHook() {
                 param.result = DisplayUtils.dp2px(
                     mPrefsMap.getInt(key, defaultValue).toFloat()
                 )
+                logD(TAG, lpparam.packageName, "Invoke setDimensionPixelSizeFormPrefs with $key, $defaultValue - result: ${param.result}")
             }
         }
     }
