@@ -52,9 +52,13 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
+        AndroidLogUtils.logE(
+                "DisplayUtils",
+                "dp2px called with Dip: ",
+                 null);
         try {
             final float scale = getAppContext().getResources().getDisplayMetrics().density;
-             AndroidLogUtils.logD(
+             AndroidLogUtils.logE(
                 "DisplayUtils",
                 "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f)),
                  null);
