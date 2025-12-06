@@ -22,6 +22,7 @@ import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 
 
 public class DisplayUtils {
@@ -55,8 +56,8 @@ public class DisplayUtils {
             final float scale = getAppContext().getResources().getDisplayMetrics().density;
             return (int) (dipValue * scale + 0.5f);
         } catch (Exception e) {
-            logI(
-                "DeviceSDK", "DisplayUtils",
+            AndroidLogUtils.logE(
+                "DisplayUtils",
                 "Error getting density",
                 e);
         }
