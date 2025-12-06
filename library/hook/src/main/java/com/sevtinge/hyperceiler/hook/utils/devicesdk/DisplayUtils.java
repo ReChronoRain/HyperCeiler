@@ -22,7 +22,7 @@ import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 
 public class DisplayUtils {
@@ -52,22 +52,17 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        AndroidLogUtils.logE(
-                "DisplayUtils",
-                "dp2px called with Dip: ",
-                 null);
         try {
             final float scale = getAppContext().getResources().getDisplayMetrics().density;
-             AndroidLogUtils.logE(
+             XposedLogUtils.logD(
                 "DisplayUtils",
-                "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f)),
-                 null);
+                "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f)));
             return (int) (dipValue * scale + 0.5f);
-        } catch (Exception e) {
-            AndroidLogUtils.logE(
+        } catch (Throwable t) {
+            XposedLogUtils.logE(
                 "DisplayUtils",
                 "Error getting density",
-                e);
+                t);
         }
         return (int) dipValue;
     }
