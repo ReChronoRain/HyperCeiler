@@ -22,7 +22,6 @@ import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
-import android.content.res.Resources;
 
 
 public class DisplayUtils {
@@ -52,8 +51,16 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+        try {
+            final float scale = getAppContext().getResources().getDisplayMetrics().density;
+            return (int) (dipValue * scale + 0.5f);
+        } catch (Exception e) {
+            logI(
+                TAG, lpparam.packageName,
+                "Error getting density",
+                e);
+        }
+        return (int) dipValue;
     }
 
     public static int dp2px(Context context, float dipValue) {
@@ -62,7 +69,7 @@ public class DisplayUtils {
     }
 
     public static int sp2px(float spValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().scaledDensity;
+        final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * scale + 0.5f);
     }
 
@@ -72,7 +79,7 @@ public class DisplayUtils {
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = Resources.getSystem().getDisplayMetrics().density;
+        final float scale = getAppContext().getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 }
