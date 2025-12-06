@@ -218,8 +218,13 @@ object LayoutRules : HomeBaseHookNew() {
         override fun after(param: MethodHookParam) {
             val rules = param.thisObject
 
-            logE(TAG, lpparam.packageName, "rules object: " + rules + "Class fields: " + rules.getClass().getDeclaredFields(), null)
-
+            logE(
+                TAG,
+                lpparam.packageName,
+                "rules object: $rules Class fields: ${rules.javaClass.declaredFields.joinToString()}",
+                null
+            )
+            
             val mScreenWidth = rules.getIntField("mScreenWidth")
             val mScreenHeight = rules.getIntField("mScreenHeight")
             val mCellWidth = rules.getIntField("mCellWidth")
