@@ -224,9 +224,7 @@ object LayoutRules : HomeBaseHookNew() {
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = 
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
-                    .callMethodAs<Int>("getValue")
+            val mWorkspaceTopPadding = rules.getIntField("mWorkspaceTopPadding")
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethodAs<Int>("getValue")
@@ -277,12 +275,12 @@ object LayoutRules : HomeBaseHookNew() {
             }
 
             if (isUnlockGridsHook || isSetWSPaddingTopHook || isSetWSPaddingBottomHook) {
-                currentCellHeight = (cellWorkspaceHeight + if (isSetWSPaddingTopHook) {
-                    mWorkspaceTopPadding - sWorkspacePaddingTop
+                currentCellHeight = (mScreenHeight - if (isSetWSPaddingTopHook) {
+                    sWorkspacePaddingTop
                 } else {
                     0
-                } + if (isSetWSPaddingBottomHook) {
-                    mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
+                } - if (isSetWSPaddingBottomHook) {
+                    sWorkspacePaddingBottom
                 } else {
                     0
                 }) / currentCellCountY
@@ -293,8 +291,7 @@ object LayoutRules : HomeBaseHookNew() {
             rules.setIntField("mCellHeight", currentCellHeight)
 
             if (isSetWSPaddingTopHook) {
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
-                    .callMethod("setValue", sWorkspacePaddingTop)
+                rules.setIntField("mWorkspaceTopPadding", sWorkspacePaddingTop)
             }
 
             if (isSetWSPaddingBottomHook) {
@@ -312,11 +309,11 @@ object LayoutRules : HomeBaseHookNew() {
             logI(
                 TAG, lpparam.packageName,
                 """ |
-                    |Applied layout rules:
+                    |Applied layout rules (new Hook):
                     |  cellCountX    => $currentCellCountX
                     |  cellCountY    => $currentCellCountY
                     |  paddingTop    => $sWorkspacePaddingTop (was: $mWorkspaceTopPadding)
-                    |  paddingBottom => $sWorkspacePaddingBottom
+                    |  paddingBottom => $sWorkspacePaddingBottom (was: $mWorkspaceCellPaddingBottom)
                     |  cellSide      => $sWorkspaceCellSide
                     |  cellSizeO     => $mCellWidth
                     |  cellWidth     => $currentCellWidth
