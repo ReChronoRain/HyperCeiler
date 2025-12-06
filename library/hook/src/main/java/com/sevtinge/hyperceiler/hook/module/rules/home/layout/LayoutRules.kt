@@ -218,13 +218,17 @@ object LayoutRules : HomeBaseHookNew() {
         override fun after(param: MethodHookParam) {
             val rules = param.thisObject
 
+            logE(TAG, lpparam.packageName, "rules object: " + rules + "Class fields: " + rules.getClass().getDeclaredFields(), null)
+
             val mScreenWidth = rules.getIntField("mScreenWidth")
             val mScreenHeight = rules.getIntField("mScreenHeight")
             val mCellWidth = rules.getIntField("mCellWidth")
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = rules.getIntField("mWorkspaceTopPadding")
+            val mWorkspaceTopPadding = //rules.getIntField("mWorkspaceTopPadding")
+                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                    .callMethodAs<Int>("getValue")
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
                     .callMethodAs<Int>("getValue")
@@ -291,7 +295,9 @@ object LayoutRules : HomeBaseHookNew() {
             rules.setIntField("mCellHeight", currentCellHeight)
 
             if (isSetWSPaddingTopHook) {
-                rules.setIntField("mWorkspaceTopPadding", sWorkspacePaddingTop)
+                //rules.setIntField("mWorkspaceTopPadding", sWorkspacePaddingTop)
+                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                    .callMethod("setValue", sWorkspacePaddingTop)
             }
 
             if (isSetWSPaddingBottomHook) {
