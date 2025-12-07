@@ -31,6 +31,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
     Class<?> mDeviceConfig;
     boolean usePx = false;
 
+    @SuppressWarnings("unused")
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
@@ -41,11 +42,6 @@ public class WorkspacePadding extends HomeBaseHookNew {
     public void initBase() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
         initBaseCore();
-
-        // to avoid compilation issues
-        if (false) {
-            initOS3Hook();
-        }
     }
 
     private void initBaseCore() {

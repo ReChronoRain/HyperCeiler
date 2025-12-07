@@ -31,6 +31,7 @@ public class UnlockBlurSupported extends HomeBaseHookNew {
     String mBlurUtilitiesCls;
     String mLauncherFolder2x2IconContainer;
 
+    @SuppressWarnings("unused")
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
@@ -45,11 +46,6 @@ public class UnlockBlurSupported extends HomeBaseHookNew {
         mBlurUtilitiesCls = "com.miui.home.launcher.common.BlurUtilities";
         mLauncherFolder2x2IconContainer = "com.miui.home.launcher.folder.LauncherFolder2x2IconContainer";
         initBaseCore();
-
-        // to avoid compilation issues
-        if (false) {
-            initOS3Hook();
-        }
     }
 
     private void initBaseCore() {
