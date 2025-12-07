@@ -28,21 +28,26 @@ import de.robv.android.xposed.XposedHelpers;
 public class UnlockBlurSupported extends HomeBaseHookNew {
 
     Class<?> mDeviceConfig;
+    String mBlurUtilitiesCls, mLauncherFolder2x2IconContainer;
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
+        mBlurUtilitiesCls = "com.miui.home.common.utils.BlurUtilities";
+        mLauncherFolder2x2IconContainer = "com.miui.home.folder.LauncherFolder2x2IconContainer";
         initBaseCore();
     }
 
     @Override
     public void initBase() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
+        mBlurUtilitiesCls = "com.miui.home.launcher.common.BlurUtilities";
+        mLauncherFolder2x2IconContainer = "com.miui.home.launcher.folder.LauncherFolder2x2IconContainer";
         initBaseCore();
     }
 
     private void initBaseCore() {
-        findAndHookMethod("com.miui.home.launcher.common.BlurUtilities",
+        findAndHookMethod(mBlurUtilitiesCls,
                 "isBlurSupported",
                 new MethodHook() {
                     @Override
@@ -57,7 +62,7 @@ public class UnlockBlurSupported extends HomeBaseHookNew {
         );
 
         try {
-            findAndHookMethod("com.miui.home.launcher.folder.LauncherFolder2x2IconContainer",
+            findAndHookMethod(mLauncherFolder2x2IconContainer,
                     "resolveTopPadding", Rect.class, new MethodHook() {
                         @Override
                         protected void before(MethodHookParam param) {
