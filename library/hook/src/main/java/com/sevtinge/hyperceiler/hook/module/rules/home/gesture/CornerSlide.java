@@ -23,24 +23,24 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class CornerSlide extends BaseHook {
+public class CornerSlide extends HomeBaseHookNew {
     public int inDirection = 0;
 
     Context mContext;
 
     @Override
-    public void init() throws NoSuchMethodException {
+    public void initBase() {
         findAndHookMethod("com.android.systemui.shared.recents.system.AssistManager",
             "isSupportGoogleAssist", int.class,
             MethodHook.returnConstant(true));
         Class<?> FsGestureAssistHelper = findClassIfExists("com.miui.home.recents.FsGestureAssistHelper");
         findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
-            float.class, float.class, int.class,
+            float.class, float.class, long.class,
             new MethodHook() {
                 @Override
                 protected void before(MethodHookParam param) {
