@@ -28,7 +28,8 @@ import de.robv.android.xposed.XposedHelpers;
 public class UnlockBlurSupported extends HomeBaseHookNew {
 
     Class<?> mDeviceConfig;
-    String mBlurUtilitiesCls, mLauncherFolder2x2IconContainer;
+    String mBlurUtilitiesCls;
+    String mLauncherFolder2x2IconContainer;
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
@@ -44,6 +45,11 @@ public class UnlockBlurSupported extends HomeBaseHookNew {
         mBlurUtilitiesCls = "com.miui.home.launcher.common.BlurUtilities";
         mLauncherFolder2x2IconContainer = "com.miui.home.launcher.folder.LauncherFolder2x2IconContainer";
         initBaseCore();
+
+        // to avoid compilation issues
+        if (false) {
+            initOS3Hook();
+        }
     }
 
     private void initBaseCore() {

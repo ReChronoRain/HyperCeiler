@@ -41,6 +41,11 @@ public class WorkspacePadding extends HomeBaseHookNew {
     public void initBase() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
         initBaseCore();
+
+        // to avoid compilation issues
+        if (false) {
+            initOS3Hook();
+        }
     }
 
     private void initBaseCore() {
@@ -54,25 +59,25 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom",
-                              GetPrefDimension("home_layout_workspace_padding_bottom", 0)
+                getPrefDimensionHook("home_layout_workspace_padding_bottom", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop",
-                              GetPrefDimension("home_layout_workspace_padding_top", 0)
+                getPrefDimensionHook("home_layout_workspace_padding_top", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
             logE("===============home_layout_workspace_padding_horizontal: " + mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0));
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide",
-                              GetPrefDimension("home_layout_workspace_padding_horizontal", 0)
+                getPrefDimensionHook("home_layout_workspace_padding_horizontal", 0)
                              );
         }
     }
 
-    private MethodHook GetPrefDimension(String key, int defaultValue) {
+    private MethodHook getPrefDimensionHook(String key, int defaultValue) {
         return new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
