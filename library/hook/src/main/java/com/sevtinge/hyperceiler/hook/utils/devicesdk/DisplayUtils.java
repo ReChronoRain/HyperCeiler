@@ -54,9 +54,9 @@ public class DisplayUtils {
     public static int dp2px(float dipValue) {
         try {
             final float scale = getAppContext().getResources().getDisplayMetrics().density;
-             XposedLogUtils.logD(
+            /* XposedLogUtils.logD(
                 "DisplayUtils",
-                "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f)));
+                "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f))); */
             return (int) (dipValue * scale + 0.5f);
         } catch (Throwable t) {
             XposedLogUtils.logE(
@@ -76,9 +76,9 @@ public class DisplayUtils {
     public static int sp2px(float spValue) {
         try {
             final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
-             XposedLogUtils.logD(
+            /*  XposedLogUtils.logD(
                 "DisplayUtils",
-                "Sp: " + spValue + ", ScaledDensity: " + scale + ", Px: " + ((int) (spValue * scale + 0.5f)));
+                "Sp: " + spValue + ", ScaledDensity: " + scale + ", Px: " + ((int) (spValue * scale + 0.5f))); */
             return (int) (spValue * scale + 0.5f);
         } catch (Throwable t) {
             XposedLogUtils.logE(
@@ -98,9 +98,9 @@ public class DisplayUtils {
     public static int px2dp(float pxValue) {
         try {
             final float scale = getAppContext().getResources().getDisplayMetrics().density;
-             XposedLogUtils.logD(
+            /*  XposedLogUtils.logD(
                 "DisplayUtils",
-                "Px: " + pxValue + ", Density: " + scale + ", Dp: " + ((int) (pxValue / scale + 0.5f)));
+                "Px: " + pxValue + ", Density: " + scale + ", Dp: " + ((int) (pxValue / scale + 0.5f))); */
             return (int) (pxValue / scale + 0.5f);
         } catch (Throwable t) {
             XposedLogUtils.logE(

@@ -21,20 +21,34 @@ package com.sevtinge.hyperceiler.hook.module.rules.home.folder;
 import android.graphics.Rect;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class UnlockBlurSupported extends BaseHook {
+public class UnlockBlurSupported extends HomeBaseHookNew {
+
+    Class<?> mDeviceConfig;
+
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
+        initBaseCore();
+    }
+
     @Override
-    public void init() throws NoSuchMethodException {
+    public void initBase() {
+        mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
+        initBaseCore();
+    }
+
+    private void initBaseCore() {
         findAndHookMethod("com.miui.home.launcher.common.BlurUtilities",
                 "isBlurSupported",
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
                         boolean isDefaultIcon = (boolean) XposedHelpers.callStaticMethod(
-                                findClassIfExists("com.miui.home.launcher.DeviceConfig"),
+                            mDeviceConfig,
                                 "isDefaultIcon");
                         if (!isDefaultIcon)
                             param.setResult(true);
@@ -58,16 +72,16 @@ public class UnlockBlurSupported extends BaseHook {
                     }
             );
         } catch (Error | Exception ignore) {
-            findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolder1x1", new MethodHook() {
+            findAndHookMethod(mDeviceConfig, "isUseDefaultIconFolder1x1", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     param.setResult(true);
                 }
             });
 
-            findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolderLarge", new MethodHook() {
+            findAndHookMethod(mDeviceConfig, "isUseDefaultIconFolderLarge", new MethodHook() {
                 @Override
-                protected void before(MethodHookParam param) throws Throwable {
+                protected void before(MethodHookParam param) {
                     param.setResult(true);
                 }
             });
