@@ -33,6 +33,10 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import kotlin.math.max
 
+private const val M_WORKSPACE_TOP_PADDING = "mWorkspaceTopPadding"
+
+private const val GET_VALUE = "getValue"
+
 object LayoutRules : HomeBaseHookNew() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
     private const val PHONE_RULES_NEW = "com.miui.home.common.gridconfig.PhoneDeviceRules"
@@ -232,11 +236,11 @@ object LayoutRules : HomeBaseHookNew() {
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
             val mWorkspaceTopPadding =
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
-                    .callMethodAs<Int>("getValue")
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
+                    .callMethodAs<Int>(GET_VALUE)
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethodAs<Int>("getValue")
+                    .callMethodAs<Int>(GET_VALUE)
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
@@ -301,7 +305,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             if (isSetWSPaddingTopHook) {
                 //rules.setIntField("mWorkspaceTopPadding", sWorkspacePaddingTop)
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
 
@@ -344,11 +348,11 @@ object LayoutRules : HomeBaseHookNew() {
             val mCellSize = rules.getIntField("mCellSize")
             val mCellCountY = rules.getIntField("mCellCountY")
             val mWorkspaceTopPadding =
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
-                    .callMethodAs<Int>("getValue")
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
+                    .callMethodAs<Int>(GET_VALUE)
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethodAs<Int>("getValue")
+                    .callMethodAs<Int>(GET_VALUE)
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
@@ -410,7 +414,7 @@ object LayoutRules : HomeBaseHookNew() {
             rules.setIntField("mCellSize", max(currentCellWidth, currentCellHeight))
 
             if (isSetWSPaddingTopHook) {
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
 

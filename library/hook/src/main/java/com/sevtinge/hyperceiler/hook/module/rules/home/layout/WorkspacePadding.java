@@ -74,20 +74,16 @@ public class WorkspacePadding extends HomeBaseHookNew {
     }
 
     private MethodHook getPrefDimensionHook(String key) {
-        return getPrefDimensionHook(key, 0);
-    }
-
-    private MethodHook getPrefDimensionHook(String key, int defaultValue) {
         return new MethodHook() {
             @Override
             protected void before(MethodHookParam param) {
                 if (usePx) {
                     param.setResult(DisplayUtils.dp2px(
-                        (float) mPrefsMap.getInt(key, defaultValue)
+                        (float) mPrefsMap.getInt(key, 0)
                     ));
                     logD(TAG, lpparam.packageName, "Invoke setDimensionPixelSizeFormPrefs with $key, $defaultValue - result: ${param.result}");
                 } else {
-                    param.setResult(mPrefsMap.getInt(key, defaultValue));
+                    param.setResult(mPrefsMap.getInt(key, 0));
                 }
             }
         };
