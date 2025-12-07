@@ -29,22 +29,22 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     // Context mContext;
     Class<?> mDeviceConfig;
-    bool usePx = false;
+    boolean usePx = false;
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
         initBaseCore();
     }
-    
+
     @Override
     public void initBase() {
         mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
         initBaseCore();
     }
-    
+
     private void initBaseCore() {
-        
+
         // findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new MethodHook() {
         //     @Override
         //     protected void before(MethodHookParam param) {
@@ -53,29 +53,38 @@ public class WorkspacePadding extends HomeBaseHookNew {
         // });
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", 
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom",
                               GetPrefDimension("home_layout_workspace_padding_bottom", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", 
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop",
                               GetPrefDimension("home_layout_workspace_padding_top", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
             logE("===============home_layout_workspace_padding_horizontal: " + mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0));
-            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", 
+            findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide",
                               GetPrefDimension("home_layout_workspace_padding_horizontal", 0)
                              );
         }
     }
 
-    private int GetPrefDimension(string key, int defaultValue = 0) {
-        if (usePx) {
-            return setDimensionPixelSizeFormPrefs(key, defaultValue);
-        } else {
-            return mPrefsMap.getInt(key, defaultValue);
+    private MethodHook GetPrefDimension(String key, int defaultValue) {
+        return new MethodHook() {
+            @Override
+            protected void before(MethodHookParam param) {
+                if (usePx) {
+                    param.setResult(DisplayUtils.dp2px(
+                        (float) mPrefsMap.getInt(key, defaultValue)
+                    ));
+                    logD(TAG, lpparam.packageName, "Invoke setDimensionPixelSizeFormPrefs with $key, $defaultValue - result: ${param.result}");
+                } else {
+                    param.setResult(mPrefsMap.getInt(key, defaultValue));
+                }
+            }
+        };
     }
 }
