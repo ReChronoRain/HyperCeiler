@@ -29,6 +29,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     // Context mContext;
     Class<?> mDeviceConfig;
+    bool usePx = false;
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
@@ -53,24 +54,28 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", 
-                              //setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_bottom")
-                              mPrefsMap.getInt("home_layout_workspace_padding_bottom", 0)
+                              GetPrefDimension("home_layout_workspace_padding_bottom", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", 
-                              //setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_top")
-                              mPrefsMap.getInt("home_layout_workspace_padding_top", 0)
+                              GetPrefDimension("home_layout_workspace_padding_top", 0)
                              );
         }
 
         if (mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")) {
             logE("===============home_layout_workspace_padding_horizontal: " + mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0));
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", 
-                              //setDimensionPixelSizeFormPrefs("home_layout_workspace_padding_horizontal")
-                              mPrefsMap.getInt("home_layout_workspace_padding_horizontal", 0)
+                              GetPrefDimension("home_layout_workspace_padding_horizontal", 0)
                              );
         }
+    }
+
+    private int GetPrefDimension(string key, int defaultValue = 0) {
+        if (usePx) {
+            return setDimensionPixelSizeFormPrefs(key, defaultValue);
+        } else {
+            return mPrefsMap.getInt(key, defaultValue);
     }
 }
