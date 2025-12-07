@@ -59,6 +59,7 @@ object LayoutRules : HomeBaseHookNew() {
     private var currentCellWidth = 0
     private var currentCellHeight = 0
 
+    @Suppress("unused")
     @Version(isPad = false, min = 600000000)
     private fun isOS3Hook() {
         if (isUnlockGridsHook) {
@@ -218,20 +219,19 @@ object LayoutRules : HomeBaseHookNew() {
         override fun after(param: MethodHookParam) {
             val rules = param.thisObject
 
-            logE(
+            logD(
                 TAG,
                 lpparam.packageName,
-                "rules object: $rules Class fields: ${rules.javaClass.declaredFields.joinToString()}",
-                null
+                "rules object: $rules Class fields: ${rules.javaClass.declaredFields.joinToString()}"
             )
-            
+
             val mScreenWidth = rules.getIntField("mScreenWidth")
             val mScreenHeight = rules.getIntField("mScreenHeight")
             val mCellWidth = rules.getIntField("mCellWidth")
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = //rules.getIntField("mWorkspaceTopPadding")
+            val mWorkspaceTopPadding =
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethodAs<Int>("getValue")
             val mWorkspaceCellPaddingBottom =
@@ -273,7 +273,7 @@ object LayoutRules : HomeBaseHookNew() {
             currentCellWidth = mCellWidth
             currentCellHeight = mCellHeight
 
-            val cellWorkspaceHeight = mCellHeight * mCellCountY
+            //val cellWorkspaceHeight = mCellHeight * mCellCountY
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
                 currentCellWidth = (mScreenWidth - if (isSetWSPaddingSideHook) {
@@ -295,7 +295,7 @@ object LayoutRules : HomeBaseHookNew() {
                 }) / currentCellCountY
             }
 
-            val cellSize = max(currentCellWidth, currentCellHeight)
+            //val cellSize = max(currentCellWidth, currentCellHeight)
             rules.setIntField("mCellWidth", currentCellWidth)
             rules.setIntField("mCellHeight", currentCellHeight)
 
@@ -343,7 +343,7 @@ object LayoutRules : HomeBaseHookNew() {
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellSize = rules.getIntField("mCellSize")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = 
+            val mWorkspaceTopPadding =
                 rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
                     .callMethodAs<Int>("getValue")
             val mWorkspaceCellPaddingBottom =
