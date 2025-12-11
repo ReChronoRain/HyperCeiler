@@ -92,12 +92,16 @@ abstract class MusicBaseHook : BaseHook() {
         mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
     }
     val context: Application by lazy { AndroidAppHelper.currentApplication() }
+    private val nSize: Float by lazy { mPrefsMap.getInt("system_ui_statusbar_music_size_n", 15).toFloat() }
+    private val hideAodShow: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod") }
+    private val isAodMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode") }
+    private val isShowApp by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_show_app") }
     private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
-
-    private val circlePaint by lazy {
-        Paint(Paint.ANTI_ALIAS_FLAG)
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
     }
 
+    // 缓存资源 ID
     private val resourceIds by lazy {
         val modRes = AppsTool.getModuleRes(context)
         ResourceIds(
