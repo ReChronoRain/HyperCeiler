@@ -31,7 +31,7 @@ object DisableSafeModelTip : BaseHook() {
         DexKit.findMember<Method>("DisableSafeModelTip") {
             it.findMethod {
                 matcher {
-                    usingEqStrings("android.provider.MiuiSettings\$Ad")
+                    usingEqStrings($$"android.provider.MiuiSettings$Ad")
                 }
             }.singleOrNull()
         }.replaceMethod {

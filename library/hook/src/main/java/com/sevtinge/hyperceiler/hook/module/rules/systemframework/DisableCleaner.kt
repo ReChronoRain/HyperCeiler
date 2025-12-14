@@ -19,82 +19,81 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemframework
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 object DisableCleaner : BaseHook() {
     override fun init() {
         hookAllMethods("com.android.server.am.ActivityManagerService", "checkExcessivePowerUsage",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.ActivityManagerShellCommand", "runKillAll",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.CameraBooster", "boostCameraIfNeeded",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.OomAdjuster", "shouldKillExcessiveProcesses",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = false
                 }
             }
         )
         hookAllMethods("com.android.server.am.OomAdjuster", "updateAndTrimProcessLSP",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.args[2] = 0
                 }
             }
         )
         hookAllMethods("com.android.server.am.PhantomProcessList", "trimPhantomProcessesIfNecessary",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.ProcessMemoryCleaner", "checkBackgroundProcCompact",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.ProcessPowerCleaner", "handleAutoLockOff",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.am.SystemPressureController", "nStartPressureMonitor",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.android.server.wm.RecentTasks", "trimInactiveRecentTasks",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }
             }
         )
         hookAllMethods("com.miui.cameraopt.adapter.ProcessManagerAdapter", "killApplication",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.result = null
                 }

@@ -66,7 +66,7 @@ object NewPluginHelperKt : BaseHook() {
             }*/
 
         // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
-        loadClass("com.android.systemui.shared.plugins.PluginInstance\$PluginFactory")
+        loadClass($$"com.android.systemui.shared.plugins.PluginInstance$PluginFactory")
             .methodFinder().filterByName("createPluginContext")
             .first().createAfterHook { it ->
                 runCatching {

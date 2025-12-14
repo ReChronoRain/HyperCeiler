@@ -30,7 +30,7 @@ object PublicClass {
         loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl")
     }
     val seekBarObserverNew by lazy {
-        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl\$seekBarObserver$1")
+        loadClassOrNull($$"com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl$seekBarObserver$1")
     }
     val miuiMediaNotificationControllerImpl by lazy {
         loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaNotificationControllerImpl")
@@ -56,7 +56,7 @@ object PublicClass {
 
     val seekBarObserver by lazy {
         loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
-            ?: loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl\$seekBarObserver$1")
+            ?: loadClassOrNull($$"com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl$seekBarObserver$1")
             ?: loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
     }
 

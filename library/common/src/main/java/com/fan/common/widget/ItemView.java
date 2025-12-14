@@ -2,7 +2,6 @@ package com.fan.common.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -18,21 +17,19 @@ import androidx.annotation.StringRes;
 import com.fan.common.R;
 
 import fan.animation.Folme;
-import fan.animation.ITouchStyle;
-import fan.animation.base.AnimConfig;
 
 public class ItemView extends LinearLayout {
 
     private String mTitle;
     private String mSummary;
-    private String mValue;
+    private final String mValue;
     private int mWidgetLayout;
-    private boolean mEnabled;
+    private final boolean mEnabled;
 
     private int mBackgroundRes;
 
-    private int mTitleTextColor;
-    private int mSummaryTextColor;
+    private final int mTitleTextColor;
+    private final int mSummaryTextColor;
 
     private boolean mShowArrowRight;
 
@@ -87,7 +84,7 @@ public class ItemView extends LinearLayout {
         setTitle(mTitle);
         setSummary(mSummary);
         setArrowRightVisible(mShowArrowRight);
-        Folme.useAt(mItemView).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).setBackgroundColor(0.08f, 0.0f, 0.0f, 0.0f).handleTouchOf(mItemView, new AnimConfig[0]);
+        Folme.useAt(mItemView).touch().setScale(1.0f).setBackgroundColor(0.08f, 0.0f, 0.0f, 0.0f).handleTouchOf(mItemView);
     }
 
     public void setTitle(String title) {

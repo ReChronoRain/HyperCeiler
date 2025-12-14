@@ -29,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBefo
 
 object NotificationImportanceHyperOSFix : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.notification.collection.coordinator.StackCoordinator\$attach$1")
+        loadClass($$"com.android.systemui.statusbar.notification.collection.coordinator.StackCoordinator$attach$1")
             .methodFinder().filterByName("onAfterRenderList")
             .first().createBeforeHook { param ->
                 val mNotificationEntries = param.args[0] as List<*>

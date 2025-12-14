@@ -51,7 +51,7 @@ object InstallRiskDisable : BaseHook() {
         DexKit.findMember("InstallRiskDisable3") {
             it.findMethod {
                 matcher {
-                    addUsingString("android.provider.MiuiSettings\$Ad", StringMatchType.Equals)
+                    addUsingString($$"android.provider.MiuiSettings$Ad", StringMatchType.Equals)
                     returnType = "boolean"
                 }
             }.single()

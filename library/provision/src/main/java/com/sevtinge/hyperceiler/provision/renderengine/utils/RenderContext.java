@@ -22,12 +22,12 @@ import miuix.mgl.MglContext;
 
 public class RenderContext {
     private long mGlobalStartTime;
-    private MaterialRepo mMaterialRepo;
+    private final MaterialRepo mMaterialRepo;
     private float mTime;
     private int mWidth = 1;
     private int mHeight = 1;
-    private float[] mSourceResolution = new float[2];
-    private MglContext mContext = new MglContext();
+    private final float[] mSourceResolution = new float[2];
+    private final MglContext mContext = new MglContext();
 
     public RenderContext() {
         MaterialRepo materialRepo = new MaterialRepo();

@@ -31,7 +31,7 @@ object UnlockShortCuts: BaseHook() {
             .methodFinder()
             .filterByName("loadWhiteItems")
             .first()
-            .createAfterHook { it ->
+            .createAfterHook {
                 val originalResult = it.result as? List<*> ?: return@createAfterHook
                 list.clear()
 

@@ -74,12 +74,8 @@ public class ShellInit {
         } else {
             if (lastReady) {
                 AndroidLogUtils.logW(TAG, "ShellExec is null!! Attempt to rewrite creation...");
-                return new ShellExec(true, true, mResult);
-            } else {
-                return new ShellExec(true, true, mResult);
-                // throw new RuntimeException("ShellExec is null!! " +
-                //     "And it seems like it has never been created successfully!");
             }
+            return new ShellExec(true, true, mResult);
         }
     }
 

@@ -27,7 +27,6 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
-import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -86,7 +85,7 @@ object RealMemory : BaseHook() {
                             val df = DecimalFormat("0.00")
                             extmMem = "+" + df.format(number).toString()
                         } catch (e: NumberFormatException) {
-                            XposedLogUtils.logE(TAG, lpparam.packageName, "Get extm size failed by: $e"
+                            logE(TAG, lpparam.packageName, "Get extm size failed by: $e"
                             )
                         }
                     }

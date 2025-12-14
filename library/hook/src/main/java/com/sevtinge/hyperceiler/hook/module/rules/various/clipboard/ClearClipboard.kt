@@ -52,7 +52,7 @@ class ClearClipboard : BaseHook() {
         MethodFinder.fromClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader)
             .filterByName("initPopupWindow")
             .first()
-            .hookAfterMethod {
+            .hookAfterMethod { it ->
                 val onClickAddButton: OnClickListener
                 val addButton: ImageView
                 val addButtonIcon: Drawable
@@ -68,16 +68,16 @@ class ClearClipboard : BaseHook() {
 
                     callMethod("setVisibility", 0)
                     onClickAddButton = callMethod("getListenerInfo")!!.getObjectFieldAs("mOnClickListener")
-                    setOnClickListener {
+                    setOnClickListener { self ->
                         logI("use self OnClickListener")
                         if (!mClipboardText.isSelected) {
-                            onClickAddButton.onClick(it)
+                            onClickAddButton.onClick(self)
                             return@setOnClickListener
                         }
 
                         logI("clean Clipboard")
                         val mAllClipboardList = mPopWindow.getObjectFieldAs<ArrayList<*>>("mAllClipboardList")
-                        mAllClipboardList.forEach { mPopWindow.callMethod("deleteSavedFile", it) }
+                        mAllClipboardList.forEach { arg -> mPopWindow.callMethod("deleteSavedFile", arg) }
                         mAllClipboardList.clear()
 
                         mPopWindow.getObjectField("mInputMethodClipboardAdapter")?.callMethod("clearClipboardListItem")

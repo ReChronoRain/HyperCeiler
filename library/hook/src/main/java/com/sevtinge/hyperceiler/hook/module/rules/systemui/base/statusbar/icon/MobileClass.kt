@@ -28,7 +28,7 @@ object MobileClass {
         loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.binder.MiuiMobileIconBinder")
     }
     val mOperatorConfig by lazy {
-        loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig")
+        loadClass($$"com.miui.interfaces.IOperatorCustomizedPolicy$OperatorConfig")
     }
     val miuiCellularIconVM by lazy {
         loadClass("com.android.systemui.statusbar.pipeline.mobile.ui.viewmodel.MiuiCellularIconVM")

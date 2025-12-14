@@ -184,9 +184,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                     notificationManager.notify(notificationId, builder.build());
 
                     // 9 秒后自动关闭
-                    new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                        notificationManager.cancel(notificationId);
-                    }, 9000);
+                    new Handler(Looper.getMainLooper()).postDelayed(() -> notificationManager.cancel(notificationId), 9000);
 
 
                     return true;

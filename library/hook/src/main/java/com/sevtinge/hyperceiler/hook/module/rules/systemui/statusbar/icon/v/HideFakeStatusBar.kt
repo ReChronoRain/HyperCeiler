@@ -153,7 +153,7 @@ object HideFakeStatusBar : MusicBaseHook() {
             }
 
 
-        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
+        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").methodFinder()
             .filterByName("onExpansionChanged").first().createHook {
                 before {
                     unhook0 = miuiConfigs.methodFinder()
@@ -198,7 +198,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                     unhook0?.unhook()
                 }
             }
-        loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController\$notificationCallback$1").methodFinder()
+        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").methodFinder()
             .filterByName("onAppearanceChanged").first().createHook {
                 before {
                 }
@@ -212,7 +212,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                                 .callMethod("get")
                         loadClass("com.android.systemui.controlcenter.shade.NotificationHeaderExpandController")
                             .callStaticMethod(
-                                "access\$startFolmeAnimationAlpha",
+                                $$"access$startFolmeAnimationAlpha",
                                 notificationHeaderExpandController,
                                 combinedHeaderController!!.getObjectField("notificationBigTime"),
                                 combinedHeaderController.getObjectField("notificationBigTimeFolme"),

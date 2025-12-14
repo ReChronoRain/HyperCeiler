@@ -22,7 +22,6 @@ import android.app.Application
 import android.content.Context
 import android.content.res.Resources
 import com.sevtinge.hyperceiler.hook.module.base.pack.home.HomeBaseHookNew
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookData
 import com.sevtinge.hyperceiler.hook.utils.ResourcesHookMap
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
@@ -83,7 +82,7 @@ object RecentResource : HomeBaseHookNew() {
     }
 
     override fun initBase() {
-        findAndHookMethod("com.miui.home.recents.util.WindowCornerRadiusUtil", "getTaskViewCornerRadius", object : HookTool.MethodHook(){
+        findAndHookMethod("com.miui.home.recents.util.WindowCornerRadiusUtil", "getTaskViewCornerRadius", object : MethodHook(){
             override fun before(param: MethodHookParam?) {
                 param?.result = sRoundedCorner
             }

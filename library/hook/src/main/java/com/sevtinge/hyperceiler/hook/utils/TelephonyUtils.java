@@ -113,7 +113,7 @@ public class TelephonyUtils {
         }
 
         try {
-            SubscriptionManager subscriptionManager = (SubscriptionManager) context.getSystemService(SubscriptionManager.class);
+            SubscriptionManager subscriptionManager = context.getSystemService(SubscriptionManager.class);
             str = subscriptionManager.getPhoneNumber(subscriptionInfo.getSubscriptionId());
         } catch (IllegalStateException e) {
             str = "";

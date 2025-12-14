@@ -26,18 +26,17 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 import com.sevtinge.hyperceiler.core.R;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import androidx.preference.Preference;
-import androidx.preference.PreferenceViewHolder;
-
 public class StartActivityWithRootPreference extends Preference {
 
-    private String targetActivityClass;
+    private final String targetActivityClass;
 
     public StartActivityWithRootPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,9 +48,7 @@ public class StartActivityWithRootPreference extends Preference {
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
 
-        holder.itemView.setOnClickListener(v -> {
-            launchActivityWithRoot();
-        });
+        holder.itemView.setOnClickListener(v -> launchActivityWithRoot());
     }
 
     private void launchActivityWithRoot() {

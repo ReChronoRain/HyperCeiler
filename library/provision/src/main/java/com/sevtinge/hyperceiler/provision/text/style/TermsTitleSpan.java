@@ -30,8 +30,8 @@ import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 
 public class TermsTitleSpan extends ClickableSpan {
 
-    private Context mContext;
-    private int mHiperlinkType;
+    private final Context mContext;
+    private final int mHiperlinkType;
 
     public TermsTitleSpan(Context context, int type) {
         mContext = context;

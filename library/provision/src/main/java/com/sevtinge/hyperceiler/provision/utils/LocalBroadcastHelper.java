@@ -76,19 +76,11 @@ public class LocalBroadcastHelper {
         synchronized (mReceivers) {
             try {
                 ReceiverRecord receiverRecord = new ReceiverRecord(intentFilter, receiver);
-                ArrayList<IntentFilter> arrayList = mReceivers.get(receiver);
-                if (arrayList == null) {
-                    arrayList = new ArrayList<>(1);
-                    mReceivers.put(receiver, arrayList);
-                }
+                ArrayList<IntentFilter> arrayList = mReceivers.computeIfAbsent(receiver, k -> new ArrayList<>(1));
                 arrayList.add(intentFilter);
                 for (int i = 0; i < intentFilter.countActions(); i++) {
                     String action = intentFilter.getAction(i);
-                    ArrayList<ReceiverRecord> arrayList2 = mActions.get(action);
-                    if (arrayList2 == null) {
-                        arrayList2 = new ArrayList<>(1);
-                        mActions.put(action, arrayList2);
-                    }
+                    ArrayList<ReceiverRecord> arrayList2 = mActions.computeIfAbsent(action, k -> new ArrayList<>(1));
                     arrayList2.add(receiverRecord);
                 }
             } catch (Throwable th) {
@@ -156,14 +148,7 @@ public class LocalBroadcastHelper {
         }
     }
 
-    private static class BroadcastRecord {
-        final Intent mIntent;
-        final ArrayList<ReceiverRecord> mReceivers;
-
-        BroadcastRecord(Intent intent, ArrayList<ReceiverRecord> receivers) {
-            mIntent = intent;
-            mReceivers = receivers;
-        }
+    private record BroadcastRecord(Intent mIntent, ArrayList<ReceiverRecord> mReceivers) {
     }
 
     private static class ReceiverRecord {
@@ -177,13 +162,12 @@ public class LocalBroadcastHelper {
         }
 
         public String toString() {
-            StringBuilder builder = new StringBuilder(128);
-            builder.append("Receiver{");
-            builder.append(mReceiver);
-            builder.append(" filter=");
-            builder.append(mFilter);
-            builder.append("}");
-            return builder.toString();
+            String builder = "Receiver{" +
+                mReceiver +
+                " filter=" +
+                mFilter +
+                "}";
+            return builder;
         }
     }
 

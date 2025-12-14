@@ -32,7 +32,7 @@ fun Context.getIdByName(
 
 @StringRes
 fun Context.getStringIdByName(name: String): Int = getIdByName(name, "string")
-fun Context.getString(name: String): String? = getString(getStringIdByName(name))
+fun Context.getString(name: String): String = getString(getStringIdByName(name))
 
 @DrawableRes
 fun Context.getDrawableIdByName(name: String): Int = getIdByName(name, "drawable")

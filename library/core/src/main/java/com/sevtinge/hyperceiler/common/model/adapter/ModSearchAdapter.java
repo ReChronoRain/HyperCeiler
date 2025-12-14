@@ -36,7 +36,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.common.model.adapter.ModSearchAdapter.ModSearchViewHolder;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -225,31 +224,26 @@ public class ModSearchAdapter extends CardGroupAdapter {
         });
     }
 
-    public static class ModDataComparator implements Comparator<ModData> {
-        private final String searchTerm;
-
-        public ModDataComparator(String searchTerm) {
-            this.searchTerm = searchTerm;
-        }
+    public record ModDataComparator(String searchTerm) implements Comparator<ModData> {
 
         @Override
-        public int compare(ModData app1, ModData app2) {
-            int frequency1 = calculateFrequency(app1.title);
-            int frequency2 = calculateFrequency(app2.title);
+            public int compare(ModData app1, ModData app2) {
+                int frequency1 = calculateFrequency(app1.title);
+                int frequency2 = calculateFrequency(app2.title);
 
-            return Integer.compare(frequency2, frequency1); // 频率高的排在前面
-        }
-
-        private int calculateFrequency(String str) {
-            int frequency = 0;
-            for (int i = 0; i < searchTerm.length(); i++) {
-                char ch = searchTerm.charAt(i);
-                String chStr = String.valueOf(ch);
-                if (str.contains(chStr)) {
-                    frequency = frequency + 1;
-                }
+                return Integer.compare(frequency2, frequency1); // 频率高的排在前面
             }
-            return frequency;
+
+            private int calculateFrequency(String str) {
+                int frequency = 0;
+                for (int i = 0; i < searchTerm.length(); i++) {
+                    char ch = searchTerm.charAt(i);
+                    String chStr = String.valueOf(ch);
+                    if (str.contains(chStr)) {
+                        frequency = frequency + 1;
+                    }
+                }
+                return frequency;
+            }
         }
-    }
 }

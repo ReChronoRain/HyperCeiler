@@ -40,7 +40,6 @@ import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
 import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 
 import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 import fan.core.utils.MiuiBlurUtils;
 import fan.internal.utils.LiteUtils;
 import fan.os.Build;
@@ -101,7 +100,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
             mNext.setLayoutParams(params);
         }
         if (OobeUtils.isMiuiSdkSupportFolme() && mNext != null) {
-            Folme.useAt(mNext).touch().handleTouchOf(mNext, new AnimConfig[0]);
+            Folme.useAt(mNext).touch().handleTouchOf(mNext);
         }
         if (mNext != null) {
             mNext.setEnabled(false);

@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 
 public class PermissionSettingsActivity extends BaseActivity {
 
-    private Handler mBottomHandler = new Handler();
+    private final Handler mBottomHandler = new Handler();
 
     @Override
     protected int getLogoDrawableId() {

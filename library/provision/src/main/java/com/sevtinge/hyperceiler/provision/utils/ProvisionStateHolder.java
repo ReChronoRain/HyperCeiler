@@ -28,11 +28,9 @@ public class ProvisionStateHolder {
     public static ProvisionStateHolder getInstance() {
         if (sInstance == null) {
             synchronized (ProvisionStateHolder.class) {
-                try {
-                    if (sInstance == null) {
-                        sInstance = new ProvisionStateHolder();
-                    }
-                } finally {}
+                if (sInstance == null) {
+                    sInstance = new ProvisionStateHolder();
+                }
             }
         }
         return sInstance;

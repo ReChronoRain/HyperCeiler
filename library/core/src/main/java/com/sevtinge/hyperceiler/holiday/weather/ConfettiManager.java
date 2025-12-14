@@ -561,7 +561,7 @@ public class ConfettiManager {
                 processNewEmission(elapsedTime);
                 updateConfetti(elapsedTime);
 
-                if (confetti.size() == 0 && elapsedTime >= emissionDuration) {
+                if (confetti.isEmpty() && elapsedTime >= emissionDuration) {
                     terminate();
                 } else {
                     confettiView.invalidate();

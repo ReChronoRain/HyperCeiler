@@ -113,8 +113,7 @@ public class ConfettiView extends View implements View.OnLayoutChangeListener {
                                int i7) {
         if (terminated) {
             final ViewParent parent = getParent();
-            if (parent != null && parent instanceof ViewGroup) {
-                final ViewGroup vg = (ViewGroup) parent;
+            if (parent != null && parent instanceof ViewGroup vg) {
                 vg.removeViewInLayout(this);
                 vg.removeOnLayoutChangeListener(this);
                 vg.invalidate();

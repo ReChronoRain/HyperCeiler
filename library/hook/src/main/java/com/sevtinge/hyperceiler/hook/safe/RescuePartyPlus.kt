@@ -63,8 +63,7 @@ object RescuePartyPlus : BaseHook() {
                     "setCrashApplicationLevel($versionedPackage, $mitigationCount)"
                 )
 
-                val packageName = versionedPackage.packageName
-                when (packageName) {
+                when (val packageName = versionedPackage.packageName) {
                     HOST_SYSTEM_UI -> {
                         if (handler.onHandleCrash(context, packageName, mitigationCount)) {
                             putGlobalSettings(context, "sys.rescueparty.systemui.level", 0)
@@ -92,9 +91,7 @@ object RescuePartyPlus : BaseHook() {
             .toList().createBeforeHooks { param ->
                 val watchdog = param.thisObject
                 val flag = watchdog.getAdditionalInstanceFieldAs<String?>("flag")
-                if (flag == null) {
-                    return@createBeforeHooks
-                }
+                    ?: return@createBeforeHooks
 
                 watchdog.removeAdditionalInstanceField("flag")
                 val versionedPackage = param.args[1] as VersionedPackage?

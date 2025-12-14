@@ -31,9 +31,9 @@ import java.util.List;
 public class AppInfoCache {
 
     // 上下文（使用Application Context避免内存泄漏）
-    private Context mContext;
+    private final Context mContext;
     // LruCache缓存（key：包名，value：ApplicationInfo）
-    private LruCache<String, ApplicationInfo> mAppInfoCache;
+    private final LruCache<String, ApplicationInfo> mAppInfoCache;
     // 单例实例（volatile保证多线程可见性）
     private static volatile AppInfoCache sInstance;
 

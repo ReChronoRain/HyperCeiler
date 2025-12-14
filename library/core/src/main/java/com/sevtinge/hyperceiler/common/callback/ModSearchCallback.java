@@ -38,11 +38,11 @@ public class ModSearchCallback implements SearchActionMode.Callback {
     private View mAnimView;
     private EditText mSearchInput;
 
-    private OnSearchListener mOnSearchListener;
-    private SearchView.OnQueryTextListener mOnQueryTextListener;
+    private final OnSearchListener mOnSearchListener;
+    private final SearchView.OnQueryTextListener mOnQueryTextListener;
 
     private String mSearchText = "";
-    private TextWatcher mSearchTextWatcher = new TextWatcher() {
+    private final TextWatcher mSearchTextWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 

@@ -39,9 +39,9 @@ object AutoDismissExpandedPopupsHook : BaseHook() {
     private val mHeadsUpEntryPhoneClass by lazy {
         if (isMoreAndroidVersion(36)) {
             // Android 16 合并了 HeadsUpManagerPhone，不再继承
-            loadClass("com.android.systemui.statusbar.notification.headsup.HeadsUpManagerImpl\$HeadsUpEntry")
+            loadClass($$"com.android.systemui.statusbar.notification.headsup.HeadsUpManagerImpl$HeadsUpEntry")
         } else {
-            loadClass("com.android.systemui.statusbar.phone.HeadsUpManagerPhone\$HeadsUpEntryPhone")
+            loadClass($$"com.android.systemui.statusbar.phone.HeadsUpManagerPhone$HeadsUpEntryPhone")
         }
     }
 

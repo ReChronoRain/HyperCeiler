@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 object UnLockAreaScreenshot : BaseHook() {
     override fun init() {
         findAndHookMethod(
-            "com.android.settings.MiuiShortcut\$System", "supportPartialScreenShot",
+            $$"com.android.settings.MiuiShortcut$System", "supportPartialScreenShot",
             object : MethodHook() {
                 override fun before(param: MethodHookParam?) {
                     param?.result = true

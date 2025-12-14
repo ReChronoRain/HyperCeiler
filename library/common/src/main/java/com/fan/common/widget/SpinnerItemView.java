@@ -15,14 +15,12 @@ import androidx.annotation.Nullable;
 import com.fan.common.R;
 
 import fan.animation.Folme;
-import fan.animation.ITouchStyle;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.widget.Spinner;
 
 public class SpinnerItemView extends ItemView {
 
-    private Spinner mSpinner;
-    private CharSequence[] mEntries;
+    private final Spinner mSpinner;
+    private final CharSequence[] mEntries;
 
     public SpinnerItemView(Context context) {
         this(context, null);
@@ -89,13 +87,13 @@ public class SpinnerItemView extends ItemView {
             spinner.setClickable(false);
             spinner.setLongClickable(false);
             spinner.setContextClickable(false);
-            spinner.setOnSpinnerDismissListener(() -> Folme.useAt(new View[]{parent}).touch().touchUp(new AnimConfig[0]));
+            spinner.setOnSpinnerDismissListener(() -> Folme.useAt(new View[]{parent}).touch().touchUp());
             parent.setOnTouchListener((v, event) -> {
                 if (spinner.isEnabled()) {
                     switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN -> Folme.useAt(new View[]{v}).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).touchDown(new AnimConfig[0]);
+                        case MotionEvent.ACTION_DOWN -> Folme.useAt(new View[]{v}).touch().setScale(1.0f).touchDown();
                         case MotionEvent.ACTION_UP -> spinner.performClick(event.getX(), event.getY());
-                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(new View[]{v}).touch().touchUp(new AnimConfig[0]);
+                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(new View[]{v}).touch().touchUp();
                     }
                     return true;
                 } else {

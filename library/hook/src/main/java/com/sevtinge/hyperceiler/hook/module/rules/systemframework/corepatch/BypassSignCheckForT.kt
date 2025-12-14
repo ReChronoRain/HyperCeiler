@@ -19,13 +19,12 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 
 object BypassSignCheckForT : BaseHook() {
     override fun init() {
         try {
-            hookAllMethods("android.util.apk.ApkSignatureVerifier", "getMinimumSignatureSchemeVersionForTargetSdk", object : HookTool.MethodHook() {
+            hookAllMethods("android.util.apk.ApkSignatureVerifier", "getMinimumSignatureSchemeVersionForTargetSdk", object : MethodHook() {
                 override fun after(param: MethodHookParam?) {
                     param?.result = 1
                 }

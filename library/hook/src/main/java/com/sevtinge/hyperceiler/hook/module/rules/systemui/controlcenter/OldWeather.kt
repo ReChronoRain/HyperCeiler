@@ -44,7 +44,7 @@ object OldWeather : BaseHook() {
                 val viewGroup = it.thisObject as ViewGroup
                 val context = viewGroup.context
                 val layoutParam =
-                    loadClass("androidx.constraintlayout.widget.ConstraintLayout\$LayoutParams")
+                    loadClass($$"androidx.constraintlayout.widget.ConstraintLayout$LayoutParams")
                         .getConstructor(Int::class.java, Int::class.java)
                         .newInstance(
                             ViewGroup.LayoutParams.WRAP_CONTENT,

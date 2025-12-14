@@ -38,7 +38,7 @@ public class ProvisionAnimService extends Service {
     public static HashMap<String, Integer> FAST_ANIM_MAP = new HashMap<>();
     IProvisionAnim.Stub stub = new IProvisionAnim.Stub() {
 
-        private RemoteCallbackList<IAnimCallback> mListeners = new RemoteCallbackList<>();
+        private final RemoteCallbackList<IAnimCallback> mListeners = new RemoteCallbackList<>();
 
         @Override
         public IBinder asBinder() {

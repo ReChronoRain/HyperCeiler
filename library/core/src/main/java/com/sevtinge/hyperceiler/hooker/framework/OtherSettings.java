@@ -148,9 +148,7 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         ExecutorService executorService = ThreadPoolManager.getInstance();
         switch (preference.getKey()) {
-            case "prefs_key_system_framework_guided_access" -> initApp(executorService, () -> {
-                AppsTool.killApps("com.miui.home", "com.android.systemui");
-            });
+            case "prefs_key_system_framework_guided_access" -> initApp(executorService, () -> AppsTool.killApps("com.miui.home", "com.android.systemui"));
             case "prefs_key_system_framework_guided_access_sc" -> initApp(executorService, () -> AppsTool.killApps("com.miui.securitycenter"));
             case "prefs_key_system_framework_guided_access_screen_int" -> initApp(executorService, () -> AppsTool.killApps("com.android.systemui"));
             case "prefs_key_system_framework_guided_access_status" -> initApp(executorService, () -> AppsTool.killApps("com.miui.home","com.android.systemui"));

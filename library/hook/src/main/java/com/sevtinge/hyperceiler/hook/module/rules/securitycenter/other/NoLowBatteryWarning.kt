@@ -20,11 +20,10 @@ package com.sevtinge.hyperceiler.hook.module.rules.securitycenter.other
 
 import android.provider.Settings
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 object NoLowBatteryWarning : BaseHook() {
     override fun init() {
-        val settingHook: MethodHook = object : HookTool.MethodHook() {
+        val settingHook: MethodHook = object : MethodHook() {
             override fun before(param: MethodHookParam) {
                 val key = param.args[1] as String
                 if ("low_battery_dialog_disabled" == key) param.result = 1

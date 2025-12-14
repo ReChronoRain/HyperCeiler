@@ -254,7 +254,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
     }
     public static class StateMachine {
 
-        private Context mContext;
+        private final Context mContext;
 
         private State mCurrentState;
         private State mPermissionState;
@@ -504,8 +504,8 @@ public class ProvisionActivity extends ProvisionBaseActivity {
             }
         }
 
-        public class StateInfo {
-            private State mCurrent;
+        public static class StateInfo {
+            private final State mCurrent;
             private State mNext;
 
             public StateInfo(State current) {
@@ -547,9 +547,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 Log.e(TAG, String.valueOf(e));
                 return null;
-            } catch (InvocationTargetException e) {
-                throw new RuntimeException(e);
-            } catch (NoSuchMethodException e) {
+            } catch (InvocationTargetException | NoSuchMethodException e) {
                 throw new RuntimeException(e);
             }
         }

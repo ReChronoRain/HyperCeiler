@@ -181,7 +181,7 @@ public class NotificationUtils {
     public static void setEnableFloat(Notification notification, boolean enable) {
         try {
             Object obj = notification.getClass().getDeclaredField("extraNotification").get(notification);
-            obj.getClass().getDeclaredMethod("setEnableFloat", Boolean.TYPE).invoke(obj, Boolean.valueOf(enable));
+            obj.getClass().getDeclaredMethod("setEnableFloat", Boolean.TYPE).invoke(obj, enable);
         } catch (Exception unused) {}
     }
 

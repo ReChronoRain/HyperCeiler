@@ -80,7 +80,7 @@ public class DraggableViewPager extends ViewPager {
         }
     }*/
 
-    public class ViewPagerScroller extends Scroller {
+    public static class ViewPagerScroller extends Scroller {
 
         private int mDuration = 1000;
 

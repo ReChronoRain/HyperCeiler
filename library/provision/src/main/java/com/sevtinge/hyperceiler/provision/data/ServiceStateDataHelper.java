@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class ServiceStateDataHelper {
 
-    private Context mContext;
+    private final Context mContext;
 
     public ArrayList<ServiceItem> mServiceItems = new ArrayList<>();
     public HashMap<String, Integer> mPrivacyTypeMap = new HashMap<>();

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.widget;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import fan.recyclerview.card.CardDefaultItemAnimator;
 import fan.recyclerview.card.CardItemDecoration;
 import fan.recyclerview.widget.RecyclerView;
-import fan.springback.view.SpringBackLayout;
 
 public class BaseRecyclerView extends RecyclerView {
 

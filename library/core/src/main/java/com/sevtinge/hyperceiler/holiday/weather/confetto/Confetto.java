@@ -324,18 +324,18 @@ public abstract class Confetto {
         float vX = ai * t + vi;
         pair[1] = vX;
 
+        float x;
         if (targetTime == null || t < targetTime) {
             // distance covered with constant acceleration
             // distance = xi + vi * t + 1/2 * a * t^2
-            float x = xi + vi * t + 0.5f * ai * t * t;
-            pair[0] = x;
+            x = xi + vi * t + 0.5f * ai * t * t;
         } else {
             // distance covered with constant acceleration + distance covered with max velocity
             // distance = xi + vi * targetTime + 1/2 * a * targetTime^2
             //     + (t - targetTime) * vTarget;
-            float x = xi + vi * targetTime + 0.5f * ai * targetTime * targetTime + (t - targetTime) * vTarget;
-            pair[0] = x;
+            x = xi + vi * targetTime + 0.5f * ai * targetTime * targetTime + (t - targetTime) * vTarget;
         }
+        pair[0] = x;
     }
 
     /**

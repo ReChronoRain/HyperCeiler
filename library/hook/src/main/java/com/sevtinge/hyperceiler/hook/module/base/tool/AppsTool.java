@@ -209,7 +209,7 @@ public class AppsTool {
             Object parser = parserCls.getDeclaredConstructor().newInstance();
             File apkPath = new File(lpparam.appInfo.sourceDir);
             if (apkPath.toString().contains("com.miui.securecenter")) {
-                XposedHelpers.findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
+                findAndHookMethod(parserCls, "setMaxAspectRatio", float.class, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                         Object arg0 = param.args[0];

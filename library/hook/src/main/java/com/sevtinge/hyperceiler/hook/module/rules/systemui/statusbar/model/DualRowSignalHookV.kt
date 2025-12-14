@@ -361,7 +361,7 @@ class DualRowSignalHookV : BaseHook() {
         }
 
         val resetImageWithTintLight = miuiMobileIconBinder.methodFinder()
-            .filterByName("access\$resetImageWithTintLight")
+            .filterByName($$"access$resetImageWithTintLight")
             .singleOrNull()
         if (resetImageWithTintLight != null) {
             resetImageWithTintLight.createHook {
@@ -389,7 +389,7 @@ class DualRowSignalHookV : BaseHook() {
                         val viewBinding = param.result
 
                         val tintLightColorFlow = try {
-                            viewBinding.getObjectField("\$tintLightColorFlow")
+                            viewBinding.getObjectField($$"$tintLightColorFlow")
                         } catch (e: Exception) {
                             logE(TAG, lpparam.packageName, e)
                             null

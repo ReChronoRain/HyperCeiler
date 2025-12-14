@@ -146,122 +146,117 @@ public interface IProvisionAnim extends IInterface {
             }
         }
 
-        private static class Proxy implements IProvisionAnim {
-            public static IProvisionAnim sDefaultImpl;
-            private IBinder mRemote;
-
-            Proxy(IBinder service) {
-                mRemote = service;
-            }
+        private record Proxy(IBinder mRemote) implements IProvisionAnim {
+                    public static IProvisionAnim sDefaultImpl;
 
             @Override
-            public IBinder asBinder() {
-                return mRemote;
-            }
-
-            public String getInterfaceDescriptor() {
-                return DESCRIPTOR;
-            }
-
-            @Override
-            public void playNextAnim(int i) throws RemoteException {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                try {
-                    data.writeInterfaceToken(DESCRIPTOR);
-                    data.writeInt(i);
-                    if (!mRemote.transact(1, data, reply, 0) && Stub.getDefaultImpl() != null) {
-                        Stub.getDefaultImpl().playNextAnim(i);
-                    } else {
-                        reply.readException();
+                    public IBinder asBinder() {
+                        return mRemote;
                     }
-                } finally {
-                    reply.recycle();
-                    data.recycle();
-                }
-            }
 
-            @Override
-            public void playBackAnim(int i) throws RemoteException {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                try {
-                    data.writeInterfaceToken(DESCRIPTOR);
-                    data.writeInt(i);
-                    if (!mRemote.transact(2, data, reply, 0) && Stub.getDefaultImpl() != null) {
-                        Stub.getDefaultImpl().playBackAnim(i);
-                    } else {
-                        reply.readException();
+                    public String getInterfaceDescriptor() {
+                        return DESCRIPTOR;
                     }
-                } finally {
-                    reply.recycle();
-                    data.recycle();
-                }
-            }
 
-            @Override
-            public boolean isAnimEnd() throws RemoteException {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                try {
-                    data.writeInterfaceToken(DESCRIPTOR);
-                    if (!mRemote.transact(3, data, reply, 0) && Stub.getDefaultImpl() != null) {
-                        return Stub.getDefaultImpl().isAnimEnd();
+                    @Override
+                    public void playNextAnim(int i) throws RemoteException {
+                        Parcel data = Parcel.obtain();
+                        Parcel reply = Parcel.obtain();
+                        try {
+                            data.writeInterfaceToken(DESCRIPTOR);
+                            data.writeInt(i);
+                            if (!mRemote.transact(1, data, reply, 0) && Stub.getDefaultImpl() != null) {
+                                Stub.getDefaultImpl().playNextAnim(i);
+                            } else {
+                                reply.readException();
+                            }
+                        } finally {
+                            reply.recycle();
+                            data.recycle();
+                        }
                     }
-                    reply.readException();
-                    return reply.readInt() != 0;
-                } finally {
-                    reply.recycle();
-                    data.recycle();
-                }
-            }
 
-            @Override
-            public void registerRemoteCallback(IAnimCallback iAnimCallback) throws RemoteException {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                try {
-                    data.writeInterfaceToken(DESCRIPTOR);
-                    data.writeStrongBinder(iAnimCallback != null ? iAnimCallback.asBinder() : null);
-                    if (!mRemote.transact(4, data, reply, 0) && Stub.getDefaultImpl() != null) {
-                        Stub.getDefaultImpl().registerRemoteCallback(iAnimCallback);
-                        reply.recycle();
-                        data.recycle();
-                    } else {
-                        reply.readException();
-                        reply.recycle();
-                        data.recycle();
+                    @Override
+                    public void playBackAnim(int i) throws RemoteException {
+                        Parcel data = Parcel.obtain();
+                        Parcel reply = Parcel.obtain();
+                        try {
+                            data.writeInterfaceToken(DESCRIPTOR);
+                            data.writeInt(i);
+                            if (!mRemote.transact(2, data, reply, 0) && Stub.getDefaultImpl() != null) {
+                                Stub.getDefaultImpl().playBackAnim(i);
+                            } else {
+                                reply.readException();
+                            }
+                        } finally {
+                            reply.recycle();
+                            data.recycle();
+                        }
                     }
-                } catch (Throwable th) {
-                    reply.recycle();
-                    data.recycle();
-                    throw th;
-                }
-            }
 
-            @Override
-            public void unregisterRemoteCallback(IAnimCallback iAnimCallback) throws RemoteException {
-                Parcel data = Parcel.obtain();
-                Parcel reply = Parcel.obtain();
-                try {
-                    data.writeInterfaceToken(DESCRIPTOR);
-                    data.writeStrongBinder(iAnimCallback != null ? iAnimCallback.asBinder() : null);
-                    if (!mRemote.transact(5, data, reply, 0) && Stub.getDefaultImpl() != null) {
-                        Stub.getDefaultImpl().unregisterRemoteCallback(iAnimCallback);
-                        reply.recycle();
-                        data.recycle();
-                    } else {
-                        reply.readException();
-                        reply.recycle();
-                        data.recycle();
+                    @Override
+                    public boolean isAnimEnd() throws RemoteException {
+                        Parcel data = Parcel.obtain();
+                        Parcel reply = Parcel.obtain();
+                        try {
+                            data.writeInterfaceToken(DESCRIPTOR);
+                            if (!mRemote.transact(3, data, reply, 0) && Stub.getDefaultImpl() != null) {
+                                return Stub.getDefaultImpl().isAnimEnd();
+                            }
+                            reply.readException();
+                            return reply.readInt() != 0;
+                        } finally {
+                            reply.recycle();
+                            data.recycle();
+                        }
                     }
-                } catch (Throwable th) {
-                    reply.recycle();
-                    data.recycle();
-                    throw th;
+
+                    @Override
+                    public void registerRemoteCallback(IAnimCallback iAnimCallback) throws RemoteException {
+                        Parcel data = Parcel.obtain();
+                        Parcel reply = Parcel.obtain();
+                        try {
+                            data.writeInterfaceToken(DESCRIPTOR);
+                            data.writeStrongBinder(iAnimCallback != null ? iAnimCallback.asBinder() : null);
+                            if (!mRemote.transact(4, data, reply, 0) && Stub.getDefaultImpl() != null) {
+                                Stub.getDefaultImpl().registerRemoteCallback(iAnimCallback);
+                                reply.recycle();
+                                data.recycle();
+                            } else {
+                                reply.readException();
+                                reply.recycle();
+                                data.recycle();
+                            }
+                        } catch (Throwable th) {
+                            reply.recycle();
+                            data.recycle();
+                            throw th;
+                        }
+                    }
+
+                    @Override
+                    public void unregisterRemoteCallback(IAnimCallback iAnimCallback) throws RemoteException {
+                        Parcel data = Parcel.obtain();
+                        Parcel reply = Parcel.obtain();
+                        try {
+                            data.writeInterfaceToken(DESCRIPTOR);
+                            data.writeStrongBinder(iAnimCallback != null ? iAnimCallback.asBinder() : null);
+                            if (!mRemote.transact(5, data, reply, 0) && Stub.getDefaultImpl() != null) {
+                                Stub.getDefaultImpl().unregisterRemoteCallback(iAnimCallback);
+                                reply.recycle();
+                                data.recycle();
+                            } else {
+                                reply.readException();
+                                reply.recycle();
+                                data.recycle();
+                            }
+                        } catch (Throwable th) {
+                            reply.recycle();
+                            data.recycle();
+                            throw th;
+                        }
+                    }
                 }
-            }
-        }
 
         public static boolean setDefaultImpl(IProvisionAnim iProvisionAnim) {
             if (Proxy.sDefaultImpl != null) {

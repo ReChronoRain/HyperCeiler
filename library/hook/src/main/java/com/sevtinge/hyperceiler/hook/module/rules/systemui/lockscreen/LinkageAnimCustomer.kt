@@ -33,11 +33,11 @@ class LinkageAnimCustomer : BaseHook() {
         if (listener != null) return
 
         listener =
-            findClass("com.android.keyguard.clock.animation.ClockBaseAnimation\$1").getDeclaredConstructor(
+            findClass($$"com.android.keyguard.clock.animation.ClockBaseAnimation$1").getDeclaredConstructor(
                 SurfaceControl.Transaction::class.java, Int::class.java
             ).newInstance(SurfaceControl.Transaction(), 1 /* toLock */)
         showEase =
-            findClass("miuix.animation.utils.EaseManager\$InterpolateEaseStyle").declaredConstructors[0].newInstance(
+            findClass($$"miuix.animation.utils.EaseManager$InterpolateEaseStyle").declaredConstructors[0].newInstance(
                 20,
                 floatArrayOf(1.0f)
             )

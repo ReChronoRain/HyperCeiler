@@ -139,7 +139,7 @@ public class SearchCallback implements SearchActionMode.Callback {
         mSearchInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SEARCH_LENGTH)});
         mSearchInput.setHint("");
         mSearchInput.addTextChangedListener(mSearchTextWatcher);
-        mSearchInput.setOnEditorActionListener(mEditorActionListener);;
+        mSearchInput.setOnEditorActionListener(mEditorActionListener);
         if (mOnSearchListener != null) {
             mOnSearchListener.onCreateSearchMode(mode, menu);
         }

@@ -30,7 +30,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object RemoveSmallWindowRestrictions : BaseHook() {
     private val mSettingsClass by lazy {
-        loadClass("com.android.server.wm.WindowManagerService\$SettingsObserver")
+        loadClass($$"com.android.server.wm.WindowManagerService$SettingsObserver")
     }
     private val mWindowsUtilsClass by lazy {
         loadClass("android.util.MiuiMultiWindowUtils")
@@ -56,7 +56,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "updateDevEnableNonResizableMultiWindow"
             }.toList().createHooks {
                 after { param ->
-                    val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
+                    val this0 = param.thisObject.javaClass.field($$"this$0").get(param.thisObject)
                     val mAtmService = this0.javaClass.field("mAtmService").get(this0)
                     mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow")
                         .setBoolean(mAtmService, true)
@@ -71,7 +71,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 name == "onChange"
             }.toList().createHooks {
                 after { param ->
-                    val this0 = param.thisObject.javaClass.field("this\$0").get(param.thisObject)
+                    val this0 = param.thisObject.javaClass.field($$"this$0").get(param.thisObject)
                     val mAtmService = this0.javaClass.field("mAtmService").get(this0)
                     mAtmService.javaClass.field("mDevEnableNonResizableMultiWindow")
                         .setBoolean(mAtmService, true)

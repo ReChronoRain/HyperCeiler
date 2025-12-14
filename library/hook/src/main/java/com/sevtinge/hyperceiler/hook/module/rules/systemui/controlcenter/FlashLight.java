@@ -427,52 +427,44 @@ public class FlashLight extends TileUtils {
         Settings.System.putString(context.getContentResolver(), "flash_light_brightness", set);
     }
 
-    public static class FlashBrightness {
-        private final int slider;
-
-        private final int brightness;
-
-        public FlashBrightness(int s, int b) {
-            slider = s;
-            brightness = b;
-        }
+    public record FlashBrightness(int slider, int brightness) {
 
         public JSONObject toJSON() {
-            JSONObject jsonObject = new JSONObject();
-            try {
-                jsonObject.put("slider", slider);
-                jsonObject.put("brightness", brightness);
-            } catch (JSONException e) {
-                logE("FlashBrightness", "toJSON: " + e);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("slider", slider);
+                    jsonObject.put("brightness", brightness);
+                } catch (JSONException e) {
+                    logE("FlashBrightness", "toJSON: " + e);
+                }
+                return jsonObject;
             }
-            return jsonObject;
-        }
 
-        public static int getSlider(JSONObject jsonObject) {
-            try {
-                return jsonObject.getInt("slider");
-            } catch (JSONException e) {
-                logE("FlashBrightness", "getSlider: " + e);
+            public static int getSlider(JSONObject jsonObject) {
+                try {
+                    return jsonObject.getInt("slider");
+                } catch (JSONException e) {
+                    logE("FlashBrightness", "getSlider: " + e);
+                }
+                return -1;
             }
-            return -1;
-        }
 
-        public static int getBrightness(JSONObject jsonObject) {
-            try {
-                return jsonObject.getInt("brightness");
-            } catch (JSONException e) {
-                logE("FlashBrightness", "getBrightness: " + e);
+            public static int getBrightness(JSONObject jsonObject) {
+                try {
+                    return jsonObject.getInt("brightness");
+                } catch (JSONException e) {
+                    logE("FlashBrightness", "getBrightness: " + e);
+                }
+                return -1;
             }
-            return -1;
-        }
 
-        public static JSONObject restore(String json) {
-            try {
-                return new JSONObject(json);
-            } catch (JSONException e) {
-                logE("FlashBrightness", "restore: " + e);
+            public static JSONObject restore(String json) {
+                try {
+                    return new JSONObject(json);
+                } catch (JSONException e) {
+                    logE("FlashBrightness", "restore: " + e);
+                }
+                return new JSONObject();
             }
-            return new JSONObject();
         }
-    }
 }

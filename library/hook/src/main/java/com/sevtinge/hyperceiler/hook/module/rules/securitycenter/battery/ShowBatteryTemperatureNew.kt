@@ -94,11 +94,11 @@ object ShowBatteryTemperatureNew : BaseHook() {
         }
 
         if (batteryFragmentClass != null) {
-            loadClass("com.miui.powercenter.BatteryFragment\$a").methodFinder().first {
+            loadClass($$"com.miui.powercenter.BatteryFragment$a").methodFinder().first {
                 name == "run"
             }
         } else {
-            loadClass("com.miui.powercenter.a\$a").methodFinder().first {
+            loadClass($$"com.miui.powercenter.a$a").methodFinder().first {
                 name == "run"
             }
         }.createHook {

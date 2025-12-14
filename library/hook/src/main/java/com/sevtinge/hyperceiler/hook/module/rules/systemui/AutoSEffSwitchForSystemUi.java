@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.hook.IEffectInfo;
 
 public class AutoSEffSwitchForSystemUi extends HCBase {
     private static final String TAG = "AutoSEffSwitchForSystemUi";
-    private boolean isInit = false;
+    private final boolean isInit = false;
     private static IEffectInfo mIEffectInfo;
 
     @Override

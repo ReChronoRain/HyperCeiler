@@ -88,17 +88,17 @@ public class PermissionUtils {
             return;
         }
         mOnPermissionListener = listener;
-        List<String> deniedPermissions = new ArrayList<String>();
-        for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(context, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
-                deniedPermissions.add(permissions[i]);// 添加未授予的权限
+        List<String> deniedPermissions = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
+                deniedPermissions.add(permission);// 添加未授予的权限
             }
         }
 
-        if (deniedPermissions.size() > 0) {
+        if (!deniedPermissions.isEmpty()) {
             mRequestCode = requestCode;
             // 其中请求码范围在[0,65535]
-            ActivityCompat.requestPermissions(context, deniedPermissions.toArray(new String[deniedPermissions.size()]), requestCode);
+            ActivityCompat.requestPermissions(context, deniedPermissions.toArray(new String[0]), requestCode);
         } else {
             mOnPermissionListener.onPermissionGranted(context);
         }

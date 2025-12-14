@@ -26,7 +26,6 @@ import com.sevtinge.hyperceiler.provision.renderengine.utils.RenderContext;
 
 import java.nio.ByteBuffer;
 
-import miuix.mgl.Material;
 import miuix.mgl.MaterialEnums;
 import miuix.mgl.Primitive;
 import miuix.mgl.RenderMaterial;
@@ -202,12 +201,12 @@ public class MeshPainter extends BasePainter {
         Log.i("MeshPainter", " in draw");
         final RenderMaterial material = super.material;
         final MaterialEnums.UniformFloatType mat4 = MaterialEnums.UniformFloatType.MAT4;
-        ((Material)material).setFloatArray("uPatchX[0]", mat4, this.uPatchX);
-        ((Material)super.material).setFloatArray("uPatchY[0]", mat4, this.uPatchY);
-        ((Material)super.material).setFloatArray("uPatchR[0]", mat4, this.uPatchR);
-        ((Material)super.material).setFloatArray("uPatchG[0]", mat4, this.uPatchG);
-        ((Material)super.material).setFloatArray("uPatchB[0]", mat4, this.uPatchB);
-        ((Material)super.material).active();
+        material.setFloatArray("uPatchX[0]", mat4, this.uPatchX);
+        super.material.setFloatArray("uPatchY[0]", mat4, this.uPatchY);
+        super.material.setFloatArray("uPatchR[0]", mat4, this.uPatchR);
+        super.material.setFloatArray("uPatchG[0]", mat4, this.uPatchG);
+        super.material.setFloatArray("uPatchB[0]", mat4, this.uPatchB);
+        super.material.active();
         super.primitive.draw(1);
     }
 
@@ -359,7 +358,7 @@ public class MeshPainter extends BasePainter {
         }
     }
 
-    public class GridPoint {
+    public static class GridPoint {
         float b;
         float dx;
         float dy;
@@ -379,7 +378,7 @@ public class MeshPainter extends BasePainter {
         }
     }
 
-    public class Patch {
+    public static class Patch {
         float[][] b;
         float[][] g;
         float[][] r;

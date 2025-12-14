@@ -19,12 +19,11 @@
 package com.sevtinge.hyperceiler.hook.module.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 
 object DisplayCutout : BaseHook() {
     override fun init() {
         hookAllMethods("android.view.DisplayCutout", "pathAndDisplayCutoutFromSpec",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     param.args[0] = "M 0,0 H 0 V 0 Z"
                     param.args[1] = ""

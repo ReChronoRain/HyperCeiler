@@ -83,7 +83,7 @@ fun Any.field(
     fieldType: Class<*>? = null
 ): Field {
     if (fieldName.isBlank()) throw IllegalArgumentException("Field name must not be empty!")
-    var c: Class<*> = if (this is Class<*>) this else this.javaClass
+    var c: Class<*> = this as? Class<*> ?: this.javaClass
     do {
         c.declaredFields
             .filter { isStatic == it.isStatic }

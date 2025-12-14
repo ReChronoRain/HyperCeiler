@@ -8,8 +8,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,8 +51,8 @@ public class LogViewerActivity extends BaseActivity
     private TextView mFilterStatsTextView;
 
     // 数据列表
-    private List<String> mLevelList = new ArrayList<>();
-    private List<String> mModuleList = new ArrayList<>();
+    private final List<String> mLevelList = new ArrayList<>();
+    private final List<String> mModuleList = new ArrayList<>();
 
     private static final int sExportRequestCode = 1001;
 
@@ -129,7 +130,7 @@ public class LogViewerActivity extends BaseActivity
                 }
             }
         });
-        mSearchEditText.setOnSearchListener(() -> clearAllFilters());
+        mSearchEditText.setOnSearchListener(this::clearAllFilters);
     }
 
     private void clearAllFilters() {

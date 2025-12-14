@@ -29,11 +29,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.view.DraggableViewPager;
-import com.sevtinge.hyperceiler.main.model.TabViewModel;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.main.adapter.DynamicFragmentPagerAdapter;
+import com.sevtinge.hyperceiler.main.model.TabViewModel;
 
 import fan.appcompat.app.ActionBar;
 import fan.appcompat.app.Fragment;
@@ -56,7 +56,7 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
     public static final String CURRENT_TAB = "current_tab";
     public static String mCurrTab = TabViewModel.TAB_HOME;
 
-    private boolean isInActionMode = false;
+    private final boolean isInActionMode = false;
 
     private ActionBar mActionBar;
 

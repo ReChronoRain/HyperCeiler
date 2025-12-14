@@ -28,18 +28,16 @@ import java.util.LinkedList;
 
 public class LifecycleHandler {
 
-    private Deque<Activity> mActivitieStack = new LinkedList();
+    private final Deque<Activity> mActivitieStack = new LinkedList();
 
     private static volatile LifecycleHandler singleton;
 
     public static LifecycleHandler getInstance() {
         if (singleton == null) {
             synchronized (LifecycleHandler.class) {
-                try {
-                    if (singleton == null) {
-                        singleton = new LifecycleHandler();
-                    }
-                } finally {}
+                if (singleton == null) {
+                    singleton = new LifecycleHandler();
+                }
             }
         }
         return singleton;

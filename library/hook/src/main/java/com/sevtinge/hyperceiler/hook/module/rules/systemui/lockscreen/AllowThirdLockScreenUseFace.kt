@@ -31,7 +31,7 @@ object AllowThirdLockScreenUseFace : BaseHook() {
                 returnConstant(true)
             }
 
-        loadClassOrNull("miui.stub.keyguard.KeyguardStub\$registerKeyguardUpdateMonitor$1")?.methodFinder()
+        loadClassOrNull($$"miui.stub.keyguard.KeyguardStub$registerKeyguardUpdateMonitor$1")?.methodFinder()
             ?.filterByName("isUnlockWithFingerprintPossible")
             ?.single()?.createHook {
                 returnConstant(true)

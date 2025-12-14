@@ -20,15 +20,14 @@ package com.sevtinge.hyperceiler.common.prefs;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +46,18 @@ public class LayoutPreference extends Preference implements PreferenceStyle {
     private Drawable mBackground;
 
     private View mRootView;
-    private final View.OnClickListener mClickListener = view -> performClick(view);
+    private final View.OnClickListener mClickListener = view -> {
+        try {
+            java.lang.reflect.Method m = Preference.class.getDeclaredMethod("performClick", View.class);
+            m.setAccessible(true);
+            m.invoke(LayoutPreference.this, view);
+        } catch (Exception e) {
+            try {
+                java.lang.reflect.Method m2 = Preference.class.getMethod("performClick");
+                m2.invoke(LayoutPreference.this);
+            } catch (Exception ignored) { }
+        }
+    };
 
     public LayoutPreference(@NonNull Context context, int layoutResId) {
         this(context, LayoutInflater.from(context).inflate(layoutResId, null, false));

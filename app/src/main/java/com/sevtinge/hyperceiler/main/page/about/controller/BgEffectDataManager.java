@@ -152,7 +152,7 @@ public class BgEffectDataManager {
         throw new IllegalArgumentException("Unsupported device type: " + deviceType);
     }
 
-    public class BgEffectData {
+    public static class BgEffectData {
         public float colorInterpPeriod;
         public float[] gradientColors1;
         public float[] gradientColors2;

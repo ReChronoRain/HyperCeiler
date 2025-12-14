@@ -24,7 +24,6 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.view.isGone
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import com.sevtinge.hyperceiler.hook.module.base.tool.HookTool
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.card1
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.statusbar.icon.MobilePrefs.card2
 import com.sevtinge.hyperceiler.hook.utils.getIntField
@@ -60,10 +59,10 @@ object MobilePublicHook : BaseHook() {
     }
 
     private fun updateState() {
-        HookTool.hookAllMethods(
+        hookAllMethods(
             statusBarMobileClass,
             "updateState",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     hideSimCard(param)
                 }
@@ -78,10 +77,10 @@ object MobilePublicHook : BaseHook() {
     }
 
     private fun applyMobileState() {
-        HookTool.hookAllMethods(
+        hookAllMethods(
             statusBarMobileClass,
             "applyMobileState",
-            object : HookTool.MethodHook() {
+            object : MethodHook() {
                 override fun before(param: MethodHookParam) {
                     if (singleMobileType) {
                         showMobileTypeSingle(param) // 使网络类型单独显示

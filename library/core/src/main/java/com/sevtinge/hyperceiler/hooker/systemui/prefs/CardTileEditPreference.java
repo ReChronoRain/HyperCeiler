@@ -87,13 +87,9 @@ public class CardTileEditPreference extends Preference {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
         itemTouchHelper.attachToRecyclerView(mCardTiles);
 
-        mCardTileAdapter.setOnDataChangeListener((changed, tile) -> {
-            onDataSetChanged(tile, true);
-        });
+        mCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, true));
 
-        mAddCardTileAdapter.setOnDataChangeListener((changed, tile) -> {
-            onDataSetChanged(tile, false);
-        });
+        mAddCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, false));
         setVisibility(PrefsUtils.mSharedPreferences.getBoolean("prefs_key_systemui_plugin_card_tiles_enabled", false));
     }
 

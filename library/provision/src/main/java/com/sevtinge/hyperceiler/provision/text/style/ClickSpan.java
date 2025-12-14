@@ -34,7 +34,7 @@ import java.util.HashMap;
 public class ClickSpan extends ClickableSpan {
 
     private Context mContext;
-    private HashMap<String, Integer> mPrivacyTypeMap;
+    private final HashMap<String, Integer> mPrivacyTypeMap;
 
     public ClickSpan(Context context, HashMap<String, Integer> typeMap) {
         this(typeMap);

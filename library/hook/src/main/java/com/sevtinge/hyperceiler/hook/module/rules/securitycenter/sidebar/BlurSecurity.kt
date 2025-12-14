@@ -291,7 +291,7 @@ object BlurSecurity : BaseHook() {
                         val listView = getValueByField(param.thisObject, "c") as ListView
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
-                            findClassIfExists("$listViewAdapterClassName\$a") ?: return
+                            findClassIfExists($$"$$listViewAdapterClassName$a") ?: return
                         XposedBridge.hookAllMethods(
                             listViewAdapterInnerClass,
                             "a",

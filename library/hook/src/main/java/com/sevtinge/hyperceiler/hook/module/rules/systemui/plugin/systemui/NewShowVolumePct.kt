@@ -48,9 +48,9 @@ object NewShowVolumePct {
         }
         val volumePanelViewControllerListener by lazy {
             if (isMoreHyperOSVersion(3f)) {
-                loadClass("miui.systemui.controlcenter.panel.main.volume.VolumeSliderController\$seekBarListener$1", classLoader)
+                loadClass($$"miui.systemui.controlcenter.panel.main.volume.VolumeSliderController$seekBarListener$1", classLoader)
             } else {
-                loadClass("com.android.systemui.miui.volume.VolumePanelViewController\$VolumeSeekBarChangeListener", classLoader)
+                loadClass($$"com.android.systemui.miui.volume.VolumePanelViewController$VolumeSeekBarChangeListener", classLoader)
             }
         }
 

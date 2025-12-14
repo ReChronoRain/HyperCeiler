@@ -29,11 +29,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.safe.CrashData;
 import com.sevtinge.hyperceiler.hook.safe.SafeMode;
 import com.sevtinge.hyperceiler.hook.utils.PropUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.core.R;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -123,11 +123,11 @@ public class CrashActivity extends AppCompatActivity {
         for (String s : sp) {
             String mPkg = swappedMap.get(s);
             if (mPkg != null) {
-                if (result.length() > 0) result.append("\n");
+                if (!result.isEmpty()) result.append("\n");
                 result.append(mPkg);
             }
         }
-        return result.length() == 0 ? null : result.toString();
+        return result.isEmpty() ? null : result.toString();
     }
 
     @Override

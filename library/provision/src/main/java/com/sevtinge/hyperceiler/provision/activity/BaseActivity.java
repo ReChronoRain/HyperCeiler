@@ -106,11 +106,10 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
         }
         if (mFragment != null) {
             View description = mFragment.getView().findViewById(R.id.list_description);
-            if (description != null && (description instanceof TextView)) {
+            if (description != null && (description instanceof TextView textView)) {
                 CharSequence listDescCharSequence = getListDescCharSequence();
                 if (listDescCharSequence != null) {
                     description.setTextDirection(OobeUtils.isRTL() ? 4 : 3);
-                    TextView textView = (TextView) description;
                     textView.setText(listDescCharSequence);
                     description.setVisibility(View.VISIBLE);
                 } else {

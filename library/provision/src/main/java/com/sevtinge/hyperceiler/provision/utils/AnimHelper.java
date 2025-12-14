@@ -94,19 +94,19 @@ public class AnimHelper {
             target.setAlpha(0.0f);
 
             ObjectAnimator scaleX = ObjectAnimator.ofFloat(target, "scaleX", 0.98f, 1.0f);
-            scaleX.setInterpolator(EaseManager.getInterpolator(20, new float[0]));
+            scaleX.setInterpolator(EaseManager.getInterpolator(20));
             scaleX.setDuration(600L);
             scaleX.setStartDelay(1200L);
             scaleX.start();
 
             ObjectAnimator scaleY = ObjectAnimator.ofFloat(target, "scaleY", 0.98f, 1.0f);
-            scaleY.setInterpolator(EaseManager.getInterpolator(20, new float[0]));
+            scaleY.setInterpolator(EaseManager.getInterpolator(20));
             scaleY.setDuration(600L);
             scaleY.setStartDelay(1200L);
             scaleY.start();
 
             ObjectAnimator alpha = ObjectAnimator.ofFloat(target, "alpha", 0.0f, 1.0f);
-            alpha.setInterpolator(EaseManager.getInterpolator(1, new float[0]));
+            alpha.setInterpolator(EaseManager.getInterpolator(1));
             alpha.setDuration(500L);
             alpha.setStartDelay(1200L);
             if (listener != null) alpha.addListener(listener);
@@ -134,12 +134,12 @@ public class AnimHelper {
         view.setAlpha(0.0f);
 
         ObjectAnimator translationY = ObjectAnimator.ofFloat(view, "translationY", dp2px(view.getContext(), 20.0f), 0.0f);
-        translationY.setInterpolator(EaseManager.getInterpolator(20, new float[0]));
+        translationY.setInterpolator(EaseManager.getInterpolator(20));
         translationY.setDuration(1250L);
         translationY.start();
 
         ObjectAnimator alpha = ObjectAnimator.ofFloat(view, "alpha", 0.0f, 1.0f);
-        alpha.setInterpolator(EaseManager.getInterpolator(20, new float[0]));
+        alpha.setInterpolator(EaseManager.getInterpolator(20));
         alpha.setDuration(1050L);
         alpha.start();
     }

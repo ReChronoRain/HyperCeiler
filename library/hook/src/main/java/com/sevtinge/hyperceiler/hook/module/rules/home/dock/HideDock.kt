@@ -34,7 +34,7 @@ object HideDock : BaseHook() {
 
         // 拦截dock出现动画
         loadClass("com.miui.home.launcher.dock.DockStateMachine").methodFinder()
-            .filterByName("transitionToAppearingState\$default").single().createHook {
+            .filterByName($$"transitionToAppearingState$default").single().createHook {
                 replace { }
             }
     }

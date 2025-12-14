@@ -181,7 +181,7 @@ object NotificationWeather : BaseHook() {
 
             val startFolmeAnimationAlpha = { view: View?, folme: Any? ->
                 notificationHeaderExpandController.callStaticMethod(
-                    "access\$startFolmeAnimationAlpha",
+                    $$"access$startFolmeAnimationAlpha",
                     expandController,
                     view,
                     folme,

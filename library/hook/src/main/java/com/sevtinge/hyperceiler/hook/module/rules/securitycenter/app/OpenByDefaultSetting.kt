@@ -277,7 +277,7 @@ class OpenByDefaultSetting : BaseHook() {
                 } catch (_: ClassNotFoundException) {
                 }
 
-                throw ClassNotFoundException(name);
+                throw ClassNotFoundException(name)
             }
         })
     }

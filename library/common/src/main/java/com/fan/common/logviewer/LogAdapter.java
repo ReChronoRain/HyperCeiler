@@ -36,8 +36,8 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     private String mSearchKeyword = "";
     private String mSelectedLevel = "ALL";
     private String mSelectedModule = "ALL";
-    private List<String> mLevelList = new ArrayList<>();
-    private List<String> mModuleList = new ArrayList<>();
+    private final List<String> mLevelList = new ArrayList<>();
+    private final List<String> mModuleList = new ArrayList<>();
 
     // 颜色配置
     private static final int sSearchHighlightColor = Color.RED;

@@ -34,26 +34,26 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBefo
 object NewBrightnessPct {
     fun initLoaderHook(classLoader: ClassLoader) {
         if (isMoreHyperOSVersion(3f)) {
-            loadClass("miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate\$prepareShow$5", classLoader)
+            loadClass($$"miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate$prepareShow$5", classLoader)
                 .methodFinder().filterByName("onStartTrackingTouch")
                 .first().createBeforeHook {
                     startPct(it)
                 }
 
-            loadClass("miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate\$seekBarListener$1", classLoader)
+            loadClass($$"miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate$seekBarListener$1", classLoader)
                 .methodFinder().filterByName("onStartTrackingTouch")
                 .first().createBeforeHook {
                     startPct(it)
                 }
 
         } else {
-            loadClass("miui.systemui.controlcenter.panel.main.brightness.BrightnessSliderController\$seekBarListener$1", classLoader)
+            loadClass($$"miui.systemui.controlcenter.panel.main.brightness.BrightnessSliderController$seekBarListener$1", classLoader)
                 .methodFinder().filterByName("onStartTrackingTouch")
                 .first().createBeforeHook {
                     startPct(it)
                 }
 
-            loadClass("miui.systemui.controlcenter.panel.main.brightness.BrightnessPanelSliderController\$seekBarListener$1", classLoader)
+            loadClass($$"miui.systemui.controlcenter.panel.main.brightness.BrightnessPanelSliderController$seekBarListener$1", classLoader)
                 .methodFinder().filterByName("onStartTrackingTouch")
                 .first().createBeforeHook {
                     startPct(it)

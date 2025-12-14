@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.common.model.data;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 public class AppData {

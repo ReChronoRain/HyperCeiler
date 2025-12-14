@@ -138,7 +138,7 @@ object DockCustomNew : BaseHook() {
             if (view == dockBlurView) {
                 view.translationZ = 0F
             }
-        } ?: logD(TAG, lpparam.packageName, "can't find lambda\$showUserPresentAnimation")
+        } ?: logD(TAG, lpparam.packageName, $$"can't find lambda$showUserPresentAnimation")
     }
 
     private fun View.addBlur() {

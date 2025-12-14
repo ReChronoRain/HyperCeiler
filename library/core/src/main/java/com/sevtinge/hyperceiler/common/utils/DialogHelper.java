@@ -41,11 +41,11 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.core.R;
 
 import fan.androidbase.widget.LinkMovementMethod;
 import fan.appcompat.app.AlertDialog;
@@ -180,9 +180,7 @@ public class DialogHelper {
         builder.setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> activity.finish());
 
         AlertDialog dialog = builder.create();
-        dialog.setOnCancelListener(dialogInterface -> {
-            activity.finish();
-        });
+        dialog.setOnCancelListener(dialogInterface -> activity.finish());
         dialog.show();
     }
 

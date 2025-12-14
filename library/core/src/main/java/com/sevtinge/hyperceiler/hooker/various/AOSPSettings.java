@@ -18,16 +18,14 @@
  */
 package com.sevtinge.hyperceiler.hooker.various;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
 import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class AOSPSettings extends DashboardFragment {
     Preference mBattery;

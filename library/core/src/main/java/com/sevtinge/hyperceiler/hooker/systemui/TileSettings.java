@@ -28,11 +28,11 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
-import com.sevtinge.hyperceiler.core.R;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
@@ -89,7 +89,7 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
 
         mRoundedRectRadius.setVisible(getSharedPreferences().getBoolean("prefs_key_system_ui_control_center_rounded_rect", false));
         mFiveG.setVisible(TelephonyManager.getDefault().isFiveGCapable());
-        mSunshineModeHighBrightness.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);;
+        mSunshineModeHighBrightness.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_control_center_sunshine_new_mode_high", "0")) == 3);
 
         mRoundedRect.setOnPreferenceChangeListener(this);
 

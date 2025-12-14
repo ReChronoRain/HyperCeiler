@@ -73,16 +73,16 @@ public class StatusBarIcon extends BaseHook {
         // from XiaomiHelper with GPL3
         switch (value) {
             case 1 -> {
-                if (statusBarList.contains(name)) statusBarList.remove(name);
-                if (controlList.contains(name)) controlList.remove(name);
+                statusBarList.remove(name);
+                controlList.remove(name);
             }
             case 12 -> {
-                if (statusBarList.contains(name)) statusBarList.remove(name);
+                statusBarList.remove(name);
                 if (!controlList.contains(name)) controlList.add(name);
             }
             case 11 -> {
                 if (!statusBarList.contains(name)) statusBarList.add(name);
-                if (controlList.contains(name)) controlList.remove(name);
+                controlList.remove(name);
             }
             case 2 -> {
                 if (!statusBarList.contains(name)) statusBarList.add(name);

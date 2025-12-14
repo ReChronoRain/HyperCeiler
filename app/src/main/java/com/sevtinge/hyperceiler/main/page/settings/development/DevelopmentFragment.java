@@ -103,18 +103,16 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                 .setNegativeButton(android.R.string.cancel, (d, w) -> d.dismiss())
                 .create();
 
-        dialog.setOnShowListener(d -> {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
-                String userInput = input.getText().toString().trim();
-                if (userInput.isEmpty()) {
-                    dialog.dismiss();
-                    showInDialog(callback);
-                } else {
-                    callback.onInputReceived(userInput);
-                    dialog.dismiss();
-                }
-            });
-        });
+        dialog.setOnShowListener(d -> dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v -> {
+            String userInput = input.getText().toString().trim();
+            if (userInput.isEmpty()) {
+                dialog.dismiss();
+                showInDialog(callback);
+            } else {
+                callback.onInputReceived(userInput);
+                dialog.dismiss();
+            }
+        }));
 
         dialog.show();
     }

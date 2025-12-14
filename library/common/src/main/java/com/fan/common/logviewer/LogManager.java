@@ -1,8 +1,10 @@
 package com.fan.common.logviewer;
 
 // LogManager.java
+
 import android.content.Context;
 import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,8 +17,8 @@ import java.util.List;
 public class LogManager {
 
     private static LogManager sInstance;
-    private List<LogEntry> mLogEntries;
-    private List<LogEntry> mSystemLogEntries;
+    private final List<LogEntry> mLogEntries;
+    private final List<LogEntry> mSystemLogEntries;
     private Context mApplicationContext;
     private boolean mIsInitialized = false;
 

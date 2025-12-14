@@ -45,7 +45,6 @@ import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper.AnimListener;
 
 import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.app.AppCompatActivity;
 import fan.os.Build;
 
@@ -69,15 +68,15 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     protected Button mSkipButton;
     protected Button mConfirmButton;
 
-    private int mResourceId = 0;
+    private final int mResourceId = 0;
 
     private boolean mHasPreview;
     private boolean isBackBtnEnable = true;
 
     private MediaPlayer mMediaPlayer;
-    private Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler();
     protected ProvisionAnimHelper mProvisionAnimHelper;
-    private View.OnClickListener mNextClickListener = v -> {
+    private final View.OnClickListener mNextClickListener = v -> {
         if (OobeUtils.needFastAnimation()) {
             updateButtonState(false);
             mHandler.postDelayed(() -> updateButtonState(true), 5000L);
@@ -88,7 +87,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             mProvisionAnimHelper.goNextStep(0);
         }
     };
-    private View.OnClickListener mSkipClickListener = new View.OnClickListener() {
+    private final View.OnClickListener mSkipClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (OobeUtils.isTabletLand(ProvisionBaseActivity.this)) {
@@ -112,7 +111,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             }
         }
     };
-    private View.OnClickListener mBackListener = new View.OnClickListener() {
+    private final View.OnClickListener mBackListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             if (!isBackBtnEnable) {
@@ -137,7 +136,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             }
         }
     };
-    private TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
+    private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
             Log.i("OobeUtil2", " Inner onSurfaceTextureAvailable ");
@@ -188,9 +187,9 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         mNewBackBtn = findViewById(R.id.back_icon);
         mConfirmButton = findViewById(R.id.confirm_button);
         mSkipButton = findViewById(R.id.skip_button);
-        Folme.useAt(mNewBackBtn).touch().handleTouchOf(mNewBackBtn, new AnimConfig[0]);
-        Folme.useAt(mConfirmButton).touch().handleTouchOf(mConfirmButton, new AnimConfig[0]);
-        Folme.useAt(mSkipButton).touch().handleTouchOf(mSkipButton, new AnimConfig[0]);
+        Folme.useAt(mNewBackBtn).touch().handleTouchOf(mNewBackBtn);
+        Folme.useAt(mConfirmButton).touch().handleTouchOf(mConfirmButton);
+        Folme.useAt(mSkipButton).touch().handleTouchOf(mSkipButton);
         if ((mHasPreview || OobeUtils.isTabletLand(this)) && superButtonClickListener()) {
             mNewBackBtn.setOnClickListener(mBackListener);
             mConfirmButton.setOnClickListener(mNextClickListener);

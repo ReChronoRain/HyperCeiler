@@ -23,7 +23,6 @@ import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.PreferenceViewHolder;
 
 import fan.preference.SeekBarPreferenceCompat;
 

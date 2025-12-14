@@ -42,7 +42,7 @@ public final class GravitySensor implements SensorEventListener {
 		this.sensorManager = (SensorManager)this.context.getSystemService(Context.SENSOR_SERVICE);
 	}
 
-	public final boolean getStarted() {
+	public boolean getStarted() {
 		return this.started;
 	}
 

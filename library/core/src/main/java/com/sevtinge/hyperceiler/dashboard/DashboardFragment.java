@@ -124,7 +124,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             case 2 -> p.setSummary(R.string.supported_system_func);
             case 3 -> p.setSummary(R.string.feature_doing_func);
             default -> throw new IllegalStateException("Unexpected value: " + value);
-        };
+        }
     }
 
     public void setHide(Preference p, boolean b) {

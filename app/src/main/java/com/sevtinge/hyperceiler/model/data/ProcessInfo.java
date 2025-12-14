@@ -54,7 +54,7 @@ public class ProcessInfo implements Parcelable {
         isRepeatingCrash = in.readByte() != 0;
     }
 
-    public static final Creator<ProcessInfo> CREATOR = new Creator<ProcessInfo>() {
+    public static final Creator<ProcessInfo> CREATOR = new Creator<>() {
         @Override
         public ProcessInfo createFromParcel(Parcel in) {
             return new ProcessInfo(in);

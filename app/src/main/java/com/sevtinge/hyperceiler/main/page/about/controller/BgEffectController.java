@@ -102,11 +102,10 @@ public class BgEffectController implements Runnable {
         if (ViewUtils.isNightMode(context)) {
             if (Build.IS_TABLET) {
                 this.mBgEffectPainter.setType(BgEffectDataManager.DeviceType.TABLET, BgEffectDataManager.ThemeMode.DARK, this.bound);
-                return;
             } else {
                 this.mBgEffectPainter.setType(BgEffectDataManager.DeviceType.PHONE, BgEffectDataManager.ThemeMode.DARK, this.bound);
-                return;
             }
+            return;
         }
         if (Build.IS_TABLET) {
             this.mBgEffectPainter.setType(BgEffectDataManager.DeviceType.TABLET, BgEffectDataManager.ThemeMode.LIGHT, this.bound);

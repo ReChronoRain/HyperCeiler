@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hooker.framework;
 
-import android.widget.SeekBar;
-
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 

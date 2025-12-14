@@ -29,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object GlobalBarrage : BaseHook() {
 
     override fun init() {
-        loadClass("android.provider.Settings\$Secure").methodFinder().filterByName("getInt")
+        loadClass($$"android.provider.Settings$Secure").methodFinder().filterByName("getInt")
             .toList().createHooks {
                 after { param ->
                     if ((param.args[1] as String) == "gb_boosting" && param.result != 1) {

@@ -136,13 +136,13 @@ object FocusNotifLyric : MusicBaseHook() {
 
         if (!isMoreHyperOSVersion(3f)) return
         runCatching {
-            loadClass("miui.systemui.notification.auth.AuthManager\$AuthServiceCallback\$onAuthResult$1",classLoader)
+            loadClass($$"miui.systemui.notification.auth.AuthManager$AuthServiceCallback$onAuthResult$1",classLoader)
                 .methodFinder().filterByName("invokeSuspend")
                 .first().createHook {
                     before { param ->
                         val obj = param.thisObject
                         // 访问字段 "$authBundle"
-                        val bundle = obj.getObjectField("\$authBundle") as Bundle
+                        val bundle = obj.getObjectField($$"$authBundle") as Bundle
                         bundle.putInt("result_code",0)
                     }
                 }

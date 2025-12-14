@@ -19,14 +19,12 @@
 package com.sevtinge.hyperceiler.hook.utils;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.util.ArrayMap;
-import android.view.View;
 import android.widget.Switch;
 
 import androidx.annotation.CallSuper;

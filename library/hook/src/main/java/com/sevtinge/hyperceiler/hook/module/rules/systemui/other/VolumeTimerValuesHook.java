@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class VolumeTimerValuesHook extends BaseHook {
 
-    private static ClassLoader pluginLoader = null;
+    private static final ClassLoader pluginLoader = null;
 
     @Override
     public void init() {

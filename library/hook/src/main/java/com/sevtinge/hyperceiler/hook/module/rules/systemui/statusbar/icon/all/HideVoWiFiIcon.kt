@@ -32,7 +32,7 @@ object HideVoWiFiIcon : BaseHook() {
     }
 
     override fun init() {
-        loadClass("com.miui.interfaces.IOperatorCustomizedPolicy\$OperatorConfig").constructors[0].createHook {
+        loadClass($$"com.miui.interfaces.IOperatorCustomizedPolicy$OperatorConfig").constructors[0].createHook {
             after {
                 it.thisObject.setBooleanField("hideVowifi", hideVoWifi)
                 it.thisObject.setBooleanField("hideVolte", hideVolte)

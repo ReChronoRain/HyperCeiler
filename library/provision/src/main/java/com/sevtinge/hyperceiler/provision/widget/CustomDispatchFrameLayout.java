@@ -59,7 +59,7 @@ public class CustomDispatchFrameLayout extends FrameLayout {
     }
 
     protected boolean isAnimEnded() {
-        return mProvisionAnimHelper != null ? mProvisionAnimHelper.isAnimEnded() : true;
+        return mProvisionAnimHelper == null || mProvisionAnimHelper.isAnimEnded();
     }
 
 }

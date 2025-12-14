@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.Locale;
 
 public class LogEntry {
-    private long mTimestamp;
-    private String mLevel;
-    private String mModule;
-    private String mMessage;
-    private String mTag;
-    private boolean mNewLine;
+    private final long mTimestamp;
+    private final String mLevel;
+    private final String mModule;
+    private final String mMessage;
+    private final String mTag;
+    private final boolean mNewLine;
 
     private static final SimpleDateFormat sTimeFormat =
         new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());

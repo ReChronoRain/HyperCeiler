@@ -41,16 +41,16 @@ public class PullViewHelper {
     private static final int ACTION_REMOVE_REFRESH = 1;
     private static final int ACTION_REMOVE_LOAD = 2;
 
-    private Context mContext;
+    private final Context mContext;
     private boolean mEnableLoadMore = false;
     private boolean mEnablePrivate = false;
     private boolean mEnablePullRefresh = false;
-    private LoadAction mLoadAction;
-    private LoadUpAction mLoadUpAction;
-    private LockAction mLockAction;
-    private SparseBooleanArray mPendingActions = new SparseBooleanArray();
+    private final LoadAction mLoadAction;
+    private final LoadUpAction mLoadUpAction;
+    private final LockAction mLockAction;
+    private final SparseBooleanArray mPendingActions = new SparseBooleanArray();
     private PullToRefreshListener mPullListener;
-    private DefaultTrigger mTrigger;
+    private final DefaultTrigger mTrigger;
 
     public PullViewHelper(Context context, PullToRefreshListener pullToRefreshListener) {
         mContext = context;
@@ -348,7 +348,7 @@ public class PullViewHelper {
         }
     }
 
-    public class PendingTask {
+    public static class PendingTask {
 
         private boolean mRemovePullRefresh = false;
         private boolean mRemovePullLoad = false;

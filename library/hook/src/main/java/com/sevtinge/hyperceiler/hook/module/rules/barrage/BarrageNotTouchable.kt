@@ -33,7 +33,7 @@ import java.lang.reflect.Method
 object BarrageNotTouchable : BaseHook() {
 
     override fun init() {
-        loadClass("com.xiaomi.barrage.utils.BarrageWindowUtils\$ComputeInternalInsetsHandler").methodFinder()
+        loadClass($$"com.xiaomi.barrage.utils.BarrageWindowUtils$ComputeInternalInsetsHandler").methodFinder()
             .filterByName("invoke").filterNonAbstract().single().createBeforeHook { param ->
                 val method = param.args[1] as Method
                 if (!method.name.equals("onComputeInternalInsets")) return@createBeforeHook

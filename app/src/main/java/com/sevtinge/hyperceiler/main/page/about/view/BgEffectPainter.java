@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.main.page.about.view;
 
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.RenderEffect;
@@ -27,8 +25,6 @@ import android.graphics.RuntimeShader;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.main.page.about.controller.BgEffectDataManager;
@@ -40,8 +36,6 @@ import fan.animation.Folme;
 import fan.animation.FolmeEase;
 import fan.animation.IStateStyle;
 import fan.animation.base.AnimConfig;
-import fan.appcompat.app.ActionBar;
-import fan.internal.utils.ViewUtils;
 
 
 public class BgEffectPainter {
@@ -57,10 +51,10 @@ public class BgEffectPainter {
     IStateStyle stateStyle;
     private float uAnimTime = 0.0f;
     private float[] uBgBound = {0.0f, 0.4489f, 1.0f, 0.5511f};
-    private float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
+    private final float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
     private float prevT = 0.0f;
-    private float colorInterpT = 0.0f;
-    private float gradientSpeed = 1.0f;
+    private final float colorInterpT = 0.0f;
+    private final float gradientSpeed = 1.0f;
 
     public BgEffectPainter(Context context) {
         this.cycleCount = 0.0f;
@@ -90,7 +84,7 @@ public class BgEffectPainter {
         this.mBgRuntimeShader.setFloatUniform("uShadowNoiseScale", this.mBgEffectData.uShadowNoiseScale);
         this.animConfig1 = new AnimConfig().setEase(FolmeEase.spring(0.9f, 1.3f));
         this.animConfig2 = new AnimConfig().setEase(FolmeEase.spring(0.9f, 0.6f));
-        this.stateStyle = Folme.useValue(new Object[]{this});
+        this.stateStyle = Folme.useValue(this);
         float[] fArr = this.mBgEffectData.gradientColors2;
         this.startColorValue = fArr;
         this.endColorValue = fArr;
@@ -127,22 +121,19 @@ public class BgEffectPainter {
     private String loadShader(Resources resources, int i) {
         try {
             InputStream openRawResource = resources.openRawResource(i);
+            Scanner scanner = new Scanner(openRawResource);
             try {
-                Scanner scanner = new Scanner(openRawResource);
-                try {
-                    StringBuilder sb = new StringBuilder();
-                    while (scanner.hasNextLine()) {
-                        sb.append(scanner.nextLine());
-                        sb.append("\n");
-                    }
-                    String sb2 = sb.toString();
-                    scanner.close();
-                    if (openRawResource != null) {
-                        openRawResource.close();
-                    }
-                    return sb2;
-                } finally {
+                StringBuilder sb = new StringBuilder();
+                while (scanner.hasNextLine()) {
+                    sb.append(scanner.nextLine());
+                    sb.append("\n");
                 }
+                String sb2 = sb.toString();
+                scanner.close();
+                if (openRawResource != null) {
+                    openRawResource.close();
+                }
+                return sb2;
             } finally {
             }
         } catch (Exception e) {
@@ -186,9 +177,9 @@ public class BgEffectPainter {
     private void executeAnim() {
         IStateStyle iStateStyle = this.stateStyle;
         if (iStateStyle != null) {
-            iStateStyle.setTo(new Object[]{"colorInterpT", Float.valueOf(0.0f)});
-            this.stateStyle.to(new Object[]{"colorInterpT", Float.valueOf(1.0f), this.animConfig1});
-            this.stateStyle.to(new Object[]{"gradientSpeed", Float.valueOf(this.mBgEffectData.gradientSpeedChange), this.animConfig1});
+            iStateStyle.setTo("colorInterpT", 0.0f);
+            this.stateStyle.to("colorInterpT", 1.0f, this.animConfig1);
+            this.stateStyle.to("gradientSpeed", this.mBgEffectData.gradientSpeedChange, this.animConfig1);
             this.mHandler.postDelayed(new GradientSpeedResetRunnable(), 300L);
         }
     }
@@ -196,7 +187,7 @@ public class BgEffectPainter {
     private class GradientSpeedResetRunnable implements Runnable {
         @Override
         public void run() {
-            stateStyle.to(new Object[]{"gradientSpeed", Float.valueOf(mBgEffectData.gradientSpeedRest), animConfig2});
+            stateStyle.to("gradientSpeed", mBgEffectData.gradientSpeedRest, animConfig2);
         }
     }
 

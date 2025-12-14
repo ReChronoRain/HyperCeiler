@@ -141,13 +141,13 @@ object NewFlashLight : TileUtils() {
     }
 
     private fun hookBrightness() {
-        loadClassOrNull("com.android.systemui.controlcenter.policy.MiuiBrightnessController\$\$ExternalSyntheticLambda0")!!
+        loadClassOrNull($$$"com.android.systemui.controlcenter.policy.MiuiBrightnessController$$ExternalSyntheticLambda0")!!
             .methodFinder().filterByName("run")
             .first().hookBeforeMethod {
                 if (isHook) it.result = null
             }
 
-        loadClassOrNull("com.android.systemui.controlcenter.policy.MiuiBrightnessController\$2")!!
+        loadClassOrNull($$"com.android.systemui.controlcenter.policy.MiuiBrightnessController$2")!!
             .methodFinder().filterByName("run")
             .first().hookBeforeMethod {
                 if (isHook) it.result = null
@@ -275,7 +275,7 @@ object NewFlashLight : TileUtils() {
                     // logE("FlashLight", "convertGammaToLinearFloat min: " + min);
                     // logE("FlashLight", "convertGammaToLinearFloat max: " + max);
                     // logE("FlashLight", "convertGammaToLinearFloat end: " + end);
-                    var i = Math.round(end)
+                    var i = end.roundToInt()
                     if (i != 0) {
                         if (maxBrightness != -1 && i > maxBrightness) {
                             i = maxBrightness

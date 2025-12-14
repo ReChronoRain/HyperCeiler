@@ -34,7 +34,6 @@ import android.os.Parcelable;
 import com.sevtinge.hyperceiler.common.model.data.AppData;
 import com.sevtinge.hyperceiler.hook.callback.ITAG;
 import com.sevtinge.hyperceiler.hook.provider.SharedPrefsProvider;
-import com.sevtinge.hyperceiler.hook.utils.BitmapUtils;
 import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 

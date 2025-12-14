@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.provision.renderengine.utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 
 import miuix.mgl.MglContext;
 import miuix.mgl.PngParser;
@@ -39,8 +38,8 @@ public class MaterialRepo {
     private Primitive primitiveCity;
     private Primitive primitiveReverseUV;
     private float primitiveSourceAspect;
-    private Map<MKey, Shader> shaderMap = new HashMap();
-    private Map<Integer, Texture2D> texture2DMap = new HashMap();
+    private final Map<MKey, Shader> shaderMap = new HashMap<>();
+    private final Map<Integer, Texture2D> texture2DMap = new HashMap<>();
     private static final float[] VERTEX_POS = {-1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f, -1.0f, 1.0f};
     private static final float[] VERTEX_UV = {0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f};
     private static final float[] VERTEX_UV_RE = {0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f};
@@ -91,7 +90,7 @@ public class MaterialRepo {
     }
 
     public Texture2D getTexture2DPng(int i, int i2) {
-        Texture2D texture2D = this.texture2DMap.get(Integer.valueOf(i));
+        Texture2D texture2D = this.texture2DMap.get(i);
         if (texture2D != null) {
             return texture2D;
         }
@@ -101,12 +100,12 @@ public class MaterialRepo {
         build.setDataFromParser(0, create);
         create.destroy();
         build.setWrapMod(Texture.TextureWrapMod.CLAMP_TO_EDGE);
-        this.texture2DMap.put(Integer.valueOf(i), build);
+        this.texture2DMap.put(i, build);
         return build;
     }
 
     public Texture2D getTexture2DWebp(int i) {
-        Texture2D texture2D = this.texture2DMap.get(Integer.valueOf(i));
+        Texture2D texture2D = this.texture2DMap.get(i);
         if (texture2D != null) {
             return texture2D;
         }
@@ -116,12 +115,12 @@ public class MaterialRepo {
         build.setDataFromParser(0, create);
         create.destroy();
         build.setWrapMod(Texture.TextureWrapMod.CLAMP_TO_EDGE);
-        this.texture2DMap.put(Integer.valueOf(i), build);
+        this.texture2DMap.put(i, build);
         return build;
     }
 
     public Texture2D getTexture2DZstc(int i) {
-        Texture2D texture2D = this.texture2DMap.get(Integer.valueOf(i));
+        Texture2D texture2D = this.texture2DMap.get(i);
         if (texture2D != null) {
             return texture2D;
         }
@@ -131,15 +130,15 @@ public class MaterialRepo {
         build.setDataFromParser(0, create);
         create.destroy();
         build.setWrapMod(Texture.TextureWrapMod.CLAMP_TO_EDGE);
-        this.texture2DMap.put(Integer.valueOf(i), build);
+        this.texture2DMap.put(i, build);
         return build;
     }
 
     public void destroyTexture2D(int i, boolean z) {
-        Texture2D texture2D = this.texture2DMap.get(Integer.valueOf(i));
+        Texture2D texture2D = this.texture2DMap.get(i);
         if (texture2D != null) {
             texture2D.destroy(z);
-            this.texture2DMap.remove(Integer.valueOf(i));
+            this.texture2DMap.remove(i);
         }
     }
 
@@ -200,20 +199,9 @@ public class MaterialRepo {
         }
         this.primitive = null;
         this.primitiveReverseUV = null;
-        this.texture2DMap.forEach(new BiConsumer<Integer, Texture2D>() {
-            @Override
-            public void accept(Integer integer, Texture2D texture2D) {
-                texture2D.destroy(false);
-
-            }
-        });
+        this.texture2DMap.forEach((integer, texture2D) -> texture2D.destroy(false));
         this.texture2DMap.clear();
-        this.shaderMap.forEach(new BiConsumer<MKey, Shader>() {
-            @Override
-            public void accept(MKey mKey, Shader shader) {
-                shader.destroy(false);
-            }
-        });
+        this.shaderMap.forEach((mKey, shader) -> shader.destroy(false));
         this.shaderMap.clear();
     }
 
@@ -241,7 +229,7 @@ public class MaterialRepo {
         }
 
         public int hashCode() {
-            return Objects.hash(Integer.valueOf(this.vertId), Integer.valueOf(this.fragId), Integer.valueOf(this.compId), this.type);
+            return Objects.hash(this.vertId, this.fragId, this.compId, this.type);
         }
 
         public MKey(int i) {

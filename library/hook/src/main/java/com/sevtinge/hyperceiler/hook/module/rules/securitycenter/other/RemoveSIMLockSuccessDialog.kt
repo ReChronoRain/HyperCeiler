@@ -19,13 +19,13 @@
 
 package com.sevtinge.hyperceiler.hook.module.rules.securitycenter.other
 
-import android.app.Activity;
-import android.os.Bundle;
+import android.app.Activity
+import android.os.Bundle
 
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedHelpers;
+import de.robv.android.xposed.XC_MethodHook
+import de.robv.android.xposed.XposedHelpers
 
 object RemoveSIMLockSuccessDialog : BaseHook() {
     @Throws(NoSuchMethodException::class)
