@@ -43,12 +43,38 @@ object NewAiCaptions: BaseHook() {
         }
     }
 
+    private val getMethodNew by lazy<Method> {
+        DexKit.findMember("AiCaptionsModelNew") {
+            it.findClass {
+                matcher {
+                    addEqString("SupportAiSubtitlesUtils")
+                }
+            }.findMethod {
+                matcher {
+                    // SupportAiSubtitlesUtils
+                    addInvoke {
+                        addUsingField("Landroid/os/Build;->DEVICE:Ljava/lang/String;")
+                        paramCount = 0
+                    }
+
+                    addInvoke("Ljava/util/Set;->iterator()Ljava/util/Iterator;")
+                }
+            }.single()
+        }
+    }
+
 
 
     override fun init() {
         if (mSupportAiSubtitlesUtils == null) {
-            getMethod.createHook {
-                returnConstant(true)
+            runCatching {
+                getMethod.createHook {
+                    returnConstant(true)
+                }
+            }.onFailure {
+                getMethodNew.createHook {
+                    returnConstant(true)
+                }
             }
         } else {
             runCatching {
