@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.lsparanoid)
 }
 
@@ -18,7 +17,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 34
+        minSdk = 35
 
         buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
     }
@@ -47,7 +46,15 @@ java {
     }
 }
 
-kotlin.jvmToolchain(21)
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+
+    compilerOptions {
+        freeCompilerArgs.add("-XXLanguage:+MultiDollarInterpolation")
+    }
+}
 
 dependencies {
     api(libs.core)

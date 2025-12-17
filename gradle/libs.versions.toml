@@ -1,6 +1,6 @@
 [versions]
-agp = "8.13.2"
-kotlin-android = "2.2.21"
+agp = "9.0.0-rc01"
+kotlin-android = "2.3.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 

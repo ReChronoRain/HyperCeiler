@@ -10,7 +10,6 @@ import java.util.TimeZone
 
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
 }
 
 val apkId = "HyperCeiler"
@@ -119,6 +118,7 @@ android {
         dex {
             useLegacyPackaging = true
         }
+        // AGP 9.0.0 开始，弃用此方法，插件暂未实现新的迁移方式
         applicationVariants.all {
             outputs.all {
                 (this as BaseVariantOutputImpl).outputFileName =
@@ -215,6 +215,21 @@ android {
     }
 
 }
+
+/*androidComponents {
+    onVariants { variant ->
+        variant.outputs.forEach { output ->
+            val versionName = variant.outputs.first().versionName
+            val versionCode = variant.outputs.first().versionCode
+            val buildTypeName = variant.buildType!!
+
+
+            val newFileName = "${apkId}_${versionName}_${versionCode}_${buildTypeName}.apk"
+
+            output.outputFileName.set(newFileName)
+        }
+    }
+}*/
 
 // https://stackoverflow.com/a/77745844
 tasks.withType<PackageAndroidArtifact> {
