@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.rules.home.dock
 
+import android.graphics.Point
 import android.view.Gravity
 import android.view.View
 import android.widget.FrameLayout
@@ -30,10 +31,13 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.addMiBackgroundBle
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearAllBlur
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setBlurRoundRect
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
+import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
+import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
@@ -68,6 +72,8 @@ object DockCustomNew : BaseHook() {
         } as Method?
     }
 
+    private var isSupportHyperMaterialBlur = false
+
     @Suppress("UNCHECKED_CAST")
     override fun init() {
         val dockBgStyle = mPrefsMap.getStringAsInt("home_dock_add_blur", 0)
@@ -80,6 +86,10 @@ object DockCustomNew : BaseHook() {
             val dockHeight = dp2px(mPrefsMap.getInt("home_dock_bg_height", 80))
             val dockMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6)
             val dockBottomMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92)
+
+            val folderBlurUtilsClass = findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
+
+            isSupportHyperMaterialBlur = XposedHelpers.callStaticMethod(folderBlurUtilsClass, "isSupportHyperMaterialBlur") as Boolean
 
             val hotSeats = it.thisObject.getObjectFieldAs<FrameLayout>("mHotSeats")
             dockBlurView = View(hotSeats.context).apply {
@@ -118,6 +128,10 @@ object DockCustomNew : BaseHook() {
 
         if (dockBgStyle == 1) {
             launcherClass.hookAfterMethod("onDarkModeChanged") {
+                val folderBlurUtilsClass = findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
+
+                isSupportHyperMaterialBlur = folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+
                 dockBlurView?.addBlur()
             }
         }
@@ -153,12 +167,28 @@ object DockCustomNew : BaseHook() {
         clearMiBackgroundBlendColor()
         setMiViewBlurMode(1)
 
-        if (isDarkMode) {
-            addMiBackgroundBlendColor(0xB3767676.toInt(), 100)
-            addMiBackgroundBlendColor(0xFF149400.toInt(), 106)
+        if (isSupportHyperMaterialBlur) {
+            val list: ArrayList<Point> = ArrayList()
+
+            if (isDarkMode) {
+                list.add(Point(1719105399, 19))
+                list.add(Point(863270004, 15))
+                list.add(Point(855638016, 3))
+            } else {
+                list.add(Point(-428575628, 15))
+                list.add(Point(-1722658222, 18))
+                list.add(Point(869388753, 3))
+            }
+
+            setMiBackgroundBlendColors(list)
         } else {
-            addMiBackgroundBlendColor(0x66B4B4B4, 100)
-            addMiBackgroundBlendColor(0xFF2EF200.toInt(), 106)
+            if (isDarkMode) {
+                addMiBackgroundBlendColor(0xB3767676.toInt(), 100)
+                addMiBackgroundBlendColor(0xFF149400.toInt(), 106)
+            } else {
+                addMiBackgroundBlendColor(0x66B4B4B4, 100)
+                addMiBackgroundBlendColor(0xFF2EF200.toInt(), 106)
+            }
         }
     }
 }

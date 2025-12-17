@@ -44,6 +44,10 @@ object MiBlurUtilsKt {
         View::class.java.getDeclaredMethod("setMiBackgroundBlurRadius", Integer.TYPE)
     }
 
+    private val setMiBackgroundBlendColors by lazy {
+        View::class.java.getDeclaredMethod("setMiBackgroundBlendColors", ArrayList::class.java)
+    }
+
     private val addMiBackgroundBlendColor by lazy {
         View::class.java.getDeclaredMethod("addMiBackgroundBlendColor", Integer.TYPE, Integer.TYPE)
     }
@@ -87,6 +91,10 @@ object MiBlurUtilsKt {
 
     fun View.disableMiBackgroundContainBelow(isEnabled: Boolean) {
         disableMiBackgroundContainBelow.invoke(this, isEnabled)
+    }
+
+    fun View.setMiBackgroundBlendColors(list: ArrayList<Point>) {
+        setMiBackgroundBlendColors(this, list)
     }
 
     fun View.addMiBackgroundBlendColor(color: Int, mode: Int) {
