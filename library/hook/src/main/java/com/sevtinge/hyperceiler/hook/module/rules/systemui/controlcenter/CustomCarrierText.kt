@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter
 
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.core.view.isVisible
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.utils.MethodHandleUtils
@@ -27,6 +28,7 @@ import com.sevtinge.hyperceiler.hook.utils.PropUtils
 import com.sevtinge.hyperceiler.hook.utils.callMethod
 import com.sevtinge.hyperceiler.hook.utils.callMethodAs
 import com.sevtinge.hyperceiler.hook.utils.getIntField
+import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.setIntField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -38,8 +40,46 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBefo
  * OS3 控制中心运行商名称自定义
  */
 object CustomCarrierText : BaseHook() {
+
+    val getOperator by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0)
+    }
+
     override fun init() {
-        when (mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0)) {
+        loadClass("com.android.systemui.statusbar.policy.HDController").methodFinder()
+            .filterByName("isVisible")
+            .first().createBeforeHook { param ->
+                param.result = false
+            }
+
+        loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
+            .filterByName("updateCarrierText")
+            .first().createBeforeHook { param ->
+                val carrierTextView = param.thisObject.getObjectField("mCarrierLabel")
+
+                TextView::class.java.methodFinder()
+                    .filterByName("setText")
+                    .filterByParamTypes(CharSequence::class.java)
+                    .first().createBeforeHook { param2 ->
+                        if (param2.thisObject == carrierTextView) {
+                            when (getOperator) {
+                                1 -> {
+                                    var original = param2.args[0] as? CharSequence
+                                    if (original != null) {
+                                        original = original.toString().replace("  |  ", "")
+                                        param2.args[0] = original.replace(" | ", "")
+                                    }
+                                }
+                                2 -> param2.args[0] = ""
+                                3 ->
+                                    param2.args[0] = PropUtils.getProp("persist.private.device_name")
+                            }
+
+                        }
+                    }
+            }
+
+        when (getOperator) {
             1 -> hideCarrierSeparator()
             2 -> hideCarrierText()
             3 -> showDeviceName()
