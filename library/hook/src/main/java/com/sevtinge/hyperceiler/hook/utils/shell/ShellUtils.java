@@ -333,16 +333,14 @@ public class ShellUtils {
 
     public static String rootExecCmd(String cmd) {
         if (!isSafeCommand(cmd)) return "Cannot exec this command: Dangerous operation";
-        // 构建完整命令：通过 su -c 在 root 下执行 nsenter + 原命令
         final String fullCmd = "nsenter --mount=/proc/1/ns/mnt -- " + cmd;
         ProcessBuilder pb = new ProcessBuilder("su", "-c", fullCmd);
-        pb.redirectErrorStream(true); // 合并 stderr 到 stdout
+        pb.redirectErrorStream(true);
 
         StringBuilder result = new StringBuilder();
 
         try {
             Process p = pb.start();
-            // 读取合并后的标准输出
             try (java.io.BufferedReader reader = new java.io.BufferedReader(
                 new java.io.InputStreamReader(p.getInputStream(), java.nio.charset.StandardCharsets.UTF_8))) {
                 String line;
@@ -351,9 +349,9 @@ public class ShellUtils {
                 }
             }
 
-            p.waitFor(); // 如需超时可改为 p.waitFor(timeout, unit) 并根据结果处理
+            p.waitFor();
         } catch (InterruptedException e) {
-            Thread.currentThread().interrupt(); // 恢复中断标志
+            Thread.currentThread().interrupt();
             String msg = e.toString();
             if (!cmd.contains("nsenter") && msg.contains("nsenter: exec ")) {
                 return msg.replace("nsenter: exec ", "");
@@ -367,13 +365,11 @@ public class ShellUtils {
             return msg;
         }
 
-        // 去掉最后一个换行
         String out = result.toString();
         if (!out.isEmpty() && out.charAt(out.length() - 1) == '\n') {
             out = out.substring(0, out.length() - 1);
         }
 
-        // 保留原来的 nsenter 错误前缀清理逻辑
         if (!cmd.contains("nsenter") && out.contains("nsenter: exec ")) {
             return out.replace("nsenter: exec ", "");
         }
