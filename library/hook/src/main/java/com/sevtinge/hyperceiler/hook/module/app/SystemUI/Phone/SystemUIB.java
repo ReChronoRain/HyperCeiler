@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.FixTile
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.GmsTile;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.MuteVisibleNotifications;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NewFlashLight;
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NotificationColor;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NotificationImportanceHyperOSFix;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.NotificationWeather;
 import com.sevtinge.hyperceiler.hook.module.rules.systemui.controlcenter.OldWeather;
@@ -192,6 +193,7 @@ public class SystemUIB extends BaseModule {
         initHook(new DisableTransparent(), mPrefsMap.getBoolean("system_ui_control_center_notification_disable_transparent"));
         initHook(ControlCenterStyle.INSTANCE, mPrefsMap.getBoolean("system_control_center_unlock_old"));
         initHook(CustomCarrierText.INSTANCE, mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) != 0);
+        initHook(new NotificationColor(), mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color"));
 
         // 磁贴
         initHook(new AutoCollapse(), mPrefsMap.getBoolean("system_ui_control_auto_close"));
