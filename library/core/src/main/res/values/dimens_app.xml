@@ -43,7 +43,7 @@
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="miuix_appcompat_searchbar_result_margin_top">54dp</dimen>
-    <dimen name="preference_recommend_radius">13.089998dp</dimen>
+    <dimen name="preference_recommend_radius">16dp</dimen>
     <dimen name="preference_recommend_region_margin">12dp</dimen>
     <dimen name="preference_recommend_region_padding_bottom">4dp</dimen>
     <dimen name="preference_recommend_title_margin_top">22.549988dp</dimen>
