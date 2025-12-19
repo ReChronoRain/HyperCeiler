@@ -22,6 +22,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLangu
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
@@ -35,8 +37,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TipsPreference extends Preference {
 
@@ -53,50 +60,63 @@ public class TipsPreference extends Preference {
     public TipsPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mContext = context.getApplicationContext();
-        setEnabled(false);
+        updateTips();
+    }
+
+    @Override
+    public void onClick() {
+        super.onClick();
         updateTips();
     }
 
     public void updateTips() {
-        String tip = getRandomTip(mContext);
-        setSummary("Tip: " + tip);
+        getRandomTipAsync(mContext, getLanguage(), tip -> {
+            setSummary("Tip: " + tip);
+        });
     }
 
-    private static final Object tipsCacheLock = new Object();
-    private static List<String> cachedTips = null;
-    private static String cachedLanguage = null;
 
-    public static String getRandomTip(Context context) {
-        String language = getLanguage();
-        List<String> tipsList;
+    private static final Random RANDOM = new Random();
+    private static final Object TIPS_CACHE_LOCK = new Object();
+    private static final Map<String, List<String>> TIPS_CACHE = new HashMap<>();
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-        synchronized (tipsCacheLock) {
-            if (cachedTips != null && language.equals(cachedLanguage)) {
-                tipsList = new ArrayList<>(cachedTips);
-            } else {
-                tipsList = loadTips(context, language);
-                if (!tipsList.isEmpty()) {
-                    cachedTips = new ArrayList<>(tipsList);
-                    cachedLanguage = language;
-                }
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+
+    public static void getRandomTipAsync(Context context, String language, TipCallback callback) {
+        List<String> tips = getTips(context, language);
+        if (tips.isEmpty()) {
+            callback.onTipReady("Get random tip is empty.");
+            return;
+        }
+
+        EXECUTOR.execute(() -> {
+            String tip = tips.get(RANDOM.nextInt(tips.size()));
+            MAIN_HANDLER.post(() -> callback.onTipReady(tip));
+        });
+    }
+
+    public static List<String> getTips(Context context, String language) {
+        List<String> cached = TIPS_CACHE.get(language);
+        if (cached != null) {
+            return cached;
+        }
+
+        List<String> loaded = loadTips(context, language);
+        if (loaded == null || loaded.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        synchronized (TIPS_CACHE_LOCK) {
+            List<String> again = TIPS_CACHE.get(language);
+            if (again != null) {
+                return again;
             }
-        }
 
-        if (tipsList.isEmpty()) {
-            return "Get random tip is empty.";
+            List<String> immutable = List.copyOf(loaded);
+            TIPS_CACHE.put(language, immutable);
+            return immutable;
         }
-
-        Random random = new Random();
-        String randomTip = "";
-        int attempts = 0;
-        while (randomTip.isEmpty() && !tipsList.isEmpty() && attempts < tipsList.size()) {
-            int randomIndex = random.nextInt(tipsList.size());
-            randomTip = tipsList.get(randomIndex);
-            tipsList.remove(randomIndex);
-            attempts++;
-        }
-
-        return !randomTip.isEmpty() ? randomTip : "Get random tip is empty.";
     }
 
     private static List<String> loadTips(Context context, String language) {
@@ -109,13 +129,18 @@ public class TipsPreference extends Preference {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.trim().startsWith("//") && !line.trim().isEmpty()) {
+                line = line.trim();
+                if (!line.isEmpty() && !line.startsWith("//")) {
                     tipsList.add(line);
                 }
             }
         } catch (IOException e) {
-            AndroidLogUtils.logE("MainActivityContextHelper", "getRandomTip() error: " + e.getMessage());
+            AndroidLogUtils.logE(
+                "MainActivityContextHelper",
+                "loadTips error: " + e.getMessage()
+            );
         }
+
         return tipsList;
     }
 
@@ -125,5 +150,9 @@ public class TipsPreference extends Preference {
         } catch (IOException ex) {
             return assetManager.open("tips/tips");
         }
+    }
+
+    public interface TipCallback {
+        void onTipReady(String tip);
     }
 }
