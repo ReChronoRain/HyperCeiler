@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.CtaBypassForHyp
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.DisableNetworkAssistantOfflineInfoManager;
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.DisableRootedCheck;
+import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.DisableSafepayAutoScan;
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.GetBubbleAppString;
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.HideXOptModeTip;
 import com.sevtinge.hyperceiler.hook.module.rules.securitycenter.InstallIntercept;
@@ -114,6 +115,7 @@ public class SecurityCenterPad extends BaseModule {
 
         // 其他
         initHook(new DisableRootedCheck(), mPrefsMap.getBoolean("security_center_disable_root_check_environment"));
+        initHook(new DisableSafepayAutoScan(), mPrefsMap.getBoolean("security_center_disable_safepay_auto_check"));
         initHook(SimplifyMainFragment.INSTANCE, mPrefsMap.getBoolean("security_center_simplify_home"));
         initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));

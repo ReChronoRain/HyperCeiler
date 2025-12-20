@@ -1480,6 +1480,7 @@
     <string name="security_center_bubble_and_freeform_title">小窗和气泡通知</string>
     <string name="security_center_newbox_title">全局侧边栏</string>
     <string name="security_center_disable_root_check_environment">禁用环境检查</string>
+    <string name="security_center_disable_safepay_auto_check">禁用对应用的自动检查</string>
     <string name="security_center_dolby_open">关闭杜比弹窗</string>
     <string name="security_center_show_battery_temperature">显示电池温度</string>
     <string name="security_center_show_battery_health">显示具体电池健康度</string>

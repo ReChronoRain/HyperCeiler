@@ -66,6 +66,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_safepay_auto_check"
+            android:title="@string/security_center_disable_safepay_auto_check" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_security_center_simplify_home"
             android:summary="@string/security_center_simplify_home_desc"
             android:title="@string/security_center_simplify_home" />

@@ -1402,6 +1402,7 @@
     <string name="security_center_bubble_and_freeform_title">Bubble and freeform</string>
     <string name="security_center_newbox_title">Sidebar</string>
     <string name="security_center_disable_root_check_environment">Disable environment check</string>
+    <string name="security_center_disable_safepay_auto_check">Disable auto check app</string>
     <string name="security_center_dolby_open">Close the Dolby pop-up window</string>
     <string name="security_center_show_battery_temperature">Show battery temperature</string>
     <string name="security_center_show_battery_health">Show detailed battery health</string>
