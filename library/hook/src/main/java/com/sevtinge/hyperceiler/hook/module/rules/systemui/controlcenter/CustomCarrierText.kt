@@ -53,7 +53,7 @@ object CustomCarrierText : BaseHook() {
             }
 
         loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
-            .filterByName("updateCarrierText")
+            .filterByName("onCarrierTextChanged")
             .first().createBeforeHook { param ->
                 val carrierTextView = param.thisObject.getObjectField("mCarrierLabel")
 

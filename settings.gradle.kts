@@ -1,29 +1,41 @@
 @file:Suppress("UnstableApiUsage")
 
-var gprUser = System.getenv("GIT_ACTOR") ?:""
-var gprKey = System.getenv("GIT_TOKEN") ?: ""
+data class GprCredentials(val user: String, val key: String)
 
-val gprInfoFile = File(rootProject.projectDir, "signing.properties")
+fun loadGprCredentials(): GprCredentials {
+    // 优先从环境变量读取
+    val envUser = System.getenv("GIT_ACTOR")?.takeIf { it.isNotBlank() }
+    val envKey = System.getenv("GIT_TOKEN")?.takeIf { it.isNotBlank() }
 
-if (gprUser.isEmpty() || gprKey.isEmpty()) {
-    if (gprInfoFile.exists()) {
-        val gprInfo = java.util.Properties().apply {
-            gprInfoFile.inputStream().use { load(it) }
-        }
-
-        // 在构建时请在 signing.properties 中添加 gpr.user（GitHub 用户名）和 gpr.key（GitHub 个人令牌密钥）
-        // 提交时请勿提交以上字段，以免个人账号泄露
-        //
-        // When building, add gpr.user (GitHub username) and gpr.key (GitHub personal access token) to signing.properties.
-        // Do not commit these fields to version control to avoid leaking personal account information.
-        gprUser = gprInfo.getProperty("gpr.user") ?: ""
-        gprKey = gprInfo.getProperty("gpr.key") ?: ""
-
-        if (gprUser.isEmpty() || gprKey.isEmpty()) {
-            throw GradleException("\'gpr.user\' and \'gpr.key\' must be set in \'signing.properties\'")
-        }
+    if (envUser != null && envKey != null) {
+        return GprCredentials(envUser, envKey)
     }
+
+    // 从 signing.properties 读取
+    val propsFile = File(rootDir, "signing.properties")
+    if (!propsFile.exists()) {
+        throw GradleException(
+            "Missing GitHub credentials. Please either:\n" +
+            "  1. Set GIT_ACTOR and GIT_TOKEN environment variables, or\n" +
+            "  2. Create 'signing.properties' with 'gpr.user' and 'gpr.key'"
+        )
+    }
+
+    val props = java.util.Properties().apply {
+        propsFile.inputStream().use { load(it) }
+    }
+
+    val user = props.getProperty("gpr.user")?.takeIf { it.isNotBlank() }
+    val key = props.getProperty("gpr.key")?.takeIf { it.isNotBlank() }
+
+    if (user == null || key == null) {
+        throw GradleException("'gpr.user' and 'gpr.key' must be set in 'signing.properties'")
+    }
+
+    return GprCredentials(user, key)
 }
+
+val gprCredentials by lazy { loadGprCredentials() }
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
@@ -36,16 +48,15 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode = RepositoriesMode.FAIL_ON_PROJECT_REPOS
     repositories {
         google()
         mavenCentral()
         mavenLocal()
-        maven {
-            url = uri("https://maven.pkg.github.com/ReChronoRain/HyperCeiler")
+        maven("https://maven.pkg.github.com/ReChronoRain/HyperCeiler") {
             credentials {
-                username = gprUser
-                password = gprKey
+                username = gprCredentials.user
+                password = gprCredentials.key
             }
         }
         maven("https://jitpack.io")
@@ -54,10 +65,13 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "HyperCeiler"
-include("app")
-include(":library:hook")
-include(":library:core")
-include(":library:provision")
-include(":library:common")
-include(":library:processor")
-include(":library:hidden-api")
+
+include(
+    "app",
+    ":library:hook",
+    ":library:core",
+    ":library:provision",
+    ":library:common",
+    ":library:processor",
+    ":library:hidden-api"
+)

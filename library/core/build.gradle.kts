@@ -18,13 +18,13 @@ android {
 
     buildTypes {
         release {
-            consumerProguardFiles(libs.versions.proguard.rules.get())
+            consumerProguardFiles("proguard-rules.pro")
         }
         create("beta") {
-            consumerProguardFiles(libs.versions.proguard.rules.get())
+            consumerProguardFiles("proguard-rules.pro")
         }
         create("canary") {
-            consumerProguardFiles(libs.versions.proguard.rules.get())
+            consumerProguardFiles("proguard-rules.pro")
         }
     }
 }

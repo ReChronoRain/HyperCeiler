@@ -1,40 +1,46 @@
 [versions]
+# Build tools
 agp = "9.0.0-rc01"
-kotlin-android = "2.3.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
+# AndroidX
 annotation = "1.9.1"
-core = "1.17.0"
-coreKtx = "1.17.0"
-fragment = "1.8.9"
-lunarcalendar = "latest.release"
-miuix = "1.0.10.5"
-expansions = "1.0.0"
-recyclerview = "1.4.0"
-coordinatorlayout = "1.3.0"
 constraintlayout = "2.2.1"
+coordinatorlayout = "1.3.0"
+core = "1.17.0"
+fragment = "1.8.9"
+recyclerview = "1.4.0"
 
+# UI Libraries
+miuix = "1.0.10.5"
+
+# Xposed & Hooks
 xposed-api = "82"
-
-gson = "2.13.2"
 dexkit = "2.0.7"
 ezxhelper = "3.0.1"
 hiddenapibypass = "6.1"
-hyperfocusapi = "2.0"
 hooktool = "v.2.2.3"
-superLyricApi = "2.4"
-mmkv = "2.3.0"
 
-proguard-rules = "proguard-rules.pro"
+# Third-party
+expansions = "1.0.0"
+gson = "2.13.2"
+hyperfocusapi = "2.0"
+lunarcalendar = "latest.release"
+mmkv = "2.3.0"
+superLyricApi = "2.4"
 
 [libraries]
+# AndroidX
 annotation = { module = "androidx.annotation:annotation", version.ref = "annotation" }
-core = { group = "androidx.core", name = "core", version.ref = "core" }
-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
-hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
-lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
+constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+coordinatorlayout = { module = "androidx.coordinatorlayout:coordinatorlayout", version.ref = "coordinatorlayout" }
+core = { module = "androidx.core:core", version.ref = "core" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "core" }
+fragment = { module = "androidx.fragment:fragment", version.ref = "fragment" }
+recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "recyclerview" }
+
+# Miuix UI
 miuix-animation = { module = "fan.miuix:animation", version.ref = "miuix" }
 miuix-appcompat = { module = "fan.miuix:appcompat", version.ref = "miuix" }
 miuix-basewidget = { module = "fan.miuix:basewidget", version.ref = "miuix" }
@@ -59,29 +65,37 @@ miuix-stretchablewidget = { module = "fan.miuix:stretchablewidget", version.ref 
 miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
 miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
 miuix-visualcheck = { module = "fan.miuix:visualcheck", version.ref = "miuix" }
-expansion = { module = "com.sevtinge.hyperceiler:hyperceiler-expansion", version.ref = "expansions"}
-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 
-auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
-coordinatorlayout = { group = "androidx.coordinatorlayout", name = "coordinatorlayout", version.ref = "coordinatorlayout" }
-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
-
-xposed-api = { group = "de.robv.android.xposed", name = "api", version.ref = "xposed-api" }
-
-gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
-dexkit = { group = "org.luckypray", name = "dexkit", version.ref = "dexkit" }
+# Xposed & Hooks
+dexkit = { module = "org.luckypray:dexkit", version.ref = "dexkit" }
+ezxhelper-android-utils = { module = "io.github.kyuubiran.ezxhelper:android-utils", version.ref = "ezxhelper" }
 ezxhelper-core = { module = "io.github.kyuubiran.ezxhelper:core", version.ref = "ezxhelper" }
 ezxhelper-xposed-api = { module = "io.github.kyuubiran.ezxhelper:xposed-api-82", version.ref = "ezxhelper" }
-ezxhelper-android-utils = { module = "io.github.kyuubiran.ezxhelper:android-utils", version.ref = "ezxhelper" }
+hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
+hooktool = { module = "com.github.HChenX:HookTool", version.ref = "hooktool" }
+xposed-api = { module = "de.robv.android.xposed:api", version.ref = "xposed-api" }
+
+# Third-party
+auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+expansion = { module = "com.sevtinge.hyperceiler:hyperceiler-expansion", version.ref = "expansions" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hyperfocusapi = { module = "com.github.ghhccghk:HyperFocusApi", version.ref = "hyperfocusapi" }
-hiddenapibypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenapibypass" }
+lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
+mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
 superlyricapi = { module = "com.github.HChenX:SuperLyricApi", version.ref = "superLyricApi" }
-mmkv = { group = "com.tencent", name = "mmkv", version.ref = "mmkv" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin-android" }
 lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
 
 [bundles]
+miuix = [
+    "miuix-animation", "miuix-appcompat", "miuix-basewidget", "miuix-bottomsheet",
+    "miuix-cardview", "miuix-core", "miuix-flexible", "miuix-folme", "miuix-graphics",
+    "miuix-haptic", "miuix-mgl", "miuix-navigator", "miuix-nestedheader",
+    "miuix-pickerwidget", "miuix-popupwidget", "miuix-preference", "miuix-recyclerview",
+    "miuix-slidingwidget", "miuix-smooth", "miuix-springback", "miuix-stretchablewidget",
+    "miuix-theme", "miuix-viewpager", "miuix-visualcheck"
+]
+ezxhelper = ["ezxhelper-core", "ezxhelper-xposed-api", "ezxhelper-android-utils"]

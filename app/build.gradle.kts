@@ -1,5 +1,5 @@
 // file:noinspection DependencyNotationArgument
-import com.android.build.gradle.internal.api.BaseVariantOutputImpl
+import com.android.build.api.dsl.ApplicationBuildType
 import com.android.build.gradle.tasks.PackageAndroidArtifact
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -13,57 +13,30 @@ plugins {
 }
 
 val apkId = "HyperCeiler"
+val gitHash: String by lazy { runGitCommand("rev-parse", "--short", "HEAD") ?: "unknown" }
+val gitHashLong: String by lazy { runGitCommand("rev-parse", "HEAD") ?: "unknown" }
+val gitCommitCount: Int by lazy { runGitCommand("rev-list", "--count", "HEAD")?.toIntOrNull() ?: 0 }
+val gitBranch: String by lazy {
+    val url = runGitCommand("remote", "get-url", "origin") ?: "unknown"
+    val branch = runGitCommand("branch", "--show-current") ?: "unknown"
+    """github\.com[:/](.+?)(\.git)?$""".toRegex().find(url)?.groupValues?.get(1).orEmpty() + "/" + branch
+}
+val gitVersionCode: Int by lazy { 5 + gitCommitCount }
 
-fun runGitCommand(vararg args: String): String? {
-    return try {
-        val process = ProcessBuilder(listOf("git") + args)
-            .redirectErrorStream(true)
-            .start()
-        val output = process.inputStream.bufferedReader().use { it.readText() }.trim()
-        val exit = process.waitFor()
-        if (exit == 0 && output.isNotBlank()) output else null
-    } catch (_: Throwable) {
-        null
+fun runGitCommand(vararg args: String): String? = runCatching {
+    ProcessBuilder(listOf("git") + args)
+        .redirectErrorStream(true)
+        .start()
+        .let { process ->
+            val output = process.inputStream.bufferedReader().readText().trim()
+            if (process.waitFor() == 0 && output.isNotBlank()) output else null
+        }
+}.getOrNull()
+
+fun loadPropertiesFromFile(fileName: String): Properties? =
+    rootProject.file(fileName).takeIf { it.exists() }?.let { file ->
+        Properties().apply { load(file.inputStream()) }
     }
-}
-
-fun getGitCommitCount(): Int {
-    val out = runGitCommand("rev-list", "--count", "HEAD")
-    return out?.trim()?.toIntOrNull() ?: 0
-}
-
-fun getGitHash(): String {
-    return runGitCommand("rev-parse", "--short", "HEAD") ?: "unknown"
-}
-
-fun getGitHashLong(): String {
-    return runGitCommand("rev-parse", "HEAD") ?: "unknown"
-}
-
-fun getGitUrl(): String {
-    return runGitCommand("remote", "get-url", "origin") ?: "unknown"
-}
-
-fun getGitCurrentBranch(): String {
-    return runGitCommand("branch", "--show-current") ?: "unknown"
-}
-
-val gitBranch = """github\.com[:/](.+?)(\.git)?$""".toRegex().find(getGitUrl())?.groupValues?.get(1) + "/" + getGitCurrentBranch()
-
-val getVersionCode: () -> Int = {
-    val commitCount = getGitCommitCount()
-    val major = 5
-    major + commitCount
-}
-
-fun loadPropertiesFromFile(fileName: String): Properties? {
-    val propertiesFile = rootProject.file(fileName)
-    return if (propertiesFile.exists()) {
-        val properties = Properties()
-        properties.load(propertiesFile.inputStream())
-        properties
-    } else null
-}
 
 android {
     namespace = "com.sevtinge.hyperceiler"
@@ -75,26 +48,24 @@ android {
         applicationId = namespace
         minSdk = 35
         targetSdk = 36
-        versionCode = getVersionCode()
+        versionCode = gitVersionCode
         versionName = "2.6.164"
 
-        val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
+        val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
-        }
-        val buildTime = sdf.format(Date())
-        val osName = System.getProperty("os.name")
-        // val osArch = System.getProperty("os.arch")
-        val userName = System.getProperty("user.name")
-        val javaVersion = System.getProperty("java.version")
-        // val javaVendor = System.getProperty("java.vendor") + " (" + System.getProperty("java.vendor.url") + ")"
+        }.format(Date())
 
-        buildConfigField("String", "BUILD_TIME", "\"$buildTime\"")
-        buildConfigField("String", "BUILD_OS_NAME", "\"$osName\"")
-        // buildConfigField("String", "BUILD_OS_ARCH", "\"$osArch\"")
-        buildConfigField("String", "BUILD_USER_NAME", "\"$userName\"")
-        buildConfigField("String", "BUILD_JAVA_VERSION", "\"$javaVersion\"")
-        // buildConfigField("String", "BUILD_JAVA_VENDOR", "\"$javaVendor\"")
-        buildConfigField("String", "GIT_BRANCH", "\"$gitBranch\"")
+        val buildConfigData = mapOf(
+            "BUILD_TIME" to buildTime,
+            "BUILD_OS_NAME" to System.getProperty("os.name"),
+            "BUILD_USER_NAME" to System.getProperty("user.name"),
+            "BUILD_JAVA_VERSION" to System.getProperty("java.version"),
+            "GIT_BRANCH" to gitBranch
+        )
+
+        for ((key, value) in buildConfigData) {
+            buildConfigField("String", key, "\"$value\"")
+        }
 
         ndk {
             // noinspection ChromeOsAbiSupport
@@ -118,27 +89,22 @@ android {
         dex {
             useLegacyPackaging = true
         }
-        // AGP 9.0.0 开始，弃用此方法，插件暂未实现新的迁移方式
-        applicationVariants.all {
-            outputs.all {
-                (this as BaseVariantOutputImpl).outputFileName =
-                    "${apkId}_${versionName}_${versionCode}_${buildType.name}.apk"
-            }
-        }
     }
 
     val properties: Properties? = loadPropertiesFromFile("signing.properties")
-    val getString: (String, String, String) -> String = { propertyName, environmentName, prompt ->
+    fun getString(propertyName: String, environmentName: String, prompt: String): String =
         properties?.getProperty(propertyName)
             ?: System.getenv(environmentName)
-            ?: System.console()?.readLine("\n$prompt: ") ?: ""
+            ?: System.console()?.readLine("\n$prompt: ").orEmpty()
+
+    val buildTimeSuffix: String by lazy {
+        SimpleDateFormat("MMddHHmm").apply {
+            timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+        }.format(Date())
     }
-    val gitCode = getVersionCode()
-    val gitHash = getGitHash()
-    val sdf = SimpleDateFormat("MMddHHmm").apply {
-        timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+    val dateSuffix: String by lazy {
+        DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
     }
-    val buildTime = sdf.format(Date())
 
     signingConfigs {
         create("hasProperties") {
@@ -156,80 +122,63 @@ android {
     }
 
     buildTypes {
-        val applyBase: com.android.build.api.dsl.BuildType.() -> Unit = {
+        val configSigning: ApplicationBuildType.() -> Unit = {
+            val signingConfigName = if (properties != null) "hasProperties" else "debug"
+            signingConfig = signingConfigs.findByName(signingConfigName)
+        }
+
+        val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }
 
         release {
             applyBase()
+            configSigning()
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
             proguardFiles("proguard-log.pro")
-
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
-            signingConfig = if (properties != null) {
-                signingConfigs["hasProperties"]
-            } else {
-                signingConfigs["debug"]
-            }
+            versionNameSuffix = "-$dateSuffix"
         }
 
         create("beta") {
             applyBase()
-            buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
-
-            versionNameSuffix = "_${DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())}"
-            signingConfig = if (properties != null) {
-                signingConfigs["hasProperties"]
-            } else {
-                signingConfigs["debug"]
-            }
+            configSigning()
+            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
+            versionNameSuffix = "-$dateSuffix"
         }
 
         create("canary") {
             applyBase()
-            buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
-
-            versionNameSuffix = "_${gitHash}_r${gitCode}"
-            signingConfig = if (properties != null) {
-                signingConfigs["hasProperties"]
-            } else {
-                signingConfigs["debug"]
-            }
+            configSigning()
+            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
+            versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
         }
 
         debug {
-            buildConfigField("String", "GIT_HASH", "\"${getGitHashLong()}\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitCode\"")
-
             isMinifyEnabled = false
-            versionNameSuffix = "_${buildTime}_r${gitCode}"
+            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
+            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
+            versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
             if (properties != null) {
-                signingConfig = signingConfigs["hasProperties"]
+                signingConfig = signingConfigs.findByName("hasProperties")
             }
         }
     }
 
 }
 
-/*androidComponents {
-    onVariants { variant ->
-        variant.outputs.forEach { output ->
-            val versionName = variant.outputs.first().versionName
-            val versionCode = variant.outputs.first().versionCode
-            val buildTypeName = variant.buildType!!
-
-
-            val newFileName = "${apkId}_${versionName}_${versionCode}_${buildTypeName}.apk"
-
-            output.outputFileName.set(newFileName)
-        }
+afterEvaluate {
+    base {
+        val buildTypeName = gradle.startParameter.taskNames
+            .firstOrNull { it.contains("assemble", ignoreCase = true) }
+            ?.substringAfterLast(":")
+            ?.replace("assemble", "", ignoreCase = true)
+            ?.lowercase() ?: "debug"
+        val suffix = android.buildTypes.findByName(buildTypeName)?.versionNameSuffix ?: ""
+        archivesName.set("$apkId-${android.defaultConfig.versionName}$suffix")
     }
-}*/
+}
 
 // https://stackoverflow.com/a/77745844
 tasks.withType<PackageAndroidArtifact> {
