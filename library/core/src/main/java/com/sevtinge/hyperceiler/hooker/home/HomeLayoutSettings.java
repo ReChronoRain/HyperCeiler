@@ -23,8 +23,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 import java.util.function.BiConsumer;
 
@@ -61,7 +61,7 @@ public class HomeLayoutSettings extends DashboardFragment {
         mPadV = findPreference("prefs_key_home_folder_horizontal_padding_pad_v");
 
         if (isPad()) {
-            setHide(mSearch, false);
+            setPreVisible(mSearch, false);
             setFuncHint(mLayoutH, 1);
             setFuncHint(mIconLayoutNew, 1);
         }

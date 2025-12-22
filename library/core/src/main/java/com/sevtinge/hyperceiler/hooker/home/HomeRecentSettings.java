@@ -69,7 +69,7 @@ public class HomeRecentSettings extends DashboardFragment {
             setFuncHint(mShowLaunch, 1);
             setFuncHint(mHideWorldCirculate, isPad() ? 1 : 2);
             setFuncHint(mHideFreeform, 1);
-            setHide(mUnlockPin, false);
+            setPreVisible(mUnlockPin, false);
         }
 
         mHideRecentCard.setOnPreferenceClickListener(

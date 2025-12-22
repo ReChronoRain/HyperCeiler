@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class HomeDrawerSettings extends DashboardFragment {
 
@@ -32,6 +32,6 @@ public class HomeDrawerSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        setHide(findPreference("prefs_key_home_drawer_blur"), !isMoreHyperOSVersion(3f));
+        setPreVisible(findPreference("prefs_key_home_drawer_blur"), !isMoreHyperOSVersion(3f));
     }
 }

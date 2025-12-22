@@ -127,7 +127,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         }
     }
 
-    public void setHide(Preference p, boolean b) {
+    public void setPreVisible(Preference p, boolean b) {
         if (!b) {
             cleanKey(p.getKey());
             p.setVisible(false);

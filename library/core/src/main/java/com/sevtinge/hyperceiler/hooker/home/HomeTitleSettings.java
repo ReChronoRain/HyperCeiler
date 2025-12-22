@@ -29,9 +29,9 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.core.R;
 
 public class HomeTitleSettings extends DashboardFragment {
 
@@ -65,7 +65,7 @@ public class HomeTitleSettings extends DashboardFragment {
             return true;
         });
 
-        setHide(mDisableHideTheme, isPad());
+        setPreVisible(mDisableHideTheme, isPad());
 
         Bundle args1 = new Bundle();
         Bundle args2 = new Bundle();

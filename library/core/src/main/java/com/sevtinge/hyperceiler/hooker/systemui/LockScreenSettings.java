@@ -54,8 +54,8 @@ public class LockScreenSettings extends DashboardFragment {
             setFuncHint(mHideRightButton, 1);
             setFuncHint(mBlurButton, 1);
         } else if (isMoreHyperOSVersion(3f)) {
-            setHide(mHideLeftButtonNew, false);
-            setHide(mHideRightButton, false);
+            setPreVisible(mHideLeftButtonNew, false);
+            setPreVisible(mHideRightButton, false);
             setFuncHint(mChangeCV, 1);
             setFuncHint(mAnim, 1);
         } else if (isMoreSmallVersion(200, 2f)) {

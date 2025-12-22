@@ -22,8 +22,8 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAn
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class CorePatchSettings extends DashboardFragment {
 
@@ -64,7 +64,7 @@ public class CorePatchSettings extends DashboardFragment {
         mExactSignatureCheck.setVisible(mEnable);
         mUsePreSignature.setVisible(mEnable);
 
-        setHide(mLossFingerprint, isMoreAndroidVersion(36));
+        setPreVisible(mLossFingerprint, isMoreAndroidVersion(36));
 
         findPreference("prefs_key_system_framework_core_patch_enable").setOnPreferenceChangeListener((preference, o) -> {
             if ((boolean) o) {
