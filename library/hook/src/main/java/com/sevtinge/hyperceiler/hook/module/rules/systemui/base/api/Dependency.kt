@@ -24,12 +24,13 @@ import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.getStaticObjectFieldAs
+import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 @Suppress("unused")
 object Dependency {
     private val CLASS by lazy {
-        loadClass("com.android.systemui.Dependency")
+        loadClass("com.android.systemui.Dependency", classLoader)
     }
 
     val INSTANCE by lazy {

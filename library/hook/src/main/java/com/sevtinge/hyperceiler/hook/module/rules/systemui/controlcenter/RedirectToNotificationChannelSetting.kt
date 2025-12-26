@@ -24,12 +24,12 @@ import android.provider.Settings
 import android.service.notification.StatusBarNotification
 import android.widget.ImageView
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
+import com.sevtinge.hyperceiler.hook.module.rules.systemui.base.api.Dependency
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldOrNullAs
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
 import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
@@ -49,7 +49,6 @@ object RedirectToNotificationChannelSetting : BaseHook() {
 
     override fun init() {
         // hyperos fix by yife
-        val clazzDependency = loadClass("com.android.systemui.Dependency")
         val clazzModalController = if (isMoreAndroidVersion(36)) {
             loadClass("com.android.systemui.statusbar.notification.modal.IModalController")
         } else {
@@ -67,21 +66,25 @@ object RedirectToNotificationChannelSetting : BaseHook() {
                     val mIcon = mInfoItem.getObjectFieldOrNullAs<ImageView>("mIcon") ?: return@after
                     mIcon.setOnClickListener {
                         startChannelNotificationSettings(mSbn)
-
-                        if (!isMoreAndroidVersion(36)) {
-                            val modalController = invokeStaticMethodBestMatch(
-                                clazzDependency, "get", null, clazzModalController
-                            ) ?: return@setOnClickListener
+                        runCatching {
+                            if (!isMoreAndroidVersion(36)) {
+                                val modalController =
+                                    Dependency.getDependencyInner(clazzModalController)
+                                        ?: return@setOnClickListener
+                                invokeMethodBestMatch(
+                                    modalController, "animExitModal", null, 50L, true, "MORE", false
+                                )
+                            }
+                            val commandQueue =
+                                Dependency.getDependencyInner(clazzCommandQueue)
+                                    ?: return@setOnClickListener
                             invokeMethodBestMatch(
-                                modalController, "animExitModal", null, 50L, true, "MORE", false
+                                commandQueue, "animateCollapsePanels", null, 0, false
                             )
+                        }.onFailure {
+                            logW(TAG, lpparam.packageName, "RedirectToNotificationChannelSetting: ", it)
                         }
-                        val commandQueue = invokeStaticMethodBestMatch(
-                            clazzDependency, "get", null, clazzCommandQueue
-                        ) ?: return@setOnClickListener
-                        invokeMethodBestMatch(
-                            commandQueue, "animateCollapsePanels", null, 0, false
-                        )
+
                     }
                 }
             }
