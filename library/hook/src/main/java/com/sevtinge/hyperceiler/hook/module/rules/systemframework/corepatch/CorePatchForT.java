@@ -21,7 +21,9 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemframework.corepatch;
 import android.content.pm.Signature;
 
 import java.io.PrintWriter;
+import java.io.RandomAccessFile;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
@@ -110,6 +112,26 @@ public class CorePatchForT extends CorePatchForS {
         if (utils != null) {
             deoptimizeMethod(utils, "canJoinSharedUserId");
         }
+
+        var apkSigningBlockClass = findClass("android.util.apk.ApkSigningBlockUtils", loadPackageParam.classLoader);
+        var signatureInfoClass = findClass("android.util.apk.SignatureInfo", loadPackageParam.classLoader);
+        findAndHookMethod(apkSigningBlockClass, "parseVerityDigestAndVerifySourceLength", byte[].class, long.class, signatureInfoClass, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", false)) {
+                    param.setResult(Arrays.copyOfRange((byte[]) param.args[0], 0, 32));
+                }
+            }
+        });
+
+        findAndHookMethod(apkSigningBlockClass, "verifyIntegrityForVerityBasedAlgorithm", byte[].class, RandomAccessFile.class, signatureInfoClass, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) {
+                if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", false)) {
+                    param.setResult(null);
+                }
+            }
+        });
     }
 
     Class<?> getParsedPackage(ClassLoader classLoader) {
