@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.json.JSONObject
+import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -46,6 +47,22 @@ object CloudWatermark : BaseHook() {
         } as Method?
     }
 
+    private val cloudDelete by lazy {
+        // 仅支持 6.2 及以上版本，用于强制获取云下发的新水印内容
+        DexKit.findMember("deleteCloud") {
+            it.findClass {
+                matcher {
+                    addUsingString("watermark_enable", StringMatchType.Equals)
+                }
+            }.findMethod {
+                matcher {
+                    addInvoke("Ljava/util/List;->isEmpty()Z")
+                    returnType = "void"
+                }
+            }.single()
+        } as Method?
+    }
+
     override fun init() {
         if (cloudMethod == null) {
             logD(TAG, lpparam.packageName, "maybe not support this version")
@@ -54,6 +71,16 @@ object CloudWatermark : BaseHook() {
 
         cloudMethod?.createHook {
             returnConstant(true)
+        }
+
+        runCatching {
+            cloudDelete?.createHook {
+                before {
+                    it.result = null
+                }
+            }
+        }.onFailure {
+            logW(TAG, lpparam.packageName, "hook deleteCloud failed, maybe not support this version")
         }
 
         JSONObject::class.java.methodFinder()

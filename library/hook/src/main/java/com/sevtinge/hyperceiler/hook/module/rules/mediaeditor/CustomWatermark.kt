@@ -43,11 +43,31 @@ object CustomWatermark : BaseHook() {
         }
     }
 
+    private val searchNew by lazy<Method> {
+        // 2.2.0.1.6 开始混淆类名和字符串
+        DexKit.findMember("CustomWatermarkNew") {
+            it.findClass {
+                matcher {
+                    addUsingString("check geocode selectable", StringMatchType.Contains)
+                }
+            }.findMethod {
+                matcher {
+                    addInvoke("Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;")
+                    returnType = "java.lang.String"
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
-        logD(TAG, lpparam.packageName, "[CustomWatermark] search method is $search")
-        search.createHook {
-            // 当前只能修改后缀
-            returnConstant(name)
+        runCatching {
+            search.createHook {
+                returnConstant(name)
+            }
+        }.onFailure {
+            searchNew.createHook {
+                returnConstant(name)
+            }
         }
 
         /*SystemProperties.methodFinder()
