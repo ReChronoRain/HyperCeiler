@@ -27,7 +27,6 @@ expansions = "1.0.0"
 gson = "2.13.2"
 hyperfocusapi = "2.0"
 lunarcalendar = "latest.release"
-mmkv = "2.3.0"
 superLyricApi = "2.4"
 
 [libraries]
@@ -81,7 +80,6 @@ expansion = { module = "com.sevtinge.hyperceiler:hyperceiler-expansion", version
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hyperfocusapi = { module = "com.github.ghhccghk:HyperFocusApi", version.ref = "hyperfocusapi" }
 lunarcalendar = { module = "com.xhinliang:LunarCalendar", version.ref = "lunarcalendar" }
-mmkv = { module = "com.tencent:mmkv", version.ref = "mmkv" }
 superlyricapi = { module = "com.github.HChenX:SuperLyricApi", version.ref = "superLyricApi" }
 
 [plugins]

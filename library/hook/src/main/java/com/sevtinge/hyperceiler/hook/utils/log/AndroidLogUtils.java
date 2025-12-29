@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.hook.utils.log;
 
 import android.util.Log;
 
-import com.tencent.mmkv.MMKV;
-
 /*
  * 请在非 Xposed 代码下使用此类进行日志记录
  *
@@ -32,10 +30,9 @@ public class AndroidLogUtils {
     static {
         int level = 3;
         try {
-            MMKV mmkv = MMKV.defaultMMKV();
-            level = mmkv.getInt("persist.hyperceiler.log.level", level);
+            level = LogManager.readLogLevelFromFile(null);
         } catch (Throwable t) {
-            Log.e("HyperCeiler:AndroidLogUtils", "Failed to get log level from MMKV", t);
+            Log.e("HyperCeiler:AndroidLogUtils", "Failed to get log level from LogManager", t);
         }
         logLevel = level;
     }

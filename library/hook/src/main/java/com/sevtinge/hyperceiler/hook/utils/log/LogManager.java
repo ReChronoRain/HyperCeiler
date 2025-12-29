@@ -26,12 +26,14 @@ import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.util.Log;
 
-import com.tencent.mmkv.MMKV;
-
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.file.StandardOpenOption;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -43,7 +45,7 @@ public class LogManager {
     public static boolean IS_LOGGER_ALIVE;
     public static final int logLevel = getLogLevel();
     public static String LOGGER_CHECKER_ERR_CODE;
-    private static final String HYPERCEILER_LOG_LEVEL = "persist.hyperceiler.log.level";
+    private static final String LOG_CONFIG_PATH = "/files/log_config";
 
     public static void init() {
         IS_LOGGER_ALIVE = isLoggerAlive();
@@ -52,9 +54,66 @@ public class LogManager {
     public static void setLogLevel() {
         int logLevel = Integer.parseInt(mSharedPreferences.getString("prefs_key_log_level", "3"));
         int effectiveLogLevel = isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
-        /*PropUtils.setProp(PROP_HYPERCEILER_LOG_LEVEL, effectiveLogLevel);*/
-        MMKV mmkv = MMKV.defaultMMKV();
-        mmkv.putInt(HYPERCEILER_LOG_LEVEL, effectiveLogLevel);
+        writeLogLevelToFile(null, effectiveLogLevel);
+    }
+
+    public static void setLogLevel(int level, String basePath) {
+        int effectiveLogLevel = isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
+        writeLogLevelToFile(basePath, effectiveLogLevel);
+    }
+
+    private static void writeLogLevelToFile(String basePath, int level) {
+        try {
+            String configPath = (basePath != null ? basePath : "") + LOG_CONFIG_PATH;
+            File configFile = new File(configPath);
+            File configDir = configFile.getParentFile();
+
+            if (configDir != null && !configDir.exists()) {
+                configDir.mkdirs();
+            }
+
+            // 使用 FileLock 进行多进程安全读写
+            try (FileChannel channel = FileChannel.open(configFile.toPath(),
+                StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)) {
+                FileLock lock = channel.lock();
+                try (FileWriter writer = new FileWriter(configFile)) {
+                    writer.write(String.valueOf(level));
+                    writer.flush();
+                } finally {
+                    lock.release();
+                }
+            }
+        } catch (Exception e) {
+            Log.e("LogManager", "Failed to write log level to file: ", e);
+        }
+    }
+
+    public static int readLogLevelFromFile(String basePath) {
+        try {
+            String configPath = (basePath != null ? basePath : "") + LOG_CONFIG_PATH;
+            File configFile = new File(configPath);
+
+            if (configFile.exists()) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        try {
+                            int level = Integer.parseInt(line.trim());
+                            if (level >= 0 && level <= 4) {
+                                return level;
+                            }
+                        } catch (NumberFormatException ignored) {
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e("LogManager", "Failed to read log level from file: ", e);
+        }
+
+        // Default fallback
+        int level = mPrefsMap.getStringAsInt("log_level", 3);
+        return isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
     }
 
     public static int getLogLevel() {
@@ -75,37 +134,18 @@ public class LogManager {
 
     public static boolean isLoggerAlive() {
         try {
-            String modulesOutput = rootExecCmd("ls /data/adb/modules/");
-            String[] moduleLines = modulesOutput.split("\n");
-            boolean lsposedFound = false;
-            for (String line : moduleLines) {
-                if (line.toLowerCase().contains("lsposed")) {
-                    lsposedFound = true;
-                    break;
-                }
-            }
-            if (lsposedFound) {
-                String output = rootExecCmd("ls /data/adb/lspd/log/");
-                String[] lines = output.split("\n");
-                List<String> logFiles = new ArrayList<>();
-                for (String line : lines) {
-                    if (line.startsWith("modules_") && line.endsWith(".log")) {
-                        logFiles.add(line);
-                    }
-                }
+            boolean lsposedLogDirExists = !rootExecCmd("ls -d /data/adb/lspd/log/ 2>/dev/null").isEmpty();
 
-                if (logFiles.size() == 1) {
-                    String fileName = logFiles.get(0);
-                    String filePath = "/data/adb/lspd/log/" + fileName;
-                    String grepOutput = rootExecCmd("grep -q 'HyperCeiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
+            if (lsposedLogDirExists) {
+                String latestLogFile = rootExecCmd("ls -t /data/adb/lspd/log/modules_*.log 2>/dev/null | head -n 1").trim();
+
+                if (!latestLogFile.isEmpty() && !latestLogFile.contains("No such file")) {
+                    String grepOutput = rootExecCmd("grep -i -q 'HyperCeiler' " + latestLogFile + " && echo 'FOUND' || echo 'EMPTY'");
                     if (grepOutput.trim().equals("EMPTY")) {
-                        grepOutput = rootExecCmd("grep -q 'hyperceiler' " + filePath + " && echo 'FOUND' || echo 'EMPTY'");
-                        if (grepOutput.trim().equals("EMPTY")) {
-                            LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
-                            return false;
-                        }
+                        LOGGER_CHECKER_ERR_CODE = "EMPTY_XPOSED_LOG_FILE";
+                        return false;
                     }
-                } else if (logFiles.isEmpty()) {
+                } else {
                     LOGGER_CHECKER_ERR_CODE = "NO_XPOSED_LOG_FILE";
                     return false;
                 }
@@ -119,20 +159,27 @@ public class LogManager {
         int timeout = 5;
         Log.d(tag, message);
 
-        ExecutorService executor = Executors.newCachedThreadPool();
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<Boolean> future = executor.submit(() -> {
-            try (BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(Runtime.getRuntime().exec("logcat -d " + tag + ":D *:S").getInputStream()))) {
+            Process process = null;
+            try {
+                process = Runtime.getRuntime().exec(new String[]{"logcat", "-d", "-v", "brief", "-s", tag + ":D"});
 
-                String line;
-                while ((line = bufferedReader.readLine()) != null) {
-                    if (line.contains(message)) {
-                        LOGGER_CHECKER_ERR_CODE = "SUCCESS";
-                        return true;
+                try (BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()))) {
+
+                    String line;
+                    while ((line = bufferedReader.readLine()) != null) {
+                        if (line.contains(message)) {
+                            LOGGER_CHECKER_ERR_CODE = "SUCCESS";
+                            return true;
+                        }
                     }
                 }
             } catch (Exception e) {
                 LOGGER_CHECKER_ERR_CODE = String.valueOf(e);
+            } finally {
+                if (process != null) process.destroy();
             }
             LOGGER_CHECKER_ERR_CODE = "NO_SUCH_LOG";
             return false;

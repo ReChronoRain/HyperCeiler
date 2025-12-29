@@ -29,9 +29,7 @@ import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
-import com.tencent.mmkv.MMKV;
 
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -47,7 +45,6 @@ public class Application extends android.app.Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        MMKV.initialize(this, new File(getFilesDir(), "mmkv").getAbsolutePath());
         LogAppProxy.onCreate(this);
 
         new Thread(() -> AppInfoCache.getInstance(this).initAllAppInfos()).start();

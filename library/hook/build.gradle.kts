@@ -71,7 +71,6 @@ dependencies {
     compileOnlyApi(libs.xposed.api)
 
     api(libs.dexkit)
-    api(libs.mmkv)
     api(libs.bundles.ezxhelper)
     api(libs.hiddenapibypass)
     api(libs.gson)
