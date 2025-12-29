@@ -219,8 +219,9 @@ public class SystemUIB extends BaseModule {
         initHook(MediaPicture.INSTANCE, mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
             mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0) == 1);
         initHook(MediaSeekBar.INSTANCE, mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
-            || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1 ||
-            mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0);
+            || mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1
+            || mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0
+            || mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_thumb_mode", 0) != 0);
 
         // Other
         initHook(DoubleTapToSleep.INSTANCE, mPrefsMap.getBoolean("system_ui_status_bar_double_tap_to_sleep"));

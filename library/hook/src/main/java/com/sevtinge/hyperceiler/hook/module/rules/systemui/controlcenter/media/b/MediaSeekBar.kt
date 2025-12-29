@@ -33,10 +33,6 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 // 和 Android 15- 调用链不一致，故新开
 // 2025.08.03
 object MediaSeekBar : BaseHook() {
-
-    private val progress by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
-    }
     private val progressThickness by lazy {
         mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
     }
@@ -51,6 +47,9 @@ object MediaSeekBar : BaseHook() {
     }
     private val mode by lazy {
         mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0)
+    }
+    private val modeThumb by lazy {
+        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_thumb_mode", 0)
     }
 
     override fun init() {
@@ -69,11 +68,6 @@ object MediaSeekBar : BaseHook() {
                             phaseSpeed = dp2px(context, 8f).toFloat()
                             strokeWidth = dp2px(context, 2f).toFloat()
                         }
-
-                        val modRes = OtherTool.getModuleRes(context)
-                        seekBar.thumb = modRes.getDrawable(R.drawable.media_seekbar_thumb, context.theme)
-                        // 修复替换按钮后在进度条首尾会有截断问题
-                        seekBar.updatePadding(left = seekBar.thumbOffset, right = seekBar.thumbOffset)
                     }
 
                     2 -> {
@@ -96,7 +90,7 @@ object MediaSeekBar : BaseHook() {
                                 ClipDrawable(onProgressDrawable, Gravity.START, ClipDrawable.HORIZONTAL)
                             )
                         ).apply {
-                            if (progress) {
+                            if (mode == 2) {
                                 setLayerHeight(0, progressThickness.dp)
                                 setLayerHeight(1, progressThickness.dp)
                             } else {
@@ -107,8 +101,13 @@ object MediaSeekBar : BaseHook() {
 
                         seekBar.progressDrawable = layerDrawable
                     }
+                }
 
-                    else -> return@createAfterHook
+                if (modeThumb == 1) {
+                    val modRes = OtherTool.getModuleRes(context)
+                    seekBar.thumb = modRes.getDrawable(R.drawable.media_seekbar_thumb, context.theme)
+                    // 修复替换按钮后在进度条首尾会有截断问题
+                    seekBar.updatePadding(left = seekBar.thumbOffset, right = seekBar.thumbOffset)
                 }
 
             }
@@ -122,32 +121,28 @@ object MediaSeekBar : BaseHook() {
 
                 if (progressColor != -1)
                     seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(progressColor, PorterDuff.Mode.SRC_IN)
-                if (thumbColor != -1 && mode != 2)
+                if (thumbColor != -1 && modeThumb != 2)
                     seekBar.thumb.colorFilter = PorterDuffColorFilter(thumbColor, PorterDuff.Mode.SRC_IN)
 
-                when (mode) {
-                    1 -> {
-                        val drawable = seekBar.progressDrawable
-                        if (drawable !is SquigglyProgress) return@createAfterHook
-                        val progress = it.args[0] ?: return@createAfterHook
-                        val seekAvailable = progress.getBooleanField("seekAvailable")
-                        val playing = progress.getBooleanField("playing")
-                        val scrubbing = progress.getBooleanField("scrubbing")
-                        val enabled = progress.getBooleanField("enabled")
+                if (mode == 1) {
+                    val drawable = seekBar.progressDrawable
+                    if (drawable !is SquigglyProgress) return@createAfterHook
+                    val progress = it.args[0] ?: return@createAfterHook
+                    val seekAvailable = progress.getBooleanField("seekAvailable")
+                    val playing = progress.getBooleanField("playing")
+                    val scrubbing = progress.getBooleanField("scrubbing")
+                    val enabled = progress.getBooleanField("enabled")
 
-                        if (!enabled) {
-                            drawable.animate = false
-                        } else {
-                            drawable.animate = playing && !scrubbing
-                            drawable.transitionEnabled = !seekAvailable
-                        }
+                    if (!enabled) {
+                        drawable.animate = false
+                    } else {
+                        drawable.animate = playing && !scrubbing
+                        drawable.transitionEnabled = !seekAvailable
                     }
+                }
 
-                    2 -> {
-                        seekBar.thumb.colorFilter = colorFilter(Color.TRANSPARENT)
-                    }
-
-                    else -> return@createAfterHook
+                if (modeThumb == 2) {
+                    seekBar.thumb.colorFilter = colorFilter(Color.TRANSPARENT)
                 }
             }
     }

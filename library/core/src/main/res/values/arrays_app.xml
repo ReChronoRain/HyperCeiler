@@ -528,6 +528,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="system_ui_control_center_media_control_progress_thumb_mode">
+        <item>@string/array_default</item>
+        <item>@string/system_ui_control_center_media_control_progress_thumb_ori</item>
+        <item>@string/system_ui_control_center_media_control_progress_thumb_non</item>
+    </string-array>
+
+    <string-array name="system_ui_control_center_media_control_progress_thumb_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="system_ui_control_center_media_control_background_mode_new">
         <item>@string/array_default</item>
         <item>@string/media_control_ground_mode_1</item>
