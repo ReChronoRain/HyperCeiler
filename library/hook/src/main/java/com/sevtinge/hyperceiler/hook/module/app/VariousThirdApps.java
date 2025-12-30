@@ -52,7 +52,7 @@ public class VariousThirdApps extends BaseModule {
         if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
             if (isInputMethod(mPackageName)) {
                 initHook(new LoadInputMethodDex());
-                initHook(new ClipboardLimit().onApplication());
+                initHook(new ClipboardLimit());
             }
         }
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));

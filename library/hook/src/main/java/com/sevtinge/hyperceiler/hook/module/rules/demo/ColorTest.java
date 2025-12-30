@@ -18,9 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hook.module.rules.demo;
 
-import android.graphics.Color;
-
-import com.hchen.hooktool.utils.ResInjectTool;
+import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 public class ColorTest extends BaseHook {
@@ -30,7 +28,7 @@ public class ColorTest extends BaseHook {
                 new MethodHook() {
                     @Override
                     protected void before(MethodHookParam param) {
-                        ResInjectTool.setObjectReplacement("com.hchen.demo", "color", "my_test_color", Color.RED);
+                        setResReplacement("com.hchen.demo", "color", "my_test_color", R.color.red);
                     }
                 }
         );

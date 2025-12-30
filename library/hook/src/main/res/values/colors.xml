@@ -47,4 +47,6 @@
     <color name="notification_element_blend_keyguard_color_2">#bdfa00</color>
     <color name="notification_element_blend_shade_color_1">#818181</color>
     <color name="notification_element_blend_shade_color_2">#b3ff00</color>
+
+    <color name="red">#FF0000</color>
 </resources>

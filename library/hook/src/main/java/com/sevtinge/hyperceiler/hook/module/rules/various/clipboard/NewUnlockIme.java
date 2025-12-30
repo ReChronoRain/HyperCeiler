@@ -19,7 +19,16 @@
 
 package com.sevtinge.hyperceiler.hook.module.rules.various.clipboard;
 
+import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.callMethod;
+import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.getField;
+import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.getStaticField;
+import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.setStaticField;
+import static com.sevtinge.hyperceiler.hook.utils.KotlinXposedHelperKt.callStaticMethod;
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
+
+import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 import android.content.Context;
 
@@ -27,14 +36,17 @@ import androidx.annotation.NonNull;
 
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.util.Arrays;
 import java.util.List;
 
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
 /**
  * 解除全面屏键盘优化限制
  */
-public class NewUnlockIme extends HCBase {
+public class NewUnlockIme extends BaseHook {
     private static final String TAG = "NewUnlockIme";
     private static boolean shouldHook = false;
     private static int navBarColor = 0;
@@ -45,9 +57,9 @@ public class NewUnlockIme extends HCBase {
         "com.miui.catcherpatch"
     };
 
-    public static void unlock(@NonNull ClassLoader classLoader) {
+    public void unlock(@NonNull ClassLoader classLoader) {
         fakeSupportImeList(classLoader);
-        notDeleteNotSupportIme(findClass("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader));
+        // notDeleteNotSupportIme(findClass("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader));
 
         if (!shouldHook) return;
 
@@ -63,13 +75,13 @@ public class NewUnlockIme extends HCBase {
     @Override
     public void init() {
         if (getProp("ro.miui.support_miui_ime_bottom", "0").equals("1")) {
-            startHook();
+            startHook(lpparam);
         }
     }
 
-    private static void startHook() {
+    private void startHook(XC_LoadPackage.LoadPackageParam lpparam) {
         // 检查是否为小米定制输入法
-        if (Arrays.stream(miuiImeList).anyMatch(s -> s.equals(loadPackageParam.packageName)))
+        if (Arrays.stream(miuiImeList).anyMatch(s -> s.equals(lpparam)))
             return;
 
         shouldHook = true;
@@ -86,7 +98,7 @@ public class NewUnlockIme extends HCBase {
             logE(TAG, "Not found class: android.inputmethodservice.InputMethodServiceStubImpl");
         }
 
-        notDeleteNotSupportIme(findClass("android.inputmethodservice.InputMethodServiceInjector$MiuiSwitchInputMethodListener"));
+        // notDeleteNotSupportIme(findClass("android.inputmethodservice.InputMethodServiceInjector$MiuiSwitchInputMethodListener"));
     }
 
     /**
@@ -94,39 +106,39 @@ public class NewUnlockIme extends HCBase {
      */
     private static void fakeSupportIme(@NonNull Class<?> clazz) {
         setStaticField(clazz, "sIsImeSupport", 1);
-        hookMethod(clazz, "isImeSupport", Context.class, returnResult(true));
+        findAndHookMethod(clazz, "isImeSupport", Context.class, MethodHook.returnConstant(true));
     }
 
     /**
      * 小爱语音输入按钮失效修复
      */
     private static void fakeXiaoAiEnable(@NonNull Class<?> clazz) {
-        hookMethod(clazz, "isXiaoAiEnable", returnResult(false));
+        findAndHookMethod(clazz, "isXiaoAiEnable", MethodHook.returnConstant(false));
     }
 
     /**
      * 在适当的时机修改抬高区域背景颜色
      */
-    private static void setPhraseBgColor(@NonNull Class<?> clazz) {
-        hookMethod("com.android.internal.policy.PhoneWindow",
+    private void setPhraseBgColor(@NonNull Class<?> clazz) {
+        findAndHookMethod("com.android.internal.policy.PhoneWindow",
             "setNavigationBarColor",
             int.class,
-            new IHook() {
+            new MethodHook() {
                 @Override
-                public void after() {
-                    if ((int) getArg(0) == 0) return;
+                protected void after(MethodHookParam param) throws Throwable {
+                    if ((int) param.args[0] == 0) return;
 
-                    navBarColor = (int) getArg(0);
+                    navBarColor = (int) param.args[0];
                     customizeBottomViewColor(clazz);
                 }
             }
         );
 
-        hookAllMethod(clazz,
+        hookAllMethods(clazz,
             "addMiuiBottomView",
-            new IHook() {
+            new MethodHook() {
                 @Override
-                public void after() {
+                protected void after(MethodHookParam param) throws Throwable {
                     customizeBottomViewColor(clazz);
                 }
             }
@@ -146,34 +158,31 @@ public class NewUnlockIme extends HCBase {
     /**
      * 针对 A10 的修复切换输入法列表
      */
-    private static void notDeleteNotSupportIme(@NonNull Class<?> clazz) {
+    /*private static void notDeleteNotSupportIme(@NonNull Class<?> clazz) {
         if (existsMethod(clazz, "deleteNotSupportIme")) {
             hookMethod(clazz, "deleteNotSupportIme", doNothing());
         }
-    }
+    }*/
 
     /**
      * 使切换输入法界面显示第三方输入法
      */
-    private static void fakeSupportImeList(@NonNull ClassLoader classLoader) {
-        hookMethod("com.miui.inputmethod.InputMethodBottomManager", classLoader,
+    private void fakeSupportImeList(@NonNull ClassLoader classLoader) {
+        /*findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager", classLoader,
             "getSupportIme",
-            new IHook() {
+            new MethodHook() {
                 @Override
-                public void before() {
-                    List<?> list = (List<?>) callMethod(
-                        getField(
-                            getStaticField(
-                                "com.miui.inputmethod.InputMethodBottomManager", classLoader,
-                                "sBottomViewHelper"
-                            ),
+                public void before(MethodHookParam param) throws Throwable {
+                    Object sBottomViewHelper = getStaticObjectField(findClassIfExists("com.miui.inputmethod.InputMethodBottomManager"), "sBottomViewHelper");
+                    Object mImm = getObjectField(param.thisObject, "mImm");
+                    List<?> list = (List<?>) callMethod(getStaticObjectField(findClassIfExists("com.miui.inputmethod.InputMethodBottomManager"), "sBottomViewHelper"),
                             "mImm"
                         ),
                         "getEnabledInputMethodList"
                     );
-                    setResult(list);
+                    param.setResult(list);
                 }
             }
-        );
+        );*/
     }
 }
