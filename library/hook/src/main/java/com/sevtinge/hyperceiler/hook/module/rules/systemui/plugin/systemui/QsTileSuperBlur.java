@@ -20,6 +20,9 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemui.plugin.systemui;
 
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
+import static de.robv.android.xposed.XposedHelpers.findAndHookConstructor;
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
@@ -30,16 +33,19 @@ import androidx.annotation.NonNull;
 
 import com.hchen.hooktool.HCBase;
 import com.hchen.hooktool.hook.IHook;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+
+import de.robv.android.xposed.XC_MethodHook;
 
 /**
  * 磁贴高级材质
  *
  * @author 焕晨HChen
  */
-public class QsTileSuperBlur extends HCBase {
+public class QsTileSuperBlur{
     private static int[] listItemsBlendColors = null;
     private static int[] seekbarFgBlendColors = null;
     private static int[] ringerIconBlendColors = null;
@@ -55,12 +61,8 @@ public class QsTileSuperBlur extends HCBase {
     private static final String os2 = "MainPanelController$Mode";
     private static final String os1 = "MainPanelModeController$MainPanelMode";
 
-    @Override
-    protected void init() {
-    }
-
     public static void initQsTileSuperBlur(@NonNull ClassLoader classLoader) {
-        isOS1 = !existsClass("miui.systemui.controlcenter.panel.main.MainPanelController$Mode", classLoader);
+        /*isOS1 = !existsClass("miui.systemui.controlcenter.panel.main.MainPanelController$Mode", classLoader);
         modeClass = findClass("miui.systemui.controlcenter.panel.main." + (isOS1 ? os1 : os2), classLoader);
 
         miBlurCompatClass = findClass("miui.systemui.util.MiBlurCompat", classLoader);
@@ -68,11 +70,11 @@ public class QsTileSuperBlur extends HCBase {
         if (!isMoreHyperOSVersion(3f)) SORT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "SORT");
         EDIT = getStaticField(modeClass, (isOS1 ? "MODE_" : "") + "EDIT");
 
-        hookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
+        findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
             Context.class, AttributeSet.class, int.class, int.class,
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void after() {
+                protected void after(MethodHookParam param) throws Throwable {
                     initRes((Context) getArg(0));
 
                     Object state = getThisField("state");
@@ -87,12 +89,12 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
+        findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
             "onModeChanged",
             "miui.systemui.controlcenter.panel.main." + (isOS1 ? os1 : os2), boolean.class,
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     Object mode = getArg(0);
                     if (mode == null) return;
 
@@ -124,11 +126,11 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("miui.systemui.controlcenter.panel.main.qs.QSItemViewHolder", classLoader,
+        findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.QSItemViewHolder", classLoader,
             "updateBlendBlur",
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     Object qsItemView = callThisMethod("getQsItemView");
                     View blendTarget = (View) callMethod(qsItemView, "getBlendTarget");
                     Object state = getField(qsItemView, "state");
@@ -145,12 +147,12 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
+        findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemView", classLoader,
             "updateState",
             "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class,
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     setThisField("state", getArg(0));
                     Object state = getArg(0);
                     Object mode = getThisField("mode");
@@ -172,11 +174,11 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("miui.systemui.controlcenter.panel.main.qs.QSCardViewHolder", classLoader,
+        findAndHookMethod("miui.systemui.controlcenter.panel.main.qs.QSCardViewHolder", classLoader,
             "updateBlendBlur",
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     Object qsItemView = callThisMethod("getQsItemView");
                     View blendTarget = (View) callMethod(qsItemView, "getBlendTarget");
                     Object state = getField(qsItemView, "state");
@@ -193,9 +195,9 @@ public class QsTileSuperBlur extends HCBase {
         );
 
         hookAllMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
-            "updateBackground", new IHook() {
+            "updateBackground", new XC_MethodHook() {
                 @Override
-                public void after() {
+                protected void after(MethodHookParam param) throws Throwable {
                     initRes((Context) callThisMethod("getContext"));
                     Object state = getThisField("state");
                     if (state == null) return;
@@ -212,11 +214,11 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("com.android.systemui.miui.volume.MiuiRingerModeLayout$RingerButtonHelper", classLoader,
+        findAndHookMethod("com.android.systemui.miui.volume.MiuiRingerModeLayout$RingerButtonHelper", classLoader,
             "updateState",
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     ImageView mIcon = (ImageView) getThisField("mIcon");
                     View mStandardView = (View) getThisField("mStandardView");
                     boolean state = (boolean) getThisField("mState");
@@ -228,12 +230,12 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("com.android.systemui.miui.volume.Util", classLoader,
+        findAndHookMethod("com.android.systemui.miui.volume.Util", classLoader,
             "setMiViewBlurAndBlendColor",
             View.class, boolean.class, Context.class, int.class, int[].class, boolean.class,
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     if (getArg(0) instanceof LinearLayout view) {
                         String name = view.getResources().getResourceEntryName(view.getId());
                         if (Objects.equals(name, "miui_standard_btn")) {
@@ -249,12 +251,12 @@ public class QsTileSuperBlur extends HCBase {
             }
         );
 
-        hookMethod("com.android.systemui.miui.volume.Util", classLoader,
+        findAndHookMethod("com.android.systemui.miui.volume.Util", classLoader,
             "setMiViewBlurAndBlendColor",
             View.class, int.class, int[].class,
-            new IHook() {
+            new XC_MethodHook() {
                 @Override
-                public void before() {
+                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                     if (getArg(0) instanceof ImageView imageView && (int) getArg(1) == 0) {
                         String name = imageView.getResources().getResourceEntryName(imageView.getId());
                         if (Objects.equals(name, "icon")) {
@@ -269,7 +271,7 @@ public class QsTileSuperBlur extends HCBase {
                     }
                 }
             }
-        );
+        );*/
     }
 
     private static void initRes(Context context) {
@@ -291,7 +293,7 @@ public class QsTileSuperBlur extends HCBase {
     }
 
     private static void updateBlendColors(View view, Object state, boolean isEditMode) {
-        if (isEditMode) {
+        /*if (isEditMode) {
             setMiBackgroundBlendColors(view, listItemsBlendColors);
         } else {
             setMiBackgroundBlendColors(
@@ -300,11 +302,11 @@ public class QsTileSuperBlur extends HCBase {
                     seekbarFgBlendColors :
                     listItemsBlendColors
             );
-        }
+        }*/
     }
 
     private static void setMiBackgroundBlendColors(View view, int[] blendColors) {
         // callStaticMethod(miBlurCompatClass, "setMiViewBlurModeCompat", view, 1);
-        callStaticMethod(miBlurCompatClass, "setMiBackgroundBlendColors", view, blendColors);
+        //callStaticMethod(miBlurCompatClass, "setMiBackgroundBlendColors", view, blendColors);
     }
 }
