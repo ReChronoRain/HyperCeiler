@@ -18,7 +18,9 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.log;
 
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isBeta;
 import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getSerial;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mPrefsMap;
 import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
@@ -53,13 +55,35 @@ public class LogManager {
 
     public static void setLogLevel() {
         int logLevel = Integer.parseInt(mSharedPreferences.getString("prefs_key_log_level", "3"));
-        int effectiveLogLevel = isCanary() ? (logLevel != 3 && logLevel != 4 ? 3 : logLevel) : logLevel;
+        int effectiveLogLevel = getEffectiveLogLevel(logLevel);
         writeLogLevelToFile(null, effectiveLogLevel);
     }
 
     public static void setLogLevel(int level, String basePath) {
-        int effectiveLogLevel = isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
+        int effectiveLogLevel = getEffectiveLogLevel(level);
         writeLogLevelToFile(basePath, effectiveLogLevel);
+    }
+
+    /**
+     * 根据构建类型获取有效的日志等级
+     * Release: 0 (Disable) 或 1 (Error)
+     * Beta: 1 (Error) 或 4 (Debug)
+     * Canary: 3 (Info) 或 4 (Debug)
+     * Debug: 0-4 全部
+     */
+    private static int getEffectiveLogLevel(int level) {
+        if (isRelease()) {
+            // Release: 只允许 Disable(0) 或 Error(1)
+            return (level == 0) ? 0 : 1;
+        } else if (isBeta()) {
+            // Beta: 只允许 Error(1) 或 Debug(4)
+            return (level == 1) ? 1 : 4;
+        } else if (isCanary()) {
+            // Canary: 只允许 Info(3) 或 Debug(4)
+            return (level == 4) ? 4 : 3;
+        }
+        // Debug: 全部允许
+        return level;
     }
 
     private static void writeLogLevelToFile(String basePath, int level) {
@@ -113,12 +137,12 @@ public class LogManager {
 
         // Default fallback
         int level = mPrefsMap.getStringAsInt("log_level", 3);
-        return isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
+        return getEffectiveLogLevel(level);
     }
 
     public static int getLogLevel() {
         int level = mPrefsMap.getStringAsInt("log_level", 3);
-        return isCanary() ? (level != 3 && level != 4 ? 3 : level) : level;
+        return getEffectiveLogLevel(level);
     }
 
     public static String logLevelDesc() {

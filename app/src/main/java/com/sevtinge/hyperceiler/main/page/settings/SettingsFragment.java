@@ -18,7 +18,9 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings;
 
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isBeta;
 import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
+import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isRelease;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -77,24 +79,8 @@ public class SettingsFragment extends PagePreferenceFragment
             return true;
         });
 
-        if (isCanary()) {
-            mLogLevel.setDefaultValue(3);
-            mLogLevel.setEntries(new CharSequence[]{"Info", "Debug"});
-            mLogLevel.setEntryValues(new CharSequence[]{"3", "4"});
-            mLogLevel.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    setLogLevel(Integer.parseInt((String) o));
-                    return true;
-                }
-            );
-        } else {
-            mLogLevel.setOnPreferenceChangeListener(
-                (preference, o) -> {
-                    setLogLevel(Integer.parseInt((String) o));
-                    return true;
-                }
-            );
-        }
+        // 根据构建类型设置日志等级选项
+        setupLogLevelPreference();
 
         if (mHideAppIcon != null) {
             mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
@@ -143,6 +129,60 @@ public class SettingsFragment extends PagePreferenceFragment
 
     private void setLogLevel(int level) {
         LogManager.setLogLevel(level, requireContext().getApplicationInfo().dataDir);
+    }
+
+    /**
+     * 根据构建类型设置日志等级选项
+     * Release: Disable, Error
+     * Beta: Error, Debug
+     * Canary: Info, Debug
+     * Debug: Disable, Error, Warn, Info, Debug
+     */
+    private void setupLogLevelPreference() {
+        CharSequence[] entries;
+        CharSequence[] entryValues;
+        String defaultValue;
+
+        if (isRelease()) {
+            entries = new CharSequence[]{"Disable", "Error"};
+            entryValues = new CharSequence[]{"0", "1"};
+            defaultValue = "1";
+        } else if (isBeta()) {
+            entries = new CharSequence[]{"Error", "Debug"};
+            entryValues = new CharSequence[]{"1", "4"};
+            defaultValue = "4";
+        } else if (isCanary()) {
+            entries = new CharSequence[]{"Info", "Debug"};
+            entryValues = new CharSequence[]{"3", "4"};
+            defaultValue = "3";
+        } else {
+            // Debug 构建类型：全部选项
+            entries = new CharSequence[]{"Disable", "Error", "Warn", "Info", "Debug"};
+            entryValues = new CharSequence[]{"0", "1", "2", "3", "4"};
+            defaultValue = "4";
+        }
+
+        mLogLevel.setEntries(entries);
+        mLogLevel.setEntryValues(entryValues);
+        mLogLevel.setDefaultValue(defaultValue);
+
+        // 如果当前值不在允许的范围内，重置为默认值
+        String currentValue = mLogLevel.getValue();
+        boolean isValidValue = false;
+        for (CharSequence value : entryValues) {
+            if (value.toString().equals(currentValue)) {
+                isValidValue = true;
+                break;
+            }
+        }
+        if (!isValidValue || currentValue == null) {
+            mLogLevel.setValue(defaultValue);
+        }
+
+        mLogLevel.setOnPreferenceChangeListener((preference, o) -> {
+            setLogLevel(Integer.parseInt((String) o));
+            return true;
+        });
     }
 
     private void setIconMode(int mode) {

@@ -16,7 +16,11 @@ public class LogEntry {
         new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
 
     public LogEntry(String level, String module, String message, String tag, boolean newLine) {
-        this.mTimestamp = System.currentTimeMillis();
+        this(System.currentTimeMillis(), level, module, message, tag, newLine);
+    }
+
+    public LogEntry(long timestamp, String level, String module, String message, String tag, boolean newLine) {
+        this.mTimestamp = timestamp;
         this.mLevel = level;
         this.mModule = module;
         this.mMessage = message;

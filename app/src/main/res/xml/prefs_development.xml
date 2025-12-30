@@ -77,11 +77,6 @@
             android:key="prefs_key_development_fix_lsposed_log"
             android:title="@string/development_fix_lsposed_log" />
 
-        <Preference android:title="LogViewer">
-            <intent
-                android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.fan.common.logviewer.LogViewerActivity"/>
-        </Preference>
     </PreferenceCategory>
 
 </PreferenceScreen>

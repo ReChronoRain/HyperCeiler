@@ -98,6 +98,7 @@
 
     <string name="log_level">日志输出等级</string>
     <string name="log_level_none">禁用日志输出</string>
+    <string name="log_viewer">查看日志</string>
 
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
@@ -122,4 +123,15 @@
     <string name="debug_mode_switch">调试版本</string>
     <string name="debug_mode_home_version">设置 系统桌面 版本号</string>
     <string name="debug_mode_home_version_desc">过高的版本号仍旧会被拦截，请认真填写</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">搜索日志</string>
+    <string name="log_type_label">日志类型:</string>
+    <string name="log_level_label">级别:</string>
+    <string name="log_tag_label">标签:</string>
+    <string name="log_type_app">应用日志</string>
+    <string name="log_type_xposed">Xposed 日志</string>
+    <string name="log_filter_stats">显示: %1$d/%2$d</string>
+    <string name="log_filter_all">全部</string>
+    <string name="log_tag_other">其他</string>
 </resources>

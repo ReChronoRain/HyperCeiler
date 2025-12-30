@@ -25,10 +25,15 @@ import android.os.Looper;
 import android.os.Process;
 
 import com.fan.common.logviewer.LogAppProxy;
+import com.fan.common.logviewer.LogEntry;
+import com.fan.common.logviewer.LogManager;
+import com.fan.common.logviewer.LogViewerActivity;
 import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
+import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
+import com.sevtinge.hyperceiler.utils.log.XposedLogLoader;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -46,6 +51,16 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         LogAppProxy.onCreate(this);
+
+        LogViewerActivity.setXposedLogLoader(XposedLogLoader::loadLogs);
+
+        AndroidLogUtils.setLogListener((level, tag, message) -> {
+            try {
+                LogManager logManager = LogManager.getInstance();
+                logManager.addLog(new LogEntry(level, "App", "[" + tag + "] " + message, tag, true));
+            } catch (Throwable ignored) {
+            }
+        });
 
         new Thread(() -> AppInfoCache.getInstance(this).initAllAppInfos()).start();
 

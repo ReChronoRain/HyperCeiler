@@ -50,6 +50,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <!-- 日志类型切换 -->
+                <com.fan.common.widget.SpinnerItemView
+                    android:id="@+id/spinnerLogType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:title="日志类型:"
+                    android:background="@null" />
+
                 <!-- 级别过滤器 -->
                 <com.fan.common.widget.SpinnerItemView
                     android:id="@+id/spinnerLevel"

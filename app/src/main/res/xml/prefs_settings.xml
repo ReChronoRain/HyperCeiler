@@ -85,6 +85,14 @@
             app:entryValues="@array/log_level_value" />
 
         <Preference
+            android:key="prefs_key_log_viewer"
+            android:title="@string/log_viewer">
+            <intent
+                android:targetPackage="com.sevtinge.hyperceiler"
+                android:targetClass="com.fan.common.logviewer.LogViewerActivity"/>
+        </Preference>
+
+        <Preference
             android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />

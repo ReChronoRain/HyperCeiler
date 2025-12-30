@@ -19,6 +19,7 @@ public class LogManager {
     private static LogManager sInstance;
     private final List<LogEntry> mLogEntries;
     private final List<LogEntry> mSystemLogEntries;
+    private final List<LogEntry> mXposedLogEntries;
     private Context mApplicationContext;
     private boolean mIsInitialized = false;
 
@@ -30,6 +31,7 @@ public class LogManager {
         // 延迟初始化，等待setApplicationContext调用
         mLogEntries = new ArrayList<>();
         mSystemLogEntries = new ArrayList<>();
+        mXposedLogEntries = new ArrayList<>();
     }
 
     /**
@@ -96,6 +98,28 @@ public class LogManager {
         checkInitialization();
         mLogEntries.add(logEntry);
         saveLogToFile(logEntry, sLogFileName);
+    }
+
+    // 批量添加日志
+    public void addLogs(List<LogEntry> logEntries) {
+        checkInitialization();
+        mLogEntries.addAll(logEntries);
+        saveLogsToFile(logEntries, sLogFileName);
+    }
+
+    // 添加 Xposed 日志（仅内存，不保存到文件）
+    public void addXposedLog(LogEntry logEntry) {
+        mXposedLogEntries.add(logEntry);
+    }
+
+    // 批量添加 Xposed 日志（仅内存，不保存到文件）
+    public void addXposedLogs(List<LogEntry> logEntries) {
+        mXposedLogEntries.addAll(logEntries);
+    }
+
+    // 清空 Xposed 日志
+    public void clearXposedLogs() {
+        mXposedLogEntries.clear();
     }
 
     // 获取系统日志
@@ -259,7 +283,31 @@ public class LogManager {
         }
     }
 
+    // 批量保存日志到文件
+    private void saveLogsToFile(List<LogEntry> logEntries, String fileName) {
+        new Thread(() -> {
+            try {
+                FileOutputStream outputStream = mApplicationContext.openFileOutput(
+                        fileName, Context.MODE_APPEND);
+                for (LogEntry logEntry : logEntries) {
+                    String logLine = String.format("%d|%s|%s|%s|%s|%b\n",
+                            logEntry.getTimestamp(),
+                            logEntry.getLevel(),
+                            logEntry.getModule(),
+                            logEntry.getMessage(),
+                            logEntry.getTag(),
+                            logEntry.isNewLine());
+                    outputStream.write(logLine.getBytes());
+                }
+                outputStream.close();
+            } catch (IOException e) {
+                Log.e("LogManager", "Save logs failed", e);
+            }
+        }).start();
+    }
+
     // Getters
     public List<LogEntry> getLogEntries() { return mLogEntries; }
     public List<LogEntry> getSystemLogEntries() { return mSystemLogEntries; }
+    public List<LogEntry> getXposedLogEntries() { return mXposedLogEntries; }
 }

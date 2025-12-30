@@ -27,6 +27,33 @@ import android.util.Log;
 public class AndroidLogUtils {
     private static final String Tag = "HyperCeiler: ";
     private static final int logLevel;
+
+    /**
+     * 日志监听器接口，用于将日志转发到 LogViewer
+     */
+    public interface LogListener {
+        void onLog(String level, String tag, String message);
+    }
+
+    private static LogListener sLogListener;
+
+    /**
+     * 设置日志监听器（在 Application 中调用）
+     */
+    public static void setLogListener(LogListener listener) {
+        sLogListener = listener;
+    }
+
+    private static void notifyListener(String level, String tag, String message) {
+        if (sLogListener != null) {
+            try {
+                sLogListener.onLog(level, tag, message);
+            } catch (Throwable ignored) {
+                // 忽略监听器异常，避免影响正常日志输出
+            }
+        }
+    }
+
     static {
         int level = 3;
         try {
@@ -41,44 +68,53 @@ public class AndroidLogUtils {
     public static void logI(String tag, String msg) {
         if (logLevel < 3) return;
         Log.i(tag, "[I]" + Tag + msg);
+        notifyListener("I", tag, msg);
     }
 
     public static void deLogI(String tag, String msg) {
         Log.i(tag, "[I/" + Tag + msg);
+        notifyListener("I", tag, msg);
     }
 
     public static void logD(String tag, Throwable tr) {
         if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag, tr);
+        notifyListener("D", tag, tr != null ? tr.toString() : "");
     }
 
     public static void logD(String tag, String msg, Throwable tr) {
         if (logLevel < 4) return;
         Log.d(tag, "[D]" + Tag + msg, tr);
+        notifyListener("D", tag, msg + (tr != null ? "\n" + tr : ""));
     }
 
     public static void logW(String tag, String msg, Throwable tr) {
         if (logLevel < 2) return;
         Log.w(tag, "[W]" + Tag + msg, tr);
+        notifyListener("W", tag, msg + (tr != null ? "\n" + tr : ""));
     }
 
     public static void logW(String tag, String msg) {
         if (logLevel < 2) return;
         Log.w(tag, "[W]" + Tag + msg, null);
+        notifyListener("W", tag, msg);
     }
 
     public static void logE(String tag, Throwable tr) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag, tr);
+        notifyListener("E", tag, tr != null ? tr.toString() : "");
     }
 
     public static void logE(String tag, String msg) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, null);
+        notifyListener("E", tag, msg);
     }
 
     public static void logE(String tag, String msg, Throwable tr) {
         if (logLevel < 1) return;
         Log.e(tag, "[E]" + Tag + msg, tr);
+        notifyListener("E", tag, msg + (tr != null ? "\n" + tr : ""));
     }
 }

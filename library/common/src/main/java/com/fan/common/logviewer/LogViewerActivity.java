@@ -1,8 +1,10 @@
 package com.fan.common.logviewer;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -15,7 +17,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.fan.common.R;
 import com.fan.common.base.BaseActivity;
 import com.fan.common.widget.SearchEditText;
 import com.fan.common.widget.SpinnerItemView;
@@ -35,6 +36,22 @@ public class LogViewerActivity extends BaseActivity
 
     private static final String TAG = "LogViewerActivity";
 
+    /**
+     * Xposed 日志加载器接口
+     */
+    public interface XposedLogLoader {
+        void loadLogs(Context context, Runnable onComplete);
+    }
+
+    private static XposedLogLoader sXposedLogLoader;
+
+    /**
+     * 注册 Xposed 日志加载器（在 app 模块中调用）
+     */
+    public static void setXposedLogLoader(XposedLogLoader loader) {
+        sXposedLogLoader = loader;
+    }
+
     private AppLogger mAppLogger;
     private ModuleLogger mNetworkLogger;
     private ModuleLogger mDatabaseLogger;
@@ -46,19 +63,24 @@ public class LogViewerActivity extends BaseActivity
 
     // 过滤UI组件
     private SearchEditText mSearchEditText;
+    private SpinnerItemView mLogTypeSpinner;
     private SpinnerItemView mLevelSpinner;
     private SpinnerItemView mModuleSpinner;
     private TextView mFilterStatsTextView;
 
     // 数据列表
+    private final List<String> mLogTypeList = new ArrayList<>();
     private final List<String> mLevelList = new ArrayList<>();
     private final List<String> mModuleList = new ArrayList<>();
+
+    // 当前选中的日志类型
+    private int mCurrentLogType = 0; // 0: App Log, 1: Xposed Log
 
     private static final int sExportRequestCode = 1001;
 
     @Override
     protected int getContentLayoutId() {
-        return R.layout.fragment_log;
+        return com.fan.common.R.layout.fragment_log;
     }
 
     @Override
@@ -67,27 +89,44 @@ public class LogViewerActivity extends BaseActivity
 
         mLogManager = LogManager.getInstance(this);
 
-        initViews();
-        setupLoggers();
-        // 添加测试日志
-        addTestLogs();
+        // 先加载 Xposed 日志，加载完成后再初始化界面
+        loadXposedLogsAndInit();
+    }
+
+    private void loadXposedLogsAndInit() {
+        if (sXposedLogLoader != null) {
+            // 异步加载 Xposed 日志
+            sXposedLogLoader.loadLogs(this, () -> {
+                // 在主线程上初始化界面
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    initViews();
+                    setupLoggers();
+                });
+            });
+        } else {
+            // 没有注册加载器，直接初始化
+            initViews();
+            setupLoggers();
+        }
     }
 
     private void initViews() {
-        mNestedHeaderLayout = findViewById(R.id.nested_header_layout);
-        mRecyclerView = findViewById(R.id.recyclerView);
-        mSearchEditText = findViewById(R.id.input);
-        mLevelSpinner = findViewById(R.id.spinnerLevel);
-        mModuleSpinner = findViewById(R.id.spinnerModule);
-        mFilterStatsTextView = findViewById(R.id.textFilterStats);
+        mNestedHeaderLayout = findViewById(com.fan.common.R.id.nested_header_layout);
+        mRecyclerView = findViewById(com.fan.common.R.id.recyclerView);
+        mSearchEditText = findViewById(com.fan.common.R.id.input);
+        mLogTypeSpinner = findViewById(com.fan.common.R.id.spinnerLogType);
+        mLevelSpinner = findViewById(com.fan.common.R.id.spinnerLevel);
+        mModuleSpinner = findViewById(com.fan.common.R.id.spinnerModule);
+        mFilterStatsTextView = findViewById(com.fan.common.R.id.textFilterStats);
 
         mNestedHeaderLayout.setEnableBlur(false);
         registerCoordinateScrollView(mNestedHeaderLayout);
 
-        mSearchEditText.setHint("搜索日志");
+        mSearchEditText.setHint(com.sevtinge.hyperceiler.core.R.string.log_search_hint);
 
         setupRecyclerView();
         setupSearchFilter();
+        setupLogTypeFilter();
         setupLevelFilter();
         setupModuleFilter();
     }
@@ -96,7 +135,7 @@ public class LogViewerActivity extends BaseActivity
         List<LogEntry> logEntries = mLogManager != null ?
             mLogManager.getLogEntries() : new ArrayList<>();
 
-        mLogAdapter = new LogAdapter(logEntries);
+        mLogAdapter = new LogAdapter(this, logEntries);
         mLogAdapter.setOnFilterChangeListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -109,10 +148,79 @@ public class LogViewerActivity extends BaseActivity
     }
 
     private void updateList() {
+        mLevelList.clear();
+        mModuleList.clear();
         if (mLogAdapter != null) {
             mLevelList.addAll(mLogAdapter.getLevelList());
             mModuleList.addAll(mLogAdapter.getModuleList());
         }
+    }
+
+    private void setupLogTypeFilter() {
+        // 初始化日志类型列表
+        mLogTypeList.clear();
+        mLogTypeList.add(getString(com.sevtinge.hyperceiler.core.R.string.log_type_app));
+        mLogTypeList.add(getString(com.sevtinge.hyperceiler.core.R.string.log_type_xposed));
+
+        ArrayAdapter<String> logTypeAdapter = new ArrayAdapter<>(
+            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLogTypeList);
+        logTypeAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
+        mLogTypeSpinner.setAdapter(logTypeAdapter);
+        mLogTypeSpinner.setSelection(0); // 默认选择 App Log
+
+        mLogTypeSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != mCurrentLogType) {
+                    mCurrentLogType = position;
+                    switchLogType(position);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // 不做处理
+            }
+        });
+    }
+
+    private void switchLogType(int logType) {
+        List<LogEntry> logEntries;
+        if (logType == 0) {
+            // App Log
+            logEntries = mLogManager != null ? mLogManager.getLogEntries() : new ArrayList<>();
+        } else {
+            // Xposed Log
+            logEntries = mLogManager != null ? mLogManager.getXposedLogEntries() : new ArrayList<>();
+        }
+
+        if (mLogAdapter != null) {
+            mLogAdapter.updateData(logEntries);
+            updateList();
+            // 重新设置 Spinner 适配器以更新选项
+            refreshFilterSpinners();
+        }
+
+        // 滚动到顶部
+        if (mRecyclerView != null && mLogAdapter != null && mLogAdapter.getItemCount() > 0) {
+            mRecyclerView.scrollToPosition(0);
+        }
+    }
+
+    private void refreshFilterSpinners() {
+        // 更新级别过滤器
+        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
+            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
+        levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
+        mLevelSpinner.setAdapter(levelAdapter);
+        mLevelSpinner.setSelection(0);
+
+        // 更新模块过滤器
+        ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
+            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
+        moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
+        mModuleSpinner.setAdapter(moduleAdapter);
+        mModuleSpinner.setSelection(0);
     }
 
     private void setupSearchFilter() {
@@ -254,8 +362,16 @@ public class LogViewerActivity extends BaseActivity
 
     public void refreshLogs() {
         if (mLogAdapter != null && mLogManager != null) {
-            mLogAdapter.updateData(mLogManager.getLogEntries());
+            // 根据当前选中的日志类型刷新
+            List<LogEntry> logEntries;
+            if (mCurrentLogType == 0) {
+                logEntries = mLogManager.getLogEntries();
+            } else {
+                logEntries = mLogManager.getXposedLogEntries();
+            }
+            mLogAdapter.updateData(logEntries);
             updateList();
+            refreshFilterSpinners();
 
             // 滚动到底部
             if (mRecyclerView != null && mLogAdapter.getItemCount() > 0) {
@@ -288,8 +404,6 @@ public class LogViewerActivity extends BaseActivity
 
         if (requestCode == sExportRequestCode && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getData() != null) {
-                Uri uri = data.getData();
-                // 这里需要处理文件写入权限，简化处理
                 LogManager.getInstance().exportLogs("exported_logs.txt", true);
             }
         }
@@ -297,27 +411,27 @@ public class LogViewerActivity extends BaseActivity
 
     @Override
     protected int getMenuResId() {
-        return R.menu.menu_log_actions;
+        return com.fan.common.R.menu.menu_log_actions;
     }
 
     @Override
     protected boolean onMenuItemClick(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == R.id.menu_clear_custom) {
+        if (itemId == com.fan.common.R.id.menu_clear_custom) {
             LogManager.getInstance().clearCustomLogs();
             refreshLogs();
             return true;
-        } else if (itemId == R.id.menu_clear_system) {
+        } else if (itemId == com.fan.common.R.id.menu_clear_system) {
             LogManager.getInstance().clearSystemLogs();
             refreshLogs();
             return true;
-        } else if (itemId == R.id.menu_export) {
+        } else if (itemId == com.fan.common.R.id.menu_export) {
             exportLogs();
             return true;
-        } else if (itemId == R.id.menu_refresh) {
+        } else if (itemId == com.fan.common.R.id.menu_refresh) {
             refreshLogs();
             return true;
-        } else if (itemId == R.id.menu_add_test_log) {
+        } else if (itemId == com.fan.common.R.id.menu_add_test_log) {
             addTestLog();
             return true;
         }
@@ -349,7 +463,7 @@ public class LogViewerActivity extends BaseActivity
 
     @Override
     public void onFilterChanged(int filteredCount, int totalCount) {
-        String stats = String.format("显示: %d/%d", filteredCount, totalCount);
+        String stats = getString(com.sevtinge.hyperceiler.core.R.string.log_filter_stats, filteredCount, totalCount);
         mFilterStatsTextView.setText(stats);
     }
 }

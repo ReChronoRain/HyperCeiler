@@ -30,5 +30,5 @@ java {
 }
 
 dependencies {
-    api(libs.bundles.miuix)
+    api(projects.library.core)
 }
