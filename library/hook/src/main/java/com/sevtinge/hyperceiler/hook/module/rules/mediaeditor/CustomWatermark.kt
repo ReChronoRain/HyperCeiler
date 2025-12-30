@@ -52,8 +52,9 @@ object CustomWatermark : BaseHook() {
                 }
             }.findMethod {
                 matcher {
-                    addInvoke("Ljava/lang/String;->toLowerCase(Ljava/util/Locale;)Ljava/lang/String;")
+                    addInvoke("Ljava/lang/String;->hashCode()I")
                     returnType = "java.lang.String"
+                    paramCount = 3
                 }
             }.single()
         }
