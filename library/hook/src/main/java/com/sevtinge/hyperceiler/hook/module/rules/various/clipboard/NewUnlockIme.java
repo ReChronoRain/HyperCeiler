@@ -19,27 +19,17 @@
 
 package com.sevtinge.hyperceiler.hook.module.rules.various.clipboard;
 
-import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.callMethod;
-import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.getField;
-import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.getStaticField;
 import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.setStaticField;
 import static com.sevtinge.hyperceiler.hook.utils.KotlinXposedHelperKt.callStaticMethod;
 import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-
-import static de.robv.android.xposed.XposedHelpers.findClassIfExists;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
-import static de.robv.android.xposed.XposedHelpers.getStaticObjectField;
 
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.hchen.hooktool.HCBase;
-import com.hchen.hooktool.hook.IHook;
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
 import java.util.Arrays;
-import java.util.List;
 
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 

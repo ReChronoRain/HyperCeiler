@@ -18,14 +18,14 @@
  */
 package com.sevtinge.hyperceiler.hook.module.rules.gallery;
 
-import static com.hchen.hooktool.core.CoreTool.callStaticMethod;
-
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
+
+import de.robv.android.xposed.XposedHelpers;
 
 public class UnPrivacyWatermark extends BaseHook {
 
@@ -87,11 +87,11 @@ public class UnPrivacyWatermark extends BaseHook {
         }
         float min = Math.min(mWidth, mHeight) * 0.02037037f;
         float f2 = 7.0f * min;
-        Paint initialPaint = (Paint) (is ? callStaticMethod(
-                "com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper",
+        Paint initialPaint = (Paint) (is ? XposedHelpers.callStaticMethod(
+                findClassIfExists("com.miui.gallery.editor.photo.app.privacy.PrivacyWatermarkHelper"),
                 "getInitialPaint"
-        ) : callStaticMethod(
-                "com.miui.gallery.privacywatermark.PrivacyWatermarkHelper",
+        ) : XposedHelpers.callStaticMethod(
+                findClassIfExists("com.miui.gallery.privacywatermark.PrivacyWatermarkHelper"),
                 "getInitialPaint"
         ));
         Rect rect = new Rect();

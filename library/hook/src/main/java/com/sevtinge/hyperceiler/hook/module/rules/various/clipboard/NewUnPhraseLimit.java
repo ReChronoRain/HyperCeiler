@@ -19,6 +19,9 @@
 
 package com.sevtinge.hyperceiler.hook.module.rules.various.clipboard;
 
+import static com.sevtinge.hyperceiler.hook.utils.InvokeUtils.setStaticField;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -26,8 +29,7 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.EditText;
 
-import com.hchen.hooktool.HCBase;
-import com.hchen.hooktool.hook.IHook;
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.IDexKit;
 
@@ -49,29 +51,29 @@ import java.lang.reflect.Method;
  *
  * @author 焕晨HChen
  */
-public class NewUnPhraseLimit extends HCBase {
+public class NewUnPhraseLimit extends BaseHook {
 
     @Override
     public void init() {
         // 解除 20 条限制
         Class<?> InputMethodUtil = findClass("com.miui.inputmethod.InputMethodUtil");
         setStaticField(InputMethodUtil, "sPhraseListSize", 0);
-        hookMethod(InputMethodUtil, "queryPhrase", Context.class, new IHook() {
+        findAndHookMethod(InputMethodUtil, "queryPhrase", Context.class, new MethodHook() {
             @Override
-            public void after() {
+            protected void after(MethodHookParam param) throws Throwable {
                 setStaticField(InputMethodUtil, "sPhraseListSize", 0);
             }
         });
 
         Class<?> AddPhraseActivity = findClass("com.miui.phrase.AddPhraseActivity");
-        hookMethod("com.miui.phrase.PhraseEditActivity", "onClick", View.class, new IHook() {
+        findAndHookMethod("com.miui.phrase.PhraseEditActivity", "onClick", View.class, new MethodHook() {
             @Override
-            public void before() {
-                Activity activity = (Activity) thisObject();
+            protected void before(MethodHookParam param) throws Throwable {
+                Activity activity = (Activity) param.thisObject;
                 Intent intent = new Intent(activity, AddPhraseActivity);
                 intent.setAction("com.miui.intent.action.PHRASE_ADD");
                 activity.startActivityForResult(intent, 0);
-                returnNull();
+                param.setResult(null);
             }
         });
 
@@ -103,10 +105,10 @@ public class NewUnPhraseLimit extends HCBase {
                 ).single();
             }
         });
-        hook(method, new IHook() {
+        hookMethod(method, new MethodHook() {
                 @Override
-                public void after() {
-                    EditText editText = (EditText) getField(thisObject(), field);
+                protected void after(MethodHookParam param) throws Throwable {
+                    EditText editText = (EditText) getObjectField(param.thisObject, field.getName());
                     editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.MAX_VALUE)});
                 }
             }
