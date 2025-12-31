@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.common.view;
 
@@ -29,8 +29,8 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.model.adapter.MutipleChoiceAdapter;
+import com.sevtinge.hyperceiler.core.R;
 
 import java.util.List;
 

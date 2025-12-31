@@ -151,7 +151,7 @@ jobs:
             echo
             echo "注意事项："
             echo "- 出现任何问题请将日志等级设置为 Debug 后携带日志及必要信息提交至 GitHub issue。"
-            echo "Copyright © 2023-2025 Re.chronoRain & Sevtinge & HyperCeiler Contributions"
+            echo "Copyright © 2023-2026 Re.chronoRain & Sevtinge & HyperCeiler Contributions"
           } | sed ':a;N;$!ba;s/\n/\\n/g' >> $GITHUB_ENV
 
       - name: Create GitHub Release

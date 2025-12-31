@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.hook.utils.blur.zhenxiang
 
-import android.content.*
-import android.widget.*
+import android.content.Context
+import android.widget.LinearLayout
 
 class BlurLinearLayout(context: Context) : LinearLayout(context) {
     val blurController: SystemBlurController = SystemBlurController(this)

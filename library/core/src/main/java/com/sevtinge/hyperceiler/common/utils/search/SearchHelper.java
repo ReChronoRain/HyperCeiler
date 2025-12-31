@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.common.utils.search;
 
@@ -27,13 +27,10 @@ import android.graphics.Color;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.common.model.data.ModData;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hooker.securitycenter.OtherSettings;
-import com.sevtinge.hyperceiler.hooker.systemui.MediaCardSettings;
-import com.sevtinge.hyperceiler.hooker.systemui.TileSettings;
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hooker.AodFragment;
 import com.sevtinge.hyperceiler.hooker.CameraNewFragment;
 import com.sevtinge.hyperceiler.hooker.ContentExtensionFragment;
@@ -71,12 +68,15 @@ import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim7Settings;
 import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim8Settings;
 import com.sevtinge.hyperceiler.hooker.home.anim.HomeTitleAnim9Settings;
 import com.sevtinge.hyperceiler.hooker.securitycenter.ApplicationsSettings;
+import com.sevtinge.hyperceiler.hooker.securitycenter.OtherSettings;
 import com.sevtinge.hyperceiler.hooker.securitycenter.PrivacySafetySettings;
 import com.sevtinge.hyperceiler.hooker.securitycenter.SidebarSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.ControlCenterSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.LockScreenSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.MediaCardSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.NavigationSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.StatusBarSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.TileSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.statusbar.BatteryStyleSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings;
 import com.sevtinge.hyperceiler.hooker.systemui.statusbar.IconManageNewSettings;

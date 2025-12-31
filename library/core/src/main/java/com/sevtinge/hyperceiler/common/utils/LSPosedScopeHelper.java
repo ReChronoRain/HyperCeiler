@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.common.utils;
 
+import static com.sevtinge.hyperceiler.core.BuildConfig.APP_MODULE_ID;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.isDatabaseLocked;
 import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.queryList;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
 import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
-import static com.sevtinge.hyperceiler.core.BuildConfig.APP_MODULE_ID;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

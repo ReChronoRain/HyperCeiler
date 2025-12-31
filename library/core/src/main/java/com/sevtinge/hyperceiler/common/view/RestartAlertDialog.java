@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.common.view;
 
@@ -25,9 +25,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
-import com.sevtinge.hyperceiler.core.R;
 
 import java.util.Arrays;
 import java.util.List;

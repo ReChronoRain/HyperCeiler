@@ -14,19 +14,17 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.hook.module.rules.systemui.plugin.systemui
 
 import android.content.Context
 import android.content.Intent
-
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.hook.utils.extension.getString
 import com.sevtinge.hyperceiler.hook.utils.getObjectField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.misc.params
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.json.JSONArray

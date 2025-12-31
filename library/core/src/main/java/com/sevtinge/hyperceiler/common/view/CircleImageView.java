@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.common.view;
 
@@ -36,11 +36,11 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.sevtinge.hyperceiler.core.R;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DrawableRes;
+
+import com.sevtinge.hyperceiler.core.R;
 
 public class CircleImageView extends ImageView {
 

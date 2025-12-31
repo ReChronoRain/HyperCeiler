@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.provision.renderengine;
 
@@ -23,8 +23,8 @@ import android.opengl.GLSurfaceView;
 import android.os.Looper;
 
 import com.sevtinge.hyperceiler.provision.renderengine.painter.MeshPainter;
-import com.sevtinge.hyperceiler.provision.renderengine.utils.RenderContext;
 import com.sevtinge.hyperceiler.provision.renderengine.utils.PublicParam;
+import com.sevtinge.hyperceiler.provision.renderengine.utils.RenderContext;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

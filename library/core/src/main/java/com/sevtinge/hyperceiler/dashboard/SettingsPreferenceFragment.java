@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.dashboard;
 
@@ -26,9 +26,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.core.R;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
 

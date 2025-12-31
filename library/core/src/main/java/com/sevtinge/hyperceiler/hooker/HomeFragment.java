@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 
 package com.sevtinge.hyperceiler.hooker;
@@ -22,9 +22,9 @@ package com.sevtinge.hyperceiler.hooker;
 import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
-import com.sevtinge.hyperceiler.core.R;
 
 public class HomeFragment extends DashboardFragment {
 

@@ -14,7 +14,7 @@
   * You should have received a copy of the GNU Affero General Public License
   * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-  * Copyright (C) 2023-2025 HyperCeiler Contributions
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
 */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
@@ -22,9 +22,9 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSm
 
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.MiuiStringToast;
-import com.sevtinge.hyperceiler.core.R;
 
 public class StrongToastSettings extends DashboardFragment {
     Preference mShortToast;

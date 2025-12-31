@@ -14,20 +14,21 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.hook.utils.blur.zhenxiang
 
-import android.content.*
-import android.graphics.*
-import android.graphics.drawable.*
-import android.graphics.drawable.shapes.*
-import android.view.*
-import com.android.internal.graphics.drawable.*
-import com.sevtinge.hyperceiler.hook.module.base.BaseHook.*
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RoundRectShape
+import android.view.View
+import android.view.WindowManager
+import com.android.internal.graphics.drawable.BackgroundBlurDrawable
+import com.sevtinge.hyperceiler.hook.module.base.BaseHook.mPrefsMap
 import com.sevtinge.hyperceiler.hook.utils.blur.zhenxiang.model.CornersRadius
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreAndroidVersion
-import java.util.function.*
+import java.util.function.Consumer
 
 class SystemBlurController(
     private val view: View,

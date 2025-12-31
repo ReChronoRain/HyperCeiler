@@ -14,16 +14,16 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  *
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.hooker.framework;
 
 import android.os.Bundle;
 
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.hooker.PhoneFragment;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.hooker.PhoneFragment;
 
 public class NetworkSettings extends DashboardFragment {
 

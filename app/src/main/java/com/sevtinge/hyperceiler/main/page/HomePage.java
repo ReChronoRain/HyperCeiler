@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
- * Copyright (C) 2023-2025 HyperCeiler Contributions
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.main.page;
 
@@ -37,8 +37,8 @@ import com.sevtinge.hyperceiler.common.model.data.ModData;
 import com.sevtinge.hyperceiler.common.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.main.fragment.ContentFragment.IFragmentChange;
-import com.sevtinge.hyperceiler.main.page.main.HomeFragment;
 import com.sevtinge.hyperceiler.main.fragment.PageFragment;
+import com.sevtinge.hyperceiler.main.page.main.HomeFragment;
 
 import fan.appcompat.app.ActionBar;
 import fan.preference.PreferenceFragment;
