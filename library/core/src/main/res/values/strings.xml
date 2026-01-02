@@ -138,6 +138,13 @@
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
 
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Log Details</string>
+    <string name="log_detail_time">Time</string>
+    <string name="log_detail_level">Level</string>
+    <string name="log_detail_tag">Tag</string>
+    <string name="log_detail_message">Details</string>
+
     <!-- Log levels -->
     <string name="log_level_verbose" translatable="false">Verbose</string>
     <string name="log_level_debug" translatable="false">Debug</string>

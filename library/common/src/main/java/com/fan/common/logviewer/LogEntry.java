@@ -1,5 +1,7 @@
 package com.fan.common.logviewer;
 
+import android.annotation.SuppressLint;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -12,8 +14,12 @@ public class LogEntry {
     private final String mTag;
     private final boolean mNewLine;
 
+    @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat sTimeFormat =
         new SimpleDateFormat("HH:mm:ss.SSS", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat sDateTimeFormat =
+        new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
 
     public LogEntry(String level, String module, String message, String tag, boolean newLine) {
         this(System.currentTimeMillis(), level, module, message, tag, newLine);
@@ -54,7 +60,19 @@ public class LogEntry {
     }
 
     public String getFormattedTime() {
-        return sTimeFormat.format(new Date(mTimestamp));
+        Date logDate = new Date(mTimestamp);
+        long now = System.currentTimeMillis();
+        // 如果是今天，只显示时间；否则显示日期+时间
+        if (isSameDay(logDate, now)) {
+            return sTimeFormat.format(logDate);
+        } else {
+            return sDateTimeFormat.format(logDate);
+        }
+    }
+
+    private static boolean isSameDay(Date d1, long currentTimeMillis) {
+        SimpleDateFormat dayFormat = new SimpleDateFormat("yyyyMMdd", Locale.getDefault());
+        return dayFormat.format(d1).equals(dayFormat.format(new Date(currentTimeMillis)));
     }
 
     public int getColor() {

@@ -32,7 +32,7 @@ import fan.recyclerview.card.CardDefaultItemAnimator;
 import fan.recyclerview.card.CardItemDecoration;
 
 public class LogViewerActivity extends BaseActivity
-    implements LogAdapter.OnFilterChangeListener {
+    implements LogAdapter.OnFilterChangeListener, LogAdapter.OnLogItemClickListener {
 
     private static final String TAG = "LogViewerActivity";
 
@@ -137,6 +137,7 @@ public class LogViewerActivity extends BaseActivity
 
         mLogAdapter = new LogAdapter(this, logEntries);
         mLogAdapter.setOnFilterChangeListener(this);
+        mLogAdapter.setOnLogItemClickListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mLogAdapter);
@@ -465,5 +466,24 @@ public class LogViewerActivity extends BaseActivity
     public void onFilterChanged(int filteredCount, int totalCount) {
         String stats = getString(com.sevtinge.hyperceiler.core.R.string.log_filter_stats, filteredCount, totalCount);
         mFilterStatsTextView.setText(stats);
+    }
+
+    @Override
+    public void onLogItemClick(LogEntry logEntry) {
+        showLogDetailDialog(logEntry);
+    }
+
+    private void showLogDetailDialog(LogEntry logEntry) {
+        String title = getString(com.sevtinge.hyperceiler.core.R.string.log_detail_title);
+        String message = "[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_time) + "]: " + logEntry.getFormattedTime() +
+                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_level) + "]: " + logEntry.getLevel() +
+                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_tag) + "]: " + logEntry.getTag() +
+                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_message) + "]:\n" + logEntry.getMessage();
+
+        new fan.appcompat.app.AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+                .show();
     }
 }

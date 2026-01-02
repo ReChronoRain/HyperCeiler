@@ -37,8 +37,7 @@ import java.util.regex.Pattern;
 public class XposedLogLoader {
 
     private static final String TAG = "XposedLogLoader";
-    
-    // 匹配日志行开头的时间戳: [ 2025-12-31T01:35:12.336
+
     private static final Pattern TIME_PATTERN = Pattern.compile("\\[\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3})");
     private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
 
@@ -52,16 +51,19 @@ public class XposedLogLoader {
                 String logFilePath = ShellUtils.rootExecCmd(logFileCmd).trim();
 
                 if (logFilePath.isEmpty() || logFilePath.contains("No such file") || logFilePath.contains("ls:")) {
-                    logManager.addXposedLog(new LogEntry("W", "XposedLogLoader",
-                            "No Xposed log file found.", "System", true));
+                    logManager.addXposedLog(new LogEntry("W", "Xposed",
+                            "No Xposed log file found.", "XposedLogLoader", true));
                     if (callback != null) callback.run();
                     return;
                 }
 
-                String content = ShellUtils.rootExecCmd("cat " + logFilePath);
+                // 使用 grep 在 shell 层筛选，比 cat + Java 过滤更快
+                String safeLogFilePath = logFilePath.replace("'", "'\"'\"'");
+                String grepCmd = "grep 'HyperCeiler' '" + safeLogFilePath + "'";
+                String content = ShellUtils.rootExecCmd(grepCmd);
                 if (content == null || content.isEmpty()) {
-                    logManager.addXposedLog(new LogEntry("W", "XposedLogLoader",
-                            "Xposed log file is empty.", "System", true));
+                    logManager.addXposedLog(new LogEntry("I", "Xposed",
+                            "No HyperCeiler logs found.", "XposedLogLoader", true));
                     if (callback != null) callback.run();
                     return;
                 }
@@ -71,11 +73,9 @@ public class XposedLogLoader {
                 List<LogEntry> entries = new ArrayList<>();
 
                 while ((line = reader.readLine()) != null) {
-                    if (line.contains("HyperCeiler")) {
-                        LogEntry entry = parseXposedLogLine(line);
-                        if (entry != null) {
-                            entries.add(entry);
-                        }
+                    LogEntry entry = parseXposedLogLine(line);
+                    if (entry != null) {
+                        entries.add(entry);
                     }
                 }
                 reader.close();
@@ -84,14 +84,14 @@ public class XposedLogLoader {
                     logManager.addXposedLogs(entries);
                     Log.i(TAG, "Loaded " + entries.size() + " Xposed log entries");
                 } else {
-                    logManager.addXposedLog(new LogEntry("I", "XposedLogLoader",
-                            "No HyperCeiler logs found.", "System", true));
+                    logManager.addXposedLog(new LogEntry("I", "Xposed",
+                            "No HyperCeiler logs found.", "XposedLogLoader", true));
                 }
 
             } catch (Exception e) {
                 Log.e(TAG, "Failed to load Xposed logs", e);
-                logManager.addXposedLog(new LogEntry("E", "XposedLogLoader",
-                        "Failed to load logs: " + e.getMessage(), "System", true));
+                logManager.addXposedLog(new LogEntry("E", "Xposed",
+                        "Failed to load logs: " + e.getMessage(), "XposedLogLoader", true));
             }
 
             if (callback != null) callback.run();
@@ -107,15 +107,15 @@ public class XposedLogLoader {
             String logFilePath = ShellUtils.rootExecCmd(logFileCmd).trim();
 
             if (logFilePath.isEmpty() || logFilePath.contains("No such file") || logFilePath.contains("ls:")) {
-                logManager.addXposedLog(new LogEntry("W", "XposedLogLoader",
-                        "No Xposed log file found.", "System", true));
+                logManager.addXposedLog(new LogEntry("W", "Xposed",
+                        "No Xposed log file found.", "XposedLogLoader", true));
                 return;
             }
 
-            String content = ShellUtils.rootExecCmd("cat " + logFilePath);
+            String content = ShellUtils.rootExecCmd("grep 'HyperCeiler' " + logFilePath);
             if (content == null || content.isEmpty()) {
-                logManager.addXposedLog(new LogEntry("W", "XposedLogLoader",
-                        "Xposed log file is empty.", "System", true));
+                logManager.addXposedLog(new LogEntry("I", "Xposed",
+                        "No HyperCeiler logs found.", "XposedLogLoader", true));
                 return;
             }
 
@@ -124,11 +124,9 @@ public class XposedLogLoader {
             List<LogEntry> entries = new ArrayList<>();
 
             while ((line = reader.readLine()) != null) {
-                if (line.contains("HyperCeiler")) {
-                    LogEntry entry = parseXposedLogLine(line);
-                    if (entry != null) {
-                        entries.add(entry);
-                    }
+                LogEntry entry = parseXposedLogLine(line);
+                if (entry != null) {
+                    entries.add(entry);
                 }
             }
             reader.close();
@@ -136,14 +134,14 @@ public class XposedLogLoader {
             if (!entries.isEmpty()) {
                 logManager.addXposedLogs(entries);
             } else {
-                logManager.addXposedLog(new LogEntry("I", "XposedLogLoader",
-                        "No HyperCeiler logs found.", "System", true));
+                logManager.addXposedLog(new LogEntry("I", "Xposed",
+                        "No HyperCeiler logs found.", "XposedLogLoader", true));
             }
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to load Xposed logs", e);
-            logManager.addXposedLog(new LogEntry("E", "XposedLogLoader",
-                    "Failed to load logs: " + e.getMessage(), "System", true));
+            logManager.addXposedLog(new LogEntry("E", "Xposed",
+                    "Failed to load logs: " + e.getMessage(), "XposedLogLoader", true));
         }
     }
 
@@ -171,8 +169,8 @@ public class XposedLogLoader {
             message = line.substring(tagIndex);
         }
 
-        // 提取包名作为模块标签
-        String module = "Other";
+        // 提取包名作为标签
+        String tag = "Other";
         int levelEndIndex = -1;
         for (String lvl : new String[]{"[I]", "[D]", "[W]", "[E]", "[V]"}) {
             int idx = message.indexOf(lvl);
@@ -187,12 +185,12 @@ public class XposedLogLoader {
             if (pkgEndIndex != -1) {
                 String candidate = message.substring(levelEndIndex + 1, pkgEndIndex);
                 if (isValidPackageName(candidate)) {
-                    module = candidate;
+                    tag = candidate;
                 }
             }
         }
 
-        return new LogEntry(timestamp, level, module, message, "Xposed", true);
+        return new LogEntry(timestamp, level, "Xposed", message, tag, true);
     }
 
     private static boolean isValidPackageName(String name) {

@@ -134,4 +134,11 @@
     <string name="log_filter_stats">显示: %1$d/%2$d</string>
     <string name="log_filter_all">全部</string>
     <string name="log_tag_other">其他</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">日志详情</string>
+    <string name="log_detail_time">时间</string>
+    <string name="log_detail_level">级别</string>
+    <string name="log_detail_tag">标签</string>
+    <string name="log_detail_message">具体信息</string>
 </resources>

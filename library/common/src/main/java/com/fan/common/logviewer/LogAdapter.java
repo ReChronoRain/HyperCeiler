@@ -48,6 +48,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     // 监听器
     private OnFilterChangeListener mFilterChangeListener;
+    private OnLogItemClickListener mLogItemClickListener;
 
     public LogAdapter(Context context, List<LogEntry> logEntries) {
         mContext = context;
@@ -80,8 +81,8 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                         case "E" -> levelSet.add(mContext.getString(R.string.log_level_error));
                     }
                 }
-                if (entry.getModule() != null) {
-                    moduleSet.add(entry.getModule());
+                if (entry.getTag() != null) {
+                    moduleSet.add(entry.getTag());
                 }
             }
         }
@@ -126,12 +127,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
             // 模块过滤
             boolean moduleMatch = "ALL".equals(mSelectedModule) ||
-                    mSelectedModule.equals(entry.getModule());
+                    mSelectedModule.equals(entry.getTag());
 
             // 搜索过滤
             boolean searchMatch = mSearchKeyword.isEmpty() ||
                     entry.getMessage().toLowerCase().contains(searchLower) ||
-                    entry.getModule().toLowerCase().contains(searchLower);
+                    entry.getTag().toLowerCase().contains(searchLower);
 
             if (levelMatch && moduleMatch && searchMatch) {
                 filteredList.add(entry);
@@ -209,6 +210,11 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         mFilterChangeListener = listener;
     }
 
+    // 设置日志条目点击监听器
+    public void setOnLogItemClickListener(OnLogItemClickListener listener) {
+        mLogItemClickListener = listener;
+    }
+
     @NonNull
     @Override
     public LogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -232,6 +238,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         if (position >= 0 && position < mFilteredLogEntries.size()) {
             LogEntry logEntry = mFilteredLogEntries.get(position);
             holder.bind(logEntry, mSearchKeyword);
+            holder.itemView.setOnClickListener(v -> {
+                AnimHelper.addItemPressEffect(v);
+                if (mLogItemClickListener != null) {
+                    mLogItemClickListener.onLogItemClick(logEntry);
+                }
+            });
         }
     }
 
@@ -276,7 +288,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             mLevelTextView = itemView.findViewById(com.fan.common.R.id.textLevel);
             mModuleTextView = itemView.findViewById(com.fan.common.R.id.textModule);
             mMessageTextView = itemView.findViewById(com.fan.common.R.id.textMessage);
-            itemView.setOnClickListener(AnimHelper::addItemPressEffect);
         }
 
         public void bind(LogEntry logEntry, String searchKeyword) {
@@ -290,7 +301,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             //mLevelTextView.setTextColor(logEntry.getColor());
 
             // 设置模块
-            mModuleTextView.setText(logEntry.getModule());
+            mModuleTextView.setText(logEntry.getTag());
 
             // 设置消息（支持搜索高亮和换行）
             String message = logEntry.getMessage();
@@ -338,5 +349,10 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     // 过滤变化监听器接口
     public interface OnFilterChangeListener {
         void onFilterChanged(int filteredCount, int totalCount);
+    }
+
+    // 日志条目点击监听器接口
+    public interface OnLogItemClickListener {
+        void onLogItemClick(LogEntry logEntry);
     }
 }
