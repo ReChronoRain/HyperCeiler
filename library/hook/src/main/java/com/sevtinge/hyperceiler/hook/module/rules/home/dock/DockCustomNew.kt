@@ -35,9 +35,9 @@ import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBle
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.hook.utils.callStaticMethod
 import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.hook.utils.getObjectFieldAs
 import com.sevtinge.hyperceiler.hook.utils.hookAfterMethod
-import de.robv.android.xposed.XposedHelpers
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
@@ -55,6 +55,11 @@ object DockCustomNew : BaseHook() {
     private val animationCompatComplexClass by lazy {
         loadClass("com.miui.home.launcher.compat.UserPresentAnimationCompatComplex")
     }
+
+    private val folderBlurUtilsClass by lazy {
+        findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
+    }
+
 
     private val showAnimationLambda by lazy {
         DexKit.findMember("ShowAnimationLambda") { bridge ->
@@ -87,9 +92,11 @@ object DockCustomNew : BaseHook() {
             val dockMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6)
             val dockBottomMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92)
 
-            val folderBlurUtilsClass = findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
-
-            isSupportHyperMaterialBlur = XposedHelpers.callStaticMethod(folderBlurUtilsClass, "isSupportHyperMaterialBlur") as Boolean
+            isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
+                folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+            } else {
+                false
+            }
 
             val hotSeats = it.thisObject.getObjectFieldAs<FrameLayout>("mHotSeats")
             dockBlurView = View(hotSeats.context).apply {
@@ -128,9 +135,12 @@ object DockCustomNew : BaseHook() {
 
         if (dockBgStyle == 1) {
             launcherClass.hookAfterMethod("onDarkModeChanged") {
-                val folderBlurUtilsClass = findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
 
-                isSupportHyperMaterialBlur = folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+                isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
+                    folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+                } else {
+                    false
+                }
 
                 dockBlurView?.addBlur()
             }
