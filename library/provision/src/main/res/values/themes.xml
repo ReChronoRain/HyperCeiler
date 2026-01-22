@@ -26,5 +26,12 @@
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+    </style>
+
+    <style name="TransparentActionBarTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="actionBarBackground">@android:color/transparent</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
     </style>
 </resources>

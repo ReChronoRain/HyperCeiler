@@ -84,7 +84,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     private ImageView mIconLogoViewShade;
     private ImageView mTextLogoViewShade;
     private ViewGroup mVersionLayout;
-    private HyperCardView mUpdateText;
+    private LinearLayout mUpdateText;
 
     private AnimatorSet mAnimatorSet;
     private CubicEaseOutInterpolater mInterpolater;
@@ -321,7 +321,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             }
         } else {
             MiuiBlurUtils.setViewBlurMode(view, 0);
-            MiuiBlurUtils.clearBackgroundBlenderColor(view);
+            MiuiBlurUtils.clearBackgroundBlendConfig(view);
         }
     }
     public void stopLogoAnimation() {

@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.provision.R;
 
+import java.security.SecureRandom;
 import java.util.Locale;
 
 import fan.internal.utils.LiteUtils;
@@ -88,6 +89,8 @@ public class OobeUtils {
     public static View getNextView(View view) {
         return view.findViewById(R.id.next);
     }
+
+    final public static String verificationCode = getSecureSixDigit();
 
     public static View getNextView(Activity activity) {
         return activity.findViewById(R.id.confirm_button);
@@ -148,6 +151,12 @@ public class OobeUtils {
 
     public static boolean needFastAnimation() {
         return !isInternationalBuild();
+    }
+
+    public static String getSecureSixDigit() {
+        SecureRandom sr = new SecureRandom();
+        int num = 100000 + sr.nextInt(900000);
+        return String.valueOf(num);
     }
 
 }

@@ -55,4 +55,11 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textColor">?attr/textColorListSecondary</item>
     </style>
+
+
+    <style name="BottomSheetModalStyle">
+        <item name="android:background">@color/miuix_color_black_solid_10</item>
+        <item name="contentHeightMatchParent">true</item>
+        <item name="miuixPaddingBottomSystemWindowInsets">false</item>
+    </style>
 </resources>

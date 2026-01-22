@@ -32,5 +32,5 @@
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/provision_back_icon_margin_start"
         android:contentDescription="@string/provision_back_description"
-        android:src="@drawable/miuix_action_icon_back_light" />
+        android:src="?android:homeAsUpIndicator" />
 </LinearLayout>

@@ -333,6 +333,6 @@ public class AboutPage extends DashboardFragment
     }
 
     private void setActionBarBlur(ActionBar actionBar, boolean blur) {
-        ((ActionBarImpl) actionBar).getActionBarContainer().setActionBarBlur(blur);
+        ((ActionBarImpl) actionBar).getActionBarContainer().setEnableBlur(blur);
     }
 }

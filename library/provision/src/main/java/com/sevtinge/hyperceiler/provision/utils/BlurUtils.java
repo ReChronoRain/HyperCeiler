@@ -41,7 +41,7 @@ public class BlurUtils {
                 }
             } else {
                 MiuiBlurUtils.setViewBlurMode(view, 0);
-                MiuiBlurUtils.clearBackgroundBlenderColor(view);
+                MiuiBlurUtils.clearBackgroundBlurContainer(view);
             }
         }
     }

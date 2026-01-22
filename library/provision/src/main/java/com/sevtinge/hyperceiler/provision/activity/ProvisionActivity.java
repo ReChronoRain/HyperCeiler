@@ -520,7 +520,7 @@ public class ProvisionActivity extends ProvisionBaseActivity {
 
     public static class State {
 
-        public static final String PREFIX = "com.sevtinge.provision.activity.ProvisionActivity$";
+        public static final String PREFIX = "com.sevtinge.hyperceiler.provision.activity.ProvisionActivity$";
 
         protected Context mContext;
 

@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.main.fragment.ContentFragment.mCurrTab;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
@@ -80,7 +81,7 @@ public class LogoAnimationController {
         view.setAlpha(0.0f);
     }
 
-    public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, View titleView) {
+    public void startAnimation(int scrollY, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, View updateTextView, View versionLayout, View bgEffectView, View titleView) {
         float scroll = calculateScrollFactor(scrollY, actionBarPadding);
         float scale = 1.0f - scroll * SCALE_FACTOR;
 
@@ -97,7 +98,7 @@ public class LogoAnimationController {
         }
     }
 
-    private void applyAnimation(float scroll, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, HyperCardView updateTextView, View versionLayout, View bgEffectView, View titleView, float scale, int scrollY) {
+    private void applyAnimation(float scroll, View iconLogoView, View textLogoView, View iconLogoViewShade, View textLogoViewShade, View updateTextView, View versionLayout, View bgEffectView, View titleView, float scale, int scrollY) {
         if (scrollY >= logoPadding) {
             float scroll2 = calculateScrollFactor(scrollY - logoPadding, logoHeight);
             float scale2 = 1.0f - SCALE_FACTOR * scroll2;
@@ -145,7 +146,7 @@ public class LogoAnimationController {
         return Math.min(MAX_SCROLL_FACTOR, Math.max(MIN_SCROLL_FACTOR, Math.abs(scrollY) / (float) padding));
     }
 
-    public void startButtonAnimation(int scrollValue, HyperCardView updateTextView) {
+    public void startButtonAnimation(int scrollValue, ViewGroup updateTextView) {
         float scroll = calculateScrollFactor(scrollValue, actionBarPadding);
         float scale = 1.0f - SCALE_FACTOR * scroll;
 

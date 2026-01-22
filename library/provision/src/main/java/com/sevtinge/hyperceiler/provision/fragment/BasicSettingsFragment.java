@@ -18,24 +18,29 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.provision.R;
 
+import fan.preference.DropDownPreference;
 import fan.preference.PreferenceFragment;
 
 public class BasicSettingsFragment extends PreferenceFragment {
 
     private boolean mIsScrolledBottom = false;
 
+    DropDownPreference mIconModePreference;
+    DropDownPreference mIconModeValue;
 
     private RecyclerView mRecyclerView;
-
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
@@ -56,6 +61,23 @@ public class BasicSettingsFragment extends PreferenceFragment {
                 }
             }
         });
+
+        SharedPreferences sp;
+        try {
+            sp = requireContext().getSharedPreferences("hyperceiler_prefs", false ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE);
+        } catch (Throwable t) {
+            sp = requireContext().getSharedPreferences("hyperceiler_prefs", false ? Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE : Context.MODE_PRIVATE);
+        }
+
+        int mIconMode = Integer.parseInt(sp.getString("prefs_key_settings_icon", "0"));
+        mIconModePreference = findPreference("prefs_key_settings_icon");
+        mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+
+        setIconMode(mIconMode);
+        mIconModePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            setIconMode(Integer.parseInt((String) newValue));
+            return true;
+        });
     }
 
     public void adjustNextView() {
@@ -66,6 +88,10 @@ public class BasicSettingsFragment extends PreferenceFragment {
                 ((TextView) mNextView).setText(R.string.more);
             }
         }*/
+    }
+
+    private void setIconMode(int mode) {
+        mIconModeValue.setVisible(mode != 0);
     }
 
 }

@@ -23,6 +23,7 @@ import static com.sevtinge.hyperceiler.Application.isModuleActivated;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 
 public class XposedActivateHelper {
     public static int XposedVersion = 0;

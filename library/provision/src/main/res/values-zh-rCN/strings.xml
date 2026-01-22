@@ -9,16 +9,41 @@
     <string name="provision_basic_settings_title">基础设置</string>
     <string name="provision_agree_and_next">同意并继续</string>
     <string name="provision_agree_terms">我已仔细阅读并同意上述条款</string>
-    <string name="provision_user_agreement">用户协议</string>
-    <string name="provision_privacy_policy">隐私政策</string>
+
+    <string name="provision_user_agreement">《用户协议》</string>
+    <string name="provision_privacy_policy">《隐私政策》</string>
+
     <string name="provision_terms_of_use">使用条款</string>
-    <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意&lt;a href=%1$s&gt;用户协议&lt;/a&gt;与&lt;a href=%2$s&gt;隐私政策&lt;/a&gt;才可继续使用系统，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
-    <string name="provision_terms_of_label_period">。</string>
+    <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意&lt;a href="%1$s"&gt;《用户协议》&lt;/a&gt;与&lt;a href="%2$s"&gt;《隐私政策》&lt;/a&gt;才可继续使用 HyperCeiler，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
+    <string name="provision_terms_of_label_period"></string>
+
     <string name="provision_protect_persoanl_info_statement">我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
     <string name="provision_service_agreement">我已仔细阅读并同意上述条款</string>
     <string name="provision_service_name_download">下载管理</string>
     <string name="provision_service_policy_download"><Data>请您阅读并同意&lt;a href=%1$s&gt;《迅雷隐私政策》&lt;/a &gt;与&lt;a href=%1$s&gt;《迅雷公司网络服务使用协议》&lt;/a &gt;</Data></string>
     <string name="provision_congratulation_title">设置完毕</string>
-    <string name="provision_congratulation_label">体验激动人心的 HyperOS 吧！</string>
-    <string name="provision_complete_text">进入系统</string>
+
+    <string name="provision_congratulation_label">欢迎来到 HyperCeiler</string>
+    <string name="provision_complete_text">进入 HyperCeiler</string>
+
+    <string name="provision_set_permission_later">您可以稍后设置下列必要权限</string>
+    <string name="provision_permission_internet">允许访问至 Internet</string>
+    <string name="provision_permission_root">允许以 Root 身份操作</string>
+    <string name="provision_permission_lsp">在 Xposed 管理器中激活</string>
+    <string name="provision_terms_of_use_loading">加载中…</string>
+    <string name="provision_terms_of_use_verification_code_tip">您的验证码是 %1$s。</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">请输入验证码</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">您可以在《用户协议》或《隐私政策》中找到</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">继续</string>
+    <string name="provision_basic_settings_hide_app_icon">桌面图标</string>
+    <string name="provision_basic_settings_icon">设置图标</string>
+    <string name="provision_basic_settings_icon_desc">设置模块入口在系统设置中的位置</string>
+    <string name="provision_basic_settings_icon_mode">图标样式</string>
+    <string name="provision_basic_settings_icon_disable">禁用</string>
+    <string name="provision_basic_settings_icon_top">顶部</string>
+    <string name="provision_basic_settings_icon_medium">中部</string>
+    <string name="provision_basic_settings_icon_down">底部</string>
+    <string name="provision_basic_settings_icon_miui_14">圆角矩形样式</string>
+    <string name="provision_basic_settings_icon_miui_13">背景镂空样式</string>
+
 </resources>

@@ -12,13 +12,34 @@
     <string name="provision_user_agreement">User Agreement</string>
     <string name="provision_privacy_policy">Privacy Policy</string>
     <string name="provision_terms_of_use">Terms and conditions</string>
-    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue using the system. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
-    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue using HyperCeiler. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
+    <string name="provision_terms_of_label_period"></string>
     <string name="provision_protect_persoanl_info_statement">We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
     <string name="provision_service_agreement">I\'ve read and agreed to the terms and conditions.</string>
     <string name="provision_service_name_download">Downloads</string>
     <string name="provision_service_policy_download"><Data>Read and agree to the <a href="%1$s">Thunder Privacy Policy</a> and <a href="%2$s">Thunder Company Network Service Usage Agreement</a></Data></string>
     <string name="provision_congratulation_title">Setup complete</string>
-    <string name="provision_congratulation_label">Experience the exciting HyperOS!</string>
-    <string name="provision_complete_text">Enter the system</string>
+    <string name="provision_congratulation_label">Welcome to HyperCeiler</string>
+    <string name="provision_complete_text">Enter HyperCeiler</string>
+
+    <string name="provision_set_permission_later">You can set these necessary permissions later</string>
+    <string name="provision_permission_internet">Allow connect to Internet</string>
+    <string name="provision_permission_root">Allow operations as Root</string>
+    <string name="provision_permission_lsp">Activate in Xposed Manager</string>
+    <string name="provision_terms_of_use_loading">Loading…</string>
+    <string name="provision_terms_of_use_verification_code_tip">Your verification code is %1$s.</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">Enter your verification code</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">You can found it in our User Agreement or Privacy Policy</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">Continue</string>
+    <string name="provision_basic_settings_hide_app_icon">Icon in Home screen</string>
+    <string name="provision_basic_settings_icon">Icon in Settings</string>
+    <string name="provision_basic_settings_icon_desc">Specify where the module icon will appear in Settings</string>
+    <string name="provision_basic_settings_icon_mode">Icon style</string>
+    <string name="provision_basic_settings_icon_disable">Disable</string>
+    <string name="provision_basic_settings_icon_top">Top</string>
+    <string name="provision_basic_settings_icon_medium">Middle</string>
+    <string name="provision_basic_settings_icon_down">Bottom</string>
+    <string name="provision_basic_settings_icon_miui_14">Rounded rectangle style</string>
+    <string name="provision_basic_settings_icon_miui_13">Background cutout style</string>
+
 </resources>
