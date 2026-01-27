@@ -32,11 +32,11 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
 import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
-import com.sevtinge.hyperceiler.core.R;
 
 import java.util.concurrent.ExecutorService;
 
@@ -50,7 +50,6 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
     Preference mAutoStart;
     Preference mClipboardWhitelistApps;
     SwitchPreference mVerifyDisable;
-    SwitchPreference mTrustTouch;
     SwitchPreference mLockApp;
     SwitchPreference mLockAppSc;
     DropDownPreference mLockAppScreen;
@@ -75,10 +74,8 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
         mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen_int");
         mLockAppStatus = findPreference("prefs_key_system_framework_guided_access_status");
-        mTrustTouch = findPreference("prefs_key_system_framework_allow_untrusted_touch");
 
         if (isMoreAndroidVersion(36)) {
-            setFuncHint(mTrustTouch, 2);
             setFuncHint(mLockApp, 2);
         } else {
             mLockApp.setOnPreferenceChangeListener(this);

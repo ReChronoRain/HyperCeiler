@@ -51,17 +51,12 @@
         android:title="@string/mediaeditor_authoring">
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_mediaeditor_unlock_spring"
-            android:summary="@string/mediaeditor_unlock_spring_desc"
-            android:title="@string/mediaeditor_unlock_spring_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
             android:key="prefs_key_mediaeditor_unlock_custom_photo_frames_v2"
             android:title="@string/mediaeditor_unlock_custom_photo_frames_v2_title" />
 
         <SwitchPreference
             android:defaultValue="false"
+            android:dependency="prefs_key_mediaeditor_unlock_custom_photo_frames_v2"
             android:key="prefs_key_mediaeditor_unlock_cloud_custom_photo"
             android:summary="@string/mediaeditor_unlock_cloud_custom_photo_desc"
             android:title="@string/camera_cloud_watermark" />

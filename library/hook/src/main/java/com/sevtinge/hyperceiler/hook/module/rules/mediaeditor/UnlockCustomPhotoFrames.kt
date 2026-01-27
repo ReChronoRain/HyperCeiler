@@ -34,9 +34,6 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
-    private val isOpenSpring by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_spring")
-    }
     private val isCloudData by lazy {
         mPrefsMap.getBoolean("mediaeditor_unlock_cloud_custom_photo")
     }
@@ -169,14 +166,6 @@ object UnlockCustomPhotoFrames : BaseHook() {
                 action(method)
                 index = (index + 1) % actions.size
             }
-        }
-
-        runCatching {
-            if (isOpenSpring && springA != null) {
-                springA!!.setBoolean(null, true)
-            }
-        }.onFailure {
-            logE(TAG, lpparam.packageName, "Spring field not found, maybe not supported")
         }
 
         if (isLeica && methodB != null) {

@@ -20,13 +20,18 @@ package com.sevtinge.hyperceiler.hook.module.rules.soundrecorder
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object UnlockAIMode : BaseHook() {
     override fun init() {
-        loadClass("com.android.soundrecorder.ai.airecorder.util.AIDeviceUtil")
-            .methodFinder().filterByName("isAISupportedDevice").first()
+        loadFirstClass(
+            "com.android.soundrecorder.ai.airecorder.util.AiDeviceUtil",
+            "com.android.soundrecorder.ai.airecorder.util.AIDeviceUtil"
+        ).methodFinder()
+            .filter {
+                name == "isAISupportedDevice" || name == "isAiSupportedDevice"
+            }.first()
             .createHook {
                 returnConstant(true)
             }

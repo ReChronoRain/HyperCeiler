@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.hook.module.rules.systemframework;
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
@@ -29,22 +28,25 @@ import de.robv.android.xposed.XposedBridge;
 public class UseAndroidPackageInstaller extends BaseHook {
     static boolean fakeCts = false;
 
-    private final static Method deoptimizeMethod;
+    private static final Method deoptimizeMethod;
 
     static {
         Method m = null;
         try {
             m = XposedBridge.class.getDeclaredMethod("deoptimizeMethod", Member.class);
         } catch (Throwable t) {
-            logE("UseAndroidPackageInstaller", "android", t);
+            logE("HookTool", "Failed to get deoptimizeMethod: " + t);
         }
         deoptimizeMethod = m;
     }
 
-    static void deoptimizeMethod(Method m) throws InvocationTargetException, IllegalAccessException {
+    public static void deoptimizeMethod(Method m) {
         if (deoptimizeMethod != null) {
-            deoptimizeMethod.invoke(null, m);
-            logD("UseAndroidPackageInstaller", "android", "Deoptimized " + m);
+            try {
+                deoptimizeMethod.invoke(null, m);
+            } catch (Throwable t) {
+                logE("HookTool", "Failed to deoptimize method " + m + ": " + t);
+            }
         }
     }
 

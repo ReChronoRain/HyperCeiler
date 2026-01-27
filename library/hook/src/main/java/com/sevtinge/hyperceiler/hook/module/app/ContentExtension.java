@@ -23,9 +23,7 @@ import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.i
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.rules.contentextension.DoublePress;
-import com.sevtinge.hyperceiler.hook.module.rules.contentextension.HorizontalContentExtension;
 import com.sevtinge.hyperceiler.hook.module.rules.contentextension.LinkOpenMode;
-import com.sevtinge.hyperceiler.hook.module.rules.contentextension.SuperImage;
 import com.sevtinge.hyperceiler.hook.module.rules.contentextension.Taplus;
 import com.sevtinge.hyperceiler.hook.module.rules.contentextension.UnlockTaplus;
 import com.sevtinge.hyperceiler.hook.module.rules.contentextension.UseThirdPartyBrowser;
@@ -37,10 +35,8 @@ public class ContentExtension extends BaseModule {
     public void handleLoadPackage() {
         initHook(new UseThirdPartyBrowser(), mPrefsMap.getBoolean("content_extension_browser"));
         initHook(new DoublePress(), mPrefsMap.getBoolean("content_extension_double_press"));
-        initHook(new SuperImage(), mPrefsMap.getBoolean("content_extension_super_image"));
         initHook(new Taplus(), mPrefsMap.getBoolean("security_center_taplus"));
         initHook(new LinkOpenMode(), true);
-        initHook(HorizontalContentExtension.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus_horizontal"));
         initHook(UnlockTaplus.INSTANCE, mPrefsMap.getBoolean("content_extension_unlock_taplus") && isPad());
     }
 }

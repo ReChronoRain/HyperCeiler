@@ -24,6 +24,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AntiQues;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AppLinkVerify;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.AutoEffectSwitchForSystem;
@@ -56,6 +57,7 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemframework.NoAccessDevice
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.PackagePermissions;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.PstedClipboard;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.QuickScreenshot;
+import com.sevtinge.hyperceiler.hook.module.rules.systemframework.RemoveSmallWindowRestrictions;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.ScreenRotation;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.SpeedInstall;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.ThermalBrightness;
@@ -68,7 +70,6 @@ import com.sevtinge.hyperceiler.hook.module.rules.systemframework.display.Displa
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.display.EnhanceRecentsVisibility;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.display.UseAOSPScreenShot;
-import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.DisableFreeformBlackList;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.hook.module.rules.systemframework.mipad.IgnoreStylusKeyGesture;
@@ -112,7 +113,7 @@ public class SystemFrameworkB extends BaseModule {
 
         // 小窗
         initHook(new FreeFormCount(), mPrefsMap.getBoolean("system_framework_freeform_count"));
-        initHook(new DisableFreeformBlackList(), mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
+        initHook(RemoveSmallWindowRestrictions.INSTANCE, mPrefsMap.getBoolean("system_framework_disable_freeform_blacklist"));
         initHook(new FreeformBubble(), mPrefsMap.getBoolean("system_framework_freeform_bubble"));
         initHook(new UnForegroundPin(), mPrefsMap.getBoolean("system_framework_freeform_foreground_pin"));
 
@@ -148,6 +149,7 @@ public class SystemFrameworkB extends BaseModule {
         initHook(NoAccessDeviceLogsRequest.INSTANCE, mPrefsMap.getBoolean("various_disable_access_device_logs"));
         initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
         initHook(new FlagSecure(), mPrefsMap.getBoolean("system_other_flag_secure"));
+        initHook(new AllowUntrustedTouchForU(), mPrefsMap.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(DeleteOnPostNotification.INSTANCE, mPrefsMap.getBoolean("system_other_delete_on_post_notification"));
         initHook(new AllowManageAllNotifications(), mPrefsMap.getBoolean("system_framework_allow_manage_all_notifications"));
 

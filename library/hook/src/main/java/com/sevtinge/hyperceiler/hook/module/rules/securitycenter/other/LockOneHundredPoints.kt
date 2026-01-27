@@ -21,6 +21,8 @@ package com.sevtinge.hyperceiler.hook.module.rules.securitycenter.other
 import android.view.View
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
 import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool
+import com.sevtinge.hyperceiler.hook.utils.devicesdk.isPad
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -90,10 +92,13 @@ object LockOneHundredPoints : BaseHook() {
 
         runCatching {
             logD(TAG, lpparam.packageName, "LockOneHundredPoints method is $score")
-            logD(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
             logD(TAG, lpparam.packageName, "LockOneHundredPoints 3 method is $score3")
-            scoreOld.createHook {
-                returnConstant(0)
+
+            if ((AppsTool.getPackageVersionCode(lpparam) <= 40001000 && !isPad()) || (AppsTool.getPackageVersionCode(lpparam) <= 40011000 && isPad())) {
+                logD(TAG, lpparam.packageName, "LockOneHundredPoints old method is $scoreOld")
+                scoreOld.createHook {
+                    returnConstant(0)
+                }
             }
             score.createHook {
                 returnConstant(0)

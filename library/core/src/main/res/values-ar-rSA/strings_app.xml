@@ -959,10 +959,7 @@
     <string name="content_extension_browser">استخدام متصفح طرف ثالث</string>
     <string name="content_extension_browser_desc">اجعل Taplus غير إلزامي لاستخدام المتصفح النظامي للبحث، يجب عليك اختيار المتصفح الافتراضي بنفسك.</string>
     <string name="content_extension_unlock_taplus_title">فتح تابلاس</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">السماح باستخدام Taplus على الشاشات الأفقية</string>
     <string name="content_extension_double_press">الإيماءة: إصبعان</string>
-    <string name="content_extension_super_image">جودة الصور المحفوظة: دقة فائقة</string>
-    <string name="content_extension_super_image_summary">يتطلب الحفظ الحقيقي دعمًا أساسيًا من طراز الجهاز</string>
     <string name="content_extension_link_open_mode">كيفية فتح الرابط</string>
     <string name="content_extension_link_open_mode_desc">اختر متصفحًا لفتح الرابط</string>
     <!--Xiaomi Cloud Service-->
@@ -1256,8 +1253,6 @@
     <string name="mediaeditor_custom_photo_frames_title">تخصيص الإطار</string>
     <string name="mediaeditor_custom_disney_title">وظيفة مشتركة</string>
     <string name="mediaeditor_unlock_disney_title">فتح ميزات تخصيص ديزني</string>
-    <string name="mediaeditor_unlock_spring_title">فتح إطارات الصور المخصصة لعيد رأس السنة الصينية</string>
-    <string name="mediaeditor_unlock_spring_desc">لإضافة إطارات صور مخصصة لعيد رأس السنة الصينية بشكل دائم، المطلب الأساسي هو أنك بحاجة إلى إطار صورة مخصص من لايكا أو إطار صورة مخصص من ريدمي.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">إزالة حد القص الأدنى للصورة</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">فتح تخصيص الإطار</string>
     <string name="mediaeditor_unlock_leica_filter_title">فتح فلتر لايكا</string>

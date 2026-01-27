@@ -841,8 +841,6 @@
     <string name="content_extension_browser_desc">Arama için MIUI tarayıcısını kullanmak için Taplus\'u zorunlu kılmayın, varsayılan tarayıcıyı kendiniz seçmeniz gerekir</string>
     <string name="content_extension_unlock_taplus_title">Taplus kilidini aç</string>
     <string name="content_extension_double_press">Jest: 2 parmak</string>
-    <string name="content_extension_super_image">Görüntü kaydetme kalitesi: Süper çözünürlük</string>
-    <string name="content_extension_super_image_summary">Gerçek koruma, cihaz modelinden temel destek gerektirir</string>
     <string name="content_extension_link_open_mode">Bağlantı nasıl açılır</string>
     <string name="content_extension_link_open_mode_desc">Bağlantıyı açmak için bir tarayıcı seçin</string>
     <!--Xiaomi Cloud Service-->
@@ -1089,8 +1087,6 @@
     <string name="mediaeditor">Galeri Editörü</string>
     <string name="mediaeditor_foundation">Temel</string>
     <string name="mediaeditor_unlock_disney_title">Disney özelleştirme özelliklerinin kilidini açın</string>
-    <string name="mediaeditor_unlock_spring_title">Çin Yeni Yılı özel resim çerçevelerinin kilidini açın</string>
-    <string name="mediaeditor_unlock_spring_desc">Çin Yeni Yılı özel resim çerçevesini kalıcı olarak eklemek için ön koşul, bir Leica özel resim çerçevesine veya bir Redmi özel resim çerçevesine sahip olmanızdır.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Minimum kırpma görüntü sınırının kilidini açın</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica filtresinin kilidini açın</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Sadece bazı sürümler destekleniyor</string>

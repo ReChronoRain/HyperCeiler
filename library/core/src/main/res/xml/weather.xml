@@ -22,18 +22,24 @@
     app:quick_restart="com.miui.weather2">
     <PreferenceCategory>
         <fan.preference.DropDownPreference
+            android:defaultValue="3"
             android:key="prefs_key_weather_device_level"
             android:title="@string/weather_device_level_title"
-            android:defaultValue="3"
             app:entries="@array/weather_device_level"
             app:entryValues="@array/weather_device_level_value" />
 
         <fan.preference.DropDownPreference
+            android:defaultValue="0"
             android:key="prefs_key_weather_card_display_type"
             android:title="@string/weather_card_display_type_title"
-            android:defaultValue="0"
             app:entries="@array/weather_card_display_type"
             app:entryValues="@array/weather_card_display_type_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_weather_unlock_blur"
+            android:summary="@string/weather_unlock_blur_desc"
+            android:title="@string/weather_unlock_blur_title" />
 
     </PreferenceCategory>
 

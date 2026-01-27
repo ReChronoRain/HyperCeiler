@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.hook.module.base.BaseModule;
 import com.sevtinge.hyperceiler.hook.module.rules.weather.SetCardLightDarkMode;
 import com.sevtinge.hyperceiler.hook.module.rules.weather.SetDeviceLevel;
+import com.sevtinge.hyperceiler.hook.module.rules.weather.UnlockSuperBlur;
 
 @HookBase(targetPackage = "com.miui.weather2")
 public class Weather extends BaseModule {
@@ -30,5 +31,6 @@ public class Weather extends BaseModule {
     public void handleLoadPackage() {
         initHook(new SetCardLightDarkMode(), mPrefsMap.getStringAsInt("weather_card_display_type", 0) != 0);
         initHook(new SetDeviceLevel(), mPrefsMap.getStringAsInt("weather_device_level", 3) != 3);
+        initHook(UnlockSuperBlur.INSTANCE, mPrefsMap.getBoolean("weather_unlock_blur"));
     }
 }

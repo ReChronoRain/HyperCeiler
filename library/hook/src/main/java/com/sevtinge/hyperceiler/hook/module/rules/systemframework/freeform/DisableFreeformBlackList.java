@@ -63,7 +63,6 @@ public class DisableFreeformBlackList extends BaseHook {
             findAndHookMethod(mMiuiFreeformServiceImpl, "isSupportFreeFormMultiTask", String.class, XC_MethodReplacement.returnConstant(true));
         } else {
 
-            mTaskCls = findClassIfExists("com.android.server.wm.Task");
             mMiuiMultiWindowAdapter = findClassIfExists("android.util.MiuiMultiWindowAdapter");
             mMiuiMultiWindowUtils = findClassIfExists("android.util.MiuiMultiWindowUtils");
 
@@ -90,7 +89,12 @@ public class DisableFreeformBlackList extends BaseHook {
             findAndHookMethod(mMiuiMultiWindowUtils, "supportFreeform", XC_MethodReplacement.returnConstant(true));
         }
         // 强制所有活动设为可以调整大小
-        /*findAndHookMethod(mTaskCls, "isResizeable", XC_MethodReplacement.returnConstant(true));*/
+        try {
+            mTaskCls = findClassIfExists("com.android.server.wm.Task", lpparam.classLoader);
+            findAndHookMethod(mTaskCls, "isResizeable", XC_MethodReplacement.returnConstant(true));
+        } catch (Throwable t) {
+            logE(TAG, "DisableFreeformBlackList: hook isResizeable failed", t);
+        }
 
         setResReplacement("android", "array", "freeform_black_list", R.array.miui_freeform_black_list);
         setResReplacement("android.miui", "array", "freeform_black_list", R.array.miui_freeform_black_list);

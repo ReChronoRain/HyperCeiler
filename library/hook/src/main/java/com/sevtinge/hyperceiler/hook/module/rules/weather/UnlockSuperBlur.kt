@@ -16,19 +16,32 @@
 
   * Copyright (C) 2023-2025 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.hook.module.rules.contentextension
+package com.sevtinge.hyperceiler.hook.module.rules.weather
 
 import com.sevtinge.hyperceiler.hook.module.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import java.lang.reflect.Method
 
-object HorizontalContentExtension : BaseHook() {
+object UnlockSuperBlur : BaseHook() {
+
+    val unlock by lazy<Method> {
+        DexKit.findMember("superblur") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    addCaller {
+                        addUsingString("com.miui.weather2.ActivityWeatherMain")
+                    }
+                    returnType = "boolean"
+                    paramCount = 0
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
-        loadClass("com.miui.contentextension.services.TextContentExtensionService").methodFinder()
-            .filterByName("isScreenPortrait")
-            .single().createAfterHook {
-                it.result = true
-            }
+        unlock.createHook {
+            returnConstant(false)
+        }
     }
 }

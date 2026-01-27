@@ -708,10 +708,7 @@
     <string name="content_extension_browser">Gunakan browser pihak ketiga</string>
     <string name="content_extension_browser_desc">Jadikan Taplus tidak wajib menggunakan browser sistem untuk pencarian, Anda harus memilih sendiri browser default</string>
     <string name="content_extension_unlock_taplus_title">Buka kunci Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Izinkan penggunaan taplus pada layar lanskap</string>
     <string name="content_extension_double_press">Gerakan: 2 jari</string>
-    <string name="content_extension_super_image">Kualitas penyimpanan gambar : Resolusi super</string>
-    <string name="content_extension_super_image_summary">Pelestarian sejati memerlukan dukungan mendasar dari model perangkat</string>
     <string name="content_extension_link_open_mode">Cara membuka tautan</string>
     <string name="content_extension_link_open_mode_desc">Pilih browser untuk membuka tautan</string>
     <!--Xiaomi Cloud Service-->
@@ -962,8 +959,6 @@
     <string name="mediaeditor">Editor Galeri</string>
     <string name="mediaeditor_foundation">Dasar</string>
     <string name="mediaeditor_unlock_disney_title">Buka kunci fitur penyesuaian Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Buka kunci bingkai foto khusus Tahun Baru Imlek</string>
-    <string name="mediaeditor_unlock_spring_desc">Untuk menambahkan bingkai foto kustom Tahun Baru Imlek secara permanen, prasyaratnya adalah Anda memerlukan bingkai foto kustom Leica atau bingkai foto kustom Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Buka kunci batas pemotongan gambar minimum</string>
     <string name="mediaeditor_unlock_leica_filter_title">Buka kunci filter Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Hanya beberapa versi yang didukung</string>

@@ -926,10 +926,7 @@
     <string name="content_extension_browser">Drittanbieter-Browser verwenden</string>
     <string name="content_extension_browser_desc">Taplus nicht zwingen, den System-Browser für die Suche zu verwenden, Sie müssen den Standard-Browser selbst wählen.</string>
     <string name="content_extension_unlock_taplus_title">Taplus freischalten</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Verwendung von Taplus auf horizontalen Bildschirmen erlauben</string>
     <string name="content_extension_double_press">Geste: 2 Finger</string>
-    <string name="content_extension_super_image">Qualität der gespeicherten Bilder: Super-Auflösung</string>
-    <string name="content_extension_super_image_summary">Echte Erhaltung erfordert zugrundeliegende Systemunterstützung</string>
     <string name="content_extension_link_open_mode">Link-Öffnungsmethode</string>
     <string name="content_extension_link_open_mode_desc">Wählen Sie einen Browser zum Öffnen von Links</string>
     <!--Xiaomi Cloud Service-->
@@ -1221,8 +1218,6 @@
     <string name="mediaeditor_custom_photo_frames_title">Rahmen anpassen</string>
     <string name="mediaeditor_custom_disney_title">Kollaborationsfunktion</string>
     <string name="mediaeditor_unlock_disney_title">Disney-Anpassungsfunktionen freischalten</string>
-    <string name="mediaeditor_unlock_spring_title">Chinesische Neujahrs-Bilderrahmen freischalten</string>
-    <string name="mediaeditor_unlock_spring_desc">Um den chinesischen Neujahrs-Bilderrahmen dauerhaft zu behalten, ist die Voraussetzung, dass du einen Leica-Bilderrahmen oder einen Redmi-Bilderrahmen besitzt.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mindest-Zuschneidebild-Limit entfernen</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Rahmen anpassen entsperren</string>
     <string name="mediaeditor_unlock_leica_filter_title">Leica-Filter freischalten</string>

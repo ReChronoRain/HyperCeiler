@@ -957,10 +957,7 @@
     <string name="content_extension_browser">使用第三方瀏覽器</string>
     <string name="content_extension_browser_desc">使傳送門不強制使用系統瀏覽器進行搜索，需自行選擇預設瀏覽器</string>
     <string name="content_extension_unlock_taplus_title">解鎖傳送門</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">允許在橫屏方向上使用傳送門</string>
     <string name="content_extension_double_press">開放雙指長按</string>
-    <string name="content_extension_super_image">開放超分辨率圖片</string>
-    <string name="content_extension_super_image_summary">需要系統底層支持</string>
     <string name="content_extension_link_open_mode">連結打開方式</string>
     <string name="content_extension_link_open_mode_desc">選擇一個瀏覽器以打開連結</string>
     <!--Xiaomi Cloud Service-->
@@ -1251,8 +1248,6 @@
     <string name="mediaeditor_custom_photo_frames_title">定制畫框</string>
     <string name="mediaeditor_custom_disney_title">聯名功能</string>
     <string name="mediaeditor_unlock_disney_title">解鎖 Disney 定制功能</string>
-    <string name="mediaeditor_unlock_spring_title">解鎖新春定制畫框</string>
-    <string name="mediaeditor_unlock_spring_desc">永久添加新春定制畫框，前置條件是需要有 Leica 定制畫框或 Redmi 定制畫框，僅支持部分版本</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">移除最小裁切相片限制</string>
     <string name="mediaeditor_unlock_custom_photo_frames_v2_title">解鎖定制畫框</string>
     <string name="mediaeditor_unlock_leica_filter_title">解鎖 Leica 濾镜</string>

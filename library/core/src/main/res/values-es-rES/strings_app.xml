@@ -764,10 +764,7 @@ aplicaciones del sistema</string>
     <string name="content_extension_browser">Usar navegador no predeterminado</string>
     <string name="content_extension_browser_desc">Usted hace que en Taplus no sea obligatorio usar el navegador predeterminado para la búsqueda, y necesita elegir el navegador por defecto</string>
     <string name="content_extension_unlock_taplus_title">Desbloquear Taplus</string>
-    <string name="content_extension_unlock_taplus_horizontal_title">Permitir el uso de taplus en pantalla horizontal</string>
     <string name="content_extension_double_press">Gesto: 2 dedos</string>
-    <string name="content_extension_super_image">Calidad de imágenes guardadas: Súperresolución</string>
-    <string name="content_extension_super_image_summary">Esta preservación necesita el soporte subyacente del dispositivo</string>
     <string name="content_extension_link_open_mode">Cómo abrir enlaces</string>
     <string name="content_extension_link_open_mode_desc">Elegir un navegador para abrir enlaces</string>
     <!--Xiaomi Cloud Service-->
@@ -1026,8 +1023,6 @@ aplicaciones del sistema</string>
     <string name="mediaeditor">Editor de Galería</string>
     <string name="mediaeditor_foundation">Funciones básicas</string>
     <string name="mediaeditor_unlock_disney_title">Desbloquear características de personalización de Disney</string>
-    <string name="mediaeditor_unlock_spring_title">Desbloquear fotogramas personalizados de Año Nuevo Chino</string>
-    <string name="mediaeditor_unlock_spring_desc">Para añadir permanentemente un marco personalizado de Año Nuevo Chino, lo esencial es un marco de imagen personalizado de Leica o un marco de imagen personalizado Redmi.</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Desbloquear el límite mínimo de recorte de imagen</string>
     <string name="mediaeditor_unlock_leica_filter_title">Desbloquear filtros de Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Solo en algunas versiones se funciona</string>

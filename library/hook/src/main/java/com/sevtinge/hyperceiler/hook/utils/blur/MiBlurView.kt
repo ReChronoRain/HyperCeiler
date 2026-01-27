@@ -19,18 +19,21 @@
  */
 package com.sevtinge.hyperceiler.hook.utils.blur
 
-import android.animation.*
-import android.content.*
-import android.graphics.*
-import android.view.*
-import android.view.animation.*
+import android.animation.ValueAnimator
+import android.content.Context
+import android.graphics.Color
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.Interpolator
-import android.widget.*
-import com.sevtinge.hyperceiler.hook.utils.api.HyperHelperApis.linearInterpolate
-import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtils.*
+import android.view.animation.LinearInterpolator
+import android.widget.FrameLayout
+import com.sevtinge.hyperceiler.hook.utils.MathUtils.linearInterpolate
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtils.setMiBackgroundBlurMode
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtils.setMiViewBlurMode
+import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtils.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.clearAllBlur
 import com.sevtinge.hyperceiler.hook.utils.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
-import kotlin.math.*
+import kotlin.math.abs
 
 class MiBlurView(context: Context): View(context) {
     companion object {
