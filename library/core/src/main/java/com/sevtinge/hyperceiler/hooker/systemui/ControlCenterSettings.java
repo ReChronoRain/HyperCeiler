@@ -30,7 +30,7 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import fan.preference.SeekBarPreferenceCompat;
@@ -67,7 +67,7 @@ public class ControlCenterSettings extends DashboardFragment {
                 try {
                     Settings.Secure.putInt(requireActivity().getContentResolver(), "sysui_qqs_count", progress);
                 } catch (Throwable t) {
-                    AndroidLogUtils.logD("SeekBarPreferenceCompat", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
+                    AndroidLog.w("SeekBarPreferenceCompat", "onProgressChanged -> system_control_center_old_qs_grid_columns", t);
                 }
             }
 

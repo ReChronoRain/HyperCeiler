@@ -18,28 +18,13 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-
-import androidx.preference.SwitchPreference;
-
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
 public class MiSoundFragment extends DashboardFragment {
 
-    SwitchPreference mAuto;
-
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.misound;
-    }
-
-    @Override
-    public void initPrefs() {
-        mAuto = findPreference("prefs_key_misound_bluetooth");
-
-        if (isMoreHyperOSVersion(3f)) {
-            setFuncHint(mAuto, 2);
-        }
     }
 }

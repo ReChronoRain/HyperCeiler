@@ -24,18 +24,12 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 public class CrashService extends Service {
-    private String longMsg;
-    private String stackTrace;
-    private String throwClassName;
-    private String throwFileName;
-    private int throwLineNumber;
-    private String throwMethodName;
 
     @Nullable
     @Override
@@ -52,41 +46,47 @@ public class CrashService extends Service {
     @SuppressLint("UnsafeIntentLaunch")
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String report = intent.getStringExtra("key_all");
-        String abbr = intent.getStringExtra("key_pkg");
-        longMsg = intent.getStringExtra("key_longMsg");
-        stackTrace = intent.getStringExtra("key_stackTrace");
-        throwClassName = intent.getStringExtra("key_throwClassName");
-        throwFileName = intent.getStringExtra("key_throwFileName");
-        throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
-        throwMethodName = intent.getStringExtra("key_throwMethodName");
-        ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + report + "\"").sync();
-        Intent intent1 = getIntent(abbr);
-        intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if (intent == null) {
+            stopSelf();
+            return super.onStartCommand(null, flags, startId);
+        }
 
-        startActivity(new Intent(Intent.ACTION_MAIN));
-        /*try {
-            startActivity(intent1);
-        }catch (Throwable t){
-            AndroidLogUtils.logI("iafjnsdkjnsdlvkzdv", "30A "+t);
+        String reportProp = intent.getStringExtra("key_all");
+        String alias = intent.getStringExtra("key_pkg");
+
+        /*// 执行 Shell 命令设置属性
+        if (reportProp != null && !reportProp.isEmpty()) {
+            try {
+                ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + reportProp + "\"").sync();
+            } catch (Throwable ignored) {
+            }
         }*/
+
+        if (alias != null) {
+            Toast.makeText(getBaseContext(), "Crash detected: " + alias, Toast.LENGTH_LONG).show();
+        }
+
+        // 启动 Activity
+        Intent activityIntent = new Intent(this, CrashActivity.class);
+        activityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+
+        // 转发参数
+        activityIntent.putExtra("key_longMsg", intent.getStringExtra("key_longMsg"));
+        activityIntent.putExtra("key_stackTrace", intent.getStringExtra("key_stackTrace"));
+        activityIntent.putExtra("key_throwClassName", intent.getStringExtra("key_throwClassName"));
+        activityIntent.putExtra("key_throwFileName", intent.getStringExtra("key_throwFileName"));
+        activityIntent.putExtra("key_throwLineNumber", intent.getIntExtra("key_throwLineNumber", -1));
+        activityIntent.putExtra("key_throwMethodName", intent.getStringExtra("key_throwMethodName"));
+        activityIntent.putExtra("key_pkg", alias);
+
+        try {
+            startActivity(activityIntent);
+        } catch (Exception e) {
+            AndroidLog.e("CrashService", "Failed to start CrashActivity: " + e.getMessage());
+        }
+
         stopSelf();
         return super.onStartCommand(intent, flags, startId);
-    }
-
-    @NonNull
-    private Intent getIntent(String abbr) {
-        Toast.makeText(getBaseContext(), abbr, Toast.LENGTH_LONG).show();
-        Intent intent1 = new Intent(this, CrashActivity.class);
-        intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent1.putExtra("key_longMsg", longMsg);
-        intent1.putExtra("key_stackTrace", stackTrace);
-        intent1.putExtra("key_throwClassName", throwClassName);
-        intent1.putExtra("key_throwFileName", throwFileName);
-        intent1.putExtra("key_throwLineNumber", throwLineNumber);
-        intent1.putExtra("key_throwMethodName", throwMethodName);
-        intent1.putExtra("key_pkg", abbr);
-        return intent1;
     }
 
     @Override

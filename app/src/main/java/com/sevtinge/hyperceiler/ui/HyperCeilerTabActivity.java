@@ -18,11 +18,12 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
+import static com.sevtinge.hyperceiler.Application.isModuleActivated;
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mDisableOrHiddenApp;
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mUninstallApp;
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.isTablet;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isTablet;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -45,28 +46,23 @@ import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
 import com.sevtinge.hyperceiler.holiday.HolidayHelper;
-import com.sevtinge.hyperceiler.hook.callback.IResult;
-import com.sevtinge.hyperceiler.hook.safe.CrashData;
-import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
-import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
-import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.libhook.callback.IResult;
+import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
+import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
-import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 import fan.appcompat.app.AlertDialog;
 import fan.navigator.Navigator;
@@ -98,66 +94,42 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     private Handler mHandler;
     private volatile List<String> appCrash = Collections.emptyList();
 
-    private ExecutorService mInitExecutor;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        final boolean restored = (savedInstanceState != null);
+        final android.content.Context appCtx = getApplicationContext();
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        mInitExecutor = Executors.newSingleThreadExecutor(r -> {
-            Thread t = new Thread(r, "HyperCeiler-init");
-            t.setDaemon(true);
-            t.setPriority(Thread.NORM_PRIORITY - 1);
-            return t;
-        });
-
-        LogManager.init();
         applyGrayScaleFilter(this);
         HolidayHelper.init(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);
         ShellInit.init(this);
-        XposedActivateHelper.init(this);
+        LogServiceUtils.init(appCtx);
 
-        final boolean restored = (savedInstanceState != null);
-        final android.content.Context appCtx = getApplicationContext();
+        CHECK_LIST.parallelStream().forEach(this::checkAppMod);
 
-        mInitExecutor.execute(() -> {
-            CHECK_LIST.parallelStream().forEach(this::checkAppMod);
+        try {
+            SearchHelper.init(appCtx, restored);
+        } catch (Throwable t) {
+            AndroidLog.e(TAG, "SearchHelper: " + t);
+        }
 
-            try {
-                LogServiceUtils.init(appCtx);
-            } catch (Throwable t) {
-                AndroidLogUtils.logE(TAG, "LogServiceUtils: " + t);
-            }
+        List<String> computedAppCrash = computeCrashList();
 
-            try {
-                SearchHelper.init(appCtx, restored);
-            } catch (Throwable t) {
-                AndroidLogUtils.logE(TAG, "SearchHelper: " + t);
-            }
-
-            try {
-                LogManager.setLogLevel();
-            } catch (Throwable t) {
-                AndroidLogUtils.logE(TAG, "setLogLevel: " + t);
-            }
-
-            List<String> computedAppCrash = computeCrashList();
-
-            mHandler.post(() -> {
-                appCrash = computedAppCrash;
-                mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
-                requestCta();
-            });
+        mHandler.post(() -> {
+            appCrash = computedAppCrash;
+            mHandler.postDelayed(this::showSafeModeDialogIfNeeded, 600);
+            if (!isModuleActivated) DialogHelper.showXposedActivateDialog(this);
+            requestCta();
         });
     }
 
     private List<String> computeCrashList() {
         try {
-            List<?> raw = CrashData.toPkgList();
+            List<?> raw = CrashScope.getCrashingPackages();
             if (raw.isEmpty()) {
                 return Collections.emptyList();
             }
@@ -171,7 +143,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
             }
             return result;
         } catch (Throwable t) {
-            AndroidLogUtils.logE(TAG, "CrashData: " + t);
+            AndroidLog.e(TAG, "CrashData: " + t);
             return Collections.emptyList();
         }
     }
@@ -231,8 +203,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     @Override
     public boolean onPreferenceStartFragment(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
         if (caller instanceof NavigatorFragmentListener &&
-            Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC &&
-            isTablet()) {
+            Navigator.get(caller).getNavigationMode() == Navigator.Mode.NLC && isTablet()) {
             Bundle args = new Bundle();
             Bundle savedInstanceState = new Bundle();
             if (pref instanceof XmlPreference xmlPreference) {
@@ -293,18 +264,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         }
     }
 
-    /*public void test() {
-        boolean ls = shellExec.append("ls").sync().isResult();
-        AndroidLogUtils.LogI(ITAG.TAG, "ls: " + ls);
-        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString() + shellExec.getError().toString());
-        boolean f = shellExec.append("for i in $(seq 1 500); do echo $i; done").isResult();
-        AndroidLogUtils.LogI(ITAG.TAG, "for: " + f);
-        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
-        boolean k = shellExec.append("for i in $(seq 1 500); do echo $i; done").sync().isResult();
-        AndroidLogUtils.LogI(ITAG.TAG, "fork: " + k);
-        AndroidLogUtils.LogI(ITAG.TAG, shellExec.getOutPut().toString());
-    }*/
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -363,18 +322,5 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         ThreadPoolManager.shutdown();
         mUninstallApp.clear();
         mDisableOrHiddenApp.clear();
-
-        if (mInitExecutor != null) {
-            mInitExecutor.shutdown();
-            try {
-                if (!mInitExecutor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
-                    mInitExecutor.shutdownNow();
-                }
-            } catch (InterruptedException e) {
-                mInitExecutor.shutdownNow();
-                Thread.currentThread().interrupt();
-            }
-            mInitExecutor = null;
-        }
     }
 }

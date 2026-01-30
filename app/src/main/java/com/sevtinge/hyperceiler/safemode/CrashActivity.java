@@ -30,20 +30,23 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.safe.CrashData;
-import com.sevtinge.hyperceiler.hook.safe.SafeMode;
-import com.sevtinge.hyperceiler.hook.utils.PropUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
+import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 import fan.appcompat.app.AppCompatActivity;
 
 public class CrashActivity extends AppCompatActivity {
 
-    TextView mMessageTv;
-    TextView mCrashRecordTv;
+    private static final String KEY_PKG_ALIAS = "key_pkg";
+    private static final String KEY_IS_NEED_SET_PROP = "key_is_need_set_prop";
+    private static final String KEY_LONG_MSG = "key_longMsg";
+    private static final String KEY_STACK_TRACE = "key_stackTrace";
+    private static final String KEY_THROW_CLASS = "key_throwClassName";
+    private static final String KEY_THROW_FILE = "key_throwFileName";
+    private static final String KEY_THROW_LINE = "key_throwLineNumber";
+    private static final String KEY_THROW_METHOD = "key_throwMethodName";
+
     private String longMsg;
     private String stackTrace;
     private String throwClassName;
@@ -51,83 +54,69 @@ public class CrashActivity extends AppCompatActivity {
     private int throwLineNumber;
     private String throwMethodName;
 
-    private static Map<String, String> swappedMap = CrashData.swappedData();
-
     @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
     @Override
     public void onCreate(@Nullable Bundle bundle) {
         super.onCreate(bundle);
         ShellInit.init();
-        if (swappedMap == null || swappedMap.isEmpty()) {
-            swappedMap = CrashData.swappedData();
-        }
         setContentView(R.layout.activity_crash_dialog);
 
         Intent intent = getIntent();
-        String code = intent.getStringExtra("key_pkg");
-        boolean isNeedSetProp = intent.getBooleanExtra("key_is_need_set_prop", false);
-        if (isNeedSetProp) {
-            PropUtils.setProp(SafeMode.PROP_REPORT_PACKAGE, code);
+        if (intent == null) {
+            finish();
+            return;
+        }
+        String alias = intent.getStringExtra(KEY_PKG_ALIAS);
+
+        boolean isNeedSetProp = intent.getBooleanExtra(KEY_IS_NEED_SET_PROP, false);
+        if (isNeedSetProp && alias != null) {
+            SafeModeHandler.INSTANCE.updateCrashProp(alias);
         }
 
-        longMsg = intent.getStringExtra("key_longMsg");
-        stackTrace = intent.getStringExtra("key_stackTrace");
-        throwClassName = intent.getStringExtra("key_throwClassName");
-        throwFileName = intent.getStringExtra("key_throwFileName");
-        throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
-        throwMethodName = intent.getStringExtra("key_throwMethodName");
+        longMsg = intent.getStringExtra(KEY_LONG_MSG);
+        stackTrace = intent.getStringExtra(KEY_STACK_TRACE);
+        throwClassName = intent.getStringExtra(KEY_THROW_CLASS);
+        throwFileName = intent.getStringExtra(KEY_THROW_FILE);
+        throwLineNumber = intent.getIntExtra(KEY_THROW_LINE, -1);
+        throwMethodName = intent.getStringExtra(KEY_THROW_METHOD);
 
-        Map<String, String> appNameMap = getAppNameMap();
-        String pkg = getReportCrashPkg(code);
-        String appName = appNameMap.getOrDefault(pkg, pkg != null ? pkg : "unknown");
-        String msg = formatSafeModeDesc(appName, pkg);
+        String realPkgName = CrashScope.INSTANCE.getPackageName(alias);
+        if (realPkgName == null) realPkgName = alias != null ? alias : "unknown";
+
+        String appName = getAppName(realPkgName);
+        String msg = formatSafeModeDesc(appName, realPkgName);
 
         View view = LayoutInflater.from(this).inflate(R.layout.crash_report_dialog, null);
-        mMessageTv = view.findViewById(R.id.tv_message);
+        TextView mMessageTv = view.findViewById(R.id.tv_message);
         mMessageTv.setText(msg);
 
-        mCrashRecordTv = view.findViewById(R.id.tv_record);
+        TextView mCrashRecordTv = view.findViewById(R.id.tv_record);
         Paint paint = mCrashRecordTv.getPaint();
         paint.setFlags(Paint.UNDERLINE_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
         paint.setAntiAlias(true);
 
         mCrashRecordTv.setOnClickListener(v -> DialogHelper.showCrashMsgDialog(
-                this, throwClassName, throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace
+            this, throwClassName, throwFileName, throwLineNumber, throwMethodName, longMsg, stackTrace
         ));
 
         DialogHelper.showCrashReportDialog(this, view);
     }
 
-    private Map<String, String> getAppNameMap() {
-        Map<String, String> map = new HashMap<>();
-        map.put("com.android.systemui", getString(R.string.system_ui));
-        map.put("com.android.settings", getString(R.string.system_settings));
-        map.put("com.miui.home", getString(R.string.mihome));
-        map.put("com.hchen.demo", getString(R.string.demo));
-        map.put("com.miui.securitycenter", getString(R.string.security_center_hyperos));
-        return map;
+    private String getAppName(String pkg) {
+        if ("com.android.systemui".equals(pkg)) return getString(R.string.system_ui);
+        if ("com.android.settings".equals(pkg)) return getString(R.string.system_settings);
+        if ("com.miui.home".equals(pkg)) return getString(R.string.mihome);
+        if ("com.hchen.demo".equals(pkg)) return getString(R.string.demo);
+        if ("com.miui.securitycenter".equals(pkg)) return getString(R.string.security_center_hyperos);
+        return pkg;
     }
 
     private String formatSafeModeDesc(String appName, String pkg) {
         String msg = getString(R.string.safe_mode_desc, " " + appName + " (" + pkg + ") ");
         return msg.replace("  ", " ")
-                  .replace("， ", "，")
-                  .replace("、 ", "、")
-                  .replaceAll("^\\s+|\\s+$", "");
-    }
-
-    private String getReportCrashPkg(String data) {
-        if (data == null || swappedMap == null) return null;
-        String[] sp = data.split(",");
-        StringBuilder result = new StringBuilder();
-        for (String s : sp) {
-            String mPkg = swappedMap.get(s);
-            if (mPkg != null) {
-                if (!result.isEmpty()) result.append("\n");
-                result.append(mPkg);
-            }
-        }
-        return result.isEmpty() ? null : result.toString();
+            .replace("， ", "，")
+            .replace("、 ", "、")
+            .trim();
     }
 
     @Override

@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings;
 
-import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isBeta;
-import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isCanary;
-import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isRelease;
+import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isBeta;
+import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isCanary;
+import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -34,9 +34,9 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.utils.BackupUtils;
-import com.sevtinge.hyperceiler.hook.utils.log.LogManager;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 

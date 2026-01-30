@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings;
 
-import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.hook.utils.api.ProjectApi.isDebug;
+import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isDebug;
+import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance.ANDROID_NS;
 
 import android.content.pm.PackageManager;
@@ -33,8 +33,8 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -112,7 +112,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                 event = xml.next();
             }
         } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE("SafeModeFragment", "An error occurred when reading the XML:", e);
+            AndroidLog.e("SafeModeFragment", "An error occurred when reading the XML:", e);
         }
     }
 

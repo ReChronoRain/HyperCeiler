@@ -1,0 +1,59 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
+package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
+
+import android.annotation.SuppressLint;
+
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+
+import java.lang.reflect.Field;
+
+import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+
+public class FuckStatusbarGestures extends BaseHook {
+    @Override
+    public void init() {
+        hookAllConstructors("com.android.systemui.statusbar.phone.CentralSurfacesImpl", new IMethodHook() {
+            @SuppressLint({"PrivateApi", "SdCardPath"})
+            @Override
+            public void after(AfterHookParam param) {
+                try {
+                    Object mGestureRec = param.getThisObject()
+                            .getClass()
+                            .getDeclaredField("mGestureRec")
+                            .get(param.getThisObject());
+                    if (mGestureRec == null) return;
+                    Field mFieldLogfile = mGestureRec
+                            .getClass()
+                            .getDeclaredField("mLogfile");
+                    String mLogfile = (String) mFieldLogfile.get(mGestureRec);
+                    if (mLogfile == null) return;
+                    String mLogfileDir = mLogfile.substring(0, mLogfile.lastIndexOf('/'));
+                    if ("/sdcard".equals(mLogfileDir)) {
+                        mFieldLogfile.set(mGestureRec, "/sdcard/MIUI/" + mLogfile.substring(mLogfile.lastIndexOf('/') + 1));
+                    }
+                } catch (Throwable e) {
+                    XposedLog.e(TAG, getPackageName(), e);
+                }
+            }
+        });
+    }
+}

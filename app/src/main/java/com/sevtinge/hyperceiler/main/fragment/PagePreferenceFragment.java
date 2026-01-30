@@ -28,7 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.lang.reflect.Field;
 
@@ -64,7 +64,7 @@ public abstract class PagePreferenceFragment extends SettingsPreferenceFragment 
             declaredField.setAccessible(true);
             declaredField.set(this, false);
         } catch (Exception e) {
-            AndroidLogUtils.logE(TAG, "setOverlayMode error", e);
+            AndroidLog.e(TAG, "setOverlayMode error", e);
         }
     }
 }

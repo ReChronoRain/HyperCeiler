@@ -59,8 +59,6 @@
     <string name="help_cant_see_apps_switch">Скрыть эту справку на главной странице</string>
     <string name="help_cant_see_apps_switch_desc">Вы все еще можете найти эту страницу в разделе О программе &gt; Помощь. Перезагрузите приложение, чтобы применить его.</string>
     <string name="help_support_version_title">Список версий системы поддерживаемые текущей версией приложения</string>
-    <string name="help_support_version_desc_1">Текущая версия приложения полностью адаптирована к следующим версиям системы:</string>
-    <string name="help_support_version_desc_2">Следующие версии системы адаптированы к текущей версии приложения:</string>
     <string name="help_support_version_desc_3">Текущая версия системы полностью адаптирована.</string>
     <string name="help_support_version_desc_4">Текущая версия системы не (полностью) адаптирована адаптировано.</string>
     <string name="location_add">Добавить</string>
@@ -342,7 +340,6 @@
     <string name="system_framework_volume_title">Громкость</string>
     <string name="system_framework_other_title">Прочее</string>
     <string name="system_framework_display_title">Экран</string>
-    <string name="system_framework_phone_title">Сеть</string>
     <string name="system_framework_bubble_title">Всплывающее уведомление</string>
     <string name="system_framework_freeform_count">Многооконный режим</string>
     <string name="system_framework_disable_freeform_blacklist">Включить маленькие пл. окна</string>
@@ -365,19 +362,6 @@
     <string name="system_ui_display_hide_cutout">Скрыть вырез экрана</string>
     <string name="system_ui_display_use_aosp_screenshot">Использовать AOSP снимки экрана</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Перенаправить приложение для создания снимков экрана на снимки экрана AOSP, приложение для их создания из HyperOS не будет реагировать на операцию создания снимка экрана.</string>
-    <string name="phone_double_5g_nr">Двойная SIM 5G (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Основная и дополнительная SIM-карты одновременно включают 5G (дополнительная SIM-карта поддерживает только NSA)</string>
-    <string name="phone_double_5g_sa">Двойная SIM SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Экспериментальные функции. Делает дополнительную SIM-карту с поддержкой SA.</string>
-    <string name="system_framework_phone_band_title">Настройки частоты</string>
-    <string name="phone_n1">N1 Band</string>
-    <string name="phone_n1_desc">Поддержка N1 Band (NR)</string>
-    <string name="phone_n28">N28 Band</string>
-    <string name="phone_n28_desc">Поддержка N28 Band (NR)</string>
-    <string name="phone_n5_n8">N5/N8 Группы частот</string>
-    <string name="phone_n5_n8_desc">Введите *#*#65686633#*#* в поле набора номера для звонка, чтобы включить поддержку N5/N8 групп частот. Если там будет функция включить режим N5 и N8, то она будет включена.</string>
-    <string name="phone_flightmode_hotspot">Разрешить точку доступа в режиме полета</string>
-    <string name="phone_flightmode_hotspot_desc">Разрешить включение точки доступа Wi-Fi в режиме полета</string>
     <string name="phone_additional_network_settings">Дополнительные настройки сети</string>
     <string name="system_framework_screen_title">Дисплей и оповещения</string>
     <string name="system_framework_core_title">Ядро внизу</string>
@@ -1158,9 +1142,6 @@
     <string name="home_title_disable_hide_theme">Не скрывать иконку \"Менеджер тем\"</string>
     <string name="home_title_disable_hide_google">Отключить скрытие Google</string>
     <string name="home_title_fake_non_default_icon">Фальшивая иконка, отличная от стандартной</string>
-    <string name="home_title_custom_anim_param">Пользовательский параметр анимации</string>
-    <string name="home_title_custom_anim_param_damping_title">Демпфирвоание</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Жесткость</string>
     <string name="home_title_hide_report_text">Скрыть текст отчета</string>
     <string name="home_title_hide_report_text_desc">Скрыть текст отчета в диалоговом окне удаления</string>
     <string name="home_title_notif_color">Цвет фона уведомлений пользовательский</string>

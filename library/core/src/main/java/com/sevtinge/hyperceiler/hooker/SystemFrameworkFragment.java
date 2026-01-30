@@ -18,15 +18,16 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.TelephonyManager;
 
 public class SystemFrameworkFragment extends DashboardFragment {
 
-    Preference mNetwork;
+    Preference mMipad; // 平板相关功能
 
     @Override
     public int getPreferenceScreenResId() {
@@ -35,7 +36,7 @@ public class SystemFrameworkFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mNetwork = findPreference("prefs_key_system_framework_network");
-        mNetwork.setVisible(TelephonyManager.getDefault().isFiveGCapable());
+        mMipad = findPreference("prefs_key_system_framework_mipad");
+        mMipad.setVisible(isPad());
     }
 }

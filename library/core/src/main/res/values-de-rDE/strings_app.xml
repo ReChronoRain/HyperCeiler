@@ -55,8 +55,6 @@
     <string name="help_cant_see_apps_switch">Diese Hilfe auf der Startseite ausblenden</string>
     <string name="help_cant_see_apps_switch_desc">Du kannst diese Seite immer noch unter Über &gt; Hilfe finden. App neu starten, um anzuwenden.</string>
     <string name="help_support_version_title">Aktuelle App-Version unterstützt Systemversions-Liste</string>
-    <string name="help_support_version_desc_1">Die aktuelle App-Version ist vollständig an die folgenden Systemversionen angepasst:</string>
-    <string name="help_support_version_desc_2">Die folgenden Systemversionen sind an die aktuelle App-Version angepasst:</string>
     <string name="help_support_version_desc_3">Die aktuelle Systemversion ist vollständig angepasst.</string>
     <string name="help_support_version_desc_4">Die aktuelle Systemversion ist nicht (vollständig) angepasst.</string>
     <string name="location_add">Hinzufügen</string>
@@ -333,7 +331,6 @@
     <string name="system_framework_volume_title">Lautstärke</string>
     <string name="system_framework_other_title">Sonstiges</string>
     <string name="system_framework_display_title">Display</string>
-    <string name="system_framework_phone_title">Netzwerk</string>
     <string name="system_framework_bubble_title">Blasenbenachrichtigung</string>
     <string name="system_framework_freeform_count">Mehrere Freeform</string>
     <string name="system_framework_disable_freeform_blacklist">Kleine Freeform aktivieren</string>
@@ -354,19 +351,6 @@
     <string name="system_framework_volume_steps">Lautstärke-Stufen-Multiplikator</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP-Screenshot verwenden</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Die Screenshot-App zur Verwendung der AOSP-Screenshot-Aufnahme umleiten. Die Screenshot-App in HyperOS reagiert nicht auf die Screenshot-Operation.</string>
-    <string name="phone_double_5g_nr">Dual-SIM 5G verwenden (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Haupt- und Zweit-SIM-Karte gleichzeitig 5G aktivieren (Zweit-SIM-Karte unterstützt nur NSA)</string>
-    <string name="phone_double_5g_sa">Dual-SIM SA verwenden (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Experimentelle Funktion. Die Zweit-SIM-Karte SA unterstützen lassen.</string>
-    <string name="system_framework_phone_band_title">Band-Einstellungen</string>
-    <string name="phone_n1">N1-Band</string>
-    <string name="phone_n1_desc">N1-Band unterstützen (NR)</string>
-    <string name="phone_n28">N28-Band</string>
-    <string name="phone_n28_desc">N28-Band unterstützen (NR)</string>
-    <string name="phone_n5_n8">N5/N8-Band</string>
-    <string name="phone_n5_n8_desc">Gib *#*#65686633#*#* im Telefon-Dialer ein, um Unterstützung für N5/N8-Bänder zu aktivieren. Wenn \"N5- und N8-Modus aktivieren\" angezeigt wird, ist es erfolgreich aktiviert.</string>
-    <string name="phone_flightmode_hotspot">Mobilen Hotspot im Flugmodus zulassen</string>
-    <string name="phone_flightmode_hotspot_desc">WLAN-Hotspot im Flugmodus aktivieren zulassen</string>
     <string name="phone_additional_network_settings">Zusätzliche Netzwerkeinstellungen</string>
     <string name="system_framework_screen_title">Display &amp; Benachrichtigungen</string>
     <string name="system_framework_core_title">Kern darunter</string>
@@ -1113,9 +1097,6 @@
     <string name="home_title_disable_hide_theme">\"Themes\"-Symbol nicht ausblenden</string>
     <string name="home_title_disable_hide_google">\"Google\"-Symbol nicht ausblenden</string>
     <string name="home_title_fake_non_default_icon">Nicht-Standard-Symbol vortäuschen</string>
-    <string name="home_title_custom_anim_param">Benutzerdefinierte Animationsparameter</string>
-    <string name="home_title_custom_anim_param_damping_title">Dämpfung</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Steifigkeit</string>
     <string name="home_title_hide_report_text">Berichtstext ausblenden</string>
     <string name="home_title_hide_report_text_desc">Berichtstext im Deinstallationsdialog ausblenden</string>
     <string name="home_title_notif_color">Benachrichtigungspunkt-Hintergrundfarbe anpassen</string>

@@ -22,7 +22,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
 public class NavigationSettings extends DashboardFragment {
     SwitchPreference navigation;

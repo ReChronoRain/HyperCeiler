@@ -30,12 +30,12 @@ import com.sevtinge.hyperceiler.common.model.data.AppData;
 import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
-import com.sevtinge.hyperceiler.hook.utils.ContextUtils;
-import com.sevtinge.hyperceiler.hook.utils.ThreadPoolManager;
-import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellExec;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
+import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,14 +18,15 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
-import static com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils.mSharedPreferences;
+
+import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mSharedPreferences;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.util.Locale;
 
@@ -84,11 +85,11 @@ public class LanguageHelper {
     public static int resultIndex(String[] languages, String value) {
         for (int i = 0; i < languages.length; i++) {
             if (languages[i] != null && languages[i].equals(value)) {
-                AndroidLogUtils.logI("Language", "Match found: " + languages[i] + " at index " + i);
+                AndroidLog.i("Language", "Match found: " + languages[i] + " at index " + i);
                 return i;
             }
         }
-        AndroidLogUtils.logE("Language", "No match found for: " + value);
+        AndroidLog.e("Language", "No match found for: " + value);
         return 0; // 遇到错误就切回英语，防止崩溃
     }
 

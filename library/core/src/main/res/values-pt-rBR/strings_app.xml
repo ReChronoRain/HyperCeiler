@@ -60,8 +60,6 @@
     <string name="help_cant_see_apps_switch">Ocultar esta ajuda na página inicial</string>
     <string name="help_cant_see_apps_switch_desc">Você ainda pode encontrar esta página em Sobre &gt; Ajuda. Reinicie o app para aplicar</string>
     <string name="help_support_version_title">Lista de versões do sistema com suporte à versão atual do app</string>
-    <string name="help_support_version_desc_1">A versão atual do app está totalmente adaptada às seguintes versões do sistema:</string>
-    <string name="help_support_version_desc_2">As seguintes versões do sistema são adaptadas à versão atual do app:</string>
     <string name="help_support_version_desc_3">A versão atual do sistema está totalmente adaptada.</string>
     <string name="help_support_version_desc_4">A versão atual do sistema não está (totalmente) adaptada.</string>
     <string name="location_add">Adicionar</string>
@@ -341,7 +339,6 @@
     <string name="system_framework_volume_title">Volume</string>
     <string name="system_framework_other_title">Outros</string>
     <string name="system_framework_display_title">Tela</string>
-    <string name="system_framework_phone_title">Rede</string>
     <string name="system_framework_bubble_title">Conversas em bolhas</string>
     <string name="system_framework_freeform_count">Múltiplas janelas flutuantes</string>
     <string name="system_framework_disable_freeform_blacklist">Permitir janela flutuante pequena</string>
@@ -364,19 +361,6 @@
     <string name="system_ui_display_hide_cutout">Ocultar recorte de exibição</string>
     <string name="system_ui_display_use_aosp_screenshot">Usar captura de tela AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Redirecione o app de captura de tela para a captura de tela AOSP. O app de captura de tela no HyperOS não responderá à operação de captura de tela.</string>
-    <string name="phone_double_5g_nr">Dual SIM usa 5G (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">O cartão SIM principal e secundário permite 5G ao mesmo tempo (O cartão SIM secundário suporta apenas NSA)</string>
-    <string name="phone_double_5g_sa">Dual SIM usa SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Recurso experimental. Faça com que o SIM secundário suporte SA.</string>
-    <string name="system_framework_phone_band_title">Configurações de banda</string>
-    <string name="phone_n1">Banda N1</string>
-    <string name="phone_n1_desc">Suporta banda N1 (NR)</string>
-    <string name="phone_n28">Banda N28</string>
-    <string name="phone_n28_desc">Suporta banda N28 (NR)</string>
-    <string name="phone_n5_n8">Banda N5/N8</string>
-    <string name="phone_n5_n8_desc">Digite *#*#65686633#*#* no discador do telefone para suportar a banda N5/N8. Se mostrar \"ativar modo N5 e N8\", então foi ativado com sucesso.</string>
-    <string name="phone_flightmode_hotspot">Permitir hotspot portátil no Modo avião</string>
-    <string name="phone_flightmode_hotspot_desc">Permite que o hotspot portátil Wi-Fi seja ativado no Modo avião</string>
     <string name="phone_additional_network_settings">Configurações de rede adicionais</string>
     <string name="system_framework_screen_title">Tela e notificações</string>
     <string name="system_framework_core_title">Núcleo por baixo</string>
@@ -1156,9 +1140,6 @@
     <string name="home_title_disable_hide_theme">Não ocultar o ícone Temas</string>
     <string name="home_title_disable_hide_google">Não ocultar o ícone Google</string>
     <string name="home_title_fake_non_default_icon">Ícone falso não padrão</string>
-    <string name="home_title_custom_anim_param">Parâmetro de animação personalizado</string>
-    <string name="home_title_custom_anim_param_damping_title">Amortecimento</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Rigidez</string>
     <string name="home_title_hide_report_text">Ocultar texto de relatório</string>
     <string name="home_title_hide_report_text_desc">Oculte o texto de relatório na caixa de diálogo de desinstalação</string>
     <string name="home_title_notif_color">Cor de fundo do ponto de notificação personalizada</string>

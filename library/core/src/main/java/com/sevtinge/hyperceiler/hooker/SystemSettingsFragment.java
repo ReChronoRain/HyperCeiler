@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import android.os.Bundle;
 import android.widget.SeekBar;
@@ -28,9 +28,9 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
 
 import fan.preference.SeekBarPreferenceCompat;
 
@@ -105,10 +105,10 @@ public class SystemSettingsFragment extends DashboardFragment {
         try {
             // Settings.Global.putFloat(requireContext().getContentResolver(), name, mFloat);
             ShellUtils.rootExecCmd("settings put global " + name + " " + mFloat);
-            AndroidLogUtils.logI("setAnimator", "set: " + name + " float: " + mFloat + " success");
+            AndroidLog.i("setAnimator", "set: " + name + " float: " + mFloat + " success");
         } catch (Throwable e) {
             ToastHelper.makeText(getContext(), getString(R.string.system_settings_set_failed_toast, name, String.valueOf(mFloat)));
-            AndroidLogUtils.logE("setAnimator", "set: " + name + " float: " + mFloat, e);
+            AndroidLog.e("setAnimator", "set: " + name + " float: " + mFloat, e);
         }
     }
 }

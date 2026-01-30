@@ -1,0 +1,49 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
+*/
+package com.sevtinge.hyperceiler.libhook.rules.systemframework.volume;
+
+import android.media.AudioManager;
+
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+
+import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+
+public class VolumeFirstPress extends BaseHook {
+
+    Class<?> mVolumeController;
+
+    @Override
+    public void init() {
+        mVolumeController = findClassIfExists("com.android.server.audio.AudioService$VolumeController");
+
+        findAndHookMethod(mVolumeController, "suppressAdjustment", int.class, int.class, boolean.class, new IMethodHook() {
+            @Override
+            public void after(AfterHookParam param) {
+                int streamType = (int) param.getArgs()[0];
+                if (streamType != AudioManager.STREAM_MUSIC) return;
+                boolean isMuteAdjust = (boolean) param.getArgs()[2];
+                if (isMuteAdjust) return;
+                Object mController = getObjectField(param.getThisObject(), "mController");
+                if (mController == null) return;
+                param.setResult(false);
+            }
+        });
+    }
+}

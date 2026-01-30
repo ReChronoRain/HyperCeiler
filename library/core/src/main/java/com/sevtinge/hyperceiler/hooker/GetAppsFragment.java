@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isLargeUI;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isLargeUI;
 
 import androidx.preference.EditTextPreference;
 import androidx.preference.SwitchPreference;

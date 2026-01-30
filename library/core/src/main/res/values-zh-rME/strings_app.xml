@@ -295,7 +295,6 @@
     <string name="system_framework_volume_title">数量</string>
     <string name="system_framework_other_title">还想... 看更多吗❤️</string>
     <string name="system_framework_display_title">看看</string>
-    <string name="system_framework_phone_title">网</string>
     <string name="system_framework_bubble_title">冒泡通知</string>
     <string name="system_framework_freeform_count">很多小窗</string>
     <string name="system_framework_disable_freeform_blacklist">不让我用小窗，坏！</string>
@@ -318,19 +317,6 @@
     <string name="system_ui_display_hide_cutout">隐藏显示保险开关</string>
     <string name="system_ui_display_use_aosp_screenshot">不使用 HyperOS 自带的垃圾截屏</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">重定向截图应用以解封 AOSP 截图。HyperOS 中截图功能将被封印。</string>
-    <string name="phone_double_5g_nr">双卡 5 只因（SA+NSA）</string>
-    <string name="phone_double_5g_nr_desc">双卡同时使用 5只因 网络 (卡 2 仅支持 NSA)</string>
-    <string name="phone_double_5g_sa">双卡双排（SA+SA）</string>
-    <string name="phone_double_5g_sa_desc">不是很好的功能，尝试使我的第二卡槽支持霍格沃兹信号。</string>
-    <string name="system_framework_phone_band_title">乐队设置</string>
-    <string name="phone_n1">N1 乐队</string>
-    <string name="phone_n1_desc">支持 N1 乐队 (NR)</string>
-    <string name="phone_n28">N28 乐队</string>
-    <string name="phone_n28_desc">支持 N28 乐队 (NR)</string>
-    <string name="phone_n5_n8">N5/N8 乐队</string>
-    <string name="phone_n5_n8_desc">在腚话界面上输入 * # * # # 65686633 # * # * * 以激活对于霍格沃兹信号的支持。如果它显示“蔡徐坤工作室律师函已开始向你寄送绿尸寒”，功能将被成功激活。</string>
-    <string name="phone_flightmode_hotspot">允许在乐迪升空时也能与乐迪通信</string>
-    <string name="phone_flightmode_hotspot_desc">允许在乐迪升空时也能与乐迪通信</string>
     <string name="phone_additional_network_settings">其他van♂络设置</string>
     <string name="system_framework_screen_title">显示 &amp; 烦人的通知</string>
     <string name="system_framework_core_title">核原料</string>

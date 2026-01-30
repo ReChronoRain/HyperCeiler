@@ -36,8 +36,8 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -101,7 +101,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
                 eventType = xml.next();
             }
         } catch (Exception e) {
-            AndroidLogUtils.logE(TAG, "Failed to access XML resource!", e);
+            AndroidLog.e(TAG, "Failed to access XML resource!", e);
         }
         return null;
     }
@@ -112,7 +112,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             declaredField.setAccessible(true);
             declaredField.set(this, false);
         } catch (Exception e) {
-            AndroidLogUtils.logE(TAG, "setOverlayMode error", e);
+            AndroidLog.e(TAG, "setOverlayMode error", e);
         }
     }
 

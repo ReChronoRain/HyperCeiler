@@ -26,7 +26,7 @@ import android.content.SharedPreferences;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public class CtaUtils {
 

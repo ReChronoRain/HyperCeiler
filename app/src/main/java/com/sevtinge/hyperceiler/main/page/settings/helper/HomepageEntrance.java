@@ -33,8 +33,8 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.ToastHelper;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.utils.XmlResourceParserHelper;
 
@@ -70,7 +70,7 @@ public class HomepageEntrance extends DashboardFragment implements Preference.On
             XmlResourceParserHelper.processCachedXmlResource(resources, R.xml.prefs_set_homepage_entrance, (key, summary) -> processSwitchPreference(key));
             XmlResourceParserHelper.processCachedXmlResource(resources, R.xml.prefs_set_homepage_entrance, this::processSwitchPreferenceHeader);
         } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+            AndroidLog.e(TAG, "An error occurred when reading the XML:", e);
         }
         mShowAppTips = findPreference("prefs_key_help_cant_see_app");
         boolean isHideTip = getSharedPreferences().getBoolean("prefs_key_help_cant_see_apps_switch", false);

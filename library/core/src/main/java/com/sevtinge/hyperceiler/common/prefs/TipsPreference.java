@@ -18,7 +18,8 @@
 */
 package com.sevtinge.hyperceiler.common.prefs;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getLanguage;
+
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getLanguage;
 
 import android.content.Context;
 import android.content.res.AssetManager;
@@ -30,7 +31,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -135,7 +136,7 @@ public class TipsPreference extends Preference {
                 }
             }
         } catch (IOException e) {
-            AndroidLogUtils.logE(
+            AndroidLog.e(
                 "MainActivityContextHelper",
                 "loadTips error: " + e.getMessage()
             );

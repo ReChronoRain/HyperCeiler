@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion;
 
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.api.miuiStringToast.MiuiStringToast;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.MiuiStringToast;
 
 public class StrongToastSettings extends DashboardFragment {
     Preference mShortToast;

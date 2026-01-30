@@ -18,10 +18,10 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreSmallVersion;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportTelephony;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isSupportWifi;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isSupportTelephony;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isSupportWifi;
 
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
@@ -102,7 +102,6 @@ public class IconManageNewSettings extends DashboardFragment {
         }
 
         if (getContext() != null) {
-
             if (!isSupportWifi(getContext())) {
                setPreVisible(mHideWifiIndicator, false);
                setPreVisible(mHideWifi, false);

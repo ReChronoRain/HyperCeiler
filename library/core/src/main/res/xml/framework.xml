@@ -31,13 +31,13 @@
             android:title="@string/system_framework_display_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.framework.NetworkSettings"
-            android:key="prefs_key_system_framework_network"
-            android:title="@string/system_framework_phone_title" />
-
-        <Preference
             android:fragment="com.sevtinge.hyperceiler.hooker.framework.OtherSettings"
             android:title="@string/system_framework_other_title" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.framework.MiPadSettings"
+            android:key="prefs_key_system_framework_mipad"
+            android:title="@string/various_mipad_title" />
 
     </PreferenceCategory>
 

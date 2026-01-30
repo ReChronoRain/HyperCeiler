@@ -18,7 +18,6 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-
     <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
         android:enabled="false"
         android:key="prefs_key_textview_full_support_version"
@@ -27,9 +26,15 @@
 
     <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
         android:enabled="false"
+        android:key="prefs_key_textview_partial_support_version"
+        android:layout="@layout/headtip_notice"
+        android:title="@string/help_support_version_desc_4" />
+
+    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+        android:enabled="false"
         android:key="prefs_key_textview_not_support_version"
         android:layout="@layout/headtip_warn"
-        android:title="@string/help_support_version_desc_4" />
+        android:title="@string/help_support_version_desc_5" />
 
     <Preference
         android:enabled="false"

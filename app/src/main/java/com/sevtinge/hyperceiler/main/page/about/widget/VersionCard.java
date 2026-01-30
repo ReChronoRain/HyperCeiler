@@ -58,7 +58,7 @@ import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.main.page.about.controller.LogoAnimationController;
 
 import java.security.SecureRandom;

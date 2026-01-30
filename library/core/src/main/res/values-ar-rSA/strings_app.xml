@@ -59,8 +59,6 @@
     <string name="help_cant_see_apps_switch">إخفاء هذه المساعدة في الصفحة الرئيسية</string>
     <string name="help_cant_see_apps_switch_desc">يمكنك العثور على هذه الصفحة في \"حول\" &gt; \"مساعدة\". إعادة تشغيل التطبيق لتطبيق التغييرات.</string>
     <string name="help_support_version_title">دليل دعم إصدار التطبيق الحالي مع أنظمة التشغيل</string>
-    <string name="help_support_version_desc_1">الإصدار الحالي للتطبيق يتوافق تمامًا مع أنظمة التشغيل التالية:</string>
-    <string name="help_support_version_desc_2">أنظمة التشغيل التالية متوافقة مع الإصدار الحالي للتطبيق:</string>
     <string name="help_support_version_desc_3">الإصدار الحالي للنظام يتوافق تمامًا.</string>
     <string name="help_support_version_desc_4">الإصدار الحالي للنظام غير متوافق (تمامًا).</string>
     <string name="location_add">إضافة</string>
@@ -338,7 +336,6 @@
     <string name="system_framework_volume_title">مستوى الصوت</string>
     <string name="system_framework_other_title">أخرى</string>
     <string name="system_framework_display_title">الشاشة</string>
-    <string name="system_framework_phone_title">الشبكات</string>
     <string name="system_framework_bubble_title">إشعار الفقاعة</string>
     <string name="system_framework_freeform_count">نوافذ منبثقة متعددة</string>
     <string name="system_framework_disable_freeform_blacklist">تمكين النوافذ المنبثقة الصغيرة</string>
@@ -361,19 +358,6 @@
     <string name="system_ui_display_hide_cutout">إخفاء قطع الشاشة</string>
     <string name="system_ui_display_use_aosp_screenshot">استخدام لقطة الشاشة AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">إعادة توجيه تطبيق لقطة الشاشة لاستخدام وظيفة AOSP لالتقاط الصور. تطبيق لقطة الشاشة في HyperOS لن يستجيب لأوامر لقطة الشاشة.</string>
-    <string name="phone_double_5g_nr">استخدام بطاقة مزدوجة 5G (SA+NSA )</string>
-    <string name="phone_double_5g_nr_desc">تفعيل 5G في الشريحة الرئيسية والثانوية في نفس الوقت (الشريحة الثانوية تدعم NSA فقط)</string>
-    <string name="phone_double_5g_sa">استخدام (SA+SA) SA في الشريحتين</string>
-    <string name="phone_double_5g_sa_desc">ميزات تجريبية. اجعل الشريحة الثانوية تدعم SA.</string>
-    <string name="system_framework_phone_band_title">إعدادات النطاق</string>
-    <string name="phone_n1">نطاق N1</string>
-    <string name="phone_n1_desc">دعم النطاق N1 (NR)</string>
-    <string name="phone_n28">النطاق N28</string>
-    <string name="phone_n28_desc">دعم النطاق N28 (NR)</string>
-    <string name="phone_n5_n8">النطاق N5/N8</string>
-    <string name="phone_n5_n8_desc">أدخل *#*#65686633#*#* على واجهة الاتصال لدعم N5/N8 النطاق. إذا اظهرت \"تمكين وضع N5 و N8\" ، فإن الميزة ستمكن بنجاح.</string>
-    <string name="phone_flightmode_hotspot">السماح بنقطة اتصال محمولة في وضع الطائرة</string>
-    <string name="phone_flightmode_hotspot_desc">السماح بشغل نقطة اتصال Wi-Fi المحمولة في وضع الطائرة</string>
     <string name="phone_additional_network_settings">إعدادات الشبكة الإضافية</string>
     <string name="system_framework_screen_title">العرض &amp; الإشعارات</string>
     <string name="system_framework_core_title">النواة ألسفلية</string>
@@ -1148,9 +1132,6 @@
     <string name="home_title_disable_hide_theme">عدم إخفاء أيقونة \"السمات\"</string>
     <string name="home_title_disable_hide_google">عدم إخفاء أيقونة \"جوجل\"</string>
     <string name="home_title_fake_non_default_icon">أيكونة غير افتراضية مزيفة</string>
-    <string name="home_title_custom_anim_param">معلمات الرسوم المتحركة المخصصة</string>
-    <string name="home_title_custom_anim_param_damping_title">التخميد</string>
-    <string name="home_title_custom_anim_param_stiffness_title">الصلابة</string>
     <string name="home_title_hide_report_text">إخفاء نص التقرير</string>
     <string name="home_title_hide_report_text_desc">إخفاء نص التقرير في نافذة حوار إلغاء التثبيت</string>
     <string name="home_title_notif_color">لون خلفية إشعار الرسائل المخصص</string>

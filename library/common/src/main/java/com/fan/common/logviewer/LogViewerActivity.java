@@ -1,31 +1,56 @@
+/*
+ * This file is part of HyperCeiler.
+
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.fan.common.logviewer;
 
+import static com.fan.common.logviewer.XposedLogLoader.loadLogsSync;
+
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.fan.common.base.BaseActivity;
 import com.fan.common.widget.SearchEditText;
 import com.fan.common.widget.SpinnerItemView;
+import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 
-import java.text.SimpleDateFormat;
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.recyclerview.card.CardDefaultItemAnimator;
@@ -35,48 +60,37 @@ public class LogViewerActivity extends BaseActivity
     implements LogAdapter.OnFilterChangeListener, LogAdapter.OnLogItemClickListener {
 
     private static final String TAG = "LogViewerActivity";
+    private static final String FILE_PROVIDER_AUTHORITY = ProjectApi.mAppModulePkg + ".fileprovider";
 
-    /**
-     * Xposed 日志加载器接口
-     */
     public interface XposedLogLoader {
         void loadLogs(Context context, Runnable onComplete);
     }
 
     private static XposedLogLoader sXposedLogLoader;
 
-    /**
-     * 注册 Xposed 日志加载器（在 app 模块中调用）
-     */
     public static void setXposedLogLoader(XposedLogLoader loader) {
         sXposedLogLoader = loader;
     }
-
-    private AppLogger mAppLogger;
-    private ModuleLogger mNetworkLogger;
-    private ModuleLogger mDatabaseLogger;
 
     private NestedHeaderLayout mNestedHeaderLayout;
     private RecyclerView mRecyclerView;
     private LogAdapter mLogAdapter;
     private LogManager mLogManager;
 
-    // 过滤UI组件
     private SearchEditText mSearchEditText;
     private SpinnerItemView mLogTypeSpinner;
     private SpinnerItemView mLevelSpinner;
     private SpinnerItemView mModuleSpinner;
     private TextView mFilterStatsTextView;
 
-    // 数据列表
     private final List<String> mLogTypeList = new ArrayList<>();
     private final List<String> mLevelList = new ArrayList<>();
     private final List<String> mModuleList = new ArrayList<>();
 
-    // 当前选中的日志类型
-    private int mCurrentLogType = 0; // 0: App Log, 1: Xposed Log
+    private int mCurrentLogType = 0;
 
     private static final int sExportRequestCode = 1001;
+    private static final int sShareRequestCode = 1002;
 
     @Override
     protected int getContentLayoutId() {
@@ -87,26 +101,17 @@ public class LogViewerActivity extends BaseActivity
     protected void onCreate() {
         super.onCreate();
 
-        mLogManager = LogManager.getInstance(this);
-
-        // 先加载 Xposed 日志，加载完成后再初始化界面
+        mLogManager = LogManager.getInstance();
         loadXposedLogsAndInit();
     }
 
     private void loadXposedLogsAndInit() {
         if (sXposedLogLoader != null) {
-            // 异步加载 Xposed 日志
             sXposedLogLoader.loadLogs(this, () -> {
-                // 在主线程上初始化界面
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    initViews();
-                    setupLoggers();
-                });
+                new Handler(Looper.getMainLooper()).post(this::initViews);
             });
         } else {
-            // 没有注册加载器，直接初始化
             initViews();
-            setupLoggers();
         }
     }
 
@@ -128,8 +133,7 @@ public class LogViewerActivity extends BaseActivity
         setupSearchFilter();
         setupLogTypeFilter();
         setupLevelFilter();
-        setupModuleFilter();
-    }
+        setupModuleFilter();}
 
     private void setupRecyclerView() {
         List<LogEntry> logEntries = mLogManager != null ?
@@ -144,7 +148,6 @@ public class LogViewerActivity extends BaseActivity
         mRecyclerView.addItemDecoration(new CardItemDecoration(this));
         mRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
 
-        // 更新过滤器选项
         updateList();
     }
 
@@ -158,7 +161,6 @@ public class LogViewerActivity extends BaseActivity
     }
 
     private void setupLogTypeFilter() {
-        // 初始化日志类型列表
         mLogTypeList.clear();
         mLogTypeList.add(getString(com.sevtinge.hyperceiler.core.R.string.log_type_app));
         mLogTypeList.add(getString(com.sevtinge.hyperceiler.core.R.string.log_type_xposed));
@@ -167,7 +169,7 @@ public class LogViewerActivity extends BaseActivity
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLogTypeList);
         logTypeAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mLogTypeSpinner.setAdapter(logTypeAdapter);
-        mLogTypeSpinner.setSelection(0); // 默认选择 App Log
+        mLogTypeSpinner.setSelection(0);
 
         mLogTypeSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -179,44 +181,36 @@ public class LogViewerActivity extends BaseActivity
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // 不做处理
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
     private void switchLogType(int logType) {
         List<LogEntry> logEntries;
         if (logType == 0) {
-            // App Log
             logEntries = mLogManager != null ? mLogManager.getLogEntries() : new ArrayList<>();
         } else {
-            // Xposed Log
             logEntries = mLogManager != null ? mLogManager.getXposedLogEntries() : new ArrayList<>();
         }
 
         if (mLogAdapter != null) {
             mLogAdapter.updateData(logEntries);
             updateList();
-            // 重新设置 Spinner 适配器以更新选项
             refreshFilterSpinners();
         }
 
-        // 滚动到顶部
         if (mRecyclerView != null && mLogAdapter != null && mLogAdapter.getItemCount() > 0) {
             mRecyclerView.scrollToPosition(0);
         }
     }
 
     private void refreshFilterSpinners() {
-        // 更新级别过滤器
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
         levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mLevelSpinner.setAdapter(levelAdapter);
         mLevelSpinner.setSelection(0);
 
-        // 更新模块过滤器
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
         moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
@@ -238,56 +232,44 @@ public class LogViewerActivity extends BaseActivity
                     mLogAdapter.setSearchKeyword(s.toString());
                 }
             }
-        });
-        mSearchEditText.setOnSearchListener(this::clearAllFilters);
+        });mSearchEditText.setOnSearchListener(this::clearAllFilters);
     }
 
     private void clearAllFilters() {
-        // 清除搜索
         if (mSearchEditText != null) {
             mSearchEditText.setText("");
         }
-
-        // 重置Spinner选择
         if (mLevelSpinner != null) {
             mLevelSpinner.setSelection(0);
         }
         if (mModuleSpinner != null) {
             mModuleSpinner.setSelection(0);
         }
-
-        // 应用清除
         if (mLogAdapter != null) {
             mLogAdapter.clearAllFilters();
         }
     }
 
     private void setupLevelFilter() {
-        // 初始数据
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
         levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mLevelSpinner.setAdapter(levelAdapter);
-        mLevelSpinner.setSelection(0); // 默认选择全部
+        mLevelSpinner.setSelection(0);
 
         mLevelSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mLogAdapter == null) return;
                 try {
-                    // 安全地获取选中的级别
                     if (position >= 0 && position < mLevelList.size()) {
                         String selectedLevel = mLevelList.get(position);
                         mLogAdapter.setLevelFilter(selectedLevel);
-                        Log.d(TAG, "Level filter set to: " + selectedLevel);
                     } else {
-                        Log.w(TAG, "Invalid level position: " + position);
-                        // 安全回退
                         mLogAdapter.setLevelFilter("ALL");
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error in level spinner selection", e);
-                    // 安全回退
                     if (mLogAdapter != null) {
                         mLogAdapter.setLevelFilter("ALL");
                     }
@@ -296,7 +278,6 @@ public class LogViewerActivity extends BaseActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // 安全处理
                 if (mLogAdapter != null) {
                     mLogAdapter.setLevelFilter("ALL");
                 }
@@ -305,36 +286,28 @@ public class LogViewerActivity extends BaseActivity
     }
 
     private void setupModuleFilter() {
-        // 初始数据
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
         moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mModuleSpinner.setAdapter(moduleAdapter);
-        mModuleSpinner.setSelection(0); // 默认选择全部
+        mModuleSpinner.setSelection(0);
 
         mModuleSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (mLogAdapter == null) return;
-
                 try {
-                    // 安全地获取选中的模块 - 这是修复的关键！
                     if (position >= 0 && position < mModuleList.size()) {
                         String selectedModule = mModuleList.get(position);
                         mLogAdapter.setModuleFilter(selectedModule);
-                        Log.d(TAG, "Module filter set to: " + selectedModule);
                     } else {
-                        Log.w(TAG, "Invalid module position: " + position + ", list size: " + mModuleList.size());
-                        // 安全回退到ALL
                         mLogAdapter.setModuleFilter("ALL");
-                        // 重置选择
                         if (mModuleSpinner != null) {
                             mModuleSpinner.setSelection(0);
                         }
                     }
                 } catch (Exception e) {
                     Log.e(TAG, "Error in module spinner selection", e);
-                    // 安全回退
                     if (mLogAdapter != null) {
                         mLogAdapter.setModuleFilter("ALL");
                     }
@@ -346,7 +319,6 @@ public class LogViewerActivity extends BaseActivity
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // 安全处理
                 if (mLogAdapter != null) {
                     mLogAdapter.setModuleFilter("ALL");
                 }
@@ -354,16 +326,8 @@ public class LogViewerActivity extends BaseActivity
         });
     }
 
-    private void setupLoggers() {
-        // 从Application获取或直接使用静态方法
-        mAppLogger = AppLogger.getInstance();
-        mNetworkLogger = new ModuleLogger("Network");
-        mDatabaseLogger = new ModuleLogger("Database");
-    }
-
     public void refreshLogs() {
         if (mLogAdapter != null && mLogManager != null) {
-            // 根据当前选中的日志类型刷新
             List<LogEntry> logEntries;
             if (mCurrentLogType == 0) {
                 logEntries = mLogManager.getLogEntries();
@@ -374,29 +338,31 @@ public class LogViewerActivity extends BaseActivity
             updateList();
             refreshFilterSpinners();
 
-            // 滚动到底部
             if (mRecyclerView != null && mLogAdapter.getItemCount() > 0) {
-                mRecyclerView.scrollToPosition(mLogAdapter.getItemCount() - 1);
+                mRecyclerView.scrollToPosition(0);
             }
         }
     }
 
+    // ===== 导出日志压缩包 =====
     private void exportLogs() {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, generateDefaultFileName());
-        startActivityForResult(intent, sExportRequestCode);
-    }
+        showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_export_preparing));
+        new Thread(() -> {
 
-    private static String generateDefaultFileName() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
-        return "app_" + sdf.format(new Date()) + ".log";
-    }
+            try {
+                loadLogsSync();
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to sync Xposed logs before export", e);
+            }
 
-    private void addTestLog() {
-        mAppLogger.debug("Test log entry at " + System.currentTimeMillis());
-        refreshLogs();
+            runOnUiThread(() -> {
+                Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("application/zip");
+                intent.putExtra(Intent.EXTRA_TITLE, LogManager.generateZipFileName());
+                startActivityForResult(intent, sExportRequestCode);
+            });
+        }).start();
     }
 
     @Override
@@ -405,61 +371,155 @@ public class LogViewerActivity extends BaseActivity
 
         if (requestCode == sExportRequestCode && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getData() != null) {
-                LogManager.getInstance().exportLogs("exported_logs.txt", true);
+                Uri uri = data.getData();
+                new Thread(() -> {
+                    boolean success = mLogManager.exportLogsZipToUri(uri);
+                    runOnUiThread(() -> {
+                        if (success) {
+                            showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_export_success));
+                        } else {
+                            showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_export_failed));
+                        }
+                    });
+                }).start();
             }
+        } else if (requestCode == sShareRequestCode) {
+            cleanShareCache();
         }
     }
 
+    // ===== 分享日志压缩包 =====
+    private void shareLogs() {
+        showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_share_preparing));
+
+        new Thread(() -> {
+            try {
+                try {
+                    loadLogsSync();
+                } catch (Exception e) {
+                    Log.w(TAG, "Failed to sync Xposed logs before share", e);
+                }
+
+                File zipFile = mLogManager.createLogZipFile();
+
+                if (zipFile == null || !zipFile.exists()) {
+                    runOnUiThread(() -> showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_share_failed)));
+                    return;
+                }
+
+                runOnUiThread(() -> {
+                    try {
+                        Uri contentUri = FileProvider.getUriForFile(
+                            LogViewerActivity.this,
+                            FILE_PROVIDER_AUTHORITY,
+                            zipFile
+                        );
+
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("application/zip");
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, "HyperCeiler Logs");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, getString(com.sevtinge.hyperceiler.core.R.string.log_share_text));
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                        startActivityForResult(
+                            Intent.createChooser(shareIntent, getString(com.sevtinge.hyperceiler.core.R.string.log_share_title)),
+                            sShareRequestCode
+                        );
+                    } catch (IllegalArgumentException e) {
+                        Log.e(TAG, "FileProvider configuration error", e);
+                        cleanShareCache();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to share logs", e);
+                        showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_share_failed));
+                        cleanShareCache();
+                    }
+                });
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to create log zip for sharing", e);
+                runOnUiThread(() -> showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_share_failed)));
+            }
+        }).start();
+    }
+
+    private void cleanShareCache() {
+        new Thread(() -> {
+            try {
+                File cacheDir = new File(getCacheDir(), "log_export");
+                if (cacheDir.exists()) {
+                    File[] files = cacheDir.listFiles();
+                    if (files != null) {
+                        for (File file : files) {
+                            file.delete();
+                        }
+                    }
+                }
+                Log.d(TAG, "Share cache cleaned");
+            } catch (Exception e) {
+                Log.w(TAG, "Failed to clean share cache", e);
+            }
+        }).start();
+    }
+
+
+    // ===== 清空日志 =====
+    private void clearCurrentLogs() {
+        new fan.appcompat.app.AlertDialog.Builder(this)
+            .setTitle(com.sevtinge.hyperceiler.core.R.string.log_clear_title)
+            .setMessage(com.sevtinge.hyperceiler.core.R.string.log_clear_all_message)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_clear_in_progress));
+
+                new Thread(() -> {
+                    try {
+                        mLogManager.clearAllLogs();
+                        runOnUiThread(() -> {
+                            refreshLogs();
+                            showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_clear_success));
+                        });
+                    } catch (Exception e) {
+                        Log.e(TAG, "Failed to clear logs", e);
+                        runOnUiThread(() -> showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_clear_failed)));
+                    }
+                }).start();
+            })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+    }
+
+    // ===== 复制日志到剪贴板 =====
+    private void copyLogToClipboard(LogEntry logEntry) {
+        String logText = LogManager.formatLogEntryForCopy(logEntry);
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("HyperCeiler Log", logText);
+        clipboard.setPrimaryClip(clip);
+        showToast(getString(com.sevtinge.hyperceiler.core.R.string.log_copy_success));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
     @Override
-    protected int getMenuResId() {
-        return com.fan.common.R.menu.menu_log_actions;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(com.fan.common.R.menu.menu_log_actions, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     protected boolean onMenuItemClick(MenuItem item) {
         int itemId = item.getItemId();
-        if (itemId == com.fan.common.R.id.menu_clear_custom) {
-            LogManager.getInstance().clearCustomLogs();
-            refreshLogs();
-            return true;
-        } else if (itemId == com.fan.common.R.id.menu_clear_system) {
-            LogManager.getInstance().clearSystemLogs();
-            refreshLogs();
+        if (itemId == com.fan.common.R.id.menu_clear) {
+            clearCurrentLogs();
             return true;
         } else if (itemId == com.fan.common.R.id.menu_export) {
             exportLogs();
             return true;
-        } else if (itemId == com.fan.common.R.id.menu_refresh) {
-            refreshLogs();
-            return true;
-        } else if (itemId == com.fan.common.R.id.menu_add_test_log) {
-            addTestLog();
+        } else if (itemId == com.fan.common.R.id.menu_share) {
+            shareLogs();
             return true;
         }
-
         return super.onMenuItemClick(item);
-    }
-
-
-    private void addTestLogs() {
-        AppLogger appLogger = AppLogger.getInstance();
-        ModuleLogger networkLogger = new ModuleLogger("Network");
-        ModuleLogger databaseLogger = new ModuleLogger("Database");
-
-        // 添加各种类型的测试日志
-        appLogger.verbose("This is a verbose message with detailed information");
-        appLogger.debug("Debug information for development");
-        appLogger.info("Application initialized successfully");
-        appLogger.warn("Warning: Low memory detected");
-        appLogger.error("Error: Network connection failed");
-
-        networkLogger.info("Network request started");
-        networkLogger.debug("Sending request to: https://api.example.com");
-        networkLogger.error("Network timeout after 30 seconds");
-
-        databaseLogger.info("Database connection established");
-        databaseLogger.debug("Executing query: SELECT * FROM users");
-        databaseLogger.warn("Slow query detected: took 2.5 seconds");
     }
 
     @Override
@@ -475,15 +535,15 @@ public class LogViewerActivity extends BaseActivity
 
     private void showLogDetailDialog(LogEntry logEntry) {
         String title = getString(com.sevtinge.hyperceiler.core.R.string.log_detail_title);
-        String message = "[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_time) + "]: " + logEntry.getFormattedTime() +
-                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_level) + "]: " + logEntry.getLevel() +
-                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_tag) + "]: " + logEntry.getTag() +
-                "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_message) + "]:\n" + logEntry.getMessage();
+        String message = "[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_time) + "]: " + logEntry.getFormattedTime() +"\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_level) + "]: " + logEntry.getLevel() +
+            "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_tag) + "]: " + logEntry.getTag() +
+            "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_message) + "]:\n" + logEntry.getMessage();
 
         new fan.appcompat.app.AlertDialog.Builder(this)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
-                .show();
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
+            .setNeutralButton(com.sevtinge.hyperceiler.core.R.string.log_copy, (dialog, which) -> copyLogToClipboard(logEntry))
+            .show();
     }
 }

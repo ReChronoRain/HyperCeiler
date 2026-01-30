@@ -18,7 +18,8 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import androidx.preference.SwitchPreference;
 

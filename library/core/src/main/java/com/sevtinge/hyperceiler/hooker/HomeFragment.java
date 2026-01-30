@@ -19,12 +19,13 @@
 
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreHyperOSVersion;
+
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.hook.utils.pkg.CheckModifyUtils;
+import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 
 public class HomeFragment extends DashboardFragment {
 

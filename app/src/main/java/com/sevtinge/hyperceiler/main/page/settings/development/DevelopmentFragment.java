@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.main.page.settings.development;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.fixLSPosedLogService;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
+import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.fixLSPosedLogService;
+import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +32,7 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.module.base.dexkit.DexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 
 import fan.appcompat.app.AlertDialog;
 

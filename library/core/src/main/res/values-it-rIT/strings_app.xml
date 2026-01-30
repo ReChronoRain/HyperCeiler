@@ -258,7 +258,6 @@
     <string name="system_framework">Framework di sistema</string>
     <string name="system_framework_other_title">Altro</string>
     <string name="system_framework_display_title">Schermo</string>
-    <string name="system_framework_phone_title">Rete (Network)</string>
     <string name="system_framework_bubble_title">Notifica bolla</string>
     <string name="system_framework_freeform_count">Forma libera multipla</string>
     <string name="system_framework_disable_freeform_blacklist">Forza la forma libera piccola ad essere consentita</string>
@@ -279,17 +278,6 @@
     <string name="system_ui_display_hide_cutout">Nascondi ritaglio display</string>
     <string name="system_ui_display_use_aosp_screenshot">Usa Screenshot AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Reindirizza l\'applicazione screenshot allo screenshot AOSP, l\'applicazione screenshot in HyperOS non risponderà all\'operazione screenshot</string>
-    <string name="phone_double_5g_nr">Doppia scheda 5G (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">La scheda SIM principale e secondaria abilita 5G allo stesso tempo (La scheda SIM secondaria supporta solo NSA)</string>
-    <string name="phone_double_5g_sa">Usa doppia carta SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Funzioni sperimentali. Abilita il supporto SA nella seconda SIM</string>
-    <string name="system_framework_phone_band_title">Impostazioni banda</string>
-    <string name="phone_n1">Banda n1</string>
-    <string name="phone_n1_desc">Supporta banda n1 (NR)</string>
-    <string name="phone_n28">Banda n28</string>
-    <string name="phone_n28_desc">Supporta banda n28 (NR) </string>
-    <string name="phone_n5_n8">Band n5/n8</string>
-    <string name="phone_n5_n8_desc">Inserisci *#*#65686633#*#* nel dialer del telefono per il supporto alla banda n5/n8. Se mostra \"modalità N5 e N8 abilitata\", la funzione sarà attivata con successo.</string>
     <string name="phone_additional_network_settings">Impostazioni di rete aggiuntive</string>
     <string name="system_framework_screen_title">Schermo &amp; Notifiche</string>
     <string name="system_framework_core_title">Core sottostante</string>
@@ -843,9 +831,6 @@
     <string name="home_title_disable_hide_theme">Non nascondere l\'icona \"Gestione temi\"</string>
     <string name="home_title_disable_hide_google">Non nascondere l\'icona \"Google\"</string>
     <string name="home_title_fake_non_default_icon">Icona falsa non predefinita</string>
-    <string name="home_title_custom_anim_param">Parametro di animazione personalizzato</string>
-    <string name="home_title_custom_anim_param_damping_title">Smorzamento</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Rigidità</string>
     <string name="home_recent">Recenti</string>
     <string name="home_recent_animation_speed">Velocità di animazione</string>
     <string name="home_recent_unlock_pin">Sblocca app aggiunte</string>

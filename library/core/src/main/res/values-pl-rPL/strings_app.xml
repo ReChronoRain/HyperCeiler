@@ -55,8 +55,6 @@
     <string name="help_cant_see_apps_switch">Ukryj tę pomoc na stronie głównej</string>
     <string name="help_cant_see_apps_switch_desc">Nadal możesz znaleźć tę stronę w sekcji O aplikacji &gt; Pomoc. Uruchom ponownie aplikację, aby zastosować zmiany.</string>
     <string name="help_support_version_title">Lista wersji systemu obsługiwanych przez bieżącą wersję aplikacji</string>
-    <string name="help_support_version_desc_1">Obecna wersja aplikacji jest w pełni dostosowana do następujących wersji systemu:</string>
-    <string name="help_support_version_desc_2">Następujące wersje systemu są dostosowane do obecnej wersji aplikacji:</string>
     <string name="help_support_version_desc_3">Obecna wersja systemu jest w pełni dostosowana.</string>
     <string name="help_support_version_desc_4">Obecna wersja systemu nie jest (w pełni) dostosowana.</string>
     <string name="location_add">Dodaj</string>
@@ -328,7 +326,6 @@
     <string name="system_framework_volume_title">Głośność</string>
     <string name="system_framework_other_title">Pozostałe</string>
     <string name="system_framework_display_title">Wyświetlacz</string>
-    <string name="system_framework_phone_title">Sieć</string>
     <string name="system_framework_bubble_title">Powiadomienie w dymku</string>
     <string name="system_framework_freeform_count">Wiele okien trybu dowolnego</string>
     <string name="system_framework_disable_freeform_blacklist">Włącz małe okna trybu dowolnego</string>
@@ -351,19 +348,6 @@
     <string name="system_ui_display_hide_cutout">Ukryj wcięcie ekranu</string>
     <string name="system_ui_display_use_aosp_screenshot">Użyj zrzutu ekranu AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Przekieruję aplikację do zrzutów ekranu, aby używała przechwytywania zrzutów ekranu AOSP. Aplikacja do zrzutów ekranu w HyperOS nie będzie reagować na operację zrzutu ekranu.</string>
-    <string name="phone_double_5g_nr">Użycie 5G z obu kart SIM (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Główna i wtórna karta SIM włączają 5G jednocześnie (wtórna karta SIM obsługuje tylko NSA)</string>
-    <string name="phone_double_5g_sa">Użycie 5G z obu kart SIM (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Funkcja eksperymentalna. Spraw, aby wtórna karta SIM obsługiwała SA.</string>
-    <string name="system_framework_phone_band_title">Ustawienia pasma</string>
-    <string name="phone_n1">Pasmo N1</string>
-    <string name="phone_n1_desc">Obsługuje pasmo N1 (NR)</string>
-    <string name="phone_n28">Pasmo N28</string>
-    <string name="phone_n28_desc">Obsługuje pasmo N28 (NR)</string>
-    <string name="phone_n5_n8">Pasmo N5/N8</string>
-    <string name="phone_n5_n8_desc">Wpisz *#*#65686633#*#* w interfejsie wybierania, aby włączyć obsługę pasm N5/N8. Jeśli pojawi się \"enable N5 and N8 mode\", funkcja zostanie pomyślnie aktywowana.</string>
-    <string name="phone_flightmode_hotspot">Zezwól na hotspoty w trybie samolotowym</string>
-    <string name="phone_flightmode_hotspot_desc">Zezwala na włączanie hotspotu Wi-Fi w trybie samolotowym</string>
     <string name="phone_additional_network_settings">Dodatkowe ustawienia sieci</string>
     <string name="system_framework_screen_title">Ekran i powiadomienia</string>
     <string name="system_framework_core_title">Rdzeń systemu</string>
@@ -1068,9 +1052,6 @@
     <string name="home_title_disable_hide_theme">Nie ukrywaj ikony \"Motywy\"</string>
     <string name="home_title_disable_hide_google">Nie ukrywaj ikony \"Google\"</string>
     <string name="home_title_fake_non_default_icon">Fałszywa ikona niedomyślna</string>
-    <string name="home_title_custom_anim_param">Własny parametr animacji</string>
-    <string name="home_title_custom_anim_param_damping_title">Tłumienie</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Sztywność</string>
     <string name="home_title_hide_report_text">Ukryj tekst raportu</string>
     <string name="home_title_hide_report_text_desc">Ukrywa tekst raportu w oknie dialogowym</string>
     <string name="home_title_notif_color">Niestandardowy kolor tła wiadomości powiadomień</string>

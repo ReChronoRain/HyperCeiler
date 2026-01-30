@@ -4,7 +4,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.common.callback.IEditCallback;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;

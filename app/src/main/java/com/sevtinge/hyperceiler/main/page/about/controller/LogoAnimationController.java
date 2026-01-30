@@ -25,7 +25,7 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.DisplayUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.main.model.TabViewModel;
 
 import java.util.Objects;

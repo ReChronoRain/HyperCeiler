@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.hooker;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.common.prefs.RecommendPreference;
-import com.sevtinge.hyperceiler.hook.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.libhook.R;
 
 public class NfcFragment extends DashboardFragment {
 

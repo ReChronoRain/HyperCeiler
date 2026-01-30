@@ -137,6 +137,23 @@
     <string name="log_filter_stats">Showing: %1$d/%2$d</string>
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
+    <string name="log_menu_clear">Clear logs</string>
+    <string name="log_menu_export">Export logs</string>
+    <string name="log_menu_share">Share logs</string>
+    <string name="log_clear_title">Clear logs</string>
+    <string name="log_clear_all_message">Are you sure you want to clear all logs? This includes app logs and Xposed logs. This action cannot be undone.</string>
+    <string name="log_clear_success">Logs cleared</string>
+    <string name="log_clear_failed">Failed to clear logs</string>
+    <string name="log_clear_in_progress">Clearing logs…</string>
+    <string name="log_export_preparing">Preparing export…</string>
+    <string name="log_export_success">Logs exported successfully</string>
+    <string name="log_export_failed">Failed to export logs</string>
+    <string name="log_share_title">Share logs</string>
+    <string name="log_share_preparing">Preparing to share…</string>
+    <string name="log_share_failed">Failed to share logs</string>
+    <string name="log_share_text">HyperCeiler log file</string>
+    <string name="log_copy">Copy</string>
+    <string name="log_copy_success">Logs copied to clipboard</string>
 
     <!-- Log detail dialog -->
     <string name="log_detail_title">Log Details</string>

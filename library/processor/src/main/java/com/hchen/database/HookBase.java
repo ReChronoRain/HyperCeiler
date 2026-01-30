@@ -29,24 +29,33 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 @Target(ElementType.TYPE)
 public @interface HookBase {
-    /*
+    /**
      * 目标作用域
-     * */
+     */
     String targetPackage();
 
-    /*
-     * 目标安卓版本
-     * */
-    int targetSdk() default -1;
+    /**
+     * 最低 Android SDK 版本 (>=)，-1 表示不限制
+     */
+    int minSdk() default -1;
 
-    /*
-     * 目标 ROM 版本
-     * */
-    float targetOSVersion() default -1F;
+    /**
+     * 最高 Android SDK 版本 (<=)，-1 表示不限制
+     */
+    int maxSdk() default -1;
 
-    /*
-     * 是否是 Pad 专属
-     * 0 通用，1 Pad，2 手机
-     * */
-    int isPad() default 0;
+    /**
+     * 最低 OS 版本 (>=)，-1 表示不限制
+     */
+    float minOSVersion() default -1F;
+
+    /**
+     * 最高 OS 版本 (<=)，-1 表示不限制
+     */
+    float maxOSVersion() default -1F;
+
+    /**
+     * 设备类型: 0=ALL, 1=PAD_ONLY, 2=PHONE_ONLY
+     */
+    int deviceType() default 0;
 }

@@ -258,7 +258,6 @@
     <string name="system_framework">Kerangka Sistem</string>
     <string name="system_framework_other_title">Lainnya</string>
     <string name="system_framework_display_title">Menampilkan</string>
-    <string name="system_framework_phone_title">Jaringan</string>
     <string name="system_framework_bubble_title">Pemberitahuan gelembung</string>
     <string name="system_framework_freeform_count">Beberapa bentuk bebas</string>
     <string name="system_framework_disable_freeform_blacklist">Paksa freeform mini untuk diizinkan</string>
@@ -279,17 +278,6 @@
     <string name="system_ui_display_hide_cutout">Sembunyikan Potongan Tampilan</string>
     <string name="system_ui_display_use_aosp_screenshot">Gunakan Tangkapan Layar AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Arahkan ulang aplikasi tangkapan layar ke tangkapan layar AOSP, aplikasi tangkapan layar di HyperOS tidak akan merespons operasi tangkapan layar</string>
-    <string name="phone_double_5g_nr">Kartu ganda menggunakan 5G (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Kartu SIM utama dan sekunder mengaktifkan 5G secara bersamaan (Kartu SIM sekunder hanya mendukung NSA)</string>
-    <string name="phone_double_5g_sa">Kartu ganda menggunakan SA (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Fitur eksperimental. Jadikan dukungan kartu SIM sekunder SA</string>
-    <string name="system_framework_phone_band_title">Pengaturan pita</string>
-    <string name="phone_n1">n1 Pita</string>
-    <string name="phone_n1_desc">Mendukung n1 Band (NR)</string>
-    <string name="phone_n28">n28 Pita</string>
-    <string name="phone_n28_desc">Mendukung n28 Band (NR)</string>
-    <string name="phone_n5_n8">n5/n8 Pita</string>
-    <string name="phone_n5_n8_desc">Masukkan *#*#65686633#*#* pada antarmuka dial untuk Mendukung Band n5/n8. Jika muncul \"aktifkan Mode N5 dan N8\", fitur tersebut akan berhasil diaktifkan.</string>
     <string name="phone_additional_network_settings">Pengaturan Jaringan Tambahan</string>
     <string name="system_framework_screen_title">Tampilan &amp; Pemberitahuan</string>
     <string name="system_framework_core_title">Inti di bawahnya</string>
@@ -879,9 +867,6 @@
     <string name="home_title_disable_hide_theme">Jangan sembunyikan ikon \"Pengelola Tema\".</string>
     <string name="home_title_disable_hide_google">Jangan sembunyikan ikon \"Google\".</string>
     <string name="home_title_fake_non_default_icon">Ikon non-default palsu</string>
-    <string name="home_title_custom_anim_param">Parameter Animasi Kustom</string>
-    <string name="home_title_custom_anim_param_damping_title">Pembasahan</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Kekakuan</string>
     <string name="home_title_hide_report_text">Sembunyikan teks laporan</string>
     <string name="home_recent">Terkini</string>
     <string name="home_recent_animation_speed">Kecepatan animasi</string>

@@ -59,8 +59,6 @@
     <string name="help_cant_see_apps_switch">Ana sayfada bu yardımı gizle</string>
     <string name="help_cant_see_apps_switch_desc">Bu sayfayı Hakkında &gt; Yardım bölümünden bulabilirsiniz. Uygulamak için uygulamayı yeniden başlatın.</string>
     <string name="help_support_version_title">Geçerli uygulama sürümü destek sistemi versiyon listesi</string>
-    <string name="help_support_version_desc_1">Mevcut uygulama sürümü aşağıdaki sistem sürümlerine tamamen adapte edilmiştir:</string>
-    <string name="help_support_version_desc_2">Aşağıdaki sistem sürümleri mevcut uygulama sürümüne adapte edilmiştir:</string>
     <string name="help_support_version_desc_3">Şu anki sistem sütümü tamamen adapte edildi.</string>
     <string name="help_support_version_desc_4">Şu anki sistem sütümü (tamamen) adapte edilmedi.</string>
     <string name="location_add">Ekle</string>
@@ -338,7 +336,6 @@
     <string name="system_framework_volume_title">Ses</string>
     <string name="system_framework_other_title">Diğer</string>
     <string name="system_framework_display_title">Ekran</string>
-    <string name="system_framework_phone_title">Ağ</string>
     <string name="system_framework_bubble_title">Kabarcık bildirimi</string>
     <string name="system_framework_freeform_count">Çoklu serbest form</string>
     <string name="system_framework_disable_freeform_blacklist">Küçük serbest forma izin verilmesini zorla</string>
@@ -361,19 +358,6 @@
     <string name="system_ui_display_hide_cutout">Ekran kesimini gizle</string>
     <string name="system_ui_display_use_aosp_screenshot">AOSP Ekran Görüntüsü kullanın</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Ekran görüntüsü uygulamasını AOSP ekran görüntüsüne yönlendirin, HyperOS\'taki ekran görüntüsü uygulaması ekran görüntüsü işlemine yanıt vermeyecektir.</string>
-    <string name="phone_double_5g_nr">Çift sim 5G kullansın (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">Ana ve ikincil SIM kart aynı anda 5G\'yi etkinleştirir (İkincil SIM kart yalnızca NSA\'yı destekler)</string>
-    <string name="phone_double_5g_sa">Çift sim SA kullansın (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Deneysel özellikler. İkincil SIM kart desteğini SA yapın.</string>
-    <string name="system_framework_phone_band_title">Band ayarları</string>
-    <string name="phone_n1">N1 Bandı</string>
-    <string name="phone_n1_desc">N1 Bandını destekle (NR)</string>
-    <string name="phone_n28">N28 bandı</string>
-    <string name="phone_n28_desc">N28 Bandını destekle (NR)</string>
-    <string name="phone_n5_n8">N5/N8 Bandı</string>
-    <string name="phone_n5_n8_desc">N5/N8 Bandını desteklemek için arama arayüzüne *#*#65686633#*#* girin. \"N5 ve N8 Modunu etkinleştir\" gösteriliyorsa özellik başarıyla etkinleştirilecektir.</string>
-    <string name="phone_flightmode_hotspot">Uçak modunda taşınabilir etkin noktaya izin ver</string>
-    <string name="phone_flightmode_hotspot_desc">Uçak modunda Wi-Fi taşınabilir etkin noktasının açılmasına izin verin</string>
     <string name="phone_additional_network_settings">Ek ağ ayarları</string>
     <string name="system_framework_screen_title">Ekran &amp; Bildirimler</string>
     <string name="system_framework_core_title">Altındaki çekirdek</string>
@@ -1003,8 +987,6 @@
     <string name="home_title_icon_scale">Simgeleri ölçekle</string>
     <string name="home_title_disable_hide_google">Google\'ı gizlemeyi devre dışı bırak</string>
     <string name="home_title_fake_non_default_icon">Sahte varsayılan dışı simge</string>
-    <string name="home_title_custom_anim_param_damping_title">Sönümleme</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Sertlik</string>
     <string name="home_title_hide_report_text">\"Bildir\" metnini gizle</string>
     <string name="home_title_hide_report_text_desc">App Kaldırma iletişim kutusunda rapor metnini gizle</string>
     <string name="home_title_notif_color_picker">Özel renk</string>

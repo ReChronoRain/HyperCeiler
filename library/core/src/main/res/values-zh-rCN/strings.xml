@@ -135,6 +135,28 @@
     <string name="log_filter_all">全部</string>
     <string name="log_tag_other">其他</string>
 
+    <string name="log_menu_clear">清空日志</string>
+    <string name="log_menu_export">导出日志</string>
+    <string name="log_menu_share">分享日志</string>
+
+    <string name="log_clear_title">清空日志</string>
+    <string name="log_clear_all_message">确定要清空所有日志吗？包括应用日志和 Xposed 日志，此操作不可恢复。</string>
+    <string name="log_clear_success">日志已清空</string>
+    <string name="log_clear_failed">清空日志失败</string>
+    <string name="log_clear_in_progress">正在清空日志…</string>
+
+    <string name="log_export_preparing">正在准备导出…</string>
+    <string name="log_export_success">日志导出成功</string>
+    <string name="log_export_failed">日志导出失败</string>
+
+    <string name="log_share_title">分享日志</string>
+    <string name="log_share_preparing">正在准备分享…</string>
+    <string name="log_share_failed">分享日志失败</string>
+    <string name="log_share_text">HyperCeiler 日志文件</string>
+
+    <string name="log_copy">复制</string>
+    <string name="log_copy_success">日志已复制到剪贴板</string>
+
     <!-- Log detail dialog -->
     <string name="log_detail_title">日志详情</string>
     <string name="log_detail_time">时间</string>

@@ -32,12 +32,6 @@
             android:summary="@string/various_open_aosp_something_desc"
             android:title="@string/various_open_aosp_something_title" />
 
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.various.MiPadSettings"
-            android:key="prefs_key_various_mipad"
-            android:title="@string/various_mipad_title"
-            app:isPreferenceVisible="true" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/input_method">

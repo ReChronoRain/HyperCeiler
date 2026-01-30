@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.main.page.settings.development;
 
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.MiDeviceAppUtilsKt.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance.ANDROID_NS;
 
 import android.content.pm.PackageManager;
@@ -33,8 +33,8 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
-import com.sevtinge.hyperceiler.hook.utils.pkg.DebugModeUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -149,7 +149,7 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
                 event = xml.next();
             }
         } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE("DevelopmentDebugModeFragment", "An error occurred when reading the XML:", e);
+            AndroidLog.e("DevelopmentDebugModeFragment", "An error occurred when reading the XML:", e);
         }
     }
 

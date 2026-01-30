@@ -14,7 +14,7 @@ import com.sevtinge.hyperceiler.common.model.adapter.AppDataAdapter.AppViewHolde
 import com.sevtinge.hyperceiler.common.model.data.AppData;
 import com.sevtinge.hyperceiler.common.model.data.AppEditManager;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import java.util.ArrayList;

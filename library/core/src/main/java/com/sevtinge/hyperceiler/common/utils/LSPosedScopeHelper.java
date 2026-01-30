@@ -18,30 +18,26 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
-import static com.sevtinge.hyperceiler.core.BuildConfig.APP_MODULE_ID;
-import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.isDatabaseLocked;
-import static com.sevtinge.hyperceiler.hook.utils.SQLiteDatabaseHelper.queryList;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getCurrentUserId;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getWhoAmI;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.rootExecCmd;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
+import io.github.libxposed.service.XposedService;
 
 public class LSPosedScopeHelper {
 
-    private static boolean isInitScopeGet = false;
-    private static boolean isScopeGetFailed = false;
+    private static final String TAG = "LSPosedScopeHelper";
+    private static final String SYSTEM_PKG_ANDROID = "android";
+    private static final String SYSTEM_PKG_SYSTEM = "system";
+    private static final List<String> SYSTEM_PACKAGES = Arrays.asList(SYSTEM_PKG_ANDROID, SYSTEM_PKG_SYSTEM);
+
+    private static volatile boolean isInitScopeGet = false;
+    private static volatile boolean isScopeGetFailed = false;
 
     public static ArrayList<String> mNoScoped = new ArrayList<>();
     public static ArrayList<String> mUninstallApp = new ArrayList<>();
@@ -50,32 +46,61 @@ public class LSPosedScopeHelper {
     public static List<String> mScope = new ArrayList<>();
     public static List<String> mNotInSelectedScope = new ArrayList<>();
 
-    public static void init(Context context) {
-        if (getWhoAmI().equals("root")) getScope(context);
+    /**
+     * 初始化作用域，通过 ScopeManager 获取
+     */
+    public static void init() {
+        getScope();
     }
 
-    public static boolean isInSelectedScope(Context context, String lable, String pkg, String key, SharedPreferences sp) {
-        String normLabel = lable == null ? "" : lable.trim();
+    public static boolean isInSelectedScope(Context context, String label, String pkg, String key, SharedPreferences sp) {
+        String normLabel = label == null ? "" : label.trim();
         String normPkg = pkg == null ? null : pkg.trim();
         String normPkgForEntry = normPkg == null ? "" : normPkg.toLowerCase();
         String entry = " - " + normLabel + (normPkg != null ? " (" + normPkgForEntry + ")" : "");
 
-        if (isDisable(context, pkg) || isUninstall(context, pkg) || isHidden(context, pkg)) {
+        // system 特例：不检查卸载/禁用/隐藏，直接检查 system 或 android 是否在作用域内
+        if (isSystemPackage(pkg)) {
+            return checkSystemScope(normPkgForEntry, entry);
+        }
+
+        // 普通应用：先检查卸载/禁用/隐藏状态
+        if (isUninstall(context, pkg) || isDisable(context, pkg) || isHidden(context, pkg)) {
             if (!mUninstallApp.contains(entry)) {
                 mUninstallApp.add(entry);
             }
             return false;
-        } else if (isHiddenByHyperceiler(key, sp)) {
+        }
+
+        // 检查是否被HyperCeiler 隐藏
+        if (isHiddenByHyperceiler(key, sp)) {
             if (!mDisableOrHiddenApp.contains(entry)) {
                 mDisableOrHiddenApp.add(entry);
             }
             return false;
         }
-        if (pkg != null && !mScope.contains(pkg) && isInitScopeGet && !isScopeGetFailed) {
+
+        // 最后检查作用域
+        return checkScopeOnly(pkg, normPkgForEntry, entry);
+    }
+
+    /**
+     * 检查 system 框架是否在作用域内
+     * mScope 里可能是 "system" 或 "android"，只要有一个在就算在作用域内
+     */
+    private static boolean checkSystemScope(String normPkgForEntry, String entry) {
+        if (!isInitScopeGet || isScopeGetFailed) {
+            return true; // 未初始化完成时默认放行
+        }
+
+        // 检查 mScope 是否包含 system 或 android
+        boolean inScope = mScope.contains(SYSTEM_PKG_SYSTEM) || mScope.contains(SYSTEM_PKG_ANDROID);
+
+        if (!inScope) {
             if (!mNotInSelectedScope.contains(normPkgForEntry)) {
                 mNotInSelectedScope.add(normPkgForEntry);
             }
-            if (!mDisableOrHiddenApp.contains(entry) && !mUninstallApp.contains(entry) && !mNoScoped.contains(entry)) {
+            if (!mNoScoped.contains(entry)) {
                 mNoScoped.add(entry);
             }
             return false;
@@ -83,97 +108,113 @@ public class LSPosedScopeHelper {
         return true;
     }
 
-    private static boolean isAndroidPackage(String pkg) {
+    /**
+     * 仅检查是否在作用域内（用于普通应用）
+     */
+    private static boolean checkScopeOnly(String pkg, String normPkgForEntry, String entry) {
+        if (pkg != null && !mScope.contains(pkg) && isInitScopeGet && !isScopeGetFailed) {
+            if (!mNotInSelectedScope.contains(normPkgForEntry)) {
+                mNotInSelectedScope.add(normPkgForEntry);
+            }
+            if (!mNoScoped.contains(entry)) {
+                mNoScoped.add(entry);
+            }
+            return false;
+        }
         return true;
     }
 
+    /**
+     * 判断是否为 system 特例包名
+     */
+    private static boolean isSystemPackage(String pkg) {
+        return pkg != null && SYSTEM_PACKAGES.contains(pkg);
+    }
+
+    /**
+     * 检查 Service 是否可用
+     */
+    public static boolean isServiceAvailable() {
+        try {
+            return ScopeManager.getService() != null;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 检查作用域是否已初始化完成
+     */
+    public static boolean isScopeReady() {
+        return isInitScopeGet && !isScopeGetFailed;
+    }
+
+    /**
+     * 检查 system 框架是否在作用域内
+     */
+    public static boolean isSystemInScope() {
+        if (!isInitScopeGet || isScopeGetFailed) {
+            return false;
+        }
+        return mScope.contains(SYSTEM_PKG_SYSTEM) || mScope.contains(SYSTEM_PKG_ANDROID);
+    }
+
+    /**
+     * 重新加载作用域
+     */
+    public static void reloadScope() {
+        isInitScopeGet = false;
+        isScopeGetFailed = false;
+        mScope.clear();
+        mNoScoped.clear();
+        mNotInSelectedScope.clear();
+        mUninstallApp.clear();
+        mDisableOrHiddenApp.clear();
+        getScope();
+    }
+
     private static boolean isUninstall(Context context, String pkg) {
-        return isAndroidPackage(pkg) && PackagesUtils.isUninstall(context, pkg);
+        return pkg != null && PackagesUtils.isUninstall(context, pkg);
     }
 
     private static boolean isDisable(Context context, String pkg) {
-        return isAndroidPackage(pkg) && PackagesUtils.isDisable(context, pkg);
+        return pkg != null && PackagesUtils.isDisable(context, pkg);
     }
 
     private static boolean isHidden(Context context, String pkg) {
-        return isAndroidPackage(pkg) && PackagesUtils.isHidden(context, pkg);
+        return pkg != null && PackagesUtils.isHidden(context, pkg);
     }
 
     private static boolean isHiddenByHyperceiler(String key, SharedPreferences sp) {
         return !sp.getBoolean(key + "_state", true);
     }
 
-    @SuppressLint("Range")
-    private static void getScope(Context context) {
-        String cachePath = context.getCacheDir().toString();
-        int userId = getCurrentUserId();
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
+    /**
+     * 通过 ScopeManager 获取作用域列表
+     */
+    private static void getScope() {
+        if (isInitScopeGet) return;
 
         try {
-            rootExecCmd("cp -r /data/adb/lspd/config " + cachePath + " && chmod -R 777 " + cachePath + "/config");
-
-            String dbPath = cachePath + "/config/modules_config.db";
-            db = SQLiteDatabase.openDatabase(dbPath, null, SQLiteDatabase.OPEN_READONLY);
-
-            if (isDatabaseLocked(db)) {
-                AndroidLogUtils.logW("PreferenceHeader", "Database locked, skip get scope.");
+            XposedService service = ScopeManager.getService();
+            if (service == null) {
+                AndroidLog.w(TAG, "XposedService not available, skip get scope.");
                 isScopeGetFailed = true;
+                isInitScopeGet = true;
                 return;
             }
 
-            String tableName = "modules";
-            cursor = db.query(tableName, null, null, null, null, null, null);
-
-            Set<String> totalScopeSet = new LinkedHashSet<>();
-            if (cursor.moveToFirst()) {
-                int midCol = cursor.getColumnIndex("mid");
-                int modulePkgCol = cursor.getColumnIndex("module_pkg_name");
-
-                List<String> scopeUid = new ArrayList<>();
-                try {
-                    scopeUid = queryList(db, "app_pkg_name", "scope", "user_id = ?", new String[]{String.valueOf(userId)}, true);
-                } catch (Exception e) {
-                    AndroidLogUtils.logW("PreferenceHeader", "Query scope by user_id failed: ", e);
-                }
-
-                do {
-                    String mid = midCol != -1 ? cursor.getString(midCol) : null;
-                    String modulePkg = modulePkgCol != -1 ? cursor.getString(modulePkgCol) : null;
-
-                    if (modulePkg != null && !modulePkg.equals(APP_MODULE_ID)) continue;
-
-                    Set<String> candidates = new LinkedHashSet<>();
-                    if (mid != null) {
-                        try {
-                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "mid = ?", new String[]{mid}, true));
-                        } catch (Exception e) {
-                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by mid failed: ", e);
-                        }
-                    }
-
-                    if (modulePkg != null) {
-                        try {
-                            candidates.addAll(queryList(db, "app_pkg_name", "scope", "module_pkg_name = ?", new String[]{modulePkg}, true));
-                        } catch (Exception e) {
-                            AndroidLogUtils.logW("PreferenceHeader", "Query scope by module_pkg_name failed: ", e);
-                        }
-                    }
-
-                    if (!scopeUid.isEmpty()) {
-                        candidates.retainAll(scopeUid);
-                    }
-
-                    totalScopeSet.addAll(candidates);
-                } while (cursor.moveToNext());
+            List<String> scope = service.getScope();
+            if (scope != null) {
+                mScope = new ArrayList<>(scope);
+                AndroidLog.d(TAG, "Scope loaded successfully, count: " + mScope.size());
+            } else {
+                AndroidLog.w(TAG, "getScope returned null");
+                isScopeGetFailed = true;
             }
-            mScope = new ArrayList<>(totalScopeSet);
         } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to get scope from XposedService", e);
             isScopeGetFailed = true;
-            AndroidLogUtils.logW("PreferenceHeader", "Database error: ", e);
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
         }
 
         isInitScopeGet = true;

@@ -59,8 +59,6 @@
     <string name="help_cant_see_apps_switch">Ẩn trợ giúp này trong trang chủ</string>
     <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong \"Cài đặt - Thiết lập lối tắt trang chủ\". Khởi động lại ứng dụng để áp dụng.</string>
     <string name="help_support_version_title">Danh sách phiên bản hệ thống hỗ trợ phiên bản ứng dụng hiện tại</string>
-    <string name="help_support_version_desc_1">Phiên bản ứng dụng hiện tại hoàn toàn tương thích với các phiên bản hệ thống sau:</string>
-    <string name="help_support_version_desc_2">Các phiên bản hệ thống sau đây được điều chỉnh cho phù hợp với phiên bản ứng dụng hiện tại:</string>
     <string name="help_support_version_desc_3">Phiên bản hệ thống hiện tại đã được điều chỉnh đầy đủ.</string>
     <string name="help_support_version_desc_4">Phiên bản hệ thống hiện tại chưa được điều chỉnh (hoàn toàn).</string>
     <string name="location_add">Thêm</string>
@@ -342,7 +340,6 @@
     <string name="system_framework_volume_title">Âm lượng</string>
     <string name="system_framework_other_title">Khác</string>
     <string name="system_framework_display_title">Hiển thị</string>
-    <string name="system_framework_phone_title">Mạng</string>
     <string name="system_framework_bubble_title">Bong bóng hội thoại</string>
     <string name="system_framework_freeform_count">Nhiều cửa sổ nổi</string>
     <string name="system_framework_disable_freeform_blacklist">Cho phép tất cả ứng dụng mở ở dạng cửa sổ nổi</string>
@@ -365,19 +362,6 @@
     <string name="system_ui_display_hide_cutout">Ẩn màn hình khuyết</string>
     <string name="system_ui_display_use_aosp_screenshot">Sử dụng trình chụp ảnh màn hình AOSP</string>
     <string name="system_ui_display_use_aosp_screenshot_desc">Chuyển ứng dụng chụp ảnh màn hình sang chụp ảnh màn hình AOSP, ứng dụng chụp màn hình trong HyperOS sẽ không phản hồi thao tác chụp màn hình</string>
-    <string name="phone_double_5g_nr">Sử dụng 5G kép (SA+NSA)</string>
-    <string name="phone_double_5g_nr_desc">SIM chính và phụ hỗ trợ 5G cùng lúc (SIM phụ chỉ hỗ trợ NSA)</string>
-    <string name="phone_double_5g_sa">Sử dụng 5G kép (SA+SA)</string>
-    <string name="phone_double_5g_sa_desc">Tính năng thử nghiệm. Hỗ trợ thẻ SIM phụ SA</string>
-    <string name="system_framework_phone_band_title">Cài đặt băng tần</string>
-    <string name="phone_n1">Băng tần N1</string>
-    <string name="phone_n1_desc">Hỗ trợ băng tần n1 (NR)</string>
-    <string name="phone_n28">Băng tần n28</string>
-    <string name="phone_n28_desc">Hỗ trợ băng tần n28 (NR)</string>
-    <string name="phone_n5_n8">Băng tần n5/n8</string>
-    <string name="phone_n5_n8_desc">Nhập *#*#65686633#*#* trên giao diện quay số để bật băng tần n5/n8. Nếu hiển thị Đã bật chế độ N5 và N8 nghĩa là đã bật thành công.</string>
-    <string name="phone_flightmode_hotspot">Cho phép bật điểm phát sóng ở chế độ máy bay</string>
-    <string name="phone_flightmode_hotspot_desc">Cho phép mở điểm phát sóng WiFi ở chế độ máy bay</string>
     <string name="phone_additional_network_settings">Cài đặt mạng bổ sung</string>
     <string name="system_framework_screen_title">Hiển thị &amp; thông báo</string>
     <string name="system_framework_core_title">Lõi bên dưới</string>
@@ -1164,9 +1148,6 @@
     <string name="home_title_disable_hide_theme">Không ẩn biểu tượng \"Theme\"</string>
     <string name="home_title_disable_hide_google">Không ẩn biểu tượng Google</string>
     <string name="home_title_fake_non_default_icon">Giả mạo là một biểu tượng không mặc định</string>
-    <string name="home_title_custom_anim_param">Tuỳ chỉnh thông số hoạt ảnh</string>
-    <string name="home_title_custom_anim_param_damping_title">Giảm dần</string>
-    <string name="home_title_custom_anim_param_stiffness_title">Độ gấp</string>
     <string name="home_title_hide_report_text">Ẩn văn bản báo cáo</string>
     <string name="home_title_hide_report_text_desc">Ẩn văn bản báo cáo trong hộp thoại gỡ cài đặt</string>
     <string name="home_title_notif_color">Tùy chỉnh màu nền thông báo tin nhắn</string>

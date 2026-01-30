@@ -68,10 +68,12 @@ rootProject.name = "HyperCeiler"
 
 include(
     "app",
-    ":library:hook",
+    // ":library:hook",
+    ":library:libhook",
     ":library:core",
     ":library:provision",
     ":library:common",
     ":library:processor",
-    ":library:hidden-api"
+    ":library:hidden-api",
+    ":library:libxposed-compat"
 )

@@ -25,57 +25,48 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.hook.utils.shell.ShellInit;
-
 public class CrashReceiver extends BroadcastReceiver {
-
-    private String longMsg;
-    private String stackTrace;
-    private String throwClassName;
-    private String throwFileName;
-    private int throwLineNumber;
-    private String throwMethodName;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent != null) {
-            String report = intent.getStringExtra("key_all");
-            String abbr = intent.getStringExtra("key_pkg");
-            longMsg = intent.getStringExtra("key_longMsg");
-            stackTrace = intent.getStringExtra("key_stackTrace");
-            throwClassName = intent.getStringExtra("key_throwClassName");
-            throwFileName = intent.getStringExtra("key_throwFileName");
-            throwLineNumber = intent.getIntExtra("key_throwLineNumber", -1);
-            throwMethodName = intent.getStringExtra("key_throwMethodName");
-            ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + report + "\"").sync();
+        if (intent == null) return;
 
-            Intent intent1 = getIntent(context, abbr);
-            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent1);
+        String reportProp = intent.getStringExtra("key_all");
+        String alias = intent.getStringExtra("key_pkg");
 
-            /*if (Build.VERSION_CODES >= Build.VERSION.SDK_INT) {
+        /*// 如果有需要更新的属性，执行 Shell 命令
+        if (reportProp != null && !reportProp.isEmpty()) {
+            // 注意：在 Receiver 中执行耗时操作可能会 ANR，建议在 Service 或 Handler 中处理
+            // 但为了保持原有逻辑，这里保留同步执行
+            try {
+                ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report " + "\"" + reportProp + "\"").sync();
+            } catch (Throwable ignored) {
+            }
+        }*/
 
-            }*/
-
-            //NotificationUtils.showAppCrashNotification(context, "ggggg", intent1);
-
+        if (alias != null) {
+            Toast.makeText(context, "Crash detected: " + alias, Toast.LENGTH_LONG).show();
         }
+
+        // 启动 Activity
+        Intent activityIntent = createCrashActivityIntent(context, intent, alias);
+        activityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(activityIntent);
     }
 
     @NonNull
-    private Intent getIntent(Context context, String abbr) {
-        Toast.makeText(context, abbr, Toast.LENGTH_LONG).show();
-        Intent intent1 = new Intent(context, CrashActivity.class);
-        intent1.setAction("android.intent.action.Crash");
-        intent1.addCategory("android.intent.category.CrashDailog");
-        //intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent1.putExtra("key_longMsg", longMsg);
-        intent1.putExtra("key_stackTrace", stackTrace);
-        intent1.putExtra("key_throwClassName", throwClassName);
-        intent1.putExtra("key_throwFileName", throwFileName);
-        intent1.putExtra("key_throwLineNumber", throwLineNumber);
-        intent1.putExtra("key_throwMethodName", throwMethodName);
-        intent1.putExtra("key_pkg", abbr);
-        return intent1;
+    private Intent createCrashActivityIntent(Context context, Intent sourceIntent, String alias) {
+        Intent intent = new Intent(context, CrashActivity.class);
+        intent.setAction("android.intent.action.Crash");
+
+        intent.putExtra("key_longMsg", sourceIntent.getStringExtra("key_longMsg"));
+        intent.putExtra("key_stackTrace", sourceIntent.getStringExtra("key_stackTrace"));
+        intent.putExtra("key_throwClassName", sourceIntent.getStringExtra("key_throwClassName"));
+        intent.putExtra("key_throwFileName", sourceIntent.getStringExtra("key_throwFileName"));
+        intent.putExtra("key_throwLineNumber", sourceIntent.getIntExtra("key_throwLineNumber", -1));
+        intent.putExtra("key_throwMethodName", sourceIntent.getStringExtra("key_throwMethodName"));
+        intent.putExtra("key_pkg", alias);
+
+        return intent;
     }
 }

@@ -18,11 +18,11 @@
  */
 package com.sevtinge.hyperceiler.main.page;
 
-import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getPropSu;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.DeviceSDKKt.getDeviceToken;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getDeviceToken;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getPropSu;
 
 import android.content.res.Configuration;
 import android.graphics.Rect;

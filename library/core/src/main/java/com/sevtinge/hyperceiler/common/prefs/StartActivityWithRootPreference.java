@@ -18,8 +18,7 @@
 */
 package com.sevtinge.hyperceiler.common.prefs;
 
-import static com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils.logE;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -30,6 +29,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -62,7 +62,7 @@ public class StartActivityWithRootPreference extends Preference {
                 os.flush();
                 suProcess.waitFor();
             } catch (IOException | InterruptedException e) {
-                logE("StartActivityWithRootPreference", "com.sevtinge.hyperceiler", "Failed to start activity \"" + targetActivityClass + "\" with root", e);
+                AndroidLog.e("StartActivityWithRootPreference", "com.sevtinge.hyperceiler", "Failed to start activity \"" + targetActivityClass + "\" with root", e);
             }
         } else {
             Toast.makeText(this.getContext(), R.string.start_failed, Toast.LENGTH_SHORT).show();

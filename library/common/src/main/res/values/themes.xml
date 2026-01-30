@@ -14,6 +14,8 @@
         <item name="textColorDialogSingleChoiceItem">@color/miuix_appcompat_dialog_list_text_single_choice_light</item>
 
         <item name="recyclerViewCardStyle">@style/LogViewerRecyclerViewCardStyle</item>
+
+        <item name="endActionMenuEnabled">true</item>
     </style>
 
 </resources>

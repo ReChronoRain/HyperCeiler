@@ -19,15 +19,13 @@
 package com.sevtinge.hyperceiler.common.view;
 
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showAlertDialog;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.hook.module.base.tool.AppsTool;
-import com.sevtinge.hyperceiler.hook.module.skip.GlobalActions;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
 import java.util.Arrays;
 import java.util.List;
@@ -71,7 +69,7 @@ public class RestartAlertDialog extends AlertDialog {
         return view;
     }
 
-    public void restartApp(Context context, String packageName) {
+    /*public void restartApp(Context context, String packageName) {
         Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
         intent.putExtra("packageName", packageName);
         context.sendBroadcast(intent);
@@ -81,5 +79,5 @@ public class RestartAlertDialog extends AlertDialog {
         Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
         intent.setPackage("com.android.systemui");
         context.sendBroadcast(intent);
-    }
+    }*/
 }

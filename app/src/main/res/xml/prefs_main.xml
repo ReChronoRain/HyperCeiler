@@ -31,7 +31,7 @@
             android:fragment="com.sevtinge.hyperceiler.hooker.SystemFrameworkFragment"
             android:icon="@drawable/ic_default"
             android:key="prefs_key_system_framework"
-            android:summary="android"
+            android:summary="system"
             android:title="@string/system_framework" />
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader

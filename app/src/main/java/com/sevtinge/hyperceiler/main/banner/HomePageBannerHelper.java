@@ -19,14 +19,17 @@
 package com.sevtinge.hyperceiler.main.banner;
 
 import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
-import static com.sevtinge.hyperceiler.hook.utils.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getBaseOs;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getRomAuthor;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.isFullSupport;
-import static com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt.scanModules;
-import static com.sevtinge.hyperceiler.hook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.hook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBaseOs;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHost;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getRomAuthor;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSupportStatus;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
+import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -35,13 +38,11 @@ import android.widget.TextView;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 
-import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.ModuleInfo;
-import com.sevtinge.hyperceiler.hook.utils.devicesdk.SystemSDKKt;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.util.Calendar;
 import java.util.List;
@@ -94,7 +95,7 @@ public class HomePageBannerHelper {
     }
 
     private void isLoggerAlive(Context context, PreferenceCategory preference) {
-        if (!IS_LOGGER_ALIVE && !BuildConfig.BUILD_TYPE.equals("release")) {
+        if (!IS_LOGGER_ALIVE && !isRelease()) {
             preference.addPreference(createBannerPreference(
                 context,
                 R.layout.headtip_notice
@@ -104,7 +105,7 @@ public class HomePageBannerHelper {
 
     private void checkWarnings(Context context, PreferenceCategory preference) {
         boolean isUnofficialRom = getIsUnofficialRom(context);
-        boolean isFullSupport = isFullSupport();
+        boolean isFullSupport = getSupportStatus() == SUPPORT_FULL;
         boolean isWhileXposed = isWhileXposed();
         boolean isSignPass = SignUtils.isSignCheckPass(context);
 
@@ -130,14 +131,14 @@ public class HomePageBannerHelper {
     private boolean isWhileXposed() {
         if (checkRootPermission() != 0) return true; // 没 root 就别走校验了
         try {
-            List<ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
+            List<DeviceHelper.Module.ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
             String moduleName = module.getFirst().extractName();
             if (moduleName.contains("nolog") || moduleName.contains("日志")) {
                 return false;
             }
             return moduleName.contains("LSPosed IT") || moduleName.equals("LSPosed - Irena");
         } catch (Throwable e) {
-            AndroidLogUtils.logE("isWhileXposed", e);
+            AndroidLog.e("isWhileXposed", e);
             return true;
         }
     }
@@ -146,7 +147,7 @@ public class HomePageBannerHelper {
         String baseOs = getBaseOs();
         String romAuthor = getRomAuthor();
         String systemVersion = getSystemVersionIncremental();
-        String host = SystemSDKKt.getHost();
+        String host = getHost();
 
         boolean isNotCustomBaseOs = !baseOs.startsWith("V") &&
             !baseOs.startsWith("Xiaomi") &&

@@ -30,7 +30,7 @@
             android:icon="@drawable/ic_default"
             android:key="prefs_key_system_framework_state"
             android:layout="@layout/preference_header"
-            android:summary="android"
+            android:summary="system"
             android:title="@string/system_framework" />
 
         <SwitchPreference

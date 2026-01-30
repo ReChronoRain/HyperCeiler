@@ -30,7 +30,7 @@ import androidx.preference.PreferenceCategory;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
-import com.sevtinge.hyperceiler.hook.utils.log.AndroidLogUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance;
@@ -80,12 +80,12 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
             try {
                 HomePageBannerHelper.init(requireContext().getApplicationContext(), mHeadtipGround);
             } catch (Exception e) {
-                AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on background thread, retrying on UI thread", e);
+                AndroidLog.e(TAG, "HomePageBannerHelper.init failed on background thread, retrying on UI thread", e);
                 requireActivity().runOnUiThread(() -> {
                     try {
                         HomePageBannerHelper.init(requireContext(), mHeadtipGround);
                     } catch (Exception ex) {
-                        AndroidLogUtils.logE(TAG, "HomePageBannerHelper.init failed on UI thread", ex);
+                        AndroidLog.e(TAG, "HomePageBannerHelper.init failed on UI thread", ex);
                     }
                 });
             }
@@ -102,7 +102,7 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
             XmlResourceParserHelper.processCachedXmlResource(getResources(), R.xml.prefs_main,
                 (key, summary) -> processPreferenceHeader(key, summary, sp));
         } catch (XmlPullParserException | IOException e) {
-            AndroidLogUtils.logE(TAG, "An error occurred when reading the XML:", e);
+            AndroidLog.e(TAG, "An error occurred when reading the XML:", e);
         }
     }
 

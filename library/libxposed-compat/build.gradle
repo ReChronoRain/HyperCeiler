@@ -1,0 +1,39 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'io.github.libxposed'
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
+
+    defaultConfig {
+        minSdk 24
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    lint {
+        targetSdk 36
+    }
+    testOptions {
+        targetSdk 36
+    }
+
+    buildTypes {
+        release {
+            consumerProguardFiles("proguard-rules.pro")
+        }
+        register("beta") {
+            consumerProguardFiles("proguard-rules.pro")
+        }
+        register("canary") {
+            consumerProguardFiles("proguard-rules.pro")
+        }
+    }
+}
