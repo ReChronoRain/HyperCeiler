@@ -48,11 +48,13 @@ body:
   - type: textarea
     id: log
     attributes:
-      label: "Module logs | 模块日志"
+      label: "HyperCeiler logs | HyperCeiler 日志"
       description: |
-        Provide relevant logs from LSPosed Manager. These logs are essential for identifying the issue.  
-        请提供来自 LSPosed 管理器的相关日志。这些日志对于定位问题至关重要。
-      placeholder: Paste logs from LSPosed Manager or crash logs here
+        Provide relevant logs from HyperCeiler. These logs are essential for identifying the issue. 
+        You can find it at HyperCeiler Settings - Log Viewer - ··· - Export Logs.
+        请提供来自 HyperCeiler 的相关日志。这些日志对于定位问题至关重要。
+        您可以在 HyperCeiler 设置 - 查看日志 - ··· - 导出日志 找到它。
+      placeholder: Paste logs from HyperCeiler or crash logs here
     validations:
       required: true
 
@@ -80,12 +82,3 @@ body:
     validations:
       required: false
 
-  - type: textarea
-    id: device
-    attributes:
-      label: "HyperCeiler device information | HyperCeiler 设备信息"
-      description: |
-        Make sure to upload a screenshot to help diagnose the issue in HyperCeiler Settings > Developer options > Debug info.  
-        请务必上传 HyperCeiler 设置 > 开发者选项 > 调试信息 的截图，以便诊断问题。
-    validations:
-      required: false
