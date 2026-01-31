@@ -289,11 +289,11 @@ object DeviceHelper {
                 VersionInfo(35, 2.0f, 2.0f, SUPPORT_FULL),
                 VersionInfo(35, 2.0f, 2.1f, SUPPORT_FULL),
                 VersionInfo(35, 2.0f, 2.2f, SUPPORT_FULL),
+                VersionInfo(36, 3.0f, 3.0f, SUPPORT_FULL),
+                VersionInfo(36, 3.0f, 3.3f, SUPPORT_FULL),
 
                 // 部分功能未适配
                 VersionInfo(35, 3.0f, 3.0f, SUPPORT_PARTIAL),
-                VersionInfo(36, 3.0f, 3.0f, SUPPORT_PARTIAL),
-                VersionInfo(36, 3.0f, 3.3f, SUPPORT_PARTIAL),
 
                 // 未适配
                 VersionInfo(36, 2.0f, 2.23f, SUPPORT_NOT)
