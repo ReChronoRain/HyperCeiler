@@ -1,3 +1,4 @@
+// LogManager.java
 /*
  * This file is part of HyperCeiler.
 
@@ -18,7 +19,6 @@
  */
 package com.fan.common.logviewer;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
@@ -36,11 +36,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -48,25 +57,43 @@ import java.util.zip.ZipOutputStream;
  * 日志管理器 - 单例模式
  */
 public class LogManager {
-    private static LogManager sInstance;
+    private static volatile LogManager sInstance;
     private final List<LogEntry> mLogEntries = new ArrayList<>();
     private final List<LogEntry> mXposedLogEntries = new ArrayList<>();
-    private Context mContext;
+    private WeakReference<Context> mContextRef;
+    private Context mAppContext;
     private boolean mInitialized = false;
     private static final String LOG_BASE_DIR = "log";
-    private static final String APP_LOG_DIR = "log/app";
-    private static final String APP_LOG_OLD_DIR = "log/app.old";
-    private static final String LOG_FILE = "app_logs.txt";
+    private static final String APP_LOG_BASE_DIR = "log/app";
+    private static final String APP_LOG_DIR = "log/app/log";
+    private static final String APP_LOG_OLD_DIR = "log/app/log.old";
+    private static final String LOG_FILE_PREFIX = "app_";
+    private static final String LOG_FILE_SUFFIX = ".log";
     private static final String DEVICE_INFO_FILE = "devices.txt";
     private static final String TAG = "LogManager";
     private static final int BUFFER_SIZE = 4096;
 
+    private static final Pattern LOG_LINE_PATTERN = Pattern.compile(
+        "^\\[\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3})\\s+" +
+            "(\\d+):\\s*(\\d+):\\s*(\\d+)\\s+" +
+                "([VDIWEF])/([^\\s\\]]+)\\s*]\\s*(.*)$"
+    );
+    private static final SimpleDateFormat LOG_TIME_FORMAT =
+        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+
     private File mLogBaseDir;
+    private File mAppLogBaseDir;
     private File mAppLogDir;
     private File mAppLogOldDir;
-    private File mAppLogFile;
+    private File mCurrentLogFile;
 
-    // 设备信息提供者
+    private ExecutorService mWriteExecutor;
+    private ScheduledExecutorService mFlushScheduler;
+
+    private final LinkedBlockingQueue<LogEntry> mWriteQueue = new LinkedBlockingQueue<>();
+    private static final int FLUSH_INTERVAL_MS = 500;
+    private static final int BATCH_SIZE = 100;
+
     private static DeviceInfoProvider sDeviceInfoProvider;
 
     private LogManager() {}
@@ -79,9 +106,14 @@ public class LogManager {
     }
 
     public static void init(Context context) {
-        if (sInstance == null) {
+        if (context == null) {
+            throw new IllegalArgumentException("Context cannot be null");
+        }
+        LogManager localInstance = sInstance;
+        if (localInstance == null) {
             synchronized (LogManager.class) {
-                if (sInstance == null) {
+                localInstance = sInstance;
+                if (localInstance == null) {
                     sInstance = new LogManager();
                     sInstance.doInit(context.getApplicationContext());
                 }
@@ -98,27 +130,88 @@ public class LogManager {
     }
 
     private void doInit(Context context) {
-        this.mContext = context;
+        this.mAppContext = context.getApplicationContext();
         this.mInitialized = true;
 
-        initLogFile();
-        loadHistoryLogs();
+        // 初始化线程池
+        mWriteExecutor = Executors.newSingleThreadExecutor(r -> {
+            Thread t = new Thread(r, "LogWriter");
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+        });
+
+        mFlushScheduler = Executors.newSingleThreadScheduledExecutor(r -> {
+            Thread t = new Thread(r, "LogFlusher");
+            t.setPriority(Thread.MIN_PRIORITY);
+            return t;
+        });
+
+        initLogDirectories();
+
+        // 异步加载历史日志
+        mWriteExecutor.execute(this::loadHistoryLogs);
+        startBatchWriter();
 
         AndroidLog.setLogListener((level, tag, message) -> {
             try {
-                LogEntry entry = new LogEntry(level, "App", "[" + tag + "] " + message, tag, true);
+                LogEntry entry = new LogEntry(level, "App", message, tag, true);
                 addLog(entry);
             } catch (Throwable ignored) {
             }
         });
 
-        addLog(new LogEntry("I", "LogManager", "LogManager initialized", "System", true));
+        // 添加初始化日志
+        addLog(new LogEntry("I", "LogManager", "LogManager initialized", "LogManager", true));
 
-        // 启动时更新设备信息
-        updateDeviceInfo();
+        // 异步更新设备信息
+        mWriteExecutor.execute(this::updateDeviceInfoSync);
 
-        // 启动时同步 Xposed 日志
-        startXposedLogSync();
+        // 异步同步 Xposed 日志
+        mWriteExecutor.execute(() -> {
+            try {
+                XposedLogLoader.loadLogsSync();
+                Log.i(TAG, "Xposed log sync completed on startup");
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to sync Xposed logs on startup", e);
+            }
+        });
+    }
+
+    private void startBatchWriter() {
+        mFlushScheduler.scheduleWithFixedDelay(() -> {
+            try {
+                flushWriteQueue();
+            } catch (Exception e) {
+                Log.e(TAG, "Batch write failed", e);
+            }
+        }, FLUSH_INTERVAL_MS, FLUSH_INTERVAL_MS, TimeUnit.MILLISECONDS);
+    }
+
+    private void flushWriteQueue() {
+        if (mWriteQueue.isEmpty()) return;
+
+        List<LogEntry> batch = new ArrayList<>(BATCH_SIZE);
+        mWriteQueue.drainTo(batch, BATCH_SIZE);
+
+        if (batch.isEmpty()) return;
+
+        try {
+            synchronized (LogManager.class) {
+                File targetFile = getCurrentLogFile();
+                if (!targetFile.equals(mCurrentLogFile)) {
+                    mCurrentLogFile = targetFile;
+                }
+
+                try (FileOutputStream fos = new FileOutputStream(mCurrentLogFile, true);
+                     BufferedOutputStream bos = new BufferedOutputStream(fos, 8192)) {
+                    for (LogEntry entry : batch) {
+                        String line = entry.toLogFileLine() + "\n";
+                        bos.write(line.getBytes());
+                    }}
+            }
+        } catch (IOException e) {
+            Log.e(TAG, "Batch save logs failed", e);
+        }
     }
 
     private void startXposedLogSync() {
@@ -132,18 +225,34 @@ public class LogManager {
         }).start();
     }
 
-    private void initLogFile() {
-        mLogBaseDir = new File(mContext.getFilesDir(), LOG_BASE_DIR);
-        mAppLogDir = new File(mContext.getFilesDir(), APP_LOG_DIR);
-        mAppLogOldDir = new File(mContext.getFilesDir(), APP_LOG_OLD_DIR);
+    private void initLogDirectories() {
+        mLogBaseDir = new File(mAppContext.getFilesDir(), LOG_BASE_DIR);
+        mAppLogBaseDir = new File(mAppContext.getFilesDir(), APP_LOG_BASE_DIR);
+        mAppLogDir = new File(mAppContext.getFilesDir(), APP_LOG_DIR);
+        mAppLogOldDir = new File(mAppContext.getFilesDir(), APP_LOG_OLD_DIR);
 
-        if (!mLogBaseDir.exists()) {
-            mLogBaseDir.mkdirs();
+        if (!mLogBaseDir.exists() && !mLogBaseDir.mkdirs()) {
+            Log.w(TAG, "Failed to create log base directory: " + mLogBaseDir.getAbsolutePath());
         }
-        if (!mAppLogDir.exists()) {
-            mAppLogDir.mkdirs();
+        if (!mAppLogBaseDir.exists() && !mAppLogBaseDir.mkdirs()) {
+            Log.w(TAG, "Failed to create app log base directory: " + mAppLogBaseDir.getAbsolutePath());
         }
-        mAppLogFile = new File(mAppLogDir, LOG_FILE);
+        if (!mAppLogDir.exists() && !mAppLogDir.mkdirs()) {
+            Log.w(TAG, "Failed to create app log directory: " + mAppLogDir.getAbsolutePath());
+        }
+
+        // 创建或获取当前日志文件
+        mCurrentLogFile = getCurrentLogFile();
+    }
+
+    /**
+     * 获取当前日志文件
+     * 文件名格式: app_yyyyMMdd.log
+     */
+    private File getCurrentLogFile() {
+        String dateStr = new SimpleDateFormat("yyyyMMdd", Locale.US).format(new Date());
+        String fileName = LOG_FILE_PREFIX + dateStr + LOG_FILE_SUFFIX;
+        return new File(mAppLogDir, fileName);
     }
 
     // ===== 设备信息相关 =====
@@ -170,7 +279,7 @@ public class LogManager {
         }
 
         try {
-            String deviceInfo = sDeviceInfoProvider.getDeviceInfo(mContext);
+            String deviceInfo = sDeviceInfoProvider.getDeviceInfo(mAppContext);
             if (deviceInfo != null && !deviceInfo.isEmpty()) {
                 saveDeviceInfo(deviceInfo);
                 Log.i(TAG, "Device info updated successfully");
@@ -185,8 +294,9 @@ public class LogManager {
      */
     private void saveDeviceInfo(String deviceInfo) {
         try {
-            if (!mLogBaseDir.exists()) {
-                mLogBaseDir.mkdirs();
+            if (!mLogBaseDir.exists() && !mLogBaseDir.mkdirs()) {
+                Log.w(TAG, "Failed to create log base directory for device info");
+                return;
             }
 
             File deviceFile = new File(mLogBaseDir, DEVICE_INFO_FILE);
@@ -199,8 +309,6 @@ public class LogManager {
         }
     }
 
-    // ===== 日志轮转 =====
-
     /**
      * 轮转应用日志（跟随 Xposed 日志轮转）
      */
@@ -211,15 +319,17 @@ public class LogManager {
             }
 
             if (mAppLogDir.exists() && hasFiles(mAppLogDir)) {
-                mAppLogDir.renameTo(mAppLogOldDir);
+                if (!mAppLogDir.renameTo(mAppLogOldDir)) {
+                    Log.w(TAG, "Failed to rename log directory to log.old");
+                }
             }
 
-            mAppLogDir.mkdirs();
-            mAppLogFile = new File(mAppLogDir, LOG_FILE);
+            if (!mAppLogDir.exists() && !mAppLogDir.mkdirs()) {
+                Log.w(TAG, "Failed to recreate app log directory");
+            }mCurrentLogFile = getCurrentLogFile();
 
             synchronized (mLogEntries) {
-                mLogEntries.clear();
-            }
+                mLogEntries.clear();}
 
             Log.i(TAG, "App logs rotated");
         } catch (Exception e) {
@@ -240,22 +350,24 @@ public class LogManager {
                     if (file.isDirectory()) {
                         deleteDirectory(file);
                     } else {
-                        file.delete();
+                        if (!file.delete()) {
+                            Log.w(TAG, "Failed to delete file: " + file.getAbsolutePath());
+                        }
                     }
                 }
             }
-            directory.delete();
+            if (!directory.delete()) {
+                Log.w(TAG, "Failed to delete directory: " + directory.getAbsolutePath());
+            }
         }
     }
-
-    // ===== 日志操作 =====
 
     public void addLog(LogEntry entry) {
         if (!mInitialized) return;
         synchronized (mLogEntries) {
             mLogEntries.add(entry);
         }
-        saveLogAsync(entry);
+        mWriteQueue.offer(entry);
     }
 
     public void addLogs(List<LogEntry> entries) {
@@ -263,7 +375,10 @@ public class LogManager {
         synchronized (mLogEntries) {
             mLogEntries.addAll(entries);
         }
-        saveLogsAsync(entries);
+
+        for (LogEntry entry : entries) {
+            mWriteQueue.offer(entry);
+        }
     }
 
     public void addXposedLog(LogEntry entry) {
@@ -282,10 +397,16 @@ public class LogManager {
         synchronized (mLogEntries) {
             mLogEntries.clear();
         }
-        deleteLogFile();
+        if (mAppLogDir.exists()) {
+            deleteDirectory(mAppLogDir);
+        }
         if (mAppLogOldDir.exists()) {
             deleteDirectory(mAppLogOldDir);
         }
+        if (!mAppLogDir.mkdirs()) {
+            Log.w(TAG, "Failed to recreate app log directory after clear");
+        }
+        mCurrentLogFile = getCurrentLogFile();
     }
 
     public void clearXposedLogs() {
@@ -300,7 +421,7 @@ public class LogManager {
     public void clearAllLogs() {
         clearLogs();
         try {
-            XposedLogLoader.clearLogsStatic(mContext);
+            XposedLogLoader.clearLogsStatic(mAppContext);
         } catch (Exception e) {
             Log.e(TAG, "Failed to clear Xposed logs", e);
         }
@@ -318,120 +439,109 @@ public class LogManager {
         }
     }
 
-    // ===== 日志持久化 =====
+    public void shutdown() {
+        flushWriteQueue();
 
-    private void saveLogAsync(LogEntry entry) {
-        new Thread(() -> {
-            try {
-                synchronized (LogManager.class) {
-                    FileOutputStream fos = new FileOutputStream(mAppLogFile, true);
-                    String line = formatLogLine(entry);
-                    fos.write(line.getBytes());
-                    fos.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Save log failed", e);
-            }
-        }).start();
-    }
-
-    private void saveLogsAsync(List<LogEntry> entries) {
-        new Thread(() -> {
-            try {
-                synchronized (LogManager.class) {
-                    FileOutputStream fos = new FileOutputStream(mAppLogFile, true);
-                    for (LogEntry entry : entries) {
-                        String line = formatLogLine(entry);
-                        fos.write(line.getBytes());
-                    }
-                    fos.close();
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Save logs failed", e);
-            }
-        }).start();
+        if (mFlushScheduler != null) {
+            mFlushScheduler.shutdown();
+        }
+        if (mWriteExecutor != null) {
+            mWriteExecutor.shutdown();
+        }
     }
 
     private void loadHistoryLogs() {
-        File oldLogFile = new File(mAppLogOldDir, LOG_FILE);
-        if (oldLogFile.exists()) {
-            loadLogsFromFile(oldLogFile);
+        loadLogsFromDirectory(mAppLogOldDir);
+        loadLogsFromDirectory(mAppLogDir);
+    }
+
+    private void loadLogsFromDirectory(File directory) {
+        if (!directory.exists()) return;
+
+        File[] files = directory.listFiles((dir, name) ->
+            name.startsWith(LOG_FILE_PREFIX) && name.endsWith(LOG_FILE_SUFFIX));
+
+        if (files == null) return;
+
+        java.util.Arrays.sort(files, Comparator.comparing(File::getName));
+
+        for (File file : files) {
+            loadLogsFromFile(file);
         }
-        loadLogsFromFile(mAppLogFile);
     }
 
     private void loadLogsFromFile(File file) {
         try {
             if (!file.exists()) return;
 
-            FileInputStream fis = new FileInputStream(file);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                LogEntry entry = parseLogLine(line);
-                if (entry != null) {
-                    synchronized (mLogEntries) {
-                        mLogEntries.add(entry);
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
+                String line;
+                StringBuilder currentEntry = new StringBuilder();
+
+                while ((line = reader.readLine()) != null) {
+                    if (isNewLogEntry(line)) {
+                        if (!currentEntry.isEmpty()) {
+                            LogEntry entry = parseLogLine(currentEntry.toString());
+                            if (entry != null) {
+                                synchronized (mLogEntries) {
+                                    mLogEntries.add(entry);
+                                }
+                            }
+                        }
+                        currentEntry = new StringBuilder(line);
+                    } else {
+                        if (!currentEntry.isEmpty()) {
+                            currentEntry.append("\n").append(line);
+                        }
+                    }
+                }
+
+                if (!currentEntry.isEmpty()) {
+                    LogEntry entry = parseLogLine(currentEntry.toString());
+                    if (entry != null) {
+                        synchronized (mLogEntries) {
+                            mLogEntries.add(entry);
+                        }
                     }
                 }
             }
-            reader.close();
         } catch (IOException e) {
             Log.e(TAG, "Load logs from file failed: " + file.getName(), e);
         }
     }
 
-    private void deleteLogFile() {
-        if (mAppLogFile != null && mAppLogFile.exists()) {
-            mAppLogFile.delete();
-        }
-    }
-
-    @SuppressLint("DefaultLocale")
-    private String formatLogLine(LogEntry entry) {
-        String escapedMessage = entry.getMessage().replace("|", "\\|");
-        return String.format("%d|%s|%s|%s|%s|%b\n",
-            entry.getTimestamp(),
-            entry.getLevel(),
-            entry.getModule(),
-            escapedMessage,
-            entry.getTag(),
-            entry.isNewLine());
+    private boolean isNewLogEntry(String line) {
+        return line.startsWith("[") && LOG_LINE_PATTERN.matcher(line).find();
     }
 
     private LogEntry parseLogLine(String line) {
         try {
-            int firstPipe = line.indexOf('|');
-            if (firstPipe == -1) return null;
+            // 提取第一行用于解析元数据
+            String firstLine = line.contains("\n") ? line.substring(0, line.indexOf("\n")) : line;
+            Matcher matcher = LOG_LINE_PATTERN.matcher(firstLine);
 
-            long timestamp = Long.parseLong(line.substring(0, firstPipe));
+            if (matcher.find()) {
+                String timeStr = matcher.group(1);
+                int uid = Integer.parseInt(matcher.group(2));
+                int pid = Integer.parseInt(matcher.group(3));
+                int tid = Integer.parseInt(matcher.group(4));
+                String level = matcher.group(5);
+                String tag = matcher.group(6).trim();
+                String message = matcher.group(7);
 
-            int secondPipe = line.indexOf('|', firstPipe + 1);
-            if (secondPipe == -1) return null;
-            String level = line.substring(firstPipe + 1, secondPipe);
+                if (line.contains("\n")) {
+                    message = message + line.substring(line.indexOf("\n"));
+                }
 
-            int thirdPipe = line.indexOf('|', secondPipe + 1);
-            if (thirdPipe == -1) return null;
-            String module = line.substring(secondPipe + 1, thirdPipe);
+                long timestamp = LOG_TIME_FORMAT.parse(timeStr).getTime();
 
-            int lastPipe = line.lastIndexOf('|');
-            if (lastPipe == -1 || lastPipe == thirdPipe) return null;
-            boolean newLine = Boolean.parseBoolean(line.substring(lastPipe + 1));
-
-            int secondLastPipe = line.lastIndexOf('|', lastPipe - 1);
-            if (secondLastPipe == -1 || secondLastPipe == thirdPipe) return null;
-            String tag = line.substring(secondLastPipe + 1, lastPipe);
-
-            String message = line.substring(thirdPipe + 1, secondLastPipe).replace("\\|", "|");
-
-            return new LogEntry(timestamp, level, module, message, tag, newLine);
+                return new LogEntry(timestamp, level, "App", message, tag, true, uid, pid, tid);
+            }
         } catch (Exception e) {
             Log.e(TAG, "Parse log line failed: " + line, e);
-            return null;
         }
+        return null;
     }
-
-    // ===== 压缩导出 =====
 
     /**
      * 创建日志压缩包到缓存目录
@@ -439,12 +549,12 @@ public class LogManager {
      */
     public File createLogZipFile() {
         try {
-            // 导出前先更新设备信息
             updateDeviceInfoSync();
 
-            File cacheDir = new File(mContext.getCacheDir(), "log_export");
-            if (!cacheDir.exists()) {
-                cacheDir.mkdirs();
+            File cacheDir = new File(mAppContext.getCacheDir(), "log_export");
+            if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+                Log.w(TAG, "Failed to create cache directory for log export");
+                return null;
             }
 
             cleanOldExportFiles(cacheDir);
@@ -476,8 +586,7 @@ public class LogManager {
             if (zipFile == null || !zipFile.exists()) {
                 return false;
             }
-
-            OutputStream os = mContext.getContentResolver().openOutputStream(uri);
+            OutputStream os = mAppContext.getContentResolver().openOutputStream(uri);
             if (os == null) {
                 return false;
             }
@@ -500,7 +609,9 @@ public class LogManager {
             return false;
         } finally {
             if (zipFile != null && zipFile.exists()) {
-                zipFile.delete();
+                if (!zipFile.delete()) {
+                    Log.w(TAG, "Failed to delete temporary zip file: " + zipFile.getAbsolutePath());
+                }
             }
         }
     }
@@ -514,20 +625,12 @@ public class LogManager {
             return false;
         }
 
-        ZipOutputStream zos = null;
-        try {
-            zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)));
+        try (ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(zipFile)))) {
             addDirectoryToZip(zos, sourceDir, sourceDir.getName());
             return true;
         } catch (IOException e) {
             Log.e(TAG, "Failed to create zip file", e);
             return false;
-        } finally {
-            if (zos != null) {
-                try {
-                    zos.close();
-                } catch (IOException ignored) {}
-            }
         }
     }
 
@@ -555,9 +658,7 @@ public class LogManager {
      * 添加单个文件到压缩文件
      */
     private void addFileToZip(ZipOutputStream zos, File file, String entryPath) throws IOException {
-        BufferedInputStream bis = null;
-        try {
-            bis = new BufferedInputStream(new FileInputStream(file));
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
             ZipEntry entry = new ZipEntry(entryPath);
             entry.setTime(file.lastModified());
             zos.putNextEntry(entry);
@@ -569,12 +670,6 @@ public class LogManager {
             }
 
             zos.closeEntry();
-        } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (IOException ignored) {}
-            }
         }
     }
 
@@ -588,7 +683,9 @@ public class LogManager {
         java.util.Arrays.sort(files, (a, b) -> Long.compare(b.lastModified(), a.lastModified()));
 
         for (int i = 5; i < files.length; i++) {
-            files[i].delete();
+            if (!files[i].delete()) {
+                Log.w(TAG, "Failed to delete old export file: " + files[i].getAbsolutePath());
+            }
         }
     }
 
@@ -612,10 +709,7 @@ public class LogManager {
             entry.getMessage());
     }
 
-    /**
-     * 获取 Context
-     */
     public Context getContext() {
-        return mContext;
+        return mAppContext;
     }
 }

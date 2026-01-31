@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -122,26 +123,46 @@ public class XposedLogLoader {
     }
 
     private void initLogDirectories() {
-        appLogBaseDir.mkdirs();
-        lspdCopyBaseDir.mkdirs();
-        lspdLogDir.mkdirs();
-        lspdLogOldDir.mkdirs();
-        filteredDir.mkdirs();
-        new File(filteredDir, LSPD_LOG_SUBDIR).mkdirs();
-        new File(filteredDir, LSPD_LOG_OLD_SUBDIR).mkdirs();
+        if (!appLogBaseDir.exists() && !appLogBaseDir.mkdirs()) {
+            Log.w(TAG, "Failed to create app log base directory");
+        }
+        if (!lspdCopyBaseDir.exists() && !lspdCopyBaseDir.mkdirs()) {
+            Log.w(TAG, "Failed to create lspd copy base directory");
+        }
+        if (!lspdLogDir.exists() && !lspdLogDir.mkdirs()) {
+            Log.w(TAG, "Failed to create lspd log directory");
+        }
+        if (!lspdLogOldDir.exists() && !lspdLogOldDir.mkdirs()) {
+            Log.w(TAG, "Failed to create lspd log old directory");
+        }
+        if (!filteredDir.exists() && !filteredDir.mkdirs()) {
+            Log.w(TAG, "Failed to create filtered directory");
+        }
+
+        File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
+        if (!filteredLogDir.exists() && !filteredLogDir.mkdirs()) {
+            Log.w(TAG, "Failed to create filtered log directory");
+        }
+        File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
+        if (!filteredLogOldDir.exists() && !filteredLogOldDir.mkdirs()) {
+            Log.w(TAG, "Failed to create filtered log old directory");
+        }
     }
 
     public void syncLogs(Runnable callback) {
         new Thread(() -> {
             try {
-                loadFilteredLogsToMemory();
-                if (callback != null) callback.run();
+                // 先同步日志文件
                 syncLogsInternal();
+                // 同步完成后加载到内存
                 loadFilteredLogsToMemory();
                 Log.i(TAG, "Log sync completed successfully");
             } catch (Exception e) {
                 Log.e(TAG, "Failed to sync logs", e);
-                if (callback != null) callback.run();
+            } finally {
+                if (callback != null) {
+                    callback.run();
+                }
             }
         }).start();
     }
@@ -220,19 +241,32 @@ public class XposedLogLoader {
 
             if (lspdLogDir.exists() && hasFiles(lspdLogDir)) {
                 File tempOldDir = new File(lspdCopyBaseDir, LSPD_LOG_OLD_SUBDIR);
-                if (lspdLogDir.renameTo(tempOldDir)) {
-                    lspdLogOldDir.getParentFile().mkdirs();
+                if (!lspdLogDir.renameTo(tempOldDir)) {
+                    Log.w(TAG, "Failed to rename lspd log directory to log.old");
+                }
+                File parentDir = lspdLogOldDir.getParentFile();
+                if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
+                    Log.w(TAG, "Failed to create parent directory for lspd log old");
                 }
             }
 
             File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
             File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
             if (filteredLogDir.exists() && hasFiles(filteredLogDir)) {
-                filteredLogDir.renameTo(filteredLogOldDir);
+                if (!filteredLogDir.renameTo(filteredLogOldDir)) {
+                    Log.w(TAG, "Failed to rename filtered log directory to log.old");
+                }
             }
 
-            lspdLogDir.mkdirs();
-            new File(filteredDir, LSPD_LOG_SUBDIR).mkdirs();
+            if (!lspdLogDir.exists() && !lspdLogDir.mkdirs()) {
+                Log.w(TAG, "Failed to recreate lspd log directory");
+            }
+
+            File newFilteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
+            if (!newFilteredLogDir.exists() && !newFilteredLogDir.mkdirs()) {
+                Log.w(TAG, "Failed to recreate filtered log directory");
+            }
+
             Log.i(TAG, "Xposed logs rotated");
         } catch (Exception e) {
             Log.e(TAG, "Failed to rotate Xposed logs", e);
@@ -375,21 +409,31 @@ public class XposedLogLoader {
     }
 
     private void loadFilteredLogsToMemory() {
-        LogManager logManager = LogManager.getInstance();
-        logManager.clearXposedLogs();
-        List<LogEntry> entries = new ArrayList<>();
+        try {
+            LogManager logManager = LogManager.getInstance();
+            List<LogEntry> entries = new ArrayList<>();
 
-        File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
-        entries.addAll(loadLogsFromDirectory(filteredLogDir));
+            File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
+            entries.addAll(loadLogsFromDirectory(filteredLogOldDir));
 
-        File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
-        entries.addAll(loadLogsFromDirectory(filteredLogOldDir));
+            File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
+            entries.addAll(loadLogsFromDirectory(filteredLogDir));
 
-        entries.sort((a, b) -> Long.compare(a.getTimestamp(), b.getTimestamp()));
+            // 按时间排序
+            entries.sort(Comparator.comparingLong(LogEntry::getTimestamp));
 
-        if (!entries.isEmpty()) {
-            logManager.addXposedLogs(entries);
-            Log.i(TAG, "Loaded " + entries.size() + " log entries to memory");
+            // 先清空再添加，确保数据一致性
+            synchronized (LogManager.class) {
+                logManager.clearXposedLogs();
+                if (!entries.isEmpty()) {
+                    logManager.addXposedLogs(entries);
+                    Log.i(TAG, "Loaded " + entries.size() + " Xposed log entries to memory");
+                } else {
+                    Log.i(TAG, "No Xposed log entries found");
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to load filtered logs to memory", e);
         }
     }
 
@@ -397,15 +441,18 @@ public class XposedLogLoader {
         List<LogEntry> entries = new ArrayList<>();
         if (!directory.exists()) return entries;
 
-        File[] files = directory.listFiles((dir, name) ->
-            name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log"));
+        File[] files = directory.listFiles((dir, name) ->name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log"));
 
-        if (files == null) return entries;
-        Arrays.sort(files, (a, b) -> a.getName().compareTo(b.getName()));
+        if (files == null || files.length == 0) return entries;
+
+        Arrays.sort(files, Comparator.comparing(File::getName));
+
+        int estimatedSize = files.length * 100;
+        entries = new ArrayList<>(estimatedSize);
 
         for (File file : files) {
             try {
-                entries.addAll(parseLogFile(file));
+                parseLogFileOptimized(file, entries);
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse log file: " + file.getName(), e);
             }
@@ -413,9 +460,8 @@ public class XposedLogLoader {
         return entries;
     }
 
-    private List<LogEntry> parseLogFile(File file) throws IOException {
-        List<LogEntry> entries = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+    private void parseLogFileOptimized(File file, List<LogEntry> entries) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
             String line;
             LogEntry currentEntry = null;
             StringBuilder currentMessage = null;
@@ -426,7 +472,8 @@ public class XposedLogLoader {
                         entries.add(buildLogEntry(currentEntry, currentMessage.toString()));
                     }
                     currentEntry = parseXposedLogLine(line);
-                    currentMessage = new StringBuilder(currentEntry.getMessage());
+                    currentMessage = new StringBuilder(256);
+                    currentMessage.append(currentEntry.getMessage());
                 } else if (currentMessage != null) {
                     currentMessage.append("\n").append(line);
                 }
@@ -435,7 +482,6 @@ public class XposedLogLoader {
                 entries.add(buildLogEntry(currentEntry, currentMessage.toString()));
             }
         }
-        return entries;
     }
 
     public File exportLogs() {
@@ -465,10 +511,15 @@ public class XposedLogLoader {
     public void clearLogs() {
         deleteDirectory(lspdCopyBaseDir);
         deleteDirectory(filteredDir);
-        if (rotationMarkerFile.exists()) rotationMarkerFile.delete();
+        if (rotationMarkerFile.exists() && !rotationMarkerFile.delete()) {
+            Log.w(TAG, "Failed to delete rotation marker file");
+        }
         initLogDirectories();
-        LogManager.getInstance().clearXposedLogs();
-        Log.i(TAG, "Logs cleared");
+        try {
+            LogManager.getInstance().clearXposedLogs();
+        } catch (Exception e) {
+            Log.w(TAG, "Failed to clear Xposed logs from LogManager", e);
+        }
     }
 
     private boolean isNewLogEntry(String line) {
@@ -559,11 +610,15 @@ public class XposedLogLoader {
                     if (file.isDirectory()) {
                         deleteDirectory(file);
                     } else {
-                        file.delete();
+                        if (!file.delete()) {
+                            Log.w(TAG, "Failed to delete file: " + file.getAbsolutePath());
+                        }
                     }
                 }
             }
-            directory.delete();
+            if (!directory.delete()) {
+                Log.w(TAG, "Failed to delete directory: " + directory.getAbsolutePath());
+            }
         }
     }
 

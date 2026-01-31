@@ -91,6 +91,9 @@ public class LogViewerActivity extends BaseActivity
 
     private static final int sExportRequestCode = 1001;
     private static final int sShareRequestCode = 1002;
+    private final Handler mSearchHandler = new Handler(Looper.getMainLooper());
+    private Runnable mSearchRunnable;
+    private static final long SEARCH_DEBOUNCE_MS = 200;
 
     @Override
     protected int getContentLayoutId() {
@@ -129,26 +132,88 @@ public class LogViewerActivity extends BaseActivity
 
         mSearchEditText.setHint(com.sevtinge.hyperceiler.core.R.string.log_search_hint);
 
-        setupRecyclerView();
-        setupSearchFilter();
+        // 先设置空适配器，快速显示界面
+        setupEmptyRecyclerView();
         setupLogTypeFilter();
-        setupLevelFilter();
-        setupModuleFilter();}
+        setupSearchFilter();
 
-    private void setupRecyclerView() {
-        List<LogEntry> logEntries = mLogManager != null ?
-            mLogManager.getLogEntries() : new ArrayList<>();
+        // 延迟加载数据
+        mRecyclerView.post(this::loadDataAsync);
+    }
 
-        mLogAdapter = new LogAdapter(this, logEntries);
-        mLogAdapter.setOnFilterChangeListener(this);
-        mLogAdapter.setOnLogItemClickListener(this);
-
+    private void setupEmptyRecyclerView() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(mLogAdapter);
         mRecyclerView.addItemDecoration(new CardItemDecoration(this));
         mRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
 
+        mLogAdapter = new LogAdapter(this, new ArrayList<>());
+        mLogAdapter.setOnFilterChangeListener(this);
+        mLogAdapter.setOnLogItemClickListener(this);
+        mLogAdapter.setOnDataUpdateListener(this::onAdapterDataUpdated);
+
+        mRecyclerView.setAdapter(mLogAdapter);
+    }
+
+    private void onAdapterDataUpdated() {
         updateList();
+        refreshFilterSpinners();
+        setupSpinnerListeners();
+    }
+
+    private void loadDataAsync() {
+        new Thread(() -> {
+            List<LogEntry> logEntries = mLogManager != null ? mLogManager.getLogEntries() : new ArrayList<>();
+
+            runOnUiThread(() -> {
+                if (mLogAdapter != null) {
+                    mLogAdapter.updateData(logEntries);
+                }
+            });
+        }).start();
+    }
+
+    private void setupSpinnerListeners() {
+        mLevelSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mLogAdapter == null) return;
+                try {
+                    if (position >= 0 && position < mLevelList.size()) {
+                        mLogAdapter.setLevelFilter(mLevelList.get(position));
+                    } else {
+                        mLogAdapter.setLevelFilter("ALL");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error in level spinner selection", e);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if (mLogAdapter != null) mLogAdapter.setLevelFilter("ALL");
+            }
+        });
+
+        mModuleSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (mLogAdapter == null) return;
+                try {
+                    if (position >= 0 && position < mModuleList.size()) {
+                        mLogAdapter.setModuleFilter(mModuleList.get(position));
+                    } else {
+                        mLogAdapter.setModuleFilter("ALL");
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error in module spinner selection", e);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if (mLogAdapter != null) mLogAdapter.setModuleFilter("ALL");
+            }
+        });
     }
 
     private void updateList() {
@@ -195,8 +260,7 @@ public class LogViewerActivity extends BaseActivity
 
         if (mLogAdapter != null) {
             mLogAdapter.updateData(logEntries);
-            updateList();
-            refreshFilterSpinners();
+            // 回调会处理后续操作
         }
 
         if (mRecyclerView != null && mLogAdapter != null && mLogAdapter.getItemCount() > 0) {
@@ -206,13 +270,15 @@ public class LogViewerActivity extends BaseActivity
 
     private void refreshFilterSpinners() {
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
+            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout,
+            0x01020014, mLevelList);
         levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mLevelSpinner.setAdapter(levelAdapter);
         mLevelSpinner.setSelection(0);
 
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
+            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout,
+            0x01020014, mModuleList);
         moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
         mModuleSpinner.setAdapter(moduleAdapter);
         mModuleSpinner.setSelection(0);
@@ -228,11 +294,21 @@ public class LogViewerActivity extends BaseActivity
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (mLogAdapter != null) {
-                    mLogAdapter.setSearchKeyword(s.toString());
+                if (mSearchRunnable != null) {
+                    mSearchHandler.removeCallbacks(mSearchRunnable);
                 }
+
+                final String keyword = s.toString();
+                mSearchRunnable = () -> {
+                    if (mLogAdapter != null) {
+                        mLogAdapter.setSearchKeyword(keyword);
+                    }};
+
+                mSearchHandler.postDelayed(mSearchRunnable, SEARCH_DEBOUNCE_MS);
             }
-        });mSearchEditText.setOnSearchListener(this::clearAllFilters);
+        });
+
+        mSearchEditText.setOnSearchListener(this::clearAllFilters);
     }
 
     private void clearAllFilters() {
@@ -450,7 +526,9 @@ public class LogViewerActivity extends BaseActivity
                     File[] files = cacheDir.listFiles();
                     if (files != null) {
                         for (File file : files) {
-                            file.delete();
+                            if (!file.delete()) {
+                                Log.w(TAG, "Failed to delete cache file: " + file.getAbsolutePath());
+                            }
                         }
                     }
                 }

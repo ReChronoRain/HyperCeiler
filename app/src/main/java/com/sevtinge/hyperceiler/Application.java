@@ -45,7 +45,7 @@ import io.github.libxposed.service.XposedService;
 import io.github.libxposed.service.XposedServiceHelper;
 
 public class Application extends android.app.Application implements XposedServiceHelper.OnServiceListener {
-    private static final String TAG = "HyperCeiler:Application";
+    private static final String TAG = "Application";
     private static final Runnable reloadListener = () -> {};
     public static boolean isModuleActivated = false;
 

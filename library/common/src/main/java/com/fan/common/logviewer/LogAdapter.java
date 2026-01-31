@@ -20,6 +20,8 @@ package com.fan.common.logviewer;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -41,6 +43,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fan.internal.utils.AnimHelper;
 import fan.recyclerview.card.CardGroupAdapter;
@@ -67,6 +71,21 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     // 监听器
     private OnFilterChangeListener mFilterChangeListener;
     private OnLogItemClickListener mLogItemClickListener;
+    private Runnable mPendingUpdate;
+
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private final ExecutorService mFilterExecutor = Executors.newSingleThreadExecutor();
+    private volatile boolean mIsFiltering = false;
+
+    public interface OnDataUpdateListener {
+        void onDataUpdated();
+    }
+
+    private OnDataUpdateListener mDataUpdateListener;
+
+    public void setOnDataUpdateListener(OnDataUpdateListener listener) {
+        mDataUpdateListener = listener;
+    }
 
     public LogAdapter(Context context, List<LogEntry> logEntries) {
         mContext = context;
@@ -120,55 +139,86 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     }
 
     // 更新数据
-    // 安全的更新数据方法
     public void updateData(List<LogEntry> newLogEntries) {
-        if (newLogEntries == null) {
-            return;
+        if (newLogEntries == null) return;
+
+        if (mPendingUpdate != null) {
+            mMainHandler.removeCallbacks(mPendingUpdate);
         }
 
-        mOriginalLogEntries = new ArrayList<>(newLogEntries);
-        // 倒序显示，最新的日志在最上面
-        Collections.reverse(mOriginalLogEntries);
-        extractAvailableList();
-        performFiltering();
+        mPendingUpdate = () -> {
+            mOriginalLogEntries = new ArrayList<>(newLogEntries);
+            Collections.reverse(mOriginalLogEntries);
+            extractAvailableList();
+            performFiltering();
+
+            // 通知数据更新完成
+            if (mDataUpdateListener != null) {
+                mDataUpdateListener.onDataUpdated();
+            }
+        };
+
+        mMainHandler.postDelayed(mPendingUpdate, 100);
     }
 
     private void performFiltering() {
-        List<LogEntry> filteredList = new ArrayList<>();
+        if (mIsFiltering) return;
+        mIsFiltering = true;
 
-        String searchLower = mSearchKeyword.toLowerCase();
+        // 复制当前过滤条件，避免并发问题
+        final String searchLower = mSearchKeyword.toLowerCase();
+        final String selectedLevel = mSelectedLevel;
+        final String selectedModule = mSelectedModule;
+        final List<LogEntry> originalList = new ArrayList<>(mOriginalLogEntries);
 
-        for (LogEntry entry : mOriginalLogEntries) {
-            // 级别过滤
-            boolean levelMatch = "ALL".equals(mSelectedLevel) ||
-                    mSelectedLevel.equals(entry.getLevel());
+        mFilterExecutor.execute(() -> {
+            try {
+                List<LogEntry> filteredList = new ArrayList<>();
 
-            // 模块过滤
-            boolean moduleMatch = "ALL".equals(mSelectedModule) ||
-                    mSelectedModule.equals(entry.getTag());
+                for (LogEntry entry : originalList) {
+                    if (entry == null) continue;
 
-            // 搜索过滤
-            boolean searchMatch = mSearchKeyword.isEmpty() ||
-                    entry.getMessage().toLowerCase().contains(searchLower) ||
-                    entry.getTag().toLowerCase().contains(searchLower);
+                    // 级别过滤
+                    boolean levelMatch = "ALL".equals(selectedLevel) ||selectedLevel.equals(entry.getLevel());
+                    if (!levelMatch) continue;
 
-            if (levelMatch && moduleMatch && searchMatch) {
-                filteredList.add(entry);
+                    // 模块过滤
+                    boolean moduleMatch = "ALL".equals(selectedModule) ||
+                        selectedModule.equals(entry.getTag());
+                    if (!moduleMatch) continue;
+
+                    // 搜索过滤
+                    if (!searchLower.isEmpty()) {
+                        String message = entry.getMessage();
+                        String tag = entry.getTag();
+                        if (message == null || tag == null) continue;
+
+                        boolean searchMatch = message.toLowerCase().contains(searchLower) ||
+                            tag.toLowerCase().contains(searchLower);
+                        if (!searchMatch) continue;
+                    }
+
+                    filteredList.add(entry);
+                }
+
+                final List<LogEntry> result = filteredList;
+                final int filteredSize = result.size();
+                final int totalSize = originalList.size();
+
+                mMainHandler.post(() -> {
+                    mFilteredLogEntries = result;
+                    notifyDataSetChanged();
+
+                    if (mFilterChangeListener != null) {
+                        mFilterChangeListener.onFilterChanged(filteredSize, totalSize);
+                    }
+                    mIsFiltering = false;
+                });
+            } catch (Exception e) {
+                mIsFiltering = false;
             }
-        }
-
-        mFilteredLogEntries = filteredList;
-        notifyDataSetChanged();
-
-        // 通知过滤变化
-        if (mFilterChangeListener != null) {
-            mFilterChangeListener.onFilterChanged(
-                    mFilteredLogEntries.size(),
-                    mOriginalLogEntries.size()
-            );
-        }
+        });
     }
-
 
     // 搜索功能
     // 设置过滤条件
@@ -297,6 +347,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         private final TextView mLevelTextView;
         private final TextView mModuleTextView;
         private final TextView mMessageTextView;
+        private final StringBuilder mTempBuilder = new StringBuilder();
 
         public LogViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -311,34 +362,30 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         public void bind(LogEntry logEntry, String searchKeyword) {
             mLevelIndicator.setBackgroundColor(logEntry.getColor());
 
-            // 设置时间
-            mTimeTextView.setText(logEntry.getFormattedTime() + " | ");
+            mTempBuilder.setLength(0);
+            mTempBuilder.append(logEntry.getFormattedTime()).append(" | ");
+            mTimeTextView.setText(mTempBuilder);
 
-            // 设置级别（带颜色）
             mLevelTextView.setText(logEntry.getLevel());
-            //mLevelTextView.setTextColor(logEntry.getColor());
-
-            // 设置模块
             mModuleTextView.setText(logEntry.getTag());
 
-            // 设置消息（支持搜索高亮和换行）
+            // 设置消息
             String message = logEntry.getMessage();
-            if (!TextUtils.isEmpty(searchKeyword) && message.toLowerCase()
-                    .contains(searchKeyword.toLowerCase())) {
+            if (!TextUtils.isEmpty(searchKeyword) && message != null &&
+                message.toLowerCase().contains(searchKeyword.toLowerCase())) {
                 mMessageTextView.setText(highlightText(message, searchKeyword));
             } else {
                 mMessageTextView.setText(message);
             }
 
             // 处理换行显示
-            if (logEntry.isNewLine()) {
-                mMessageTextView.setSingleLine(false);
+            boolean isNewLine = logEntry.isNewLine();
+            mMessageTextView.setSingleLine(!isNewLine);
+            if (isNewLine) {
                 mMessageTextView.setMaxLines(10);
                 mMessageTextView.setEllipsize(null);
             } else {
-                mMessageTextView.setSingleLine(true);
-                mMessageTextView.setEllipsize(TextUtils.TruncateAt.END);
-            }
+                mMessageTextView.setEllipsize(TextUtils.TruncateAt.END);}
         }
 
         private SpannableString highlightText(String text, String keyword) {

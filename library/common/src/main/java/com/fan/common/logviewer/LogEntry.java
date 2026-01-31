@@ -31,6 +31,9 @@ public class LogEntry {
     private final String mMessage;
     private final String mTag;
     private final boolean mNewLine;
+    private final int mUid;
+    private final int mPid;
+    private final int mTid;
 
     @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat sTimeFormat =
@@ -38,18 +41,30 @@ public class LogEntry {
     @SuppressLint("ConstantLocale")
     private static final SimpleDateFormat sDateTimeFormat =
         new SimpleDateFormat("yy-MM-dd HH:mm:ss", Locale.getDefault());
+    @SuppressLint("ConstantLocale")
+    private static final SimpleDateFormat sLogFileFormat =
+        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.getDefault());
 
     public LogEntry(String level, String module, String message, String tag, boolean newLine) {
-        this(System.currentTimeMillis(), level, module, message, tag, newLine);
+        this(System.currentTimeMillis(), level, module, message, tag, newLine,
+            android.os.Process.myUid(), android.os.Process.myPid(), android.os.Process.myTid());
     }
 
     public LogEntry(long timestamp, String level, String module, String message, String tag, boolean newLine) {
+        this(timestamp, level, module, message, tag, newLine, 0, 0, 0);
+    }
+
+    public LogEntry(long timestamp, String level, String module, String message, String tag, boolean newLine,
+                    int uid, int pid, int tid) {
         this.mTimestamp = timestamp;
         this.mLevel = level;
         this.mModule = module;
         this.mMessage = message;
         this.mTag = tag;
         this.mNewLine = newLine;
+        this.mUid = uid;
+        this.mPid = pid;
+        this.mTid = tid;
     }
 
     // Getters
@@ -77,6 +92,18 @@ public class LogEntry {
         return mNewLine;
     }
 
+    public int getUid() {
+        return mUid;
+    }
+
+    public int getPid() {
+        return mPid;
+    }
+
+    public int getTid() {
+        return mTid;
+    }
+
     public String getFormattedTime() {
         Date logDate = new Date(mTimestamp);
         long now = System.currentTimeMillis();
@@ -86,6 +113,10 @@ public class LogEntry {
         } else {
             return sDateTimeFormat.format(logDate);
         }
+    }
+
+    public String getLogFileFormattedTime() {
+        return sLogFileFormat.format(new Date(mTimestamp));
     }
 
     private static boolean isSameDay(Date d1, long currentTimeMillis) {
@@ -102,5 +133,16 @@ public class LogEntry {
             case "E" -> 0xFFF44336; // ERROR - Red
             default -> 0xFF000000;  // Black
         };
+    }
+
+    public String toLogFileLine() {
+        return String.format(Locale.US, "[ %s %8d:%6d:%6d %s/%-12s ] %s",
+            getLogFileFormattedTime(),
+            mUid,
+            mPid,
+            mTid,
+            mLevel,
+            mTag,
+            mMessage);
     }
 }
