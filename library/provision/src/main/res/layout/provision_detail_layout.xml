@@ -18,30 +18,32 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/provision_lyt"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <include layout="@layout/provision_actionbar_layout" />
 
+    <Space
+        android:id="@+id/provision_title_space"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        tools:visibility="visible"
+        android:layout_height="@dimen/provision_space_between_actionbar_title" />
+
+    <ImageView
+        android:id="@+id/preview_image"
+        android:layout_width="@dimen/provision_preview_image_size"
+        android:layout_height="@dimen/provision_preview_image_size"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/provision_preview_image_margin_top"
+        android:layout_marginBottom="@dimen/provision_preview_image_margin_bottom"/>
+
     <include layout="@layout/provision_lyt_title_layout" />
 
-    <FrameLayout
-        android:id="@+id/provision_preview_layout"
-        android:layout_width="@dimen/provision_preview_width"
-        android:layout_height="@dimen/provision_preview_height"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone">
-
-        <include layout="@layout/provision_anim_display_layout" />
-    </FrameLayout>
+    <include layout="@layout/provision_anim_display_layout" />
 
     <include layout="@layout/provision_fragment_content" />
-
-    <include
-        android:id="@+id/provision_lyt_btn"
-        layout="@layout/provision_btn_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/provision_lyt_btn_margin_bottom" />
 </LinearLayout>

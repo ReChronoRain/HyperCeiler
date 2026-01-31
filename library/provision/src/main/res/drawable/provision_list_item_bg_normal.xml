@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -17,8 +16,7 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/provision_title"
-    style="@style/ProvisionPageTitleTextStyle"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/provision_item_bg_color" />
+    <corners android:radius="@dimen/miuix_theme_radius_common" />
+</shape>

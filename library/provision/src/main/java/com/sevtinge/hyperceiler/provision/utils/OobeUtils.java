@@ -33,6 +33,7 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.provision.R;
+import com.sevtinge.hyperceiler.provision.activity.ProvisionBaseActivity;
 
 import java.security.SecureRandom;
 import java.util.Locale;
@@ -93,7 +94,7 @@ public class OobeUtils {
     final public static String verificationCode = getSecureSixDigit();
 
     public static View getNextView(Activity activity) {
-        return activity.findViewById(R.id.confirm_button);
+        return ((ProvisionBaseActivity) activity).getNextButton();
     }
 
     public static boolean getOperatorState(Context context, String str) {
@@ -140,6 +141,14 @@ public class OobeUtils {
 
     public static boolean isTabletLand(Context context) {
         return isLandOrientation(context) && isTabletDevice();
+    }
+
+    public static boolean isTabletPort(Context context) {
+        return isPortOrientation(context) && Build.IS_TABLET;
+    }
+
+    public static boolean isPortOrientation(Context context) {
+        return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT;
     }
 
     public static boolean isLandOrientation(Context context) {

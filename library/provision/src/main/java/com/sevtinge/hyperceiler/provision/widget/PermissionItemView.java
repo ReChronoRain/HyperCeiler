@@ -51,13 +51,9 @@ public class PermissionItemView extends FrameLayout {
 
         mItemTitle.setTextColor(getResources().getColor(R.color.provision_list_item_text_unselected, context.getTheme()));
         mItemIcon.setVisibility(mIsSelected ? VISIBLE : INVISIBLE);
-        setClickable(true);
-    }
-
-    @Override
-    public boolean performClick() {
-        setItemSelected(!mIsSelected);
-        return super.performClick();
+        setOnClickListener(v -> {
+            setItemSelected(!mIsSelected);
+        });
     }
 
     public void setItemTitle(int resId) {

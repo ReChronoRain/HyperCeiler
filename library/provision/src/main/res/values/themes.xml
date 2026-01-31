@@ -21,12 +21,27 @@
 
     <style name="ProvisionTheme" parent="@style/Theme.AppCompat.DayNight">
         <item name="windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:listDivider">@null</item>
+        <item name="windowActionBarOverlay">false</item>
+
         <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:windowBackground">?attr/colorSurfaceLow</item>
+
+        <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
+        <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_light</item>
+
+        <item name="android:listDivider">@null</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+
+        <item name="groupButtonsPanelBackground">?android:attr/windowBackground</item>
+        <item name="groupButtonsPrimaryButtonStyle">@style/Widget.Button.Primary</item>
+        <item name="groupButtonsSecondaryButtonStyle">@style/Widget.Button</item>
+        <item name="groupButtonsTertiaryButtonStyle">@style/Widget.Button</item>
     </style>
 
     <style name="TransparentActionBarTheme" parent="Theme.AppCompat.DayNight.NoActionBar">

@@ -24,17 +24,15 @@
         <item name="android:ellipsize">end</item>
         <item name="android:gravity">bottom|center_horizontal</item>
         <item name="android:maxLines">3</item>
-        <item name="android:fontFamily">mipro-light</item>
-        <item name="android:autoSizeTextType">uniform</item>
-        <item name="android:autoSizeMinTextSize">8.0dp</item>
-        <item name="android:autoSizeMaxTextSize">@dimen/provision_title_text_size</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="ProvisionPageSubTitleTextStyle">
         <item name="android:textSize">@dimen/provision_subtitle_text_size</item>
         <item name="android:textColor">@color/provision_subtitle_text_color</item>
         <item name="android:ellipsize">end</item>
-        <item name="android:maxLines">2</item>
+        <item name="android:maxLines">3</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 
     <style name="ProvisionServiceTitleTextStyle">

@@ -22,15 +22,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:layout_marginTop="@dimen/provision_actionbar_margin_top"
+    android:minHeight="@dimen/provision_actionbar_height"
     android:paddingHorizontal="@dimen/provision_actionbar_padding_horizontal"
-    android:paddingTop="@dimen/provision_actionbar_padding_top"
-    android:paddingBottom="@dimen/provision_actionbar_padding_bottom">
+    android:paddingVertical="@dimen/provision_actionbar_padding_vertical">
 
     <ImageView
         android:id="@+id/back_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="@dimen/provision_back_icon_margin_start"
+        android:layout_width="@dimen/provision_actionbar_icon_size"
+        android:layout_height="@dimen/provision_actionbar_icon_size"
         android:contentDescription="@string/provision_back_description"
         android:src="?android:homeAsUpIndicator" />
 </LinearLayout>

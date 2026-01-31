@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.provision.utils;
 
-import com.sevtinge.hyperceiler.provision.activity.ProvisionActivity.StateMachine;
+import com.sevtinge.hyperceiler.provision.state.StateMachine;
 
 public class ProvisionStateHolder {
 

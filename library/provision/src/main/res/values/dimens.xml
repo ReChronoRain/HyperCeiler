@@ -20,23 +20,34 @@
 <resources>
     <dimen name="provision_padding_top">30dp</dimen>
 
-    <dimen name="provision_back_icon_margin_start">0dp</dimen>
+    <dimen name="provision_actionbar_icon_size">40dp</dimen>
 
-    <dimen name="provision_actionbar_height">66.5dp</dimen>
-    <dimen name="provision_actionbar_padding_top">43dp</dimen>
+    <dimen name="provision_actionbar_height">56dp</dimen>
+    <dimen name="provision_actionbar_margin_top">50dp</dimen>
     <dimen name="provision_actionbar_padding_bottom">8dp</dimen>
+    <dimen name="provision_actionbar_padding_vertical">8dp</dimen>
     <dimen name="provision_actionbar_padding_horizontal">20dp</dimen>
 
-    <dimen name="provision_title_padding">20dp</dimen>
-    <dimen name="provision_title_padding_top">@dimen/provision_padding_top</dimen>
-    <dimen name="provision_title_padding_bottom">50dp</dimen>
+    <dimen name="provision_space_between_actionbar_title">36dp</dimen>
+    <dimen name="provision_space_between_actionbar_title_pad_port_no_lottie">60dp</dimen>
+
+    <dimen name="provision_title_padding_bottom">30dp</dimen>
+    <dimen name="provision_title_padding_horizontal">35dp</dimen>
 
     <dimen name="provision_title_padding_top_goku">30dp</dimen>
 
-    <dimen name="provision_subtitle_text_size">14dp</dimen>
+    <dimen name="provision_title_padding_top_no_lottie">20dp</dimen>
 
-    <dimen name="provision_preview_image_width">100dp</dimen>
-    <dimen name="provision_preview_image_height">100dp</dimen>
+    <dimen name="provision_subtitle_text_size">14sp</dimen>
+    <dimen name="provision_subtitle_margin_top">4dp</dimen>
+    <dimen name="provision_subtitle_margin_bottom">8dp</dimen>
+    <dimen name="provision_subtitle_lyt_min_height">50dp</dimen>
+    <dimen name="provision_subtitle_lyt_min_height_pad_land">31dp</dimen>
+    <dimen name="provision_subtitle_lyt_min_height_pad_port">64dp</dimen>
+
+    <dimen name="provision_preview_image_size">70dp</dimen>
+    <dimen name="provision_preview_image_margin_top">10dp</dimen>
+    <dimen name="provision_preview_image_margin_bottom">8dp</dimen>
 
     <dimen name="provision_real_title_margin_top">8dp</dimen>
 
@@ -54,7 +65,7 @@
     <dimen name="provision_anim_margin_start">0dp</dimen>
     <dimen name="provision_anim_margin_end">0dp</dimen>
 
-    <dimen name="provision_container_margin_top">0dp</dimen>
+    <dimen name="provision_container_padding_horizontal_common">12dp</dimen>
 
     <dimen name="provision_lyt_btn_margin_bottom">44dp</dimen>
     <dimen name="provision_lyt_btn_margin_bottom_flip">40dp</dimen>
@@ -69,7 +80,7 @@
     <dimen name="provision_listview_text_size">18.179993sp</dimen>
     <dimen name="provision_list_item_end">26.909973dp</dimen>
     <dimen name="provision_list_item_start">34.179993dp</dimen>
-    <dimen name="provision_list_item_height">76.359985dp</dimen>
+    <dimen name="provision_list_item_height">56dp</dimen>
     <dimen name="provision_more_list_item_top_margin">10dp</dimen>
 
     <dimen name="provision_lyt_content_margin_start">13.089996dp</dimen>
@@ -79,6 +90,8 @@
     <dimen name="provision_startup_logo_height_thirteen">45.28dp</dimen>
 
     <dimen name="provision_page_content_horizontal">30.909973dp</dimen>
+
+    <dimen name="provision_page_description_padding">12dp</dimen>
 
     <dimen name="provision_page_checkbox_agree_text_size">13.799988sp</dimen>
     <dimen name="provision_page_checkbox_agree_margin_top">8.699982dp</dimen>

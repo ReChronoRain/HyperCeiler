@@ -18,10 +18,13 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -33,44 +36,34 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.data.TermsAndStatementAdapter;
+import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
 import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
-import com.sevtinge.hyperceiler.provision.widget.MarkdownView;
-import com.sevtinge.hyperceiler.provision.widget.WebBottomSheet;
-
-import android.os.Bundle;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.SecureRandom;
 
 import fan.appcompat.app.AlertDialog;
-import fan.bottomsheet.BottomSheetBehavior;
 
-public class TermsAndStatementFragment extends BaseListFragment {
+public class TermsAndStatementFragment extends BaseFragment {
 
-    private String mText;
 
     private View mNextView;
+    private TextView mPrivacyView;
     private CheckBox mAgreeCheckBox;
-    private TermsAndStatementAdapter mTermsAndStatementAdapter;
-
 
     @Override
-    protected int getCustomLayoutId() {
+    protected int getLayoutId() {
         return R.layout.provision_terms_and_statement_layout;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTermsAndStatementAdapter = new TermsAndStatementAdapter(requireActivity());
-        getListView().setAdapter(mTermsAndStatementAdapter);
-        getListView().setTextDirection(OobeUtils.isRTL() ? 4 : 3);
+
+        mPrivacyView = view.findViewById(R.id.privacy);
+
+        String terms = getString(R.string.provision_terms_of_use_label_use_network_china);
+        if (enhanceTermsTitle(terms) != null) {
+            mPrivacyView.setText(enhanceTermsTitle(terms));
+            mPrivacyView.setMovementMethod(fan.androidbase.widget.LinkMovementMethod.getInstance());
+        }
 
         mAgreeCheckBox = view.findViewById(R.id.checkbox_agree);
         mAgreeCheckBox.setVisibility(View.VISIBLE);
@@ -155,5 +148,28 @@ public class TermsAndStatementFragment extends BaseListFragment {
             getActivity().setResult(-1);
             getActivity().finish();
         }
+    }
+
+    public SpannableStringBuilder enhanceTermsTitle(String str) {
+
+        String userAgreement = getString(R.string.provision_user_agreement);
+        String privacyPolicy = getString(R.string.provision_privacy_policy);
+        String spanned = Html.fromHtml(str, Html.FROM_HTML_MODE_LEGACY).toString();
+        int lastIndexOf = spanned.lastIndexOf(userAgreement);
+        int length = userAgreement.length() + lastIndexOf;
+        if (lastIndexOf >= 0 && length <= spanned.length()) {
+            int indexOf = spanned.indexOf(privacyPolicy);
+            int length2 = privacyPolicy.length() + indexOf;
+            if (indexOf >= 0 && length2 <= spanned.length()) {
+                SpannableStringBuilder builder = new SpannableStringBuilder(spanned);
+                int color = getResources().getColor(R.color.provision_button_text_high_color_light, requireContext().getTheme());
+                builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(requireContext(), 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(requireContext(), 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                return builder;
+            }
+        }
+        return null;
     }
 }

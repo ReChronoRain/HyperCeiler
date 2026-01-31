@@ -46,6 +46,7 @@ import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper.AnimListener
 
 import fan.animation.Folme;
 import fan.appcompat.app.AppCompatActivity;
+import fan.appcompat.app.GroupButtonsConfig;
 import fan.os.Build;
 
 public abstract class ProvisionBaseActivity extends AppCompatActivity
@@ -58,11 +59,11 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     private TextureView mDisplayView;
 
     protected ImageView mImageView;
-    protected TextView mTitle;
     private View mTitleSpace;
-    protected TextView mSubTitle;
+    protected TextView mTitle;
     protected View mTitleLayout;
-    protected View mRealTitleLayout;
+    protected TextView mSubTitle;
+    protected View mSubTitleLayout;
 
     protected ImageView mPreviewImage;
     protected Button mSkipButton;
@@ -74,6 +75,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     private boolean isBackBtnEnable = true;
 
     private MediaPlayer mMediaPlayer;
+    private GroupButtonsConfig mConfig;
     private final Handler mHandler = new Handler();
     protected ProvisionAnimHelper mProvisionAnimHelper;
     private final View.OnClickListener mNextClickListener = v -> {
@@ -170,6 +172,10 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         }
     };
 
+    public boolean needLongClickEvent() {
+        return false;
+    }
+
     protected void onBackButtonClick() {}
     protected void onNextButtonClick() {}
     protected void onSkipButtonClick() {}
@@ -185,12 +191,16 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         setContentView(R.layout.provision_detail_layout);
 
         mNewBackBtn = findViewById(R.id.back_icon);
-        mConfirmButton = findViewById(R.id.confirm_button);
-        mSkipButton = findViewById(R.id.skip_button);
-        Folme.useAt(mNewBackBtn).touch().handleTouchOf(mNewBackBtn);
-        Folme.useAt(mConfirmButton).touch().handleTouchOf(mConfirmButton);
-        Folme.useAt(mSkipButton).touch().handleTouchOf(mSkipButton);
-        if ((mHasPreview || OobeUtils.isTabletLand(this)) && superButtonClickListener()) {
+
+        mConfig = getConfig();
+        addGroupButtons(mConfig);
+        mConfirmButton = mConfig.getPrimaryButton();
+        mSkipButton = mConfig.getSecondaryButton();
+
+        mConfirmButton.setVisibility(hasNavigationButton() ? View.VISIBLE : View.GONE);
+        mConfirmButton.setLongClickable(needLongClickEvent());
+        mSkipButton.setLongClickable(needLongClickEvent());
+        if (superButtonClickListener()) {
             mNewBackBtn.setOnClickListener(mBackListener);
             mConfirmButton.setOnClickListener(mNextClickListener);
             mSkipButton.setOnClickListener(mSkipClickListener);
@@ -198,57 +208,53 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         Log.i("OobeUtil2", " current density is " + mNewBackBtn.getResources().getDisplayMetrics().density);
         mImageView = findViewById(R.id.provision_preview_img);
         mDisplayView = findViewById(R.id.video_display_surfaceview);
-        mSubTitle = findViewById(R.id.provision_sub_title);
+
         mTitleSpace = findViewById(R.id.provision_title_space);
-        mTitleLayout = findViewById(R.id.provision_lyt_title);
-        mRealTitleLayout = findViewById(R.id.provision_real_title);
         mPreviewImage = findViewById(R.id.preview_image);
+
+        mTitleLayout = findViewById(R.id.provision_lyt_title);
+        mTitle = findViewById(R.id.provision_title);
+
+        mSubTitleLayout = findViewById(R.id.provision_lyt_subtitle);
+        mSubTitle = findViewById(R.id.provision_sub_title);
+
+        mImageView = findViewById(R.id.provision_preview_img);
+        mDisplayView = findViewById(R.id.video_display_surfaceview);
+
         mMediaPlayer = new MediaPlayer();
         if (hasNewPageAnim() && !OobeUtils.isInternationalBuild()) {
             mDisplayView.setVisibility(View.VISIBLE);
             mDisplayView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
-        mTitle = findViewById(R.id.provision_title);
-        mTitle.setTypeface(Typeface.create("mipro-regular", Typeface.NORMAL));
+
         if (OobeUtils.isTabletDevice()) {
             mTitle.setGravity(81);
         } else {
             mTitle.setGravity(17);
         }
-        if ("goku".equalsIgnoreCase(OobeUtils.BUILD_DEVICE) && OobeUtils.isFoldLarge(this)) {
-            Log.i("OobeUtil2", " goku adapt");
-            mTitleLayout.setPaddingRelative(mTitleLayout.getPaddingStart(), getResources().getDimensionPixelOffset(R.dimen.provision_title_padding_top_goku), mTitleLayout.getPaddingEnd(), mTitleLayout.getPaddingBottom());
-            View findViewById = findViewById(R.id.provision_lyt_btn);
-            ViewGroup.MarginLayoutParams marginLayoutParams = (ViewGroup.MarginLayoutParams) findViewById.getLayoutParams();
-            marginLayoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.provision_lyt_btn_margin_bottom_goku);
-            findViewById.setLayoutParams(marginLayoutParams);
-            adaptGokuWidgetSize(mConfirmButton);
-            adaptGokuWidgetSize(mSkipButton);
-        }
         if (!mHasPreview) {
             mPreviewImage.setVisibility(View.GONE);
-            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) mRealTitleLayout.getLayoutParams();
-            layoutParams.setMargins(0, 0, 0, 0);
-            mRealTitleLayout.setLayoutParams(layoutParams);
-            if (hasSubTitle()) {
-                mTitleSpace.setVisibility(View.VISIBLE);
-                if (mSubTitle != null) {
-                    mSubTitle.setVisibility(View.VISIBLE);
-                }
-                mTitleLayout.setPaddingRelative(mTitleLayout.getPaddingStart(), 0, mTitleLayout.getPaddingEnd(), 0);
-            } else {
-                mTitleLayout.setPaddingRelative(mTitleLayout.getPaddingStart(), 0, mTitleLayout.getPaddingEnd(), getResources().getDimensionPixelOffset(R.dimen.provision_dynamic_title_padding_bottom));
+            if (mTitleSpace != null) {
+                ViewGroup.LayoutParams params = mTitleSpace.getLayoutParams();
+                params.height = getResources().getDimensionPixelOffset(R.dimen.provision_space_between_actionbar_title_pad_port_no_lottie);
+                mTitleSpace.setLayoutParams(params);
             }
+
+            mSubTitleLayout.setVisibility(View.VISIBLE);
+            mSubTitle.setVisibility(hasSubTitle() ? View.VISIBLE : View.GONE);
+            if (OobeUtils.isTabletLand(this)) {
+                mSubTitleLayout.setMinimumHeight(getResources().getDimensionPixelOffset(R.dimen.provision_subtitle_lyt_min_height_pad_land));
+            } else if (OobeUtils.isTabletPort(this)) {
+                mSubTitleLayout.setMinimumHeight(getResources().getDimensionPixelOffset(R.dimen.provision_subtitle_lyt_min_height_pad_port));
+            }
+            mTitleLayout.setPaddingRelative(
+                mTitleLayout.getPaddingStart(),
+                Build.IS_TABLET ? 0 : getResources().getDimensionPixelOffset(R.dimen.provision_title_padding_top_no_lottie),
+                mTitleLayout.getPaddingEnd(),
+                0
+            );
         }
-        if (Build.IS_INTERNATIONAL_BUILD) {
-            OobeUtils.adaptFlipUi(getWindow());
-            View findViewById2 = findViewById(R.id.provision_lyt_btn);
-            ViewGroup.MarginLayoutParams marginLayoutParams2 = (ViewGroup.MarginLayoutParams) findViewById2.getLayoutParams();
-            marginLayoutParams2.bottomMargin = getResources().getDimensionPixelSize(R.dimen.provision_lyt_btn_margin_bottom_flip);
-            findViewById2.setLayoutParams(marginLayoutParams2);
-        }
-        findViewById(R.id.provision_lyt_btn).setVisibility(hasNavigationButton() ? View.VISIBLE : View.GONE);
-        mTitleLayout.setVisibility(hasTitle() ? View.VISIBLE : View.GONE);
+
         if (!OobeUtils.isInternationalBuild()) {
             registerAccessibiltyStateChange(getApplicationContext());
         }
@@ -340,42 +346,25 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     }
 
     protected int getTitleLayoutHeight() {
-        if (mTitleLayout != null) {
-            return mTitleLayout.getHeight();
-        }
-        int height = getResources().getDimensionPixelSize(R.dimen.provision_actionbar_height) + getResources().getDimensionPixelSize(R.dimen.provision_padding_top);
-        int marginTop = getResources().getDimensionPixelSize(R.dimen.provision_container_margin_top);
-        return height + marginTop;
-    }
-
-    public void updateButtonState(boolean enabled) {
-        Log.i("OobeUtil2", " updateButtonState and enabled is " + enabled);
-        if (!OobeUtils.isTabletLand(this) && mNewBackBtn != null && mConfirmButton != null && mSkipButton != null) {
-            mNewBackBtn.setAlpha(enabled ? NO_ALPHA : HALF_ALPHA);
-            mConfirmButton.setAlpha(enabled ? NO_ALPHA : HALF_ALPHA);
-            mSkipButton.setAlpha(enabled ? NO_ALPHA : HALF_ALPHA);
-            if (OobeUtils.needFastAnimation() || needDelayBottomButton()) {
-                isBackBtnEnable = enabled;
-                mConfirmButton.setEnabled(enabled);
-                mSkipButton.setEnabled(enabled);
-            }
-        }
+        return mPreviewImage == null ? 0 : mPreviewImage.getHeight();
     }
 
     public void updateBackButtonState(boolean enabled) {
-        Log.i("OobeUtil2", " updateBackButtonState and enabled is " + enabled);
-        if (!OobeUtils.isTabletLand(this) && mNewBackBtn != null) {
-            mNewBackBtn.setAlpha(enabled ? NO_ALPHA : HALF_ALPHA);
-            if (OobeUtils.needFastAnimation() || needDelayBottomButton()) {
-                isBackBtnEnable = enabled;
-            }
+        if (mNewBackBtn != null) {
+            isBackBtnEnable = enabled;
         }
     }
 
-    private void adaptGokuWidgetSize(View view) {
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = getResources().getDimensionPixelOffset(R.dimen.provision_navigation_button_width_goku);
-        view.setLayoutParams(params);
+    public void updateButtonState(boolean enabled) {
+        if (mNewBackBtn != null) {
+            isBackBtnEnable = enabled;
+        }
+        if (mConfirmButton != null) {
+            mConfirmButton.setEnabled(enabled);
+        }
+        if (mSkipButton != null) {
+            mSkipButton.setEnabled(enabled);
+        }
     }
 
     @Override
@@ -481,5 +470,26 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 e.printStackTrace();
             }
         }
+    }
+
+
+
+    public View getBackButton() {
+        return mNewBackBtn;
+    }
+
+    public Button getNextButton() {
+        return mConfirmButton;
+    }
+
+    public Button getSkipButton() {
+        return mSkipButton;
+    }
+
+    protected GroupButtonsConfig getConfig() {
+        return GroupButtonsConfig.createBuilder()
+            .setButton(0, getText(R.string.provision_next))
+            .setButton(1, getText(R.string.provision_skip_underline), null, null, true, false)
+            .build();
     }
 }

@@ -21,43 +21,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:paddingStart="?attr/preferenceItemPaddingStart"
+        android:paddingEnd="?attr/preferenceItemPaddingEnd">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-
             <TextView
                 android:id="@+id/privacy"
                 style="@style/ProvisionListSecondaryTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/provision_page_content_horizontal"
-                android:layout_marginTop="@dimen/provision_page_checkbox_agree_margin_top"
-                android:layout_marginEnd="@dimen/provision_page_checkbox_horizontal_end"
-                android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"
+                android:padding="@dimen/provision_page_description_padding"
                 android:textColor="@color/provision_list_description_color"
-                android:textSize="@dimen/provision_page_checkbox_agree_text_size" />
+                android:textSize="@dimen/provision_page_checkbox_agree_text_size"
+                android:background="@drawable/provision_list_item_bg_normal" />
 
             <CheckBox
                 android:id="@+id/checkbox_agree"
                 style="@style/ProvisionListSecondaryTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/provision_page_content_horizontal"
                 android:layout_marginTop="@dimen/provision_page_checkbox_agree_margin_top"
-                android:layout_marginEnd="@dimen/provision_page_checkbox_horizontal_end"
-                android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"
                 android:textColor="@color/provision_list_description_color"
                 android:textSize="@dimen/provision_page_checkbox_agree_text_size"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"/>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 </FrameLayout>

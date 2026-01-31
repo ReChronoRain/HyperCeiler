@@ -50,7 +50,7 @@
             android:enabled="true">
             <intent
                 android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.hyperceiler.provision.activity.ProvisionActivity"/>
+                android:targetClass="com.sevtinge.hyperceiler.provision.activity.DefaultActivity"/>
         </Preference>
 
         <Preference

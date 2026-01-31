@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.activity.ProvisionActivity;
+import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.renderengine.AIRender;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.BlurUtils;
@@ -108,7 +108,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             Folme.useAt(mNext).touch().handleTouchOf(mNext);
         }
         mNext.setOnClickListener(v -> {
-            ProvisionActivity activity = (ProvisionActivity) getActivity();
+            DefaultActivity activity = (DefaultActivity) getActivity();
             OobeUtils.isFirstBoot = false;
             activity.run(-1);
         });
