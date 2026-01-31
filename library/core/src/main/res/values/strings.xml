@@ -38,7 +38,7 @@
     <string name="soft_reboot">Reboot </string>
     <string name="restart_app_desc">Are you sure you want to restart now %1$s?</string>
     <string name="hyperceiler_restart_quick">Quickly restart apps</string>
-    <string name="hook_failed">The module isn\'t activated yet. Please check if LSPosed is enabled. If so, please restart or re-optimize the module.</string>
+    <string name="hook_failed">HyperCeiler isn\'t activated yet. Please check if LSPosed is enabled and if allow HyperCeiler to start automatically. If so, please restart or re-optimize the module.</string>
     <string name="kill_failed">Failed to end process. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="start_failed">Failed to start activity. Please check if HyperCeiler has been granted Root/Su permissions.</string>
     <string name="pid_failed">The target app isn\'t running and doesn\'t need to be restarted.</string>
