@@ -49,7 +49,7 @@ android {
         minSdk = 35
         targetSdk = 36
         versionCode = gitVersionCode
-        versionName = "2.6.164"
+        versionName = "2.10.165"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
