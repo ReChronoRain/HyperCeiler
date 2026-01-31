@@ -24,6 +24,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
+import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
 import com.sevtinge.hyperceiler.libhook.rules.various.MusicHooks;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClearClipboard;
@@ -43,6 +44,10 @@ public class VariousThirdApps extends BaseLoad {
 
     public static List<String> mAppsUsingInputMethod = new ArrayList<>();
 
+    public VariousThirdApps() {
+        super(true);
+    }
+
     @Override
     public void onPackageLoaded() {
         if (mAppsUsingInputMethod.isEmpty()) {
@@ -56,6 +61,7 @@ public class VariousThirdApps extends BaseLoad {
             }
         }
         initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
+        initHook(new NewUnPhraseLimit(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
         initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&

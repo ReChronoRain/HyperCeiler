@@ -358,6 +358,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_phrase"
+            android:layout="@layout/preference_header"
+            android:summary="com.miui.phrase"
+            android:title="@string/phrase" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_powerkeeper_state"
             android:layout="@layout/preference_header"
             android:summary="com.miui.powerkeeper"

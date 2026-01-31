@@ -1674,6 +1674,8 @@
     <!--Health-->
     <string name="health">小米运动健康</string>
     <string name="health_disable_splash_ad">禁用开屏广告</string>
+    <!--剪贴板与常用语-->
+    <string name="phrase">剪贴板与常用语</string>
     <!--其他-->
     <string name="various">其他</string>
     <string name="input_method">输入法</string>
@@ -1692,7 +1694,7 @@
 
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
     <string name="various_phrase_clipboardlist">解除常用语剪贴板条数和时间限制</string>
-    <string name="various_phrase_clipboardlist_more">开启后勾选输入法作用域并重启</string>
+    <string name="various_phrase_clipboardlist_more">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
     <string name="various_unlock_ime_desc">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
     <string name="various_collapse_miui_title">系统标题样式</string>

@@ -316,6 +316,13 @@
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_phrase"
+            android:summary="com.miui.phrase"
+            android:title="@string/phrase"
+            app:inflatedXml="@xml/phrase" />
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_powerkeeper"
             android:summary="com.miui.powerkeeper"
             android:title="@string/powerkeeper"

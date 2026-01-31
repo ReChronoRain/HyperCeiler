@@ -278,6 +278,7 @@ public class SearchHelper {
         parsePrefXml(context, SecurityAddFragment.class, R.xml.securityadd);
 
         parsePrefXmlForDashboardFragment(context, R.xml.community);
+        parsePrefXmlForDashboardFragment(context, R.xml.phrase);
 
         parsePrefXml(context, AOSPSettings.class, R.xml.various_aosp, R.string.various);
         parsePrefXmlForVarious(context, R.xml.various);

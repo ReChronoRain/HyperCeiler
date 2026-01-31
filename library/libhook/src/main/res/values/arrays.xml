@@ -62,6 +62,7 @@
         <item>com.miui.notes</item> <!--笔记-->
         <item>com.miui.packageinstaller</item> <!--应用包管理组件-->
         <item>com.miui.personalassistant</item> <!--智能助理-->
+        <item>com.miui.phrase</item> <!--剪贴板与常用语-->
         <item>com.miui.powerkeeper</item> <!--电量与性能-->
         <item>com.miui.screenrecorder</item> <!--屏幕录制-->
         <item>com.miui.screenshot</item> <!--截屏-->

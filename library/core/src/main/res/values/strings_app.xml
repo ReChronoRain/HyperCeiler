@@ -1581,6 +1581,8 @@
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
+    <!--Phrase-->
+    <string name="phrase">Clipboard and frequent phrases</string>
     <!--Other-->
     <string name="various">Others</string>
     <string name="input_method">Input methods</string>
