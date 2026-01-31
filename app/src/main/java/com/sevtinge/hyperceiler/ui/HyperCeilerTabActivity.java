@@ -56,6 +56,7 @@ import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
+import com.sevtinge.hyperceiler.utils.NoticeProcessor;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
 
 import java.util.ArrayList;
@@ -118,6 +119,15 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         }
 
         List<String> computedAppCrash = computeCrashList();
+
+        new Thread(() -> {
+            NoticeProcessor.NoticeResult result = NoticeProcessor.process(this);
+            if (result != null) {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    NoticeProcessor.showNoticeDialog(this, result);
+                });
+            }
+        }).start();
 
         mHandler.post(() -> {
             appCrash = computedAppCrash;

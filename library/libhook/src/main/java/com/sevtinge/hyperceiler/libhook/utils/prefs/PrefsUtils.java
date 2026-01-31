@@ -97,6 +97,10 @@ public class PrefsUtils {
         mSharedPreferences.edit().putString(key, defValue).apply();
     }
 
+    public static void putInt(String key, int defValue) {
+        mSharedPreferences.edit().putInt(key, defValue).apply();
+    }
+
     /**
      * 获取 SharedPreferences Editor
      */
