@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
@@ -97,8 +98,24 @@ public class LanguageHelper {
         return string.equals(string.toUpperCase());
     }
 
-    private static Locale getCachedLocale(String language, String country) {
+    public static Locale getCachedLocale(String language, String country) {
         String key = country.isEmpty() ? language : language + "_" + country;
         return localeCache.computeIfAbsent(key, k -> country.isEmpty() ? new Locale(language) : new Locale(language, country));
     }
+
+    public static Locale localeFromAppLanguage(String lang) {
+        if (TextUtils.isEmpty(lang)) {
+            return Locale.ENGLISH;
+        }
+
+        String[] parts = lang.split("_");
+        if (parts.length == 1) {
+            return new Locale(parts[0]);
+        } else if (parts.length == 2) {
+            return new Locale(parts[0], parts[1]);
+        } else {
+            return Locale.ENGLISH;
+        }
+    }
+
 }
