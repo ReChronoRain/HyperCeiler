@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.BINDER_KEY_EFFECT_INFO;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.PREFS_KEY_LOCK_SELECTION;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_EARPHONE_STATE;
 
 import android.content.Context;
@@ -29,13 +30,16 @@ import android.database.ContentObserver;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -51,14 +55,24 @@ public class NewAutoSEffSwitch extends BaseHook {
     // 使用原子引用保证线程安全
     private static final AtomicReference<IEffectInfo> sEffectInfoRef = new AtomicReference<>();
     private static final AtomicReference<AudioManager> sAudioManagerRef = new AtomicReference<>();
+    private static final AtomicReference<DeviceEffectMemory> sDeviceMemoryRef = new AtomicReference<>();
+    private static final AtomicBoolean sLockSelectionEnabled = new AtomicBoolean(true);
 
     private Context mContext;
     private BaseEffectControlUI mEffectControlUI;
 
     @Override
     public void init() {
+        loadConfig();
         initEffectControlUI();
         initBinderConnection();
+    }
+
+    /**
+     * 加载配置
+     */
+    private void loadConfig() {
+        sLockSelectionEnabled.set(mPrefsMap.getBoolean(PREFS_KEY_LOCK_SELECTION));XposedLog.d(TAG, "Config loaded: lockSelection=" + sLockSelectionEnabled.get());
     }
 
     /**
@@ -121,9 +135,13 @@ public class NewAutoSEffSwitch extends BaseHook {
                 return;
             }
 
-            IEffectInfo effectInfo = IEffectInfo.Stub.asInterface(
-                bundle.getBinder(BINDER_KEY_EFFECT_INFO)
-            );
+            IBinder binder = bundle.getBinder(BINDER_KEY_EFFECT_INFO);
+            if (binder == null) {
+                XposedLog.w(TAG, "Binder is null");
+                return;
+            }
+
+            IEffectInfo effectInfo = IEffectInfo.Stub.asInterface(binder);
             sEffectInfoRef.set(effectInfo);
 
             // 传递给 UI 控制器
@@ -190,10 +208,15 @@ public class NewAutoSEffSwitch extends BaseHook {
             } catch (RemoteException e) {
                 XposedLog.e(TAG, "Failed to get earphone state", e);
             }
-        } else {
-            XposedLog.w(TAG, "IEffectInfo is null");
         }
         return false;
+    }
+
+    /**
+     * 是否启用锁定选择
+     */
+    public static boolean isLockSelectionEnabled() {
+        return sLockSelectionEnabled.get();
     }
 
     /**

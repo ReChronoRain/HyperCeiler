@@ -25,6 +25,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.E
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND_CONTROL;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_NONE;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.MISOUND_PARAM_3D_SURROUND;
@@ -43,6 +44,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.r
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
@@ -113,7 +115,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
      * Hook AudioEffect.setEnabled 方法
      */
     private void hookAudioEffectSetEnabled() {
-        findAndHookMethod("android.media.audiofx.AudioEffect","setEnabled",
+        findAndHookMethod("android.media.audiofx.AudioEffect", "setEnabled",
             boolean.class,
             new IMethodHook() {
                 @Override
@@ -180,37 +182,29 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
 
     /**
      * 获取或创建音效实例
-     * @param instanceRef 实例的原子引用
-     * @param cls 音效类
-     * @return 音效实例，可能为 null
      */
     private Object getOrCreateEffectInstance(AtomicReference<Object> instanceRef, Class<?> cls) {
         if (cls == null) return null;
 
         Object currentInstance = instanceRef.get();
-        // 如果当前实例有效，直接返回
         if (currentInstance != null && hasControl(currentInstance)) {
             return currentInstance;
         }
 
         mEffectLock.lock();
         try {
-            // 双重检查
             currentInstance = instanceRef.get();
             if (currentInstance != null && hasControl(currentInstance)) {
                 return currentInstance;
             }
 
-            // 创建新实例
             Object newInstance = createEffectInstance(cls);
             if (newInstance == null) {
                 XposedLog.w(TAG, "Failed to create effect instance for: " + cls.getName());
                 return currentInstance;
             }
 
-            // 释放旧实例
             releaseEffectInstance(currentInstance);
-            // 更新引用
             instanceRef.set(newInstance);
             return newInstance;
 
@@ -358,7 +352,6 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             Object result = callStaticMethod(mDolbyClass, "int32ToByteArray", src, dst, index);
             return result instanceof Integer ? (Integer) result : 0;
         } catch (Exception e) {
-            // 手动实现
             dst[index] = (byte) (src & 0xFF);
             dst[index + 1] = (byte) ((src >> 8) & 0xFF);
             dst[index + 2] = (byte) ((src >> 16) & 0xFF);
@@ -392,7 +385,8 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
 
             Object result = callMethod(instance, "setParameter", MISOUND_PARAM_ENABLE, enable ? 1 : 0);
             callMethod(instance, "checkStatus", result);
-            setEnableEffect(instance, enable);XposedLog.d(TAG, "setEnableMiSound: " + enable);
+            setEnableEffect(instance, enable);
+            XposedLog.d(TAG, "setEnableMiSound: " + enable);
 
         } catch (UnsupportedOperationException e) {
             XposedLog.e(TAG, "setEnableMiSound: UnsupportedOperationException", e);
@@ -540,11 +534,49 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
     }
 
     @Override
+    public EffectState getCurrentEffectState() {
+        String mainEffect;
+        if (isEnabledDolbyEffect()) {
+            mainEffect = EFFECT_DOLBY;
+        } else if (isEnabledMiSound()) {
+            mainEffect = EFFECT_MISOUND;
+        } else {
+            mainEffect = EFFECT_NONE;
+        }
+
+        return new EffectState(mainEffect, isEnabledSpatializer(), isEnabled3dSurround());
+    }
+
+    @Override
+    public void applyEffectState(EffectState state) {
+        if (state == null) return;
+
+        XposedLog.d(TAG, "applyEffectState: " + state);
+
+        // 先关闭所有主音效
+        setEnableDolbyEffect(false);
+        setEnableMiSound(false);
+
+        // 应用主音效
+        switch (state.mainEffect) {
+            case EFFECT_DOLBY -> setEnableDolbyEffect(true);
+            case EFFECT_MISOUND -> {
+                setEnableMiSound(true);
+                setEnable3dSurround(state.surround);
+            }
+            case EFFECT_NONE -> {
+                // 保持关闭
+            }
+        }
+
+        // 应用空间音频
+        setEnableSpatializer(state.spatialAudio);}
+
+    @Override
     public void setEffectToNone(Context context) {
         setEnableDolbyEffect(false);
         setEnableMiSound(false);
-        setEnableSpatializer(false);
-        setEnable3dSurround(false);
+        setEnableSpatializer(false);setEnable3dSurround(false);
         XposedLog.d(TAG, "setEffectToNone completed");
     }
 

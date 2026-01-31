@@ -61,9 +61,9 @@ public class Application extends android.app.Application implements XposedServic
         super.onCreate();
 
         // 初始化日志系统
+        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(this.getDataDir().getAbsolutePath());
         LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
         LogManager.init(this);
-        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(this.getDataDir().getAbsolutePath());
         LogViewerActivity.setXposedLogLoader((context, callback) -> XposedLogLoader.loadLogs(callback));
 
         new Thread(() -> AppInfoCache.getInstance(this).initAllAppInfos()).start();

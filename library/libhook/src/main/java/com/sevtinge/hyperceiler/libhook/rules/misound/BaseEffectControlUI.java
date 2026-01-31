@@ -19,13 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
+import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isLockSelectionEnabled;
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isSupportFW;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
 
 import android.content.Context;
 import android.os.RemoteException;
+import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 
@@ -33,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -87,6 +89,20 @@ public abstract class BaseEffectControlUI {
     }
 
     /**
+     * 创建 Preference 实例（支持 null 作为 AttributeSet）
+     */
+    private Object createPreference(Class<?> clazz, Context context) {
+        try {
+            Constructor<?> constructor = clazz.getConstructor(Context.class, AttributeSet.class);
+            constructor.setAccessible(true);
+            return constructor.newInstance(context, null);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to create preference instance: " + clazz.getName(), e);
+            return null;
+        }
+    }
+
+    /**
      * 创建信息 Preference
      */
     protected void createInfoPreference(Object thisObject) {
@@ -94,21 +110,31 @@ public abstract class BaseEffectControlUI {
             Context context = (Context) callMethod(thisObject, "requireContext");
             Object preferenceScreen = callMethod(thisObject, "getPreferenceScreen");
 
-            // 创建 PreferenceCategory
-            Object preferenceCategory = newInstance(mPreferenceCategoryClass, context, null);
+            if (context == null || preferenceScreen == null) {
+                XposedLog.w(TAG, "Context or PreferenceScreen is null");
+                return;
+            }
+
+            // 使用反射创建实例
+            Object preferenceCategory = createPreference(mPreferenceCategoryClass, context);
+            if (preferenceCategory == null) {
+                XposedLog.e(TAG, "Failed to create PreferenceCategory");
+                return;
+            }
             callMethod(preferenceCategory, "setTitle", "HyperCeiler (AutoSEffSwitch)");
             callMethod(preferenceCategory, "setKey", "auto_effect_switch");
 
-            // 创建信息 Preference
-            Object preference = newInstance(mPreferenceClass, context, null);
+            Object preference = createPreference(mPreferenceClass, context);
+            if (preference == null) {
+                XposedLog.e(TAG, "Failed to create Preference");
+                return;
+            }
             callMethod(preference, "setKey", "auto_effect_switch_pref");
             mPreferenceRef.set(preference);
 
             // 添加到界面
             callMethod(preferenceScreen, "addPreference", preferenceCategory);
-            callMethod(preferenceCategory, "addPreference", preference);
-
-            // 更新信息
+            callMethod(preferenceCategory, "addPreference", preference);// 更新信息
             updateAutoSEffSwitchInfo();XposedLog.d(TAG, "Info preference created");
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to create info preference", e);
@@ -123,9 +149,16 @@ public abstract class BaseEffectControlUI {
         if (effectSelectionPrefs == null) return;
 
         try {
-            boolean enabled = !getEarPhoneStateFinal();
+            // 检查是否启用了锁定选择功能
+            boolean lockEnabled = isLockSelectionEnabled();
+            boolean earphoneConnected = getEarPhoneStateFinal();
+
+            // 只有在启用锁定且耳机连接时才禁用选择
+            boolean enabled = !(lockEnabled && earphoneConnected);
+
             callMethod(effectSelectionPrefs, "setEnabled", enabled);
-            XposedLog.d(TAG, "Effect selection enabled: " + enabled);
+            XposedLog.d(TAG, "Effect selection enabled: " + enabled +
+                " (lockEnabled=" + lockEnabled + ", earphoneConnected=" + earphoneConnected + ")");
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to update effect selection state", e);
         }
@@ -148,7 +181,6 @@ public abstract class BaseEffectControlUI {
 
     /**
      * 构建信息摘要
-     * 子类可以重写此方法以提供不同的信息格式
      */
     protected abstract String buildInfoSummary();
 
@@ -159,6 +191,7 @@ public abstract class BaseEffectControlUI {
         StringBuilder sb = new StringBuilder();
         sb.append("isSupport FW: ").append(isSupportFW()).append("\n");
         sb.append("isEarPhoneConnection: ").append(getEarPhoneStateFinal()).append("\n");
+        sb.append("isLockSelection: ").append(isLockSelectionEnabled()).append("\n");
         return sb;
     }
 
@@ -200,7 +233,6 @@ public abstract class BaseEffectControlUI {
                 initPreferenceClasses();
                 createInfoPreference(param.getThisObject());
 
-                // 获取音效选择控件
                 Object effectSelection = getFieldValue(param.getThisObject(), effectSelectionField);
                 mEffectSelectionPrefsRef.set(effectSelection);
                 updateEffectSelectionState();

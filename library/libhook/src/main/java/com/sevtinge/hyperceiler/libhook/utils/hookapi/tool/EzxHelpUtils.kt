@@ -1009,7 +1009,7 @@ object EzxHelpUtils {
         methodName: String,
         vararg args: Any,
     ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
+        val clazz = findClass(clazzName, safeClassLoader)
         return findAndHookMethod(clazz, methodName, *args)
     }
 

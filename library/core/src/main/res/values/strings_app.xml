@@ -1539,8 +1539,14 @@
     <string name="market_disable_start_push_dialog">Disable turn on push dialog</string>
     <!--Mi sound-->
     <string name="misound">Earphones</string>
-    <string name="misound_bluetooth">Change headphone status to the original sound</string>
+    <string name="misound_bluetooth_category">Sound Effects</string>
+    <string name="misound_bluetooth">Automatic Headset State Switching</string>
     <string name="misound_bluetooth_desc">You need to enable the System Framework, System UI, and Earphones scopes, then reboot your device to apply the changes.</string>
+    <string name="misound_bluetooth_lock_selection">Lock Sound Effect Selection</string>
+    <string name="misound_bluetooth_lock_selection_desc">Prevent switching sound effects while headset is connected</string>
+    <string name="misound_bluetooth_remember_device">Remember Device Sound Effect</string>
+    <string name="misound_bluetooth_remember_device_desc">Remember separate sound effect settings for each device</string>
+    <string name="misound_bluetooth_default_effect">Default sound effect</string>
     <string name="misound_increase_sampling_rate">Increase sampling rate</string>
     <!--Mi Settings-->
     <string name="mi_settings">Mi Settings</string>

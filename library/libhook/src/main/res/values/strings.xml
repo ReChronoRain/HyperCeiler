@@ -60,6 +60,10 @@
     <string name="notes_unlock_ai_mode_2">New version</string>
     <string name="mode_phone">Phone</string>
     <string name="mode_pad">Pad</string>
+    <string name="misound_bluetooth_type_none">Original</string>
+    <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
+    <string name="misound_bluetooth_type_misound">Mi Sound</string>
+    <string name="misound_bluetooth_type_keep">Keep Current</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">Network settings</string>
     <string name="system_ui_hide_navigation_bar">Hide gesture line</string>

@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
+import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isLockSelectionEnabled;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND;
@@ -68,6 +69,14 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
     }
 
     /**
+     * 判断是否应该阻止音效切换
+     * 只有在启用锁定且耳机连接时才阻止
+     */
+    private static boolean shouldBlockEffectSwitch() {
+        return isLockSelectionEnabled() && getEarPhoneStateFinal();
+    }
+
+    /**
      * Hook Dolby 开关
      */
     private void hookDolbySwitch() {
@@ -86,9 +95,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             hook(dolbySwitch, new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (getEarPhoneStateFinal()) {
+                    if (shouldBlockEffectSwitch()) {
                         param.setResult(null);
-                        XposedLog.d(TAG, "Earphone connected, skip setting Dolby");
+                        XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting Dolby");
                     }
                 }
             });
@@ -117,9 +126,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             hook(miSoundSwitch, new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (getEarPhoneStateFinal()) {
+                    if (shouldBlockEffectSwitch()) {
                         param.setResult(null);
-                        XposedLog.d(TAG, "Earphone connected, skip setting MiSound");
+                        XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting MiSound");
                     }
                 }
             });
@@ -164,10 +173,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             Method onResume = activityClass.getDeclaredMethod("onResume");
 
             hook(onCreate, createOnCreatePreferencesHook(effectSelectionField));
-            hook(onResume, createOnResumeHook(effectSelectionField));
-
-            // Hook 广播接收器
-            hookBroadcastReceiver();} catch (Exception e) {
+            hook(onResume, createOnResumeHook(effectSelectionField));// Hook 广播接收器
+            hookBroadcastReceiver();
+        } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook spatial audio activity", e);
         }
     }
@@ -219,7 +227,8 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             sb.append("\n# Effect Enable Info:\n");
             sb.append("isEnableDolby: ").append(enabledMap.get(EFFECT_DOLBY)).append("\n");
             sb.append("isEnableMiSound: ").append(enabledMap.get(EFFECT_MISOUND)).append("\n");
-            sb.append("isEnableSpatializer: ").append(enabledMap.get(EFFECT_SPATIAL_AUDIO)).append("\n");sb.append("isEnable3dSurround: ").append(enabledMap.get(EFFECT_SURROUND)).append("\n");
+            sb.append("isEnableSpatializer: ").append(enabledMap.get(EFFECT_SPATIAL_AUDIO)).append("\n");
+            sb.append("isEnable3dSurround: ").append(enabledMap.get(EFFECT_SURROUND)).append("\n");
         }
 
         return sb.toString();

@@ -55,6 +55,10 @@
     <string name="notes_unlock_ai_mode_2">新版</string>
     <string name="mode_phone">手机</string>
     <string name="mode_pad">平板</string>
+    <string name="misound_bluetooth_type_none">原声</string>
+    <string name="misound_bluetooth_type_dolby">杜比全景声</string>
+    <string name="misound_bluetooth_type_misound">小米音效/米音</string>
+    <string name="misound_bluetooth_type_keep">保持当前</string>
     <!--System Framework-->
     <string name="system_framework_phone_network_title">网络设置</string>
     <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>

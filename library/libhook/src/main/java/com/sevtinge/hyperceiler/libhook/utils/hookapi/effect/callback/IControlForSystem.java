@@ -20,6 +20,8 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback;
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
+
 /**
  * 音效状态控制接口
  *
@@ -46,6 +48,7 @@ public interface IControlForSystem {
 
     /**
      * 将所有音效设置为关闭状态
+     *
      * @param context 上下文
      */
     void setEffectToNone(Context context);
@@ -54,6 +57,24 @@ public interface IControlForSystem {
      * 恢复之前保存的音效状态
      */
     void resetAudioEffect();
+
+    /**
+     * 应用指定的音效状态
+     *
+     * @param state 音效状态
+     */
+    default void applyEffectState(EffectState state) {
+        // 默认空实现，子类可重写
+    }
+
+    /**
+     * 获取当前音效状态
+     *
+     * @return 当前音效状态
+     */
+    default EffectState getCurrentEffectState() {
+        return null;
+    }
 
     /**
      * 输出当前音效状态（调试用）

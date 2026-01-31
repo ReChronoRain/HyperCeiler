@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.BINDER_KEY_EFFECT_INFO;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.PREFS_KEY_LOCK_SELECTION;
 
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -49,13 +51,23 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
     private static final String PROP_FW_EFFECT = "ro.vendor.audio.fweffect";
 
     private static final AtomicReference<IEffectInfo> sEffectInfoRef = new AtomicReference<>();
+    private static final AtomicBoolean sLockSelectionEnabled = new AtomicBoolean(true);
 
     @Override
     public void init() {
+        loadConfig();
         if (isSupportFW()) {
             hookFWEffectCenter();
         }
         initBinderConnection();
+    }
+
+    /**
+     * 加载配置
+     */
+    private void loadConfig() {
+        sLockSelectionEnabled.set(mPrefsMap.getBoolean(PREFS_KEY_LOCK_SELECTION));
+        XposedLog.d(TAG, "Config loaded: lockSelection=" + sLockSelectionEnabled.get());
     }
 
     /**
@@ -80,6 +92,21 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
             XposedLog.w(TAG, "IEffectInfo is null");
         }
         return false;
+    }
+
+    /**
+     * 是否启用锁定选择
+     */
+    public static boolean isLockSelectionEnabled() {
+        return sLockSelectionEnabled.get();
+    }
+
+    /**
+     * 判断是否应该阻止音效切换
+     * 只有在启用锁定且耳机连接时才阻止
+     */
+    public static boolean shouldBlockEffectSwitch() {
+        return isLockSelectionEnabled() && getEarPhoneStateFinal();
     }
 
     /**
@@ -127,9 +154,9 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (getEarPhoneStateFinal()) {
+                    if (shouldBlockEffectSwitch()) {
                         String effect = (String) param.getArgs()[0];
-                        XposedLog.d(TAG, "Earphone connected, skip setting effect: " + effect);
+                        XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting effect: " + effect);
                         param.setResult(null);
                     }
                 }
@@ -148,8 +175,8 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (getEarPhoneStateFinal()) {
-                        XposedLog.d(TAG, "Earphone connected, skip Dolby tile click");
+                    if (shouldBlockEffectSwitch()) {
+                        XposedLog.d(TAG, "Lock enabled and earphone connected, skip Dolby tile click");
                         param.setResult(null);
                     }
                 }

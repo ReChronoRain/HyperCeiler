@@ -301,6 +301,7 @@
     <string name="array_discrete">分离</string>
     <string name="array_gradual">缓慢</string>
     <string name="array_rainbow">彩虹</string>
+
     <string name="status_bar_icon_mode_default">默认</string>
     <string name="status_bar_icon_mode_on">始终显示</string>
     <string name="status_bar_icon_mode_on_non_wifi">非 WiFi 下始终显示</string>
@@ -1306,7 +1307,6 @@
     <string name="home_other_mi_pad_enable_more_setting_desc">解锁后的功能不一定可用，部分功能需要系统底层支持</string>
     <string name="home_other_disable_prestart">禁用应用预加载</string>
     <string name="home_other_opt_app_launch_delay">优化应用启动延迟</string>
-
     <!--LPA-->
     <string name="lpa">LPA</string>
     <string name="lpa_custom_imei">自定义 IMEI</string>
@@ -1541,8 +1541,14 @@
     <string name="market_disable_start_push_dialog">禁用开启推送弹窗</string>
     <!--音质音效-->
     <string name="misound">音质音效</string>
-    <string name="misound_bluetooth">耳机状态自动切换原声</string>
+    <string name="misound_bluetooth_category">音效</string>
+    <string name="misound_bluetooth">耳机状态自动切换</string>
     <string name="misound_bluetooth_desc">需要勾选系统框架、系统界面、音质音效作用域，重启以应用更改</string>
+    <string name="misound_bluetooth_lock_selection">锁定音效选择</string>
+    <string name="misound_bluetooth_lock_selection_desc">耳机连接时禁止切换音效</string>
+    <string name="misound_bluetooth_remember_device">记忆设备音效</string>
+    <string name="misound_bluetooth_remember_device_desc">为每个设备记忆独立的音效设置</string>
+    <string name="misound_bluetooth_default_effect">默认音效</string>
     <string name="misound_increase_sampling_rate">提高音频采样率</string>
     <!--小米设置-->
     <string name="mi_settings">小米设置</string>
@@ -1592,6 +1598,7 @@
     <!--其他-->
     <string name="various">其他</string>
     <string name="input_method">输入法</string>
+
     <string name="app_version_not_supported">不受支持的版本</string>
 
     <string name="various_dialog_title">弹窗</string>
@@ -1671,11 +1678,32 @@
     <string name="location_simulation_work_base_station">基站</string>
     <string name="location_simulation_work_longitude_latitude">经纬度</string>
     <string name="location_simulation_work_remarks">备注</string>
+
+    <string name="app_details_playstore">使用应用商店打开</string>
+    <string name="app_details_launch">启动</string>
+    <string name="app_details_nolaunch">应用没有默认可启动的活动</string>
+    <string name="app_details_apk_file">APK 目录</string>
+    <string name="app_details_apk_version_code">应用版本号</string>
+    <string name="app_details_data_path">数据目录</string>
+    <string name="app_details_app_uid">用户标识符</string>
+    <string name="app_details_sdk">目标 SDK 版本</string>
+    <string name="app_details_min_sdk">最低 SDK 版本</string>
+
+    <string name="disable_app_settings">这是一个坏主意！</string>
+    <string name="disable_app_title">确定要禁用该应用吗？</string>
+    <string name="disable_app_text">如果这是一个必要的系统应用，将其禁用可能会造成损坏</string>
+    <string name="disable_app_fail">更改应用状态失败</string>
+
     <string name="calls">通话</string>
     <string name="system_volume">系统</string>
     <string name="notification_volume">通知</string>
     <string name="freeform_notification">通知悬浮窗</string>
     <string name="share_app">分享至三方应用</string>
+
+    <string name="system_notifrowmenu_appinfo">应用信息</string>
+    <string name="system_notifrowmenu_openinfw">浮窗</string>
+    <string name="system_notifrowmenu_forceclose">强制关闭</string>
+
     <string name="show_newmods_title">标记新模块</string>
 
     <string name="default_volume_stream_ring">铃声</string>

@@ -36,6 +36,7 @@ import android.content.Context;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
@@ -153,9 +154,6 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
 
     // ==================== Effect Query Methods ====================
 
-    /**
-     * 检查音效是否支持
-     */
     private boolean isEffectSupported(String effect) {
         ensureInstance();
         Object center = mCenterRef.get();
@@ -170,9 +168,6 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
         }
     }
 
-    /**
-     * 检查音效是否可用
-     */
     private boolean isEffectAvailable(String effect) {
         ensureInstance();
         Object center = mCenterRef.get();
@@ -187,9 +182,6 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
         }
     }
 
-    /**
-     * 检查音效是否激活
-     */
     private boolean isEffectActive(String effect) {
         ensureInstance();
         Object center = mCenterRef.get();
@@ -206,9 +198,6 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
 
     // ==================== Effect Control Methods ====================
 
-    /**
-     * 设置音效激活状态
-     */
     private void setEffectActive(String effect, boolean active) {
         ensureInstance();
         Object presenter = mPresenterRef.get();
@@ -273,6 +262,55 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
     }
 
     @Override
+    public EffectState getCurrentEffectState() {
+        String mainEffect;
+        if (isEffectActive(EFFECT_DOLBY)) {
+            mainEffect = EFFECT_DOLBY;
+        } else if (isEffectActive(EFFECT_MISOUND)) {
+            mainEffect = EFFECT_MISOUND;
+        } else {
+            mainEffect = EFFECT_NONE;
+        }
+
+        return new EffectState(mainEffect, isEffectActive(EFFECT_SPATIAL_AUDIO), isEffectActive(EFFECT_SURROUND));
+    }
+
+    @Override
+    public void applyEffectState(EffectState state) {
+        if (state == null) return;
+
+        XposedLog.d(TAG, "applyEffectState: " + state);
+
+        Object presenter = mPresenterRef.get();
+        if (presenter == null) {
+            XposedLog.w(TAG, "applyEffectState: presenter is null");
+            return;
+        }
+
+        try {
+            // 先关闭所有主音效
+            callMethod(presenter, "setEffectDeactivate");
+
+            // 应用主音效
+            switch (state.mainEffect) {
+                case EFFECT_DOLBY -> setEffectActive(EFFECT_DOLBY, true);
+                case EFFECT_MISOUND -> {
+                    setEffectActive(EFFECT_MISOUND, true);
+                    setEffectActive(EFFECT_SURROUND, state.surround);
+                }
+                case EFFECT_NONE -> {
+                    // 保持关闭
+                }
+            }
+
+            // 应用空间音频
+            setEffectActive(EFFECT_SPATIAL_AUDIO, state.spatialAudio);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "applyEffectState failed", e);
+        }
+    }
+
+    @Override
     public void setEffectToNone(Context context) {
         Object presenter = mPresenterRef.get();
         if (presenter == null) {
@@ -290,8 +328,7 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
         if (context != null) {
             try {
                 Settings.Global.putString(
-                    context.getContentResolver(), SETTINGS_KEY_EFFECT_IMPLEMENTER,
-                    EFFECT_NONE
+                    context.getContentResolver(), SETTINGS_KEY_EFFECT_IMPLEMENTER, EFFECT_NONE
                 );
             } catch (Exception e) {
                 XposedLog.e(TAG, "Failed to update settings", e);
@@ -304,10 +341,8 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
     @Override
     public void resetAudioEffect() {
         if (mLastEffectList.isEmpty()) {
-            // 没有保存的状态，使用默认逻辑
             resetToDefaultEffect();
         } else {
-            // 恢复之前保存的状态
             mLastEffectList.forEach(effect -> setEffectActive(effect, true));
             mLastEffectList.clear();
         }
@@ -315,23 +350,17 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
         XposedLog.d(TAG, "resetAudioEffect completed");
     }
 
-    /**
-     * 重置为默认音效
-     */
     private void resetToDefaultEffect() {
-        // 优先启用 Dolby，其次 MiSound
         if (isEffectSupported(EFFECT_DOLBY) && isEffectAvailable(EFFECT_DOLBY)) {
             setEffectActive(EFFECT_DOLBY, true);
         } else if (isEffectSupported(EFFECT_MISOUND) && isEffectAvailable(EFFECT_MISOUND)) {
             setEffectActive(EFFECT_MISOUND, true);
         }
 
-        // 启用空间音频
         if (isEffectSupported(EFFECT_SPATIAL_AUDIO) && isEffectAvailable(EFFECT_SPATIAL_AUDIO)) {
             setEffectActive(EFFECT_SPATIAL_AUDIO, true);
         }
 
-        // 启用环绕音效
         if (isEffectSupported(EFFECT_SURROUND) && isEffectAvailable(EFFECT_SURROUND)) {
             setEffectActive(EFFECT_SURROUND, true);
         }

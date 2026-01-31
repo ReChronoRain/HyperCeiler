@@ -49,6 +49,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManage
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AntiQues;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AppLinkVerify;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceDownloadui;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassUnknownSourcesRestrictions;
@@ -64,6 +65,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiui
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableThermal;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableVerifyCanBeDisabled;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinderProxy;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
@@ -169,9 +171,9 @@ public class SystemFrameworkB extends BaseLoad {
             initHook(SetGestureNeedFingerNum.INSTANCE, mPrefsMap.getBoolean("mipad_input_need_finger_num"));
         }
 
-        /*if (mPrefsMap.getBoolean("misound_bluetooth")) {
+        if (mPrefsMap.getBoolean("misound_bluetooth")) {
             initHook(new EffectBinderProxy());
             initHook(new AutoEffectSwitchForSystem());
-        }*/
+        }
     }
 }

@@ -1427,7 +1427,14 @@
     <string name="market_disable_start_push_dialog">禁用啟動推送對話框</string>
     <!--Mi sound-->
     <string name="misound">音質音效</string>
-    <string name="misound_bluetooth">耳機狀態自動切換原聲</string>
+    <string name="misound_bluetooth_category">音效</string>
+    <string name="misound_bluetooth">耳機狀態自動切換</string>
+    <string name="misound_bluetooth_desc">需要勾選系統框架、系統介面、音質音效作用域，重啟以套用更改</string>
+    <string name="misound_bluetooth_lock_selection">鎖定音效選擇</string>
+    <string name="misound_bluetooth_lock_selection_desc">耳機連線時禁止切換音效</string>
+    <string name="misound_bluetooth_remember_device">記憶裝置音效</string>
+    <string name="misound_bluetooth_remember_device_desc">為每個裝置記憶獨立的音效設定</string>
+    <string name="misound_bluetooth_default_effect">預設音效</string>
     <string name="misound_increase_sampling_rate">提高音頻採樣率</string>
     <!--Mi Settings-->
     <string name="mi_settings">小米設定</string>

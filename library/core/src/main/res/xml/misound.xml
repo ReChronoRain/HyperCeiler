@@ -20,13 +20,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/misound"
     app:quick_restart="com.miui.misound">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/misound_bluetooth_category">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_misound_bluetooth"
             android:summary="@string/misound_bluetooth_desc"
             android:title="@string/misound_bluetooth" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="prefs_key_misound_bluetooth"
+            android:key="prefs_key_misound_bluetooth_lock_selection"
+            android:summary="@string/misound_bluetooth_lock_selection_desc"
+            android:title="@string/misound_bluetooth_lock_selection" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_misound_bluetooth"
+            android:key="prefs_key_misound_bluetooth_remember_device"
+            android:summary="@string/misound_bluetooth_remember_device_desc"
+            android:title="@string/misound_bluetooth_remember_device" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="none"
+            android:dependency="prefs_key_misound_bluetooth"
+            android:key="prefs_key_misound_bluetooth_default_effect"
+            android:title="@string/misound_bluetooth_default_effect"
+            app:entries="@array/misound_bluetooth_default_effect_entries"
+            app:entryValues="@array/misound_bluetooth_default_effect_values" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about_other_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_misound_increase_sampling_rate"

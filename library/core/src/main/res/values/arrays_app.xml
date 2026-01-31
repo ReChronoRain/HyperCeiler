@@ -967,6 +967,7 @@
 
     <string-array name="debug_mode_home">
         <item>@string/array_default</item>
+        <item>6.01.05+</item>
         <item>6.00.00+</item>
         <item>4.39.00+</item>
         <item>@string/custom_hook</item>
@@ -974,6 +975,7 @@
 
     <string-array name="debug_mode_home_value">
         <item>0</item>
+        <item>601050001</item>
         <item>600000001</item>
         <item>439000001</item>
         <item>1</item>
@@ -1017,5 +1019,19 @@
         <item>530000001</item>
         <item>600000001</item>
         <item>620000001</item>
+    </string-array>
+
+    <string-array name="misound_bluetooth_default_effect_entries">
+        <item>@string/misound_bluetooth_type_none</item>
+        <item>@string/misound_bluetooth_type_dolby</item>
+        <item>@string/misound_bluetooth_type_misound</item>
+        <item>@string/misound_bluetooth_type_keep</item>
+    </string-array>
+
+    <string-array name="misound_bluetooth_default_effect_values">
+        <item>none</item>
+        <item>dolby</item>
+        <item>misound</item>
+        <item>keep</item>
     </string-array>
 </resources>

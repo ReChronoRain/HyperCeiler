@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
+import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isLockSelectionEnabled;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_ARRAY;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
@@ -65,6 +66,14 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
     }
 
     /**
+     * 判断是否应该阻止音效切换
+     * 只有在启用锁定且耳机连接时才阻止
+     */
+    private static boolean shouldBlockEffectSwitch() {
+        return isLockSelectionEnabled() && getEarPhoneStateFinal();
+    }
+
+    /**
      * Hook AudioEffectCenter.setEffectActive
      */
     private void hookAudioEffectCenter() {
@@ -74,9 +83,9 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (getEarPhoneStateFinal()) {
+                    if (shouldBlockEffectSwitch()) {
                         String effect = (String) param.getArgs()[0];
-                        XposedLog.d(TAG, "Earphone connected, skip setting effect: " + effect);
+                        XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting effect: " + effect);
                         param.setResult(null);
                     }
                 }

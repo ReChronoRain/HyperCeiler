@@ -51,6 +51,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisabl
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AppLinkVerify;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceDownloadui;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassUnknownSourcesRestrictions;
@@ -65,6 +66,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiui
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisablePinVerifyPer72h;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableThermal;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableVerifyCanBeDisabled;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinderProxy;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NoAccessDeviceLogsRequest;
@@ -161,10 +163,10 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new QuickScreenshot(), mPrefsMap.getBoolean("system_framework_quick_screenshot"));
         initHook(new LinkTurboToast(), mPrefsMap.getBoolean("system_framework_disable_link_turbo_toast"));
 
-        /*if (mPrefsMap.getBoolean("misound_bluetooth")) {
+        if (mPrefsMap.getBoolean("misound_bluetooth")) {
             initHook(new EffectBinderProxy());
             initHook(new AutoEffectSwitchForSystem());
-        }*/
+        }
 
         if (isPad()) {
             // 小米/红米平板设置相关
