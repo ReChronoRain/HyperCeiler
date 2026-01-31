@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.provision.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -36,20 +37,25 @@ import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.activity.ProvisionBaseActivity;
 
 import java.security.SecureRandom;
+import java.util.List;
 import java.util.Locale;
 
+import fan.core.utils.HyperMaterialUtils;
 import fan.internal.utils.LiteUtils;
 import fan.os.Build;
 
 public class OobeUtils {
 
+    private static final String TAG = "Provision_Utils";
+
     public static float NO_ALPHA = 1.0f;
     public static float HALF_ALPHA = 0.5f;
     public static final String BUILD_DEVICE = android.os.Build.DEVICE;
-    public static boolean IS_SUPPORT_WELCOM_ANIM = !isMiuiVersionLite();
 
     public static boolean isFirstBoot = true;
     public static boolean isEndBoot = true;
+
+    private static Boolean mBlurEffectEnabledCache = null;
 
     public static boolean isProvisioned(Context context) {
         return false;
@@ -168,4 +174,23 @@ public class OobeUtils {
         return String.valueOf(num);
     }
 
+    public static boolean isBlurEffectEnabled(Context context) {
+        if (mBlurEffectEnabledCache != null) {
+            return mBlurEffectEnabledCache;
+        }
+        if (context == null) return false;
+        mBlurEffectEnabledCache = HyperMaterialUtils.isEnable() && !LiteUtils.isCommonLiteStrategy() && HyperMaterialUtils.isFeatureEnable(context);
+        Log.d(TAG, "isBlurEffectEnabled: " + mBlurEffectEnabledCache);
+        return mBlurEffectEnabledCache;
+    }
+
+
+    public static String getTopActivityClassName(Context context) throws SecurityException {
+        List<ActivityManager.RunningTaskInfo> runningTasks = ((ActivityManager) context.getSystemService("activity")).getRunningTasks(1);
+        if (runningTasks == null || runningTasks.isEmpty()) {
+            return null;
+        }
+        Log.d(TAG, "getTopActivityClassName: " + runningTasks.get(0).topActivity.getClassName());
+        return runningTasks.get(0).topActivity.getClassName();
+    }
 }

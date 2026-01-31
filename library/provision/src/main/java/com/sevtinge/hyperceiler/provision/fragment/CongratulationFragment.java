@@ -33,7 +33,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.renderengine.AIRender;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.BlurUtils;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
@@ -58,7 +57,6 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private View mNext;
     private View mBtnBg;
 
-    private AIRender mRender;
     private boolean isFinishStep = false;
 
     @Override
@@ -85,13 +83,13 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
             mCongratulationLabel.setText(R.string.provision_congratulation_label);
             mCongratulationLabel.setVisibility(View.GONE);
         }
-        if (OobeUtils.IS_SUPPORT_WELCOM_ANIM && mLogoContentView != null && mNext != null && OobeUtils.isEndBoot) {
+        /*if (OobeUtils.IS_SUPPORT_WELCOM_ANIM && mLogoContentView != null && mNext != null && OobeUtils.isEndBoot) {
             Log.i(TAG, "onViewCreated");
             mLogoContentView.setVisibility(View.GONE);
             if (shoudPlayBtnAnim()) {
                 mNext.setVisibility(View.GONE);
             }
-        }
+        }*/
         if (mNext != null && OobeUtils.isGestureLineShow(getContext())) {
             ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mNext.getLayoutParams();
             if (params != null) {
@@ -115,8 +113,8 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
             if (mGlSurfaceView != null) {
                 mGlSurfaceView.setVisibility(View.VISIBLE);
                 mGlSurfaceView.setEGLContextClientVersion(3);
-                mRender = new AIRender(requireContext());
-                mGlSurfaceView.setRenderer(mRender);
+                /*mRender = new AIRender(requireContext());
+                mGlSurfaceView.setRenderer(mRender);*/
             }
             if (MiuiBlurUtils.isEnable() && !LiteUtils.isCommonLiteStrategy() && MiuiBlurUtils.isEffectEnable(getContext())) {
                 Log.i(TAG, " MiuiBlur EffectEnabled ");
@@ -134,7 +132,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
-        if (OobeUtils.IS_SUPPORT_WELCOM_ANIM && mLogoContentView != null && mNext != null && OobeUtils.isEndBoot) {
+        /*if (OobeUtils.IS_SUPPORT_WELCOM_ANIM && mLogoContentView != null && mNext != null && OobeUtils.isEndBoot) {
             Log.i(TAG, " onWindowFocusChanged called ");
             mLogoContentView.setVisibility(View.VISIBLE);
             AnimHelper.endPageAnim(mLogoContentView);
@@ -158,7 +156,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
                 mNext.setEnabled(true);
             }
             Log.d(TAG, "should anim false");
-        }
+        }*/
     }
 
     public void nextStep() {

@@ -26,8 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.opengl.GLSurfaceView
-            android:id="@+id/background_glsurfaceview"
+        <com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout
+            android:id="@+id/render_view_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@null"
@@ -37,16 +37,16 @@
             android:id="@+id/background_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/provision_logo_image_bg"
             android:contentDescription="@null"
             android:importantForAccessibility="no"
             android:scaleType="centerCrop" />
     </FrameLayout>
 
     <LinearLayout
-        android:id="@+id/content_view"
+        android:id="@+id/miui_enter_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:importantForAccessibility="no"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -68,32 +68,45 @@
             android:layout_height="0dp"
             android:layout_weight="40.0">
 
-            <include
-                layout="@layout/provision_logo_image_wrapper"
+            <FrameLayout
+                android:id="@+id/logo_image_wrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/logo_image"
+                    android:layout_width="@dimen/provision_startup_logo_width_thirteen"
+                    android:layout_height="@dimen/provision_startup_logo_height_thirteen"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no" />
+            </FrameLayout>
 
             <FrameLayout
-                android:layout_width="@dimen/provision_next_button_size"
-                android:layout_height="@dimen/provision_next_button_size"
+                android:id="@+id/next_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true">
+                android:layout_centerHorizontal="true"
+                android:padding="4.5dp">
 
                 <ImageButton
                     android:id="@+id/next"
                     android:layout_width="@dimen/provision_next_button_size"
                     android:layout_height="@dimen/provision_next_button_size"
-                    android:background="@drawable/provision_next_lite"
-                    android:contentDescription="@string/provision_start_content_description" />
+                    android:clickable="false"
+                    android:contentDescription="@string/provision_start_content_description"
+                    android:importantForAccessibility="no" />
 
                 <ImageView
                     android:id="@+id/next_arrow"
                     android:layout_width="29dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
+                    android:clickable="false"
                     android:contentDescription="@string/provision_start_content_description"
+                    android:importantForAccessibility="no"
                     android:visibility="gone" />
             </FrameLayout>
         </RelativeLayout>
@@ -103,5 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="20.0" />
+
     </LinearLayout>
 </FrameLayout>

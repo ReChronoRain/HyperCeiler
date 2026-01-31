@@ -40,4 +40,10 @@
     <color name="provision_service_agree_color">#000000</color>
 
     <color name="provision_button_text_high_color_light">#0d84ff</color>
+
+
+
+
+    <color name="anim_foreground_color">#99000000</color>
+    <color name="anim_foreground_color_blur_enable">#00ffffff</color>
 </resources>

@@ -13,6 +13,7 @@ import com.sevtinge.hyperceiler.provision.activity.CongratulationActivity;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity;
+import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 
 import java.util.ArrayList;
@@ -190,8 +191,14 @@ public class StateMachine {
         }
         mStateStack.add(mCurrentState);
         mCurrentState = getNextAvailableState(mCurrentState);
-        mCurrentState.onEnter(mCurrentState.canBackTo(), true);
-        ((Activity) mContext).overridePendingTransition(R.anim.provision_slide_in_right, R.anim.provision_slide_out_left);
+
+        if (mCurrentState instanceof PermissionState) {
+            Log.d(TAG, "transitToNext: PermissionState");
+            //OobeUtils.checkAndActivateEsimAfterFactoryReset(mContext);
+        } else {
+            mCurrentState.onEnter(mCurrentState.canBackTo(), true);
+            ((DefaultActivity) mContext).overridePendingTransition(R.anim.provision_slide_in_right, R.anim.provision_slide_out_left);
+        }
         saveState();
     }
 
