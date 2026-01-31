@@ -19,23 +19,21 @@
 package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
-import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isSupportFW;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callMethod;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY_CONTROL;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND_CONTROL;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hook;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.os.RemoteException;
-
-import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -45,146 +43,152 @@ import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.ClassData;
-import org.luckypray.dexkit.result.FieldData;
-import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
-public class NewAudioEffectControl {
-    public static final String TAG = "NewAudioEffectControl";
-    private Object mPreference;
-    private Object mEffectSelectionPrefs;
-    public IEffectInfo mIEffectInfo;
+/**
+ * 非 FW 模式下的音效控制 UI
+ *
+ * @author 焕晨HChen
+ */
+public class NewAudioEffectControl extends BaseEffectControlUI {
 
+    private static final String TAG = "NewAudioEffectControl";
+
+    @Override
     public void init() {
+        hookDolbySwitch();
+        hookMiSoundSwitch();
+        hookSpatialAudioActivity();
+    }
+
+    /**
+     * Hook Dolby 开关
+     */
+    private void hookDolbySwitch() {
         try {
             Method dolbySwitch = DexKit.findMember("setDsOnSafely", new IDexKit() {
-                    @Override
-                    public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                        MethodData methodData = bridge.findMethod(FindMethod.create()
-                            .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
-                                .usingStrings("setDsOnSafely: enter")
-                            )
-                        ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found setDsOnSafely()"));
-                        return methodData;
-                    }
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    return bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
+                            .usingStrings("setDsOnSafely: enter")
+                        )
+                    ).singleOrThrow(() -> new IllegalStateException("Cannot find setDsOnSafely()"));
+                }
             });
             hook(dolbySwitch, new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
                     if (getEarPhoneStateFinal()) {
                         param.setResult(null);
-                        XposedLog.d(TAG, "com.miui.misound", "Don't set dolby mode, in earphone mode!");
+                        XposedLog.d(TAG, "Earphone connected, skip setting Dolby");
                     }
                 }
             });
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to hook Dolby switch", e);
+        }
+    }
 
+    /**
+     * Hook MiSound 开关
+     */
+    private void hookMiSoundSwitch() {
+        try {
             Method miSoundSwitch = DexKit.findMember("setEffectEnable", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                    return bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                             .declaredClass(ClassMatcher.create().usingStrings("setEffectEnable() fail, exception: "))
                             .usingStrings("setEffectEnable() fail, exception: ")
                         )
-                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found setEffectEnable()"));
-                    return methodData;
+                    ).singleOrThrow(() -> new IllegalStateException("Cannot find setEffectEnable()"));
                 }
             });
+
             hook(miSoundSwitch, new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
                     if (getEarPhoneStateFinal()) {
                         param.setResult(null);
-                        XposedLog.d(TAG, "com.miui.misound", "Don't set misound mode, in earphone mode!");
+                        XposedLog.d(TAG, "Earphone connected, skip setting MiSound");
                     }
                 }
             });
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to hook MiSound switch", e);
+        }
+    }
 
+    /**
+     * Hook 空间音频设置界面
+     */
+    private void hookSpatialAudioActivity() {
+        try {
+            // 查找 Activity 类
             Class<?> activityClass = DexKit.findMember("spatialAudio", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    ClassData classData = bridge.findClass(FindClass.create()
-                        .matcher(
-                            ClassMatcher.create().usingStrings("supports spatial audio 3.0 ")
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found Class spatialAudio"));
-                    return classData;
+                    return bridge.findClass(FindClass.create()
+                        .matcher(ClassMatcher.create().usingStrings("supports spatial audio 3.0 "))
+                    ).singleOrThrow(() -> new IllegalStateException("Cannot find spatialAudio class"));
                 }
             });
-            Method create = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
-            Method onResume = activityClass.getDeclaredMethod("onResume");
+
+            // 查找音效选择字段
             Field effectSelectionField = DexKit.findMember("preference", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    FieldData fieldData = bridge.findField(FindField.create()
+                    return bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                             .declaredClass(activityClass)
                             .type(findClass("miuix.preference.DropDownPreference"))
                             .addReadMethod(MethodMatcher.create()
                                 .declaredClass(activityClass)
-                                .usingStrings("updateEffectSelectionPreference(): set as ")
-                            )
+                                .usingStrings("updateEffectSelectionPreference(): set as "))
                         )
-                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found field preference"));
-                    return fieldData;
+                    ).singleOrThrow(() -> new IllegalStateException("Cannot find preference field"));
                 }
             });
 
-            Class<?> preferenceCategoryClass = findClass("miuix.preference.PreferenceCategory");
-            Class<?> preferenceClass = findClass("androidx.preference.Preference");
-            hook(create, new IMethodHook() {
-                @Override
-                public void after(AfterHookParam param) throws IllegalAccessException {
-                    Context context = (Context) callMethod(param.getThisObject(), "requireContext");
-                    Object preferenceScreen = callMethod(param.getThisObject(), "getPreferenceScreen");
-                    Object preferenceCategory = newInstance(preferenceCategoryClass, context, null);
-                    callMethod(preferenceCategory, "setTitle", "HyperCeiler (AutoSEffSwitch)");
-                    callMethod(preferenceCategory, "setKey", "auto_effect_switch");
+            // Hook 方法
+            Method onCreate = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
+            Method onResume = activityClass.getDeclaredMethod("onResume");
 
-                    mPreference = newInstance(preferenceClass, context, null);
-                    // callMethod(mPreference, "setTitle", "基本信息:");
-                    callMethod(mPreference, "setKey", "auto_effect_switch_pref");
-                    updateAutoSEffSwitchInfo();
+            hook(onCreate, createOnCreatePreferencesHook(effectSelectionField));
+            hook(onResume, createOnResumeHook(effectSelectionField));
 
-                    callMethod(preferenceScreen, "addPreference", preferenceCategory);
-                    callMethod(preferenceCategory, "addPreference", mPreference);
+            // Hook 广播接收器
+            hookBroadcastReceiver();} catch (Exception e) {
+            XposedLog.e(TAG, "Failed to hook spatial audio activity", e);
+        }
+    }
 
-                    XposedLog.d(TAG, "com.miui.misound", "create pref category: " + preferenceCategory);
-
-                    mEffectSelectionPrefs = getField(param.getThisObject(), effectSelectionField);
-                    updateEffectSelectionState();
-                }
-            });
-            hook(onResume, new IMethodHook() {
-                @Override
-                public void after(AfterHookParam param) throws IllegalAccessException {
-                    mEffectSelectionPrefs = getField(param.getThisObject(), effectSelectionField);
-                    updateEffectSelectionState();
-                    updateAutoSEffSwitchInfo();
-                }
-            });
-
+    /**
+     * Hook 广播接收器
+     */
+    private void hookBroadcastReceiver() {
+        try {
             Method broadcastReceiver = DexKit.findMember("onReceive", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                    return bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                             .declaredClass(ClassMatcher.create().usingStrings("onReceive: to refreshEnable"))
                             .usingStrings("onReceive: to refreshEnable")
                         )
-                    ).singleOrThrow(() -> new IllegalStateException(TAG + ": Cannot found onReceive()"));
-                    return methodData;
+                    ).singleOrThrow(() -> new IllegalStateException("Cannot find onReceive()"));
                 }
             });
+
             hook(broadcastReceiver, new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
@@ -192,53 +196,32 @@ public class NewAudioEffectControl {
                     updateAutoSEffSwitchInfo();
                 }
             });
-        } catch (Throwable e) {
-            XposedLog.e(TAG, "com.miui.misound", e);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to hook broadcast receiver", e);
         }
     }
 
-    public void updateEffectSelectionState() {
-        if (mEffectSelectionPrefs == null) return;
-        if (getEarPhoneStateFinal()) {
-            callMethod(mEffectSelectionPrefs, "setEnabled", false);
-            XposedLog.d(TAG, "com.miui.misound", "Disable effect selection: " + mEffectSelectionPrefs);
-        } else
-            callMethod(mEffectSelectionPrefs, "setEnabled", true);
-    }
+    @Override
+    protected String buildInfoSummary() {
+        StringBuilder sb = buildBasicInfo();
 
-    private void updateAutoSEffSwitchInfo() {
-        if (mPreference == null) return;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("isSupport FW: ").append(isSupportFW()).append("\n");
-        sb.append("isEarPhoneConnection: ").append(getEarPhoneStateFinal()).append("\n");
-        if (mIEffectInfo != null) {
-            try {
-                Map<String, String> map = mIEffectInfo.getEffectHasControlMap();
-                sb.append("\n# Effect Control Info:\n");
-                sb.append("hasControlDolby: ").append(map.get(EffectItem.EFFECT_DOLBY_CONTROL)).append("\n");
-                sb.append("hasControlMiSound: ").append(map.get(EffectItem.EFFECT_MISOUND_CONTROL)).append("\n");
-            } catch (RemoteException e) {
-                XposedLog.e(TAG, "com.miui.misound", e);
-            }
-
-            try {
-                Map<String, String> map = mIEffectInfo.getEffectEnabledMap();
-                sb.append("\n# Effect Enable Info: \n");
-                sb.append("isEnableDolby: ").append(map.get(EffectItem.EFFECT_DOLBY)).append("\n");
-                sb.append("isEnableMiSound: ").append(map.get(EffectItem.EFFECT_MISOUND)).append("\n");
-                sb.append("isEnableSpatializer: ").append(map.get(EffectItem.EFFECT_SPATIAL_AUDIO)).append("\n");
-                sb.append("isEnable3dSurround: ").append(map.get(EffectItem.EFFECT_SURROUND)).append("\n");
-            } catch (RemoteException e) {
-                XposedLog.e(TAG, "com.miui.misound", e);
-            }
+        // 控制权信息
+        Map<String, String> controlMap = safeGetMap(IEffectInfo::getEffectHasControlMap);
+        if (controlMap != null) {
+            sb.append("\n# Effect Control Info:\n");
+            sb.append("hasControlDolby: ").append(controlMap.get(EFFECT_DOLBY_CONTROL)).append("\n");
+            sb.append("hasControlMiSound: ").append(controlMap.get(EFFECT_MISOUND_CONTROL)).append("\n");
         }
 
-        callMethod(mPreference, "setSummary", sb.toString());
-    }
+        // 启用状态信息
+        Map<String, String> enabledMap = safeGetMap(IEffectInfo::getEffectEnabledMap);
+        if (enabledMap != null) {
+            sb.append("\n# Effect Enable Info:\n");
+            sb.append("isEnableDolby: ").append(enabledMap.get(EFFECT_DOLBY)).append("\n");
+            sb.append("isEnableMiSound: ").append(enabledMap.get(EFFECT_MISOUND)).append("\n");
+            sb.append("isEnableSpatializer: ").append(enabledMap.get(EFFECT_SPATIAL_AUDIO)).append("\n");sb.append("isEnable3dSurround: ").append(enabledMap.get(EFFECT_SURROUND)).append("\n");
+        }
 
-    public static Object getField(@NonNull Object instance, @NonNull Field field) throws IllegalAccessException {
-        field.setAccessible(true);
-        return field.get(instance);
+        return sb.toString();
     }
 }

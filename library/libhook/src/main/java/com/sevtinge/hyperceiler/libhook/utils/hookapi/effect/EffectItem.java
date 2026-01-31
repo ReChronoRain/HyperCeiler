@@ -19,11 +19,17 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.effect;
 
 /**
- * 音效列表
+ * 音效相关常量定义
  *
  * @author 焕晨HChen
  */
-public class EffectItem {
+public final class EffectItem {
+
+    private EffectItem() {
+        // 防止实例化
+    }
+
+    // ==================== 音效类型 ====================
     public static final String EFFECT_DOLBY = "dolby";
     public static final String EFFECT_DOLBY_CONTROL = "dolby_control";
     public static final String EFFECT_MISOUND = "misound";
@@ -31,7 +37,32 @@ public class EffectItem {
     public static final String EFFECT_NONE = "none";
     public static final String EFFECT_SPATIAL_AUDIO = "spatial";
     public static final String EFFECT_SURROUND = "surround";
-    public static final String[] mEffectArray = new String[]{
-            EFFECT_DOLBY, EFFECT_MISOUND, EFFECT_NONE, EFFECT_SPATIAL_AUDIO, EFFECT_SURROUND
+
+    public static final String[] EFFECT_ARRAY = new String[]{
+        EFFECT_DOLBY, EFFECT_MISOUND, EFFECT_NONE, EFFECT_SPATIAL_AUDIO, EFFECT_SURROUND
     };
+
+    // ==================== MiSound 参数 ====================
+    public static final int MISOUND_PARAM_ENABLE = 25;
+    public static final int MISOUND_PARAM_3D_SURROUND = 20;
+
+    // ==================== Dolby 参数 ====================
+    public static final int DOLBY_PARAM_DAP_ON = 0;
+    public static final int DOLBY_SET_PARAM_ID = 5;
+
+    // ==================== Settings Key ====================
+    public static final String SETTINGS_KEY_EARPHONE_STATE = "auto_effect_switch_earphone_state";
+    public static final String SETTINGS_KEY_RESTORE_STATE = "auto_effect_switch_restore_earphone_state";
+    public static final String SETTINGS_KEY_EFFECT_IMPLEMENTER = "effect_implementer";
+
+    // ==================== Binder Key ====================
+    public static final String BINDER_KEY_EFFECT_INFO = "effect_info";
+    // ==================== 返回值 ====================
+    public static final int RESULT_SUCCESS = 0;
+
+    // ==================== Handler Message ====================
+    public static final int MSG_STATE_CHANGE = 0;
+    public static final int MSG_DUMP = 0;
+    public static final long DELAY_STATE_CHANGE = 1000L;
+    public static final long DELAY_DUMP = 1000L;
 }

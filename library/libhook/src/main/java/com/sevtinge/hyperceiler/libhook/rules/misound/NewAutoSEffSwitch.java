@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.misound;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.BINDER_KEY_EFFECT_INFO;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_EARPHONE_STATE;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,87 +36,170 @@ import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 /**
- * 新版连接耳机自动切换原声
+ * 新版连接耳机自动切换原声 - MiSound 端
  *
  * @author 焕晨HChen
  */
 public class NewAutoSEffSwitch extends BaseHook {
-    public static final String TAG = "NewAutoSEffSwitch";
+
+    private static final String TAG = "NewAutoSEffSwitch";
+    private static final String PROP_FW_EFFECT = "ro.vendor.audio.fweffect";
+
+    // 使用原子引用保证线程安全
+    private static final AtomicReference<IEffectInfo> sEffectInfoRef = new AtomicReference<>();
+    private static final AtomicReference<AudioManager> sAudioManagerRef = new AtomicReference<>();
+
     private Context mContext;
-    public static AudioManager mAudioManager;
-    private static IEffectInfo mIEffectInfo;
-    private NewFWAudioEffectControl mNewFWAudioEffectControl = null;
-    private NewAudioEffectControl mNewAudioEffectControl = null;
+    private BaseEffectControlUI mEffectControlUI;
 
     @Override
     public void init() {
+        initEffectControlUI();
+        initBinderConnection();
+    }
+
+    /**
+     * 初始化音效控制 UI
+     */
+    private void initEffectControlUI() {
         if (isSupportFW()) {
-            mNewFWAudioEffectControl = new NewFWAudioEffectControl();
-            mNewFWAudioEffectControl.init();
+            mEffectControlUI = new NewFWAudioEffectControl();
+            XposedLog.d(TAG, "Using FW AudioEffectControl UI");
         } else {
-            mNewAudioEffectControl = new NewAudioEffectControl();
-            mNewAudioEffectControl.init();
+            mEffectControlUI = new NewAudioEffectControl();
+            XposedLog.d(TAG, "Using Non-FW AudioEffectControl UI");
         }
+        mEffectControlUI.init();
+    }
 
-        runOnApplicationAttach(context -> {
-            mContext = context;
+    /**
+     * 初始化 Binder 连接
+     */
+    private void initBinderConnection() {
+        runOnApplicationAttach(this::onApplicationAttach);
+    }
+
+    /**
+     * Application 附加时的处理
+     */
+    private void onApplicationAttach(Context context) {
+        mContext = context;
+
+        // 连接到 EffectInfoService
+        connectToEffectInfoService();
+
+        // 初始化 AudioManager
+        AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        sAudioManagerRef.set(audioManager);
+
+        // 注册状态监听
+        registerStateObserver();
+
+        // 如果是 FW 模式，初始化 AudioEffectCenter
+        if (isSupportFW()) {
+            initAudioEffectCenter();
+        }
+    }
+
+    /**
+     * 连接到 EffectInfoService
+     */
+    private void connectToEffectInfoService() {
+        try {
             Intent intent = mContext.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            if (intent == null) return;
-            Bundle bundle = intent.getBundleExtra("effect_info");
-            if (bundle == null) return;
-            mIEffectInfo = IEffectInfo.Stub.asInterface(bundle.getBinder("effect_info"));
-            XposedLog.d(TAG, "com.miui.misound", "onApplication: EffectInfoService: " + mIEffectInfo);
-            if (mIEffectInfo == null) return;
-            if (mNewFWAudioEffectControl != null)
-                mNewFWAudioEffectControl.mIEffectInfo = mIEffectInfo;
-            else if (mNewAudioEffectControl != null) {
-                mNewAudioEffectControl.mIEffectInfo = mIEffectInfo;
+            if (intent == null) {
+                XposedLog.w(TAG, "Battery intent is null");
+                return;
             }
 
-            mAudioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
-            mContext.getContentResolver().registerContentObserver(
-                Settings.Global.getUriFor("auto_effect_switch_earphone_state"),
-                false,
-                new ContentObserver(new Handler(mContext.getMainLooper())) {
-                    @Override
-                    public void onChange(boolean selfChange) {
-                        if (selfChange) return;
-                        int result = Settings.Global.getInt(mContext.getContentResolver(), "auto_effect_switch_earphone_state", 0);
-                        XposedLog.d(TAG, "com.miui.misound", "settings observer earphone state change to: " + result);
+            Bundle bundle = intent.getBundleExtra(BINDER_KEY_EFFECT_INFO);
+            if (bundle == null) {
+                XposedLog.w(TAG, "Effect info bundle is null");
+                return;
+            }
 
-                        if (mNewFWAudioEffectControl != null)
-                            mNewFWAudioEffectControl.updateEffectSelectionState();
-                        else if (mNewAudioEffectControl != null) {
-                            mNewAudioEffectControl.updateEffectSelectionState();
-                        }
-                    }
-                }
+            IEffectInfo effectInfo = IEffectInfo.Stub.asInterface(
+                bundle.getBinder(BINDER_KEY_EFFECT_INFO)
             );
+            sEffectInfoRef.set(effectInfo);
 
-            if (mNewFWAudioEffectControl != null)
-                callStaticMethod(
-                    findClass("android.media.audiofx.AudioEffectCenter"),
-                        "getInstance",
-                        mContext
-                    );
-        });
-    }
+            // 传递给 UI 控制器
+            mEffectControlUI.setEffectInfo(effectInfo);
 
-    public static boolean isSupportFW() {
-        return getProp("ro.vendor.audio.fweffect", false);
-    }
-
-    public static boolean getEarPhoneStateFinal() {
-        if (mIEffectInfo != null) {
-            try {
-                return mIEffectInfo.isEarphoneConnection();
-            } catch (RemoteException e) {
-                XposedLog.e(TAG, "com.miui.misound", e);
-                return false;
-            }
+            XposedLog.d(TAG, "Connected to EffectInfoService: " + effectInfo);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to connect to EffectInfoService", e);
         }
-        XposedLog.w(TAG, "com.miui.misound", "getEarPhoneStateFinal: mIEffectInfo is null!!");
+    }
+
+    /**
+     * 注册耳机状态监听
+     */
+    private void registerStateObserver() {
+        mContext.getContentResolver().registerContentObserver(
+            Settings.Global.getUriFor(SETTINGS_KEY_EARPHONE_STATE),
+            false,
+            new ContentObserver(new Handler(mContext.getMainLooper())) {
+                @Override
+                public void onChange(boolean selfChange) {
+                    if (selfChange) return;
+
+                    int state = Settings.Global.getInt(
+                        mContext.getContentResolver(),
+                        SETTINGS_KEY_EARPHONE_STATE,
+                        0
+                    );
+                    XposedLog.d(TAG, "Earphone state changed: " + state);
+
+                    mEffectControlUI.onEarphoneStateChanged();
+                }
+            }
+        );
+    }
+
+    /**
+     * 初始化 AudioEffectCenter（FW 模式）
+     */
+    private void initAudioEffectCenter() {
+        try {
+            Class<?> centerClass = findClass("android.media.audiofx.AudioEffectCenter");
+            callStaticMethod(centerClass, "getInstance", mContext);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to init AudioEffectCenter", e);
+        }
+    }
+
+    /**
+     * 检查是否支持 FW 模式
+     */
+    public static boolean isSupportFW() {
+        return getProp(PROP_FW_EFFECT, false);
+    }
+
+    /**
+     * 获取耳机连接状态
+     */
+    public static boolean getEarPhoneStateFinal() {
+        IEffectInfo effectInfo = sEffectInfoRef.get();
+        if (effectInfo != null) {
+            try {
+                return effectInfo.isEarphoneConnection();
+            } catch (RemoteException e) {
+                XposedLog.e(TAG, "Failed to get earphone state", e);
+            }
+        } else {
+            XposedLog.w(TAG, "IEffectInfo is null");
+        }
         return false;
+    }
+
+    /**
+     * 获取 IEffectInfo 实例
+     */
+    public static IEffectInfo getEffectInfo() {
+        return sEffectInfoRef.get();
     }
 }

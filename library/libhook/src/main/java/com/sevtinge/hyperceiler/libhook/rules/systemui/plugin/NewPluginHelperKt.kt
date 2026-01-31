@@ -164,7 +164,7 @@ object NewPluginHelperKt : BaseHook() {
                 if (prefs.getBoolean("misound_bluetooth") && !isSupportFW()) {
                     enabledLoaders.add(
                         Pair("AutoSEffSwitchForSystemUi",
-                            AutoSEffSwitchForSystemUi::onNotSupportFW
+                            AutoSEffSwitchForSystemUi::hookNonFWEffectSwitch
                         )
                     )
                 }

@@ -23,20 +23,25 @@ import android.os.RemoteException;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.BaseEffectControl;
+import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.Collections;
 import java.util.Map;
 
 /**
- * Binder 本地实现
+ * Binder 服务实现
+ * 提供跨进程的音效信息查询接口
  *
  * @author 焕晨HChen
  */
 public class EffectInfoService extends IEffectInfo.Stub {
+
+    private static final String TAG = "EffectInfoService";
     private final BaseEffectControl mBaseEffectControl;
 
     public EffectInfoService(BaseEffectControl baseEffectControl) {
-        mBaseEffectControl = baseEffectControl;
+        this.mBaseEffectControl = baseEffectControl;
+        XposedLog.d(TAG, "EffectInfoService created with controller: " + baseEffectControl);
     }
 
     @Override
@@ -46,36 +51,52 @@ public class EffectInfoService extends IEffectInfo.Stub {
 
     @Override
     public Map<String, String> getEffectSupportMap() throws RemoteException {
-        if (mBaseEffectControl == null)
-            return Collections.emptyMap();
-        return mBaseEffectControl.getEffectSupportMap();
+        return safeGetMap(() -> mBaseEffectControl.getEffectSupportMap());
     }
 
     @Override
     public Map<String, String> getEffectAvailableMap() throws RemoteException {
-        if (mBaseEffectControl == null)
-            return Collections.emptyMap();
-        return mBaseEffectControl.getEffectAvailableMap();
+        return safeGetMap(() -> mBaseEffectControl.getEffectAvailableMap());
     }
 
     @Override
     public Map<String, String> getEffectActiveMap() throws RemoteException {
-        if (mBaseEffectControl == null)
-            return Collections.emptyMap();
-        return mBaseEffectControl.getEffectActiveMap();
+        return safeGetMap(() -> mBaseEffectControl.getEffectActiveMap());
     }
 
     @Override
     public Map<String, String> getEffectEnabledMap() throws RemoteException {
-        if (mBaseEffectControl == null)
-            return Collections.emptyMap();
-        return mBaseEffectControl.getEffectEnabledMap();
+        return safeGetMap(() -> mBaseEffectControl.getEffectEnabledMap());
     }
 
     @Override
     public Map<String, String> getEffectHasControlMap() throws RemoteException {
-        if (mBaseEffectControl==null)
+        return safeGetMap(() -> mBaseEffectControl.getEffectHasControlMap());
+    }
+
+    /**
+     * 安全地获取 Map，处理空指针和异常
+     */
+    private Map<String, String> safeGetMap(MapSupplier supplier) throws RemoteException {
+        if (mBaseEffectControl == null) {
+            XposedLog.w(TAG, "BaseEffectControl is null");
             return Collections.emptyMap();
-        return mBaseEffectControl.getEffectHasControlMap();
+        }
+
+        try {
+            Map<String, String> result = supplier.get();
+            return result != null ? result : Collections.emptyMap();
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to get map", e);
+            throw new RemoteException("Failed to get effect map: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Map 提供者接口
+     */
+    @FunctionalInterface
+    private interface MapSupplier {
+        Map<String, String> get() throws RemoteException;
     }
 }

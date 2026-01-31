@@ -19,12 +19,17 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control;
 
 import static com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.DOLBY_PARAM_DAP_ON;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.DOLBY_SET_PARAM_ID;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_DOLBY_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.MISOUND_PARAM_3D_SURROUND;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.MISOUND_PARAM_ENABLE;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.RESULT_SUCCESS;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callStaticMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
@@ -42,66 +47,101 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlFo
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.Objects;
-import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
 /**
  * 非 FW 模式下控制音效
+ * 直接操作 AudioEffect 实例来控制音效
  *
  * @author 焕晨HChen
  */
 public class AudioEffectControlForSystem extends BaseEffectControl implements IControlForSystem {
-    public static final String TAG = "AudioEffectControlForSystem";
-    private static final UUID mDolbyUUID = UUID.fromString("9d4921da-8225-4f29-aefa-39537a04bcaa");
-    private static final UUID mMiSoundUUID = UUID.fromString("5b8e36a5-144a-4c38-b1d7-0002a5d5c51b");
-    private Class<?> mAudioManagerClass = null;
-    private Class<?> mMiSoundClass = null;
-    private Class<?> mDolbyClass = null;
-    private boolean isIntactDolbyClass = false;
-    private Object mDolbyInstance = null;
-    private Object mMiSoundInstance = null;
-    private boolean mLastDolbyEnable = false;
-    private boolean mLastMiSoundEnable = false;
-    private boolean mLastSpatializerEnable = false;
-    private boolean mLast3dSurroundEnable = false;
 
+    private static final String TAG = "AudioEffectControlForSystem";
+
+    // 类引用
+    private Class<?> mAudioManagerClass;
+    private Class<?> mMiSoundClass;
+    private Class<?> mDolbyClass;
+
+    // 使用原子引用保证线程安全
+    private final AtomicReference<Object> mDolbyInstanceRef = new AtomicReference<>();
+    private final AtomicReference<Object> mMiSoundInstanceRef = new AtomicReference<>();
+    private final AtomicBoolean mIsIntactDolbyClass = new AtomicBoolean(false);
+
+    // 上一次的状态
+    private volatile boolean mLastDolbyEnable;
+    private volatile boolean mLastMiSoundEnable;
+    private volatile boolean mLastSpatializerEnable;
+    private volatile boolean mLast3dSurroundEnable;
+
+    // 锁，用于保护音效操作
+    private final ReentrantLock mEffectLock = new ReentrantLock();
+
+    @Override
     public void init() {
+        initClasses();
+        hookAudioEffectSetEnabled();
+        hookSpatializerSetEnabled();
+        hookMiSound3dSurround();
+    }
+
+    /**
+     * 初始化所需的类引用
+     */
+    private void initClasses() {
         mAudioManagerClass = findClass("android.media.AudioManager");
         mMiSoundClass = findClass("android.media.audiofx.MiSound");
-        if (findClassIfExists("com.dolby.dax.DolbyAudioEffect") != null) {
-            mDolbyClass = findClass("com.dolby.dax.DolbyAudioEffect");
-            isIntactDolbyClass = true;
-        } else
-            mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper");
 
-        findAndHookMethod("android.media.audiofx.AudioEffect",
-            "setEnabled",
+        // 尝试加载完整的 Dolby 类，如果不存在则使用备用类
+        Class<?> dolbyClass = findClassIfExists("com.dolby.dax.DolbyAudioEffect");
+        if (dolbyClass != null) {
+            mDolbyClass = dolbyClass;mIsIntactDolbyClass.set(true);
+        } else {
+            mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper");
+            mIsIntactDolbyClass.set(false);
+        }
+
+        XposedLog.d(TAG, "initClasses: dolbyClass=" + mDolbyClass + ", isIntact=" + mIsIntactDolbyClass.get());
+    }
+
+    /**
+     * Hook AudioEffect.setEnabled 方法
+     */
+    private void hookAudioEffectSetEnabled() {
+        findAndHookMethod("android.media.audiofx.AudioEffect","setEnabled",
             boolean.class,
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    // observeCall(); 观察方法调用,后面补
                     if (!getEarPhoneStateFinal()) return;
 
-                    if (mDolbyInstance != null) {
-                        if (Objects.equals(mDolbyInstance, param.getThisObject())) {
-                            XposedLog.d(TAG, "earphone is connection, skip set dolby effect!!");
-                            param.setResult(0); // SUCCESS
-                            return;
-                        }
+                    Object thisObject = param.getThisObject();
+                    Object dolbyInstance = mDolbyInstanceRef.get();
+                    Object miSoundInstance = mMiSoundInstanceRef.get();
+
+                    if (dolbyInstance != null && Objects.equals(dolbyInstance, thisObject)) {
+                        XposedLog.d(TAG, "Earphone connected, skip setting dolby effect");
+                        param.setResult(RESULT_SUCCESS);
+                        return;
                     }
 
-                    if (mMiSoundInstance != null) {
-                        if (Objects.equals(mMiSoundInstance, param.getThisObject())) {
-                            XposedLog.d(TAG, "earphone is connection, skip set misound effect!!");
-                            param.setResult(0); // SUCCESS
-                        }
-                    }
+                    if (miSoundInstance != null && Objects.equals(miSoundInstance, thisObject)) {
+                        XposedLog.d(TAG, "Earphone connected, skip setting misound effect");
+                        param.setResult(RESULT_SUCCESS);}
                 }
             }
         );
+    }
 
+    /**
+     * Hook Spatializer.setEnabled 方法
+     */
+    private void hookSpatializerSetEnabled() {
         findAndHookMethod("android.media.Spatializer",
             "setEnabled",
             boolean.class,
@@ -109,13 +149,18 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
                 @Override
                 public void before(BeforeHookParam param) {
                     if (getEarPhoneStateFinal()) {
-                        XposedLog.d(TAG, "earphone is connection, skip set spatializer effect!!");
+                        XposedLog.d(TAG, "Earphone connected, skip setting spatializer effect");
                         param.setResult(null);
                     }
                 }
             }
         );
+    }
 
+    /**
+     * Hook MiSound.set3dSurround 方法
+     */
+    private void hookMiSound3dSurround() {
         findAndHookMethod("android.media.audiofx.MiSound",
             "set3dSurround",
             int.class,
@@ -123,7 +168,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
                 @Override
                 public void before(BeforeHookParam param) {
                     if (getEarPhoneStateFinal()) {
-                        XposedLog.d(TAG, "earphone is connection, skip set 3dSurround effect!!");
+                        XposedLog.d(TAG, "Earphone connected, skip setting 3dSurround effect");
                         param.setResult(null);
                     }
                 }
@@ -131,147 +176,354 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         );
     }
 
-    // -------- Effect Utils --------
-    private Object initEffectInstance(Object instance, Class<?> cls) {
+    // ==================== Effect Instance Management ====================
+
+    /**
+     * 获取或创建音效实例
+     * @param instanceRef 实例的原子引用
+     * @param cls 音效类
+     * @return 音效实例，可能为 null
+     */
+    private Object getOrCreateEffectInstance(AtomicReference<Object> instanceRef, Class<?> cls) {
         if (cls == null) return null;
-        if (instance != null) {
-            if (hasControl(instance)) return instance;
-            callMethod(instance, "release");
+
+        Object currentInstance = instanceRef.get();
+        // 如果当前实例有效，直接返回
+        if (currentInstance != null && hasControl(currentInstance)) {
+            return currentInstance;
         }
-        return newInstance(cls, 0, 0);
-    }
 
-    private boolean hasControl(Object instance) {
-        if (instance == null) return false;
-        return (boolean) callMethod(instance, "hasControl");
-    }
-
-    private void setEnableEffect(Object instance, boolean enable) {
-        if (instance == null || instance.getClass().getSuperclass() == null) return;
-        callMethod(instance, "checkState", "setEnabled()");
-
-        hookMethod(
-            findMethodBestMatch(
-                instance.getClass(), "native_setEnabled"
-            ),
-            returnConstant(enable)
-        );
-        // super private
-    }
-
-    // -------- Dolby --------
-    private void setEnableDolbyEffect(boolean enable) {
-        if (mDolbyClass == null) return;
+        mEffectLock.lock();
         try {
-            mDolbyInstance = initEffectInstance(mDolbyInstance, mDolbyClass);
-
-            if (isIntactDolbyClass) {
-                callMethod(mDolbyInstance, "setBoolParam", 0, enable);
-            } else {
-                byte[] bArr = new byte[12];
-                int int32ToByteArray = int32ToByteArray(0, bArr, 0);
-                int32ToByteArray(enable ? 1 : 0, bArr, int32ToByteArray + int32ToByteArray(1, bArr, int32ToByteArray));
-                callMethod(mDolbyInstance, "checkReturnValue", callMethod(mDolbyInstance, "setParameter", 5, bArr));
+            // 双重检查
+            currentInstance = instanceRef.get();
+            if (currentInstance != null && hasControl(currentInstance)) {
+                return currentInstance;
             }
 
-            setEnableEffect(mDolbyInstance, enable);
-        } catch (UnsupportedOperationException e) {
-            XposedLog.e(TAG, "setEnableDolbyEffect: UnsupportedOperationException", e.getMessage());
-        } catch (Exception e) {
-            XposedLog.e(TAG, "setEnableDolbyEffect: Exception", e.getMessage());
+            // 创建新实例
+            Object newInstance = createEffectInstance(cls);
+            if (newInstance == null) {
+                XposedLog.w(TAG, "Failed to create effect instance for: " + cls.getName());
+                return currentInstance;
+            }
+
+            // 释放旧实例
+            releaseEffectInstance(currentInstance);
+            // 更新引用
+            instanceRef.set(newInstance);
+            return newInstance;
+
+        } finally {
+            mEffectLock.unlock();
         }
     }
 
+    /**
+     * 创建音效实例
+     */
+    private Object createEffectInstance(Class<?> cls) {
+        try {
+            return newInstance(cls, 0, 0);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "createEffectInstance failed", e);
+            return null;
+        }
+    }
+
+    /**
+     * 释放音效实例
+     */
+    private void releaseEffectInstance(Object instance) {
+        if (instance == null) return;
+        try {
+            callMethod(instance, "release");
+        } catch (Exception e) {
+            XposedLog.w(TAG, "releaseEffectInstance failed", e);
+        }
+    }
+
+    /**
+     * 检查是否拥有控制权
+     */
+    private boolean hasControl(Object instance) {
+        if (instance == null) return false;
+        try {
+            Object result = callMethod(instance, "hasControl");
+            return result instanceof Boolean && (Boolean) result;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 设置音效启用状态（通过 Hook native 方法）
+     */
+    private void setEnableEffect(Object instance, boolean enable) {
+        if (instance == null) return;
+
+        Class<?> superClass = instance.getClass().getSuperclass();
+        if (superClass == null) return;
+
+        try {
+            callMethod(instance, "checkState", "setEnabled()");
+            hookMethod(
+                findMethodBestMatch(instance.getClass(), "native_setEnabled"),
+                returnConstant(enable)
+            );
+        } catch (Exception e) {
+            XposedLog.e(TAG, "setEnableEffect failed", e);
+        }
+    }
+
+    // ==================== Dolby Control ====================
+
+    /**
+     * 设置 Dolby 音效启用状态
+     */
+    private void setEnableDolbyEffect(boolean enable) {
+        if (mDolbyClass == null) return;
+
+        mEffectLock.lock();
+        try {
+            Object instance = getOrCreateEffectInstance(mDolbyInstanceRef, mDolbyClass);
+            if (instance == null) return;
+
+            if (mIsIntactDolbyClass.get()) {
+                setDolbyEnableIntact(instance, enable);
+            } else {
+                setDolbyEnableFallback(instance, enable);
+            }
+            setEnableEffect(instance, enable);XposedLog.d(TAG, "setEnableDolbyEffect: " + enable);
+
+        } catch (UnsupportedOperationException e) {
+            XposedLog.e(TAG, "setEnableDolbyEffect: UnsupportedOperationException", e);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "setEnableDolbyEffect: Exception", e);
+        } finally {
+            mEffectLock.unlock();
+        }
+    }
+
+    /**
+     * 使用完整 Dolby 类设置启用状态
+     */
+    private void setDolbyEnableIntact(Object instance, boolean enable) {
+        callMethod(instance, "setBoolParam", DOLBY_PARAM_DAP_ON, enable);
+    }
+
+    /**
+     * 使用备用方式设置 Dolby 启用状态
+     */
+    private void setDolbyEnableFallback(Object instance, boolean enable) {
+        byte[] bArr = new byte[12];
+        int offset = int32ToByteArray(DOLBY_PARAM_DAP_ON, bArr, 0);
+        offset = int32ToByteArray(1, bArr, offset);
+        int32ToByteArray(enable ? 1 : 0, bArr, offset);
+        Object result = callMethod(instance, "setParameter", DOLBY_SET_PARAM_ID, bArr);
+        callMethod(instance, "checkReturnValue", result);
+    }
+
+    /**
+     * 获取 Dolby 音效启用状态
+     */
     private boolean isEnabledDolbyEffect() {
         if (mDolbyClass == null) return false;
-        mDolbyInstance = initEffectInstance(mDolbyInstance, mDolbyClass);
 
-        if (isIntactDolbyClass) {
-            return (boolean) callMethod(mDolbyInstance, "getBoolParam", 0);
-        } else {
-            byte[] baValue = new byte[12];
-            int32ToByteArray(0, baValue, 0);
-            callMethod(mDolbyInstance, "checkReturnValue", callMethod(mDolbyInstance, "getParameter", 5, baValue));
-            int en = byteArrayToInt32(baValue);
-            return en > 0;
-        }
-    }
-
-    private int int32ToByteArray(int src, byte[] dst, int index) {
-        return (int) callStaticMethod(mDolbyClass, "int32ToByteArray", src, dst, index);
-    }
-
-    private static int byteArrayToInt32(byte[] ba) {
-        return ((ba[3] & 255) << 24) | ((ba[2] & 255) << 16) | ((ba[1] & 255) << 8) | (ba[0] & 255);
-    }
-
-    // -------- MiSound --------
-    private void setEnableMiSound(boolean enable) {
-        if (mMiSoundInstance == null) return;
         try {
-            mMiSoundInstance = initEffectInstance(mMiSoundInstance, mMiSoundClass);
+            Object instance = getOrCreateEffectInstance(mDolbyInstanceRef, mDolbyClass);
+            if (instance == null) return false;
 
-            callMethod(mMiSoundInstance, "checkStatus", callMethod(mMiSoundInstance, "setParameter", 25, enable ? 1 : 0));
-            setEnableEffect(mMiSoundInstance, enable);
-        } catch (UnsupportedOperationException e) {
-            XposedLog.e(TAG, "setEnableMiSound: UnsupportedOperationException: " + e.getMessage());
+            if (mIsIntactDolbyClass.get()) {
+                Object result = callMethod(instance, "getBoolParam", DOLBY_PARAM_DAP_ON);
+                return result instanceof Boolean && (Boolean) result;
+            } else {
+                byte[] baValue = new byte[12];
+                int32ToByteArray(DOLBY_PARAM_DAP_ON, baValue, 0);
+                Object result = callMethod(instance, "getParameter", DOLBY_SET_PARAM_ID, baValue);
+                callMethod(instance, "checkReturnValue", result);
+                return byteArrayToInt32(baValue) > 0;
+            }
         } catch (Exception e) {
-            XposedLog.e(TAG, "setEnableMiSound: Exception: " + e.getMessage());
+            XposedLog.e(TAG, "isEnabledDolbyEffect failed", e);
+            return false;
         }
     }
 
+    /**
+     * 将 int32 转换为字节数组
+     */
+    private int int32ToByteArray(int src, byte[] dst, int index) {
+        try {
+            Object result = callStaticMethod(mDolbyClass, "int32ToByteArray", src, dst, index);
+            return result instanceof Integer ? (Integer) result : 0;
+        } catch (Exception e) {
+            // 手动实现
+            dst[index] = (byte) (src & 0xFF);
+            dst[index + 1] = (byte) ((src >> 8) & 0xFF);
+            dst[index + 2] = (byte) ((src >> 16) & 0xFF);
+            dst[index + 3] = (byte) ((src >> 24) & 0xFF);
+            return 4;
+        }
+    }
+
+    /**
+     * 将字节数组转换为 int32
+     */
+    private static int byteArrayToInt32(byte[] ba) {
+        return ((ba[3] & 0xFF) << 24) |
+            ((ba[2] & 0xFF) << 16) |
+            ((ba[1] & 0xFF) << 8) |
+            (ba[0] & 0xFF);
+    }
+
+    // ==================== MiSound Control ====================
+
+    /**
+     * 设置 MiSound 音效启用状态
+     */
+    private void setEnableMiSound(boolean enable) {
+        if (mMiSoundClass == null) return;
+
+        mEffectLock.lock();
+        try {
+            Object instance = getOrCreateEffectInstance(mMiSoundInstanceRef, mMiSoundClass);
+            if (instance == null) return;
+
+            Object result = callMethod(instance, "setParameter", MISOUND_PARAM_ENABLE, enable ? 1 : 0);
+            callMethod(instance, "checkStatus", result);
+            setEnableEffect(instance, enable);XposedLog.d(TAG, "setEnableMiSound: " + enable);
+
+        } catch (UnsupportedOperationException e) {
+            XposedLog.e(TAG, "setEnableMiSound: UnsupportedOperationException", e);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "setEnableMiSound: Exception", e);
+        } finally {
+            mEffectLock.unlock();
+        }
+    }
+
+    /**
+     * 获取 MiSound 音效启用状态
+     */
     private boolean isEnabledMiSound() {
         if (mMiSoundClass == null) return false;
-        mMiSoundInstance = initEffectInstance(mMiSoundInstance, mMiSoundClass);
 
-        return (boolean) callMethod(mMiSoundInstance, "getEnabled");
+        try {
+            Object instance = getOrCreateEffectInstance(mMiSoundInstanceRef, mMiSoundClass);
+            if (instance == null) return false;
+
+            Object result = callMethod(instance, "getEnabled");
+            return result instanceof Boolean && (Boolean) result;
+        } catch (Exception e) {
+            XposedLog.e(TAG, "isEnabledMiSound failed", e);
+            return false;
+        }
     }
 
-    // -------- Spatializer --------
+    // ==================== Spatializer Control ====================
+
+    /**
+     * 检查 Spatializer 是否可用
+     */
     private boolean isAvailableSpatializer() {
         if (mAudioManagerClass == null) return false;
-        Object sService = callStaticMethod(mAudioManagerClass, "getService");
-        return (boolean) callMethod(sService, "isSpatializerAvailable");
+
+        try {
+            Object sService = callStaticMethod(mAudioManagerClass, "getService");
+            if (sService == null) return false;
+
+            Object result = callMethod(sService, "isSpatializerAvailable");
+            return result instanceof Boolean && (Boolean) result;
+        } catch (Exception e) {
+            XposedLog.e(TAG, "isAvailableSpatializer failed", e);
+            return false;
+        }
     }
 
+    /**
+     * 设置 Spatializer 启用状态
+     */
     private void setEnableSpatializer(boolean enable) {
-        if (mAudioManagerClass == null) return;
-        if (!isAvailableSpatializer()) return;
-        Object sService = callStaticMethod(mAudioManagerClass, "getService");
-        callMethod(sService, "setSpatializerEnabled", enable);
+        if (mAudioManagerClass == null || !isAvailableSpatializer()) return;
+
+        try {
+            Object sService = callStaticMethod(mAudioManagerClass, "getService");
+            if (sService != null) {
+                callMethod(sService, "setSpatializerEnabled", enable);XposedLog.d(TAG, "setEnableSpatializer: " + enable);
+            }
+        } catch (Exception e) {
+            XposedLog.e(TAG, "setEnableSpatializer failed", e);
+        }
     }
 
+    /**
+     * 获取 Spatializer 启用状态
+     */
     private boolean isEnabledSpatializer() {
         if (mAudioManagerClass == null) return false;
-        Object sService = callStaticMethod(mAudioManagerClass, "getService");
-        return (boolean) callMethod(sService, "isSpatializerEnabled");
+
+        try {
+            Object sService = callStaticMethod(mAudioManagerClass, "getService");
+            if (sService == null) return false;
+
+            Object result = callMethod(sService, "isSpatializerEnabled");
+            return result instanceof Boolean && (Boolean) result;
+        } catch (Exception e) {
+            XposedLog.e(TAG, "isEnabledSpatializer failed", e);
+            return false;
+        }
     }
 
-    // -------- 3d Surround --------
+    // ==================== 3D Surround Control ====================
+
+    /**
+     * 设置 3D 环绕音效启用状态
+     */
     private void setEnable3dSurround(boolean enable) {
-        if (mMiSoundInstance == null) return;
-        callMethod(mMiSoundInstance, "checkStatus", callMethod(mMiSoundInstance, "setParameter", 20, enable ? 1 : 0));
+        Object instance = mMiSoundInstanceRef.get();
+        if (instance == null) return;
+
+        try {
+            Object result = callMethod(instance, "setParameter", MISOUND_PARAM_3D_SURROUND, enable ? 1 : 0);
+            callMethod(instance, "checkStatus", result);
+            XposedLog.d(TAG, "setEnable3dSurround: " + enable);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "setEnable3dSurround failed", e);
+        }
     }
 
+    /**
+     * 获取 3D 环绕音效启用状态
+     */
     private boolean isEnabled3dSurround() {
-        if (mMiSoundInstance == null) return false;
-        int[] value = new int[1];
-        callMethod(mMiSoundInstance, "checkStatus", callMethod(mMiSoundInstance, "getParameter", 20, value));
-        return value[0] == 1;
+        Object instance = mMiSoundInstanceRef.get();
+        if (instance == null) return false;
+
+        try {
+            int[] value = new int[1];
+            Object result = callMethod(instance, "getParameter", MISOUND_PARAM_3D_SURROUND, value);
+            callMethod(instance, "checkStatus", result);
+            return value[0] == 1;
+        } catch (Exception e) {
+            XposedLog.e(TAG, "isEnabled3dSurround failed", e);
+            return false;
+        }
     }
 
-    // -------- Control --------
+    // ==================== IControlForSystem Implementation ====================
+
     @Override
-    void updateEffectMap() {
+    protected void updateEffectMap() {
         mEffectHasControlMap.clear();
-        mEffectHasControlMap.put(EFFECT_DOLBY_CONTROL, String.valueOf(hasControl(mDolbyInstance)));
-        mEffectHasControlMap.put(EFFECT_MISOUND_CONTROL, String.valueOf(hasControl(mMiSoundInstance)));
+        putBoolean(mEffectHasControlMap, EFFECT_DOLBY_CONTROL, hasControl(mDolbyInstanceRef.get()));
+        putBoolean(mEffectHasControlMap, EFFECT_MISOUND_CONTROL, hasControl(mMiSoundInstanceRef.get()));
 
         mEffectEnabledMap.clear();
-        mEffectEnabledMap.put(EFFECT_DOLBY, String.valueOf(isEnabledDolbyEffect()));
-        mEffectEnabledMap.put(EFFECT_MISOUND, String.valueOf(isEnabledMiSound()));
-        mEffectEnabledMap.put(EFFECT_SPATIAL_AUDIO, String.valueOf(isEnabledSpatializer()));
-        mEffectEnabledMap.put(EFFECT_SURROUND, String.valueOf(isEnabled3dSurround()));
+        putBoolean(mEffectEnabledMap, EFFECT_DOLBY, isEnabledDolbyEffect());
+        putBoolean(mEffectEnabledMap, EFFECT_MISOUND, isEnabledMiSound());
+        putBoolean(mEffectEnabledMap, EFFECT_SPATIAL_AUDIO, isEnabledSpatializer());
+        putBoolean(mEffectEnabledMap, EFFECT_SURROUND, isEnabled3dSurround());
     }
 
     @Override
@@ -281,8 +533,10 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         mLastSpatializerEnable = isEnabledSpatializer();
         mLast3dSurroundEnable = isEnabled3dSurround();
 
-        XposedLog.d(TAG, "updateLastEffectState: mLastDolbyEnable: " + mLastDolbyEnable + ", mLastMiSoundEnable: " + mLastMiSoundEnable
-            + ", mLastSpatializerEnable: " + mLastSpatializerEnable + ", mLast3dSurroundEnable: " + mLast3dSurroundEnable);
+        XposedLog.d(TAG, "updateLastEffectState: dolby=" + mLastDolbyEnable +
+            ", misound=" + mLastMiSoundEnable +
+            ", spatializer=" + mLastSpatializerEnable +
+            ", 3dSurround=" + mLast3dSurroundEnable);
     }
 
     @Override
@@ -291,6 +545,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         setEnableMiSound(false);
         setEnableSpatializer(false);
         setEnable3dSurround(false);
+        XposedLog.d(TAG, "setEffectToNone completed");
     }
 
     @Override
@@ -300,16 +555,18 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             setEnableMiSound(true);
             setEnable3dSurround(mLast3dSurroundEnable);
         } else {
-            setEnableDolbyEffect(true);
+            setEnableDolbyEffect(mLastDolbyEnable);
             setEnableMiSound(false);
         }
         setEnableSpatializer(mLastSpatializerEnable);
+        XposedLog.d(TAG, "resetAudioEffect completed");
     }
 
     @Override
     public void dumpAudioEffectState() {
-        XposedLog.d(TAG, "dolby: " + isEnabledDolbyEffect() + ", misound: " + isEnabledMiSound() +
-            ", spatializer: " + isEnabledSpatializer() + ", 3dSurround: " + isEnabled3dSurround());
+        XposedLog.d(TAG, "AudioEffect State: dolby=" + isEnabledDolbyEffect() +
+            ", misound=" + isEnabledMiSound() +
+            ", spatializer=" + isEnabledSpatializer() +
+            ", 3dSurround=" + isEnabled3dSurround());
     }
 }
-

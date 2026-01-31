@@ -19,7 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.BINDER_KEY_EFFECT_INFO;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -31,69 +33,103 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
+/**
+ * 自动切换音效 - SystemUI 端
+ * 拦截 SystemUI 中的音效切换操作
+ *
+ * @author 焕晨HChen
+ */
 public class AutoSEffSwitchForSystemUi extends BaseHook {
+
     private static final String TAG = "AutoSEffSwitchForSystemUi";
-    private final boolean isInit = false;
-    private static IEffectInfo mIEffectInfo;
+    private static final String PROP_FW_EFFECT = "ro.vendor.audio.fweffect";
+
+    private static final AtomicReference<IEffectInfo> sEffectInfoRef = new AtomicReference<>();
 
     @Override
     public void init() {
-        if (isSupportFW()) onSupportFW();
-
-        runOnApplicationAttach(context -> {
-            Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            if (intent == null) return;
-            Bundle bundle = intent.getBundleExtra("effect_info");
-            if (bundle == null) return;
-            mIEffectInfo = IEffectInfo.Stub.asInterface(bundle.getBinder("effect_info"));
-            XposedLog.d(TAG, "com.android.systemui", "onApplication: EffectInfoService: " + mIEffectInfo);
-        });
-    }
-
-    public static boolean isSupportFW() {
-        return getProp("ro.vendor.audio.fweffect", false);
-    }
-
-    public static boolean getEarPhoneStateFinal() {
-        if (mIEffectInfo != null) {
-            try {
-                return mIEffectInfo.isEarphoneConnection();
-            } catch (RemoteException e) {
-                XposedLog.e(TAG, "com.android.systemui", e);
-                return false;
-            }
+        if (isSupportFW()) {
+            hookFWEffectCenter();
         }
-        XposedLog.w(TAG, "com.android.systemui", "getEarPhoneStateFinal: mIEffectInfo is null!!");
+        initBinderConnection();
+    }
+
+    /**
+     * 检查是否支持 FW 模式
+     */
+    public static boolean isSupportFW() {
+        return getProp(PROP_FW_EFFECT, false);
+    }
+
+    /**
+     * 获取耳机连接状态
+     */
+    public static boolean getEarPhoneStateFinal() {
+        IEffectInfo effectInfo = sEffectInfoRef.get();
+        if (effectInfo != null) {
+            try {
+                return effectInfo.isEarphoneConnection();
+            } catch (RemoteException e) {
+                XposedLog.e(TAG, "Failed to get earphone state", e);
+            }
+        } else {
+            XposedLog.w(TAG, "IEffectInfo is null");
+        }
         return false;
     }
 
-    private void onSupportFW() {
-        findAndHookMethod("android.media.audiofx.AudioEffectCenter",
-                "setEffectActive",
-                String.class, boolean.class,
-                new IMethodHook() {
-                    @Override
-                    public void before(BeforeHookParam param) {
-                        if (getEarPhoneStateFinal()) {
-                            XposedLog.d(TAG, "com.android.systemui", "earphone is connection, skip set effect: " + param.getArgs()[0] + "!!");
-                            param.setResult(null);
-                        }
-                    }
-                }
-        );
+    /**
+     * 初始化 Binder 连接
+     */
+    private void initBinderConnection() {
+        runOnApplicationAttach(this::connectToEffectInfoService);
     }
 
+    /**
+     * 连接到 EffectInfoService
+     */
+    private void connectToEffectInfoService(Context context) {
+        try {
+            Intent intent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            if (intent == null) {
+                XposedLog.w(TAG, "Battery intent is null");
+                return;
+            }
 
-    public static void onNotSupportFW(ClassLoader classLoader) {
-        EzxHelpUtils.findAndHookMethod("miui.systemui.quicksettings.soundeffect.DolbyAtomsSoundEffectTile", classLoader,
-            "handleClick",
+            Bundle bundle = intent.getBundleExtra(BINDER_KEY_EFFECT_INFO);
+            if (bundle == null) {
+                XposedLog.w(TAG, "Effect info bundle is null");
+                return;
+            }
+
+            IEffectInfo effectInfo = IEffectInfo.Stub.asInterface(
+                bundle.getBinder(BINDER_KEY_EFFECT_INFO)
+            );
+            sEffectInfoRef.set(effectInfo);
+
+            XposedLog.d(TAG, "Connected to EffectInfoService: " + effectInfo);
+        } catch (Exception e) {
+            XposedLog.e(TAG, "Failed to connect to EffectInfoService", e);
+        }
+    }
+
+    /**
+     * Hook FW 模式下的 AudioEffectCenter
+     */
+    private void hookFWEffectCenter() {
+        findAndHookMethod("android.media.audiofx.AudioEffectCenter",
+            "setEffectActive",
+            String.class, boolean.class,
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
                     if (getEarPhoneStateFinal()) {
-                        XposedLog.d(TAG, "com.android.systemui", "earphone is connection, skip set effect: " + param.getArgs()[0] + "!!");
+                        String effect = (String) param.getArgs()[0];
+                        XposedLog.d(TAG, "Earphone connected, skip setting effect: " + effect);
                         param.setResult(null);
                     }
                 }
@@ -101,4 +137,23 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
         );
     }
 
+    /**
+     * Hook 非 FW 模式下的音效切换（供外部调用）
+     */
+    public static void hookNonFWEffectSwitch(ClassLoader classLoader) {
+        EzxHelpUtils.findAndHookMethod(
+            "miui.systemui.quicksettings.soundeffect.DolbyAtomsSoundEffectTile",
+            classLoader,
+            "handleClick",
+            new IMethodHook() {
+                @Override
+                public void before(BeforeHookParam param) {
+                    if (getEarPhoneStateFinal()) {
+                        XposedLog.d(TAG, "Earphone connected, skip Dolby tile click");
+                        param.setResult(null);
+                    }
+                }
+            }
+        );
+    }
 }
