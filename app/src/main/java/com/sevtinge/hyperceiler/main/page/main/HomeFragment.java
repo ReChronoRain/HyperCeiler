@@ -123,6 +123,7 @@ public class HomeFragment extends PagePreferenceFragment implements HomepageEntr
         PreferenceHeader header = findPreference(key);
         if (header == null) return;
 
+        if (summary.equals("system")) summary = "android";
         setIconAndTitle(header, summary);
         String title = header.getTitle() != null ? header.getTitle().toString() : "";
         String summary1 = header.getSummary() != null ? header.getSummary().toString() : "";
