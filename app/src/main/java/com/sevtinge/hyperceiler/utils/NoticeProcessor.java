@@ -48,8 +48,8 @@ import java.util.Locale;
 import fan.appcompat.app.AlertDialog;
 
 public class NoticeProcessor {
-    private static final String NOTICE_URL =
-        "https://raw.githubusercontent.com/ReChronoRain/HyperCeiler/public_push/Notice.json";
+    private static final String NOTICE_URL = "https://raw.githubusercontent.com/ReChronoRain/HyperCeiler/public_push/Notice.json";
+    // https://gcore.jsdelivr.net/gh/ReChronoRain/HyperCeiler@public_push/Notice.json
 
     /**
      * Main entry point, used to check whether the display conditions are met and to package the display results
@@ -147,22 +147,22 @@ public class NoticeProcessor {
         if (n.versionMax >= 0 && versionCode > n.versionMax) return false;
 
         // Build Type
-        if (!matchStringList(n.buildType, BuildConfig.BUILD_TYPE)) {
+        if (!matchStringListAllowAll(n.buildType, BuildConfig.BUILD_TYPE)) {
             return false;
         }
 
         // Android Version
-        if (!matchIntList(n.androidVersion, getAndroidVersion())) {
+        if (!matchIntListAllowAll(n.androidVersion, getAndroidVersion())) {
             return false;
         }
 
         // HyperOS big version
-        if (!matchFloatList(n.miuiBigVersion, getHyperOSVersion())) {
+        if (!matchFloatListAllowAll(n.miuiBigVersion, getHyperOSVersion())) {
             return false;
         }
 
         // HyperOS small version
-        if (!matchFloatList(n.miuiSmallVersion, getSmallVersion())) {
+        if (!matchFloatListAllowAll(n.miuiSmallVersion, getSmallVersion())) {
             return false;
         }
 
@@ -213,16 +213,35 @@ public class NoticeProcessor {
         return false;
     }
 
-    private static boolean matchFloatList(List<Float> list, float value) {
+    private static boolean matchIntListAllowAll(List<Integer> list, int value) {
         if (list == null || list.isEmpty()) return true;
-        for (Float v : list) {
-            if (v != null && Float.compare(v, value) == 0) {
+        for (Integer v : list) {
+            if (v != null && (v == value || v == -1)) {
                 return true;
             }
         }
         return false;
     }
 
+    private static boolean matchFloatList(List<Float> list, float value) {
+        if (list == null || list.isEmpty()) return true;
+        for (Float v : list) {
+            if (v != null && (Float.compare(v, value) == 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static boolean matchFloatListAllowAll(List<Float> list, float value) {
+        if (list == null || list.isEmpty()) return true;
+        for (Float v : list) {
+            if (v != null && (Float.compare(v, value) == 0 || Float.compare(v, -1f) == 0)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private static List<String> toStringList(JSONArray arr) {
         if (arr == null || arr.length() == 0) return null;
