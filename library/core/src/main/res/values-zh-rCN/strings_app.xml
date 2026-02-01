@@ -19,8 +19,6 @@
   -->
 <resources>
     <!--Xposed 模块简介-->
-    <string name="xposed_description">Make HyperOS Great Again!</string>
-
     <string name="new_permission_wifi_state_desc">用于xxx</string>
     <string name="new_permission_location_desc">用于提供经纬度等服务</string>
     <string name="new_cta_agree_desc">在使用过程中，为了为您提供更多功能，我们可能会向您申请 Root/Su 权限。您可随时前往权限管理调整所有权限的授权情况，Root 权限请前往您的 Root 管理器进行管理.</string>
@@ -238,7 +236,6 @@
     <string name="device">设备代号</string>
     <string name="manufacturer">厂商</string>
     <string name="search">搜索</string>
-    <string name="floating_window">小窗</string>
     <string name="save_to_screen_title">规范保存位置</string>
     <string name="only_new_version_can_do">仅支持较新的版本</string>
     <string name="use_hyper_blur">使用高级材质</string>
@@ -304,12 +301,6 @@
     <string name="array_discrete">分离</string>
     <string name="array_gradual">缓慢</string>
     <string name="array_rainbow">彩虹</string>
-
-    <string name="various_install_app_info_version_name">版本名称</string>
-    <string name="various_install_app_info_version_code">版本代码</string>
-    <string name="various_install_app_info_sdk">支持 SDK</string>
-    <string name="various_install_app_size">应用大小</string>
-
     <string name="status_bar_icon_mode_default">默认</string>
     <string name="status_bar_icon_mode_on">始终显示</string>
     <string name="status_bar_icon_mode_on_non_wifi">非 WiFi 下始终显示</string>
@@ -383,34 +374,6 @@
     <string name="mediaeditor_mickey">米老鼠</string>
     <string name="mediaeditor_strawberry_bear">草莓熊</string>
     <string name="mediaeditor_disney_princess">迪士尼公主</string>
-
-    <string name="tiles_gms">Google Play 服务</string>
-    <string name="tiles_taplus">传送门</string>
-    <string name="tiles_5g">5G 网络</string>
-    <string name="tiles_sunshine_mode">阳光模式</string>
-    <string name="tiles_snow_leopard_mode">雪豹模式</string>
-    <string name="dashboard_5g">使用 5G 网络</string>
-
-    <string name="system_cc_showpct_style_1">内联</string>
-    <string name="system_cc_showpct_style_2">外显</string>
-
-    <string name="media_control_ground_mode_1">封面艺术</string>
-    <string name="media_control_ground_mode_2">模糊封面</string>
-    <string name="media_control_ground_mode_3">径向渐变</string>
-    <string name="media_control_ground_mode_4">线性渐变</string>
-    <string name="media_control_ground_mode_5">材质模糊</string>
-
-    <string name="media_control_album_mode_1">隐藏来源标识</string>
-    <string name="media_control_album_mode_2">不可见</string>
-
-    <string name="media_control_button_mode_1">自定义按钮在最右侧</string>
-    <string name="media_control_button_mode_2">播放按钮在最左侧</string>
-
-    <string name="notes_unlock_ai_mode_1">旧版</string>
-    <string name="notes_unlock_ai_mode_2">新版</string>
-
-    <string name="mode_phone">手机</string>
-    <string name="mode_pad">平板</string>
     <!--系统框架-->
     <string name="system_framework">系统框架</string>
     <string name="system_framework_volume_title">音量</string>
@@ -643,10 +606,6 @@
 
     <string name="system_ui_navigation_title">导航栏</string>
     <string name="system_ui_navigation_handle_title">手势提示线</string>
-    <string name="system_ui_hide_navigation_bar">隐藏手势提示线</string>
-    <string name="system_ui_hide_navigation_bar_toast">请勿切换经典导航键</string>
-    <string name="system_ui_hide_navigation_bar_toast_2">请勿隐藏手势提示线</string>
-    <string name="system_ui_hide_navigation_bar_more">请重启 \"系统桌面\" 和 \"系统界面\" 两个作用域</string>
     <string name="system_ui_navigation_handle_custom">自定义手势提示线</string>
     <string name="system_ui_navigation_handle_custom_height">高度</string>
     <string name="system_ui_navigation_handle_custom_width">竖屏宽度</string>
@@ -801,10 +760,6 @@
 
     <string name="system_ui_statusbar_music_tip">使用前注意事项：\n- 开启此功能后，请勾选并重启系统界面作用域\n- 此功能需要搭配 \"SuperLyric\" 模块使用</string>
     <string name="system_ui_statusbar_music_dependency">下载 SuperLyric</string>
-    <string name="system_ui_statusbar_music_share">分享歌词</string>
-    <string name="system_ui_statusbar_music_send">松开即发送</string>
-    <string name="system_ui_statusbar_music_send_share_text">我从%1$s分享了如下歌词：\n%2$s</string>
-    <string name="system_ui_statusbar_music_notification">焦点通知歌词</string>
     <string name="system_ui_statusbar_music_show_app_title">通知注册在 App 上</string>
     <string name="system_ui_statusbar_music_show_app_desc">开启后需要额外勾选音乐 App 作用域</string>
     <string name="system_ui_statusbar_music_cusiom_notific_title">通知栏显示设置</string>
@@ -825,15 +780,9 @@
     <string name="system_ui_controlcenter_media_card_title">媒体通知卡片</string>
     <string name="system_ui_control_center_magnet_tile_settings">磁贴</string>
     <string name="system_ui_control_center_notification_title">通知中心</string>
-    <string name="quick_settings_state_change_message_on_my">%1$s已开启</string>
-    <string name="quick_settings_state_change_message_off_my">%1$s已关闭</string>
     <string name="system_control_center_5g_tile">5G 网络开关</string>
     <string name="system_ui_control_center_snow_leopard_mode">雪豹模式</string>
     <string name="system_ui_control_center_snow_leopard_mode_desc">禁止全部的音频输出。实验性功能，可能包含不稳定的内容</string>
-    <string name="system_control_center_reduce_bright_colors_tile">极暗</string>
-    <string name="system_control_center_sunshine_mode">阳光模式</string>
-    <string name="system_control_center_sunshine_mode_brightness">阳光模式亮度</string>
-    <string name="system_control_center_sunshine_mode_brightness_desc">过高的亮度可能导致屏幕老化，烧屏等不可逆后果，建议酌情选择亮度和使用</string>
     <string name="system_ui_control_auto_close">磁贴自动收起</string>
     <string name="system_ui_control_auto_close_more">开启后点击状态栏磁贴会自动收起状态栏</string>
     <string name="system_control_center_qs_rows">行数</string>
@@ -987,9 +936,6 @@
     <string name="system_settings_linkturbo">解除网络加速应用限制</string>
     <string name="system_settings_safe_wifi">查看已保存的 WIFI 密码</string>
     <string name="system_settings_safe_wifi_desc">解锁管理已保存网络\n路径：设置-WLAN-高级设置-管理保存的网络</string>
-    <string name="system_settings_wifipassword_btn_title">查看</string>
-    <string name="system_settings_wifi_password_label">密码</string>
-    <string name="system_settings_wifi_password_dlgtitle">WiFi 详情</string>
     <string name="system_settings_new_nfc_page">新版 NFC 页面</string>
     <string name="system_settings_new_nfc_page_desc">此功能会导致不支持的机型默认付款应用无法选中小米钱包</string>
     <string name="system_settings_more_vpn_types">显示更多 VPN 类型</string>
@@ -1355,20 +1301,6 @@
     <string name="home_large_icon_corner_radius">大图标圆角</string>
     <string name="home_other_app_icon_hide">桌面快捷方式管理</string>
     <string name="home_other_toast_slide_again">禁止提示 \"请再划一次\" Toast</string>
-    <string name="system_framework_guided_access_status">固定时完全隐藏状态栏</string>
-    <string name="system_framework_guided_access_status_more">将屏幕完全移交至应用，仅允许通过长按电源键退出</string>
-    <string name="system_framework_guided_access_sc">固定时禁止呼出侧边栏</string>
-    <string name="system_framework_guided_access_screen">解除固定时跳转锁屏</string>
-    <string name="system_framework_guided_access">引导式访问</string>
-    <string name="system_framework_guided_access_more">长按状态栏 1 秒以固定或取消固定当前应用</string>
-    <string name="system_framework_guided_access_will_lock">继续长按以进入引导式访问</string>
-    <string name="system_framework_guided_access_lock">已开启引导式访问</string>
-    <string name="system_framework_guided_access_unlock">已退出引导式访问</string>
-    <string name="system_framework_guided_access_will_unlock">继续长按以退出引导式访问</string>
-    <string name="system_framework_guided_access_e">当前应用不是进入引导式访问时固定的应用，请在被固定应用界面退出引导式访问</string>
-    <string name="system_framework_guided_access_r">引导式访问超次还原</string>
-    <string name="home_other_shortcut_remove_restrictions">解锁快捷菜单数量限制</string>
-    <string name="home_other_shortcut_background_blur_custom">快捷菜单背景透明度</string>
     <string name="home_other_high_models">强制识别为高端机型</string>
     <string name="home_other_mi_pad_enable_more_setting_title">解锁桌面设置更多选项</string>
     <string name="home_other_mi_pad_enable_more_setting_desc">解锁后的功能不一定可用，部分功能需要系统底层支持</string>
@@ -1392,10 +1324,6 @@
     <string name="mediaeditor_unlock_leica_filter_title">解锁 Leica 滤镜</string>
     <string name="mediaeditor_unlock_leica_filter_desc">仅支持部分版本</string>
     <string name="mediaeditor_unlock_aigc">解锁 AIGC</string>
-    <!--小米互传-->
-    <string name="mishare">小米互传</string>
-    <string name="mishare_disable_mishare_auto_off">禁用自动关闭小米互传</string>
-    <string name="mishare_hook_switch_mode_all">所有人</string>
     <!--壁纸-->
     <string name="miwallpaper">壁纸</string>
     <string name="miwallpaper_unlock_super_wallpaper">解锁超级壁纸</string>
@@ -1507,10 +1435,6 @@
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
     <string name="security_disable_app_url_title">应用打开链接管理</string>
     <string name="security_disable_app_url_summary">将应用详情中 \"消除默认操作\" 更改为 \"默认打开\" 设置</string>
-    <string name="app_link_open_always">允许应用打开支持的链接</string>
-    <string name="app_link_open_never">不允许应用打开链接</string>
-    <string name="open_by_default">默认打开</string>
-    <string name="security_score">禁用体检优化</string>
     <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
     <string name="security_center_skip_waiting_time_desc">跳过大部分官方危险选项的等待确认倒计时时间</string>
@@ -1560,10 +1484,6 @@
     <string name="security_center_bypass_simlock_miaccount_auth_desc">开启 SIM 卡安全保护功能时无需登录小米账号</string>
     <string name="security_center_remove_simlock_success_dialog">移除 SIM 卡安全保护验证成功的弹窗</string>
     <string name="security_center_remove_simlock_success_dialog_desc">开机后不再弹窗提示 SIM 卡安全保护验证成功</string>
-    <string name="security_center_aosp_app_info">添加 \"原生应用信息\" 入口</string>
-    <string name="security_center_aosp_app_info_label">原生应用信息</string>
-    <string name="security_center_aosp_app_manager">添加 \"原生应用管理\" 入口</string>
-    <string name="security_center_aosp_app_manager_label">原生应用管理</string>
     <string name="security_center_power_consumption_ranking">恢复显示耗电排行</string>
     <string name="security_center_hide_xopt_mode_tip">隐藏权限使用提示</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">解锁低温超级续航</string>
@@ -1576,13 +1496,6 @@
     <string name="trustservice">MiTrustService</string>
     <string name="trustservice_disable_mrm">禁用风险检测</string>
     <string name="trustservice_disable_mrm_desc">实验性功能，不得使用此功能进行违反当地及国家法律条文规定的行为</string>
-    <!--小米智能卡-->
-    <string name="tsmclient">小米智能卡</string>
-    <string name="tsmclient_auto_nfc">自动管理 NFC</string>
-    <string name="tsmclient_auto_nfc_desc">进入刷卡页面时自动开启 NFC，退出时将自动关闭</string>
-    <string name="tsmclient_nfc_turning_on">正在自动开启 NFC …</string>
-    <string name="tsmclient_nfc_turn_on_manually">手动开启 NFC</string>
-    <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
     <!--天气-->
     <string name="weather">天气</string>
     <string name="weather_device_level_title">动画等级</string>
@@ -1679,10 +1592,6 @@
     <!--其他-->
     <string name="various">其他</string>
     <string name="input_method">输入法</string>
-    <string name="share_center">小米妙享中心</string>
-    <string name="new_task">多开</string>
-    <string name="custom_hook">自定义</string>
-
     <string name="app_version_not_supported">不受支持的版本</string>
 
     <string name="various_dialog_title">弹窗</string>
@@ -1762,32 +1671,11 @@
     <string name="location_simulation_work_base_station">基站</string>
     <string name="location_simulation_work_longitude_latitude">经纬度</string>
     <string name="location_simulation_work_remarks">备注</string>
-
-    <string name="app_details_playstore">使用应用商店打开</string>
-    <string name="app_details_launch">启动</string>
-    <string name="app_details_nolaunch">应用没有默认可启动的活动</string>
-    <string name="app_details_apk_file">APK 目录</string>
-    <string name="app_details_apk_version_code">应用版本号</string>
-    <string name="app_details_data_path">数据目录</string>
-    <string name="app_details_app_uid">用户标识符</string>
-    <string name="app_details_sdk">目标 SDK 版本</string>
-    <string name="app_details_min_sdk">最低 SDK 版本</string>
-
-    <string name="disable_app_settings">这是一个坏主意！</string>
-    <string name="disable_app_title">确定要禁用该应用吗？</string>
-    <string name="disable_app_text">如果这是一个必要的系统应用，将其禁用可能会造成损坏</string>
-    <string name="disable_app_fail">更改应用状态失败</string>
-
     <string name="calls">通话</string>
     <string name="system_volume">系统</string>
     <string name="notification_volume">通知</string>
     <string name="freeform_notification">通知悬浮窗</string>
     <string name="share_app">分享至三方应用</string>
-
-    <string name="system_notifrowmenu_appinfo">应用信息</string>
-    <string name="system_notifrowmenu_openinfw">浮窗</string>
-    <string name="system_notifrowmenu_forceclose">强制关闭</string>
-
     <string name="show_newmods_title">标记新模块</string>
 
     <string name="default_volume_stream_ring">铃声</string>
