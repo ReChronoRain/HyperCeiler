@@ -1437,6 +1437,7 @@
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
     <string name="security_disable_app_url_title">应用打开链接管理</string>
     <string name="security_disable_app_url_summary">将应用详情中 \"消除默认操作\" 更改为 \"默认打开\" 设置</string>
+    <string name="security_score">禁用体验优化</string>
     <string name="security_score_summary">锁定 100 分与禁用优化</string>
     <string name="security_center_skip_waiting_time">跳过倒计时限制</string>
     <string name="security_center_skip_waiting_time_desc">跳过大部分官方危险选项的等待确认倒计时时间</string>
