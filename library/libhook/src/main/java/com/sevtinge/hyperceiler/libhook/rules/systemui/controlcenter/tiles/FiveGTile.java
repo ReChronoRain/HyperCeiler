@@ -202,10 +202,18 @@ public class FiveGTile extends TileUtils {
                 new IMethodHook() {
                     @Override
                     public void before(BeforeHookParam param) {
-                        Object item = param.getArgs()[0];
-                        if (Boolean.TRUE.equals(EzxHelpUtils.getAdditionalInstanceField(item, FIELD_IS_CUSTOM_5G))) {
-                            toggleFiveG();
-                            param.setResult(null);
+                        Object adapter = param.getThisObject();
+                        Object tile = getObjectField(adapter, "this$0");
+                        Context context = (Context) getObjectField(tile, "mContext");
+                        Resources modRes = AppsTool.getModuleRes(context);
+                        if (modRes != null) {
+                            Object item = param.getArgs()[0];
+                            if (Boolean.TRUE.equals(EzxHelpUtils.getAdditionalInstanceField(item, FIELD_IS_CUSTOM_5G)) || item.toString().contains(modRes.getString(R.string.dashboard_5g))) {
+                                toggleFiveG();
+                                param.setResult(null);
+                            }
+                        } else {
+                            XposedLog.e(TAG, "Module resources is null when onDetailItemClick");
                         }
                     }
                 }
