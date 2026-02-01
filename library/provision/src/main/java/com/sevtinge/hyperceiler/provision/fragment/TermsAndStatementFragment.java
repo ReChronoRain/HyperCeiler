@@ -37,7 +37,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 
 import fan.appcompat.app.AlertDialog;
 

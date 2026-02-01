@@ -1,22 +1,15 @@
 package com.sevtinge.hyperceiler.provision.widget;
 
-import android.app.Activity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
-
-import java.security.SecureRandom;
+import fan.provision.OobeUtils;
 
 import fan.bottomsheet.BottomSheetBehavior;
 import fan.bottomsheet.BottomSheetModal;

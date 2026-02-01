@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.provision.utils;
+package fan.provision;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -34,7 +34,6 @@ import android.view.Window;
 import android.widget.Toast;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.activity.ProvisionBaseActivity;
 
 import java.security.SecureRandom;
 import java.util.List;
@@ -50,7 +49,6 @@ public class OobeUtils {
 
     public static float NO_ALPHA = 1.0f;
     public static float HALF_ALPHA = 0.5f;
-    public static final String BUILD_DEVICE = android.os.Build.DEVICE;
 
     public static boolean isFirstBoot = true;
     public static boolean isEndBoot = true;
@@ -58,7 +56,7 @@ public class OobeUtils {
     private static Boolean mBlurEffectEnabledCache = null;
 
     public static boolean isProvisioned(Context context) {
-        return false;
+        return context.getSharedPreferences("prefs_oobe", Context.MODE_PRIVATE).getBoolean("is_provisioned", false);
     }
 
     public static boolean isRTL() {
@@ -114,43 +112,19 @@ public class OobeUtils {
         edit.apply();
     }
 
-    public static Intent getLicenseIntent(String url) {
-        Intent intent = new Intent("fan.intent.action.WEBVIEW");
-        intent.putExtra("web_url", url);
-        return intent;
-    }
-
-    public static void startActivity(Context context, Intent intent) {
-        try {
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "ActivityNotFound", Toast.LENGTH_LONG).show();
-            Log.e("Provision_Utils", "startActivity ActivityNotFound:", e);
-        }
-    }
 
     public static boolean isInternationalBuild() {
         return Build.IS_INTERNATIONAL_BUILD;
-    }
-
-    public static boolean isFoldLarge(Context context) {
-        if (context == null) {
-            return false;
-        }
-        int screenLayout = context.getResources().getConfiguration().screenLayout & 15;
-        return screenLayout == 3 || screenLayout == 4;
     }
 
     public static void adaptFlipUi(Window window) {
         window.addFlags(134217728);
     }
 
-    public static boolean isTabletLand(Context context) {
-        return isLandOrientation(context) && isTabletDevice();
-    }
-
-    public static boolean isTabletPort(Context context) {
-        return isPortOrientation(context) && Build.IS_TABLET;
+    public static boolean isFoldLarge(Context context) {
+        if (context == null) return false;
+        int screenLayout = context.getResources().getConfiguration().screenLayout & 15;
+        return screenLayout == 3 || screenLayout == 4;
     }
 
     public static boolean isPortOrientation(Context context) {
@@ -160,9 +134,20 @@ public class OobeUtils {
     public static boolean isLandOrientation(Context context) {
         return context != null && context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
     }
+
     public static boolean isTabletDevice() {
         return Build.IS_TABLET;
     }
+
+
+    public static boolean isTabletLand(Context context) {
+        return isLandOrientation(context) && isTabletDevice();
+    }
+
+    public static boolean isTabletPort(Context context) {
+        return isPortOrientation(context) && isTabletDevice();
+    }
+
 
     public static boolean needFastAnimation() {
         return !isInternationalBuild();
@@ -184,13 +169,30 @@ public class OobeUtils {
         return mBlurEffectEnabledCache;
     }
 
-
     public static String getTopActivityClassName(Context context) throws SecurityException {
-        List<ActivityManager.RunningTaskInfo> runningTasks = ((ActivityManager) context.getSystemService("activity")).getRunningTasks(1);
+        ActivityManager manager = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
+        List<ActivityManager.RunningTaskInfo> runningTasks = manager.getRunningTasks(1);
         if (runningTasks == null || runningTasks.isEmpty()) {
             return null;
         }
-        Log.d(TAG, "getTopActivityClassName: " + runningTasks.get(0).topActivity.getClassName());
-        return runningTasks.get(0).topActivity.getClassName();
+        ActivityManager.RunningTaskInfo taskInfo = runningTasks.get(0);
+        String topActivityClassName = taskInfo.topActivity.getClassName();
+        Log.d(TAG, "getTopActivityClassName: " + topActivityClassName);
+        return topActivityClassName;
+    }
+
+    public static Intent getLicenseIntent(String url) {
+        Intent intent = new Intent("fan.intent.action.WEBVIEW");
+        intent.putExtra("web_url", url);
+        return intent;
+    }
+
+    public static void startActivity(Context context, Intent intent) {
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "ActivityNotFound", Toast.LENGTH_LONG).show();
+            Log.e(TAG, "startActivity ActivityNotFound:", e);
+        }
     }
 }

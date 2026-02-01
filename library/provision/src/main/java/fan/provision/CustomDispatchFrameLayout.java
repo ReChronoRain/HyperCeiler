@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.provision.widget;
+package fan.provision;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -26,8 +26,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper;
 
 public class CustomDispatchFrameLayout extends FrameLayout {
 

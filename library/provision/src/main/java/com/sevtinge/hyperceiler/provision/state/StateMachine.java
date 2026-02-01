@@ -13,7 +13,6 @@ import com.sevtinge.hyperceiler.provision.activity.CongratulationActivity;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 
 import java.util.ArrayList;

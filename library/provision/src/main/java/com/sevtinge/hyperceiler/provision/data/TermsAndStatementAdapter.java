@@ -37,7 +37,7 @@ import android.widget.TextView;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.text.style.ClickSpan;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;

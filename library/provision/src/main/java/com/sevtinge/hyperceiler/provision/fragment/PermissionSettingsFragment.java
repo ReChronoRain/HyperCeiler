@@ -21,21 +21,19 @@ package com.sevtinge.hyperceiler.provision.fragment;
 import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isNetworkConnected;
 import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isInternetAvailable;
 
-import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 import com.sevtinge.hyperceiler.provision.widget.PermissionItemView;
 
 import java.io.File;

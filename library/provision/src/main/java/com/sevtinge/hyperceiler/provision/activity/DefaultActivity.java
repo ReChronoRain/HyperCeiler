@@ -30,7 +30,9 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.provision.state.StartupState;
 import com.sevtinge.hyperceiler.provision.state.StateMachine;
 import com.sevtinge.hyperceiler.provision.utils.IKeyEvent;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
+import fan.provision.ProvisionBaseActivity;
+
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionStateHolder;
 

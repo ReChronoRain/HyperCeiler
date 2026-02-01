@@ -26,6 +26,7 @@ import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYear
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isTablet;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -55,6 +56,7 @@ import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.main.NaviBaseActivity;
 import com.sevtinge.hyperceiler.main.fragment.DetailFragment;
+import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.NoticeProcessor;
 import com.sevtinge.hyperceiler.utils.PermissionUtils;
@@ -70,6 +72,7 @@ import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
 import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
 import fan.preference.PreferenceFragment;
+import fan.provision.OobeUtils;
 
 public class HyperCeilerTabActivity extends NaviBaseActivity
     implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
@@ -97,7 +100,16 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (!OobeUtils.isProvisioned(this)) {
+            startActivity(new Intent(this, DefaultActivity.class));
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
+
+        getSharedPreferences("pref_state", Context.MODE_PRIVATE).edit().clear().apply();
+        getSharedPreferences("prefs_oobe", Context.MODE_PRIVATE).edit().putBoolean("is_provisioned", false).apply();
+
         final boolean restored = (savedInstanceState != null);
         final android.content.Context appCtx = getApplicationContext();
 

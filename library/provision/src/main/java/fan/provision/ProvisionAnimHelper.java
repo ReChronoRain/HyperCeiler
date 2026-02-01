@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.provision.utils;
+package fan.provision;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -29,7 +29,12 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.sevtinge.hyperceiler.provision.IAnimCallback;
+import com.sevtinge.hyperceiler.provision.IProvisionAnim;
+
 public class ProvisionAnimHelper {
+
+    private static final String TAG = "ProvisionAnimHelper";
 
     private int mAnimY;
     private int mSkipOrNext = 0;
@@ -41,8 +46,8 @@ public class ProvisionAnimHelper {
     private IProvisionAnim mProxy;
     private final IAnimCallback mCallback = new IAnimCallback.Stub() {
         @Override
-        public void onNextAminStart() throws RemoteException {
-            Log.d("OobeUtil2", "onNextAminStart: " + mSkipOrNext);
+        public void onNextAminStart() {
+            Log.d(TAG, "onNextAminStart: " + mSkipOrNext);
             if (mHandler != null) {
                 mHandler.post(() -> {
                     if (mAnimListener != null) {
@@ -56,8 +61,8 @@ public class ProvisionAnimHelper {
         }
 
         @Override
-        public void onBackAnimStart() throws RemoteException {
-            Log.d("OobeUtil2", "onBackAnimStart");
+        public void onBackAnimStart() {
+            Log.d(TAG, "onBackAnimStart");
             if (mHandler != null) {
                 mHandler.postDelayed(() -> {
                     if (mAnimListener != null) {
@@ -159,7 +164,7 @@ public class ProvisionAnimHelper {
             intent.setPackage("com.sevtinge.hyperceiler");
             mContext.bindService(intent, mConnection, 1);
         } else {
-            Log.e("OobeUtil2", "registerAnimService context is null");
+            Log.e(TAG, "registerAnimService context is null");
         }
     }
 

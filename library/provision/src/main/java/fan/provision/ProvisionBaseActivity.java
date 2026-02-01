@@ -16,16 +16,18 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.provision.activity;
+package fan.provision;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -40,11 +42,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
-import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper;
-import com.sevtinge.hyperceiler.provision.utils.ProvisionAnimHelper.AnimListener;
 
-import fan.animation.Folme;
+import fan.core.utils.EnvStateManager;
+import fan.internal.utils.ViewUtils;
+import fan.provision.ProvisionAnimHelper.AnimListener;
+
 import fan.appcompat.app.AppCompatActivity;
 import fan.appcompat.app.GroupButtonsConfig;
 import fan.os.Build;
@@ -52,20 +54,30 @@ import fan.os.Build;
 public abstract class ProvisionBaseActivity extends AppCompatActivity
         implements AnimListener {
 
+    private static final String TAG = "ProvisionBaseActivity";
+
     protected static float HALF_ALPHA = 0.5f;
     protected static float NO_ALPHA = 1.0f;
+
+    protected LinearLayout mProvisionLyt;
 
     protected ImageView mNewBackBtn;
     private TextureView mDisplayView;
 
     protected ImageView mImageView;
-    private View mTitleSpace;
-    protected TextView mTitle;
-    protected View mTitleLayout;
-    protected TextView mSubTitle;
-    protected View mSubTitleLayout;
 
     protected ImageView mPreviewImage;
+
+    private View mTitleSpace;
+
+    protected View mTitleLayout;
+    protected View mSubTitleLayout;
+
+    protected TextView mTitle;
+    protected TextView mSubTitle;
+
+    protected View mProvisionContainer;
+
     protected Button mSkipButton;
     protected Button mConfirmButton;
 
@@ -74,16 +86,17 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     private boolean mHasPreview;
     private boolean isBackBtnEnable = true;
 
+    protected ProvisionAnimHelper mProvisionAnimHelper;
+
     private MediaPlayer mMediaPlayer;
     private GroupButtonsConfig mConfig;
     private final Handler mHandler = new Handler();
-    protected ProvisionAnimHelper mProvisionAnimHelper;
     private final View.OnClickListener mNextClickListener = v -> {
         if (OobeUtils.needFastAnimation()) {
             updateButtonState(false);
             mHandler.postDelayed(() -> updateButtonState(true), 5000L);
         }
-        Log.d("OobeUtil2", "begin start OOBSETTINGS");
+        Log.d(TAG, "begin start OOBSETTINGS");
         if (mProvisionAnimHelper != null) {
             mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
             mProvisionAnimHelper.goNextStep(0);
@@ -100,13 +113,13 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 updateButtonState(false);
                 mHandler.postDelayed(() -> updateButtonState(true), 5000L);
             } else if (!isOtherAnimEnd()) {
-                Log.w("OobeUtil2", "other anim not end");
+                Log.w(TAG, "other anim not end");
                 return;
             } else if (!isAnimEnded()) {
-                Log.w("OobeUtil2", "video anim not end");
+                Log.w(TAG, "video anim not end");
                 return;
             }
-            Log.d("OobeUtil2", "begin start OOBSETTINGS");
+            Log.d(TAG, "begin start OOBSETTINGS");
             if (mProvisionAnimHelper != null) {
                 mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
                 mProvisionAnimHelper.goNextStep(1);
@@ -117,7 +130,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         @Override
         public void onClick(View v) {
             if (!isBackBtnEnable) {
-                Log.i("OobeUtil2", " mBackListener fast click ");
+                Log.i(TAG, " mBackListener fast click ");
                 return;
             }
             if (OobeUtils.isTabletLand(ProvisionBaseActivity.this)) {
@@ -128,10 +141,10 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 updateButtonState(false);
                 mHandler.postDelayed(() -> updateButtonState(true), 5000L);
             } else if (!isOtherAnimEnd()) {
-                Log.w("OobeUtil2", "other anim not end");
+                Log.w(TAG, "other anim not end");
                 return;
             }
-            Log.d("OobeUtil2", "begin back OOBSETTINGS");
+            Log.d(TAG, "begin back OOBSETTINGS");
             if (mProvisionAnimHelper != null) {
                 mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
                 mProvisionAnimHelper.goBackStep();
@@ -141,7 +154,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
         public void onSurfaceTextureAvailable(@NonNull SurfaceTexture surface, int width, int height) {
-            Log.i("OobeUtil2", " Inner onSurfaceTextureAvailable ");
+            Log.i(TAG, " Inner onSurfaceTextureAvailable ");
             playInnerVideo(new Surface(surface));
             mMediaPlayer.setOnCompletionListener(mp -> {
                 if (mImageView != null) {
@@ -163,7 +176,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
 
         @Override
         public boolean onSurfaceTextureDestroyed(@NonNull SurfaceTexture surface) {
-            return true;
+            return false;
         }
 
         @Override
@@ -172,23 +185,20 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         }
     };
 
-    public boolean needLongClickEvent() {
-        return false;
-    }
-
-    protected void onBackButtonClick() {}
-    protected void onNextButtonClick() {}
-    protected void onSkipButtonClick() {}
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setExtraHorizontalPaddingEnable(true);
+        setExtraPaddingApplyToContentEnable(false);
         setupView();
     }
 
     private void setupView() {
         mHasPreview = hasPreview();
         setContentView(R.layout.provision_detail_layout);
+
+        mProvisionLyt = findViewById(R.id.provision_lyt);
+        mProvisionContainer = findViewById(R.id.provision_container);
 
         mNewBackBtn = findViewById(R.id.back_icon);
 
@@ -205,11 +215,15 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             mConfirmButton.setOnClickListener(mNextClickListener);
             mSkipButton.setOnClickListener(mSkipClickListener);
         }
-        Log.i("OobeUtil2", " current density is " + mNewBackBtn.getResources().getDisplayMetrics().density);
+        Log.i(TAG, " current density is " + mNewBackBtn.getResources().getDisplayMetrics().density);
+        setDefaultPadding();
+        setExtraPaddingBottom(mConfirmButton);
+
+        mTitleSpace = findViewById(R.id.provision_title_space);
+
         mImageView = findViewById(R.id.provision_preview_img);
         mDisplayView = findViewById(R.id.video_display_surfaceview);
 
-        mTitleSpace = findViewById(R.id.provision_title_space);
         mPreviewImage = findViewById(R.id.preview_image);
 
         mTitleLayout = findViewById(R.id.provision_lyt_title);
@@ -227,11 +241,10 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
             mDisplayView.setSurfaceTextureListener(mSurfaceTextureListener);
         }
 
-        if (OobeUtils.isTabletDevice()) {
-            mTitle.setGravity(81);
-        } else {
-            mTitle.setGravity(17);
+        if (OobeUtils.isTabletPort(this)) {
+            mTitleSpace.setVisibility(View.VISIBLE);
         }
+
         if (!mHasPreview) {
             mPreviewImage.setVisibility(View.GONE);
             if (mTitleSpace != null) {
@@ -253,27 +266,29 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
                 mTitleLayout.getPaddingEnd(),
                 0
             );
+            delayEnableButton();
+            setBackButtonContentDescription();
         }
-
-        if (!OobeUtils.isInternationalBuild()) {
-            registerAccessibiltyStateChange(getApplicationContext());
-        }
-        /*if (OobeUtils.needFastAnimation() || needDelayBottomButton()) {
-            if (needSuperButtonInitial()) {
-                updateButtonState(false);
-                mHandler.postDelayed(() -> updateButtonState(true), 600L);
-            } else {
-                updateBackButtonState(false);
-                mHandler.postDelayed(() -> updateBackButtonState(true), 600L);
-            }
-        }*/
     }
+
+
 
     @Override
     public void setTitle(CharSequence title) {
         super.setTitle(title);
         if (mTitle != null) {
             mTitle.setText(getTitle());
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (mHasPreview) {
+            mProvisionAnimHelper = new ProvisionAnimHelper(this, mHandler);
+            mProvisionAnimHelper.registerAnimService();
+            mProvisionAnimHelper.setAnimListener(this);
+            mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
         }
     }
 
@@ -296,20 +311,84 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     }
 
     @Override
+    public void onContentInsetChanged(Rect contentInset) {
+        super.onContentInsetChanged(contentInset);
+        int bottom;
+        if (isNeedAdaptImageStyle() && OobeUtils.isPortOrientation(this)) {
+            bottom = contentInset.bottom + getResources().getDimensionPixelSize(
+                R.dimen.provision_container_margin_bottom_pad_port);
+        } else {
+            bottom = contentInset.bottom;
+        }
+        ViewUtils.resetPaddingBottom(mProvisionContainer, bottom);
+    }
+
+    @Override
+    public void onExtraPaddingChanged(int extraHorizontalPadding) {
+        super.onExtraPaddingChanged(extraHorizontalPadding);
+        adaptPadContainerExtraPadding(extraHorizontalPadding);
+    }
+
+    protected void adaptPadContainerExtraPadding(int i) {
+        if (mProvisionContainer == null || !Build.IS_TABLET || isNeedAdaptImageStyle()) {
+            return;
+        }
+        int horizontal;
+        if (OobeUtils.isLandOrientation(this)) {
+            horizontal = getResources().getDimensionPixelSize(R.dimen.provision_container_padding_horizontal_pad_land);
+        } else {
+            horizontal = getResources().getDimensionPixelSize(R.dimen.provision_container_padding_horizontal_pad_port);
+        }
+        mProvisionContainer.setPadding(horizontal, mProvisionContainer.getPaddingTop(), horizontal, mProvisionContainer.getPaddingBottom());
+        setContainerMargin(i);
+        Log.d("OobeUtil2", "adaptContainerMargin: " + i);
+    }
+
+    protected void adaptPadImageStyleLayout(DisplayMetrics metrics) {
+        if (mProvisionContainer != null && isNeedAdaptImageStyle()) {
+            mProvisionContainer.setPadding(0, 0, 0, 0);
+            setContainerMargin((metrics.widthPixels - ((int) (EnvStateManager.getScreenShortEdge(this) * 0.6d))) / 2);
+        }
+    }
+
+    private void setContainerMargin(int margin) {
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mProvisionContainer.getLayoutParams();
+        params.leftMargin = margin;
+        params.rightMargin = margin;
+        mProvisionContainer.setLayoutParams(params);
+    }
+
+    protected void setDefaultPadding() {
+        if (mProvisionContainer == null || isNeedDefaultPadding()) return;
+        mProvisionContainer.setPadding(0, 0, 0, 0);
+    }
+
+    protected void setExtraPaddingBottom(Button button) throws Resources.NotFoundException {
+        int dimensionPixelSize;
+        if (button == null) return;
+        LinearLayout parent = (LinearLayout) button.getParent();
+        int dimensionPixelSize2 = getResources().getDimensionPixelSize(R.dimen.group_buttons_layout_extra_padding_bottom);
+        if (Build.IS_TABLET) {
+            if (OobeUtils.isLandOrientation(this)) {
+                dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.group_buttons_layout_extra_padding_bottom_pad_land);
+            } else {
+                dimensionPixelSize = getResources().getDimensionPixelSize(R.dimen.group_buttons_layout_extra_padding_bottom_pad_port);
+            }
+            dimensionPixelSize2 = dimensionPixelSize;
+        }
+        parent.setPadding(
+            parent.getPaddingLeft(),
+            parent.getPaddingTop(),
+            parent.getPaddingRight(),
+            parent.getPaddingBottom() + dimensionPixelSize2
+        );
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (mHasPreview) {
-            mProvisionAnimHelper = new ProvisionAnimHelper(this, mHandler);
-            mProvisionAnimHelper.registerAnimService();
-            mProvisionAnimHelper.setAnimListener(this);
-            mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
-        }
-    }
 
     @Override
     protected void onResume() {
@@ -330,9 +409,6 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         super.onDestroy();
         if (mImageView != null) mImageView.setImageDrawable(null);
         if (mPreviewImage != null) mPreviewImage.setImageDrawable(null);
-        if (!OobeUtils.isInternationalBuild()) {
-            //unRegisterAccessibiltyStateChange(getApplicationContext());
-        }
     }
 
     protected String getTitleStringText() {
@@ -411,6 +487,62 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         return true;
     }
 
+
+    public void playInnerVideo(Surface surface) {
+        if (surface == null || mMediaPlayer == null || mResourceId == 0) return;
+
+        try {
+            mMediaPlayer.reset();
+            mMediaPlayer.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + mResourceId));
+            mMediaPlayer.setSurface(surface);
+            mMediaPlayer.setOnPreparedListener(mp -> {
+                if (mMediaPlayer != null) {
+                    mMediaPlayer.start();
+                }
+                if (mImageView != null) {
+                    mImageView.setVisibility(View.GONE);
+                }
+            });
+            mMediaPlayer.prepare();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void delayEnableButton() {
+        if (needDelayButton()) {
+            if (needSuperButtonInitial()) {
+                updateButtonState(false);
+                mHandler.postDelayed(() -> updateButtonState(true), 1000L);
+            } else {
+                updateBackButtonState(false);
+                mHandler.postDelayed(() -> updateBackButtonState(true), 1000L);
+            }
+        }
+    }
+
+    protected void setBackButtonContentDescription() {
+        if (mNewBackBtn != null) {
+            mNewBackBtn.setContentDescription(getString(R.string.provision_back));
+        }
+    }
+
+    protected GroupButtonsConfig getConfig() {
+        return GroupButtonsConfig.createBuilder()
+            .setButton(0, getText(R.string.provision_next))
+            .setButton(1, getText(R.string.provision_skip_underline), null, null, true, false)
+            .build();
+    }
+
+    public boolean isNeedAdaptImageStyle() {
+        return isImageStyleLayout() && Build.IS_TABLET;
+    }
+
+
+    public boolean hasPreview() {
+        return !OobeUtils.isTabletLand(this);
+    }
+
     public boolean hasTitle() {
         return true;
     }
@@ -419,12 +551,20 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         return !OobeUtils.isTabletLand(this);
     }
 
+    public boolean isImageStyleLayout() {
+        return false;
+    }
+
+    protected boolean isNeedDefaultPadding() {
+        return true;
+    }
+
     protected boolean isOtherAnimEnd() {
         return true;
     }
 
-    public boolean hasPreview() {
-        return !OobeUtils.isTabletLand(this);
+    protected boolean isShowNavigation() {
+        return false;
     }
 
     public boolean hasNewPageAnim() {
@@ -435,11 +575,19 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         return true;
     }
 
-    public boolean superButtonClickListener() {
+    public boolean needDelayButton() {
         return true;
     }
 
+    public boolean needLongClickEvent() {
+        return false;
+    }
+
     public boolean needSuperButtonInitial() {
+        return true;
+    }
+
+    public boolean superButtonClickListener() {
         return true;
     }
 
@@ -447,32 +595,9 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         return !hasPreview();
     }
 
-    private void registerAccessibiltyStateChange(Context context) {
-
-    }
-
-    public void playInnerVideo(Surface surface) {
-        if (surface != null && mMediaPlayer != null && mResourceId != 0) {
-            try {
-                mMediaPlayer.reset();
-                mMediaPlayer.setDataSource(this, Uri.parse("android.resource://" + getPackageName() + "/" + mResourceId));
-                mMediaPlayer.setSurface(surface);
-                mMediaPlayer.setOnPreparedListener(mp -> {
-                    if (mMediaPlayer != null) {
-                        mMediaPlayer.start();
-                    }
-                    if (mImageView != null) {
-                        mImageView.setVisibility(View.GONE);
-                    }
-                });
-                mMediaPlayer.prepare();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-
+    protected void onBackButtonClick() {}
+    protected void onNextButtonClick() {}
+    protected void onSkipButtonClick() {}
 
     public View getBackButton() {
         return mNewBackBtn;
@@ -484,12 +609,5 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
 
     public Button getSkipButton() {
         return mSkipButton;
-    }
-
-    protected GroupButtonsConfig getConfig() {
-        return GroupButtonsConfig.createBuilder()
-            .setButton(0, getText(R.string.provision_next))
-            .setButton(1, getText(R.string.provision_skip_underline), null, null, true, false)
-            .build();
     }
 }

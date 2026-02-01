@@ -26,7 +26,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 
 public class TermsTitleSpan extends ClickableSpan {
 

@@ -27,8 +27,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.provision.utils.IAnimCallback;
-import com.sevtinge.hyperceiler.provision.utils.IProvisionAnim;
+import com.sevtinge.hyperceiler.provision.IAnimCallback;
+import com.sevtinge.hyperceiler.provision.IProvisionAnim;
 
 import java.util.HashMap;
 
@@ -36,9 +36,26 @@ public class ProvisionAnimService extends Service {
 
     private static final String TAG = "ProvisionAnimService";
     public static HashMap<String, Integer> FAST_ANIM_MAP = new HashMap<>();
-    IProvisionAnim.Stub stub = new IProvisionAnim.Stub() {
+    IProvisionAnim.Stub mProvisionAnimStub = new IProvisionAnim.Stub() {
 
         private final RemoteCallbackList<IAnimCallback> mListeners = new RemoteCallbackList<>();
+
+        private void dispatchVideoPlay(boolean isBackAnim) {
+            try {
+                int broadcast = mListeners.beginBroadcast();
+                for (int i = 0; i < broadcast; i++) {
+                    IAnimCallback callback = mListeners.getBroadcastItem(i);
+                    if (isBackAnim) {
+                        callback.onBackAnimStart();
+                    } else {
+                        callback.onNextAminStart();
+                    }
+                }
+                mListeners.finishBroadcast();
+            } catch (RemoteException e) {
+                Log.e(TAG, "Can not call IAnimCallback:", e);
+            }
+        }
 
         @Override
         public IBinder asBinder() {
@@ -52,14 +69,14 @@ public class ProvisionAnimService extends Service {
         }
 
         @Override
-        public void playNextAnim(int i) throws RemoteException {
-            Log.i(TAG, " without aim playNextAnim");
-            dispatchVideoPlay(false);
+        public void playBackAnim(int i) throws RemoteException {
+            dispatchVideoPlay(true);
         }
 
         @Override
-        public void playBackAnim(int i) throws RemoteException {
-            dispatchVideoPlay(true);
+        public void playNextAnim(int i) throws RemoteException {
+            Log.i(TAG, " without aim playNextAnim");
+            dispatchVideoPlay(false);
         }
 
         @Override
@@ -75,28 +92,11 @@ public class ProvisionAnimService extends Service {
                 mListeners.unregister(callback);
             }
         }
-
-        private void dispatchVideoPlay(boolean z) {
-            try {
-                int beginBroadcast = mListeners.beginBroadcast();
-                for (int i = 0; i < beginBroadcast; i++) {
-                    IAnimCallback callback = mListeners.getBroadcastItem(i);
-                    if (z) {
-                        callback.onBackAnimStart();
-                    } else {
-                        callback.onNextAminStart();
-                    }
-                }
-                mListeners.finishBroadcast();
-            } catch (RemoteException e) {
-                Log.e(TAG, "Can not call IAnimCallback:", e);
-            }
-        }
     };
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return stub.asBinder();
+        return mProvisionAnimStub.asBinder();
     }
 }

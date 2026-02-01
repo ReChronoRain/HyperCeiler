@@ -63,6 +63,7 @@ miuix-stretchablewidget = { module = "fan.miuix:stretchablewidget", version.ref 
 miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
 miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
 miuix-visualcheck = { module = "fan.miuix:visualcheck", version.ref = "miuix" }
+miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 
 # Xposed & Hooks
 dexkit = { module = "org.luckypray:dexkit", version.ref = "dexkit" }
@@ -93,6 +94,6 @@ miuix = [
     "miuix-haptic", "miuix-mgl", "miuix-navigator", "miuix-nestedheader",
     "miuix-pickerwidget", "miuix-popupwidget", "miuix-preference", "miuix-recyclerview",
     "miuix-slidingwidget", "miuix-smooth", "miuix-springback", "miuix-stretchablewidget",
-    "miuix-theme", "miuix-viewpager", "miuix-visualcheck"
+    "miuix-theme", "miuix-viewpager", "miuix-visualcheck", "miuix-transition"
 ]
 ezxhelper = ["ezxhelper-core", "ezxhelper-xposed-api", "ezxhelper-android-utils"]

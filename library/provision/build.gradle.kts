@@ -10,6 +10,10 @@ android {
         minSdk = 35
     }
 
+    buildFeatures {
+        aidl = true
+    }
+
     buildTypes {
         release {
             consumerProguardFiles("proguard-rules.pro")

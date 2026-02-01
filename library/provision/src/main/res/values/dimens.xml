@@ -65,6 +65,10 @@
     <dimen name="provision_anim_margin_start">0dp</dimen>
     <dimen name="provision_anim_margin_end">0dp</dimen>
 
+    <dimen name="provision_container_margin_bottom_pad_port">80dp</dimen>
+    <dimen name="provision_container_padding_horizontal_pad_land">170dp</dimen>
+    <dimen name="provision_container_padding_horizontal_pad_port">118dp</dimen>
+
     <dimen name="provision_container_padding_horizontal_common">12dp</dimen>
 
     <dimen name="provision_lyt_btn_margin_bottom">44dp</dimen>
@@ -128,4 +132,8 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="group_buttons_layout_extra_padding_bottom">16dp</dimen>
+    <dimen name="group_buttons_layout_extra_padding_bottom_pad_land">4dp</dimen>
+    <dimen name="group_buttons_layout_extra_padding_bottom_pad_port">24dp</dimen>
 </resources>

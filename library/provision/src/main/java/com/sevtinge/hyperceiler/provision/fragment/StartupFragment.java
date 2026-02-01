@@ -22,7 +22,6 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -47,14 +46,11 @@ import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.BlurUtils;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 import com.sevtinge.hyperceiler.provision.utils.ViewUtils;
 
-import fan.animation.Folme;
 import fan.animation.listener.TransitionListener;
 import fan.core.utils.MiuiBlurUtils;
-import fan.internal.utils.LiteUtils;
-import fan.navigation.utils.Utils;
 import fan.transition.ActivityOptionsHelper;
 
 public class StartupFragment extends BaseFragment implements IOnFocusListener {

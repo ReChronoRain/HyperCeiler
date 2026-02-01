@@ -3,6 +3,7 @@
     <string name="provision_back_description">返回</string>
     <string name="provision_start_content_description">开始</string>
     <string name="provision_next">继续</string>
+    <string name="provision_back">返回</string>
     <string name="provision_skip_underline">跳过</string>
     <string name="provision_permission_settings_title">权限设置</string>
     <string name="provision_terms_and_statement_title">协议与声明</string>
@@ -24,7 +25,7 @@
     <string name="provision_congratulation_title">设置完毕</string>
 
     <string name="provision_congratulation_label">欢迎来到 HyperCeiler</string>
-    <string name="provision_complete_text">进入 HyperCeiler</string>
+    <string name="provision_complete_text">开始使用</string>
 
     <string name="provision_set_permission_later">您可以稍后设置下列必要权限</string>
     <string name="provision_permission_internet">允许访问至 Internet</string>
@@ -45,5 +46,8 @@
     <string name="provision_basic_settings_icon_down">底部</string>
     <string name="provision_basic_settings_icon_miui_14">圆角矩形样式</string>
     <string name="provision_basic_settings_icon_miui_13">背景镂空样式</string>
+
+    <string name="provision_system_preparing">Preparing system…</string>
+    <string name="provision_system_complete">系统准备中</string>
 
 </resources>

@@ -27,7 +27,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
 
 import java.util.HashMap;
 
