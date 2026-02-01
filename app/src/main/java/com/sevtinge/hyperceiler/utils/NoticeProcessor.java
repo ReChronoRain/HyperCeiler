@@ -48,8 +48,7 @@ import java.util.Locale;
 import fan.appcompat.app.AlertDialog;
 
 public class NoticeProcessor {
-    private static final String NOTICE_URL = "https://raw.githubusercontent.com/ReChronoRain/HyperCeiler/public_push/Notice.json";
-    // https://gcore.jsdelivr.net/gh/ReChronoRain/HyperCeiler@public_push/Notice.json
+    private static final String NOTICE_URL = "https://api-hyperceiler.sevtinge.com/app.json";
 
     /**
      * Main entry point, used to check whether the display conditions are met and to package the display results
