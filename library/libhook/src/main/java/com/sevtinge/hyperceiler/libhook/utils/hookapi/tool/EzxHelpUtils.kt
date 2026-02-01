@@ -99,19 +99,16 @@ object EzxHelpUtils {
             }
         }
 
-        try {
-            val field = findFieldRecursiveImpl(clazz, fieldName)!!
-            field.isAccessible = true
-            synchronized(fieldCache) {
-                fieldCache[fullFieldName] = field
-            }
-            return field
-        } catch (_: NoSuchFieldException) {
-            synchronized(fieldCache) {
-                fieldCache[fullFieldName] = null
-            }
-            throw NoSuchFieldError(fullFieldName)
+        val field = FieldFinder.fromClass(clazz)
+            .findSuper()
+            .firstOrNullByName(fieldName)
+
+        synchronized(fieldCache) {
+            fieldCache[fullFieldName] = field
         }
+
+        return field?.apply { isAccessible = true }
+            ?: throw NoSuchFieldError(fullFieldName)
     }
 
     @JvmStatic
@@ -123,34 +120,33 @@ object EzxHelpUtils {
         }
     }
 
-    /**
-     * 递归查找字段（包括父类）
-     */
-    private fun findFieldRecursiveImpl(clazz: Class<*>, fieldName: String): Field? {
-        var currentClass: Class<*>? = clazz
-        var firstException: NoSuchFieldException? = null
+    @JvmStatic
+    fun findFirstFieldByExactType(clazz: Class<*>, type: Class<*>): Field {
+        val cacheKey = "${clazz.name}#type:${type.name}"
 
-        while (currentClass != null && currentClass != Any::class.java) {
-            try {
-                return FieldFinder.fromClass(currentClass)
-                    .filterByName(fieldName)
-                    .firstOrNull() ?: throw NoSuchFieldException()
-            } catch (e: NoSuchFieldException) {
-                if (firstException == null) {
-                    firstException = e
-                }
-                currentClass = currentClass.superclass
+        synchronized(fieldCache) {
+            if (fieldCache.containsKey(cacheKey)) {
+                return fieldCache[cacheKey] ?: throw NoSuchFieldError(cacheKey)
             }
         }
 
-        throw firstException ?: NoSuchFieldException(fieldName)
+        val field = FieldFinder.fromClass(clazz)
+            .findSuper()
+            .firstOrNullByType(type)
+
+        synchronized(fieldCache) {
+            fieldCache[cacheKey] = field
+        }
+
+        return field?.apply { isAccessible = true }
+            ?: throw NoSuchFieldError("Field of type ${type.name} in class ${clazz.name}")
     }
 
     @JvmStatic
-    fun findFirstFieldByExactType(clazz: Class<*>, type: Class<*>): Field {
+    fun findFirstFieldByExactTypeIfExists(clazz: Class<*>, type: Class<*>): Field? {
         return FieldFinder.fromClass(clazz)
-            .filterByType(type)
-            .first()
+            .findSuper()
+            .firstOrNullByType(type)?.apply { isAccessible = true }
     }
 
     /**
@@ -306,13 +302,12 @@ object EzxHelpUtils {
     }
 
     @JvmStatic
-    fun getParameterTypesExact(vararg args: Any?): Array<Class<*>> {
-        return args.map {
-            when (it) {
-                is Class<*> -> it
-                else -> it!!::class.java
-            }
-        }.toTypedArray()
+    fun getParameterTypes(vararg args: Any?): Array<Class<*>> {
+        val result = arrayOfNulls<Class<*>>(args.size)
+        for (i in args.indices) {
+            result[i] = args[i]?.javaClass
+        }
+        return result as Array<Class<*>>
     }
 
     @JvmStatic
@@ -358,7 +353,7 @@ object EzxHelpUtils {
         vararg parameterTypes: Class<*>
     ): Method {
         val fullMethodName =
-            "${clazz.name}#$methodName${getParametersString(*parameterTypes)}#bestmatch"
+            "${clazz.name}#$methodName${getParametersString(parameterTypes)}#bestmatch"
 
         synchronized(methodCache) {
             if (methodCache.containsKey(fullMethodName)) {
@@ -423,7 +418,7 @@ object EzxHelpUtils {
         methodName: String,
         vararg args: Any?
     ): Method {
-        val parameterTypes = getParameterTypesExact(*args)
+        val parameterTypes = getParameterTypes(*args)
         return findMethodBestMatch(clazz, methodName, *parameterTypes)
     }
 
@@ -466,7 +461,7 @@ object EzxHelpUtils {
         vararg parameterTypes: Class<*>
     ): Method {
         val fullMethodName =
-            "${clazz.name}#$methodName${getParametersString(*parameterTypes)}#exact"
+            "${clazz.name}#$methodName${getParametersString(parameterTypes)}#exact"
 
         synchronized(methodCache) {
             if (methodCache.containsKey(fullMethodName)) {
@@ -564,7 +559,7 @@ object EzxHelpUtils {
 
     @JvmStatic
     fun newInstance(clazz: Class<*>, vararg args: Any?): Any {
-        val parameterTypes = getParameterTypesExact(*args)
+        val parameterTypes = getParameterTypes(*args)
         val ctor = findConstructorBestMatch(clazz, *parameterTypes)
         return ctor.newInstance(*args)
     }
@@ -590,7 +585,7 @@ object EzxHelpUtils {
                 .filterByParamTypes(*parameterTypes)
                 .firstOrNull()
         } ?: throw NoSuchMethodError(
-            "${clazz.name}${getParametersString(*parameterTypes)}#exact"
+            "${clazz.name}${getParametersString(parameterTypes)}#exact"
         )
     }
 
@@ -608,7 +603,7 @@ object EzxHelpUtils {
         vararg parameterTypes: Class<*>
     ): Constructor<*> {
         val fullConstructorName =
-            "${clazz.name}${getParametersString(*parameterTypes)}#bestmatch"
+            "${clazz.name}${getParametersString(parameterTypes)}#bestmatch"
 
         synchronized(constructorCache) {
             if (constructorCache.containsKey(fullConstructorName)) {
@@ -1286,7 +1281,7 @@ object EzxHelpUtils {
 
     @JvmStatic
     fun invokeSuperMethod(methodName: String, thisObject: Any, vararg args: Any?) {
-        val paramTypes = getParameterTypesExact(*args)
+        val paramTypes = getParameterTypes(*args)
         val method = findMethodBestMatch(thisObject::class.java.superclass, methodName, *paramTypes)
         xposedModule.invokeSpecial(method, thisObject, *paramTypes)
     }
@@ -1301,7 +1296,7 @@ object EzxHelpUtils {
  * @return 如果所有参数都可分配则返回 true
  */
 private fun isAssignable(
-    parameterTypes: Array<out Class<*>>,
+    parameterTypes: Array<out Class<*>?>,
     methodParameterTypes: Array<Class<*>>,
     autoboxing: Boolean = true
 ): Boolean {
@@ -1310,7 +1305,7 @@ private fun isAssignable(
     }
 
     for (i in parameterTypes.indices) {
-        val paramType = parameterTypes[i]
+        val paramType = parameterTypes[i] ?: continue  // null 可以匹配任何类型
         val methodParamType = methodParameterTypes[i]
 
         // 直接赋值
@@ -1327,6 +1322,52 @@ private fun isAssignable(
     }
 
     return true
+}
+
+/**
+ * 比较参数类型的匹配程度
+ *
+ * 返回值：
+ * - 负数：method1 比 method2 更匹配
+ * - 0：两者匹配程度相同
+ * - 正数：method2 比 method1 更匹配
+ *
+ * @param method1ParameterTypes 第一个方法的参数类型
+ * @param method2ParameterTypes 第二个方法的参数类型
+ * @param actualParameterTypes 实际参数类型
+ * @return 比较结果
+ */
+private fun compareParameterTypes(
+    method1ParameterTypes: Array<Class<*>>,
+    method2ParameterTypes: Array<Class<*>>,
+    actualParameterTypes: Array<out Class<*>?>
+): Int {
+    for (i in actualParameterTypes.indices) {
+        val method1ParamType = method1ParameterTypes[i]
+        val method2ParamType = method2ParameterTypes[i]
+        val actualParamType = actualParameterTypes[i]
+
+        if (method1ParamType == method2ParamType || actualParamType == null) {
+            continue
+        }
+
+        when {
+            method1ParamType == actualParamType -> {
+                return -1
+            }
+            method2ParamType == actualParamType -> {
+                return 1
+            }
+            method1ParamType.isAssignableFrom(method2ParamType) -> {
+                return 1
+            }
+            method2ParamType.isAssignableFrom(method1ParamType) -> {
+                return -1
+            }
+        }
+    }
+
+    return 0
 }
 
 /**
@@ -1347,60 +1388,12 @@ private fun isAutoboxingCompatible(from: Class<*>, to: Class<*>): Boolean {
     return (primitiveToBoxed[from] == to) || (primitiveToBoxed[to] == from)
 }
 
-
-/**
- * 比较参数类型的匹配程度
- *
- * 返回值：
- * - 负数：method1 比 method2 更匹配
- * - 0：两者匹配程度相同
- * - 正数：method2 比 method1 更匹配
- *
- * @param method1ParameterTypes 第一个方法的参数类型
- * @param method2ParameterTypes 第二个方法的参数类型
- * @param actualParameterTypes 实际参数类型
- * @return 比较结果
- */
-private fun compareParameterTypes(
-    method1ParameterTypes: Array<Class<*>>,
-    method2ParameterTypes: Array<Class<*>>,
-    actualParameterTypes: Array<out Class<*>>
-): Int {
-    for (i in actualParameterTypes.indices) {
-        val method1ParamType = method1ParameterTypes[i]
-        val method2ParamType = method2ParameterTypes[i]
-        val actualParamType = actualParameterTypes[i]
-
-        if (method1ParamType == method2ParamType) {
-            continue
-        }
-
-        if (method1ParamType == actualParamType) {
-            return -1
-        }
-
-        if (method2ParamType == actualParamType) {
-            return 1
-        }
-
-        if (method1ParamType.isAssignableFrom(method2ParamType)) {
-            return 1
-        }
-
-        if (method2ParamType.isAssignableFrom(method1ParamType)) {
-            return -1
-        }
-    }
-
-    return 0
-}
-
 /**
  * 获取参数类型字符串表示
  *
  * @param parameterTypes 参数类型数组
  * @return 格式化的参数字符串，如 "(String,int)"
  */
-private fun getParametersString(vararg parameterTypes: Class<*>): String {
-    return parameterTypes.joinToString(",", "(", ")") { it.simpleName }
+private fun getParametersString(parameterTypes: Array<out Class<*>?>): String {
+    return parameterTypes.joinToString(",", "(", ")") { it?.simpleName ?: "null" }
 }

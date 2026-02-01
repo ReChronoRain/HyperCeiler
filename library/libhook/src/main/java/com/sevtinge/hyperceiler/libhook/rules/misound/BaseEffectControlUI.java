@@ -23,10 +23,10 @@ import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.i
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isSupportFW;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
 
 import android.content.Context;
 import android.os.RemoteException;
-import android.util.AttributeSet;
 
 import androidx.annotation.NonNull;
 
@@ -34,7 +34,6 @@ import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
@@ -89,20 +88,6 @@ public abstract class BaseEffectControlUI {
     }
 
     /**
-     * 创建 Preference 实例（支持 null 作为 AttributeSet）
-     */
-    private Object createPreference(Class<?> clazz, Context context) {
-        try {
-            Constructor<?> constructor = clazz.getConstructor(Context.class, AttributeSet.class);
-            constructor.setAccessible(true);
-            return constructor.newInstance(context, null);
-        } catch (Exception e) {
-            XposedLog.e(TAG, "Failed to create preference instance: " + clazz.getName(), e);
-            return null;
-        }
-    }
-
-    /**
      * 创建信息 Preference
      */
     protected void createInfoPreference(Object thisObject) {
@@ -115,22 +100,23 @@ public abstract class BaseEffectControlUI {
                 return;
             }
 
-            // 使用反射创建实例
-            Object preferenceCategory = createPreference(mPreferenceCategoryClass, context);
-            if (preferenceCategory == null) {
-                XposedLog.e(TAG, "Failed to create PreferenceCategory");
-                return;
-            }
+            // 创建 PreferenceCategory
+            Object preferenceCategory = newInstance(mPreferenceCategoryClass, context, null);
             callMethod(preferenceCategory, "setTitle", "HyperCeiler (AutoSEffSwitch)");
             callMethod(preferenceCategory, "setKey", "auto_effect_switch");
 
-            Object preference = createPreference(mPreferenceClass, context);
-            if (preference == null) {
-                XposedLog.e(TAG, "Failed to create Preference");
-                return;
-            }
+            // 创建信息 Preference
+            Object preference = newInstance(mPreferenceClass, context, null);
             callMethod(preference, "setKey", "auto_effect_switch_pref");
             mPreferenceRef.set(preference);
+
+            // 添加到界面
+            callMethod(preferenceScreen, "addPreference", preferenceCategory);
+            callMethod(preferenceCategory, "addPreference", preference);
+
+            // 更新信息
+            updateAutoSEffSwitchInfo();
+            XposedLog.d(TAG, "Info preference created");
 
             // 添加到界面
             callMethod(preferenceScreen, "addPreference", preferenceCategory);

@@ -278,9 +278,9 @@ public class AppDisable extends BaseHook {
     private PackageInfo getPackageInfo(Activity act, Object obj) throws Exception {
         Field piField;
         if (isNewSecurityCenter) {
-            Object fragment = EzxHelpUtils.getObjectField(act,
-                EzxHelpUtils.findFirstFieldByExactType(obj.getClass(),
-                    findClassIfExists(clazzName)).getName());
+            Class<?> fragmentClass = findClassIfExists(clazzName);
+            Field fragmentField = EzxHelpUtils.findFirstFieldByExactType(act.getClass(), fragmentClass);
+            Object fragment = EzxHelpUtils.getObjectField(act, fragmentField.getName());
             if (fragment == null) {
                 return null;
             }
