@@ -48,7 +48,7 @@ object EzxHelpUtils {
 
     @JvmStatic
     private lateinit var xposedModule: XposedModule
-    private val additionalFields = WeakHashMap<Any, MutableMap<String, Any?>>()
+    private val additionalFields = WeakHashMap<Any, HashMap<String, Any?>>()
 
     private val methodCache = WeakHashMap<String, Method?>()
     private val constructorCache = WeakHashMap<String, Constructor<*>?>()
@@ -703,21 +703,70 @@ object EzxHelpUtils {
     }
 
     @JvmStatic
-    @Synchronized
-    fun getAdditionalInstanceField(instance: Any, key: String): Any? =
-        additionalFields[instance]?.get(key)
-
-    @JvmStatic
-    @Synchronized
     fun setAdditionalInstanceField(instance: Any, key: String, value: Any?): Any? {
-        val map = additionalFields.getOrPut(instance) { mutableMapOf() }
-        return map.put(key, value)
+        val objectFields: HashMap<String, Any?>
+        synchronized(additionalFields) {
+            objectFields = additionalFields.getOrPut(instance) { HashMap() }
+        }
+
+        synchronized(objectFields) {
+            return objectFields.put(key, value)
+        }
     }
 
     @JvmStatic
-    @Synchronized
-    fun removeAdditionalInstanceField(instance: Any, key: String): Any? =
-        additionalFields[instance]?.remove(key)
+    fun getAdditionalInstanceField(instance: Any, key: String): Any? {
+        val objectFields: HashMap<String, Any?>
+        synchronized(additionalFields) {
+            objectFields = additionalFields[instance] ?: return null
+        }
+
+        synchronized(objectFields) {
+            return objectFields[key]
+        }
+    }
+
+    @JvmStatic
+    fun removeAdditionalInstanceField(instance: Any, key: String): Any? {
+        val objectFields: HashMap<String, Any?>
+        synchronized(additionalFields) {
+            objectFields = additionalFields[instance] ?: return null
+        }
+
+        synchronized(objectFields) {
+            return objectFields.remove(key)
+        }
+    }
+
+    @JvmStatic
+    fun setAdditionalStaticField(obj: Any, key: String, value: Any?): Any? {
+        return setAdditionalInstanceField(obj.javaClass, key, value)
+    }
+
+    @JvmStatic
+    fun getAdditionalStaticField(obj: Any, key: String): Any? {
+        return getAdditionalInstanceField(obj.javaClass, key)
+    }
+
+    @JvmStatic
+    fun removeAdditionalStaticField(obj: Any, key: String): Any? {
+        return removeAdditionalInstanceField(obj.javaClass, key)
+    }
+
+    @JvmStatic
+    fun setAdditionalStaticField(clazz: Class<*>, key: String, value: Any?): Any? {
+        return setAdditionalInstanceField(clazz, key, value)
+    }
+
+    @JvmStatic
+    fun getAdditionalStaticField(clazz: Class<*>, key: String): Any? {
+        return getAdditionalInstanceField(clazz, key)
+    }
+
+    @JvmStatic
+    fun removeAdditionalStaticField(clazz: Class<*>, key: String): Any? {
+        return removeAdditionalInstanceField(clazz, key)
+    }
 
     // ==================== Application Hook ====================
 

@@ -212,7 +212,7 @@ public final class TileContext {
     /**
      *刷新磁贴状态（带参数）
      *
-     * @param arg刷新参数
+     * @param arg 刷新参数
      */
     public void refreshState(@Nullable Object arg) {
         EzxHelpUtils.callMethod(tileInstance, "refreshState", arg);
@@ -302,7 +302,7 @@ public final class TileContext {
      * 调用磁贴方法
      *
      * @param methodName 方法名
-     * @param args方法参数
+     * @param args 方法参数
      * @return 方法返回值
      */
     @Nullable

@@ -57,7 +57,6 @@ public class FiveGTile extends TileUtils {
     private static final String SETTING_5G_USER_ENABLE = "fiveg_user_enable";
     private static final String SETTING_DUAL_NR_ENABLED = "dual_nr_enabled";
     private static final String FIELD_CONTENT_OBSERVER = "fiveGContentObserver";
-    private static final String FIELD_IS_CUSTOM_5G = "hc_isCustom5GItem";
 
     private Class<?> mDetailContentClass;
     private Class<?> mItemClass;
@@ -68,6 +67,7 @@ public class FiveGTile extends TileUtils {
     private final int mode = mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0);;
     private ContentObserver contentObserver;
     private boolean isDetailHooked = false;
+    private String fiveGLabel = null;
 
     @NonNull
     @Override
@@ -191,6 +191,17 @@ public class FiveGTile extends TileUtils {
                         }
                         View content = (View) param.getResult();
                         adjustDetailViewHeight(content);
+
+                        if (fiveGLabel == null) {
+                            try {
+                                Resources modRes = AppsTool.getModuleRes(context);
+                                if (modRes != null) {
+                                    fiveGLabel = modRes.getString(R.string.dashboard_5g);
+                                }
+                            } catch (Throwable t) {
+                                XposedLog.e(TAG, "Failed to get 5G label", t);
+                            }
+                        }
                     }
                 }
             );
@@ -202,18 +213,25 @@ public class FiveGTile extends TileUtils {
                 new IMethodHook() {
                     @Override
                     public void before(BeforeHookParam param) {
-                        Object adapter = param.getThisObject();
-                        Object tile = getObjectField(adapter, "this$0");
-                        Context context = (Context) getObjectField(tile, "mContext");
-                        Resources modRes = AppsTool.getModuleRes(context);
-                        if (modRes != null) {
-                            Object item = param.getArgs()[0];
-                            if (Boolean.TRUE.equals(EzxHelpUtils.getAdditionalInstanceField(item, FIELD_IS_CUSTOM_5G)) || item.toString().contains(modRes.getString(R.string.dashboard_5g))) {
+                        Object item = param.getArgs()[0];
+                        String className = item.getClass().getSimpleName();
+
+                        if (!className.contains("ToggleItem")) {
+                            XposedLog.d(TAG, "Not a ToggleItem, skip");
+                            return;
+                        }
+
+                        try {
+                            CharSequence title = getItemTitle(item);
+
+                            if (title != null && fiveGLabel != null &&
+                                title.toString().equals(fiveGLabel)) {
+                                XposedLog.d(TAG, "5G toggle clicked!");
                                 toggleFiveG();
                                 param.setResult(null);
                             }
-                        } else {
-                            XposedLog.e(TAG, "Module resources is null when onDetailItemClick");
+                        } catch (Throwable t) {
+                            XposedLog.e(TAG, "Error handling click", t);
                         }
                     }
                 }
@@ -309,7 +327,8 @@ public class FiveGTile extends TileUtils {
 
         Object toggleItem = createToggleItem(fiveGLabel);
         if (toggleItem != null) {
-            EzxHelpUtils.setAdditionalInstanceField(toggleItem, FIELD_IS_CUSTOM_5G, true);
+            // 因为会被 GC 回收导致第一次调用会 null, 设置强引用或者字符串判断为佳
+            // EzxHelpUtils.setAdditionalInstanceField(toggleItem, FIELD_IS_CUSTOM_5G, true);
             newItems[insertIndex + 1] = toggleItem;
         } else {
             XposedLog.e(TAG, "Failed to create toggle item");
@@ -322,6 +341,20 @@ public class FiveGTile extends TileUtils {
 
         param.getArgs()[0] = newItems;
         XposedLog.d(TAG, "5G item injected");
+    }
+
+    private CharSequence getItemTitle(Object item) {
+        String[] possibleFields = {"title", "mTitle", "label", "mLabel", "name", "mName", "text"};
+
+        for (String fieldName : possibleFields) {
+            try {
+                Object value = EzxHelpUtils.getObjectField(item, fieldName);
+                if (value instanceof CharSequence) {
+                    return (CharSequence) value;
+                }
+            } catch (Throwable ignored) {}
+        }
+        return null;
     }
 
     private int findInsertIndex(Object[] items) {
