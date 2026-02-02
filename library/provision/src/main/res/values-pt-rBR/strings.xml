@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="provision_back_description">Voltar</string>
     <string name="provision_start_content_description">Iniciar</string>
     <string name="provision_next">Avançar</string>

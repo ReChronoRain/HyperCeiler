@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Nova versão encontrada</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Adicionar e excluir arquivos no armazenamento interno do dispositivo</string>
@@ -72,9 +71,9 @@
     <string name="kill_4">Nome do software kill</string>
     <string name="edit_out">Obtenha os resultados</string>
     <string name="edit_key">Insira um valor para a chave</string>
-    <string name="prefs_1">Esta chave não existe: </string>
-    <string name="prefs_2">Chave removida com sucesso: </string>
-    <string name="prefs_3">Falha ao remover a chave. Ela pode não existir: </string>
+    <string name="prefs_1">Esta chave não existe:</string>
+    <string name="prefs_2">Chave removida com sucesso:</string>
+    <string name="prefs_3">Falha ao remover a chave. Ela pode não existir:</string>
     <string name="prefs_4">Por favor, verifique o tipo de valor de retorno que requer a obtenção da chave!</string>
     <string name="prefs_5">Selecionar tipo</string>
     <string name="prefs_6">Verificar preferência de compartilhamento</string>
@@ -82,7 +81,7 @@
     <string name="success">Sucesso</string>
     <string name="failed">Falhou</string>
     <string name="development">Opções do desenvolvedor</string>
-    <string name="development_ui">Interface do usuário </string>
+    <string name="development_ui">Interface do usuário</string>
     <string name="development_debug_info">Informações de depuração</string>
     <string name="development_prefs">Preferência de compartilhamento</string>
     <string name="development_cmd_r">CMD com root</string>
