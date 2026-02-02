@@ -71,6 +71,7 @@ import fan.navigator.Navigator;
 import fan.navigator.NavigatorFragmentListener;
 import fan.navigator.navigatorinfo.UpdateDetailFragmentNavInfo;
 import fan.preference.PreferenceFragment;
+import fan.provision.OobeUtils;
 
 public class HyperCeilerTabActivity extends NaviBaseActivity
     implements PreferenceFragment.OnPreferenceStartFragmentCallback, IResult {
@@ -255,6 +256,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     }
 
     private void requestCta() {
+        if (OobeUtils.getOperatorState(this, "cm_pick_status")) return;
         if (CtaUtils.isCtaNeedShow(this)) {
             if (CtaUtils.isCtaBypass()) {
                 ActivityResultLauncher<Intent> ctaLauncher = registerForActivityResult(
