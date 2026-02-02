@@ -30,7 +30,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Rada</string>
     <string name="root">Niektóre funkcje nie są dostępne bez uprawnień Root/SU</string>
-    <string name="soft_reboot">Zrestartuj </string>
+    <string name="soft_reboot">Zrestartuj</string>
     <string name="restart_app_desc">Czy na pewno chcesz teraz zrestartować %1$s?</string>
     <string name="hyperceiler_restart_quick">Szybki restart aplikacji</string>
     <string name="hook_failed">Moduł nie jest jeszcze aktywny. Proszę sprawdzić, czy LSPosed jest włączony. Jeśli tak, proszę zrestartować lub ponownie zoptymalizować moduł.</string>

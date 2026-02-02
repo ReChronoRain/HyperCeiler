@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Znaleziono nową wersję</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">dodawanie i usuwanie plików z pamięci wewnętrznej urządzenia</string>
@@ -67,9 +66,9 @@
     <string name="kill_4">Zabij według nazwy aplikacji</string>
     <string name="edit_out">Pokaż wyniki</string>
     <string name="edit_key">Wprowadź wartość klucza</string>
-    <string name="prefs_1">Ten klucz nie istnieje: </string>
-    <string name="prefs_2">Pomyślnie usunięto klucz: </string>
-    <string name="prefs_3">Klucz nie został usunięty, może nie istnieć: </string>
+    <string name="prefs_1">Ten klucz nie istnieje:</string>
+    <string name="prefs_2">Pomyślnie usunięto klucz:</string>
+    <string name="prefs_3">Klucz nie został usunięty, może nie istnieć:</string>
     <string name="prefs_4">Sprawdź typ wartości zwracanej, która wymaga uzyskania klucza!</string>
     <string name="prefs_5">Wybierz typ</string>
     <string name="prefs_6">Sprawdź ustawienia udostępniania</string>
@@ -933,7 +932,7 @@
     <string name="home_gesture_up_swipe">Przesuń w górę</string>
     <string name="home_gesture_up_swipe_desc">Przesuń palcem w górę jednym palcem na ekranie głównym</string>
     <string name="home_gesture_down_swipe">Przesuń w dół</string>
-    <string name="home_gesture_down_swipe_desc">Przesuń palcem w dół na  ekranie głównym</string>
+    <string name="home_gesture_down_swipe_desc">Przesuń palcem w dół na ekranie głównym</string>
     <string name="home_gesture_up_swipe2">Przesuń w górę dwoma palcami</string>
     <string name="home_gesture_up_swipe2_desc">Przesuń w górę dwoma palcami na ekranie głównym</string>
     <string name="home_gesture_down_swipe2">Przesuń w dół dwoma palcami</string>
@@ -1284,7 +1283,7 @@
     <string name="security_center_other_title">Pozostałe</string>
     <string name="security_center_sidebar_line_color">Własny kolor linii paska bocznego</string>
     <string name="security_center_sidebar_line_color_default">Domyślny kolor linii paska bocznego</string>
-    <string name="security_center_sidebar_line_color_dark">Ciemny kolor linii  paska bocznego</string>
+    <string name="security_center_sidebar_line_color_dark">Ciemny kolor linii paska bocznego</string>
     <string name="security_center_sidebar_line_color_light">Jasny kolor linii paska bocznego</string>
     <string name="security_center_disable_ban">Usuń przycisk zgłoszenia</string>
     <string name="security_center_unlock_screen_time">Wyświetla szczegółowe dane dotyczące zużycia energii</string>
