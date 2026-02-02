@@ -1463,7 +1463,7 @@
     <string name="market_disable_start_push_dialog">開始プッシュダイアログを無効にする</string>
     <!--Mi sound-->
     <string name="misound">イヤホン</string>
-    <string name="misound_bluetooth">ヘッドホン接続時に自動でサウンド効果をオリジナルに切り替える</string>
+    <string name="misound_bluetooth">ヘッドホン接続時に自動でサウンド効果を切り替える</string>
     <string name="misound_bluetooth_desc">変更を適用するには、システムフレームワーク、システム UI、イヤホンのスコープが有効になっていることを確認してから再起動する必要があります。</string>
     <string name="misound_increase_sampling_rate">サンプリングレートを上げる</string>
     <!--Mi Settings-->
@@ -1625,4 +1625,10 @@
     <string name="gallery_longer_trashbin_time_desc">実験的な機能です。中国本土のユーザーのみが対象です。</string>
     <string name="system_ui_lock_screen_keep_notification_title">ロック解除後も通知を保持する</string>
     <string name="system_ui_lock_screen_keep_notification_desc">ロックを解除しても、ロック画面の通知は、手動で消去されるまで自動では消えません</string>
+    <string name="misound_bluetooth_category">サウンド効果</string>
+    <string name="misound_bluetooth_lock_selection">サウンド効果の選択を固定</string>
+    <string name="misound_bluetooth_lock_selection_desc">ヘッドホン接続時はサウンド効果を変更できないようにします</string>
+    <string name="misound_bluetooth_remember_device_desc">デバイスごとに個別のサウンド効果設定を記憶します</string>
+    <string name="misound_bluetooth_remember_device">デバイスのサウンド効果を記憶する</string>
+    <string name="misound_bluetooth_default_effect">デフォルトのサウンド効果</string>
 </resources>
