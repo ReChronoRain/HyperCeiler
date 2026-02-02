@@ -100,18 +100,12 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (!OobeUtils.isProvisioned(this)) {
-            startActivity(new Intent(this, DefaultActivity.class));
-            finish();
-        }
-
         super.onCreate(savedInstanceState);
-
         getSharedPreferences("pref_state", Context.MODE_PRIVATE).edit().clear().apply();
         getSharedPreferences("prefs_oobe", Context.MODE_PRIVATE).edit().putBoolean("is_provisioned", false).apply();
 
         final boolean restored = (savedInstanceState != null);
-        final android.content.Context appCtx = getApplicationContext();
+        final Context appCtx = getApplicationContext();
 
         mHandler = new Handler(Looper.getMainLooper());
 

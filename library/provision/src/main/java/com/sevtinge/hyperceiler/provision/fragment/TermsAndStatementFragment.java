@@ -79,13 +79,13 @@ public class TermsAndStatementFragment extends BaseFragment {
             mNextView.setAlpha(mAgreeCheckBox.isChecked() ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
             mAgreeCheckBox.setOnClickListener(v -> {
                 if (mAgreeCheckBox.isChecked()) {
-                    mAgreeCheckBox.setChecked(false);
+                    mAgreeCheckBox.setChecked(true);
 
-                    showVerificationDialog(success -> {
+                    /*showVerificationDialog(success -> {
                         if (success) {
                             mAgreeCheckBox.setChecked(true);
                         }
-                    });
+                    });*/
                 }
             });
             mAgreeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
