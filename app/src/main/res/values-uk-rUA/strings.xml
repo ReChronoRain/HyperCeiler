@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Потягніть вниз, щоб увійти в приватний простір</string>
     <string name="release_enter_private">Відпустіть, щоб увійти в приватний простір</string>
     <!--Pop-up window/miuix part-->
@@ -34,7 +33,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Порада</string>
     <string name="root">Деякі функції недоступні без Root/Su дозволів</string>
-    <string name="soft_reboot">Перезавантажити </string>
+    <string name="soft_reboot">Перезавантажити</string>
     <string name="restart_app_desc">Ви впевнені, що хочете перезапустити %1$s зараз?</string>
     <string name="hyperceiler_restart_quick">Швидкий перезапуск додатків</string>
     <string name="hook_failed">Модуль ще не активовано. Перевірте, чи увімкнено LSPosed. Якщо так, будь ласка, перезавантажте або повторно оптимізуйте модуль.</string>
