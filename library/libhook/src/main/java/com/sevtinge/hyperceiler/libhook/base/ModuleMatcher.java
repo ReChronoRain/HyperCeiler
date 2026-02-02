@@ -42,6 +42,7 @@ public class ModuleMatcher {
     private static final String TAG = "ModuleMatcher";
 
     public static final String VARIOUS_THIRD_APPS = "VariousThirdApps";
+    public static final String VARIOUS_SYSTEM_APPS = "VariousSystemApps";
 
     // 设备类型常量
     public static final int DEVICE_ALL = 0;
@@ -169,10 +170,25 @@ public class ModuleMatcher {
             return true;
         }
 
-        // 第三方应用通配匹配
-        return !context.isSystemServer
-            && !context.hasExactMatch
-            && VARIOUS_THIRD_APPS.equals(data.targetPackage);
+        // SystemServer 不参与通配匹配
+        if (context.isSystemServer) {
+            return false;
+        }
+
+        // 系统应用通配匹配（与精确匹配模块并行加载）
+        if (VARIOUS_SYSTEM_APPS.equals(data.targetPackage) && isSystemApp(packageName)) {
+            return true;
+        }
+
+        // 第三方应用通配匹配（仅在无精确匹配时作为兜底）
+        return !context.hasExactMatch && VARIOUS_THIRD_APPS.equals(data.targetPackage);
+    }
+
+    /**
+     * 判断是否为系统应用
+     */
+    private boolean isSystemApp(String packageName) {
+        return packageName.startsWith("com.miui") || packageName.startsWith("com.xiaomi") || packageName.startsWith("com.android");
     }
 
     private boolean matchSdkVersion(DataBase data) {
