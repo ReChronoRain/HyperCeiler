@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Yeni sürüm bulundu</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">cihazın dahili depolama alanınındaki dosyaları ekle ve sil</string>
@@ -71,9 +70,9 @@
     <string name="kill_4">Yazılım ismi sonlandır</string>
     <string name="edit_out">Sonuçları görün</string>
     <string name="edit_key">Anahtar için değer girin</string>
-    <string name="prefs_1">Bu anahtar mevcut değil: </string>
-    <string name="prefs_2">Anahtar başarıyla kaldırıldı: </string>
-    <string name="prefs_3">Kaldırma başarısız, anahtar var olmayabilir: </string>
+    <string name="prefs_1">Bu anahtar mevcut değil:</string>
+    <string name="prefs_2">Anahtar başarıyla kaldırıldı:</string>
+    <string name="prefs_3">Kaldırma başarısız, anahtar var olmayabilir:</string>
     <string name="prefs_4">Lütfen Anahtarın alınmasını gerektiren dönüş değeri türünü kontrol edin!</string>
     <string name="prefs_5">Türü seç</string>
     <string name="prefs_6">Paylaşım tercihlerini kontrol et</string>
