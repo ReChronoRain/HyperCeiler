@@ -88,7 +88,7 @@ public class PermissionSettingsFragment extends BaseFragment {
 
             requireActivity().runOnUiThread(() -> {
                 if (mRootPermissionItem != null) {
-                    mRootPermissionItem.setItemSelected(isDeviceRooted());
+                    mRootPermissionItem.setChecked(isDeviceRooted());
                 }
             });
         });
@@ -100,7 +100,7 @@ public class PermissionSettingsFragment extends BaseFragment {
 
             requireActivity().runOnUiThread(() -> {
                 if (mLspPermissionItem != null) {
-                    mLspPermissionItem.setItemSelected(isModuleActive);
+                    mLspPermissionItem.setChecked(isModuleActive);
                 }
             });
         });
@@ -114,7 +114,7 @@ public class PermissionSettingsFragment extends BaseFragment {
             if (!isAdded()) return;
 
             requireActivity().runOnUiThread(() -> {
-                mNetworkPermissionItem.setItemSelected(internet);
+                mNetworkPermissionItem.setChecked(internet);
                 setAllowNext(internet);
             });
         });
@@ -124,7 +124,7 @@ public class PermissionSettingsFragment extends BaseFragment {
         if (!isAdded()) return;
 
         requireActivity().runOnUiThread(() -> {
-            mNetworkPermissionItem.setItemSelected(state);
+            mNetworkPermissionItem.setChecked(state);
             setAllowNext(state);
         });
     }

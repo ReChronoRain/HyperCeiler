@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fragment_container"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <fan.bottomsheet.BottomSheetDragHandleView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:orientation="vertical"
@@ -20,18 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
-                android:orientation="vertical"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:id="@+id/loading_view"
-                    android:paddingHorizontal="8dp"
-                    android:text="LOADING"
-                    style="@style/ProvisionListSecondaryTextStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                android:layout_height="match_parent">
 
                 <com.sevtinge.hyperceiler.provision.widget.MarkdownView
                     android:id="@+id/markdown"
@@ -44,13 +30,21 @@
                     style="@style/ProvisionListSecondaryTextStyle"
                     android:layout_marginBottom="24dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/markdown"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </androidx.core.widget.NestedScrollView>
 
 
     </LinearLayout>
 
-</LinearLayout>
+    <fan.androidbase.widget.ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/Widget.ProgressBar.DayNight"/>
+
+</FrameLayout>

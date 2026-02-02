@@ -1,23 +1,6 @@
-/*
- * This file is part of HyperCeiler.
-
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
-
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
-
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
- * Copyright (C) 2023-2026 HyperCeiler Contributions
- */
 package com.sevtinge.hyperceiler.provision.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +12,8 @@ import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -46,43 +31,43 @@ import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
 import com.sevtinge.hyperceiler.provision.utils.BlurUtils;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
-import fan.provision.OobeUtils;
+import com.sevtinge.hyperceiler.provision.utils.Utils;
 import com.sevtinge.hyperceiler.provision.utils.ViewUtils;
 
 import fan.animation.listener.TransitionListener;
 import fan.core.utils.MiuiBlurUtils;
+import fan.provision.OobeUtils;
 import fan.transition.ActivityOptionsHelper;
 
 public class StartupFragment extends BaseFragment implements IOnFocusListener {
 
     private static final String TAG = "StartupFragment";
 
-    private static final int MSG_STOP_LOGO = 2;
-    private static final int MSG_RELEASE_LOGO = 3;
-
-    public boolean IS_START_ANIMA = false;
-    private final boolean IS_SUPPORT_WELCOME_ANIM = !OobeUtils.isMiuiVersionLite();
+    private final boolean IS_SUPPORT_WELCOME_ANIM = !OobeUtils.isLiteOrLowDevice();
 
     private long lastClickTime = 0;
 
     private ImageView mBackgroundImage;
+    private View mMiuiEnterLayout;
 
-    private View mLogoImageWrapper;
+
+    private View mGlowEffectView;
+    private RenderViewLayout mRenderViewLayout;
+
+
     private ImageView mLogoImage;
+    private View mLogoImageWrapper;
 
-
-    private View mNext;
     private View mNextLayout;
+    private View mNext;
     private ImageView mNextArrow;
+
+    private GlowController mGlowController;
 
     private Handler mAnimationHandler;
 
-    private View mGlowEffectView;
-    private View mMiuiEnterLayout;
-    private GlowController mGlowController;
-    private RenderViewLayout mRenderViewLayout;
-
     Handler mMainHandler = new Handler(Looper.getMainLooper());
+
     Runnable mExitStartedCallback = () -> {
         if (mNextLayout != null) {
             mNextLayout.setVisibility(View.INVISIBLE);
@@ -96,7 +81,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
         FragmentActivity activity = getActivity();
         if (activity != null) {
-            String topActivityClassName = OobeUtils.getTopActivityClassName(activity);
+            String topActivityClassName = Utils.getTopActivityClassName(activity);
             if (topActivityClassName == null || !topActivityClassName.contains(DefaultActivity.class.getSimpleName())) {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 Fragment fragment = fragmentManager.findFragmentByTag(StartupFragment.class.getSimpleName());
@@ -114,48 +99,53 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
     };
 
+
+
+    @SuppressLint("HandlerLeak")
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAnimationHandler = new Handler(Looper.getMainLooper()) {
+        mAnimationHandler = new Handler() {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 5) {
                     Log.i(TAG, " isFirstBoot value set");
-                    OobeUtils.isFirstBoot = false;
+                    Utils.isFirstBoot = false;
                 }
             }
         };
     }
+
 
     @Override
     protected int getLayoutId() {
         return R.layout.provision_startup_layout;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         mLogoImage = view.findViewById(R.id.logo_image);
         mLogoImageWrapper = view.findViewById(R.id.logo_image_wrapper);
-
         mNextLayout = view.findViewById(R.id.next_layout);
         mNext = view.findViewById(R.id.next);
         mNextArrow = view.findViewById(R.id.next_arrow);
         mBackgroundImage = view.findViewById(R.id.background_image);
         mMiuiEnterLayout = view.findViewById(R.id.miui_enter_layout);
 
-        /*if (mNextArrow != null) {
-            mNextArrow.setImportantForAccessibility(MSG_STOP_LOGO);
-        }*/
-
-        if (IS_SUPPORT_WELCOME_ANIM) {
+        if (!IS_SUPPORT_WELCOME_ANIM) {
+            Log.i(TAG, "not support anim");
+            mBackgroundImage.setImageResource(R.drawable.provision_logo_image_bg);
+            mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
+            setNextBackground();
+        } else {
             mRenderViewLayout = view.findViewById(R.id.render_view_layout);
-            mGlowEffectView = new View(getActivity());
+            mGlowEffectView = new View(requireContext());
             mRenderViewLayout.attachView(mGlowEffectView, 0.2f, -16777216);
             mGlowController = new GlowController(mGlowEffectView);
-            if (OobeUtils.isBlurEffectEnabled(getContext())) {
+            if (Utils.isBlurEffectEnabled(getContext())) {
                 Log.i(TAG, " MiuiBlur EffectEnabled ");
                 MiuiBlurUtils.setBackgroundBlur(mMiuiEnterLayout, (int) ((getResources().getDisplayMetrics().density * 50.0f) + 0.5f));
                 MiuiBlurUtils.setViewBlurMode(mMiuiEnterLayout, 0);
@@ -170,42 +160,41 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                 mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
                 setNextBackground();
             }
-        } else {
-            Log.i(TAG, "not support anim");
-            mBackgroundImage.setImageResource(R.drawable.provision_logo_image_bg);
-            mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
-            setNextBackground();
         }
 
-        if (IS_START_ANIMA) {
+        if (Utils.IS_START_ANIMA) {
             mNextLayout.setVisibility(View.INVISIBLE);
             mMainHandler.postDelayed(() -> {
                 if (mNextLayout.getVisibility() == View.INVISIBLE) {
                     mNextLayout.setVisibility(View.VISIBLE);
                 }
-                IS_START_ANIMA = false;
+                Utils.IS_START_ANIMA = false;
             }, 505L);
         }
 
-        mNextLayout.setOnClickListener(v -> {
-            long jCurrentTimeMillis = System.currentTimeMillis();
-            if (Math.abs(jCurrentTimeMillis - lastClickTime) < 2000) {
-                Log.d(TAG, "click too fast");
-                return;
+        mNextLayout.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                long jCurrentTimeMillis = System.currentTimeMillis();
+                if (Math.abs(jCurrentTimeMillis - lastClickTime) < 2000) {
+                    Log.d(TAG, "click too fast");
+                    return;
+                }
+                lastClickTime = jCurrentTimeMillis;
+                Log.d(TAG, "click next button");
+                DefaultActivity defaultActivity = (DefaultActivity) getActivity();
+                Utils.isFirstBoot = false;
+                defaultActivity.run(-1);
+                //OTHelper.rdCountEvent(Constants.KEY_CLICK_FIRST_PAGE_START);
+                //BoostHelper.getInstance().boostDefault(this.mNext);
+                enterLanguagePickPage();
             }
-            lastClickTime = jCurrentTimeMillis;
-            Log.d(TAG, "click next button");
-            //recordPageStayTime();
-            DefaultActivity defaultActivity = (DefaultActivity) getActivity();
-            OobeUtils.isFirstBoot = false;
-            defaultActivity.run(-1);
-            //OTHelper.rdCountEvent(Constants.KEY_CLICK_FIRST_PAGE_START);
-            //BoostHelper.getInstance().boostDefault(this.mNext);
-            enterLanguagePickPage();
         });
 
+
         if (IS_SUPPORT_WELCOME_ANIM && mLogoImageWrapper != null &&
-            mNextLayout != null && OobeUtils.isFirstBoot) {
+                mNextLayout != null && Utils.isFirstBoot) {
             Log.i(TAG, "SUPPORT_WELCOME_ANIM");
             mLogoImageWrapper.setVisibility(View.INVISIBLE);
             mNextLayout.setVisibility(View.INVISIBLE);
@@ -213,28 +202,20 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
     }
 
-    private boolean isNeedRotation() {
-        return isRtl() != IS_RTL;
-    }
-
-    public static Bitmap CACHE_BITMAP = null;
-
     private void setNextBackground() {
-        Bitmap bitmapRotateBitmap180 = CACHE_BITMAP;
-        if (bitmapRotateBitmap180 != null) {
-            if (isNeedRotation()) {
-                bitmapRotateBitmap180 = ViewUtils.rotateBitmap180(CACHE_BITMAP);
-            }
-            mNext.setBackground(new BitmapDrawable(getResources(), bitmapRotateBitmap180));
-            return;
+        Bitmap bitmap = Utils.getCacheBitmap(isNeedRotation());
+        if (bitmap != null) {
+            mNext.setBackground(new BitmapDrawable(getResources(), bitmap));
+        } else {
+            mNext.setBackgroundResource(R.drawable.provision_next_lite);
         }
-        mNext.setBackgroundResource(R.drawable.provision_next_lite);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        if (IS_SUPPORT_WELCOME_ANIM && !OobeUtils.isFirstBoot && mGlowController != null) {
+        Log.d(TAG, "onStart");
+        if (IS_SUPPORT_WELCOME_ANIM && !Utils.isFirstBoot && mGlowController != null) {
             mGlowController.start(false);
         }
     }
@@ -242,8 +223,8 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (IS_SUPPORT_WELCOME_ANIM) {
-            Log.i(TAG, " onWindowFocusChanged " + hasFocus + " isFirst " + OobeUtils.isFirstBoot);
-            if (OobeUtils.isFirstBoot) {
+            Log.i(TAG, " onWindowFocusChanged " + hasFocus + " isFirst " + Utils.isFirstBoot);
+            if (Utils.isFirstBoot) {
                 if (mGlowController != null) {
                     mGlowController.start(true);
                     mGlowController.setCircleYOffsetWithView(mLogoImageWrapper, mRenderViewLayout);
@@ -269,10 +250,29 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
     }
 
+    /*@Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+        if (mGlowController != null) {
+            mGlowController.stop();
+            Log.d(TAG, "GlowController: stop");
+        }
+    }*/
+
     private void resetFirstStart() {
         if (mAnimationHandler != null) {
             mAnimationHandler.removeMessages(5);
-            mAnimationHandler.sendEmptyMessageDelayed(5, 3000L);
+            mAnimationHandler.sendEmptyMessageDelayed(5, Utils.isFoldDevice() ? 3000L : 0L);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy");
+        if (mAnimationHandler != null) {
+            mAnimationHandler.removeCallbacksAndMessages(null);
         }
     }
 
@@ -290,42 +290,32 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }, 2500L);
     }
 
-    public void onKeyDownChild(int keyCode, KeyEvent event) {
-
-    }
-
     private void enterLanguagePickPage() {
-        ViewUtils.captureRoundedBitmap(getActivity(), mNext, mMainHandler, new ViewUtils.RoundedBitmapCallback() {
-            @Override
-            public void onBitmapReady(Bitmap bitmap) {
-                if (bitmap != null) {
-                    startPickPage(bitmap);
-                    return;
-                }
-                Log.d(TAG, "roundedBitmap is null ");
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), PermissionSettingsActivity.class);
-                intent.putExtra("isShowDelayAnim", true);
-                getActivity().startActivityForResult(intent, 0);
+        ViewUtils.captureRoundedBitmap(getActivity(), mNext, mMainHandler, bitmap -> {
+            if (bitmap != null) {
+                startPickPage(bitmap);
+                return;
             }
+            Log.d(TAG, "roundedBitmap is null ");
+            Intent intent = new Intent();
+            intent.setClass(requireContext(), PermissionSettingsActivity.class);
+            intent.putExtra("isShowDelayAnim", true);
+            requireActivity().startActivityForResult(intent, 0);
         });
     }
 
-    public static int LOCATION_X = -1;
-    public static int LOCATION_Y = -1;
-    public static int IS_RTL = 0;
 
     private void startPickPage(Bitmap bitmap) {
         int animForeGroundColor = getAnimForeGroundColor();
-        int width = ((mNext.getWidth() - mNext.getPaddingRight()) - mNext.getPaddingLeft()) / 2;
+        int width = ((mNext.getWidth() - this.mNext.getPaddingRight()) - this.mNext.getPaddingLeft()) / 2;
         int[] iArr = new int[2];
         mNext.getLocationInWindow(iArr);
         ActivityOptions activityOptionsMakeScaleUpAnim = ActivityOptionsHelper.makeScaleUpAnim(this.mNext, bitmap, iArr[0], iArr[1], width, animForeGroundColor, 1.0f, mMainHandler, mExitStartedCallback, mExitFinishCallback, null, null, 102);
-        LOCATION_X = iArr[0];
-        LOCATION_Y = iArr[1];
-        CACHE_BITMAP = bitmap;
-        IS_RTL = isRtl();
-        IS_START_ANIMA = true;
+        Utils.LOCATION_X = iArr[0];
+        Utils.LOCATION_Y = iArr[1];
+        Utils.CACHE_BITMAP = bitmap;
+        Utils.IS_RTL = isRtl();
+        Utils.IS_START_ANIMA = true;
         Intent intent = new Intent();
         intent.setClass(getActivity(), PermissionSettingsActivity.class);
         intent.putExtra("isShowDelayAnim", true);
@@ -333,13 +323,20 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     }
 
     private int isRtl() {
-        return OobeUtils.isRTL() ? 1 : 2;
+        return Utils.isRTL() ? 1 : 2;
+    }
+
+
+    private boolean isNeedRotation() {
+        return isRtl() != Utils.IS_RTL;
     }
 
     private int getAnimForeGroundColor() {
-        if (OobeUtils.isBlurEffectEnabled(getContext())) {
+        if (Utils.isBlurEffectEnabled(getContext())) {
             return getResources().getColor(R.color.anim_foreground_color_blur_enable);
         }
         return getResources().getColor(R.color.anim_foreground_color);
     }
+
+
 }

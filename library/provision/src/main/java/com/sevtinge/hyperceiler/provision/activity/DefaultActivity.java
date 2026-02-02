@@ -18,10 +18,14 @@
  */
 package com.sevtinge.hyperceiler.provision.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -35,34 +39,44 @@ import fan.provision.ProvisionBaseActivity;
 
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionStateHolder;
+import com.sevtinge.hyperceiler.provision.utils.Utils;
 
 public class DefaultActivity extends ProvisionBaseActivity {
 
     private static final String TAG = "DefaultActivity";
 
+    private static final String STATE_ENTER_CURRENTSTATE = "com.android.provision:state_enter_currentstate";
+
     private StateMachine mStateMachine;
+
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!isDeviceIsProvisioned()) {
-            PageIntercepHelper.getInstance().register(this);
-            PageIntercepHelper.getInstance().setCallback(DefaultActivity.this::onActivityResult);
-
-            mStateMachine = new StateMachine(this);
-            mStateMachine.start(savedInstanceState == null ||
-                    savedInstanceState.getBoolean("com.android.provision:state_enter_currentstate", true));
-            ProvisionStateHolder.getInstance().setStateMachine(mStateMachine);
-            if (mNewBackBtn != null) {
-                Log.i(TAG, "back button set accessibility no");
-                mNewBackBtn.setImportantForAccessibility(2);
-                if (mNewBackBtn.getParent() != null) {
-                    Log.i(TAG, "back button remove");
-                    ((ViewGroup) mNewBackBtn.getParent()).removeView(mNewBackBtn);
-                }
-            }
-        } else {
+        if (isDeviceIsProvisioned()) {
             finishSetup();
+            return;
+        }
+
+        PageIntercepHelper.getInstance().register(this);
+        PageIntercepHelper.getInstance().setCallback(DefaultActivity.this::onActivityResult);
+
+        mStateMachine = new StateMachine(this);
+        mStateMachine.start(savedInstanceState == null ||
+            savedInstanceState.getBoolean(STATE_ENTER_CURRENTSTATE, true));
+        ProvisionStateHolder.getInstance().setStateMachine(mStateMachine);
+        if (mNewBackBtn != null) {
+            Log.i(TAG, "back button set accessibility no");
+            mNewBackBtn.setImportantForAccessibility(2);
+            if (mNewBackBtn.getParent() != null) {
+                Log.i(TAG, "back button remove");
+                ((ViewGroup) mNewBackBtn.getParent()).removeView(mNewBackBtn);
+            }
+        }
+
+        if (mConfirmButton != null) {
+            mConfirmButton.setVisibility(View.GONE);
         }
     }
 
@@ -85,37 +99,24 @@ public class DefaultActivity extends ProvisionBaseActivity {
     }
 
     private boolean isDeviceIsProvisioned() {
-        return false;
-        //return Utils.isProvisioned(this);
+        return OobeUtils.isProvisioned(this);
     }
 
     public void finishSetup() {
-        PackageManager pm = getPackageManager();
-        //Utils.setWallperProvisioned(this, true);
-        /*ComponentName componentName = new ComponentName(this, ProvisionActivity.class);
-        pm.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
-        Intent intent = new Intent("android.provision.action.PROVISION_COMPLETE");
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.addFlags(Intent.FLAG_ACTIVITY_PREVIOUS_IS_TOP);
-        Utils.sendBroadcastAsUser(this, intent);*/
-        finish();
+
+        mHandler.postDelayed(() -> finish(), 0L);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        bundle.putBoolean("com.android.provision:state_enter_currentstate", mStateMachine.getCurrentState() instanceof StartupState);
+        bundle.putBoolean(STATE_ENTER_CURRENTSTATE, mStateMachine.getCurrentState() instanceof StartupState);
     }
 
     @Override
     public void onDestroy() {
         PageIntercepHelper.getInstance().unregisterReceiver(this);
-        //enableStatusBar(true);
-        //unRegisterNetworkChangedReceiver();
         super.onDestroy();
-        if (isDeviceIsProvisioned()) {
-            //Process.killProcess(Process.myPid());
-        }
     }
 
     @Override
@@ -125,9 +126,7 @@ public class DefaultActivity extends ProvisionBaseActivity {
         if (requestCode == 33 && OobeUtils.shouldNotFinishDefaultActivity()) {
             mStateMachine.resumeState();
         } else if (requestCode == 1) {
-            if (resultCode == -1) {
-                nextAction(124);
-            }
+
         } else if (requestCode == 3510) {
             //onAuraActivityResult(requestCode, resultCode);
         } else {
@@ -138,11 +137,6 @@ public class DefaultActivity extends ProvisionBaseActivity {
             }
             mStateMachine.run(resultCode);
         }
-    }
-
-    void nextAction(int i) {
-        Log.i(TAG, " here is nextAction ");
-        //startActivityForResult(WizardManagerHelper.getNextIntent(getIntent(), i), 10000);
     }
 
     @Override

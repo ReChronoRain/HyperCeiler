@@ -19,14 +19,14 @@
   -->
 <resources>
 
-    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.DayNight">
+    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
 
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">always</item>
-        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant</item>
+        <item name="android:windowBackground">@color/miuix_appcompat_black</item>
 
         <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
         <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
@@ -44,9 +44,9 @@
         <item name="groupButtonsTertiaryButtonStyle">@style/Widget.Button</item>
     </style>
 
-    <style name="TransparentActionBarTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="actionBarBackground">@android:color/transparent</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+    <style name="BottomSheetModalStyle">
+        <item name="android:background">@color/miuix_color_white_solid_10</item>
+        <item name="contentHeightMatchParent">true</item>
+        <item name="miuixPaddingBottomSystemWindowInsets">false</item>
     </style>
 </resources>

@@ -47,7 +47,7 @@
     <string name="provision_basic_settings_icon_miui_14">圆角矩形样式</string>
     <string name="provision_basic_settings_icon_miui_13">背景镂空样式</string>
 
-    <string name="provision_system_preparing">Preparing system…</string>
-    <string name="provision_system_complete">系统准备中</string>
+    <string name="provision_system_preparing">系统准备中</string>
+    <string name="provision_system_complete">设置完毕</string>
 
 </resources>

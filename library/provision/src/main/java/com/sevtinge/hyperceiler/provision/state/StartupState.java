@@ -60,7 +60,7 @@ public class StartupState extends State implements IKeyEvent, IOnFocusListener {
 
     @Override
     public void keyDownDispatcher(int keyCode, KeyEvent event) {
-        mStartupFragment.onKeyDownChild(keyCode, event);
+
     }
 
     @Override

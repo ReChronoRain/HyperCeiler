@@ -39,6 +39,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.sevtinge.hyperceiler.provision.R;
+import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.renderengine.GlowController;
 import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.ActivityOptionsUtils;
@@ -65,7 +66,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private static final String TAG = "Provision:CongratulationFragment";
 
     private final int DELAY_TIME = !OobeUtils.isLiteOrLowDevice() ? 10000 : 15000;
-    private final boolean IS_SUPPORT_ANIM = !OobeUtils.isLiteOrLowDevice();
+
     private boolean IS_SUPPORT_NEW_PROVISION_STRATEGY;
 
     private long endTime;
@@ -96,11 +97,11 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initTime = System.currentTimeMillis();
+        initSetupWizardAnimConnection();
         initView(view);
         initBackGround();
         setupBlurBackground();
         displayOSLogoDelay();
-        initSetupWizardAnimConnection();
     }
 
     private void initView(View view) {
@@ -111,12 +112,11 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         mSystemStateText = view.findViewById(R.id.system_state_text);
         mNextView = view.findViewById(R.id.next);
         mNext = view.findViewById(R.id.btn_bg);
-        if (IS_SUPPORT_NEW_PROVISION_STRATEGY) {
-            mSystemStateText.setText(R.string.provision_system_preparing);
-        } else {
-            mSystemStateText.setText(R.string.provision_system_complete);
-        }
-        if (IS_SUPPORT_ANIM) {
+        mSystemStateText.setText(IS_SUPPORT_NEW_PROVISION_STRATEGY ?
+            R.string.provision_system_preparing :
+            R.string.provision_system_complete
+        );
+        if (Utils.IS_SUPPORT_ANIM) {
             mLogoImageWrapper.setVisibility(View.GONE);
         }
         mNextView.setVisibility(View.GONE);
@@ -134,7 +134,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void setShaderBackGround() {
-        if (IS_SUPPORT_ANIM && mContentView != null) {
+        if (Utils.IS_SUPPORT_ANIM && mContentView != null) {
             mContentView.setBackground(null);
             if (mRenderViewLayout != null) {
                 mRenderViewLayout.setVisibility(View.VISIBLE);
@@ -147,9 +147,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void setBackGroundNoAnim() {
-        if (IS_SUPPORT_ANIM || mContentView == null) {
-            return;
-        }
+        if (Utils.IS_SUPPORT_ANIM || mContentView == null) return;
         mContentView.setBackgroundResource(R.drawable.provision_logo_image_bg);
     }
 
@@ -166,17 +164,13 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
                 setupViewBlur(mNext, true, new int[]{-12763843, -15021056}, new int[]{100, 106});
                 mNext.setBackgroundResource(R.drawable.provision_next_btn_background);
             }
-            if (mSystemStateText == null) {
-                return;
-            }
+            if (mSystemStateText == null) return;
             setupViewBlur(mSystemStateText, true, new int[]{-869915098, -1724697805}, new int[]{19, 3});
         }
     }
 
     private void setupViewBlur(View view, boolean z, int[] iArr, int[] iArr2) {
-        if (view == null) {
-            return;
-        }
+        if (view == null) return;
         if (z) {
             MiuiBlurUtils.setViewBlurMode(view, 3);
             for (int i = 0; i < iArr.length; i++) {
@@ -210,7 +204,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private void initSetupWizardAnimConnection() {
         Log.d("ProvisionCongratulationActivity", "onSetupComplete");
         refreshCompletedView();
-        IS_SUPPORT_NEW_PROVISION_STRATEGY = false;//SettingsFeatures.isHomePreloadServiceExist(requireContext());
+        IS_SUPPORT_NEW_PROVISION_STRATEGY = false;
     }
 
     private void refreshCompletedView() {
@@ -228,7 +222,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
 
     private void startAnim() {
         isFirstBoot = false;
-        if (IS_SUPPORT_ANIM && mLogoImageWrapper != null) {
+        if (Utils.IS_SUPPORT_ANIM && mLogoImageWrapper != null) {
             startLogoAnim(mLogoImageWrapper);
         }
         if (!IS_SUPPORT_NEW_PROVISION_STRATEGY && mNextView != null) {
@@ -238,9 +232,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void startLogoAnim(View view) {
-        if (view == null || view.getVisibility() == View.VISIBLE) {
-            return;
-        }
+        if (view == null || view.getVisibility() == View.VISIBLE) return;
         view.setVisibility(View.VISIBLE);
         AnimState animState = new AnimState("start");
         AnimState alphaState = animState.add(ViewProperty.ALPHA, 0.0d);
@@ -347,26 +339,25 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void startHome() {
-        String log = "";
+        getContext().getSharedPreferences("pref_oobe_state", Context.MODE_PRIVATE).edit()
+            .putBoolean("is_provisioned", true).apply();
         try {
-            try {
-                getContext().getSharedPreferences("prefs_oobe", Context.MODE_PRIVATE).edit().putBoolean("is_provisioned", true).apply();
-                ActivityOptions customTaskAnimation = ActivityOptions.makeCustomAnimation(requireContext(), R.anim.enter_home_anim, R.anim.provision_out_anim);
-                startActivity(getHomeIntent(), customTaskAnimation.toBundle());
-                log = "startHome success " + customTaskAnimation;
-                Log.d(TAG, log);
-                return;
-            } catch (Exception ex) {}
-        } catch (Exception e) {}
-        Log.e(TAG, "getActivityOptions fail" + log);
-        requireActivity().finish();
+            ActivityOptions customTaskAnimation = ActivityOptions.makeCustomAnimation(requireContext(), R.anim.enter_home_anim, R.anim.provision_out_anim);
+            startActivity(getHomeIntent(), customTaskAnimation.toBundle());
+            Log.d(TAG, "startHome success " + customTaskAnimation);
+        } catch (Exception ex) {}
+        Log.e(TAG, "getActivityOptions fail");
+        finish();
     }
 
 
     private Intent getHomeIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setPackage(requireContext().getPackageName());
-        intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.HyperCeilerTabActivity");
+        intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.SplashActivity");
+        // 清除掉引导页所在的整个任务栈
+        // 这样跳转后，栈内只有主页，按返回键会直接回到手机桌面
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
 }

@@ -23,20 +23,26 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
+import com.sevtinge.hyperceiler.provision.widget.SimpleTextWatcher;
+import com.sevtinge.hyperceiler.provision.widget.TermsAndStatementBottomSheet;
+
 import fan.provision.OobeUtils;
 
 import fan.appcompat.app.AlertDialog;
@@ -79,13 +85,12 @@ public class TermsAndStatementFragment extends BaseFragment {
             mNextView.setAlpha(mAgreeCheckBox.isChecked() ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
             mAgreeCheckBox.setOnClickListener(v -> {
                 if (mAgreeCheckBox.isChecked()) {
-                    mAgreeCheckBox.setChecked(true);
-
-                    /*showVerificationDialog(success -> {
+                    mAgreeCheckBox.setChecked(false);
+                    showVerificationDialog(success -> {
                         if (success) {
                             mAgreeCheckBox.setChecked(true);
                         }
-                    });*/
+                    });
                 }
             });
             mAgreeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
@@ -112,13 +117,17 @@ public class TermsAndStatementFragment extends BaseFragment {
             Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
             okButton.setEnabled(false);
 
-            input.addTextChangedListener(new TextWatcher() {
-                @Override public void beforeTextChanged(CharSequence s, int st, int c, int a) {}
-                @Override public void onTextChanged(CharSequence s, int st, int b, int c) {}
-
+            input.addTextChangedListener(new SimpleTextWatcher() {
                 @Override
-                public void afterTextChanged(Editable s) {
-                    okButton.setEnabled(OobeUtils.verificationCode.contentEquals(s));
+                public void onTextChanged(CharSequence s, int st, int b, int c) {
+                    // 核心：必须调用 toString()
+                    String inputStr = (s == null) ? "" : s.toString();
+                    String targetStr = OobeUtils.getSecureSixDigit();
+                    // 调试打印（可选）：如果还是不亮，看一眼 Logcat
+                    Log.d("Verify", "Input: [" + inputStr + "] Target: [" + targetStr + "]");
+
+
+                    okButton.setEnabled(inputStr.equals(targetStr));
                 }
             });
         });
@@ -165,8 +174,8 @@ public class TermsAndStatementFragment extends BaseFragment {
                 int color = getResources().getColor(R.color.provision_button_text_high_color_light, requireContext().getTheme());
                 builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(requireContext(), 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(requireContext(), 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(requireActivity(), 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(requireActivity(), 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 return builder;
             }
         }

@@ -22,7 +22,7 @@
 
     <color name="provision_list_item_text_unselected">#FFFFFFFF</color>
 
-    <color name="provision_item_bg_color">#665E5E5E</color> ?
+    <color name="provision_item_normal_bg_color">@color/miuix_default_color_container_list_dark</color>
     <color name="provision_item_pressed_bg_color">#14FFFFFF</color>
     <color name="provision_item_selected_bg_color">@color/miuix_color_blue_dark_primary_default</color>
 

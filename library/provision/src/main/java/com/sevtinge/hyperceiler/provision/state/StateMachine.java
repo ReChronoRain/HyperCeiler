@@ -14,12 +14,15 @@ import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
+import com.sevtinge.hyperceiler.provision.utils.Utils;
 
 import java.util.ArrayList;
 
 public class StateMachine {
 
     private static final String TAG = "StateMachine";
+
+    private static final String PROVISION_STATE = "com.android.provision.STATE_";
 
     private final Context mContext;
 
@@ -146,7 +149,7 @@ public class StateMachine {
                 break;
             }
         } while (!state.isAvailable(true));
-        Log.d("Provision_DefaultActivity", "getNextAvailableState is " + state);
+        Log.d(TAG, "getNextAvailableState is " + state);
         return state;
     }
 
@@ -172,18 +175,9 @@ public class StateMachine {
 
     public void transitToNext() {
         Log.d("Provision_DefaultActivity", "transitToNext mCurrentState is " + this.mCurrentState);
-        this.mCurrentState.onLeave();
+        mCurrentState.onLeave();
         if (needFinish()) {
             DefaultActivity activity = (DefaultActivity) mContext;
-                /*if (Utils.isNewGlobalOOBE()) {
-                    Utils.goToNextPage((Activity) mContext, activity.getIntent(), -1);
-                    activity.overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    if (Utils.shouldNotFinishDefaultActivity()) {
-                        return;
-                    }
-                    activity.finish();
-                    return;
-                }*/
             activity.finishSetup();
             clearState();
             return;
@@ -206,18 +200,18 @@ public class StateMachine {
     }
 
     private void transitToPrevious() {
-        if (!mStateStack.isEmpty()) {
-            State previousState = getPreviousAvailableState(mStateStack);
-            mCurrentState.onLeave();
-            mCurrentState = previousState;
-            if (previousState instanceof StartupState) {
-                ((StartupState) previousState).setBooted(true);
-            }
-            int size = mStateStack.size() - 1;
-            mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), false);
-            ((Activity) mContext).overridePendingTransition(R.anim.provision_slide_in_left, R.anim.provision_slide_out_right);
-            saveState();
+        if (mStateStack.size() <= 0) return;
+        mCurrentState = getPreviousAvailableState(mStateStack);
+        mCurrentState.onLeave();
+        if (mCurrentState instanceof StartupState) {
+            ((StartupState) mCurrentState).setBooted(true);
         }
+        int size = mStateStack.size() - 1;
+        mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), false);
+        if (!(mCurrentState instanceof PermissionState)) {
+            ((DefaultActivity) this.mContext).overridePendingTransition(R.anim.provision_slide_in_left, R.anim.provision_slide_out_right);
+        }
+        saveState();
     }
 
     private void transitToOthers() {
@@ -232,7 +226,7 @@ public class StateMachine {
     }
 
     private void clearState() {
-        mContext.getSharedPreferences("pref_state", 0).edit().clear().apply();
+        mContext.getSharedPreferences("pref_oobe_state", 0).edit().clear().apply();
     }
 
     public void resumeState() {
@@ -246,25 +240,25 @@ public class StateMachine {
     }
 
     private void saveState() {
-        SharedPreferences.Editor edit = mContext.getSharedPreferences("pref_state", 0).edit();
+        SharedPreferences.Editor edit = mContext.getSharedPreferences("pref_oobe_state", 0).edit();
         edit.clear();
         for (int i = 0; i < mStateStack.size(); i++) {
             Log.w(TAG, " saveState is " + mStateStack.get(i).getClass().getSimpleName());
-            edit.putString("com.android.provision.STATE_" + i, mStateStack.get(i).getClass().getSimpleName());
+            edit.putString(PROVISION_STATE + i, mStateStack.get(i).getClass().getSimpleName());
         }
-        edit.putString("com.android.provision.STATE_" + mStateStack.size(), mCurrentState.getClass().getSimpleName());
+        edit.putString(PROVISION_STATE + mStateStack.size(), mCurrentState.getClass().getSimpleName());
         edit.apply();
     }
 
     private void restoreState() {
         int i = 0;
-        SharedPreferences prefState = mContext.getSharedPreferences("pref_state", 0);
+        SharedPreferences prefState = mContext.getSharedPreferences("pref_oobe_state", 0);
         String state = StartupState.class.getSimpleName();
         mCurrentState = getStateInfo(state).getCurrent();
         while (state != null) {
             state = null;
             try {
-                state = prefState.getString("com.android.provision.STATE_" + i, null);
+                state = prefState.getString(PROVISION_STATE + i, null);
             } catch (Exception e) {}
             if (state != null) {
                 if (i != 0) {

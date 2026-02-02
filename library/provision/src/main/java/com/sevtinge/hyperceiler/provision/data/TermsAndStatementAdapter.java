@@ -221,8 +221,8 @@ public class TermsAndStatementAdapter extends BaseAdapter {
                 int color = res.getColor(R.color.provision_button_text_high_color_light, mContext.getTheme());
                 builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(mContext, 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(mContext, 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(null, 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setSpan(new TermsTitleSpan(null, 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 return builder;
             }
         }

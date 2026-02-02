@@ -50,13 +50,12 @@ public class OobeUtils {
     public static float NO_ALPHA = 1.0f;
     public static float HALF_ALPHA = 0.5f;
 
-    public static boolean isFirstBoot = true;
     public static boolean isEndBoot = true;
 
-    private static Boolean mBlurEffectEnabledCache = null;
+    private static String sCurrentCode = ""; // 缓存当前的验证码
 
     public static boolean isProvisioned(Context context) {
-        return context.getSharedPreferences("prefs_oobe", Context.MODE_PRIVATE).getBoolean("is_provisioned", false);
+        return context.getSharedPreferences("pref_oobe_state", Context.MODE_PRIVATE).getBoolean("is_provisioned", false);
     }
 
     public static boolean isRTL() {
@@ -94,8 +93,6 @@ public class OobeUtils {
     public static View getNextView(View view) {
         return view.findViewById(R.id.next);
     }
-
-    final public static String verificationCode = getSecureSixDigit();
 
     public static View getNextView(Activity activity) {
         return ((ProvisionBaseActivity) activity).getNextButton();
@@ -153,32 +150,20 @@ public class OobeUtils {
         return !isInternationalBuild();
     }
 
-    public static String getSecureSixDigit() {
+    // 只有在需要“刷新”验证码时才调用这个（比如对话框显示前）
+    public static String refreshSecureSixDigit() {
         SecureRandom sr = new SecureRandom();
         int num = 100000 + sr.nextInt(900000);
-        return String.valueOf(num);
+        sCurrentCode = String.valueOf(num);
+        return sCurrentCode;
     }
 
-    public static boolean isBlurEffectEnabled(Context context) {
-        if (mBlurEffectEnabledCache != null) {
-            return mBlurEffectEnabledCache;
+    // 其他地方获取验证码，直接返回缓存的值
+    public static String getSecureSixDigit() {
+        if (sCurrentCode.isEmpty()) {
+            return refreshSecureSixDigit(); // 如果为空则生成一次
         }
-        if (context == null) return false;
-        mBlurEffectEnabledCache = HyperMaterialUtils.isEnable() && !LiteUtils.isCommonLiteStrategy() && HyperMaterialUtils.isFeatureEnable(context);
-        Log.d(TAG, "isBlurEffectEnabled: " + mBlurEffectEnabledCache);
-        return mBlurEffectEnabledCache;
-    }
-
-    public static String getTopActivityClassName(Context context) throws SecurityException {
-        ActivityManager manager = ((ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE));
-        List<ActivityManager.RunningTaskInfo> runningTasks = manager.getRunningTasks(1);
-        if (runningTasks == null || runningTasks.isEmpty()) {
-            return null;
-        }
-        ActivityManager.RunningTaskInfo taskInfo = runningTasks.get(0);
-        String topActivityClassName = taskInfo.topActivity.getClassName();
-        Log.d(TAG, "getTopActivityClassName: " + topActivityClassName);
-        return topActivityClassName;
+        return sCurrentCode;
     }
 
     public static Intent getLicenseIntent(String url) {

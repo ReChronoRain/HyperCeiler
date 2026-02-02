@@ -41,7 +41,7 @@
                 android:padding="@dimen/provision_page_description_padding"
                 android:textColor="@color/provision_list_description_color"
                 android:textSize="@dimen/provision_page_checkbox_agree_text_size"
-                android:background="@drawable/provision_list_item_bg_normal" />
+                android:background="@drawable/provision_list_item_background" />
 
             <CheckBox
                 android:id="@+id/checkbox_agree"
