@@ -32,7 +32,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Совет</string>
     <string name="root">Некоторые функции недоступны без Root прав</string>
-    <string name="soft_reboot">Перезагрузка </string>
+    <string name="soft_reboot">Перезагрузка</string>
     <string name="restart_app_desc">Вы точно хотите перезагрузить %1$s?</string>
     <string name="hyperceiler_restart_quick">Быстрый перезапуск приложений</string>
     <string name="hook_failed">Модуль не активирован. Пожалуйста, убедитесь, что вы активировали модуль в LSPosed и перезапустите приложение.</string>
@@ -48,8 +48,7 @@
     <string name="module_app_copy_desc">Нажмите и удерживайте содержимое для копирования</string>
     <string name="module_title_1">Основное сообщение</string>
     <string name="module_title_2">Объединение сообщения</string>
-    <string name="app_error_desc">Произошла критическая ошибка HyperCeiler! Пожалуйста, предоставьте нам следующую информацию об ошибке для обратной связи:\n\n
-Зажмите текст, чтобы его скопировать.</string>
+    <string name="app_error_desc">Произошла критическая ошибка HyperCeiler! Пожалуйста, предоставьте нам следующую информацию об ошибке для обратной связи:\n\n Зажмите текст, чтобы его скопировать.</string>
     <string name="app_exit">ОК</string>
     <string name="safe_mode_desc">%1$s перешёл в безопасный режим из-за большого количества сбоев, а функции HyperCeiler временно отключены.</string>
     <string name="safe_mode_history">Посмотреть записи</string>
@@ -71,7 +70,7 @@
     <string name="error_version_name">Название версии</string>
     <string name="error_git_hash">Git хеш</string>
     <string name="error_build_time">Время сборки</string>
-    <string name="copy_ok">Скопировано в буфер обмена</string>
+    <string name="copy_ok">Скопировано в буфер обмена</string>
     <string name="notification_channel_app_crash_name">Приложение работает неправильно</string>
     <string name="notification_title_message_emergency_crash">%s вылетал несколько раз</string>
     <string name="notification_content_message">Нажмите, что бы посмотреть подробности</string>

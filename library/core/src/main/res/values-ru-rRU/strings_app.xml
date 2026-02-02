@@ -71,9 +71,9 @@
     <string name="kill_4">Имя программы для завершения</string>
     <string name="edit_out">Посмотреть результаты</string>
     <string name="edit_key">Введите значение для ключа</string>
-    <string name="prefs_1">Этот ключ не существует: </string>
-    <string name="prefs_2">Ключ успешно удален: </string>
-    <string name="prefs_3">Удалить ключ не удалось. Возможно, его нет: </string>
+    <string name="prefs_1">Этот ключ не существует:</string>
+    <string name="prefs_2">Ключ успешно удален:</string>
+    <string name="prefs_3">Удалить ключ не удалось. Возможно, его нет:</string>
     <string name="prefs_4">Пожалуйста, проверьте тип возвращаемого значения, который требует получение ключа!</string>
     <string name="prefs_5">Выберите тип</string>
     <string name="prefs_6">Проверка настроек совместного доступа</string>
@@ -512,7 +512,7 @@
     <string name="mms_im_old_device">Запрет на идентификацию в качестве нового устройства</string>
     <string name="mms_verification_code_auto_copy">Авто копирование кодов подтверждения в буфер обмена</string>
     <!--Phone Service-->
-    <string name="phone">Телефон – сервисы</string>
+    <string name="phone">Телефон – сервисы</string>
     <string name="phone_smart_dual_sim">Умная двойная SIM</string>
     <string name="phone_disable_remove_network_mode">Отключить \"Удалить сетевой режим\"</string>
     <string name="phone_vice_slot_volte">Интернет во время вызовов VoLTE</string>
