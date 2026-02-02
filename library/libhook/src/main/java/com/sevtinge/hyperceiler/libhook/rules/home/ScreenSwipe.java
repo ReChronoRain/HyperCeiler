@@ -41,12 +41,12 @@ import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
 public class ScreenSwipe extends BaseHook {
 
-    private static final String PREF_DOWN_SWIPE = "prefs_key_home_gesture_down_swipe";
-    private static final String PREF_DOWN_SWIPE_2 = "prefs_key_home_gesture_down_swipe2";
-    private static final String PREF_UP_SWIPE = "prefs_key_home_gesture_up_swipe";
-    private static final String PREF_UP_SWIPE_2 = "prefs_key_home_gesture_up_swipe2";
-    private static final String PREF_DOWN_SWIPE_ACTION = "prefs_key_home_gesture_down_swipe_action";
-    private static final String PREF_UP_SWIPE_ACTION = "prefs_key_home_gesture_up_swipe_action";
+    private static final String PREF_DOWN_SWIPE = "home_gesture_down_swipe";
+    private static final String PREF_DOWN_SWIPE_2 = "home_gesture_down_swipe2";
+    private static final String PREF_UP_SWIPE = "home_gesture_up_swipe";
+    private static final String PREF_UP_SWIPE_2 = "home_gesture_up_swipe2";
+    private static final String PREF_DOWN_SWIPE_ACTION = "home_gesture_down_swipe_action";
+    private static final String PREF_UP_SWIPE_ACTION = "home_gesture_up_swipe_action";
 
     private static final int GESTURE_UP = 10;
     private static final int GESTURE_DOWN = 11;
@@ -118,9 +118,9 @@ public class ScreenSwipe extends BaseHook {
 
     private void updatePrefsMap(Activity activity, String name, PrefType type) {
         Object value = switch (type) {
-            case String -> PrefsUtils.getSharedStringPrefs(activity, name, "");
-            case Integer -> PrefsUtils.getSharedIntPrefs(activity, name, 1);
-            case Boolean -> PrefsUtils.getSharedBoolPrefs(activity, name, false);
+            case String -> mPrefsMap.getString(name, "");
+            case Integer -> mPrefsMap.getInt(name, 1);
+            case Boolean -> mPrefsMap.getBoolean(name, false);
             default -> null;
         };
         if (value != null) {
@@ -148,7 +148,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void after(AfterHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (PrefsUtils.getSharedIntPrefs(context, PREF_DOWN_SWIPE_ACTION, 1) > 1) {
+                    if (mPrefsMap.getInt(PREF_DOWN_SWIPE_ACTION, 1) > 1) {
                         param.setResult("no_action");
                     }
                 }
@@ -162,7 +162,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (PrefsUtils.getSharedIntPrefs(context, PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult("no_action");
                     }
                 }
@@ -191,7 +191,7 @@ public class ScreenSwipe extends BaseHook {
                     @Override
                     public void before(BeforeHookParam param) {
                         Context context = (Context) param.getArgs()[0];
-                        if (PrefsUtils.getSharedIntPrefs(context, PREF_UP_SWIPE_ACTION, 0) > 0) {
+                        if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);
                         }
                     }
@@ -209,7 +209,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     View view = (View) param.getThisObject();
-                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), PREF_DOWN_SWIPE_ACTION, 0) > 0) {
+                    if (mPrefsMap.getInt(PREF_DOWN_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -221,7 +221,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     View view = (View) param.getThisObject();
-                    if (PrefsUtils.getSharedIntPrefs(view.getContext(), PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -235,7 +235,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (PrefsUtils.getSharedIntPrefs(context, PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -250,7 +250,7 @@ public class ScreenSwipe extends BaseHook {
                     @Override
                     public void before(BeforeHookParam param) {
                         Context context = (Context) param.getArgs()[0];
-                        if (PrefsUtils.getSharedIntPrefs(context, PREF_UP_SWIPE_ACTION, 0) > 0) {
+                        if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);
                         }
                     }

@@ -86,10 +86,10 @@ public class HotSeatSwipe extends BaseHook {
             if (e1 == null || e2 == null) return false;
 
             if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE_HORIZ && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
-                return GlobalActions.handleAction(helperContext, "prefs_key_home_gesture_right_swipe");
+                return GlobalActions.handleAction(helperContext, "home_gesture_right_swipe");
 
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE_HORIZ && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
-                return GlobalActions.handleAction(helperContext, "prefs_key_home_gesture_left_swipe");
+                return GlobalActions.handleAction(helperContext, "home_gesture_left_swipe");
 
             return false;
         }

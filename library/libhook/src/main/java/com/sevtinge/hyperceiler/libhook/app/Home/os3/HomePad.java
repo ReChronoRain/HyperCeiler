@@ -98,7 +98,7 @@ public class HomePad extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         // 手势
-        initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
+        //initHook(new QuickBack(), mPrefsMap.getBoolean("home_navigation_quick_back"));
         initHook(new CornerSlide(),
             mPrefsMap.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 mPrefsMap.getInt("home_navigation_assist_right_slide_action", 0) > 0
