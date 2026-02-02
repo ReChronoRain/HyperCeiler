@@ -32,7 +32,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tipp</string>
     <string name="root">Einige Funktionen sind ohne Root/Su-Berechtigung nicht verfügbar</string>
-    <string name="soft_reboot">Neustart </string>
+    <string name="soft_reboot">Neustart</string>
     <string name="restart_app_desc">Sind Sie sicher, dass sie %1$s jetzt neu starten wollen?</string>
     <string name="hyperceiler_restart_quick">Apps schnell neu starten</string>
     <string name="hook_failed">Das Modul ist noch nicht aktiviert. Bitte prüfen Sie, ob LSPosed an ist. Falls ja, starten Sie das Modul neu oder optimieren Sie es erneut.</string>

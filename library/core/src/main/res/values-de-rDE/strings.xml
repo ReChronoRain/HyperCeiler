@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Zum Betreten des privaten Bereichs nach unten ziehen</string>
     <string name="release_enter_private">Zum Öffnen des privaten Bereichs loslassen</string>
     <!--Pop-up window/miuix part-->
@@ -34,7 +33,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tipp</string>
     <string name="root">Einige Funktionen sind ohne Root/Su-Berechtigung nicht verfügbar</string>
-    <string name="soft_reboot">Neustart </string>
+    <string name="soft_reboot">Neustart</string>
     <string name="restart_app_desc">Sind Sie sicher, dass sie %1$s jetzt neu starten wollen?</string>
     <string name="hyperceiler_restart_quick">Apps schnell neu starten</string>
     <string name="hook_failed">Das Modul ist noch nicht aktiviert. Bitte prüfen Sie, ob LSPosed an ist. Falls ja, starten Sie das Modul neu oder optimieren Sie es erneut.</string>

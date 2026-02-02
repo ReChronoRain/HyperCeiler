@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">HyperOS wieder zu alter Größe verhelfen!</string>
     <!--String reuse-->

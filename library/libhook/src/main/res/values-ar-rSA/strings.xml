@@ -16,7 +16,6 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="system_ui_statusbar_music_notification">إشعار كلمات الأغاني في الإشعارات</string>
 </resources>

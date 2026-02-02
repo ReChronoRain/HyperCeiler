@@ -16,15 +16,13 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Nueva versión encontrada</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">añadir o eliminar archivos en el almacenamiento interno</string>
     <string name="new_permission_location_desc">se usa para proporcionar servicios como ajustar latitud y longitud</string>
     <string name="new_cta_agree_desc">En el uso, para proporcionarle más características, es posible que solicitemos permiso de Root/Su. Puede ir a administración de permisos en cualquier momento para ajustar el estado de autorización de todos los permisos, y por favor vaya a su administrador de Root/Su para obtener permisos.</string>
-    <string name="new_cta_app_main_purpose">modificar
-aplicaciones del sistema</string>
+    <string name="new_cta_app_main_purpose">modificar aplicaciones del sistema</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Español</string>
     <string name="translator">Mateo795</string>
@@ -63,9 +61,9 @@ aplicaciones del sistema</string>
     <string name="kill_4">Matar según el nombre de aplicación</string>
     <string name="edit_out">Obtener los resultados</string>
     <string name="edit_key">Introducir un valor para la clave</string>
-    <string name="prefs_1">Esta clave no existe: </string>
-    <string name="prefs_2">Clave eliminada correctamente: </string>
-    <string name="prefs_3">No se elimina la clave. Tal vez no existe: </string>
+    <string name="prefs_1">Esta clave no existe:</string>
+    <string name="prefs_2">Clave eliminada correctamente:</string>
+    <string name="prefs_3">No se elimina la clave. Tal vez no existe:</string>
     <string name="prefs_4">¡Compruebe el tipo de valor devuelto que va a obtener la clave!</string>
     <string name="prefs_5">Seleccione el tipo</string>
     <string name="prefs_6">Comprobar preferencias de compartir</string>

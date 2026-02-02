@@ -71,9 +71,9 @@
     <string name="kill_4">ソフトウェア名で強制終了</string>
     <string name="edit_out">結果を取得</string>
     <string name="edit_key">キーの値を入力</string>
-    <string name="prefs_1">このキーは存在しません： </string>
-    <string name="prefs_2">キーを削除しました： </string>
-    <string name="prefs_3">キーの削除に失敗しました。存在しない可能性があります： </string>
+    <string name="prefs_1">このキーは存在しません：</string>
+    <string name="prefs_2">キーを削除しました：</string>
+    <string name="prefs_3">キーの削除に失敗しました。存在しない可能性があります：</string>
     <string name="prefs_4">キーの取得が必要な戻り値の種類を確認してください！</string>
     <string name="prefs_5">種類を選択</string>
     <string name="prefs_6">共有設定を確認</string>

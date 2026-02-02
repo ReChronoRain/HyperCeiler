@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="xposed_description">使HyperOS再次偉大！</string>
     <!--String reuse-->

@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Знайдено нову версію</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Додавання та видалення файлів у внутрішній пам’яті пристрою</string>
@@ -66,8 +65,8 @@
     <string name="kill_4">Завершити за назвою програми</string>
     <string name="edit_out">Отримати результати</string>
     <string name="edit_key">Введіть значення для ключа</string>
-    <string name="prefs_1">Цей ключ не існує: </string>
-    <string name="prefs_2">Ключ успішно видалено: </string>
+    <string name="prefs_1">Цей ключ не існує:</string>
+    <string name="prefs_2">Ключ успішно видалено:</string>
     <string name="prefs_4">Будь ласка, перевірте тип значення, що повертається, який вимагає отримання ключа!</string>
     <string name="prefs_5">Виберіть тип</string>
     <string name="prefs_6">Перевірити спільні налаштування</string>

@@ -71,9 +71,9 @@
     <string name="kill_4">قتل/ إيقاف اجباري (اسم البرنامج)</string>
     <string name="edit_out">الحصول على النتائج</string>
     <string name="edit_key">أدخل قيمة للمفتاح</string>
-    <string name="prefs_1">هذا المفتاح غير موجود: </string>
-    <string name="prefs_2">تم إزالة المفتاح بنجاح: </string>
-    <string name="prefs_3">فشل في إزالة المفتاح، قد لا يكون موجوداً: </string>
+    <string name="prefs_1">هذا المفتاح غير موجود:</string>
+    <string name="prefs_2">تم إزالة المفتاح بنجاح:</string>
+    <string name="prefs_3">فشل في إزالة المفتاح، قد لا يكون موجوداً:</string>
     <string name="prefs_4">يرجى التحقق من نوع قيمة الإرجاع التي تتطلب الحصول على المفتاح!</string>
     <string name="prefs_5">حدد النوع</string>
     <string name="prefs_6">تحقق من تفضيلات المشاركة</string>
@@ -433,7 +433,7 @@
     <string name="system_framework_disable_integrity">تعطيل التحقق من سلامة النظام</string>
     <string name="system_framework_disable_integrity_desc">يحظر الاسترداد التلقائي للمحتوى الذي تم التلاعب به. عند تشغيل وظيفة تعطيل التحقق من المحتوى، سيتم تمكينها افتراضيًا. يدعم فقط Android 13 والإصدارات الأحدث.</string>
     <string name="system_framework_core_patch_shared_user">تجاوز التحقق من توقيع المستخدم المشترك</string>
-    <string name="system_framework_core_patch_shared_user_desc">السماح بتثبيت التطبيقات التي تختلف عن توقيعات المستخدم المشتركة.  هذه الميزة خطيرة إلى حد ما ويجب تمكينها فقط عند الحاجة إليها.</string>
+    <string name="system_framework_core_patch_shared_user_desc">السماح بتثبيت التطبيقات التي تختلف عن توقيعات المستخدم المشتركة. هذه الميزة خطيرة إلى حد ما ويجب تمكينها فقط عند الحاجة إليها.</string>
     <string name="system_framework_core_patch_digest_creak">تعطيل المقارنة بين التوقيعات</string>
     <string name="system_framework_core_patch_digest_creak_desc">السماح بإعادة تثبيت التطبيق بتوقيعات مختلفة</string>
     <string name="system_framework_core_patch_exact_signature_check">تعطيل تطابق التوقيع الدقيق</string>

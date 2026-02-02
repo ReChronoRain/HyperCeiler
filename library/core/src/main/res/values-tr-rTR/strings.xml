@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="pull_to_enter_private">Gizli bölmeye girmek için aşağı çekin</string>
     <string name="release_enter_private">Gizli bölmeye girmek için bırakın</string>
     <!--Pop-up window/miuix part-->

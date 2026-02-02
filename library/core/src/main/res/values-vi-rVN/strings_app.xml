@@ -71,9 +71,9 @@
     <string name="kill_4">Tên ứng dụng cần tắt</string>
     <string name="edit_out">Nhận kết quả</string>
     <string name="edit_key">Nhập giá trị cho khóa</string>
-    <string name="prefs_1">Khóa này không tồn tại: </string>
-    <string name="prefs_2">Xóa khóa thành công: </string>
-    <string name="prefs_3">Không thể xóa khóa, có thể không tồn tại: </string>
+    <string name="prefs_1">Khóa này không tồn tại:</string>
+    <string name="prefs_2">Xóa khóa thành công:</string>
+    <string name="prefs_3">Không thể xóa khóa, có thể không tồn tại:</string>
     <string name="prefs_4">Vui lòng kiểm tra loại giá trị trả về yêu cầu lấy khóa!</string>
     <string name="prefs_5">Chọn loại</string>
     <string name="prefs_6">Kiểm tra tùy chọn chia sẻ</string>
@@ -434,8 +434,7 @@
     <string name="system_framework_core_patch_downgr">Cho phép hạ cấp</string>
     <string name="system_framework_core_patch_downgr_desc">Cho phép hạ cấp ứng dụng</string>
     <string name="system_framework_core_patch_auth_creak">Tắt thông báo xác minh</string>
-    <string name="system_framework_core_patch_auth_creak_desc">Cho phép cài đặt tập tin APK đã chỉnh sửa
-\"Bỏ qua lỗi không hợp lệ\" </string>
+    <string name="system_framework_core_patch_auth_creak_desc">Cho phép cài đặt tập tin APK đã chỉnh sửa \"Bỏ qua lỗi không hợp lệ\"</string>
     <string name="system_framework_disable_integrity">Tắt kiểm tra tính toàn vẹn của hệ thống</string>
     <string name="system_framework_disable_integrity_desc">Tự động khôi phục nội dung bị giả mạo. Khi chức năng \"Tắt thông báo xác minh\" được bật, chức năng này sẽ được bật theo.\nChỉ hỗ trợ Android 13 trở lên</string>
     <string name="system_framework_core_patch_shared_user">Bỏ qua xác minh chữ ký người dùng được chia sẻ</string>
@@ -920,11 +919,7 @@
     <string name="updater">Trình cập nhật</string>
     <string name="updater_enable_miui_version">Cho phép giả mạo phiên bản cập nhật</string>
     <string name="updater_fuck_vab">Xóa xác thực OTA</string>
-    <string name="updater_fuck_vab_desc">Chỉ hỗ trợ sử dụng sê-ri VAB, vui lòng không mở sê-ri khác.
-- Không cần đủ điều kiện thử nghiệm nội bộ để sử dụng gói thử nghiệm nội bộ.
-- Những người có quyền thử nghiệm nội bộ sẽ không thể nhận được bản cập nhật thử nghiệm nội bộ và có thể được sử dụng để chặn cập nhật hệ thống.
-- Sau khi nâng cấp loại phiên bản khác nhau, bạn nên xóa dữ liệu.
-- Không hỗ trợ ROM không chính thức.</string>
+    <string name="updater_fuck_vab_desc">Chỉ hỗ trợ sử dụng sê-ri VAB, vui lòng không mở sê-ri khác. - Không cần đủ điều kiện thử nghiệm nội bộ để sử dụng gói thử nghiệm nội bộ. - Những người có quyền thử nghiệm nội bộ sẽ không thể nhận được bản cập nhật thử nghiệm nội bộ và có thể được sử dụng để chặn cập nhật hệ thống. - Sau khi nâng cấp loại phiên bản khác nhau, bạn nên xóa dữ liệu. - Không hỗ trợ ROM không chính thức.</string>
     <string name="updater_version_mode">Kiểu giả mạo</string>
     <string name="updater_big_version">Giả mạo phiên bản lớn</string>
     <string name="updater_big_version_desc">Cần điền khi giả mạo phiên bản Xiaomi HyperOS, mặc định là V816</string>
@@ -1356,14 +1351,7 @@
     <string name="security_center_newbox_bg_padding_horizontal">Lề dọc</string>
     <string name="security">Bảo mật</string>
     <string name="security_app_title">Hiển thị thêm chi tiết ứng dụng</string>
-    <string name="security_app_summary">Đã thêm thông tin chi tiết vào thông tin ứng dụng:
-- Số phiên bản ứng dụng
-- Đường dẫn APK
-- Đường dẫn dữ liệu
-- ID người dùng
-- Phiên bản SDK
-- Mở trang Cửa hàng Google Play
-- Khởi chạy</string>
+    <string name="security_app_summary">Đã thêm thông tin chi tiết vào thông tin ứng dụng: - Số phiên bản ứng dụng - Đường dẫn APK - Đường dẫn dữ liệu - ID người dùng - Phiên bản SDK - Mở trang Cửa hàng Google Play - Khởi chạy</string>
     <string name="security_app_sort_title">Sắp xếp danh sách ứng dụng</string>
     <string name="security_app_sort_summary">Sửa đổi sắp xếp mặc định của danh sách ứng dụng</string>
     <string name="security_restrict_app_title">Quyền đầy đủ</string>
@@ -1508,7 +1496,7 @@
     <string name="scanner_ppt">Mở khoá Scan tạo file PowerPoint PPT</string>
     <string name="scanner_doc_ppt">Mở khóa Scan chữ</string>
     <!--Voice Trigger-->
-    <string name="voicetrigger">Kích hoạt bằng giọng </string>
+    <string name="voicetrigger">Kích hoạt bằng giọng</string>
     <string name="bypass_udk_word_legal_check_caption">Đăng ký ASR mà không có Internet</string>
     <string name="bypass_udk_word_legal_check_description">Cho phép đăng ký ASR mà không cần internet</string>
     <string name="voicetrigger_accuracy_percent_caption">Đặt độ chính xác ASR</string>

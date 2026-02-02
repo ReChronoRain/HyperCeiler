@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">发现新版本</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">轻柔地加减设备内存上的文件</string>
@@ -33,9 +32,9 @@
     <string name="help">帮帮我！</string>
     <string name="settings">五颜六色小开关</string>
     <string name="about">没有人看的部分</string>
-    <string name="about_use">参　考　文　献</string>
+    <string name="about_use">参 考 文 献</string>
     <string name="about_use_desc">憨批露吃掉了以下项目的部分或全部内容，你还得谢谢开发这些项目的各位呢（排名不分先后）</string>
-    <string name="about_contributer">始　作　俑　者</string>
+    <string name="about_contributer">始 作 俑 者</string>
     <string name="about_contributer_desc">把系统镐蜂的人就是他们哟（不管顺序，想到哪个写哪个）</string>
     <string name="about_donation">帮忙发电的人</string>
     <string name="about_donation_desc">V我50，每天都是疯狂星期四</string>
@@ -53,9 +52,9 @@
     <string name="kill_4">金钟罩</string>
     <string name="edit_out">我要结果</string>
     <string name="edit_key">输入钥匙的值</string>
-    <string name="prefs_1">钥匙 404 Not found： </string>
-    <string name="prefs_2">成功销毁了钥匙： </string>
-    <string name="prefs_3">不能销毁钥匙，可能本来就404： </string>
+    <string name="prefs_1">钥匙 404 Not found：</string>
+    <string name="prefs_2">成功销毁了钥匙：</string>
+    <string name="prefs_3">不能销毁钥匙，可能本来就404：</string>
     <string name="prefs_4">我是不是给你脸给多了！你能不能好好看看自己需要获取的密钥的返回值特么是什么类型的！再输错我就让你飞起来！（神鹰哥声）</string>
     <string name="prefs_5">选择类型</string>
     <string name="prefs_6">折腾一下你发的东西</string>

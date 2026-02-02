@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Seleziona tutto</string>
     <string name="miuix_appcompat_cancel_description">Cancella</string>
@@ -32,7 +31,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Suggerimento</string>
     <string name="root">Alcune funzioni non sono disponibili senza l\'autorizzazione Root/Su</string>
-    <string name="soft_reboot">Riavvia </string>
+    <string name="soft_reboot">Riavvia</string>
     <string name="restart_app_desc">Sei sicuro di voler riavviare ora %1$s?</string>
     <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
     <string name="hook_failed">Il modulo non è ancora attivato.\nVerifica se il gestore Xposed è abilitato. In tal caso, riavvia o riottimizza il modulo.</string>

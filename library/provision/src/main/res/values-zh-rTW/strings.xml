@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="provision_back_description">返回</string>
     <string name="provision_start_content_description">開始</string>
     <string name="provision_next">下一項</string>

@@ -33,7 +33,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">نصيحة</string>
     <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الروت</string>
-    <string name="soft_reboot">إعادة التشغيل </string>
+    <string name="soft_reboot">إعادة التشغيل</string>
     <string name="restart_app_desc">هل أنت متأكد من أنك تريد إعادة التشغيل الآن %1$s؟</string>
     <string name="hyperceiler_restart_quick">إعادة التشغيل السريع للتطبيقات</string>
     <string name="hook_failed">لم يتم تفعيل الوحدة بعد. يُرجى التحقق من تفعيل LSPosed. في هذه الحالة، يُرجى إعادة تشغيل الوحدة أو إعادة تحسينها.</string>

@@ -33,7 +33,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Mẹo</string>
     <string name="root">Một số tính năng không khả dụng nếu không có quyền Root/Su</string>
-    <string name="soft_reboot">Khởi động lại </string>
+    <string name="soft_reboot">Khởi động lại</string>
     <string name="restart_app_desc">Bạn có chắc chắn muốn khởi động lại ngay bây giờ không %1$s?</string>
     <string name="hyperceiler_restart_quick">Ứng dụng khởi động lại nhanh</string>
     <string name="hook_failed">Module chưa được kích hoạt. Vui lòng kiểm tra xem LSPosed có được bật không. Nếu có, vui lòng khởi động lại hoặc tối ưu hóa lại module.</string>
