@@ -13,20 +13,17 @@
     <string name="miuix_appcompat_search_action_mode_cancel">取消</string>
     <string name="miuix_appcompat_search_input_description">搜索</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
-
     <!--HyperCeiler Settings/About Page-->
-    <string name="soft_reboot">重启 </string>
+    <string name="soft_reboot">重启</string>
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
     <string name="root">未授予 Root/Su 权限部分功能不可用</string>
     <string name="experimental_features">实验性功能</string>
-
     <string name="hook_failed">HyperCeiler 暂未激活，请检查 Xposed 管理器是否启用，及是否允许 HyperCeiler 自启动，如有请重启或重新优化模块</string>
     <string name="kill_failed">结束进程失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
     <string name="pid_failed">目标应用未运行，不需要重启。</string>
     <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
     <string name="start_failed">启动 Activity 失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">异常终止</string>
     <string name="warn">警告</string>
@@ -57,14 +54,11 @@
     <string name="error_git_hash">提交哈希</string>
     <string name="error_build_time">构建时间</string>
     <string name="copy_ok">已复制到剪贴板</string>
-
     <string name="notification_channel_app_crash_name">应用运行异常</string>
     <string name="notification_title_message_emergency_crash">%s 多次崩溃</string>
     <string name="notification_content_message">点击查看详细信息</string>
     <string name="notification_view">查看</string>
-
     <string name="tip_default">Tip: 这里是默认 tip ~ 如果你能看见我，就说明 HyperCeiler 出现了问题，请及时且有效的反馈给开发者。</string>
-
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 来源可能并不是 Xiaomi 官方，部分功能可能会失效，详情请咨询您正在使用 ROM 的提供者。</string>
     <string name="headtip_warn_unsupport_xposed">您当前使用的 Xposed 框架可能会导致部分功能出现异常，若您在使用过程中遇到上述情况，请更换至其他版本的 Xposed 框架后再次尝试。</string>
     <string name="headtip_warn_unsupport_sysver">当前设备运行的系统版本未 (完全) 适配，HyperCeiler 功能可能存在异常。</string>
@@ -75,47 +69,35 @@
     <string name="headtip_tip_fuck_coolapk">历史上的今天：2022 年 7 月 14 日，绀漓发表重要讲话。</string>
     <string name="headtip_notice_dead_logger_errcode">当前设备 Log 服务异常，HyperCeiler 功能将被限制。\n请恢复 Log 服务，使其可以正常运行。\n错误代码: %1$s</string>
     <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
-
     <string name="unsupported_system_func">当前系统版本不支持此功能</string>
     <string name="supported_system_func">当前系统版本官方已支持此功能</string>
     <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
-
     <!--System UI-->
     <string name="system_ui">系统界面</string>
-
     <!--System launcher-->
     <string name="mihome">系统桌面</string>
-
     <!--Settings-->
     <string name="system_settings">设置</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">安全服务</string>
-
     <!--Other-->
     <string name="exit">退出</string>
     <string name="ignore">忽略</string>
-
     <string name="log_level">日志输出等级</string>
     <string name="log_level_none">禁用日志输出</string>
     <string name="log_viewer">查看日志</string>
-
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
-
     <string name="search_apps_hint">搜索 %d 个应用</string>
     <string name="load_apps_failed">加载应用列表失败</string>
-
     <string name="logo_egg_NotificationName">彩蛋通知</string>
     <string name="logo_egg_NotificationName_tips">这是彩蛋通知</string>
     <string name="logo_egg_Notification_tips">请在设置里打开通知以查看彩蛋</string>
     <string name="logo_egg1">哇，你居然能找到这里，太厉害了</string>
     <string name="logo_egg2">可恶，藏在这里也会被发现吗…</string>
     <string name="logo_egg3">这里没有 Android Eggs… 但是有 HyperCeiler Eggs!</string>
-
     <string name="uninstall_title">卸载 HyperCeiler</string>
     <string name="uninstall_summary">从此入口卸载 HyperCeiler 后，您的模块配置将仍然保留在 Xposed 框架数据库中，如需彻底清除请先前往模块设置中重置模块配置，再进行卸载。</string>
-
     <string name="unsupported_func_tips">当前目标作用域来源可能并不是 Xiaomi 官方，出于安全考虑，已停止加载此作用域的所有功能，请尝试更改为 Xiaomi 官方发布的应用包，或前往 \"HyperCeiler 设置-开发者选项-调试模式\" 指定挂载版本后重试。</string>
     <string name="debug_mode">调试模式</string>
     <string name="open_debug_mode_tips">该选项仅用于正确处理目标应用的挂载版本，仅供需要时使用。\n对于被调试的目标应用，无法确保功能能正常使用，开启后对于该目标应用出现的任何问题请**不要**反馈给开发者。</string>
@@ -123,7 +105,6 @@
     <string name="debug_mode_switch">调试版本</string>
     <string name="debug_mode_home_version">设置 系统桌面 版本号</string>
     <string name="debug_mode_home_version_desc">过高的版本号仍旧会被拦截，请认真填写</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">搜索日志</string>
     <string name="log_type_label">日志类型:</string>
@@ -134,29 +115,23 @@
     <string name="log_filter_stats">显示: %1$d/%2$d</string>
     <string name="log_filter_all">全部</string>
     <string name="log_tag_other">其他</string>
-
     <string name="log_menu_clear">清空日志</string>
     <string name="log_menu_export">导出日志</string>
     <string name="log_menu_share">分享日志</string>
-
     <string name="log_clear_title">清空日志</string>
     <string name="log_clear_all_message">确定要清空所有日志吗？包括应用日志和 Xposed 日志，此操作不可恢复。</string>
     <string name="log_clear_success">日志已清空</string>
     <string name="log_clear_failed">清空日志失败</string>
     <string name="log_clear_in_progress">正在清空日志…</string>
-
     <string name="log_export_preparing">正在准备导出…</string>
     <string name="log_export_success">日志导出成功</string>
     <string name="log_export_failed">日志导出失败</string>
-
     <string name="log_share_title">分享日志</string>
     <string name="log_share_preparing">正在准备分享…</string>
     <string name="log_share_failed">分享日志失败</string>
     <string name="log_share_text">HyperCeiler 日志文件</string>
-
     <string name="log_copy">复制</string>
     <string name="log_copy_success">日志已复制到剪贴板</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">日志详情</string>
     <string name="log_detail_time">时间</string>

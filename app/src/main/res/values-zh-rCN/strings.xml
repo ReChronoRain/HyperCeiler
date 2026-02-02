@@ -31,7 +31,7 @@
     <string name="miuix_appcompat_search_input_description">搜索</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
     <!--HyperCeiler Settings/About Page-->
-    <string name="soft_reboot">重启 </string>
+    <string name="soft_reboot">重启</string>
     <string name="restart_app_desc">确定要立即重启%1$s吗？</string>
     <string name="tip">提示</string>
     <string name="root">未授予Root/Su权限部分功能不可用</string>
