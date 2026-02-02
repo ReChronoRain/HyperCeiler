@@ -32,7 +32,7 @@
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">ヒント</string>
     <string name="root">一部の機能は Root/Su 権限がないと利用できません</string>
-    <string name="soft_reboot">再起動 </string>
+    <string name="soft_reboot">再起動</string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか？</string>
     <string name="hyperceiler_restart_quick">アプリを素早く再起動</string>
     <string name="hook_failed">モジュールはまだ有効になっていません。LSPosed マネージャーで有効になっているかどうかを確認してください。有効になっている場合は、再起動するか、再度モジュールを最適化してください。</string>
