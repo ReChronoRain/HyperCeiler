@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">menambah dan menghapus file pada penyimpanan internal perangkat</string>
     <string name="new_permission_location_desc">digunakan untuk menyediakan layanan latitude dan longitude</string>
@@ -55,9 +54,9 @@
     <string name="kill_4">Nama perangkat lunak mematikan</string>
     <string name="edit_out">Dapatkan hasilnya</string>
     <string name="edit_key">Masukkan nilai untuk Kunci</string>
-    <string name="prefs_1">Kunci ini tidak ada: </string>
-    <string name="prefs_2">Kunci berhasil dihapus: </string>
-    <string name="prefs_3">Gagal menghapus Kunci, mungkin tidak ada: </string>
+    <string name="prefs_1">Kunci ini tidak ada:</string>
+    <string name="prefs_2">Kunci berhasil dihapus:</string>
+    <string name="prefs_3">Gagal menghapus Kunci, mungkin tidak ada:</string>
     <string name="prefs_4">Silakan periksa jenis nilai pengembalian yang memerlukan perolehan Kunci!</string>
     <string name="prefs_5">Pilih tipe</string>
     <string name="prefs_6">Periksa preferensi berbagi</string>
@@ -1098,7 +1097,7 @@
     <string name="aiasst">Terjemahan AI</string>
     <string name="aiasst_ai_captions">Teks AI yang diaktifkan secara paksa</string>
     <!--Barrage-->
-    <string name="barrage">Notifikasi layar bulir</string>
+    <string name="barrage">Notifikasi layar bulir</string>
     <string name="barrage_any_barrage">Izinkan semua aplikasi menggunakan rentetan</string>
     <string name="barrage_custom_barrage_length">Panjang rentetan khusus</string>
     <!--Joyose-->
