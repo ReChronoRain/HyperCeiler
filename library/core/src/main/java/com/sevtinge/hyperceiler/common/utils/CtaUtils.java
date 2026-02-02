@@ -28,6 +28,8 @@ import androidx.activity.result.ActivityResultLauncher;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
+import fan.provision.OobeUtils;
+
 public class CtaUtils {
 
     private static final String APP_PERMISSION_MANAGE_PKG = "com.miui.securitycenter";
@@ -60,9 +62,10 @@ public class CtaUtils {
 
 
     public static boolean getCtaValue(Context context) {
-        return context.getSharedPreferences("HyperCeilerPermission", 0)
+        return (context.getSharedPreferences("HyperCeilerPermission", 0)
             .getBoolean("key_user_agree", false) &&
-            PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false);
+            PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false)) ||
+            OobeUtils.getOperatorState(context, "cm_pick_status");
     }
 
     public static boolean isCtaNeedShow(Context context) {
