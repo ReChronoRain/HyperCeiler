@@ -212,7 +212,7 @@ object SetDeviceLevel : HomeBaseHookNew() {
     }
 
     override fun initBase() {
-        if (isPad) {
+        if (isPad()) {
             initPadHook()
             return
         }

@@ -32,7 +32,7 @@ object AlwaysShowCleanUp: BaseHook() {
 
     override fun init() {
         loadClass(
-            when (isPad) {
+            when (isPad()) {
                 false -> "com.miui.home.recents.views.RecentsContainer"
                 true -> "com.miui.home.recents.views.RecentsDecorations"
             }

@@ -58,7 +58,7 @@ abstract class HomeBaseHookNew : BaseHook() {
         }
         return v
     }
-    protected open fun isPadDevice(): Boolean = _cachedIsPad ?: isPad.also { _cachedIsPad = it }
+    protected open fun isPadDevice(): Boolean = _cachedIsPad ?: isPad().also { _cachedIsPad = it }
 
     final override fun init() {
         val version = appVersion()
@@ -69,7 +69,6 @@ abstract class HomeBaseHookNew : BaseHook() {
         // RELEASE-6.01.02.1135-09051745 (601021135) 手机端桌面
         // RELEASE-4.50.0.592-0821-09051648 (450000592) 平板端桌面
         // 如果注解显式指定 isPad，则按指定值匹配；未显式指定则忽略 isPad 条件
-
         // 都匹配不上则走原有实现
         when {
             version < 600000000 && !isPadDevice() || version < 450000000 && isPadDevice() -> {

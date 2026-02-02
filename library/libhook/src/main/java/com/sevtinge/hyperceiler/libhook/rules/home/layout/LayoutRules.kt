@@ -172,7 +172,7 @@ object LayoutRules : HomeBaseHookNew() {
             }
         }
 
-        if (!isPad) {
+        if (!isPad()) {
             findAndHookMethod(
                 PHONE_RULES, "calGridSize",
                 Context::class.java, Int::class.java, Int::class.java, Boolean::class.java,

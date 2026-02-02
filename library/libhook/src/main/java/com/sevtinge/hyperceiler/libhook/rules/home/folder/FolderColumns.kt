@@ -292,7 +292,7 @@ object FolderColumns : HomeBaseHookNew() {
         val isHorPaddingHook = mPrefsMap.getBoolean("home_folder_horizontal_padding_enable")
         val columns = mPrefsMap.getInt("home_folder_columns", 3)
 
-        if (isPad) {
+        if (isPad()) {
             // 你米的代码是真的老啊......
             initPadHook()
             return

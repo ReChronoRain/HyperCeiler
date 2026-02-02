@@ -29,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object RemoveLeftShare : BaseHook() {
     override fun init() {
-        if (isPad) {
+        if (isPad()) {
             loadClass("com.miui.home.recents.views.RecentsTopWindowDropTargetWorldCirculate")
         } else {
             loadClass("com.miui.home.recents.views.RecentsWorldCirculateAndSmallWindowCrop")

@@ -165,11 +165,6 @@ object DeviceHelper {
         }
 
         @JvmStatic
-        val isPad: Boolean by lazy {
-            getStaticBoolean(clazzMiuiBuild, "IS_PAD")
-        }
-
-        @JvmStatic
         val isFold: Boolean by lazy {
             getStaticBoolean(clazzMiuiBuild, "IS_FOLD")
         }
@@ -186,9 +181,9 @@ object DeviceHelper {
         @JvmStatic
         fun isLargeUI(): Boolean {
             return runCatching {
-                isPad || isFold || isTablet
+                isFold || isTablet
             }.getOrElse {
-                isPadDevice()
+                isPad()
             }
         }
 
@@ -197,7 +192,7 @@ object DeviceHelper {
          * @return true 代表是平板，false 代表不是平板
          */
         @JvmStatic
-        fun isPadDevice(): Boolean {
+        fun isPad(): Boolean {
             return runCatching {
                 isTablet
             }.getOrElse {

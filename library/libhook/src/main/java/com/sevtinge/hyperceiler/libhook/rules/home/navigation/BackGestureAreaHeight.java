@@ -50,7 +50,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
     @Override
     public void initBase() {
         try {   // 适用于5.39.10929+
-            findAndHookMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new IReplaceHook() {
+            findAndReplaceMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new IReplaceHook() {
                 @Override
                 public Object replace(BeforeHookParam param) throws Throwable {
                     Object obj = param.getThisObject();
