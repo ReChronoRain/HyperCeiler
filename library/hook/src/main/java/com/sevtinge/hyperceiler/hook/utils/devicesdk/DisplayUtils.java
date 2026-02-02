@@ -22,6 +22,7 @@ import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
 import android.util.DisplayMetrics;
+import com.sevtinge.hyperceiler.hook.utils.log.XposedLogUtils;
 
 
 public class DisplayUtils {
@@ -51,8 +52,20 @@ public class DisplayUtils {
     }
 
     public static int dp2px(float dipValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
-        return (int) (dipValue * scale + 0.5f);
+        try {
+            final float scale = getAppContext().getResources().getDisplayMetrics().density;
+            /* XposedLogUtils.logD(
+                "DisplayUtils",
+                "Dip: " + dipValue + ", Density: " + scale + ", Px: " + ((int) (dipValue * scale + 0.5f))); */
+            return (int) (dipValue * scale + 0.5f);
+        } catch (Throwable t) {
+            XposedLogUtils.logE(
+                "dp2px",
+                "DisplayUtils",
+                "Error getting density",
+                t);
+        }
+        return (int) dipValue;
     }
 
     public static int dp2px(Context context, float dipValue) {
@@ -61,8 +74,20 @@ public class DisplayUtils {
     }
 
     public static int sp2px(float spValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
-        return (int) (spValue * scale + 0.5f);
+        try {
+            final float scale = getAppContext().getResources().getDisplayMetrics().scaledDensity;
+            /*  XposedLogUtils.logD(
+                "DisplayUtils",
+                "Sp: " + spValue + ", ScaledDensity: " + scale + ", Px: " + ((int) (spValue * scale + 0.5f))); */
+            return (int) (spValue * scale + 0.5f);
+        } catch (Throwable t) {
+            XposedLogUtils.logE(
+                "sp2px",
+                "DisplayUtils",
+                "Error getting scaled density",
+                t);
+        }
+        return (int) spValue;
     }
 
     public static int sp2px(Context context, float spValue) {
@@ -71,7 +96,19 @@ public class DisplayUtils {
     }
 
     public static int px2dp(float pxValue) {
-        final float scale = getAppContext().getResources().getDisplayMetrics().density;
-        return (int) (pxValue / scale + 0.5f);
+        try {
+            final float scale = getAppContext().getResources().getDisplayMetrics().density;
+            /*  XposedLogUtils.logD(
+                "DisplayUtils",
+                "Px: " + pxValue + ", Density: " + scale + ", Dp: " + ((int) (pxValue / scale + 0.5f))); */
+            return (int) (pxValue / scale + 0.5f);
+        } catch (Throwable t) {
+            XposedLogUtils.logE(
+                "px2dp",
+                "DisplayUtils",
+                "Error getting density",
+                t);
+        }
+        return (int) pxValue;
     }
 }
