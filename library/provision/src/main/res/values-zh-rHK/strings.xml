@@ -28,7 +28,7 @@
     <string name="provision_user_agreement">使用者協議</string>
     <string name="provision_privacy_policy">私隱政策</string>
     <string name="provision_terms_of_use">使用條款</string>
-    <string name="provision_terms_of_use_label_use_network_china">為了給您提供更好的服務，您需要閲讀並同意&lt;a href=\"%1$s\"&gt;使用者協議&lt;/a&gt;及&lt;a href=\"%2$s\"&gt;私隱政策&lt;/a&gt;才可繼續使用系統，我們將嚴格遵守相關法律條款和私隱政策以保護您的個人信息。</string>
+    <string name="provision_terms_of_use_label_use_network_china">為了給您提供更好的服務，您需要閲讀並同意<a href="%1$s">使用者協議</a>及<a href="%2$s">私隱政策</a>才可繼續使用系統，我們將嚴格遵守相關法律條款和私隱政策以保護您的個人信息。</string>
     <string name="provision_terms_of_label_period">。</string>
     <string name="provision_protect_persoanl_info_statement">我們將嚴格遵守相關法律條例和私隱政策以保護您的個人信息。</string>
     <string name="provision_service_agreement">我已仔細閲讀並同意上述條款</string>
