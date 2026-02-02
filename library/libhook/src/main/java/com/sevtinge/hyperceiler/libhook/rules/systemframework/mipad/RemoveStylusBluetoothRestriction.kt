@@ -19,13 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object RemoveStylusBluetoothRestriction : BaseHook() {
     override fun init() {
         val clazzMiuiStylusDeviceListener =
-            loadClass("com.miui.server.input.stylus.MiuiStylusDeviceListener")
+            findClass("com.miui.server.input.stylus.MiuiStylusDeviceListener")
         clazzMiuiStylusDeviceListener.declaredConstructors.createHooks {
             after {
                 setTouchModeStylusEnable()
@@ -44,7 +43,7 @@ object RemoveStylusBluetoothRestriction : BaseHook() {
         val flag: Int = 0x10 or driverVersion
         val instanceITouchFeature =
             callStaticMethod(
-                loadClass("miui.util.ITouchFeature"),
+                findClass("miui.util.ITouchFeature"),
                 "getInstance"
             )!!
         callMethod(

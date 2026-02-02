@@ -21,14 +21,13 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 class FreeFormCount : BaseHook() {
     override fun init() {
         val clazzMiuiFreeFormStackDisplayStrategy =
-            loadClass("com.android.server.wm.MiuiFreeFormStackDisplayStrategy")
+            findClass("com.android.server.wm.MiuiFreeFormStackDisplayStrategy")
 
         if (isMoreAndroidVersion(36)) {
             clazzMiuiFreeFormStackDisplayStrategy.methodFinder()

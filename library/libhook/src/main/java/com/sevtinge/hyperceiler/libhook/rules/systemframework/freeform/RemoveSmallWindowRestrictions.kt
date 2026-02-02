@@ -23,7 +23,6 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.field
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
@@ -31,18 +30,18 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object RemoveSmallWindowRestrictions : BaseHook() {
     private val mSettingsClass by lazy {
-        loadClass($$"com.android.server.wm.WindowManagerService$SettingsObserver")
+        findClass($$"com.android.server.wm.WindowManagerService$SettingsObserver")
     }
     private val mWindowsUtilsClass by lazy {
-        loadClass("android.util.MiuiMultiWindowUtils")
+        findClass("android.util.MiuiMultiWindowUtils")
     }
     private val mWindowsClass by lazy {
-        loadClass("android.util.MiuiMultiWindowAdapter")
+        findClass("android.util.MiuiMultiWindowAdapter")
     }
 
     override fun init() {
         runCatching {
-            loadClass("com.android.server.wm.ActivityTaskManagerService").methodFinder()
+            findClass("com.android.server.wm.ActivityTaskManagerService").methodFinder()
                 .filterByName("retrieveSettings")
                 .single().createAfterHook { param ->
                     param.thisObject.javaClass.field("mDevEnableNonResizableMultiWindow")
@@ -94,7 +93,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
 
         // Author: LittleTurtle2333
         runCatching {
-            loadClass("com.android.server.wm.Task").methodFinder()
+            findClass("com.android.server.wm.Task").methodFinder()
                 .filterByName("isResizeable")
                 .first().createHook {
                     returnConstant(true)

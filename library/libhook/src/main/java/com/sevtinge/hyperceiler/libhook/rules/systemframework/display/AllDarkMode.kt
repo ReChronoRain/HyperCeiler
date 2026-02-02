@@ -26,7 +26,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
 import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
@@ -36,7 +35,7 @@ class AllDarkMode : BaseHook() {
     override fun init() {
         if (isInternational()) return
         val clazzForceDarkAppListManager =
-            loadClass("com.android.server.ForceDarkAppListManager")
+            findClass("com.android.server.ForceDarkAppListManager")
 
         clazzForceDarkAppListManager.methodFinder().apply {
             filterByName("getDarkModeAppList").toList()

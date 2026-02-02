@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
@@ -29,7 +28,7 @@ object IgnoreStylusKeyGesture : BaseHook() {
     override fun init() {
         if (isMoreAndroidVersion(36)) {
             val clazzMiuiStylusPageKeyListener =
-                loadClass("com.miui.server.input.stylus.MiuiStylusShortcutManager")
+                findClass("com.miui.server.input.stylus.MiuiStylusShortcutManager")
             val methodNames =
                 setOf("needInterceptBeforeDispatching", "shouldInterceptKey")
 

@@ -23,16 +23,15 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.deoptimizeMethod
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isNotAbstract
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 object RestoreEsc : BaseHook() {
     override fun init() {
-        loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
+        findClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
             .filterByName("switchPadMode").single().deoptimizeMethod()
-        loadClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
+        findClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
             .filterByName("init").filter { this.isNotAbstract }.single().deoptimizeMethod()
-        loadClass("com.android.server.input.config.InputCommonConfig").methodFinder()
+        findClass("com.android.server.input.config.InputCommonConfig").methodFinder()
             .filterByName("setPadMode").single().createBeforeHook {
                 it.args[0] = false
             }

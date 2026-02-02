@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
@@ -34,7 +33,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
     private lateinit var mLogcatManagerService: Any
     override fun init() {
 
-        loadClass("com.android.server.logcat.LogcatManagerService", systemParam.classLoader).methodFinder().apply {
+        findClass("com.android.server.logcat.LogcatManagerService", systemParam.classLoader).methodFinder().apply {
             filterByName("onStart")
             .first()
             .createAfterHook {
@@ -76,7 +75,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
 
         // 米客原来的取消方法，未知情况封堵失败
         /*try {
-            loadClass("com.android.server.logcat.LogcatManagerService").methodFinder().filter {
+            findClass("com.android.server.logcat.LogcatManagerService").methodFinder().filter {
                 name == "onLogAccessRequested"
             }.toList().createHooks {
                 before { param ->
