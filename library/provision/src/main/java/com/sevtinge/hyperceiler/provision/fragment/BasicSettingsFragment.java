@@ -18,17 +18,18 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.preference.Preference;
+import androidx.preference.PreferenceDataStore;
+import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.provision.R;
+import com.sevtinge.hyperceiler.provision.utils.PrefsUtilsDataStore;
 
 import fan.preference.DropDownPreference;
 import fan.preference.PreferenceFragment;
@@ -37,6 +38,7 @@ public class BasicSettingsFragment extends PreferenceFragment {
 
     private boolean mIsScrolledBottom = false;
 
+    SwitchPreference mHideAppIcon;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
 
@@ -45,6 +47,17 @@ public class BasicSettingsFragment extends PreferenceFragment {
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
         setPreferencesFromResource(R.xml.provision_basic_settings, rootKey);
+
+        PreferenceDataStore dataStore = new PrefsUtilsDataStore(requireContext());
+        getPreferenceManager().setPreferenceDataStore(dataStore);
+
+        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mIconModePreference = findPreference("prefs_key_settings_icon");
+        mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+
+        mHideAppIcon.setPreferenceDataStore(dataStore);
+        mIconModePreference.setPreferenceDataStore(dataStore);
+        mIconModeValue.setPreferenceDataStore(dataStore);
     }
 
     @Override
@@ -62,16 +75,14 @@ public class BasicSettingsFragment extends PreferenceFragment {
             }
         });
 
-        SharedPreferences sp;
-        try {
-            sp = requireContext().getSharedPreferences("hyperceiler_prefs", false ? Context.MODE_MULTI_PROCESS | Context.MODE_WORLD_READABLE : Context.MODE_WORLD_READABLE);
-        } catch (Throwable t) {
-            sp = requireContext().getSharedPreferences("hyperceiler_prefs", false ? Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE : Context.MODE_PRIVATE);
-        }
-
-        int mIconMode = Integer.parseInt(sp.getString("prefs_key_settings_icon", "0"));
+        int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(requireContext(), "prefs_key_settings_icon", "0"));
+        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+
+        mHideAppIcon.setChecked(PrefsUtils.getSharedBoolPrefs(requireContext(), "prefs_key_settings_hide_app_icon", false));
+        mIconModePreference.setValueIndex(mIconMode);
+        mIconModeValue.setValueIndex(Integer.parseInt(PrefsUtils.getSharedStringPrefs(requireContext(), "prefs_key_settings_icon_mode", "0")));
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener((preference, newValue) -> {

@@ -35,4 +35,5 @@ java {
 
 dependencies {
     api(libs.bundles.miuix)
+    compileOnlyApi(project(":library:libhook"))
 }

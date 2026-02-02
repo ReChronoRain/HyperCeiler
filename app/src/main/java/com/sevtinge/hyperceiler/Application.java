@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.common.utils.ScopeManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.model.data.AppInfoCache;
+import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 import com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity;
 import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
 
@@ -101,6 +102,7 @@ public class Application extends android.app.Application implements XposedServic
         AndroidLog.d(TAG, "LSPosed service connected: " + service.getFrameworkName() + " v" + service.getFrameworkVersion());
         synchronized (this) {
             isModuleActivated = true;
+            PermissionSettingsFragment.isModuleActive = true;
             ScopeManager.setService(service);
             PrefsUtils.remotePrefs =
                 (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
@@ -113,6 +115,7 @@ public class Application extends android.app.Application implements XposedServic
         AndroidLog.e(TAG, "LSPosed service died.");
         synchronized (this) {
             isModuleActivated = false;
+            PermissionSettingsFragment.isModuleActive = false;
             PrefsUtils.remotePrefs = null;
         }
     }
