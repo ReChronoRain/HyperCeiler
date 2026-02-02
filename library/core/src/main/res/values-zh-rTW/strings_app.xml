@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">發現新版本</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">在裝置的內部儲存空間新增和刪除檔案</string>
@@ -77,9 +76,9 @@
     <string name="kill_4">軟體名 kill</string>
     <string name="edit_out">獲取結果</string>
     <string name="edit_key">輸入 Key 值</string>
-    <string name="prefs_1">不存在此 Key: </string>
-    <string name="prefs_2">成功移除 Key: </string>
-    <string name="prefs_3">移除 Key 失敗,可能不存在: </string>
+    <string name="prefs_1">不存在此 Key:</string>
+    <string name="prefs_2">成功移除 Key:</string>
+    <string name="prefs_3">移除 Key 失敗,可能不存在:</string>
     <string name="prefs_4">請檢查待獲取 Key 的返回值類型</string>
     <string name="prefs_5">選擇類型</string>
     <string name="prefs_6">檢查共享首選項</string>
