@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="provision_back_description">Quay lại</string>
     <string name="provision_start_content_description">Bắt đầu</string>
     <string name="provision_next">Tiếp tục</string>
@@ -30,7 +29,7 @@
     <string name="provision_user_agreement">Thỏa thuận người dùng</string>
     <string name="provision_privacy_policy">Chính sách bảo mật</string>
     <string name="provision_terms_of_use">Điều khoản sử dụng</string>
-    <string name="provision_terms_of_use_label_use_network_china">Để cung cấp cho bạn những dịch vụ tốt hơn, bạn cần phải đọc và đồng ý với &lt;a href=\"%1$s\"&gt;Thỏa thuận người dùng&lt;/a&gt; và &lt;a href=\"%2$s\"&gt;Chính sách bảo mật&lt;/a&gt; trước khi bạn có thể tiếp tục sử dụng hệ thống. Chúng tôi sẽ tuân thủ nghiêm ngặt các luật, quy định và chính sách bảo mật có liên quan để bảo vệ thông tin cá nhân của bạn.</string>
+    <string name="provision_terms_of_use_label_use_network_china">Để cung cấp cho bạn những dịch vụ tốt hơn, bạn cần phải đọc và đồng ý với <a href="%1$s">Thỏa thuận người dùng</a> và <a href="%2$s">Chính sách bảo mật</a> trước khi bạn có thể tiếp tục sử dụng hệ thống. Chúng tôi sẽ tuân thủ nghiêm ngặt các luật, quy định và chính sách bảo mật có liên quan để bảo vệ thông tin cá nhân của bạn.</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Chúng tôi sẽ tuân thủ nghiêm ngặt các luật, quy định và chính sách bảo mật có liên quan để bảo vệ thông tin cá nhân của bạn.</string>
     <string name="provision_service_agreement">Tôi đã đọc kỹ và đồng ý với các điều khoản trên</string>
