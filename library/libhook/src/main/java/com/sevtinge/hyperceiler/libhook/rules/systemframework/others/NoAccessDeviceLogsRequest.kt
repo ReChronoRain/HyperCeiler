@@ -34,7 +34,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
     private lateinit var mLogcatManagerService: Any
     override fun init() {
 
-        loadClass("com.android.server.logcat.LogcatManagerService", lpparam.classLoader).methodFinder().apply {
+        loadClass("com.android.server.logcat.LogcatManagerService", systemParam.classLoader).methodFinder().apply {
             filterByName("onStart")
             .first()
             .createAfterHook {
@@ -43,7 +43,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                     mActivityManagerInternal =
                         mLogcatManagerService.getObjectField("mActivityManagerInternal")!!
                 } catch (t: Throwable) {
-                    XposedLog.e(TAG, lpparam.packageName, "NoAccessDeviceLogsRequest -> onStart", t)
+                    XposedLog.e(TAG, packageName, "NoAccessDeviceLogsRequest -> onStart", t)
                 }
             }
 
@@ -62,14 +62,14 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                     if (isDebug()) {
                         XposedLog.d(
                             TAG,
-                            this@NoAccessDeviceLogsRequest.lpparam.packageName,
+                            this@NoAccessDeviceLogsRequest.packageName,
                             "NoAccessDeviceLogsRequest bypass for package=$packageName uid=$uid"
                         )
                     }
                     it.result = null
                 } catch (t: Throwable) {
                     // 输出异常日志
-                    XposedLog.e(TAG, this@NoAccessDeviceLogsRequest.lpparam.packageName, "processNewLogAccessRequest failed", t)
+                    XposedLog.e(TAG, this@NoAccessDeviceLogsRequest.packageName, "processNewLogAccessRequest failed", t)
                 }
             }
         }
@@ -85,7 +85,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            logE(TAG, this.lpparam.packageName, t)
+            logE(TAG, packageName, t)
         }*/
     }
 }

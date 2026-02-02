@@ -43,7 +43,7 @@ public class UseAndroidPackageInstaller extends BaseHook {
         findAndHookMethod(PackageManagerServiceImpl, "isCTS", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                // logD(TAG, lpparam.packageName,"fakeCTS:"+ fakeCts);
+                // logD(TAG, packageName,"fakeCTS:"+ fakeCts);
                 param.setResult(fakeCts);
             }
         });
@@ -52,7 +52,7 @@ public class UseAndroidPackageInstaller extends BaseHook {
         for (Method method : methods) {
             String name = method.getName();
             if ("hookChooseBestActivity".equals(name) || "updateDefaultPkgInstallerLocked".equals(name) || "assertValidApkAndInstaller".equals(name)) {
-                // logD(TAG, lpparam.packageName,"hook " + name);
+                // logD(TAG, packageName,"hook " + name);
                 hookMethod(method, new IMethodHook() {
                     @Override
                     public void before(BeforeHookParam param) {

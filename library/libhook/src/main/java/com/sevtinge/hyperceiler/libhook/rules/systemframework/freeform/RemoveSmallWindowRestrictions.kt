@@ -49,7 +49,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                         .setBoolean(param.thisObject, true)
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook retrieveSettings failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook retrieveSettings failed by: $e")
         }
 
         runCatching {
@@ -64,7 +64,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook updateDevEnableNonResizableMultiWindow failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook updateDevEnableNonResizableMultiWindow failed by: $e")
         }
 
         runCatching {
@@ -79,7 +79,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                 }
             }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook onChange failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook onChange failed by: $e")
         }
 
         runCatching {
@@ -89,7 +89,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(true)
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook isForceResizeable failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook isForceResizeable failed by: $e")
         }
 
         // Author: LittleTurtle2333
@@ -100,7 +100,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(true)
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook isResizeable failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook isResizeable failed by: $e")
         }
 
         runCatching {
@@ -110,7 +110,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(mutableListOf<String>())
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook getFreeformBlackList failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook getFreeformBlackList failed by: $e")
         }
 
         runCatching {
@@ -123,7 +123,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(mutableListOf<String>())
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook getFreeformBlackListFromCloud failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook getFreeformBlackListFromCloud failed by: $e")
         }
 
         runCatching {
@@ -133,7 +133,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(mutableListOf<String>())
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook getStartFromFreeformBlackListFromCloud failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook getStartFromFreeformBlackListFromCloud failed by: $e")
         }
 
         runCatching {
@@ -143,7 +143,7 @@ object RemoveSmallWindowRestrictions : BaseHook() {
                     returnConstant(true)
                 }
         }.onFailure { e ->
-            XposedLog.w(TAG, this.lpparam.packageName, "Hook supportFreeform failed by: $e")
+            XposedLog.w(TAG, packageName, "Hook supportFreeform failed by: $e")
         }
 
     }

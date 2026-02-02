@@ -48,7 +48,7 @@ object GMSDozeFixFramework : BaseHook() {
                     if (calleePkgName.contains("com.google.android.gms")) it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.e(TAG, lpparam.packageName, "Hook Failed in isAllowBroadcast: ", e)
+            XposedLog.e(TAG, packageName, "Hook Failed in isAllowBroadcast: ", e)
         }
 
         try {
@@ -60,7 +60,7 @@ object GMSDozeFixFramework : BaseHook() {
                     it.args[0] = true
                 }
         } catch (e: Exception) {
-            XposedLog.e(TAG, lpparam.packageName, "Hook Failed in triggerGMSLimitAction: ", e)
+            XposedLog.e(TAG, packageName, "Hook Failed in triggerGMSLimitAction: ", e)
         }
 
         try {
@@ -94,12 +94,7 @@ object GMSDozeFixFramework : BaseHook() {
                     }
                 }
         } catch (e: Exception) {
-            XposedLog.e(
-                TAG,
-                lpparam.packageName,
-                "Hook Failed in listAppsManagerClass constructor",
-                e
-            )
+            XposedLog.e(TAG, packageName, "Hook Failed in listAppsManagerClass constructor", e )
         }
 
         try {
@@ -112,7 +107,7 @@ object GMSDozeFixFramework : BaseHook() {
                     if (name.contains("com.google.android.gms")) it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.e(TAG, lpparam.packageName, "Hook Failed in isInCloudWhiteList", e)
+            XposedLog.e(TAG, packageName, "Hook Failed in isInCloudWhiteList", e)
         }
 
         try {
@@ -125,7 +120,7 @@ object GMSDozeFixFramework : BaseHook() {
                     if (name.contains("com.google.android.gms")) it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.e(TAG, lpparam.packageName, "Hook Failed in isInWhiteList", e)
+            XposedLog.e(TAG, packageName, "Hook Failed in isInWhiteList", e)
         }
 
         try {
@@ -137,7 +132,7 @@ object GMSDozeFixFramework : BaseHook() {
                     it.result = false
                 }
         } catch (e: Exception) {
-            XposedLog.e(TAG, lpparam.packageName, "Hook Failed in isNetworkDisableAble", e)
+            XposedLog.e(TAG, packageName, "Hook Failed in isNetworkDisableAble", e)
         }
 
     }

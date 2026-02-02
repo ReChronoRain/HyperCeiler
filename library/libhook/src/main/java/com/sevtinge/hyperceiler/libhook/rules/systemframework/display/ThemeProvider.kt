@@ -42,7 +42,7 @@ class ThemeProvider : BaseHook() {
                 }
             }
         } catch (t: Throwable) {
-            XposedLog.e(TAG, lpparam.packageName, t)
+            XposedLog.e(TAG, packageName, t)
         }
     }
 }
