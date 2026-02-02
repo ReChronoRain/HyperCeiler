@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">Neue Version gefunden</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Dateien auf dem internen Speicher des Geräts hinzufügen und löschen</string>
@@ -67,9 +66,9 @@
     <string name="kill_4">Softwarename beenden</string>
     <string name="edit_out">Ergebnisse erhalten</string>
     <string name="edit_key">Wert für den Schlüssel eingeben</string>
-    <string name="prefs_1">Dieser Schlüssel existiert nicht: </string>
-    <string name="prefs_2">Schlüssel erfolgreich entfernt: </string>
-    <string name="prefs_3">Entfernen des Schlüssels fehlgeschlagen. Er existiert möglicherweise nicht: </string>
+    <string name="prefs_1">Dieser Schlüssel existiert nicht:</string>
+    <string name="prefs_2">Schlüssel erfolgreich entfernt:</string>
+    <string name="prefs_3">Entfernen des Schlüssels fehlgeschlagen. Er existiert möglicherweise nicht:</string>
     <string name="prefs_4">Bitte überprüfe den Rückgabewertetyp, der für das Abrufen des Schlüssels erforderlich ist!</string>
     <string name="prefs_5">Typ auswählen</string>
     <string name="prefs_6">Geteilte Einstellungen überprüfen</string>
