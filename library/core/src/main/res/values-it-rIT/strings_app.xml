@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="version_update">It</string>
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">aggiungi ed elimina file nella memoria interna del dispositivo</string>
@@ -57,9 +56,9 @@
     <string name="kill_4">Chiusura nome software</string>
     <string name="edit_out">Vedi i risultati</string>
     <string name="edit_key">Inserisci un valore per la chiave</string>
-    <string name="prefs_1">Questa chiave valore non esiste: </string>
-    <string name="prefs_2">Chiave rimossa con successo: </string>
-    <string name="prefs_3">Rimozione della chiave non riuscita, potrebbe non esistere: </string>
+    <string name="prefs_1">Questa chiave valore non esiste:</string>
+    <string name="prefs_2">Chiave rimossa con successo:</string>
+    <string name="prefs_3">Rimozione della chiave non riuscita, potrebbe non esistere:</string>
     <string name="prefs_4">Si prega di controllare il tipo di valore di ritorno che richiede di possedere la chiave!</string>
     <string name="prefs_5">Seleziona tipo</string>
     <string name="prefs_6">Controlla le preferenze di condivisione</string>
@@ -792,7 +791,7 @@
     <string name="home_folder_width_title">Utilizza la larghezza dell\'intera cartella</string>
     <string name="home_folder_space_title">Riduci i margini</string>
     <string name="home_folder_blur_title">Sfocatura dello sfondo</string>
-    <string name="home_folder_recommend_apps_switch">Nascondi \"Oggi\ interruttore Consigli\"</string>
+    <string name="home_folder_recommend_apps_switch">Nascondi \"Oggi interruttore Consigli\"</string>
     <string name="home_folder_unlock_blur_supported">Rimuovi la restrizione di sfocatura delle cartelle</string>
     <string name="home_folder_unlock_blur_supported_summary">Non esiste alcuna restrizione sulla sfocatura dello sfondo per i materiali premium ufficiali solo per la rimozione di temi di terze parti</string>
     <string name="home_folder_anim_title">Animazione di rimbalzo</string>
