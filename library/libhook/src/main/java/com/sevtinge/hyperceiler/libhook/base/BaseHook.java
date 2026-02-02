@@ -37,6 +37,7 @@ import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedInterface.MethodUnhooker;
 import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam;
+import io.github.libxposed.api.XposedModuleInterface.SystemServerLoadedParam;
 
 /**
  * Hook 基类
@@ -74,10 +75,17 @@ public abstract class BaseHook {
     }
 
     /**
-     * 获取包加载参数
+     * 获取包加载参数 (应用)
      */
     public PackageLoadedParam getLpparam() {
         return BaseLoad.getLpparam();
+    }
+
+    /**
+     * 获取包加载参数 (系统框架)
+     */
+    public SystemServerLoadedParam getSystemParam() {
+        return BaseLoad.getSystemServerParam();
     }
 
     /**

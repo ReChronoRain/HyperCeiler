@@ -40,7 +40,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = false
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in isNeedRestictNetworkPolicy: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in isNeedRestictNetworkPolicy: ", e)
         }
 
         try {
@@ -51,7 +51,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in isAllowBroadcast: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in isAllowBroadcast: ", e)
         }
 
         try {
@@ -63,7 +63,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in isRestrictBroadcast: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in isRestrictBroadcast: ", e)
         }
 
         try {
@@ -75,7 +75,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = true
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in isJobRestrict: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in isJobRestrict: ", e)
         }
 
         try {
@@ -87,7 +87,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = false
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in deferBroadcast: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in deferBroadcast: ", e)
         }
 
         try {
@@ -99,7 +99,7 @@ object ConservativeMilletFramework : BaseHook() {
                     it.result = false
                 }
         } catch (e: Exception) {
-            XposedLog.w(TAG, lpparam.packageName, "Hook Failed in isRestrictNet: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in isRestrictNet: ", e)
         }
     }
 }
