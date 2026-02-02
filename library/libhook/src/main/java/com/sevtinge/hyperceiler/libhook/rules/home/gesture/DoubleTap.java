@@ -44,7 +44,7 @@ public class DoubleTap extends BaseHook {
                 public void after(AfterHookParam param) {
                 Object mDoubleTapControllerEx = EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx != null) return;
-                mDoubleTapControllerEx = new DoubleTapController((Context) param.getArgs()[0], "prefs_key_home_gesture_double_tap");
+                mDoubleTapControllerEx = new DoubleTapController((Context) param.getArgs()[0], "home_gesture_double_tap");
                 EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx", mDoubleTapControllerEx);
             }
         });

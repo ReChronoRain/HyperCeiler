@@ -30,6 +30,7 @@ import fan.preference.SeekBarPreferenceCompat;
 
 public class HomeGestureSettings extends DashboardFragment {
 
+    SwitchPreference mQuickBack;
     SwitchPreference mDisableAllGesture;
     SeekBarPreferenceCompat mHighBackArea;
     SeekBarPreferenceCompat mWideBackArea;
@@ -41,6 +42,7 @@ public class HomeGestureSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        mQuickBack = findPreference("prefs_key_home_navigation_quick_back");
         mDisableAllGesture = findPreference("prefs_key_home_navigation_disable_full_screen_back_gesture");
         mHighBackArea = findPreference("prefs_key_home_navigation_back_area_height");
         mWideBackArea = findPreference("prefs_key_home_navigation_back_area_width");
@@ -50,6 +52,7 @@ public class HomeGestureSettings extends DashboardFragment {
         if (isPad()) {
             setFuncHint(mDisableAllGesture, 1);
         } else if (isMoreHyperOSVersion(3f)) {
+            mQuickBack.setVisible(false);
             mHighBackArea.setEnabled(mSwitch);
             mWideBackArea.setEnabled(mSwitch);
         }

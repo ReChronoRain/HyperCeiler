@@ -45,7 +45,7 @@ public class CornerSlide extends BaseHook {
             returnConstant(true));
         Class<?> FsGestureAssistHelper = findClassIfExists("com.miui.home.recents.FsGestureAssistHelper");
         findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
-            float.class, float.class, int.class,
+            float.class, float.class, long.class,
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
@@ -101,7 +101,7 @@ public class CornerSlide extends BaseHook {
                     String direction = inDirection == 1 ? "right" : "left";
                     GlobalActions.handleAction(
                         EzXposed.getAppContext(),
-                        "prefs_key_home_navigation_assist_" + direction + "_slide"
+                        "home_navigation_assist_" + direction + "_slide"
                     );
                 }
             }
