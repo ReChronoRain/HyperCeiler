@@ -54,8 +54,9 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     private View mGlowEffectView;
     private RenderViewLayout mRenderViewLayout;
 
-
     private ImageView mLogoImage;
+
+    private ImageView mTextLogoImage;
     private View mLogoImageWrapper;
 
     private View mNextLayout;
@@ -127,7 +128,10 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         mLogoImage = view.findViewById(R.id.logo_image);
+
+        mTextLogoImage = view.findViewById(R.id.text_logo_image);
         mLogoImageWrapper = view.findViewById(R.id.logo_image_wrapper);
         mNextLayout = view.findViewById(R.id.next_layout);
         mNext = view.findViewById(R.id.next);
@@ -139,6 +143,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             Log.i(TAG, "not support anim");
             mBackgroundImage.setImageResource(R.drawable.provision_logo_image_bg);
             mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
+            mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image_lite);
             setNextBackground();
         } else {
             mRenderViewLayout = view.findViewById(R.id.render_view_layout);
@@ -150,7 +155,11 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                 MiuiBlurUtils.setBackgroundBlur(mMiuiEnterLayout, (int) ((getResources().getDisplayMetrics().density * 50.0f) + 0.5f));
                 MiuiBlurUtils.setViewBlurMode(mMiuiEnterLayout, 0);
                 BlurUtils.setupViewBlur(mLogoImage, true, new int[]{-867546550, -11579569, -15011328}, new int[]{19, 100, 106});
+
+                BlurUtils.setupViewBlur(mTextLogoImage, true, new int[]{-867546550, -11579569, -15011328}, new int[]{19, 100, 106});
                 mLogoImage.setImageResource(R.drawable.provision_logo_image);
+
+                mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image);
                 BlurUtils.setupViewBlur(mNext, true, new int[]{-13750738, -15011328}, new int[]{100, 106});
                 mNext.setBackgroundResource(R.drawable.provision_next);
                 mNextArrow.setVisibility(View.VISIBLE);
@@ -158,6 +167,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             } else {
                 Log.i(TAG, " MiuiBlur not EffectEnabled ");
                 mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
+                mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image_lite);
                 setNextBackground();
             }
         }
@@ -193,9 +203,10 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         });
 
 
-        if (IS_SUPPORT_WELCOME_ANIM && mLogoImageWrapper != null &&
+        if (IS_SUPPORT_WELCOME_ANIM && mLogoImageWrapper != null && mLogoImage != null &&
                 mNextLayout != null && Utils.isFirstBoot) {
             Log.i(TAG, "SUPPORT_WELCOME_ANIM");
+            mLogoImage.setVisibility(View.INVISIBLE);
             mLogoImageWrapper.setVisibility(View.INVISIBLE);
             mNextLayout.setVisibility(View.INVISIBLE);
             mNextLayout.setEnabled(false);
@@ -229,6 +240,12 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                     mGlowController.start(true);
                     mGlowController.setCircleYOffsetWithView(mLogoImageWrapper, mRenderViewLayout);
                 }
+
+                if (mLogoImage != null) {
+                    mLogoImage.setVisibility(View.VISIBLE);
+                    AnimHelper.startPageLogoAnim(mLogoImage);
+                }
+
                 if (mLogoImageWrapper != null) {
                     mLogoImageWrapper.setVisibility(View.VISIBLE);
                     AnimHelper.startPageLogoAnim(mLogoImageWrapper);
@@ -282,6 +299,10 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                 mNextLayout.setVisibility(View.VISIBLE);
                 mNextLayout.setEnabled(true);
             }
+            if (mLogoImage != null) {
+                mLogoImage.setVisibility(View.VISIBLE);
+            }
+
             if (mLogoImageWrapper != null) {
                 mLogoImageWrapper.setVisibility(View.VISIBLE);
             }

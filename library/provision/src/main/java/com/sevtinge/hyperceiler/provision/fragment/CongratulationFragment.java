@@ -68,6 +68,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private View mGlowEffectView;
     private View mContentView;
     private ImageView mLogoImage;
+    private ImageView mTextLogoImage;
     private View mLogoImageWrapper;
     private View mNext;
     private View mNextView;
@@ -99,6 +100,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         mContentView = view.findViewById(R.id.content_view);
         mLogoImageWrapper = view.findViewById(R.id.logo_image_wrapper);
         mLogoImage = view.findViewById(R.id.logo_image);
+        mTextLogoImage = view.findViewById(R.id.text_logo_image);
         mSystemStateText = view.findViewById(R.id.system_state_text);
         mNextView = view.findViewById(R.id.next);
         mNext = view.findViewById(R.id.btn_bg);
@@ -149,6 +151,11 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
             if (mLogoImage != null) {
                 setupViewBlur(mLogoImage, true, new int[]{-867546550, -11579569, -15011328}, new int[]{19, 100, 106});
                 mLogoImage.setImageResource(R.drawable.provision_logo_image);
+            }
+
+            if (mTextLogoImage != null) {
+                setupViewBlur(mTextLogoImage, true, new int[]{-867546550, -11579569, -15011328}, new int[]{19, 100, 106});
+                mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image);
             }
             if (mNext != null) {
                 setupViewBlur(mNext, true, new int[]{-12763843, -15021056}, new int[]{100, 106});

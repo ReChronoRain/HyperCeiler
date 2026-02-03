@@ -39,7 +39,7 @@
             android:id="@+id/space_top"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="20.0" />
+            android:layout_weight="18" />
 
         <RelativeLayout
             android:id="@+id/logo_content"
@@ -56,9 +56,19 @@
 
                 <ImageView
                     android:id="@+id/logo_image"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    android:layout_gravity="center"
+                    android:src="@drawable/provision_logo_image_lite" />
+
+                <ImageView
+                    android:id="@+id/text_logo_image"
                     android:layout_width="@dimen/provision_startup_logo_width_thirteen"
                     android:layout_height="@dimen/provision_startup_logo_height_thirteen"
-                    android:src="@drawable/provision_logo_image_lite" />
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/provision_text_logo_image_lite" />
 
                 <TextView
                     android:id="@+id/system_state_text"
