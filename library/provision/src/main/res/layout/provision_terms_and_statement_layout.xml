@@ -52,7 +52,8 @@
                 android:textColor="@color/provision_list_description_color"
                 android:textSize="@dimen/provision_page_checkbox_agree_text_size"
                 android:visibility="gone"
-                android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"/>
+                android:paddingStart="@dimen/provision_page_checkbox_agree_margin_end"
+                />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

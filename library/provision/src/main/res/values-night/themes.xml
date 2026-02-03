@@ -30,7 +30,9 @@
 
         <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
         <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
-        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_light</item>
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_dark</item>
+
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Dark.OS2</item>
 
         <item name="android:listDivider">@null</item>
         <item name="android:windowTranslucentStatus">true</item>

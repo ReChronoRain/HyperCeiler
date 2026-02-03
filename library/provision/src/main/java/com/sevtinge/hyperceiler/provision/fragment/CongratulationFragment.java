@@ -19,31 +19,22 @@
 package com.sevtinge.hyperceiler.provision.fragment;
 
 import android.app.ActivityOptions;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.renderengine.GlowController;
 import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
-import com.sevtinge.hyperceiler.provision.utils.ActivityOptionsUtils;
-import com.sevtinge.hyperceiler.provision.utils.BlurUtils;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
 import com.sevtinge.hyperceiler.provision.utils.Utils;
 
@@ -59,7 +50,6 @@ import fan.provision.OobeUtils;
 import fan.animation.Folme;
 import fan.core.utils.MiuiBlurUtils;
 import fan.internal.utils.LiteUtils;
-import fan.os.Build;
 
 public class CongratulationFragment extends BaseFragment implements IOnFocusListener {
 
