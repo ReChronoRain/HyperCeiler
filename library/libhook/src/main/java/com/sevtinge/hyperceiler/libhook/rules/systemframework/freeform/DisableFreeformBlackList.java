@@ -18,89 +18,79 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
 
-import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
+// https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/android/RemoveFreeformRestriction.kt
 public class DisableFreeformBlackList extends BaseHook {
-
-    Class<?> mTaskCls;
-    Class<?> mMiuiMultiWindowAdapter;
-    Class<?> mMiuiMultiWindowUtils;
-
-    Class<?> mMiuiFreeformServiceImpl;
 
     @Override
     public void init() {
-        if (isMoreAndroidVersion(36)) {
-            mMiuiFreeformServiceImpl = findClassIfExists("com.android.server.wm.MiuiFreeformServiceImpl");
-
-            IMethodHook clearHook = new IMethodHook() {
-                @Override
-                public void after(AfterHookParam param) {
-                    List<String> blackList = (List<String>) param.getResult();
-                    if (blackList != null) blackList.clear();
-                    param.setResult(blackList);
-                }
-            };
-            hookAllMethods(mMiuiFreeformServiceImpl, "getFreeformBlackList", clearHook);
-            hookAllMethods(mMiuiFreeformServiceImpl, "setFreeformBlackList", new IMethodHook() {
-                @Override
-                public void before(BeforeHookParam param) {
-                    List<String> blackList = new ArrayList<>();
-                    blackList.add("ab.cd.xyz");
-                    param.getArgs()[0] = blackList;
-                }
-            });
-
-            findAndHookMethod(mMiuiFreeformServiceImpl, "isForceResizeable", returnConstant(true));
-            findAndHookMethod(mMiuiFreeformServiceImpl, "isSupportFreeFormMultiTask", String.class, returnConstant(true));
-        } else {
-
-            mMiuiMultiWindowAdapter = findClassIfExists("android.util.MiuiMultiWindowAdapter");
-            mMiuiMultiWindowUtils = findClassIfExists("android.util.MiuiMultiWindowUtils");
-
-            IMethodHook clearHook = new IMethodHook() {
-                @Override
-                public void after(AfterHookParam param) {
-                    List<String> blackList = (List<String>) param.getResult();
-                    if (blackList != null) blackList.clear();
-                    param.setResult(blackList);
-                }
-            };
-            hookAllMethods(mMiuiMultiWindowAdapter, "getFreeformBlackList", clearHook);
-            hookAllMethods(mMiuiMultiWindowAdapter, "getFreeformBlackListFromCloud", clearHook);
-            hookAllMethods(mMiuiMultiWindowAdapter, "setFreeformBlackList", new IMethodHook() {
-                @Override
-                public void before(BeforeHookParam param) {
-                    List<String> blackList = new ArrayList<>();
-                    blackList.add("ab.cd.xyz");
-                    param.getArgs()[0] = blackList;
-                }
-            });
-
-            findAndHookMethod(mMiuiMultiWindowUtils, "isForceResizeable", returnConstant(true));
-            findAndHookMethod(mMiuiMultiWindowUtils, "supportFreeform", returnConstant(true));
-        }
-        // 强制所有活动设为可以调整大小
-        try {
-            mTaskCls = findClassIfExists("com.android.server.wm.Task");
-            findAndHookMethod(mTaskCls, "isResizeable", returnConstant(true));
-        } catch (Throwable t) {
-            XposedLog.e(TAG, "DisableFreeformBlackList: hook isResizeable failed", t);
+        Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
+        if (activityTaskManager != null) {
+            hookAllMethods(activityTaskManager, "supportsSplitScreen", returnConstant(true));
         }
 
-        setResReplacement("android", "array", "freeform_black_list", R.array.miui_freeform_black_list);
-        setResReplacement("android.miui", "array", "freeform_black_list", R.array.miui_freeform_black_list);
-        setResReplacement("com.miui.rom", "array", "freeform_black_list", R.array.miui_freeform_black_list);
+        Class<?> taskCls = findClassIfExists("com.android.server.wm.Task");
+        if (taskCls != null) {
+            hookAllMethods(taskCls, "isResizeable", returnConstant(true));
+        }
+
+        Class<?> atmService = findClassIfExists("com.android.server.wm.ActivityTaskManagerService");
+        if (atmService != null) {
+            hookAllMethods(atmService, "retrieveSettings", new IMethodHook() {
+                @Override
+                public void after(AfterHookParam param) {
+                    setBooleanField(param.getThisObject(), "mDevEnableNonResizableMultiWindow", true);
+                }
+            });
+        }
+
+        Class<?> settingsObserver = findClassIfExists("com.android.server.wm.WindowManagerService$SettingsObserver");
+        if (settingsObserver != null) {
+            hookAllMethods(settingsObserver, "updateDevEnableNonResizableMultiWindow", returnConstant(null));
+        }
+
+        Class<?> miuiMultiWindowAdapter = findClassIfExists("android.util.MiuiMultiWindowAdapter");
+        if (miuiMultiWindowAdapter != null) {
+            String[] blackListFields = {
+                    "FREEFORM_BLACK_LIST",
+                    "ABNORMAL_FREEFORM_BLACK_LIST",
+                    "START_FROM_FREEFORM_BLACK_LIST_ACTIVITY",
+                    "FOREGROUND_PIN_APP_BLACK_LIST"
+            };
+            for (String fieldName : blackListFields) {
+                try {
+                    setStaticObjectField(miuiMultiWindowAdapter, fieldName, new ArrayList<String>());
+                } catch (Throwable ignored) {
+                }
+            }
+
+            String[] blackListMethods = {
+                    "getFreeformBlackList",
+                    "getFreeformBlackListFromCloud",
+                    "getAbnormalFreeformBlackList",
+                    "getAbnormalFreeformBlackListFromCloud",
+                    "getStartFromFreeformBlackList",
+                    "getStartFromFreeformBlackListFromCloud",
+                    "getForegroundPinAppBlackList",
+                    "getForegroundPinAppBlackListFromCloud"
+            };
+            for (String methodName : blackListMethods) {
+                hookAllMethods(miuiMultiWindowAdapter, methodName, returnConstant(new ArrayList<String>()));
+            }
+        }
+
+        Class<?> miuiMultiWindowUtils = findClassIfExists("android.util.MiuiMultiWindowUtils");
+        if (miuiMultiWindowUtils != null) {
+            hookAllMethods(miuiMultiWindowUtils, "isForceResizeable", returnConstant(true));
+            hookAllMethods(miuiMultiWindowUtils, "supportFreeform", returnConstant(true));
+        }
     }
 }
