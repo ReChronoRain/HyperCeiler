@@ -22,6 +22,7 @@ import android.content.ComponentName
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational
+import com.sevtinge.hyperceiler.libhook.utils.api.IS_INTERNATIONAL_BUILD
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -59,7 +60,7 @@ object DisableHideApp : HomeBaseHookNew() {
 
 
     override fun initBase() {
-        if (isInternational()) return
+        if (IS_INTERNATIONAL_BUILD) return
 
         loadClass("com.miui.home.launcher.AppFilter").constructorFinder()
             .first().createHook {

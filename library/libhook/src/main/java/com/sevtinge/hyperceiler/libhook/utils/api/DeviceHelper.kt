@@ -29,6 +29,8 @@ import android.os.Build
 import android.os.Process
 import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAsOrNull
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
@@ -37,6 +39,14 @@ import java.nio.charset.Charset
 import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
+
+val IS_TABLET by lazy {
+    clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_TABLET") ?: false
+}
+
+val IS_INTERNATIONAL_BUILD by lazy {
+    clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_INTERNATIONAL_BUILD") ?: false
+}
 
 /**
  * 设备信息工具类，整合了设备硬件信息、小米设备判断、系统版本判断等功能
