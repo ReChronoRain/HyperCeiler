@@ -14,3 +14,4 @@ local.properties
 /app/debug
 signing.properties
 /.kotlin
+/library/hook
