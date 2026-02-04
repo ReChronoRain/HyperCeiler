@@ -29,7 +29,6 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.json.JSONObject
-import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -50,7 +49,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     private val methodA by lazy<List<Method>> {
         DexKit.findMemberList("MA") { bridge ->
             // 改动日志:
-            // 现在这个查找方式直接兼容 1.5 - 2.0
+            // 现在这个查找方式直接兼容 1.5 - 2.3+
             // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
             // 1.7.5.0.4 之后，类名迁移，内部文件改动较大
             // 合并缓存，现在只需查询一次即可获取全部 6 个需要 Hook 的方法，且不会出现多余的方法 (2025.1.8)
@@ -119,7 +118,20 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     private val cloudA by lazy<Method?> {
         DexKit.findMember("CA") { bridge ->
-            bridge.findClass {
+            // 2.3.0.0.9 起 TAG 已混淆
+            bridge.findMethod {
+                matcher {
+                    addCaller {
+                        addInvoke("Ljava/util/concurrent/locks/ReentrantLock;->lock()V")
+                        addInvoke("Ljava/lang/Object;->equals(Ljava/lang/Object;)Z")
+                    }
+                    paramCount = 2
+                }
+            }.single {
+                it.paramTypes[0] == it.returnType
+            }
+
+            /*bridge.findClass {
                 matcher {
                     addUsingString(
                         "PhotoWatermarkRepository",
@@ -129,13 +141,10 @@ object UnlockCustomPhotoFrames : BaseHook() {
             }.findMethod {
                 matcher {
                     // 2.2.0.8 开始已混淆此字符串
-                    /*addUsingString(
-                        "https://www.baidu.com",
-                        StringMatchType.Contains
-                    )*/
+                    // addUsingString("https://www.baidu.com", StringMatchType.Contains)
                     addInvoke("Ljava/net/URL;->openConnection()Ljava/net/URLConnection;")
                 }
-            }.single()
+            }.single()*/
         }
     }
 

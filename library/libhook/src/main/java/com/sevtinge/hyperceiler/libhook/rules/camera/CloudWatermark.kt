@@ -31,8 +31,8 @@ import java.lang.reflect.Modifier
 // thank HolyBear
 object CloudWatermark : BaseHook() {
 
-    private val cloudMethod by lazy {
-        // 仅支持 6.2 及以上版本，用于强制获取云下发的新水印内容
+    private val cloudOld by lazy {
+        // 仅支持 6.2 版本，用于强制获取云下发的新水印内容
         DexKit.findMember("cloud") {
             it.findMethod {
                 searchPackages("com.xiaomi.camera")
@@ -47,9 +47,22 @@ object CloudWatermark : BaseHook() {
             }.single()
         } as Method?
     }
+    private val cloudMethod by lazy {
+        // 仅支持 6.3 及以上版本，用于强制获取云下发的新水印内容
+        DexKit.findMember("cloud") {
+            it.findMethod {
+                searchPackages("com.xiaomi.camera")
+                matcher {
+                    addUsingField("Landroid/os/Build;->DEVICE:Ljava/lang/String;")
+                    returnType = "boolean"
+                    modifiers = Modifier.FINAL
+                }
+            }.single()
+        } as Method?
+    }
 
     private val cloudDelete by lazy {
-        // 仅支持 6.2 及以上版本，用于强制获取云下发的新水印内容
+        // 仅支持 6.2 及以上版本，用于阻止删除已有的水印内容
         DexKit.findMember("deleteCloud") {
             it.findClass {
                 matcher {
@@ -58,6 +71,7 @@ object CloudWatermark : BaseHook() {
             }.findMethod {
                 matcher {
                     addInvoke("Ljava/util/List;->isEmpty()Z")
+                    addInvoke("Ljava/lang/Boolean;->booleanValue()Z")
                     returnType = "void"
                 }
             }.single()
@@ -65,13 +79,16 @@ object CloudWatermark : BaseHook() {
     }
 
     override fun init() {
-        if (cloudMethod == null) {
-            XposedLog.d(TAG, lpparam.packageName, "maybe not support this version")
-            return
-        }
-
-        cloudMethod?.createHook {
-            returnConstant(true)
+        runCatching {
+            cloudMethod?.createHook {
+                returnConstant(true)
+            }
+        }.recoverCatching {
+            cloudOld?.createHook {
+                returnConstant(true)
+            }
+        }.onFailure {
+            XposedLog.d(TAG, packageName, "maybe not support this version")
         }
 
         runCatching {
@@ -81,11 +98,7 @@ object CloudWatermark : BaseHook() {
                 }
             }
         }.onFailure {
-            XposedLog.w(
-                TAG,
-                lpparam.packageName,
-                "hook deleteCloud failed, maybe not support this version"
-            )
+            XposedLog.w(TAG, packageName, "hook deleteCloud failed, maybe not support this version")
         }
 
         JSONObject::class.java.methodFinder()
@@ -96,7 +109,7 @@ object CloudWatermark : BaseHook() {
                     // 忽略时间和机型限制
                     val limitation = it.args[0] as String
                     if (limitation.contains("limitation")) {
-                        XposedLog.d(TAG, lpparam.packageName, "block limitation optJSONObject")
+                        XposedLog.d(TAG, packageName, "block limitation optJSONObject")
                         it.result = null
                     }
                 }
