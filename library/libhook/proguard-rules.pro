@@ -21,22 +21,34 @@
 #-renamesourcefileattribute SourceFile
 -keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
+# --- Xposed ---
+-adaptresourcefilecontents META-INF/xposed/java_init.list
+-keepattributes RuntimeVisibleAnnotations
+-keep,allowobfuscation,allowoptimization public class * extends io.github.libxposed.api.XposedModule {
+    public <init>(...);
+    public void onPackageLoaded(...);
+    public void onSystemServerLoaded(...);
+}
+-keep,allowoptimization,allowobfuscation @io.github.libxposed.api.annotations.* class * {
+    @io.github.libxposed.api.annotations.BeforeInvocation <methods>;
+    @io.github.libxposed.api.annotations.AfterInvocation <methods>;
+}
+
 # --- Other ---
 -keep class com.hchen.superlyricapi.** { *; }
 -keep class org.luckypray.dexkit.** { *; }
 -keep class org.lsposed.** { *; }
--keep class io.github.libxposed.** { *; }
 -keep class io.github.kyuubiran.ezxhelper.** { *; }
 
 # --- HyperCeiler Core ---
 -keep class com.sevtinge.hyperceiler.libhook.app.** { *; }
--keep class com.sevtinge.hyperceiler.libhook.appbase.** { *; }
--keep class com.sevtinge.hyperceiler.libhook.base.** { *; }
 -keep class com.sevtinge.hyperceiler.libhook.rules.** { *; }
 -keep class com.sevtinge.hyperceiler.libhook.safecrash.** { *; }
-
--keep class com.sevtinge.hyperceiler.libhook.base.XposedInitEntry { *; }
 -keep class * extends com.sevtinge.hyperceiler.libhook.base.BaseHook { <init>(...); }
 
 # --- Tool ---
--keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.res.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.** { *; }

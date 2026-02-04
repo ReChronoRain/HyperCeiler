@@ -85,7 +85,7 @@ android {
     packaging {
         resources {
             merges += listOf("META-INF/xposed/*")
-            excludes += listOf("/kotlin/**", "/*.txt", "/*.bin", "/*.json")
+            excludes += listOf("**")
         }
         dex {
             useLegacyPackaging = true
