@@ -118,4 +118,6 @@
     <string name="notes_unlock_ai_mode_2">Phiên bản mới</string>
     <string name="mode_phone">Điện thoại</string>
     <string name="mode_pad">Pad</string>
+    <string name="misound_bluetooth_type_none">Gốc</string>
+    <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
 </resources>

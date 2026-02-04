@@ -1625,4 +1625,21 @@
     <string name="system_ui_status_bar_hide_icon_desc">Cần chọn thêm phạm vi “Chụp màn hình” để có hiệu lực</string>
     <string name="gallery_longer_trashbin_time">Kéo dài thời gian lưu giữ nội dung đã xóa gần đây lên 365 ngày</string>
     <string name="gallery_longer_trashbin_time_desc">Tính năng thử nghiệm, chỉ hỗ trợ người dùng Trung Quốc Đại lục.</string>
+    <string name="help_current_system_version">Phiên bản hệ thống hiện tại của bạn là:</string>
+    <string name="help_full_support_desc">Phiên bản ứng dụng hiện tại hoàn toàn tương thích với các phiên bản hệ thống sau:</string>
+    <string name="help_support_version_desc_5">Phiên bản hệ thống hiện tại không tương thích.</string>
+    <string name="system_ui_control_center_media_control_progress_thumb">Kiểu nút thanh tiến trình đa phương tiện</string>
+    <string name="system_ui_control_center_media_control_progress_thumb_ori">Đường thẳng đứng</string>
+    <string name="system_ui_control_center_media_control_progress_thumb_non">Ẩn</string>
+    <string name="mediaeditor_unlock_cloud_custom_photo_desc">Chỉ hỗ trợ các phiên bản 2.0.9.0.6 trở lên và có thể bị ảnh hưởng bởi cấu hình Xiaomi Cloud Control.</string>
+    <string name="security_center_disable_safepay_auto_check">Tắt tính năng kiểm tra tự động cho các ứng dụng</string>
+    <string name="weather_unlock_blur_title">Mở khóa các vật liệu tiên tiến toàn cầu</string>
+    <string name="weather_unlock_blur_desc">Chỉ một số phiên bản nhất định được hỗ trợ và thiết bị cần chạy hệ điều hành HyperOS3 trở lên</string>
+    <string name="misound_bluetooth_category">Hiệu ứng âm thanh</string>
+    <string name="misound_bluetooth_lock_selection">Khóa lựa chọn hiệu ứng âm thanh</string>
+    <string name="misound_bluetooth_lock_selection_desc">Không nên chuyển đổi hiệu ứng âm thanh khi đang kết nối tai nghe</string>
+    <string name="misound_bluetooth_remember_device">Nhớ hiệu ứng âm thanh của thiết bị</string>
+    <string name="misound_bluetooth_remember_device_desc">Nhớ cài đặt âm thanh độc lập cho từng thiết bị</string>
+    <string name="misound_bluetooth_default_effect">Hiệu ứng âm thanh mặc định</string>
+    <string name="phrase">Bảng nhớ tạm và các thuật ngữ thông dụng</string>
 </resources>
