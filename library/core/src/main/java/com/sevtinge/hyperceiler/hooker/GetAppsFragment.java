@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isLargeUI;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import androidx.preference.EditTextPreference;
 import androidx.preference.SwitchPreference;
@@ -49,7 +49,7 @@ public class GetAppsFragment extends DashboardFragment {
         mManufacturer = findPreference("prefs_key_market_device_modify_manufacturer");
         mRiskCheck = findPreference("prefs_key_market_bypass_risk_check");
 
-        if (isLargeUI()) {
+        if (isPad()) {
             setFuncHint(mRiskCheck, 1);
         }
 

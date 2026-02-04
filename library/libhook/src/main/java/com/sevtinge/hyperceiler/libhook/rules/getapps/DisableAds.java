@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.getapps;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isLargeUI;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
@@ -36,7 +36,7 @@ public class DisableAds extends BaseHook {
         Class<?> detailSplashAdManagerCls = findClassIfExists("com.xiaomi.market.ui.splash.DetailSplashAdManager");
         Class<?> splashManagerCls = findClassIfExists("com.xiaomi.market.ui.splash.SplashManager");
 
-        if (isLargeUI()) {
+        if (isPad()) {
             appDetailV3Cls = findClassIfExists("com.xiaomi.market.retrofit.response.bean.AppDetailV3");
         }
 
@@ -102,7 +102,7 @@ public class DisableAds extends BaseHook {
             });
         }
 
-        if (isLargeUI()) return;
+        if (isPad()) return;
         for (String method : new String[]{
             "canRequestSplashAd",
             "isRequesting",
