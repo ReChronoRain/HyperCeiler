@@ -160,25 +160,8 @@ object DeviceHelper {
             InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_TABLET") as Boolean
         }
 
-        private val isFold: Boolean by lazy {
-            InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_Fold") as Boolean
-        }
-
         private val isInternationalBuild: Boolean by lazy {
             InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_INTERNATIONAL_BUILD") as Boolean
-        }
-
-        /**
-         * 判断是否为大屏设备，仅支持小米设备
-         * @return true 代表是大屏设备，false 代表不是大屏设备
-         */
-        @JvmStatic
-        fun isLargeUI(): Boolean {
-            return runCatching {
-                isFold || isTablet
-            }.getOrElse {
-                isPad()
-            }
         }
 
         /**
@@ -316,6 +299,13 @@ object DeviceHelper {
         fun getBaseOs(): String = getProp("ro.build.version.base_os").ifEmpty { "null" }
 
         @JvmStatic
+        fun getXmsVersion(): String = runCatching {
+                getProp("persist.sys.xms.version")
+            }.recoverCatching {
+                getProp("ro.mi.xms.version.incremental")
+            }.getOrElse { "null" }
+
+        @JvmStatic
         fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
 
         @JvmStatic
@@ -386,10 +376,10 @@ object DeviceHelper {
          */
         @JvmStatic
         fun isMoreSmallVersion(code: Int, osVersion: Float): Boolean {
-            return if (isMoreHyperOSVersion(osVersion)) {
+            return if (hyperOSSDK == osVersion) {
                 smallVersion >= code
             } else {
-                false
+                hyperOSSDK > osVersion
             }
         }
 

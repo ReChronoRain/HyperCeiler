@@ -30,7 +30,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.g
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getModelName;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getSoc;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational;
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isLargeUI;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
@@ -41,6 +40,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getRootGroupsInfo;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getXmsVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.LOGGER_CHECKER_ERR_CODE;
 
@@ -100,7 +100,6 @@ public class DeviceInfoBuilder {
             propertiesDevice.put("Soc", getSoc());
             propertiesDevice.put("ModDevice", getModDevice());
             propertiesDevice.put("isPad", String.valueOf(isPad()));
-            propertiesDevice.put("LargeScreen", String.valueOf(isLargeUI()));
             propertiesDevice.put("FingerPrint", getFingerPrint());
             propertiesDevice.put("Locale", getLocale());
             propertiesDevice.put("Language", getLanguage());
@@ -113,6 +112,7 @@ public class DeviceInfoBuilder {
             propertiesSystem.put("AndroidSdkVersion", String.valueOf(getAndroidVersion()));
             propertiesSystem.put("HyperOsVersion", String.valueOf(getHyperOSVersion()));
             propertiesSystem.put("HyperOsSmallVersion", String.valueOf(getSmallVersion()));
+            propertiesSystem.put("SOTAVersion", getXmsVersion());
             propertiesSystem.put("SystemVersion", getSystemVersionIncremental());
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
             propertiesSystem.put("Host", getHost());
