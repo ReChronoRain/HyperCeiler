@@ -91,11 +91,17 @@ abstract class MusicBaseHook : BaseHook() {
     private val isClickClock by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
     }
+    private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
+
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+    }
 
     private val circlePaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
     }
 
+    // 缓存资源 ID
     private val resourceIds by lazy {
         val modRes = AppsTool.getModuleRes(context)
         ResourceIds(
@@ -440,10 +446,10 @@ abstract class MusicBaseHook : BaseHook() {
 
         val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
-            textInfo = IslandApi.TextInfo(title = leftText)
+            textInfo = IslandApi.TextInfo(title = leftText, narrowFont = narrowFontMode)
         )
         val right = IslandApi.imageTextInfo(
-            textInfo = IslandApi.TextInfo(title = rightText.orEmpty()),
+            textInfo = IslandApi.TextInfo(title = rightText.orEmpty(), narrowFont = narrowFontMode),
             type = 2
         )
         val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
@@ -542,6 +548,9 @@ abstract class MusicBaseHook : BaseHook() {
      */
     private fun createEmptyBitmapFallback(): Bitmap = createBitmap(1, 1)
 
+    /**
+     * 将 Bitmap 裁剪为圆形
+     */
     /**
      * 将 Bitmap 裁剪为圆形
      */
