@@ -52,7 +52,7 @@ public class Application extends android.app.Application implements XposedServic
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        PrefsUtils.mSharedPreferences = PrefsUtils.getSharedPrefs(base);
+        PrefsUtils.mSharedPreferences = PrefsUtils.getSharedPrefs(base, true);
         XposedServiceHelper.registerListener(this);
     }
 
