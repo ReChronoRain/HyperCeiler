@@ -18,11 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.prefs;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class PrefsMap<K, V> extends HashMap<K, V> {
+public class PrefsMap<K, V> extends ConcurrentHashMap<K, V> {
     public Object getObject(String key, Object defValue) {
         return get(key) == null ? defValue : get(key);
     }

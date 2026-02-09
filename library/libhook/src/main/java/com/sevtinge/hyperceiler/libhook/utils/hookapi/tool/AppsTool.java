@@ -38,7 +38,6 @@ import android.graphics.Shader;
 import android.net.Uri;
 import android.os.FileObserver;
 import android.os.UserHandle;
-import android.util.Log;
 import android.util.LruCache;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -72,6 +71,10 @@ public class AppsTool {
     // 获取 Android 系统
     public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
     private static final String TAG = "AppsTool";
+
+    private static FileObserver sFileObserver = null;
+    private static final Executor sPermissionExecutor = Executors.newSingleThreadExecutor();
+
 
     public static LruCache<String, Bitmap> memoryCache = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
         @Override
@@ -224,11 +227,9 @@ public class AppsTool {
         title.getPaint().setShader(shimmer);
     }
 
-    // Permissions 权限
     @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
     public static void fixPermissionsAsync(Context context) {
-        Executor executor = Executors.newSingleThreadExecutor();
-        executor.execute(() -> {
+        sPermissionExecutor.execute(() -> {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException e) {
@@ -251,15 +252,15 @@ public class AppsTool {
 
     public static void registerFileObserver(Context context) {
         try {
-            FileObserver mFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
+            sFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
                 @Override
                 public void onEvent(int event, String path) {
                     AppsTool.fixPermissionsAsync(context);
                 }
             };
-            mFileObserver.startWatching();
+            sFileObserver.startWatching();
         } catch (Throwable t) {
-            Log.e("prefs", "Failed to start FileObserver!");
+            AndroidLog.e(TAG, "Failed to start FileObserver!");
         }
     }
 

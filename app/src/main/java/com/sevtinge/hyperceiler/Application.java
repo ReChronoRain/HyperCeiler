@@ -104,6 +104,8 @@ public class Application extends android.app.Application implements XposedServic
             ScopeManager.setService(service);
             PrefsUtils.remotePrefs =
                 (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
+
+            PrefsUtils.syncAllToRemotePrefs();
             reloadListener.run();
         }
     }
