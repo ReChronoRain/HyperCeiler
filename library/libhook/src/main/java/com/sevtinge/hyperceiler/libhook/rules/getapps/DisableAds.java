@@ -27,8 +27,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
-;
-
 public class DisableAds extends BaseHook {
     @Override
     public void init() {
