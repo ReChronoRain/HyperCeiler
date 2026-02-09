@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public class CorePatchHelper {
@@ -40,12 +39,7 @@ public class CorePatchHelper {
     }
 
     public static Class<?> findClass(String className, ClassLoader classLoader) {
-        try {
-            return Class.forName(className, false, classLoader);
-        } catch (Throwable e) {
-            XposedLog.e("CorePatchHelper", "system", "findClass: " + className + " hook failed", e);
-        }
-        return null;
+        return EzxHelpUtils.findClassIfExists(className, classLoader);
     }
 
     public static void hookAllConstructors(String className, IMethodHook callback) {

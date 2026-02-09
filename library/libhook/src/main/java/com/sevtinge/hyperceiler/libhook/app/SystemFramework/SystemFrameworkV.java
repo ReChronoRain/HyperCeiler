@@ -94,7 +94,8 @@ public class SystemFrameworkV extends BaseLoad {
 
         // 核心破解
         initHook(BypassSignCheckForT.INSTANCE,
-            (mPrefsMap.getBoolean("system_framework_core_patch_auth_creak") || mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity"))
+            mPrefsMap.getBoolean("system_framework_core_patch_disable_integrity")
+                && !mPrefsMap.getBoolean("system_framework_core_patch_auth_creak")
                 && mPrefsMap.getBoolean("system_framework_core_patch_enable")
         );
         initHook(new BypassIsolationViolation(), mPrefsMap.getBoolean("system_framework_core_patch_bypass_isolation_violation"));
