@@ -13,6 +13,7 @@
         android:id="@+id/scrollable_view_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingHorizontal="4dp"
         app:scrollableView="@id/recyclerView">
 
         <!-- 日志列表 -->
@@ -55,7 +56,7 @@
                     android:id="@+id/spinnerLogType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:title="日志类型:"
+                    android:title="@string/log_type_label"
                     android:background="@null" />
 
                 <!-- 级别过滤器 -->
@@ -63,7 +64,7 @@
                     android:id="@+id/spinnerLevel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:title="级别:"
+                    android:title="@string/log_level_label"
                     android:background="@null" />
 
                 <!-- 模块过滤器 -->
@@ -71,7 +72,7 @@
                     android:id="@+id/spinnerModule"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:title="标签:"
+                    android:title="@string/log_tag_label"
                     android:background="@null" />
 
             </LinearLayout>

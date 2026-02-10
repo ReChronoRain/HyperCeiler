@@ -154,11 +154,13 @@ public class LogManager {
 
         AndroidLog.setLogListener((level, tag, message) -> {
             try {
-                LogEntry entry = new LogEntry(level, "App", message, tag, true);
+                String finalLevel = "Crash".equals(tag) ? "C" : level;
+                LogEntry entry = new LogEntry(finalLevel, "App", message, tag, true);
                 addLog(entry);
             } catch (Throwable ignored) {
             }
         });
+
 
         // 添加初始化日志
         addLog(new LogEntry("I", "LogManager", "LogManager initialized", "LogManager", true));
@@ -516,7 +518,6 @@ public class LogManager {
 
     private LogEntry parseLogLine(String line) {
         try {
-            // 提取第一行用于解析元数据
             String firstLine = line.contains("\n") ? line.substring(0, line.indexOf("\n")) : line;
             Matcher matcher = LOG_LINE_PATTERN.matcher(firstLine);
 
@@ -534,6 +535,10 @@ public class LogManager {
                 }
 
                 long timestamp = LOG_TIME_FORMAT.parse(timeStr).getTime();
+
+                if ("Crash".equals(tag)) {
+                    level = "C";
+                }
 
                 return new LogEntry(timestamp, level, "App", message, tag, true, uid, pid, tid);
             }

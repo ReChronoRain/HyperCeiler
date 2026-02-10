@@ -13,7 +13,7 @@ fragment = "1.8.9"
 recyclerview = "1.4.0"
 
 # UI Libraries
-miuix = "1.0.10.5"
+miuix = "1.0.10.5.1"
 
 # Xposed & Hooks
 xposed-api = "100-1.0.3"

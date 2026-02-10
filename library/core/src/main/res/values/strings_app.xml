@@ -142,6 +142,9 @@
     <string name="success">Success</string>
     <string name="failed">Failed</string>
     <string name="development">Developer options</string>
+    <string name="development_tools">Debug</string>
+    <string name="development_system">Manager</string>
+    <string name="development_cache">Cache &amp; Log</string>
     <string name="development_ui">UI</string>
     <string name="development_debug_info">Debug info</string>
     <string name="development_prefs">Share preference</string>
@@ -195,7 +198,7 @@
     <string name="about_github">Source code</string>
     <string name="about_github_desc">This project is open source based on the AGPL-3.0 license</string>
     <string name="about_offical">Official website</string>
-    <string name="about_crwd">Crowdin</string>
+    <string name="about_crwd">Translate</string>
     <string name="about_crwd_desc">Help us translate HyperCeiler into you language</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="about_protocol">User Agreement</string>

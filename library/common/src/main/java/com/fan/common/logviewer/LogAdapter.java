@@ -98,7 +98,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     }
 
     private void extractAvailableList() {
-
         mLevelList.clear();
         mModuleList.clear();
 
@@ -111,7 +110,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             if (entry != null) {
                 if (entry.getLevel() != null) {
                     switch (entry.getLevel()) {
-                        case "V" -> levelSet.add(mContext.getString(R.string.log_level_verbose));
+                        case "C" -> levelSet.add(mContext.getString(R.string.log_level_crash));
                         case "D" -> levelSet.add(mContext.getString(R.string.log_level_debug));
                         case "I" -> levelSet.add(mContext.getString(R.string.log_level_info));
                         case "W" -> levelSet.add(mContext.getString(R.string.log_level_warn));
@@ -231,7 +230,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     public void setLevelFilter(String level) {
         if (level != null) {
             String all = mContext.getString(R.string.log_filter_all);
-            String verbose = mContext.getString(R.string.log_level_verbose);
+            String crash = mContext.getString(R.string.log_level_crash);
             String debug = mContext.getString(R.string.log_level_debug);
             String info = mContext.getString(R.string.log_level_info);
             String warn = mContext.getString(R.string.log_level_warn);
@@ -239,8 +238,8 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
             if (level.equals(all)) {
                 mSelectedLevel = "ALL";
-            } else if (level.equals(verbose)) {
-                mSelectedLevel = "V";
+            } else if (level.equals(crash)) {
+                mSelectedLevel = "C";
             } else if (level.equals(debug)) {
                 mSelectedLevel = "D";
             } else if (level.equals(info)) {
@@ -255,6 +254,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         }
         performFiltering();
     }
+
 
     // 模块过滤
     public void setModuleFilter(String module) {
@@ -298,7 +298,7 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     @Override
     public int getItemViewGroup(int position) {
-        return 0;
+        return position;
     }
 
     @Override
@@ -341,18 +341,17 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     static class LogViewHolder extends RecyclerView.ViewHolder {
 
-        private final View mLevelIndicator;
-
         private final TextView mTimeTextView;
         private final TextView mLevelTextView;
         private final TextView mModuleTextView;
         private final TextView mMessageTextView;
         private final StringBuilder mTempBuilder = new StringBuilder();
 
+        private static final String[] LEVEL_LABELS = {"C", "E", "W", "I", "D"};
+        private static final String[] LEVEL_DISPLAY = {"CRASH", "ERROR", "WARN", "INFO", "DEBUG"};
+
         public LogViewHolder(@NonNull View itemView) {
             super(itemView);
-            mLevelIndicator = itemView.findViewById(com.fan.common.R.id.level_indicator);
-
             mTimeTextView = itemView.findViewById(com.fan.common.R.id.textTime);
             mLevelTextView = itemView.findViewById(com.fan.common.R.id.textLevel);
             mModuleTextView = itemView.findViewById(com.fan.common.R.id.textModule);
@@ -360,53 +359,80 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         }
 
         public void bind(LogEntry logEntry, String searchKeyword) {
-            mLevelIndicator.setBackgroundColor(logEntry.getColor());
-
+            // 时间
             mTempBuilder.setLength(0);
             mTempBuilder.append(logEntry.getFormattedTime()).append(" | ");
             mTimeTextView.setText(mTempBuilder);
 
-            mLevelTextView.setText(logEntry.getLevel());
+            // 标签
             mModuleTextView.setText(logEntry.getTag());
 
-            // 设置消息
+            // 级别徽标
+            String level = logEntry.getLevel();
+            String displayLevel = level;
+            for (int i = 0; i < LEVEL_LABELS.length; i++) {
+                if (LEVEL_LABELS[i].equals(level)) {
+                    displayLevel = LEVEL_DISPLAY[i];
+                    break;
+                }
+            }
+            mLevelTextView.setText(displayLevel);
+            mLevelTextView.getBackground().setTint(getLevelBadgeColor(level));
+            mLevelTextView.setTextColor(getLevelTextColor(level));
+
+            // 消息（最多3行）
             String message = logEntry.getMessage();
+            if ("C".equals(level)) {
+                mMessageTextView.setTextColor(0xFFD32F2F);
+            } else {
+                mMessageTextView.setTextColor(mMessageTextView.getContext()
+                    .getColor(com.fan.common.R.color.item_view_title_color_light));
+            }
+
             if (!TextUtils.isEmpty(searchKeyword) && message != null &&
                 message.toLowerCase().contains(searchKeyword.toLowerCase())) {
                 mMessageTextView.setText(highlightText(message, searchKeyword));
             } else {
                 mMessageTextView.setText(message);
             }
+        }
 
-            // 处理换行显示
-            boolean isNewLine = logEntry.isNewLine();
-            mMessageTextView.setSingleLine(!isNewLine);
-            if (isNewLine) {
-                mMessageTextView.setMaxLines(10);
-                mMessageTextView.setEllipsize(null);
-            } else {
-                mMessageTextView.setEllipsize(TextUtils.TruncateAt.END);}
+        private int getLevelBadgeColor(String level) {
+            return switch (level) {
+                case "C" -> 0xFFD32F2F;
+                case "E" -> 0x40F44336;
+                case "W" -> 0x40FFC107;
+                case "I" -> 0x404CAF50;
+                case "D" -> 0x402196F3;
+                default -> 0x40909090;
+            };
+        }
+
+        private int getLevelTextColor(String level) {
+            return switch (level) {
+                case "C" -> 0xFFFFFFFF;
+                case "E" -> 0xFFF44336;
+                case "W" -> 0xFFFF8F00;
+                case "I" -> 0xFF388E3C;
+                case "D" -> 0xFF1976D2;
+                default -> 0xFF757575;
+            };
         }
 
         private SpannableString highlightText(String text, String keyword) {
             SpannableString spannable = new SpannableString(text);
             String lowerText = text.toLowerCase();
             String lowerKeyword = keyword.toLowerCase();
-
             int startIndex = 0;
             int keywordIndex;
-
             while ((keywordIndex = lowerText.indexOf(lowerKeyword, startIndex)) != -1) {
                 int endIndex = keywordIndex + keyword.length();
                 spannable.setSpan(
-                        new ForegroundColorSpan(sSearchHighlightColor),
-                        keywordIndex,
-                        endIndex,
-                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-                );
+                    new ForegroundColorSpan(sSearchHighlightColor),
+                    keywordIndex, endIndex,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 startIndex = endIndex;
             }
-
             return spannable;
         }
     }
