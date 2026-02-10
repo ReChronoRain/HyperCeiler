@@ -1,31 +1,27 @@
-<!-- item_log.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:clipChildren="false"
     android:gravity="center"
     android:minHeight="56dp"
-    android:orientation="horizontal"
-    android:paddingVertical="8dp"
-    android:paddingHorizontal="15dp"
-    android:clipChildren="false">
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp">
 
-    <View
-        android:id="@+id/level_indicator"
-        android:layout_width="3dp"
-        android:layout_height="match_parent"
-        android:layout_marginEnd="10dp" />
-
+    <!-- 第一行：时间+标签 | 级别徽标 -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/textMessage"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="8dp"
+            android:layout_toStartOf="@id/textLevel"
             android:orientation="horizontal">
 
             <TextView
@@ -33,47 +29,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="00:00:00"
-                android:textAlignment="textStart"
+                android:text="00:00:00 | "
                 android:textColor="?itemViewSummaryTextColor"
                 android:textSize="12sp"
                 tools:ignore="HardcodedText" />
 
-            <!-- 模块列 -->
             <TextView
                 android:id="@+id/textModule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Module"
+                android:text="Tag"
                 android:textColor="?itemViewSummaryTextColor"
                 android:textSize="12sp" />
 
         </LinearLayout>
 
-        <!-- 级别列 -->
         <TextView
             android:id="@+id/textLevel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="4dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/bg_level_badge"
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="2dp"
             android:text="I"
-            android:textAlignment="textEnd"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="?itemViewTitleTextColor"/>
-
-        <!-- 消息列 -->
-        <TextView
-            android:id="@+id/textMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/textLevel"
-            android:text="Log message content"
-            android:textColor="?itemViewTitleTextColor"
-            android:textSize="14sp" />
+            android:textAlignment="center"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
+
+    <!-- 第二行：详细日志（最多4行，加粗） -->
+    <TextView
+        android:id="@+id/textMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:text="Log message content"
+        android:textColor="?itemViewTitleTextColor"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:typeface="monospace" />
 
 </LinearLayout>

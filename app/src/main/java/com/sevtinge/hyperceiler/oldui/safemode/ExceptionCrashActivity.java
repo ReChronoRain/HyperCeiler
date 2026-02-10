@@ -81,6 +81,8 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
             "\n" + getString(R.string.safe_mode_recorder_line) + ": "  + lineNumber +
             "\n" + getString(R.string.error_time) + ": " + timestamp;
 
+        AndroidLog.e("Crash", "App Crash, log:\n" + fullMsg);
+
         CrashInfoItem versionNameView = findViewById(R.id.version_name);
         versionNameView.setValue(BuildConfig.VERSION_NAME);
         CrashInfoItem gitHashView = findViewById(R.id.git_hash);

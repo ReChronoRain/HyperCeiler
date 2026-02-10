@@ -542,15 +542,21 @@ public class XposedLogLoader {
         String level = parseLevel(line);
         String message = extractMessage(line);
         String tag = extractPackageName(message);
+
+        if (message.contains("[CrashMonitor]")) {
+            level = "C";
+        }
+
         return new LogEntry(timestamp, level, "Xposed", message, tag, true);
     }
+
 
     private String parseLevel(String line) {
         if (line.contains("[E]")) return "E";
         if (line.contains("[W]")) return "W";
         if (line.contains("[I]")) return "I";
         if (line.contains("[D]")) return "D";
-        return "V";
+        return "C";
     }
 
     private String extractMessage(String line) {
@@ -559,7 +565,7 @@ public class XposedLogLoader {
     }
 
     private String extractPackageName(String message) {
-        for (String level : new String[]{"[I]", "[D]", "[W]", "[E]", "[V]"}) {
+        for (String level : new String[]{"[I]", "[D]", "[W]", "[E]", "[C]"}) {
             int levelIndex = message.indexOf(level);
             if (levelIndex != -1) {
                 int startIndex = levelIndex + level.length();

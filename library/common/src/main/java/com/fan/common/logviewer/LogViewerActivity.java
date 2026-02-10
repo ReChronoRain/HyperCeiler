@@ -612,16 +612,71 @@ public class LogViewerActivity extends BaseActivity
     }
 
     private void showLogDetailDialog(LogEntry logEntry) {
+        View view = getLayoutInflater().inflate(com.fan.common.R.layout.dialog_log_detail, null);
+
+        TextView timeView = view.findViewById(com.fan.common.R.id.dialog_time);
+        TextView tagView = view.findViewById(com.fan.common.R.id.dialog_tag);
+        TextView levelView = view.findViewById(com.fan.common.R.id.dialog_level);
+        TextView messageView = view.findViewById(com.fan.common.R.id.dialog_message);
+
         String title = getString(com.sevtinge.hyperceiler.core.R.string.log_detail_title);
-        String message = "[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_time) + "]: " + logEntry.getFormattedTime() +"\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_level) + "]: " + logEntry.getLevel() +
-            "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_tag) + "]: " + logEntry.getTag() +
-            "\n[" + getString(com.sevtinge.hyperceiler.core.R.string.log_detail_message) + "]:\n" + logEntry.getMessage();
+        String msg = logEntry.getMessage();
+
+        // 时间
+        timeView.setText(logEntry.getFormattedTime());
+
+        // TAG
+        tagView.setText(logEntry.getTag());
+        tagView.getBackground().setTint(getLevelBadgeColor("V"));
+        levelView.setTextColor(getLevelTextColor("V"));
+
+        // 级别徽标
+        String level = logEntry.getLevel();
+        String[] labels = {"C", "E", "W", "I", "D"};
+        String[] display = {"CRASH", "ERROR", "WARN", "INFO", "DEBUG"};
+        String displayLevel = level;
+        for (int i = 0; i < labels.length; i++) {
+            if (labels[i].equals(level)) { displayLevel = display[i]; break; }
+        }
+        levelView.setText(displayLevel);
+        levelView.getBackground().setTint(getLevelBadgeColor(level));
+        levelView.setTextColor(getLevelTextColor(level));
+
+        // 完整消息
+        messageView.setText(msg);
+        if ("C".equals(level)) {
+            messageView.setTextColor(0xFFD32F2F);
+        }
+
 
         new fan.appcompat.app.AlertDialog.Builder(this)
             .setTitle(title)
-            .setMessage(message)
+            .setView(view)
             .setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss())
             .setNeutralButton(com.sevtinge.hyperceiler.core.R.string.log_copy, (dialog, which) -> copyLogToClipboard(logEntry))
             .show();
     }
+
+    private int getLevelBadgeColor(String level) {
+        return switch (level) {
+            case "C" -> 0xFFD32F2F;
+            case "E" -> 0x40F44336;
+            case "W" -> 0x40FFC107;
+            case "I" -> 0x404CAF50;
+            case "D" -> 0x402196F3;
+            default -> 0x40909090;
+        };
+    }
+
+    private int getLevelTextColor(String level) {
+        return switch (level) {
+            case "C" -> 0xFFFFFFFF;
+            case "E" -> 0xFFF44336;
+            case "W" -> 0xFFFF8F00;
+            case "I" -> 0xFF388E3C;
+            case "D" -> 0xFF1976D2;
+            default -> 0xFF757575;
+        };
+    }
+
 }

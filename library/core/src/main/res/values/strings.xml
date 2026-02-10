@@ -129,12 +129,12 @@
 
     <!-- LogViewer -->
     <string name="log_search_hint">Search logs</string>
-    <string name="log_type_label">Log type:</string>
-    <string name="log_level_label">Level:</string>
-    <string name="log_tag_label">Tag:</string>
+    <string name="log_type_label">Log type</string>
+    <string name="log_level_label">Level</string>
+    <string name="log_tag_label">Tag</string>
     <string name="log_type_app">App Log</string>
     <string name="log_type_xposed">Xposed Log</string>
-    <string name="log_filter_stats">Showing: %1$d/%2$d</string>
+    <string name="log_filter_stats">Log list (%1$d/%2$d)</string>
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
     <string name="log_menu_clear">Clear logs</string>
@@ -163,7 +163,7 @@
     <string name="log_detail_message">Details</string>
 
     <!-- Log levels -->
-    <string name="log_level_verbose" translatable="false">Verbose</string>
+    <string name="log_level_crash" translatable="false">Crash</string>
     <string name="log_level_debug" translatable="false">Debug</string>
     <string name="log_level_info" translatable="false">Info</string>
     <string name="log_level_warn" translatable="false">Warn</string>
