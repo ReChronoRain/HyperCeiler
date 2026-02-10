@@ -1,6 +1,6 @@
 [versions]
 # Build tools
-agp = "9.0.0"
+agp = "9.0.1"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -11,7 +11,7 @@ coordinatorlayout = "1.3.0"
 core = "1.17.0"
 fragment = "1.8.9"
 recyclerview = "1.4.0"
-viewpager2 = "1.0.0"
+viewpager2 = "1.1.0"
 
 # UI Libraries
 miuix = "1.0.10.9"
