@@ -98,6 +98,9 @@
     <string name="tsmclient_nfc_turning_on">正在自动开启 NFC …</string>
     <string name="tsmclient_nfc_turn_on_manually">手动开启 NFC</string>
     <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
+    <!--AICR-->
+    <string name="aicr">小米澎湃 AI 引擎</string>
+    <string name="aicr_modify_browser_copy">修改复制直达使用的浏览器</string>
     <!--Other-->
     <string name="share_center">小米妙享中心</string>
     <string name="new_task">多开</string>

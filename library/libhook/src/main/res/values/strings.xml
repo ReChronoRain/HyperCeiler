@@ -104,6 +104,9 @@
     <string name="tsmclient_nfc_turning_on">Turning on NFC automatically…</string>
     <string name="tsmclient_nfc_turn_on_manually">Turn on NFC manually</string>
     <string name="tsmclient_nfc_turn_on_failed">Failed to enable NFC automatically</string>
+    <!--AICR-->
+    <string name="aicr">Xiaomi AI Engine</string>
+    <string name="aicr_modify_browser_copy">Change the browser used for direct copy</string>
     <!--Other-->
     <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">New task</string>

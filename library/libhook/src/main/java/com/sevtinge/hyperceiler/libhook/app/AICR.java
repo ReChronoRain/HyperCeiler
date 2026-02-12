@@ -20,17 +20,13 @@ package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.rules.mirror.UnlockSendAppM;
+import com.sevtinge.hyperceiler.libhook.rules.aiengine.ChangeBrowserForAIEngine;
 
-@HookBase(targetPackage = "com.xiaomi.mirror")
-public class Mirror extends BaseLoad {
-
-    public Mirror() {
-        super(true);
-    }
+@HookBase(targetPackage = "com.xiaomi.aicr")
+public class AICR extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(UnlockSendAppM.INSTANCE, mPrefsMap.getBoolean("milink_unlock_send_app"));
+        initHook(ChangeBrowserForAIEngine.INSTANCE, mPrefsMap.getBoolean("aicr_modify_browser_copy"));
     }
 }
