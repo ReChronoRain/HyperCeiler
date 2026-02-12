@@ -1,19 +1,19 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool;
@@ -64,30 +64,26 @@ import io.github.libxposed.api.XposedModuleInterface;
 
 public class AppsTool {
 
-    // 尝试全部
-    public static final int FLAG_ALL = ContextUtils.FLAG_ALL;
-    // 仅获取当前应用
-    public static final int FLAG_CURRENT_APP = ContextUtils.FLAG_CURRENT_APP;
-    // 获取 Android 系统
-    public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
     private static final String TAG = "AppsTool";
+
+    public static final int FLAG_ALL = ContextUtils.FLAG_ALL;
+    public static final int FLAG_CURRENT_APP = ContextUtils.FLAG_CURRENT_APP;
+    public static final int FlAG_ONLY_ANDROID = ContextUtils.FlAG_ONLY_ANDROID;
+
+    public static LruCache<String, Bitmap> memoryCache = new LruCache<>(
+        (int) (Runtime.getRuntime().maxMemory() / 1024) / 2
+    ) {
+        @Override
+        protected int sizeOf(String key, Bitmap icon) {
+            return icon != null ? icon.getAllocationByteCount() / 1024 : 130 * 130 * 4 / 1024;
+        }
+    };
+
+    @SuppressLint("StaticFieldLeak")
+    public static TextView mPct = null;
 
     private static FileObserver sFileObserver = null;
     private static final Executor sPermissionExecutor = Executors.newSingleThreadExecutor();
-
-
-    public static LruCache<String, Bitmap> memoryCache = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 2) {
-        @Override
-        protected int sizeOf(String key, Bitmap icon) {
-            if (icon != null) {
-                return icon.getAllocationByteCount() / 1024;
-            } else {
-                return 130 * 130 * 4 / 1024;
-            }
-        }
-    };
-    @SuppressLint("StaticFieldLeak")
-    public static TextView mPct = null;
 
     public static synchronized Context getProtectedContext(Context context) {
         return context.createDeviceProtectedStorageContext();
@@ -98,33 +94,66 @@ public class AppsTool {
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {
-        Context context = null;
         try {
-            switch (flag) {
-                case FLAG_ALL -> context = currentApplication() != null ? currentApplication() : getSystemContext();
-                case FLAG_CURRENT_APP -> context = currentApplication();
-                case FlAG_ONLY_ANDROID -> context = getSystemContext();
-            }
-            return context;
+            return switch (flag) {
+                case FLAG_ALL -> currentApplication() != null ? currentApplication() : getSystemContext();
+                case FLAG_CURRENT_APP -> currentApplication();
+                case FlAG_ONLY_ANDROID -> getSystemContext();
+                default -> null;
+            };
         } catch (Throwable ignore) {
+            return null;
         }
-        return null;
     }
 
     private static Context currentApplication() {
-        Class<?> activityThreadClass = EzxHelpUtils.findClass("android.app.ActivityThread", null);
-        return (Application) EzxHelpUtils.callStaticMethod(activityThreadClass, "currentApplication");
+        Class<?> clazz = EzxHelpUtils.findClass("android.app.ActivityThread", null);
+        return (Application) EzxHelpUtils.callStaticMethod(clazz, "currentApplication");
     }
 
     private static Context getSystemContext() {
-        Context context = null;
-        Class<?> activityThreadClass = EzxHelpUtils.findClass("android.app.ActivityThread", null);
-        Object currentActivityThread = EzxHelpUtils.callStaticMethod(activityThreadClass, "currentActivityThread");
-        if (currentActivityThread != null)
-            context = (Context) EzxHelpUtils.callMethod(currentActivityThread, "getSystemContext");
-        if (context == null)
-            context = (Context) EzxHelpUtils.callMethod(currentActivityThread, "getSystemUiContext");
+        Class<?> clazz = EzxHelpUtils.findClass("android.app.ActivityThread", null);
+        Object thread = EzxHelpUtils.callStaticMethod(clazz, "currentActivityThread");
+        if (thread == null) return null;
+
+        Context context = (Context) EzxHelpUtils.callMethod(thread, "getSystemContext");
+        if (context == null) {
+            context = (Context) EzxHelpUtils.callMethod(thread, "getSystemUiContext");
+        }
         return context;
+    }
+
+    public static boolean isDarkMode(Context context) {
+        return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+            == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    @SuppressLint("DiscouragedApi")
+    public static int getSystemBackgroundColor(Context context) {
+        int black = Color.BLACK;
+        int white = Color.WHITE;
+        try {
+            Resources res = context.getResources();
+            black = res.getColor(res.getIdentifier("black", "color", "miui"), context.getTheme());
+            white = res.getColor(res.getIdentifier("white", "color", "miui"), context.getTheme());
+        } catch (Throwable ignore) {
+        }
+        return isDarkMode(context) ? black : white;
+    }
+
+    public static void applyShimmer(TextView title) {
+        if (title.getPaint().getShader() != null) return;
+        int width = title.getResources().getDisplayMetrics().widthPixels;
+        Shader shimmer = new LinearGradient(
+            0, 0, width, 0,
+            new int[]{0xFF5DA5FF, 0xFF9B8AFB, 0xFFD176F2, 0xFFFE88B2, 0xFFD176F2, 0xFF9B8AFB},
+            new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f},
+            Shader.TileMode.REPEAT
+        );
+        Matrix matrix = new Matrix();
+        matrix.setTranslate(0, 0);
+        shimmer.setLocalMatrix(matrix);
+        title.getPaint().setShader(shimmer);
     }
 
     public static void initPct(ViewGroup container, int source) {
@@ -157,7 +186,7 @@ public class AppsTool {
                 mPct.setTextColor(ColorStateList.valueOf(Color.parseColor("#FFFFFFFF")));
                 mPct.setBackground(modRes.getDrawable(R.drawable.input_background, context.getTheme()));
             } catch (Throwable err) {
-               XposedLog.e("ShowPct", err);
+                XposedLog.e("ShowPct", err);
             }
 
             if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
@@ -201,32 +230,6 @@ public class AppsTool {
         public static int ALL = IMAGE | AUDIO | VIDEO | DOCUMENT | ARCHIVE | LINK | OTHERS;
     }
 
-    public static boolean isDarkMode(Context context) {
-        return (context.getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES;
-    }
-
-    @SuppressLint("DiscouragedApi")
-    public static int getSystemBackgroundColor(Context context) {
-        int black = Color.BLACK;
-        int white = Color.WHITE;
-        try {
-            black = context.getResources().getColor(context.getResources().getIdentifier("black", "color", "miui"), context.getTheme());
-            white = context.getResources().getColor(context.getResources().getIdentifier("white", "color", "miui"), context.getTheme());
-        } catch (Throwable ignore) {
-        }
-        return isDarkMode(context) ? black : white;
-    }
-
-    public static void applyShimmer(TextView title) {
-        if (title.getPaint().getShader() != null) return;
-        int width = title.getResources().getDisplayMetrics().widthPixels;
-        Shader shimmer = new LinearGradient(0, 0, width, 0, new int[]{0xFF5DA5FF, 0xFF9B8AFB, 0xFFD176F2, 0xFFFE88B2, 0xFFD176F2, 0xFF9B8AFB}, new float[]{0.0f, 0.2f, 0.4f, 0.6f, 0.8f, 1.0f}, Shader.TileMode.REPEAT);
-        Matrix matrix = new Matrix();
-        matrix.setTranslate(0, 0);
-        shimmer.setLocalMatrix(matrix);
-        title.getPaint().setShader(shimmer);
-    }
-
     @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
     public static void fixPermissionsAsync(Context context) {
         sPermissionExecutor.execute(() -> {
@@ -235,13 +238,14 @@ public class AppsTool {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-
             setFilePermissions(context.getDataDir());
             setFilePermissions(new File(PrefsUtils.getSharedPrefsPath()));
             setFilePermissions(new File(PrefsUtils.getSharedPrefsFile()));
         });
     }
 
+    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private static void setFilePermissions(File file) {
         if (file != null && file.exists()) {
             file.setExecutable(true, false);
@@ -249,6 +253,7 @@ public class AppsTool {
             file.setWritable(true, false);
         }
     }
+
 
     public static void registerFileObserver(Context context) {
         try {
@@ -270,9 +275,10 @@ public class AppsTool {
 
     private static String getCallerMethod() {
         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-        for (StackTraceElement el : stackTrace)
+        for (StackTraceElement el : stackTrace) {
             if (el != null && el.getClassName().startsWith(ProjectApi.mAppModulePkg + ".module"))
                 return el.getMethodName();
+        }
         return stackTrace[4].getMethodName();
     }
 
@@ -322,6 +328,13 @@ public class AppsTool {
         }
     }
 
+    public static boolean killApps(String packageName) {
+        return killApps(new String[]{packageName});
+    }
+
+    public static boolean killApps(String... packageNames) {
+        return killApps(packageNames, 15);
+    }
 
     public static boolean killApps(String[] packageNames, int signal) {
         if (packageNames == null || packageNames.length == 0) {
@@ -392,12 +405,5 @@ public class AppsTool {
         }
         return hasSuccess;
     }
-
-    public static boolean killApps(String packageName) {
-        return killApps(new String[]{packageName});
-    }
-
-    public static boolean killApps(String... packageNames) {
-        return killApps(packageNames, 15);
-    }
 }
+

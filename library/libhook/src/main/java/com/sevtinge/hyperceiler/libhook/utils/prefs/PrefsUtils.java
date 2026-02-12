@@ -50,15 +50,15 @@ public class PrefsUtils {
     public static volatile RemotePreferences remotePrefs = null;
     public static PrefsMap<String, Object> mPrefsMap = new PrefsMap<>();
 
-    private static SharedPreferences.OnSharedPreferenceChangeListener sPrefsChangeListener = null;
-    private static volatile boolean sListenerRegistered = false;
-
-    public static String mPrefsPathCurrent = null;
-    public static String mPrefsFileCurrent = null;
     public static String mPrefsName = "hyperceiler_prefs";
     public static String mPrefsPath = "/data/user_de/0/" + ProjectApi.mAppModulePkg + "/shared_prefs";
     public static String mPrefsFile = mPrefsPath + "/" + mPrefsName + ".xml";
 
+    private static String mPrefsPathCurrent = null;
+    private static String mPrefsFileCurrent = null;
+
+    private static SharedPreferences.OnSharedPreferenceChangeListener sPrefsChangeListener = null;
+    private static volatile boolean sListenerRegistered = false;
     private static final CopyOnWriteArraySet<PreferenceObserver> prefObservers = new CopyOnWriteArraySet<>();
 
     public interface PreferenceObserver {
@@ -76,7 +76,8 @@ public class PrefsUtils {
     }
 
     public static String getSharedPrefsPath() {
-        if (mPrefsPathCurrent == null) try {
+        if (mPrefsPathCurrent != null) return mPrefsPathCurrent;
+        try {
             Field mFile = mSharedPreferences.getClass().getDeclaredField("mFile");
             mFile.setAccessible(true);
             mPrefsPathCurrent = ((File) mFile.get(mSharedPreferences)).getParentFile().getAbsolutePath();
@@ -84,11 +85,11 @@ public class PrefsUtils {
         } catch (Throwable t) {
             return mPrefsPath;
         }
-        else return mPrefsPathCurrent;
     }
 
     public static String getSharedPrefsFile() {
-        if (mPrefsFileCurrent == null) try {
+        if (mPrefsFileCurrent != null) return mPrefsFileCurrent;
+        try {
             Field fFile = mSharedPreferences.getClass().getDeclaredField("mFile");
             fFile.setAccessible(true);
             mPrefsFileCurrent = ((File) fFile.get(mSharedPreferences)).getAbsolutePath();
@@ -96,17 +97,23 @@ public class PrefsUtils {
         } catch (Throwable t) {
             return mPrefsFile;
         }
-        else return mPrefsFileCurrent;
     }
 
-    public static boolean contains(String key) {
-        if (mSharedPreferences == null) return false;
-        return mSharedPreferences.contains(key);
+    /**
+     * 获取 SharedPreferences，使用设备加密存储（DE），与 mPrefsPath 一致。
+     */
+    public static SharedPreferences getSharedPrefs(Context context) {
+        return getSharedPrefs(context, true);
     }
 
-    public static void putString(String key, String defValue) {
-        if (mSharedPreferences == null) return;
-        mSharedPreferences.edit().putString(key, defValue).apply();
+    /**
+     * 获取 SharedPreferences。
+     *
+     * @param protectedStorage true 使用设备加密存储（DE），false 使用凭据加密存储（CE）
+     */
+    public static SharedPreferences getSharedPrefs(Context context, boolean protectedStorage) {
+        if (protectedStorage) context = getProtectedContext(context);
+        return context.getSharedPreferences(mPrefsName, Context.MODE_PRIVATE);
     }
 
     public static void putInt(String key, int defValue) {
@@ -123,86 +130,60 @@ public class PrefsUtils {
         throw new IllegalStateException("SharedPreferences not initialized");
     }
 
-    /**
-     * 获取 SharedPreferences
-     */
-    public static SharedPreferences getSharedPrefs(Context context, boolean protectedStorage) {
-        if (protectedStorage) context = getProtectedContext(context);
-        return context.getSharedPreferences(mPrefsName, Context.MODE_PRIVATE);
+    public static boolean contains(String key) {
+        return mSharedPreferences != null && mSharedPreferences.contains(key);
     }
 
-    public static SharedPreferences getSharedPrefs(Context context) {
-        return getSharedPrefs(context, false);
+    public static void putString(String key, String defValue) {
+        if (mSharedPreferences == null) return;
+        mSharedPreferences.edit().putString(key, defValue).apply();
     }
 
-    /**
-     * 获取 Boolean 类型的偏好设置
-     */
     public static boolean getSharedBoolPrefs(Context context, String name, boolean defValue) {
         try {
-            SharedPreferences prefs = getSharedPrefs(context);
-            return prefs.getBoolean(name, defValue);
+            return getSharedPrefs(context).getBoolean(name, defValue);
         } catch (Throwable t) {
-            if (mPrefsMap.containsKey(name))
-                return (boolean) mPrefsMap.getObject(name, defValue);
-            else
-                return defValue;
+            return mPrefsMap.containsKey(name)
+                ? (boolean) mPrefsMap.getObject(name, defValue)
+                : defValue;
         }
     }
 
-    /**
-     * 获取 String 类型的偏好设置
-     */
     public static String getSharedStringPrefs(Context context, String name, String defValue) {
         try {
-            SharedPreferences prefs = getSharedPrefs(context);
-            return prefs.getString(name, defValue);
+            return getSharedPrefs(context).getString(name, defValue);
         } catch (Throwable t) {
-            if (mPrefsMap.containsKey(name))
-                return (String) mPrefsMap.getObject(name, defValue);
-            else
-                return defValue;
+            return mPrefsMap.containsKey(name)
+                ? (String) mPrefsMap.getObject(name, defValue)
+                : defValue;
         }
     }
 
-    /**
-     * 获取 Int 类型的偏好设置
-     */
     public static int getSharedIntPrefs(Context context, String name, int defValue) {
         try {
-            SharedPreferences prefs = getSharedPrefs(context);
-            return prefs.getInt(name, defValue);
+            return getSharedPrefs(context).getInt(name, defValue);
         } catch (Throwable t) {
-            if (mPrefsMap.containsKey(name))
-                return (int) mPrefsMap.getObject(name, defValue);
-            else
-                return defValue;
+            return mPrefsMap.containsKey(name)
+                ? (int) mPrefsMap.getObject(name, defValue)
+                : defValue;
         }
     }
 
-    /**
-     * 获取 StringSet 类型的偏好设置
-     */
+    @SuppressWarnings("unchecked")
     public static Set<String> getSharedStringSetPrefs(Context context, String name) {
         try {
-            SharedPreferences prefs = getSharedPrefs(context);
-            Set<String> result = prefs.getStringSet(name, null);
-            if (result != null) {
-                return result;
-            }
+            Set<String> result = getSharedPrefs(context).getStringSet(name, null);
+            if (result != null) return result;
         } catch (Throwable ignored) {
         }
-
         LinkedHashSet<String> empty = new LinkedHashSet<>();
-        if (mPrefsMap.containsKey(name)) {
-            return (Set<String>) mPrefsMap.getObject(name, empty);
-        } else {
-            return empty;
-        }
+        return mPrefsMap.containsKey(name)
+            ? (Set<String>) mPrefsMap.getObject(name, empty)
+            : empty;
     }
 
     /**
-     * 将单个值按类型写入 RemotePreferences.Editor
+     * 将单个值按类型写入 RemotePreferences.Editor。
      *
      * @return 对应的 ContentProvider path 前缀（如 "boolean/"），null 表示 val 为 null（需 remove）
      */
@@ -238,14 +219,14 @@ public class PrefsUtils {
                 return "stringset/";
             }
             default -> {
+                return null;
             }
         }
-        return null;
     }
 
     /**
      * 将 SharedPreferences 中的所有配置全量同步到 RemotePreferences。
-     * 应在 onServiceBind 获取到 remotePrefs 后立即调用，确保 Hook 端能读到完整配置。
+     * 应在 onServiceBind 获取到 remotePrefs 后立即调用。
      * 使用 commit() 同步提交，保证写入完成后再返回。
      */
     public static void syncAllToRemotePrefs() {
@@ -274,7 +255,6 @@ public class PrefsUtils {
             HashSet<String> ignoreKeys = new HashSet<>();
 
             sPrefsChangeListener = (sharedPreferences, key) -> {
-                // 局部快照，解决 TOCTOU 竞态：在整个回调期间使用同一个引用
                 final RemotePreferences prefs = remotePrefs;
                 if (prefs == null) return;
 
@@ -299,15 +279,16 @@ public class PrefsUtils {
                     Object val = sharedPreferences.getAll().get(key);
                     RemotePreferences.Editor prefEdit = prefs.edit();
                     String path = putValueToEditor(prefEdit, key, val);
-
-                    // 先提交数据，再发送通知，确保 Observer 读取时数据已就绪
                     prefEdit.apply();
 
                     if (path == null) path = "";
                     ContentResolver resolver = context.getContentResolver();
-                    resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + key), null);
-                    if (!path.isEmpty())
-                        resolver.notifyChange(Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + key), null);
+                    resolver.notifyChange(
+                        Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/" + path + key), null);
+                    if (!path.isEmpty()) {
+                        resolver.notifyChange(
+                            Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/" + path + key), null);
+                    }
                 } catch (Throwable t) {
                     AndroidLog.e(TAG, "Failed to sync pref key: " + key, t);
                 }
