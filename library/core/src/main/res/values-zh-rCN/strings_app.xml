@@ -942,6 +942,8 @@
     <!--投屏-->
     <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
+    <string name="milink_unlock_send_app">解锁全部应用流转</string>
+    <string name="milink_unlock_send_app_desc">需要额外勾选 "跨屏协同服务" 作用域</string>
     <string name="milink_allow_camera_devices">强制支持摄像头流转</string>
     <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--录音机-->
