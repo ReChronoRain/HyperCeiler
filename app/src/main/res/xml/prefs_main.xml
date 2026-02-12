@@ -386,6 +386,13 @@
 
         <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_aicr"
+            android:summary="com.xiaomi.aicr"
+            android:title="@string/aicr"
+            app:inflatedXml="@xml/aicr"/>
+
+        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_barrage"
             android:summary="com.xiaomi.barrage"
             android:title="@string/barrage"
