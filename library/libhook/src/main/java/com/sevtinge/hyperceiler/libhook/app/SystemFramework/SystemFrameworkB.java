@@ -62,6 +62,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableGest
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiuiLite;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiuiWatermark;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisablePinVerifyPer72h;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableRemoveFingerprintSensorConfig;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableThermal;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableVerifyCanBeDisabled;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinderProxy;
@@ -100,6 +101,9 @@ public class SystemFrameworkB extends BaseLoad {
         // 手势初始化
         initHook(new PackagePermissions(), true);
         initHook(new GlobalActions(), true);
+
+        // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
+        initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_unloss_fingerprint"));
 
         // 小窗
         initHook(new FreeFormCount(), PrefsBridge.getBoolean("system_framework_freeform_count"));
