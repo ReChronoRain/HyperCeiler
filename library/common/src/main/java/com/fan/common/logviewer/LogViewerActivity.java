@@ -25,6 +25,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -617,18 +618,18 @@ public class LogViewerActivity extends BaseActivity
         TextView timeView = view.findViewById(com.fan.common.R.id.dialog_time);
         TextView tagView = view.findViewById(com.fan.common.R.id.dialog_tag);
         TextView levelView = view.findViewById(com.fan.common.R.id.dialog_level);
+        TextView primaryView = view.findViewById(com.fan.common.R.id.dialog_primary);
         TextView messageView = view.findViewById(com.fan.common.R.id.dialog_message);
 
         String title = getString(com.sevtinge.hyperceiler.core.R.string.log_detail_title);
-        String msg = logEntry.getMessage();
 
         // 时间
         timeView.setText(logEntry.getFormattedTime());
 
-        // TAG
+        // TAG 徽标
         tagView.setText(logEntry.getTag());
         tagView.getBackground().setTint(getLevelBadgeColor("V"));
-        levelView.setTextColor(getLevelTextColor("V"));
+        tagView.setTextColor(getLevelTextColor("V"));
 
         // 级别徽标
         String level = logEntry.getLevel();
@@ -642,12 +643,35 @@ public class LogViewerActivity extends BaseActivity
         levelView.getBackground().setTint(getLevelBadgeColor(level));
         levelView.setTextColor(getLevelTextColor(level));
 
-        // 完整消息
-        messageView.setText(msg);
-        if ("C".equals(level)) {
-            messageView.setTextColor(0xFFD32F2F);
-        }
+        // 消息内容
+        String message = logEntry.getMessage();
+        boolean isXposed = "Xposed".equals(logEntry.getModule());
 
+        if (isXposed) {
+            String[] parsed = LogAdapter.LogViewHolder.parseXposedDisplay(message, level);
+            String primary = parsed[0];
+            String secondary = parsed[1];
+
+            if (primary != null && !primary.isEmpty()) {
+                primaryView.setVisibility(View.VISIBLE);
+                primaryView.setText(primary);
+            } else {
+                primaryView.setVisibility(View.GONE);
+            }
+
+            messageView.setText(secondary);
+            if ("C".equals(level)) {
+                primaryView.setVisibility(View.GONE);
+                messageView.setTextColor(0xFFD32F2F);
+                messageView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            }
+        } else {
+            primaryView.setVisibility(View.GONE);
+            messageView.setText(message);
+            if ("C".equals(level)) {
+                messageView.setTextColor(0xFFD32F2F);
+            }
+        }
 
         new fan.appcompat.app.AlertDialog.Builder(this)
             .setTitle(title)

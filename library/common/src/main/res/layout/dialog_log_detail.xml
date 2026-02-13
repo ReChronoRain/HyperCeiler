@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingHorizontal="24dp"
     android:paddingBottom="8dp">
 
-    <!-- 时间 + 级别徽标 -->
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:layout_marginTop="8dp">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:id="@+id/flow_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:constraint_referenced_ids="dialog_time,dialog_tag,dialog_level"
+            app:flow_wrapMode="chain"
+            app:flow_horizontalGap="8dp"
+            app:flow_verticalGap="4dp"
+            app:flow_horizontalAlign="start"
+            app:flow_horizontalStyle="packed"
+            app:flow_horizontalBias="0" />
 
         <TextView
             android:id="@+id/dialog_time"
@@ -25,7 +38,6 @@
             android:id="@+id/dialog_tag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:background="@drawable/bg_level_badge"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
@@ -36,21 +48,32 @@
             android:id="@+id/dialog_level"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:background="@drawable/bg_level_badge"
             android:paddingHorizontal="8dp"
             android:paddingVertical="2dp"
             android:textSize="11sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Xposed 主要内容（类名） -->
+    <TextView
+        android:id="@+id/dialog_primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        android:textColor="?itemViewTitleTextColor"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:visibility="gone" />
 
     <!-- 完整日志内容 -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:maxHeight="360dp"
         android:fadingEdge="vertical"
         android:fadingEdgeLength="16dp">
@@ -62,7 +85,7 @@
             android:textSize="14sp"
             android:textColor="?itemViewTitleTextColor"
             android:typeface="monospace"
-            android:textIsSelectable="true"
+            android:textIsSelectable="false"
             android:lineSpacingExtra="2dp" />
 
     </ScrollView>

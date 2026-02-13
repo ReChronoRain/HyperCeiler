@@ -345,7 +345,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         private final TextView mLevelTextView;
         private final TextView mModuleTextView;
         private final TextView mMessageTextView;
+        private final TextView mPrimaryTextView;
+        private final TextView mSecondaryTextView;
         private final StringBuilder mTempBuilder = new StringBuilder();
+
+        private final int mDefaultMessageColor;
+        private final int mDefaultSecondaryColor;
 
         private static final String[] LEVEL_LABELS = {"C", "E", "W", "I", "D"};
         private static final String[] LEVEL_DISPLAY = {"CRASH", "ERROR", "WARN", "INFO", "DEBUG"};
@@ -356,6 +361,10 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             mLevelTextView = itemView.findViewById(com.fan.common.R.id.textLevel);
             mModuleTextView = itemView.findViewById(com.fan.common.R.id.textModule);
             mMessageTextView = itemView.findViewById(com.fan.common.R.id.textMessage);
+            mPrimaryTextView = itemView.findViewById(com.fan.common.R.id.textPrimary);
+            mSecondaryTextView = itemView.findViewById(com.fan.common.R.id.textSecondary);
+            mDefaultMessageColor = mMessageTextView.getCurrentTextColor();
+            mDefaultSecondaryColor = mSecondaryTextView.getCurrentTextColor();
         }
 
         public void bind(LogEntry logEntry, String searchKeyword) {
@@ -380,21 +389,101 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             mLevelTextView.getBackground().setTint(getLevelBadgeColor(level));
             mLevelTextView.setTextColor(getLevelTextColor(level));
 
-            // 消息（最多3行）
+            // 消息内容
             String message = logEntry.getMessage();
-            if ("C".equals(level)) {
-                mMessageTextView.setTextColor(0xFFD32F2F);
+            boolean isXposed = "Xposed".equals(logEntry.getModule());
+
+            if (isXposed) {
+                mMessageTextView.setVisibility(View.GONE);
+                String[] parsed = parseXposedDisplay(message, level);
+                String primary = parsed[0];
+                String secondary = parsed[1];
+
+                // 主要内容
+                if (primary != null && !primary.isEmpty()) {
+                    mPrimaryTextView.setVisibility(View.VISIBLE);
+                    mPrimaryTextView.setTextColor(mDefaultMessageColor);
+                    if (!TextUtils.isEmpty(searchKeyword) &&
+                        primary.toLowerCase().contains(searchKeyword.toLowerCase())) {
+                        mPrimaryTextView.setText(highlightText(primary, searchKeyword));
+                    } else {
+                        mPrimaryTextView.setText(primary);
+                    }
+                } else {
+                    mPrimaryTextView.setVisibility(View.GONE);
+                }
+
+                // 次要内容
+                if (secondary != null && !secondary.isEmpty()) {
+                    mSecondaryTextView.setVisibility(View.VISIBLE);
+                    if ("C".equals(level)) {
+                        mSecondaryTextView.setTextColor(0xFFD32F2F);
+                        mSecondaryTextView.setTypeface(android.graphics.Typeface.MONOSPACE,
+                            android.graphics.Typeface.BOLD);
+                        mSecondaryTextView.setMaxLines(4);
+                    } else {
+                        mSecondaryTextView.setTextColor(mDefaultSecondaryColor);
+                        mSecondaryTextView.setTypeface(android.graphics.Typeface.MONOSPACE,
+                            android.graphics.Typeface.NORMAL);
+                        mSecondaryTextView.setMaxLines(3);
+                    }
+                    if (!TextUtils.isEmpty(searchKeyword) &&
+                        secondary.toLowerCase().contains(searchKeyword.toLowerCase())) {
+                        mSecondaryTextView.setText(highlightText(secondary, searchKeyword));
+                    } else {
+                        mSecondaryTextView.setText(secondary);
+                    }
+                } else {
+                    mSecondaryTextView.setVisibility(View.GONE);
+                }
             } else {
-                mMessageTextView.setTextColor(mMessageTextView.getContext()
-                    .getColor(com.fan.common.R.color.item_view_title_color_light));
+                // App 日志：原始行为
+                mPrimaryTextView.setVisibility(View.GONE);
+                mSecondaryTextView.setVisibility(View.GONE);
+                mMessageTextView.setVisibility(View.VISIBLE);
+
+                if ("C".equals(level)) {
+                    mMessageTextView.setTextColor(0xFFD32F2F);
+                } else {
+                    mMessageTextView.setTextColor(mDefaultMessageColor);
+                }
+
+                if (!TextUtils.isEmpty(searchKeyword) && message != null &&
+                    message.toLowerCase().contains(searchKeyword.toLowerCase())) {
+                    mMessageTextView.setText(highlightText(message, searchKeyword));
+                } else {
+                    mMessageTextView.setText(message);
+                }
+            }
+        }
+
+        /**
+         * 解析 Xposed 日志消息用于显示
+         * @return [primary, secondary]，primary 可能为 null
+         */
+        static String[] parseXposedDisplay(String message, String level) {
+            if (message == null) return new String[]{null, ""};
+
+            // Crash：去掉 [HyperCeiler][E][CrashMonitor]: 前缀
+            if ("C".equals(level)) {
+                String stripped = message.replaceFirst("^(?:\\[[^\\]]+\\])+:\\s*", "");
+                return new String[]{null, stripped};
             }
 
-            if (!TextUtils.isEmpty(searchKeyword) && message != null &&
-                message.toLowerCase().contains(searchKeyword.toLowerCase())) {
-                mMessageTextView.setText(highlightText(message, searchKeyword));
-            } else {
-                mMessageTextView.setText(message);
-            }
+            // 普通：[HyperCeiler][D][pkg][ClassName]: detail message
+            int idx = message.indexOf("]: ");
+            if (idx == -1) return new String[]{null, message};
+
+            String brackets = message.substring(0, idx + 1);
+            String rest = message.substring(idx + 3);
+
+            // 提取最后一个 [xxx] 作为主要内容
+            int lastOpen = brackets.lastIndexOf('[');
+            int lastClose = brackets.lastIndexOf(']');
+            String primary = (lastOpen >= 0 && lastClose > lastOpen)
+                ? brackets.substring(lastOpen + 1, lastClose) : null;
+
+            return new String[]{primary, rest};
         }
 
         private int getLevelBadgeColor(String level) {
