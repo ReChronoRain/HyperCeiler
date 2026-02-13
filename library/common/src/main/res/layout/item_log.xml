@@ -62,7 +62,7 @@
 
     </RelativeLayout>
 
-    <!-- 第二行：详细日志（最多4行，加粗） -->
+    <!-- App 日志：原始完整消息 -->
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="match_parent"
@@ -75,5 +75,32 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:typeface="monospace" />
+
+    <!-- Xposed 日志：主要内容（类名/方法名） -->
+    <TextView
+        android:id="@+id/textPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="?itemViewTitleTextColor"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:typeface="monospace"
+        android:visibility="gone" />
+
+    <!-- Xposed 日志：次要内容（详细信息） -->
+    <TextView
+        android:id="@+id/textSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:textColor="?itemViewSummaryTextColor"
+        android:textSize="14sp"
+        android:typeface="monospace"
+        android:visibility="gone" />
 
 </LinearLayout>
