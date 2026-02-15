@@ -31,15 +31,11 @@ object Unlock : BaseHook() {
 
     override fun init() {
         val authManagerClass = loadClass("com.xiaomi.xms.auth.AuthManager")
-        val successClass = loadClass("com.xiaomi.xms.auth.Result\$Success")
-        val authDataClass = loadClass("com.xiaomi.xms.auth.data.AuthData")
-
         val authSessionClass = loadClass("com.xiaomi.xms.auth.AuthSession")
 
         authSessionClass.methodFinder()
             .filterByName("b")
             .filterByParamCount(1)
-            // 参数类型通常是 com.xiaomi.xms.auth.AuthError
             .first()
             .createHook {
                 before {
@@ -49,42 +45,13 @@ object Unlock : BaseHook() {
                         XposedLog.w(
                             TAG,
                             lpparam.packageName,
-                            " [XMS][Auth] 发现错误分发: $errorCode，正在拦截并强制返回成功"
+                            "[XMS][Auth] 发现错误分发: $errorCode，正在拦截并强制返回成功"
                         )
                         error.setIntField("a", 0)
 
-                        // 技巧：让该方法什么都不做，转而调用成功的逻辑
                         it.result = it.thisObject.callMethod("h")
                     }
                 }
             }
-
-        authManagerClass.methodFinder()
-            .filterByName("a")
-            .first()
-            .createHook {
-                returnConstant(true)
-                before {
-                    XposedLog.w(
-                        TAG,
-                        lpparam.packageName,
-                        " [XMS][Auth] Bypass check for: ${it.args[1]}"
-                    )
-                }
-            }
-
-        loadClass("com.xiaomi.xms.auth.AuthManager").methodFinder()
-            .filterByName("b")
-            .first()
-            .createHook {
-                after {
-                    XposedLog.w(
-                        TAG,
-                        lpparam.packageName,
-                        "[XMS][Auth] b for: ${it.args[0]} , ${it.args[1]}"
-                    )
-                }
-            }
-
     }
 }
