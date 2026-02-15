@@ -66,6 +66,18 @@
             android:key="prefs_key_system_ui_statusbar_music_show_aod_mode"
             android:title="@string/system_ui_statusbar_music_show_aod_mode_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_music_narrow_font"
+            android:title="@string/system_ui_statusbar_music_narrow_font_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_music_fallback_focus_notification"
+            android:summary="@string/system_ui_statusbar_music_fallback_focus_notification_desc"
+            android:title="@string/system_ui_system_ui_statusbar_music_fallback_focus_notification_title" />
+
+
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_music_size_n"
             android:title="@string/system_ui_statusbar_mobile_type_font_size"
@@ -93,11 +105,6 @@
             android:key="prefs_key_system_ui_statusbar_music_click_clock"
             android:summary="@string/system_ui_statusbar_music_click_clock_desc"
             android:title="@string/system_ui_statusbar_music_click_clock_title" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_statusbar_music_narrow_font"
-            android:title="@string/system_ui_statusbar_music_narrow_font_title" />
 
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_music_speed"

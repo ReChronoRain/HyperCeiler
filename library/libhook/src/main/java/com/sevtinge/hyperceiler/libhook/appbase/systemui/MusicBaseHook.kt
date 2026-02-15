@@ -94,7 +94,10 @@ abstract class MusicBaseHook : BaseHook() {
     private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
 
     private val isShowNotific by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific", true)
+    }
+    private val isFallbackFocusNotification by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_fallback_focus_notification", false)
     }
 
     private val circlePaint by lazy {
@@ -283,18 +286,40 @@ abstract class MusicBaseHook : BaseHook() {
     ) {
         val iconsAdd = createIconsBundle(iconBundle)
 
-        runCatching {
-            val remoteDay = buildRemoteViews(tf, text, RemoteViewType.DAY)
-            val remoteIsland = buildRemoteViews(tf, text, RemoteViewType.ISLAND)
+        if (!isFallbackFocusNotification) {
+            runCatching {
+                val remoteDay = buildRemoteViews(tf, text, RemoteViewType.DAY)
+                val remoteIsland = buildRemoteViews(tf, text, RemoteViewType.ISLAND)
 
-            val focusExtras = buildFocusExtras(
-                text, tf, iconBundle, islandTemplate, iconsAdd, remoteDay, remoteIsland
+                val focusExtras = buildFocusExtras(
+                    text, tf, iconBundle, islandTemplate, iconsAdd, remoteDay, remoteIsland
+                )
+
+                postNotification(builder, focusExtras, packageName)
+            }.onFailure { e ->
+                XposedLog.w(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
+                sendFallbackNotification(
+                    builder,
+                    text,
+                    tf,
+                    iconBundle,
+                    islandTemplate,
+                    packageName,
+                    iconsAdd
+                )
+            }
+        } else {
+            XposedLog.w(TAG, lpparam.packageName, "send Focus Fallback Notification")
+            sendFallbackNotification(
+                builder,
+                text,
+                tf,
+                iconBundle,
+                islandTemplate,
+                packageName,
+                iconsAdd
             )
 
-            postNotification(builder, focusExtras, packageName)
-        }.onFailure { e ->
-            XposedLog.w(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
-            sendFallbackNotification(builder, text, tf, iconBundle, islandTemplate, packageName, iconsAdd)
         }
     }
 
@@ -314,6 +339,7 @@ abstract class MusicBaseHook : BaseHook() {
             !hideAodShow && isAodMode -> {
                 val remoteAod = buildRemoteViews(tf, text, RemoteViewType.AOD, iconBundle.icon)
                 FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -329,6 +355,7 @@ abstract class MusicBaseHook : BaseHook() {
             }
             !hideAodShow && !isAodMode -> {
                 FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
