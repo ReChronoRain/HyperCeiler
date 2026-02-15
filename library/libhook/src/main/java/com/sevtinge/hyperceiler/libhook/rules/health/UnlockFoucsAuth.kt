@@ -7,10 +7,10 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object UnlockFoucsAuth : BaseHook() {
     override fun init() {
-        val nfh = loadClass("com.xiaomi.fitness.notify.util.NotificationFilterHelper")
-        nfh.methodFinder()
+
+        loadClass("com.xiaomi.fitness.notify.util.NotificationFilterHelper").methodFinder()
             .filterByName("isNotificationSpotlightAppInWhiteList")
-            .first().createHook {
+            .single().createHook {
                 // 允许全部应用转发到手表
                 returnConstant(true)
             }
