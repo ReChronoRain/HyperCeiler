@@ -22,11 +22,13 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.health.DisableSplashAd;
+import com.sevtinge.hyperceiler.libhook.rules.health.UnlockFoucsAuth;
 
 @HookBase(targetPackage = "com.mi.health")
 public class Health extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new DisableSplashAd(), mPrefsMap.getBoolean("health_disable_splash_ad"));
+        initHook(UnlockFoucsAuth.INSTANCE, mPrefsMap.getBoolean("health_unlock_foucs_app_sign_white_list"));
     }
 }

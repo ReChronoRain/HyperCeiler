@@ -27,10 +27,9 @@ import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFi
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
-object Unlock : BaseHook() {
+object UnlockFoucsAuth : BaseHook() {
 
     override fun init() {
-        val authManagerClass = loadClass("com.xiaomi.xms.auth.AuthManager")
         val authSessionClass = loadClass("com.xiaomi.xms.auth.AuthSession")
 
         authSessionClass.methodFinder()
