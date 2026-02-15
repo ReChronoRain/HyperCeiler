@@ -168,4 +168,6 @@
     <string name="log_level_info" translatable="false">Info</string>
     <string name="log_level_warn" translatable="false">Warn</string>
     <string name="log_level_error" translatable="false">Error</string>
+    <string name="xmsf">小米服务框架</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">解锁焦点通知白名单签名验证</string>
 </resources>
