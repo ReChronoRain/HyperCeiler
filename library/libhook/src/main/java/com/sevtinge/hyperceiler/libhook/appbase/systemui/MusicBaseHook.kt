@@ -69,7 +69,7 @@ abstract class MusicBaseHook : BaseHook() {
 
     companion object {
         const val CHANNEL_ID: String = "channel_id_focusNotifLyrics"
-        private const val NOTIFICATION_TIMEOUT = 999_999
+        private const val NOTIFICATION_TIMEOUT = 999999
         private const val DEFAULT_FONT_SIZE = 15
         private const val PENDING_INTENT_REQUEST_CODE = 0
         private const val SALT_MUSIC_PACKAGE = "com.salt.music"}
@@ -169,7 +169,8 @@ abstract class MusicBaseHook : BaseHook() {
 
         // Notification builder
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
-            .setContentTitle(text)
+            .setContentTitle("Xiaomi Focus Lyric")
+            .setContentText(text)
             .setSmallIcon(IconCompat.createWithBitmap(iconBundle.primaryBitmap))
             .setTicker(text)
             .setPriority(NotificationCompat.PRIORITY_LOW)
