@@ -144,6 +144,10 @@ object FocusNotifLyric : MusicBaseHook() {
                         val obj = param.thisObject
                         // 访问字段 "$authBundle"
                         val bundle = obj.getObjectField($$"$authBundle") as Bundle
+                        XposedLog.d(
+                            TAG,
+                            "authBundle result_code:${bundle.getInt("result_code", 114514)}"
+                        )
                         bundle.putInt("result_code",0)
                     }
                 }
