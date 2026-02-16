@@ -168,4 +168,7 @@
     <string name="log_level_info" translatable="false">Info</string>
     <string name="log_level_warn" translatable="false">Warn</string>
     <string name="log_level_error" translatable="false">Error</string>
+    <string name="xmsf">Xiaomi Service Framework</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">Unlock Focus Notification Whitelist Signature Verification</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">Allow all apps to send focus notifications to the watch/bracelet.</string>
 </resources>

@@ -138,4 +138,7 @@
     <string name="log_detail_level">级别</string>
     <string name="log_detail_tag">标签</string>
     <string name="log_detail_message">具体信息</string>
+    <string name="xmsf">小米服务框架</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">解锁焦点通知白名单签名验证</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">允许所有应用发送焦点通知到手表/手环</string>
 </resources>
