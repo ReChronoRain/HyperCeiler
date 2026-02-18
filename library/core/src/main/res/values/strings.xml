@@ -92,6 +92,9 @@
     <string name="unsupported_system_func">This feature isn\'t supported in the current system version</string>
     <string name="supported_system_func">This feature is officially supported in the current system version</string>
     <string name="feature_doing_func">The current feature is under development, stay tuned.</string>
+    <string name="search_result_not_available">This feature may not be supported on this device or is hidden under some options</string>
+    <string name="search_history">Search history</string>
+    <string name="search_history_clear">Clear search history</string>
     <!--System UI-->
     <string name="system_ui">System UI</string>
     <!--System launcher-->

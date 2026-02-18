@@ -27,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,6 +62,28 @@ public class DashboardFragment extends SettingsPreferenceFragment {
     public void onCreatePreferencesAfter(Bundle bundle, String s) {
         super.onCreatePreferencesAfter(bundle, s);
         mQuickRestartPackageName = getQuickRestartPackageName(requireContext(), getPreferenceScreenResId());
+        checkHighlightedKeyVisibility();
+    }
+
+    private void checkHighlightedKeyVisibility() {
+        Bundle args = getArguments();
+        if (args == null) return;
+        String highlightKey = args.getString(":settings:fragment_args_key");
+        if (highlightKey == null) return;
+        Preference pref = findPreference(highlightKey);
+        if (pref == null) return;
+
+        boolean unavailable = !pref.isVisible() || !pref.isEnabled();
+        if (!unavailable && pref.getDependency() != null) {
+            Preference dep = findPreference(pref.getDependency());
+            if (dep instanceof androidx.preference.TwoStatePreference tsp) {
+                unavailable = !tsp.isChecked();
+            }
+        }
+
+        if (unavailable) {
+            Toast.makeText(getContext(), getString(R.string.search_result_not_available), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -138,7 +161,6 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), pkgName);
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
         boolean isDebugVersion = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) == 0;
-
         p.setVisible(check && !isDebugMode && isDebugVersion);
     }
 }

@@ -75,6 +75,10 @@ public class ModSearchCallback implements SearchActionMode.Callback {
         mAnimView = animView;
     }
 
+    public EditText getSearchInput() {
+        return mSearchInput;
+    }
+
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         SearchActionMode searchActionMode = (SearchActionMode) mode;

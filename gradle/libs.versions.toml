@@ -1,6 +1,6 @@
 [versions]
 # Build tools
-agp = "9.0.0"
+agp = "9.0.1"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -13,7 +13,7 @@ fragment = "1.8.9"
 recyclerview = "1.4.0"
 
 # UI Libraries
-miuix = "1.0.10.5.1"
+miuix = "1.0.10.5.2"
 
 # Xposed & Hooks
 xposed-api = "100-1.0.3"

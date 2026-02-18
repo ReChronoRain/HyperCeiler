@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -17,15 +16,9 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@null">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/search_history_tag_bg" />
+    <corners android:radius="@dimen/miuix_recyclerview_card_group_radius" />
+</shape>
 
-    <com.sevtinge.hyperceiler.common.view.DraggableViewPager
-        android:id="@+id/vp_fragments"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</FrameLayout>

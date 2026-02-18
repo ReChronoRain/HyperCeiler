@@ -227,8 +227,10 @@ public class AboutPage extends DashboardFragment
     }
 
     public ActionBar getAppCompatActionBar() {
+        ActionBar actionBar = ((Fragment) getParentFragment()).getActionBar();
+        if (actionBar == null) return null;
         if (getParentFragment() instanceof Fragment) {
-            return ((Fragment) getParentFragment()).getActionBar();
+            return actionBar;
         }
         return null;
     }
