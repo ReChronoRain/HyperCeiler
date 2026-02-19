@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:paddingStart="@dimen/custom_order_action_bar_padding_start"
+    android:paddingEnd="@dimen/custom_order_action_bar_padding_end">
+
+    <Button
+        android:id="@id/cancel_button"
+        style="?attr/actionModeCancelButtonStyle"
+        android:layout_width="@dimen/custom_order_button_size"
+        android:layout_height="@dimen/custom_order_button_size"
+        android:background="@drawable/icon_confirm"
+        android:contentDescription="@android:string/cancel"
+        android:text="" />
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.0"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@android:id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:ellipsize="end"
+            android:fontFamily="mipro-medium"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/custom_order_title"
+            android:textColor="@color/color_on_surface"
+            android:textSize="20sp"
+            android:layout_centerInParent="true"/>
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="mipro-regular"
+            android:gravity="center"
+            android:text=""
+            android:textColor="@color/color_on_surface_tertiary"
+            android:textSize="14sp"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/confirm_button"
+        style="?attr/actionModeConfirmButtonStyle"
+        android:layout_width="@dimen/custom_order_button_size"
+        android:layout_height="@dimen/custom_order_button_size"
+        android:background="@drawable/icon_confirm"
+        android:contentDescription="@android:string/ok"
+        android:text="" />
+</LinearLayout>

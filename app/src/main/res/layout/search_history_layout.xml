@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/search_history_ly_margin_start"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="@dimen/search_history_ly_margin_end"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/search_result_item_layout_height">
+
+            <TextView
+                android:id="@+id/search_history_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+                android:focusable="true"
+                android:fontFamily="mipro-regular"
+                android:text="@string/search_history_description"
+                android:textColor="#8c93b0"
+                android:textSize="@dimen/search_description_text_size" />
+        </RelativeLayout>
+
+        <com.sevtinge.hyperceiler.home.FlowLayout
+            android:id="@+id/search_history_fl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/search_history_clear_margin_top"
+            android:layout_marginBottom="@dimen/search_history_clear_margin_bottom"
+            android:gravity="center"
+            android:minHeight="@dimen/search_result_item_layout_height">
+
+            <TextView
+                android:id="@+id/search_history_clear_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:fontFamily="mipro-regular"
+                android:text="@string/search_history_clear_description"
+                android:textColor="@color/search_history_clear_text_color"
+                android:textSize="@dimen/search_description_text_size" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

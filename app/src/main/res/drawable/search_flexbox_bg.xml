@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size android:height="@dimen/search_history_tv_bg_height" />
+    <corners android:radius="@dimen/search_history_tv_bg_radius" />
+    <solid android:color="@color/search_history_tv_bg_color" />
+</shape>

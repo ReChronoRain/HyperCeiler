@@ -101,6 +101,10 @@ public class PrefsUtils {
         mSharedPreferences.edit().putInt(key, defValue).apply();
     }
 
+    public static void putStringSet(String key, Set<String> values) {
+        mSharedPreferences.edit().putStringSet(key, values).apply();
+    }
+
     /**
      * 获取 SharedPreferences Editor
      */
@@ -121,6 +125,10 @@ public class PrefsUtils {
         } catch (Throwable t) {
             return context.getSharedPreferences(mPrefsName, multiProcess ? Context.MODE_MULTI_PROCESS | Context.MODE_PRIVATE : Context.MODE_PRIVATE);
         }
+    }
+
+    public static void init(Context context) {
+        mSharedPreferences = getSharedPrefs(context);
     }
 
     public static SharedPreferences getSharedPrefs(Context context) {

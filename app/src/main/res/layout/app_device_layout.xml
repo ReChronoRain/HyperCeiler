@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/device_basic_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/card_margin_edge"
+    android:layout_marginEnd="@dimen/card_margin_edge"
+    android:background="@drawable/app_device_card_background"
+    android:clipChildren="true"
+    android:orientation="vertical">
+
+    <com.sevtinge.hyperceiler.about.DeviceNameCard
+        android:id="@+id/device_name_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.sevtinge.hyperceiler.about.VersionNameCard
+        android:id="@+id/version_name_card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

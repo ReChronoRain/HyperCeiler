@@ -70,7 +70,7 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
                 if (!TextUtils.isEmpty(mQuickRestartPackageName)) {
-                    menuInflater.inflate(R.menu.navigation_immersion, menu);
+                    menuInflater.inflate(R.menu.settings_sub_menu, menu);
                 }
             }
 

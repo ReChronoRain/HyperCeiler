@@ -49,7 +49,7 @@ object SafeModeHandler : ICrashHandler {
 
         return runCatching {
             val intent = Intent().apply {
-                component = ComponentName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.safemode.CrashActivity")
+                component = ComponentName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.oldui.safemode.CrashActivity")
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
                 putExtra("key_is_need_set_prop", true)

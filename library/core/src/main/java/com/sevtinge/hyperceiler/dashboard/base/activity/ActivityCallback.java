@@ -67,8 +67,10 @@ public interface ActivityCallback {
         Bundle args = intent.getBundleExtra(":settings:show_fragment_args");
         String showFragmentTitle = intent.getStringExtra(":settings:show_fragment_title");
         int showFragmentTitleResId = intent.getIntExtra(":settings:show_fragment_title_resid", 0);
-        args.putString(":fragment:show_title", showFragmentTitle);
-        args.putInt(":fragment:show_title_resid", showFragmentTitleResId);
+        if (args != null) {
+            args.putString(":fragment:show_title", showFragmentTitle);
+            args.putInt(":fragment:show_title_resid", showFragmentTitleResId);
+        }
         return args;
     }
 

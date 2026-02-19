@@ -24,6 +24,11 @@
             android:key="prefs_key_settings_hide_app_icon"
             android:title="@string/settings_hide_app_icon" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_settings_float_nav"
+            android:title="悬浮底栏" />
+
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_settings_icon"
@@ -50,7 +55,7 @@
         <Preference
             android:key="prefs_key_set_homepage_entrance"
             android:title="@string/set_homepage_entrance"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.helper.HomepageEntrance" />
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.helper.HomepageEntrance" />
 
     </PreferenceCategory>
 
@@ -71,7 +76,7 @@
 
     <PreferenceCategory android:title="@string/settings_bug_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.SafeModeFragment"
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.SafeModeFragment"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
@@ -93,7 +98,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentFragment"
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />
 

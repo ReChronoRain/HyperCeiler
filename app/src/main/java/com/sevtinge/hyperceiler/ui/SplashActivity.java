@@ -1,11 +1,11 @@
 package com.sevtinge.hyperceiler.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 
 import fan.appcompat.app.AppCompatActivity;
@@ -18,9 +18,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent;
         // 根据逻辑分发
-        if (OobeUtils.isProvisioned(this)) {
+        if (OobeUtils.isProvisioned(this) || BuildConfig.DEBUG) {
             // 跳转到主页
-            intent = new Intent(this, HyperCeilerTabActivity.class);
+            intent = new Intent(this, HomePageActivity.class);
         } else {
             // 跳转到引导页
             intent = new Intent(this, DefaultActivity.class);

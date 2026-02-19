@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="PreferenceHeader">
+        <attr name="android:id" />
+        <attr name="android:title" />
+        <attr name="android:summary" />
+        <attr name="android:breadCrumbTitle" />
+        <attr name="android:breadCrumbShortTitle" />
+
+        <attr name="inflatedXml" format="reference" />
+
+        <attr name="android:icon" />
+        <attr name="android:fragment" />
+    </declare-styleable>
+
+    <declare-styleable name="FlowLayout">
+        <attr name="tag_gravity" format="enum">
+            <enum name="center" value="0" />
+            <enum name="left" value="-1" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
 
     <declare-styleable name="AboutInfoItem">
         <attr name="android:title" />
@@ -12,4 +32,17 @@
         <item>@string/logo_egg3</item>
     </string-array>
 
+    <declare-styleable name="ViewPager2">
+        <attr name="android:orientation" />
+    </declare-styleable>
+
+    <declare-styleable name="SwitchView">
+        <attr name="menu" format="reference" />
+        <attr name="background" format="reference" />
+        <attr name="liteBackground" format="reference" />
+        <attr name="navigationStyle" format="enum">
+            <enum name="capsule" value="0" />
+            <enum name="bottom_nav" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>

@@ -80,19 +80,19 @@
                     android:paddingBottom="8dp"
                     android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common">
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/version_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/error_version_name" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/git_hash"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/error_git_hash" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/build_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -117,43 +117,43 @@
                     android:paddingBottom="8dp"
                     android:paddingHorizontal="@dimen/miuix_theme_content_padding_horizontal_common">
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/error_message" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/e_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/error_type" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/filename"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/error_file_name" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/classname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/safe_mode_recorder_class" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/methodname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/safe_mode_recorder_method" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/e_line"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:title="@string/safe_mode_recorder_line" />
 
-                    <com.sevtinge.hyperceiler.safemode.widget.CrashInfoItem
+                    <com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem
                         android:id="@+id/e_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

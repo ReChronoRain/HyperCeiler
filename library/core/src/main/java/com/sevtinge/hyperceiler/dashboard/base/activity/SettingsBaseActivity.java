@@ -49,7 +49,7 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
         if (!TextUtils.isEmpty(initialFragmentName)) {
             Fragment targetFragment = getTargetFragment(this, initialFragmentName, savedInstanceState);
             if (targetFragment != null) {
-                targetFragment.setArguments(getArguments(intent));
+                if (getArguments(intent) != null) targetFragment.setArguments(getArguments(intent));
                 setFragment(targetFragment);
             }
         }

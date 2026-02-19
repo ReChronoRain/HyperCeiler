@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/system_framework"
+        android:title="@string/system_framework"
+        android:summary="system"
+        android:fragment="com.sevtinge.hyperceiler.hooker.SystemFrameworkFragment" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/browser"
+        android:summary="com.android.browser"
+        android:title="@string/browser"
+        app:inflatedXml="@xml/browser"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/calendar"
+        android:summary="com.android.calendar"
+        android:title="@string/calendar"
+        app:inflatedXml="@xml/calendar"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/camera"
+        android:summary="com.android.camera"
+        android:title="@string/camera"
+        android:fragment="com.sevtinge.hyperceiler.hooker.CameraNewFragment"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/contacts"
+        android:summary="com.android.contacts"
+        android:title="@string/contacts"
+        app:inflatedXml="@xml/contacts"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/file_explorer"
+        android:summary="com.android.fileexplorer"
+        android:title="@string/fileexplorer"
+        app:inflatedXml="@xml/fileexplorer"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/html_viewer"
+        android:summary="com.android.htmlviewer"
+        android:title="@string/html_viewer"
+        app:inflatedXml="@xml/html_viewer"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/incallui"
+        android:summary="com.android.incallui"
+        android:title="@string/incallui"
+        app:inflatedXml="@xml/incallui"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/mms"
+        android:summary="com.android.mms"
+        android:title="@string/mms"
+        app:inflatedXml="@xml/mms"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.NfcFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/nfc"
+        android:summary="com.android.nfc"
+        android:title="@string/nfc" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.PhoneFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/phone"
+        android:summary="com.android.phone"
+        android:title="@string/phone" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/downloads"
+        android:summary="com.android.providers.downloads"
+        android:title="@string/downloads"
+        app:inflatedXml="@xml/downloads"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/downloads_ui"
+        android:summary="com.android.providers.downloads.ui"
+        android:title="@string/downloads_ui"
+        app:inflatedXml="@xml/downloads_ui"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/telecom"
+        android:summary="com.android.server.telecom"
+        android:title="@string/telecom"
+        app:inflatedXml="@xml/telecom"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.SystemSettingsFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/system_settings"
+        android:summary="com.android.settings"
+        android:title="@string/system_settings" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/soundrecorder"
+        android:summary="com.android.soundrecorder"
+        android:title="@string/sound_recorder"
+        app:inflatedXml="@xml/soundrecorder"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/system_ui"
+        android:summary="com.android.systemui"
+        android:title="@string/system_ui"
+        app:inflatedXml="@xml/system_ui"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/various_theme"
+        android:summary="com.android.thememanager"
+        android:title="@string/theme_manager"
+        app:inflatedXml="@xml/theme_manager"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.UpdaterFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/updater"
+        android:summary="com.android.updater"
+        android:title="@string/updater" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/remotecontroller"
+        android:summary="com.duokan.phone.remotecontroller"
+        android:title="@string/remotecontroller"
+        app:inflatedXml="@xml/remotecontroller"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/lbe"
+        android:summary="com.lbe.security.miui"
+        android:title="@string/lbe"
+        app:inflatedXml="@xml/lbe_security"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/health"
+        android:summary="com.mi.health"
+        android:title="@string/health"
+        app:inflatedXml="@xml/health" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.MiLinkFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/milink"
+        android:summary="com.milink.service"
+        android:title="@string/milink_hyperos" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/analytics"
+        android:summary="com.miui.analytics"
+        android:title="@string/analytics"
+        app:inflatedXml="@xml/analytics"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.AodFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/aod"
+        android:summary="com.miui.aod"
+        android:title="@string/aod_hyperos" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/backup"
+        android:summary="com.miui.backup"
+        android:title="@string/backup"
+        app:inflatedXml="@xml/backup"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.MiCloudServiceFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/micloud_service"
+        android:summary="com.miui.cloudservice"
+        android:title="@string/micloud_service" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.ContentExtensionFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/content_extension"
+        android:summary="com.miui.contentextension"
+        android:title="@string/content_extension" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/creation"
+        android:summary="com.miui.creation"
+        android:title="@string/creation"
+        app:inflatedXml="@xml/creation"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/lpa"
+        android:summary="com.miui.euicc"
+        android:title="@string/lpa"
+        app:inflatedXml="@xml/lpa"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/gallery"
+        android:summary="com.miui.gallery"
+        android:title="@string/gallery"
+        app:inflatedXml="@xml/gallery"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/guardprovider"
+        android:summary="com.miui.guardprovider"
+        android:title="@string/guard_provider_hyperos"
+        app:inflatedXml="@xml/guard_provider"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/home"
+        android:summary="com.miui.home"
+        android:title="@string/mihome"
+        android:fragment="com.sevtinge.hyperceiler.hooker.HomeFragment"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/huanji"
+        android:summary="com.miui.huanji"
+        android:title="@string/huanji"
+        app:inflatedXml="@xml/huanji"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.MediaeditorFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/mediaeditor"
+        android:summary="com.miui.mediaeditor"
+        android:title="@string/mediaeditor" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.MiShareFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/mishare"
+        android:summary="com.miui.mishare.connectivity"
+        android:title="@string/mishare" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.MiSoundFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/misound"
+        android:summary="com.miui.misound"
+        android:title="@string/misound" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/miwallpaper"
+        android:summary="com.miui.miwallpaper"
+        android:title="@string/miwallpaper"
+        app:inflatedXml="@xml/miwallpaper"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/notes"
+        android:summary="com.miui.notes"
+        android:title="@string/notes"
+        app:inflatedXml="@xml/notes"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/package_installer"
+        android:summary="com.miui.packageinstaller"
+        android:title="@string/package_installer"
+        app:inflatedXml="@xml/package_installer"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.PersonalAssistantFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/home_personal_assistant"
+        android:summary="com.miui.personalassistant"
+        android:title="@string/personal_assistant" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/phrase"
+        android:summary="com.miui.phrase"
+        android:title="@string/phrase"
+        app:inflatedXml="@xml/phrase" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/powerkeeper"
+        android:summary="com.miui.powerkeeper"
+        android:title="@string/powerkeeper"
+        app:inflatedXml="@xml/powerkeeper"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/screen_recorder"
+        android:summary="com.miui.screenrecorder"
+        android:title="@string/screenrecorder"
+        app:inflatedXml="@xml/screenrecorder"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/screenshot"
+        android:summary="com.miui.screenshot"
+        android:title="@string/screenshot"
+        app:inflatedXml="@xml/screenshot"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.SecurityAddFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/securityadd"
+        android:summary="com.miui.securityadd"
+        android:title="@string/securityadd" />
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.SecurityCenterFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/security_center"
+        android:summary="com.miui.securitycenter"
+        android:title="@string/security_center_hyperos" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/tsmclient"
+        android:summary="com.miui.tsmclient"
+        android:title="@string/tsmclient"
+        app:inflatedXml="@xml/tsmclient"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/voicetrigger"
+        android:summary="com.miui.voicetrigger"
+        android:title="@string/voicetrigger"
+        app:inflatedXml="@xml/voicetrigger"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.WeatherFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/weather"
+        android:summary="com.miui.weather2"
+        android:title="@string/weather" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/aiasst"
+        android:summary="com.xiaomi.aiasst.vision"
+        android:title="@string/aiasst"
+        app:inflatedXml="@xml/aiasst"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/barrage"
+        android:summary="com.xiaomi.barrage"
+        android:title="@string/barrage"
+        app:inflatedXml="@xml/barrage"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/joyose"
+        android:summary="com.xiaomi.joyose"
+        android:title="@string/joyose"
+        app:inflatedXml="@xml/joyose"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.GetAppsFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/market"
+        android:summary="com.xiaomi.market"
+        android:title="@string/market" />
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/mi_settings"
+        android:summary="com.xiaomi.misettings"
+        android:title="@string/mi_settings"
+        app:inflatedXml="@xml/mi_settings"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/mtb"
+        android:summary="com.xiaomi.mtb"
+        android:title="@string/mtb"
+        app:inflatedXml="@xml/mtb"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/scanner"
+        android:summary="com.xiaomi.scanner"
+        android:title="@string/scanner_hyper"
+        app:inflatedXml="@xml/scanner"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/simactivate"
+        android:summary="com.xiaomi.simactivate.service"
+        android:title="@string/sim_activation_service"
+        app:inflatedXml="@xml/simactivate"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/trustservice"
+        android:summary="com.xiaomi.trustservice"
+        android:title="@string/trustservice"
+        app:inflatedXml="@xml/trustservice"/>
+
+    <header
+        android:icon="@drawable/ic_default"
+        android:id="@+id/community"
+        android:summary="com.xiaomi.vipaccount"
+        android:title="@string/community"
+        app:inflatedXml="@xml/community"/>
+
+    <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.VariousFragment"
+        android:icon="@drawable/ic_various_new"
+        android:id="@+id/various"
+        android:title="@string/various" />
+</preference-headers>

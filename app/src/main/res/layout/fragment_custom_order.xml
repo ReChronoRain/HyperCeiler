@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:supportsRtl="true">
+
+    <include
+        android:id="@+id/set_order_actionbar"
+        layout="@layout/set_order_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="@dimen/bottom_sheet_dialog_title_margin_bottom" />
+
+    <fan.springback.view.SpringBackLayout
+        android:id="@+id/springBackLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        app:scrollOrientation="vertical"
+        app:scrollableView="@id/recycler_view">
+
+        <fan.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/bottom_sheet_dialog_recycler_view_padding_top"
+            android:clipToPadding="false"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
+            android:paddingHorizontal="@dimen/custom_order_item_padding_Horizontal"/>
+    </fan.springback.view.SpringBackLayout>
+</LinearLayout>

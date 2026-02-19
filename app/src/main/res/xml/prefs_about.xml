@@ -19,7 +19,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <SwitchPreference
+    <!--<SwitchPreference
         android:key="prefs_key_various_enable_super_function"
         android:layout="@layout/activity_about"
         android:summary="@string/xposed_description"
@@ -60,9 +60,9 @@
             android:layout="@layout/preference_padding"
             android:title="68D8CAA79216300F9DEE19A24CB6301ABF1687DF" />
 
-    </PreferenceCategory>
+    </PreferenceCategory>-->
 
-    <PreferenceCategory android:title="@string/about_developer_title">
+    <PreferenceCategory>
 
         <Preference
             android:icon="@drawable/ic_sevtinge"
@@ -146,7 +146,7 @@
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.helper.HelpFragment"
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.helper.HelpFragment"
             android:key="prefs_key_help"
             android:title="@string/help" />
 

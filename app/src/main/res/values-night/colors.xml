@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_on_surface">@color/miuix_default_color_on_surface_dark</color>
+    <color name="color_tertiary">@color/miuix_default_color_tertiary_dark</color>
+    <color name="color_on_surface_tertiary">@color/miuix_default_color_on_surface_tertiary_dark</color>
+
+    <color name="app_about_logo_color1">#e6a1a1a1</color>
+    <color name="app_about_logo_color2">#4de6e6e6</color>
+    <color name="app_about_logo_color3">#1af500</color>
+
     <color name="logo_color1">#e6a1a1a1</color>
     <color name="logo_color2">#4de6e6e6</color>
     <color name="logo_color3">#1af500</color>
 
     <color name="logo_overlay_shade_color">#55FFFFFF</color>
     <color name="logo_overlay_color">#FFFFFFFF</color>
+
+
+    <color name="app_update_text_color">#ffffffff</color>
+    <color name="app_version_text_color">#99ffffff</color>
+
+    <color name="app_update_card_bg">#1fffffff</color>
+
+    <color name="app_device_info_item_summary_color">#80ffffff</color>
+    <color name="app_device_info_item_background_color">#24ffffff</color>
+
+    <color name="custom_order_item_bg_color">@color/miuix_default_color_container_list_solid_dark</color>
+
+    <color name="search_text_color">#ffffffff</color>
+    <color name="search_history_tv_bg_color">#26ffffff</color>
+    <color name="search_history_clear_text_color">#73ffffff</color>
+
+
+    <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_dark</color>
 </resources>

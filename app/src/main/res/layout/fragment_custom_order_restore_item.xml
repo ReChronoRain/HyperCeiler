@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/custom_order_item_height"
+    android:layout_marginBottom="@dimen/custom_order_restore_margin_bottom"
+    android:background="@drawable/item_card_bg">
+
+    <TextView
+        android:id="@+id/restore_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/custom_order_item_margin"
+        android:fontFamily="mipro-medium"
+        android:text="@string/revert"
+        android:textColor="?colorPrimary"
+        android:textSize="17sp" />
+</LinearLayout>

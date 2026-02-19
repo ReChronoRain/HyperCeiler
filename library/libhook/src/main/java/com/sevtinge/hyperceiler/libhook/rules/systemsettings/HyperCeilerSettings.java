@@ -96,7 +96,7 @@ public class HyperCeilerSettings extends BaseHook {
         // 设置 Intent
         Intent intent = new Intent();
         intent.putExtra("isDisplayHomeAsUpEnabled", true);
-        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.HyperCeilerTabActivity");
+        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.oldui.ui.HyperCeilerTabActivity");
         EzxHelpUtils.setObjectField(header, "intent", intent);
 
         // 设置用户信息

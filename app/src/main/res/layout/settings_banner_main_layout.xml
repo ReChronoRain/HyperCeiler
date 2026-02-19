@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
+    android:paddingBottom="@dimen/settings_banner_ly_padding_top_and_bottom">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/settings_banner_bg"
+        android:gravity="center_vertical"
+        android:paddingStart="@dimen/settings_banner_ly_inner_padding_start_and_end"
+        android:paddingEnd="@dimen/settings_banner_ly_inner_padding_start_and_end">
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="@dimen/settings_banner_icon_size"
+            android:layout_height="@dimen/settings_banner_icon_size"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/settings_banner_ly_inner_padding_start_and_end"
+            android:adjustViewBounds="true"
+            android:gravity="center"
+            android:minWidth="@dimen/settings_banner_icon_width"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
+            android:paddingTop="@dimen/settings_banner_text_padding_top_and_bottom"
+            android:paddingBottom="@dimen/settings_banner_text_padding_top_and_bottom">
+
+            <TextView
+                android:id="@android:id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:fadingEdge="horizontal"
+                android:hyphenationFrequency="full"
+                android:maxLines="2"
+                android:textAlignment="viewStart"
+                android:textAppearance="@style/TextAppearance.PreferenceList" />
+
+            <TextView
+                android:id="@android:id/summary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/miuix_preference_summary_margin_top"
+                android:fontFamily="@string/miuix_font_style_misans_regular_font_family"
+                android:textAlignment="viewStart"
+                android:textColor="@color/color_on_surface_tertiary"
+                android:textSize="@dimen/miuix_preference_secondary_text_size" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/arrow_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:layout_marginStart="@dimen/settings_banner_ly_inner_padding_start_and_end"
+            android:gravity="center"
+            android:paddingStart="@dimen/settings_banner_arrow_right_padding_start"
+            android:src="@drawable/miuix_preference_icon_arrow_right" />
+    </LinearLayout>
+</LinearLayout>

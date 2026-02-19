@@ -113,7 +113,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <fan.cardview.HyperCardView
         android:id="@+id/update_hint_text"
 
         android:layout_width="248dp"
@@ -134,6 +134,6 @@
             android:textSize="17sp"
             android:textStyle="bold" />
 
-    </LinearLayout>
+    </fan.cardview.HyperCardView>
 
 </RelativeLayout>

@@ -21,7 +21,6 @@
     android:layout_height="wrap_content"
     android:descendantFocusability="blocksDescendants"
     android:orientation="horizontal"
-    android:paddingHorizontal="25dp"
     android:paddingVertical="10dp">
 
     <ImageView
