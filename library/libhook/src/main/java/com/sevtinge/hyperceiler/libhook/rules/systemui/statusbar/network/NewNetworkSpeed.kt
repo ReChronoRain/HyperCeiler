@@ -29,7 +29,7 @@ import android.widget.TextView
 import androidx.annotation.RequiresPermission
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
@@ -103,8 +103,8 @@ object NewNetworkSpeed : BaseHook() {
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun init() {
         runCatching {
-            if (isMoreAndroidVersion(36) && networkStyle != 0) {
-                // 仅 Android 16 出现末尾加空格的情况
+            if (isMoreHyperOSVersion(3f) && networkStyle != 0) {
+                // 仅 HyperOS 3+ 出现末尾加空格的情况
                 nsvCls!!.afterHookMethod("updateNetworkSpeed") {
                     val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
                     val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
