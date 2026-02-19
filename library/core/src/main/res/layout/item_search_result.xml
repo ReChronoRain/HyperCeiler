@@ -19,26 +19,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
+    android:background="?android:attr/selectableItemBackground"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingHorizontal="25dp"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="12dp">
 
     <ImageView
         android:id="@android:id/icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_gravity="center_vertical"
-        android:importantForAccessibility="no"
-        android:visibility="gone" />
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:importantForAccessibility="no" />
 
     <LinearLayout
-        android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
+        android:layout_marginStart="12dp"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -46,19 +42,20 @@
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.List"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@android:id/summary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:ellipsize="end"
+            android:paddingTop="2dp"
             android:singleLine="true"
             android:textAppearance="@style/TextAppearance.List.Secondary"
-            android:textSize="14.5sp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 

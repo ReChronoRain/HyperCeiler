@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.common.utils.search.SearchHelper;
+import com.sevtinge.hyperceiler.common.utils.SearchIndexManager;
 import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.libhook.callback.IResult;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
@@ -113,9 +113,9 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         CHECK_LIST.parallelStream().forEach(this::checkAppMod);
 
         try {
-            SearchHelper.init(appCtx, restored);
+            SearchIndexManager.buildIndex(appCtx, R.xml.prefs_main, restored);
         } catch (Throwable t) {
-            AndroidLog.e(TAG, "SearchHelper: " + t);
+            AndroidLog.e(TAG, "SearchIndexManager: " + t);
         }
 
         List<String> computedAppCrash = computeCrashList();
@@ -330,6 +330,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         super.onDestroy();
         ShellInit.destroy();
         ThreadPoolManager.shutdown();
+        SearchIndexManager.clear();
         mUninstallApp.clear();
         mDisableOrHiddenApp.clear();
     }

@@ -26,6 +26,7 @@
         android:id="@+id/nested_header_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@null"
         android:clipChildren="false"
         app:headerAutoClose="false"
         app:headerView="@id/search_bar"
@@ -42,6 +43,7 @@
             android:id="@+id/scrollable_view_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@null"
             app:scrollOrientation="vertical|angle"
             app:scrollableView="@id/scrollview">
 
@@ -49,6 +51,7 @@
                 android:id="@+id/scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@null"
                 android:fillViewport="true">
 
                 <LinearLayout
@@ -80,8 +83,12 @@
             android:id="@+id/search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="?android:attr/actionBarSize"
             android:overScrollMode="ifContentScrolls"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </fan.nestedheader.widget.NestedHeaderLayout>
 

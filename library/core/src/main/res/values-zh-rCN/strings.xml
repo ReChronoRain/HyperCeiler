@@ -72,6 +72,9 @@
     <string name="unsupported_system_func">当前系统版本不支持此功能</string>
     <string name="supported_system_func">当前系统版本官方已支持此功能</string>
     <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
+    <string name="search_result_not_available">此功能可能不支持此设备或隐藏到部分选项下</string>
+    <string name="search_history">搜索记录</string>
+    <string name="search_history_clear">清除搜索记录</string>
     <!--System UI-->
     <string name="system_ui">系统界面</string>
     <!--System launcher-->

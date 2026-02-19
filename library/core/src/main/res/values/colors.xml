@@ -10,4 +10,6 @@
     <color name="textview_black_title">#000000</color>
     <color name="textview_black_summary">#80000000</color>
     <color name="textview_black_watermark">#03000000</color>
+
+    <color name="search_history_tag_bg">@color/miuix_card_drawable_default_color_light</color>
 </resources>
