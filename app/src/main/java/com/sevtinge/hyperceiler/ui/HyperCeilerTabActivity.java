@@ -99,7 +99,6 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final boolean restored = (savedInstanceState != null);
-        final android.content.Context appCtx = getApplicationContext();
 
         mHandler = new Handler(Looper.getMainLooper());
 
@@ -108,12 +107,12 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
         LanguageHelper.init(this);
         PermissionUtils.init(this);
         ShellInit.init(this);
-        LogServiceUtils.init(appCtx);
+        LogServiceUtils.init(this);
 
         CHECK_LIST.parallelStream().forEach(this::checkAppMod);
 
         try {
-            SearchHelper.init(appCtx, restored);
+            SearchHelper.init(this, restored);
         } catch (Throwable t) {
             AndroidLog.e(TAG, "SearchHelper: " + t);
         }
