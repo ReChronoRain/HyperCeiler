@@ -57,6 +57,19 @@ public class HomePageActivity extends AppCompatActivity
     public SwitchManager mSwitchManager;
     public ViewPagerChangeListener mPageChangeCallback = new ViewPagerChangeListener();
 
+    // 必须在 onCreate 之前或初始化时定义
+    public final ActivityResultLauncher<Intent> mCtaLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result != null) {
+                if (result.getResultCode() != 1) {
+                    finishAffinity();
+                    System.exit(0);
+                }
+                CtaUtils.setCtaValue(getApplicationContext(), result.getResultCode() == 1);
+            }
+        }
+    );
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

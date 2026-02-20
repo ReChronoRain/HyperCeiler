@@ -205,25 +205,23 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         public HeaderViewHolder(@NonNull View itemView) {
             super(itemView);
             int viewType = (Integer) itemView.getTag();
-            if (viewType == 0) {
-                title = itemView.findViewById(android.R.id.title);
-
-            } else if (viewType == 1 || viewType == 2 || viewType == 3 || viewType == 5 || viewType == 6) {
-                arrowRight = itemView.findViewById(R.id.arrow_right);
-                if (arrowRight != null) {
-                    arrowRight.setVisibility(View.VISIBLE);
+            switch (viewType) {
+                case 0 -> title = itemView.findViewById(android.R.id.title);
+                case 1 -> {
+                    arrowRight = itemView.findViewById(R.id.arrow_right);
+                    if (arrowRight != null) {
+                        arrowRight.setVisibility(View.VISIBLE);
+                    }
+                    icon = itemView.findViewById(android.R.id.icon);
+                    title = itemView.findViewById(android.R.id.title);
+                    summary = itemView.findViewById(android.R.id.summary);
+                    value = itemView.findViewById(fan.preference.R.id.text_right);
+                    if (icon != null && icon.getParent() != null) {
+                        LinearLayout parent = (LinearLayout) icon.getParent();
+                        icon.setMinimumWidth(icon.getContext().getResources().getDimensionPixelSize(R.dimen.header_icon_size));
+                        parent.setMinimumWidth(0);
+                    }
                 }
-                icon = itemView.findViewById(android.R.id.icon);
-                title = itemView.findViewById(android.R.id.title);
-                summary = itemView.findViewById(android.R.id.summary);
-                value = itemView.findViewById(fan.preference.R.id.text_right);
-                if (icon != null && icon.getParent() != null) {
-                    LinearLayout parent = (LinearLayout) icon.getParent();
-                    icon.setMinimumWidth(icon.getContext().getResources().getDimensionPixelSize(R.dimen.header_icon_size));
-                    parent.setMinimumWidth(0);
-                }
-            } else {
-                arrowRight = itemView.findViewById(R.id.arrow_right);
             }
         }
     }

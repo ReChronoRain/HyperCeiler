@@ -116,14 +116,11 @@ public class AppTaskManager {
         runner.addTask(new Task("BusinessLogic", true, "CoreService") {
             @Override
             public void execute() {
-                registerObserver(activity.getApplicationContext());
                 ShellInit.init(activity);
                 // 原 Activity 的 checkAppMod 逻辑迁移到此
                 CHECK_LIST.parallelStream().forEach(pkg -> {
                     checkAppMod(activity, pkg);
                 });
-
-                SearchHelper.initIndex(activity, true);
 
                 // 原 Activity 的 computeCrashList 逻辑迁移到此
                 List<String> crashes = computeCrashList();
@@ -131,7 +128,6 @@ public class AppTaskManager {
                 // 逻辑执行完，回调 UI
                 new Handler(Looper.getMainLooper()).post(() -> {
                     showSafeModeDialogIfNeeded(activity, crashes);
-                    requestCta(activity);
                 });
             }
         });
@@ -139,7 +135,10 @@ public class AppTaskManager {
         runner.addTask(new Task("UI_Effect", false) {
             @Override
             public void execute() {
-
+                requestCta(activity);
+                XposedActivateHelper.init(activity);
+                registerObserver(activity.getApplicationContext());
+                SearchHelper.initIndex(activity, true);
             }
         });
     }
@@ -150,23 +149,11 @@ public class AppTaskManager {
         AppsTool.registerFileObserver(context);
     }
 
-    public static void requestCta(FragmentActivity activity) {
+    public static void requestCta(HomePageActivity activity) {
         if (OobeUtils.getOperatorState(activity, "cm_pick_status")) return;
         if (CtaUtils.isCtaNeedShow(activity)) {
             if (CtaUtils.isCtaBypass()) {
-                ActivityResultLauncher<Intent> ctaLauncher = activity.registerForActivityResult(
-                    new ActivityResultContracts.StartActivityForResult(),
-                    result -> {
-                        if (result != null) {
-                            if (result.getResultCode() != 1) {
-                                activity.finishAffinity();
-                                System.exit(0);
-                            }
-                            CtaUtils.setCtaValue(activity.getApplicationContext(), result.getResultCode() == 1);
-                        }
-                    }
-                );
-                CtaUtils.showCtaDialog(ctaLauncher, activity);
+                CtaUtils.showCtaDialog(activity.mCtaLauncher, activity);
             } else {
                 showUserAgreeDialog(activity);
             }

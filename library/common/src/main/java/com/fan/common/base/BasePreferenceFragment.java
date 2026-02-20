@@ -1,8 +1,12 @@
 package com.fan.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+
+import com.sevtinge.hyperceiler.common.utils.SettingsHelper;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.preference.PreferenceFragment;
 

@@ -14,8 +14,6 @@ import fan.recyclerview.card.CardGroupAdapter;
 
 public class ProxyHeaderViewAdapter extends CardGroupAdapter {
 
-    // 头部视图的容器
-    private LinearLayout mHeaderContainer;
     final RecyclerView.Adapter<?> mBaseAdapter;
     private HashMap<Integer, View> mHeaderViews = new HashMap();
     private boolean isRemovableViewExist = false;
@@ -106,16 +104,16 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
         if (position < size) {
             return (position == 0 && isRemovableViewExist) ? 256 : 512;
         }
-        return this.mBaseAdapter.getItemViewType(position - size);
+        return mBaseAdapter.getItemViewType(position - size);
     }
 
     @Override
     public long getItemId(int position) {
-        int size = position - this.mHeaderViews.size();
-        if (size < 0 || size >= this.mBaseAdapter.getItemCount()) {
+        int size = position - mHeaderViews.size();
+        if (size < 0 || size >= mBaseAdapter.getItemCount()) {
             return -1L;
         }
-        return this.mBaseAdapter.getItemId(size);
+        return mBaseAdapter.getItemId(size);
     }
 
     public void addRemovableHintView(View view) {
