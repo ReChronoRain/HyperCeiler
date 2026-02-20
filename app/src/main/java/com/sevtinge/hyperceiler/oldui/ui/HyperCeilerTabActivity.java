@@ -106,7 +106,7 @@ public class HyperCeilerTabActivity extends NaviBaseActivity
 
         mHandler = new Handler(Looper.getMainLooper());
 
-        applyGrayScaleFilter(this);
+        //applyGrayScaleFilter(this);
         HolidayHelper.init(this);
         LanguageHelper.init(this);
         PermissionUtils.init(this);

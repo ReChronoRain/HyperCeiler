@@ -12,7 +12,7 @@
         style="?attr/actionModeCancelButtonStyle"
         android:layout_width="@dimen/custom_order_button_size"
         android:layout_height="@dimen/custom_order_button_size"
-        android:background="@drawable/icon_confirm"
+        android:background="@drawable/icon_cancel"
         android:contentDescription="@android:string/cancel"
         android:text="" />
 

@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.dashboard.base.activity;
 
+import android.app.ComponentCaller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -36,11 +37,10 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        Intent intent = getIntent();
         super.onCreate(savedInstanceState);
-        applyGrayScaleFilter(this);
+        //PageDecorator.applyGrayScaleFilter(this);
         registerObserver(getApplicationContext());
-        createUiFromIntent(savedInstanceState, intent);
+        createUiFromIntent(savedInstanceState, getIntent());
     }
 
     protected void createUiFromIntent(Bundle savedInstanceState, Intent intent) {
@@ -49,7 +49,7 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
         if (!TextUtils.isEmpty(initialFragmentName)) {
             Fragment targetFragment = getTargetFragment(this, initialFragmentName, savedInstanceState);
             if (targetFragment != null) {
-                if (getArguments(intent) != null) targetFragment.setArguments(getArguments(intent));
+                targetFragment.setArguments(getArguments(intent));
                 setFragment(targetFragment);
             }
         }

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.UserHandle;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import androidx.annotation.XmlRes;
 import androidx.fragment.app.Fragment;
@@ -18,24 +19,6 @@ public class SubSettingLauncher {
     private final Context mContext;
     private final LaunchRequest mLaunchRequest;
     private boolean mLaunched;
-
-    class LaunchRequest {
-        Bundle mArguments;
-        String mDestinationName;
-        Bundle mExtras;
-        int mFlags;
-        boolean mIsSecondLayerPage;
-        int mRequestCode;
-        Fragment mResultListener;
-        int mSourceMetricsCategory = 100;
-        CharSequence mTitle;
-        int mTitleResId;
-        String mTitleResPackageName;
-        int mTransitionType;
-        UserHandle mUserHandle;
-
-        int mInflatedXml;
-    }
 
 
     public SubSettingLauncher(Context context) {
@@ -124,17 +107,8 @@ public class SubSettingLauncher {
             throw new IllegalStateException("This launcher has already been executed. Do not reuse");
         }
         mLaunched = true;
-        /*if (SettingsFeatures.isFoldDevice() && (this.mContext instanceof MiuiSettings)) {
-            intent.addMiuiFlags(4);
-        }*/
         Fragment fragment = mLaunchRequest.mResultListener;
         if (fragment != null) {
-            launchForResultAsUser(intent, mLaunchRequest.mUserHandle, fragment, mLaunchRequest.mRequestCode);
-            return;
-        }
-        if (fragment == null) {
-            launchAsUser(intent, mLaunchRequest.mUserHandle);
-        } else if (fragment != null) {
             launchForResult(fragment, intent, mLaunchRequest.mRequestCode);
         } else {
             launch(intent);
@@ -170,20 +144,19 @@ public class SubSettingLauncher {
             throw new IllegalArgumentException("Source metrics category must be set");
         }
 
+        if (mLaunchRequest.mArguments == null) {
+            mLaunchRequest.mArguments = new Bundle();
+        }
+
         if (mLaunchRequest.mInflatedXml != 0) {
-            if (mLaunchRequest.mArguments == null) {
-                mLaunchRequest.mArguments = new Bundle();
-                mLaunchRequest.mArguments.putInt(":settings:fragment_resId", mLaunchRequest.mInflatedXml);
-            } else {
-                mLaunchRequest.mArguments.putInt(":settings:fragment_resId", mLaunchRequest.mInflatedXml);
-            }
+            mLaunchRequest.mArguments.putInt(":settings:fragment_resId", mLaunchRequest.mInflatedXml);
         }
 
         intent.putExtra(":settings:source_metrics", category);
         intent.putExtra(":settings:show_fragment_args", mLaunchRequest.mArguments);
         intent.putExtra(":settings:show_fragment_title_res_package_name", mLaunchRequest.mTitleResPackageName);
-        intent.putExtra(":settings:show_fragment_title_resid", mLaunchRequest.mTitleResId);
         intent.putExtra(":settings:show_fragment_title", mLaunchRequest.mTitle);
+        intent.putExtra(":settings:show_fragment_title_resid", mLaunchRequest.mTitleResId);
         intent.addFlags(mLaunchRequest.mFlags);
         intent.putExtra("page_transition_type", mLaunchRequest.mTransitionType);
         intent.putExtra(":settings:is_second_layer_page", mLaunchRequest.mIsSecondLayerPage);
@@ -191,10 +164,6 @@ public class SubSettingLauncher {
     }
 
     void launch(Intent intent) {
-        mContext.startActivity(intent);
-    }
-
-    void launchAsUser(Intent intent, UserHandle userHandle) {
         mContext.startActivity(intent);
     }
 

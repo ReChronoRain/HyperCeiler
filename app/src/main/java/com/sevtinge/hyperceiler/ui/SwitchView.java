@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.ui;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.Menu;
@@ -26,6 +27,8 @@ import fan.animation.controller.AnimState;
 import fan.animation.property.ViewProperty;
 
 public class SwitchView extends FrameLayout {
+
+    private View mDividerLine; // 新增分割线成员
     private LinearLayout mTabContainer;    // 存放图标和文字的容器
     private final List<View> mItemViews = new ArrayList<>(); // 所有的 Tab 视图
 
@@ -40,6 +43,13 @@ public class SwitchView extends FrameLayout {
     }
 
     private void init() {
+        // 1. 创建分割线 (置于顶部)
+        mDividerLine = new View(getContext());
+        mDividerLine.setBackgroundColor(Color.parseColor("#1A000000")); // 浅灰色边框
+        mDividerLine.setVisibility(GONE); // 默认隐藏（药丸模式不需要）
+        // 高度设为 1px 而非 1dp，更精致
+        addView(mDividerLine, new LayoutParams(LayoutParams.MATCH_PARENT, 1));
+
         // 初始化 Tab 容器
         mTabContainer = new LinearLayout(getContext());
         mTabContainer.setOrientation(LinearLayout.HORIZONTAL);
@@ -75,6 +85,19 @@ public class SwitchView extends FrameLayout {
         }
     }
 
+    /**
+     * 内部样式更新时同步线状态
+     */
+    private void updateBottomNavLayout(LayoutParams lp) {
+        lp.width = LayoutParams.MATCH_PARENT;
+        lp.height = getContext().getResources().getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_height);
+        lp.gravity = Gravity.TOP;
+        mTabContainer.setPadding(0, 0, 0, 0);
+
+        // 显示分割线
+        mDividerLine.setVisibility(VISIBLE);
+    }
+
     private void updateCapsuleNavLayout(LayoutParams lp) {
         lp.width = LayoutParams.MATCH_PARENT;
         // 关键：容器本身只占 56dp 高度
@@ -82,15 +105,9 @@ public class SwitchView extends FrameLayout {
         // 关键：重心设为顶部，这样它就不会被底部的 Padding 挤到中间或顶上去
         lp.gravity = Gravity.CENTER;
         mTabContainer.setPadding(0, 0, 0, 0);
-    }
 
-    private void updateBottomNavLayout(LayoutParams lp) {
-        lp.width = LayoutParams.MATCH_PARENT;
-        // 关键：容器本身只占 56dp 高度
-        lp.height = dpToPx(56);
-        // 关键：重心设为顶部，这样它就不会被底部的 Padding 挤到中间或顶上去
-        lp.gravity = Gravity.TOP;
-        mTabContainer.setPadding(0, 0, 0, 0);
+        // 隐藏分割线
+        mDividerLine.setVisibility(GONE);
     }
 
     /**
@@ -155,12 +172,13 @@ public class SwitchView extends FrameLayout {
         ImageView iv = new ImageView(getContext());
         iv.setImageDrawable(item.getIcon());
         // 如果图标本身有白边，可以尝试：iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        itemView.addView(iv, new LinearLayout.LayoutParams(dpToPx(24), dpToPx(24)));
+        int iconSize = getContext().getResources().getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_icon_size);
+        itemView.addView(iv, new LinearLayout.LayoutParams(iconSize, iconSize));
 
         // 3. 创建文字
         TextView tv = new TextView(getContext());
         tv.setText(item.getTitle());
-        tv.setTextSize(10);
+        tv.setTextSize(12f);
         // 确保文字在 TextView 内部也是居中的
         tv.setGravity(Gravity.CENTER);
         tv.setPadding(0, dpToPx(2), 0, 0);

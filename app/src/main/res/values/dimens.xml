@@ -62,8 +62,6 @@
     <dimen name="miuix_preference_rv_top_padding">4.269989dp</dimen>
     <dimen name="app_home_settings_recyclerview_padding_bottom">28dp</dimen>
 
-    <dimen name="preference_text_right_max_width">130dp</dimen>
-
 
     <!--About-->
     <dimen name="app_logo_area_height">389dp</dimen>

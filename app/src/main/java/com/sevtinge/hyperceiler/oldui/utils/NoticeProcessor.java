@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.oldui.utils;
 
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.appLanguages;
+import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.APP_LANGUAGES;
 import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.localeFromAppLanguage;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
@@ -167,8 +167,8 @@ public class NoticeProcessor {
 
         // HyperCeiler language
         int selectedLang = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_settings_app_language", "0"));
-        if (selectedLang < 0 || selectedLang >= appLanguages.length) selectedLang = 0;
-        Locale locale = localeFromAppLanguage(appLanguages[selectedLang]);
+        if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
+        Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
         String lang = locale.toLanguageTag();
         if (!matchStringListAllowAll(n.lang, lang)) {
             return false;

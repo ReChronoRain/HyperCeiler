@@ -13,6 +13,7 @@ import com.fan.common.logviewer.LogViewerActivity;
 import com.fan.common.logviewer.XposedLogLoader;
 import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.common.utils.ScopeManager;
+import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.oldui.model.data.AppInfoCache;
@@ -44,16 +45,14 @@ public class Application extends fan.app.Application
     @Override
     public void onCreate() {
         super.onCreate();
-
+        // 应用启动阶段，预热非 UI 任务（如 Shell、语言包、权限检查）
+        AppInitializer.initOnAppCreate(this);
         // 初始化日志系统
         com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(this.getDataDir().getAbsolutePath());
         LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
         LogManager.init(this);
         LogViewerActivity.setXposedLogLoader((context, callback) -> XposedLogLoader.loadLogs(callback));
 
-        AppInfoCache.getInstance(this).init();
-
-        LSPosedScopeHelper.init();
         setupCrashHandler();
     }
 

@@ -52,29 +52,15 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     @NonNull
     @Override
     public HeaderViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
-        if (viewType == 0) {
-            view = mInflater.inflate(fan.preference.R.layout.miuix_preference_category_layout, parent, false);
-        } else {
-            if (viewType == 1 || viewType == 2 || viewType == 3 || viewType == 5) {
+        View view = null;
+        switch (viewType) {
+            case 0 ->
+                view = mInflater.inflate(fan.preference.R.layout.miuix_preference_category_layout, parent, false);
+            case 1 -> {
                 view = mInflater.inflate(R.layout.miuix_preference_settings_main_layout, parent, false);
-                setExtraParams(parent, 2, view);
-            } else if (viewType == 6) {
-                view = mInflater.inflate(R.layout.miuix_preference_settings_main_layout, parent, false);
-                setExtraParams(parent, 6, view);
-            } else {
-                view = mInflater.inflate(R.layout.miuix_preference_main_layout, parent, false);
-                ViewGroup widgetFrame = view.findViewById(android.R.id.widget_frame);
-                if (widgetFrame != null) {
-                    LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-                    inflater.inflate(fan.preference.R.layout.miuix_preference_widget_text, widgetFrame, true);
-
-                    TextView textView = widgetFrame.findViewById(fan.preference.R.id.text_right);
-                    textView.setMaxWidth(mContext.getResources().getDimensionPixelSize(R.dimen.preference_text_right_max_width));
-                }
+                setExtraParams(parent, view);
             }
         }
-        //setMaxLinesForTitle(view);
         view.setTag(Integer.valueOf(viewType));
         return new HeaderViewHolder(view);
     }
@@ -87,25 +73,22 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         View itemView = holder.itemView;
         Resources res = mContext.getResources();
         int headerType = getHeaderType(header);
-        if (headerType == 0) {
-            holder.title.setText(header.getTitle(res));
-            if (TextUtils.isEmpty(holder.title.getText())) {
-                holder.title.setVisibility(View.GONE);
-                if (itemView != null) {
+        switch (headerType) {
+            case 0 -> {
+                holder.title.setText(header.getTitle(res));
+                if (TextUtils.isEmpty(holder.title.getText())) {
+                    holder.title.setVisibility(View.GONE);
                     itemView.setImportantForAccessibility(4);
                     itemView.setBackgroundResource(R.drawable.settings_preference_category_bg_no_title);
-                }
-            } else {
-                holder.title.setVisibility(View.VISIBLE);
-                if (itemView != null) {
+                } else {
+                    holder.title.setVisibility(View.VISIBLE);
                     itemView.setBackgroundResource(
                         position == 0 ? R.drawable.settings_preference_category_bg_first :
-                        R.drawable.settings_preference_category_bg
+                            R.drawable.settings_preference_category_bg
                     );
                 }
             }
-        } else {
-            if (headerType == 1) {
+            case 1 -> {
                 holder.title.setText(header.getTitle(res));
                 CharSequence summary = header.getSummary(res);
                 if (!TextUtils.isEmpty(summary)) {
@@ -114,10 +97,6 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                 } else {
                     holder.summary.setVisibility(View.GONE);
                 }
-                if (isAdapterVerticalSummary(header)) {
-                    holder.value.setVisibility(View.GONE);
-                    holder.summary.setVisibility(View.VISIBLE);
-                }
             }
         }
         setIcon(holder, header);
@@ -125,21 +104,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         setClick(holder, header, position);
     }
 
-    private boolean isAdapterVerticalSummary(Header header) {
-        if (LargeFontUtils.isLargeFontLevel(mContext) || Build.IS_TABLET /*|| SettingsFeatures.isFoldDevice()*/) {
-            return true;
-        }
-        return false;
-    }
-
-    private void setExtraParams(ViewGroup viewGroup, int i, View view) {
-        ViewGroup widgetFrame = view.findViewById(android.R.id.widget_frame);
-        if (widgetFrame != null) {
-            LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-            inflater.inflate(fan.preference.R.layout.miuix_preference_widget_text, widgetFrame, true);
-            TextView textView = widgetFrame.findViewById(fan.preference.R.id.text_right);
-            textView.setMaxWidth(mContext.getResources().getDimensionPixelSize(R.dimen.preference_text_right_max_width));
-        }
+    private void setExtraParams(ViewGroup parent, View view) {
         View arrowRight = view.findViewById(R.id.arrow_right);
         if (arrowRight != null) {
             arrowRight.setVisibility(View.VISIBLE);
@@ -153,7 +118,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
             if (iconView != null && iconView.getVisibility() != View.GONE) {
                 if (header.iconRes != 0) {
                     iconView.setVisibility(View.VISIBLE);
-                    //iconView.setImageResource(header.iconRes);
+                    iconView.setImageResource(header.iconRes);
                     iconView.setScaleType(ImageView.ScaleType.FIT_XY);
                     setIconAndTitle(holder, header);
                 } else {
@@ -179,16 +144,11 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     }
 
     public void setClick(HeaderViewHolder holder, Header header, int position) {
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFragment.onHeaderClick(header, position);
-            }
-        });
+        holder.itemView.setOnClickListener(v -> mFragment.onHeaderClick(header, position));
     }
 
-    public static Bitmap createBitmap(Drawable drawable, int i, int i2) {
-        Bitmap createBitmap = Bitmap.createBitmap(i, i2, Bitmap.Config.ARGB_8888);
+    public static Bitmap createBitmap(Drawable drawable, int width, int height) {
+        Bitmap createBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(createBitmap);
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);

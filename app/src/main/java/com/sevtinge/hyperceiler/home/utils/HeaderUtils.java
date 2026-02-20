@@ -124,6 +124,8 @@ public class HeaderUtils {
                         if (tv.resourceId != 0) {
                             header.inflatedXml = tv.resourceId;
                             header.fragment = DashboardFragment.class.getName();
+                        } else {
+                            header.inflatedXml = -1;
                         }
                     }
 

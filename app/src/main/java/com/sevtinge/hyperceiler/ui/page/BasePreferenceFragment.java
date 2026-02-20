@@ -87,10 +87,10 @@ public abstract class BasePreferenceFragment extends Fragment {
         if (header.fragment != null) {
             new SubSettingLauncher(requireContext())
                 .setDestination(header.fragment)
+                .setTitleText(header.title)
                 .setTitleRes(header.titleRes)
                 .setArguments(header.fragmentArguments)
                 .setInflatedXml(header.inflatedXml)
-                .setResultListener(null, 0)
                 .setIsSecondLayerPage(true)
                 .launch();
             return;

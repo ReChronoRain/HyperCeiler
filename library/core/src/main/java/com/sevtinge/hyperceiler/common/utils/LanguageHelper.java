@@ -23,20 +23,63 @@ import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mSharedPre
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.os.LocaleList;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class LanguageHelper {
-    public static final String[] appLanguages = {
+    public static final String[] APP_LANGUAGES = {
             "en", "zh_CN", "zh_TW", "zh_HK", "ja_JP", "pl_PL", "ru_RU", "ar_SA", "es_ES", "pt_BR", "id_ID", "tr_TR", "vi_VN", "it_IT", "de_DE", "uk_UA", "zh_ME"
     };
 
-    private static final java.util.Map<String, Locale> localeCache = new java.util.HashMap<>();
+    private static final Map<String, Locale> localeCache = new HashMap<>();
+
+    /**
+     * 优化后的初始化：接受 Context 即可，可在 Application 中预热
+     */
+    public static void init(Context context, SharedPreferences prefs) {
+        String languageSetting = prefs.getString("prefs_key_settings_app_language", "-1");
+        if (!"-1".equals(languageSetting)) {
+            applyLanguage(context, Integer.parseInt(languageSetting));
+        }
+    }
+
+    public static void applyLanguage(Context context, int index) {
+        if (index < 0 || index >= APP_LANGUAGES.length) index = 0;
+        String[] parts = APP_LANGUAGES[index].split("_");
+        Locale locale = getCachedLocale(parts[0], parts.length > 1 ? parts[1] : "");
+        updateResourceConfiguration(context, locale);
+    }
+
+    private static void updateResourceConfiguration(Context context, Locale locale) {
+        Resources resources = context.getResources();
+        Configuration configuration = resources.getConfiguration();
+        Locale.setDefault(locale);
+
+        configuration.setLocale(locale);
+        LocaleList localeList = new LocaleList(locale);
+        LocaleList.setDefault(localeList);
+        configuration.setLocales(localeList);
+
+        // 兼容性更新资源配置
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+    }
+
+    public static Locale getCachedLocale(String language, String country) {
+        String key = country.isEmpty() ? language : language + "_" + country;
+        return localeCache.computeIfAbsent(key, k -> new Locale(language, country));
+    }
+
+
+
 
     public static void init(Activity activity) {
         String languageSetting = mSharedPreferences.getString("prefs_key_settings_app_language", "-1");
@@ -62,8 +105,8 @@ public class LanguageHelper {
     }
 
     public static void setIndexLanguage(Activity activity, int index, boolean recreate) {
-        if (index < 0 || index >= appLanguages.length) index = 0;
-        String[] parts = appLanguages[index].split("_");
+        if (index < 0 || index >= APP_LANGUAGES.length) index = 0;
+        String[] parts = APP_LANGUAGES[index].split("_");
         Locale locale = getCachedLocale(parts[0], parts.length > 1 ? parts[1] : "");
         setLanguage(activity.getBaseContext(), locale);
         if (recreate) activity.recreate();
@@ -96,11 +139,6 @@ public class LanguageHelper {
 
     public static boolean isUpperCase(String string) {
         return string.equals(string.toUpperCase());
-    }
-
-    public static Locale getCachedLocale(String language, String country) {
-        String key = country.isEmpty() ? language : language + "_" + country;
-        return localeCache.computeIfAbsent(key, k -> country.isEmpty() ? new Locale(language) : new Locale(language, country));
     }
 
     public static Locale localeFromAppLanguage(String lang) {

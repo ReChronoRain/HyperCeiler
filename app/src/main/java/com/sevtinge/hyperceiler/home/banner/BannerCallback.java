@@ -1,4 +1,4 @@
-package com.sevtinge.hyperceiler.home;
+package com.sevtinge.hyperceiler.home.banner;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.home.banner.BannerBean;
-import com.sevtinge.hyperceiler.home.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.ui.page.HomePageFragment;
 
 import java.lang.ref.WeakReference;

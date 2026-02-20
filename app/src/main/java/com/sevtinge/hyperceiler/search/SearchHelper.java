@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.search;
 
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.appLanguages;
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.localeFromAppLanguage;
+import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.APP_LANGUAGES;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import android.content.Context;
@@ -141,7 +140,7 @@ public class SearchHelper {
      */
     private static Resources getLocaleResources(Context context) {
         int selectedLang = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_settings_app_language", "0"));
-        if (selectedLang < 0 || selectedLang >= appLanguages.length) selectedLang = 0;
+        if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
         //Locale locale = localeFromAppLanguage(appLanguages[selectedLang]);
 
         Locale locale = Locale.CHINA;

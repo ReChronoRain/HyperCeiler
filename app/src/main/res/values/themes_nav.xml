@@ -39,7 +39,7 @@
     </style>
 
     <style name="NavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
-        <item name="actionBarBackground">@color/miuix_appcompat_transparent</item>
+        <!--<item name="actionBarBackground">@color/miuix_appcompat_transparent</item>-->
         <item name="android:actionModeBackground">@color/miuix_appcompat_transparent</item>
         <item name="windowActionBarOverlay">true</item>
 

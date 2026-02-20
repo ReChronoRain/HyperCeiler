@@ -48,17 +48,6 @@ public interface ActivityCallback {
         AppsTool.registerFileObserver(context);
     }
 
-    default void applyGrayScaleFilter(Activity activity) {
-        if (isNeedGrayView) {
-            View decorView = activity.getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        }
-    }
-
     default void replaceFragment(Fragment fragment, String tag) {
         //mFragmentManager.beginTransaction().replace(R.id.frame_content, fragment, tag).commit();
     }

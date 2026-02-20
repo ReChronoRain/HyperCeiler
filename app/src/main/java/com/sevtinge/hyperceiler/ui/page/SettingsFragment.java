@@ -59,7 +59,7 @@ public class SettingsFragment extends BasePreferenceFragment
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
         String language = LanguageHelper.getLanguage(requireContext());
-        int value = LanguageHelper.resultIndex(LanguageHelper.appLanguages, language);
+        int value = LanguageHelper.resultIndex(LanguageHelper.APP_LANGUAGES, language);
         mLanguage.setValueIndex(value);
 
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {

@@ -3,7 +3,6 @@ package com.sevtinge.hyperceiler.ui.page;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -21,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,23 +28,23 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.sevtinge.hyperceiler.home.HomePageHeaderHelper;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
-import com.sevtinge.hyperceiler.home.BannerCallback;
+import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.FlowLayout;
 import com.sevtinge.hyperceiler.home.Header;
 import com.sevtinge.hyperceiler.home.IntentUtils;
 import com.sevtinge.hyperceiler.home.OnCompleteCallBack;
 import com.sevtinge.hyperceiler.home.SearchResultAdapter;
 import com.sevtinge.hyperceiler.home.banner.BannerBean;
-import com.sevtinge.hyperceiler.home.banner.HomePageBannerHelper;
+import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
-import com.sevtinge.hyperceiler.ui.SwitchManager;
 import com.sevtinge.hyperceiler.ui.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.ui.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
@@ -57,9 +55,6 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
-import fan.animation.Folme;
-import fan.animation.ITouchStyle;
-import fan.animation.base.AnimConfig;
 import fan.core.utils.MiuiBlurUtils;
 import fan.internal.utils.ViewUtils;
 import fan.nestedheader.widget.NestedHeaderLayout;
@@ -82,23 +77,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private volatile BannerBean mTipsLocalModel;
     private BannerCallback mBannerCallback;
-    private final HomePageBannerHelper.BannerCallback mBannerHelperCallback = new HomePageBannerHelper.BannerCallback() {
-        @Override
-        public void onGetBanner(BannerBean bannerBean) {
-            isFirstCreated = false;
-            // 如果数据没变，就不刷 UI（性能优化）
-            if (bannerBean != null && bannerBean.equals(getTipsLocalModel())) {
-                return;
-            }
-            // 更新本地 Model
-            setTipsLocalModel(bannerBean);
-            // 直接一步到位：调用工具类刷新容器
-            // 这里的 mBannerCallback 仅作为点击事件监听器传入
-            HomePageBannerHelper.refreshAllBanners(getContext(), mProxyAdapter, bannerBean, mBannerCallback);
-        }
-    };
-
-
 
     private List mClickedList = new LinkedList();
 
@@ -131,6 +109,17 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private SearchHistorySPUtils mSearchHistorySPUtils;
     private HandlerThread mSearchThread;
+
+    private final Handler mTipsHandler = new Handler(Looper.getMainLooper());
+    // 自动轮播任务
+    private final Runnable mTipsAutoTask = new Runnable() {
+        @Override
+        public void run() {
+            // 仅仅刷新 Tip 的文字内容，不重绘整个 Banner 容器以节省性能
+            refreshHeader();
+            mTipsHandler.postDelayed(this, 30000); // 30秒换一次
+        }
+    };
 
     private Handler mMainHandler = new Handler();
     private TextWatcher mTextWatcher = new TextWatcher() {
@@ -275,7 +264,16 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onResume() {
         super.onResume();
-        loadRemovableHint(false);
+        refreshHeader();
+        // 开始自动轮播
+        mTipsHandler.postDelayed(mTipsAutoTask, 30000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // 停止轮播，防止内存泄漏
+        mTipsHandler.removeCallbacks(mTipsAutoTask);
     }
 
     @Override
@@ -475,6 +473,15 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     }
 
+    /**
+     * 统一刷新 Header 的方法
+     */
+    private void refreshHeader() {
+        if (mProxyAdapter != null) {
+            // 调用之前定义的“非静态”全家桶助手
+            HomePageHeaderHelper.refreshAll(getContext(), mProxyAdapter, mBannerCallback);
+        }
+    }
 
     @Override
     public void buildAdapter() {
@@ -512,6 +519,9 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             }
         }
         //startSelectHeader();
+
+        // 不管列表怎么变，这一行代码能把 Banner 和 Tips 全找回来
+        refreshHeader();
     }
 
     public void refreshSearchResult() {
@@ -528,34 +538,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mSearchThread.start();
             mSearchHandler = new SearchHandler(mSearchThread.getLooper());
         }
-    }
-
-    public boolean getIsInActionMode() {
-        return mIsInActionMode;
-    }
-
-    public void resetBannerRefresh() {
-        isFirstCreated = true;
-    }
-
-    public void loadRemovableHint(boolean forceUpdate) {
-        if (!isAdded()) return;
-
-        // 先加载本地/固定的（比如应用退出、缓存的 Banner）
-        HomePageBannerHelper.refreshAllBanners(getContext(), mProxyAdapter, getTipsLocalModel(), mBannerCallback);
-
-        // 发起异步请求
-        if (isFirstCreated || forceUpdate) {
-            HomePageBannerHelper.queryAndSaveBannerOnBg(getContext(), mBannerHelperCallback);
-        }
-    }
-
-    public BannerBean getTipsLocalModel() {
-        return mTipsLocalModel;
-    }
-
-    public void setTipsLocalModel(BannerBean bannerBean) {
-        mTipsLocalModel = bannerBean;
     }
 
 
@@ -579,8 +561,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void refresh() {
         buildAdapter();
-        // 这样不管适配器是不是新的，Banner 都会被重新塞进去
-        HomePageBannerHelper.refreshAllBanners(getContext(), mProxyAdapter, mTipsLocalModel, mBannerCallback);
     }
 
     @Override
