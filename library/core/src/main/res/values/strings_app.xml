@@ -787,6 +787,7 @@
     <string name="system_ui_statusbar_music_scroll_delay_title">Lyrics scroll delay</string>
     <string name="system_ui_statusbar_music_width_title">Add whitespace at the end of lyrics</string>
     <string name="system_ui_statusbar_music_width_desc">Make scrolling lyrics as complete as possible</string>
+    <string name="system_ui_statusbar_music_narrow_font_title">Is the island\'s lyrics set to narrow font</string>
     <string name="system_ui_controlcenter_title">Notifications and control center</string>
     <string name="system_ui_controlcenter_media_card_title">Media notification card</string>
     <string name="system_ui_control_center_magnet_tile_settings">QS tile</string>
