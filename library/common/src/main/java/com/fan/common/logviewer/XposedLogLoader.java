@@ -57,13 +57,20 @@ public class XposedLogLoader {
     private static final String LSPD_LOG_SUBDIR = "log";
     private static final String LSPD_LOG_OLD_SUBDIR = "log.old";
     private static final String FILTERED_DIR = "hyperceiler_filtered";
-    private static final String LOG_FILE_PATTERN = "*";
     private static final String FILTERED_LOG_PREFIX = "hyperceiler_";
     private static final String ROTATION_MARKER = ".rotation_marker";
 
-    private static final Pattern TIME_PATTERN = Pattern.compile("\\[\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3})");
-    private static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
+    private static final Pattern TIME_PATTERN = Pattern.compile(
+        "\\[\\s*(\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3})");
+    private static final SimpleDateFormat TIME_FORMAT =
+        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US);
     private static final String HYPERCEILER_TAG = "HyperCeiler";
+
+    private static final Pattern LINE_PREFIX_LEVEL_PATTERN = Pattern.compile(
+        "\\[\\s*\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}\\s+\\d+:\\s*\\d+:\\s*\\d+\\s+([VDIWEC])/");
+
+    private static final Pattern NEW_MODULE_PATTERN = Pattern.compile(
+        "\\[([^,\\]]+),([^\\]]+)\\]");
 
     private final Context context;
     private final File appLogBaseDir;           // files/log
@@ -320,7 +327,8 @@ public class XposedLogLoader {
     private void filterLogsInDirectory(File sourceDir, File targetDir) {
         if (!sourceDir.exists()) return;
 
-        File[] sourceFiles = sourceDir.listFiles((dir, name) -> name.startsWith("modules_") && name.endsWith(".log"));
+        File[] sourceFiles = sourceDir.listFiles((dir, name) ->
+            name.startsWith("modules_") && name.endsWith(".log"));
         if (sourceFiles == null || sourceFiles.length == 0) return;
 
         for (File sourceFile : sourceFiles) {
@@ -358,20 +366,21 @@ public class XposedLogLoader {
 
             while ((line = reader.readLine()) != null) {
                 if (isNewLogEntry(line)) {
-                    if (isHyperCeilerEntry && includeEntry && currentEntry.length() > 0) {
+                    if (isHyperCeilerEntry && includeEntry && !currentEntry.isEmpty()) {
                         result.add(currentEntry.toString());
                     }
+                    // 新旧格式都包含 HyperCeiler 关键字
                     isHyperCeilerEntry = line.contains(HYPERCEILER_TAG);
                     long entryTimestamp = parseTimestamp(line);
                     includeEntry = entryTimestamp > afterTimestamp;
                     currentEntry = new StringBuilder(line);
                 } else {
-                    if (currentEntry.length() > 0) {
+                    if (!currentEntry.isEmpty()) {
                         currentEntry.append("\n").append(line);
                     }
                 }
             }
-            if (isHyperCeilerEntry && includeEntry && currentEntry.length() > 0) {
+            if (isHyperCeilerEntry && includeEntry && !currentEntry.isEmpty()) {
                 result.add(currentEntry.toString());
             }
         } catch (IOException e) {
@@ -441,8 +450,8 @@ public class XposedLogLoader {
         List<LogEntry> entries = new ArrayList<>();
         if (!directory.exists()) return entries;
 
-        File[] files = directory.listFiles((dir, name) ->name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log"));
-
+        File[] files = directory.listFiles((dir, name) ->
+            name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log"));
         if (files == null || files.length == 0) return entries;
 
         Arrays.sort(files, Comparator.comparing(File::getName));
@@ -522,6 +531,8 @@ public class XposedLogLoader {
         }
     }
 
+    // ==================== 解析方法 ====================
+
     private boolean isNewLogEntry(String line) {
         return line.startsWith("[") && TIME_PATTERN.matcher(line).find();
     }
@@ -537,34 +548,50 @@ public class XposedLogLoader {
         return 0;
     }
 
-    private LogEntry parseXposedLogLine(String line) {
-        long timestamp = parseTimestamp(line);
-        String level = parseLevel(line);
-        String message = extractMessage(line);
-        String tag = extractPackageName(message);
-
-        if (message.contains("[CrashMonitor]")) {
-            level = "C";
-        }
-
-        return new LogEntry(timestamp, level, "Xposed", message, tag, true);
+    private boolean isNewFormat(String line) {
+        return NEW_MODULE_PATTERN.matcher(line).find();
     }
 
 
     private String parseLevel(String line) {
+        // 优先从行前缀读取
+        Matcher prefixMatcher = LINE_PREFIX_LEVEL_PATTERN.matcher(line);
+        if (prefixMatcher.find()) {
+            String level = prefixMatcher.group(1);
+            if (level != null && !level.isEmpty()) {
+                // 新版: 行前缀级别就是真实级别
+                if (isNewFormat(line)) {
+                    return level;
+                }
+            }
+        }
+
+        // 旧版 / 回退: 从 message 中提取
         if (line.contains("[E]")) return "E";
         if (line.contains("[W]")) return "W";
         if (line.contains("[I]")) return "I";
         if (line.contains("[D]")) return "D";
-        return "C";
+        return "I";
     }
 
     private String extractMessage(String line) {
+        // 新版: 找 [xxx,HyperCeiler] 之后的部分
+        Matcher moduleMatcher = NEW_MODULE_PATTERN.matcher(line);
+        if (moduleMatcher.find()) {
+            int afterModule = moduleMatcher.end();
+            while (afterModule < line.length() && line.charAt(afterModule) == ' ') {
+                afterModule++;
+            }
+            return afterModule < line.length() ? line.substring(afterModule) : line;
+        }
+
+        // 旧版: 从 [HyperCeiler] 开始
         int tagIndex = line.indexOf("[" + HYPERCEILER_TAG + "]");
         return tagIndex != -1 ? line.substring(tagIndex) : line;
     }
 
     private String extractPackageName(String message) {
+        // 旧版: 找级别标记 [I]/[D] 等，其后的 [xxx] 如果是包名就取
         for (String level : new String[]{"[I]", "[D]", "[W]", "[E]", "[C]"}) {
             int levelIndex = message.indexOf(level);
             if (levelIndex != -1) {
@@ -578,9 +605,21 @@ public class XposedLogLoader {
                         }
                     }
                 }
+                // 旧版匹配到级别标记但后面不是包名，跳出
                 break;
             }
         }
+
+        if (message.startsWith("[")) {
+            int endIndex = message.indexOf("]");
+            if (endIndex != -1) {
+                String first = message.substring(1, endIndex);
+                if (isValidPackageName(first)) {
+                    return first;
+                }
+            }
+        }
+
         return "Other";
     }
 
@@ -595,6 +634,22 @@ public class XposedLogLoader {
             }
         }
         return true;
+    }
+
+    /**
+     * 解析 Xposed 日志行
+     */
+    private LogEntry parseXposedLogLine(String line) {
+        long timestamp = parseTimestamp(line);
+        String level = parseLevel(line);
+        String message = extractMessage(line);
+        String tag = extractPackageName(message);
+
+        if (message.contains("[CrashMonitor]")) {
+            level = "C";
+        }
+
+        return new LogEntry(timestamp, level, "Xposed", message, tag, true);
     }
 
     private LogEntry buildLogEntry(LogEntry template, String message) {

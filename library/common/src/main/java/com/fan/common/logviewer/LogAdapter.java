@@ -459,18 +459,21 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
         /**
          * 解析 Xposed 日志消息用于显示
-         * @return [primary, secondary]，primary 可能为 null
+         * 兼容新旧格式：
+         *   旧版: [HyperCeiler][I][pkg][ClassName]: detail message
+         *   新版: [pkg][ClassName]: detail message
+         * @return [primary, secondary]
          */
         static String[] parseXposedDisplay(String message, String level) {
             if (message == null) return new String[]{null, ""};
 
-            // Crash：去掉 [HyperCeiler][E][CrashMonitor]: 前缀
+            // Crash：去掉所有 [...] 前缀
             if ("C".equals(level)) {
                 String stripped = message.replaceFirst("^(?:\\[[^\\]]+\\])+:\\s*", "");
                 return new String[]{null, stripped};
             }
 
-            // 普通：[HyperCeiler][D][pkg][ClassName]: detail message
+            // 找 "]: " 分割点
             int idx = message.indexOf("]: ");
             if (idx == -1) return new String[]{null, message};
 
