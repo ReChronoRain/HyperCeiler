@@ -16,7 +16,8 @@ recyclerview = "1.4.0"
 miuix = "1.0.10.5.1"
 
 # Xposed & Hooks
-xposed-api = "100-1.0.3"
+xposed-api = "100-1.0.4"
+xposed-service = "100-1.0.3"
 dexkit = "2.0.7"
 ezxhelper = "3.1.1-rc1"
 hiddenapibypass = "6.1"
@@ -71,7 +72,7 @@ ezxhelper-core = { module = "io.github.kyuubiran.ezxhelper:core", version.ref = 
 ezxhelper-xposed-api = { module = "io.github.kyuubiran.ezxhelper:xposed-api-100", version.ref = "ezxhelper" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 libxposed-api = { module = "io.github.libxposed:api", version.ref = "xposed-api" }
-libxposed-service = { module = "io.github.libxposed:service", version.ref = "xposed-api" }
+libxposed-service = { module = "io.github.libxposed:service", version.ref = "xposed-service" }
 
 # Third-party
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
