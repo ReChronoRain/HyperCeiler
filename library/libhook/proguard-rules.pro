@@ -29,7 +29,7 @@
     public void onPackageLoaded(...);
     public void onSystemServerLoaded(...);
 }
--keep,allowoptimization,allowobfuscation @io.github.libxposed.api.annotations.* class * {
+-keep,allowoptimization @io.github.libxposed.api.annotations.XposedHooker class * {
     @io.github.libxposed.api.annotations.BeforeInvocation <methods>;
     @io.github.libxposed.api.annotations.AfterInvocation <methods>;
 }
