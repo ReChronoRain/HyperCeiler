@@ -36,12 +36,12 @@
     <string name="soft_reboot">重新啟動</string>
     <string name="restart_app_desc">確定要立即重新啟動%1$s嗎？</string>
     <string name="hyperceiler_restart_quick">快速重啟作用域</string>
-    <string name="hook_failed">模塊暫未激活，請檢查 Xposed 管理器是否啟動，如有請重新啟動或重新優化模塊</string>
+    <string name="hook_failed">HyperCeiler 暫未激活，請檢查 Xposed 管理器是否啟用，及是否允許 HyperCeiler 自啟動，如有請重啟或重新優化模組。</string>
     <string name="kill_failed">結束進程失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限</string>
     <string name="start_failed">啟動 Activity 失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限</string>
     <string name="pid_failed">目標應用程序未運行，不需要重新啟動。</string>
     <string name="reboot_failed">重新啟動失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限</string>
-    <string name="experimental_features">試驗性功能</string>
+    <string name="experimental_features">實驗性功能</string>
     <!--HyperCeiler Tips-->
     <string name="error">異常終止</string>
     <string name="warn">警告</string>
@@ -103,5 +103,21 @@
     <string name="log_level">日志輸出等級</string>
     <string name="log_level_none">禁用日志輸出</string>
     <string name="disable_suggest">禁用推薦</string>
-    <string name="enable_suggest">啟用用推薦</string>
+    <string name="enable_suggest">啟用推薦</string>
+    <string name="headtip_warn_unsupport_xposed">您當前使用的 Xposed 框架可能會導致部分功能出現異常，若您在使用過程中遇到上述情況，請更換至其他版本的 Xposed 框架後再次嘗試。</string>
+    <string name="logo_egg_NotificationName">彩蛋通知</string>
+    <string name="logo_egg_NotificationName_tips">這是彩蛋通知</string>
+    <string name="logo_egg_Notification_tips">請在設定裡打開通知以查看彩蛋</string>
+    <string name="logo_egg1">哇，你居然可以搵到呢度，太勁了</string>
+    <string name="logo_egg2">可惡，收埋喺到都會搵到嗎…</string>
+    <string name="logo_egg3">呢度沒 Android Eggs… 但係有 HyperCeiler Eggs!</string>
+    <string name="uninstall_title">卸載 HyperCeiler</string>
+    <string name="uninstall_summary">從此入口卸載 HyperCeiler 後，您的模組配置將仍然保留在 Xposed 框架資料庫中，如需徹底清除請先前往模組設定中重設模組配置，再進行卸載。</string>
+    <string name="unsupported_func_tips">目前目標作用域來源可能並不是 Xiaomi 官方，出於安全考慮，已停止加載此作用域的所有功能，請嘗試更改為 Xiaomi 官方發布的應用包，或前往 \"HyperCeiler 設定-開發者選項-調試模式\" 指定掛載版本後重試。</string>
+    <string name="debug_mode">偵錯模式</string>
+    <string name="open_debug_mode_tips">此選項僅用於正確處理目標應用的掛載版本，僅供需要時使用。\n對於被調試的目標應用，無法確保功能能正常使用，開啟後對於該目標應用程式出現的任何問題請**不要**回饋給開發者。</string>
+    <string name="debug_mode_running">目前目標作用域正處於偵錯模式，若無必要開啟請前往關閉。\n目前應用版本：%1$s\n選擇目標版本：%2$s\n是否成功掛鉤：%3$s</string>
+    <string name="debug_mode_switch">偵錯版本</string>
+    <string name="debug_mode_home_version">設定 系統桌面 版本號</string>
+    <string name="debug_mode_home_version_desc">過高的版本號碼仍舊會被攔截，請認真填寫</string>
 </resources>
