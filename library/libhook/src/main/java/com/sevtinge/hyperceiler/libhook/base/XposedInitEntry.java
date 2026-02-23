@@ -47,6 +47,7 @@ import io.github.libxposed.api.XposedModule;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+    private volatile boolean mPrefsListenerRegistered = false;
     protected String processName;
     protected SharedPreferences remotePrefs;
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
@@ -167,6 +168,7 @@ public class XposedInitEntry extends XposedModule {
     }
 
     protected void loadPreferenceChange() {
+        if (mPrefsListenerRegistered) return;
         HashSet<String> ignoreKeys = new HashSet<>();
 
         mListener = (sharedPreferences, key) -> {
@@ -182,5 +184,6 @@ public class XposedInitEntry extends XposedModule {
         };
         remotePrefs = getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
         remotePrefs.registerOnSharedPreferenceChangeListener(mListener);
+        mPrefsListenerRegistered = true;
     }
 }
