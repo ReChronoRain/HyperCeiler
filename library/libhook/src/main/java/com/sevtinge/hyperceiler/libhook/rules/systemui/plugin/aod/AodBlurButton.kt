@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.BlurButton
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.ShortcutEntity
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
@@ -30,11 +31,11 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 
 object AodBlurButton {
     private val hyperBlur by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_hyper_blur_button")
+        PrefsBridge.getBoolean("system_ui_lock_screen_hyper_blur_button")
     }
     private val blurBotton by lazy {
         BlurButton.isTransparencyLow(
-            mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)
+            PrefsBridge.getInt("system_ui_lock_screen_blur_button_bg_color", 0)
         )
     }
 
@@ -54,7 +55,7 @@ object AodBlurButton {
                 if (blurBotton) controller.setBooleanField(
                     "isBottomIconRectIsDeep",
                     BlurButton.isColorDark(
-                        mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0)
+                        PrefsBridge.getInt("system_ui_lock_screen_blur_button_bg_color", 0)
                     )
                 )
 

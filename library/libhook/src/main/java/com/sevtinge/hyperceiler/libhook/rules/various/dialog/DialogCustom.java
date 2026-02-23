@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Method;
 import java.util.LinkedList;
@@ -62,12 +63,12 @@ public class DialogCustom extends BaseHook {
 
         List<Method> mAllMethodList = new LinkedList<>();
 
-        if (mPrefsMap.getBoolean("various_dialog_window_blur")) {
+        if (PrefsBridge.getBoolean("various_dialog_window_blur")) {
             hookAllConstructors(mAlertControllerCls, new IMethodHook() {
                 @Override
                 public void after(AfterHookParam param) {
                     Window mWindow = (Window) getObjectField(param.getThisObject(), "mWindow");
-                    mWindow.getAttributes().setBlurBehindRadius(mPrefsMap.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
+                    mWindow.getAttributes().setBlurBehindRadius(PrefsBridge.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
                     mWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
                 }
             });
@@ -84,9 +85,9 @@ public class DialogCustom extends BaseHook {
                 mAllMethodList.add(method);
             }
 
-            mDialogGravity = mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
-            mDialogHorizontalMargin = mPrefsMap.getInt("various_dialog_margin_horizontal", 0);
-            mDialogBottomMargin = mPrefsMap.getInt("various_dialog_margin_bottom", 0);
+            mDialogGravity = PrefsBridge.getStringAsInt("various_dialog_gravity", 0);
+            mDialogHorizontalMargin = PrefsBridge.getInt("various_dialog_margin_horizontal", 0);
+            mDialogBottomMargin = PrefsBridge.getInt("various_dialog_margin_bottom", 0);
 
         }
 

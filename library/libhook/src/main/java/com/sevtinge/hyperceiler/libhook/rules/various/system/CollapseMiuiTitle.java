@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.various.system;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -30,7 +31,7 @@ public class CollapseMiuiTitle extends BaseHook {
     public void init() {
         Class<?> abvCls = findClassIfExists("com.miui.internal.widget.AbsActionBarView");
 
-        int opt = mPrefsMap.getStringAsInt("various_collapse_miui_title", 0);
+        int opt = PrefsBridge.getStringAsInt("various_collapse_miui_title", 0);
 
         if (abvCls != null)
             hookAllConstructors(abvCls, new IMethodHook() {

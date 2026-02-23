@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -55,7 +56,7 @@ public class SkipCountDownLimit extends BaseHook {
                 return methodData;
             }
         });
-        if (mPrefsMap.getBoolean("security_center_skip_count_down_limit_direct")){
+        if (PrefsBridge.getBoolean("security_center_skip_count_down_limit_direct")){
             findAndHookMethod("com.miui.permcenter.privacymanager.InterceptBaseFragment", "onInflateView", LayoutInflater.class, ViewGroup.class, Bundle.class, new IMethodHook() {
                 @Override
                 public void after(AfterHookParam param) {

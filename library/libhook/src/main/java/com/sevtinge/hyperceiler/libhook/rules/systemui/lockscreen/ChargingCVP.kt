@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -49,13 +50,13 @@ import kotlin.math.abs
 
 object ChargingCVP : BaseHook() {
     private val showSpacingValue by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_show_spacing_value")
+        PrefsBridge.getBoolean("system_ui_lock_screen_show_spacing_value")
     }
     private val isShowTemp by lazy {
-        mPrefsMap.getBoolean("system_ui_show_battery_temperature")
+        PrefsBridge.getBoolean("system_ui_show_battery_temperature")
     }
     private val isShowMoreC by lazy {
-        mPrefsMap.getBoolean("system_ui_show_charging_c_more")
+        PrefsBridge.getBoolean("system_ui_show_charging_c_more")
     }
 
     @SuppressLint("SetTextI18n")
@@ -130,7 +131,7 @@ object ChargingCVP : BaseHook() {
                     doUpdateForHyperOS()
                     handler.postDelayed(
                         this,
-                        mPrefsMap.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
+                        PrefsBridge.getInt("system_ui_statusbar_lock_screen_show_spacing", 6) / 2 * 1000L
                     )
                 }
 

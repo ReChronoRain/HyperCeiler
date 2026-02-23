@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -39,7 +40,7 @@ import java.lang.reflect.Method
 
 object WifiStandard : BaseHook() {
     private val showWifi by lazy {
-        mPrefsMap.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0)
+        PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0)
     }
 
     private val makeWifiStandardZero by lazy {

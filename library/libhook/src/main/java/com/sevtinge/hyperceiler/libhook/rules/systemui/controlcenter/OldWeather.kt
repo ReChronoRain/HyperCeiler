@@ -25,6 +25,7 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.WeatherView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -32,7 +33,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 // 经典控制中心添加天气信息
 object OldWeather : BaseHook() {
     private val isDisplayCity by lazy {
-        mPrefsMap.getBoolean("system_ui_control_center_show_weather_city")
+        PrefsBridge.getBoolean("system_ui_control_center_show_weather_city")
     }
 
     @SuppressLint("DiscouragedApi")

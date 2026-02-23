@@ -26,6 +26,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_AL
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public class LogServiceUtils {
@@ -42,6 +43,6 @@ public class LogServiceUtils {
 
     private static boolean showLogServiceWarn() {
         return !IS_LOGGER_ALIVE && isModuleActivated && !isRelease() &&
-            !PrefsUtils.mPrefsMap.getBoolean("prefs_key_development_close_log_alert_dialog", false);
+            !PrefsBridge.getBoolean("prefs_key_development_close_log_alert_dialog", false);
     }
 }

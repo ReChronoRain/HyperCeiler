@@ -26,15 +26,16 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.u.Me
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object MediaPicture : BaseHook() {
     private val albumPictureCorners by lazy {
-        mPrefsMap.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners")
+        PrefsBridge.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners")
     }
     private val mode by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0)
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0)
     }
 
     override fun init() {

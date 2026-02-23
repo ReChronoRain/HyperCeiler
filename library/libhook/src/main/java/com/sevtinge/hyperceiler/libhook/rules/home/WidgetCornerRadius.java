@@ -23,6 +23,7 @@ import android.content.Context;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -43,7 +44,7 @@ public class WidgetCornerRadius extends BaseHook {
         hookAllMethods("com.miui.home.launcher.maml.MaMlHostView", "computeRoundedCornerRadius", new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                param.setResult((float) DisplayUtils.dp2px(mPrefsMap.getInt("home_widget_corner_radius", 0)));
+                param.setResult((float) DisplayUtils.dp2px(PrefsBridge.getInt("home_widget_corner_radius", 0)));
             }
         });
 
@@ -58,7 +59,7 @@ public class WidgetCornerRadius extends BaseHook {
         hookAllMethods("com.miui.home.launcher.LauncherAppWidgetHostView", "computeRoundedCornerRadius", new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                param.setResult((float) DisplayUtils.dp2px(mPrefsMap.getInt("home_widget_corner_radius", 0)));
+                param.setResult((float) DisplayUtils.dp2px(PrefsBridge.getInt("home_widget_corner_radius", 0)));
             }
         });
     }

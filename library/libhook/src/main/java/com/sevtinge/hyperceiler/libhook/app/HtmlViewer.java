@@ -21,11 +21,12 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.htmlviewer.DisableUpdateCloudAllData;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.htmlviewer")
 public class HtmlViewer extends BaseLoad {
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableUpdateCloudAllData(), mPrefsMap.getBoolean("html_viewer_disable_cloud_control"));
+        initHook(new DisableUpdateCloudAllData(), PrefsBridge.getBoolean("html_viewer_disable_cloud_control"));
     }
 }

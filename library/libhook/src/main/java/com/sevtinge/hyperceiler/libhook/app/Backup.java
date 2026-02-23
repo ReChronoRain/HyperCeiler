@@ -22,13 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.backup.AllowBackupAllApps;
 import com.sevtinge.hyperceiler.libhook.rules.backup.UnlockBrokenScreenBackup;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.backup")
 public class Backup extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new UnlockBrokenScreenBackup(), mPrefsMap.getBoolean("backup_unlock_broken_screen_backup"));
-        initHook(new AllowBackupAllApps(), mPrefsMap.getBoolean("backup_allow_all_apps"));
+        initHook(new UnlockBrokenScreenBackup(), PrefsBridge.getBoolean("backup_unlock_broken_screen_backup"));
+        initHook(new AllowBackupAllApps(), PrefsBridge.getBoolean("backup_allow_all_apps"));
     }
 }

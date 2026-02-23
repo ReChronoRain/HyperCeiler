@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -54,7 +55,7 @@ public class AllAppsContainerViewSuperBlur extends BaseHook {
                         if (!isBlur) {
                             MiBlurUtils.setPassWindowBlurEnabled(view, true);
                             MiBlurUtils.setMiBackgroundBlurMode(view, 1);
-                            MiBlurUtils.setMiBackgroundBlurRadius(view, mPrefsMap.getInt("drawer_background_blur_degree",
+                            MiBlurUtils.setMiBackgroundBlurRadius(view, PrefsBridge.getInt("drawer_background_blur_degree",
                                     200));
                             MiBlurUtils.clearMiBackgroundBlendColor(view);
                             int a;
@@ -63,9 +64,9 @@ public class AllAppsContainerViewSuperBlur extends BaseHook {
                             MiBlurUtils.addMiBackgroundBlendColor(view, Color.argb(a, 0, 0, 0), 103);
                             MiBlurUtils.setMiViewBlurMode(view, 1);
                             MiBlurUtilsKt.INSTANCE.setBlurRoundRect(view, dp2px(
-                                    mPrefsMap.getInt("home_drawer_blur_super_radius", 30)));
+                                    PrefsBridge.getInt("home_drawer_blur_super_radius", 30)));
                         }
-                        view.setBackgroundColor(mPrefsMap.getInt("home_drawer_blur_super_bg_color", 0));
+                        view.setBackgroundColor(PrefsBridge.getInt("home_drawer_blur_super_bg_color", 0));
                         isBlur = true;
                         appsView.addView(frameLayout, 0);
                     }

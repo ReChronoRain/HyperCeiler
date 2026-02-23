@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -67,7 +68,7 @@ public class CustomWatermark extends BaseHook {
                     @Override
                     public void before(BeforeHookParam param) {
                         SparseArray<String[]> sparseArray = new SparseArray<>(1);
-                        sparseArray.put(0, new String[]{mPrefsMap.getString("camera_custom_watermark_manufacturer", "XIAOMI"), mPrefsMap.getString("camera_custom_watermark_device", "MI PHONE")});
+                        sparseArray.put(0, new String[]{PrefsBridge.getString("camera_custom_watermark_manufacturer", "XIAOMI"), PrefsBridge.getString("camera_custom_watermark_device", "MI PHONE")});
                         param.setResult(sparseArray);
                     }
                 });

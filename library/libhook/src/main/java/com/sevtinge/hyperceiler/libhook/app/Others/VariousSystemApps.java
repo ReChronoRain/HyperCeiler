@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.various.dialog.DialogCustom;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.MiuiAppNoOverScroll;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -44,15 +45,15 @@ public class VariousSystemApps extends BaseLoad {
     }
 
     private boolean isMiuiOverScrollApps() {
-        return mPrefsMap.getBoolean("various_no_overscroll") && miuiOverScrollApps.contains(mPackageName);
+        return PrefsBridge.getBoolean("various_no_overscroll") && miuiOverScrollApps.contains(mPackageName);
     }
 
     private boolean isMiuiDialogCustom() {
-        return mPrefsMap.getStringAsInt("various_dialog_gravity", 0) != 0 && isMiuiApps;
+        return PrefsBridge.getStringAsInt("various_dialog_gravity", 0) != 0 && isMiuiApps;
     }
 
     private boolean isCollapseMiuiTitleApps() {
-        return mPrefsMap.getStringAsInt("various_collapse_miui_title", 0) != 0 && collapseMiuiTitleApps.contains(mPackageName);
+        return PrefsBridge.getStringAsInt("various_collapse_miui_title", 0) != 0 && collapseMiuiTitleApps.contains(mPackageName);
     }
 
     HashSet<String> miuiOverScrollApps = new HashSet<>(Arrays.asList(

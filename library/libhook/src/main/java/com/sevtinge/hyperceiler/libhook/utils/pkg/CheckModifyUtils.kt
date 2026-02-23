@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.pkg
 
 import android.content.Context
 import android.content.pm.PackageManager
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
 import java.security.MessageDigest
 
@@ -36,7 +37,7 @@ object CheckModifyUtils {
     }
 
     fun getCheckResult(pkg: String): Boolean {
-        return PrefsUtils.mPrefsMap.getBoolean("debug_mode_$pkg")
+        return PrefsBridge.getBoolean("debug_mode_$pkg")
     }
 
     /**

@@ -24,6 +24,7 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -36,131 +37,131 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 108) {
+        if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 108) {
             // 15sp
             mDevice = "dijun"; // O2S
             mModel = "25042PN24C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 112) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 112) {
             // 17u
             mDevice = "nezha"; // P1
             mModel = "2512BPNDAC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 111) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 111) {
             // 17pm
             mDevice = "popsicle"; // P2
             mModel = "25098PN5AC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 110) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 110) {
             // 17p
             mDevice = "pandora"; // Q200
             mModel = "2509FPN0BC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 109) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 109) {
             // 17
             mDevice = "pudding"; // P3
             mModel = "25113PN0EC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 107) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 107) {
             // 15u
             mDevice = "xuanyuan"; // O1
             mModel = "25010PN30C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 106) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 106) {
             // 15p
             mDevice = "haotian"; // O2
             mModel = "2410DPN6CC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 105) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 105) {
             // 15
             mDevice = "dada"; // O3
             mModel = "24129PN74C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 156) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 156) {
             // civi5p
             mDevice = "luming";
             mModel = "25067PYE3C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 202) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 202) {
             // flip2
             mDevice = "bixi"; // O8
             mModel = "2505APX7BC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 224) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 224) {
             // f4
             mDevice = "goku";  // N18
             mModel = "24072PX77C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 190) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 190) {
             // alpha
             mDevice = "avenger";
             mModel = "MIX Alpha";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 214) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 214) {
             // pad8
             mDevice = "yupei"; // P82
             mModel = "25097RP43C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 215) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 215) {
             // pad8p
             mDevice = "piano"; // P81
             mModel = "25091RP04C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 212) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 212) {
             // pad7u
             mDevice = "jinghu";
             mModel = "25032RP42C";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 213) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 213) {
             // pad7sp
             mDevice = "violin";
             mModel = "25053RP5CC";
             mManufacturer = "Xiaomi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 316) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 316) {
             // k90pm
             mDevice = "myron";
             mModel = "25102RKBEC";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 315) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 315) {
             // k90
             mDevice = "annibale";
             mModel = "2510DRK44C";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 314) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 314) {
             // k80u
             mDevice = "dali";
             mModel = "25060RK16C";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 313) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 313) {
             // k80pc
             mDevice = "miro";
             mModel = "24127RK2CC";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 380) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 380) {
             // k Pad
             mDevice = "turner";
             mModel = "25079RPDCC";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 335) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 335) {
             // t4p
             mDevice = "onyx";
             mModel = "25053RT47C";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 355) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 355) {
             // n15p+
             mDevice = "flourite";
             mModel = "2510ERA8BC"; // P16U
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 403) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 403) {
             // 14c
             mDevice = "lake";
             mModel = "2409BRN2CC";
             mManufacturer = "Redmi";
-        } else if (mPrefsMap.getStringAsInt("market_device_modify_new", 0) == 1) {
+        } else if (PrefsBridge.getStringAsInt("market_device_modify_new", 0) == 1) {
             // customization
-            mDevice = mPrefsMap.getString("market_device_modify_device", "");
-            mModel = mPrefsMap.getString("market_device_modify_model", "");
-            mManufacturer = mPrefsMap.getString("market_device_modify_manufacturer", "");
+            mDevice = PrefsBridge.getString("market_device_modify_device", "");
+            mModel = PrefsBridge.getString("market_device_modify_model", "");
+            mManufacturer = PrefsBridge.getString("market_device_modify_manufacturer", "");
         } else {
             return;
         }

@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -84,7 +85,7 @@ public class SmallFolderIconBlur extends BaseHook {
                 }
 
                 Context mContext = mIconImageView.getContext();
-                mFolderIconSize = DisplayUtils.dp2px(mPrefsMap.getInt("home_small_folder_icon_bg_size", 56));
+                mFolderIconSize = DisplayUtils.dp2px(PrefsBridge.getInt("home_small_folder_icon_bg_size", 56));
 
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
                 FrameLayout mDockBlur = (FrameLayout) getAdditionalInstanceField(param.getThisObject(), "mDockBlur");

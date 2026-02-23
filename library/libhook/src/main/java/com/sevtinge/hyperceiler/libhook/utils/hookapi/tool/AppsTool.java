@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
@@ -138,7 +139,7 @@ public class AppsTool {
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
             );
-            lp.topMargin = Math.round(mPrefsMap.getInt("system_ui_others_showpct_top", 54) * density *
+            lp.topMargin = Math.round(PrefsBridge.getInt("system_ui_others_showpct_top", 54) * density *
                 (res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 0.7f : 1.0f));
             lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
             mPct.setPadding(
@@ -157,7 +158,7 @@ public class AppsTool {
                XposedLog.e("ShowPct", err);
             }
 
-            if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
+            if (PrefsBridge.getBoolean("system_showpct_use_blur")) {
                 try {
                     int blurRadius = isDarkMode(getSystemContext()) ? 220 : 320;
                     int alpha = isDarkMode(getSystemContext()) ? 140 : 160;

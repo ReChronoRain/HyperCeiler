@@ -18,18 +18,15 @@
  */
 package com.sevtinge.hyperceiler.common.utils;
 
-
-import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mSharedPreferences;
-
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.LocaleList;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -45,8 +42,8 @@ public class LanguageHelper {
     /**
      * 优化后的初始化：接受 Context 即可，可在 Application 中预热
      */
-    public static void init(Context context, SharedPreferences prefs) {
-        String languageSetting = prefs.getString("prefs_key_settings_app_language", "-1");
+    public static void init(Context context) {
+        String languageSetting = PrefsBridge.getString("prefs_key_settings_app_language", "-1");
         if (!"-1".equals(languageSetting)) {
             applyLanguage(context, Integer.parseInt(languageSetting));
         }
@@ -82,7 +79,7 @@ public class LanguageHelper {
 
 
     public static void init(Activity activity) {
-        String languageSetting = mSharedPreferences.getString("prefs_key_settings_app_language", "-1");
+        String languageSetting = PrefsBridge.getString("prefs_key_settings_app_language", "-1");
         if (!"-1".equals(languageSetting)) {
             setIndexLanguage(activity, Integer.parseInt(languageSetting), false);
         }

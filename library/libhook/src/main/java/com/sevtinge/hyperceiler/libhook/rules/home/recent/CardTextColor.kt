@@ -22,10 +22,11 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object CardTextColor : BaseHook() {
     override fun init() {
-        val recentTextColor = mPrefsMap.getInt("home_recent_text_color", -1)
+        val recentTextColor = PrefsBridge.getInt("home_recent_text_color", -1)
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
         taskViewHeaderClass.afterHookMethod(
             "onFinishInflate"

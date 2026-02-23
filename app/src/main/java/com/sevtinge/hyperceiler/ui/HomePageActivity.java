@@ -86,7 +86,7 @@ public class HomePageActivity extends AppCompatActivity
 
         LiveData<Boolean> isFloatNavEnabled = Settings.Global.getBooleanLiveData(this, "settings_float_nav", false);
         isFloatNavEnabled.observe(this, isEnabled -> mSwitchManager.setFloatingStyle(isEnabled));
-        mSwitchManager.setOnSwitchChangeListener((position, itemId) -> mViewPager.setCurrentItem(position, true));
+        mSwitchManager.setOnSwitchChangeListener((position, itemId) -> mViewPager.setCurrentItem(position));
 
         mContentAdapter = new HomeContentAdapter(this);
         mContentAdapter.addFragment(new HomePageFragment());

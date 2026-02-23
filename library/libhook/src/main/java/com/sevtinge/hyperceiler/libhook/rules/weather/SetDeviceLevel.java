@@ -23,6 +23,7 @@ import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.lang.reflect.Method;
@@ -58,7 +59,7 @@ public class SetDeviceLevel extends BaseHook {
             XposedLog.e(TAG, "class is null");
             return;
         }
-        int order = mPrefsMap.getStringAsInt("weather_device_level", 0);
+        int order = PrefsBridge.getStringAsInt("weather_device_level", 0);
         for (Method method : cls.getDeclaredMethods()) {
             if (method.getName().equals("transDeviceLevel")) {
                 if (method.getReturnType().equals(int.class)

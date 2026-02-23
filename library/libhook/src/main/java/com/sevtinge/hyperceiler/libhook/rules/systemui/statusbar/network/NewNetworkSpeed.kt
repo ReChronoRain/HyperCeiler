@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
@@ -59,27 +60,27 @@ object NewNetworkSpeed : BaseHook() {
 
     //  隐藏慢速
     private val hideLow by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide")
+        PrefsBridge.getBoolean("system_ui_statusbar_network_speed_hide")
     }
     // 网速均低于设定值隐藏
     private val allHideLow by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_hide_all")
+        PrefsBridge.getBoolean("system_ui_statusbar_network_speed_hide_all")
     }
     //  慢速水平
     private val lowLevel by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
+        PrefsBridge.getInt("system_ui_statusbar_network_speed_hide_slow", 1) * 1024
     }
     // 交换图标与网速位置
     private val swapPlaces by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_swap_places")
+        PrefsBridge.getBoolean("system_ui_statusbar_network_speed_swap_places")
     }
     // 网速图标
     private val icons by lazy {
-        mPrefsMap.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+        PrefsBridge.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
     }
     // 网速指示器样式
     private val networkStyle by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
 
     private val needTotal by lazy {
@@ -225,7 +226,7 @@ object NewNetworkSpeed : BaseHook() {
             // 缓存模块 resources/units/suffix 以提高性能
             if (cachedUnits == null) {
                 val modRes = getModuleRes(ctx)
-                cachedUnitSuffix = if (mPrefsMap.getBoolean("system_ui_statusbar_network_speed_sec_unit")) "" else modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
+                cachedUnitSuffix = if (PrefsBridge.getBoolean("system_ui_statusbar_network_speed_sec_unit")) "" else modRes.getString(R.string.system_ui_statusbar_network_speed_Bs)
                 val unitsStr = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)
                 cachedUnits = when {
                     unitsStr.isNotEmpty() -> unitsStr.toCharArray()

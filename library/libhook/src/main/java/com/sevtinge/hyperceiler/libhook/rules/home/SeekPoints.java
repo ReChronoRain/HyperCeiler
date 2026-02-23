@@ -32,13 +32,14 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
 public class SeekPoints extends BaseHook {
 
-    public int points = mPrefsMap.getStringAsInt("home_other_seek_points", 0);
+    public int points = PrefsBridge.getStringAsInt("home_other_seek_points", 0);
 
     @Override
     public void init() {

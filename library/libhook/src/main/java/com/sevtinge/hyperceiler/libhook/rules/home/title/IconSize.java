@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.title;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -32,7 +33,7 @@ public class IconSize extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.common.gridconfig.GridConfig$IconConfig", "getIconSize", new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                param.setResult(mPrefsMap.getInt("home_title_icon_size", 182));
+                param.setResult(PrefsBridge.getInt("home_title_icon_size", 182));
             }
         });
     }
@@ -54,7 +55,7 @@ public class IconSize extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.GridConfig$IconConfig", "getIconSize", new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                param.setResult(mPrefsMap.getInt("home_title_icon_size", 182));
+                param.setResult(PrefsBridge.getInt("home_title_icon_size", 182));
             }
         });
         /*setStaticIntField(findClassIfExists("com.miui.home.launcher.GridConfig"), "sCellCountYDef", 8);

@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -31,11 +32,11 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object DisableHideApp : HomeBaseHookNew() {
 
     private val isShowFileManager by lazy {
-        mPrefsMap.getBoolean("home_title_disable_hide_file")
+        PrefsBridge.getBoolean("home_title_disable_hide_file")
     }
 
     private val isDisableHideGoogle by lazy {
-        mPrefsMap.getBoolean("home_title_disable_hide_google")
+        PrefsBridge.getBoolean("home_title_disable_hide_google")
     }
 
     @Version(isPad = false, min = 600000000)

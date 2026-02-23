@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -66,9 +67,9 @@ public class DockCustom extends BaseHook {
                 FrameLayout mSearchBarContainer = (FrameLayout) callMethod(param.getThisObject(), "getSearchBarContainer");
                 FrameLayout mSearchEdgeLayout = (FrameLayout) mSearchBarContainer.getParent();
 
-                int mDockHeight = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_height", 80));
-                int mDockMargin = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30));
-                int mDockBottomMargin = DisplayUtils.dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30));
+                int mDockHeight = DisplayUtils.dp2px(PrefsBridge.getInt("home_dock_bg_height", 80));
+                int mDockMargin = DisplayUtils.dp2px(PrefsBridge.getInt("home_dock_bg_margin_horizontal", 30));
+                int mDockBottomMargin = DisplayUtils.dp2px(PrefsBridge.getInt("home_dock_bg_margin_bottom", 30));
 
                 mDockView = new FrameLayout(mSearchBarContainer.getContext());
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, mDockHeight);
@@ -137,7 +138,7 @@ public class DockCustom extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                 Context context = (Context) param.getArgs()[0];
-                param.setResult(DisplayUtils.dip2px(context, mPrefsMap.getInt("home_dock_margin_top",25)));
+                param.setResult(DisplayUtils.dip2px(context, PrefsBridge.getInt("home_dock_margin_top",25)));
             }
         });
 
@@ -145,7 +146,7 @@ public class DockCustom extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                 Context context = (Context) param.getArgs()[0];
-                param.setResult(DisplayUtils.dip2px(context, mPrefsMap.getInt("home_dock_icon_margin_bottom",90)));
+                param.setResult(DisplayUtils.dip2px(context, PrefsBridge.getInt("home_dock_icon_margin_bottom",90)));
             }
         });*/
     }

@@ -37,6 +37,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
 
 import java.io.BufferedReader;
@@ -116,17 +117,17 @@ public class SunlightModeTile extends TileUtils {
      */
     private void initMode() {
         // 优先检查高级模式设置
-        int highMode = mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_high", 0);
+        int highMode = PrefsBridge.getStringAsInt("system_control_center_sunshine_new_mode_high", 0);
         if (highMode > 0) {
             switch (highMode) {
                 case 1 -> mMode = Mode.SYSTEM_SUNLIGHT;
                 case 2 -> mMode = Mode.FORCE_MAX_BRIGHTNESS;
                 case 3 -> mMode = Mode.CUSTOM_BRIGHTNESS_SHELL;
             }
-            mCustomBrightness = mPrefsMap.getInt("system_control_center_sunshine_mode_brightness", 2048);
+            mCustomBrightness = PrefsBridge.getInt("system_control_center_sunshine_mode_brightness", 2048);
         } else {
             // 普通模式设置
-            int normalMode = mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode", 0);
+            int normalMode = PrefsBridge.getStringAsInt("system_control_center_sunshine_new_mode", 0);
             switch (normalMode) {
                 case 1 -> mMode = Mode.SYSTEM_SUNLIGHT;
                 case 2 -> mMode = Mode.FORCE_MAX_BRIGHTNESS;
@@ -141,7 +142,7 @@ public class SunlightModeTile extends TileUtils {
      */
     private void initBrightnessPath() {
         // 根据设置选择路径优先级
-        int writeMode = mPrefsMap.getStringAsInt("system_control_center_sunshine_new_mode_write", 1);
+        int writeMode = PrefsBridge.getStringAsInt("system_control_center_sunshine_new_mode_write", 1);
 
         if (writeMode == 1) {
             // 优先使用 mi_display 路径

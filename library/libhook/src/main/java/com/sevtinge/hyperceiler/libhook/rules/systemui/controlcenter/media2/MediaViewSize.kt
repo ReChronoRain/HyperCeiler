@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaNotificationControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -34,13 +35,13 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 object MediaViewSize : BaseHook() {
 
     private val titleSize by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_title_size", 180).toFloat() / 10
+        PrefsBridge.getInt("system_ui_control_center_media_control_title_size", 180).toFloat() / 10
     }
     private val artistSize by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_artist_size", 120).toFloat() / 10
+        PrefsBridge.getInt("system_ui_control_center_media_control_artist_size", 120).toFloat() / 10
     }
     private val timeSize by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_time_view_text_size", 130).toFloat()  / 10
+        PrefsBridge.getInt("system_ui_control_center_media_control_time_view_text_size", 130).toFloat()  / 10
     }
     private val isAndroidB by lazy {
         isMoreAndroidVersion(36)

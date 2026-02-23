@@ -29,6 +29,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import java.util.Iterator;
@@ -72,7 +73,7 @@ public class CleanShareMenu extends BaseHook {
                         return;
                     if (intent.hasExtra("HyperCeiler") && intent.getBooleanExtra("HyperCeiler", false))
                         return;
-                    Set<String> selectedApps = mPrefsMap.getStringSet("system_framework_clean_share_apps");
+                    Set<String> selectedApps = PrefsBridge.getStringSet("system_framework_clean_share_apps");
                     List<ResolveInfo> resolved = (List<ResolveInfo>) param.getResult();
                     ResolveInfo resolveInfo;
                     Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
@@ -116,7 +117,7 @@ public class CleanShareMenu extends BaseHook {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 String mAimPackageName = (String) getObjectField(param.getThisObject(), "mAimPackageName");
                 if (mContext == null || mAimPackageName == null) return;
-                Set<String> selectedApps = mPrefsMap.getStringSet("prefs_key_system_framework_clean_share_apps");
+                Set<String> selectedApps = PrefsBridge.getStringSet("prefs_key_system_framework_clean_share_apps");
                 View mRootView = (View) getObjectField(param.getThisObject(), "mRootView");
                 int appResId1 = mContext.getResources().getIdentifier("app1", "id", "android.miui");
                 int appResId2 = mContext.getResources().getIdentifier("app2", "id", "android.miui");

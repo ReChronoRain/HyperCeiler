@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.volume;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -30,8 +31,8 @@ public class VolumeMediaSteps extends BaseHook {
             @Override
             public void before(BeforeHookParam param) {
                 if ("ro.config.media_vol_steps".equals(param.getArgs()[0])) {
-                    if (mPrefsMap.getInt("system_framework_volume_media_steps", 15) > 15)
-                        param.setResult(mPrefsMap.getInt("system_framework_volume_media_steps", 15));
+                    if (PrefsBridge.getInt("system_framework_volume_media_steps", 15) > 15)
+                        param.setResult(PrefsBridge.getInt("system_framework_volume_media_steps", 15));
                 }
             }
         });

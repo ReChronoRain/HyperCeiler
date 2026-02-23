@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -32,7 +33,7 @@ public class DataSaverIcon extends BaseHook {
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_data_saver", 0);
+                    int opt = PrefsBridge.getStringAsInt("system_ui_status_bar_icon_data_saver", 0);
                     if (opt == 1) {
                         param.getArgs()[0] = true;
                     } else if (opt == 2) {

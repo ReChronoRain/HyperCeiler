@@ -25,17 +25,18 @@ import com.sevtinge.hyperceiler.libhook.rules.getapps.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisableAds;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisablePackageMonitor;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisableStartPushDialog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.market")
 public class GetApps extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new BypassRiskCheck(), mPrefsMap.getBoolean("market_bypass_risk_check"));
-        initHook(new DisableAds(), mPrefsMap.getBoolean("market_disable_ads"));
-        initHook(new DeviceModify(), mPrefsMap.getStringAsInt("market_device_modify_new", 0) != 0);
+        initHook(new BypassRiskCheck(), PrefsBridge.getBoolean("market_bypass_risk_check"));
+        initHook(new DisableAds(), PrefsBridge.getBoolean("market_disable_ads"));
+        initHook(new DeviceModify(), PrefsBridge.getStringAsInt("market_device_modify_new", 0) != 0);
 
-        initHook(DisablePackageMonitor.INSTANCE, mPrefsMap.getBoolean("market_package_monitor"));
-        initHook(DisableStartPushDialog.INSTANCE, mPrefsMap.getBoolean("market_disable_start_push_dialog"));
+        initHook(DisablePackageMonitor.INSTANCE, PrefsBridge.getBoolean("market_package_monitor"));
+        initHook(DisableStartPushDialog.INSTANCE, PrefsBridge.getBoolean("market_disable_start_push_dialog"));
     }
 }

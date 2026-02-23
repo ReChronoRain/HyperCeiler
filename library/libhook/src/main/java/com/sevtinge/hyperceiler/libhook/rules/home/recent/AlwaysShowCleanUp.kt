@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -27,7 +28,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object AlwaysShowCleanUp: BaseHook() {
 
     val hideCleanUp by lazy {
-        mPrefsMap.getBoolean("home_recent_hide_clean_up")
+        PrefsBridge.getBoolean("home_recent_hide_clean_up")
     }
 
     override fun init() {

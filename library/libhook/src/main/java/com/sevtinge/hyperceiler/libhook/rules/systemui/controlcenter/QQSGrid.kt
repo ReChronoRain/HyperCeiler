@@ -22,14 +22,15 @@ import android.content.res.Configuration
 import android.view.ViewGroup
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 
 class QQSGrid : BaseHook() {
     override fun init() {
-        val cols = mPrefsMap.getInt("system_control_center_old_qs_grid_columns", 5)
-        val colsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_grid_columns_horizontal", 6)
+        val cols = PrefsBridge.getInt("system_control_center_old_qs_grid_columns", 5)
+        val colsHorizontal = PrefsBridge.getInt("system_control_center_old_qs_grid_columns_horizontal", 6)
 
         loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder()
             .filterByName("setMaxTiles")

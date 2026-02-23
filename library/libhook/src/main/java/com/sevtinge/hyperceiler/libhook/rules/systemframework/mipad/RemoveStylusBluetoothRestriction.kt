@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object RemoveStylusBluetoothRestriction : BaseHook() {
@@ -39,7 +40,7 @@ object RemoveStylusBluetoothRestriction : BaseHook() {
 
     private fun setTouchModeStylusEnable() {
         val driverVersion =
-            mPrefsMap.getStringAsInt("mipad_input_bluetooth_version", 2)
+            PrefsBridge.getStringAsInt("mipad_input_bluetooth_version", 2)
         val flag: Int = 0x10 or driverVersion
         val instanceITouchFeature =
             callStaticMethod(

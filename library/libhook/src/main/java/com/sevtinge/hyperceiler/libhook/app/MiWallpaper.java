@@ -21,12 +21,13 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.miwallpaper.UnlockSuperWallpaper;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.miwallpaper")
 public class MiWallpaper extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new UnlockSuperWallpaper(), mPrefsMap.getBoolean("miwallpaper_unlock_super_wallpaper"));
+        initHook(new UnlockSuperWallpaper(), PrefsBridge.getBoolean("miwallpaper_unlock_super_wallpaper"));
     }
 }

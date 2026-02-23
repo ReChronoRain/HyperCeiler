@@ -12,6 +12,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -22,7 +23,7 @@ object RotationButtonB : BaseHook() {
 
     var isListen: Boolean = false
     private val enable by lazy {
-        mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1
+        PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1
     }
     private val navigationBar by lazy {
         loadClass("com.android.systemui.navigationbar.views.NavigationBar")

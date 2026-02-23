@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -39,7 +40,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
             @Override
             public void after(final AfterHookParam param) {
                 WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
-                int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);
+                int pct = PrefsBridge.getInt("home_navigation_back_area_height", 60);
                 lp.height = Math.round(lp.height / 100.0f * pct);
                 lp.width = Math.round(lp.width / 100.0f * pct);
                 param.setResult(lp);
@@ -59,7 +60,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
                     int mScreenHeight = EzxHelpUtils.getIntField(obj, "mScreenHeight");
                     int mScreenWidth = EzxHelpUtils.getIntField(obj, "mScreenWidth");
 
-                    float f = (float) mPrefsMap.getInt("home_navigation_back_area_height", 60) / 100;
+                    float f = (float) PrefsBridge.getInt("home_navigation_back_area_height", 60) / 100;
 
                     int gestureTouchHeight;
                     if (mRotation == 0 || mRotation == 2) {
@@ -77,7 +78,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
                 @Override
                 public void after(final AfterHookParam param) {
                     WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
-                    int pct = mPrefsMap.getInt("home_navigation_back_area_height", 60);
+                    int pct = PrefsBridge.getInt("home_navigation_back_area_height", 60);
                     if (isPad()) {
                         lp.height = Math.round(lp.height / 100.0f * pct);
                         lp.width = Math.round(lp.width / 100.0f * pct);

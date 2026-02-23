@@ -20,12 +20,13 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object TaskViewHeight : BaseHook() {
     override fun init() {
         val taskViewHeightValue by lazy {
-            mPrefsMap.getInt("home_recent_task_view_height", 52).toFloat() / 100
+            PrefsBridge.getInt("home_recent_task_view_height", 52).toFloat() / 100
         }
 
 

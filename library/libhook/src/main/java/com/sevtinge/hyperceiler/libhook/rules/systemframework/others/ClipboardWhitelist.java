@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.Set;
 
@@ -30,7 +31,7 @@ public class ClipboardWhitelist extends BaseHook {
     public void init() {
         Class<?> clipboardClass = findClass("com.android.server.clipboard.ClipboardService");
         String key = "system_framework_clipboard_whitelist_apps";
-        Set<String> selectedApps = mPrefsMap.getStringSet(key);
+        Set<String> selectedApps = PrefsBridge.getStringSet(key);
         hookAllMethods(clipboardClass, "clipboardAccessAllowed", new IMethodHook() {
             @Override
             public void after(AfterHookParam param) {

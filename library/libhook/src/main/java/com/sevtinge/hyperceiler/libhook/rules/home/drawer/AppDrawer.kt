@@ -23,13 +23,14 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AppDrawer : BaseHook() {
     override fun init() {
-        if (mPrefsMap.getBoolean("home_drawer_all")) {
+        if (PrefsBridge.getBoolean("home_drawer_all")) {
             try {
                 loadClassOrNull("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer")!!
                     .methodFinder()
@@ -51,7 +52,7 @@ object AppDrawer : BaseHook() {
             }
         }
 
-        if (mPrefsMap.getBoolean("home_drawer_editor")) {
+        if (PrefsBridge.getBoolean("home_drawer_editor")) {
             findClass("com.miui.home.launcher.allapps.AllAppsGridAdapter").afterHookMethod(
                 "onBindViewHolder",
                 "com.miui.home.launcher.allapps.AllAppsGridAdapter.ViewHolder",

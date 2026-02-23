@@ -26,13 +26,14 @@ import android.text.TextUtils;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
 
 public class UnPrivacyWatermark extends BaseHook {
 
-    public int num = mPrefsMap.getInt("gallery_enable_un_privacy_watermark_value", 14);
+    public int num = PrefsBridge.getInt("gallery_enable_un_privacy_watermark_value", 14);
 
 
     @Override

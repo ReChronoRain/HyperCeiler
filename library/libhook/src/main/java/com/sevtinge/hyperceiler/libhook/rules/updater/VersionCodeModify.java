@@ -23,6 +23,7 @@ import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -40,7 +41,7 @@ public class VersionCodeModify extends BaseHook {
         findAndHookMethod(mApplication, "onCreate", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                String mVersionCode = mPrefsMap.getString("various_updater_miui_version", "V14.0.22.11.26.DEV");
+                String mVersionCode = PrefsBridge.getString("various_updater_miui_version", "V14.0.22.11.26.DEV");
                 if (!TextUtils.isEmpty(mVersionCode)) {
                     setStaticObjectField(Build.VERSION.class, "INCREMENTAL", mVersionCode);
                 }

@@ -26,6 +26,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.Arrays;
@@ -99,23 +100,23 @@ public class DevelopmentPrefsFragment extends SettingsPreferenceFragment {
     }
 
     private Object getPrefs(String key, boolean type, int needType) {
-        if (type) return PrefsUtils.mSharedPreferences.getString(key, "null");
+        if (type) return PrefsBridge.getString(key, "null");
         try {
             switch (needType) {
                 case 0 -> {
-                    return PrefsUtils.mSharedPreferences.getInt(key, -1);
+                    return PrefsBridge.getInt(key, -1);
                 }
                 case 1 -> {
-                    return PrefsUtils.mSharedPreferences.getString(key, "null");
+                    return PrefsBridge.getString(key, "null");
                 }
                 case 2 -> {
-                    return Integer.parseInt(PrefsUtils.mSharedPreferences.getString(key, "-1"));
+                    return PrefsBridge.getStringAsInt(key, -1);
                 }
                 case 3 -> {
-                    return PrefsUtils.mSharedPreferences.getStringSet(key, new HashSet<>());
+                    return PrefsBridge.getStringSet(key);
                 }
                 case 4 -> {
-                    return PrefsUtils.mSharedPreferences.getBoolean(key, false);
+                    return PrefsBridge.getBoolean(key, false);
                 }
                 default -> {
                     return null;

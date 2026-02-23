@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -60,8 +61,8 @@ public class NewBoxBlur extends BaseHook {
             @Override
             public void after(AfterHookParam param) {
                 ViewGroup view = (ViewGroup) param.getThisObject();
-                int paddingVertical = DisplayUtils.dp2px(mPrefsMap.getInt("security_center_newbox_bg_padding_vertical", 10));
-                int paddingHorizontal = DisplayUtils.dp2px(mPrefsMap.getInt("security_center_newbox_bg_padding_horizontal", 10));
+                int paddingVertical = DisplayUtils.dp2px(PrefsBridge.getInt("security_center_newbox_bg_padding_vertical", 10));
+                int paddingHorizontal = DisplayUtils.dp2px(PrefsBridge.getInt("security_center_newbox_bg_padding_horizontal", 10));
                 view.setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
                 new BlurUtils(view, "security_center_newbox_bg_custom");
             }

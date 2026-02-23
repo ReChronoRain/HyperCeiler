@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.lpa.CustomImei;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.Objects;
 
@@ -34,6 +35,6 @@ public class Lpa extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new CustomImei(), !Objects.equals(mPrefsMap.getString("lpa_custom_imei", ""), ""));
+        initHook(new CustomImei(), !Objects.equals(PrefsBridge.getString("lpa_custom_imei", ""), ""));
     }
 }

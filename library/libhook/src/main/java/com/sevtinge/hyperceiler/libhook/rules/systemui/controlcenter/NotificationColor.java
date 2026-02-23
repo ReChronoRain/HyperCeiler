@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 public class NotificationColor extends BaseHook {
     @Override
@@ -38,7 +39,7 @@ public class NotificationColor extends BaseHook {
         setResReplacement("com.android.systemui", "color", "notification_element_blend_shade_color_1", R.color.notification_element_blend_shade_color_1);
         setResReplacement("com.android.systemui", "color", "notification_element_blend_shade_color_2", R.color.notification_element_blend_shade_color_2);
 
-        if(mPrefsMap.getBoolean("system_ui_control_center_opt_notification_element_background_color_advanced")) {
+        if(PrefsBridge.getBoolean("system_ui_control_center_opt_notification_element_background_color_advanced")) {
             setResReplacement("com.android.systemui", "color", "focus_notification_element_blend_keyguard_color_1", R.color.focus_notification_element_blend_keyguard_color_1);
             setResReplacement("com.android.systemui", "color", "focus_notification_element_blend_keyguard_color_2", R.color.focus_notification_element_blend_keyguard_color_2);
             setResReplacement("com.android.systemui", "color", "focus_notification_element_blend_keyguard_color_3", R.color.focus_notification_element_blend_keyguard_color_3);

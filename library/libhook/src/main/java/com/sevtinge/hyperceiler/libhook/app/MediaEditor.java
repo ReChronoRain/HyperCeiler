@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockCustomPhotoFrame
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockDisney;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockLeicaFilter;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockMinimumCropLimit2;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.Objects;
 
@@ -39,14 +40,14 @@ public class MediaEditor extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         // AI
-        initHook(new UnlockAigc(), mPrefsMap.getBoolean("mediaeditor_unlock_aigc"));
+        initHook(new UnlockAigc(), PrefsBridge.getBoolean("mediaeditor_unlock_aigc"));
         // 基础
-        initHook(UnlockMinimumCropLimit2.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
-        initHook(UnlockLeicaFilter.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_leica_filter"));
-        initHook(CustomWatermark.INSTANCE, !Objects.equals(mPrefsMap.getString("mediaeditor_custom_watermark", ""), ""));
+        initHook(UnlockMinimumCropLimit2.INSTANCE, PrefsBridge.getBoolean("mediaeditor_unlock_minimum_crop_limit"));
+        initHook(UnlockLeicaFilter.INSTANCE, PrefsBridge.getBoolean("mediaeditor_unlock_leica_filter"));
+        initHook(CustomWatermark.INSTANCE, !Objects.equals(PrefsBridge.getString("mediaeditor_custom_watermark", ""), ""));
         // 创作
-        initHook(UnlockCustomPhotoFrames.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_v2"));
-        initHook(UnlockDisney.INSTANCE, mPrefsMap.getBoolean("mediaeditor_unlock_disney_some_func_v2"));
+        initHook(UnlockCustomPhotoFrames.INSTANCE, PrefsBridge.getBoolean("mediaeditor_unlock_custom_photo_frames_v2"));
+        initHook(UnlockDisney.INSTANCE, PrefsBridge.getBoolean("mediaeditor_unlock_disney_some_func_v2"));
     }
 
 }

@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -61,8 +62,8 @@ public class BigFolderIconBlur1x2 extends BaseHook {
         IMethodHook mBigFolderIconBlur = new IMethodHook() {
             @Override
             public void after(AfterHookParam param) {
-                int mFolderWidth = DisplayUtils.dp2px(mPrefsMap.getInt("home_big_folder_icon_bg_width_1x2", 62));
-                int mFolderHeight = DisplayUtils.dp2px(mPrefsMap.getInt("home_big_folder_icon_bg_height_1x2", 145));
+                int mFolderWidth = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_width_1x2", 62));
+                int mFolderHeight = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_height_1x2", 145));
                 ImageView mIconImageView = (ImageView) getObjectField(param.getThisObject(), "mIconImageView");
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
                 FrameLayout mDockBlur = (FrameLayout) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");

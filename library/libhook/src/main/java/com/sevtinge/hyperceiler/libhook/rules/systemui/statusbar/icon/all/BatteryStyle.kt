@@ -25,6 +25,7 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
@@ -32,31 +33,31 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 
 object BatteryStyle : BaseHook() {
     private val fontSize by lazy {
-        mPrefsMap.getInt("system_ui_status_bar_battery_style_font_size", 15) * 0.5f
+        PrefsBridge.getInt("system_ui_status_bar_battery_style_font_size", 15) * 0.5f
     }
     private val fontSizeMark by lazy {
-        mPrefsMap.getInt("system_ui_status_bar_battery_style_font_mark_size", 15) * 0.5f
+        PrefsBridge.getInt("system_ui_status_bar_battery_style_font_mark_size", 15) * 0.5f
     }
     private val verticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset", 8)
+        PrefsBridge.getInt("system_ui_status_bar_battery_style_vertical_offset", 8)
     }
     private val verticalOffsetMark by lazy {
-        mPrefsMap.getInt("system_ui_status_bar_battery_style_vertical_offset_mark", 27)
+        PrefsBridge.getInt("system_ui_status_bar_battery_style_vertical_offset_mark", 27)
     }
     private val isChangeLocation by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_battery_style_change_location")
+        PrefsBridge.getBoolean("system_ui_status_bar_battery_style_change_location")
     }
     private val isHideText by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")
+        PrefsBridge.getBoolean("system_ui_status_bar_battery_percent")
     }
     private val isEnableCustom by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_battery_style_enable_custom")
+        PrefsBridge.getBoolean("system_ui_status_bar_battery_style_enable_custom")
     }
     private val isEnableBold by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_battery_style_bold")
+        PrefsBridge.getBoolean("system_ui_status_bar_battery_style_bold")
     }
     private val isEnableBatteryMark by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")
+        PrefsBridge.getBoolean("system_ui_status_bar_battery_percent_mark")
     }
 
     private val mBatteryMeterViewClass by lazy {
@@ -89,12 +90,12 @@ object BatteryStyle : BaseHook() {
     private fun setMargin(view1: TextView, view2: TextView) {
         // 左侧间距
         var leftMargin =
-            mPrefsMap.getInt("system_ui_status_bar_battery_style_left_margin", 0)
+            PrefsBridge.getInt("system_ui_status_bar_battery_style_left_margin", 0)
         leftMargin = dp2px(leftMargin * 0.5f)
 
         // 右侧间距
         var rightMargin =
-            mPrefsMap.getInt("system_ui_status_bar_battery_style_right_margin", 0)
+            PrefsBridge.getInt("system_ui_status_bar_battery_style_right_margin", 0)
         rightMargin = dp2px(rightMargin * 0.5f)
 
         // 上下偏移量

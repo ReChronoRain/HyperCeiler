@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.Arrays;
@@ -126,7 +127,7 @@ public class ModuleMatcher {
     private boolean isInSafeModeByConfig(String packageName) {
         String configKey = SAFE_MODE_CONFIG.get(packageName);
         if (configKey == null) return false;
-        return PrefsUtils.mPrefsMap.getBoolean(configKey);
+        return PrefsBridge.getBoolean(configKey);
     }
 
     private boolean isInSafeModeByProp(String packageName) {

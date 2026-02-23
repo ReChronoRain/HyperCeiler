@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.libhook.rules.camera.Unlock4k60;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockLeica;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockSuperHighQuality;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockTrackEyes;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.camera")
 public class Camera extends BaseLoad {
@@ -41,19 +42,19 @@ public class Camera extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         // 拍照
-        initHook(new CustomWatermark(), mPrefsMap.getBoolean("camera_custom_watermark"));
-        initHook(new BlackLeica(), mPrefsMap.getBoolean("camera_black_leica"));
+        initHook(new CustomWatermark(), PrefsBridge.getBoolean("camera_custom_watermark"));
+        initHook(new BlackLeica(), PrefsBridge.getBoolean("camera_black_leica"));
 
         // 设置
-        initHook(new EnableLabOptions(), mPrefsMap.getBoolean("camera_settings_lab_options"));
-        initHook(new UnlockTrackEyes(), mPrefsMap.getBoolean("camera_settings_track_eyes"));
+        initHook(new EnableLabOptions(), PrefsBridge.getBoolean("camera_settings_lab_options"));
+        initHook(new UnlockTrackEyes(), PrefsBridge.getBoolean("camera_settings_track_eyes"));
 
-        initHook(new MaxScreenBrightness(), mPrefsMap.getBoolean("camera_max_brightness"));
-        initHook(new CustomCameraColor(), mPrefsMap.getBoolean("camera_custom_theme_color"));
+        initHook(new MaxScreenBrightness(), PrefsBridge.getBoolean("camera_max_brightness"));
+        initHook(new CustomCameraColor(), PrefsBridge.getBoolean("camera_custom_theme_color"));
 
-        initHook(UnlockSuperHighQuality.INSTANCE, mPrefsMap.getBoolean("camera_super_high_quality"));
-        initHook(Unlock4k60.INSTANCE, mPrefsMap.getBoolean("camera_unlock_4k60"));
-        initHook(UnlockLeica.INSTANCE, mPrefsMap.getBoolean("camera_unlock_leica"));
-        initHook(CloudWatermark.INSTANCE, mPrefsMap.getBoolean("camera_cloud_watermark"));
+        initHook(UnlockSuperHighQuality.INSTANCE, PrefsBridge.getBoolean("camera_super_high_quality"));
+        initHook(Unlock4k60.INSTANCE, PrefsBridge.getBoolean("camera_unlock_4k60"));
+        initHook(UnlockLeica.INSTANCE, PrefsBridge.getBoolean("camera_unlock_leica"));
+        initHook(CloudWatermark.INSTANCE, PrefsBridge.getBoolean("camera_cloud_watermark"));
     }
 }

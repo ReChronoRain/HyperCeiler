@@ -26,6 +26,7 @@ import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
 import com.sevtinge.hyperceiler.common.utils.SettingsHelper;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
@@ -41,7 +42,9 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
     public void onCreatePreferences(Bundle bundle, String s) {
         onCreatePreferencesBefore(bundle, s);
         mPreferenceManager = getPreferenceManager();
-        SettingsHelper.initSharedPreferences(mPreferenceManager, PrefsUtils.mPrefsName, Context.MODE_PRIVATE);
+        PrefsConfigurator.setup(this);
+
+        //SettingsHelper.initSharedPreferences(mPreferenceManager, PrefsUtils.mPrefsName, Context.MODE_PRIVATE);
         onCreatePreferencesAfter(bundle, s);
     }
 

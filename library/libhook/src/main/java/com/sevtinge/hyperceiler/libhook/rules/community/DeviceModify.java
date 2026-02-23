@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -47,9 +48,9 @@ public class DeviceModify extends BaseHook {
     @Override
     public void init() {
 
-        mDevice = mPrefsMap.getString("community_device_modify_device", "");
-        mModel = mPrefsMap.getString("community_device_modify_model", "");
-        mManufacturer = mPrefsMap.getString("community_device_modify_manufacturer", "");
+        mDevice = PrefsBridge.getString("community_device_modify_device", "");
+        mModel = PrefsBridge.getString("community_device_modify_model", "");
+        mManufacturer = PrefsBridge.getString("community_device_modify_manufacturer", "");
 
         EzxHelpUtils.setStaticObjectField(Build.class, "DEVICE", mDevice);
         EzxHelpUtils.setStaticObjectField(Build.class, "MODEL", mModel);

@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.folder
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -35,10 +36,10 @@ class FolderAnimation : BaseHook() {
     private var value4: Float? = null
 
     override fun init() {//|x-200|    50-150
-        value1 = abs(mPrefsMap.getInt("home_folder_anim_1", 90).toFloat() - 200) / 100
-        value2 = mPrefsMap.getInt("home_folder_anim_2", 30).toFloat() / 100
-        value3 = abs(mPrefsMap.getInt("home_folder_anim_3", 99).toFloat() - 200) / 100
-        value4 = mPrefsMap.getInt("home_folder_anim_4", 24).toFloat() / 100
+        value1 = abs(PrefsBridge.getInt("home_folder_anim_1", 90).toFloat() - 200) / 100
+        value2 = PrefsBridge.getInt("home_folder_anim_2", 30).toFloat() / 100
+        value3 = abs(PrefsBridge.getInt("home_folder_anim_3", 99).toFloat() - 200) / 100
+        value4 = PrefsBridge.getInt("home_folder_anim_4", 24).toFloat() / 100
         val mSpringAnimator = findClassIfExists("com.miui.home.launcher.animate.SpringAnimator")
         var hook1: MethodUnhooker<*>? = null
         var hook2: MethodUnhooker<*>? = null

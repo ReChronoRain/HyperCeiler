@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.HashMap;
@@ -38,6 +39,7 @@ import java.util.Map;
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModule;
+import io.github.libxposed.service.RemotePreferences;
 
 /**
  * Xposed 模块入口基类
@@ -51,6 +53,8 @@ public class XposedInitEntry extends XposedModule {
     protected SharedPreferences remotePrefs;
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
 
+    private SharedPreferences.OnSharedPreferenceChangeListener mRemoteListener;
+
     public XposedInitEntry(@NonNull XposedInterface base, @NonNull ModuleLoadedParam param) {
         super(base, param);
         processName = param.getProcessName();
@@ -58,12 +62,15 @@ public class XposedInitEntry extends XposedModule {
         XposedLog.init(base);
         BaseLoad.init(base);
         EzXposed.initXposedModule(base);
+
+        // 在注入时立即初始化
+        initPrefs();
     }
 
     @Override
     public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
         // load preferences
-        initPrefs();
+        //initPrefs();
 
         // set xposed module
         EzxHelpUtils.setXposedModule(this);
@@ -76,20 +83,17 @@ public class XposedInitEntry extends XposedModule {
         }
 
         // load Third Hook
-        if (mPrefsMap.getBoolean("system_framework_core_patch_enable")) {
+        if (PrefsBridge.getBoolean("system_framework_core_patch_enable")) {
             new CorePatch().onLoad(lpparam);
             XposedLog.d(TAG, "system", "CorePatch loaded");
         }
-        if (mPrefsMap.getBoolean("system_other_flag_secure")) {
+        if (PrefsBridge.getBoolean("system_other_flag_secure")) {
             new FlagSecure().onLoad(lpparam);
             XposedLog.d(TAG, "system", "FlagSecure loaded");
         }
 
         // load Hook
         invokeInit(lpparam);
-
-        // Sync preferences changes
-        loadPreferenceChange();
     }
 
     @Override
@@ -97,13 +101,11 @@ public class XposedInitEntry extends XposedModule {
         super.onPackageLoaded(lpparam);
         if (!lpparam.isFirstPackage()) return;
         // load preferences
-        initPrefs();
+        //initPrefs();
         // load EzXposed
         EzXposed.initOnPackageLoaded(lpparam);
         // invoke module
         invokeInit(lpparam);
-        // Sync preferences changes
-        loadPreferenceChange();
     }
 
     protected void invokeInit(PackageLoadedParam lpparam) {
@@ -149,7 +151,7 @@ public class XposedInitEntry extends XposedModule {
         return ModuleMatcher.MatchContext.builder()
             .systemServer(isSystemServer)
             .exactMatch(hasExactMatch)
-            .debugMode(mPrefsMap.getBoolean("development_debug_mode"))
+            .debugMode(PrefsBridge.getBoolean("development_debug_mode"))
             .build();
     }
 
@@ -159,28 +161,27 @@ public class XposedInitEntry extends XposedModule {
     }
 
     protected void initPrefs() {
-        SharedPreferences readPrefs = getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
-        Map<String, ?> allPrefs = readPrefs.getAll();
-        if (allPrefs != null && !allPrefs.isEmpty()) {
-            mPrefsMap.putAll(allPrefs);
+        // 直接获取远程句柄并注入到 Bridge
+        String remoteName = PrefsBridge.PREFS_NAME + "_remote";
+
+        RemotePreferences remote = (RemotePreferences) getRemotePreferences(remoteName);
+
+        if (remote != null) {
+            // 2. 将监听器实例存入成员变量（强引用）
+            mRemoteListener = (sp, key) -> {
+                XposedLog.d(TAG, "Config changed in remote: " + key);
+                PrefsBridge.notifyChanged(key);
+            };
+
+            // 3. 注册
+            remote.registerOnSharedPreferenceChangeListener(mRemoteListener);
+
+            // 【调试】打印一下看看能不能读到数据
+            XposedLog.d(TAG, "Prefs initialized. Total keys: " + remote.getAll().size());
+        } else {
+            XposedLog.e(TAG, "RemotePreferences is NULL! Hook will not work.");
         }
-    }
 
-    protected void loadPreferenceChange() {
-        HashSet<String> ignoreKeys = new HashSet<>();
-
-        mListener = (sharedPreferences, key) -> {
-            Object val = sharedPreferences.getAll().get(key);
-            if (val == null) {
-                mPrefsMap.remove(key);
-            } else {
-                mPrefsMap.put(key, val);
-            }
-            if (!ignoreKeys.contains(key)) {
-                PrefsUtils.handlePreferenceChanged(key);
-            }
-        };
-        remotePrefs = getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
-        remotePrefs.registerOnSharedPreferenceChangeListener(mListener);
+        PrefsBridge.setRemotePrefs(remote);
     }
 }

@@ -38,6 +38,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import java.util.function.Consumer
@@ -114,7 +115,7 @@ class MobilePublicHookV : BaseHook() {
     }
 
     private fun updateIconState(param: AfterHookParam, fieldName: String, key: String) {
-        val opt = mPrefsMap.getStringAsInt(key, 0)
+        val opt = PrefsBridge.getStringAsInt(key, 0)
         if (opt != 0) {
             val value = when (opt) {
                 1 -> true

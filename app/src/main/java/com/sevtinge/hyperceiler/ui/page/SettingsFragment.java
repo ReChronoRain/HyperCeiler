@@ -20,6 +20,7 @@ import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.oldui.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
@@ -106,7 +107,7 @@ public class SettingsFragment extends BasePreferenceFragment
 
         findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
             DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_title, com.sevtinge.hyperceiler.core.R.string.reset_desc, (dialog, which) -> {
-                PrefsUtils.mSharedPreferences.edit().clear().apply();
+                PrefsBridge.clearAll();
                 Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
             });
             return true;

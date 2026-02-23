@@ -39,22 +39,23 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.leftButt
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object BlurButton : BaseHook() {
     private val removeRight by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_hide_camera")
+        PrefsBridge.getBoolean("system_ui_lock_screen_hide_camera")
     }
     private val radius by lazy {
-        mPrefsMap.getInt("system_ui_lock_screen_blur_button_radius", 40)
+        PrefsBridge.getInt("system_ui_lock_screen_blur_button_radius", 40)
     }
     private val hyperBlur by lazy {
-        mPrefsMap.getBoolean("system_ui_lock_screen_hyper_blur_button")
+        PrefsBridge.getBoolean("system_ui_lock_screen_hyper_blur_button")
     }
     private val blurBotton by lazy {
-        isTransparencyLow(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
+        isTransparencyLow(PrefsBridge.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
     }
 
     override fun init() {
@@ -71,7 +72,7 @@ object BlurButton : BaseHook() {
                         if (hyperBlur) hyperBlur(param) else systemBlur(param)
                         if (blurBotton) param.thisObject.setBooleanField(
                             "mBottomIconRectIsDeep",
-                            isColorDark(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
+                            isColorDark(PrefsBridge.getInt("system_ui_lock_screen_blur_button_bg_color", 0))
                         )
                     }
                 }
@@ -147,7 +148,7 @@ object BlurButton : BaseHook() {
             setMiViewBlurMode(1)
             setMiBackgroundBlurMode(1)
             setMiBackgroundBlurRadius(100)
-            addMiBackgroundBlendColor(mPrefsMap.getInt("system_ui_lock_screen_blur_button_bg_color", 0), 101)
+            addMiBackgroundBlendColor(PrefsBridge.getInt("system_ui_lock_screen_blur_button_bg_color", 0), 101)
         }
     }
 

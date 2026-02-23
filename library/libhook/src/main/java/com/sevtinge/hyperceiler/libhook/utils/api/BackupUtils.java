@@ -26,6 +26,7 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import org.json.JSONException;
@@ -73,7 +74,7 @@ public class BackupUtils {
         OutputStream outputStream = activity.getContentResolver().openOutputStream(data);
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
         JSONObject jsonObject = new JSONObject();
-        for (Map.Entry<String, ?> entry : PrefsUtils.mSharedPreferences.getAll().entrySet()) {
+        for (Map.Entry<String, ?> entry : PrefsBridge.getAll().entrySet()) {
             if ("prefs_key_allow_hook".equals(entry.getKey())) {
                 continue;
             }
@@ -85,7 +86,6 @@ public class BackupUtils {
 
     public static void handleReadDocument(Activity activity, @Nullable Uri data) throws IOException, JSONException {
         if (data == null) return;
-        SharedPreferences.Editor edit = PrefsUtils.mSharedPreferences.edit();
         InputStream inputStream = activity.getContentResolver().openInputStream(data);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
         StringBuilder stringBuilder = new StringBuilder();
@@ -111,17 +111,16 @@ public class BackupUtils {
                     String[] array = ((String) value).split(",");
                     List<String> list = Arrays.asList(array);
                     Set<String> stringSet = new HashSet<>(list);
-                    edit.putStringSet(key, stringSet);
+                    PrefsBridge.putStringSet(key, stringSet);
                 } else {
-                    edit.putString(key, (String) value);
+                    PrefsBridge.putString(key, (String) value);
                 }
             } else if (value instanceof Boolean) {
-                edit.putBoolean(key, (Boolean) value);
+                PrefsBridge.putBoolean(key, (Boolean) value);
             } else if (value instanceof Integer) {
-                edit.putInt(key, (Integer) value);
+                PrefsBridge.putInt(key, (Integer) value);
             }
         }
         bufferedReader.close();
-        edit.apply();
     }
 }

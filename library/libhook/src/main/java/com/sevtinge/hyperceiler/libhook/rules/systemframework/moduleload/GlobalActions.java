@@ -37,6 +37,7 @@ import android.view.KeyEvent;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
@@ -188,7 +189,7 @@ public class GlobalActions extends BaseHook {
         if (key == null || key.isEmpty()) {
             return false;
         }
-        int action = mPrefsMap.getInt(key + "_action", 0);
+        int action = PrefsBridge.getInt(key + "_action", 0);
         if (action <= 0) {
             return false;
         }
@@ -284,7 +285,7 @@ public class GlobalActions extends BaseHook {
         am.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
         am.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
 
-        if (vibrate && mPrefsMap.getBoolean("controls_volumemedia_vibrate", true)) ;
+        if (vibrate && PrefsBridge.getBoolean("controls_volumemedia_vibrate", true)) ;
         /*Helpers.performStrongVibration(mContext, PrefsUtils.getSharedBoolPrefs(mContext, "prefa_key_controls_volumemedia_vibrate_ignore", false));*/
     }
 
@@ -316,7 +317,7 @@ public class GlobalActions extends BaseHook {
                 prefs += "_shortcut_intent";
             }
 
-            String prefValue = mPrefsMap.getString(prefs, null);
+            String prefValue = PrefsBridge.getString(prefs, null);
             if (prefValue == null) return null;
 
             Intent intent = new Intent();
@@ -329,7 +330,7 @@ public class GlobalActions extends BaseHook {
                 }
                 ComponentName name = new ComponentName(pkgAppArray[0], pkgAppArray[1]);
                 intent.setComponent(name);
-                int user = mPrefsMap.getInt(prefs + "_user", 0);
+                int user = PrefsBridge.getInt(prefs + "_user", 0);
                 if (user != 0) {
                     intent.putExtra("user", user);
                 }

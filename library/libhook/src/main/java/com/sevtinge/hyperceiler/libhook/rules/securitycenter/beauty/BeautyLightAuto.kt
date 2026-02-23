@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.beauty
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
@@ -37,7 +38,7 @@ object BeautyLightAuto : BaseHook() {
     }
 
     override fun init() {
-        if (mPrefsMap.getBoolean("security_center_beauty_face")) {
+        if (PrefsBridge.getBoolean("security_center_beauty_face")) {
             beautyAuto.createHooks {
                 returnConstant(true)
             }

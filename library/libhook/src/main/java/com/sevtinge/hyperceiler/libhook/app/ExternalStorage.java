@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.externalstorage.DisableFolderCantUse;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.externalstorage")
 public class ExternalStorage extends BaseLoad {
@@ -31,6 +32,6 @@ public class ExternalStorage extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableFolderCantUse(), mPrefsMap.getBoolean("various_disable_folder_cantuse"));
+        initHook(new DisableFolderCantUse(), PrefsBridge.getBoolean("various_disable_folder_cantuse"));
     }
 }

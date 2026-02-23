@@ -22,6 +22,7 @@ import android.content.res.Configuration
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -32,10 +33,10 @@ class QSGrid : BaseHook() {
     }
 
     override fun init() {
-        val cols = mPrefsMap.getInt("system_control_center_old_qs_columns", 4)
-        val colsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_columns_horizontal", 5)
-        val rows = mPrefsMap.getInt("system_control_center_old_qs_rows", 3)
-        val rowsHorizontal = mPrefsMap.getInt("system_control_center_old_qs_rows_horizontal", 2)
+        val cols = PrefsBridge.getInt("system_control_center_old_qs_columns", 4)
+        val colsHorizontal = PrefsBridge.getInt("system_control_center_old_qs_columns_horizontal", 5)
+        val rows = PrefsBridge.getInt("system_control_center_old_qs_rows", 3)
+        val rowsHorizontal = PrefsBridge.getInt("system_control_center_old_qs_rows_horizontal", 2)
 
         hyperHooks(cols, colsHorizontal)
         miuiTileClass.methodFinder()

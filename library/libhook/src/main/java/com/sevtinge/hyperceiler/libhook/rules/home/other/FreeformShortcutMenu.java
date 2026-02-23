@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,7 +200,7 @@ public class FreeformShortcutMenu extends BaseHook {
 
         ArrayList<Object> newItems = new ArrayList<>();
 
-        if (mPrefsMap.getBoolean("home_other_freeform_shortcut_menu")) {
+        if (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu")) {
             Object smallWindow = createShortcutItem(
                 R.string.floating_window, "ic_task_small_window");
             if (smallWindow != null) {
@@ -207,7 +208,7 @@ public class FreeformShortcutMenu extends BaseHook {
             }
         }
 
-        if (mPrefsMap.getBoolean("home_other_tasks_shortcut_menu")) {
+        if (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu")) {
             Object newTask = createShortcutItem(
                 R.string.new_task, "ic_task_add_pair");
             if (newTask != null) {

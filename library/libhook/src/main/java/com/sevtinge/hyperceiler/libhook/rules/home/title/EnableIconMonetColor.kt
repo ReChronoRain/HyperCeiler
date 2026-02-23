@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.title
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object EnableIconMonetColor : BaseHook() {
 
@@ -29,8 +30,8 @@ object EnableIconMonetColor : BaseHook() {
         val monet = "system_accent1_100"
         val monoColorId = Resources.getSystem().getIdentifier(monet, "color", "android")
         var monoColor = Resources.getSystem().getColor(monoColorId, null)
-        if (mPrefsMap.getBoolean("home_other_use_edit_color")) {
-            monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
+        if (PrefsBridge.getBoolean("home_other_use_edit_color")) {
+            monoColor = PrefsBridge.getInt("home_other_your_color_qwq", -1)
         }
         setObjectReplacement(
             "com.miui.home",
@@ -45,8 +46,8 @@ object EnableIconMonetColor : BaseHook() {
         val monet = "system_accent1_100"
         val monoColorId = Resources.getSystem().getIdentifier(monet, "color", "android")
         var monoColor = Resources.getSystem().getColor(monoColorId, null)
-        if (BaseXposedInit.mPrefsMap.getBoolean("home_other_use_edit_color")) {
-            monoColor = mPrefsMap.getInt("home_other_your_color_qwq", -1)
+        if (BaseXposedInit.PrefsBridge.getBoolean("home_other_use_edit_color")) {
+            monoColor = PrefsBridge.getInt("home_other_your_color_qwq", -1)
         }
         resParam.res.setReplacement(
             "com.miui.home",

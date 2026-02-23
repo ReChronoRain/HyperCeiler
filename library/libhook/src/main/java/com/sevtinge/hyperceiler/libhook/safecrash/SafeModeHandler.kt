@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.setProp
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
 
 object SafeModeHandler : ICrashHandler {
@@ -76,10 +77,10 @@ object SafeModeHandler : ICrashHandler {
 
     private fun isInSafeModeByConfig(pkgName: String): Boolean {
         return when (pkgName) {
-            "com.android.systemui" -> PrefsUtils.mPrefsMap.getBoolean("system_ui_safe_mode_enable")
-            "com.miui.home" -> PrefsUtils.mPrefsMap.getBoolean("home_safe_mode_enable")
-            "com.android.settings" -> PrefsUtils.mPrefsMap.getBoolean("settings_safe_mode_enable")
-            "com.miui.securitycenter" -> PrefsUtils.mPrefsMap.getBoolean("security_center_safe_mode_enable")
+            "com.android.systemui" -> PrefsBridge.getBoolean("system_ui_safe_mode_enable")
+            "com.miui.home" -> PrefsBridge.getBoolean("home_safe_mode_enable")
+            "com.android.settings" -> PrefsBridge.getBoolean("settings_safe_mode_enable")
+            "com.miui.securitycenter" -> PrefsBridge.getBoolean("security_center_safe_mode_enable")
             else -> false
         }
     }

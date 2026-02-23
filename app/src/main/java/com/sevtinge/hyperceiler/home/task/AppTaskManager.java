@@ -74,7 +74,7 @@ public class AppTaskManager {
             @Override
             public void execute() {
                 // 提前初始化语言，保证首屏渲染就是正确的语言
-                LanguageHelper.init(context, PrefsUtils.mSharedPreferences);
+                LanguageHelper.init(context);
             }
         });
 
@@ -137,7 +137,7 @@ public class AppTaskManager {
             public void execute() {
                 requestCta(activity);
                 XposedActivateHelper.init(activity);
-                registerObserver(activity.getApplicationContext());
+                //registerObserver(activity);
                 SearchHelper.initIndex(activity, true);
             }
         });

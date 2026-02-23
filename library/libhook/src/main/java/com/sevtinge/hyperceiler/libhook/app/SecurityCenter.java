@@ -74,6 +74,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.Disab
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VideoDolbyOpen;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.securitycenter")
 public class SecurityCenter extends BaseLoad {
@@ -85,83 +86,83 @@ public class SecurityCenter extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         // 应用管理
-        initHook(new AppDefaultSort(), mPrefsMap.getStringAsInt("security_center_app_default_sort", 0) > 0);
-        initHook(new AppRestrict(), mPrefsMap.getBoolean("security_center_app_restrict"));
-        initHook(new AppDisable(), mPrefsMap.getBoolean("security_center_app_disable"));
-        initHook(new AppDetails(), mPrefsMap.getBoolean("security_center_app_details"));
-        initHook(DisableReport.INSTANCE, mPrefsMap.getBoolean("security_center_disable_ban"));
-        initHook(new OpenByDefaultSetting(), mPrefsMap.getBoolean("security_center_app_default_setting"));
-        initHook(AddAppInfoEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_info"));
-        initHook(AddAppManagerEntry.INSTANCE, mPrefsMap.getBoolean("security_center_aosp_app_manager"));
+        initHook(new AppDefaultSort(), PrefsBridge.getStringAsInt("security_center_app_default_sort", 0) > 0);
+        initHook(new AppRestrict(), PrefsBridge.getBoolean("security_center_app_restrict"));
+        initHook(new AppDisable(), PrefsBridge.getBoolean("security_center_app_disable"));
+        initHook(new AppDetails(), PrefsBridge.getBoolean("security_center_app_details"));
+        initHook(DisableReport.INSTANCE, PrefsBridge.getBoolean("security_center_disable_ban"));
+        initHook(new OpenByDefaultSetting(), PrefsBridge.getBoolean("security_center_app_default_setting"));
+        initHook(AddAppInfoEntry.INSTANCE, PrefsBridge.getBoolean("security_center_aosp_app_info"));
+        initHook(AddAppManagerEntry.INSTANCE, PrefsBridge.getBoolean("security_center_aosp_app_manager"));
 
         // 省电与电池
-        initHook(ShowBatteryTemperatureNew.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_temperature"));
-        initHook(UnlockSuperWirelessCharge.INSTANCE, mPrefsMap.getBoolean("security_center_super_wireless_charge"));
-        initHook(ScreenUsedTime.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_screen_time"));
-        initHook(new UnlockSmartCharge(), mPrefsMap.getBoolean("security_center_unlock_smart_charge"));
-        initHook(BatteryHealth.INSTANCE, mPrefsMap.getBoolean("security_center_show_battery_health"));
-        initHook(new UnlockLowTempExtEndurance(), mPrefsMap.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
-        initHook(new MoreBatteryInfo(), mPrefsMap.getBoolean("secutity_center_battery_show_more_info"));
+        initHook(ShowBatteryTemperatureNew.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_temperature"));
+        initHook(UnlockSuperWirelessCharge.INSTANCE, PrefsBridge.getBoolean("security_center_super_wireless_charge"));
+        initHook(ScreenUsedTime.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_screen_time"));
+        initHook(new UnlockSmartCharge(), PrefsBridge.getBoolean("security_center_unlock_smart_charge"));
+        initHook(BatteryHealth.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_health"));
+        initHook(new UnlockLowTempExtEndurance(), PrefsBridge.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
+        initHook(new MoreBatteryInfo(), PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
 
         // 隐私保护
-        initHook(new AppLockPinScramble(), mPrefsMap.getBoolean("security_center_applock_pin_scramble"));
-        initHook(new HideXOptModeTip(), mPrefsMap.getBoolean("security_center_hide_xopt_mode_tip"));
+        initHook(new AppLockPinScramble(), PrefsBridge.getBoolean("security_center_applock_pin_scramble"));
+        initHook(new HideXOptModeTip(), PrefsBridge.getBoolean("security_center_hide_xopt_mode_tip"));
 
         // 前置摄像助手
-        initHook(BeautyLightAuto.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_face") ||
-                mPrefsMap.getBoolean("security_center_beauty_light_auto"));
-        initHook(BeautyPrivacy.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_privacy"));
-        initHook(BeautyPc.INSTANCE, mPrefsMap.getBoolean("security_center_beauty_pc"));
+        initHook(BeautyLightAuto.INSTANCE, PrefsBridge.getBoolean("security_center_beauty_face") ||
+                PrefsBridge.getBoolean("security_center_beauty_light_auto"));
+        initHook(BeautyPrivacy.INSTANCE, PrefsBridge.getBoolean("security_center_beauty_privacy"));
+        initHook(BeautyPc.INSTANCE, PrefsBridge.getBoolean("security_center_beauty_pc"));
 
         // 其他
-        initHook(new DisableRootedCheck(), mPrefsMap.getBoolean("security_center_disable_root_check_environment"));
-        initHook(new DisableSafepayAutoScan(), mPrefsMap.getBoolean("security_center_disable_safepay_auto_check"));
-        initHook(SimplifyMainFragment.INSTANCE, mPrefsMap.getBoolean("security_center_simplify_home"));
-        initHook(new InstallIntercept(), mPrefsMap.getBoolean("security_center_install_intercept"));
-        initHook(LockOneHundredPoints.INSTANCE, mPrefsMap.getBoolean("security_center_score"));
-        initHook(new SkipCountDownLimit(), mPrefsMap.getBoolean("security_center_skip_count_down_limit"));
-        initHook(DisableRootCheck.INSTANCE, mPrefsMap.getBoolean("security_center_disable_root_check"));
-        initHook(FuckRiskPkg.INSTANCE, mPrefsMap.getBoolean("security_center_disable_send_malicious_app_notification"));
-        initHook(NoLowBatteryWarning.INSTANCE, mPrefsMap.getBoolean("security_center_remove_low_battery_reminder"));
-        initHook(RemoveSIMLockSuccessDialog.INSTANCE, mPrefsMap.getBoolean("security_center_remove_simlock_success_dialog"));
-        initHook(BypassSimLockMiAccountAuth.INSTANCE, mPrefsMap.getBoolean("security_center_bypass_simlock_miaccount_auth"));
-        initHook(new BypassAdbInstallVerify(), mPrefsMap.getBoolean("security_center_adb_install_verify"));
-        initHook(new UnlockCarSicknessRelief(), mPrefsMap.getBoolean("security_center_unlock_car_sickness"));
-        initHook(new DisableNetworkAssistantOfflineInfoManager(), mPrefsMap.getBoolean("security_center_disable_offline_info_manager"));
+        initHook(new DisableRootedCheck(), PrefsBridge.getBoolean("security_center_disable_root_check_environment"));
+        initHook(new DisableSafepayAutoScan(), PrefsBridge.getBoolean("security_center_disable_safepay_auto_check"));
+        initHook(SimplifyMainFragment.INSTANCE, PrefsBridge.getBoolean("security_center_simplify_home"));
+        initHook(new InstallIntercept(), PrefsBridge.getBoolean("security_center_install_intercept"));
+        initHook(LockOneHundredPoints.INSTANCE, PrefsBridge.getBoolean("security_center_score"));
+        initHook(new SkipCountDownLimit(), PrefsBridge.getBoolean("security_center_skip_count_down_limit"));
+        initHook(DisableRootCheck.INSTANCE, PrefsBridge.getBoolean("security_center_disable_root_check"));
+        initHook(FuckRiskPkg.INSTANCE, PrefsBridge.getBoolean("security_center_disable_send_malicious_app_notification"));
+        initHook(NoLowBatteryWarning.INSTANCE, PrefsBridge.getBoolean("security_center_remove_low_battery_reminder"));
+        initHook(RemoveSIMLockSuccessDialog.INSTANCE, PrefsBridge.getBoolean("security_center_remove_simlock_success_dialog"));
+        initHook(BypassSimLockMiAccountAuth.INSTANCE, PrefsBridge.getBoolean("security_center_bypass_simlock_miaccount_auth"));
+        initHook(new BypassAdbInstallVerify(), PrefsBridge.getBoolean("security_center_adb_install_verify"));
+        initHook(new UnlockCarSicknessRelief(), PrefsBridge.getBoolean("security_center_unlock_car_sickness"));
+        initHook(new DisableNetworkAssistantOfflineInfoManager(), PrefsBridge.getBoolean("security_center_disable_offline_info_manager"));
 
         // 小窗和气泡通知
-        initHook(new RemoveConversationBubbleSettingsRestriction(), mPrefsMap.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
-        initHook(IsSbnBelongToActiveBubbleApp.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_side_hide_freeform"));
-        initHook(GetBubbleAppString.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_side_hide_freeform"));
+        initHook(new RemoveConversationBubbleSettingsRestriction(), PrefsBridge.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
+        initHook(IsSbnBelongToActiveBubbleApp.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_side_hide_freeform"));
+        initHook(GetBubbleAppString.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_side_hide_freeform"));
 
         // 移除打开应用弹窗
-        initHook(new RemoveOpenAppConfirmationPopup(), mPrefsMap.getBoolean("security_center_remove_open_app_confirmation_popup"));
+        initHook(new RemoveOpenAppConfirmationPopup(), PrefsBridge.getBoolean("security_center_remove_open_app_confirmation_popup"));
 
         // 全局侧边栏
-        boolean isVideoFunc = mPrefsMap.getBoolean("security_center_unlock_memc") ||
-                mPrefsMap.getBoolean("security_center_unlock_s_resolution") ||
-                mPrefsMap.getBoolean("security_center_unlock_enhance_contours");
+        boolean isVideoFunc = PrefsBridge.getBoolean("security_center_unlock_memc") ||
+                PrefsBridge.getBoolean("security_center_unlock_s_resolution") ||
+                PrefsBridge.getBoolean("security_center_unlock_enhance_contours");
 
-        initHook(NewPrivacyThumbnailBlur.INSTANCE, mPrefsMap.getBoolean("security_center_privacy_thumbnail_blur"));
-        initHook(new PowerSaver(), mPrefsMap.getBoolean("security_center_power_saver"));
-        initHook(new NewBoxBlur(), mPrefsMap.getBoolean("security_center_newbox_custom_enable"));
-        initHook(BlurSecurity.INSTANCE, mPrefsMap.getBoolean("se_enable"));
-        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
-        initHook(new ScLockApp(), mPrefsMap.getBoolean("system_framework_guided_access_sc"));
-        initHook(new RemoveMacroBlackList(), mPrefsMap.getBoolean("security_center_remove_macro_black_list"));
-        initHook(RemoveGameToast.INSTANCE, mPrefsMap.getBoolean("security_center_remove_game_toast"));
-        initHook(UnlockGunService.INSTANCE, mPrefsMap.getBoolean("security_center_unlock_gun_service"));
-        initHook(DisableRemoveScreenHoldOn.INSTANCE, mPrefsMap.getBoolean("security_center_disable_remove_screen_hold_on"));
+        initHook(NewPrivacyThumbnailBlur.INSTANCE, PrefsBridge.getBoolean("security_center_privacy_thumbnail_blur"));
+        initHook(new PowerSaver(), PrefsBridge.getBoolean("security_center_power_saver"));
+        initHook(new NewBoxBlur(), PrefsBridge.getBoolean("security_center_newbox_custom_enable"));
+        initHook(BlurSecurity.INSTANCE, PrefsBridge.getBoolean("se_enable"));
+        initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
+        initHook(new ScLockApp(), PrefsBridge.getBoolean("system_framework_guided_access_sc"));
+        initHook(new RemoveMacroBlackList(), PrefsBridge.getBoolean("security_center_remove_macro_black_list"));
+        initHook(RemoveGameToast.INSTANCE, PrefsBridge.getBoolean("security_center_remove_game_toast"));
+        initHook(UnlockGunService.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_gun_service"));
+        initHook(DisableRemoveScreenHoldOn.INSTANCE, PrefsBridge.getBoolean("security_center_disable_remove_screen_hold_on"));
         initHook(UnlockVideoSomeFunc.INSTANCE, isVideoFunc);
-        initHook(new AddSideBarExpandReceiver(), mPrefsMap.getBoolean("security_center_hide_sidebar"));
-        initHook(new VideoDolbyOpen(), mPrefsMap.getBoolean("security_center_dolby_open"));
-        initHook(new VBVideoMode(), mPrefsMap.getBoolean("security_center_unlock_new_vb"));
-        initHook(new GamePerformanceWildMode(), mPrefsMap.getBoolean("security_center_game_performance_wild_mode"));
+        initHook(new AddSideBarExpandReceiver(), PrefsBridge.getBoolean("security_center_hide_sidebar"));
+        initHook(new VideoDolbyOpen(), PrefsBridge.getBoolean("security_center_dolby_open"));
+        initHook(new VBVideoMode(), PrefsBridge.getBoolean("security_center_unlock_new_vb"));
+        initHook(new GamePerformanceWildMode(), PrefsBridge.getBoolean("security_center_game_performance_wild_mode"));
 
-        initHook(new PowerConsumptionRanking(), mPrefsMap.getBoolean("security_center_power_consumption_ranking"));
+        initHook(new PowerConsumptionRanking(), PrefsBridge.getBoolean("security_center_power_consumption_ranking"));
 
         // reshook
-        initHook(SidebarLineCustom.INSTANCE, mPrefsMap.getBoolean("security_center_sidebar_line_color"));
+        initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
 
     }
 }

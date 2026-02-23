@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Method;
 
@@ -96,7 +97,7 @@ public class UiLockApp extends BaseHook {
             }
         );
 
-        if (mPrefsMap.getBoolean("system_framework_guided_access_status")) {
+        if (PrefsBridge.getBoolean("system_framework_guided_access_status")) {
             hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
                 new IMethodHook() {
                     @Override
@@ -141,7 +142,7 @@ public class UiLockApp extends BaseHook {
                     int lockId = getLockApp(mContext);
                     setSystemLockApp(mContext);
                     setSystemLockScreen(mContext);
-                    switch (mPrefsMap.getStringAsInt("system_framework_guided_access_screen_int", 0)) {
+                    switch (PrefsBridge.getStringAsInt("system_framework_guided_access_screen_int", 0)) {
                         case 0 -> setMyLockScreen(mContext, 0);
                         case 1 -> setMyLockScreen(mContext, 1);
                         case 2 ->

@@ -22,13 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.nfc.AllowInformationScreen;
 import com.sevtinge.hyperceiler.libhook.rules.nfc.DisableSound;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.nfc")
 public class Nfc extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableSound(), mPrefsMap.getBoolean("nfc_disable_sound"));
-        initHook(new AllowInformationScreen(), mPrefsMap.getBoolean("nfc_allow_information_screen"));
+        initHook(new DisableSound(), PrefsBridge.getBoolean("nfc_disable_sound"));
+        initHook(new AllowInformationScreen(), PrefsBridge.getBoolean("nfc_allow_information_screen"));
     }
 }

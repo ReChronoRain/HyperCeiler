@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
@@ -72,7 +73,7 @@ public class SetCardLightDarkMode extends BaseHook {
         hookMethod(method, new IMethodHook() {
             @Override
             public void after(AfterHookParam param) {
-                EzxHelpUtils.setIntField(param.getThisObject(), field.getName(), mPrefsMap.getStringAsInt("weather_card_display_type", 0));
+                EzxHelpUtils.setIntField(param.getThisObject(), field.getName(), PrefsBridge.getStringAsInt("weather_card_display_type", 0));
             }
         });
     }

@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ForceSupportPlaybac
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ScreenRecorderConfig;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.UnlockMoreVolumeFromNew;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.screenrecorder")
 public class ScreenRecorder extends BaseLoad {
@@ -33,9 +34,9 @@ public class ScreenRecorder extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new ForceSupportPlaybackCapture(), mPrefsMap.getBoolean("screenrecorder_force_support_playback_capture"));
-        initHook(UnlockMoreVolumeFromNew.INSTANCE, mPrefsMap.getBoolean("screenrecorder_more_volume"));
-        initHook(new ScreenRecorderConfig(), mPrefsMap.getBoolean("screenrecorder_config"));
-        initHook(SaveToMovies.INSTANCE, mPrefsMap.getBoolean("screenrecorder_save_to_movies"));
+        initHook(new ForceSupportPlaybackCapture(), PrefsBridge.getBoolean("screenrecorder_force_support_playback_capture"));
+        initHook(UnlockMoreVolumeFromNew.INSTANCE, PrefsBridge.getBoolean("screenrecorder_more_volume"));
+        initHook(new ScreenRecorderConfig(), PrefsBridge.getBoolean("screenrecorder_config"));
+        initHook(SaveToMovies.INSTANCE, PrefsBridge.getBoolean("screenrecorder_save_to_movies"));
     }
 }

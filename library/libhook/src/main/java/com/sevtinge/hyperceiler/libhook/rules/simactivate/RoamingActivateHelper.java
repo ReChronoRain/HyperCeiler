@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
@@ -58,7 +59,7 @@ public class RoamingActivateHelper extends BaseHook {
     private final List<String> mChinaIccidStartsWithList = List.of("8986");
     private final List<String> mChinaTeleZoneCodeList = List.of("+86", "86", "0086");
     private final int slotId = 1;
-    private final boolean isRadical = mPrefsMap.getBoolean("sim_activation_service_disable_activate_when_roaming_radical");
+    private final boolean isRadical = PrefsBridge.getBoolean("sim_activation_service_disable_activate_when_roaming_radical");
 
 
     @Override

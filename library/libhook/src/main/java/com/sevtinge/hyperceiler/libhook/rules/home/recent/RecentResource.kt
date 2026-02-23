@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesHookMap
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
@@ -47,7 +48,7 @@ object RecentResource : HomeBaseHookNew() {
     }
 
     val sRoundedCorner by lazy {
-        mPrefsMap.getInt("task_view_corners", 20)
+        PrefsBridge.getInt("task_view_corners", 20)
     }
 
     @Version(isPad = false, min = 600000000)
@@ -97,7 +98,7 @@ object RecentResource : HomeBaseHookNew() {
             Resources::class.java.beforeHookMethod("getText", Int::class.java) { hook(it) }
 
             val value = sRoundedCorner.toFloat()
-            val value1 = mPrefsMap.getInt("task_view_header_height", -1).toFloat()
+            val value1 = PrefsBridge.getInt("task_view_header_height", -1).toFloat()
             if (value != -1f && value != 20f) {
                 hookMap["recents_task_view_rounded_corners_radius_min"] =
                     ResourcesHookData("dimen", dp2px(value))

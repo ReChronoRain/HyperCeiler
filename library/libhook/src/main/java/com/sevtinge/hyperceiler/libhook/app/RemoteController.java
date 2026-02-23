@@ -21,11 +21,12 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.remotecontroller.DisableAd;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.duokan.phone.remotecontroller")
 public class RemoteController extends BaseLoad {
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableAd(), mPrefsMap.getBoolean("remotecontroller_disable_ad"));
+        initHook(new DisableAd(), PrefsBridge.getBoolean("remotecontroller_disable_ad"));
     }
 }

@@ -30,6 +30,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import fan.appcompat.app.AppCompatActivity;
 
@@ -39,7 +40,7 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //PageDecorator.applyGrayScaleFilter(this);
-        registerObserver(getApplicationContext());
+        //registerObserver(getApplicationContext());
         createUiFromIntent(savedInstanceState, getIntent());
     }
 

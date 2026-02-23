@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -63,10 +64,10 @@ public class DialogGravity extends BaseHook {
                 AndroidLog.i(TAG, method.getName());
             }
 
-            int mDialogGravity = mPrefsMap.getStringAsInt("various_dialog_gravity", 0);
+            int mDialogGravity = PrefsBridge.getStringAsInt("various_dialog_gravity", 0);
 
-            int mDialogHorizontalMargin = mPrefsMap.getInt("various_dialog_horizontal_margin", 0);
-            int mDialogBottomMargin = mPrefsMap.getInt("various_dialog_bottom_margin", 0);
+            int mDialogHorizontalMargin = PrefsBridge.getInt("various_dialog_horizontal_margin", 0);
+            int mDialogBottomMargin = PrefsBridge.getInt("various_dialog_bottom_margin", 0);
 
             if (oldMethodFound) {
 

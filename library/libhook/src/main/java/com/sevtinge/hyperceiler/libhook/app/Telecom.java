@@ -21,11 +21,12 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.telecom.ScamReminderBypass;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.server.telecom")
 public class Telecom extends BaseLoad {
     @Override
     public void onPackageLoaded() {
-        initHook(new ScamReminderBypass(), mPrefsMap.getBoolean("scam_reminder_bypass"));
+        initHook(new ScamReminderBypass(), PrefsBridge.getBoolean("scam_reminder_bypass"));
     }
 }

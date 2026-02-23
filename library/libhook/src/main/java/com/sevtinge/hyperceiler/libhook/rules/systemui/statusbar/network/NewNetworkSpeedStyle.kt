@@ -28,31 +28,32 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object NewNetworkSpeedStyle : BaseHook() {
     private val viewInitedTag = getFakeResId("view_inited_tag")
 
     private val fixedWidth by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10)
+        PrefsBridge.getInt("system_ui_statusbar_network_speed_fixedcontent_width", 10)
     }
     private val networkStyle by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_network_speed_style", 0)
     }
 
     private val lineSpacing by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_network_speed_spacing_margin", 16)
+        PrefsBridge.getInt("system_ui_statusbar_network_speed_spacing_margin", 16)
     }
     private val bold by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_font_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_network_speed_font_style", 0)
     }
     private val fontSize by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_network_speed_font_size", 13)
+        PrefsBridge.getInt("system_ui_statusbar_network_speed_font_size", 13)
     }
     private val fontSizeEnable by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
+        PrefsBridge.getBoolean("system_ui_statusbar_network_speed_font_size_enable")
     }
     private val align by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_network_speed_align", 1)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_network_speed_align", 1)
     }
 
     override fun init() {
@@ -153,12 +154,12 @@ object NewNetworkSpeedStyle : BaseHook() {
 
     private fun margin(id: TextView) {
         val leftMargin = dp2px(
-            mPrefsMap.getInt("system_ui_statusbar_network_speed_left_margin", 0) * 0.5f
+            PrefsBridge.getInt("system_ui_statusbar_network_speed_left_margin", 0) * 0.5f
         )
         val rightMargin = dp2px(
-            mPrefsMap.getInt("system_ui_statusbar_network_speed_right_margin", 0) * 0.5f
+            PrefsBridge.getInt("system_ui_statusbar_network_speed_right_margin", 0) * 0.5f
         )
-        val verticalOffset = mPrefsMap.getInt("system_ui_statusbar_network_speed_vertical_offset", 40)
+        val verticalOffset = PrefsBridge.getInt("system_ui_statusbar_network_speed_vertical_offset", 40)
         val topMargin = if (verticalOffset != 40) {
             dp2px((verticalOffset - 40) * 0.1f)
         } else {

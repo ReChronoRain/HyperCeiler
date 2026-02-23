@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 // from https://github.com/Art-Chen/MIUI-Extra-YukiAPI/blob/f5a3ba5d17e0e62114fc355c3ff1a8daa9da94ff/app/src/main/java/moe/chenxy/miuiextra/hooker/entity/systemui/LinkageAnimCustomer.kt
 class LinkageAnimCustomer : BaseHook() {
@@ -65,8 +66,8 @@ class LinkageAnimCustomer : BaseHook() {
                 val toAod = param.args[0] as Boolean
                 val hasNotification = param.args[1] as Boolean
 
-                val on = mPrefsMap.getInt("system_ui_lock_screen_linkage_anim_on", 300)
-                val off = mPrefsMap.getInt("system_ui_lock_screen_linkage_anim_off", 300)
+                val on = PrefsBridge.getInt("system_ui_lock_screen_linkage_anim_on", 300)
+                val off = PrefsBridge.getInt("system_ui_lock_screen_linkage_anim_off", 300)
 
                 if (toAod) {
                     val mWallpaperHideEase =

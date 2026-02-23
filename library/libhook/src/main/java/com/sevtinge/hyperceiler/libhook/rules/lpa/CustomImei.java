@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -55,7 +56,7 @@ public class CustomImei extends BaseHook {
             @Override
             public void before(BeforeHookParam param) {
                 // 傻逼小米你写了个什么
-                param.setResult(processIMEI(mPrefsMap.getString("lpa_custom_imei", "")));
+                param.setResult(processIMEI(PrefsBridge.getString("lpa_custom_imei", "")));
             }
             @Override
             public void after(AfterHookParam param) {

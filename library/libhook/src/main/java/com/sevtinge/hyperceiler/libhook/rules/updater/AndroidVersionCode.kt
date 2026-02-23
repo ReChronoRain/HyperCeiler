@@ -20,11 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import android.os.Build
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 
 object AndroidVersionCode : BaseHook() {
     private val mAndroidVersionCode =
-        mPrefsMap.getString("various_updater_android_version", "14")
+        PrefsBridge.getString("various_updater_android_version", "14")
 
     override fun init() {
         setStaticObjectField(Build.VERSION::class.java, "RELEASE", mAndroidVersionCode)

@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object HideRecentCard : BaseHook() {
     override fun init() {
@@ -34,7 +35,7 @@ object HideRecentCard : BaseHook() {
                     ?.getObjectField("mMainTaskInfo")
                     ?.getObjectField("realActivity")
                     ?.callMethod("getPackageName")
-                val selectedApps = mPrefsMap.getStringSet("home_recent_hide_card")
+                val selectedApps = PrefsBridge.getStringSet("home_recent_hide_card")
                 if (selectedApps.contains(pkgName)) {
                     param.result = true
                 }

@@ -22,13 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.notes.DisableAiWatermark;
 import com.sevtinge.hyperceiler.libhook.rules.notes.UnlockAI;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.notes")
 public class Notes extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableAiWatermark(), mPrefsMap.getBoolean("notes_disable_ai_watermark"));
-        initHook(UnlockAI.INSTANCE, mPrefsMap.getStringAsInt("notes_unlock_ai_mode", 0) != 0);
+        initHook(new DisableAiWatermark(), PrefsBridge.getBoolean("notes_disable_ai_watermark"));
+        initHook(UnlockAI.INSTANCE, PrefsBridge.getStringAsInt("notes_unlock_ai_mode", 0) != 0);
     }
 }

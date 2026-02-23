@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.huanji.AllowMoveAllApps;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.huanji")
 public class Huanji extends BaseLoad {
@@ -31,6 +32,6 @@ public class Huanji extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new AllowMoveAllApps(), mPrefsMap.getBoolean("huanji_allow_all_apps"));
+        initHook(new AllowMoveAllApps(), PrefsBridge.getBoolean("huanji_allow_all_apps"));
     }
 }

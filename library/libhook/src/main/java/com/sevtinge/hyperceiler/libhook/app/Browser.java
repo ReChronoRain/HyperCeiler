@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.browser.DebugMode;
 import com.sevtinge.hyperceiler.libhook.rules.browser.DisableReadFiles;
 import com.sevtinge.hyperceiler.libhook.rules.browser.EnableDebugEnvironment;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.browser")
 public class Browser extends BaseLoad {
@@ -33,8 +34,8 @@ public class Browser extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DebugMode(), mPrefsMap.getBoolean("browser_debug_mode"));
-        initHook(new DisableReadFiles(), mPrefsMap.getBoolean("browser_disable_blacklist"));
-        initHook(new EnableDebugEnvironment(), mPrefsMap.getBoolean("browser_enable_debug_environment"));
+        initHook(new DebugMode(), PrefsBridge.getBoolean("browser_debug_mode"));
+        initHook(new DisableReadFiles(), PrefsBridge.getBoolean("browser_disable_blacklist"));
+        initHook(new EnableDebugEnvironment(), PrefsBridge.getBoolean("browser_enable_debug_environment"));
     }
 }

@@ -23,6 +23,7 @@ import android.app.Activity;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -33,7 +34,7 @@ public class InstallSource extends BaseHook {
     @Override
     public void init() {
 
-        mInstallSourcePackageName = mPrefsMap.getString("miui_package_installer_install_source", "com.android.fileexplorer");
+        mInstallSourcePackageName = PrefsBridge.getString("miui_package_installer_install_source", "com.android.fileexplorer");
 
         findAndHookMethod(Activity.class, "getLaunchedFromPackage", new IMethodHook(){
             @Override

@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.DontKillApps;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.GmsDozeFix;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.LockMaxFps;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.PreventBatteryWitelist;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.powerkeeper")
 public class PowerKeeper extends BaseLoad {
@@ -37,12 +38,12 @@ public class PowerKeeper extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new GmsDozeFix(), mPrefsMap.getBoolean("powerkeeper_gms_doze_fix"));
-        initHook(new ConservativeMillet(), mPrefsMap.getBoolean("powerkeeper_conservative_millet"));
-        initHook(new CustomRefreshRate(), mPrefsMap.getBoolean("various_custom_refresh_rate"));
-        initHook(new DisableGetDisplayCtrlCode(), mPrefsMap.getBoolean("powerkeeper_disable_get_display_ctrl_code"));
-        initHook(LockMaxFps.INSTANCE, mPrefsMap.getBoolean("powerkeeper_lock_max_fps"));
-        initHook(DontKillApps.INSTANCE, mPrefsMap.getBoolean("powerkeeper_do_not_kill_apps"));
-        initHook(new PreventBatteryWitelist(), mPrefsMap.getBoolean("powerkeeper_prevent_recovery_of_battery_optimization_whitelist"));
+        initHook(new GmsDozeFix(), PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
+        initHook(new ConservativeMillet(), PrefsBridge.getBoolean("powerkeeper_conservative_millet"));
+        initHook(new CustomRefreshRate(), PrefsBridge.getBoolean("various_custom_refresh_rate"));
+        initHook(new DisableGetDisplayCtrlCode(), PrefsBridge.getBoolean("powerkeeper_disable_get_display_ctrl_code"));
+        initHook(LockMaxFps.INSTANCE, PrefsBridge.getBoolean("powerkeeper_lock_max_fps"));
+        initHook(DontKillApps.INSTANCE, PrefsBridge.getBoolean("powerkeeper_do_not_kill_apps"));
+        initHook(new PreventBatteryWitelist(), PrefsBridge.getBoolean("powerkeeper_prevent_recovery_of_battery_optimization_whitelist"));
     }
 }

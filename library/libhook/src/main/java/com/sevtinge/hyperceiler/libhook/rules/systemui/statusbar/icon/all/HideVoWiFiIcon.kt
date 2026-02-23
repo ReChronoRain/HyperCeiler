@@ -20,15 +20,16 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object HideVoWiFiIcon : BaseHook() {
     private val hideVoWifi by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_icon_vowifi")
+        PrefsBridge.getBoolean("system_ui_status_bar_icon_vowifi")
     }
     private val hideVolte by lazy {
-        mPrefsMap.getBoolean("system_ui_status_bar_icon_volte")
+        PrefsBridge.getBoolean("system_ui_status_bar_icon_volte")
     }
 
     override fun init() {

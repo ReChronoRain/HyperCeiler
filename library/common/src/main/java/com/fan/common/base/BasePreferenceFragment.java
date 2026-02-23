@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
 import com.sevtinge.hyperceiler.common.utils.SettingsHelper;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
@@ -16,6 +17,7 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+        PrefsConfigurator.setup(this);
         if (getPreferenceScreenResId() != 0) {
             setPreferencesFromResource(getPreferenceScreenResId(), rootKey);
         }

@@ -15,6 +15,7 @@ import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.common.utils.ScopeManager;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.oldui.model.data.AppInfoCache;
 import com.sevtinge.hyperceiler.oldui.safemode.ExceptionCrashActivity;
@@ -38,7 +39,8 @@ public class Application extends fan.app.Application
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        PrefsUtils.init(base);
+        PrefsBridge.init(this);
+        //PrefsUtils.init(base);
         XposedServiceHelper.registerListener(this);
     }
 
@@ -63,8 +65,9 @@ public class Application extends fan.app.Application
             isModuleActivated = true;
             PermissionSettingsFragment.isModuleActive = true;
             ScopeManager.setService(service);
-            PrefsUtils.remotePrefs =
-                (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
+            PrefsBridge.setRemotePrefs((RemotePreferences) service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote"));
+
+            //PrefsUtils.remotePrefs = (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
             reloadListener.run();
         }
     }

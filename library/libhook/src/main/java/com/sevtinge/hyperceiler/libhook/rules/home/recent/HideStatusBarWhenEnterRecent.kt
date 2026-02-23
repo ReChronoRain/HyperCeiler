@@ -43,7 +43,7 @@ object HideStatusBarWhenEnterRecent : HomeBaseHookNew() {
 
     override fun initBase() {
         // 不应该在默认情况下强制显示
-        // if (mPrefsMap.getBoolean("home_recent_hide_status_bar_in_task_view")) {
+        // if (PrefsBridge.getBoolean("home_recent_hide_status_bar_in_task_view")) {
         loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder()
             .filterByName("isHideStatusBarWhenEnterRecents")
             .single().createHook {

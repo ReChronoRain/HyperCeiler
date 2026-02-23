@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiVi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -50,16 +51,16 @@ import java.lang.reflect.Method
 
 object BlurSecurity : BaseHook() {
     private val blurRadius by lazy {
-        mPrefsMap.getInt("security_center_blurradius", 60)
+        PrefsBridge.getInt("security_center_blurradius", 60)
     }
     private val blurSuper by lazy {
-        mPrefsMap.getBoolean("security_center_blur_model_super")
+        PrefsBridge.getBoolean("security_center_blur_model_super")
     }
     private val backgroundColor by lazy {
-        mPrefsMap.getInt("security_center_color", -1)
+        PrefsBridge.getInt("security_center_color", -1)
     }
     private val isInvertColor by lazy {
-        mPrefsMap.getBoolean("security_center_invert_color")
+        PrefsBridge.getBoolean("security_center_invert_color")
     }
     private val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
 

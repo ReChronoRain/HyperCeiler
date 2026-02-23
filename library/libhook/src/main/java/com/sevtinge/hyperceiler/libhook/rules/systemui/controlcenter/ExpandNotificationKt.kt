@@ -22,6 +22,7 @@ import android.view.View
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -29,7 +30,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBefo
 
 object ExpandNotificationKt : BaseHook() {
     private val mPkg by lazy {
-        mPrefsMap.getStringSet("system_ui_control_center_expand_notification")
+        PrefsBridge.getStringSet("system_ui_control_center_expand_notification")
     }
     private val mExpandNotificationRowClass by lazy {
         loadClass("com.android.systemui.statusbar.notification.row.ExpandableNotificationRow")

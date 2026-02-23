@@ -23,11 +23,12 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object FolderVerticalSpacing : HomeBaseHookNew() {
 
     private val verticalSpacing by lazy {
-        mPrefsMap.getInt("home_folder_vertical_spacing", 0)
+        PrefsBridge.getInt("home_folder_vertical_spacing", 0)
     }
 
 

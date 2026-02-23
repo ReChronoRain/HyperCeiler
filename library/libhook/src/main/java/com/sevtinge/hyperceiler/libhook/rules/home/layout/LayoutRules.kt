@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
@@ -44,16 +45,16 @@ object LayoutRules : HomeBaseHookNew() {
     private const val HOME_SETTINGS = "com.miui.home.settings.MiuiHomeSettings"
 
     private val isUnlockGridsHook by lazy {
-        mPrefsMap.getBoolean("home_layout_unlock_grids_new")
+        PrefsBridge.getBoolean("home_layout_unlock_grids_new")
     }
     private val isSetWSPaddingTopHook by lazy {
-        mPrefsMap.getBoolean("home_layout_workspace_padding_top_enable")
+        PrefsBridge.getBoolean("home_layout_workspace_padding_top_enable")
     }
     private val isSetWSPaddingBottomHook by lazy {
-        mPrefsMap.getBoolean("home_layout_workspace_padding_bottom_enable")
+        PrefsBridge.getBoolean("home_layout_workspace_padding_bottom_enable")
     }
     private val isSetWSPaddingSideHook by lazy {
-        mPrefsMap.getBoolean("home_layout_workspace_padding_horizontal_enable")
+        PrefsBridge.getBoolean("home_layout_workspace_padding_horizontal_enable")
     }
 
     private var sCellCountX = 0
@@ -67,8 +68,8 @@ object LayoutRules : HomeBaseHookNew() {
     @Version(isPad = false, min = 600000000)
     private fun isOS3Hook() {
         if (isUnlockGridsHook) {
-            sCellCountX = mPrefsMap.getInt("home_layout_unlock_grids_cell_x", 0)
-            sCellCountY = mPrefsMap.getInt("home_layout_unlock_grids_cell_y", 0)
+            sCellCountX = PrefsBridge.getInt("home_layout_unlock_grids_cell_x", 0)
+            sCellCountY = PrefsBridge.getInt("home_layout_unlock_grids_cell_y", 0)
             XposedLog.d(TAG, lpparam.packageName, "Setup layout rules: ${sCellCountX}x${sCellCountY}")
 
             findClass(HOME_SETTINGS).beforeHookMethod(
@@ -150,8 +151,8 @@ object LayoutRules : HomeBaseHookNew() {
 
     override fun initBase() {
         if (isUnlockGridsHook) {
-            sCellCountX = mPrefsMap.getInt("home_layout_unlock_grids_cell_x", 0)
-            sCellCountY = mPrefsMap.getInt("home_layout_unlock_grids_cell_y", 0)
+            sCellCountX = PrefsBridge.getInt("home_layout_unlock_grids_cell_x", 0)
+            sCellCountY = PrefsBridge.getInt("home_layout_unlock_grids_cell_y", 0)
             XposedLog.d(TAG, lpparam.packageName, "Setup layout rules: ${sCellCountX}x${sCellCountY}")
 
             findClass(HOME_SETTINGS).beforeHookMethod(
@@ -229,7 +230,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_top",
                         0
                     ).toFloat()
@@ -240,7 +241,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
                     ).toFloat()
@@ -251,7 +252,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_horizontal",
                         0
                     ).toFloat()
@@ -349,7 +350,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_top",
                         0
                     ).toFloat()
@@ -360,7 +361,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
                     ).toFloat()
@@ -371,7 +372,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
-                    mPrefsMap.getInt(
+                    PrefsBridge.getInt(
                         "home_layout_workspace_padding_horizontal",
                         0
                     ).toFloat()

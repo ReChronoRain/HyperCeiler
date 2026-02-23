@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mishare.NoAutoTurnOff;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.mishare.connectivity")
 public class MiShare extends BaseLoad {
@@ -30,6 +31,6 @@ public class MiShare extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(NoAutoTurnOff.INSTANCE, mPrefsMap.getBoolean("disable_mishare_auto_off")); // 禁用 10 分钟自动关闭
+        initHook(NoAutoTurnOff.INSTANCE, PrefsBridge.getBoolean("disable_mishare_auto_off")); // 禁用 10 分钟自动关闭
     }
 }

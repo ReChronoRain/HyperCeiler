@@ -28,6 +28,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
@@ -105,7 +106,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public SharedPreferences getSharedPreferences() {
-        return PrefsUtils.mSharedPreferences;
+        return PrefsBridge.getRemotePrefs();
     }
 
     public boolean hasKey(String key) {
