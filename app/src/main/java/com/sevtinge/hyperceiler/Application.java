@@ -78,7 +78,8 @@ public class Application extends fan.app.Application
         synchronized (this) {
             isModuleActivated = false;
             PermissionSettingsFragment.isModuleActive = false;
-            PrefsUtils.remotePrefs = null;
+            //PrefsUtils.remotePrefs = null;
+            PrefsBridge.setRemotePrefs(null);
         }
     }
 

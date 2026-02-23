@@ -37,7 +37,7 @@
         android:orientation="vertical">
 
         <fan.cardview.HyperCardView
-            style="@style/HyperCardView.Border.DayNight"
+            style="@style/HyperCardView.DayNight.NoShadow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"

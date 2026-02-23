@@ -13,6 +13,7 @@ import java.util.Set;
 import io.github.libxposed.service.RemotePreferences;
 
 public class PrefsBridge {
+
     public static final String PREFS_NAME = "hyperceiler_prefs";
     private static SharedPreferences mLocalPrefs;
     public static RemotePreferences mRemotePrefs; // LSPosed 远程句柄
@@ -37,8 +38,8 @@ public class PrefsBridge {
         return mRemotePrefs;
     }
 
-    public static SharedPreferences getLocalPrefs() {
-        return mLocalPrefs;
+    public static SharedPreferences getSharedPreferences() {
+        return getImpl();
     }
 
     private static SharedPreferences getImpl() {

@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
@@ -64,7 +65,7 @@ public class XposedInitEntry extends XposedModule {
         EzXposed.initXposedModule(base);
 
         // 在注入时立即初始化
-        initPrefs();
+        //initPrefs();
     }
 
     @Override
@@ -79,17 +80,17 @@ public class XposedInitEntry extends XposedModule {
         try {
             new CrashMonitor(lpparam);
         } catch (Exception e) {
-            XposedLog.e(TAG, "system", "Crash Hook load failed, " + e);
+            AndroidLog.e(TAG, "system", "Crash Hook load failed, " + e);
         }
 
         // load Third Hook
         if (PrefsBridge.getBoolean("system_framework_core_patch_enable")) {
             new CorePatch().onLoad(lpparam);
-            XposedLog.d(TAG, "system", "CorePatch loaded");
+            AndroidLog.d(TAG, "system", "CorePatch loaded");
         }
         if (PrefsBridge.getBoolean("system_other_flag_secure")) {
             new FlagSecure().onLoad(lpparam);
-            XposedLog.d(TAG, "system", "FlagSecure loaded");
+            AndroidLog.d(TAG, "system", "FlagSecure loaded");
         }
 
         // load Hook

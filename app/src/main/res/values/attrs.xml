@@ -32,10 +32,6 @@
         <item>@string/logo_egg3</item>
     </string-array>
 
-    <declare-styleable name="ViewPager2">
-        <attr name="android:orientation" />
-    </declare-styleable>
-
     <declare-styleable name="SwitchView">
         <attr name="menu" format="reference" />
         <attr name="background" format="reference" />

@@ -106,7 +106,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public SharedPreferences getSharedPreferences() {
-        return PrefsBridge.getRemotePrefs();
+        return PrefsBridge.getSharedPreferences();
     }
 
     public boolean hasKey(String key) {
