@@ -377,6 +377,12 @@
     <string name="system_framework_allow_disable_protected_package">受保护的应用？进小黑屋去吧</string>
     <string name="system_framework_disable_miui_watermark">请... 请不要留下你的印记</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">老子就是要绕过未知来源的限制</string>
+    <string name="system_framework_bypass_force_mi_appstore">坏蛋坏蛋坏，别砍我应用商店选择器</string>
+	<string name="system_framework_bypass_force_mi_appstore_desc">坏，做了链式跳转询问但就不询问直接就跳转应用商店，开屏广告直接就跳到你家商店了</string>
+	<string name="system_framework_market_use_detailmini">跳应用商店别打断我！用小窗口打开</string>
+    <string name="system_framework_market_use_detailmini_desc">闹，不给你米我要跳转到应用商店还不展示了对吧？欸？这里我有个史山漏洞，只需要...</string>
+	<string name="system_framework_bypass_force_downloadui">别强制我用你这迅雷加速的下载管理器</string>
+    <string name="system_framework_bypass_force_downloadui_desc">闹闹闹，快速分享跳你家这下载器还不能显示我下载了什么。国际版澎湃修了还不给合并到国内版</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_title">我怎么安装要你管！</string>
     <string name="system_framework_core_patch_downgr">滚回到低版本去</string>
@@ -403,6 +409,7 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">允许旁人参与系统激烈竞争</string>
     <string name="system_framework_core_patch_allow_update_system_app">允许插手参与系统激烈竞争</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">当雷军远程施法禁用时允许插手参与系统激烈竞争</string>
+	
     <!--Browser-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
