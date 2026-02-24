@@ -118,4 +118,7 @@
     <string name="notes_unlock_ai_mode_2">Новая версия</string>
     <string name="mode_phone">Смартфон</string>
     <string name="mode_pad">Планшет</string>
+    <string name="misound_bluetooth_type_none">Оригинал</string>
+    <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
+    <string name="misound_bluetooth_type_misound">Mi Sound</string>
 </resources>
