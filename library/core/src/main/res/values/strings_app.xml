@@ -488,7 +488,8 @@
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable full screen watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Allow all apps to install apps from unknown sources</string>
-    <string name="system_framework_bypass_force_mi_appstore">Allow to select third-party apps when redirecting to App Store</string>
+    <string name="system_framework_bypass_force_mi_appstore">Force showing chooser when redirecting to App Store</string>
+	<string name="system_framework_bypass_force_mi_appstore_desc">To avoid redirection without confirmation, and allow to select third-party app stores</string>
     <string name="system_framework_market_use_detailmini">Always open a floating window when redirecting to GetApps</string>
     <string name="system_framework_market_use_detailmini_desc">Remove the restriction that prevents an app from redirecting to another app\'s details page in GetApps without using the appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>

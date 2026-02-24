@@ -199,6 +199,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_system_framework_bypass_force_mi_appstore"
+            android:summary="@string/system_framework_bypass_force_mi_appstore_desc"
             android:title="@string/system_framework_bypass_force_mi_appstore" />
 
         <SwitchPreference
