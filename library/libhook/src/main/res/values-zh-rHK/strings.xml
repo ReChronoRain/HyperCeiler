@@ -111,4 +111,15 @@
     <string name="system_notifrowmenu_appinfo">應用程式訊息</string>
     <string name="system_notifrowmenu_openinfw">浮窗</string>
     <string name="system_notifrowmenu_forceclose">強制關閉</string>
+    <string name="system_ui_statusbar_music_share">分享歌詞</string>
+    <string name="system_ui_statusbar_music_send">鬆開即發送</string>
+    <string name="system_ui_statusbar_music_send_share_text">我從%1$s分享了如下歌詞：\n%2$s</string>
+    <string name="notes_unlock_ai_mode_1">舊版</string>
+    <string name="notes_unlock_ai_mode_2">新版</string>
+    <string name="mode_phone">手機</string>
+    <string name="mode_pad">平板</string>
+    <string name="misound_bluetooth_type_none">原聲</string>
+    <string name="misound_bluetooth_type_dolby">杜比全景聲</string>
+    <string name="misound_bluetooth_type_misound">小米音效/米音</string>
+    <string name="misound_bluetooth_type_keep">保持當前</string>
 </resources>

@@ -35,7 +35,7 @@
     <string name="soft_reboot">再起動</string>
     <string name="restart_app_desc">%1$s を再起動してもよろしいですか？</string>
     <string name="hyperceiler_restart_quick">アプリを素早く再起動</string>
-    <string name="hook_failed">モジュールはまだ有効になっていません。LSPosed マネージャーで有効になっているかどうかを確認してください。有効になっている場合は、再起動するか、再度モジュールを最適化してください。</string>
+    <string name="hook_failed">HyperCeiler はまだ有効化されていません。LSPosed マネージャーで有効になっているか、また HyperCeiler の自動起動が許可されているかを確認してください。該当する場合はデバイスを再起動するか、モジュールを再度最適化してください。</string>
     <string name="kill_failed">プロセスの終了に失敗しました。HyperCeiler に Root/Su 権限が付与されているか確認してください。</string>
     <string name="start_failed">アクティビティの開始に失敗しました。HyperCeiler に Root/Su 権限を付与しているか確認してください。</string>
     <string name="pid_failed">対象のアプリは現在実行されていないため、再起動する必要はありません。</string>
@@ -111,7 +111,7 @@
     <string name="unsupported_func_tips">現在のターゲットスコープのソースは Xiaomi 公式ではない可能性があります。セキュリティ上の理由により、このスコープのすべての機能は無効になっています。Xiaomi がリリースしたアプリパッケージに切り替えるか、「HyperCeiler 設定 &gt; 開発者向けオプション &gt; デバッグモード」でマウントされているバージョンを指定して再度お試しください。</string>
     <string name="debug_mode">デバッグモード</string>
     <string name="open_debug_mode_tips">このオプションは、マウントされた対象アプリのバージョンを正しく処理するためにのみ使用されます。必要な場合にのみ使用してください。\nデバッグ中のアプリでは、機能が正常に使用できるかどうかは保証されません。この機能を有効にした後は、対象アプリで発生した問題を開発者に報告しないでください。</string>
-    <string name="debug_mode_running">対象のアプリはデバッグ中です！\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフックが正常に適用されました: %3$s</string>
+    <string name="debug_mode_running">現在はデバッグモードで実行中です。必要でなければ、無効にしてください。\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフック成否: %3$s</string>
     <string name="error_git_hash">Git hash</string>
     <string name="uninstall_title">HyperCeiler をアンインストールする</string>
     <string name="uninstall_summary">HyperCeiler をアンインストールした後も、モジュール設定は Xposed フレームワークデータベースに残ります。完全に消去したい場合は、まずモジュール設定に移動して、モジュール設定をリセットしてからアンインストールしてください。</string>
