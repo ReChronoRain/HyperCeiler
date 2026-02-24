@@ -1625,4 +1625,5 @@
     <string name="gallery_longer_trashbin_time">Увеличить время автоматического удаления корзины до 365 дней</string>
     <string name="gallery_longer_trashbin_time_desc">Экспериментальная функция. Только для пользователей из материкового Китая.</string>
     <string name="health_disable_splash_ad">Отключить всплывающую рекламу</string>
+    <string name="help_full_support_desc">Данная версия приложения полностью совместима с текущей версией прошивки</string>
 </resources>

@@ -1631,4 +1631,17 @@
     <string name="misound_bluetooth_remember_device_desc">デバイスごとに個別のサウンド効果設定を記憶します</string>
     <string name="misound_bluetooth_remember_device">デバイスのサウンド効果を記憶する</string>
     <string name="misound_bluetooth_default_effect">デフォルトのサウンド効果</string>
+    <string name="help_current_system_version">現在ご使用のシステムバージョン:</string>
+    <string name="help_full_support_desc">現在のアプリバージョンは、以下のシステムバージョンと完全に互換性があります:</string>
+    <string name="help_partial_support_desc">現在のアプリバージョンでは、以下のシステムバージョンにまだ対応していない機能が一部あります:</string>
+    <string name="help_not_support_desc">現在のアプリバージョンは、以下のシステムバージョンに対応していません:</string>
+    <string name="help_support_version_desc_5">現在ご使用のシステムバージョンはサポートされていません。</string>
+    <string name="system_ui_control_center_media_control_progress_thumb">メディアのプログレスバーのボタンスタイル</string>
+    <string name="system_ui_control_center_media_control_progress_thumb_ori">縦線</string>
+    <string name="system_ui_control_center_media_control_progress_thumb_non">非表示</string>
+    <string name="mediaeditor_unlock_cloud_custom_photo_desc">バージョン 2.0.9.0.6 以降のみをサポートします。Xiaomi クラウドコントロール設定の影響を受ける可能性があります。</string>
+    <string name="security_center_disable_safepay_auto_check">アプリの自動チェックを無効化</string>
+    <string name="weather_unlock_blur_title">全体で高度なマテリアルを有効化</string>
+    <string name="weather_unlock_blur_desc">一部のバージョンでのみサポートされています。デバイスは HyperOS 3 以降を実行している必要があります</string>
+    <string name="phrase">クリップボードと定型文</string>
 </resources>
