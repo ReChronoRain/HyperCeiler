@@ -2,182 +2,256 @@ package com.sevtinge.hyperceiler.libhook.utils.prefs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
-import java.util.HashSet;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import io.github.libxposed.service.RemotePreferences;
-
 public class PrefsBridge {
 
+    private static final String TAG = "PrefsBridge";
     public static final String PREFS_NAME = "hyperceiler_prefs";
-    private static SharedPreferences mLocalPrefs;
-    public static RemotePreferences mRemotePrefs; // LSPosed 远程句柄
 
-    private static final HashSet<OnPrefsChangeListener> mObservers = new HashSet<>();
+    private static SharedPreferences mPhysicalPrefs; // 物理文件句柄 (用于 App 进程强制落盘)
+    private static SharedPreferences mRemotePrefs;   // 远程代理句柄 (用于 Hook 进程数据同步)
+    private static boolean isHookProcess = false;
 
-    public interface OnPrefsChangeListener {
-        void onPrefChanged(String key);
+    /**
+     * App 进程初始化：在模块 Application.onCreate 中调用
+     *
+     * @param baseContext 建议传入普通的 Context，确保路径在 /data/user/0/ 下以便备份
+     */
+    public static void initForApp(@NonNull Context baseContext) {
+        isHookProcess = false;
+        mPhysicalPrefs = baseContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    // 初始化本地存储（主 App 进程使用）
-    public static void init(Context context) {
-        Context deContext = context.isDeviceProtectedStorage() ? context : context.createDeviceProtectedStorageContext();
-        mLocalPrefs = deContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    /**
+     * Hook 进程初始化：在 Xposed 模块入口中调用
+     *
+     * @param remote 传入 LSPosed 提供的远程 SharedPreferences 对象
+     */
+    public static void initForHook(@NonNull SharedPreferences remote) {
+        isHookProcess = true;
+        mRemotePrefs = remote;
     }
 
-    public static void setRemotePrefs(RemotePreferences remotePrefs) {
-        mRemotePrefs = remotePrefs;
+    /**
+     * 绑定服务后的注入：在 Application.onServiceBind 中调用
+     * 确保激活状态下，App 端的修改能推送到远程
+     */
+    public static void setRemotePrefs(SharedPreferences remote) {
+        mRemotePrefs = remote;
+        if (remote != null) {
+            syncPhysicalToRemote(); // 激活瞬间全量同步
+        }
     }
 
-    public static RemotePreferences getRemotePrefs() {
-        return mRemotePrefs;
-    }
-
+    /**
+     * 获取原生 SharedPreferences 对象
+     *
+     * @return 根据当前进程环境返回物理句柄或远程句柄
+     */
     public static SharedPreferences getSharedPreferences() {
         return getImpl();
     }
 
-    private static SharedPreferences getImpl() {
-        return (mRemotePrefs != null) ? mRemotePrefs : mLocalPrefs;
+    /**
+     * 格式化 Key 名称，确保所有存取都带上前缀
+     */
+    private static String wrap(String key) {
+        return (key != null && !key.startsWith("prefs_key_")) ? "prefs_key_" + key : key;
+    }
+
+    // --- 写入方法族 (支持双轨同步与物理强制落盘) ---
+
+    public static void putBoolean(String key, boolean val) {
+        put(key, val);
+    }
+
+    public static void putString(String key, String val) {
+        put(key, val);
+    }
+
+    public static void putInt(String key, int val) {
+        put(key, val);
+    }
+
+    public static void putLong(String key, long val) {
+        put(key, val);
+    }
+
+    public static void putFloat(String key, float val) {
+        put(key, val);
+    }
+
+    public static void putStringSet(String key, Set<String> vals) {
+        put(key, vals);
     }
 
     /**
-     * 统一前缀处理逻辑，保持与你原 PrefsMap 一致
+     * 核心写入逻辑
+     * 在 App 进程中，强制使用 commit() 确保物理 XML 文件有内容且可备份
+     * 在远程端使用 apply() 确保跨进程通信不阻塞 UI
      */
-    private static String wrapKey(String key) {
-        if (key != null && !key.startsWith("prefs_key_")) {
-            return "prefs_key_" + key;
+    public static void put(String key, Object value) {
+        String rKey = wrap(key);
+        // 1. 物理落盘 (解决备份文件为空的问题)
+        if (mPhysicalPrefs != null) {
+            SharedPreferences.Editor editor = mPhysicalPrefs.edit();
+            performPut(editor, rKey, value);
+            editor.commit();
         }
-        return key;
+        // 2. 远程同步 (解决 Hook 进程实时生效的问题)
+        if (mRemotePrefs != null) {
+            SharedPreferences.Editor editor = mRemotePrefs.edit();
+            performPut(editor, rKey, value);
+            editor.apply();
+        }
     }
 
-    // --- 兼容旧版 mPrefsMap 的 API ---
-    // 这样你在模块里可以直接用 PrefsBridge.getBoolean("key")
+    /**
+     * 移除特定配置项
+     */
+    public static void remove(String key) {
+        String rKey = wrap(key);
+        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().remove(rKey).commit();
+        if (mRemotePrefs != null) mRemotePrefs.edit().remove(rKey).apply();
+    }
+
+    // --- 读取方法 (自动根据当前环境切换读取源) ---
+
+    /**
+     * 读取布尔值
+     */
     public static boolean getBoolean(String key) {
         return getBoolean(key, false);
     }
 
-    public static boolean getBoolean(String key, boolean defValue) {
-        return getImpl().getBoolean(wrapKey(key), defValue);
-    }
-
-    public static String getString(String key) {
-        return getString(key, "");
-    }
-
-    public static String getString(String key, String defValue) {
-        return getImpl().getString(wrapKey(key), defValue);
-    }
-
-    public static int getStringAsInt(String key, int defValue) {
-        String value = getString(key);
-        if (TextUtils.isEmpty(value)) {
-            return defValue;
-        }
-        try {
-            return Integer.parseInt(value);
-        } catch (Exception e) {
-            return defValue;
-        }
-    }
-
-    public static int getInt(String key, int defValue) {
-        return getImpl().getInt(wrapKey(key), defValue);
-    }
-
-    public static Set<String> getStringSet(String key) {
-        Set<String> set = getImpl().getStringSet(wrapKey(key), null);
-        return set == null ? new LinkedHashSet<>() : set;
-    }
-
-    public static void put(String key, Object value) {
-        SharedPreferences.Editor editor = getImpl().edit();
-        if (value instanceof String) editor.putString(key, (String) value);
-        else if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
-        else if (value instanceof Integer) editor.putInt(key, (Integer) value);
-        else if (value instanceof Set) editor.putStringSet(key, (Set<String>) value);
-        editor.apply();
-    }
-
-    public static void putString(String key, String value) {
-        SharedPreferences.Editor editor = getImpl().edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
-
-    public static void putInt(String key, int value) {
-        SharedPreferences.Editor editor = getImpl().edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-    public static void putBoolean(String key, boolean value) {
-        SharedPreferences.Editor editor = getImpl().edit();
-        editor.putBoolean(key, value);
-        editor.apply();
-    }
-
-    public static void putStringSet(String key, Set<String> values) {
-        SharedPreferences.Editor editor = getImpl().edit();
-        editor.putStringSet(key, values);
-        editor.apply();
-    }
-
-    // --- 监听分发 ---
-    public static void notifyChanged(String key) {
-        for (OnPrefsChangeListener observer : mObservers) {
-            observer.onPrefChanged(key);
-        }
-    }
-
-    public static void registerObserver(OnPrefsChangeListener observer) {
-        if (mObservers.isEmpty()) {
-            getImpl().registerOnSharedPreferenceChangeListener((sp, key) -> notifyChanged(key));
-        }
-        mObservers.add(observer);
-    }
-
-    // --- 新增：获取全部 Key ---
-    public static Map<String, ?> getAll() {
-        return getImpl().getAll();
-    }
-
-    // --- 新增：删除单个 Key ---
-    public static void remove(String key) {
-        getImpl().edit().remove(key).apply();
-    }
-
-    // --- 核心重置逻辑：只负责清空 ---
-    public static void clearAll() {
-        getImpl().edit().clear().apply();
-        // 发送 null 通知表示全量数据变更
-        notifyChanged(null);
+    /**
+     * 读取布尔值
+     */
+    public static boolean getBoolean(String key, boolean def) {
+        return getImpl().getBoolean(wrap(key), def);
     }
 
     /**
-     * 一键重置所有设置
-     * @param context 上下文
-     * @param xmlResId 对应的 preferences.xml 资源 ID（用于提取默认值）
+     * 读取字符串
      */
-    public static void resetAll(Context context, int xmlResId) {
-        // 1. 获取当前实际的操作句柄
-        SharedPreferences impl = getImpl();
-
-        // 2. 清空数据
-        impl.edit().clear().apply();
-
-        // 3. 重新加载 XML 定义的默认值
-        // readAgain 设为 true 确保覆盖当前空状态
-        PreferenceManager.setDefaultValues(context, PREFS_NAME, Context.MODE_PRIVATE, xmlResId, true);
-
-        // 4. 发送一个特殊通知，触发所有 Observer 的全量刷新
-        // 我们传入一个特殊的 key 或者 null，取决于你的业务逻辑
-        notifyChanged("__all_reset__");
+    public static String getString(String key, String def) {
+        return getImpl().getString(wrap(key), def);
     }
 
+    /**
+     * 兼容方法：将 获取到的String转换为Int
+     */
+    public static int getStringAsInt(String key, int def) {
+        String value = getString(key, String.valueOf(def));
+        if (TextUtils.isEmpty(value)) {
+            return def;
+        }
+        return Integer.parseInt(value);
+    }
+
+    /**
+     * 读取整型，包含 String 转 Int 的鲁棒性处理
+     */
+    public static int getInt(String key, int def) {
+        return getImpl().getInt(wrap(key), def);
+    }
+
+    /**
+     * 读取长整型
+     */
+    public static long getLong(String key, long def) {
+        return getImpl().getLong(wrap(key), def);
+    }
+
+    /**
+     * 读取浮点型
+     */
+    public static float getFloat(String key, float def) {
+        return getImpl().getFloat(wrap(key), def);
+    }
+
+    /**
+     * 读取字符串集合
+     */
+    public static Set<String> getStringSet(String key) {
+        return getStringSet(key, new LinkedHashSet<>());
+    }
+
+    /**
+     * 读取字符串集合
+     */
+    @Nullable
+    public static Set<String> getStringSet(String key, @Nullable Set<String> def) {
+        return getImpl().getStringSet(wrap(key), def);
+    }
+
+    /**
+     * 获取全量配置 (注意：Hook 进程中大数据量调用可能导致启动变慢)
+     */
+    public static Map<String, ?> getAll() {
+        // 强制从物理句柄读取，确保备份的是磁盘上的真实文件
+        if (mPhysicalPrefs != null) {
+            return mPhysicalPrefs.getAll();
+        }
+        // 如果物理句柄为空（极罕见），再尝试远程
+        if (mRemotePrefs != null) {
+            return mRemotePrefs.getAll();
+        }
+        return new HashMap<>();
+    }
+
+
+    // --- 内部维护工具 ---
+
+    /**
+     * 获取当前活动的配置句柄
+     * 在 Hook 进程中，返回注入的远程句柄；在 App 进程，优先物理句柄
+     */
+    private static SharedPreferences getImpl() {
+        if (isHookProcess && mRemotePrefs != null) return mRemotePrefs;
+        return mPhysicalPrefs != null ? mPhysicalPrefs : mRemotePrefs;
+    }
+
+    /**
+     * 内部通用的写入映射
+     */
+    private static void performPut(SharedPreferences.Editor editor, String key, Object value) {
+        if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
+        else if (value instanceof String) editor.putString(key, (String) value);
+        else if (value instanceof Integer) editor.putInt(key, (Integer) value);
+        else if (value instanceof Long) editor.putLong(key, (Long) value);
+        else if (value instanceof Float) editor.putFloat(key, (Float) value);
+        else if (value instanceof Set) editor.putStringSet(key, (Set<String>) value);
+    }
+
+    /**
+     * 将物理数据同步到远程
+     */
+    private static void syncPhysicalToRemote() {
+        if (mPhysicalPrefs == null || mRemotePrefs == null) return;
+        Map<String, ?> all = mPhysicalPrefs.getAll();
+        SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
+        for (Map.Entry<String, ?> entry : all.entrySet()) {
+            performPut(remoteEdit, entry.getKey(), entry.getValue());
+        }
+        remoteEdit.apply();
+    }
+
+    /**
+     * 一键重置：清空所有本地与远程数据
+     */
+    public static void clearAll() {
+        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().clear().commit();
+        if (mRemotePrefs != null) mRemotePrefs.edit().clear().apply();
+    }
 }

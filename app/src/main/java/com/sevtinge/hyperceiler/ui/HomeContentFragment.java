@@ -13,6 +13,7 @@ import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.about.controller.BgEffectController;
@@ -41,7 +42,7 @@ public class HomeContentFragment extends Fragment implements NavigatorFragmentLi
     private View mBgEffectView;
     private BgEffectController mBgEffectController;
 
-    public ViewPager2 mViewPager;
+    public ViewPager mViewPager;
     public HomeContentAdapter mContentAdapter;
 
     public ViewPagerChangeListener mPageChangeCallback;
@@ -83,8 +84,8 @@ public class HomeContentFragment extends Fragment implements NavigatorFragmentLi
         mViewPager = view.findViewById(R.id.vp_fragments);
         mViewPager.setAdapter(mContentAdapter);
         mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setSpringEnabled(false);
-        mViewPager.registerOnPageChangeCallback(getPagerChangeListener());
+        //mViewPager.setSpringEnabled(false);
+        //mViewPager.registerOnPageChangeCallback(getPagerChangeListener());
 
         Navigator navigator = Navigator.get(this);
         if (navigator != null) {
@@ -116,7 +117,7 @@ public class HomeContentFragment extends Fragment implements NavigatorFragmentLi
             int position = args.getInt(ARG_PAGE, mViewPager.getCurrentItem());
             Log.d(TAG, "onUpdateArguments page:" + position);
             if (mViewPager.getCurrentItem() != position) {
-                mViewPager.setCurrentItem(position, mViewPager.isUserInputEnabled());
+                //mViewPager.setCurrentItem(position, mViewPager.isUserInputEnabled());
             }
         }
     }

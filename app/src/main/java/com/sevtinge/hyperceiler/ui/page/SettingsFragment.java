@@ -6,16 +6,21 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.fan.common.base.BasePreferenceFragment;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
@@ -26,13 +31,14 @@ import com.sevtinge.hyperceiler.oldui.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.ui.SwitchManager;
 
+import fan.appcompat.app.AlertDialog;
 import fan.appcompat.app.AppCompatActivity;
 import fan.internal.utils.ViewUtils;
 import fan.preference.DropDownPreference;
 import fan.provider.Settings;
 
 public class SettingsFragment extends BasePreferenceFragment
-    implements Preference.OnPreferenceChangeListener {
+    implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
 
     SwitchPreference mFloatBottomPreference;
     DropDownPreference mIconModePreference;
@@ -41,6 +47,30 @@ public class SettingsFragment extends BasePreferenceFragment
 
     DropDownPreference mLogLevel;
     DropDownPreference mLanguage;
+
+    // 记录当前操作类型：0-备份，1-恢复
+    private int currentAction = -1;
+    private static final int ACTION_BACKUP = 0;
+    private static final int ACTION_RESTORE = 1;
+
+    private final ActivityResultLauncher<Intent> mBackupLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                processBackup(result.getData().getData());
+            }
+        }
+    );
+
+    // 2. 注册恢复启动器
+    private final ActivityResultLauncher<Intent> mRestoreLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                processRestore(result.getData().getData());
+            }
+        }
+    );
 
     @Override
     public int getPreferenceScreenResId() {
@@ -94,24 +124,26 @@ public class SettingsFragment extends BasePreferenceFragment
             return true;
         });
 
-        findPreference("prefs_key_back").setOnPreferenceClickListener(preference -> {
-            final AppCompatActivity activity = (AppCompatActivity) getActivity();
-            backupSettings(activity);
-            return true;
-        });
+        Preference backPreference = findPreference("prefs_key_back");
+        Preference restPreference = findPreference("prefs_key_rest");
+        Preference resetPreference = findPreference("prefs_key_reset");
 
-        findPreference("prefs_key_rest").setOnPreferenceClickListener(preference -> {
-            restoreSettings(getActivity());
-            return true;
-        });
+        backPreference.setOnPreferenceClickListener(this);
+        restPreference.setOnPreferenceClickListener(this);
+        resetPreference.setOnPreferenceClickListener(this);
+    }
 
-        findPreference("prefs_key_reset").setOnPreferenceClickListener(preference -> {
-            DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_title, com.sevtinge.hyperceiler.core.R.string.reset_desc, (dialog, which) -> {
+    @Override
+    public boolean onPreferenceClick(@NonNull Preference preference) {
+        switch (preference.getKey()) {
+            case "prefs_key_back" -> mBackupLauncher.launch(BackupUtils.getCreateDocumentIntent());
+            case "prefs_key_rest" -> mRestoreLauncher.launch(BackupUtils.getOpenDocumentIntent());
+            case "prefs_key_reset" -> {
                 PrefsBridge.clearAll();
                 Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
-            });
-            return true;
-        });
+            }
+        }
+        return true;
     }
 
     @Override
@@ -120,13 +152,6 @@ public class SettingsFragment extends BasePreferenceFragment
             setIconMode(Integer.parseInt((String) o));
         }
         return true;
-    }
-
-    public SwitchManager getSwitchManager() {
-        if (getActivity() instanceof HomePageActivity) {
-            return ((HomePageActivity) getActivity()).getSwitchManager();
-        }
-        return null;
     }
 
     private void setLogLevel(int level) {
@@ -191,14 +216,6 @@ public class SettingsFragment extends BasePreferenceFragment
         mIconModeValue.setVisible(mode != 0);
     }
 
-    public void backupSettings(Activity activity) {
-        BackupUtils.backup(activity);
-    }
-
-    public void restoreSettings(Activity activity) {
-        BackupUtils.restore(activity);
-    }
-
     @Override
     public void onContentInsetChanged(Rect rect) {
         super.onContentInsetChanged(rect);
@@ -210,5 +227,31 @@ public class SettingsFragment extends BasePreferenceFragment
             relativePadding.bottom = rect.top;
             relativePadding.applyToView(getListView());
         }
+    }
+
+    private void processBackup(Uri uri) {
+        try {
+            BackupUtils.handleCreateDocument(requireContext(), uri);
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.backup_success), null);
+        } catch (Exception e) {
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.backup_failed), e.getMessage());
+        }
+    }
+
+    private void processRestore(Uri uri) {
+        try {
+            BackupUtils.handleReadDocument(requireContext(), uri);
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), "请重启应用以使配置生效。");
+        } catch (Exception e) {
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_failed), e.getMessage());
+        }
+    }
+
+    private void showDialog(String title, String message) {
+        new AlertDialog.Builder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(android.R.string.ok, null)
+            .show();
     }
 }

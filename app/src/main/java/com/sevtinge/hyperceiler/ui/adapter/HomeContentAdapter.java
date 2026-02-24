@@ -7,14 +7,12 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import fan.viewpager2.adapter.FragmentStateAdapter;
-
 public class HomeContentAdapter extends FragmentStateAdapter {
 
     List<Fragment> mFragments = new ArrayList<>();
 
     public HomeContentAdapter(@NonNull FragmentActivity fragmentActivity) {
-        super(fragmentActivity);
+        super(fragmentActivity.getSupportFragmentManager());
     }
 
     public void addFragment(Fragment fragment) {

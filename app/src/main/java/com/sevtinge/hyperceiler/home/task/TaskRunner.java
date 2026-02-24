@@ -13,8 +13,7 @@ public class TaskRunner {
     private final Set<String> mStartedTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
     private final ExecutorService mPool = Executors.newCachedThreadPool();
 
-    private TaskRunner() {
-    }
+    private TaskRunner() {}
 
     public static TaskRunner getInstance() {
         return INSTANCE;

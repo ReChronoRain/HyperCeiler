@@ -9,6 +9,11 @@ import com.sevtinge.hyperceiler.ui.HomePageActivity;
  */
 public class AppInitializer {
 
+    public static void attach(Context context) {
+        AppTaskManager.attach(context);
+        TaskRunner.getInstance().start();
+    }
+
     public static void initOnAppCreate(Context context) {
         AppTaskManager.setupAppTasks(context);
         TaskRunner.getInstance().start();

@@ -50,11 +50,12 @@ import io.github.libxposed.service.RemotePreferences;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+
+    private volatile boolean mPrefsListenerRegistered = false;
+
     protected String processName;
     protected SharedPreferences remotePrefs;
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
-
-    private SharedPreferences.OnSharedPreferenceChangeListener mRemoteListener;
 
     public XposedInitEntry(@NonNull XposedInterface base, @NonNull ModuleLoadedParam param) {
         super(base, param);
@@ -63,15 +64,12 @@ public class XposedInitEntry extends XposedModule {
         XposedLog.init(base);
         BaseLoad.init(base);
         EzXposed.initXposedModule(base);
-
-        // 在注入时立即初始化
-        //initPrefs();
     }
 
     @Override
     public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
         // load preferences
-        //initPrefs();
+        initPrefs();
 
         // set xposed module
         EzxHelpUtils.setXposedModule(this);
@@ -102,11 +100,13 @@ public class XposedInitEntry extends XposedModule {
         super.onPackageLoaded(lpparam);
         if (!lpparam.isFirstPackage()) return;
         // load preferences
-        //initPrefs();
+        initPrefs();
         // load EzXposed
         EzXposed.initOnPackageLoaded(lpparam);
         // invoke module
         invokeInit(lpparam);
+        // Sync preferences changes
+        //loadPreferenceChange();
     }
 
     protected void invokeInit(PackageLoadedParam lpparam) {
@@ -162,27 +162,10 @@ public class XposedInitEntry extends XposedModule {
     }
 
     protected void initPrefs() {
-        // 直接获取远程句柄并注入到 Bridge
         String remoteName = PrefsBridge.PREFS_NAME + "_remote";
-
-        RemotePreferences remote = (RemotePreferences) getRemotePreferences(remoteName);
-
-        if (remote != null) {
-            // 2. 将监听器实例存入成员变量（强引用）
-            mRemoteListener = (sp, key) -> {
-                XposedLog.d(TAG, "Config changed in remote: " + key);
-                PrefsBridge.notifyChanged(key);
-            };
-
-            // 3. 注册
-            remote.registerOnSharedPreferenceChangeListener(mRemoteListener);
-
-            // 【调试】打印一下看看能不能读到数据
-            XposedLog.d(TAG, "Prefs initialized. Total keys: " + remote.getAll().size());
-        } else {
-            XposedLog.e(TAG, "RemotePreferences is NULL! Hook will not work.");
-        }
-
-        PrefsBridge.setRemotePrefs(remote);
+        SharedPreferences remote = getRemotePreferences(remoteName);
+        // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
+        PrefsBridge.initForHook(remote);
     }
+
 }

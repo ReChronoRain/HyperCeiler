@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Process;
@@ -39,9 +40,7 @@ public class Application extends fan.app.Application
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        PrefsBridge.init(this);
-        //PrefsUtils.init(base);
-        XposedServiceHelper.registerListener(this);
+        AppInitializer.attach(this);
     }
 
     @Override
@@ -65,7 +64,9 @@ public class Application extends fan.app.Application
             isModuleActivated = true;
             PermissionSettingsFragment.isModuleActive = true;
             ScopeManager.setService(service);
-            PrefsBridge.setRemotePrefs((RemotePreferences) service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote"));
+
+            SharedPreferences remote = service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote");
+            PrefsBridge.setRemotePrefs(remote);
 
             //PrefsUtils.remotePrefs = (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
             reloadListener.run();

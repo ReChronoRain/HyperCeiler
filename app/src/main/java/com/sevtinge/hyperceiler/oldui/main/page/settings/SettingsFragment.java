@@ -191,10 +191,10 @@ public class SettingsFragment extends PagePreferenceFragment
     }
 
     public void backupSettings(Activity activity) {
-        BackupUtils.backup(activity);
+        //BackupUtils.backup(activity);
     }
 
     public void restoreSettings(Activity activity) {
-        BackupUtils.restore(activity);
+        //BackupUtils.restore(activity);
     }
 }

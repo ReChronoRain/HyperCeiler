@@ -43,9 +43,9 @@ public class LanguageHelper {
      * 优化后的初始化：接受 Context 即可，可在 Application 中预热
      */
     public static void init(Context context) {
-        String languageSetting = PrefsBridge.getString("prefs_key_settings_app_language", "-1");
-        if (!"-1".equals(languageSetting)) {
-            applyLanguage(context, Integer.parseInt(languageSetting));
+        int languageSetting = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", -1);
+        if (languageSetting != -1) {
+            applyLanguage(context, languageSetting);
         }
     }
 

@@ -11,10 +11,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.fragment.app.FragmentActivity;
-
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
@@ -28,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.oldui.model.data.AppInfoCache;
@@ -42,6 +39,7 @@ import java.util.Map;
 import java.util.StringJoiner;
 
 import fan.provision.OobeUtils;
+import io.github.libxposed.service.XposedServiceHelper;
 
 /**
  * 业务管理类：定义任务图及原本属于 Activity 的计算逻辑
@@ -63,6 +61,20 @@ public class AppTaskManager {
         "com.hchen.demo", R.string.demo,
         "com.miui.securitycenter", R.string.security_center_hyperos
     );
+
+    public static void attach(Context context) {
+        TaskRunner runner = TaskRunner.getInstance();
+
+        runner.addTask(new Task("attachBaseContext", false) { // 主线程同步执行
+            @Override
+            public void execute() {
+                if (context instanceof XposedServiceHelper.OnServiceListener listener) {
+                    XposedServiceHelper.registerListener(listener);
+                }
+                PrefsBridge.initForApp(context);
+            }
+        });
+    }
 
     /**
      * 第一阶段任务定义：Application 级别
@@ -137,6 +149,7 @@ public class AppTaskManager {
             public void execute() {
                 requestCta(activity);
                 XposedActivateHelper.init(activity);
+                //PrefsBridge.registerOnSharedPreferenceChangeListener(activity);
                 //registerObserver(activity);
                 SearchHelper.initIndex(activity, true);
             }

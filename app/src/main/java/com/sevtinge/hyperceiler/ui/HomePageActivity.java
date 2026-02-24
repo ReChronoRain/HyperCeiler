@@ -2,10 +2,14 @@ package com.sevtinge.hyperceiler.ui;
 
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -14,6 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.CtaUtils;
@@ -33,6 +39,7 @@ import com.sevtinge.hyperceiler.ui.page.HomePageFragment;
 import com.sevtinge.hyperceiler.ui.page.SettingsFragment;
 import com.sevtinge.hyperceiler.ui.page.SettingsPageFragment;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -43,6 +50,7 @@ import fan.appcompat.app.AppCompatActivity;
 import fan.preference.PreferenceFragment;
 import fan.provider.Settings;
 import fan.provision.OobeUtils;
+import fan.viewpager.widget.ViewPager;
 import fan.viewpager2.widget.ViewPager2;
 
 public class HomePageActivity extends AppCompatActivity
@@ -51,7 +59,7 @@ public class HomePageActivity extends AppCompatActivity
 
     private static final String TAG = "HomePageActivity";
 
-    public ViewPager2 mViewPager;
+    public ViewPager mViewPager;
     public HomeContentAdapter mContentAdapter;
 
     public SwitchManager mSwitchManager;
@@ -86,7 +94,6 @@ public class HomePageActivity extends AppCompatActivity
 
         LiveData<Boolean> isFloatNavEnabled = Settings.Global.getBooleanLiveData(this, "settings_float_nav", false);
         isFloatNavEnabled.observe(this, isEnabled -> mSwitchManager.setFloatingStyle(isEnabled));
-        mSwitchManager.setOnSwitchChangeListener((position, itemId) -> mViewPager.setCurrentItem(position));
 
         mContentAdapter = new HomeContentAdapter(this);
         mContentAdapter.addFragment(new HomePageFragment());
@@ -95,9 +102,9 @@ public class HomePageActivity extends AppCompatActivity
 
         mViewPager = findViewById(R.id.vp_fragments);
         mViewPager.setAdapter(mContentAdapter);
-        mViewPager.setOffscreenPageLimit(2);
-        mViewPager.setSpringEnabled(false);
-        mViewPager.registerOnPageChangeCallback(mPageChangeCallback);
+        mViewPager.setOffscreenPageLimit(3);
+
+        new SwitchMediator(mSwitchManager, mViewPager, true).attach();
     }
 
     @Override
