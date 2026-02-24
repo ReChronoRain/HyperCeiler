@@ -24,6 +24,7 @@ import fan.theme.token.BloomStrokeToken;
 import fan.theme.token.ColorBlendToken;
 import fan.theme.token.MaterialDayNightToken;
 import fan.theme.token.MaterialToken;
+import fan.theme.token.hypermaterial.Mask;
 
 public class SwitchManager {
 
@@ -199,16 +200,6 @@ public class SwitchManager {
     }
 
     public MaterialDayNightConfig getDayNightConfig() {
-        MaterialToken lightToken = new MaterialToken.Builder(30, "frosted-pured-regular", "light")
-            .setBlur(1, 1, 0, 40)
-            .setColorBlend(ColorBlendToken.Pured_Regular_Light)
-            .build();
-
-        MaterialToken darkToken = new MaterialToken.Builder(30, "frosted-pured-extra-thick", "dark")
-            .setBlur(1, 1, 0, 40)
-            .setColorBlend(ColorBlendToken.Pured_Extra_Thick_Dark)
-            .build();
-
-        return MaterialDayNightConfig.create(new MaterialDayNightToken(lightToken, darkToken));
+        return MaterialDayNightConfig.create(Mask.Pured_Regular);
     }
 }

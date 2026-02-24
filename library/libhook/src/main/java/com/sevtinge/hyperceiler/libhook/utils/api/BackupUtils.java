@@ -130,20 +130,23 @@ public class BackupUtils {
 
             Object value = jsonObject.get(key);
 
-            // 自动识别并还原类型
-            if (value instanceof JSONArray) {
-                Set<String> set = new HashSet<>();
-                JSONArray array = (JSONArray) value;
-                for (int i = 0; i < array.length(); i++) set.add(array.getString(i));
-                PrefsBridge.putStringSet(key, set);
-            } else if (value instanceof Boolean) {
-                PrefsBridge.putBoolean(key, (Boolean) value);
-            } else if (value instanceof Integer) {
-                PrefsBridge.putInt(key, (Integer) value);
-            } else if (value instanceof Long) {
-                PrefsBridge.putLong(key, (Long) value);
-            } else if (value instanceof String) {
-                PrefsBridge.putString(key, (String) value);
+            switch (value) {
+                case String s -> {
+                    if (s.contains("[") && s.contains("]")) {
+                        value = s.replace("[", "").replace("]", "").replace(" ", "");
+                        String[] array = ((String) value).split(",");
+                        List<String> list = Arrays.asList(array);
+                        Set<String> stringSet = new HashSet<>(list);
+                        PrefsBridge.putStringSet(key, stringSet);
+                    } else {
+                        PrefsBridge.putString(key, s);
+                    }
+                }
+                case Boolean b -> PrefsBridge.putBoolean(key, b);
+                case Integer i -> PrefsBridge.putInt(key, i);
+                case Long l -> PrefsBridge.putLong(key, l);
+                default -> {
+                }
             }
         }
     }

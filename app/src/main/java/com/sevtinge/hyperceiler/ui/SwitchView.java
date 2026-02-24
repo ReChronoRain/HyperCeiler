@@ -25,6 +25,7 @@ import fan.animation.Folme;
 import fan.animation.base.AnimConfig;
 import fan.animation.controller.AnimState;
 import fan.animation.property.ViewProperty;
+import fan.core.utils.AttributeResolver;
 
 public class SwitchView extends FrameLayout {
 
@@ -45,7 +46,7 @@ public class SwitchView extends FrameLayout {
     private void init() {
         // 1. 创建分割线 (置于顶部)
         mDividerLine = new View(getContext());
-        mDividerLine.setBackgroundColor(Color.parseColor("#1A000000")); // 浅灰色边框
+        mDividerLine.setBackgroundColor(AttributeResolver.resolveColor(getContext(), fan.theme.R.attr.colorDividerLine)); // 浅灰色边框
         mDividerLine.setVisibility(GONE); // 默认隐藏（药丸模式不需要）
         // 高度设为 1px 而非 1dp，更精致
         addView(mDividerLine, new LayoutParams(LayoutParams.MATCH_PARENT, 1));

@@ -117,7 +117,7 @@ public class CustomOrderFragment extends Fragment implements View.OnClickListene
 
     public void onCompleteButtonClick() {
         if (adapter != null) {
-            HeaderManager.saveHeaderPreferences(getContext(), adapter.getData());
+            HeaderManager.saveHeaderPreferences(adapter.getData());
             bottomSheetModalDismiss();
             if (mCompleteCallBack != null) {
                 mCompleteCallBack.refresh();

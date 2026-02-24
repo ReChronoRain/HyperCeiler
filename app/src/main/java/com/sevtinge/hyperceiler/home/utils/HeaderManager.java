@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.sevtinge.hyperceiler.home.Header;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class HeaderManager {
      * 获取经过“安装状态”和“用户偏好”双重过滤后的列表（用于首页显示）
      */
     public static List<Header> getDisplayHeaders(Context context, List<Header> allHeaders) {
-        Set<String> removeList = PrefsUtils.getSharedStringSetPrefs(context, PREF_REMOVE_LIST);
+        Set<String> removeList = PrefsBridge.getStringSet(PREF_REMOVE_LIST);
         List<Header> filtered = new ArrayList<>();
 
         for (Header h : allHeaders) {
@@ -39,7 +40,7 @@ public class HeaderManager {
      * 获取用于弹窗选择的列表（只过滤未安装，显示所有已安装供勾选）
      */
     public static List<Header> getCustomOrderHeaders(Context context, List<Header> allHeaders) {
-        Set<String> removeList = PrefsUtils.getSharedStringSetPrefs(context, PREF_REMOVE_LIST);
+        Set<String> removeList = PrefsBridge.getStringSet(PREF_REMOVE_LIST);
         List<Header> customList = new ArrayList<>();
 
         for (Header h : allHeaders) {
@@ -58,14 +59,14 @@ public class HeaderManager {
     /**
      * 保存当前的勾选状态到本地
      */
-    public static void saveHeaderPreferences(Context context, List<Header> editedHeaders) {
+    public static void saveHeaderPreferences(List<Header> editedHeaders) {
         Set<String> removeList = new HashSet<>();
         for (Header h : editedHeaders) {
             if (!h.displayStatus) {
                 removeList.add(getPackageName(h));
             }
         }
-        PrefsUtils.putStringSet(PREF_REMOVE_LIST, removeList);
+        PrefsBridge.putStringSet(PREF_REMOVE_LIST, removeList);
     }
 
     /**
