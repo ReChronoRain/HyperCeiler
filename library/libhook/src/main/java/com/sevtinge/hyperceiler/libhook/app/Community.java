@@ -23,6 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.community.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.community.FuckDetection;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.vipaccount")
 public class Community extends BaseLoad {
@@ -33,7 +34,7 @@ public class Community extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DeviceModify(), mPrefsMap.getBoolean("community_device_modify"));
-        initHook(new FuckDetection(), mPrefsMap.getBoolean("community_fuck_detection"));
+        initHook(new DeviceModify(), PrefsBridge.getBoolean("community_device_modify"));
+        initHook(new FuckDetection(), PrefsBridge.getBoolean("community_fuck_detection"));
     }
 }

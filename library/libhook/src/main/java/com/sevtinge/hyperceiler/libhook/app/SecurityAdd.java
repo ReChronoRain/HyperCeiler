@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.securityadd.DisableGameBoosterAds;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.securityadd")
 public class SecurityAdd extends BaseLoad {
@@ -30,6 +31,6 @@ public class SecurityAdd extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableGameBoosterAds(), mPrefsMap.getBoolean("securityadd_disable_gb_ads"));
+        initHook(new DisableGameBoosterAds(), PrefsBridge.getBoolean("securityadd_disable_gb_ads"));
     }
 }

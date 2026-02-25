@@ -32,23 +32,24 @@ import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoEditor;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoPost;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.UnPrivacyWatermark;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.gallery")
 public class Gallery extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new LongerTrashbinTime(), mPrefsMap.getBoolean("gallery_longer_trashbin_time"));
-        initHook(new UnPrivacyWatermark(), mPrefsMap.getBoolean("gallery_enable_un_privacy_watermark"));
-        initHook(new EnableHdrEnhance(), mPrefsMap.getBoolean("gallery_enable_hdr_enhanced"));
-        initHook(new EnablePdf(), mPrefsMap.getBoolean("gallery_enable_pdf"));
-        initHook(new EnablePhotoMovie(), mPrefsMap.getBoolean("gallery_enable_photo_movie"));
-        initHook(new EnableIdPhoto(), mPrefsMap.getBoolean("gallery_enable_id_photo"));
-        initHook(new EnableMagicMatting(), mPrefsMap.getBoolean("gallery_enable_magic_matting"));
-        initHook(new EnableVideoPost(), mPrefsMap.getBoolean("gallery_enable_video_post"));
-        initHook(new EnableVideoEditor(), mPrefsMap.getBoolean("gallery_enable_video_editor"));
-        initHook(new EnableOcr(), mPrefsMap.getBoolean("gallery_enable_ocr"));
-        initHook(new EnableOcrForm(), mPrefsMap.getBoolean("gallery_enable_ocr_form"));
-        initHook(new ChangeBackupServer(), mPrefsMap.getStringAsInt("gallery_backup_server", 0) != 0);
+        initHook(new LongerTrashbinTime(), PrefsBridge.getBoolean("gallery_longer_trashbin_time"));
+        initHook(new UnPrivacyWatermark(), PrefsBridge.getBoolean("gallery_enable_un_privacy_watermark"));
+        initHook(new EnableHdrEnhance(), PrefsBridge.getBoolean("gallery_enable_hdr_enhanced"));
+        initHook(new EnablePdf(), PrefsBridge.getBoolean("gallery_enable_pdf"));
+        initHook(new EnablePhotoMovie(), PrefsBridge.getBoolean("gallery_enable_photo_movie"));
+        initHook(new EnableIdPhoto(), PrefsBridge.getBoolean("gallery_enable_id_photo"));
+        initHook(new EnableMagicMatting(), PrefsBridge.getBoolean("gallery_enable_magic_matting"));
+        initHook(new EnableVideoPost(), PrefsBridge.getBoolean("gallery_enable_video_post"));
+        initHook(new EnableVideoEditor(), PrefsBridge.getBoolean("gallery_enable_video_editor"));
+        initHook(new EnableOcr(), PrefsBridge.getBoolean("gallery_enable_ocr"));
+        initHook(new EnableOcrForm(), PrefsBridge.getBoolean("gallery_enable_ocr_form"));
+        initHook(new ChangeBackupServer(), PrefsBridge.getStringAsInt("gallery_backup_server", 0) != 0);
     }
 }

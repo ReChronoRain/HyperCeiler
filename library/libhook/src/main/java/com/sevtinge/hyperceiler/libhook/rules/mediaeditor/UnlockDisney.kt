@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -73,13 +74,13 @@ object UnlockDisney : BaseHook() {
     }
 
     private val isMickey by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_mickey_some_func")
+        PrefsBridge.getBoolean("mediaeditor_unlock_mickey_some_func")
     }
     private val isBear by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_bear_some_func")
+        PrefsBridge.getBoolean("mediaeditor_unlock_bear_some_func")
     }
     private val isPrincess by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_princess_some_func")
+        PrefsBridge.getBoolean("mediaeditor_unlock_princess_some_func")
     }
 
     override fun init() {

@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -66,7 +67,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
      * 加载配置
      */
     private void loadConfig() {
-        sLockSelectionEnabled.set(mPrefsMap.getBoolean(PREFS_KEY_LOCK_SELECTION));
+        sLockSelectionEnabled.set(PrefsBridge.getBoolean(PREFS_KEY_LOCK_SELECTION));
         XposedLog.d(TAG, "Config loaded: lockSelection=" + sLockSelectionEnabled.get());
     }
 

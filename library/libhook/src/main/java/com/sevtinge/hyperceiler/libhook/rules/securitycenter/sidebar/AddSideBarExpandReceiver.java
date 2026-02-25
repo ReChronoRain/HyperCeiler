@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Method;
 
@@ -88,7 +89,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
      * 初始化侧边栏设置
      */
     private void initSideBarSettings() {
-        enableSideBar = mPrefsMap.getBoolean("security_center_leave_open");
+        enableSideBar = PrefsBridge.getBoolean("security_center_leave_open");
         if (!enableSideBar) {
             setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_default", 8);
             setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_vertical", 8);

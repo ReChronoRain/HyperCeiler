@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mirror.UnlockSendAppM;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.mirror")
 public class Mirror extends BaseLoad {
@@ -31,6 +32,6 @@ public class Mirror extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(UnlockSendAppM.INSTANCE, mPrefsMap.getBoolean("milink_unlock_send_app"));
+        initHook(UnlockSendAppM.INSTANCE, PrefsBridge.getBoolean("milink_unlock_send_app"));
     }
 }

@@ -27,6 +27,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -81,7 +82,7 @@ public class BypassForceMiAppStore extends BaseHook {
                                 uriStr = uriStr.replaceFirst("^mimarket://", "market://");
 
                                 // 如果启用了 detailmini 选项，则替换 path 中的 details → details/detailmini
-                                if (mPrefsMap.getBoolean("system_framework_market_use_detailmini")) {
+                                if (PrefsBridge.getBoolean("system_framework_market_use_detailmini")) {
                                     uriStr = uriStr.replaceFirst("(?<=market://)(details)(?!/detailmini)", "details/detailmini");
                                 }
 
@@ -104,7 +105,7 @@ public class BypassForceMiAppStore extends BaseHook {
                                 intent.removeFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
 								// 如果启用了 bypass_force_mi_appstore，则强制使用 chooser 打开应用商店
-                                if (mPrefsMap.getBoolean("system_framework_bypass_force_mi_appstore")) {
+                                if (PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore")) {
 									intent = Intent.createChooser(intent, null);
 
                                     XposedLog.d(TAG, getPackageName(), "Forced chooser for market://details intent");

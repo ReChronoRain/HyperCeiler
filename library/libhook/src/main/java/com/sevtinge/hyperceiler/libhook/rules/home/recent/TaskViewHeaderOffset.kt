@@ -22,12 +22,13 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object TaskViewHeaderOffset : BaseHook() {
     override fun init() {
         val horizontalOffsetValue by lazy {
-            mPrefsMap.getInt("task_view_header_horizontal_offset", 30)
+            PrefsBridge.getInt("task_view_header_horizontal_offset", 30)
         }
 
         loadClass("com.miui.home.recents.views.TaskViewHeader")

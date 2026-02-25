@@ -24,10 +24,11 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object CardTextSize : BaseHook() {
     override fun init() {
-        val recentTextSize = mPrefsMap.getInt("home_recent_text_size", -1)
+        val recentTextSize = PrefsBridge.getInt("home_recent_text_size", -1)
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
         taskViewHeaderClass.afterHookMethod(
             "onFinishInflate"

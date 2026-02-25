@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
@@ -68,6 +69,6 @@ public class CustomCameraColor extends BaseHook {
                 return fieldData;
             }
         });
-        EzxHelpUtils.setStaticIntField(field.getDeclaringClass(), field.getName(), mPrefsMap.getInt("camera_custom_theme_color_picker", -2025677));
+        EzxHelpUtils.setStaticIntField(field.getDeclaringClass(), field.getName(), PrefsBridge.getInt("camera_custom_theme_color_picker", -2025677));
     }
 }

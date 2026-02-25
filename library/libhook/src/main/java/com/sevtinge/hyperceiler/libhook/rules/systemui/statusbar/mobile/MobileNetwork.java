@@ -25,6 +25,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -80,7 +81,7 @@ public class MobileNetwork extends BaseHook {
         findAndHookMethod(mHDController, "update", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                int opt = mPrefsMap.getStringAsInt("system_ui_status_bar_icon_new_hd", 0);
+                int opt = PrefsBridge.getStringAsInt("system_ui_status_bar_icon_new_hd", 0);
                 if (opt == 2) {
                     setBooleanField(param.getThisObject(), "mWifiAvailable", true);
                 }
@@ -90,7 +91,7 @@ public class MobileNetwork extends BaseHook {
 
     private void updateIconState(AfterHookParam param, String fieldName, String key) {
         boolean isMobileConnected = false;
-        int opt = mPrefsMap.getStringAsInt(key, 0);
+        int opt = PrefsBridge.getStringAsInt(key, 0);
         if (opt != 0) {
             View view = (View) getObjectField(param.getThisObject(), fieldName);
             switch (opt) {

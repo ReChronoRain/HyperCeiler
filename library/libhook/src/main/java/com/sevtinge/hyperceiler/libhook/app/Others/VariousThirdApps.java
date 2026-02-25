@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,23 +55,23 @@ public class VariousThirdApps extends BaseLoad {
             mAppsUsingInputMethod = getAppsUsingInputMethod(AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = getPackageName();
-        if (mPrefsMap.getBoolean("various_phrase_clipboardlist")) {
+        if (PrefsBridge.getBoolean("various_phrase_clipboardlist")) {
             if (isInputMethod(mPackageName)) {
                 initHook(new LoadInputMethodDex());
                 initHook(new ClipboardLimit());
             }
         }
-        initHook(new UnlockIme(), mPrefsMap.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
-        initHook(new NewUnPhraseLimit(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
-        initHook(new SoGouClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
+        initHook(new UnlockIme(), PrefsBridge.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
+        initHook(new NewUnPhraseLimit(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
+        initHook(new SoGouClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
-        initHook(new BaiduClipboard(), mPrefsMap.getBoolean("sogou_xiaomi_clipboard") &&
+        initHook(new BaiduClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
-        //initHook(new ClipboardList(), mPrefsMap.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
-        initHook(new ClearClipboard(), mPrefsMap.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
+        //initHook(new ClipboardList(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
+        initHook(new ClearClipboard(), PrefsBridge.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
 
         // 焦点歌词（音乐软件相关）
-        initHook(MusicHooks.INSTANCE, mPrefsMap.getBoolean("system_ui_statusbar_music_switch") && mPrefsMap.getBoolean("system_ui_statusbar_music_show_app"));
+        initHook(MusicHooks.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_music_switch") && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app"));
     }
 
     private List<String> getAppsUsingInputMethod(Context context) {

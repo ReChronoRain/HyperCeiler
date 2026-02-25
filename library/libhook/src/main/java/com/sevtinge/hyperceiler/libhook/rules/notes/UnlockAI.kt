@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.notes
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -28,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object UnlockAI : BaseHook() {
 
     private val mode by lazy {
-        mPrefsMap.getStringAsInt("notes_unlock_ai_mode", 0)
+        PrefsBridge.getStringAsInt("notes_unlock_ai_mode", 0)
     }
 
     override fun init() {

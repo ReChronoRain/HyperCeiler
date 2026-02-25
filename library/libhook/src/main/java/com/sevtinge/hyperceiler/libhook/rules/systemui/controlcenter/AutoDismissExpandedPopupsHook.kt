@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -34,7 +35,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object AutoDismissExpandedPopupsHook : BaseHook() {
 
     private val showTime by lazy {
-        mPrefsMap.getInt("system_ui_control_center_expand_notification_show_time", 45) * 100L
+        PrefsBridge.getInt("system_ui_control_center_expand_notification_show_time", 45) * 100L
     }
     private val mHeadsUpEntryPhoneClass by lazy {
         if (isMoreAndroidVersion(36)) {

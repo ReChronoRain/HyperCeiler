@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.joyose.DisableCloudControl;
 import com.sevtinge.hyperceiler.libhook.rules.joyose.EnableGpuTuner;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.joyose")
 public class Joyose extends BaseLoad {
@@ -32,7 +33,7 @@ public class Joyose extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableCloudControl(), mPrefsMap.getBoolean("various_disable_cloud_control"));
-        initHook(new EnableGpuTuner(), mPrefsMap.getBoolean("joyose_enable_gpu_tuner"));
+        initHook(new DisableCloudControl(), PrefsBridge.getBoolean("various_disable_cloud_control"));
+        initHook(new EnableGpuTuner(), PrefsBridge.getBoolean("joyose_enable_gpu_tuner"));
     }
 }

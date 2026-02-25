@@ -23,6 +23,7 @@ import android.text.TextUtils
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
@@ -59,10 +60,10 @@ object VersionCodeNew : BaseHook() {
     }
 
     private val mOldVersionCode =
-        mPrefsMap.getString("various_updater_big_version", "OS2")
+        PrefsBridge.getString("various_updater_big_version", "OS2")
 
     private val mVersionCode =
-        mPrefsMap.getString("various_updater_miui_version", "OS2.0.200.0.VOCCNXM")
+        PrefsBridge.getString("various_updater_miui_version", "OS2.0.200.0.VOCCNXM")
 
 
     override fun init() {

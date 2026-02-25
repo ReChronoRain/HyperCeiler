@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.fileexplorer
 import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -33,8 +34,8 @@ object SelectName : BaseHook() {
             .single().createHook {
                 after {
                     (it.thisObject.getObjectField("mFileNameTextView") as TextView).apply {
-                        setTextIsSelectable(mPrefsMap.getBoolean("file_explorer_can_selectable"))
-                        isSingleLine = mPrefsMap.getBoolean("file_explorer_is_single_line")
+                        setTextIsSelectable(PrefsBridge.getBoolean("file_explorer_can_selectable"))
+                        isSingleLine = PrefsBridge.getBoolean("file_explorer_is_single_line")
                     }
                 }
             }

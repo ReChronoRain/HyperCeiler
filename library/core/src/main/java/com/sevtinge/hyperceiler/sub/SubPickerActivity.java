@@ -48,6 +48,7 @@ import com.sevtinge.hyperceiler.common.model.data.AppDataManager;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.text.Collator;
@@ -286,8 +287,7 @@ public class SubPickerActivity extends AppCompatActivity
 
         // 3. 移动选中的应用到顶部
         if (mKey != null) {
-            Set<String> selectedApps = new LinkedHashSet<>(
-                PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+            Set<String> selectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
 
             List<AppData> selectedAppList = new ArrayList<>();
             iterator = data.iterator();

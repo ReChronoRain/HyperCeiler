@@ -28,6 +28,7 @@ import android.os.Handler;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import java.util.Iterator;
@@ -70,7 +71,7 @@ public class CleanProcessTextMenu extends BaseHook {
                     if (intent.hasExtra("HyperCeiler") &&
                             intent.getBooleanExtra("HyperCeiler", false))
                         return;
-                    Set<String> selectedApps = mPrefsMap.getStringSet("system_framework_clean_process_text_apps");
+                    Set<String> selectedApps = PrefsBridge.getStringSet("system_framework_clean_process_text_apps");
                     List<ResolveInfo> resolved = (List<ResolveInfo>) param.getResult();
                     ResolveInfo resolveInfo;
                     Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");

@@ -21,10 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object FreeformCardBackgroundColor : BaseHook() {
     override fun init() {
-        val appCardBgColor = mPrefsMap.getInt("home_recent_freeform_background_color", -1)
+        val appCardBgColor = PrefsBridge.getInt("home_recent_freeform_background_color", -1)
         if (appCardBgColor != -1) {
             findClass("com.miui.home.recents.views.TaskViewThumbnail")
                 .hookAllConstructors {

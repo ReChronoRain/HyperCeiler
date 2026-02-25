@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -68,16 +69,16 @@ public class IconsFromSystemManager extends BaseHook {
     public boolean checkSlot(String slotName) {
         switch (slotName) {
             case "stealth" -> {
-                return mPrefsMap.getBoolean("system_ui_status_bar_hide_icon_stealth");
+                return PrefsBridge.getBoolean("system_ui_status_bar_hide_icon_stealth");
             }
             case "mute" -> {
-                return mPrefsMap.getBoolean("system_ui_status_bar_hide_icon_mute");
+                return PrefsBridge.getBoolean("system_ui_status_bar_hide_icon_mute");
             }
             case "speakerphone" -> {
-                return mPrefsMap.getBoolean("system_ui_status_bar_hide_icon_speakerphone");
+                return PrefsBridge.getBoolean("system_ui_status_bar_hide_icon_speakerphone");
             }
             case "call_record" -> {
-                return mPrefsMap.getBoolean("system_ui_status_bar_hide_icon_call_record");
+                return PrefsBridge.getBoolean("system_ui_status_bar_hide_icon_call_record");
             }
             default -> {
                 return false;

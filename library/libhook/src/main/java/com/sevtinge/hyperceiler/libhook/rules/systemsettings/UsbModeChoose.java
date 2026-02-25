@@ -28,6 +28,7 @@ import android.util.ArrayMap;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.Locale;
 
@@ -37,9 +38,9 @@ public class UsbModeChoose extends BaseHook {
     ArrayMap<String, Integer> mode = new ArrayMap<>();
 
     ArrayMap<Integer, String> getMode = new ArrayMap<>();
-    int mChoose = mPrefsMap.getStringAsInt("system_settings_usb_mode_choose", 0);
+    int mChoose = PrefsBridge.getStringAsInt("system_settings_usb_mode_choose", 0);
 
-    boolean modes = mPrefsMap.getBoolean("system_settings_usb_mode");
+    boolean modes = PrefsBridge.getBoolean("system_settings_usb_mode");
     boolean addAll = false;
     Resources resources;
     Activity activity;

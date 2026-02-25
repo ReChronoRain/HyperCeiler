@@ -30,7 +30,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import fan.provision.OobeUtils;
+import fan.provision.ProvisionBaseActivity;
+
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 
 public abstract class BaseActivity extends ProvisionBaseActivity {

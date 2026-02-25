@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -29,7 +30,7 @@ public class ModifySystemVersion extends BaseHook {
         findAndHookMethod("com.android.settings.device.MiuiAboutPhoneUtils", "getOsVersionCode", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                param.setResult(mPrefsMap.getString("various_updater_miui_version", "1.0.0.0"));
+                param.setResult(PrefsBridge.getString("various_updater_miui_version", "1.0.0.0"));
             }
         });
     }

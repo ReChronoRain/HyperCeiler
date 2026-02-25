@@ -20,16 +20,17 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object SidebarLineCustom : BaseHook() {
 
     override fun init() {
         val mSidebarLineColorDefault =
-            mPrefsMap.getInt("security_center_sidebar_line_color_default", -1294740525)
+            PrefsBridge.getInt("security_center_sidebar_line_color_default", -1294740525)
         val mSidebarLineColorDark =
-            mPrefsMap.getInt("security_center_sidebar_line_color_dark", -6842473)
+            PrefsBridge.getInt("security_center_sidebar_line_color_dark", -6842473)
         val mSidebarLineColorLight =
-            mPrefsMap.getInt("security_center_sidebar_line_color_light", -872415232)
+            PrefsBridge.getInt("security_center_sidebar_line_color_light", -872415232)
         XposedLog.i(
             TAG,
             "com.miui.securitycenter",
@@ -59,11 +60,11 @@ object SidebarLineCustom : BaseHook() {
 /*
     fun initResource(resParam: XC_InitPackageResources.InitPackageResourcesParam) {
         val mSidebarLineColorDefault =
-            mPrefsMap.getInt("security_center_sidebar_line_color_default", -1294740525)
+            PrefsBridge.getInt("security_center_sidebar_line_color_default", -1294740525)
         val mSidebarLineColorDark =
-            mPrefsMap.getInt("security_center_sidebar_line_color_dark", -6842473)
+            PrefsBridge.getInt("security_center_sidebar_line_color_dark", -6842473)
         val mSidebarLineColorLight =
-            mPrefsMap.getInt("security_center_sidebar_line_color_light", -872415232)
+            PrefsBridge.getInt("security_center_sidebar_line_color_light", -872415232)
         XposedLog.i(
             TAG,
             "com.miui.securitycenter",

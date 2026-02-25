@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -35,7 +36,7 @@ public class HotSeatsMarginTop extends HomeBaseHookNew {
                 @Override
                 public void before(BeforeHookParam param) {
                 Context context = (Context) param.getArgs()[0];
-                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
+                param.setResult(DisplayUtils.dp2px(context, PrefsBridge.getInt("home_layout_hotseats_margin_top", 60)));
             }
         });
     }
@@ -46,7 +47,7 @@ public class HotSeatsMarginTop extends HomeBaseHookNew {
                 @Override
                 public void before(BeforeHookParam param) {
                 Context context = (Context) param.getArgs()[0];
-                param.setResult(DisplayUtils.dp2px(context, mPrefsMap.getInt("home_layout_hotseats_margin_top", 60)));
+                param.setResult(DisplayUtils.dp2px(context, PrefsBridge.getInt("home_layout_hotseats_margin_top", 60)));
             }
         });
     }

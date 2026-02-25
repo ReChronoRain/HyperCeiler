@@ -14,6 +14,7 @@ import com.sevtinge.hyperceiler.common.model.adapter.AppDataAdapter.AppViewHolde
 import com.sevtinge.hyperceiler.common.model.data.AppData;
 import com.sevtinge.hyperceiler.common.model.data.AppEditManager;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
@@ -99,7 +100,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         if (mKey == null) return;
 
         Set<String> selectedApps = new LinkedHashSet<>(
-            PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+            PrefsBridge.getStringSet(mKey));
 
         // 更新所有项目的选中状态
         for (AppData appData : mAppDataList) {
@@ -122,7 +123,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
         // 更新 SharedPreferences
         Set<String> selectedApps = new LinkedHashSet<>(
-            PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+            PrefsBridge.getStringSet(mKey));
 
         if (appData.isSelected) {
             selectedApps.add(appData.packageName);
@@ -130,7 +131,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             selectedApps.remove(appData.packageName);
         }
 
-        PrefsUtils.mSharedPreferences.edit().putStringSet(mKey, selectedApps).apply();
+        PrefsBridge.putStringSet(mKey, selectedApps);
 
         notifyItemChanged(position);
     }

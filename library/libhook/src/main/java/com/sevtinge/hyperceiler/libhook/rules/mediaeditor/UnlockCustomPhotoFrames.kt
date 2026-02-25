@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -34,16 +35,16 @@ import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
     private val isCloudData by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_cloud_custom_photo")
+        PrefsBridge.getBoolean("mediaeditor_unlock_cloud_custom_photo")
     }
     private val isLeica by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_leica")
+        PrefsBridge.getBoolean("mediaeditor_unlock_custom_photo_frames_leica")
     }
     private val isRedmi by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_redmi")
+        PrefsBridge.getBoolean("mediaeditor_unlock_custom_photo_frames_redmi")
     }
     private val isPOCO by lazy {
-        mPrefsMap.getBoolean("mediaeditor_unlock_custom_photo_frames_poco")
+        PrefsBridge.getBoolean("mediaeditor_unlock_custom_photo_frames_poco")
     }
 
     private val methodA by lazy<List<Method>> {

@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
@@ -28,7 +29,7 @@ import java.lang.reflect.Method
 
 
 object DeviceModify : BaseHook() {
-    private val deviceName: String = mPrefsMap.getString("updater_device", "")
+    private val deviceName: String = PrefsBridge.getString("updater_device", "")
     override fun init() {
         try {
             findClass("android.os.SystemProperties").methodFinder()

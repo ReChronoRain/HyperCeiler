@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.analytics.FuckMiuiUpload;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.analytics")
 public class Analytics extends BaseLoad {
@@ -32,6 +33,6 @@ public class Analytics extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new FuckMiuiUpload(), mPrefsMap.getBoolean("analytics_fuck_guard"));
+        initHook(new FuckMiuiUpload(), PrefsBridge.getBoolean("analytics_fuck_guard"));
     }
 }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:clipChildren="false"
+    android:paddingTop="@dimen/settings_banner_text_padding_top_and_bottom"
+    android:paddingBottom="@dimen/settings_banner_text_padding_top_and_bottom"
+    android:background="@drawable/settings_banner_bg"
+    android:paddingStart="@dimen/settings_banner_ly_inner_padding_start_and_end"
+    android:paddingEnd="@dimen/settings_banner_ly_inner_padding_start_and_end">
+
+    <TextView
+        android:id="@android:id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:textColor="@color/color_on_surface_tertiary"
+        android:layout_centerVertical="true" />
+
+</RelativeLayout>

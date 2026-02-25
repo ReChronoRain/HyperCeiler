@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.*
@@ -63,15 +64,15 @@ object UnlockVideoSomeFunc : BaseHook() {
 
     private val memc by lazy {
         // 动态画面补偿
-        mPrefsMap.getBoolean("security_center_unlock_memc")
+        PrefsBridge.getBoolean("security_center_unlock_memc")
     }
     private val enhance by lazy {
         // 影像轮廓增强
-        mPrefsMap.getBoolean("security_center_unlock_enhance_contours")
+        PrefsBridge.getBoolean("security_center_unlock_enhance_contours")
     }
    private val resolution by lazy {
         // 极清播放
-        mPrefsMap.getBoolean("security_center_unlock_s_resolution")
+        PrefsBridge.getBoolean("security_center_unlock_s_resolution")
    }
 
     override fun init() {

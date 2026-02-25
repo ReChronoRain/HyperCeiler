@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.screenshot
 
 import android.os.Build
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -29,7 +30,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 object DeviceShellCustomize : BaseHook() {
      private lateinit var device: String
      private val deviceS by lazy {
-         mPrefsMap.getString("screenshot_device_customize", "")
+         PrefsBridge.getString("screenshot_device_customize", "")
      }
 
      override fun init() {

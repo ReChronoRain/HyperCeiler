@@ -22,12 +22,13 @@ import android.graphics.RectF
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
 object TaskViewVertical : BaseHook() {
     override fun init() {
 
-        val value = mPrefsMap.getInt("home_recent_vertical_task_view_card_size", 100).toFloat() / 100
+        val value = PrefsBridge.getInt("home_recent_vertical_task_view_card_size", 100).toFloat() / 100
         if (value == -1f || value == 1f) return
         findClass("com.miui.home.recents.views.TaskStackViewsAlgorithmVertical").replaceMethod(
             "scaleTaskView", RectF::class.java

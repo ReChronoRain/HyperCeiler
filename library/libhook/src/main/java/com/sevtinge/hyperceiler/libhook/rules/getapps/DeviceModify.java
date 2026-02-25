@@ -24,6 +24,7 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -36,9 +37,9 @@ public class DeviceModify extends BaseHook {
 
     @Override
     public void init() {
-        mDevice = mPrefsMap.getString("market_device_modify_device", "");
-        mModel = mPrefsMap.getString("market_device_modify_model", "");
-        mManufacturer = mPrefsMap.getString("market_device_modify_manufacturer", "");
+        mDevice = PrefsBridge.getString("market_device_modify_device", "");
+        mModel = PrefsBridge.getString("market_device_modify_model", "");
+        mManufacturer = PrefsBridge.getString("market_device_modify_manufacturer", "");
         findAndHookConstructor("com.xiaomi.market.MarketApp", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {

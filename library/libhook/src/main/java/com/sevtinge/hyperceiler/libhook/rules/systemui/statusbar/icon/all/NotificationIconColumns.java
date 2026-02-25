@@ -29,6 +29,7 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -40,7 +41,7 @@ public class NotificationIconColumns extends BaseHook {
 
     @Override
     public void init() {
-        int maxIconsNum = mPrefsMap.getInt("system_ui_status_bar_notification_icon_maximum", 1);
+        int maxIconsNum = PrefsBridge.getInt("system_ui_status_bar_notification_icon_maximum", 1);
         initHooks(maxIconsNum);
     }
 

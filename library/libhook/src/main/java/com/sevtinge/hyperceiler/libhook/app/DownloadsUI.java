@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.downloadsui.AlwaysShowDownloadLink;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.providers.downloads.ui")
 public class DownloadsUI extends BaseLoad {
@@ -31,6 +32,6 @@ public class DownloadsUI extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new AlwaysShowDownloadLink(), mPrefsMap.getBoolean("downloads_ui_always_show_link"));
+        initHook(new AlwaysShowDownloadLink(), PrefsBridge.getBoolean("downloads_ui_always_show_link"));
     }
 }

@@ -20,20 +20,21 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.navigation;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 public class HandleLineCustom extends BaseHook {
     @Override
     public void init() {
-        float mNavigationHandleRadius = (float) mPrefsMap.getInt("system_ui_navigation_handle_custom_thickness", 185) / 100;
+        float mNavigationHandleRadius = (float) PrefsBridge.getInt("system_ui_navigation_handle_custom_thickness", 185) / 100;
         try {
             setDensityReplacement("com.android.systemui", "dimen", "navigation_handle_radius", mNavigationHandleRadius);
         } catch (Exception e) {
             XposedLog.w(TAG, getPackageName(), e.toString());
         }
         int mNavigationHandleLightColor =
-                mPrefsMap.getInt("system_ui_navigation_handle_custom_color", -872415232);
+                PrefsBridge.getInt("system_ui_navigation_handle_custom_color", -872415232);
         int mNavigationHandleDarkColor =
-                mPrefsMap.getInt("system_ui_navigation_handle_custom_color_dark", -1);
+                PrefsBridge.getInt("system_ui_navigation_handle_custom_color_dark", -1);
         setObjectReplacement("com.android.systemui", "color",
                 "navigation_bar_home_handle_dark_color", mNavigationHandleLightColor);
         setObjectReplacement("com.android.systemui", "color",

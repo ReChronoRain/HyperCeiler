@@ -22,12 +22,13 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mtb.BypassAuthentication;
 import com.sevtinge.hyperceiler.libhook.rules.mtb.IsUserBuild;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.mtb")
 public class Mtb extends BaseLoad {
     @Override
     public void onPackageLoaded() {
-        initHook(BypassAuthentication.INSTANCE, mPrefsMap.getBoolean("mtb_auth"));
-        initHook(IsUserBuild.INSTANCE, mPrefsMap.getBoolean("mtb_auth"));
+        initHook(BypassAuthentication.INSTANCE, PrefsBridge.getBoolean("mtb_auth"));
+        initHook(IsUserBuild.INSTANCE, PrefsBridge.getBoolean("mtb_auth"));
     }
 }

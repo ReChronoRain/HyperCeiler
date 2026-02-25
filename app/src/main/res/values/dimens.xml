@@ -1,10 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--Home-->
+    <dimen name="search_history_ly_margin_start">20dp</dimen>
+    <dimen name="search_history_ly_margin_end">20dp</dimen>
+
+    <dimen name="search_result_item_layout_height">33dp</dimen>
+
+    <dimen name="search_history_clear_margin_top">18.0dp</dimen>
+    <dimen name="search_history_clear_margin_bottom">16.0dp</dimen>
+
+    <dimen name="search_description_text_size">13sp</dimen>
+
+
+    <dimen name="search_history_text_size">14sp</dimen>
+    <dimen name="search_history_tv_max_width">156dp</dimen>
+    <dimen name="search_history_tv_margin_end">10.0dp</dimen>
+
+    <dimen name="search_history_tv_bg_height">40dp</dimen>
+    <dimen name="search_history_tv_bg_radius">12dp</dimen>
+
+    <dimen name="search_tv_margin_top_and_bottom">8dp</dimen>
+    <dimen name="search_tv_padding_top_and_bottom">8dp</dimen>
+    <dimen name="search_tv_padding_start_and_end">22dp</dimen>
+
+
+    <dimen name="settings_banner_icon_size">34dp</dimen>
+    <dimen name="settings_banner_icon_width">40.0dp</dimen>
+
+    <dimen name="settings_banner_text_padding_top_and_bottom">14.0dp</dimen>
+
+    <dimen name="settings_banner_arrow_right_padding_start">26dp</dimen>
+
+    <dimen name="settings_banner_ly_padding_top_and_bottom">6dp</dimen>
+    <dimen name="settings_banner_ly_inner_padding_start_and_end">13dp</dimen>
+
+
+    <dimen name="bottom_sheet_dialog_title_margin_top">8dp</dimen>
+    <dimen name="bottom_sheet_dialog_title_margin_bottom">8dp</dimen>
+    <dimen name="bottom_sheet_dialog_recycler_view_padding_top">4dp</dimen>
+
+    <dimen name="custom_order_item_height">56dp</dimen>
+    <dimen name="custom_order_item_margin_inter">6dp</dimen>
+    <dimen name="custom_order_item_margin_top">12dp</dimen>
+    <dimen name="custom_order_item_margin_start">16dp</dimen>
+
+    <dimen name="custom_order_item_margin">16dp</dimen>
+
+    <dimen name="custom_order_restore_margin_bottom">28dp</dimen>
+
+    <dimen name="custom_order_item_padding_Horizontal">12dp</dimen>
+
+    <dimen name="custom_order_item_bg_radius">16dp</dimen>
+
+    <dimen name="custom_order_button_size">40dp</dimen>
+    <dimen name="custom_order_action_bar_padding_start">20dp</dimen>
+    <dimen name="custom_order_action_bar_padding_end">20dp</dimen>
+
+    <dimen name="header_icon_size">28dp</dimen>
+
+    <dimen name="miuix_preference_rv_top_padding">4.269989dp</dimen>
+    <dimen name="app_home_settings_recyclerview_padding_bottom">28dp</dimen>
+
+
+    <!--About-->
+    <dimen name="app_logo_area_height">389dp</dimen>
+
+    <dimen name="app_logo_width">280.0dp</dimen>
+    <dimen name="app_logo_height">40dp</dimen>
+    <dimen name="app_logo_bottom">250dp</dimen>
+
+    <dimen name="app_logo_margin_top">29dp</dimen>
+
+    <dimen name="app_update_btn_margin_bottom">60dp</dimen>
+
+    <dimen name="app_update_card_shadow_dx">0dp</dimen>
+    <dimen name="app_update_card_shadow_dy">20dp</dimen>
+    <dimen name="app_update_card_shadow_radius">40dp</dimen>
+
+    <dimen name="card_margin_edge">12dp</dimen>
+    <dimen name="app_card_margin_edge">12dp</dimen>
+
+
+    <dimen name="preference_item_padding">16dp</dimen>
+
+    <dimen name="app_device_card_background_radius">16dp</dimen>
+
+    <dimen name="switch_view_height">50.0dp</dimen>
+    <dimen name="switch_view_width">240dp</dimen>
+    <dimen name="switch_view_margin_bottom">34.0dp</dimen>
+
+    <dimen name="switch_card_view_radius">25dp</dimen>
+
+
     <dimen name="logo_width">280dp</dimen>
     <dimen name="logo_height">40dp</dimen>
     <dimen name="logo_bottom">250dp</dimen>
-    <dimen name="logo_area_height">416dp</dimen>
+
     <dimen name="logo_margin_top">90dp</dimen>
     <dimen name="logo_layout_height">478dp</dimen>
     <dimen name="logo_padding_top">152dp</dimen>

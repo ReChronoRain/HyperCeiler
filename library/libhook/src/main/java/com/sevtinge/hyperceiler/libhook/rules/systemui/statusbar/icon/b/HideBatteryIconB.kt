@@ -25,6 +25,7 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -41,7 +42,7 @@ object HideBatteryIconB : BaseHook() {
                 after { param ->
                     if (param.thisObject != null) {
                         // 隐藏电池图标
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_icon")) {
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_icon")) {
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryIconView")).visibility =
                                 View.GONE
 
@@ -60,7 +61,7 @@ object HideBatteryIconB : BaseHook() {
                 after { param ->
                     if (param.thisObject != null) {
                         // 隐藏电池图标
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_icon")) {
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_icon")) {
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryIconView")).visibility =
                                 View.GONE
 
@@ -70,14 +71,14 @@ object HideBatteryIconB : BaseHook() {
                             }
                         }
                         // 隐藏电池百分号
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
-                            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_percent") ||
+                            PrefsBridge.getBoolean("system_ui_status_bar_battery_percent_mark")
                         ) {
                             (param.thisObject.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize = 0F
                         }
                         // 隐藏电池的百分比
                         // Todo：内显百分比暂无法隐藏，因为布局已修改
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_percent")) {
                             (param.thisObject.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize = 0F
                         }
                     }
@@ -90,20 +91,20 @@ object HideBatteryIconB : BaseHook() {
                 after { param ->
                     if (param.thisObject != null) {
                         // 隐藏电池百分号
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent") ||
-                            mPrefsMap.getBoolean("system_ui_status_bar_battery_percent_mark")
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_percent") ||
+                            PrefsBridge.getBoolean("system_ui_status_bar_battery_percent_mark")
                         ) {
                             (param.thisObject.getObjectFieldAs<TextView>("mBatteryPercentMarkView"))?.textSize = 0F
                         }
                         // 隐藏电池的百分比
                         // Todo：内显百分比暂无法隐藏，因为布局已修改
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_percent")) {
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_percent")) {
                             (param.thisObject.getObjectFieldAs<TextView>("mBatteryPercentView"))?.textSize = 0F
                         }
 
                         // 隐藏电池充电图标
                         // Todo：内显闪电图标暂无法隐藏，因为布局已修改
-                        if (mPrefsMap.getBoolean("system_ui_status_bar_battery_charging")) {
+                        if (PrefsBridge.getBoolean("system_ui_status_bar_battery_charging")) {
                             (param.thisObject.getObjectFieldAs<ImageView>("mBatteryChargingView")).visibility =
                                 View.GONE
                         }

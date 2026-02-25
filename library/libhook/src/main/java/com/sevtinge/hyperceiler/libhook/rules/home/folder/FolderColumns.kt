@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPadding
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingLeft
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingSide
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object FolderColumns : HomeBaseHookNew() {
     private const val FOLDER = "com.miui.home.launcher.Folder"
@@ -49,10 +50,10 @@ object FolderColumns : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initForNewHome() {
-        val titlePosition = mPrefsMap.getStringAsInt("home_folder_title_pos", 0)
-        val isFullScreenWidthHook = mPrefsMap.getBoolean("home_folder_width")
-        val isHorPaddingHook = mPrefsMap.getBoolean("home_folder_horizontal_padding_enable")
-        val columns = mPrefsMap.getInt("home_folder_columns", 3)
+        val titlePosition = PrefsBridge.getStringAsInt("home_folder_title_pos", 0)
+        val isFullScreenWidthHook = PrefsBridge.getBoolean("home_folder_width")
+        val isHorPaddingHook = PrefsBridge.getBoolean("home_folder_horizontal_padding_enable")
+        val columns = PrefsBridge.getInt("home_folder_columns", 3)
 
         if (columns != 3) {
             findClassIfExists(ANIM_CONTROLLER_NEW)?.let {
@@ -119,7 +120,7 @@ object FolderColumns : HomeBaseHookNew() {
                     var sidePadding = 0
                     if (isHorPaddingHook) {
                         sidePadding = DisplayUtils.dp2px(
-                            mPrefsMap.getInt("home_folder_horizontal_padding", 0).toFloat()
+                            PrefsBridge.getInt("home_folder_horizontal_padding", 0).toFloat()
                         )
                         mContent.setPaddingSide(sidePadding)
                         mHeader.setPaddingSide(sidePadding)
@@ -173,10 +174,10 @@ object FolderColumns : HomeBaseHookNew() {
 
     @Version(isPad = true, min = 450000000)
     private fun initPadHook() {
-        val titlePosition = mPrefsMap.getStringAsInt("home_folder_title_pos", 0)
-        val isFullScreenWidthHook = mPrefsMap.getBoolean("home_folder_width")
-        val isHorPaddingHook = mPrefsMap.getBoolean("home_folder_horizontal_padding_enable")
-        val columns = mPrefsMap.getInt("home_folder_columns", 4)
+        val titlePosition = PrefsBridge.getStringAsInt("home_folder_title_pos", 0)
+        val isFullScreenWidthHook = PrefsBridge.getBoolean("home_folder_width")
+        val isHorPaddingHook = PrefsBridge.getBoolean("home_folder_horizontal_padding_enable")
+        val columns = PrefsBridge.getInt("home_folder_columns", 4)
 
         findClassIfExists(FOLDER).hookAllMethods("onOpen") {
             after { param ->
@@ -227,12 +228,12 @@ object FolderColumns : HomeBaseHookNew() {
                             android.content.res.Configuration.ORIENTATION_LANDSCAPE
                         ) {
                             DisplayUtils.dp2px(
-                                mPrefsMap.getInt("home_folder_horizontal_padding_pad_h", 0)
+                                PrefsBridge.getInt("home_folder_horizontal_padding_pad_h", 0)
                                     .toFloat()
                             )
                         } else {
                             DisplayUtils.dp2px(
-                                mPrefsMap.getInt("home_folder_horizontal_padding_pad_v", 0)
+                                PrefsBridge.getInt("home_folder_horizontal_padding_pad_v", 0)
                                     .toFloat()
                             )
                         }
@@ -287,10 +288,10 @@ object FolderColumns : HomeBaseHookNew() {
     }
 
     override fun initBase() {
-        val titlePosition = mPrefsMap.getStringAsInt("home_folder_title_pos", 0)
-        val isFullScreenWidthHook = mPrefsMap.getBoolean("home_folder_width")
-        val isHorPaddingHook = mPrefsMap.getBoolean("home_folder_horizontal_padding_enable")
-        val columns = mPrefsMap.getInt("home_folder_columns", 3)
+        val titlePosition = PrefsBridge.getStringAsInt("home_folder_title_pos", 0)
+        val isFullScreenWidthHook = PrefsBridge.getBoolean("home_folder_width")
+        val isHorPaddingHook = PrefsBridge.getBoolean("home_folder_horizontal_padding_enable")
+        val columns = PrefsBridge.getInt("home_folder_columns", 3)
 
         if (isPad()) {
             // 你米的代码是真的老啊......
@@ -363,7 +364,7 @@ object FolderColumns : HomeBaseHookNew() {
                     var sidePadding = 0
                     if (isHorPaddingHook) {
                         sidePadding = DisplayUtils.dp2px(
-                            mPrefsMap.getInt("home_folder_horizontal_padding", 0).toFloat()
+                            PrefsBridge.getInt("home_folder_horizontal_padding", 0).toFloat()
                         )
                         mFolderGrid.setPaddingSide(sidePadding)
                         mContent.setPaddingSide(sidePadding)
@@ -418,7 +419,7 @@ object FolderColumns : HomeBaseHookNew() {
 
     /*@Version(isPad = false, max = 539309777)
     private fun initOldHook() {
-        val value = mPrefsMap.getInt("home_folder_columns", 3)
+        val value = PrefsBridge.getInt("home_folder_columns", 3)
         if (value == 3) return
         "com.miui.home.launcher.Folder".findClass().hookAfterAllMethods(
             "bind"
@@ -426,7 +427,7 @@ object FolderColumns : HomeBaseHookNew() {
             val columns: Int = value
             val mContent = XposedHelpers.getObjectField(it.thisObject, "mContent") as GridView
             mContent.numColumns = columns
-            if (mPrefsMap.getBoolean("home_folder_width") && (columns > 3)) {
+            if (PrefsBridge.getBoolean("home_folder_width") && (columns > 3)) {
                 mContent.setPadding(0, 0, 0, 0)
                 val lp = mContent.layoutParams
                 lp.width = ViewGroup.LayoutParams.MATCH_PARENT

@@ -10,6 +10,10 @@ android {
         minSdk = 35
     }
 
+    buildFeatures {
+        aidl = true
+    }
+
     buildTypes {
         release {
             consumerProguardFiles("proguard-rules.pro")
@@ -31,4 +35,5 @@ java {
 
 dependencies {
     api(libs.bundles.miuix)
+    compileOnlyApi(project(":library:libhook"))
 }

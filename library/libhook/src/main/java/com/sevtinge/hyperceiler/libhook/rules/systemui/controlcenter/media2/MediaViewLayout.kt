@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -129,28 +130,28 @@ object MediaViewLayout : BaseHook() {
     }
 
     private val actionsOrder by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_button_mode", 0)
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_media_button_mode", 0)
     }
     private val album by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0)
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0)
     }
     private val headerMargin by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_title_margin", 210).toFloat() / 10
+        PrefsBridge.getInt("system_ui_control_center_media_control_title_margin", 210).toFloat() / 10
     }
     private val headerPadding by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_title_padding", 20).toFloat() / 10
+        PrefsBridge.getInt("system_ui_control_center_media_control_title_padding", 20).toFloat() / 10
     }
     private val hideSeamless by lazy {
-        mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_hide_seamless")
+        PrefsBridge.getBoolean("system_ui_control_center_media_control_media_button_hide_seamless")
     }
     private val actionsLeftAligned by lazy {
-        mPrefsMap.getBoolean("system_ui_control_center_media_control_media_button_actions_left_aligned")
+        PrefsBridge.getBoolean("system_ui_control_center_media_control_media_button_actions_left_aligned")
     }
     private val type by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_media_button", 140)
+        PrefsBridge.getInt("system_ui_control_center_media_control_media_button", 140)
     }
     private val typeCustom by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_media_button_custom", 140)
+        PrefsBridge.getInt("system_ui_control_center_media_control_media_button_custom", 140)
     }
 
     private val isAndroidB by lazy {

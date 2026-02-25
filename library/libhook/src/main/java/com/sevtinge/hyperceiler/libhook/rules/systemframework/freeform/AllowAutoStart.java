@@ -28,6 +28,7 @@ import android.os.Handler;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import java.util.HashSet;
@@ -61,7 +62,7 @@ public class AllowAutoStart extends BaseHook {
         findAndHookMethod("miui.app.ActivitySecurityHelper", "restrictForChain", ApplicationInfo.class, new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                strings = mPrefsMap.getStringSet("system_framework_auto_start_apps");
+                strings = PrefsBridge.getStringSet("system_framework_auto_start_apps");
                 ApplicationInfo info = (ApplicationInfo) param.getArgs()[0];
                 if (calleeInfo != null) {
                     if (strings.contains(calleeInfo.packageName)) {

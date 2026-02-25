@@ -22,12 +22,12 @@
 
     <color name="provision_list_item_text_unselected">#ff000000</color>
 
-    <color name="provision_item_bg_color">#66e3e3e3</color>
+    <color name="provision_item_normal_bg_color">@color/miuix_default_color_container_list_light</color>
     <color name="provision_item_pressed_bg_color">#14000000</color>
     <color name="provision_item_selected_bg_color">@color/miuix_color_blue_light_primary_default</color>
 
-    <color name="provision_title_text_color">#000000</color>
-    <color name="provision_subtitle_text_color">#99000000</color>
+    <color name="provision_title_text_color">@color/miuix_default_color_on_surface_light</color>
+    <color name="provision_subtitle_text_color">@color/miuix_default_color_on_surface_tertiary_light</color>
 
     <color name="provision_complete_title_color">#ff000000</color>
     <color name="provision_slogan_text_color">#80000000</color>
@@ -40,4 +40,10 @@
     <color name="provision_service_agree_color">#000000</color>
 
     <color name="provision_button_text_high_color_light">#0d84ff</color>
+
+
+
+
+    <color name="anim_foreground_color">#99000000</color>
+    <color name="anim_foreground_color_blur_enable">#00ffffff</color>
 </resources>

@@ -26,7 +26,10 @@ import android.content.SharedPreferences;
 import androidx.activity.result.ActivityResultLauncher;
 
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+
+import fan.provision.OobeUtils;
 
 public class CtaUtils {
 
@@ -44,25 +47,26 @@ public class CtaUtils {
     private static final String KEY_AGREE_DESC = "agree_desc";
 
     public static void setCtaEnabled(Context context) {
-        SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeilerPermission", 0).edit();
+        SharedPreferences.Editor edit = context.getSharedPreferences("hyperceiler_permission", 0).edit();
         edit.putBoolean("key_new_cta_open", true);
         edit.apply();
     }
 
     public static void setCtaValue(Context context, boolean value) {
-        SharedPreferences.Editor edit = context.getSharedPreferences("HyperCeilerPermission", 0).edit();
+        SharedPreferences.Editor edit = context.getSharedPreferences("hyperceiler_permission", 0).edit();
         edit.putBoolean("key_user_agree", value);
         edit.apply();
         try {
-            PrefsUtils.mSharedPreferences.edit().putBoolean("prefs_key_allow_hook", true).apply();
+            PrefsBridge.putBoolean("prefs_key_allow_hook", true);
         } catch (Exception ignore) {}
     }
 
 
     public static boolean getCtaValue(Context context) {
-        return context.getSharedPreferences("HyperCeilerPermission", 0)
+        return (context.getSharedPreferences("hyperceiler_permission", 0)
             .getBoolean("key_user_agree", false) &&
-            PrefsUtils.mSharedPreferences.getBoolean("prefs_key_allow_hook", false);
+            PrefsBridge.getBoolean("prefs_key_allow_hook")) ||
+            OobeUtils.getOperatorState(context, "cm_pick_status");
     }
 
     public static boolean isCtaNeedShow(Context context) {

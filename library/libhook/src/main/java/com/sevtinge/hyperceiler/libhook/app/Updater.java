@@ -28,6 +28,7 @@ import com.sevtinge.hyperceiler.libhook.rules.updater.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VabUpdate;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeNew;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.updater")
 public class Updater extends BaseLoad {
@@ -38,16 +39,16 @@ public class Updater extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        if (mPrefsMap.getBoolean("updater_enable_miui_version")) {
-            if (mPrefsMap.getStringAsInt("updater_version_mode", 1) != 1) {
+        if (PrefsBridge.getBoolean("updater_enable_miui_version")) {
+            if (PrefsBridge.getStringAsInt("updater_version_mode", 1) != 1) {
                 initHook(VersionCodeNew.INSTANCE, true);
             } else {
-                initHook(new VersionCodeModify(), !TextUtils.isEmpty(mPrefsMap.getString("various_updater_miui_version", "")));
+                initHook(new VersionCodeModify(), !TextUtils.isEmpty(PrefsBridge.getString("various_updater_miui_version", "")));
             }
-            initHook(AndroidVersionCode.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("various_updater_android_version", "")));
-            initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(mPrefsMap.getString("updater_device", "")));
+            initHook(AndroidVersionCode.INSTANCE, !TextUtils.isEmpty(PrefsBridge.getString("various_updater_android_version", "")));
+            initHook(DeviceModify.INSTANCE, !TextUtils.isEmpty(PrefsBridge.getString("updater_device", "")));
         }
-        initHook(new VabUpdate(), mPrefsMap.getBoolean("updater_fuck_vab"));
-        initHook(AutoUpdateDialog.INSTANCE, mPrefsMap.getBoolean("updater_diable_dialog"));
+        initHook(new VabUpdate(), PrefsBridge.getBoolean("updater_fuck_vab"));
+        initHook(AutoUpdateDialog.INSTANCE, PrefsBridge.getBoolean("updater_diable_dialog"));
     }
 }

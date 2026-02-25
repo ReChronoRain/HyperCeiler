@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import kotlin.math.sqrt
 
 @SuppressLint("StaticFieldLeak")
@@ -51,7 +52,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
     private var blurBackground = true
 
     private val shortcutMenuBackgroundAlpha by lazy {
-        mPrefsMap.getInt("home_other_shortcut_background_blur_custom", 200)
+        PrefsBridge.getInt("home_other_shortcut_background_blur_custom", 200)
     }
 
     private val singleLayerAlpha by lazy {
@@ -110,7 +111,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                 val targetBlurView = launcher?.callMethod("getScreen") as View
 
                 blurBackground = if (iconIsInFolder) {
-                    !mPrefsMap.getBoolean("home_folder_blur")
+                    !PrefsBridge.getBoolean("home_folder_blur")
                 } else {
                     true
                 }
@@ -260,7 +261,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                 val value = animator.animatedValue as Int
                 targetView.setRenderEffect(renderEffects[value])
 
-                if (blurBackground && !mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) {
+                if (blurBackground && !PrefsBridge.getBoolean("home_other_always_blur_launcher_wallpaper")) {
                     blurUtilsClass.callStaticMethod("fastBlurDirectly", value / MAX_BLUR_RADIUS, window)
                 }
             }

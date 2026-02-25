@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.pkg
 
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
 
 object DebugModeUtils {
@@ -26,7 +27,7 @@ object DebugModeUtils {
      * 获取指定包名的调试版本号
      */
     fun getChooseResult(pkg: String): Int {
-        return PrefsUtils.mPrefsMap.getInt("debug_choose_$pkg", 0)
+        return PrefsBridge.getInt("debug_choose_$pkg", 0)
     }
 
     /**

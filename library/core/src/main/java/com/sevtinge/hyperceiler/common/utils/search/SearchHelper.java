@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.common.utils.search;
 
 
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.appLanguages;
+import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.APP_LANGUAGES;
 import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.localeFromAppLanguage;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
@@ -325,8 +325,8 @@ public class SearchHelper {
     private static void parsePrefXml(Context context, String catPrefsFragment, int xmlResId, int... internalId) {
         ThreadPoolManager.getInstance().submit(() -> {
             int selectedLang = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_settings_app_language", "0"));
-            if (selectedLang < 0 || selectedLang >= appLanguages.length) selectedLang = 0;
-            Locale locale = localeFromAppLanguage(appLanguages[selectedLang]);
+            if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
+            Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
             Context localeContext = createLocaleContext(context, locale);
             Resources res = localeContext.getResources();
             try (XmlResourceParser xml = res.getXml(xmlResId)) {

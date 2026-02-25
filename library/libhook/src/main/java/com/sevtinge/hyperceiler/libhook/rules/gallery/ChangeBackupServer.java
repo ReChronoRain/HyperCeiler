@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.gallery;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -29,7 +30,7 @@ import io.github.libxposed.api.XposedInterface;
 public class ChangeBackupServer extends BaseHook {
     @Override
     public void init() {
-        int backupServer = mPrefsMap.getStringAsInt("gallery_backup_server", 0);
+        int backupServer = PrefsBridge.getStringAsInt("gallery_backup_server", 0);
         boolean isXiaomi = backupServer == 1;
         boolean isGoogle = backupServer == 2;
         boolean isOneDrive = backupServer == 3;

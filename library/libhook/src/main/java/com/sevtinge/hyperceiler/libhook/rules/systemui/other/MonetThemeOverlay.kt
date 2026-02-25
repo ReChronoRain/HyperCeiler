@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver
 
 class MonetThemeOverlay : BaseHook() {
@@ -40,7 +41,7 @@ class MonetThemeOverlay : BaseHook() {
 
             hookAllMethods("createOverlays") {
                 before {
-                    val color = mPrefsMap.getInt("system_ui_monet_overlay_custom_color", -1)
+                    val color = PrefsBridge.getInt("system_ui_monet_overlay_custom_color", -1)
                     it.args[0] = color
 
                     mHandler = Handler(mContext!!.mainLooper)

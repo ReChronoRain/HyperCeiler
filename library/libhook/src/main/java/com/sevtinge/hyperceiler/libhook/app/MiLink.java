@@ -21,18 +21,19 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.milink.AllowCameraDevices;
+import com.sevtinge.hyperceiler.libhook.rules.milink.UnlockSendApp;
 import com.sevtinge.hyperceiler.libhook.rules.milink.FuckHpplay;
 import com.sevtinge.hyperceiler.libhook.rules.milink.UnlockMiShare;
-import com.sevtinge.hyperceiler.libhook.rules.milink.UnlockSendApp;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.milink.service")
 public class MiLink extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new UnlockMiShare(), mPrefsMap.getBoolean("milink_unlock_mishare"));
-        initHook(UnlockSendApp.INSTANCE, mPrefsMap.getBoolean("milink_unlock_send_app"));
-        initHook(new AllowCameraDevices(), mPrefsMap.getBoolean("milink_allow_camera_devices"));
-        initHook(new FuckHpplay(), mPrefsMap.getBoolean("milink_fuck_hpplay"));
+        initHook(new UnlockMiShare(), PrefsBridge.getBoolean("milink_unlock_mishare"));
+        initHook(UnlockSendApp.INSTANCE, PrefsBridge.getBoolean("milink_unlock_send_app"));
+        initHook(new AllowCameraDevices(), PrefsBridge.getBoolean("milink_allow_camera_devices"));
+        initHook(new FuckHpplay(), PrefsBridge.getBoolean("milink_fuck_hpplay"));
     }
 }

@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import java.util.HashSet;
@@ -214,7 +215,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
         if (packageName == null) return "";
 
         String prefix = packageName + "฿";
-        Set<String> customTitles = mPrefsMap.getStringSet(PREF_SET_KEY);
+        Set<String> customTitles = PrefsBridge.getStringSet(PREF_SET_KEY);
 
         if (customTitles == null) return "";
 

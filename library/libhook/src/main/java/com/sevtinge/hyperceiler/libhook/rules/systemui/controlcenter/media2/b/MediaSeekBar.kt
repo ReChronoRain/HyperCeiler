@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -34,22 +35,22 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 // 2025.08.03
 object MediaSeekBar : BaseHook() {
     private val progressThickness by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_progress_thickness", 80)
+        PrefsBridge.getInt("system_ui_control_center_media_control_progress_thickness", 80)
     }
     private val cornerRadiusBar by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_progress_corner_radius", 36)
+        PrefsBridge.getInt("system_ui_control_center_media_control_progress_corner_radius", 36)
     }
     private val progressColor by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_color", -1)
+        PrefsBridge.getInt("system_ui_control_center_media_control_seekbar_color", -1)
     }
     private val thumbColor by lazy {
-        mPrefsMap.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1)
+        PrefsBridge.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1)
     }
     private val mode by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0)
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0)
     }
     private val modeThumb by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_thumb_mode", 0)
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_progress_thumb_mode", 0)
     }
 
     override fun init() {

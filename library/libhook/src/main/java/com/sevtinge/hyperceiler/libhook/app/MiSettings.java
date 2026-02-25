@@ -22,6 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.misettings.CustomRefreshRate;
 import com.sevtinge.hyperceiler.libhook.rules.misettings.ShowMoreFpsList;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.misettings")
 public class MiSettings extends BaseLoad {
@@ -32,7 +33,7 @@ public class MiSettings extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(CustomRefreshRate.INSTANCE, mPrefsMap.getBoolean("various_custom_refresh_rate"));
-        initHook(ShowMoreFpsList.INSTANCE, mPrefsMap.getBoolean("mi_settings_show_fps"));
+        initHook(CustomRefreshRate.INSTANCE, PrefsBridge.getBoolean("various_custom_refresh_rate"));
+        initHook(ShowMoreFpsList.INSTANCE, PrefsBridge.getBoolean("mi_settings_show_fps"));
     }
 }

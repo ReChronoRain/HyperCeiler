@@ -1,5 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="NavigatorActivityTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="bgBlurOptions">splitActionBar</item>
+        <item name="miuixColorBottomSurface">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="navigationFragmentStyle">@style/NaviFragmentTheme</item>
+        <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
+
+        <item name="actionBarTitleEnableEllipsis">true</item>
+        <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_light</item>
+        <item name="colorPrimary">@*android:color/primary_material_light</item>
+        <item name="colorPrimaryVariant">@android:color/white</item>
+        <item name="preferenceCategoryBackground">@drawable/miuix_preference_category_background</item>
+        <item name="preferenceCategoryTextColor">@color/miuix_preference_category_text_color_light</item>
+        <item name="preferenceItemBackground">@drawable/miuix_preference_item_background</item>
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_light</item>
+        <item name="preferenceRightTextColor">@color/miuix_preference_right_text_color_light</item>
+        <item name="preferenceSecondaryTextColor">@color/miuix_preference_secondary_text_light</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
+        <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference</item>
+        <item name="windowSplitActionBar">true</item>
+
+        <item name="android:actionBarStyle">@style/ActionBar.ShowTitle</item>
+        <item name="checkablePreferenceItemColorPressed">@color/miuix_preference_checkable_item_two_state_color_pressed_light</item>
+        <item name="checkablePreferenceItemColorPressedChecked">@color/miuix_preference_checkable_item_two_state_color_pressed_checked_light</item>
+        <item name="colorDividerLine">@android:color/transparent</item>
+        <item name="preferenceCategoryStyle">@style/Preference.Category</item>
+        <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
+        <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_light</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_light</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
+    </style>
+
+    <style name="NavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
+        <!--<item name="actionBarBackground">@color/miuix_appcompat_transparent</item>-->
+        <item name="android:actionModeBackground">@color/miuix_appcompat_transparent</item>
+        <item name="windowActionBarOverlay">true</item>
+
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="actionbarSearchMaskColor">#20000000</item>
+        <item name="bgBlurOptions">actionBar|splitActionBar</item>
+        <item name="miuixColorPrimary">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="responsiveActionMenuViewStyle">@style/Widget.ResponsiveActionMenuView.Light</item>
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_light</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_light</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
+    </style>
+
+    <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>
+
+    <style name="NavigatorSecondaryContentTheme" parent="@style/Theme.AppCompat.Light.SecondaryContent">
+        <item name="endActionMenuEnabled">false</item>
+        <item name="windowExtraPaddingApplyToContentEnable">false</item>
+        <item name="windowExtraPaddingHorizontalEnable">true</item>
+        <item name="windowSplitActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
+        <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
+        <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+    </style>
+
     <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
@@ -50,9 +122,138 @@
     </style>
 
 
-    <style name="NavigatorContentFragmentTheme.About" parent="NavigatorContentFragmentTheme">
+    <style name="NavigatorContentFragmentTheme.About" parent="Theme.Navigator.ContentChild">
         <item name="bgBlurOptions">none</item>
         <item name="actionBarExpandState">collapse</item>
+
+        <item name="contentAutoFitSystemWindow">true</item>
+        <item name="windowActionBarOverlay">true</item>
+
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:useLocalePreferredLineHeightForMinimum">false</item>
     </style>
 
+
+
+
+
+
+    <style name="HomePageTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
+        <item name="android:windowBackground">@color/miuix_default_color_surface_low_light</item>
+        <!--<item name="android:actionBarStyle">@style/Gallery.Widget.ActionBar.NoDisplay.CustomBackground</item>-->
+        <!--<item name="android:fastScrollThumbDrawable">@drawable/fast_scroll_thumb</item>-->
+        <item name="actionBarEmbedTabs">true</item>
+        <item name="actionBarExpandState">collapse</item>
+        <item name="actionBarResizable">false</item>
+        <item name="actionBarTabBadgeIcon">@null</item>
+        <item name="actionBarTitleEnableEllipsis">true</item>
+        <item name="bgBlurOptions">splitActionBar</item>
+        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+        <!--<item name="cardItemForeground">@drawable/miuix_preference_item_foreground_light</item>-->
+        <item name="layoutStable">true</item>
+        <!--<item name="navigatorLayoutStyle">@style/Gallery.NavigatorLayout</item>-->
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_light</item>
+        <item name="preferenceSecondaryTextColor">@color/miuix_preference_secondary_text_light</item>
+        <item name="windowSplitActionBar">true</item>
+
+
+        <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_light</item>
+        <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>
+
+        <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_light</item>
+        <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
+        <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
+    </style>
+
+
+    <style name="NavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight.Content">
+        <item name="android:windowBackground">@null</item>
+        <item name="android:actionModeBackground">@color/miuix_default_color_surface_low_light</item>
+        <item name="actionBarBackground">@color/miuix_appcompat_transparent</item>
+        <!--<item name="actionModeBackground">@color/miuix_appcompat_transparent</item>-->
+        <item name="bgBlurOptions">actionBar|splitActionBar</item>
+        <item name="windowActionBarOverlay">true</item>
+    </style>
+
+
+    <style name="ContentTheme" parent="@style/Theme.AppCompat.DayNight">
+        <item name="android:windowBackground">@color/miuix_default_color_surface_low_light</item>
+        <item name="android:actionBarStyle">@style/ActionBar.ShowTitle</item>
+        <!--<item name="android:navigationBarColor">@color/navigation_bar_color</item>-->
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:useLocalePreferredLineHeightForMinimum">false</item>
+        <item name="actionBarTitleEnableEllipsis">true</item>
+        <item name="actionbarSearchMaskColor">@android:color/transparent</item>
+        <item name="arrowRightFillColor">@color/miuix_appcompat_arrow_right_fill_color_light</item>
+        <item name="clearableEditTextIcon">@drawable/miuix_appcompat_edit_text_clear_btn_light</item>
+        <item name="colorPrimaryVariant">@android:color/white</item>
+        <item name="preferenceCategoryPaddingStart">@dimen/miuix_preference_category_padding_start</item>
+        <item name="preferenceCategoryPaddingEnd">@dimen/miuix_preference_category_padding_end</item>
+        <item name="preferenceCategoryBackground">@drawable/miuix_preference_category_background</item>
+        <item name="preferenceCategoryTextColor">@color/miuix_preference_category_text_color_light</item>
+        <item name="preferenceItemBackground">@drawable/miuix_preference_item_background</item>
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_light</item>
+        <item name="preferenceRightTextColor">@color/miuix_preference_right_text_color_light</item>
+        <item name="preferenceSecondaryTextColor">@color/miuix_preference_secondary_text_light</item>
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light.OS2</item>
+        <item name="recyclerViewCardStyle">@style/RecyclerViewCardStyle.DayNight</item>
+        <!--<item name="responsiveActionMenuViewStyle">@style/BottomActionMenuView</item>
+        <item name="searchActionModeInputBackground">@drawable/settings_search_mode_input_bg</item>-->
+        <!--<item name="searchEditTextBackground">@drawable/miuix_appcompat_edit_text_search_bg_light</item>
+        <item name="searchEditTextIconStart">@drawable/miuix_appcompat_ic_edit_text_search_light</item>-->
+        <item name="seekBarPreferenceStyle">@style/Preference.SeekBarPreference</item>
+        <item name="seekBarStyle">@style/Widget.SeekBar.DayNight</item>
+        <item name="windowSplitActionBar">true</item>
+
+    </style>
+
+    <style name="HomeNavigatorContentTheme" parent="@style/ContentTheme">
+        <item name="actionbarSearchMaskColor">@android:color/transparent</item>
+        <item name="contentAutoFitSystemWindow">false</item>
+        <item name="searchActionModeInputBackground">@drawable/settings_search_mode_input_bg</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="endActionMenuEnabled">true</item>
+        <item name="bottomSheetDialogTheme">@style/MiuixBottomSheetDialog</item>
+    </style>
+
+    <style name="MiuixBottomSheetDialog" parent="Theme.AppCompat.DayNight">
+
+        <item name="android:windowBackground">@color/miuix_default_color_surface_low_light</item>
+
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:listDivider">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:windowSoftInputMode">adjustPan</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="listPreferredItemPaddingLeft">24.0dp</item>
+        <item name="listPreferredItemPaddingRight">24.0dp</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Miuix.BottomSheetDialog</item>
+        <item name="bottomSheetStyle">@style/Widget.Miuix.BottomSheet.Modal.Light</item>
+    </style>
+
+    <style name="AboutNavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight">
+
+        <item name="windowSplitActionBar">true</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="contentAutoFitSystemWindow">false</item>
+
+        <item name="android:actionModeBackground">@color/miuix_default_color_surface_low_light</item>
+        <item name="actionBarBackground">@color/miuix_appcompat_transparent</item>
+
+        <item name="android:actionBarStyle">@style/ActionBar.ShowTitle</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:useLocalePreferredLineHeightForMinimum">false</item>
+        <item name="actionBarTitleEnableEllipsis">true</item>
+        <item name="android:windowBackground">@color/miuix_default_color_surface_low_light</item>
+    </style>
 </resources>

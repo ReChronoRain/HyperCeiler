@@ -23,11 +23,12 @@ import android.graphics.drawable.Drawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory.toSquare
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.drawable.MediaControlBgDrawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.drawable.RadialGradientDrawable
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/b1ab58484326372575a72f6509580cc60c272300/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/media/bg/RadialGradientProcessor.kt
 class RadialGradientProcessor : BgProcessor {
-    private val useAnim = PrefsUtils.mPrefsMap.getBoolean("system_ui_control_center_media_control_control_color_anim")
+    private val useAnim = PrefsBridge.getBoolean("system_ui_control_center_media_control_control_color_anim")
 
     override fun convertToColorConfig(
         artwork: Drawable,

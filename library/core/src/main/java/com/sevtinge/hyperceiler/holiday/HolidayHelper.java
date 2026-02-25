@@ -39,6 +39,7 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
+import fan.appcompat.app.AppCompatActivity;
 import fan.navigator.app.NavigatorActivity;
 
 public class HolidayHelper {
@@ -66,7 +67,7 @@ public class HolidayHelper {
         mRotation = Objects.requireNonNull(mContext.getDisplay()).getRotation();
         mContentView = activity.findViewById(android.R.id.content);
         mHolidayView = LayoutInflater.from(mContext).inflate(R.layout.layout_holiday, mContentView, false);
-        initialize(activity instanceof NavigatorActivity);
+        initialize(activity instanceof AppCompatActivity);
     }
 
     public void initialize(boolean isNavigatorActivity) {

@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.volume;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -37,7 +38,7 @@ public class VolumeSteps extends BaseHook {
             public void before(BeforeHookParam param) {
 
                 int[] maxStreamVolume = (int[]) getStaticObjectField(mAudioService, "MAX_STREAM_VOLUME");
-                int mult = mPrefsMap.getInt("system_framework_volume_steps", 0);
+                int mult = PrefsBridge.getInt("system_framework_volume_steps", 0);
                 if (mult <= 0) return;
                 for (int i = 0; i < maxStreamVolume.length; i++)
                     maxStreamVolume[i] = Math.round(maxStreamVolume[i] * mult / 100.0f);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppUpdateCardStyle" parent="HyperCardView.Light">
+        <item name="android:shadowColor">@color/my_card_shadow_color</item>
+        <item name="android:shadowDx">@dimen/app_update_card_shadow_dx</item>
+        <item name="android:shadowDy">@dimen/app_update_card_shadow_dy</item>
+        <item name="android:shadowRadius">@dimen/app_update_card_shadow_radius</item>
+        <item name="cardBackgroundColor">@color/app_update_card_bg</item>
+        <item name="cardCornerRadius">@dimen/app_device_card_background_radius</item>
+        <item name="strokeGradientColors">@array/app_update_card_stroke_gradient_colors_light</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+</resources>

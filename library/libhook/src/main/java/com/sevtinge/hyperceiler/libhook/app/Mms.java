@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.mms.AutoCopyVerificationCode;
 import com.sevtinge.hyperceiler.libhook.rules.mms.DisableAd;
 import com.sevtinge.hyperceiler.libhook.rules.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.libhook.rules.mms.ImOldDevice;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseLoad {
@@ -34,9 +35,9 @@ public class Mms extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new DisableRiskTip(), mPrefsMap.getBoolean("mms_disable_fraud_risk_tip") || mPrefsMap.getBoolean("mms_disable_overseas_risk_tip"));
-        initHook(new DisableAd(), mPrefsMap.getBoolean("mms_disable_ad"));
-        initHook(new ImOldDevice(), mPrefsMap.getBoolean("mms_im_old_device"));
-        initHook(AutoCopyVerificationCode.INSTANCE, mPrefsMap.getBoolean("mms_verification_code_auto_copy"));
+        initHook(new DisableRiskTip(), PrefsBridge.getBoolean("mms_disable_fraud_risk_tip") || PrefsBridge.getBoolean("mms_disable_overseas_risk_tip"));
+        initHook(new DisableAd(), PrefsBridge.getBoolean("mms_disable_ad"));
+        initHook(new ImOldDevice(), PrefsBridge.getBoolean("mms_im_old_device"));
+        initHook(AutoCopyVerificationCode.INSTANCE, PrefsBridge.getBoolean("mms_verification_code_auto_copy"));
     }
 }

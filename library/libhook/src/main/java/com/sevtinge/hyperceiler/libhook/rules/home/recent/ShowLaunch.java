@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
@@ -30,19 +31,19 @@ public class ShowLaunch extends BaseHook {
         findAndHookMethod("com.miui.home.recents.NavStubView", "changeAlphaScaleForFsGesture", float.class, float.class, new IMethodHook(){
             @Override
             public void before(BeforeHookParam param) {
-                param.getArgs()[0] = (1.0f - (float) mPrefsMap.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getArgs()[0] + (float) mPrefsMap.getInt("home_recent_show_launch_alpha", 100) / 100;
+                param.getArgs()[0] = (1.0f - (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getArgs()[0] + (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100;
             }
         });
         findAndHookMethod("com.miui.home.recents.OverviewState", "getShortcutMenuLayerAlpha", new IMethodHook(){
             @Override
             public void before(BeforeHookParam param) {
-                param.setResult((1.0f - (float) mPrefsMap.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getResult() + (float) mPrefsMap.getInt("home_recent_show_launch_alpha", 100) / 100);
+                param.setResult((1.0f - (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getResult() + (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100);
             }
         });
         findAndHookMethod("com.miui.home.recents.OverviewState", "getShortcutMenuLayerScale", new IMethodHook(){
             @Override
             public void before(BeforeHookParam param) {
-                param.setResult((float) mPrefsMap.getInt("home_recent_show_launch_size", 95) / 100);
+                param.setResult((float) PrefsBridge.getInt("home_recent_show_launch_size", 95) / 100);
             }
         });
     }

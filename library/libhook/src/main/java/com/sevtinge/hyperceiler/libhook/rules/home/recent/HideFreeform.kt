@@ -23,12 +23,13 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object HideFreeform : BaseHook() {
     override fun init() {
 
         val recentsContainerClass = findClass("com.miui.home.recents.views.RecentsContainer")
-        if (mPrefsMap.getBoolean("home_recent_hide_freeform")) {
+        if (PrefsBridge.getBoolean("home_recent_hide_freeform")) {
             recentsContainerClass.hookAllMethods(
                 "onFinishInflate"
             ) {

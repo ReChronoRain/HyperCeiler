@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="app_update_card_stroke_gradient_colors_light">
+        <item>@color/app_update_text_border2</item>
+        <item>@color/app_update_text_border1</item>
+    </array>
+</resources>

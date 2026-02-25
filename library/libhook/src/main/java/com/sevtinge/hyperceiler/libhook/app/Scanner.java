@@ -27,18 +27,19 @@ import com.sevtinge.hyperceiler.libhook.rules.scanner.EnableTranslation;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnableDocument;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnableExcel;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnablePpt;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.scanner")
 public class Scanner extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new EnableOcr(), mPrefsMap.getBoolean("scanner_ocr"));
-        initHook(new EnableExcel(), mPrefsMap.getBoolean("scanner_excel"));
-        initHook(new EnablePpt(), mPrefsMap.getBoolean("scanner_ppt"));
-        initHook(new EnableCard(), mPrefsMap.getBoolean("scanner_card"));
-        initHook(new EnableTranslation(), mPrefsMap.getBoolean("scanner_translation"));
-        initHook(new EnableDocument(), mPrefsMap.getBoolean("scanner_document"));
-        initHook(new EnableDocPpt(), mPrefsMap.getBoolean("scanner_doc_ppt"));
+        initHook(new EnableOcr(), PrefsBridge.getBoolean("scanner_ocr"));
+        initHook(new EnableExcel(), PrefsBridge.getBoolean("scanner_excel"));
+        initHook(new EnablePpt(), PrefsBridge.getBoolean("scanner_ppt"));
+        initHook(new EnableCard(), PrefsBridge.getBoolean("scanner_card"));
+        initHook(new EnableTranslation(), PrefsBridge.getBoolean("scanner_translation"));
+        initHook(new EnableDocument(), PrefsBridge.getBoolean("scanner_document"));
+        initHook(new EnableDocPpt(), PrefsBridge.getBoolean("scanner_doc_ppt"));
     }
 }

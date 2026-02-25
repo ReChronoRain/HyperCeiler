@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
@@ -82,16 +83,16 @@ object DockCustomNew : BaseHook() {
 
     @Suppress("UNCHECKED_CAST")
     override fun init() {
-        val dockBgStyle = mPrefsMap.getStringAsInt("home_dock_add_blur", 0)
+        val dockBgStyle = PrefsBridge.getStringAsInt("home_dock_add_blur", 0)
         var dockBlurView: View? = null
 
         launcherClass.afterHookMethod("setupViews") {
-            val isAllApp = mPrefsMap.getBoolean("home_dock_bg_all_app")
-            val dockBgColor = mPrefsMap.getInt("home_dock_bg_color", 0)
-            val dockRadius = dp2px(mPrefsMap.getInt("home_dock_bg_radius", 30))
-            val dockHeight = dp2px(mPrefsMap.getInt("home_dock_bg_height", 80))
-            val dockMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_horizontal", 30) - 6)
-            val dockBottomMargin = dp2px(mPrefsMap.getInt("home_dock_bg_margin_bottom", 30) - 92)
+            val isAllApp = PrefsBridge.getBoolean("home_dock_bg_all_app")
+            val dockBgColor = PrefsBridge.getInt("home_dock_bg_color", 0)
+            val dockRadius = dp2px(PrefsBridge.getInt("home_dock_bg_radius", 30))
+            val dockHeight = dp2px(PrefsBridge.getInt("home_dock_bg_height", 80))
+            val dockMargin = dp2px(PrefsBridge.getInt("home_dock_bg_margin_horizontal", 30) - 6)
+            val dockBottomMargin = dp2px(PrefsBridge.getInt("home_dock_bg_margin_bottom", 30) - 92)
 
             isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
                 folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
@@ -168,10 +169,10 @@ object DockCustomNew : BaseHook() {
 
     private fun View.addBlur() {
         val isDarkMode by lazy {
-            if (AppsTool.isDarkMode(context) && mPrefsMap.getStringAsInt("home_other_home_mode", 0) == 0) {
+            if (AppsTool.isDarkMode(context) && PrefsBridge.getStringAsInt("home_other_home_mode", 0) == 0) {
                 AppsTool.isDarkMode(context)
             } else {
-                mPrefsMap.getStringAsInt("home_other_home_mode", 0) == 2
+                PrefsBridge.getStringAsInt("home_other_home_mode", 0) == 2
             }
         }
 

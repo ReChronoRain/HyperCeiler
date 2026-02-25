@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
@@ -34,8 +35,8 @@ class TitleFontSize : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initForNewHome() {
-        val desktopSp = mPrefsMap.getInt("home_title_font_size", 12).toFloat()
-        val drawerSp = mPrefsMap.getInt("home_drawer_title_font_size", 12).toFloat()
+        val desktopSp = PrefsBridge.getInt("home_title_font_size", 12).toFloat()
+        val drawerSp = PrefsBridge.getInt("home_drawer_title_font_size", 12).toFloat()
         if (desktopSp == 12f && drawerSp == 12f) {
             XposedLog.d(TAG, "No need to be hooked")
             return
@@ -84,7 +85,7 @@ class TitleFontSize : HomeBaseHookNew() {
     }
 
     private fun initForHomeLower9777() {
-        if (mPrefsMap.getInt("home_title_font_size", 12) == 12) return
+        if (PrefsBridge.getInt("home_title_font_size", 12) == 12) return
 
         findClass("com.miui.home.launcher.common.Utilities")
             .afterHookMethod("adaptTitleStyleToWallpaper") { param ->
@@ -92,7 +93,7 @@ class TitleFontSize : HomeBaseHookNew() {
                 if (mTitle != null && mTitle.id == mTitle.resources.getIdentifier("icon_title", "id", "com.miui.home")) {
                     mTitle.setTextSize(
                         TypedValue.COMPLEX_UNIT_SP,
-                        mPrefsMap.getInt("home_title_font_size", 12).toFloat()
+                        PrefsBridge.getInt("home_title_font_size", 12).toFloat()
                     )
                 }
             }

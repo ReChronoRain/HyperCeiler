@@ -20,11 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.home.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object BlurRadius : BaseHook() {
     override fun init() {
 
-        val value = mPrefsMap.getInt("home_other_blur_radius", 100).toFloat() / 100
+        val value = PrefsBridge.getInt("home_other_blur_radius", 100).toFloat() / 100
         if (value == 1f) return
         val blurUtilsClass = findClass("com.miui.home.launcher.common.BlurUtils")
         blurUtilsClass.hookAllMethods("fastBlur") {

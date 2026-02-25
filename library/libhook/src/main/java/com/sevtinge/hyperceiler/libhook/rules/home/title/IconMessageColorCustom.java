@@ -20,10 +20,11 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.title;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 public class IconMessageColorCustom extends BaseHook {
     @Override
     public void init() {
-        setObjectReplacement("com.miui.home", "color", "icon_notification_message_bg_color", mPrefsMap.getInt("home_title_notif_color_picker", -1));
+        setObjectReplacement("com.miui.home", "color", "icon_notification_message_bg_color", PrefsBridge.getInt("home_title_notif_color_picker", -1));
     }
 }

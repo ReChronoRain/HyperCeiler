@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.voicetrigger.BypassUDKWordLegalCheck;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.voicetrigger")
 public class VoiceTrigger extends BaseLoad {
@@ -32,6 +33,6 @@ public class VoiceTrigger extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(BypassUDKWordLegalCheck.INSTANCE, mPrefsMap.getBoolean("bypass_voicetrigger_udk_legalcheck"));
+        initHook(BypassUDKWordLegalCheck.INSTANCE, PrefsBridge.getBoolean("bypass_voicetrigger_udk_legalcheck"));
     }
 }

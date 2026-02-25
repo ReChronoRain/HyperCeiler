@@ -63,6 +63,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlFo
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.AudioEffectControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.FWAudioEffectControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -122,9 +123,9 @@ public class AutoEffectSwitchForSystem extends BaseHook {
      * 从 Prefs 加载初始配置
      */
     private void loadConfigFromPrefs() {
-        mLockSelection = mPrefsMap.getBoolean(PREFS_KEY_LOCK_SELECTION);
-        mRememberDevice = mPrefsMap.getBoolean(PREFS_KEY_REMEMBER_DEVICE);
-        mDefaultEffect = mPrefsMap.getString(PREFS_KEY_DEFAULT_EFFECT, EFFECT_NONE);
+        mLockSelection = PrefsBridge.getBoolean(PREFS_KEY_LOCK_SELECTION);
+        mRememberDevice = PrefsBridge.getBoolean(PREFS_KEY_REMEMBER_DEVICE);
+        mDefaultEffect = PrefsBridge.getString(PREFS_KEY_DEFAULT_EFFECT, EFFECT_NONE);
 
         XposedLog.d(TAG, "Initial config loaded from prefs: lockSelection=" + mLockSelection +
             ", rememberDevice=" + mRememberDevice +

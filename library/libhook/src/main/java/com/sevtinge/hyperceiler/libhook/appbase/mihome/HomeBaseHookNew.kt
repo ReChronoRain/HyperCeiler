@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
 
 abstract class HomeBaseHookNew : BaseHook() {
@@ -45,7 +46,7 @@ abstract class HomeBaseHookNew : BaseHook() {
      * 子类或 BaseHook 可重写以提供真实的版本号/是否平板信息
      */
     private val isDebug: Boolean by lazy {
-        mPrefsMap.getBoolean("development_debug_mode")
+        PrefsBridge.getBoolean("development_debug_mode")
     }
     private var _cachedAppVersion: Int? = null
     private var _cachedIsPad: Boolean? = null
@@ -139,7 +140,7 @@ abstract class HomeBaseHookNew : BaseHook() {
         return object : IMethodHook {
             override fun before(param: BeforeHookParam) {
                 param.result = DisplayUtils.dp2px(
-                    mPrefsMap.getInt(key, defaultValue).toFloat()
+                    PrefsBridge.getInt(key, defaultValue).toFloat()
                 )
             }
         }

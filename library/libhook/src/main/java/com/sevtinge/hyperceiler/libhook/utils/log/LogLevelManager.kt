@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.log
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isBeta
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isCanary
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
 
 /**
@@ -48,7 +49,7 @@ object LogLevelManager {
 
     @JvmStatic
     fun getCurrentLogLevel(): Int {
-        val level = mPrefsMap.getStringAsInt("log_level", 3)
+        val level = PrefsBridge.getStringAsInt("log_level", 3)
         return getEffectiveLogLevel(level)
     }
 

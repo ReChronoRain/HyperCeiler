@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="color_on_surface">@color/miuix_default_color_on_surface_light</color>
+    <color name="color_tertiary">@color/miuix_default_color_tertiary_light</color>
+    <color name="color_on_surface_tertiary">@color/miuix_default_color_on_surface_tertiary_light</color>
+
+    <color name="app_about_logo_color1">#cc4a4a4a</color>
+    <color name="app_about_logo_color2">#4f4f4f</color>
+    <color name="app_about_logo_color3">#1af200</color>
+
+    <color name="app_update_text_color">#ff000000</color>
+    <color name="app_version_text_color">#99000000</color>
+
+    <color name="app_update_text_border1">#29ffffff</color>
+    <color name="app_update_text_border2">#ccffffff</color>
+
+    <color name="app_update_card_bg">#99ffffff</color>
+
+    <color name="app_device_info_item_summary_color">#66000000</color>
+    <color name="app_device_info_item_background_color">#ffffffff</color>
+
+
+    <color name="custom_order_item_bg_color">@color/miuix_default_color_container_list_solid_light</color>
+
+    <color name="search_text_color">#ff000000</color>
+    <color name="search_history_tv_bg_color">#ffffffff</color>
+    <color name="search_history_clear_text_color">#99000000</color>
+
+    <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_light</color>
+
+
     <color name="logo_color1">#cc4a4a4a</color>
     <color name="logo_color2">#4f4f4f</color>
     <color name="logo_color3">#1af200</color>

@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.statusBarStateControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
@@ -55,7 +56,7 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBefo
 class MediaControlPanelBackgroundMix : BaseHook() {
 
     private val isMode by lazy {
-        mPrefsMap.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
+        PrefsBridge.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) == 2
     }
 
     override fun init() {

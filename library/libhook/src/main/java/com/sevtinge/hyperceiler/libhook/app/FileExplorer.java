@@ -22,13 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.fileexplorer.SelectName;
 import com.sevtinge.hyperceiler.libhook.rules.fileexplorer.UnlockFileParse;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.fileexplorer")
 public class FileExplorer extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new UnlockFileParse(), mPrefsMap.getBoolean("file_explorer_unlock_file_parse"));
-        initHook(SelectName.INSTANCE, mPrefsMap.getBoolean("file_explorer_can_selectable") || mPrefsMap.getBoolean("file_explorer_is_single_line"));
+        initHook(new UnlockFileParse(), PrefsBridge.getBoolean("file_explorer_unlock_file_parse"));
+        initHook(SelectName.INSTANCE, PrefsBridge.getBoolean("file_explorer_can_selectable") || PrefsBridge.getBoolean("file_explorer_is_single_line"));
     }
 }

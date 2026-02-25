@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.DisableLiteVersion;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.UnlockWidgetCountLimit;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.WidgetBlurOpt;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseLoad {
@@ -34,10 +35,10 @@ public class PersonalAssistant extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         // initHook(new BlurOverlay(), false);
-        initHook(new DisableLiteVersion(), mPrefsMap.getBoolean("personal_assistant_disable_lite_version"));
-        initHook(new UnlockWidgetCountLimit(), mPrefsMap.getBoolean("personal_assistant_unlock_widget_count_limit"));
+        initHook(new DisableLiteVersion(), PrefsBridge.getBoolean("personal_assistant_disable_lite_version"));
+        initHook(new UnlockWidgetCountLimit(), PrefsBridge.getBoolean("personal_assistant_unlock_widget_count_limit"));
 
-        initHook(new WidgetBlurOpt(), mPrefsMap.getBoolean("personal_assistant_widget_widget_blur_opt"));
+        initHook(new WidgetBlurOpt(), PrefsBridge.getBoolean("personal_assistant_widget_widget_blur_opt"));
     }
 
 }

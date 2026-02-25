@@ -195,7 +195,14 @@ java {
 kotlin.jvmToolchain(21)
 
 dependencies {
+    implementation(libs.viewpager2)
     implementation(libs.expansion)
     implementation(projects.library.core)
     implementation(projects.library.common)
+
+    implementation ("androidx.room:room-runtime:2.6.1")
+    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    // FTS 支持
+    implementation ("androidx.room:room-ktx:2.6.1")
+    //implementation ("com.github.promeg:tinypinyin:2.0.3")
 }

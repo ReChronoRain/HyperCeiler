@@ -25,6 +25,7 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Field;
 
@@ -70,7 +71,7 @@ public class AppDefaultSort extends BaseHook {
 
     public static Bundle checkBundle(Bundle bundle) {
         if (bundle == null) bundle = new Bundle();
-        int order = mPrefsMap.getStringAsInt("security_center_app_default_sort", 0);
+        int order = PrefsBridge.getStringAsInt("security_center_app_default_sort", 0);
         bundle.putInt("current_sory_type", order - 1);
         bundle.putInt("current_sort_type", order - 1);
         return bundle;

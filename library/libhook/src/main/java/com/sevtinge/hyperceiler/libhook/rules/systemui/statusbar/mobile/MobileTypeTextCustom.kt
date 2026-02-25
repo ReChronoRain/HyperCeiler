@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -32,7 +33,7 @@ object MobileTypeTextCustom : BaseHook() {
             }.single().createHook {
                 after {
                     it.result =
-                        mPrefsMap.getString("system_ui_status_bar_mobile_type_custom", "ERR")
+                        PrefsBridge.getString("system_ui_status_bar_mobile_type_custom", "ERR")
                 }
             }
     }

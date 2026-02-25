@@ -48,17 +48,6 @@ public interface ActivityCallback {
         AppsTool.registerFileObserver(context);
     }
 
-    default void applyGrayScaleFilter(Activity activity) {
-        if (isNeedGrayView) {
-            View decorView = activity.getWindow().getDecorView();
-            Paint paint = new Paint();
-            ColorMatrix cm = new ColorMatrix();
-            cm.setSaturation(0);
-            paint.setColorFilter(new ColorMatrixColorFilter(cm));
-            decorView.setLayerType(View.LAYER_TYPE_HARDWARE, paint);
-        }
-    }
-
     default void replaceFragment(Fragment fragment, String tag) {
         //mFragmentManager.beginTransaction().replace(R.id.frame_content, fragment, tag).commit();
     }
@@ -67,8 +56,10 @@ public interface ActivityCallback {
         Bundle args = intent.getBundleExtra(":settings:show_fragment_args");
         String showFragmentTitle = intent.getStringExtra(":settings:show_fragment_title");
         int showFragmentTitleResId = intent.getIntExtra(":settings:show_fragment_title_resid", 0);
-        args.putString(":fragment:show_title", showFragmentTitle);
-        args.putInt(":fragment:show_title_resid", showFragmentTitleResId);
+        if (args != null) {
+            args.putString(":fragment:show_title", showFragmentTitle);
+            args.putInt(":fragment:show_title_resid", showFragmentTitleResId);
+        }
         return args;
     }
 

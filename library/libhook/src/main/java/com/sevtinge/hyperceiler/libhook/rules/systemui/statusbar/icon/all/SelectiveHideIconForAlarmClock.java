@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -143,7 +144,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         if (diffMSec < 0) diffMSec += 7 * 24 * 60 * 60 * 1000L;
 
         float diffHours = (diffMSec - 59 * 1000) / (1000f * 60f * 60f);
-        int thresholdHours = mPrefsMap.getInt("system_ui_status_bar_icon_alarm_clock_n", 0);
+        int thresholdHours = PrefsBridge.getInt("system_ui_status_bar_icon_alarm_clock_n", 0);
 
         return diffHours <= thresholdHours;
     }

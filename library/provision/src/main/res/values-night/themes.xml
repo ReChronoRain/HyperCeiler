@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  -->
+<resources>
+
+    <style name="ProvisionTheme" parent="@style/Theme.AppCompat.Dark">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">always</item>
+        <item name="android:windowBackground">@color/miuix_appcompat_black</item>
+
+        <item name="preferenceItemPaddingEnd">@dimen/miuix_preference_item_padding_end</item>
+        <item name="preferenceItemPaddingStart">@dimen/miuix_preference_item_padding_start</item>
+        <item name="preferencePrimaryTextColor">@color/miuix_preference_primary_text_dark</item>
+
+        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Dark.OS2</item>
+
+        <item name="android:listDivider">@null</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+
+        <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
+
+        <item name="groupButtonsPanelBackground">@android:color/transparent</item>
+        <item name="groupButtonsPrimaryButtonStyle">@style/Widget.Button.Primary</item>
+        <item name="groupButtonsSecondaryButtonStyle">@style/Widget.Button</item>
+        <item name="groupButtonsTertiaryButtonStyle">@style/Widget.Button</item>
+    </style>
+
+    <style name="BottomSheetModalStyle">
+        <item name="android:background">@color/miuix_color_white_solid_10</item>
+        <item name="contentHeightMatchParent">true</item>
+        <item name="miuixPaddingBottomSystemWindowInsets">false</item>
+    </style>
+</resources>

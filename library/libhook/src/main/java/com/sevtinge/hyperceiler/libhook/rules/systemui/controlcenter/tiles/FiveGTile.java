@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.TelephonyManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -64,7 +65,7 @@ public class FiveGTile extends TileUtils {
     private Constructor<?> mToggleConstructor3;
     private Constructor<?> mToggleConstructor4;
 
-    private final int mode = mPrefsMap.getStringAsInt("system_control_center_5g_new_tile", 0);;
+    private final int mode = PrefsBridge.getStringAsInt("system_control_center_5g_new_tile", 0);;
     private ContentObserver contentObserver;
     private boolean isDetailHooked = false;
     private String fiveGLabel = null;

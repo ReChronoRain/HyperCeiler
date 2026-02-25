@@ -21,12 +21,13 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.creation.UnlockCreation;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.creation")
 public class Creation extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(UnlockCreation.INSTANCE, mPrefsMap.getBoolean("creation_unlock_enable"));
+        initHook(UnlockCreation.INSTANCE, PrefsBridge.getBoolean("creation_unlock_enable"));
     }
 }

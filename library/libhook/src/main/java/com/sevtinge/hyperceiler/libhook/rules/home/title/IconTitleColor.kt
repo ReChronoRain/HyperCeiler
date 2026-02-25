@@ -29,12 +29,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object IconTitleColor : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initForNewHome() {
-        val color = mPrefsMap.getInt("home_title_title_color", -1)
+        val color = PrefsBridge.getInt("home_title_title_color", -1)
 
         findClass("com.miui.home.launcher.ShortcutIcon").beforeHookMethod("getTextColor") { param ->
             param.result = color
@@ -76,7 +77,7 @@ object IconTitleColor : HomeBaseHookNew() {
     }
 
     private fun oldHook() {
-        val value = mPrefsMap.getInt("home_title_title_color", -1)
+        val value = PrefsBridge.getInt("home_title_title_color", -1)
         val launcherClass = findClass("com.miui.home.launcher.Launcher")
         val shortcutInfoClass = findClass("com.miui.home.launcher.ShortcutInfo")
         if (value == -1) return

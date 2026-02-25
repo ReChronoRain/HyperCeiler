@@ -49,6 +49,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.getResourceIdByName
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -63,23 +64,23 @@ import java.util.function.Consumer
 
 class DualRowSignalHookV : BaseHook() {
     private val rightMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_right_margin", 8) - 8
     }
     private val leftMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8
     }
     private val iconScale by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
     }
     private val verticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40)
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40)
     }
 
     private val selectedIconStyle by lazy {
-        mPrefsMap.getString("system_ui_status_mobile_network_icon_style", "")
+        PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")
     }
     private val selectedIconTheme by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_iconmanage_mobile_network_icon_theme", 1)
     }
 
     private val mobileInfo = MobileInfo

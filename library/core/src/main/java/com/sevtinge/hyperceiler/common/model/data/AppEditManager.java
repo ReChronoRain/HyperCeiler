@@ -4,6 +4,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.common.callback.IEditCallback;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.ArrayList;
@@ -126,8 +127,7 @@ public class AppEditManager implements IEditCallback {
 
     private void loadFromSharedPreferences() {
         try {
-            mSelectedApps = new LinkedHashSet<>(
-                PrefsUtils.mSharedPreferences.getStringSet(mKey, new LinkedHashSet<>()));
+            mSelectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
         } catch (Exception e) {
             Log.e("AppEditManager", "Error loading from shared preferences", e);
             mSelectedApps = new LinkedHashSet<>();
@@ -136,9 +136,7 @@ public class AppEditManager implements IEditCallback {
 
     private void saveToSharedPreferences() {
         try {
-            PrefsUtils.mSharedPreferences.edit()
-                .putStringSet(mKey, new LinkedHashSet<>(mSelectedApps))
-                .apply();
+            PrefsBridge.putStringSet(mKey, new LinkedHashSet<>(mSelectedApps));
         } catch (Exception e) {
             Log.e("AppEditManager", "Error saving to shared preferences", e);
         }

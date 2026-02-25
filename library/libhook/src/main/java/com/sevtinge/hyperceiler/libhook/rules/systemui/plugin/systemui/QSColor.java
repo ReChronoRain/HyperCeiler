@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -178,12 +179,12 @@ public class QSColor extends BaseHook {
     public static float cornerRadiusF = -1;
 
     public static void load() {
-        small = mPrefsMap.getBoolean("system_ui_control_center_qs_open_color");
-        big = mPrefsMap.getBoolean("system_ui_control_center_qs_big_open_color");
-        bgColor = mPrefsMap.getInt("system_ui_control_center_qs_bg_color", -1);
-        color = mPrefsMap.getInt("system_ui_control_center_qs_color", -1);
-        bigBgColor = mPrefsMap.getInt("system_ui_control_center_qs_big_bg_color", -1);
-        bigColor = mPrefsMap.getInt("system_ui_control_center_qs_big_color", -1);
+        small = PrefsBridge.getBoolean("system_ui_control_center_qs_open_color");
+        big = PrefsBridge.getBoolean("system_ui_control_center_qs_big_open_color");
+        bgColor = PrefsBridge.getInt("system_ui_control_center_qs_bg_color", -1);
+        color = PrefsBridge.getInt("system_ui_control_center_qs_color", -1);
+        bigBgColor = PrefsBridge.getInt("system_ui_control_center_qs_big_bg_color", -1);
+        bigColor = PrefsBridge.getInt("system_ui_control_center_qs_big_color", -1);
     }
 
     @Override

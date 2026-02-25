@@ -22,10 +22,11 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object RecentText : BaseHook() {
     override fun init() {
-        val emptyViewText = mPrefsMap.getString("home_recent_text", "")
+        val emptyViewText = PrefsBridge.getString("home_recent_text", "")
         if (emptyViewText != "") {
             findClass("com.miui.home.recents.views.RecentsView").afterHookMethod(
                 "showEmptyView", Int::class.java

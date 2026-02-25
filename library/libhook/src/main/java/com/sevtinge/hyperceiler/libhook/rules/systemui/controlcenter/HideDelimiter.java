@@ -27,14 +27,15 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 
 public class HideDelimiter extends BaseHook {
 
-    boolean operator = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0) == 1;
-    int prefs = mPrefsMap.getStringAsInt("system_ui_control_center_hide_operator", 0);
+    boolean operator = PrefsBridge.getStringAsInt("system_ui_control_center_hide_operator", 0) == 1;
+    int prefs = PrefsBridge.getStringAsInt("system_ui_control_center_hide_operator", 0);
     String[] deviceNameList = {
         getProp("persist.sys.device_name")
     };

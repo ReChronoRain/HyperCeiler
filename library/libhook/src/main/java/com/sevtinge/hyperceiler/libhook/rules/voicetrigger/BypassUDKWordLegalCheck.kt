@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.voicetrigger
 import android.annotation.SuppressLint
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
@@ -73,7 +74,7 @@ object BypassUDKWordLegalCheck : BaseHook() {
             }
         }
         // 根据对应的唤醒词得到其精度，并返回其是否可用
-        val accUser = mPrefsMap.getInt("voicetrigger_accuracy_percent", 70).toFloat() / 100
+        val accUser = PrefsBridge.getInt("voicetrigger_accuracy_percent", 70).toFloat() / 100
         runCatching {
             DexKit.findMember<Method>("BypassOnlineAccuracyResult") {
                 it.findMethod {

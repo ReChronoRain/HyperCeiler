@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils
 import org.json.JSONException
 import org.json.JSONObject
@@ -74,7 +75,7 @@ object NewFlashLight : TileUtils() {
     override fun init() {
         super.init()
         // 读取配置
-        mode = mPrefsMap.getStringAsInt("security_flash_light_switch", 0)
+        mode = PrefsBridge.getStringAsInt("security_flash_light_switch", 0)
 
         // 设置文件权限
         setPermission(MTK)

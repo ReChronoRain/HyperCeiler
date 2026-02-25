@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,7 +44,7 @@ import io.github.libxposed.api.XposedInterface;
 
 public class RotationButton extends BaseHook {
     boolean isListen = false;
-    boolean enable = mPrefsMap.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1;
+    boolean enable = PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1;
 
     @Override
     public void init() {

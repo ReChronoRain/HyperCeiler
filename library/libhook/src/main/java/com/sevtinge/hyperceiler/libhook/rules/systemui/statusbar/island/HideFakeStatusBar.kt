@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -59,7 +60,7 @@ object HideFakeStatusBar : MusicBaseHook() {
     private var mBigTime: TextView? = null
     private var showCLock = false
     private val isBold by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_big_bold")
     }
     // UI 上正在显示焦点通知(可能是其他应用的通知)
     private val isShowingFocused = MutableStateFlow(false)

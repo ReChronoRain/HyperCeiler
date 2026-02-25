@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,8 +45,8 @@ public class HyperCeilerSettings extends BaseHook {
 
     private int settingsIconResId;
     private Class<?> mPreferenceHeader;
-    private final int opt = mPrefsMap.getStringAsInt("settings_icon", 0);
-    private final int mIconModeInt = mPrefsMap.getStringAsInt("settings_icon_mode", 0);
+    private final int opt = 0;
+    private final int mIconModeInt = 0;
 
     @Override
     public void init() {
@@ -96,7 +97,7 @@ public class HyperCeilerSettings extends BaseHook {
         // 设置 Intent
         Intent intent = new Intent();
         intent.putExtra("isDisplayHomeAsUpEnabled", true);
-        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.HyperCeilerTabActivity");
+        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.oldui.ui.HyperCeilerTabActivity");
         EzxHelpUtils.setObjectField(header, "intent", intent);
 
         // 设置用户信息

@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -69,7 +70,7 @@ public class DisableRiskTip extends BaseHook {
                 param.setResult(false);
             }
         });
-        if (mPrefsMap.getBoolean("mms_disable_fraud_risk_tip")) findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isDefraudNumber", new IMethodHook() {
+        if (PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isDefraudNumber", new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
                 param.setResult(false);
@@ -82,7 +83,7 @@ public class DisableRiskTip extends BaseHook {
                     param.setResult(false);
                 }
             });
-            if (mPrefsMap.getBoolean("mms_disable_fraud_risk_tip"))
+            if (PrefsBridge.getBoolean("mms_disable_fraud_risk_tip"))
                 findAndHookMethod("com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone", "isDefraudNumber", new IMethodHook()  {
                     @Override
                     public void before(BeforeHookParam param) {
@@ -95,8 +96,8 @@ public class DisableRiskTip extends BaseHook {
             public void after(AfterHookParam param) {
                 // XposedLog.d("smsrisk g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && mPrefsMap.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && mPrefsMap.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
                 // XposedLog.d("smsrisk 2 g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });
@@ -105,8 +106,8 @@ public class DisableRiskTip extends BaseHook {
             public void after(AfterHookParam param) {
                 // XposedLog.d("smsrisk n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && mPrefsMap.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
-                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && mPrefsMap.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
+                if (getObjectField(param.getArgs()[0], "mRiskType") == "12" && PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
                 // XposedLog.d("smsrisk 2 n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });

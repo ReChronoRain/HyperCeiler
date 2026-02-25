@@ -43,6 +43,7 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.hyperceiler.common.view.RestartAlertDialog;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
@@ -220,11 +221,11 @@ public class DialogHelper {
                 .setCancelable(false)
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
-                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_ui_safe_mode_enable").apply();
-                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_home_safe_mode_enable").apply();
-                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_system_settings_safe_mode_enable").apply();
-                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_security_center_safe_mode_enable").apply();
-                    PrefsUtils.mSharedPreferences.edit().remove("prefs_key_demo_safe_mode_enable").apply();
+                    PrefsBridge.remove("prefs_key_system_ui_safe_mode_enable");
+                    PrefsBridge.remove("prefs_key_home_safe_mode_enable");
+                    PrefsBridge.remove("prefs_key_system_settings_safe_mode_enable");
+                    PrefsBridge.remove("prefs_key_security_center_safe_mode_enable");
+                    PrefsBridge.remove("prefs_key_demo_safe_mode_enable");
                     dialog.dismiss();
                 })
                 .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())

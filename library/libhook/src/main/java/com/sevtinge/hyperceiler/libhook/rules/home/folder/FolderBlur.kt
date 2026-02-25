@@ -29,12 +29,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
         // 修复文件夹背景模糊与始终模糊壁纸冲突
-        if (mPrefsMap.getBoolean("home_other_always_blur_launcher_wallpaper")) return
+        if (PrefsBridge.getBoolean("home_other_always_blur_launcher_wallpaper")) return
 
         val folderInfo = findClassIfExists("com.miui.home.launcher.FolderInfo")
         val launcherClass = findClassIfExists("com.miui.home.launcher.Launcher")
@@ -137,8 +138,8 @@ object FolderBlur : BaseHook() {
             }
         }
 
-        if (((mPrefsMap.getStringAsInt("home_recent_blur_level", 6) == 0) && (mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 5)) ||
-            (mPrefsMap.getStringAsInt("home_recent_blur_level", 6) != 0)
+        if (((PrefsBridge.getStringAsInt("home_recent_blur_level", 6) == 0) && (PrefsBridge.getStringAsInt("home_recent_blur_level", 6) != 5)) ||
+            (PrefsBridge.getStringAsInt("home_recent_blur_level", 6) != 0)
         ) {
             navStubViewClass.beforeHookMethod("appTouchResolution", MotionEvent::class.java) {
                 val mLauncher = applicationClass.callStaticMethod("getLauncher") as Activity

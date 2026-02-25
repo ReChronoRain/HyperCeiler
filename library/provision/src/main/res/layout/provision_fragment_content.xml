@@ -17,12 +17,10 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
-<com.sevtinge.hyperceiler.provision.widget.CustomDispatchFrameLayout
+<fan.provision.CustomDispatchFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/provision_container"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_marginTop="@dimen/provision_container_margin_top"
     android:layout_weight="1.0"
-    android:layout_marginStart="@dimen/provision_anim_margin_start"
-    android:layout_marginEnd="@dimen/provision_anim_margin_end" />
+    android:paddingHorizontal="@dimen/provision_container_padding_horizontal_common" />

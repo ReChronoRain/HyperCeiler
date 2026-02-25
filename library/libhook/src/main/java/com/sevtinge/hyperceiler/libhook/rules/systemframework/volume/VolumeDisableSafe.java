@@ -27,6 +27,7 @@ import android.media.AudioManager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -34,7 +35,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 public class VolumeDisableSafe extends BaseHook {
     private static boolean isHeadsetOn = false;
 
-    private static final int mode = mPrefsMap.getStringAsInt("system_framework_volume_disable_safe_new", 0);
+    private static final int mode = PrefsBridge.getStringAsInt("system_framework_volume_disable_safe_new", 0);
 
     @Override
     public void init() {

@@ -28,7 +28,9 @@ import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.HashMap;
@@ -38,6 +40,7 @@ import java.util.Map;
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModule;
+import io.github.libxposed.service.RemotePreferences;
 
 /**
  * Xposed 模块入口基类
@@ -47,7 +50,9 @@ import io.github.libxposed.api.XposedModule;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+
     private volatile boolean mPrefsListenerRegistered = false;
+
     protected String processName;
     protected SharedPreferences remotePrefs;
     protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
@@ -73,24 +78,21 @@ public class XposedInitEntry extends XposedModule {
         try {
             new CrashMonitor(lpparam);
         } catch (Exception e) {
-            XposedLog.e(TAG, "system", "Crash Hook load failed, " + e);
+            AndroidLog.e(TAG, "system", "Crash Hook load failed, " + e);
         }
 
         // load Third Hook
-        if (mPrefsMap.getBoolean("system_framework_core_patch_enable")) {
+        if (PrefsBridge.getBoolean("system_framework_core_patch_enable")) {
             new CorePatch().onLoad(lpparam);
-            XposedLog.d(TAG, "system", "CorePatch loaded");
+            AndroidLog.d(TAG, "system", "CorePatch loaded");
         }
-        if (mPrefsMap.getBoolean("system_other_flag_secure")) {
+        if (PrefsBridge.getBoolean("system_other_flag_secure")) {
             new FlagSecure().onLoad(lpparam);
-            XposedLog.d(TAG, "system", "FlagSecure loaded");
+            AndroidLog.d(TAG, "system", "FlagSecure loaded");
         }
 
         // load Hook
         invokeInit(lpparam);
-
-        // Sync preferences changes
-        loadPreferenceChange();
     }
 
     @Override
@@ -104,7 +106,7 @@ public class XposedInitEntry extends XposedModule {
         // invoke module
         invokeInit(lpparam);
         // Sync preferences changes
-        loadPreferenceChange();
+        //loadPreferenceChange();
     }
 
     protected void invokeInit(PackageLoadedParam lpparam) {
@@ -150,7 +152,7 @@ public class XposedInitEntry extends XposedModule {
         return ModuleMatcher.MatchContext.builder()
             .systemServer(isSystemServer)
             .exactMatch(hasExactMatch)
-            .debugMode(mPrefsMap.getBoolean("development_debug_mode"))
+            .debugMode(PrefsBridge.getBoolean("development_debug_mode"))
             .build();
     }
 
@@ -160,30 +162,10 @@ public class XposedInitEntry extends XposedModule {
     }
 
     protected void initPrefs() {
-        SharedPreferences readPrefs = getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
-        Map<String, ?> allPrefs = readPrefs.getAll();
-        if (allPrefs != null && !allPrefs.isEmpty()) {
-            mPrefsMap.putAll(allPrefs);
-        }
+        String remoteName = PrefsBridge.PREFS_NAME + "_remote";
+        SharedPreferences remote = getRemotePreferences(remoteName);
+        // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
+        PrefsBridge.initForHook(remote);
     }
 
-    protected void loadPreferenceChange() {
-        if (mPrefsListenerRegistered) return;
-        HashSet<String> ignoreKeys = new HashSet<>();
-
-        mListener = (sharedPreferences, key) -> {
-            Object val = sharedPreferences.getAll().get(key);
-            if (val == null) {
-                mPrefsMap.remove(key);
-            } else {
-                mPrefsMap.put(key, val);
-            }
-            if (!ignoreKeys.contains(key)) {
-                PrefsUtils.handlePreferenceChanged(key);
-            }
-        };
-        remotePrefs = getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
-        remotePrefs.registerOnSharedPreferenceChangeListener(mListener);
-        mPrefsListenerRegistered = true;
-    }
 }

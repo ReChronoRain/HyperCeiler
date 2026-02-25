@@ -21,25 +21,35 @@
         <Preference
             android:key="prefs_key_development_debug_info"
             android:title="@string/development_debug_info"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentDebugInfoFragment" />
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentDebugInfoFragment" />
 
         <Preference
             android:key="prefs_key_development_debug_mode"
             android:title="@string/debug_mode"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentDebugModeFragment" />
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentDebugModeFragment" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentKillFragment"
+            android:key="prefs_key_development_kill"
+            android:title="@string/kill" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentPrefsFragment"
+            android:key="prefs_key_development_prefs"
+            android:title="@string/development_prefs" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentUIFragment"
             android:key="prefs_key_development_ui"
-            android:title="@string/development_ui"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentUIFragment" />
+            android:title="@string/development_ui" />
 
         <Preference
             android:key="prefs_key_development_oobe"
             android:title="OOBE"
-            android:enabled="false">
+            android:enabled="true">
             <intent
                 android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.hyperceiler.provision.activity.ProvisionActivity" />
+                android:targetClass="com.sevtinge.hyperceiler.provision.activity.DefaultActivity"/>
         </Preference>
 
     </PreferenceCategory>
@@ -48,12 +58,12 @@
         <Preference
             android:key="prefs_key_development_kill"
             android:title="@string/kill"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentKillFragment" />
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentKillFragment" />
 
         <Preference
             android:key="prefs_key_development_prefs"
             android:title="@string/development_prefs"
-            android:fragment="com.sevtinge.hyperceiler.main.page.settings.development.DevelopmentPrefsFragment" />
+            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentPrefsFragment" />
 
         <Preference
             android:key="prefs_key_development_cmd_r"

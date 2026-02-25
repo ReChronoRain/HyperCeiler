@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class OpenAppInFreeForm extends BaseHook {
 
     @Override
     public void init() {
-        if (mPrefsMap.getBoolean("system_framework_freeform_jump")) {
+        if (PrefsBridge.getBoolean("system_framework_freeform_jump")) {
             mActivityStarter = findClassIfExists("com.android.server.wm.ActivityStarter");
             mActivityTaskManagerService = findClassIfExists("com.android.server.wm.ActivityTaskManagerService");
 
@@ -122,12 +123,12 @@ public class OpenAppInFreeForm extends BaseHook {
             return false;
         }
         boolean openInFw = false;
-        final boolean openFwWhenShare = mPrefsMap.getBoolean("system_framework_freeform_app_share");
+        final boolean openFwWhenShare = PrefsBridge.getBoolean("system_framework_freeform_app_share");
         if (openFwWhenShare) {
             if ("com.miui.screenshot".equals(callingPackage)) {
                 return false;
             }
-            /*if (mPrefsMap.getStringSet("system_fw_forcein_actionsend_apps").contains(pkgName)) return false;*/
+            /*if (PrefsBridge.getStringSet("system_fw_forcein_actionsend_apps").contains(pkgName)) return false;*/
             if ("com.miui.packageinstaller".equals(pkgName) && intent.getComponent().getClassName().contains("com.miui.packageInstaller.NewPackageInstallerActivity")) {
                 return true;
             }

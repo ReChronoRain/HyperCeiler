@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalA
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
@@ -118,13 +119,13 @@ public class ScreenSwipe extends BaseHook {
 
     private void updatePrefsMap(Activity activity, String name, PrefType type) {
         Object value = switch (type) {
-            case String -> mPrefsMap.getString(name, "");
-            case Integer -> mPrefsMap.getInt(name, 1);
-            case Boolean -> mPrefsMap.getBoolean(name, false);
+            case String -> PrefsBridge.getString(name, "");
+            case Integer -> PrefsBridge.getInt(name, 1);
+            case Boolean -> PrefsBridge.getBoolean(name, false);
             default -> null;
         };
         if (value != null) {
-            mPrefsMap.put(name, value);
+            PrefsBridge.put(name, value);
         }
     }
 
@@ -134,7 +135,7 @@ public class ScreenSwipe extends BaseHook {
             new IMethodHook() {
                 @Override
                 public void before(BeforeHookParam param) {
-                    if (mPrefsMap.getInt("home_gesture_down_swipe_action", 0) > 0) {
+                    if (PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -148,7 +149,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void after(AfterHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (mPrefsMap.getInt(PREF_DOWN_SWIPE_ACTION, 1) > 1) {
+                    if (PrefsBridge.getInt(PREF_DOWN_SWIPE_ACTION, 1) > 1) {
                         param.setResult("no_action");
                     }
                 }
@@ -162,7 +163,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult("no_action");
                     }
                 }
@@ -191,7 +192,7 @@ public class ScreenSwipe extends BaseHook {
                     @Override
                     public void before(BeforeHookParam param) {
                         Context context = (Context) param.getArgs()[0];
-                        if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
+                        if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);
                         }
                     }
@@ -209,7 +210,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     View view = (View) param.getThisObject();
-                    if (mPrefsMap.getInt(PREF_DOWN_SWIPE_ACTION, 0) > 0) {
+                    if (PrefsBridge.getInt(PREF_DOWN_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -221,7 +222,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     View view = (View) param.getThisObject();
-                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -235,7 +236,7 @@ public class ScreenSwipe extends BaseHook {
                 @Override
                 public void before(BeforeHookParam param) {
                     Context context = (Context) param.getArgs()[0];
-                    if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
+                    if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
                     }
                 }
@@ -250,7 +251,7 @@ public class ScreenSwipe extends BaseHook {
                     @Override
                     public void before(BeforeHookParam param) {
                         Context context = (Context) param.getArgs()[0];
-                        if (mPrefsMap.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
+                        if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);
                         }
                     }

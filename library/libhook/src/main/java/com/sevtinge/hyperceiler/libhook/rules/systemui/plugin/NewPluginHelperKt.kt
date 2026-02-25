@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island.FocusNot
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PluginFactory
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -48,7 +49,7 @@ import java.lang.ref.WeakReference
 
 object NewPluginHelperKt : BaseHook() {
     private val isStyle by lazy {
-        mPrefsMap.getStringAsInt("system_ui_others_pct_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_others_pct_style", 0)
     }
 
     override fun init() {
@@ -272,7 +273,7 @@ object NewPluginHelperKt : BaseHook() {
     }
 
     private fun getTileList(): List<String> {
-        val raw = mPrefsMap.getString("systemui_plugin_card_tiles", "")?.removePrefix("List_") ?: ""
+        val raw = PrefsBridge.getString("systemui_plugin_card_tiles", "")?.removePrefix("List_") ?: ""
         if (raw.isBlank()) return emptyList()
         return raw.split('|').filter { it.isNotEmpty() }
     }

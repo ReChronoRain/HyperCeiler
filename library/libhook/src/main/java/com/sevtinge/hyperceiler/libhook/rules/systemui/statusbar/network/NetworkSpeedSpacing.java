@@ -22,6 +22,7 @@ import android.os.Message;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -89,7 +90,7 @@ public class NetworkSpeedSpacing extends BaseHook {
     }
 
     private long getCustomInterval() {
-        return mPrefsMap.getInt("system_ui_statusbar_network_speed_update_spacings", DEFAULT_INTERVAL) * 100L;
+        return PrefsBridge.getInt("system_ui_statusbar_network_speed_update_spacings", DEFAULT_INTERVAL) * 100L;
     }
 }
 

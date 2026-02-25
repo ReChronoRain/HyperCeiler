@@ -120,6 +120,10 @@ public class PrefsUtils {
         mSharedPreferences.edit().putInt(key, defValue).apply();
     }
 
+    public static void putStringSet(String key, Set<String> values) {
+        mSharedPreferences.edit().putStringSet(key, values).apply();
+    }
+
     /**
      * 获取 SharedPreferences Editor
      */
@@ -134,10 +138,10 @@ public class PrefsUtils {
         return mSharedPreferences != null && mSharedPreferences.contains(key);
     }
 
-    public static void putString(String key, String defValue) {
-        if (mSharedPreferences == null) return;
-        mSharedPreferences.edit().putString(key, defValue).apply();
+    public static void init(Context context) {
+        mSharedPreferences = getSharedPrefs(context);
     }
+
 
     public static boolean getSharedBoolPrefs(Context context, String name, boolean defValue) {
         try {

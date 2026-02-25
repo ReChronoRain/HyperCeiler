@@ -22,13 +22,14 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.incallui.AnswerInHeadUp;
 import com.sevtinge.hyperceiler.libhook.rules.incallui.HideCrbt;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.incallui")
 public class InCallUi extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new HideCrbt(), mPrefsMap.getBoolean("incallui_hide_crbt"));
-        initHook(new AnswerInHeadUp(), mPrefsMap.getBoolean("incallui_answer_in_head_up"));
+        initHook(new HideCrbt(), PrefsBridge.getBoolean("incallui_hide_crbt"));
+        initHook(new AnswerInHeadUp(), PrefsBridge.getBoolean("incallui_answer_in_head_up"));
     }
 }

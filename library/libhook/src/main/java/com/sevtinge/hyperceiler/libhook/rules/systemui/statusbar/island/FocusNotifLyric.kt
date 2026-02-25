@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setFloatField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setLongField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -54,19 +55,19 @@ object FocusNotifLyric : MusicBaseHook() {
     private val runnablePool = mutableMapOf<Int, Runnable>()
     private val focusTextViewList = mutableListOf<TextView>()
     private val textViewWidth by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_music_width", 0)
+        PrefsBridge.getInt("system_ui_statusbar_music_width", 0)
     }
     private val MARQUEE_DELAY by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_music_scroll_delay", 12) * 100L
+        PrefsBridge.getInt("system_ui_statusbar_music_scroll_delay", 12) * 100L
     }
     private val SPEED_INCREASE by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
+        PrefsBridge.getInt("system_ui_statusbar_music_speed", 18) * 0.1f
     }
     private val isShowNotific by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_show_notific")
     }
     private val isShowApp by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_show_app")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_show_app")
     }
 
     override fun init() {

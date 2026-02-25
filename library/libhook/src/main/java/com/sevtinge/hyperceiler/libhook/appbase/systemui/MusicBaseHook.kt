@@ -53,6 +53,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min
@@ -77,19 +78,19 @@ abstract class MusicBaseHook : BaseHook() {
     val context: Context by lazy { EzXposed.appContext }
 
     private val nSize: Float by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_music_size_n", DEFAULT_FONT_SIZE).toFloat()
+        PrefsBridge.getInt("system_ui_statusbar_music_size_n", DEFAULT_FONT_SIZE).toFloat()
     }
     private val hideAodShow: Boolean by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_hide_aod")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_hide_aod")
     }
     private val isAodMode: Boolean by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_show_aod_mode")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_show_aod_mode")
     }
     private val isShowApp by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_show_app")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_show_app")
     }
     private val isClickClock by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
+        PrefsBridge.getBoolean("system_ui_statusbar_music_click_clock")
     }
 
     private val circlePaint by lazy {

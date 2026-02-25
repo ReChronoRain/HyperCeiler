@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
@@ -85,8 +86,8 @@ public class FolderShade extends HomeBaseHookNew {
                             bkg = null;
                         }
                         new Handler(context.getMainLooper()).post(() -> {
-                            mPrefsMap.put("prefs_key_home_folder_shade", String.valueOf(opt));
-                            mPrefsMap.put("prefs_key_home_folder_shade_level", level);
+                            PrefsBridge.put("prefs_key_home_folder_shade", String.valueOf(opt));
+                            PrefsBridge.put("prefs_key_home_folder_shade_level", level);
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {
@@ -103,7 +104,7 @@ public class FolderShade extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.Folder", "setBackgroundAlpha", float.class, new IMethodHook() {
             @Override
             public void after(AfterHookParam param) {
-                int opt = mPrefsMap.getStringAsInt("home_folder_shade", 0);
+                int opt = PrefsBridge.getStringAsInt("home_folder_shade", 0);
                 Object mLauncher = getObjectField(param.getThisObject(), "mLauncher");
                 View folderCling = (View) callMethod(mLauncher, "getFolderCling");
                 if (opt == 1 || mLauncher == null || folderCling == null) return;

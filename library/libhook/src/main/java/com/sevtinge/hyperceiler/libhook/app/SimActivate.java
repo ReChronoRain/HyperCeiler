@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.simactivate.RoamingActivateHelper;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.simactivate.service")
 public class SimActivate extends BaseLoad {
@@ -32,6 +33,6 @@ public class SimActivate extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new RoamingActivateHelper(), mPrefsMap.getBoolean("sim_activation_service_disable_activate_when_roaming"));
+        initHook(new RoamingActivateHelper(), PrefsBridge.getBoolean("sim_activation_service_disable_activate_when_roaming"));
     }
 }

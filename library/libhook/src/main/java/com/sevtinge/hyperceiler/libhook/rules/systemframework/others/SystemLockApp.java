@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
@@ -87,7 +88,7 @@ public class SystemLockApp extends BaseHook {
                 new IMethodHook() {
                     @Override
                     public void after(AfterHookParam param) {
-                        if (!mPrefsMap.getBoolean("system_framework_guided_access_status"))
+                        if (!PrefsBridge.getBoolean("system_framework_guided_access_status"))
                             return; // 不知道为什么还是需要重启才生效
                         String shortcut = (String) param.getArgs()[1];
                         if ("imperceptible_press_power_key".equals(shortcut) || "long_press_power_key".equals(shortcut)) {

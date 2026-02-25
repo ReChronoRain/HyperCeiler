@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
@@ -82,96 +83,96 @@ object StatusBarClockNew : BaseHook() {
         Collections.synchronizedMap(WeakHashMap())
 
     private val sBold by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_bold")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_bold")
     }
     private val bBold by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_big_bold")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_big_bold")
     }
     private val nBold by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_small_bold")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_small_bold")
     }
     private val pBold by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_pad_bold")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_pad_bold")
     }
     private val isSync by lazy {
-        mPrefsMap.getBoolean("system_ui_disable_clock_synch")
+        PrefsBridge.getBoolean("system_ui_disable_clock_synch")
     }
     private val isHidePClock by lazy {
-        mPrefsMap.getBoolean("system_ui_statusbar_clock_pad_hide")
+        PrefsBridge.getBoolean("system_ui_statusbar_clock_pad_hide")
     }
     private val clockSizeS by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_1", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_size_1", 12)
     }
     private val clockSizeB by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_2", 50)
+        PrefsBridge.getInt("system_ui_statusbar_clock_size_2", 50)
     }
     private val clockSizeN by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_3", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_size_3", 12)
     }
     private val clockSizeP by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_size_4", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_size_4", 12)
     }
     private val clockTextSpacing by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_double_spacing_margin_1", 16)
+        PrefsBridge.getInt("system_ui_statusbar_clock_double_spacing_margin_1", 16)
     }
     private val sClockLeftMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin_1", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_left_margin_1", 0)
     }
     private val sClockRightMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin_1", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_right_margin_1", 0)
     }
     private val sClockVerticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_1", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_vertical_offset_1", 12)
     }
     private val fixedWidth by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_fixedcontent_width_1", 30)
+        PrefsBridge.getInt("system_ui_statusbar_clock_fixedcontent_width_1", 30)
     }
     private val bClockLeftMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin_2", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_left_margin_2", 0)
     }
     private val bClockRightMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin_2", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_right_margin_2", 0)
     }
     private val bClockVerticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_2", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_vertical_offset_2", 12)
     }
     private val nClockLeftMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin_3", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_left_margin_3", 0)
     }
     private val nClockRightMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin_3", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_right_margin_3", 0)
     }
     private val nClockVerticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_3", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_vertical_offset_3", 12)
     }
     private val pClockLeftMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_left_margin_4", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_left_margin_4", 0)
     }
     private val pClockRightMargin by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_right_margin_4", 0)
+        PrefsBridge.getInt("system_ui_statusbar_clock_right_margin_4", 0)
     }
     private val pClockVerticalOffset by lazy {
-        mPrefsMap.getInt("system_ui_statusbar_clock_vertical_offset_4", 12)
+        PrefsBridge.getInt("system_ui_statusbar_clock_vertical_offset_4", 12)
     }
     private val clockAlign by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_clock_double_1", 0)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_clock_double_1", 0)
     }
 
     // 时钟格式
     private val getFormatS by lazy {
-        mPrefsMap.getString("system_ui_statusbar_clock_editor_s", "HH:mm")
+        PrefsBridge.getString("system_ui_statusbar_clock_editor_s", "HH:mm")
     }
     private val getFormatB by lazy {
-        mPrefsMap.getString("system_ui_statusbar_clock_editor_b", "HH:mm")
+        PrefsBridge.getString("system_ui_statusbar_clock_editor_b", "HH:mm")
     }
     private val getFormatN by lazy {
-        mPrefsMap.getString("system_ui_statusbar_clock_editor_n", "")
+        PrefsBridge.getString("system_ui_statusbar_clock_editor_n", "")
     }
     private val getFormatP by lazy {
-        mPrefsMap.getString("system_ui_statusbar_clock_editor_p", "")
+        PrefsBridge.getString("system_ui_statusbar_clock_editor_p", "")
     }
     private val getClockStyle by lazy {
-        mPrefsMap.getStringAsInt("system_ui_statusbar_clock_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_statusbar_clock_style", 0)
     }
 
     private val safeFormatS by lazy {

@@ -19,14 +19,15 @@
 package com.sevtinge.hyperceiler.libhook.rules.home
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
 object AnimDurationRatio : BaseHook() {
     override fun init() {
-        var value1 = mPrefsMap.getInt("home_title_animation_speed", 100).toFloat()
-        var value2 = mPrefsMap.getInt("home_recent_animation_speed", 100).toFloat()
+        var value1 = PrefsBridge.getInt("home_title_animation_speed", 100).toFloat()
+        var value2 = PrefsBridge.getInt("home_recent_animation_speed", 100).toFloat()
         if (value1 != 100f) {
             value1 /= 100f
             loadClass("com.miui.home.recents.util.RectFSpringAnim").methodFinder()

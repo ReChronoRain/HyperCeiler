@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.provision.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.Checkable;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,14 +31,12 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
 
-public class PermissionItemView extends FrameLayout {
+public class PermissionItemView extends FrameLayout implements Checkable {
 
-    boolean mIsSelected = false;
+    boolean mIsChecked = false;
 
     TextView mItemTitle;
     ImageView mItemIcon;
-
-    OnSelectedListener mOnSelectedListener;
 
     public PermissionItemView(@NonNull Context context) {
         this(context, null);
@@ -50,14 +49,7 @@ public class PermissionItemView extends FrameLayout {
         mItemIcon = findViewById(R.id.item_icon);
 
         mItemTitle.setTextColor(getResources().getColor(R.color.provision_list_item_text_unselected, context.getTheme()));
-        mItemIcon.setVisibility(mIsSelected ? VISIBLE : INVISIBLE);
-        setClickable(true);
-    }
-
-    @Override
-    public boolean performClick() {
-        setItemSelected(!mIsSelected);
-        return super.performClick();
+        mItemIcon.setVisibility(mIsChecked ? VISIBLE : INVISIBLE);
     }
 
     public void setItemTitle(int resId) {
@@ -68,27 +60,25 @@ public class PermissionItemView extends FrameLayout {
         mItemTitle.setText(title);
     }
 
-    public void setItemSelected(boolean selected) {
-        if (mIsSelected != selected) {
-            mIsSelected = selected;
-            if (mOnSelectedListener != null) {
-                mOnSelectedListener.onSelected(mIsSelected);
-            }
-            updateItemState(mIsSelected);
-        }
-    }
-
-    public boolean isItemSelected() {
-        return mIsSelected;
-    }
-
-    public void setOnSelectedListener(OnSelectedListener l) {
-        mOnSelectedListener = l;
-    }
-
-    public void updateItemState(boolean selected) {
+    public void updateItemState(boolean checked) {
         mItemIcon.setImageDrawable(getResources().getDrawable(R.drawable.provision_picker_btn_radio));
-        mItemIcon.setVisibility(selected ? VISIBLE : INVISIBLE);
+        mItemIcon.setVisibility(checked ? VISIBLE : INVISIBLE);
+    }
+
+    @Override
+    public boolean isChecked() {
+        return mIsChecked;
+    }
+
+    @Override
+    public void setChecked(boolean checked) {
+        mIsChecked = checked;
+        updateItemState(checked);
+    }
+
+    @Override
+    public void toggle() {
+
     }
 
     public interface OnSelectedListener {

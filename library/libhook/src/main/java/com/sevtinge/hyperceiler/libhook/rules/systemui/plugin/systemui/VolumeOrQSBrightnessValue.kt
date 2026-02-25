@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookReplace
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -56,8 +57,8 @@ import java.util.WeakHashMap
 object VolumeOrQSBrightnessValue {
     private const val PLUGIN = "miui.systemui.plugin"
 
-    private val brightnessShow by lazy { mPrefsMap.getBoolean("system_ui_control_center_qs_brightness_top_value_show") }
-    private val volumeShow by lazy { mPrefsMap.getBoolean("system_ui_control_center_qs_volume_top_value_show") }
+    private val brightnessShow by lazy { PrefsBridge.getBoolean("system_ui_control_center_qs_brightness_top_value_show") }
+    private val volumeShow by lazy { PrefsBridge.getBoolean("system_ui_control_center_qs_volume_top_value_show") }
 
     private val topTextInitialized = WeakHashMap<Any, Boolean>()
     private val topTextCache = WeakHashMap<Any, TextView>()
