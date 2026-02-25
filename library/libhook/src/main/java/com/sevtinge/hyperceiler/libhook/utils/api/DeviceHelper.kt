@@ -28,7 +28,10 @@ import android.graphics.BlendModeColorFilter
 import android.os.Build
 import android.os.Process
 import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isPadDevice
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAsOrNull
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
@@ -38,9 +41,16 @@ import java.util.Locale
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
+val IS_TABLET by lazy {
+    clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_TABLET") ?: false
+}
+
+val IS_INTERNATIONAL_BUILD by lazy {
+    clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_INTERNATIONAL_BUILD") ?: false
+}
+
 /**
- * 设备信息工具类，整合了设备硬件信息、小米设备判断、系统版本判断等功能
- * 使用 @JvmStatic 确保 Java 调用友好性
+ * 设备信息工具类
  */
 object DeviceHelper {
 
@@ -144,47 +154,14 @@ object DeviceHelper {
      * 小米设备特有的判断工具
      */
     object Miui {
-        private val clazzMiuiBuild: Class<*>? by lazy {
-            runCatching {
-                Class.forName("miui.os.Build")
-            }.getOrNull()
+        private const val CLASS_MIUI_BUILD: String = "miui.os.Build"
+
+        private val isTablet: Boolean by lazy {
+            InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_TABLET") as Boolean
         }
 
-        private fun getStaticBoolean(clazz: Class<*>?, fieldName: String): Boolean {
-            if (clazz == null) return false
-            return runCatching {
-                val field = clazz.getDeclaredField(fieldName)
-                field.isAccessible = true
-                field.get(null) as? Boolean ?: false
-            }.getOrElse { false }
-        }
-
-        @JvmStatic
-        val isTablet: Boolean by lazy {
-            getStaticBoolean(clazzMiuiBuild, "IS_TABLET")
-        }
-
-        @JvmStatic
-        val isFold: Boolean by lazy {
-            getStaticBoolean(clazzMiuiBuild, "IS_FOLD")
-        }
-
-        @JvmStatic
-        val isInternationalBuild: Boolean by lazy {
-            getStaticBoolean(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD")
-        }
-
-        /**
-         * 判断是否为大屏设备，仅支持小米设备
-         * @return true 代表是大屏设备，false 代表不是大屏设备
-         */
-        @JvmStatic
-        fun isLargeUI(): Boolean {
-            return runCatching {
-                isFold || isTablet
-            }.getOrElse {
-                isPad()
-            }
+        private val isInternationalBuild: Boolean by lazy {
+            InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_INTERNATIONAL_BUILD") as Boolean
         }
 
         /**
@@ -196,9 +173,7 @@ object DeviceHelper {
             return runCatching {
                 isTablet
             }.getOrElse {
-                val res = Resources.getSystem()
-                val config = res.configuration
-                (config.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE
+                isPadDevice()
             }
         }
 
@@ -324,6 +299,13 @@ object DeviceHelper {
         fun getBaseOs(): String = getProp("ro.build.version.base_os").ifEmpty { "null" }
 
         @JvmStatic
+        fun getXmsVersion(): String = runCatching {
+                getProp("persist.sys.xms.version")
+            }.recoverCatching {
+                getProp("ro.mi.xms.version.incremental")
+            }.getOrElse { "null" }
+
+        @JvmStatic
         fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
 
         @JvmStatic
@@ -394,10 +376,10 @@ object DeviceHelper {
          */
         @JvmStatic
         fun isMoreSmallVersion(code: Int, osVersion: Float): Boolean {
-            return if (isMoreHyperOSVersion(osVersion)) {
+            return if (hyperOSSDK == osVersion) {
                 smallVersion >= code
             } else {
-                false
+                hyperOSSDK > osVersion
             }
         }
 

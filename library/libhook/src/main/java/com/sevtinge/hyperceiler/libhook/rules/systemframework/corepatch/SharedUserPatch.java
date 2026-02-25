@@ -176,10 +176,16 @@ public class SharedUserPatch extends CorePatchHelper {
     }
 
     protected Object SharedUserSetting_packages(Object /*SharedUserSetting*/ sharedUser) {
+        if (isMoreAndroidVersion(33)) {
+            return EzxHelpUtils.getObjectField(sharedUser, "mPackages");
+        }
         return EzxHelpUtils.getObjectField(sharedUser, "packages");
     }
 
     protected Object SigningDetails_mergeLineageWith(Object self, Object other) {
+        if (isMoreAndroidVersion(33)) {
+            return EzxHelpUtils.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
+        }
         return EzxHelpUtils.callMethod(self, "mergeLineageWith", other);
     }
 }

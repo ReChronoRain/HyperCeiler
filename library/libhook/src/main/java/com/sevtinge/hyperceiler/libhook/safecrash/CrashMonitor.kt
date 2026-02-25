@@ -152,7 +152,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
                     val mContext = EzxHelpUtils.getObjectField(param.thisObject, "mContext") as Context
                     val proc = param.args[0] // ProcessRecord
                     val crashInfo = param.args[1] as? ApplicationErrorReport.CrashInfo
-                    val shortMsg = param.args[2] as? String
+                    //  val shortMsg = param.args[2] as? String
                     val longMsg = param.args[3] as? String
                     val stackTrace = param.args[4] as? String
                     val timeMillis = param.args[5] as Long
@@ -163,7 +163,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
                     val info = EzxHelpUtils.getObjectField(proc!!, "info") as? ApplicationInfo
                     val pkgName = info?.packageName ?: return@after
 
-                    XposedLog.e(TAG, "Crash detected: $pkgName, short: $shortMsg")
+                    XposedLog.e(TAG, "Crash detected: $pkgName, log: $longMsg")
 
                     handleCrashLogic(mContext, pkgName, timeMillis, crashInfo, longMsg, stackTrace)
                 }

@@ -438,6 +438,14 @@
         <SwitchPreference
             android:defaultValue="true"
             android:icon="@drawable/ic_default"
+            android:key="prefs_key_aicr_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.xiaomi.aicr"
+            android:title="@string/aicr" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:icon="@drawable/ic_default"
             android:key="prefs_key_barrage_state"
             android:layout="@layout/preference_header"
             android:summary="com.xiaomi.barrage"
@@ -515,6 +523,13 @@
             android:layout="@layout/preference_header"
             android:summary="com.xiaomi.vipaccount"
             android:title="@string/community" />
+
+        <SwitchPreference
+            android:icon="@drawable/ic_default"
+            android:key="prefs_key_xmsf_state"
+            android:layout="@layout/preference_header"
+            android:summary="com.xiaomi.xmsf"
+            android:title="@string/xmsf" />
 
         <SwitchPreference
             android:defaultValue="true"

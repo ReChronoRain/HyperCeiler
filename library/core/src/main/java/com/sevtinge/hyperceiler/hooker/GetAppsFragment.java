@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isLargeUI;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import androidx.preference.EditTextPreference;
 import androidx.preference.SwitchPreference;
@@ -30,7 +30,6 @@ import fan.preference.DropDownPreference;
 
 public class GetAppsFragment extends DashboardFragment {
 
-    DropDownPreference mDeviceModify;
     EditTextPreference mModel;
     EditTextPreference mDevice;
     EditTextPreference mManufacturer;
@@ -43,13 +42,12 @@ public class GetAppsFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mDeviceModify = findPreference("prefs_key_market_device_modify_new");
         mDevice = findPreference("prefs_key_market_device_modify_device");
         mModel = findPreference("prefs_key_market_device_modify_model");
         mManufacturer = findPreference("prefs_key_market_device_modify_manufacturer");
         mRiskCheck = findPreference("prefs_key_market_bypass_risk_check");
 
-        if (isLargeUI()) {
+        if (isPad()) {
             setFuncHint(mRiskCheck, 1);
         }
 
@@ -64,18 +62,5 @@ public class GetAppsFragment extends DashboardFragment {
             mModel.setVisible(false);
             mManufacturer.setVisible(false);
         }
-
-        mDeviceModify.setOnPreferenceChangeListener((preference, o) -> {
-            if (Integer.parseInt((String) o) == 1) {
-                mDevice.setVisible(true);
-                mModel.setVisible(true);
-                mManufacturer.setVisible(true);
-            } else {
-                mDevice.setVisible(false);
-                mModel.setVisible(false);
-                mManufacturer.setVisible(false);
-            }
-            return true;
-        });
     }
 }

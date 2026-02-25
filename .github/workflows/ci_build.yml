@@ -143,21 +143,67 @@ jobs:
         run: |
           echo "APK_FILE_CANARY=$(find artifacts -name '*.apk')" >> $GITHUB_ENV
 
+      - name: Build Commit Messages
+        run: |
+          python3 << 'EOF'
+          import json, os, re
+
+          event = json.load(open(os.environ["GITHUB_EVENT_PATH"], "r"))
+          commits = event.get("commits", [])
+          compare_url = event.get("compare")
+
+          blocks = []
+
+          for c in commits:
+              msg = c["message"].strip()
+
+              authors = set()
+              authors.add(c["author"]["name"])
+
+              for line in msg.splitlines():
+                  m = re.match(r"Co-authored-by:\s*(.+?)\s*<", line)
+                  if m:
+                      authors.add(m.group(1))
+
+              clean_msg = "\n".join(
+                  l for l in msg.splitlines()
+                  if not l.startswith("Co-authored-by:")
+              ).strip()
+
+              blocks.append(
+                  f"```\n{clean_msg}\nby {', '.join(f'`{a}`' for a in sorted(authors))}\n```"
+              )
+
+          final_message = (
+              "New push to GitHub"
+              + "".join(blocks)
+              + f"See commit details [here]({compare_url})"
+          )
+
+          with open("commit_message.txt", "w") as f:
+              f.write(final_message)
+          EOF
+
+
       - name: Post to Canary Channel
+        shell: bash
         env:
           GROUP_ID: ${{ secrets.CHANNEL_ID }}
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
-          COMMIT_MESSAGE: |+
-            New push to GitHub
-            ```
-            ${{ github.event.head_commit.message }}
-            ```by `${{ github.event.head_commit.author.name }}`
-            See commit detail [here](${{ github.event.head_commit.url }})
         run: |
-          ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
-          cd ${{ github.workspace }}
-          curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F canary="@${CANARY}"
+          ESCAPED=$(python3 << 'EOF'
+          import json, urllib.parse
+
+          with open("commit_message.txt", "r") as f:
+              raw = f.read()
+
+          print(urllib.parse.quote(json.dumps(raw)))
+          EOF
+          )
+
+          curl -s "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" \
+            -F canary="@${CANARY}"
 
   push_to_debug_group:
     if: |

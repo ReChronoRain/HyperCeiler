@@ -126,12 +126,12 @@ public class LogEntry {
 
     public int getColor() {
         return switch (mLevel) {
-            case "V" -> 0xFF909090; // VERBOSE - Gray
+            case "C" -> 0xFFD32F2F; // CRASH - Dark Red
             case "D" -> 0xFF2196F3; // DEBUG - Blue
             case "I" -> 0xFF4CAF50; // INFO - Green
             case "W" -> 0xFFFFC107; // WARN - Amber
             case "E" -> 0xFFF44336; // ERROR - Red
-            default -> 0xFF000000;  // Black
+            default -> 0xFF909090;  // Gray
         };
     }
 

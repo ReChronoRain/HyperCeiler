@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -26,7 +25,6 @@ import androidx.fragment.app.Fragment;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.lang.reflect.Field;
 
@@ -45,7 +43,7 @@ public class AppDefaultSort extends BaseHook {
         findAndHookMethod(mAppManagerCls, "onCreate", Bundle.class, new IMethodHook() {
             @Override
             public void before(BeforeHookParam param) {
-                param.getArgs()[0] = checkBundle((Context) param.getThisObject(), (Bundle) param.getArgs()[0]);
+                param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
                 Class<?> mFragXCls = findClassIfExists("androidx.fragment.app.Fragment");
                 Field[] fields = param.getThisObject().getClass().getDeclaredFields();
                 for (Field field : fields) {
@@ -59,9 +57,9 @@ public class AppDefaultSort extends BaseHook {
                         @Override
                         public void before(final BeforeHookParam param) {
                             try {
-                                param.getArgs()[0] = checkBundle((Context) callMethod(param.getThisObject(), "getContext"), (Bundle) param.getArgs()[0]);
+                                param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
                             } catch (Throwable t) {
-                                XposedLog.e("AppDefaultSortHook", getPackageName(), "", t);
+                                XposedLog.e(TAG, getPackageName(), "", t);
                             }
                         }
                     });
@@ -70,13 +68,9 @@ public class AppDefaultSort extends BaseHook {
         });
     }
 
-    public static Bundle checkBundle(Context context, Bundle bundle) {
-        if (context == null) {
-            XposedLog.i("AppDefaultSort", "com.miui.securitycenter", "Context is null!");
-            return null;
-        }
+    public static Bundle checkBundle(Bundle bundle) {
         if (bundle == null) bundle = new Bundle();
-        int order = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_security_center_app_default_sort", "0"));
+        int order = mPrefsMap.getStringAsInt("security_center_app_default_sort", 0);
         bundle.putInt("current_sory_type", order - 1);
         bundle.putInt("current_sort_type", order - 1);
         return bundle;

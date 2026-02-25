@@ -21,19 +21,19 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 import android.content.pm.ApplicationInfo
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational
+import com.sevtinge.hyperceiler.libhook.utils.api.IS_INTERNATIONAL_BUILD
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
-import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 // from SetoHook by SetoSkins
 class AllDarkMode : BaseHook() {
     override fun init() {
-        if (isInternational()) return
+        if (IS_INTERNATIONAL_BUILD) return
         val clazzForceDarkAppListManager =
             findClass("com.android.server.ForceDarkAppListManager")
 
@@ -41,16 +41,10 @@ class AllDarkMode : BaseHook() {
             filterByName("getDarkModeAppList").toList()
                 .createHooks {
                     before {
-                        val originalValue = EzxHelpUtils.getStaticBooleanField(
-                            clazzMiuiBuild,
-                            "IS_INTERNATIONAL_BUILD"
-                        )
                         setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", true)
-                        it.setAdditionalInstanceField("originalValue", originalValue)
                     }
                     after {
-                        val originalValue = it.getAdditionalInstanceField("originalValue")
-                        setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", originalValue)
+                        setStaticObject(clazzMiuiBuild, "IS_INTERNATIONAL_BUILD", IS_INTERNATIONAL_BUILD)
                     }
                 }
 
@@ -60,8 +54,7 @@ class AllDarkMode : BaseHook() {
                         val info = param.args[0] as ApplicationInfo?
                         param.result =
                             !(info == null || (
-                                invokeMethodBestMatch(info, "isSystemApp") as Boolean
-                                ) || info.uid < 10000)
+                                callMethod(info, "isSystemApp") as Boolean) || info.uid < 10000)
                     }
                 }
         }

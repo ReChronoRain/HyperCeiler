@@ -22,20 +22,19 @@ package com.sevtinge.hyperceiler.libhook.utils.log
 internal object LoggerUtils {
     fun shouldLog(logLevel: Int, requiredLevel: Int): Boolean = logLevel >= requiredLevel
 
-    fun formatMessage(tag: String, level: String, message: String): String {
-        return "[$tag][$level]: $message"
-    }
-
-    fun formatMessageWithTag(baseTag: String, level: String, tag: String, message: String): String {
-        return "[$baseTag][$level][$tag]: $message"
-    }
-
-    fun formatMessageWithPkg(baseTag: String, level: String, pkg: String?, tag: String, message: String): String {
-        return if (pkg != null) {
-            "[$baseTag][$level][$pkg][$tag]: $message"
+    fun formatBrackets(pkg: String?, tag: String, message: String): String {
+        return if (pkg.isNullOrEmpty()) {
+            "[$tag]: $message"
         } else {
-            "[$baseTag][$level][$tag]: $message"
+            "[$pkg][$tag]: $message"
         }
+    }
+
+    fun formatMessage(baseTag: String, level: String, message: String): String {
+        if (message.contains("]: ")) {
+            return "[$baseTag][$level]$message"
+        }
+        return "[$baseTag][$level]: $message"
     }
 
     fun logLevelDesc(level: Int): String = when (level) {
@@ -47,4 +46,3 @@ internal object LoggerUtils {
         else -> "Unknown"
     }
 }
-

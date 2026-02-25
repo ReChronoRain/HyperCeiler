@@ -96,6 +96,7 @@ public class ScramblePIN extends BaseHook {
      * 清空并重新分配视图
      */
     private void redistributeViews(View[][] mViews, List<View> randomViews, ViewGroup[] rows) {
+        if (randomViews.size() < 10) return;
         // 清空第1-3行
         for (int i = 1; i <= 3; i++) {
             rows[i].removeAllViews();

@@ -275,6 +275,7 @@ public class SearchHelper {
         parsePrefXmlForDashboardFragment(context, R.xml.simactivate);
         parsePrefXmlForDashboardFragment(context, R.xml.contacts);
         parsePrefXmlForDashboardFragment(context, R.xml.health);
+        parsePrefXmlForDashboardFragment(context, R.xml.xmsf);
         parsePrefXml(context, SecurityAddFragment.class, R.xml.securityadd);
 
         parsePrefXmlForDashboardFragment(context, R.xml.community);

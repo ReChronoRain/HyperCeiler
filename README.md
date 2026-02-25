@@ -92,6 +92,7 @@ Xiaomi HyperOS 3 or 4 将是本项目的一个终点，就目前来说，小米�
 | 系统安全组件             | com.miui.guardprovider             |
 | 相机                 | com.android.camera                 |
 | 小爱翻译               | com.xiaomi.aiasst.vision           |
+| 小米澎湃 AI 引擎         | com.xiaomi.aicr                    |
 | 小爱视觉               | com.xiaomi.scanner                 |
 | NFC 服务             | com.android.nfc                    |
 | 音质音效               | com.miui.misound                   |
@@ -107,6 +108,7 @@ Xiaomi HyperOS 3 or 4 将是本项目的一个终点，就目前来说，小米�
 | 录音机                | com.android.soundrecorder          |
 | LPA                | com.miui.euicc                     |
 | 小米SIM卡激活服务         | com.xiaomi.simactivate.service     |
+| 跨屏协同服务             | com.xiaomi.mirror                  |
 
 </details>
 

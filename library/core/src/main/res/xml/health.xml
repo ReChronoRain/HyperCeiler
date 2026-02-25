@@ -20,11 +20,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/health"
     app:quick_restart="com.mi.health">
+
     <PreferenceCategory>
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_health_disable_splash_ad"
             android:title="@string/health_disable_splash_ad" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_health_unlock_foucs_app_sign_white_list"
+            android:title="@string/health_unlock_foucs_app_sign_white_list_title" />
     </PreferenceCategory>
 
 </PreferenceScreen>

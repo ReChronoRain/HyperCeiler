@@ -30,7 +30,6 @@ import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -63,22 +62,49 @@ object EzxHelpUtils {
 
     @JvmStatic
     fun findClass(name: String): Class<*> {
-        return ClassUtil.loadClass(name, safeClassLoader)
+        return findClassInternal(name, safeClassLoader)
+            ?: throw ClassNotFoundException("Class not found: $name")
     }
 
     @JvmStatic
     fun findClass(name: String, classLoader: ClassLoader?): Class<*> {
-        return ClassUtil.loadClass(name, classLoader)
+        val cl = classLoader ?: safeClassLoader
+        return findClassInternal(name, cl)
+            ?: throw ClassNotFoundException("Class not found: $name")
     }
 
     @JvmStatic
     fun findClassIfExists(name: String): Class<*>? {
-        return ClassUtil.loadClassOrNull(name, safeClassLoader)
+        return findClassInternal(name, safeClassLoader)
     }
 
     @JvmStatic
     fun findClassIfExists(name: String, classLoader: ClassLoader?): Class<*>? {
-        return ClassUtil.loadClassOrNull(name, classLoader)
+        val cl = classLoader ?: safeClassLoader
+        return findClassInternal(name, cl)
+    }
+
+    /**
+     * 带有内部类回退的内部类查找。
+     * 支持 "a.b.C.D" 和 "a.b.C$D" 两种内部类表示法
+     */
+    private fun findClassInternal(name: String, classLoader: ClassLoader): Class<*>? {
+        // Direct lookup
+        try {
+            return Class.forName(name, false, classLoader)
+        } catch (_: ClassNotFoundException) {}
+
+        // Inner class fallback: replace '.' with '$' from right to left
+        val chars = name.toCharArray()
+        for (i in chars.indices.reversed()) {
+            if (chars[i] == '.') {
+                chars[i] = '$'
+                try {
+                    return Class.forName(String(chars), false, classLoader)
+                } catch (_: ClassNotFoundException) {}
+            }
+        }
+        return null
     }
 
     /**
@@ -1305,6 +1331,8 @@ object EzxHelpUtils {
     fun deoptimize(method: Method): Boolean {
         return try {
             xposedModule.deoptimize(method)
+            XposedLog.d(TAG, "deoptimize $method success")
+            true
         } catch (t: Throwable) {
             XposedLog.e(TAG, "deoptimize $method failed, log: $t")
             return false
