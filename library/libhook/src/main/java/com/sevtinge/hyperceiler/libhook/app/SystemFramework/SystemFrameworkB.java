@@ -103,7 +103,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new GlobalActions(), true);
 
         // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
-        initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, mPrefsMap.getBoolean("system_framework_core_patch_unloss_fingerprint"));
+        initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, PrefsBridge.getBoolean("system_framework_core_patch_unloss_fingerprint"));
 
         // 小窗
         initHook(new FreeFormCount(), PrefsBridge.getBoolean("system_framework_freeform_count"));

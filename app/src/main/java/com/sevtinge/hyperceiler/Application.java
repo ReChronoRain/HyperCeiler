@@ -57,6 +57,7 @@ public class Application extends fan.app.Application
         setupCrashHandler();
     }
 
+
     @Override
     public void onServiceBind(@NonNull XposedService service) {
         AndroidLog.d(TAG, "LSPosed service connected: " + service.getFrameworkName() + " v" + service.getFrameworkVersion());
@@ -106,28 +107,5 @@ public class Application extends fan.app.Application
                 System.exit(1);
             }
         });
-    }
-
-    @Override
-    public void onServiceBind(@NonNull XposedService service) {
-        AndroidLog.d(TAG, "LSPosed service connected: " + service.getFrameworkName() + " v" + service.getFrameworkVersion());
-        synchronized (this) {
-            isModuleActivated = true;
-            ScopeManager.setService(service);
-            PrefsUtils.remotePrefs =
-                (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
-
-            PrefsUtils.syncAllToRemotePrefs();
-            reloadListener.run();
-        }
-    }
-
-    @Override
-    public void onServiceDied(@NonNull XposedService xposedService) {
-        AndroidLog.e(TAG, "LSPosed service died.");
-        synchronized (this) {
-            isModuleActivated = false;
-            PrefsUtils.remotePrefs = null;
-        }
     }
 }

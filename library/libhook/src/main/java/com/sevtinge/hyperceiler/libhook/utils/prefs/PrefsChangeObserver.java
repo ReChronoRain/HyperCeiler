@@ -95,7 +95,7 @@ public class PrefsChangeObserver extends ContentObserver {
     }
 
     private void applyChange() {
-        mPrefsMap.put(name, switch (prefType) {
+        PrefsBridge.put(name, switch (prefType) {
             case String -> PrefsUtils.getSharedStringPrefs(context, name, (String) def);
             case StringSet -> PrefsUtils.getSharedStringSetPrefs(context, name);
             case Integer -> PrefsUtils.getSharedIntPrefs(context, name, (Integer) def);

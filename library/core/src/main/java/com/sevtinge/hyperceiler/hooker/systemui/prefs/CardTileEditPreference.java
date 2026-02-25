@@ -152,7 +152,7 @@ public class CardTileEditPreference extends Preference {
             builder.append(tile).append("|");
         }
         String mCardStyleTiles = "List_" + builder;
-        PrefsUtils.putString("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
+        PrefsBridge.putString("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
     }
 
     public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {

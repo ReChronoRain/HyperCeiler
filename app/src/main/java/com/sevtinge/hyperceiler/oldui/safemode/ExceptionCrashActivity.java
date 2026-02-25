@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.oldui.safemode.widget.CrashInfoItem;
 
 import java.io.PrintWriter;

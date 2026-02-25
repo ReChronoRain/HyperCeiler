@@ -66,10 +66,10 @@ public class CleanOpenMenu extends BaseHook {
 
                             switch (type) {
                                 case PrefType.StringSet ->
-                                        mPrefsMap.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));
+                                    PrefsBridge.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));
 
                                 case PrefType.Integer ->
-                                        mPrefsMap.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, 0));
+                                    PrefsBridge.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, 0));
                             }
                         } catch (Throwable t) {
                             XposedLog.e(TAG, getPackageName(), t);

@@ -142,9 +142,6 @@ public class PrefsUtils {
         mSharedPreferences = getSharedPrefs(context);
     }
 
-    public static SharedPreferences getSharedPrefs(Context context) {
-        return getSharedPrefs(context, false);
-    }
 
     public static boolean getSharedBoolPrefs(Context context, String name, boolean defValue) {
         try {

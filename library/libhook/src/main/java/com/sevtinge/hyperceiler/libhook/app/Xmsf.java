@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.xmsf.UnlockFoucsAuth;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.xmsf")
 public class Xmsf extends BaseLoad {
@@ -31,6 +32,6 @@ public class Xmsf extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(UnlockFoucsAuth.INSTANCE, mPrefsMap.getBoolean("xmsf_unlock_foucs_app_sign_white_list"));
+        initHook(UnlockFoucsAuth.INSTANCE, PrefsBridge.getBoolean("xmsf_unlock_foucs_app_sign_white_list"));
     }
 }

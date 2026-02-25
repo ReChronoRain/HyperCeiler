@@ -86,8 +86,8 @@ public class FolderShade extends HomeBaseHookNew {
                             bkg = null;
                         }
                         new Handler(context.getMainLooper()).post(() -> {
-                            mPrefsMap.put("prefs_key_home_folder_shade", String.valueOf(opt));
-                            mPrefsMap.put("prefs_key_home_folder_shade_level", level);
+                            PrefsBridge.put("prefs_key_home_folder_shade", String.valueOf(opt));
+                            PrefsBridge.put("prefs_key_home_folder_shade_level", level);
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {

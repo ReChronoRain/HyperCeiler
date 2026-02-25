@@ -125,7 +125,7 @@ public class ScreenSwipe extends BaseHook {
             default -> null;
         };
         if (value != null) {
-            mPrefsMap.put(name, value);
+            PrefsBridge.put(name, value);
         }
     }
 
