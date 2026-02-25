@@ -124,12 +124,12 @@
     <string name="load_apps_failed">アプリリストの読み込みに失敗しました</string>
     <string name="log_viewer">ログビューア</string>
     <string name="log_search_hint">ログを検索</string>
-    <string name="log_type_label">ログの種類:</string>
-    <string name="log_level_label">レベル:</string>
-    <string name="log_tag_label">タグ:</string>
+    <string name="log_type_label">ログの種類</string>
+    <string name="log_level_label">レベル</string>
+    <string name="log_tag_label">タグ</string>
     <string name="log_type_app">アプリログ</string>
     <string name="log_type_xposed">Xposed ログ</string>
-    <string name="log_filter_stats">表示: %1$d/%2$d</string>
+    <string name="log_filter_stats">ログリスト (%1$d/%2$d)</string>
     <string name="log_filter_all">すべて</string>
     <string name="log_tag_other">その他</string>
     <string name="log_menu_clear">ログを消去</string>
@@ -154,4 +154,5 @@
     <string name="log_detail_level">レベル</string>
     <string name="log_detail_tag">タグ</string>
     <string name="log_detail_message">詳細</string>
+    <string name="xmsf">Xiaomi サービスフレームワーク</string>
 </resources>

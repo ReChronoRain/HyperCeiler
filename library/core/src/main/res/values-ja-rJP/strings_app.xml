@@ -133,7 +133,7 @@
     <string name="about_github">ソースコード</string>
     <string name="about_github_desc">このプロジェクトは、AGPL-3.0 ライセンスに基づいたオープンソースです</string>
     <string name="about_offical">公式 Web サイト</string>
-    <string name="about_crwd">Crowdin</string>
+    <string name="about_crwd">翻訳</string>
     <string name="about_crwd_desc">HyperCeiler の翻訳にご協力ください</string>
     <string name="about_privacy">プライバシーポリシー</string>
     <string name="about_protocol">利用規約</string>
@@ -1513,7 +1513,7 @@
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
     <string name="various_phrase_clipboardlist">クリップボードの数と時間の制限を削除</string>
-    <string name="various_phrase_clipboardlist_more">有効にした後、入力メソッドのスコープを選択して再起動してください。</string>
+    <string name="various_phrase_clipboardlist_more">有効にした後、対応する入力方式のスコープを選択して再起動してください。</string>
     <string name="various_unlock_ime">IME をアンロック</string>
     <string name="various_unlock_ime_desc">オンにした後、LSPosed マネージャーでキーボードアプリをスコープに追加してください。</string>
     <string name="various_collapse_miui_title">システムタイトルのスタイル</string>
@@ -1643,5 +1643,10 @@
     <string name="security_center_disable_safepay_auto_check">アプリの自動チェックを無効化</string>
     <string name="weather_unlock_blur_title">全体で高度なマテリアルを有効化</string>
     <string name="weather_unlock_blur_desc">一部のバージョンでのみサポートされています。デバイスは HyperOS 3 以降を実行している必要があります</string>
-    <string name="phrase">クリップボードと定型文</string>
+    <string name="phrase">クリップボードとよく使用するフレーズ</string>
+    <string name="development_tools">デバッグ</string>
+    <string name="development_system">マネージャー</string>
+    <string name="development_cache">キャッシュ &amp; ログ</string>
+    <string name="milink_unlock_send_app">すべてのアプリの転送をアンロック</string>
+    <string name="milink_unlock_send_app_desc">「デバイス相互接続サービス」のスコープを追加で選択する必要があります</string>
 </resources>

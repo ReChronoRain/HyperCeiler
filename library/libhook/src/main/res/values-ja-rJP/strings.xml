@@ -122,4 +122,5 @@
     <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
     <string name="misound_bluetooth_type_misound">Xiaomi サウンド</string>
     <string name="misound_bluetooth_type_keep">現在のサウンド効果を保持</string>
+    <string name="aicr">Xiaomi HyperAI エンジン</string>
 </resources>
