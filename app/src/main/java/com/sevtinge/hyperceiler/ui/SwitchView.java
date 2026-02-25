@@ -102,7 +102,7 @@ public class SwitchView extends FrameLayout {
     private void updateCapsuleNavLayout(LayoutParams lp) {
         lp.width = LayoutParams.MATCH_PARENT;
         // 关键：容器本身只占 56dp 高度
-        lp.height = LayoutParams.WRAP_CONTENT;
+        lp.height = LayoutParams.MATCH_PARENT;
         // 关键：重心设为顶部，这样它就不会被底部的 Padding 挤到中间或顶上去
         lp.gravity = Gravity.CENTER;
         mTabContainer.setPadding(0, 0, 0, 0);
@@ -195,7 +195,7 @@ public class SwitchView extends FrameLayout {
         itemView.setOnClickListener(v -> setSelectedTab(mItemViews.indexOf(itemView), true));
 
         // 5. 底部样式平分宽度
-        mTabContainer.addView(itemView, new LinearLayout.LayoutParams(0, -1, 1.0f));
+        mTabContainer.addView(itemView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f));
         mItemViews.add(itemView);
     }
 
