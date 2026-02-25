@@ -130,6 +130,8 @@
         <item name="preferenceSecondaryTextColor">@color/miuix_preference_secondary_text_dark</item>
         <item name="windowSplitActionBar">true</item>
 
+        <item name="colorDividerLine">@color/miuix_default_color_outline_dark</item>
+
 
         <item name="textColorDialogListItem">@color/miuix_appcompat_dialog_list_text_dark</item>
         <item name="dialogListPreferredItemHeight">@dimen/miuix_appcompat_dialog_list_preferred_item_height</item>

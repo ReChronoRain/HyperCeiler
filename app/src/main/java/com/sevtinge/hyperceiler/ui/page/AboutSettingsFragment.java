@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.ui.page;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
+
 import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,12 +25,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.fan.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.about.DeviceInfoCard;
 import com.sevtinge.hyperceiler.about.DeviceNameCard;
 import com.sevtinge.hyperceiler.about.VersionCard;
 import com.sevtinge.hyperceiler.about.VersionNameCard;
 import com.sevtinge.hyperceiler.about.controller.BgEffectController;
 import com.sevtinge.hyperceiler.common.utils.ActionBarUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
+import com.sevtinge.hyperceiler.ui.HomePageActivity;
+import com.sevtinge.hyperceiler.ui.SwitchManager;
+import com.sevtinge.hyperceiler.ui.SwitchView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -36,7 +43,12 @@ import java.util.List;
 import fan.animation.Folme;
 import fan.animation.base.AnimConfig;
 import fan.appcompat.app.ActionBar;
+import fan.appcompat.internal.app.widget.ActionBarImpl;
+import fan.core.utils.MiuixUIUtils;
+import fan.core.utils.UIUtils;
+import fan.core.utils.WindowUtils;
 import fan.device.DeviceUtils;
+import fan.internal.utils.DisplayHelper;
 import fan.internal.utils.ViewUtils;
 import fan.os.Build;
 import fan.preference.PreferenceFragment;
@@ -48,6 +60,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     VersionCard mVersionCardView;
     DeviceNameCard mDeviceNameCardView;
     VersionNameCard mVersionNameCardView;
+    DeviceInfoCard mDeviceInfoCardView;
 
     private int scrollValue = 0;
 
@@ -77,7 +90,6 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private List<View> mCards = new ArrayList<>();
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -104,8 +116,9 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             mVersionCardView = mRootView.findViewById(R.id.version_card_view);
             mVersionCardView.setCardClickView(mVersionCardClickView, getAppCompatActionBar().getActionBarView());
 
-            mDeviceNameCardView = mRootView.findViewById(R.id.device_name_card_view);
-            mVersionNameCardView = mRootView.findViewById(R.id.version_name_card_view);
+            //mDeviceNameCardView = mRootView.findViewById(R.id.device_name_card_view);
+            //mVersionNameCardView = mRootView.findViewById(R.id.version_name_card_view);
+            mDeviceInfoCardView = mRootView.findViewById(R.id.device_info_card_view);
 
             //noteLyout = view.findViewById(R.id.disclaimer);
             scrollView = mRootView.findViewById(R.id.scrollview);
@@ -128,6 +141,44 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         if (recyclerView != null) {
             recyclerView.setFocusableInTouchMode(false);
         }
+
+        if (requireActivity() instanceof HomePageActivity activity) {
+            SwitchManager switchManager = activity.getSwitchManager();
+            SwitchView switchView = switchManager.getSwitchView();
+            switchView.post(() -> {
+                int[] switchLocation = new int[2];
+                int[] versionCardClickLocation = new int[2];
+
+                switchView.getLocationOnScreen(switchLocation);
+                int switchTop = switchLocation[1];
+                //Toast.makeText(requireContext(), "1 " + switchTop, Toast.LENGTH_SHORT).show();
+
+                mVersionCardClickView.getLocationOnScreen(versionCardClickLocation);
+                int versionCardClickTop = versionCardClickLocation[1];
+                //Toast.makeText(requireContext(), "2 " + versionCardClickTop, Toast.LENGTH_SHORT).show();
+
+                int h1 = switchTop - versionCardClickTop;
+
+                mDeviceInfoCardView.post(() -> {
+                    int deviceHeight = mDeviceInfoCardView.getHeight();
+
+                    int nav = requireContext().getResources().getDimensionPixelSize(fan.theme.R.dimen.miuix_theme_content_padding_end);
+
+                    int h = h1 - nav - deviceHeight;
+
+                    if (switchManager.isFloatingStyle()) {
+                        h += dp2px(4);
+                    }
+
+                    if (h >= 700) {
+                        ViewGroup.LayoutParams params = mVersionCardClickView.getLayoutParams();
+                        params.height = h;
+                        mVersionCardClickView.setLayoutParams(params);
+                    }
+                });
+            });
+        }
+
     }
 
     @Override
@@ -272,8 +323,9 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     }
 
     private void initCardView() {
-        mCards.add(mDeviceNameCardView);
-        mCards.add(mVersionNameCardView);
+        //mCards.add(mDeviceNameCardView);
+        //mCards.add(mVersionNameCardView);
+        mCards.add(mDeviceInfoCardView);
         mVersionCardView.refreshUpdateStatus(getAppCompatActionBar().getTitleView(0), mBgEffectView);
         mVersionCardView.refreshVersionName();
         mVersionCardView.setCardClickView(mVersionCardClickView, getAppCompatActionBar().getActionBarView());

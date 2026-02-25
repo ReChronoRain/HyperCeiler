@@ -11,4 +11,8 @@
         <item name="strokeGradientColors">@array/app_update_card_stroke_gradient_colors_light</item>
         <item name="strokeWidth">1dp</item>
     </style>
+
+    <style name="HeaderRecyclerViewCardStyle" parent="RecyclerViewCardStyle.DayNight">
+        <item name="cardGroupMarginTop">333dp</item>
+    </style>
 </resources>

@@ -131,7 +131,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public void checkUpdate() {
-        mNeedUpdate = true;
+        mNeedUpdate = !TextUtils.isEmpty(getUpdateInfo());
     }
 
     public void refreshBetaView(String str) {
@@ -153,8 +153,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
 
     public void refreshUpdateStatus(View actionBar, View bgEffectView) {
         boolean needUpdate = false;
-        String updateInfo = "";
-        if ((TextUtils.isEmpty(updateInfo)) == mNeedUpdate) {
+        String updateInfo = getUpdateInfo();
+        if ((!TextUtils.isEmpty(updateInfo)) != mNeedUpdate) {
             mNeedStartAnim = true;
             mActionBar = actionBar;
             mBgEffectView = bgEffectView;
@@ -261,10 +261,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         mActionBar = view2;
         mCardClickView = view;
         view.setOnClickListener(this);
-        boolean needUpdate = false;
-        if (!TextUtils.isEmpty("")) {
-            needUpdate = true;
-        }
+        boolean needUpdate = !TextUtils.isEmpty(getUpdateInfo());
         mNeedUpdate = needUpdate;
         if (needUpdate) {
             mUpdateText.setAccessibilityTraversalBefore(R.id.version_card_click_view);
@@ -294,6 +291,10 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         mHandler.removeMessages(0);
+    }
+
+    public String getUpdateInfo() {
+        return "123";
     }
 }
 

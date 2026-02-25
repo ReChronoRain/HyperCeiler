@@ -1,5 +1,8 @@
 package com.sevtinge.hyperceiler.about.controller;
 
+import static com.sevtinge.hyperceiler.about.controller.BgEffectDataManager.DeviceType.PHONE;
+import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+
 public class BgEffectDataManager {
 
     public BgEffectData mPhoneLightData;
@@ -104,6 +107,7 @@ public class BgEffectDataManager {
         mPhoneDarkData.gradientColors2 = new float[]{0.07f, 0.15f, 0.79f, 0.5f, 0.62f, 0.21f, 0.67f, 0.5f, 0.06f, 0.25f, 0.84f, 0.5f, 0.0f, 0.2f, 0.78f, 0.5f};
         mPhoneDarkData.gradientColors3 = new float[]{0.58f, 0.3f, 0.74f, 0.4f, 0.27f, 0.18f, 0.6f, 0.5f, 0.66f, 0.26f, 0.62f, 0.5f, 0.12f, 0.16f, 0.7f, 0.6f};
 
+
         mPadDarkData = new BgEffectData();
         mPadDarkData.uTranslateY = 0.0f;
         mPadDarkData.uPoints = new float[]{0.8f, 0.2f, 1.0f, 0.8f, 0.9f, 1.0f, 0.2f, 0.9f, 1.0f, 0.2f, 0.2f, 1.0f};
@@ -127,14 +131,23 @@ public class BgEffectDataManager {
     }
 
     public BgEffectData getData(DeviceType deviceType, ThemeMode themeMode) {
-        switch (deviceType) {
-            case PHONE -> {
-                return themeMode == ThemeMode.LIGHT ? mPhoneLightData : mPhoneDarkData;
+        BgEffectData data = null;
+        if (themeMode == ThemeMode.LIGHT) {
+            data = deviceType == PHONE ? mPhoneLightData : mPadLightData;
+            if (isLunarNewYearThemeView) {
+                data.gradientColors1 = new float[]{1.0f, 0.83f, 0.68f, 1.0f, 0.92f, 0.56f, 0.47f, 1.0f, 0.98f, 0.74f, 0.72f, 1.0f, 1.0f, 0.62f, 0.53f, 1.0f};
+                data.gradientColors2 = new float[]{1.0f, 0.83f, 0.68f, 1.0f, 0.92f, 0.56f, 0.47f, 1.0f, 0.98f, 0.74f, 0.72f, 1.0f, 1.0f, 0.62f, 0.53f, 1.0f};
+                data.gradientColors3 = new float[]{1.0f, 0.83f, 0.68f, 1.0f, 0.92f, 0.56f, 0.47f, 1.0f, 0.98f, 0.74f, 0.72f, 1.0f, 1.0f, 0.62f, 0.53f, 1.0f};
             }
-            case TABLET -> {
-                return themeMode == ThemeMode.LIGHT ? mPadLightData : mPadDarkData;
+        } else if (themeMode == ThemeMode.DARK){
+            data = deviceType == PHONE ? mPhoneDarkData : mPadDarkData;
+            if (isLunarNewYearThemeView) {
+                data.gradientColors1 = new float[]{0.58f, 0.4f, 0.28f, 1.0f, 0.48f, 0.12f, 0.1f, 1.0f, 0.56f, 0.28f, 0.12f, 1.0f, 0.46f, 0.16f, 0.11f, 1.0f};
+                data.gradientColors2 = new float[]{0.58f, 0.4f, 0.28f, 1.0f, 0.48f, 0.12f, 0.1f, 1.0f, 0.56f, 0.28f, 0.12f, 1.0f, 0.46f, 0.16f, 0.11f, 1.0f};
+                data.gradientColors3 = new float[]{0.58f, 0.4f, 0.28f, 1.0f, 0.48f, 0.12f, 0.1f, 1.0f, 0.56f, 0.28f, 0.12f, 1.0f, 0.46f, 0.16f, 0.11f, 1.0f};
             }
-            default -> throw new IllegalArgumentException("Unsupported device type: " + deviceType);
         }
+
+        return data;
     }
 }

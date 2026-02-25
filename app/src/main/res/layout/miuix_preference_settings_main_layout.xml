@@ -7,12 +7,12 @@
     android:clipChildren="false"
     android:gravity="center_vertical"
     android:minHeight="@dimen/miuix_preference_item_min_height"
-    android:paddingStart="@dimen/miuix_preference_main_padding_start"
+    android:paddingStart="@dimen/miuix_preference_main_padding_end"
     android:paddingEnd="@dimen/miuix_preference_main_padding_end">
 
     <ImageView
         android:id="@android:id/icon"
-        style="@style/Widget.PreferenceIcon.Avator"
+        style="@style/Widget.PreferenceIcon"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:gravity="center"

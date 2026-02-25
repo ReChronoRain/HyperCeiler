@@ -218,7 +218,7 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
                     value = itemView.findViewById(fan.preference.R.id.text_right);
                     if (icon != null && icon.getParent() != null) {
                         LinearLayout parent = (LinearLayout) icon.getParent();
-                        icon.setMinimumWidth(icon.getContext().getResources().getDimensionPixelSize(R.dimen.header_icon_size));
+                        icon.setMaxHeight(icon.getContext().getResources().getDimensionPixelSize(R.dimen.header_icon_size));
                         parent.setMinimumWidth(0);
                     }
                 }

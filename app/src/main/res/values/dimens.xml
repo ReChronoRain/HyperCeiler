@@ -25,15 +25,15 @@
     <dimen name="search_tv_padding_start_and_end">22dp</dimen>
 
 
-    <dimen name="settings_banner_icon_size">34dp</dimen>
+    <dimen name="settings_banner_icon_size">72dp</dimen>
     <dimen name="settings_banner_icon_width">40.0dp</dimen>
 
     <dimen name="settings_banner_text_padding_top_and_bottom">14.0dp</dimen>
 
     <dimen name="settings_banner_arrow_right_padding_start">26dp</dimen>
 
-    <dimen name="settings_banner_ly_padding_top_and_bottom">6dp</dimen>
-    <dimen name="settings_banner_ly_inner_padding_start_and_end">13dp</dimen>
+    <dimen name="settings_banner_ly_padding_top_and_bottom">13dp</dimen>
+    <dimen name="settings_banner_ly_inner_padding_start_and_end">16dp</dimen>
 
 
     <dimen name="bottom_sheet_dialog_title_margin_top">8dp</dimen>
@@ -57,7 +57,7 @@
     <dimen name="custom_order_action_bar_padding_start">20dp</dimen>
     <dimen name="custom_order_action_bar_padding_end">20dp</dimen>
 
-    <dimen name="header_icon_size">28dp</dimen>
+    <dimen name="header_icon_size">38dp</dimen>
 
     <dimen name="miuix_preference_rv_top_padding">4.269989dp</dimen>
     <dimen name="app_home_settings_recyclerview_padding_bottom">28dp</dimen>

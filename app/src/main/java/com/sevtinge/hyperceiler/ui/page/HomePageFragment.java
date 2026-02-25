@@ -401,7 +401,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onViewInflated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewInflated(view, savedInstanceState);
-        getActionBar().setTitle(R.string.navigation_home_title);
+        getActionBar().setTitle(com.sevtinge.hyperceiler.core.R.string.app_name);
         setExtraHorizontalPaddingEnable(true);
         mNestedHeaderLayout = view.findViewById(R.id.nestedheaderlayout);
         registerCoordinateScrollView(mNestedHeaderLayout);
@@ -500,7 +500,9 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         mListView.setLayoutManager(manager);
         mListView.setAdapter(mProxyAdapter);
         if (mListView.getItemDecorationCount() == 0) {
-            mListView.addItemDecoration(new CardItemDecoration(getActivity()));
+            CardItemDecoration decoration = new CardItemDecoration(getActivity());
+            decoration.setCardMarginTop(getContext().getResources().getDimensionPixelSize(R.dimen.settings_banner_ly_padding_top_and_bottom));
+            mListView.addItemDecoration(decoration);
         }
         mProxyAdapter.updateGroupInfo();
         if (!mIsInActionMode) {

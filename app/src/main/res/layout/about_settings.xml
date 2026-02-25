@@ -27,7 +27,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_logo_area_height" />
 
-                <include layout="@layout/app_device_layout" />
+                <com.sevtinge.hyperceiler.about.DeviceInfoCard
+                    android:id="@+id/device_info_card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!--<include layout="@layout/app_device_layout" />-->
 
                 <RelativeLayout
                     android:id="@+id/device_params"

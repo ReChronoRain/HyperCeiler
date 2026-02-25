@@ -21,7 +21,7 @@
         <ImageView
             android:id="@android:id/icon"
             android:layout_width="@dimen/settings_banner_icon_size"
-            android:layout_height="@dimen/settings_banner_icon_size"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/settings_banner_ly_inner_padding_start_and_end"
             android:adjustViewBounds="true"

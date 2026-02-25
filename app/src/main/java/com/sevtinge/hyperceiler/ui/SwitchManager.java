@@ -34,9 +34,15 @@ public class SwitchManager {
     private SwitchView mSwitchView;        // 负责 Tab 逻辑的组件
     private OnSwitchChangeListener mUserListener;
 
+    private boolean isFloatingStyle;
+
     public SwitchManager(ViewGroup parent) {
         mParent = parent;
         mContext = parent.getContext();
+    }
+
+    public boolean isFloatingStyle() {
+        return isFloatingStyle;
     }
 
     /**
@@ -65,6 +71,7 @@ public class SwitchManager {
      * @param useFloating true: 悬浮药丸样式, false: 底部贴地样式
      */
     public void setFloatingStyle(boolean useFloating) {
+        isFloatingStyle = useFloating;
         if (useFloating) {
             applyCapsuleStyle();
         } else {
@@ -201,5 +208,9 @@ public class SwitchManager {
 
     public MaterialDayNightConfig getDayNightConfig() {
         return MaterialDayNightConfig.create(Mask.Pured_Regular);
+    }
+
+    public SwitchView getSwitchView() {
+        return mSwitchView;
     }
 }

@@ -76,10 +76,12 @@ public class HomePageBannerManager {
                 !isWhileXposed ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_xposed :
                     !isFullSupport ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_sysver : -1;
 
-        list.add(createLocalWarningBean(
-            "warning",
-            titleResId != -1 ? context.getString(titleResId) : null,
-            null));
+        if (titleResId != -1) {
+            list.add(createLocalWarningBean(
+                "warning",
+                context.getString(titleResId),
+                null));
+        }
 
         if (isSupportAutoSafeMode()) {
             list.add(createLocalTipBean(
