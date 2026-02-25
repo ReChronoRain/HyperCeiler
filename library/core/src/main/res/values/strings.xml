@@ -171,4 +171,6 @@
     <string name="xmsf">Xiaomi Service Framework</string>
     <string name="xmsf_unlock_foucs_app_sign_white_list">Unlock Focus Notification Whitelist Signature Verification</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">Allow all apps to send focus notifications to the watch/bracelet.</string>
+    <string name="system_ui_system_ui_statusbar_music_fallback_focus_notification_title">回退到默认布局，不使用自定义布局</string>
+    <string name="system_ui_statusbar_music_fallback_focus_notification_desc">回退后无法修改布局字体及字数限制</string>
 </resources>
