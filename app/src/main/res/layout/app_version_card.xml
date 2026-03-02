@@ -5,12 +5,12 @@
 
     <LinearLayout
         android:id="@+id/app_logo"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/app_logo_margin_top">
+        android:layout_marginTop="@dimen/app_logo_margin_top"
+        android:gravity="center"
+        android:orientation="vertical">
 
         <ImageView
             android:id="@+id/app_logo_view"
@@ -53,17 +53,20 @@
 
     <fan.cardview.HyperCardView
         android:id="@+id/update_hint_text"
+        style="@style/AppUpdateCardStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/version_layout"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="28dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="@dimen/app_update_btn_margin_bottom"
         android:maxWidth="312dp"
         android:minWidth="248dp"
         android:minHeight="50dp"
-        style="@style/AppUpdateCardStyle">
+        >
 
         <TextView
             android:layout_width="wrap_content"

@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -57,7 +58,8 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     public AboutAnimationController mAboutAnimationController;
     private int mScrollValue = 0;
     private String mVersionName;
-    private Handler mHandler = new Handler() {
+    private String mUpdateInfo = "";
+    private final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
         public void handleMessage(@NonNull Message msg) {
             if (isAttachedToWindow()) {
@@ -109,6 +111,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         mUpdateText.setClickable(false);
 
         checkUpdate();
+        applyUpdateButtonVisibility();
 
         mAboutAnimationController = new AboutAnimationController(getContext(), mNeedUpdate);
 
@@ -134,6 +137,15 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         mNeedUpdate = !TextUtils.isEmpty(getUpdateInfo());
     }
 
+    private void applyUpdateButtonVisibility() {
+        if (mNeedUpdate) {
+            mUpdateText.setVisibility(View.VISIBLE);
+        } else {
+            mUpdateText.setVisibility(View.GONE);
+            mUpdateText.setClickable(false);
+        }
+    }
+
     public void refreshBetaView(String str) {
         TextView textView = findViewById(R.id.version_text);
         if (textView != null) {
@@ -154,7 +166,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     public void refreshUpdateStatus(View actionBar, View bgEffectView) {
         boolean needUpdate = false;
         String updateInfo = getUpdateInfo();
-        if ((!TextUtils.isEmpty(updateInfo)) != mNeedUpdate) {
+        if ((TextUtils.isEmpty(updateInfo)) == mNeedUpdate) {
             mNeedStartAnim = true;
             mActionBar = actionBar;
             mBgEffectView = bgEffectView;
@@ -287,6 +299,16 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         mAboutAnimationController.startAnimation(i, mIconView, mUpdateText, mVersionLayout, view, view2);
     }
 
+    public void setUpdateInfo(@Nullable String updateInfo) {
+        mUpdateInfo = updateInfo == null ? "" : updateInfo.trim();
+        checkUpdate();
+        applyUpdateButtonVisibility();
+        if (mNeedUpdate) {
+            mNeedStartAnim = true;
+            invalidate();
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
@@ -294,7 +316,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     public String getUpdateInfo() {
-        return "123";
+        return mUpdateInfo;
     }
 }
 

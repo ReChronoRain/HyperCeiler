@@ -70,9 +70,9 @@
     <dimen name="app_logo_height">40dp</dimen>
     <dimen name="app_logo_bottom">250dp</dimen>
 
-    <dimen name="app_logo_margin_top">29dp</dimen>
+    <dimen name="app_logo_margin_top">95dp</dimen>
 
-    <dimen name="app_update_btn_margin_bottom">60dp</dimen>
+    <dimen name="app_update_btn_margin_bottom">30dp</dimen>
 
     <dimen name="app_update_card_shadow_dx">0dp</dimen>
     <dimen name="app_update_card_shadow_dy">20dp</dimen>
