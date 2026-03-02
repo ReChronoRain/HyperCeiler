@@ -163,6 +163,7 @@
     <string name="settings_icon_medium">Middle</string>
     <string name="settings_icon_down">Bottom</string>
     <string name="settings_icon_mode">Icon style</string>
+    <string name="settings_float_nav">Floating Bottom Bar</string>
     <string name="settings_app_language">Language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>

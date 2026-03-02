@@ -20,8 +20,6 @@ package com.sevtinge.hyperceiler.common.utils.search;
 
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.common.model.data.ModData;
-
 public class SearchResultItem implements Comparable<SearchResultItem> {
 
     public static final int SEARCH_ITEM_NORMAL = 0;
@@ -35,8 +33,6 @@ public class SearchResultItem implements Comparable<SearchResultItem> {
     public String title;
     public String breadcrumbs;
     public String key;
-    public ModData.ModCat cat;
-    public String sub;
     public int order;
     public String fragment;
     public int catTitleResId;

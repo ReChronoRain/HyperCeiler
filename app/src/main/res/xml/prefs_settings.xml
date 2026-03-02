@@ -27,7 +27,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_settings_float_nav"
-            android:title="悬浮底栏" />
+            android:title="@string/settings_float_nav" />
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
@@ -53,6 +53,7 @@
             app:entryValues="@array/settings_app_language_value" />
 
         <Preference
+            app:isPreferenceVisible="false"
             android:key="prefs_key_set_homepage_entrance"
             android:title="@string/set_homepage_entrance"
             android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.helper.HomepageEntrance" />

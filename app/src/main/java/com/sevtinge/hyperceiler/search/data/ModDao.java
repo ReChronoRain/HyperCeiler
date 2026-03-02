@@ -22,7 +22,7 @@ public interface ModDao {
     @Query("SELECT mods.* FROM mods " +
         "JOIN mods_fts ON (mods.id = mods_fts.rowid) " +
         "WHERE mods_fts MATCH :query " +
-        "ORDER BY mods.item_order ASC")
+        "ORDER BY mods.groupName ASC, mods.item_order ASC")
     List<ModEntity> search(String query);
 
     // 临时测试用：

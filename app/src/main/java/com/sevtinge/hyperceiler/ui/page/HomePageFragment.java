@@ -28,18 +28,17 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.sevtinge.hyperceiler.home.HomePageHeaderHelper;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.SettingsFeatures;
-import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.FlowLayout;
 import com.sevtinge.hyperceiler.home.Header;
+import com.sevtinge.hyperceiler.home.HomePageHeaderHelper;
 import com.sevtinge.hyperceiler.home.IntentUtils;
 import com.sevtinge.hyperceiler.home.OnCompleteCallBack;
 import com.sevtinge.hyperceiler.home.SearchResultAdapter;
 import com.sevtinge.hyperceiler.home.banner.BannerBean;
-import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
+import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
@@ -142,10 +141,14 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             String query = (s == null) ? "" : s.toString().trim();
             mSearchText = query; // 更新成员变量供 refreshSearchResult 使用
             if (TextUtils.isEmpty(query)) {
+                // 输入框为空：隐藏搜索结果，显示搜索历史（如有）
                 if (mSearchResultListView != null) {
                     mSearchResultListView.setVisibility(View.GONE);
                 }
+                setSearchHistoryVisiable(mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty());
             } else {
+                // 有输入内容：隐藏搜索历史，显示搜索结果
+                setSearchHistoryVisiable(false);
                 if (mSearchResultListView != null) {
                     mSearchResultListView.setVisibility(View.VISIBLE);
                 }
@@ -196,6 +199,24 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             searchActionMode.setAnimateView(mListView);
             searchActionMode.setResultView(mSearchResultLinearLayout);
             searchActionMode.setAnchorApplyExtraPaddingByUser(true);
+
+            // 持续隐藏 search_mask，防止系统重新显示
+            if (mAnchorView != null) {
+                mAnchorView.post(() -> {
+                    try {
+                        View searchMask = getActivity().getWindow().getDecorView()
+                                .findViewById(fan.appcompat.R.id.search_mask);
+                        if (searchMask != null) {
+                            searchMask.setVisibility(View.GONE);
+                            searchMask.getViewTreeObserver().addOnGlobalLayoutListener(() -> {
+                                if (mIsInActionMode && searchMask.getVisibility() == View.VISIBLE) {
+                                    searchMask.setVisibility(View.GONE);
+                                }
+                            });
+                        }
+                    } catch (Exception ignored) {}
+                });
+            }
 
             mSearchInput = searchActionMode.getSearchInput();
             //mSearchInput.setOnTouchListener(new SettingsFragment$12$2(this));

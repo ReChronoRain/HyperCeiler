@@ -18,7 +18,10 @@ public class ModEntity {
     @ColumnInfo(name = "item_order")
     public int order;
 
-    // 新增：保存分类的资源 ID
+    // 保存分类的资源 ID
     public int catTitleResId;
+
+    // 一级分组名（如 "系统界面"、"浏览器"），用于搜索结果按应用分组
+    public String groupName;
 }
 

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 @Database(
     entities = {ModEntity.class, ModFtsEntity.class},
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 public abstract class AppDatabase extends RoomDatabase {
@@ -20,7 +20,9 @@ public abstract class AppDatabase extends RoomDatabase {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
-                        AppDatabase.class, "mod_search.db").build();
+                            AppDatabase.class, "mod_search.db")
+                        .fallbackToDestructiveMigration()
+                        .build();
                 }
             }
         }
