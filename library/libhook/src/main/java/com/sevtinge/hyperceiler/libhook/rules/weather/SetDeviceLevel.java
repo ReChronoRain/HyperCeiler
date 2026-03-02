@@ -24,7 +24,6 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.lang.reflect.Method;
 
@@ -48,7 +47,7 @@ public class SetDeviceLevel extends BaseHook {
             return null;
         }
         if (bundle == null) bundle = new Bundle();
-        int order = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "weather_device_level", "0"));
+        int order = PrefsBridge.getStringAsInt("weather_device_level", 0);
         bundle.putInt("current_sory_type", order - 1);
         bundle.putInt("current_sort_type", order - 1);
         return bundle;

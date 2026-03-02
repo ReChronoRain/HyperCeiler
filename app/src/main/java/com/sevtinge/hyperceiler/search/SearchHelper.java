@@ -14,7 +14,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
 import com.sevtinge.hyperceiler.search.data.ModDao;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
@@ -251,8 +251,7 @@ public class SearchHelper {
      * 根据用户设置的语言获取对应的 Resources 对象
      */
     private static Resources getLocaleResources(Context context) {
-        int selectedLang = Integer.parseInt(
-            PrefsUtils.getSharedStringPrefs(context, "prefs_key_settings_app_language", "0"));
+        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
         if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
         Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
 

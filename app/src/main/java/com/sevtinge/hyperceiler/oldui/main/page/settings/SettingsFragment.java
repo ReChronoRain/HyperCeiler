@@ -34,10 +34,8 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.oldui.main.fragment.PagePreferenceFragment;
 import com.sevtinge.hyperceiler.oldui.ui.LauncherActivity;
 
@@ -62,7 +60,7 @@ public class SettingsFragment extends PagePreferenceFragment
 
     @Override
     public void initPrefs() {
-        int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
+        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
         mLanguage = findPreference("prefs_key_settings_app_language");

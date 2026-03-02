@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.Iterator;
 import java.util.List;
@@ -66,10 +65,10 @@ public class CleanOpenMenu extends BaseHook {
 
                             switch (type) {
                                 case PrefType.StringSet ->
-                                    PrefsBridge.put(name, PrefsUtils.getSharedStringSetPrefs(mContext, name));
+                                    PrefsBridge.put(name, PrefsBridge.getStringSet(name));
 
                                 case PrefType.Integer ->
-                                    PrefsBridge.put(name, PrefsUtils.getSharedIntPrefs(mContext, name, 0));
+                                    PrefsBridge.put(name, PrefsBridge.getInt(name, 0));
                             }
                         } catch (Throwable t) {
                             XposedLog.e(TAG, getPackageName(), t);
@@ -140,7 +139,7 @@ public class CleanOpenMenu extends BaseHook {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 String mAimPackageName = (String) getObjectField(param.getThisObject(), "mAimPackageName");
                 if (mContext == null || mAimPackageName == null) return;
-                Set<String> selectedApps = PrefsUtils.getSharedStringSetPrefs(mContext, "system_framework_clean_open_apps");
+                Set<String> selectedApps = PrefsBridge.getStringSet("system_framework_clean_open_apps");
                 String mimeType = getContentType(mContext, mOriginalIntent);
                 Pair<Boolean, Boolean> isRemove = isRemoveApp(true, mContext, mAimPackageName, selectedApps, mimeType);
 
@@ -167,8 +166,8 @@ public class CleanOpenMenu extends BaseHook {
         int mimeFlags0;
         int mimeFlags999;
         if (dynamic) {
-            mimeFlags0 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|0", AppsTool.MimeType.ALL);
-            mimeFlags999 = PrefsUtils.getSharedIntPrefs(context, "pref_key_" + key + "_" + pkgName + "|999", AppsTool.MimeType.ALL);
+            mimeFlags0 = PrefsBridge.getInt(key + "_" + pkgName + "|0", AppsTool.MimeType.ALL);
+            mimeFlags999 = PrefsBridge.getInt(key + "_" + pkgName + "|999", AppsTool.MimeType.ALL);
         } else {
             mimeFlags0 = PrefsBridge.getInt(key + "_" + pkgName + "|0", AppsTool.MimeType.ALL);
             mimeFlags999 = PrefsBridge.getInt(key + "_" + pkgName + "|999", AppsTool.MimeType.ALL);

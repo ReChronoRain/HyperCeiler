@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.preference.PreferenceDataStore;
 
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.Set;
@@ -18,46 +19,47 @@ public class PrefsUtilsDataStore extends PreferenceDataStore {
 
     @Override
     public void putBoolean(String key, boolean value) {
-        PrefsUtils.editor().putBoolean(key, value).apply();
+        PrefsBridge.putBoolean(key, value);
         PrefsUtils.handlePreferenceChanged(key);
     }
 
     @Override
     public boolean getBoolean(String key, boolean defValue) {
-        return PrefsUtils.getSharedBoolPrefs(context, key, defValue);
+        return PrefsBridge.getBoolean(key, defValue);
     }
 
     @Override
     public void putString(String key, String value) {
-        PrefsUtils.editor().putString(key, value).apply();
+        PrefsBridge.putString(key, value);
         PrefsUtils.handlePreferenceChanged(key);
     }
 
     @Override
     public String getString(String key, String defValue) {
-        return PrefsUtils.getSharedStringPrefs(context, key, defValue);
+        return PrefsBridge.getString(key, defValue);
     }
 
     @Override
     public void putInt(String key, int value) {
-        PrefsUtils.editor().putInt(key, value).apply();
+        PrefsBridge.putInt(key, value);
         PrefsUtils.handlePreferenceChanged(key);
     }
 
     @Override
     public int getInt(String key, int defValue) {
-        return PrefsUtils.getSharedIntPrefs(context, key, defValue);
+        return PrefsBridge.getInt(key, defValue);
     }
 
     @Override
     public void putStringSet(String key, Set<String> values) {
-        PrefsUtils.editor().putStringSet(key, values).apply();
+        PrefsBridge.putStringSet(key, values);
         PrefsUtils.handlePreferenceChanged(key);
     }
 
     @Override
     public Set<String> getStringSet(String key, Set<String> defValues) {
-        return PrefsUtils.getSharedStringSetPrefs(context, key);
+        Set<String> values = PrefsBridge.getStringSet(key, defValues);
+        return values != null ? values : defValues;
     }
 }
 

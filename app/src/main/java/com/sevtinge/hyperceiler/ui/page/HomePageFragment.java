@@ -41,7 +41,7 @@ import com.sevtinge.hyperceiler.home.banner.BannerBean;
 import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.ui.adapter.HeaderAdapter;
@@ -364,7 +364,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         if (!TextUtils.isEmpty(query)) {
             ThreadUtils.postOnBackgroundThread(() -> {
                 List<String> searchHistory = mSearchHistorySPUtils.loadDataList("tagSearchHistory");
-                if (searchHistory.size() != 0) {
+                if (!searchHistory.isEmpty()) {
                     mSearchHistoryLists.clear();
                     mSearchHistoryLists.addAll(searchHistory);
                 }
@@ -396,7 +396,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mSearchHistoryFl.removeAllViews();
             LayoutInflater inflater = LayoutInflater.from(getContext());
             mSearchHistoryLists = mSearchHistorySPUtils.loadDataList("tagSearchHistory");
-            if (mSearchHistoryLists.size() != 0) {
+            if (!mSearchHistoryLists.isEmpty()) {
                 for (int size = mSearchHistoryLists.size() - 1; size >= 0; size--) {
                     final TextView textView = (TextView) inflater.inflate(R.layout.search_history_tv, mSearchHistoryFl, false);
                     String str = mSearchHistoryLists.get(size);
@@ -460,7 +460,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     @Override
     public void updateHeaderList(List<Header> headers) {
-        Set<String> headerRemoveList = PrefsUtils.getSharedStringSetPrefs(getContext(), "header_remove_list");
+        Set<String> headerRemoveList = PrefsBridge.getStringSet("header_remove_list");
         for (Header header : headers) {
 
             String pkgName = (header.summary != null) ? header.summary.toString() : "";

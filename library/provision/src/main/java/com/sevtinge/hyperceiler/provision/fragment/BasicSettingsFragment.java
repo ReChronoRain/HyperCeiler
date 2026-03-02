@@ -27,7 +27,7 @@ import androidx.preference.PreferenceDataStore;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.utils.PrefsUtilsDataStore;
 
@@ -75,14 +75,14 @@ public class BasicSettingsFragment extends PreferenceFragment {
             }
         });
 
-        int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(requireContext(), "prefs_key_settings_icon", "0"));
+        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
 
-        mHideAppIcon.setChecked(PrefsUtils.getSharedBoolPrefs(requireContext(), "prefs_key_settings_hide_app_icon", false));
+        mHideAppIcon.setChecked(PrefsBridge.getBoolean("prefs_key_settings_hide_app_icon", false));
         mIconModePreference.setValueIndex(mIconMode);
-        mIconModeValue.setValueIndex(Integer.parseInt(PrefsUtils.getSharedStringPrefs(requireContext(), "prefs_key_settings_icon_mode", "0")));
+        mIconModeValue.setValueIndex(PrefsBridge.getStringAsInt("prefs_key_settings_icon_mode", 0));
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener((preference, newValue) -> {

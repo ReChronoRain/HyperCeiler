@@ -15,24 +15,17 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.preference.CheckBoxPreference;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.fan.common.base.BasePreferenceFragment;
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.oldui.ui.LauncherActivity;
-import com.sevtinge.hyperceiler.ui.HomePageActivity;
-import com.sevtinge.hyperceiler.ui.SwitchManager;
 
 import fan.appcompat.app.AlertDialog;
-import fan.appcompat.app.AppCompatActivity;
 import fan.internal.utils.ViewUtils;
 import fan.preference.DropDownPreference;
 import fan.provider.Settings;
@@ -79,7 +72,7 @@ public class SettingsFragment extends BasePreferenceFragment
 
     @Override
     public void initPrefs() {
-        int mIconMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_settings_icon", "0"));
+        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
         mLanguage = findPreference("prefs_key_settings_app_language");

@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.oldui.utils;
 
-import static com.sevtinge.hyperceiler.oldui.Application.isModuleActivated;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getBrand;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getDeviceName;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getDeviceToken;
@@ -43,6 +42,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getXmsVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.oldui.Application.isModuleActivated;
 
 import android.content.Context;
 import android.util.Log;
@@ -52,7 +52,7 @@ import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 import com.sevtinge.hyperceiler.oldui.main.banner.HomePageBannerHelper;
 
 import java.text.SimpleDateFormat;
@@ -137,7 +137,7 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
-                PrefsUtils.getSharedBoolPrefs(context, "prefs_key_development_debug_mode", false)));
+                PrefsBridge.getBoolean("prefs_key_development_debug_mode", false)));
             propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(context));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(context)));

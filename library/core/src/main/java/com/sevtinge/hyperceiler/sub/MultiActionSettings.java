@@ -34,7 +34,6 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.preference.RadioButtonPreference;
 
@@ -85,7 +84,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     }
 
     private void updateAction() {
-        int value = hasKey(mActionKey) ? PrefsUtils.getSharedIntPrefs(getContext(), mActionKey, 0) : 0;
+        int value = hasKey(mActionKey) ? PrefsBridge.getInt(mActionKey, 0) : 0;
         switch (value) {
             case 0 -> mNoAction.setChecked(true);
             case 1 -> mOpenNotificationCenter.setChecked(true);

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.utils.pkg
 
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
 
 object DebugModeUtils {
 
@@ -35,14 +34,14 @@ object DebugModeUtils {
      */
     fun setChooseResult(pkg: String, isModified: Int) {
         clearChooseResult(pkg)
-        PrefsUtils.editor().putInt("prefs_key_debug_choose_$pkg", isModified).commit()
+        PrefsBridge.putInt("debug_choose_$pkg", isModified)
     }
 
     /**
      * 清除指定包名的调试版本号
      */
     fun clearChooseResult(pkg: String) {
-        PrefsUtils.editor().remove("prefs_key_debug_choose_$pkg").commit()
+        PrefsBridge.remove("debug_choose_$pkg")
     }
 
 }

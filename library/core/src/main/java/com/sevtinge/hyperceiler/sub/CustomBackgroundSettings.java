@@ -27,7 +27,6 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;
@@ -102,7 +101,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private boolean isCustomEnabled() {
-        return hasKey(mCustomBackgroundEnabledKey) && PrefsUtils.getSharedBoolPrefs(getContext(), mCustomBackgroundEnabledKey, false);
+        return hasKey(mCustomBackgroundEnabledKey) && PrefsBridge.getBoolean(mCustomBackgroundEnabledKey, false);
     }
 
     private void setColor() {
@@ -110,15 +109,15 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private int getColor(int defValue) {
-        return hasKey(mColorKey) ? PrefsUtils.getSharedIntPrefs(getContext(), mColorKey, defValue) : defValue;
+        return hasKey(mColorKey) ? PrefsBridge.getInt(mColorKey, defValue) : defValue;
     }
 
     private boolean isBackgroundBlurEnabled() {
-        return hasKey(mBlurEnabledKey) && PrefsUtils.getSharedBoolPrefs(getContext(), mBlurEnabledKey, false);
+        return hasKey(mBlurEnabledKey) && PrefsBridge.getBoolean(mBlurEnabledKey, false);
     }
 
     private int getSeekBarValue(String key, int defValue) {
-        return hasKey(key) ? PrefsUtils.getSharedIntPrefs(getContext(), key, defValue) : defValue;
+        return hasKey(key) ? PrefsBridge.getInt(key, defValue) : defValue;
     }
 
     @Override

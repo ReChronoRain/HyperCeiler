@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.prefs;
 
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getProtectedContext;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
@@ -9,7 +11,6 @@ import androidx.annotation.Nullable;
 
 import java.util.HashMap;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +30,8 @@ public class PrefsBridge {
      */
     public static void initForApp(@NonNull Context baseContext) {
         isHookProcess = false;
-        mPhysicalPrefs = baseContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Context protectedContext = getProtectedContext(baseContext);
+        mPhysicalPrefs = protectedContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
     /**

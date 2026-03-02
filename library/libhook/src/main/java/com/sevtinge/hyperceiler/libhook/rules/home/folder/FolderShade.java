@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -65,8 +64,8 @@ public class FolderShade extends HomeBaseHookNew {
                 new Thread(() -> {
                     try {
                         Context context = folder.getContext();
-                        int opt = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_home_folder_shade", "0"));
-                        int level = PrefsUtils.getSharedIntPrefs(context, "prefs_key_home_folder_shade_level", 40);
+                        int opt = PrefsBridge.getStringAsInt("prefs_key_home_folder_shade", 0);
+                        int level = PrefsBridge.getInt("prefs_key_home_folder_shade_level", 40);
 
                         if (mWallpaperUtilsCls != null) {
                             try {
