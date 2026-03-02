@@ -19,9 +19,11 @@
 package com.sevtinge.hyperceiler.holiday;
 
 import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Surface;
 import android.view.View;
@@ -34,13 +36,13 @@ import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.holiday.weather.ConfettiManager;
 import com.sevtinge.hyperceiler.holiday.weather.PrecipType;
 import com.sevtinge.hyperceiler.holiday.weather.confetto.ConfettoGenerator;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.Objects;
 
 import fan.appcompat.app.AppCompatActivity;
-import fan.navigator.app.NavigatorActivity;
 
 public class HolidayHelper {
 
@@ -98,9 +100,14 @@ public class HolidayHelper {
         mWeatherView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         weatherView = new WeakReference<>(mWeatherView);
 
+        final float densityScale = 0.85f;
+
         mWeatherView.setPrecipType(opt == 3 ? PrecipType.CLEAR : PrecipType.SNOW);
         mWeatherView.setSpeed(opt == 1 ? 50 : (opt == 2 ? 35 : 0));
-        mWeatherView.setEmissionRate(mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270 ? (opt == 1 ? 8 : 4) : (opt == 1 ? 4 : 2));
+        float baseEmissionRate = mRotation == Surface.ROTATION_90 || mRotation == Surface.ROTATION_270
+            ? (opt == 1 ? 8f : 4f)
+            : (opt == 1 ? 4f : 2f);
+        mWeatherView.setEmissionRate(baseEmissionRate * densityScale);
         mWeatherView.setFadeOutPercent(opt == 3 ? 1.0f : 0.75f);
         mWeatherView.setAngle(0);
         RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) mWeatherView.getLayoutParams();
@@ -123,28 +130,47 @@ public class HolidayHelper {
     }
 
     public static void pauseAnimation() {
+        if (weatherView != null) {
+            WeatherView view = weatherView.get();
+            if (view != null) {
+                view.getConfettiManager().terminate();
+            }
+        }
+
         if (angleListener != null) {
             GravitySensor listener = angleListener.get();
             if (listener != null) {
                 listener.stop();
             }
-            angleListener.clear();
         }
     }
 
     public static void resumeAnimation() {
+        if (weatherView != null) {
+            WeatherView view = weatherView.get();
+            if (view != null) {
+                view.resetWeather();
+            }
+        }
+
         if (angleListener != null) {
             GravitySensor listener = angleListener.get();
             if (listener != null) {
                 listener.start();
             }
-            angleListener.clear();
         }
     }
 
     private void setupHeaderView(int opt) {
         int headerResId = opt == 1 ? R.drawable.newyear_header : (opt == 2 ? R.drawable.lunar_newyear_header : R.drawable.crypto_header);
         mHeaderView.setImageResource(headerResId);
+
+        if (isPad()) {
+            int maxHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 92,
+                    mContext.getResources().getDisplayMetrics());
+            mHeaderView.setMaxHeight(maxHeight);
+        }
+
         mHeaderView.setVisibility(View.VISIBLE);
     }
 
@@ -155,7 +181,7 @@ public class HolidayHelper {
             confettoGenerator.setAccessible(true);
             confettoGenerator.set(manager, generator);
         } catch (Throwable t) {
-            t.printStackTrace();
+            AndroidLog.w("HolidayHelper", "Failed to set custom ConfettoGenerator", t);
         }
     }
 }

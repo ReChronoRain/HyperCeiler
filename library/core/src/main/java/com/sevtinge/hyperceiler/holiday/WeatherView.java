@@ -163,7 +163,6 @@ public class WeatherView extends FrameLayout {
 
     public float coerceIn(float f, float minimumValue, float maximumValue) {
         if (f < minimumValue) return minimumValue;
-        if (f > minimumValue) return maximumValue;
-        return f;
+        return Math.min(f, maximumValue);
     }
 }

@@ -41,6 +41,7 @@ import java.util.Random;
  */
 public class ConfettiManager {
     public static final long INFINITE_DURATION = Long.MAX_VALUE;
+    private static final long MAX_EMISSION_CATCH_UP_MS = 250L;
 
     private final Random random = new Random();
     private final ConfettoGenerator confettoGenerator;
@@ -52,6 +53,7 @@ public class ConfettiManager {
     private final List<Confetto> confetti = new ArrayList<>(300);
     private ValueAnimator animator;
     private long lastEmittedTimestamp;
+    private float emissionRemainder;
 
     // All of the below configured values are in milliseconds despite the setter methods take them
     // in seconds as the parameters. The parameters for the setters are in seconds to allow for
@@ -514,6 +516,7 @@ public class ConfettiManager {
         }
 
         lastEmittedTimestamp = 0;
+        emissionRemainder = 0f;
         final Iterator<Confetto> iterator = confetti.iterator();
         while (iterator.hasNext()) {
             removeConfetto(iterator.next());
@@ -578,12 +581,19 @@ public class ConfettiManager {
                 lastEmittedTimestamp = elapsedTime;
             } else {
                 final long timeSinceLastEmission = elapsedTime - lastEmittedTimestamp;
+                if (timeSinceLastEmission <= 0) {
+                    return;
+                }
 
-                // Randomly determine how many confetti to emit
-                final int numNewConfetti = (int)
-                        (random.nextFloat() * emissionRate * timeSinceLastEmission);
+                final long effectiveEmissionWindow = Math.min(timeSinceLastEmission,
+                        MAX_EMISSION_CATCH_UP_MS);
+                final float expectedNewConfetti = (emissionRate * effectiveEmissionWindow)
+                        + emissionRemainder;
+                final int numNewConfetti = (int) expectedNewConfetti;
+                emissionRemainder = expectedNewConfetti - numNewConfetti;
+                lastEmittedTimestamp = elapsedTime;
+
                 if (numNewConfetti > 0) {
-                    lastEmittedTimestamp += Math.round(emissionRateInverse * numNewConfetti);
                     addNewConfetti(numNewConfetti, elapsedTime);
                 }
             }

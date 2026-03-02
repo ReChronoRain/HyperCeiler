@@ -1,13 +1,9 @@
 package com.sevtinge.hyperceiler.home.task;
 
 import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isNeedGrayView;
-import static com.sevtinge.hyperceiler.oldui.Application.isModuleActivated;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -16,10 +12,8 @@ import com.sevtinge.hyperceiler.common.utils.CtaUtils;
 import com.sevtinge.hyperceiler.common.utils.DialogHelper;
 import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
-import com.sevtinge.hyperceiler.holiday.HolidayHelper;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.utils.XposedActivateHelper;
-import com.sevtinge.hyperceiler.libhook.callback.IResult;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
@@ -72,6 +66,7 @@ public class AppTaskManager {
                     XposedServiceHelper.registerListener(listener);
                 }
                 PrefsBridge.initForApp(context);
+                PrefsUtils.init(context);
             }
         });
     }
@@ -125,7 +120,7 @@ public class AppTaskManager {
         });
 
         // 异步业务逻辑：计算崩溃、签名校验
-        runner.addTask(new Task("BusinessLogic", true, "CoreService") {
+        runner.addTask(new Task("BusinessLogic", true, "CoreService", "attachBaseContext") {
             @Override
             public void execute() {
                 ShellInit.init(activity);

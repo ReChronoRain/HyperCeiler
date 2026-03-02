@@ -18,9 +18,7 @@
  */
 package com.sevtinge.hyperceiler.provision.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,12 +32,11 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.provision.state.StartupState;
 import com.sevtinge.hyperceiler.provision.state.StateMachine;
 import com.sevtinge.hyperceiler.provision.utils.IKeyEvent;
-import fan.provision.OobeUtils;
-import fan.provision.ProvisionBaseActivity;
-
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionStateHolder;
-import com.sevtinge.hyperceiler.provision.utils.Utils;
+
+import fan.provision.OobeUtils;
+import fan.provision.ProvisionBaseActivity;
 
 public class DefaultActivity extends ProvisionBaseActivity {
 
@@ -87,6 +84,7 @@ public class DefaultActivity extends ProvisionBaseActivity {
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
+        if (mStateMachine == null || mStateMachine.getCurrentState() == null) return;
         super.onWindowFocusChanged(hasFocus);
         if (mStateMachine.getCurrentState() instanceof IKeyEvent) {
             Log.i(TAG, " here is onWindowFocusChanged ");
