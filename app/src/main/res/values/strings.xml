@@ -16,7 +16,26 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="navigation_home_title" translatable="false">@string/home</string>
+    <string name="navigation_settings_title" translatable="false">@string/settings</string>
+    <string name="navigation_about_title" translatable="false">@string/about</string>
+
+    <string name="search_history_description">搜索记录</string>
+
+    <string name="search_history_clear_description">清除搜索记录</string>
+
+    <string name="revert">还原</string>
+
+    <string name="custom_order_title">自定义</string>
+
+    <string name="app_version_update">有新版本</string>
+
+    <string name="developer_build">开发版</string>
+    <string name="device_name">设备名称</string>
+    <string name="app_device_version_parameters">OS版本</string>
+
     <string name="pull_to_enter_private">Pull down to enter the private space</string>
     <string name="release_enter_private">Release to enter the private space</string>
     <!--Pop-up window/miuix part-->

@@ -120,4 +120,12 @@
     <string name="debug_mode_home_version_desc">バージョン番号が高すぎるとブロックされるため、慎重に入力してください。</string>
     <string name="miuix_appcompat_confirm_description">確認</string>
     <string name="app_exit">終了</string>
+    <string name="search_history_description">検索履歴</string>
+    <string name="search_history_clear_description">検索履歴を消去します</string>
+    <string name="revert">元に戻す</string>
+    <string name="custom_order_title">カスタマイズ</string>
+    <string name="app_version_update">新しいバージョンのアプリがあります</string>
+    <string name="developer_build">開発版</string>
+    <string name="device_name">デバイス名</string>
+    <string name="app_device_version_parameters">OS バージョン</string>
 </resources>
