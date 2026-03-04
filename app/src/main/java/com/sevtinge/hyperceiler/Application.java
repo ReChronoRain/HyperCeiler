@@ -62,10 +62,15 @@ public class Application extends android.app.Application implements XposedServic
         super.onCreate();
 
         // 初始化日志系统
-        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(this.getDataDir().getAbsolutePath());
-        LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
-        LogManager.init(this);
-        LogViewerActivity.setXposedLogLoader((context, callback) -> XposedLogLoader.loadLogs(callback));
+        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(
+            this.getDataDir().getAbsolutePath(),
+            () -> {
+                LogManager.init(this);
+                LogViewerActivity.setXposedLogLoader((context, callback) ->
+                    XposedLogLoader.loadLogs(callback));
+                LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
+            }
+        );
 
         // 应用内 Crash 服务
         setupCrashHandler();

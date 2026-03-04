@@ -42,7 +42,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getXmsVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatusDetail;
 
 import android.content.Context;
 import android.util.Log;
@@ -126,9 +126,9 @@ public class DeviceInfoBuilder {
         try {
             List<DeviceHelper.Module.ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
 
-            if (module != null && !module.isEmpty()) {
-                propertiesCheck.put("XposedManger", module.get(0).extractName());
-                propertiesCheck.put("XposedMangerVersion", module.get(0).formattedVersion());
+            if (!module.isEmpty()) {
+                propertiesCheck.put("XposedManger", module.getFirst().extractName());
+                propertiesCheck.put("XposedMangerVersion", module.getFirst().formattedVersion());
             } else {
                 propertiesCheck.put("XposedManger", "N/A");
                 propertiesCheck.put("XposedMangerVersion", "N/A");
@@ -138,7 +138,7 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
                 PrefsUtils.getSharedBoolPrefs(context, "prefs_key_development_debug_mode", false)));
-            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
+            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + formatLoggerStatusDetail());
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(context));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(context)));
         } catch (Exception e) {
