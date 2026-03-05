@@ -18,12 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
-import android.util.Log
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.ALIVE_THRESHOLD
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.confidence
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.diagSummary
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd
 import java.io.BufferedReader
+import java.io.File
 import java.io.InputStreamReader
 
 /**
@@ -40,6 +40,10 @@ object LoggerHealthChecker {
     @JvmField
     @Volatile
     var diagSummary: String = "NOT_CHECKED"
+    
+    @JvmField
+    @Volatile
+    var localLogBaseDir: File? = null
 
     private const val TAG = "HyperCeilerLogManager"
 
@@ -118,7 +122,7 @@ object LoggerHealthChecker {
      */
     private fun checkLogcat(): CheckResult {
         val token = "ALIVE_${android.os.Process.myPid()}_${System.nanoTime()}"
-        Log.d(TAG, token)
+        AndroidLog.d(TAG, token)
 
         repeat(MAX_RETRIES) { attempt ->
             try {
@@ -151,36 +155,38 @@ object LoggerHealthChecker {
     }
 
     /**
-     * 检查 Xposed 日志文件（需要 root）
+     * 检查 XposedLogLoader 同步到本地的 Xposed 日志文件（不依赖 root）
      * @param prefix "modules" 或 "verbose"
      */
     private fun checkXposedLogFile(prefix: String): CheckResult {
         val weight = if (prefix == "modules") WEIGHT_XPOSED_MODULES else WEIGHT_XPOSED_VERBOSE
+        val logBase = localLogBaseDir ?: return CheckResult(0, "NO_DIR")
+
+        val lspdLogDir = File(logBase, "lspd/log")
+        val lspdLogOldDir = File(logBase, "lspd/log.old")
+
+        val latestFile = findLatestLogFile(lspdLogDir, prefix)
+            ?: findLatestLogFile(lspdLogOldDir, prefix)
+            ?: return CheckResult(0, "NO_FILE")
+
         return try {
-            val dirExists =
-                rootExecCmd("ls -d /data/adb/lspd/log/ 2>/dev/null")?.isNotEmpty() == true
-            if (!dirExists) return CheckResult(0, "NO_DIR")
-
-            val latestFile =
-                rootExecCmd("ls -t /data/adb/lspd/log/${prefix}_*.log 2>/dev/null | head -n 1")
-                    ?.trim() ?: ""
-            if (latestFile.isEmpty() || latestFile.contains("No such file")) {
-                return CheckResult(0, "NO_FILE")
+            if (latestFile.length() == 0L) {
+                return CheckResult(weight / 4, "EMPTY_FILE")
             }
-
-            val grepOutput = rootExecCmd(
-                "grep -i -q 'HyperCeiler' $latestFile && echo 'FOUND' || echo 'EMPTY'"
-            )
-            if (grepOutput?.trim() == "FOUND") {
-                CheckResult(weight, "OK")
-            } else {
-                // 文件存在但无 HyperCeiler 记录 → 给四分之一分
-                CheckResult(weight / 4, "EMPTY")
+            val found = latestFile.bufferedReader().use { reader ->
+                reader.lineSequence().any { it.contains("HyperCeiler") }
             }
+            if (found) CheckResult(weight, "OK")
+            else CheckResult(weight / 4, "EMPTY")
         } catch (e: Exception) {
-            // 获取失败（如权限问题） → 给一半分并记录错误
-            CheckResult(weight / 2, "ERROR:${e.message?.take(50)}")
+            CheckResult(0, "READ_ERR:${e.message?.take(40)}")
         }
+    }
+
+    private fun findLatestLogFile(dir: File, prefix: String): File? {
+        if (!dir.exists()) return null
+        return dir.listFiles { _, name -> name.startsWith("${prefix}_") && name.endsWith(".log") }
+            ?.maxByOrNull { it.lastModified() }
     }
 
     // ==================== 修复工具 ====================

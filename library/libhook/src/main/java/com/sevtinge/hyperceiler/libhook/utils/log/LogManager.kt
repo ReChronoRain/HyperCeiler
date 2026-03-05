@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
-import com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -41,23 +40,26 @@ object LogManager {
      *
      * 执行流程：
      * 1. 初始化日志配置
-     * 2. 执行 [onConfigReady] 回调 — 调用方应在此设置 [AndroidLog.setLogListener] 等
-     * 3. 异步执行日志服务健康检查，结果写入 [IS_LOGGER_ALIVE]
+     * 2. 执行 [onConfigReady] 回调 — 调用方应在此设置 LogListener、LogManager 等
+     * 3. 异步：先执行 [xposedLogSyncer]（同步 Xposed 日志到本地），再执行健康检查
      *
-     * @param appPrivateDir 应用私有目录（用于日志配置文件读写）
-     * @param onConfigReady 配置就绪后的同步回调，用于设置 LogListener 等。
-     *                      在健康检查之前执行，确保 listener 已就绪。可为 null。
+     * @param appPrivateDir   应用私有目录（用于日志配置文件读写）
+     * @param xposedLogSyncer 同步 Xposed 日志到本地的回调（在后台线程中执行，可含 root 操作）。
+     *                        健康检查会在其完成后读取本地日志文件，避免自身依赖 root。
+     * @param onConfigReady   配置就绪后的同步回调，在健康检查之前执行。可为 null。
      */
     @JvmStatic
-    @JvmOverloads
-    fun init(appPrivateDir: String, onConfigReady: Runnable? = null) {
+    fun init(appPrivateDir: String, xposedLogSyncer: Runnable?, onConfigReady: Runnable?) {
         // 初始化配置管理器
         LogConfigManager.init(appPrivateDir)
+        // 设置本地日志目录供健康检查使用
+        LoggerHealthChecker.localLogBaseDir = java.io.File(appPrivateDir, "files/log")
         onConfigReady?.run()
 
-        // 异步健康检查
+        // 异步：同步 Xposed 日志 → 健康检查
         Thread({
             try {
+                xposedLogSyncer?.run()
                 IS_LOGGER_ALIVE = LoggerHealthChecker.isLoggerAlive()
             } finally {
                 healthCheckLatch.countDown()
