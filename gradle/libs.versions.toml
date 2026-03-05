@@ -1,6 +1,6 @@
 [versions]
 # Build tools
-agp = "9.0.0"
+agp = "9.1.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 

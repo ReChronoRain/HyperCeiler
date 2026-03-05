@@ -99,9 +99,9 @@ public class NaviBaseActivity extends NavigatorActivity implements ActivityCallb
         UpdateFragmentNavInfo navInfoToHome = getUpdateFragmentNavInfo(0, 1000);
         UpdateFragmentNavInfo navInfoToSettings = getUpdateFragmentNavInfo(1, 1001);
         UpdateFragmentNavInfo navInfoToAbout = getUpdateFragmentNavInfo(2, 1002);
-        newLabel(getString(R.string.navigation_home_title), R.drawable.ic_navigation_home, navInfoToHome);
-        newLabel(getString(R.string.navigation_settings_title), R.drawable.ic_navigation_settings, navInfoToSettings);
-        newLabel(getString(R.string.navigation_about_title), R.drawable.ic_navigation_about, navInfoToAbout);
+        newLabel(getString(com.sevtinge.hyperceiler.R.string.navigation_home_title), R.drawable.ic_navigation_home, navInfoToHome);
+        newLabel(getString(com.sevtinge.hyperceiler.R.string.navigation_settings_title), R.drawable.ic_navigation_settings, navInfoToSettings);
+        newLabel(getString(com.sevtinge.hyperceiler.R.string.navigation_about_title), R.drawable.ic_navigation_about, navInfoToAbout);
         navigator.navigate(navInfoToHome);
     }
 

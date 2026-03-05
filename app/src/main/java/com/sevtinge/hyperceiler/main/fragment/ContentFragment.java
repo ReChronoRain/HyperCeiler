@@ -78,9 +78,9 @@ public class ContentFragment extends Fragment implements NavigatorFragmentListen
             mCurrTab = savedInstanceState.getString(CURRENT_TAB);
         }
         mAppName = getString(R.string.app_name);
-        mPage1Name = getString(R.string.navigation_home_title);
-        mPage2Name = getString(R.string.navigation_settings_title);
-        mPage3Name = getString(R.string.navigation_about_title);
+        mPage1Name = getString(com.sevtinge.hyperceiler.R.string.navigation_home_title);
+        mPage2Name = getString(com.sevtinge.hyperceiler.R.string.navigation_settings_title);
+        mPage3Name = getString(com.sevtinge.hyperceiler.R.string.navigation_about_title);
     }
 
     @Override
