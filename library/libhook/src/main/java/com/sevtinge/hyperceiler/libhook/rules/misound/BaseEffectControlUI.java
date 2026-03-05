@@ -117,11 +117,6 @@ public abstract class BaseEffectControlUI {
             // 更新信息
             updateAutoSEffSwitchInfo();
             XposedLog.d(TAG, "Info preference created");
-
-            // 添加到界面
-            callMethod(preferenceScreen, "addPreference", preferenceCategory);
-            callMethod(preferenceCategory, "addPreference", preference);// 更新信息
-            updateAutoSEffSwitchInfo();XposedLog.d(TAG, "Info preference created");
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to create info preference", e);
         }

@@ -94,6 +94,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     // 使用原子类型保证线程安全
     private static final AtomicBoolean sIsEarphoneConnection = new AtomicBoolean(false);
     private static final AtomicBoolean sShouldWaiting = new AtomicBoolean(false);
+    private static final AtomicBoolean sIsA2dpConnected = new AtomicBoolean(false);
     private static final AtomicBoolean sIsLeAudioConnected = new AtomicBoolean(false);
     private static final AtomicReference<AudioManager> sAudioManagerRef = new AtomicReference<>();
     private static final AtomicReference<Handler> sHandlerRef = new AtomicReference<>();
@@ -127,8 +128,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         mDefaultEffect = mPrefsMap.getString(PREFS_KEY_DEFAULT_EFFECT, EFFECT_NONE);
 
         XposedLog.d(TAG, "Initial config loaded from prefs: lockSelection=" + mLockSelection +
-            ", rememberDevice=" + mRememberDevice +
-            ", defaultEffect=" + mDefaultEffect);
+            ", rememberDevice=" + mRememberDevice + ", defaultEffect=" + mDefaultEffect);
     }
 
     /**
@@ -139,30 +139,21 @@ public class AutoEffectSwitchForSystem extends BaseHook {
 
         try {
             int lockSelection = Settings.Global.getInt(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_LOCK_SELECTION,
-                mLockSelection ? 1 : 0
-            );
+                mContext.getContentResolver(), SETTINGS_KEY_LOCK_SELECTION, mLockSelection ? 1 : 0);
             mLockSelection = lockSelection == 1;
 
             int rememberDevice = Settings.Global.getInt(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_REMEMBER_DEVICE,
-                mRememberDevice ? 1 : 0
-            );
+                mContext.getContentResolver(), SETTINGS_KEY_REMEMBER_DEVICE, mRememberDevice ? 1 : 0);
             mRememberDevice = rememberDevice == 1;
 
             String defaultEffect = Settings.Global.getString(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_DEFAULT_EFFECT
-            );
+                mContext.getContentResolver(), SETTINGS_KEY_DEFAULT_EFFECT);
             if (defaultEffect != null && !defaultEffect.isEmpty()) {
                 mDefaultEffect = defaultEffect;
             }
 
             XposedLog.d(TAG, "Config reloaded from settings: lockSelection=" + mLockSelection +
-                ", rememberDevice=" + mRememberDevice +
-                ", defaultEffect=" + mDefaultEffect);
+                ", rememberDevice=" + mRememberDevice + ", defaultEffect=" + mDefaultEffect);
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to reload config from settings", e);
         }
@@ -175,21 +166,10 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         if (mContext == null) return;
 
         try {
-            Settings.Global.putInt(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_LOCK_SELECTION,
-                mLockSelection ? 1 : 0
-            );
-            Settings.Global.putInt(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_REMEMBER_DEVICE,
-                mRememberDevice ? 1 : 0
-            );
-            Settings.Global.putString(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_DEFAULT_EFFECT,
-                mDefaultEffect
-            );XposedLog.d(TAG, "Config synced to settings");
+            Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_LOCK_SELECTION, mLockSelection ? 1 : 0);
+            Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_REMEMBER_DEVICE, mRememberDevice ? 1 : 0);
+            Settings.Global.putString(mContext.getContentResolver(), SETTINGS_KEY_DEFAULT_EFFECT, mDefaultEffect);
+            XposedLog.d(TAG, "Config synced to settings");
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to sync config to settings", e);
         }
@@ -214,9 +194,6 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         }
     }
 
-    /**
-     * Hook AudioService.onSystemReady 方法
-     */
     private void hookAudioServiceOnSystemReady() {
         findAndHookMethod("com.android.server.audio.AudioService",
             "onSystemReady",
@@ -249,7 +226,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
 
         // 初始化设备记忆
         if (mRememberDevice) {
-            mDeviceEffectMemory = new DeviceEffectMemory(mContext);
+            mDeviceEffectMemory = new DeviceEffectMemory();
             XposedLog.d(TAG, "DeviceEffectMemory initialized");
         }
 
@@ -276,28 +253,17 @@ public class AutoEffectSwitchForSystem extends BaseHook {
 
                 // 如果启用了设备记忆但还没初始化，则初始化
                 if (mRememberDevice && mDeviceEffectMemory == null) {
-                    mDeviceEffectMemory = new DeviceEffectMemory(mContext);
+                    mDeviceEffectMemory = new DeviceEffectMemory();
                     XposedLog.d(TAG, "DeviceEffectMemory initialized after config change");
                 }
             }
         };
-
-        // 监听所有配置项
         mContext.getContentResolver().registerContentObserver(
-            Settings.Global.getUriFor(SETTINGS_KEY_LOCK_SELECTION),
-            false,
-            configObserver
-        );mContext.getContentResolver().registerContentObserver(
-            Settings.Global.getUriFor(SETTINGS_KEY_REMEMBER_DEVICE),
-            false,
-            configObserver
-        );
+            Settings.Global.getUriFor(SETTINGS_KEY_LOCK_SELECTION), false, configObserver);
         mContext.getContentResolver().registerContentObserver(
-            Settings.Global.getUriFor(SETTINGS_KEY_DEFAULT_EFFECT),
-            false,
-            configObserver
-        );
-
+            Settings.Global.getUriFor(SETTINGS_KEY_REMEMBER_DEVICE), false, configObserver);
+        mContext.getContentResolver().registerContentObserver(
+            Settings.Global.getUriFor(SETTINGS_KEY_DEFAULT_EFFECT), false, configObserver);
         XposedLog.d(TAG, "Config observer registered");
     }
 
@@ -312,10 +278,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
      * 获取耳机连接状态（最终判断）
      */
     public static boolean getEarPhoneStateFinal() {
-        if (sIsEarphoneConnection.get()) {
-            return true;
-        }
-
+        if (sIsEarphoneConnection.get()) return true;
         AudioManager audioManager = sAudioManagerRef.get();
         if (audioManager != null && isEarphoneDeviceConnected(audioManager)) {
             XposedLog.d(TAG, "Earphone detected via AudioManager");
@@ -345,9 +308,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         AudioDeviceInfo[] outputs = audioManager.getDevices(AudioManager.GET_DEVICES_OUTPUTS);
         for (AudioDeviceInfo info : outputs) {
             for (int type : EARPHONE_DEVICE_TYPES) {
-                if (info.getType() == type) {
-                    return true;
-                }
+                if (info.getType() == type) return true;
             }
         }
         return false;
@@ -392,26 +353,17 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
 
         mContext.getContentResolver().registerContentObserver(
-            Settings.Global.getUriFor(SETTINGS_KEY_RESTORE_STATE),
-            false,
+            Settings.Global.getUriFor(SETTINGS_KEY_RESTORE_STATE), false,
             new ContentObserver(new Handler(mContext.getMainLooper())) {
                 @Override
                 public void onChange(boolean selfChange) {
                     if (selfChange) return;
-
-                    int value = Settings.Global.getInt(
-                        mContext.getContentResolver(),
-                        SETTINGS_KEY_RESTORE_STATE,
-                        0
-                    );
-
+                    int value = Settings.Global.getInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
                     if (value == 1) {
                         sIsEarphoneConnection.set(false);
-                        Settings.Global.putInt(
-                            mContext.getContentResolver(),
-                            SETTINGS_KEY_RESTORE_STATE,
-                            0
-                        );
+                        sIsA2dpConnected.set(false);
+                        sIsLeAudioConnected.set(false);
+                        Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
                         XposedLog.d(TAG, "Earphone state manually restored to false");
                     }
                 }
@@ -426,11 +378,8 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         if (mContext == null) return;
 
         try {
-            Settings.Global.putInt(
-                mContext.getContentResolver(),
-                SETTINGS_KEY_EARPHONE_STATE,
-                sIsEarphoneConnection.get() ? 1 : 0
-            );
+            Settings.Global.putInt(mContext.getContentResolver(),
+                SETTINGS_KEY_EARPHONE_STATE, sIsEarphoneConnection.get() ? 1 : 0);
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to report earphone state", e);
         }
@@ -446,12 +395,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         intentFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(BluetoothLeAudio.ACTION_LE_AUDIO_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-
-        mContext.registerReceiver(
-            new EarphoneBroadcastReceiver(this),
-            intentFilter
-        );
-
+        mContext.registerReceiver(new EarphoneBroadcastReceiver(this), intentFilter);
         XposedLog.d(TAG, "Earphone broadcast receiver registered");
     }
 
@@ -466,19 +410,23 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         // 每次连接时重新读取配置
         reloadConfigFromSettings();
 
-        sIsEarphoneConnection.set(true);
+        // 只在从无耳机→有耳机的首次连接时保存扬声器状态，避免设备切换时污染扬声器记忆
+        boolean wasDisconnected = !sIsEarphoneConnection.getAndSet(true);
         sCurrentDeviceIdRef.set(deviceId);
 
-        // 保存当前扬声器的音效状态
-        if (mRememberDevice) {
+        // 保存当前扬声器的音效状态（仅首次连接时）
+        if (mRememberDevice && wasDisconnected) {
             // 确保 DeviceEffectMemory 已初始化
             if (mDeviceEffectMemory == null) {
-                mDeviceEffectMemory = new DeviceEffectMemory(mContext);
+                mDeviceEffectMemory = new DeviceEffectMemory();
             }
             EffectState speakerState = mEffectController.getCurrentEffectState();
             if (speakerState != null) {
                 mDeviceEffectMemory.saveSpeakerEffect(speakerState);
+                XposedLog.d(TAG, "Saved speaker effect (first connection): " + speakerState);
             }
+        } else if (mRememberDevice && mDeviceEffectMemory == null) {
+            mDeviceEffectMemory = new DeviceEffectMemory();
         }
 
         // 更新上一次状态（用于简单恢复模式）
@@ -494,19 +442,30 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     /**
      * 处理设备断开
      */
-    void onDeviceDisconnected(String deviceId) {
-        XposedLog.d(TAG, "Device disconnected: id=" + deviceId);
+    void onDeviceDisconnected(String deviceId, BluetoothDevice disconnectDevice) {
+        // 永远优先使用当前会话记录的连接 ID
+        String connectedId = sCurrentDeviceIdRef.get();
+        String effectiveId = connectedId != null ? connectedId : deviceId;
 
-        // 每次断开时重新读取配置
+        XposedLog.d(TAG, "Device disconnected: eventId=" + deviceId + ", effectiveId=" + effectiveId);
         reloadConfigFromSettings();
 
-        // 如果启用了设备记忆，保存当前设备的音效状态
-        if (mRememberDevice && deviceId != null && mDeviceEffectMemory != null) {
+        // 将连接时的设备 MAC 绑定到连接时的 ID
+        if (mDeviceEffectMemory != null && connectedId != null) {
+            mDeviceEffectMemory.bindMacToDeviceId(sCurrentBluetoothDeviceRef.get(), connectedId);
+            // 也将断开事件中的设备 MAC 绑定到同一 ID（解决 LE Audio 断开时 MAC 不一致的问题）
+            if (disconnectDevice != null) {
+                mDeviceEffectMemory.bindMacToDeviceId(disconnectDevice, connectedId);
+            }
+        }
+
+        // 保存记忆，使用 effectiveId
+        if (mRememberDevice && effectiveId != null && mDeviceEffectMemory != null) {
             EffectState currentState = mEffectController.getCurrentEffectState();
             if (currentState != null) {
-                currentState.deviceName = getDeviceName(deviceId);
-                mDeviceEffectMemory.saveDeviceEffect(deviceId, currentState);
-                XposedLog.d(TAG, "Saved effect state for device: " + deviceId);
+                currentState.deviceName = getDeviceName(effectiveId);
+                mDeviceEffectMemory.saveDeviceEffect(effectiveId, currentState, sCurrentBluetoothDeviceRef.get());
+                XposedLog.d(TAG, "Saved effect state for device: " + effectiveId);
             }
         }
 
@@ -558,10 +517,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
                 mEffectController.applyEffectState(new EffectState(EFFECT_MISOUND, false, false));
                 XposedLog.d(TAG, "Applied default effect: misound");
             }
-            case EFFECT_KEEP -> {
-                // 保持当前音效，不做任何改变
-                XposedLog.d(TAG, "Applied default effect: keep current");
-            }
+            case EFFECT_KEEP -> XposedLog.d(TAG, "Applied default effect: keep current");
             default -> {
                 mEffectController.setEffectToNone(mContext);
                 XposedLog.d(TAG, "Applied default effect: none (fallback)");
@@ -619,9 +575,9 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     /**
      * 初始化设备记忆（需要在 MiSound 进程中调用）
      */
-    public void initDeviceMemory(Context context) {
+    public void initDeviceMemory() {
         if (mDeviceEffectMemory == null) {
-            mDeviceEffectMemory = new DeviceEffectMemory(context);
+            mDeviceEffectMemory = new DeviceEffectMemory();
             XposedLog.d(TAG, "DeviceEffectMemory initialized");
         }
     }
@@ -687,43 +643,66 @@ public class AutoEffectSwitchForSystem extends BaseHook {
             XposedLog.d(TAG, "Received broadcast: " + action);
 
             switch (action) {
-                case BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED ->
-                    handleA2dpStateChange(intent);
-                case BluetoothLeAudio.ACTION_LE_AUDIO_CONNECTION_STATE_CHANGED ->
-                    handleLeAudioStateChange(intent);
-                case AudioManager.ACTION_HEADSET_PLUG ->
-                    handleHeadsetPlug(intent);
+                case BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> handleA2dpStateChange(intent);
+                case BluetoothLeAudio.ACTION_LE_AUDIO_CONNECTION_STATE_CHANGED -> handleLeAudioStateChange(intent);
+                case AudioManager.ACTION_HEADSET_PLUG -> handleHeadsetPlug(intent);
             }
         }
 
         private void handleA2dpStateChange(Intent intent) {
             int state = intent.getIntExtra(BluetoothA2dp.EXTRA_STATE, BluetoothA2dp.STATE_DISCONNECTED);
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice.class);
 
             switch (state) {
                 case BluetoothA2dp.STATE_CONNECTED -> {
-                    sCurrentBluetoothDeviceRef.set(device);
-                    String deviceId = DeviceEffectMemory.generateBluetoothDeviceId(device);
-                    String deviceName = DeviceEffectMemory.getBluetoothDeviceName(device);
-                    if (deviceName == null) deviceName = "Bluetooth A2DP";
-                    mHost.onDeviceConnected(deviceId, deviceName, DEVICE_TYPE_BLUETOOTH_A2DP);
+                    // 如果 LE Audio 已经连接了同一设备，跳过 A2DP 的重复连接事件
+                    if (sIsLeAudioConnected.get()) {
+                        XposedLog.d(TAG, "A2DP connected but LE Audio already active, skipping");
+                        return;
+                    }
+                    if (!sIsA2dpConnected.getAndSet(true)) {
+                        sCurrentBluetoothDeviceRef.set(device);
+                        String deviceId = mHost.mDeviceEffectMemory != null ?
+                            mHost.mDeviceEffectMemory.getOrCreateDeviceId(device) :
+                            DeviceEffectMemory.generateBluetoothDeviceId(device);
+                        String deviceName = DeviceEffectMemory.getBluetoothDeviceName(device);
+                        if (deviceName == null) deviceName = "Bluetooth A2DP";
+                        mHost.onDeviceConnected(deviceId, deviceName, DEVICE_TYPE_BLUETOOTH_A2DP);
+                    }
                 }
                 case BluetoothA2dp.STATE_DISCONNECTED -> {
-                    String deviceId = DeviceEffectMemory.generateBluetoothDeviceId(device);
-                    mHost.onDeviceDisconnected(deviceId);
+                    if (sIsA2dpConnected.getAndSet(false)) {
+                        // 如果 LE Audio 仍然连接，不处理 A2DP 断开
+                        if (sIsLeAudioConnected.get()) {
+                            XposedLog.d(TAG, "A2DP disconnected but LE Audio still active, skipping");
+                            return;
+                        }
+                        String deviceId = mHost.mDeviceEffectMemory != null ?
+                            mHost.mDeviceEffectMemory.getOrCreateDeviceId(device) :
+                            DeviceEffectMemory.generateBluetoothDeviceId(device);
+                        mHost.onDeviceDisconnected(deviceId, device);
+                    }
                 }
             }
         }
 
         private void handleLeAudioStateChange(Intent intent) {
             int state = intent.getIntExtra(BluetoothLeAudio.EXTRA_STATE, BluetoothLeAudio.STATE_DISCONNECTED);
-            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+            BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE, BluetoothDevice.class);
 
             switch (state) {
                 case BluetoothLeAudio.STATE_CONNECTED -> {
+                    // 如果 A2DP 已经连接了同一设备，跳过 LE Audio 的重复连接事件
+                    if (sIsA2dpConnected.get()) {
+                        XposedLog.d(TAG, "LE Audio connected but A2DP already active, skipping");
+                        sIsLeAudioConnected.set(true);
+                        return;
+                    }
                     if (!sIsLeAudioConnected.getAndSet(true)) {
                         sCurrentBluetoothDeviceRef.set(device);
-                        String deviceId = DeviceEffectMemory.generateBluetoothDeviceId(device);
+                        String deviceId = mHost.mDeviceEffectMemory != null ?
+                            mHost.mDeviceEffectMemory.getOrCreateDeviceId(device) :
+                            DeviceEffectMemory.generateBluetoothDeviceId(device);
                         String deviceName = DeviceEffectMemory.getBluetoothDeviceName(device);
                         if (deviceName == null) deviceName = "Bluetooth LE Audio";
                         mHost.onDeviceConnected(deviceId, deviceName, DEVICE_TYPE_BLUETOOTH_LE);
@@ -731,8 +710,15 @@ public class AutoEffectSwitchForSystem extends BaseHook {
                 }
                 case BluetoothLeAudio.STATE_DISCONNECTED -> {
                     if (sIsLeAudioConnected.getAndSet(false)) {
-                        String deviceId = DeviceEffectMemory.generateBluetoothDeviceId(device);
-                        mHost.onDeviceDisconnected(deviceId);
+                        // 如果 A2DP 仍然连接，不处理 LE Audio 断开
+                        if (sIsA2dpConnected.get()) {
+                            XposedLog.d(TAG, "LE Audio disconnected but A2DP still active, skipping");
+                            return;
+                        }
+                        String deviceId = mHost.mDeviceEffectMemory != null ?
+                            mHost.mDeviceEffectMemory.getOrCreateDeviceId(device) :
+                            DeviceEffectMemory.generateBluetoothDeviceId(device);
+                        mHost.onDeviceDisconnected(deviceId, device);
                     }
                 }
             }
@@ -740,7 +726,6 @@ public class AutoEffectSwitchForSystem extends BaseHook {
 
         private void handleHeadsetPlug(Intent intent) {
             int state = intent.getIntExtra("state", 0);
-            int microphone = intent.getIntExtra("microphone", 0);
             String name = intent.getStringExtra("name");
 
             switch (state) {
@@ -751,7 +736,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
                 }
                 case 0 -> {
                     String deviceId = DeviceEffectMemory.generateWiredDeviceId();
-                    mHost.onDeviceDisconnected(deviceId);
+                    mHost.onDeviceDisconnected(deviceId, null);
                 }
             }
         }

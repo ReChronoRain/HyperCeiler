@@ -48,6 +48,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.lang.reflect.Method;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -102,7 +103,8 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         // 尝试加载完整的 Dolby 类，如果不存在则使用备用类
         Class<?> dolbyClass = findClassIfExists("com.dolby.dax.DolbyAudioEffect");
         if (dolbyClass != null) {
-            mDolbyClass = dolbyClass;mIsIntactDolbyClass.set(true);
+            mDolbyClass = dolbyClass;
+            mIsIntactDolbyClass.set(true);
         } else {
             mDolbyClass = findClass("com.android.server.audio.dolbyeffect.DolbyEffectController$DolbyAudioEffectHelper");
             mIsIntactDolbyClass.set(false);
@@ -261,10 +263,14 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
 
         try {
             callMethod(instance, "checkState", "setEnabled()");
-            hookMethod(
-                findMethodBestMatch(instance.getClass(), "native_setEnabled"),
-                returnConstant(enable)
-            );
+
+            Method nativeMethod = findMethodBestMatch(instance.getClass(), "native_setEnabled");
+            Class<?> returnType = nativeMethod.getReturnType();
+            int returnValue = enable ? 1 : 0;
+
+            hookMethod(nativeMethod, returnConstant(
+                returnType == int.class || returnType == Integer.class ? returnValue : enable
+            ));
         } catch (Exception e) {
             XposedLog.e(TAG, "setEnableEffect failed", e);
         }
