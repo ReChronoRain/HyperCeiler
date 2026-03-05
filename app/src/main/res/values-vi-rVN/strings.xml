@@ -120,4 +120,12 @@
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
     <string name="debug_mode_home_version">Đặt mã phiên bản gốc</string>
     <string name="debug_mode_home_version_desc">Số phiên bản quá cao vẫn sẽ bị chặn, vì vậy hãy điền cẩn thận.</string>
+    <string name="search_history_description">Lịch sử tìm kiếm</string>
+    <string name="search_history_clear_description">Xóa lịch sử tìm kiếm</string>
+    <string name="revert">Giảm bớt</string>
+    <string name="custom_order_title">Tùy chỉnh tiêu đề</string>
+    <string name="app_version_update">Có phiên bản mới</string>
+    <string name="developer_build">Phiên bản dành cho nhà phát triển</string>
+    <string name="device_name">Tên thiết bị</string>
+    <string name="app_device_version_parameters">Phiên bản OS</string>
 </resources>
