@@ -18,7 +18,7 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
     <!--Introduction to Xposed Modules-->
-    <string name="xposed_description">讓 HyperOS 再次偉大！</string>
+    <string name="xposed_description">Make HyperOS Great Again!</string>
     <!--String reuse-->
     <string name="floating_window">小窗</string>
     <!--Multi-list Array-->

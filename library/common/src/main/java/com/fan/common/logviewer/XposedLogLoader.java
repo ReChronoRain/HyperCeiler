@@ -327,8 +327,13 @@ public class XposedLogLoader {
     private void filterLogsInDirectory(File sourceDir, File targetDir) {
         if (!sourceDir.exists()) return;
 
+        // 优先处理 modules_*.log，找不到则 fallback 到 verbose_*.log
         File[] sourceFiles = sourceDir.listFiles((dir, name) ->
             name.startsWith("modules_") && name.endsWith(".log"));
+        if (sourceFiles == null || sourceFiles.length == 0) {
+            sourceFiles = sourceDir.listFiles((dir, name) ->
+                name.startsWith("verbose_") && name.endsWith(".log"));
+        }
         if (sourceFiles == null || sourceFiles.length == 0) return;
 
         for (File sourceFile : sourceFiles) {

@@ -37,5 +37,5 @@
     <string name="provision_congratulation_title">設定完成</string>
     <string name="provision_congratulation_label">體驗激動人心的 HyperOS 吧！</string>
     <string name="provision_complete_text">進入系統</string>
-    <string name="provision_back_description">返回</string>
+    <string name="provision_back_description">後退</string>
 </resources>

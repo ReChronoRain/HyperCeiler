@@ -36,7 +36,6 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -55,7 +54,6 @@ public class NewAutoSEffSwitch extends BaseHook {
     // 使用原子引用保证线程安全
     private static final AtomicReference<IEffectInfo> sEffectInfoRef = new AtomicReference<>();
     private static final AtomicReference<AudioManager> sAudioManagerRef = new AtomicReference<>();
-    private static final AtomicReference<DeviceEffectMemory> sDeviceMemoryRef = new AtomicReference<>();
     private static final AtomicBoolean sLockSelectionEnabled = new AtomicBoolean(true);
 
     private Context mContext;

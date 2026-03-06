@@ -22,8 +22,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.D
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.DEVICE_TYPE_WIRED;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.Context;
-import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
@@ -31,6 +29,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,46 +45,91 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DeviceEffectMemory {
 
     private static final String TAG = "DeviceEffectMemory";
-    private static final String SETTINGS_KEY = "bluetooth_ear_device_effect_memory";
+    private static final String STORAGE_DIR = "/data/system/hyperceiler";
+    private static final String STORAGE_FILE = "effect_memory.json";
 
-    private final Context mContext;
+    private final File mFile;
     private final Gson mGson;
     private DeviceEffectData mData;
 
-    public DeviceEffectMemory(Context context) {
-        this.mContext = context;
-        this.mGson = new GsonBuilder().create();
+    public DeviceEffectMemory() {
+        File dir = new File(STORAGE_DIR);
+        if (!dir.exists()) dir.mkdirs();
+        mFile = new File(dir, STORAGE_FILE);
+        mGson = new GsonBuilder().setPrettyPrinting().create();
         loadData();
     }
 
-    /**
-     * 加载数据
-     */
-    private void loadData() {
+    private synchronized void loadData() {
         try {
-            String json = Settings.Global.getString(mContext.getContentResolver(), SETTINGS_KEY);
-            if (json != null && !json.isEmpty()) {
-                mData = mGson.fromJson(json, DeviceEffectData.class);
-                XposedLog.d(TAG, "Loaded " + mData.devices.size() + " devices");
+            if (mFile.exists()) {
+                String json = new String(Files.readAllBytes(mFile.toPath()));
+                if (!json.isEmpty()) {
+                    mData = mGson.fromJson(json, DeviceEffectData.class);
+                    XposedLog.d(TAG, "Loaded " + mData.devices.size() + " devices, "
+                        + mData.macToDeviceId.size() + " MAC mappings");
+                }
             }
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to load data", e);
         }
-
-        if (mData == null) {
-            mData = new DeviceEffectData();
-        }
+        if (mData == null) mData = new DeviceEffectData();
     }
 
-    /**
-     * 保存数据
-     */
     private synchronized void saveData() {
         try {
             String json = mGson.toJson(mData);
-            Settings.Global.putString(mContext.getContentResolver(), SETTINGS_KEY, json);
+            try (FileOutputStream fos = new FileOutputStream(mFile)) {
+                fos.write(json.getBytes(StandardCharsets.UTF_8));
+            }
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to save data", e);
+        }
+    }
+
+
+    // ==================== 设备 ID 归一化 ====================
+
+    /**
+     * 获取或创建设备 ID（连接时使用）
+     */
+    public String getOrCreateDeviceId(BluetoothDevice btDevice) {
+        if (btDevice == null) return null;
+
+        String mac = getBluetoothMac(btDevice);
+        String rawId = generateBluetoothDeviceId(btDevice);
+        if (mac == null) return rawId;
+
+        // 如果这个 MAC 已经映射到了某个 ID，且该 ID 的记忆存在，直接返回
+        String mappedId = mData.macToDeviceId.get(mac);
+        if (mappedId != null && mData.devices.containsKey(mappedId)) {
+            XposedLog.d(TAG, "Found existing mapping: MAC " + mac + " -> " + mappedId);
+            return mappedId;
+        }
+
+        // 否则将这个 MAC 绑定到它自己的 rawId
+        mData.macToDeviceId.put(mac, rawId);
+        saveData();
+        XposedLog.d(TAG, "Created new mapping: MAC " + mac + " -> " + rawId);
+        return rawId;
+    }
+
+    /**
+     * 强制将 MAC 绑定到指定的主设备 ID（断开时使用）
+     * 解决 LE Audio 断开时 MAC 与连接时不同的问题
+     */
+    public void bindMacToDeviceId(BluetoothDevice btDevice, String targetDeviceId) {
+        if (btDevice == null || targetDeviceId == null) return;
+
+        String mac = getBluetoothMac(btDevice);
+        if (mac == null) return;
+
+        String currentMappedId = mData.macToDeviceId.get(mac);
+        // 如果这个 MAC 还没绑定，或者绑定的不是当前会话的 targetDeviceId，则强制修正
+        if (!targetDeviceId.equals(currentMappedId)) {
+            mData.macToDeviceId.put(mac, targetDeviceId);
+            saveData();
+            XposedLog.d(TAG, "Bound LE Audio paired MAC " + mac + " to session ID: " + targetDeviceId);
         }
     }
 
@@ -93,8 +140,13 @@ public class DeviceEffectMemory {
         return mData.devices.get(deviceId);
     }
 
-    public void saveDeviceEffect(String deviceId, EffectState state) {
+    public void saveDeviceEffect(String deviceId, EffectState state, BluetoothDevice btDevice) {
         if (deviceId == null || state == null) return;
+
+        if (btDevice != null) {
+            state.macAddress = getBluetoothMac(btDevice);
+        }
+
         mData.devices.put(deviceId, state);
         saveData();
         XposedLog.d(TAG, "Saved: " + deviceId + " -> " + state);
@@ -103,7 +155,9 @@ public class DeviceEffectMemory {
     public void removeDeviceEffect(String deviceId) {
         if (deviceId == null) return;
         mData.devices.remove(deviceId);
-        saveData();}
+        mData.macToDeviceId.values().removeIf(id -> id.equals(deviceId));
+        saveData();
+    }
 
     public EffectState getSpeakerEffect() {
         return mData.speakerEffect;
@@ -121,11 +175,21 @@ public class DeviceEffectMemory {
 
     public void clearAll() {
         mData.devices.clear();
+        mData.macToDeviceId.clear();
         mData.speakerEffect = null;
         saveData();
     }
 
     // ==================== 静态工具方法 ====================
+
+    public static String getBluetoothMac(BluetoothDevice device) {
+        if (device == null) return null;
+        try {
+            return device.getAddress();
+        } catch (SecurityException e) {
+            return null;
+        }
+    }
 
     public static String generateBluetoothDeviceId(BluetoothDevice device) {
         if (device == null) return null;
@@ -157,9 +221,10 @@ public class DeviceEffectMemory {
     // ==================== 数据类 ====================
 
     public static class DeviceEffectData {
-        public int version = 1;
+        public int version = 2;
         public EffectState speakerEffect;
         public ConcurrentHashMap<String, EffectState> devices = new ConcurrentHashMap<>();
+        public ConcurrentHashMap<String, String> macToDeviceId = new ConcurrentHashMap<>();
     }
 
     public static class EffectState {
@@ -168,6 +233,7 @@ public class DeviceEffectMemory {
         public boolean surround;
         public long timestamp;
         public String deviceName;
+        public String macAddress;
 
         public EffectState() {}
 
@@ -182,7 +248,8 @@ public class DeviceEffectMemory {
         @Override
         public String toString() {
             return "EffectState{main='" + mainEffect + "', spatial=" + spatialAudio +
-                ", surround=" + surround + ", device='" + deviceName + "'}";
+                ", surround=" + surround + ", device='" + deviceName +
+                "', mac='" + macAddress + "'}";
         }
 
         @Override

@@ -153,7 +153,7 @@ public class DexKit {
             File cacheBaseDir = new File(appInfo.dataDir, "cache");
             File cacheDir = new File(cacheBaseDir, DEXKIT_CACHE_DIR);
 
-            if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+            if (!cacheDir.exists() && !cacheDir.mkdirs() && !cacheDir.exists()) {
                 XposedLog.w(sTag, "Failed to create cache directory: " + cacheDir.getAbsolutePath());
             }
 
@@ -248,14 +248,14 @@ public class DexKit {
         try {
             File cacheDir = sCacheFile.getParentFile();
             if (cacheDir != null && !cacheDir.exists()) {
-                if (!cacheDir.mkdirs()) {
+                if (!cacheDir.mkdirs() && !cacheDir.exists()) {
                     XposedLog.w(sTag, "Failed to create cache directory: " + cacheDir.getAbsolutePath());
                     return;
                 }
             }
 
             if (!sCacheFile.exists()) {
-                if (!sCacheFile.createNewFile()) {
+                if (!sCacheFile.createNewFile() && !sCacheFile.exists()) {
                     XposedLog.w(sTag, "Failed to create cache file: " + sCacheFile.getAbsolutePath());
                     return;
                 }

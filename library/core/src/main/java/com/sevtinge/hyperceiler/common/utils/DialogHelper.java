@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.common.utils;
 
 import static com.sevtinge.hyperceiler.common.utils.CtaUtils.setCtaValue;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatus;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.app.Activity;
@@ -206,7 +206,8 @@ public class DialogHelper {
         new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(R.string.warn)
-                .setMessage(context.getResources().getString(R.string.headtip_notice_dead_logger_errcode, LOGGER_CHECKER_ERR_CODE))
+                .setMessage(context.getResources().getString(R.string.headtip_notice_dead_logger_errcode,
+                    formatLoggerStatus()))
                 .setHapticFeedbackEnabled(true)
                 .setPositiveButton(android.R.string.ok, null)
                 .show();

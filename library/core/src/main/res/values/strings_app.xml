@@ -20,9 +20,7 @@
 <resources>
     <string name="app_name" translatable="false">HyperCeiler</string>
     <string name="app_name_sp" translatable="false">HappyCeiler</string>
-    <string name="navigation_home_title" translatable="false">@string/home</string>
-    <string name="navigation_settings_title" translatable="false">@string/settings</string>
-    <string name="navigation_about_title" translatable="false">@string/about</string>
+
     <string name="version_update">New version found</string>
     <string name="about_copy_right" translatable="false">© 2023-2026 Sevtinge &amp; HyperCeiler Contributors.</string>
     <string name="empty_lable" translatable="false" />
