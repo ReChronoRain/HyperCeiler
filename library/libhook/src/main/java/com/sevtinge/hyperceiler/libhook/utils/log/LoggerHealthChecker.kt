@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
+import android.os.Process.myPid
+import android.util.Log
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.ALIVE_THRESHOLD
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.confidence
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.diagSummary
@@ -40,7 +42,7 @@ object LoggerHealthChecker {
     @JvmField
     @Volatile
     var diagSummary: String = "NOT_CHECKED"
-    
+
     @JvmField
     @Volatile
     var localLogBaseDir: File? = null
@@ -121,8 +123,8 @@ object LoggerHealthChecker {
      * Logcat 管道读写检查（不依赖 root）
      */
     private fun checkLogcat(): CheckResult {
-        val token = "ALIVE_${android.os.Process.myPid()}_${System.nanoTime()}"
-        AndroidLog.d(TAG, token)
+        val token = "ALIVE_${myPid()}_${System.nanoTime()}"
+        Log.d(TAG, token)
 
         repeat(MAX_RETRIES) { attempt ->
             try {
@@ -137,7 +139,7 @@ object LoggerHealthChecker {
                 return CheckResult(0, "ERROR:${e.message?.take(50)}")
             }
         }
-        return CheckResult(0, "NOT_FOUND")
+        return CheckResult(WEIGHT_LOGCAT / 2, "NOT_FOUND")
     }
 
     private fun readLogcatForToken(token: String): Boolean {
