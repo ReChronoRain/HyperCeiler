@@ -27,7 +27,7 @@ expansions = "1.0.0"
 gson = "2.13.2"
 hyperfocusapi = "2.0"
 lunarcalendar = "latest.release"
-superLyricApi = "2.4"
+superLyricApi = "2.6"
 
 [libraries]
 # AndroidX
