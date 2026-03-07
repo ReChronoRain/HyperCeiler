@@ -52,6 +52,7 @@ import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 
@@ -138,7 +139,11 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
                 PrefsUtils.getSharedBoolPrefs(context, "prefs_key_development_debug_mode", false)));
-            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + formatLoggerStatusDetail());
+            if ("NOT_CHECKED".equals(LoggerHealthChecker.diagSummary)) {
+                LoggerHealthChecker.isLoggerAlive();
+            }
+            String loggerStatus = IS_LOGGER_ALIVE + ", " + formatLoggerStatusDetail();
+            propertiesCheck.put("LoggerStatus", loggerStatus);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(context));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(context)));
         } catch (Exception e) {

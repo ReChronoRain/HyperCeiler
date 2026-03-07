@@ -29,7 +29,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.awaitHealthCheck;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.content.Context;
@@ -46,6 +45,7 @@ import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 
 import java.util.Calendar;
 import java.util.List;
@@ -99,14 +99,13 @@ public class HomePageBannerHelper {
 
     private void isLoggerAlive(Context context, PreferenceCategory preference) {
         if (isRelease()) return;
-        new Thread(() -> {
-            awaitHealthCheck(10_000);
+        LogManager.onHealthCheckDone(() -> {
             if (!IS_LOGGER_ALIVE) {
                 new Handler(Looper.getMainLooper()).post(() ->
                     preference.addPreference(createBannerPreference(context, R.layout.headtip_notice))
                 );
             }
-        }, "BannerLogCheck").start();
+        });
     }
 
     private void checkWarnings(Context context, PreferenceCategory preference) {
