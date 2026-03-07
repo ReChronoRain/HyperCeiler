@@ -91,11 +91,20 @@ abstract class MusicBaseHook : BaseHook() {
     private val isClickClock by lazy {
         mPrefsMap.getBoolean("system_ui_statusbar_music_click_clock")
     }
+    private val narrowFontMode: Boolean by lazy { mPrefsMap.getBoolean("system_ui_statusbar_music_narrow_font") }
+
+    private val isShowNotific by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_show_notific", true)
+    }
+    private val isFallbackFocusNotification by lazy {
+        mPrefsMap.getBoolean("system_ui_statusbar_music_fallback_focus_notification", false)
+    }
 
     private val circlePaint by lazy {
         Paint(Paint.ANTI_ALIAS_FLAG)
     }
 
+    // 缓存资源 ID
     private val resourceIds by lazy {
         val modRes = AppsTool.getModuleRes(context)
         ResourceIds(
@@ -277,18 +286,40 @@ abstract class MusicBaseHook : BaseHook() {
     ) {
         val iconsAdd = createIconsBundle(iconBundle)
 
-        runCatching {
-            val remoteDay = buildRemoteViews(tf, text, RemoteViewType.DAY)
-            val remoteIsland = buildRemoteViews(tf, text, RemoteViewType.ISLAND)
+        if (!isFallbackFocusNotification) {
+            runCatching {
+                val remoteDay = buildRemoteViews(tf, text, RemoteViewType.DAY)
+                val remoteIsland = buildRemoteViews(tf, text, RemoteViewType.ISLAND)
 
-            val focusExtras = buildFocusExtras(
-                text, tf, iconBundle, islandTemplate, iconsAdd, remoteDay, remoteIsland
+                val focusExtras = buildFocusExtras(
+                    text, tf, iconBundle, islandTemplate, iconsAdd, remoteDay, remoteIsland
+                )
+
+                postNotification(builder, focusExtras, packageName)
+            }.onFailure { e ->
+                XposedLog.w(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
+                sendFallbackNotification(
+                    builder,
+                    text,
+                    tf,
+                    iconBundle,
+                    islandTemplate,
+                    packageName,
+                    iconsAdd
+                )
+            }
+        } else {
+            XposedLog.w(TAG, lpparam.packageName, "send Focus Fallback Notification")
+            sendFallbackNotification(
+                builder,
+                text,
+                tf,
+                iconBundle,
+                islandTemplate,
+                packageName,
+                iconsAdd
             )
 
-            postNotification(builder, focusExtras, packageName)
-        }.onFailure { e ->
-            XposedLog.w(TAG, lpparam.packageName, "send diy focus failed: ${e.message}")
-            sendFallbackNotification(builder, text, tf, iconBundle, islandTemplate, packageName, iconsAdd)
         }
     }
 
@@ -308,6 +339,7 @@ abstract class MusicBaseHook : BaseHook() {
             !hideAodShow && isAodMode -> {
                 val remoteAod = buildRemoteViews(tf, text, RemoteViewType.AOD, iconBundle.icon)
                 FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -323,6 +355,7 @@ abstract class MusicBaseHook : BaseHook() {
             }
             !hideAodShow && !isAodMode -> {
                 FocusApi.sendDiyFocus(
+                    isShowNotification = isShowNotific,
                     addpics = iconsAdd,
                     islandFirstFloat = false,
                     ticker = text,
@@ -441,10 +474,10 @@ abstract class MusicBaseHook : BaseHook() {
 
         val left = IslandApi.imageTextInfo(
             picInfo = picInfo,
-            textInfo = IslandApi.TextInfo(title = leftText)
+            textInfo = IslandApi.TextInfo(title = leftText, narrowFont = narrowFontMode)
         )
         val right = IslandApi.imageTextInfo(
-            textInfo = IslandApi.TextInfo(title = rightText.orEmpty()),
+            textInfo = IslandApi.TextInfo(title = rightText.orEmpty(), narrowFont = narrowFontMode),
             type = 2
         )
         val bigIsland = IslandApi.bigIslandArea(imageTextInfoLeft = left, imageTextInfoRight = right)
@@ -543,6 +576,9 @@ abstract class MusicBaseHook : BaseHook() {
      */
     private fun createEmptyBitmapFallback(): Bitmap = createBitmap(1, 1)
 
+    /**
+     * 将 Bitmap 裁剪为圆形
+     */
     /**
      * 将 Bitmap 裁剪为圆形
      */
