@@ -135,6 +135,7 @@
     <string name="log_type_app">App Log</string>
     <string name="log_type_xposed">Xposed Log</string>
     <string name="log_filter_stats">Log list (%1$d/%2$d)</string>
+    <string name="log_loading">Log loading…</string>
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
     <string name="log_menu_clear">Clear logs</string>

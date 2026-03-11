@@ -66,16 +66,14 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
 
     // 颜色配置
     private static final int sSearchHighlightColor = Color.RED;
-    private static final int sDefaultTextColor = Color.BLACK;
 
     // 监听器
     private OnFilterChangeListener mFilterChangeListener;
     private OnLogItemClickListener mLogItemClickListener;
-    private Runnable mPendingUpdate;
 
+    private volatile int mUpdateVersion = 0;
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
     private final ExecutorService mFilterExecutor = Executors.newSingleThreadExecutor();
-    private volatile boolean mIsFiltering = false;
 
     public interface OnDataUpdateListener {
         void onDataUpdated();
@@ -90,10 +88,8 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     public LogAdapter(Context context, List<LogEntry> logEntries) {
         mContext = context;
         mOriginalLogEntries = new ArrayList<>(logEntries);
-        // 倒序显示，最新的日志在最上面
         Collections.reverse(mOriginalLogEntries);
         mFilteredLogEntries = new ArrayList<>(mOriginalLogEntries);
-        // 提取所有可用的模块和级别
         extractAvailableList();
     }
 
@@ -127,8 +123,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         mModuleList.addAll(moduleSet);
     }
 
-
-    // 获取模块列表（线程安全）
     public List<String> getModuleList() {
         return new ArrayList<>(mModuleList);
     }
@@ -140,87 +134,119 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     // 更新数据
     public void updateData(List<LogEntry> newLogEntries) {
         if (newLogEntries == null) return;
-
-        if (mPendingUpdate != null) {
-            mMainHandler.removeCallbacks(mPendingUpdate);
-        }
-
-        mPendingUpdate = () -> {
-            mOriginalLogEntries = new ArrayList<>(newLogEntries);
-            Collections.reverse(mOriginalLogEntries);
-            extractAvailableList();
-            performFiltering();
-
-            // 通知数据更新完成
-            if (mDataUpdateListener != null) {
-                mDataUpdateListener.onDataUpdated();
-            }
-        };
-
-        mMainHandler.postDelayed(mPendingUpdate, 100);
-    }
-
-    private void performFiltering() {
-        if (mIsFiltering) return;
-        mIsFiltering = true;
-
-        // 复制当前过滤条件，避免并发问题
-        final String searchLower = mSearchKeyword.toLowerCase();
-        final String selectedLevel = mSelectedLevel;
-        final String selectedModule = mSelectedModule;
-        final List<LogEntry> originalList = new ArrayList<>(mOriginalLogEntries);
+        final int version = ++mUpdateVersion;
 
         mFilterExecutor.execute(() -> {
-            try {
-                List<LogEntry> filteredList = new ArrayList<>();
+            if (version != mUpdateVersion) return;
 
-                for (LogEntry entry : originalList) {
-                    if (entry == null) continue;
+            List<LogEntry> reversed = new ArrayList<>(newLogEntries);
+            Collections.reverse(reversed);
 
-                    // 级别过滤
-                    boolean levelMatch = "ALL".equals(selectedLevel) ||selectedLevel.equals(entry.getLevel());
-                    if (!levelMatch) continue;
-
-                    // 模块过滤
-                    boolean moduleMatch = "ALL".equals(selectedModule) ||
-                        selectedModule.equals(entry.getTag());
-                    if (!moduleMatch) continue;
-
-                    // 搜索过滤
-                    if (!searchLower.isEmpty()) {
-                        String message = entry.getMessage();
-                        String tag = entry.getTag();
-                        if (message == null || tag == null) continue;
-
-                        boolean searchMatch = message.toLowerCase().contains(searchLower) ||
-                            tag.toLowerCase().contains(searchLower);
-                        if (!searchMatch) continue;
-                    }
-
-                    filteredList.add(entry);
-                }
-
-                final List<LogEntry> result = filteredList;
-                final int filteredSize = result.size();
-                final int totalSize = originalList.size();
-
-                mMainHandler.post(() -> {
-                    mFilteredLogEntries = result;
-                    notifyDataSetChanged();
-
-                    if (mFilterChangeListener != null) {
-                        mFilterChangeListener.onFilterChanged(filteredSize, totalSize);
-                    }
-                    mIsFiltering = false;
-                });
-            } catch (Exception e) {
-                mIsFiltering = false;
+            Set<String> levelSet = new HashSet<>();
+            Set<String> moduleSet = new HashSet<>();
+            for (LogEntry entry : reversed) {
+                if (entry == null) continue;
+                if (entry.getLevel() != null) levelSet.add(entry.getLevel());
+                if (entry.getTag() != null) moduleSet.add(entry.getTag());
             }
+
+            if (version != mUpdateVersion) return;
+
+            List<LogEntry> filtered = applyFilter(reversed);
+
+            if (version != mUpdateVersion) return;
+
+            final int filteredSize = filtered.size();
+            final int totalSize = reversed.size();
+
+            mMainHandler.post(() -> {
+                if (version != mUpdateVersion) return;
+
+                mOriginalLogEntries = reversed;
+                rebuildFilterLists(levelSet, moduleSet);
+                mFilteredLogEntries = filtered;
+
+                notifyDataSetChanged();
+
+                if (mFilterChangeListener != null) {
+                    mFilterChangeListener.onFilterChanged(filteredSize, totalSize);
+                }
+                if (mDataUpdateListener != null) {
+                    mDataUpdateListener.onDataUpdated();
+                }
+            });
         });
     }
 
-    // 搜索功能
-    // 设置过滤条件
+    private void performFiltering() {
+        final int version = ++mUpdateVersion;
+        final List<LogEntry> source = mOriginalLogEntries;
+
+        mFilterExecutor.execute(() -> {
+            if (version != mUpdateVersion) return;
+
+            List<LogEntry> filtered = applyFilter(source);
+
+            if (version != mUpdateVersion) return;
+
+            final int filteredSize = filtered.size();
+            final int totalSize = source.size();
+
+            mMainHandler.post(() -> {
+                if (version != mUpdateVersion) return;
+
+                mFilteredLogEntries = filtered;
+
+                notifyDataSetChanged();
+
+                if (mFilterChangeListener != null) {
+                    mFilterChangeListener.onFilterChanged(filteredSize, totalSize);
+                }
+            });
+        });
+    }
+
+    /**
+     * 统一过滤逻辑，避免重复代码
+     */
+    private List<LogEntry> applyFilter(List<LogEntry> source) {
+        final String searchLower = mSearchKeyword.toLowerCase();
+        final String selectedLevel = mSelectedLevel;
+        final String selectedModule = mSelectedModule;
+
+        List<LogEntry> result = new ArrayList<>();
+        for (LogEntry entry : source) {
+            if (entry == null) continue;
+            if (!"ALL".equals(selectedLevel) && !selectedLevel.equals(entry.getLevel())) continue;
+            if (!"ALL".equals(selectedModule) && !selectedModule.equals(entry.getTag())) continue;
+            if (!searchLower.isEmpty()) {
+                String msg = entry.getMessage();
+                String tag = entry.getTag();
+                if (msg == null || tag == null) continue;
+                if (!msg.toLowerCase().contains(searchLower) && !tag.toLowerCase().contains(searchLower)) continue;
+            }
+            result.add(entry);
+        }
+        return result;
+    }
+
+    private void rebuildFilterLists(Set<String> levelSet, Set<String> moduleSet) {
+        mLevelList.clear();
+        mModuleList.clear();
+        mLevelList.add(mContext.getString(R.string.log_filter_all));
+        mModuleList.add(mContext.getString(R.string.log_filter_all));
+        for (String l : levelSet) {
+            switch (l) {
+                case "C" -> mLevelList.add(mContext.getString(R.string.log_level_crash));
+                case "D" -> mLevelList.add(mContext.getString(R.string.log_level_debug));
+                case "I" -> mLevelList.add(mContext.getString(R.string.log_level_info));
+                case "W" -> mLevelList.add(mContext.getString(R.string.log_level_warn));
+                case "E" -> mLevelList.add(mContext.getString(R.string.log_level_error));
+            }
+        }
+        mModuleList.addAll(moduleSet);
+    }
+
     public void setSearchKeyword(String keyword) {
         mSearchKeyword = keyword != null ? keyword : "";
         performFiltering();
@@ -287,13 +313,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
     @Override
     public LogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(com.fan.common.R.layout.item_log, parent, false);
+            .inflate(com.fan.common.R.layout.item_log, parent, false);
         return new LogViewHolder(view);
     }
 
     @Override
     public void setHasStableIds() {
-
     }
 
     @Override
@@ -368,15 +393,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         }
 
         public void bind(LogEntry logEntry, String searchKeyword) {
-            // 时间
             mTempBuilder.setLength(0);
             mTempBuilder.append(logEntry.getFormattedTime()).append(" | ");
             mTimeTextView.setText(mTempBuilder);
 
-            // 标签
             mModuleTextView.setText(logEntry.getTag());
 
-            // 级别徽标
             String level = logEntry.getLevel();
             String displayLevel = level;
             for (int i = 0; i < LEVEL_LABELS.length; i++) {
@@ -389,7 +411,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             mLevelTextView.getBackground().setTint(getLevelBadgeColor(level));
             mLevelTextView.setTextColor(getLevelTextColor(level));
 
-            // 消息内容
             String message = logEntry.getMessage();
             boolean isXposed = "Xposed".equals(logEntry.getModule());
 
@@ -399,7 +420,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                 String primary = parsed[0];
                 String secondary = parsed[1];
 
-                // 主要内容
                 if (primary != null && !primary.isEmpty()) {
                     mPrimaryTextView.setVisibility(View.VISIBLE);
                     mPrimaryTextView.setTextColor(mDefaultMessageColor);
@@ -413,7 +433,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                     mPrimaryTextView.setVisibility(View.GONE);
                 }
 
-                // 次要内容
                 if (secondary != null && !secondary.isEmpty()) {
                     mSecondaryTextView.setVisibility(View.VISIBLE);
                     if ("C".equals(level)) {
@@ -437,7 +456,6 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
                     mSecondaryTextView.setVisibility(View.GONE);
                 }
             } else {
-                // App 日志：原始行为
                 mPrimaryTextView.setVisibility(View.GONE);
                 mSecondaryTextView.setVisibility(View.GONE);
                 mMessageTextView.setVisibility(View.VISIBLE);
@@ -457,30 +475,20 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
             }
         }
 
-        /**
-         * 解析 Xposed 日志消息用于显示
-         * 兼容新旧格式：
-         *   旧版: [HyperCeiler][I][pkg][ClassName]: detail message
-         *   新版: [pkg][ClassName]: detail message
-         * @return [primary, secondary]
-         */
         static String[] parseXposedDisplay(String message, String level) {
             if (message == null) return new String[]{null, ""};
 
-            // Crash：去掉所有 [...] 前缀
             if ("C".equals(level)) {
                 String stripped = message.replaceFirst("^(?:\\[[^\\]]+\\])+:\\s*", "");
                 return new String[]{null, stripped};
             }
 
-            // 找 "]: " 分割点
             int idx = message.indexOf("]: ");
             if (idx == -1) return new String[]{null, message};
 
             String brackets = message.substring(0, idx + 1);
             String rest = message.substring(idx + 3);
 
-            // 提取最后一个 [xxx] 作为主要内容
             int lastOpen = brackets.lastIndexOf('[');
             int lastClose = brackets.lastIndexOf(']');
             String primary = (lastOpen >= 0 && lastClose > lastOpen)
@@ -529,12 +537,10 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder>
         }
     }
 
-    // 过滤变化监听器接口
     public interface OnFilterChangeListener {
         void onFilterChanged(int filteredCount, int totalCount);
     }
 
-    // 日志条目点击监听器接口
     public interface OnLogItemClickListener {
         void onLogItemClick(LogEntry logEntry);
     }

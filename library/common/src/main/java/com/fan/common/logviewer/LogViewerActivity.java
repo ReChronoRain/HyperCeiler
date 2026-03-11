@@ -95,6 +95,7 @@ public class LogViewerActivity extends BaseActivity
     private final Handler mSearchHandler = new Handler(Looper.getMainLooper());
     private Runnable mSearchRunnable;
     private static final long SEARCH_DEBOUNCE_MS = 200;
+    private volatile boolean mXposedLogsReady = false;
 
     @Override
     protected int getContentLayoutId() {
@@ -104,19 +105,55 @@ public class LogViewerActivity extends BaseActivity
     @Override
     protected void onCreate() {
         super.onCreate();
-
         mLogManager = LogManager.getInstance();
-        loadXposedLogsAndInit();
+        initViews();
+        loadXposedInBackground();
     }
 
-    private void loadXposedLogsAndInit() {
+    private void loadXposedInBackground() {
         if (sXposedLogLoader != null) {
-            sXposedLogLoader.loadLogs(this, () -> {
-                new Handler(Looper.getMainLooper()).post(this::initViews);
-            });
-        } else {
-            initViews();
+            new Thread(() -> {
+                sXposedLogLoader.loadLogs(this, () -> {
+                    mXposedLogsReady = true;
+                    runOnUiThread(() -> {
+                        if (mCurrentLogType == 1) {
+                            loadDataForCurrentType();
+                        }
+                    });
+                });
+            }).start();
         }
+    }
+
+    private void switchLogType(int logType) {
+        // 切换时立即显示加载状态
+        mFilterStatsTextView.setText(getString(com.sevtinge.hyperceiler.core.R.string.log_loading));
+
+        if (logType == 1 && !mXposedLogsReady) {
+            if (mLogAdapter != null) {
+                mLogAdapter.updateData(new ArrayList<>());
+            }
+            return;
+        }
+        loadDataForCurrentType();
+    }
+
+    private void loadDataForCurrentType() {
+        // 显示加载中
+        mFilterStatsTextView.setText(getString(com.sevtinge.hyperceiler.core.R.string.log_loading));
+
+        if (mLogAdapter == null || mLogManager == null) return;
+        List<LogEntry> entries;
+        if (mCurrentLogType == 0) {
+            entries = mLogManager.getLogEntries();
+        } else {
+            entries = mLogManager.getXposedLogEntries();
+        }
+        mLogAdapter.updateData(entries);
+    }
+
+    private void loadDataAsync() {
+        loadDataForCurrentType();
     }
 
     private void initViews() {
@@ -157,20 +194,10 @@ public class LogViewerActivity extends BaseActivity
 
     private void onAdapterDataUpdated() {
         updateList();
+        mLevelSpinner.getSpinner().setOnItemSelectedListener(null);
+        mModuleSpinner.getSpinner().setOnItemSelectedListener(null);
         refreshFilterSpinners();
-        setupSpinnerListeners();
-    }
-
-    private void loadDataAsync() {
-        new Thread(() -> {
-            List<LogEntry> logEntries = mLogManager != null ? mLogManager.getLogEntries() : new ArrayList<>();
-
-            runOnUiThread(() -> {
-                if (mLogAdapter != null) {
-                    mLogAdapter.updateData(logEntries);
-                }
-            });
-        }).start();
+        mRecyclerView.post(this::setupSpinnerListeners);
     }
 
     private void setupSpinnerListeners() {
@@ -251,24 +278,6 @@ public class LogViewerActivity extends BaseActivity
         });
     }
 
-    private void switchLogType(int logType) {
-        List<LogEntry> logEntries;
-        if (logType == 0) {
-            logEntries = mLogManager != null ? mLogManager.getLogEntries() : new ArrayList<>();
-        } else {
-            logEntries = mLogManager != null ? mLogManager.getXposedLogEntries() : new ArrayList<>();
-        }
-
-        if (mLogAdapter != null) {
-            mLogAdapter.updateData(logEntries);
-            // 回调会处理后续操作
-        }
-
-        if (mRecyclerView != null && mLogAdapter != null && mLogAdapter.getItemCount() > 0) {
-            mRecyclerView.scrollToPosition(0);
-        }
-    }
-
     private void refreshFilterSpinners() {
         ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
             this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout,
@@ -325,82 +334,6 @@ public class LogViewerActivity extends BaseActivity
         if (mLogAdapter != null) {
             mLogAdapter.clearAllFilters();
         }
-    }
-
-    private void setupLevelFilter() {
-        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mLevelList);
-        levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
-        mLevelSpinner.setAdapter(levelAdapter);
-        mLevelSpinner.setSelection(0);
-
-        mLevelSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mLogAdapter == null) return;
-                try {
-                    if (position >= 0 && position < mLevelList.size()) {
-                        String selectedLevel = mLevelList.get(position);
-                        mLogAdapter.setLevelFilter(selectedLevel);
-                    } else {
-                        mLogAdapter.setLevelFilter("ALL");
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error in level spinner selection", e);
-                    if (mLogAdapter != null) {
-                        mLogAdapter.setLevelFilter("ALL");
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                if (mLogAdapter != null) {
-                    mLogAdapter.setLevelFilter("ALL");
-                }
-            }
-        });
-    }
-
-    private void setupModuleFilter() {
-        ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, 0x01020014, mModuleList);
-        moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
-        mModuleSpinner.setAdapter(moduleAdapter);
-        mModuleSpinner.setSelection(0);
-
-        mModuleSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mLogAdapter == null) return;
-                try {
-                    if (position >= 0 && position < mModuleList.size()) {
-                        String selectedModule = mModuleList.get(position);
-                        mLogAdapter.setModuleFilter(selectedModule);
-                    } else {
-                        mLogAdapter.setModuleFilter("ALL");
-                        if (mModuleSpinner != null) {
-                            mModuleSpinner.setSelection(0);
-                        }
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error in module spinner selection", e);
-                    if (mLogAdapter != null) {
-                        mLogAdapter.setModuleFilter("ALL");
-                    }
-                    if (mModuleSpinner != null) {
-                        mModuleSpinner.setSelection(0);
-                    }
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                if (mLogAdapter != null) {
-                    mLogAdapter.setModuleFilter("ALL");
-                }
-            }
-        });
     }
 
     public void refreshLogs() {

@@ -22,8 +22,8 @@ import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootP
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
 
 import java.io.BufferedReader;
@@ -47,7 +47,7 @@ public class XposedLogLoader {
     private static final String TAG = "XposedLogLoader";
     private static volatile XposedLogLoader instance;
 
-    // LSPosed 日志路径
+    // LSPosed 日志源路径
     private static final String LSPD_LOG_DIR = "/data/adb/lspd/log";
     private static final String LSPD_LOG_OLD_DIR = "/data/adb/lspd/log.old";
 
@@ -72,13 +72,19 @@ public class XposedLogLoader {
     private static final Pattern NEW_MODULE_PATTERN = Pattern.compile(
         "\\[([^,\\]]+),([^\\]]+)\\]");
 
+    // 分页常量
+    private static final long PAGE_SIZE_BYTES = 4L * 1024 * 1024;
+    private static final String PAGE_MARKER_PREFIX = "----part ";
+    private static final String PAGE_MARKER_SUFFIX = " start----";
+    private static final int MAX_ENTRY_MESSAGE_LENGTH = 32 * 1024;
+
     private final Context context;
-    private final File appLogBaseDir;           // files/log
-    private final File lspdCopyBaseDir;         // files/log/lspd
-    private final File lspdLogDir;              // files/log/lspd/log
-    private final File lspdLogOldDir;           // files/log/lspd/log.old
-    private final File filteredDir;             // files/log/hyperceiler_filtered
-    private final File rotationMarkerFile;      // files/log/.rotation_marker
+    private final File appLogBaseDir;
+    private final File lspdCopyBaseDir;
+    private final File lspdLogDir;
+    private final File lspdLogOldDir;
+    private final File filteredDir;
+    private final File rotationMarkerFile;
 
     private XposedLogLoader(Context context) {
         this.context = context.getApplicationContext();
@@ -105,7 +111,7 @@ public class XposedLogLoader {
     public static void loadLogs(Runnable callback) {
         Context appContext = getApplicationContext();
         if (appContext == null) {
-            Log.e(TAG, "Application context is null");
+            AndroidLog.e(TAG, "Application context is null");
             if (callback != null) callback.run();
             return;
         }
@@ -115,7 +121,7 @@ public class XposedLogLoader {
     public static void loadLogsSync() {
         Context appContext = getApplicationContext();
         if (appContext == null) {
-            Log.e(TAG, "Application context is null");
+            AndroidLog.e(TAG, "Application context is null");
             return;
         }
         getInstance(appContext).syncLogsSync();
@@ -130,46 +136,25 @@ public class XposedLogLoader {
     }
 
     private void initLogDirectories() {
-        if (!appLogBaseDir.exists() && !appLogBaseDir.mkdirs()) {
-            Log.w(TAG, "Failed to create app log base directory");
-        }
-        if (!lspdCopyBaseDir.exists() && !lspdCopyBaseDir.mkdirs()) {
-            Log.w(TAG, "Failed to create lspd copy base directory");
-        }
-        if (!lspdLogDir.exists() && !lspdLogDir.mkdirs()) {
-            Log.w(TAG, "Failed to create lspd log directory");
-        }
-        if (!lspdLogOldDir.exists() && !lspdLogOldDir.mkdirs()) {
-            Log.w(TAG, "Failed to create lspd log old directory");
-        }
-        if (!filteredDir.exists() && !filteredDir.mkdirs()) {
-            Log.w(TAG, "Failed to create filtered directory");
-        }
-
-        File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
-        if (!filteredLogDir.exists() && !filteredLogDir.mkdirs()) {
-            Log.w(TAG, "Failed to create filtered log directory");
-        }
-        File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
-        if (!filteredLogOldDir.exists() && !filteredLogOldDir.mkdirs()) {
-            Log.w(TAG, "Failed to create filtered log old directory");
-        }
+        ensureDirs(appLogBaseDir, lspdCopyBaseDir, lspdLogDir, lspdLogOldDir, filteredDir,
+            new File(filteredDir, LSPD_LOG_SUBDIR),
+            new File(filteredDir, LSPD_LOG_OLD_SUBDIR));
     }
+
+    // ==================== 同步入口 ====================
 
     public void syncLogs(Runnable callback) {
         new Thread(() -> {
             try {
-                // 先同步日志文件
                 syncLogsInternal();
-                // 同步完成后加载到内存
                 loadFilteredLogsToMemory();
-                Log.i(TAG, "Log sync completed successfully");
+                AndroidLog.d(TAG, "Log sync completed successfully");
+            } catch (OutOfMemoryError e) {
+                AndroidLog.e(TAG, "OOM during log sync", e);
             } catch (Exception e) {
-                Log.e(TAG, "Failed to sync logs", e);
+                AndroidLog.e(TAG, "Failed to sync logs", e);
             } finally {
-                if (callback != null) {
-                    callback.run();
-                }
+                if (callback != null) callback.run();
             }
         }).start();
     }
@@ -178,9 +163,11 @@ public class XposedLogLoader {
         try {
             syncLogsInternal();
             loadFilteredLogsToMemory();
-            Log.i(TAG, "Log sync completed successfully");
+            AndroidLog.d(TAG, "Log sync completed successfully");
+        } catch (OutOfMemoryError e) {
+            AndroidLog.e(TAG, "OOM during log sync", e);
         } catch (Exception e) {
-            Log.e(TAG, "Failed to sync logs", e);
+            AndroidLog.e(TAG, "Failed to sync logs", e);
         }
     }
 
@@ -189,6 +176,8 @@ public class XposedLogLoader {
         copyLspdLogs();
         filterAndSaveLogs();
     }
+
+    // ==================== 日志轮转 ====================
 
     private void rotateLogsIfNeeded() {
         String checkCmd = "[ -d '" + LSPD_LOG_OLD_DIR + "' ] && echo 'exists' || echo 'not_exists'";
@@ -204,22 +193,19 @@ public class XposedLogLoader {
                 if (currentLspdOldTime > lastRotationTime) {
                     rotateAppLogs();
                     writeRotationMarker(currentLspdOldTime);
-
                     try {
                         LogManager.getInstance().rotateAppLogs();
-                        Log.i(TAG, "App logs rotated along with Xposed logs");
+                        AndroidLog.d(TAG, "App logs rotated along with Xposed logs");
                     } catch (Exception e) {
-                        Log.w(TAG, "Failed to rotate app logs", e);
+                        AndroidLog.w(TAG, "Failed to rotate app logs", e);
                     }
-                    Log.i(TAG, "Logs rotated based on LSPosed rotation");
+                    AndroidLog.d(TAG, "Logs rotated based on LSPosed rotation");
                 }
             } catch (NumberFormatException e) {
-                Log.w(TAG, "Failed to parse LSPosed log.old time", e);
+                AndroidLog.w(TAG, "Failed to parse LSPosed log.old time", e);
             }
         } else {
-            if (rotationMarkerFile.exists()) {
-                rotationMarkerFile.delete();
-            }
+            if (rotationMarkerFile.exists()) rotationMarkerFile.delete();
         }
     }
 
@@ -237,7 +223,7 @@ public class XposedLogLoader {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(rotationMarkerFile))) {
             writer.write(String.valueOf(timestamp));
         } catch (IOException e) {
-            Log.e(TAG, "Failed to write rotation marker", e);
+            AndroidLog.e(TAG, "Failed to write rotation marker", e);
         }
     }
 
@@ -249,11 +235,11 @@ public class XposedLogLoader {
             if (lspdLogDir.exists() && hasFiles(lspdLogDir)) {
                 File tempOldDir = new File(lspdCopyBaseDir, LSPD_LOG_OLD_SUBDIR);
                 if (!lspdLogDir.renameTo(tempOldDir)) {
-                    Log.w(TAG, "Failed to rename lspd log directory to log.old");
+                    AndroidLog.w(TAG, "Failed to rename lspd log directory to log.old");
                 }
                 File parentDir = lspdLogOldDir.getParentFile();
                 if (parentDir != null && !parentDir.exists() && !parentDir.mkdirs()) {
-                    Log.w(TAG, "Failed to create parent directory for lspd log old");
+                    AndroidLog.w(TAG, "Failed to create parent directory for lspd log old");
                 }
             }
 
@@ -261,22 +247,20 @@ public class XposedLogLoader {
             File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
             if (filteredLogDir.exists() && hasFiles(filteredLogDir)) {
                 if (!filteredLogDir.renameTo(filteredLogOldDir)) {
-                    Log.w(TAG, "Failed to rename filtered log directory to log.old");
+                    AndroidLog.w(TAG, "Failed to rename filtered log directory to log.old");
                 }
             }
 
             if (!lspdLogDir.exists() && !lspdLogDir.mkdirs()) {
-                Log.w(TAG, "Failed to recreate lspd log directory");
+                AndroidLog.w(TAG, "Failed to recreate lspd log directory");
             }
-
             File newFilteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
             if (!newFilteredLogDir.exists() && !newFilteredLogDir.mkdirs()) {
-                Log.w(TAG, "Failed to recreate filtered log directory");
+                AndroidLog.w(TAG, "Failed to recreate filtered log directory");
             }
-
-            Log.i(TAG, "Xposed logs rotated");
+            AndroidLog.d(TAG, "Xposed logs rotated");
         } catch (Exception e) {
-            Log.e(TAG, "Failed to rotate Xposed logs", e);
+            AndroidLog.e(TAG, "Failed to rotate Xposed logs", e);
         }
     }
 
@@ -284,6 +268,8 @@ public class XposedLogLoader {
         File[] files = directory.listFiles();
         return files != null && files.length > 0;
     }
+
+    // ==================== 拷贝（当前 + 旧的都拷） ====================
 
     private void copyLspdLogs() {
         copyLspdDirectory(LSPD_LOG_DIR, lspdLogDir);
@@ -293,26 +279,20 @@ public class XposedLogLoader {
     private void copyLspdDirectory(String sourceDir, File targetDir) {
         try {
             String checkCmd = "[ -d '" + sourceDir + "' ] && echo 'exists' || echo 'not_exists'";
-            String checkResult = ShellUtils.rootExecCmd(checkCmd).trim();
-
-            if (!"exists".equals(checkResult)) {
-                Log.w(TAG, "Source directory does not exist: " + sourceDir);
+            if (!"exists".equals(ShellUtils.rootExecCmd(checkCmd).trim())) {
+                AndroidLog.w(TAG, "Source directory does not exist: " + sourceDir);
                 return;
             }
-
             targetDir.mkdirs();
-
-            String copyCmd = "cp -f " + sourceDir + "/* '" + targetDir.getAbsolutePath() + "/' 2>/dev/null";
-            ShellUtils.rootExecCmd(copyCmd);
-
-            String chmodCmd = "chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>/dev/null";
-            ShellUtils.rootExecCmd(chmodCmd);
-
-            Log.d(TAG, "Copied logs from " + sourceDir + " to " + targetDir.getAbsolutePath());
+            ShellUtils.rootExecCmd("cp -f " + sourceDir + "/* '" + targetDir.getAbsolutePath() + "/' 2>/dev/null");
+            ShellUtils.rootExecCmd("chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>/dev/null");
+            AndroidLog.d(TAG, "Copied logs from " + sourceDir + " to " + targetDir.getAbsolutePath());
         } catch (Exception e) {
-            Log.e(TAG, "Failed to copy directory: " + sourceDir, e);
+            AndroidLog.e(TAG, "Failed to copy directory: " + sourceDir, e);
         }
     }
+
+    // ==================== 过滤 + 分页写入（当前 + 旧的都过滤存储） ====================
 
     private void filterAndSaveLogs() {
         File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
@@ -324,40 +304,52 @@ public class XposedLogLoader {
         filterLogsInDirectory(lspdLogOldDir, filteredLogOldDir);
     }
 
+    /**
+     * 优先 modules_，过滤后无内容则 fallback 到 verbose_
+     */
     private void filterLogsInDirectory(File sourceDir, File targetDir) {
         if (!sourceDir.exists()) return;
 
-        // 优先处理 modules_*.log，找不到则 fallback 到 verbose_*.log
-        File[] sourceFiles = sourceDir.listFiles((dir, name) ->
-            name.startsWith("modules_") && name.endsWith(".log"));
-        if (sourceFiles == null || sourceFiles.length == 0) {
-            sourceFiles = sourceDir.listFiles((dir, name) ->
-                name.startsWith("verbose_") && name.endsWith(".log"));
+        File[] modulesFiles = sourceDir.listFiles((d, n) ->
+            n.startsWith("modules_") && n.endsWith(".log"));
+        int count = 0;
+        if (modulesFiles != null && modulesFiles.length > 0) {
+            count = filterFiles(modulesFiles, targetDir);
         }
-        if (sourceFiles == null || sourceFiles.length == 0) return;
-
-        for (File sourceFile : sourceFiles) {
-            String fileName = sourceFile.getName();
-            File targetFile = new File(targetDir, FILTERED_LOG_PREFIX + fileName);
-            try {
-                filterAndAppendLog(sourceFile, targetFile);
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to filter log: " + sourceFile.getName(), e);
+        if (count == 0) {
+            File[] verboseFiles = sourceDir.listFiles((d, n) ->
+                n.startsWith("verbose_") && n.endsWith(".log"));
+            if (verboseFiles != null && verboseFiles.length > 0) {
+                filterFiles(verboseFiles, targetDir);
             }
         }
     }
 
-    private void filterAndAppendLog(File sourceFile, File targetFile) {
+    private int filterFiles(File[] sourceFiles, File targetDir) {
+        int total = 0;
+        for (File src : sourceFiles) {
+            File dst = new File(targetDir, FILTERED_LOG_PREFIX + src.getName());
+            try {
+                total += filterAndAppendLog(src, dst);
+            } catch (Exception e) {
+                AndroidLog.e(TAG, "Failed to filter log: " + src.getName(), e);
+            }
+        }
+        return total;
+    }
+
+    private int filterAndAppendLog(File sourceFile, File targetFile) {
         try {
             long lastTimestamp = getLastTimestamp(targetFile);
-            List<String> filteredEntries = filterLogFile(sourceFile, lastTimestamp);
-
-            if (!filteredEntries.isEmpty()) {
-                appendEntriesToFile(targetFile, filteredEntries);
-                Log.d(TAG, "Filtered " + filteredEntries.size() + " entries from: " + sourceFile.getName());
+            List<String> filtered = filterLogFile(sourceFile, lastTimestamp);
+            if (!filtered.isEmpty()) {
+                appendEntriesWithPaging(targetFile, filtered);
+                AndroidLog.d(TAG, "Filtered " + filtered.size() + " entries from: " + sourceFile.getName());
             }
+            return filtered.size();
         } catch (Exception e) {
-            Log.e(TAG, "Failed to filter log: " + sourceFile.getName(), e);
+            AndroidLog.e(TAG, "Failed to filter log: " + sourceFile.getName(), e);
+            return 0;
         }
     }
 
@@ -366,30 +358,27 @@ public class XposedLogLoader {
         try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile))) {
             String line;
             StringBuilder currentEntry = new StringBuilder();
-            boolean isHyperCeilerEntry = false;
-            boolean includeEntry = false;
+            boolean isTarget = false;
+            boolean include = false;
 
             while ((line = reader.readLine()) != null) {
                 if (isNewLogEntry(line)) {
-                    if (isHyperCeilerEntry && includeEntry && !currentEntry.isEmpty()) {
+                    if (isTarget && include && !currentEntry.isEmpty()) {
                         result.add(currentEntry.toString());
                     }
-                    // 新旧格式都包含 HyperCeiler 关键字
-                    isHyperCeilerEntry = line.contains(HYPERCEILER_TAG);
-                    long entryTimestamp = parseTimestamp(line);
-                    includeEntry = entryTimestamp > afterTimestamp;
+                    isTarget = line.contains(HYPERCEILER_TAG);
+                    include = parseTimestamp(line) > afterTimestamp;
                     currentEntry = new StringBuilder(line);
-                } else {
-                    if (!currentEntry.isEmpty()) {
-                        currentEntry.append("\n").append(line);
-                    }
+                } else if (!currentEntry.isEmpty()
+                    && currentEntry.length() + line.length() + 1 <= MAX_ENTRY_MESSAGE_LENGTH) {
+                    currentEntry.append("\n").append(line);
                 }
             }
-            if (isHyperCeilerEntry && includeEntry && !currentEntry.isEmpty()) {
+            if (isTarget && include && !currentEntry.isEmpty()) {
                 result.add(currentEntry.toString());
             }
         } catch (IOException e) {
-            Log.e(TAG, "Failed to read log file: " + sourceFile.getName(), e);
+            AndroidLog.e(TAG, "Failed to read log file: " + sourceFile.getName(), e);
         }
         return result;
     }
@@ -397,90 +386,173 @@ public class XposedLogLoader {
     private long getLastTimestamp(File file) {
         if (!file.exists()) return 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String lastTimestampLine = null;
+            String last = null;
             String line;
             while ((line = reader.readLine()) != null) {
-                if (isNewLogEntry(line)) {
-                    lastTimestampLine = line;
-                }
+                if (isNewLogEntry(line)) last = line;
             }
-            if (lastTimestampLine != null) {
-                return parseTimestamp(lastTimestampLine);
-            }
+            if (last != null) return parseTimestamp(last);
         } catch (IOException e) {
-            Log.e(TAG, "Failed to read last timestamp from: " + file.getName(), e);
+            AndroidLog.e(TAG, "Failed to read last timestamp from: " + file.getName(), e);
         }
         return 0;
     }
 
-    private void appendEntriesToFile(File file, List<String> entries) throws IOException {
+    // ==================== 分页写入 ====================
+
+    private void appendEntriesWithPaging(File file, List<String> entries) throws IOException {
+        boolean isNew = !file.exists() || file.length() == 0;
+        int pageNum = isNew ? 1 : getCurrentPage(file);
+        long pageSize = isNew ? 0 : getLastPageSize(file);
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            if (isNew) {
+                String marker = PAGE_MARKER_PREFIX + pageNum + PAGE_MARKER_SUFFIX + "\n";
+                writer.write(marker);
+                pageSize = marker.length();
+            }
             for (String entry : entries) {
+                int len = entry.length() + 1;
+                if (pageSize + len > PAGE_SIZE_BYTES) {
+                    pageNum++;
+                    String marker = PAGE_MARKER_PREFIX + pageNum + PAGE_MARKER_SUFFIX + "\n";
+                    writer.write(marker);
+                    pageSize = marker.length();
+                }
                 writer.write(entry);
                 writer.write("\n");
+                pageSize += len;
             }
         }
     }
 
+    private int getCurrentPage(File file) {
+        int page = 1;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (isPageMarker(line)) {
+                    try {
+                        page = Integer.parseInt(
+                            line.substring(PAGE_MARKER_PREFIX.length(),
+                                line.length() - PAGE_MARKER_SUFFIX.length()).trim());
+                    } catch (NumberFormatException ignored) {}
+                }
+            }
+        } catch (IOException e) {
+            AndroidLog.w(TAG, "Failed to read current page from: " + file.getName(), e);
+        }
+        return page;
+    }
+
+    private long getLastPageSize(File file) {
+        long size = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (isPageMarker(line)) size = 0;
+                size += line.length() + 1;
+            }
+        } catch (IOException e) {
+            AndroidLog.w(TAG, "Failed to calculate last page size: " + file.getName(), e);
+        }
+        return size;
+    }
+
+    private boolean isPageMarker(String line) {
+        return line.startsWith(PAGE_MARKER_PREFIX) && line.endsWith(PAGE_MARKER_SUFFIX);
+    }
+
+    // ==================== 加载到内存（只读最新一页） ====================
+
+    /**
+     * 只从 filtered/log（当前）中读取最新一页加载到内存显示。
+     * filtered/log.old 已同步存储在本地但不加载到内存。
+     */
     private void loadFilteredLogsToMemory() {
         try {
             LogManager logManager = LogManager.getInstance();
-            List<LogEntry> entries = new ArrayList<>();
 
-            File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
-            entries.addAll(loadLogsFromDirectory(filteredLogOldDir));
-
+            // 只读当前 filtered/log 的最新一页
             File filteredLogDir = new File(filteredDir, LSPD_LOG_SUBDIR);
-            entries.addAll(loadLogsFromDirectory(filteredLogDir));
+            List<LogEntry> entries = loadLastPageFromDirectory(filteredLogDir);
 
-            // 按时间排序
+            // 当前目录无内容时，fallback 读 filtered/log.old 的最新一页
+            if (entries.isEmpty()) {
+                File filteredLogOldDir = new File(filteredDir, LSPD_LOG_OLD_SUBDIR);
+                entries = loadLastPageFromDirectory(filteredLogOldDir);
+            }
+
             entries.sort(Comparator.comparingLong(LogEntry::getTimestamp));
 
-            // 先清空再添加，确保数据一致性
             synchronized (LogManager.class) {
                 logManager.clearXposedLogs();
                 if (!entries.isEmpty()) {
                     logManager.addXposedLogs(entries);
-                    Log.i(TAG, "Loaded " + entries.size() + " Xposed log entries to memory");
+                    AndroidLog.d(TAG, "Loaded " + entries.size() + " Xposed log entries to memory");
                 } else {
-                    Log.i(TAG, "No Xposed log entries found");
+                    AndroidLog.d(TAG, "No Xposed log entries found");
                 }
             }
+        } catch (OutOfMemoryError e) {
+            AndroidLog.e(TAG, "OOM while loading filtered logs to memory", e);
         } catch (Exception e) {
-            Log.e(TAG, "Failed to load filtered logs to memory", e);
+            AndroidLog.e(TAG, "Failed to load filtered logs to memory", e);
         }
     }
 
-    private List<LogEntry> loadLogsFromDirectory(File directory) {
+    private List<LogEntry> loadLastPageFromDirectory(File directory) {
         List<LogEntry> entries = new ArrayList<>();
         if (!directory.exists()) return entries;
 
-        File[] files = directory.listFiles((dir, name) ->
-            name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log"));
+        File[] files = directory.listFiles((d, n) ->
+            n.startsWith(FILTERED_LOG_PREFIX) && n.endsWith(".log"));
         if (files == null || files.length == 0) return entries;
 
         Arrays.sort(files, Comparator.comparing(File::getName));
 
-        int estimatedSize = files.length * 100;
-        entries = new ArrayList<>(estimatedSize);
-
         for (File file : files) {
             try {
-                parseLogFileOptimized(file, entries);
+                parseLastPage(file, entries);
+            } catch (OutOfMemoryError e) {
+                AndroidLog.e(TAG, "OOM parsing log file: " + file.getName(), e);
+                break;
             } catch (Exception e) {
-                Log.e(TAG, "Failed to parse log file: " + file.getName(), e);
+                AndroidLog.e(TAG, "Failed to parse log file: " + file.getName(), e);
             }
         }
         return entries;
     }
 
-    private void parseLogFileOptimized(File file, List<LogEntry> entries) throws IOException {
+    /**
+     * 两遍扫描：第一遍定位最后一个 page marker，第二遍只解析该页
+     */
+    private void parseLastPage(File file, List<LogEntry> entries) throws IOException {
+        long lastMarkerOffset = 0;
+        long offset = 0;
         try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
             String line;
+            while ((line = reader.readLine()) != null) {
+                if (isPageMarker(line)) lastMarkerOffset = offset;
+                offset += line.length() + 1;
+            }
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
+            long skipped = 0;
+            while (skipped < lastMarkerOffset) {
+                String line = reader.readLine();
+                if (line == null) break;
+                skipped += line.length() + 1;
+            }
+
             LogEntry currentEntry = null;
             StringBuilder currentMessage = null;
+            String line;
 
             while ((line = reader.readLine()) != null) {
+                if (isPageMarker(line)) continue;
+
                 if (isNewLogEntry(line)) {
                     if (currentEntry != null && currentMessage != null) {
                         entries.add(buildLogEntry(currentEntry, currentMessage.toString()));
@@ -488,7 +560,8 @@ public class XposedLogLoader {
                     currentEntry = parseXposedLogLine(line);
                     currentMessage = new StringBuilder(256);
                     currentMessage.append(currentEntry.getMessage());
-                } else if (currentMessage != null) {
+                } else if (currentMessage != null
+                    && currentMessage.length() + line.length() + 1 <= MAX_ENTRY_MESSAGE_LENGTH) {
                     currentMessage.append("\n").append(line);
                 }
             }
@@ -498,26 +571,24 @@ public class XposedLogLoader {
         }
     }
 
+    // ==================== 导出 / 清理 ====================
+
     public File exportLogs() {
         try {
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-            String zipFileName = "hyperceiler_logs_" + timestamp + ".zip";
-            File zipFile = new File(context.getExternalFilesDir(null), zipFileName);
-
+            File zipFile = new File(context.getExternalFilesDir(null),
+                "hyperceiler_logs_" + timestamp + ".zip");
             String cmd = "cd '" + context.getFilesDir().getAbsolutePath() + "' && " +
                 "zip -r '" + zipFile.getAbsolutePath() + "' '" + APP_LOG_BASE_DIR + "'";
-
             ShellUtils.execCommand(cmd, checkRootPermission() == 0);
-
             if (zipFile.exists()) {
-                Log.i(TAG, "Logs exported to: " + zipFile.getAbsolutePath());
+                AndroidLog.d(TAG, "Logs exported to: " + zipFile.getAbsolutePath());
                 return zipFile;
-            } else {
-                Log.e(TAG, "Failed to create zip file");
-                return null;
             }
+            AndroidLog.e(TAG, "Failed to create zip file");
+            return null;
         } catch (Exception e) {
-            Log.e(TAG, "Failed to export logs", e);
+            AndroidLog.e(TAG, "Failed to export logs", e);
             return null;
         }
     }
@@ -526,17 +597,17 @@ public class XposedLogLoader {
         deleteDirectory(lspdCopyBaseDir);
         deleteDirectory(filteredDir);
         if (rotationMarkerFile.exists() && !rotationMarkerFile.delete()) {
-            Log.w(TAG, "Failed to delete rotation marker file");
+            AndroidLog.w(TAG, "Failed to delete rotation marker file");
         }
         initLogDirectories();
         try {
             LogManager.getInstance().clearXposedLogs();
         } catch (Exception e) {
-            Log.w(TAG, "Failed to clear Xposed logs from LogManager", e);
+            AndroidLog.w(TAG, "Failed to clear Xposed logs from LogManager", e);
         }
     }
 
-    // ==================== 解析方法 ====================
+    // ==================== 日志行解析 ====================
 
     private boolean isNewLogEntry(String line) {
         return line.startsWith("[") && TIME_PATTERN.matcher(line).find();
@@ -547,8 +618,7 @@ public class XposedLogLoader {
         if (matcher.find()) {
             try {
                 return TIME_FORMAT.parse(matcher.group(1)).getTime();
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
         return 0;
     }
@@ -557,21 +627,15 @@ public class XposedLogLoader {
         return NEW_MODULE_PATTERN.matcher(line).find();
     }
 
-
     private String parseLevel(String line) {
         // 优先从行前缀读取
         Matcher prefixMatcher = LINE_PREFIX_LEVEL_PATTERN.matcher(line);
         if (prefixMatcher.find()) {
             String level = prefixMatcher.group(1);
-            if (level != null && !level.isEmpty()) {
-                // 新版: 行前缀级别就是真实级别
-                if (isNewFormat(line)) {
-                    return level;
-                }
+            if (level != null && !level.isEmpty() && isNewFormat(line)) {
+                return level;
             }
         }
-
-        // 旧版 / 回退: 从 message 中提取
         if (line.contains("[E]")) return "E";
         if (line.contains("[W]")) return "W";
         if (line.contains("[I]")) return "I";
@@ -583,14 +647,10 @@ public class XposedLogLoader {
         // 新版: 找 [xxx,HyperCeiler] 之后的部分
         Matcher moduleMatcher = NEW_MODULE_PATTERN.matcher(line);
         if (moduleMatcher.find()) {
-            int afterModule = moduleMatcher.end();
-            while (afterModule < line.length() && line.charAt(afterModule) == ' ') {
-                afterModule++;
-            }
-            return afterModule < line.length() ? line.substring(afterModule) : line;
+            int i = moduleMatcher.end();
+            while (i < line.length() && line.charAt(i) == ' ') i++;
+            return i < line.length() ? line.substring(i) : line;
         }
-
-        // 旧版: 从 [HyperCeiler] 开始
         int tagIndex = line.indexOf("[" + HYPERCEILER_TAG + "]");
         return tagIndex != -1 ? line.substring(tagIndex) : line;
     }
@@ -598,33 +658,27 @@ public class XposedLogLoader {
     private String extractPackageName(String message) {
         // 旧版: 找级别标记 [I]/[D] 等，其后的 [xxx] 如果是包名就取
         for (String level : new String[]{"[I]", "[D]", "[W]", "[E]", "[C]"}) {
-            int levelIndex = message.indexOf(level);
-            if (levelIndex != -1) {
-                int startIndex = levelIndex + level.length();
-                if (startIndex < message.length() && message.charAt(startIndex) == '[') {
-                    int endIndex = message.indexOf("]", startIndex + 1);
-                    if (endIndex != -1) {
-                        String candidate = message.substring(startIndex + 1, endIndex);
-                        if (isValidPackageName(candidate)) {
-                            return candidate;
-                        }
+            int idx = message.indexOf(level);
+            if (idx != -1) {
+                int start = idx + level.length();
+                if (start < message.length() && message.charAt(start) == '[') {
+                    int end = message.indexOf("]", start + 1);
+                    if (end != -1) {
+                        String candidate = message.substring(start + 1, end);
+                        if (isValidPackageName(candidate)) return candidate;
                     }
                 }
-                // 旧版匹配到级别标记但后面不是包名，跳出
                 break;
             }
         }
 
         if (message.startsWith("[")) {
-            int endIndex = message.indexOf("]");
-            if (endIndex != -1) {
-                String first = message.substring(1, endIndex);
-                if (isValidPackageName(first)) {
-                    return first;
-                }
+            int end = message.indexOf("]");
+            if (end != -1) {
+                String first = message.substring(1, end);
+                if (isValidPackageName(first)) return first;
             }
         }
-
         return "Other";
     }
 
@@ -668,6 +722,16 @@ public class XposedLogLoader {
         );
     }
 
+    // ==================== 工具方法 ====================
+
+    private void ensureDirs(File... dirs) {
+        for (File dir : dirs) {
+            if (!dir.exists() && !dir.mkdirs()) {
+                AndroidLog.w(TAG, "Failed to create directory: " + dir.getAbsolutePath());
+            }
+        }
+    }
+
     private void deleteDirectory(File directory) {
         if (directory.exists()) {
             File[] files = directory.listFiles();
@@ -677,13 +741,13 @@ public class XposedLogLoader {
                         deleteDirectory(file);
                     } else {
                         if (!file.delete()) {
-                            Log.w(TAG, "Failed to delete file: " + file.getAbsolutePath());
+                            AndroidLog.w(TAG, "Failed to delete file: " + file.getAbsolutePath());
                         }
                     }
                 }
             }
             if (!directory.delete()) {
-                Log.w(TAG, "Failed to delete directory: " + directory.getAbsolutePath());
+                AndroidLog.w(TAG, "Failed to delete directory: " + directory.getAbsolutePath());
             }
         }
     }
@@ -696,7 +760,7 @@ public class XposedLogLoader {
             Object app = activityThreadClass.getMethod("getApplication").invoke(activityThread);
             return (Context) app;
         } catch (Exception e) {
-            Log.e(TAG, "Failed to get application context", e);
+            AndroidLog.e(TAG, "Failed to get application context", e);
             return null;
         }
     }
