@@ -84,6 +84,8 @@
         <attr name="saveDisplayValue" format="boolean" />
         <attr name="defaultValueText" format="string" />
         <attr name="displayDividerValue" format="integer" />
+        <attr name="showDividerValue" format="integer" />
+
 
 
         <!-- Flag indicating whether the TextView next to the seekbar that shows the current seekbar
