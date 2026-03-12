@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableRootedCheck;
 import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableUploadAppListNew;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.guardprovider")
 public class GuardProvider extends BaseLoad {

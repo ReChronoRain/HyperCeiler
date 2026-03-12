@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")

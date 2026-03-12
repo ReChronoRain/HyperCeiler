@@ -122,7 +122,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllowMoveAllWidgetToMi
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.WidgetBlurOpt;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 

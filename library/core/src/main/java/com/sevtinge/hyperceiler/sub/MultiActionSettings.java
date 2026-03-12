@@ -33,7 +33,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.preference.RadioButtonPreference;
 

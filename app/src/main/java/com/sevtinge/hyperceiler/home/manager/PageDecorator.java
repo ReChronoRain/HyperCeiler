@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.home.manager;
 
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isNeedGrayView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isNeedGrayView;
 
 import android.app.Activity;
 import android.graphics.ColorMatrix;

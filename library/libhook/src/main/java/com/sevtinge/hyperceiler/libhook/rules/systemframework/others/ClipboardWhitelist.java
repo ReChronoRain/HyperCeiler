@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Set;
 

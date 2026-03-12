@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.libhook.rules.phone.N28BandPhone;
 import com.sevtinge.hyperceiler.libhook.rules.phone.N5N8BandPhone;
 import com.sevtinge.hyperceiler.libhook.rules.phone.UnlockVoiceLink;
 import com.sevtinge.hyperceiler.libhook.rules.phone.ViceSlotVolteButton;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.phone")
 public class Phone extends BaseLoad {

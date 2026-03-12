@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.aod.UnlockAiWallpaper;
 import com.sevtinge.hyperceiler.libhook.rules.aod.UnlockAodAon;
 import com.sevtinge.hyperceiler.libhook.rules.aod.UnlockShortCuts;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.aod")
 public class Aod extends BaseLoad {

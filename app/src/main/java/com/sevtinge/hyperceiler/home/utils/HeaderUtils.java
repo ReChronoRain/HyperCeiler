@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.content.res.XmlResourceParser;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.util.Xml;
@@ -14,14 +13,13 @@ import androidx.annotation.XmlRes;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.home.CustomOrderManager;
+import com.sevtinge.hyperceiler.home.order.CustomOrderManager;
 import com.sevtinge.hyperceiler.home.Header;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderUtils {

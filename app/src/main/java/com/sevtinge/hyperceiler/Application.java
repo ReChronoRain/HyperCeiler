@@ -9,24 +9,20 @@ import android.os.Process;
 
 import androidx.annotation.NonNull;
 
-import com.fan.common.logviewer.LogManager;
-import com.fan.common.logviewer.LogViewerActivity;
-import com.fan.common.logviewer.XposedLogLoader;
-import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
-import com.sevtinge.hyperceiler.common.utils.ScopeManager;
+import com.sevtinge.hyperceiler.logviewer.LogManager;
+import com.sevtinge.hyperceiler.logviewer.LogViewerActivity;
+import com.sevtinge.hyperceiler.logviewer.XposedLogLoader;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.oldui.model.data.AppInfoCache;
-import com.sevtinge.hyperceiler.oldui.safemode.ExceptionCrashActivity;
-import com.sevtinge.hyperceiler.oldui.utils.DeviceInfoBuilder;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.safemode.ExceptionCrashActivity;
+import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import io.github.libxposed.service.RemotePreferences;
 import io.github.libxposed.service.XposedService;
 import io.github.libxposed.service.XposedServiceHelper;
 

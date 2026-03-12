@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.pkg
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object DebugModeUtils {
 

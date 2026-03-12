@@ -36,7 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import kotlin.math.sqrt
 
 @SuppressLint("StaticFieldLeak")

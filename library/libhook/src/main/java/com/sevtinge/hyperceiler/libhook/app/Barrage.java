@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.barrage.AnyBarrage;
 import com.sevtinge.hyperceiler.libhook.rules.barrage.BarrageNotTouchable;
 import com.sevtinge.hyperceiler.libhook.rules.barrage.CustomBarrageLength;
 import com.sevtinge.hyperceiler.libhook.rules.barrage.GlobalBarrage;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.barrage")
 public class Barrage extends BaseLoad {

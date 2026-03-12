@@ -34,7 +34,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +97,7 @@ public class HyperCeilerSettings extends BaseHook {
         // 设置 Intent
         Intent intent = new Intent();
         intent.putExtra("isDisplayHomeAsUpEnabled", true);
-        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.oldui.ui.HyperCeilerTabActivity");
+        intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.SplashActivity");
         EzxHelpUtils.setObjectField(header, "intent", intent);
 
         // 设置用户信息

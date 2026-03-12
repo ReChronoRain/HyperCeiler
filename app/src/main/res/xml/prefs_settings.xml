@@ -52,12 +52,6 @@
             app:entries="@array/settings_app_language"
             app:entryValues="@array/settings_app_language_value" />
 
-        <Preference
-            app:isPreferenceVisible="false"
-            android:key="prefs_key_set_homepage_entrance"
-            android:title="@string/set_homepage_entrance"
-            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.helper.HomepageEntrance" />
-
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/settings_data_title">
@@ -77,7 +71,7 @@
 
     <PreferenceCategory android:title="@string/settings_bug_title">
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.SafeModeFragment"
+            android:fragment="com.sevtinge.hyperceiler.home.safemode.SafeModeFragment"
             android:key="prefs_key_safe_mode"
             android:summary="@string/settings_safe_mode_desc"
             android:title="@string/settings_safe_mode" />
@@ -95,11 +89,11 @@
             android:title="@string/log_viewer">
             <intent
                 android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.fan.common.logviewer.LogViewerActivity"/>
+                android:targetClass="com.sevtinge.hyperceiler.logviewer.LogViewerActivity"/>
         </Preference>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.development.DevelopmentFragment"
+            android:fragment="com.sevtinge.hyperceiler.settings.development.DevelopmentFragment"
             android:key="prefs_key_development"
             android:title="@string/development" />
 

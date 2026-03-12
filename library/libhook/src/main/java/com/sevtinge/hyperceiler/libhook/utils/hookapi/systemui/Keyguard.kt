@@ -18,8 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook.mPrefsMap
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 
 object Keyguard {

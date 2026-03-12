@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesHookMap
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam

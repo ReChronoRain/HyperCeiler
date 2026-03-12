@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.dashboard.base.activity;
 
-import android.app.ComponentCaller;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -30,7 +29,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
 
 import fan.appcompat.app.AppCompatActivity;
 

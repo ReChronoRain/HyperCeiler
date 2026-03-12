@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.libhook.rules.screenshot.SaveToPictures;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockCopyPicture;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockPrivacyMarking;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.screenshot")
 public class ScreenShot extends BaseLoad {

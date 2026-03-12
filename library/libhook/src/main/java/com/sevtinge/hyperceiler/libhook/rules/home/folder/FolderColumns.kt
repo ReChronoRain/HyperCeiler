@@ -40,7 +40,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPadding
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingLeft
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingSide
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object FolderColumns : HomeBaseHookNew() {
     private const val FOLDER = "com.miui.home.launcher.Folder"

@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.various.dialog.DialogCustom;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.MiuiAppNoOverScroll;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Arrays;
 import java.util.HashSet;

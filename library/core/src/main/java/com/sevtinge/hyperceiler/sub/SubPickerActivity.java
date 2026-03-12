@@ -40,16 +40,15 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.sevtinge.hyperceiler.common.callback.IAppSelectCallback;
-import com.sevtinge.hyperceiler.common.callback.SearchCallback;
-import com.sevtinge.hyperceiler.common.model.adapter.AppDataAdapter;
-import com.sevtinge.hyperceiler.common.model.data.AppData;
-import com.sevtinge.hyperceiler.common.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
+import com.sevtinge.hyperceiler.callback.SearchCallback;
+import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
+import com.sevtinge.hyperceiler.model.data.AppData;
+import com.sevtinge.hyperceiler.model.data.AppDataManager;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.text.Collator;
 import java.util.ArrayList;

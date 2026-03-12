@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.libhook.rules.getapps.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisableAds;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisablePackageMonitor;
 import com.sevtinge.hyperceiler.libhook.rules.getapps.DisableStartPushDialog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.market")
 public class GetApps extends BaseLoad {

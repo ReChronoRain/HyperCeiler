@@ -18,24 +18,17 @@
  */
 package com.sevtinge.hyperceiler.dashboard.base.activity;
 
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isNeedGrayView;
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.common.prefs.XmlPreference;
-import com.sevtinge.hyperceiler.common.utils.SettingLauncherHelper;
+import com.sevtinge.hyperceiler.prefs.XmlPreference;
+import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;

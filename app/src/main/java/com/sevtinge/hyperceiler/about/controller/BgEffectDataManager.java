@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.about.controller;
 
 import static com.sevtinge.hyperceiler.about.controller.BgEffectDataManager.DeviceType.PHONE;
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
 
 public class BgEffectDataManager {
 

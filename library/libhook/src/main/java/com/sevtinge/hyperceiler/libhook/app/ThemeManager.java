@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowDownloadMore;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowThirdTheme;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.DisableThemeAdNew;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.UnlockAIWallPaper;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.thememanager")
 public class ThemeManager extends BaseLoad {

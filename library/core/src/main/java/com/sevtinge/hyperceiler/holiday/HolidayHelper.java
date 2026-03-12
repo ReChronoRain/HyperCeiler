@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.holiday;
 
-import static com.sevtinge.hyperceiler.common.utils.PersistConfig.isLunarNewYearThemeView;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import android.app.Activity;

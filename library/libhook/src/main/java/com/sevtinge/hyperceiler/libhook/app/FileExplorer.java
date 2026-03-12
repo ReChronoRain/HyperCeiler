@@ -22,7 +22,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.fileexplorer.SelectName;
 import com.sevtinge.hyperceiler.libhook.rules.fileexplorer.UnlockFileParse;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.fileexplorer")
 public class FileExplorer extends BaseLoad {

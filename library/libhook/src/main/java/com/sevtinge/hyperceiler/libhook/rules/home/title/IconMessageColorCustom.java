@@ -20,7 +20,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.title;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 public class IconMessageColorCustom extends BaseHook {
     @Override

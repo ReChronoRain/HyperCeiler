@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.search;
 
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.APP_LANGUAGES;
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.localeFromAppLanguage;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -14,7 +14,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
 import com.sevtinge.hyperceiler.search.data.ModDao;
 import com.sevtinge.hyperceiler.search.data.ModEntity;

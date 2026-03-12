@@ -18,8 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader

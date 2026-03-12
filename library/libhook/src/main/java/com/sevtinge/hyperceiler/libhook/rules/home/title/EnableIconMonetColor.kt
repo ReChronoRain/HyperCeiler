@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.title
 import android.annotation.SuppressLint
 import android.content.res.Resources
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object EnableIconMonetColor : BaseHook() {
 

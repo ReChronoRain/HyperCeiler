@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.libhook.rules.updater.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VabUpdate;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeNew;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.updater")
 public class Updater extends BaseLoad {

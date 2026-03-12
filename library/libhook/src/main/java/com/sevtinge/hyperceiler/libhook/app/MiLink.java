@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.milink.AllowCameraDevices;
 import com.sevtinge.hyperceiler.libhook.rules.milink.UnlockSendApp;
 import com.sevtinge.hyperceiler.libhook.rules.milink.FuckHpplay;
 import com.sevtinge.hyperceiler.libhook.rules.milink.UnlockMiShare;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.milink.service")
 public class MiLink extends BaseLoad {

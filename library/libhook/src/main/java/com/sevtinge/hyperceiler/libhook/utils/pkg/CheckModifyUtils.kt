@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.pkg
 
 import android.content.Context
 import android.content.pm.PackageManager
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import java.security.MessageDigest
 
 object CheckModifyUtils {

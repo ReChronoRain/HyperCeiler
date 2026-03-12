@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.libhook.rules.camera.Unlock4k60;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockLeica;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockSuperHighQuality;
 import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockTrackEyes;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.camera")
 public class Camera extends BaseLoad {

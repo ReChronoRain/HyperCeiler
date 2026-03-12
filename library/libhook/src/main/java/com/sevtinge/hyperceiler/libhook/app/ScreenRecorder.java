@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ForceSupportPlaybac
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ScreenRecorderConfig;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.UnlockMoreVolumeFromNew;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.screenrecorder")
 public class ScreenRecorder extends BaseLoad {

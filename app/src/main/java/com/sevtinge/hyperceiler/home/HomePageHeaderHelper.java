@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerHelper;
 import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
-import com.sevtinge.hyperceiler.ui.adapter.ProxyHeaderViewAdapter;
+import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
 
 import java.util.List;
 

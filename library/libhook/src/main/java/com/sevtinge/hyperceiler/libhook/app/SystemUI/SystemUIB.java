@@ -96,7 +96,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetw
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 

@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.utils;
 
-
 import android.os.Handler;
 import android.os.Looper;
 

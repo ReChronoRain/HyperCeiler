@@ -23,6 +23,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
 
 public class PrefsChangeObserver extends ContentObserver {

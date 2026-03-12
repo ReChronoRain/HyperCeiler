@@ -1,15 +1,7 @@
 package com.sevtinge.hyperceiler.ui;
 
-import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -18,38 +10,27 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPagerCompat;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.utils.CtaUtils;
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.CtaUtils;
 import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.home.task.AppTaskManager;
+import com.sevtinge.hyperceiler.home.widget.NavigationStyle;
+import com.sevtinge.hyperceiler.home.widget.SwitchManager;
+import com.sevtinge.hyperceiler.home.widget.SwitchMediator;
 import com.sevtinge.hyperceiler.libhook.callback.IResult;
-import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
-import com.sevtinge.hyperceiler.ui.adapter.HomeContentAdapter;
-import com.sevtinge.hyperceiler.ui.page.AboutPageFragment;
-import com.sevtinge.hyperceiler.ui.page.AboutSettingsFragment;
-import com.sevtinge.hyperceiler.ui.page.HomePageFragment;
-import com.sevtinge.hyperceiler.ui.page.SettingsFragment;
-import com.sevtinge.hyperceiler.ui.page.SettingsPageFragment;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import com.sevtinge.hyperceiler.home.adapter.HomeContentAdapter;
+import com.sevtinge.hyperceiler.about.AboutPageFragment;
+import com.sevtinge.hyperceiler.about.AboutSettingsFragment;
+import com.sevtinge.hyperceiler.home.HomePageFragment;
+import com.sevtinge.hyperceiler.settings.SettingsFragment;
+import com.sevtinge.hyperceiler.settings.SettingsPageFragment;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.preference.PreferenceFragment;
 import fan.provider.Settings;
-import fan.provision.OobeUtils;
 import fan.viewpager.widget.ViewPager;
 import fan.viewpager2.widget.ViewPager2;
 

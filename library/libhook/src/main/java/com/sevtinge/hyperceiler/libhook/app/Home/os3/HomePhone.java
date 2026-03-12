@@ -39,7 +39,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
-import com.sevtinge.hyperceiler.libhook.rules.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsMarginBottom;
@@ -89,7 +88,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 

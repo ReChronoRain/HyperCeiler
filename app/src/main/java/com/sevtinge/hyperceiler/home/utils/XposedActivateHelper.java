@@ -4,8 +4,6 @@ import static com.sevtinge.hyperceiler.Application.isModuleActivated;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
-
 public class XposedActivateHelper {
 
     public static int XposedVersion = 0;

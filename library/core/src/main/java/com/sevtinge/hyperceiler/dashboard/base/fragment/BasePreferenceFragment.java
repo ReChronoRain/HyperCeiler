@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.dashboard.base.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -27,8 +26,6 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
-import com.sevtinge.hyperceiler.common.utils.SettingsHelper;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.preference.PreferenceFragment;
 

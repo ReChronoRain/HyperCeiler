@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.weather.SetCardLightDarkMode;
 import com.sevtinge.hyperceiler.libhook.rules.weather.SetDeviceLevel;
 import com.sevtinge.hyperceiler.libhook.rules.weather.UnlockSuperBlur;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.weather2")
 public class Weather extends BaseLoad {

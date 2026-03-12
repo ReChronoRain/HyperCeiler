@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoEditor;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoPost;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.UnPrivacyWatermark;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.gallery")
 public class Gallery extends BaseLoad {

@@ -78,7 +78,7 @@
 
     <PreferenceCategory>
 
-        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer"
             app:inflatedXml="@xml/prefs_about_contributor" />
@@ -158,13 +158,13 @@
                 android:data="https://github.com/ReChronoRain/HyperCeiler" />
         </Preference>
 
-        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:key="prefs_key_about_use"
             android:title="@string/about_use"
             app:inflatedXml="@xml/prefs_about_use" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.oldui.main.page.settings.helper.HelpFragment"
+            android:fragment="com.sevtinge.hyperceiler.home.helper.HelpFragment"
             android:key="prefs_key_help"
             android:title="@string/help" />
     </PreferenceCategory>

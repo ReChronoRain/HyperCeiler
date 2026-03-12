@@ -23,8 +23,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.BlurButton
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.ShortcutEntity
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook

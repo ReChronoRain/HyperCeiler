@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.home.banner;
 
-import static com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper.mNotInSelectedScope;
+import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mNotInSelectedScope;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBaseOs;
@@ -15,12 +15,8 @@ import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootP
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.widget.TextView;
-
-import androidx.preference.PreferenceCategory;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;

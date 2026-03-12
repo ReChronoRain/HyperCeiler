@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.DisableLiteVersion;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.UnlockWidgetCountLimit;
 import com.sevtinge.hyperceiler.libhook.rules.personalassistant.WidgetBlurOpt;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseLoad {

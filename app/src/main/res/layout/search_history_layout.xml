@@ -29,7 +29,7 @@
                 android:textSize="@dimen/search_description_text_size" />
         </RelativeLayout>
 
-        <com.sevtinge.hyperceiler.home.FlowLayout
+        <com.sevtinge.hyperceiler.search.widget.FlowLayout
             android:id="@+id/search_history_fl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

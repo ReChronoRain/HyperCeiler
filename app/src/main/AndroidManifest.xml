@@ -108,8 +108,6 @@
 
         <activity android:theme="@style/HomePageTheme" android:name=".ui.HomePageActivity" />
 
-        <activity android:name=".oldui.ui.HyperCeilerTabActivity" />
-
         <activity-alias
             android:name=".ui.LauncherActivity"
             android:exported="true"
@@ -152,7 +150,7 @@
 
 
         <activity
-            android:name=".oldui.safemode.CrashActivity"
+            android:name=".home.safemode.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -166,12 +164,33 @@
         </activity>
 
         <activity
-            android:name=".oldui.safemode.ExceptionCrashActivity"
+            android:name=".home.safemode.ExceptionCrashActivity"
             android:theme="@style/CrashTheme"
             android:exported="true" />
 
+        <activity
+            android:name=".logviewer.LogViewerActivity"
+            android:exported="false"
+            android:label="LogViewer"
+            android:theme="@style/LogViewerTheme">
+            <intent-filter>
+                <action android:name="fan.intent.action.LOGVIEWER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <service
-            android:name=".oldui.safemode.CrashService"
+            android:name=".home.safemode.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -180,7 +199,7 @@
         </service>
 
         <receiver
-            android:name=".oldui.safemode.CrashReceiver"
+            android:name=".home.safemode.CrashReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="hyperceiler.permission.APP_CRASH">

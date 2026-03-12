@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/app_logo_area_height" />
 
-                <com.sevtinge.hyperceiler.about.DeviceInfoCard
+                <com.sevtinge.hyperceiler.about.widget.DeviceInfoCard
                     android:id="@+id/device_info_card_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
@@ -77,7 +77,7 @@
         </androidx.core.widget.NestedScrollView>
     </fan.springback.view.SpringBackLayout>
 
-    <com.sevtinge.hyperceiler.about.VersionCard
+    <com.sevtinge.hyperceiler.about.widget.VersionCard
         android:id="@+id/version_card_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_logo_area_height" />

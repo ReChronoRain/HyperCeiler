@@ -49,7 +49,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemsettings.ViewWifiPasswordHoo
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockAi;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockMemc;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.aiimage.UnlockSuperResolution;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.settings", minSdk = 36)
 public class SystemSettingsB extends BaseLoad {

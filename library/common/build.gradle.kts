@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.fan.common"
+    namespace = "com.sevtinge.hyperceiler.common"
     compileSdk = 36
 
     defaultConfig {
@@ -30,5 +30,5 @@ java {
 }
 
 dependencies {
-    api(projects.library.core)
+    api(libs.bundles.miuix)
 }

@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.ui.page.HomePageFragment;
+import com.sevtinge.hyperceiler.home.HomePageFragment;
 
 import java.lang.ref.WeakReference;
 

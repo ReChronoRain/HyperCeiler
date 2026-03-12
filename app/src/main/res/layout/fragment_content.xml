@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <!--<com.sevtinge.hyperceiler.ui.SwitchView
+    <!--<com.sevtinge.hyperceiler.home.widget.SwitchView
         android:id="@+id/switch_view"
         app:menu="@menu/bottom_nav_menu"
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.preference.PreferenceDataStore;
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.util.Set;

@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.DisableAiWatermark;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.UnlockAIMode;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.UnlockRecordingScene;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.soundrecorder")
 public class SoundRecorder extends BaseLoad {

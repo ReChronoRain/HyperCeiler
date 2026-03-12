@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.home.task;
 
-import static com.sevtinge.hyperceiler.common.utils.DialogHelper.showUserAgreeDialog;
+import static com.sevtinge.hyperceiler.utils.DialogHelper.showUserAgreeDialog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,23 +8,23 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.utils.CtaUtils;
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
-import com.sevtinge.hyperceiler.common.utils.LSPosedScopeHelper;
-import com.sevtinge.hyperceiler.common.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.utils.CtaUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.utils.XposedActivateHelper;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.oldui.model.data.AppInfoCache;
-import com.sevtinge.hyperceiler.oldui.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
+import com.sevtinge.hyperceiler.home.data.AppInfoCache;
+import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;

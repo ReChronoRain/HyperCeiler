@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableSafeModelT
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallSource;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.packageinstaller")
 public class PackageInstaller extends BaseLoad {

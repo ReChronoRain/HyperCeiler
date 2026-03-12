@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.rules.mms.AutoCopyVerificationCode;
 import com.sevtinge.hyperceiler.libhook.rules.mms.DisableAd;
 import com.sevtinge.hyperceiler.libhook.rules.mms.DisableRiskTip;
 import com.sevtinge.hyperceiler.libhook.rules.mms.ImOldDevice;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseLoad {

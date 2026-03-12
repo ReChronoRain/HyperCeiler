@@ -31,11 +31,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.common.model.adapter.CardTileAdapter;
-import com.sevtinge.hyperceiler.common.model.adapter.CardTileAddAdapter;
+import com.sevtinge.hyperceiler.model.adapter.CardTileAdapter;
+import com.sevtinge.hyperceiler.model.adapter.CardTileAddAdapter;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.Arrays;

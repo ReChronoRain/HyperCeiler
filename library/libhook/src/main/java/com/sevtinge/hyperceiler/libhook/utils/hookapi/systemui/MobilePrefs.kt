@@ -18,8 +18,7 @@
 */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object MobilePrefs {
     // 初始化开关
