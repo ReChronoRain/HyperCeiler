@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import fan.core.utils.AttributeResolver;
+import fan.internal.utils.AttributeResolver;
 
 public class MarkdownView extends TextView {
 

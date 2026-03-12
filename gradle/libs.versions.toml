@@ -14,7 +14,7 @@ recyclerview = "1.4.0"
 viewpager2 = "1.1.0"
 
 # UI Libraries
-miuix = "1.0.11.2"
+miuix = "1.0.11.6"
 
 # Xposed & Hooks
 xposed-api = "100-1.0.4"

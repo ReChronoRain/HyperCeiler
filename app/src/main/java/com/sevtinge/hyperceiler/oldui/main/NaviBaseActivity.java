@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
 import com.sevtinge.hyperceiler.oldui.main.fragment.ContentFragment;
 
 import fan.appcompat.app.Fragment;
-import fan.core.utils.AttributeResolver;
+import fan.internal.utils.AttributeResolver;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorStrategy;
 import fan.navigator.app.NavigatorActivity;

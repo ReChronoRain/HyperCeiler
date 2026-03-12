@@ -9,7 +9,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.sevtinge.hyperceiler.R;
 
 import fan.appcompat.app.Fragment;
-import fan.core.utils.AttributeResolver;
+import fan.internal.utils.AttributeResolver;
 import fan.navigator.Navigator;
 import fan.navigator.NavigatorStrategy;
 import fan.navigator.app.NavigatorActivity;

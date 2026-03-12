@@ -16,16 +16,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
-import fan.animation.controller.AnimState;
-import fan.animation.property.ViewProperty;
-import fan.core.utils.AttributeResolver;
+import fan.internal.utils.AttributeResolver;
 
 public class SwitchView extends FrameLayout {
 
