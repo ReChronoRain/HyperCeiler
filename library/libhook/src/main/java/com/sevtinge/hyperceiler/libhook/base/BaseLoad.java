@@ -23,8 +23,6 @@ import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsMap;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -53,8 +51,6 @@ public abstract class BaseLoad {
     private static volatile XposedInterface sXposed;
     private static volatile String sCurrentHookTag = "BaseLoad";
     public static ResourcesTool mResHook;
-
-    public final PrefsMap<String, Object> mPrefsMap = PrefsUtils.mPrefsMap;
     private final boolean mNeedDexKit;
 
     /**

@@ -32,8 +32,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +61,7 @@ public class SharedPrefsProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         try {
-            prefs = PrefsUtils.getSharedPrefs(getContext(), true);
+            prefs = PrefsBridge.getSharedPreferences();
             return true;
         } catch (Throwable throwable) {
             return false;

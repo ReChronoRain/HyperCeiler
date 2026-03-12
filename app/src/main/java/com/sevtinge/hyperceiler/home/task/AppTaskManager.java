@@ -15,11 +15,9 @@ import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.utils.XposedActivateHelper;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
@@ -66,7 +64,6 @@ public class AppTaskManager {
                     XposedServiceHelper.registerListener(listener);
                 }
                 PrefsBridge.initForApp(context);
-                PrefsUtils.init(context);
             }
         });
     }
@@ -149,12 +146,6 @@ public class AppTaskManager {
                 SearchHelper.initIndex(activity, true);
             }
         });
-    }
-
-    private static void registerObserver(Context context) {
-        PrefsUtils.registerOnSharedPreferenceChangeListener(context);
-        AppsTool.fixPermissionsAsync(context);
-        AppsTool.registerFileObserver(context);
     }
 
     public static void requestCta(HomePageActivity activity) {

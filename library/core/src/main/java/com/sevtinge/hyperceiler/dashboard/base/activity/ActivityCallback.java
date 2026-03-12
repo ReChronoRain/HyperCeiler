@@ -30,16 +30,8 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.prefs.XmlPreference;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public interface ActivityCallback {
-
-    default void registerObserver(Context context) {
-        PrefsUtils.registerOnSharedPreferenceChangeListener(context);
-        AppsTool.fixPermissionsAsync(context);
-        AppsTool.registerFileObserver(context);
-    }
 
     default void replaceFragment(Fragment fragment, String tag) {
         //mFragmentManager.beginTransaction().replace(R.id.frame_content, fragment, tag).commit();
