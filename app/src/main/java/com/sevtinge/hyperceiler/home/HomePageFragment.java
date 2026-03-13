@@ -33,10 +33,10 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
-import com.sevtinge.hyperceiler.home.banner.BannerBean;
 import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.home.order.OnCompleteCallBack;
+import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.IntentUtils;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
@@ -45,11 +45,9 @@ import com.sevtinge.hyperceiler.search.SearchResultAdapter;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.search.widget.FlowLayout;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -68,14 +66,9 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private volatile boolean isClicking = false;
     private volatile boolean mIsInActionMode;
-    private volatile boolean mIsActionModeDestroy;
     private volatile boolean mIsScrollEnableForListView = true;
 
-
-    private volatile BannerBean mTipsLocalModel;
     private BannerCallback mBannerCallback;
-
-    private List<String> mClickedList = new LinkedList<>();
 
     private View mAnchorView;
 
@@ -107,24 +100,24 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     private HandlerThread mSearchThread;
 
     private final Handler mTipsHandler = new Handler(Looper.getMainLooper());
-    // 自动轮播任务
     private final Runnable mTipsAutoTask = new Runnable() {
         @Override
         public void run() {
-            // 仅仅刷新 Tip 的文字内容，不重绘整个 Banner 容器以节省性能
-            refreshHeader();
-            mTipsHandler.postDelayed(this, 30000); // 30秒换一次
+            Context context = getContext();
+            if (context != null) {
+                HomePageTipHelper.refreshCurrentTip(context);
+            }
+            mTipsHandler.postDelayed(this, 30000);
         }
     };
 
-    private Handler mMainHandler = new Handler();
+    private final Handler mMainHandler = new Handler(Looper.getMainLooper());
     private TextWatcher mTextWatcher = new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {
             String query = s.toString().trim();
             updateSearch(query, false);
-            mClickedList.clear();
             if (!TextUtils.isEmpty(query)) {
                 mSearchHistoryText = query;
             }
@@ -136,16 +129,13 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             String query = (s == null) ? "" : s.toString().trim();
-            mSearchText = query; // 更新成员变量供 refreshSearchResult 使用
+            mSearchText = query;
             if (TextUtils.isEmpty(query)) {
-                // 输入框为空：隐藏搜索结果，显示搜索历史（如有）
                 if (mSearchResultListView != null) {
                     mSearchResultListView.setVisibility(View.GONE);
                 }
                 setSearchHistoryVisiable(mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty());
             } else {
-                // 有输入内容：隐藏搜索历史，显示搜索结果
-                //setSearchHistoryVisiable(false);
                 if (mSearchResultListView != null) {
                     mSearchResultListView.setVisibility(View.VISIBLE);
                 }
@@ -178,12 +168,10 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mSearchInput.addTextChangedListener(mTextWatcher);
             mSearchInput.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    //hideSoftKeyboard();
                     return true;
                 }
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     processSearchHistory(mSearchHistoryText);
-                    //hideSoftKeyboard();
                     return true;
                 }
                 return false;
@@ -195,20 +183,25 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         public void onDestroyActionMode(ActionMode mode) {
             getSwitchManager().show();
             mIsInActionMode = false;
-            mSearchInput.removeTextChangedListener(mTextWatcher);
+            if (mSearchInput != null) {
+                mSearchInput.removeTextChangedListener(mTextWatcher);
+            }
             mSearchInput = null;
-            mSearchResultListView.stopScroll();
-            mSearchResultListView.setVisibility(View.GONE);
-            mSearchLoadingView.setVisibility(View.GONE);
+            if (mSearchResultListView != null) {
+                mSearchResultListView.stopScroll();
+                mSearchResultListView.setVisibility(View.GONE);
+            }
+            if (mSearchLoadingView != null) {
+                mSearchLoadingView.setVisibility(View.GONE);
+            }
             setSearchHistoryVisiable(false);
-            mListView.setVisibility(View.VISIBLE);
+            if (mListView != null) {
+                mListView.setVisibility(View.VISIBLE);
+            }
             mSearchText = null;
             mSearchAdapter.refresh(null, "", isChina(requireContext()));
             if (mSearchHandler != null) {
                 mSearchHandler.removeMessages(1);
-            }
-            if (SettingsFeatures.isSplitTablet(getContext())) {
-                mIsActionModeDestroy = true;
             }
         }
 
@@ -221,8 +214,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     @NonNull
     private SearchActionMode getSearchActionMode(SearchActionMode mode) {
-        //searchActionMode.setFitWindowInsetsEnabled(false);
-
         mode.addAnimationListener(new ActionModeAnimationListener() {
 
             @Override
@@ -278,15 +269,12 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onResume() {
         super.onResume();
-        refreshHeader();
-        // 开始自动轮播
         mTipsHandler.postDelayed(mTipsAutoTask, 30000);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        // 停止轮播，防止内存泄漏
         mTipsHandler.removeCallbacks(mTipsAutoTask);
     }
 
@@ -337,10 +325,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mSearchListLayout.setVisibility(visiable ? View.VISIBLE : View.GONE);
             if (visiable && mListView != null) {
                 mListView.setVisibility(View.GONE);
-                Log.e("SettingsFragment", "Force mListView to be gone");
             }
-        } else {
-            Log.e("SettingsFragment", "setSearchHistoryVisiable: mSearchListLayout is null");
         }
     }
 
@@ -421,12 +406,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             ensureSearchHandler();
             if (mListView != null) {
                 mListView.setVisibility(View.GONE);
-                Log.d("SettingsFragment", "onClick: Set mListView to gone");
             }
-            if (mSearchInput != null) {
-                mSearchInput.addTextChangedListener(mTextWatcher);
-            }
-            mSearchHandler.obtainMessage(2).sendToTarget();
             startActionMode(mSearchCallback);
         });
         TextView textView = mAnchorView.findViewById(android.R.id.input);
@@ -445,24 +425,13 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
             String pkgName = (header.summary != null) ? header.summary.toString() : "";
 
-            // 1. 检查是否安装
             boolean isInstalled = isAppInstalled(pkgName);
-
-            // 2. 检查用户是否手动隐藏
             boolean isUserHidden = headerRemoveList.contains(pkgName);
-
-            // 逻辑判断：只有 (已安装) 且 (用户没隐藏) 时，才标记为显示
-            // 注意：如果应用未安装，无论用户勾没勾选，displayStatus 都应为 false
             header.displayStatus = isInstalled && !isUserHidden;
-
-            // [可选] 标记未安装的 Header，以便在弹窗里特殊处理
-            // header.isInstalled = isInstalled;
         }
     }
 
     private boolean isAppInstalled(String packageName) {
-        // 如果 summary 根本不包含点（包名通常有点，如 com.android.xxx）
-        // 或者 summary 为空，可以默认它是系统内置项，不进行安装检测
         if (TextUtils.isEmpty(packageName) || !packageName.contains(".")) {
             return true;
         }
@@ -474,12 +443,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     }
 
-    /**
-     * 统一刷新 Header 的方法
-     */
     private void refreshHeader() {
         if (mProxyAdapter != null) {
-            // 调用之前定义的“非静态”全家桶助手
             HomePageHeaderHelper.refreshAll(getContext(), mProxyAdapter, mBannerCallback);
         }
     }
@@ -488,7 +453,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     public void buildAdapter() {
         super.buildAdapter();
 
-        // 使用工具类获取过滤后的显示列表
         List<Header> displayHeaders = HeaderManager.getDisplayHeaders(getContext(), mHeaders);
 
         mHeaderAdapter = new HeaderAdapter(this, displayHeaders);
@@ -524,9 +488,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         } else if (!TextUtils.isEmpty(mSearchText)) {
             refreshSearchResult();
         }
-        //startSelectHeader();
-
-        // 不管列表怎么变，这一行代码能把 Banner 和 Tips 全找回来
         refreshHeader();
     }
 
@@ -590,19 +551,15 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                                 mSearchLoadingView.setVisibility(View.VISIBLE);
                             }
                         });
-                        // 执行数据库搜索 (当前在 HandlerThread 子线程)
-                        // 使用方案 3 中定义的 SearchHelper.search 方法
                         List<ModEntity> results = SearchHelper.search(getContext(), query);
 
-                        boolean isChinaLocale = isChina(getContext());// 保持你之前的 isChina 判断
+                        boolean isChinaLocale = isChina(getContext());
 
                         mMainHandler.post(() -> {
                             if (mIsInActionMode && mSearchAdapter != null) {
                                 mSearchAdapter.refresh(results, query, isChinaLocale);
                                 mSearchLoadingView.setVisibility(View.GONE);
-                                //mSearchResultListView.setVisibility(View.VISIBLE);
                                 mListView.setVisibility(View.GONE);
-                                // 处理搜索历史显示逻辑
                                 if (TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0) {
                                     setSearchHistoryVisiable(true);
                                 } else {
@@ -661,6 +618,9 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     }
 
     private void setExtraPadding(RecyclerView recyclerView, int margin) {
+        if (recyclerView == null || recyclerView.getItemDecorationCount() == 0) {
+            return;
+        }
         RecyclerView.ItemDecoration itemDecoration = recyclerView.getItemDecorationAt(0);
         if (itemDecoration instanceof CardItemDecoration cardItemDecoration) {
             cardItemDecoration.setCardMarginStart(margin);
@@ -668,6 +628,20 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             if (recyclerView.getAdapter() != null) {
                 recyclerView.getAdapter().notifyDataSetChanged();
             }
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mTipsHandler.removeCallbacksAndMessages(null);
+        if (mSearchHandler != null) {
+            mSearchHandler.removeCallbacksAndMessages(null);
+        }
+        if (mSearchThread != null) {
+            mSearchThread.quitSafely();
+            mSearchThread = null;
+            mSearchHandler = null;
         }
     }
 

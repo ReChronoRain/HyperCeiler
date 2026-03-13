@@ -14,11 +14,12 @@ import java.util.Set;
 
 public class PrefsBridge {
 
-    private static final String TAG = "PrefsBridge";
     public static final String PREFS_NAME = "hyperceiler_prefs";
 
-    private static SharedPreferences mPhysicalPrefs; // 物理文件句柄 (用于 App 进程强制落盘)
-    private static SharedPreferences mRemotePrefs;   // 远程代理句柄 (用于 Hook 进程数据同步)
+    // App 进程本地存储句柄
+    private static SharedPreferences mPhysicalPrefs;
+    // Hook 进程远程存储句柄（来自 LSPosed service）
+    private static SharedPreferences mRemotePrefs;
     private static boolean isHookProcess = false;
 
     /**
@@ -32,7 +33,7 @@ public class PrefsBridge {
         mPhysicalPrefs = protectedContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public static synchronized Context getProtectedContext(Context context) {
+    public static Context getProtectedContext(Context context) {
         return context.createDeviceProtectedStorageContext();
     }
 
@@ -66,9 +67,6 @@ public class PrefsBridge {
         return getImpl();
     }
 
-    /**
-     * 格式化 Key 名称，确保所有存取都带上前缀
-     */
     private static String wrap(String key) {
         return (key != null && !key.startsWith("prefs_key_")) ? "prefs_key_" + key : key;
     }
@@ -99,20 +97,14 @@ public class PrefsBridge {
         put(key, vals);
     }
 
-    /**
-     * 核心写入逻辑
-     * 在 App 进程中，强制使用 commit() 确保物理 XML 文件有内容且可备份
-     * 在远程端使用 apply() 确保跨进程通信不阻塞 UI
-     */
+    // 核心写入逻辑：本地与远程双写，保持 UI/Hook 两端一致。
     public static void put(String key, Object value) {
         String rKey = wrap(key);
-        // 1. 物理落盘 (解决备份文件为空的问题)
         if (mPhysicalPrefs != null) {
             SharedPreferences.Editor editor = mPhysicalPrefs.edit();
             performPut(editor, rKey, value);
-            editor.commit();
+            editor.apply();
         }
-        // 2. 远程同步 (解决 Hook 进程实时生效的问题)
         if (mRemotePrefs != null) {
             SharedPreferences.Editor editor = mRemotePrefs.edit();
             performPut(editor, rKey, value);
@@ -125,7 +117,7 @@ public class PrefsBridge {
      */
     public static void remove(String key) {
         String rKey = wrap(key);
-        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().remove(rKey).commit();
+        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().remove(rKey).apply();
         if (mRemotePrefs != null) mRemotePrefs.edit().remove(rKey).apply();
     }
 
@@ -142,14 +134,14 @@ public class PrefsBridge {
      * 读取布尔值
      */
     public static boolean getBoolean(String key, boolean def) {
-        return getImpl().getBoolean(wrap(key), def);
+        return requireImpl().getBoolean(wrap(key), def);
     }
 
     /**
      * 读取字符串
      */
     public static String getString(String key, String def) {
-        return getImpl().getString(wrap(key), def);
+        return requireImpl().getString(wrap(key), def);
     }
 
     /**
@@ -160,28 +152,32 @@ public class PrefsBridge {
         if (TextUtils.isEmpty(value)) {
             return def;
         }
-        return Integer.parseInt(value);
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+            return def;
+        }
     }
 
     /**
      * 读取整型，包含 String 转 Int 的鲁棒性处理
      */
     public static int getInt(String key, int def) {
-        return getImpl().getInt(wrap(key), def);
+        return requireImpl().getInt(wrap(key), def);
     }
 
     /**
      * 读取长整型
      */
     public static long getLong(String key, long def) {
-        return getImpl().getLong(wrap(key), def);
+        return requireImpl().getLong(wrap(key), def);
     }
 
     /**
      * 读取浮点型
      */
     public static float getFloat(String key, float def) {
-        return getImpl().getFloat(wrap(key), def);
+        return requireImpl().getFloat(wrap(key), def);
     }
 
     /**
@@ -196,7 +192,8 @@ public class PrefsBridge {
      */
     @Nullable
     public static Set<String> getStringSet(String key, @Nullable Set<String> def) {
-        return getImpl().getStringSet(wrap(key), def);
+        Set<String> value = requireImpl().getStringSet(wrap(key), def);
+        return value == null ? null : new LinkedHashSet<>(value);
     }
 
     /**
@@ -226,16 +223,36 @@ public class PrefsBridge {
         return mPhysicalPrefs != null ? mPhysicalPrefs : mRemotePrefs;
     }
 
+    private static SharedPreferences requireImpl() {
+        SharedPreferences impl = getImpl();
+        if (impl == null) {
+            throw new IllegalStateException("PrefsBridge is not initialized. Call initForApp/initForHook first.");
+        }
+        return impl;
+    }
+
     /**
      * 内部通用的写入映射
      */
     private static void performPut(SharedPreferences.Editor editor, String key, Object value) {
+        if (value == null) {
+            editor.remove(key);
+            return;
+        }
         if (value instanceof Boolean) editor.putBoolean(key, (Boolean) value);
         else if (value instanceof String) editor.putString(key, (String) value);
         else if (value instanceof Integer) editor.putInt(key, (Integer) value);
         else if (value instanceof Long) editor.putLong(key, (Long) value);
         else if (value instanceof Float) editor.putFloat(key, (Float) value);
-        else if (value instanceof Set) editor.putStringSet(key, (Set<String>) value);
+        else if (value instanceof Set<?> setValue) {
+            LinkedHashSet<String> stringSet = new LinkedHashSet<>();
+            for (Object item : setValue) {
+                if (item instanceof String str) {
+                    stringSet.add(str);
+                }
+            }
+            editor.putStringSet(key, stringSet);
+        }
     }
 
     /**
@@ -255,7 +272,7 @@ public class PrefsBridge {
      * 一键重置：清空所有本地与远程数据
      */
     public static void clearAll() {
-        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().clear().commit();
+        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().clear().apply();
         if (mRemotePrefs != null) mRemotePrefs.edit().clear().apply();
     }
 }

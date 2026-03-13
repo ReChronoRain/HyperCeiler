@@ -18,20 +18,20 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
+import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import fan.recyclerview.card.CardGroupAdapter;
 
 public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.ModSearchViewHolder> {
 
-    // 数据源切换为 Room 实体类
     private final List<ModEntity> modsList = new ArrayList<>();
     private String filterString = "";
     private boolean isChina;
@@ -46,9 +46,6 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
         this.mItemClickListener = listener;
     }
 
-    /**
-     * 关键方法：供 HomePageFragment 中的 SearchHandler 调用
-     */
     @SuppressLint("NotifyDataSetChanged")
     public void refresh(List<ModEntity> newData, String query, boolean isChina) {
         this.modsList.clear();
@@ -136,7 +133,6 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
                          View.OnClickListener listener) {
             mName.setText(getHighlightedText(ad.title, query, isChina));
 
-            // 隐藏单层 breadcrumbs（与 groupName 相同时不显示）
             String bc = ad.breadcrumbs;
             if (bc != null && bc.contains("/")) {
                 mPackageName.setText(bc);
@@ -145,7 +141,6 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
                 mPackageName.setVisibility(View.GONE);
             }
 
-            // 仅组内第一个条目显示图标
             if (isFirstInGroup) {
                 String groupName = ad.groupName;
                 if (groupName != null && !groupName.isEmpty()) {
@@ -157,12 +152,10 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
                                 icon = itemView.getContext().getPackageManager().getApplicationIcon(pkg);
                                 iconCache.put(groupName, icon);
                             } catch (PackageManager.NameNotFoundException e) {
-                                // 应用未安装，使用 prefs_main 中定义的图标
                                 icon = loadFallbackIcon(groupName);
                                 if (icon != null) iconCache.put(groupName, icon);
                             }
                         } else {
-                            // 没有包名映射（如"其他"），使用 prefs_main 中定义的图标
                             icon = loadFallbackIcon(groupName);
                             if (icon != null) iconCache.put(groupName, icon);
                         }
@@ -193,16 +186,17 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
             return null;
         }
 
-        // 提取出的文字高亮逻辑
         private Spannable getHighlightedText(String text, String query, boolean isChina) {
+            if (TextUtils.isEmpty(text)) {
+                return new SpannableString("");
+            }
             Spannable spannable = new SpannableString(text);
             if (TextUtils.isEmpty(query)) return spannable;
 
-            String lText = text.toLowerCase();
-            String lQuery = query.toLowerCase();
+            String lText = text.toLowerCase(Locale.ROOT);
+            String lQuery = query.toLowerCase(Locale.ROOT);
 
             if (isChina) {
-                // 逐字匹配高亮 (旧版逻辑)
                 for (char c : lQuery.toCharArray()) {
                     int start = lText.indexOf(String.valueOf(c));
                     if (start >= 0) {
@@ -211,7 +205,6 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
                     }
                 }
             } else {
-                // 连续匹配高亮
                 int start = lText.indexOf(lQuery);
                 if (start >= 0) {
                     spannable.setSpan(new ForegroundColorSpan(SearchHelper.MARK_COLOR_VIBRANT),

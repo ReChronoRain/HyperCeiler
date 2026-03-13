@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.home.banner;
 
-import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mNotInSelectedScope;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBaseOs;
@@ -12,9 +11,11 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mNotInSelectedScope;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.SystemClock;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
@@ -30,63 +31,81 @@ import kotlin.text.Charsets;
 
 public class HomePageBannerManager {
 
+    private static final Object CACHE_LOCK = new Object();
+    private static final long BANNER_CACHE_TTL_MS = 5 * 60 * 1000L;
+    private static volatile List<BannerBean> sCachedBannerList;
+    private static volatile long sCachedAtUptimeMs = 0L;
+
     /**
      * 核心方法：判断并返回所有需要显示的本地 Banner 数据
      */
     public static List<BannerBean> getLocalBannerBeans(Context context) {
-        List<BannerBean> list = new ArrayList<>();
-
-        // FuckCoolapkSDay
-        if (isFuckCoolapkSDay()) {
-            list.add(createLocalTipBean(
-                "fuck_coolapk",
-                context.getString(R.string.headtip_tip_fuck_coolapk),
-                -1,
-                null));
+        long now = SystemClock.uptimeMillis();
+        List<BannerBean> cached = sCachedBannerList;
+        if (cached != null && now - sCachedAtUptimeMs < BANNER_CACHE_TTL_MS) {
+            return new ArrayList<>(cached);
         }
 
-        // Birthday
-        if (isBirthday()) {
-            list.add(createLocalTipBean(
-                "happy_birthday",
-                context.getString(R.string.happy_birthday_hyperceiler),
-                com.sevtinge.hyperceiler.core.R.drawable.ic_hyperceiler_cartoon,
-                null));
+        synchronized (CACHE_LOCK) {
+            cached = sCachedBannerList;
+            now = SystemClock.uptimeMillis();
+            if (cached != null && now - sCachedAtUptimeMs < BANNER_CACHE_TTL_MS) {
+                return new ArrayList<>(cached);
+            }
+
+            List<BannerBean> list = new ArrayList<>();
+
+            if (isFuckCoolapkSDay()) {
+                list.add(createLocalTipBean(
+                    "fuck_coolapk",
+                    context.getString(R.string.headtip_tip_fuck_coolapk),
+                    -1,
+                    null));
+            }
+
+            if (isBirthday()) {
+                list.add(createLocalTipBean(
+                    "happy_birthday",
+                    context.getString(R.string.happy_birthday_hyperceiler),
+                    com.sevtinge.hyperceiler.core.R.drawable.ic_hyperceiler_cartoon,
+                    null));
+            }
+
+            if (isLoggerAlive()) {
+                list.add(createLocalNoticeBean(
+                    "dead_logger",
+                    context.getString(R.string.headtip_notice_dead_logger),
+                    null));
+            }
+
+            boolean isUnofficialRom = isUnofficialRom(context);
+            boolean isFullSupport = getSupportStatus() == SUPPORT_FULL;
+            boolean isWhileXposed = isWhileXposed();
+            boolean isSignPass = SignUtils.isSignCheckPass(context);
+
+            int titleResId = !isSignPass ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_sign_verification_failed :
+                isUnofficialRom ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_not_offical_rom :
+                    !isWhileXposed ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_xposed :
+                        !isFullSupport ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_sysver : -1;
+
+            if (titleResId != -1) {
+                list.add(createLocalWarningBean(
+                    "warning",
+                    context.getString(titleResId),
+                    null));
+            }
+
+            if (isSupportAutoSafeMode()) {
+                list.add(createLocalTipBean(
+                    "auto_safe_mode",
+                    context.getString(R.string.headtip_tip_auto_safe_mode),
+                    null));
+            }
+
+            sCachedBannerList = List.copyOf(list);
+            sCachedAtUptimeMs = now;
+            return new ArrayList<>(sCachedBannerList);
         }
-
-        // LoggerAlive
-        if (isLoggerAlive()) {
-            list.add(createLocalNoticeBean(
-                "dead_logger",
-                context.getString(R.string.headtip_notice_dead_logger),
-                null));
-        }
-
-        boolean isUnofficialRom = isUnofficialRom(context);
-        boolean isFullSupport = getSupportStatus() == SUPPORT_FULL;
-        boolean isWhileXposed = isWhileXposed();
-        boolean isSignPass = SignUtils.isSignCheckPass(context);
-
-        int titleResId = !isSignPass ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_sign_verification_failed :
-            isUnofficialRom ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_not_offical_rom :
-                !isWhileXposed ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_xposed :
-                    !isFullSupport ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_sysver : -1;
-
-        if (titleResId != -1) {
-            list.add(createLocalWarningBean(
-                "warning",
-                context.getString(titleResId),
-                null));
-        }
-
-        if (isSupportAutoSafeMode()) {
-            list.add(createLocalTipBean(
-                "auto_safe_mode",
-                context.getString(R.string.headtip_tip_auto_safe_mode),
-                null));
-        }
-
-        return list;
     }
 
     private static BannerBean createLocalTipBean(String id, String summary, int iconRes, String actionOrUrl) {
@@ -220,4 +239,3 @@ public class HomePageBannerManager {
     }
 
 }
-

@@ -11,10 +11,10 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
 import com.sevtinge.hyperceiler.search.data.ModDao;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
@@ -39,28 +39,16 @@ public class SearchHelper {
     private static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     private static final String APP_NS = "http://schemas.android.com/apk/res-auto";
 
-    /**
-     * 标签跳过列表：这些标签不作为可索引的搜索条目
-     */
     private static final Set<String> SKIP_TAGS = Set.of(
         "PreferenceScreen",
         "PreferenceCategory",
         "com.sevtinge.hyperceiler.common.prefs.LayoutPreference"
     );
 
-    /**
-     * 已注册的 XML 资源 ID 集合，防止重复扫描
-     */
     private static final Set<Integer> REGISTERED = Collections.synchronizedSet(new HashSet<>());
 
-    /**
-     * 分组名称 → 包名映射，用于搜索结果显示应用图标
-     */
     private static final Map<String, String> GROUP_PACKAGE_MAP = new LinkedHashMap<>();
 
-    /**
-     * 分组名称 → drawable 资源 ID 映射，用于应用未安装时显示 prefs_main 中定义的图标
-     */
     private static final Map<String, Integer> GROUP_ICON_MAP = new LinkedHashMap<>();
 
     public static Map<String, String> getGroupPackageMap() {
@@ -71,10 +59,6 @@ public class SearchHelper {
         return Collections.unmodifiableMap(GROUP_ICON_MAP);
     }
 
-    /**
-     * 初始化索引（建议在 Application 或 HomePageFragment 中调用）
-     * 动态扫描 prefs_main.xml 中所有 PreferenceHeader，递归解析子 XML
-     */
     public static void initIndex(Context context, boolean force) {
         Log.d(TAG, "initIndex called, force = " + force);
         ThreadPoolManager.getInstance().submit(() -> {
@@ -85,9 +69,6 @@ public class SearchHelper {
         });
     }
 
-    /**
-     * 核心索引构建：动态扫描 prefs_main.xml -> 递归解析所有子 XML -> 写入 Room
-     */
     private static void rebuildIndex(Context context, ModDao dao) {
         REGISTERED.clear();
         Resources res = getLocaleResources(context);
@@ -101,7 +82,6 @@ public class SearchHelper {
 
         scanMainPrefs(res, mainXmlResId, entities);
 
-        // 写入数据库
         AppDatabase.getInstance(context).runInTransaction(() -> {
             dao.deleteAll();
             dao.insertAll(entities);
@@ -109,9 +89,6 @@ public class SearchHelper {
         });
     }
 
-    /**
-     * 扫描 prefs_main.xml，提取所有 PreferenceHeader 并递归解析子 XML
-     */
     private static void scanMainPrefs(Resources res, int mainXmlResId, List<ModEntity> entities) {
         GROUP_PACKAGE_MAP.clear();
         GROUP_ICON_MAP.clear();
@@ -139,11 +116,9 @@ public class SearchHelper {
                     }
 
                     if (inflatedXml > 0) {
-                        // 有 inflatedXml 属性 -> 用 DashboardFragment + inflatedXml
                         String frag = fragment != null ? fragment : DashboardFragment.class.getName();
                         scanEntryXml(res, frag, inflatedXml, groupTitle, groupTitle, entities);
                     } else if (fragment != null) {
-                        // 只有 fragment，通过反射获取 XML 资源 ID
                         int xmlResId = getXmlResIdFromFragment(fragment);
                         if (xmlResId > 0) {
                             scanEntryXml(res, fragment, xmlResId, groupTitle, groupTitle, entities);
@@ -157,15 +132,10 @@ public class SearchHelper {
         }
     }
 
-    /**
-     * 扫描单个 XML 偏好文件，提取所有可搜索的条目
-     * @param topLevelGroup 顶级分组名（始终不变，用于 groupName 和图标查找）
-     * @param parentBreadcrumb 父级面包屑路径（递归时逐层拼接）
-     */
     private static void scanEntryXml(Resources res, String fragment, int xmlResId,
                                      String topLevelGroup, String parentBreadcrumb,
                                      List<ModEntity> entities) {
-        if (!REGISTERED.add(xmlResId)) return; // 防止重复扫描
+        if (!REGISTERED.add(xmlResId)) return;
 
         try (XmlResourceParser xml = res.getXml(xmlResId)) {
             int eventType = xml.getEventType();
@@ -179,7 +149,6 @@ public class SearchHelper {
                     String tag = xml.getName();
 
                     if ("PreferenceScreen".equals(tag)) {
-                        // 提取 myLocation 属性作为面包屑的子路径
                         String myLoc = xml.getAttributeValue(APP_NS, "myLocation");
                         if (myLoc != null && location == null) {
                             location = resolveStringRef(res, myLoc);
@@ -194,7 +163,6 @@ public class SearchHelper {
                         String modTitle = resolveStringRef(res, titleAttr);
                         boolean isHidden = "false".equals(isVisibleAttr);
 
-                        // 递归扫描子 Fragment 指向的 XML
                         if (childFragment != null) {
                             int childXml = getXmlResIdFromFragment(childFragment);
                             if (childXml > 0) {
@@ -203,7 +171,6 @@ public class SearchHelper {
                             }
                         }
 
-                        // 索引当前 Preference 项
                         if (!TextUtils.isEmpty(modTitle) && !TextUtils.isEmpty(keyAttr) && !isHidden) {
                             ModEntity mod = new ModEntity();
                             mod.title = modTitle;
@@ -228,28 +195,17 @@ public class SearchHelper {
         }
     }
 
-    /**
-     * 执行全文搜索
-     */
     public static List<ModEntity> search(Context context, String keyword) {
         if (TextUtils.isEmpty(keyword)) return new ArrayList<>();
         String query = keyword.trim().replace("'", "''") + "*";
         return AppDatabase.getInstance(context).modDao().search(query);
     }
 
-    /**
-     * 清理索引缓存
-     */
     public static void clearIndex() {
         REGISTERED.clear();
         GROUP_PACKAGE_MAP.clear();
+        GROUP_ICON_MAP.clear();
     }
-
-    // --- 工具方法 ---
-
-    /**
-     * 根据用户设置的语言获取对应的 Resources 对象
-     */
     private static Resources getLocaleResources(Context context) {
         int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
         if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
@@ -260,9 +216,6 @@ public class SearchHelper {
         return context.createConfigurationContext(config).getResources();
     }
 
-    /**
-     * 通过反射获取 Fragment 的 getPreferenceScreenResId()
-     */
     private static int getXmlResIdFromFragment(String fragmentName) {
         try {
             Class<?> clazz = Class.forName(fragmentName);

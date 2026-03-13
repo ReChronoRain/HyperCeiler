@@ -14,7 +14,7 @@ import fan.recyclerview.card.CardGroupAdapter;
 public class ProxyHeaderViewAdapter extends CardGroupAdapter {
 
     final RecyclerView.Adapter<?> mBaseAdapter;
-    private HashMap<Integer, View> mHeaderViews = new HashMap();
+    private final HashMap<Integer, View> mHeaderViews = new HashMap<>();
     private boolean isRemovableViewExist = false;
 
 
@@ -24,7 +24,7 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
         setNeedItemPressEffect(false);
     }
 
-    public Map getHeaderViews() {
+    public Map<Integer, View> getHeaderViews() {
         return mHeaderViews;
     }
 
@@ -37,8 +37,7 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
     }
 
     public void resume() {
-        ((HeaderAdapter)mBaseAdapter).resume();
-        notifyDataSetChanged();
+        ((HeaderAdapter) mBaseAdapter).resume();
     }
 
     public void pause() {
@@ -134,8 +133,12 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
     }
 
     public void addHeaderView(int i, int i2, View view) {
-        if (mHeaderViews.containsKey(Integer.valueOf(i2))) return;
-        mHeaderViews.put(Integer.valueOf(i2), view);
+        Integer key = Integer.valueOf(i2);
+        View oldView = mHeaderViews.get(key);
+        if (oldView == view) {
+            return;
+        }
+        mHeaderViews.put(key, view);
         notifyDataSetChanged();
     }
 

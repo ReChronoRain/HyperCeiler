@@ -28,13 +28,13 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.UserHandle;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +45,8 @@ public class HyperCeilerSettings extends BaseHook {
 
     private int settingsIconResId;
     private Class<?> mPreferenceHeader;
-    private final int opt = 0;
-    private final int mIconModeInt = 0;
+    private final int opt = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
+    private final int mIconModeInt = PrefsBridge.getStringAsInt("prefs_key_settings_icon_mode", 0);
 
     @Override
     public void init() {
