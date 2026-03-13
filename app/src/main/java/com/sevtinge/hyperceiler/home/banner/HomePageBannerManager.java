@@ -21,6 +21,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -171,7 +172,9 @@ public class HomePageBannerManager {
     }
 
     private static boolean isLoggerAlive() {
-        return !IS_LOGGER_ALIVE && !isRelease();
+        if (isRelease()) return false;
+        if ("NOT_CHECKED".equals(LoggerHealthChecker.diagSummary)) return false;
+        return !IS_LOGGER_ALIVE;
     }
 
     private static boolean isSupportAutoSafeMode() {

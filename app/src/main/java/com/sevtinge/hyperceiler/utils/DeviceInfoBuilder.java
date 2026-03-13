@@ -42,17 +42,18 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getXmsVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.LOGGER_CHECKER_ERR_CODE;
+import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatusDetail;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -137,7 +138,11 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
                 PrefsBridge.getBoolean("prefs_key_development_debug_mode", false)));
-            propertiesCheck.put("LoggerStatus", IS_LOGGER_ALIVE + ", " + LOGGER_CHECKER_ERR_CODE);
+            if ("NOT_CHECKED".equals(LoggerHealthChecker.diagSummary)) {
+                LoggerHealthChecker.isLoggerAlive();
+            }
+            String loggerStatus = IS_LOGGER_ALIVE + ", " + formatLoggerStatusDetail();
+            propertiesCheck.put("LoggerStatus", loggerStatus);
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(context));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(context)));
         } catch (Exception e) {

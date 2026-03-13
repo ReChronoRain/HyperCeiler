@@ -86,7 +86,7 @@
             android:layout_height="wrap_content"
             android:paddingHorizontal="@dimen/miuix_theme_content_total_padding_horizontal"
             android:paddingVertical="@dimen/miuix_preference_category_padding_vertical"
-            android:text="显示: 0/0"
+            android:text="@string/log_loading"
             android:textColor="?preferenceCategoryTextColor"
             android:textSize="@dimen/miuix_preference_category_text_size"
             android:textStyle="bold" />

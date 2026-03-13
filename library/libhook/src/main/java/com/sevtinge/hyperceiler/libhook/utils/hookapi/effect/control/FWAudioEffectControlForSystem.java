@@ -351,11 +351,9 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
     }
 
     private void resetToDefaultEffect() {
-        if (isEffectSupported(EFFECT_DOLBY) && isEffectAvailable(EFFECT_DOLBY)) {
-            setEffectActive(EFFECT_DOLBY, true);
-        } else if (isEffectSupported(EFFECT_MISOUND) && isEffectAvailable(EFFECT_MISOUND)) {
-            setEffectActive(EFFECT_MISOUND, true);
-        }
+        // 不再硬编码优先恢复 Dolby，改为仅恢复空间音频和环绕声
+        // 主音效由上层 restoreEffectForSpeaker() 中的设备记忆或用户配置决定
+        XposedLog.d(TAG, "resetToDefaultEffect: skipping main effect, letting caller handle it");
 
         if (isEffectSupported(EFFECT_SPATIAL_AUDIO) && isEffectAvailable(EFFECT_SPATIAL_AUDIO)) {
             setEffectActive(EFFECT_SPATIAL_AUDIO, true);

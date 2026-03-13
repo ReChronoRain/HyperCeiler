@@ -45,10 +45,17 @@ public class Application extends fan.app.Application
         // 应用启动阶段，预热非 UI 任务（如 Shell、语言包、权限检查）
         AppInitializer.initOnAppCreate(this);
         // 初始化日志系统
-        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(this.getDataDir().getAbsolutePath());
-        LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
-        LogManager.init(this);
-        LogViewerActivity.setXposedLogLoader((context, callback) -> XposedLogLoader.loadLogs(callback));
+        Context appContext = this;
+        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(
+            this.getDataDir().getAbsolutePath(),
+            () -> XposedLogLoader.getInstance(appContext).syncLogsSync(),
+            () -> {
+                LogManager.init(appContext);
+                LogViewerActivity.setXposedLogLoader((context, callback) ->
+                    XposedLogLoader.loadLogs(callback));
+                LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
+            }
+        );
 
         setupCrashHandler();
     }

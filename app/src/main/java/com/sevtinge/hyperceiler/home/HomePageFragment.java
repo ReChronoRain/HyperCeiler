@@ -44,6 +44,7 @@ import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.SearchResultAdapter;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.search.widget.FlowLayout;
+import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
@@ -259,6 +260,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         if (mBannerCallback == null) {
             mBannerCallback = new BannerCallback(this);
         }
+
+        LogManager.onHealthCheckDone(() -> mMainHandler.post(this::refreshHeader));
     }
 
     @Override

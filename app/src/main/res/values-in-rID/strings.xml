@@ -19,7 +19,7 @@
   --><resources>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
-    <string name="miuix_appcompat_cancel_description">Membatalkan</string>
+    <string name="miuix_appcompat_cancel_description">Batal</string>
     <string name="miuix_appcompat_confirm_description">Oke</string>
     <string name="miuix_appcompat_select_all_description">Pilih Semua</string>
     <string name="miuix_appcompat_deselect_all_description">Batalkan pilihan semua</string>
@@ -63,4 +63,19 @@
     <string name="log_level_none">Nonaktifkan catatan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
+    <string name="soft_reboot">Memulai Ulang</string>
+    <string name="experimental_features">Fitur eksperimental</string>
+    <string name="error">Kesalahan</string>
+    <string name="warn">Perhatian</string>
+    <string name="module_app_failed">Terjadi kesalahan fatal pada modul tersebut.</string>
+    <string name="module_app_copy_desc">Tekan dan tahan konten untuk menyalin.</string>
+    <string name="module_title_1">Pesan dasar</string>
+    <string name="module_title_2">Tumpukan pesan</string>
+    <string name="app_error_desc">HyperCeiler tiba-tiba tertutup. Untuk membantu kami memperbaiki masalah ini, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin semuanya.</string>
+    <string name="app_exit">Oke</string>
+    <string name="safe_mode_desc">%1$s telah memasuki mode aman karena beberapa kali mengalami crash, dan fitur HyperCeiler telah dinonaktifkan sementara.</string>
+    <string name="safe_mode_cancel">Nonaktifkan mode aman</string>
+    <string name="safe_mode_ok">Batal</string>
+    <string name="pull_to_enter_private">Tarik ke bawah untuk memasuki ruang pribadi</string>
+    <string name="release_enter_private">Lepaskan untuk masuk ke ruang pribadi</string>
 </resources>
