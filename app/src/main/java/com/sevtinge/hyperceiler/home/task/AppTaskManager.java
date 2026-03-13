@@ -13,7 +13,6 @@ import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
-import com.sevtinge.hyperceiler.home.utils.XposedActivateHelper;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
@@ -23,6 +22,7 @@ import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.home.data.AppInfoCache;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
+import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,15 +87,6 @@ public class AppTaskManager {
             public void execute() {
                 LSPosedScopeHelper.init();
                 AppInfoCache.getInstance(context).init();
-                // 原 onCreate 里的各种 Helper 初始化
-                //PermissionUtils.init(context);
-            }
-        });
-
-        runner.addTask(new Task("CoreService", true, "BaseEnv") {
-            @Override
-            public void execute() {
-                LogServiceUtils.init(context.getApplicationContext());
             }
         });
     }
@@ -112,7 +103,8 @@ public class AppTaskManager {
             public void execute() {
                 // 调用装饰器：处理滤镜和节日特效
                 PageDecorator.decorate(activity);
-                XposedActivateHelper.init(activity.getApplicationContext());
+                XposedActivateHelper.init(activity);
+                LogServiceUtils.init(activity);
             }
         });
 
@@ -140,9 +132,6 @@ public class AppTaskManager {
             @Override
             public void execute() {
                 requestCta(activity);
-                XposedActivateHelper.init(activity);
-                //PrefsBridge.registerOnSharedPreferenceChangeListener(activity);
-                //registerObserver(activity);
                 SearchHelper.initIndex(activity, true);
             }
         });

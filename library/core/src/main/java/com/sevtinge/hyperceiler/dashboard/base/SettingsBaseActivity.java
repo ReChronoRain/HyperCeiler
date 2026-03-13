@@ -16,7 +16,7 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.dashboard.base.activity;
+package com.sevtinge.hyperceiler.dashboard.base;
 
 import android.content.Intent;
 import android.os.Bundle;

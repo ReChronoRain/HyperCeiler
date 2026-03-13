@@ -13,7 +13,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.utils.CtaUtils;
-import com.sevtinge.hyperceiler.dashboard.base.activity.ActivityCallback;
+import com.sevtinge.hyperceiler.dashboard.base.ActivityCallback;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.home.task.AppTaskManager;
@@ -65,7 +65,6 @@ public class HomePageActivity extends AppCompatActivity
         // Activity 启动阶段，绑定 UI 任务（如签名校验弹窗、公告展示）
         AppInitializer.initOnActivityCreate(this);
         setContentView(R.layout.activity_home);
-
         setupNavigation();
     }
 

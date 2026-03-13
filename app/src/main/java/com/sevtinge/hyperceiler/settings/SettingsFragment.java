@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
@@ -67,7 +68,7 @@ public class SettingsFragment extends BasePreferenceFragment
 
     @Override
     public int getPreferenceScreenResId() {
-        return com.sevtinge.hyperceiler.R.xml.prefs_settings;
+        return R.xml.prefs_settings;
     }
 
     @Override

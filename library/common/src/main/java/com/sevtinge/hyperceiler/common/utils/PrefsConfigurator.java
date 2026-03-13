@@ -6,6 +6,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
 public class PrefsConfigurator {
+
     public static void setup(PreferenceFragmentCompat fragment) {
         PreferenceManager pm = fragment.getPreferenceManager();
         pm.setPreferenceDataStore(new PrefsDataStore());
