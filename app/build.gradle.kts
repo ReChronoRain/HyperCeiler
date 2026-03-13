@@ -200,9 +200,8 @@ dependencies {
     implementation(projects.library.core)
     implementation(projects.library.common)
 
-    implementation ("androidx.room:room-runtime:2.6.1")
-    annotationProcessor ("androidx.room:room-compiler:2.6.1")
+    implementation (libs.room.runtime)
+    annotationProcessor (libs.room.compiler)
     // FTS 支持
-    implementation ("androidx.room:room-ktx:2.6.1")
-    //implementation ("com.github.promeg:tinypinyin:2.0.3")
+    implementation (libs.room.ktx)
 }
