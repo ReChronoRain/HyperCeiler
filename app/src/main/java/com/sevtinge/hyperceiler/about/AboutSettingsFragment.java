@@ -46,6 +46,7 @@ import fan.internal.utils.ViewUtils;
 import fan.os.Build;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
+import fan.theme.token.ContainerToken;
 
 public class AboutSettingsFragment extends BasePreferenceFragment
     implements View.OnScrollChangeListener {
@@ -195,7 +196,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             startRuntimeShader();
         }
         isReboot = false;
-        setShadowEffect();
+        //setShadowEffect();
     }
 
     @Override
@@ -224,6 +225,14 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             relativePadding.bottom = rect.top;
             relativePadding.applyToView(mRootView);
             setRecyclerViewPadding();
+        }
+    }
+
+    @Override
+    public void onExtraPaddingChanged(int extra) {
+        super.onExtraPaddingChanged(extra);
+        if (mDeviceInfoCardView != null && Build.IS_TABLET) {
+            mDeviceInfoCardView.setPaddingRelative(extra, mDeviceInfoCardView.getPaddingTop(), extra, mDeviceInfoCardView.getPaddingBottom());
         }
     }
 

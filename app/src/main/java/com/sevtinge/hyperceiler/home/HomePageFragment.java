@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ import fan.internal.utils.ViewUtils;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.recyclerview.card.CardItemDecoration;
 import fan.recyclerview.widget.RecyclerView;
+import fan.theme.token.ContainerToken;
 import fan.view.ActionModeAnimationListener;
 import fan.view.SearchActionMode;
 
@@ -200,7 +202,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             searchActionMode.setAnimateView(mListView);
             searchActionMode.setResultView(mSearchResultLinearLayout);
             searchActionMode.setAnchorApplyExtraPaddingByUser(true);
-            
+
             mSearchInput = searchActionMode.getSearchInput();
             mSearchInput.setImeOptions(3);
             mSearchInput.addTextChangedListener(mTextWatcher);
@@ -644,5 +646,40 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             relativePadding.bottom = rect.top;
             relativePadding.applyToView(mListView);
         }
+        mSearchResultLinearLayout.setPadding(
+            mSearchResultLinearLayout.getPaddingLeft(),
+            rect.top,
+            mSearchResultLinearLayout.getPaddingRight(),
+            mSearchResultLinearLayout.getPaddingBottom()
+        );
     }
+
+    @Override
+    public void onExtraPaddingChanged(int extraHorizontalPadding) {
+        super.onExtraPaddingChanged(extraHorizontalPadding);
+        int margin = (int) (extraHorizontalPadding + (ContainerToken.PADDING_BASE_DP * 3 * getResources().getDisplayMetrics().density));
+        setExtraPadding(mListView, margin);
+        setExtraPadding(mSearchResultListView, margin);
+        if (mAnchorView != null) {
+            FrameLayout frameLayout = mAnchorView.findViewById(fan.appcompat.R.id.search_mode_stub);
+            if (frameLayout != null) {
+                frameLayout.setPaddingRelative(margin, frameLayout.getPaddingTop(), margin, frameLayout.getPaddingBottom());
+            }
+        }
+        if (mSearchListLayout != null) {
+            mSearchListLayout.setPaddingRelative(margin, mSearchListLayout.getPaddingTop(), margin, mSearchListLayout.getPaddingBottom());
+        }
+    }
+
+    private void setExtraPadding(RecyclerView recyclerView, int margin) {
+        RecyclerView.ItemDecoration itemDecoration = recyclerView.getItemDecorationAt(0);
+        if (itemDecoration instanceof CardItemDecoration cardItemDecoration) {
+            cardItemDecoration.setCardMarginStart(margin);
+            cardItemDecoration.setCardMarginEnd(margin);
+            if (recyclerView.getAdapter() != null) {
+                recyclerView.getAdapter().notifyDataSetChanged();
+            }
+        }
+    }
+
 }

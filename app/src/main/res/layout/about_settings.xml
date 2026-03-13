@@ -30,7 +30,9 @@
                 <com.sevtinge.hyperceiler.about.widget.DeviceInfoCard
                     android:id="@+id/device_info_card_view"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:focusable="false"
+                    android:clickable="false"/>
 
                 <!--<include layout="@layout/app_device_layout" />-->
 
