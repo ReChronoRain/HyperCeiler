@@ -54,10 +54,8 @@ public class NoticeProcessor {
      * Main entry point, used to check whether the display conditions are met and to package the display results
      */
     public static NoticeResult process(Context context) {
-        AndroidLog.e("NoticeProcessor running");
         try {
             String json = request(NOTICE_URL);
-            AndroidLog.e("NoticeProcessor "+json);
             if (json == null || json.isEmpty()) return null;
 
             Notice notice = parseNotice(new JSONObject(json));
