@@ -85,6 +85,7 @@ public class ModSearchCallback implements SearchActionMode.Callback {
         searchActionMode.setAnchorView(mAnchorView);
         searchActionMode.setAnimateView(mAnimView);
         searchActionMode.setResultView(mAnimView);
+        searchActionMode.setSearchMaskAlwaysHidden(true);
         mSearchInput = searchActionMode.getSearchInput();
         mSearchInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SEARCH_LENGTH)});
         mSearchInput.addTextChangedListener(mSearchTextWatcher);

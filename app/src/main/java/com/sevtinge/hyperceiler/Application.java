@@ -9,16 +9,16 @@ import android.os.Process;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.safemode.ExceptionCrashActivity;
+import com.sevtinge.hyperceiler.home.task.AppInitializer;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.logviewer.LogManager;
 import com.sevtinge.hyperceiler.logviewer.LogViewerActivity;
 import com.sevtinge.hyperceiler.logviewer.XposedLogLoader;
-import com.sevtinge.hyperceiler.utils.ScopeManager;
-import com.sevtinge.hyperceiler.home.task.AppInitializer;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.home.safemode.ExceptionCrashActivity;
-import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
+import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -65,7 +65,6 @@ public class Application extends fan.app.Application
             SharedPreferences remote = service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote");
             PrefsBridge.setRemotePrefs(remote);
 
-            //PrefsUtils.remotePrefs = (RemotePreferences) service.getRemotePreferences(PrefsUtils.mPrefsName + "_remote");
             reloadListener.run();
         }
     }
@@ -76,7 +75,6 @@ public class Application extends fan.app.Application
         synchronized (this) {
             isModuleActivated = false;
             PermissionSettingsFragment.isModuleActive = false;
-            //PrefsUtils.remotePrefs = null;
             PrefsBridge.setRemotePrefs(null);
         }
     }

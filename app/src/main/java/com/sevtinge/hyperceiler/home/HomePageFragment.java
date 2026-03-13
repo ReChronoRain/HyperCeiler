@@ -30,8 +30,9 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.SettingsFeatures;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
+import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.home.banner.BannerBean;
 import com.sevtinge.hyperceiler.home.banner.BannerCallback;
 import com.sevtinge.hyperceiler.home.base.BasePreferenceFragment;
@@ -39,13 +40,12 @@ import com.sevtinge.hyperceiler.home.order.OnCompleteCallBack;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.IntentUtils;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.SearchResultAdapter;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.search.widget.FlowLayout;
-import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
-import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
 import java.util.ArrayList;
@@ -166,38 +166,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             getSwitchManager().hide();
-            SearchActionMode searchActionMode = (SearchActionMode) mode;
-            //searchActionMode.setFitWindowInsetsEnabled(false);
-
-            searchActionMode.addAnimationListener(new ActionModeAnimationListener() {
-
-                @Override
-                public void onStart(boolean z) {
-                    mIsScrollEnableForListView = false;
-                }
-
-                @Override
-                public void onUpdate(boolean z, float f) {
-                    if (mSearchListLayout != null) {
-                        mSearchListLayout.setAlpha(0.0f);
-                    }
-                }
-
-                @Override
-                public void onStop(boolean z) {
-                    mIsScrollEnableForListView = !z;
-                    if (mSearchListLayout != null) {
-                        mSearchListLayout.setAlpha(1.0f);
-                    }
-                    if (z && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0) {
-                        setSearchHistoryVisiable(true);
-                        setSearchMaskVisiable(false);
-                    } else {
-                        setSearchHistoryVisiable(false);
-                    }
-                    isClicking = false;
-                }
-            });
+            SearchActionMode searchActionMode = getSearchActionMode((SearchActionMode) mode);
+            searchActionMode.setSearchMaskAlwaysHidden(true);
             searchActionMode.setAnchorView(mAnchorView);
             searchActionMode.setAnimateView(mListView);
             searchActionMode.setResultView(mSearchResultLinearLayout);
@@ -248,6 +218,41 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             return false;
         }
     };
+
+    @NonNull
+    private SearchActionMode getSearchActionMode(SearchActionMode mode) {
+        //searchActionMode.setFitWindowInsetsEnabled(false);
+
+        mode.addAnimationListener(new ActionModeAnimationListener() {
+
+            @Override
+            public void onStart(boolean z) {
+                mIsScrollEnableForListView = false;
+            }
+
+            @Override
+            public void onUpdate(boolean z, float f) {
+                if (mSearchListLayout != null) {
+                    mSearchListLayout.setAlpha(0.0f);
+                }
+            }
+
+            @Override
+            public void onStop(boolean z) {
+                mIsScrollEnableForListView = !z;
+                if (mSearchListLayout != null) {
+                    mSearchListLayout.setAlpha(1.0f);
+                }
+                if (z && mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty()) {
+                    setSearchHistoryVisiable(true);
+                } else {
+                    setSearchHistoryVisiable(false);
+                }
+                isClicking = false;
+            }
+        });
+        return mode;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -336,21 +341,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             }
         } else {
             Log.e("SettingsFragment", "setSearchHistoryVisiable: mSearchListLayout is null");
-        }
-    }
-
-    public void setSearchMaskVisiable(boolean visiable) {
-        try {
-            View searchMask = getActivity().getWindow().findViewById(fan.appcompat.R.id.search_mask);
-            if (searchMask != null) {
-                searchMask.setClickable(false);
-                searchMask.setFocusable(false);
-                searchMask.setVisibility(visiable ? View.VISIBLE : View.GONE);
-                // 让触摸事件穿透过去
-                searchMask.setOnTouchListener((v, event) -> false);
-            }
-        } catch (Exception e) {
-            Log.e("SettingsFragment", "setSearchMaskVisiable: ", e);
         }
     }
 
@@ -615,7 +605,6 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                                 // 处理搜索历史显示逻辑
                                 if (TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0) {
                                     setSearchHistoryVisiable(true);
-                                    setSearchMaskVisiable(false);
                                 } else {
                                     setSearchHistoryVisiable(false);
                                 }

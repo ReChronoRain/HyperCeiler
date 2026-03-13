@@ -135,6 +135,7 @@ public class SearchCallback implements SearchActionMode.Callback {
         SearchActionMode searchActionMode = (SearchActionMode) mode;
         searchActionMode.setAnchorView(mAnchorView);
         searchActionMode.setAnimateView(mAnimView);
+        searchActionMode.setSearchMaskAlwaysHidden(true);
         mSearchInput = searchActionMode.getSearchInput();
         mSearchInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_SEARCH_LENGTH)});
         mSearchInput.setHint("");

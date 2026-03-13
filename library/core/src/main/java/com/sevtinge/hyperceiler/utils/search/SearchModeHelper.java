@@ -69,6 +69,7 @@ public class SearchModeHelper {
         SearchActionMode searchActionMode = (SearchActionMode) actionMode;
         searchActionMode.setAnchorView(anchorView);
         searchActionMode.setAnimateView(animateView);
+        searchActionMode.setSearchMaskAlwaysHidden(true);
         searchActionMode.getSearchInput().addTextChangedListener(watcher);
         return true;
     }
