@@ -1,112 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <include
+        android:id="@+id/header"
         layout="@layout/set_order_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/bottom_sheet_dialog_title_margin_bottom" />
+        android:layout_marginBottom="@dimen/bottom_sheet_dialog_title_margin_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.core.widget.NestedScrollView
+    <LinearLayout
+        android:id="@+id/fixed_info_area"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingBottom="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="24dp"
-            android:paddingBottom="8dp">
+            android:layout_marginTop="8dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
+            <androidx.constraintlayout.helper.widget.Flow
+                android:id="@+id/flow_header"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp">
+                app:constraint_referenced_ids="dialog_time,dialog_tag,dialog_level"
+                app:flow_horizontalAlign="start"
+                app:flow_horizontalBias="0"
+                app:flow_horizontalGap="8dp"
+                app:flow_horizontalStyle="packed"
+                app:flow_verticalGap="4dp"
+                app:flow_wrapMode="chain"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <androidx.constraintlayout.helper.widget.Flow
-                    android:id="@+id/flow_header"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="dialog_time,dialog_tag,dialog_level"
-                    app:flow_horizontalAlign="start"
-                    app:flow_horizontalBias="0"
-                    app:flow_horizontalGap="8dp"
-                    app:flow_horizontalStyle="packed"
-                    app:flow_verticalGap="4dp"
-                    app:flow_wrapMode="chain"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/dialog_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?itemViewSummaryTextColor"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:id="@+id/dialog_tag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_level_badge"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/dialog_level"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_level_badge"
-                    android:paddingHorizontal="8dp"
-                    android:paddingVertical="2dp"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <!-- Xposed 主要内容（类名） -->
             <TextView
-                android:id="@+id/dialog_primary"
-                android:layout_width="match_parent"
+                android:id="@+id/dialog_time"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:textColor="?itemViewTitleTextColor"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:typeface="monospace"
-                android:visibility="gone" />
+                android:textColor="?itemViewSummaryTextColor"
+                android:textSize="13sp" />
 
-            <!-- 完整日志内容 -->
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:fadingEdge="vertical"
-                android:fadingEdgeLength="16dp"
-                android:maxHeight="360dp">
+            <TextView
+                android:id="@+id/dialog_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_level_badge"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/dialog_message"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:lineSpacingExtra="2dp"
-                    android:textColor="?itemViewTitleTextColor"
-                    android:textIsSelectable="false"
-                    android:textSize="14sp"
-                    android:typeface="monospace" />
+            <TextView
+                android:id="@+id/dialog_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_level_badge"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="2dp"
+                android:textSize="11sp"
+                android:textStyle="bold" />
 
-            </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+        <!-- Xposed 主要内容（类名） -->
+        <TextView
+            android:id="@+id/dialog_primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:textColor="?itemViewTitleTextColor"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:typeface="monospace"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- 完整日志内容 -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:paddingHorizontal="24dp"
+        android:overScrollMode="never"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toTopOf="@id/log_copy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_max="360dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fixed_info_area">
+
+        <TextView
+            android:id="@+id/dialog_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="2dp"
+            android:textColor="?itemViewTitleTextColor"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            android:typeface="monospace" />
 
     </androidx.core.widget.NestedScrollView>
 
@@ -116,6 +120,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/miuix_theme_content_margin_horizontal_common"
-        android:text="@string/log_copy" />
+        android:text="@string/log_copy"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scroll_container" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
