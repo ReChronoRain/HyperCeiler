@@ -29,6 +29,8 @@
     <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_light</color>
 
 
+    <color name="switch_view_background_color">#faffffff</color>
+
     <color name="logo_color1">#cc4a4a4a</color>
     <color name="logo_color2">#4f4f4f</color>
     <color name="logo_color3">#1af200</color>
@@ -37,4 +39,5 @@
     <color name="logo_overlay_color">#FF000000</color>
 
     <color name="ic_launcher_background">#FC5B8D</color>
+
 </resources>

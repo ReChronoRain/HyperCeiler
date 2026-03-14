@@ -32,4 +32,6 @@
 
 
     <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_dark</color>
+
+    <color name="switch_view_background_color">#fa2c2c2c</color>
 </resources>

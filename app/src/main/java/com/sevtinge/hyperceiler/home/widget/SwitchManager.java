@@ -48,6 +48,7 @@ public class SwitchManager {
         if (mCardWrapper == null) {
             // 创建并配置 HyperCardView
             mCardWrapper = (HyperCardView) LayoutInflater.from(mContext).inflate(R.layout.switch_card_view, null);
+            mCardWrapper.setCardBackgroundColor(mContext.getColor(R.color.switch_view_background_color));
 
             // 创建 SwitchView 并同步监听器
             mSwitchView = new SwitchView(mContext, null);
@@ -91,7 +92,6 @@ public class SwitchManager {
 
         mCardWrapper.setLayoutParams(lp);
         mCardWrapper.setRadius(mContext.getResources().getDimensionPixelSize(R.dimen.switch_card_view_radius)); // 大圆角
-        mCardWrapper.setBackgroundResource(R.drawable.switch_view_capsule_bg);
 
         // 悬浮模式下，移除 Insets 监听或将 padding 置 0
         ViewCompat.setOnApplyWindowInsetsListener(mCardWrapper, null);
@@ -116,7 +116,6 @@ public class SwitchManager {
 
         mCardWrapper.setLayoutParams(lp);
         mCardWrapper.setRadius(0); // 矩形
-        mCardWrapper.setBackgroundResource(R.drawable.switch_view_bg);
 
         // --- 边到边适配核心代码 ---
         ViewCompat.setOnApplyWindowInsetsListener(mCardWrapper, (v, insets) -> {
