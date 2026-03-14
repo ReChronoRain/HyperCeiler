@@ -1532,6 +1532,7 @@
     <!--Health-->
     <string name="health">小米运动健康</string>
     <string name="health_disable_splash_ad">禁用开屏广告</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">允许所有应用发送焦点通知到手表/手环</string>
     <!--剪贴板与常用语-->
     <string name="phrase">剪贴板与常用语</string>
     <!--其他-->

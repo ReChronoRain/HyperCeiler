@@ -221,8 +221,6 @@
 
     <style name="MiuixBottomSheetDialog" parent="Theme.AppCompat.DayNight">
 
-        <item name="android:windowBackground">@color/miuix_default_color_surface_low_light</item>
-
         <item name="android:windowFrame">@null</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:listDivider">@null</item>

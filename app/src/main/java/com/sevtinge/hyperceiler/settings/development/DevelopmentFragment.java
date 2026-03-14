@@ -29,10 +29,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -67,7 +67,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
             case "prefs_key_development_cmd_r" ->
                     showInDialog(command -> showOutDialog(rootExecCmd(command)));
             case "prefs_key_development_delete_all_dexkit_cache" ->
-                    DialogHelper.showDialog(getActivity(), R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
+                    DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
                         DexKit.deleteAllCache(requireActivity());
                         Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
                     });
@@ -80,7 +80,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                 }
             }
             case "prefs_key_development_clear_app_properties" -> {
-                DialogHelper.showDialog(getActivity(), R.string.warn, R.string.clear_app_properties_desc, (dialog, which) -> {
+                DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.warn, R.string.clear_app_properties_desc, (dialog, which) -> {
                     rootExecCmd("resetprop -p --delete persist.hyperceiler.log.level");
                     rootExecCmd("resetprop -p --delete persist.service.hyperceiler.crash.report");
                     rootExecCmd("resetprop -p --delete persist.hyperceiler.crash.report");

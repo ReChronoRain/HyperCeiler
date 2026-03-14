@@ -16,7 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">Riwayat pencarian</string>
+    <string name="search_history_clear_description">Hapus riwayat pencarian</string>
+    <string name="revert">Pulihkan</string>
+    <string name="custom_order_title">Kustom</string>
+    <string name="app_version_update">Versi baru tersedia</string>
+    <string name="developer_build">Build pengembang</string>
+    <string name="device_name">Nama perangkat</string>
+    <string name="app_device_version_parameters">Versi OS</string>
+    <string name="pull_to_enter_private">Tarik ke bawah untuk memasuki ruang pribadi</string>
+    <string name="release_enter_private">Lepaskan untuk masuk ke ruang pribadi</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
     <string name="miuix_appcompat_cancel_description">Batal</string>
@@ -28,8 +40,11 @@
     <string name="miuix_appcompat_search_input_description">Mencari</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lagi</string>
     <string name="miuix_appcompat_action_mode_inverse">Terbalik</string>
+
     <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Tip</string>
     <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
+    <string name="soft_reboot">Memulai Ulang</string>
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
     <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
@@ -37,34 +52,9 @@
     <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
     <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
-    <!--HyperCeiler Tips-->
-    <string name="safe_mode_history">Lihat catatan pengecualian</string>
-    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
-    <string name="safe_mode_recorder_class">Kelas</string>
-    <string name="safe_mode_recorder_method">metode</string>
-    <string name="safe_mode_recorder_line">Garis</string>
-    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
-    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
-    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
-    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
-    <!--System UI-->
-    <string name="system_ui">UI Sistem</string>
-    <!--System launcher-->
-    <string name="mihome">Peluncur sistem</string>
-    <!--Settings-->
-    <string name="system_settings">Pengaturan</string>
-    <!--Security/Tablet security center-->
-    <string name="security_center_hyperos">Alat Keamanan</string>
-    <!--Other-->
-    <string name="exit">KELUAR</string>
-    <string name="ignore">Mengabaikan</string>
-    <string name="log_level">tingkat log</string>
-    <string name="log_level_none">Nonaktifkan catatan</string>
-    <string name="disable_suggest">Nonaktifkan Saran</string>
-    <string name="enable_suggest">Aktifkan Saran</string>
-    <string name="soft_reboot">Memulai Ulang</string>
     <string name="experimental_features">Fitur eksperimental</string>
+
+    <!--HyperCeiler Tips-->
     <string name="error">Kesalahan</string>
     <string name="warn">Perhatian</string>
     <string name="module_app_failed">Terjadi kesalahan fatal pada modul tersebut.</string>
@@ -74,8 +64,116 @@
     <string name="app_error_desc">HyperCeiler tiba-tiba tertutup. Untuk membantu kami memperbaiki masalah ini, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin semuanya.</string>
     <string name="app_exit">Oke</string>
     <string name="safe_mode_desc">%1$s telah memasuki mode aman karena beberapa kali mengalami crash, dan fitur HyperCeiler telah dinonaktifkan sementara.</string>
+    <string name="safe_mode_history">Lihat catatan pengecualian</string>
     <string name="safe_mode_cancel">Nonaktifkan mode aman</string>
     <string name="safe_mode_ok">Batal</string>
-    <string name="pull_to_enter_private">Tarik ke bawah untuk memasuki ruang pribadi</string>
-    <string name="release_enter_private">Lepaskan untuk masuk ke ruang pribadi</string>
+    <string name="safe_mode_later_title">Tip</string>
+    <string name="safe_mode_later_desc">%1$s masih berada dalam Mode aman dan fitur HyperCeiler telah dinonaktifkan. Nonaktifkan Mode aman?</string>
+    <string name="safe_mode_recorder_title">Catatan pengecualian</string>
+    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_class">Kelas</string>
+    <string name="safe_mode_recorder_method">metode</string>
+    <string name="safe_mode_recorder_line">Garis</string>
+    <string name="safe_mode_recorder_msg">Pesan pengecualian</string>
+    <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="error_message">Pesan pengecualian</string>
+    <string name="error_type">Jenis pengecualian</string>
+    <string name="error_file_name">Nama file</string>
+    <string name="error_time">Waktu pencatatan</string>
+    <string name="error_version_name">Nama versi</string>
+    <string name="error_git_hash">Hash Git</string>
+    <string name="error_build_time">Waktu build</string>
+    <string name="copy_ok">Disalin ke papan klip</string>
+    <string name="notification_channel_app_crash_name">Aplikasi berjalan tidak normal</string>
+    <string name="notification_title_message_emergency_crash">%s telah beberapa kali mogok</string>
+    <string name="notification_content_message">Ketuk untuk melihat detail</string>
+    <string name="notification_view">Lihat</string>
+    <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
+    <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
+    <string name="headtip_warn_unsupport_xposed">Framework Xposed yang sedang Anda gunakan dapat menyebabkan beberapa fitur tidak berfungsi dengan baik. Jika Anda mengalami masalah ini, coba gunakan versi framework Xposed yang lain dan periksa apakah masalahnya masih terjadi.</string>
+    <string name="headtip_warn_unsupport_sysver">Perangkat saat ini berjalan pada versi sistem yang belum sepenuhnya didukung, sehingga dapat menyebabkan anomali pada fungsi HyperCeiler.</string>
+    <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
+    <string name="headtip_tip_auto_safe_mode">Mode aman dapat melepas hook beberapa aplikasi ketika aplikasi tersebut beberapa kali crash demi menjaga keamanan. Fitur ini memerlukan cakupan hook System Framework untuk berjalan. Kami sangat menyarankan Anda mencentang cakupan System Framework untuk menyalakan Mode aman.</string>
+    <string name="headtip_tip_long_press_to_copy">Anda dapat memilih teks dengan tekan lama atau ketuk dua kali, atau menyalinnya dan mengirimkannya kembali ke pengembang.</string>
+    <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
+    <string name="headtip_tip_fuck_coolapk">Hari ini dalam sejarah: Sevtinge menyampaikan pidato penting pada 14 Juli 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan dibatasi. Pulihkan layanan log agar dapat berjalan dengan benar.\nKode kesalahan: %1$s</string>
+    <string name="headtip_notice_dead_logger">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan dibatasi. Pulihkan layanan log agar dapat berjalan dengan benar.</string>
+    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
+    <string name="supported_system_func">Fitur ini didukung secara resmi pada versi sistem saat ini</string>
+    <string name="feature_doing_func">Fitur ini sedang dalam pengembangan, nantikan.</string>
+
+    <!--System UI-->
+    <string name="system_ui">UI Sistem</string>
+
+    <!--System launcher-->
+    <string name="mihome">Peluncur sistem</string>
+
+    <!--Settings-->
+    <string name="system_settings">Pengaturan</string>
+
+    <!--Security/Tablet security center-->
+    <string name="security_center_hyperos">Alat Keamanan</string>
+
+    <!--Other-->
+    <string name="exit">KELUAR</string>
+    <string name="ignore">Mengabaikan</string>
+    <string name="log_level">tingkat log</string>
+    <string name="log_level_none">Nonaktifkan catatan</string>
+    <string name="disable_suggest">Nonaktifkan Saran</string>
+    <string name="enable_suggest">Aktifkan Saran</string>
+    <string name="logo_egg_NotificationName">Notifikasi Easter egg</string>
+    <string name="logo_egg_NotificationName_tips">Ini adalah notifikasi Easter egg</string>
+    <string name="logo_egg_Notification_tips">Aktifkan notifikasi di Setelan untuk melihat Easter egg</string>
+    <string name="logo_egg1">Wah, Anda benar-benar menemukan tempat ini, luar biasa!</string>
+    <string name="logo_egg2">Sial, apakah aku akan ditemukan bahkan jika bersembunyi di sini…</string>
+    <string name="logo_egg3">Tidak ada Android eggs di sini, tetapi ada HyperCeiler eggs!</string>
+    <string name="uninstall_title">Hapus instalasi HyperCeiler</string>
+    <string name="uninstall_summary">Setelah menghapus instalasi HyperCeiler, konfigurasi modul tetap ada di basis data framework Xposed. Untuk menghapusnya sepenuhnya, buka pengaturan modul dan setel ulang konfigurasi modul terlebih dahulu, lalu hapus instalasinya.</string>
+    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka &quot;Setelan HyperCeiler - Opsi pengembang - Mode debug&quot; untuk menentukan versi yang dipasang lalu coba lagi.</string>
+    <string name="debug_mode">Mode debug</string>
+    <string name="open_debug_mode_tips">Opsi ini hanya digunakan untuk menangani versi aplikasi target yang dipasang dengan benar dan sebaiknya digunakan hanya bila perlu.\nUntuk aplikasi yang sedang di-debug, fungsinya tidak dapat dijamin. Jika Anda mengaktifkan opsi ini, **jangan laporkan** masalah yang terjadi pada aplikasi target tersebut kepada pengembang.</string>
+    <string name="debug_mode_running">Cakupan target saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil di-hook: %3$s</string>
+    <string name="debug_mode_switch">Versi debug</string>
+    <string name="debug_mode_home_version">Setel kode versi launcher</string>
+    <string name="debug_mode_home_version_desc">Nomor versi yang terlalu tinggi tetap akan diblokir, jadi isi dengan hati-hati.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">Cari log</string>
+    <string name="log_type_label">Jenis log</string>
+    <string name="log_level_label">Level</string>
+    <string name="log_tag_label">Tag</string>
+    <string name="log_type_app">Log aplikasi</string>
+    <string name="log_type_xposed">Log Xposed</string>
+    <string name="log_filter_stats">Daftar log (%1$d/%2$d)</string>
+    <string name="log_filter_all">Semua</string>
+    <string name="log_tag_other">Lainnya</string>
+    <string name="log_menu_clear">Hapus log</string>
+    <string name="log_menu_export">Ekspor log</string>
+    <string name="log_menu_share">Bagikan log</string>
+    <string name="log_clear_title">Hapus log</string>
+    <string name="log_clear_all_message">Apakah Anda yakin ingin menghapus semua log? Ini mencakup log aplikasi dan log Xposed. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="log_clear_success">Log dihapus</string>
+    <string name="log_clear_failed">Gagal menghapus log</string>
+    <string name="log_clear_in_progress">Sedang menghapus log…</string>
+    <string name="log_export_preparing">Menyiapkan ekspor…</string>
+    <string name="log_export_success">Log berhasil diekspor</string>
+    <string name="log_export_failed">Gagal mengekspor log</string>
+    <string name="log_share_title">Bagikan log</string>
+    <string name="log_share_preparing">Menyiapkan berbagi…</string>
+    <string name="log_share_failed">Gagal membagikan log</string>
+    <string name="log_share_text">Berkas log HyperCeiler</string>
+    <string name="log_copy">Salin</string>
+    <string name="log_copy_success">Log disalin ke papan klip</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Detail log</string>
+    <string name="log_detail_time">Waktu</string>
+    <string name="log_detail_level">Level</string>
+    <string name="log_detail_tag">Tag</string>
+    <string name="log_detail_message">Detail</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">Memuat log…</string>
+    <string name="log_viewer">Penampil log</string>
 </resources>

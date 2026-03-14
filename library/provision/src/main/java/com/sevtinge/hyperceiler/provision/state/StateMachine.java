@@ -14,7 +14,6 @@ import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
-import com.sevtinge.hyperceiler.provision.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -50,11 +49,12 @@ public class StateMachine {
         mStates = new SparseArray<>();
         mStateStack = new ArrayList<>();
 
-        mCurrentState = State.create("StartupState");
-        mPermissionState = State.create("PermissionState").setTargetClass(PermissionSettingsActivity.class);
-        mTermsAndStatementState = State.create("TermsAndStatementState").setTargetClass(TermsAndStatementActivity.class);
-        mBasicState = State.create("BasicState").setTargetClass(BasicSettingsActivity.class);
-        mCompleteState = (CongratulationState) State.create("CongratulationState").setTargetClass(CongratulationActivity.class);
+        mCurrentState = new StartupState();
+        mPermissionState = new PermissionState().setTargetClass(PermissionSettingsActivity.class);
+        mTermsAndStatementState = new TermsAndStatementState().setTargetClass(TermsAndStatementActivity.class);
+        mBasicState = new BasicState().setTargetClass(BasicSettingsActivity.class);
+        mCompleteState = new CongratulationState();
+        mCompleteState.setTargetClass(CongratulationActivity.class);
 
         addState(mCurrentState);
         addState(mPermissionState);

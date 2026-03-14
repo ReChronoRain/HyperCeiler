@@ -59,7 +59,7 @@ public class HomePageBannerManager {
             if (isFuckCoolapkSDay()) {
                 list.add(createLocalTipBean(
                     "fuck_coolapk",
-                    context.getString(R.string.headtip_tip_fuck_coolapk),
+                    context.getString(com.sevtinge.hyperceiler.core.R.string.headtip_tip_fuck_coolapk),
                     -1,
                     null));
             }
@@ -67,7 +67,7 @@ public class HomePageBannerManager {
             if (isBirthday()) {
                 list.add(createLocalTipBean(
                     "happy_birthday",
-                    context.getString(R.string.happy_birthday_hyperceiler),
+                    context.getString(com.sevtinge.hyperceiler.core.R.string.happy_birthday_hyperceiler),
                     com.sevtinge.hyperceiler.core.R.drawable.ic_hyperceiler_cartoon,
                     null));
             }
@@ -75,7 +75,7 @@ public class HomePageBannerManager {
             if (isLoggerAlive()) {
                 list.add(createLocalNoticeBean(
                     "dead_logger",
-                    context.getString(R.string.headtip_notice_dead_logger),
+                    context.getString(com.sevtinge.hyperceiler.core.R.string.headtip_notice_dead_logger),
                     null));
             }
 
@@ -84,10 +84,10 @@ public class HomePageBannerManager {
             boolean isWhileXposed = isWhileXposed();
             boolean isSignPass = SignUtils.isSignCheckPass(context);
 
-            int titleResId = !isSignPass ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_sign_verification_failed :
-                isUnofficialRom ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_not_offical_rom :
-                    !isWhileXposed ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_xposed :
-                        !isFullSupport ? com.sevtinge.hyperceiler.core.R.string.headtip_warn_unsupport_sysver : -1;
+            int titleResId = !isSignPass ? R.string.headtip_warn_sign_verification_failed :
+                isUnofficialRom ? R.string.headtip_warn_not_offical_rom :
+                    !isWhileXposed ? R.string.headtip_warn_unsupport_xposed :
+                        !isFullSupport ? R.string.headtip_warn_unsupport_sysver : -1;
 
             if (titleResId != -1) {
                 list.add(createLocalWarningBean(
@@ -99,7 +99,7 @@ public class HomePageBannerManager {
             if (isSupportAutoSafeMode()) {
                 list.add(createLocalTipBean(
                     "auto_safe_mode",
-                    context.getString(R.string.headtip_tip_auto_safe_mode),
+                    context.getString(com.sevtinge.hyperceiler.core.R.string.headtip_tip_auto_safe_mode),
                     null));
             }
 

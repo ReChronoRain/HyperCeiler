@@ -16,9 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">搜尋記錄</string>
+    <string name="search_history_clear_description">清除搜尋記錄</string>
+    <string name="revert">還原</string>
+    <string name="custom_order_title">自訂</string>
+    <string name="app_version_update">有新版本</string>
+    <string name="developer_build">開發版</string>
+    <string name="device_name">裝置名稱</string>
+    <string name="app_device_version_parameters">OS 版本</string>
     <string name="pull_to_enter_private">向下拉進入私隱空間</string>
     <string name="release_enter_private">釋放進入私隱空間</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">全選</string>
     <string name="miuix_appcompat_cancel_description">取消</string>
@@ -30,6 +40,7 @@
     <string name="miuix_appcompat_search_input_description">搜索</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
     <string name="miuix_appcompat_action_mode_inverse">反選</string>
+
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">貼士</string>
     <string name="root">未授予Root/Su權限部份功能不可用</string>
@@ -42,6 +53,7 @@
     <string name="pid_failed">目標應用程序未運行，不需要重新啟動。</string>
     <string name="reboot_failed">重新啟動失敗，請檢查是否為 HyperCeiler 授予了 Root/Su 權限</string>
     <string name="experimental_features">實驗性功能</string>
+
     <!--HyperCeiler Tips-->
     <string name="error">異常終止</string>
     <string name="warn">警告</string>
@@ -78,6 +90,7 @@
     <string name="notification_view">查看</string>
     <string name="tip_default">Tip: 這個是預設 tip ~ 如果你能看見我，就說明 HyperCeiler 出現了問題，請及時且有效的回饋給開發人員。</string>
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 來源可能并不是 Xiaomi 官方，部分功能可能會失效，詳情請咨詢您正在使用 ROM 的提供人員。</string>
+    <string name="headtip_warn_unsupport_xposed">您當前使用的 Xposed 框架可能會導致部分功能出現異常，若您在使用過程中遇到上述情況，請更換至其他版本的 Xposed 框架後再次嘗試。</string>
     <string name="headtip_warn_unsupport_sysver">當前裝置運行的系統版本未 (完全) 適配，HyperCeiler 功能可能存在異常。</string>
     <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用的版本可能並非來自於 HyperCeiler 官方的版本，可能包含恶意内容，請注意使用安全。</string>
     <string name="headtip_tip_auto_safe_mode">主動安全模式可以在部分應用多次崩潰時及時取消 hook 以確保安全。該功能需要 hook 作用域 \"系統框架\" 來運行，我們十分建議您勾選作用域 \"系統框架\" 以激活和運行主動安全模式。</string>
@@ -89,14 +102,19 @@
     <string name="unsupported_system_func">當前系統版本不支持此功能</string>
     <string name="supported_system_func">當前系統版本官方已支持此功能</string>
     <string name="feature_doing_func">當前功能正在製作中，敬請期待</string>
+
     <!--System UI-->
     <string name="system_ui">系統界面</string>
+
     <!--System launcher-->
     <string name="mihome">系統桌面</string>
+
     <!--Settings-->
     <string name="system_settings">設定</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">安全服務</string>
+
     <!--Other-->
     <string name="exit">退出</string>
     <string name="ignore">忽略</string>
@@ -104,7 +122,6 @@
     <string name="log_level_none">禁用日志輸出</string>
     <string name="disable_suggest">禁用推薦</string>
     <string name="enable_suggest">啟用推薦</string>
-    <string name="headtip_warn_unsupport_xposed">您當前使用的 Xposed 框架可能會導致部分功能出現異常，若您在使用過程中遇到上述情況，請更換至其他版本的 Xposed 框架後再次嘗試。</string>
     <string name="logo_egg_NotificationName">彩蛋通知</string>
     <string name="logo_egg_NotificationName_tips">這是彩蛋通知</string>
     <string name="logo_egg_Notification_tips">請在設定裡打開通知以查看彩蛋</string>
@@ -120,4 +137,43 @@
     <string name="debug_mode_switch">偵錯版本</string>
     <string name="debug_mode_home_version">設定 系統桌面 版本號</string>
     <string name="debug_mode_home_version_desc">過高的版本號碼仍舊會被攔截，請認真填寫</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">搜尋日誌</string>
+    <string name="log_type_label">日誌類型:</string>
+    <string name="log_level_label">級別:</string>
+    <string name="log_tag_label">標籤:</string>
+    <string name="log_type_app">應用程式日誌</string>
+    <string name="log_type_xposed">Xposed 日誌</string>
+    <string name="log_filter_stats">顯示: %1$d/%2$d</string>
+    <string name="log_filter_all">全部</string>
+    <string name="log_tag_other">其他</string>
+    <string name="log_menu_clear">清空日誌</string>
+    <string name="log_menu_export">匯出日誌</string>
+    <string name="log_menu_share">分享日誌</string>
+    <string name="log_clear_title">清空日誌</string>
+    <string name="log_clear_all_message">確定要清空所有日誌嗎？包括應用程式日誌和 Xposed 日誌，此操作不可恢復。</string>
+    <string name="log_clear_success">日誌已清空</string>
+    <string name="log_clear_failed">清空日誌失敗</string>
+    <string name="log_clear_in_progress">正在清空日誌…</string>
+    <string name="log_export_preparing">正在準備匯出…</string>
+    <string name="log_export_success">日誌匯出成功</string>
+    <string name="log_export_failed">日誌匯出失敗</string>
+    <string name="log_share_title">分享日誌</string>
+    <string name="log_share_preparing">正在準備分享…</string>
+    <string name="log_share_failed">分享日誌失敗</string>
+    <string name="log_share_text">HyperCeiler 日誌文件</string>
+    <string name="log_copy">複製</string>
+    <string name="log_copy_success">日誌已複製到剪貼簿</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">日誌詳情</string>
+    <string name="log_detail_time">時間</string>
+    <string name="log_detail_level">等級</string>
+    <string name="log_detail_tag">標籤</string>
+    <string name="log_detail_message">具體信息</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">正在載入日誌…</string>
+    <string name="log_viewer">查看日誌</string>
 </resources>

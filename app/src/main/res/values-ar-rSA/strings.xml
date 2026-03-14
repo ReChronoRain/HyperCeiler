@@ -16,9 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">سجل البحث</string>
+    <string name="search_history_clear_description">مسح سجل البحث</string>
+    <string name="revert">استعادة</string>
+    <string name="custom_order_title">مخصص</string>
+    <string name="app_version_update">يتوفر إصدار جديد</string>
+    <string name="developer_build">إصدار المطور</string>
+    <string name="device_name">اسم الجهاز</string>
+    <string name="app_device_version_parameters">إصدار النظام</string>
     <string name="pull_to_enter_private">اسحب لأسفل للدخول إلى المساحة الخاصة</string>
     <string name="release_enter_private">اترك للدخول إلى المساحة الخاصة</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">تحديد الكل</string>
     <string name="miuix_appcompat_cancel_description">إلغاء</string>
@@ -30,6 +40,7 @@
     <string name="miuix_appcompat_search_input_description">بحث</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">المزيد</string>
     <string name="miuix_appcompat_action_mode_inverse">إلغاء تحديد الكل</string>
+
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">نصيحة</string>
     <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الروت</string>
@@ -42,6 +53,7 @@
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="experimental_features">الميزات التجريبية</string>
+
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>
@@ -69,6 +81,7 @@
     <string name="error_file_name">اسم الملف</string>
     <string name="error_time">وقت التسجيل</string>
     <string name="error_version_name">اسم الإصدار</string>
+    <string name="error_git_hash">بصمة Git</string>
     <string name="error_build_time">وقت البناء</string>
     <string name="copy_ok">تم نسخه إلى الحافظة</string>
     <string name="notification_channel_app_crash_name">التطبيق يعمل بشكل غير طبيعي</string>
@@ -89,14 +102,19 @@
     <string name="unsupported_system_func">هذه الميزة غير مدعومة في إصدار النظام الحالي</string>
     <string name="supported_system_func">هذه الوظيفة مدعومة رسميا من خلال إصدار النظام الحالي</string>
     <string name="feature_doing_func">يتم إنتاج الوظيفة الحالية، يرجى التحلي بالصبر</string>
+
     <!--System UI-->
     <string name="system_ui">واجهة مستخدم النظام</string>
+
     <!--System launcher-->
     <string name="mihome">مشغل النظام</string>
+
     <!--Settings-->
     <string name="system_settings">الإعدادات</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">الحماية</string>
+
     <!--Other-->
     <string name="exit">خروج</string>
     <string name="ignore">تجاهل</string>
@@ -110,8 +128,52 @@
     <string name="logo_egg1">واو، لقد وجدت هذا المكان، هذا رائع!</string>
     <string name="logo_egg2">اللعنة، هل سيتم إيجادي حتى إذا كنت مختبئ هنا…</string>
     <string name="logo_egg3">لا يوجد مفاجأة أندرويد هنا، ولكن هناك مفاجأة HyperCeiler!</string>
+    <string name="uninstall_title">إلغاء تثبيت HyperCeiler</string>
+    <string name="uninstall_summary">بعد إلغاء تثبيت HyperCeiler، ستبقى إعدادات الوحدة في قاعدة بيانات إطار Xposed. لإزالتها بالكامل، انتقل أولاً إلى إعدادات الوحدة وأعد تعيينها، ثم ألغِ التثبيت.</string>
     <string name="unsupported_func_tips">يبدو أن التطبيق المستهدف هو إصدار معدل. هذه الإضافة غير قادرة على توفير خدمات الربط له. حاول استخدام إصدار مختلف من التطبيق أو تمكين وضع التصحيح وحاول مرة أخرى.</string>
     <string name="debug_mode">وضع تصحيح الأخطاء</string>
     <string name="open_debug_mode_tips">بعد تمكين وضع التصحيح، ستتمكن من اختيار الإصدار الذي تريد تحميله من التطبيق المستهدف بحرية. ومع ذلك، إذا واجهت الروابط لهذا الإصدار مشكلات، لا تبلغ المطورين عنها.</string>
     <string name="debug_mode_running">التطبيق المستهدف قيد التصحيح!\nإصدار التطبيق الحالي: %1$s\nالإصدار المستهدف المحدد: %2$s\nتم تطبيق الرابط بنجاح: %3$s</string>
+    <string name="debug_mode_switch">إصدار التصحيح</string>
+    <string name="debug_mode_home_version">تعيين رمز إصدار الشاشة الرئيسية</string>
+    <string name="debug_mode_home_version_desc">إذا كان رقم الإصدار مرتفعاً جداً فسيظل محظوراً، لذا يرجى تعبئته بعناية.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">البحث في السجلات</string>
+    <string name="log_type_label">نوع السجل</string>
+    <string name="log_level_label">المستوى</string>
+    <string name="log_tag_label">الوسم</string>
+    <string name="log_type_app">سجل التطبيق</string>
+    <string name="log_type_xposed">سجل Xposed</string>
+    <string name="log_filter_stats">قائمة السجلات (%1$d/%2$d)</string>
+    <string name="log_filter_all">الكل</string>
+    <string name="log_tag_other">أخرى</string>
+    <string name="log_menu_clear">مسح السجلات</string>
+    <string name="log_menu_export">تصدير السجلات</string>
+    <string name="log_menu_share">مشاركة السجلات</string>
+    <string name="log_clear_title">مسح السجلات</string>
+    <string name="log_clear_all_message">هل أنت متأكد من أنك تريد مسح كل السجلات؟ يتضمن ذلك سجلات التطبيق وسجلات Xposed. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="log_clear_success">تم مسح السجلات</string>
+    <string name="log_clear_failed">فشل مسح السجلات</string>
+    <string name="log_clear_in_progress">جارٍ مسح السجلات…</string>
+    <string name="log_export_preparing">جارٍ تحضير التصدير…</string>
+    <string name="log_export_success">تم تصدير السجلات بنجاح</string>
+    <string name="log_export_failed">فشل تصدير السجلات</string>
+    <string name="log_share_title">مشاركة السجلات</string>
+    <string name="log_share_preparing">جارٍ التحضير للمشاركة…</string>
+    <string name="log_share_failed">فشل مشاركة السجلات</string>
+    <string name="log_share_text">ملف سجل HyperCeiler</string>
+    <string name="log_copy">نسخ</string>
+    <string name="log_copy_success">تم نسخ السجلات إلى الحافظة</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">تفاصيل السجل</string>
+    <string name="log_detail_time">الوقت</string>
+    <string name="log_detail_level">المستوى</string>
+    <string name="log_detail_tag">الوسم</string>
+    <string name="log_detail_message">التفاصيل</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">جارٍ تحميل السجلات…</string>
+    <string name="log_viewer">عارض السجلات</string>
 </resources>

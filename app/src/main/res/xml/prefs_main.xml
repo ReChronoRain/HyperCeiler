@@ -482,3 +482,4 @@
         android:title="@string/help_cant_see_apps_guide" />
 
 </PreferenceScreen>
+

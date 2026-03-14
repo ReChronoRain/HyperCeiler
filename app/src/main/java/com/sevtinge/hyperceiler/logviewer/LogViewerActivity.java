@@ -96,7 +96,6 @@ public class LogViewerActivity extends BaseActivity
     private final Handler mSearchHandler = new Handler(Looper.getMainLooper());
     private Runnable mSearchRunnable;
     private static final long SEARCH_DEBOUNCE_MS = 200;
-    private volatile boolean mXposedLogsReady = false;
 
     @Override
     protected int getContentLayoutId() {
@@ -113,35 +112,22 @@ public class LogViewerActivity extends BaseActivity
 
     private void loadXposedInBackground() {
         if (sXposedLogLoader != null) {
-            new Thread(() -> {
-                sXposedLogLoader.loadLogs(this, () -> {
-                    mXposedLogsReady = true;
-                    runOnUiThread(() -> {
-                        if (mCurrentLogType == 1) {
-                            loadDataForCurrentType();
-                        }
-                    });
-                });
-            }).start();
+            sXposedLogLoader.loadLogs(this, () -> runOnUiThread(() -> {
+                if (mCurrentLogType == 1) {
+                    loadDataForCurrentType();
+                }
+            }));
         }
     }
 
-    private void switchLogType(int logType) {
-        // 切换时立即显示加载状态
-        mFilterStatsTextView.setText(getString(com.sevtinge.hyperceiler.core.R.string.log_loading));
-
-        if (logType == 1 && !mXposedLogsReady) {
-            if (mLogAdapter != null) {
-                mLogAdapter.updateData(new ArrayList<>());
-            }
-            return;
-        }
+    private void switchLogType() {
+        mFilterStatsTextView.setText(getString(R.string.log_loading));
         loadDataForCurrentType();
     }
 
     private void loadDataForCurrentType() {
         // 显示加载中
-        mFilterStatsTextView.setText(getString(com.sevtinge.hyperceiler.core.R.string.log_loading));
+        mFilterStatsTextView.setText(getString(R.string.log_loading));
 
         if (mLogAdapter == null || mLogManager == null) return;
         List<LogEntry> entries;
@@ -271,7 +257,7 @@ public class LogViewerActivity extends BaseActivity
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position != mCurrentLogType) {
                     mCurrentLogType = position;
-                    switchLogType(position);
+                    switchLogType();
                 }
             }
 

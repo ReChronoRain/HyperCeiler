@@ -32,12 +32,12 @@ import androidx.core.app.NotificationCompat;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.about.controller.AboutAnimationController;
-import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.EggHelper;
-import com.sevtinge.hyperceiler.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.utils.NotificationHelper;
+import com.sevtinge.hyperceiler.utils.PermissionUtils;
+import com.sevtinge.hyperceiler.utils.SettingsFeatures;
 
 import java.security.SecureRandom;
 
@@ -376,4 +376,3 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
         return mUpdateInfo;
     }
 }
-

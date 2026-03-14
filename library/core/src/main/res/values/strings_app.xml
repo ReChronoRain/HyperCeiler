@@ -1591,6 +1591,7 @@
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">Allow all apps to send focus notifications to the watch/bracelet.</string>
     <!--Phrase-->
     <string name="phrase">Clipboard and frequent phrases</string>
     <!--Other-->

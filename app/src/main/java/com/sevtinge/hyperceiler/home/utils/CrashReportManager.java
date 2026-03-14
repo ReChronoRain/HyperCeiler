@@ -3,8 +3,8 @@ package com.sevtinge.hyperceiler.home.utils;
 import android.app.Activity;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import java.util.Collections;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.StringJoiner;
 
 public class CrashReportManager {
     private static final Map<String, Integer> NAME_MAP = Map.of(
-        "com.android.systemui", R.string.system_ui,
-        "com.android.settings", R.string.system_settings,
-        "com.miui.home", R.string.mihome,
-        "com.miui.securitycenter", R.string.security_center_hyperos
+        "com.android.systemui", com.sevtinge.hyperceiler.core.R.string.system_ui,
+        "com.android.settings", com.sevtinge.hyperceiler.core.R.string.system_settings,
+        "com.miui.home", com.sevtinge.hyperceiler.core.R.string.mihome,
+        "com.miui.securitycenter", com.sevtinge.hyperceiler.core.R.string.security_center_hyperos
     );
 
     public static List<String> getCrashList() {

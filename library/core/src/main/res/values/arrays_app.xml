@@ -751,21 +751,6 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="log_level">
-        <item>@string/log_level_none</item>
-        <item>Error</item>
-        <item>Warn</item>
-        <item>Info</item>
-        <item>Debug</item>
-    </string-array>
-
-    <string-array name="log_level_value">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-    </string-array>
 
     <string-array name="system_ui_status_bar_network_icon_theme">
         <item>@string/system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic</item>

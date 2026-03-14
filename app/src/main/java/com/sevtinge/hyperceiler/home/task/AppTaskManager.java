@@ -8,19 +8,19 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.CtaUtils;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
-import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
-import com.sevtinge.hyperceiler.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.data.AppInfoCache;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
-import com.sevtinge.hyperceiler.home.data.AppInfoCache;
+import com.sevtinge.hyperceiler.utils.CtaUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
@@ -47,11 +47,11 @@ public class AppTaskManager {
     );
 
     private static final Map<String, Integer> APP_NAME_RES_MAP = Map.of(
-        "com.android.systemui", R.string.system_ui,
-        "com.android.settings", R.string.system_settings,
-        "com.miui.home", R.string.mihome,
+        "com.android.systemui", com.sevtinge.hyperceiler.core.R.string.system_ui,
+        "com.android.settings", com.sevtinge.hyperceiler.core.R.string.system_settings,
+        "com.miui.home", com.sevtinge.hyperceiler.core.R.string.mihome,
         "com.hchen.demo", R.string.demo,
-        "com.miui.securitycenter", R.string.security_center_hyperos
+        "com.miui.securitycenter", com.sevtinge.hyperceiler.core.R.string.security_center_hyperos
     );
 
     public static void attach(Context context) {

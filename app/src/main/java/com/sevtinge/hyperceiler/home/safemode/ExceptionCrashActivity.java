@@ -69,17 +69,17 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
         throwable.printStackTrace(pw);
         String fullDetail = sw.toString();
 
-        buildMsg = getString(R.string.error_version_name) + ": "  + BuildConfig.VERSION_NAME +
-            "\n" + getString(R.string.error_git_hash) + ": "  + BuildConfig.GIT_HASH +
-            "\n" + getString(R.string.error_build_time) + ": "  + BuildConfig.BUILD_TIME;
+        buildMsg = getString(com.sevtinge.hyperceiler.core.R.string.error_version_name) + ": "  + BuildConfig.VERSION_NAME +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_git_hash) + ": "  + BuildConfig.GIT_HASH +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_build_time) + ": "  + BuildConfig.BUILD_TIME;
 
-        fullMsg = getString(R.string.error_message) + ": "  + message +
-            "\n" + getString(R.string.error_type) + ": "  + exceptionType +
-            "\n" + getString(R.string.error_file_name) + ": "  + fileName +
-            "\n" + getString(R.string.safe_mode_recorder_class) + ": "  + className +
-            "\n" + getString(R.string.safe_mode_recorder_method) + ": "  + methodName +
-            "\n" + getString(R.string.safe_mode_recorder_line) + ": "  + lineNumber +
-            "\n" + getString(R.string.error_time) + ": " + timestamp;
+        fullMsg = getString(com.sevtinge.hyperceiler.core.R.string.error_message) + ": "  + message +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_type) + ": "  + exceptionType +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_file_name) + ": "  + fileName +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.safe_mode_recorder_class) + ": "  + className +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.safe_mode_recorder_method) + ": "  + methodName +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.safe_mode_recorder_line) + ": "  + lineNumber +
+            "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_time) + ": " + timestamp;
 
         AndroidLog.e("Crash", "App Crash, log:\n" + fullMsg);
 

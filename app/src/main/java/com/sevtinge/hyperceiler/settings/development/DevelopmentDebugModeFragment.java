@@ -30,10 +30,10 @@ import androidx.preference.EditTextPreference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -70,7 +70,7 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
             boolean isDebug = (boolean) newValue;
             if (isDebug) {
                 DialogHelper.showDialog(getActivity(), R.string.debug_mode, R.string.open_debug_mode_tips, (dialog, which) -> {
-                    /*Toast.makeText(getActivity(), R.string.feature_doing_func, Toast.LENGTH_LONG).show();
+                    /*Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.feature_doing_func, Toast.LENGTH_LONG).show();
                     mDebugMode.setChecked(false);*/
                     dialog.dismiss();
                 }, (dialog, which) -> {
