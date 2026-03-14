@@ -100,6 +100,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveLeftShare;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.ShowLaunch;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderOffset;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewVertical;
@@ -219,6 +220,7 @@ public class HomePhoneOld extends BaseLoad {
         initHook(RecentResource.INSTANCE, PrefsBridge.getInt("task_view_corners", 20) != 20 ||
                 PrefsBridge.getInt("task_view_header_height", 40) != 40);
         initHook(TaskViewHeaderOffset.INSTANCE, PrefsBridge.getInt("task_view_header_horizontal_offset", 30) != 30);
+        initHook(TaskViewHeaderTitlePadding.INSTANCE, PrefsBridge.getBoolean("home_recent_fix_card_title_padding"));
         initHook(TaskViewHeight.INSTANCE, PrefsBridge.getInt("home_recent_task_view_height", 52) != 52);
         initHook(RealMemory.INSTANCE, PrefsBridge.getBoolean("home_recent_show_real_memory"));
         initHook(AlwaysShowCleanUp.INSTANCE, PrefsBridge.getBoolean("always_show_clean_up") || PrefsBridge.getBoolean("home_recent_hide_clean_up"));

@@ -44,6 +44,7 @@ public class HomeRecentSettings extends DashboardFragment {
     SwitchPreference mShowMenInfo;
     SwitchPreference mHideCleanIcon;
     SwitchPreference mNotHideCleanIcon;
+    SwitchPreference mFixCardTitlePadding;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -61,9 +62,11 @@ public class HomeRecentSettings extends DashboardFragment {
         mShowMenInfo = findPreference("prefs_key_home_recent_show_memory_info");
         mHideCleanIcon = findPreference("prefs_key_home_recent_hide_clean_up");
         mNotHideCleanIcon = findPreference("prefs_key_always_show_clean_up");
+        mFixCardTitlePadding = findPreference("prefs_key_home_recent_fix_card_title_padding");
 
         mTaskViewHeight.setVisible(isPad());
         mShowMenInfo.setVisible(isPad());
+        mFixCardTitlePadding.setVisible(!isPad());
 
         if (isMoreHyperOSVersion(3f)) {
             setFuncHint(mShowLaunch, 1);

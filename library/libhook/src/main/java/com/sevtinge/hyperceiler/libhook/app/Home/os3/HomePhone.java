@@ -72,6 +72,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveIcon;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewVertical;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DisableHideApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DownloadAnimation;
@@ -171,6 +172,7 @@ public class HomePhone extends BaseLoad {
         initHook(TaskViewHeight.INSTANCE, PrefsBridge.getInt("home_recent_task_view_height", 52) != 52);
         initHook(TaskViewHorizontal.INSTANCE, true);
         initHook(TaskViewVertical.INSTANCE, true);
+        initHook(TaskViewHeaderTitlePadding.INSTANCE, PrefsBridge.getBoolean("home_recent_fix_card_title_padding"));
         initHook(CardTextSize.INSTANCE, PrefsBridge.getInt("home_recent_text_size", -1) != -1);
         initHook(CardTextColor.INSTANCE, PrefsBridge.getInt("home_recent_text_color", -1) != -1);
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
