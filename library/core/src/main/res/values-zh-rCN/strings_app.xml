@@ -1186,7 +1186,7 @@
     <string name="home_recent_show_launch_alpha">桌面透明度</string>
     <string name="home_recent_hide_card">隐藏后台卡片</string>
     <string name="home_recent_hide_card_desc">隐藏最近任务中所选应用的后台卡片</string>
-    <string name="home_recent_fix_card_title_padding">修复卡片标题栏间距</string>
+    <string name="home_recent_fix_card_title_padding">修复卡片标题底部间距</string>
     <string name="home_widget">小部件</string>
     <string name="home_widget_all_widget_animation">强制所有小部件使用动画</string>
     <string name="home_widget_show_miui_widget">显示系统小部件</string>

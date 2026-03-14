@@ -45,12 +45,23 @@ object TaskViewHeaderTitlePadding : BaseHook() {
                 if (titleId == 0) null else hostView.findViewById(titleId)
             }
 
-            titleView?.setPadding(
-                titleView.paddingLeft,
+            titleView?.setPaddingRelative(
+                paddingBottom,
                 titleView.paddingTop,
-                titleView.paddingRight,
+                titleView.paddingEnd,
                 paddingBottom
             )
+
+            val lockId = res.getIdentifier("lock_imageView", "id", "com.miui.home")
+            if (lockId != 0) {
+                val lockView = hostView.findViewById<View>(lockId)
+                lockView?.setPadding(
+                    lockView.paddingLeft,
+                    lockView.paddingTop,
+                    lockView.paddingRight,
+                    paddingBottom
+                )
+            }
         }
     }
 }
