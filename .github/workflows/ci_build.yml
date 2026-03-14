@@ -183,17 +183,17 @@ jobs:
               lines = ["New push to GitHub", "Branch: OS2"]
               for clean_msg, _, authors in parsed_commits:
                   block = escape_code_block(f"{clean_msg}\nby {authors}")
-                  lines.extend(["", "```", block, "```"])
+                  lines.extend(["```", block, "```"])
               if compare_url:
-                  lines.extend(["", f"Details: [compare]({compare_url})"])
+                  lines.append(f"Details: [compare]({compare_url})")
               return "\n".join(lines).strip()
 
           def build_title_only_caption():
-              footer = f"\n\nDetails: [compare]({compare_url})" if compare_url else ""
+              footer = f"\nDetails: [compare]({compare_url})" if compare_url else ""
               lines = ["New push to GitHub", "Branch: OS2"]
 
               for index, (_, title, _) in enumerate(parsed_commits):
-                  candidate_lines = lines + ["", "```", escape_code_block(title), "```"]
+                  candidate_lines = lines + ["```", escape_code_block(title), "```"]
                   candidate = "\n".join(candidate_lines) + footer
                   if len(candidate) <= caption_limit:
                       lines = candidate_lines
