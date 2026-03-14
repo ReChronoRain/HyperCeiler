@@ -26,27 +26,23 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.sevtinge.hyperceiler.common.utils.DialogHelper;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public class LogServiceUtils {
-    private static final long HEALTH_CHECK_TIMEOUT_MS = 10_000;
 
     public static void init(Context context) {
-        // 在后台线程等待健康检查完成，再回到主线程决定是否弹窗
-        new Thread(() -> {
-            LogManager.awaitHealthCheck(HEALTH_CHECK_TIMEOUT_MS);
+        LogManager.onHealthCheckDone(() -> {
             if (shouldShowLogServiceWarn()) {
                 new Handler(Looper.getMainLooper()).post(() ->
                     DialogHelper.showLogServiceWarnDialog(context)
                 );
             }
-        }, "LogServiceCheck").start();
+        });
     }
 
     private static boolean shouldShowLogServiceWarn() {
         return !LogManager.IS_LOGGER_ALIVE && isModuleActivated && !isRelease() &&
-            !PrefsUtils.mPrefsMap.getBoolean("prefs_key_development_close_log_alert_dialog", false);
+            !PrefsBridge.getBoolean("prefs_key_development_close_log_alert_dialog", false);
     }
 }

@@ -85,5 +85,6 @@ dependencies {
     api(libs.lunarcalendar)
 
     api(projects.library.processor)
+    api(projects.library.common)
     annotationProcessor(projects.library.processor)
 }

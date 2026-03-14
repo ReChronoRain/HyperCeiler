@@ -30,7 +30,6 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.utils.PullViewHelper;
 
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.springback.view.SpringBackLayout;

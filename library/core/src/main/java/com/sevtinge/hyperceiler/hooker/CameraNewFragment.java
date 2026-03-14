@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 

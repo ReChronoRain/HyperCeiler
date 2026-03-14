@@ -32,8 +32,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +61,10 @@ public class SharedPrefsProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         try {
-            prefs = PrefsUtils.getSharedPrefs(getContext(), true);
+            prefs = PrefsBridge.getSharedPreferences();
+            if (prefs == null && getContext() != null) {
+                prefs = getContext().getSharedPreferences(PrefsBridge.PREFS_NAME, Context.MODE_PRIVATE);
+            }
             return true;
         } catch (Throwable throwable) {
             return false;
@@ -70,11 +73,17 @@ public class SharedPrefsProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        if (prefs == null) {
+            return new MatrixCursor(new String[]{"data"});
+        }
         List<String> parts = uri.getPathSegments();
-        // Log.e("parts", String.valueOf(parts));
         MatrixCursor cursor = new MatrixCursor(new String[]{"data"});
+        int match = uriMatcher.match(uri);
+        if (!isValidPath(parts, match)) {
+            return cursor;
+        }
 
-        switch (uriMatcher.match(uri)) {
+        switch (match) {
             case 0 -> {
                 cursor.newRow().add("data", prefs.getString(parts.get(1), ""));
                 return cursor;
@@ -84,11 +93,13 @@ public class SharedPrefsProvider extends ContentProvider {
                 return cursor;
             }
             case 2 -> {
-                cursor.newRow().add("data", prefs.getInt(parts.get(1), Integer.parseInt(parts.get(2))));
+                int defValue = parseIntOrDefault(parts.get(2), 0);
+                cursor.newRow().add("data", prefs.getInt(parts.get(1), defValue));
                 return cursor;
             }
             case 3 -> {
-                cursor.newRow().add("data", prefs.getBoolean(parts.get(1), Integer.parseInt(parts.get(2)) == 1) ? 1 : 0);
+                int defValue = parseIntOrDefault(parts.get(2), 0);
+                cursor.newRow().add("data", prefs.getBoolean(parts.get(1), defValue == 1) ? 1 : 0);
                 return cursor;
             }
             case 4 -> {
@@ -98,6 +109,25 @@ public class SharedPrefsProvider extends ContentProvider {
             }
         }
         return null;
+    }
+
+    private boolean isValidPath(List<String> parts, int match) {
+        if (parts == null) {
+            return false;
+        }
+        return switch (match) {
+            case 0, 4, 5, 6 -> parts.size() >= 2;
+            case 1, 2, 3 -> parts.size() >= 3;
+            default -> false;
+        };
+    }
+
+    private int parseIntOrDefault(String value, int defValue) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+            return defValue;
+        }
     }
 
     @Override

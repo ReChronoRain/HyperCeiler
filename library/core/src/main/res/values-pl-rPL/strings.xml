@@ -41,12 +41,10 @@
     <string name="reboot_failed">Restart się nie powiódł. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
     <!--HyperCeiler Tips-->
     <string name="warn">Uwaga</string>
-    <string name="safe_mode_desc">%1$s wszedł w tryb awaryjny z powodu wielu awarii, a funkcje HyperCeiler zostały tymczasowo wyłączone.</string>
     <string name="safe_mode_history">Wyświetl zapisy wyjątków</string>
     <string name="safe_mode_cancel">Wyłącz tryb awaryjny</string>
     <string name="safe_mode_ok">Anuluj</string>
     <string name="safe_mode_later_title">Rada</string>
-    <string name="safe_mode_later_desc">%1$s nadal znajduje się w trybie awaryjnym, a funkcje HyperCeiler zostały wyłączone. Wyłączyć tryb awaryjny?</string>
     <string name="safe_mode_recorder_title">Zapisy wyjątków</string>
     <string name="safe_mode_recorder_file">Archiwum</string>
     <string name="safe_mode_recorder_class">Klasa</string>
@@ -54,16 +52,8 @@
     <string name="safe_mode_recorder_line">Wiersz</string>
     <string name="safe_mode_recorder_msg">Komunikat wyjątku</string>
     <string name="safe_mode_recorder_st">Śledzenie błędów</string>
-    <string name="notification_channel_app_crash_name">Aplikacja działa nieprawidłowo</string>
-    <string name="notification_title_message_emergency_crash">%s awarii(rie)</string>
-    <string name="notification_content_message">Kliknij, aby wyświetlić szczegóły</string>
-    <string name="notification_view">Wyświetl</string>
     <string name="tip_default">Rada: Oto domyślna rada. Jeśli to widzisz, oznacza to, że wystąpił problem z HyperCeilerem. Prosimy o terminowe i skuteczne zgłoszenie tego deweloperowi.</string>
-    <string name="headtip_warn_not_offical_rom">Źródło ROM-u, którego używasz, może nie być oficjalnym ROM-em Xiaomi, a niektóre funkcje mogą nie działać. Skontaktuj się ze swoim dostawcą, aby uzyskać więcej informacji.</string>
-    <string name="headtip_warn_unsupport_sysver">Obecne urządzenie działa na wersji systemu, która nie jest (w pełni) dostosowana, co może powodować nieprawidłowości w funkcjonalności HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">Weryfikacja podpisu się nie powiodła. Używana wersja HyperCeiler może nie być oficjalną wersją i może zawierać złośliwy kod.</string>
     <string name="headtip_tip_auto_safe_mode">Automatyczny tryb awaryjny może tymczasowo odłączyć niektóre aplikacje, które wielokrotnie ulegają awarii, aby zapewnić bezpieczeństwo. Funkcja ta wymaga zakresu \"System Framework\" do działania, dlatego zdecydowanie zalecamy, aby sprawdzić zaznaczenie tego zakresu i aktywacje automatycznynego trybu awaryjnynego.</string>
-    <string name="headtip_tip_long_press_to_copy">Możesz wybrać tekst po długim lub podwójnym naciśnięciu lub skopiować go i odesłać do programisty.</string>
     <string name="happy_birthday_hyperceiler">Dzisiaj są urodziny HyperCeilera!\nDziękujemy za wsparcie w ciągu ostatniego roku i zacznijmy współpracować w tym roku!</string>
     <string name="headtip_tip_fuck_coolapk">Dzisiaj w historii: Sevtinge wygłosił ważne przemówienie 14 lipca 2022 r.</string>
     <string name="headtip_notice_dead_logger_errcode">Obecna usługa dziennika urządzenia działa nieprawidłowo, co ograniczy funkcje HyperCeiler. Przywróć usługę dziennika, aby mogła działać poprawnie.\nKod błędu: %1$s</string>
@@ -79,17 +69,9 @@
     <!--Other-->
     <string name="exit">Wyjdź</string>
     <string name="ignore">Ignoruj</string>
-    <string name="log_level">Poziom dziennika</string>
-    <string name="log_level_none">Wyłączone</string>
     <string name="disable_suggest">Wyłącz sugestie</string>
     <string name="enable_suggest">Włącz sugestie</string>
-    <string name="pull_to_enter_private">Pociągnij w dół aby otworzyć prywatną przestrzeń</string>
-    <string name="release_enter_private">Póść aby otworzyć prywatną przestrzeń</string>
     <string name="experimental_features">Eksperymentalne funkcje</string>
-    <string name="error">Error</string>
-    <string name="module_app_failed">Wystąpił błąd krytyczny w module</string>
-    <string name="module_app_copy_desc">Kliknij i przytrzymaj kontent aby go skopiować</string>
     <string name="module_title_1">Podstawowe wiadomości</string>
     <string name="app_error_desc">Aplikacja HyperCeiler została nieoczekiwanie zamknięta. Aby pomóc nam to naprawić, podaj poniższe informacje:\n\nNaciśnij i przytrzymaj dowolną wiadomość, aby skopiować całą jej treść.</string>
-    <string name="app_exit">OK</string>
 </resources>

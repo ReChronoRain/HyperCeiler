@@ -115,7 +115,7 @@
 
     <fan.cardview.HyperCardView
         android:id="@+id/update_hint_text"
-        style="@style/UpdateCardView.Border"
+
         android:layout_width="248dp"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"

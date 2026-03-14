@@ -31,10 +31,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.common.model.adapter.CardTileAdapter;
-import com.sevtinge.hyperceiler.common.model.adapter.CardTileAddAdapter;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.model.adapter.CardTileAdapter;
+import com.sevtinge.hyperceiler.model.adapter.CardTileAddAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,7 +90,7 @@ public class CardTileEditPreference extends Preference {
         mCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, true));
 
         mAddCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, false));
-        setVisibility(PrefsUtils.mSharedPreferences.getBoolean("prefs_key_systemui_plugin_card_tiles_enabled", false));
+        setVisibility(PrefsBridge.getBoolean("prefs_key_systemui_plugin_card_tiles_enabled", false));
     }
 
     @Override
@@ -112,7 +112,7 @@ public class CardTileEditPreference extends Preference {
     }
 
     private List<String> getTileList() {
-        String str = PrefsUtils.mSharedPreferences.getString("prefs_key_systemui_plugin_card_tiles", "").replace("List_", "");
+        String str = PrefsBridge.getString("prefs_key_systemui_plugin_card_tiles", "").replace("List_", "");
         return TextUtils.isEmpty(str) ? new ArrayList<>() : Arrays.asList(str.split("\\|"));
     }
 
@@ -120,7 +120,7 @@ public class CardTileEditPreference extends Preference {
         String[] cardTileList = getContext().getResources().getStringArray(R.array.card_tile_list);
         mCardList = Arrays.asList(cardTileList);
         List<String> tiles = getTileList();
-        if (!PrefsUtils.mSharedPreferences.getString("prefs_key_systemui_plugin_card_tiles", "").isEmpty()) {
+        if (!PrefsBridge.getString("prefs_key_systemui_plugin_card_tiles", "").isEmpty()) {
             mCardData.clear();
             mCardData.addAll(tiles);
         } else {
@@ -151,7 +151,7 @@ public class CardTileEditPreference extends Preference {
             builder.append(tile).append("|");
         }
         String mCardStyleTiles = "List_" + builder;
-        PrefsUtils.putString("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
+        PrefsBridge.putByApp("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
     }
 
     public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {

@@ -26,9 +26,9 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.dashboard.base.fragment.BasePreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
 
@@ -48,11 +48,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     @Override
-    public int getThemeRes() {
-        return 0;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getThemeRes() != 0) setThemeRes(R.style.SubSettingsTheme);
@@ -60,8 +55,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
             mPreferenceHighlighted = savedInstanceState.getBoolean(SAVE_HIGHLIGHTED_KEY);
         }
     }
-
-    public abstract int getPreferenceScreenResId();
 
     @Override
     public void onCreatePreferencesBefore(Bundle bundle, String s) {
@@ -76,16 +69,6 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
         if (!TextUtils.isEmpty(mTitle)) setTitle(mTitle);
         super.onCreatePreferencesBefore(bundle, s);
     }
-
-    @Override
-    public void onCreatePreferencesAfter(Bundle bundle, String s) {
-        if (getPreferenceScreenResId() != 0) {
-            setPreferencesFromResource(getPreferenceScreenResId(), s);
-            initPrefs();
-        }
-    }
-
-    public void initPrefs() {}
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -105,7 +88,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     }
 
     public SharedPreferences getSharedPreferences() {
-        return PrefsUtils.mSharedPreferences;
+        return PrefsBridge.getSharedPreferences();
     }
 
     public boolean hasKey(String key) {
@@ -117,7 +100,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     public boolean cleanKey(String key) {
         if (hasKey(key)) {
-            getSharedPreferences().edit().remove(key).apply();
+            PrefsBridge.removeByApp(key);
             return true;
         }
         return hasKey(key);

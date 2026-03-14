@@ -16,12 +16,23 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">Historico de pesquisa</string>
+    <string name="search_history_clear_description">Limpar historico de pesquisa</string>
+    <string name="revert">Reverter</string>
+    <string name="custom_order_title">Personalizado</string>
+    <string name="app_version_update">Nova versao disponivel</string>
+    <string name="developer_build">Versao de desenvolvimento</string>
+    <string name="device_name">Nome do dispositivo</string>
+    <string name="app_device_version_parameters">Versao do SO</string>
     <string name="pull_to_enter_private">Puxe para baixo para entrar no espaço privado</string>
     <string name="release_enter_private">Solte para entrar no espaço privado</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Selecionar todos</string>
     <string name="miuix_appcompat_cancel_description">Cancelar</string>
+    <string name="miuix_appcompat_confirm_description">OK</string>
     <string name="miuix_appcompat_select_all_description">Selecionar todos</string>
     <string name="miuix_appcompat_deselect_all_description">Desmarcar todos</string>
     <string name="miuix_appcompat_delete_description">Excluir</string>
@@ -29,6 +40,7 @@
     <string name="miuix_appcompat_search_input_description">Pesquisar</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Mais</string>
     <string name="miuix_appcompat_action_mode_inverse">Desmarcar todos</string>
+
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Dica</string>
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
@@ -41,6 +53,7 @@
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha ao reiniciar. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="experimental_features">Recursos experimentais</string>
+
     <!--HyperCeiler Tips-->
     <string name="error">Erro</string>
     <string name="warn">Atenção!</string>
@@ -49,6 +62,7 @@
     <string name="module_title_1">Mensagem básica</string>
     <string name="module_title_2">Mensagem de erro</string>
     <string name="app_error_desc">O HyperCeiler foi encerrado de forma inesperada. Para que possamos corrigir isso, envie as informações abaixo:\n\nPressione e segure qualquer mensagem para copiar tudo.</string>
+    <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s entrou no Modo seguro devido a várias falhas e os recursos do HyperCeiler foi temporariamente desativado.</string>
     <string name="safe_mode_history">Ver registros de exceção</string>
     <string name="safe_mode_cancel">Desativar Modo seguro</string>
@@ -67,6 +81,7 @@
     <string name="error_file_name">Nome do arquivo</string>
     <string name="error_time">Hora do registro</string>
     <string name="error_version_name">Nome da versão</string>
+    <string name="error_git_hash">Hash do Git</string>
     <string name="error_build_time">Hora da compilação</string>
     <string name="copy_ok">Copiado para a área de transferência</string>
     <string name="notification_channel_app_crash_name">O app está funcionando de forma anormal</string>
@@ -87,14 +102,19 @@
     <string name="unsupported_system_func">Este recurso não é suportado na versão atual do sistema</string>
     <string name="supported_system_func">Este recurso é oficialmente suportado na versão atual do sistema</string>
     <string name="feature_doing_func">O recurso atual está em desenvolvimento, fique ligado.</string>
+
     <!--System UI-->
     <string name="system_ui">UI do Sistema</string>
+
     <!--System launcher-->
     <string name="mihome">Launcher do sistema</string>
+
     <!--Settings-->
     <string name="system_settings">Configurações</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Segurança</string>
+
     <!--Other-->
     <string name="exit">Sair</string>
     <string name="ignore">Ignorar</string>
@@ -108,8 +128,52 @@
     <string name="logo_egg1">Uau, você realmente encontrou esse lugar, isso é incrível!</string>
     <string name="logo_egg2">Droga, serei encontrado mesmo se eu me esconder aqui…</string>
     <string name="logo_egg3">Não há Android eggs aqui, mas há HyperCeiler eggs!</string>
+    <string name="uninstall_title">Desinstalar HyperCeiler</string>
+    <string name="uninstall_summary">Apos desinstalar o HyperCeiler, a configuracao do modulo permanece no banco de dados do framework Xposed. Para remove-la completamente, primeiro va para as configuracoes do modulo e redefina a configuracao do modulo, depois desinstale-o.</string>
     <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Esse módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
     <string name="debug_mode">Modo de depuração</string>
     <string name="open_debug_mode_tips">Após ativar o Modo de depuração, você poderá escolher livremente qual versão do app de destino deseja montar. No entanto, caso os hooks dessa versão apresentem problemas, não os reporte aos desenvolvedores.</string>
     <string name="debug_mode_running">O app de destino está sendo depurado!\nVersão atual do app: %1$s\nVersão de destino selecionada: %2$s\nHook aplicado com sucesso: %3$s</string>
+    <string name="debug_mode_switch">Versao de depuracao</string>
+    <string name="debug_mode_home_version">Definir codigo da versao da tela inicial</string>
+    <string name="debug_mode_home_version_desc">Um numero de versao muito alto ainda sera bloqueado, portanto preencha com cuidado.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">Pesquisar logs</string>
+    <string name="log_type_label">Tipo de log</string>
+    <string name="log_level_label">Nivel</string>
+    <string name="log_tag_label">Tag</string>
+    <string name="log_type_app">Log do app</string>
+    <string name="log_type_xposed">Log do Xposed</string>
+    <string name="log_filter_stats">Lista de logs (%1$d/%2$d)</string>
+    <string name="log_filter_all">Todos</string>
+    <string name="log_tag_other">Outros</string>
+    <string name="log_menu_clear">Limpar logs</string>
+    <string name="log_menu_export">Exportar logs</string>
+    <string name="log_menu_share">Compartilhar logs</string>
+    <string name="log_clear_title">Limpar logs</string>
+    <string name="log_clear_all_message">Tem certeza de que deseja limpar todos os logs? Isso inclui logs do app e logs do Xposed. Esta acao nao pode ser desfeita.</string>
+    <string name="log_clear_success">Logs limpos</string>
+    <string name="log_clear_failed">Falha ao limpar logs</string>
+    <string name="log_clear_in_progress">Limpando logs…</string>
+    <string name="log_export_preparing">Preparando exportacao…</string>
+    <string name="log_export_success">Logs exportados com sucesso</string>
+    <string name="log_export_failed">Falha ao exportar logs</string>
+    <string name="log_share_title">Compartilhar logs</string>
+    <string name="log_share_preparing">Preparando compartilhamento…</string>
+    <string name="log_share_failed">Falha ao compartilhar logs</string>
+    <string name="log_share_text">Arquivo de log do HyperCeiler</string>
+    <string name="log_copy">Copiar</string>
+    <string name="log_copy_success">Logs copiados para a area de transferencia</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Detalhes do log</string>
+    <string name="log_detail_time">Horario</string>
+    <string name="log_detail_level">Nivel</string>
+    <string name="log_detail_tag">Tag</string>
+    <string name="log_detail_message">Detalhes</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">Carregando logs…</string>
+    <string name="log_viewer">Visualizador de logs</string>
 </resources>

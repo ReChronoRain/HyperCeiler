@@ -195,7 +195,13 @@ java {
 kotlin.jvmToolchain(21)
 
 dependencies {
+    implementation(libs.viewpager2)
     implementation(libs.expansion)
     implementation(projects.library.core)
     implementation(projects.library.common)
+
+    implementation (libs.room.runtime)
+    annotationProcessor (libs.room.compiler)
+    // FTS 支持
+    implementation (libs.room.ktx)
 }

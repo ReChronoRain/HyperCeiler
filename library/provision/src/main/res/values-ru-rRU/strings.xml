@@ -26,10 +26,8 @@
     <string name="provision_basic_settings_title">Основные настройки</string>
     <string name="provision_agree_and_next">Принять</string>
     <string name="provision_agree_terms">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями.</string>
-    <string name="provision_user_agreement">Пользовательское соглашение</string>
-    <string name="provision_privacy_policy">Политика конфиденциальности</string>
     <string name="provision_terms_of_use">Условия пользования</string>
-    <string name="provision_terms_of_use_label_use_network_china">Для предоставления вам более качественных услуг вам необходимо прочитать и согласиться с <a href="%1$s">Пользовательским соглашением</a> и <a href="%2$s">Политика конфиденциальности</a> прежде чем вы сможете продолжить использование системы. Мы будем строго соблюдать соответствующие законы и правила, а также политику конфиденциальности для защиты вашей личной информации.</string>
+    <string name="provision_terms_of_use_label_use_network_china">Для предоставления вам более качественных услуг вам необходимо прочитать и согласиться с <annotation key="user_agreement">Пользовательским соглашением</annotation> и <annotation key="privacy_policy">Политика конфиденциальности</annotation> прежде чем вы сможете продолжить использование системы. Мы будем строго соблюдать соответствующие законы и правила, а также политику конфиденциальности для защиты вашей личной информации.</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Мы будем строго соблюдать соответствующие законы, правила и политику конфиденциальности для защиты вашей личной информации.</string>
     <string name="provision_service_agreement">Я внимательно прочитал(а) и согласен(сна) с вышеуказанными условиями.</string>

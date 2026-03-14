@@ -16,9 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">Arama gecmisi</string>
+    <string name="search_history_clear_description">Arama gecmisini temizle</string>
+    <string name="revert">Geri al</string>
+    <string name="custom_order_title">Ozel</string>
+    <string name="app_version_update">Yeni surum mevcut</string>
+    <string name="developer_build">Gelistirici derlemesi</string>
+    <string name="device_name">Cihaz adi</string>
+    <string name="app_device_version_parameters">OS surumu</string>
     <string name="pull_to_enter_private">Gizli bölmeye girmek için aşağı çekin</string>
     <string name="release_enter_private">Gizli bölmeye girmek için bırakın</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Tümünü seç</string>
     <string name="miuix_appcompat_cancel_description">İptal</string>
@@ -30,7 +40,9 @@
     <string name="miuix_appcompat_search_input_description">Ara</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Dahası</string>
     <string name="miuix_appcompat_action_mode_inverse">Ters</string>
+
     <!--HyperCeiler Settings/About Page-->
+    <string name="tip">Ipucu</string>
     <string name="root">Bazı özellikler Root/Su izni olmadan kullanılamaz</string>
     <string name="soft_reboot">Hızlı yeniden başlat</string>
     <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
@@ -40,18 +52,24 @@
     <string name="start_failed">İşlem başlatılamadı, lütfen HyperCeiler\'in root/su izinleri olup olmadığını kontrol ediniz.</string>
     <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>
     <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
+    <string name="experimental_features">Deneysel ozellikler</string>
+
     <!--HyperCeiler Tips-->
     <string name="error">Hata</string>
     <string name="warn">Dikkat</string>
     <string name="module_app_failed">Modülde kurtarılamaz hata oluştu</string>
     <string name="module_app_copy_desc">Kopyalamak için bas</string>
     <string name="module_title_1">Basit mesaj</string>
+    <string name="module_title_2">Yigin mesaji</string>
     <string name="app_error_desc">HyperCeiler beklenmedik bir şekilde durduruldu. Bunu düzeltmeye yardım etmek için, aşağıdaki bilgiyi sağlayın:\n\nHer şeyi kopyalamak için herhangi bir mesajı basılı tutun.</string>
     <string name="app_exit">Tamam</string>
+    <string name="safe_mode_desc">%1$s birden fazla cokme nedeniyle Guvenli Moda gecti ve HyperCeiler ozellikleri gecici olarak devre disi birakildi.</string>
+    <string name="safe_mode_history">Hata kayitlarini goruntule</string>
     <string name="safe_mode_cancel">Güvenli Modu kapat</string>
     <string name="safe_mode_ok">İptal</string>
     <string name="safe_mode_later_title">İpucu</string>
     <string name="safe_mode_later_desc">%1$s güvenli modda ve HyperCeiler özellikleri devre dışı bırakıldı. Güvenli mod devre dışı bırakılsın mı?</string>
+    <string name="safe_mode_recorder_title">Hata kayitlari</string>
     <string name="safe_mode_recorder_file">Dosya</string>
     <string name="safe_mode_recorder_class">Sınıf</string>
     <string name="safe_mode_recorder_method">Metod</string>
@@ -72,17 +90,31 @@
     <string name="notification_view">Gör</string>
     <string name="tip_default">İpucu: İşte ipucu. Beni görebiliyorsanız, HyperCeiler ile ilgili bir sorun var demektir. Lütfen bunu zamanında ve etkili bir şekilde geliştiriciye bildirin.</string>
     <string name="headtip_warn_not_offical_rom">Şu anki kullandığınız ROM\'un kaynağı resmi Xiaomi ROM\'u olmayabilir, ve bazı özellikler çalışmayabilir. Lütfen detaylı bilgi için tedarikçiniz ile iletişime geçin.</string>
+    <string name="headtip_warn_unsupport_xposed">Su anda kullandiginiz Xposed cercevesi bazi ozelliklerin duzgun calismamasina neden olabilir. Bu sorunlarla karsilasirsaniz, farkli bir Xposed surumu deneyin ve sorunun devam edip etmedigini kontrol edin.</string>
+    <string name="headtip_warn_unsupport_sysver">Mevcut cihaz, HyperCeiler islevlerinde sorunlara neden olabilecek, tam olarak uyarlanmis olmayan bir sistem surumunde calisiyor.</string>
     <string name="headtip_warn_sign_verification_failed">İmza doğrulaması başarısız oldu, ve kullandığınız sürüm HyperCeiler\'in resmi sürümü olmayabilir, ve zararlı kod içerebilir.</string>
+    <string name="headtip_tip_auto_safe_mode">Guvenli mod, guvenligi saglamak icin bazi uygulamalar birden cok kez coktugunde zamaninda hook\'u kaldirabilir. Bu ozelligin calismasi icin System Framework kanca kapsami gerekir. Guvenli modu acmak icin System Framework kapsamini isaretlemenizi siddetle oneririz.</string>
+    <string name="headtip_tip_long_press_to_copy">Metni uzun basarak veya cift dokunarak secebilir ya da kopyalayip gelistiriciye gonderebilirsiniz.</string>
+    <string name="happy_birthday_hyperceiler">Bugun HyperCeiler\'in dogum gunu!\nGecen yilki desteginiz icin tesekkurler, bu yil da birlikte calismaya devam edelim!</string>
+    <string name="headtip_tip_fuck_coolapk">Tarihte bugun: Sevtinge 14 Temmuz 2022\'de onemli bir konusma yapti.</string>
+    <string name="headtip_notice_dead_logger_errcode">Mevcut cihazin gunluk hizmeti anormal ve HyperCeiler ozellikleri sinirlanacak. Lutfen gunluk hizmetini normal calisabilecek sekilde geri yukleyin.\nHata kodu: %1$s</string>
+    <string name="headtip_notice_dead_logger">Mevcut cihazin gunluk hizmeti anormal ve HyperCeiler ozellikleri sinirlanacak. Lutfen gunluk hizmetini normal calisabilecek sekilde geri yukleyin.</string>
     <string name="unsupported_system_func">Bu özellik geçerli sistem sürümünde desteklenmiyor</string>
     <string name="supported_system_func">Bu özellik geçerli sistem sürümünde resmi olarak destekleniyor</string>
+    <string name="feature_doing_func">Bu ozellik su anda gelistirme asamasinda, takipte kalin.</string>
+
     <!--System UI-->
     <string name="system_ui">Sistem Arayüzü</string>
+
     <!--System launcher-->
     <string name="mihome">Sistem başlatıcı</string>
+
     <!--Settings-->
     <string name="system_settings">Ayarlar</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Güvenlik</string>
+
     <!--Other-->
     <string name="exit">Çık</string>
     <string name="ignore">Yoksay</string>
@@ -90,4 +122,58 @@
     <string name="log_level_none">Devre dışı</string>
     <string name="disable_suggest">Tavsiyeleri devre dışı bırak</string>
     <string name="enable_suggest">Tavsiyeleri etkinleştir</string>
+    <string name="logo_egg_NotificationName">Easter egg bildirimi</string>
+    <string name="logo_egg_NotificationName_tips">Bu bir Easter egg bildirimidir</string>
+    <string name="logo_egg_Notification_tips">Easter eggleri gormek icin ayarlarda bildirimleri etkinlestirin</string>
+    <string name="logo_egg1">Vay canina, burayi gercekten buldun, bu harika!</string>
+    <string name="logo_egg2">Lanet olsun, burada saklansam bile bulunacak miyim…</string>
+    <string name="logo_egg3">Burada Android eggs yok ama HyperCeiler eggs var!</string>
+    <string name="uninstall_title">HyperCeiler\'i kaldir</string>
+    <string name="uninstall_summary">HyperCeiler\'i kaldirdiktan sonra modul yapilandirmasi Xposed cercevesi veritabaninda kalir. Tamamen kaldirmak icin once modul ayarlarina gidip modul yapilandirmasini sifirlayin, ardindan kaldirin.</string>
+    <string name="unsupported_func_tips">Mevcut hedef kapsamin kaynagi resmi Xiaomi olmayabilir. Guvenlik nedenleriyle bu kapsam icin tum islevler devre disi birakildi. Lutfen Xiaomi tarafindan yayimlanan bir uygulama paketine gecmeyi deneyin veya &quot;HyperCeiler Ayarlari - Gelistirici Secenekleri - Hata Ayiklama Modu&quot; bolumune giderek baglanan surumu belirtip tekrar deneyin.</string>
+    <string name="debug_mode">Hata ayiklama modu</string>
+    <string name="open_debug_mode_tips">Bu secenek yalnizca hedef uygulamanin baglanan surumunu dogru sekilde islemek icin kullanilir ve yalnizca gerektiginde kullanilmalidir.\nHata ayiklanan uygulama icin islevsellik garanti edilemez. Bu secenegi etkinlestirirseniz, bu hedef uygulamada ortaya cikan sorunlari gelistiriciye **bildirmeyin**.</string>
+    <string name="debug_mode_running">Mevcut hedef kapsam hata ayiklama modundadir. Gerekli degilse lutfen kapatin.\nGuncel uygulama surumu: %1$s\nSecilen hedef surum: %2$s\nBasariyla hooklandi: %3$s</string>
+    <string name="debug_mode_switch">Hata ayiklama surumu</string>
+    <string name="debug_mode_home_version">Ana ekran surum kodunu ayarla</string>
+    <string name="debug_mode_home_version_desc">Cok yuksek bir surum numarasi yine de engellenir, bu nedenle lutfen dikkatlice doldurun.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">Gunluklerde ara</string>
+    <string name="log_type_label">Gunluk turu</string>
+    <string name="log_level_label">Seviye</string>
+    <string name="log_tag_label">Etiket</string>
+    <string name="log_type_app">Uygulama gunlugu</string>
+    <string name="log_type_xposed">Xposed gunlugu</string>
+    <string name="log_filter_stats">Gunluk listesi (%1$d/%2$d)</string>
+    <string name="log_filter_all">Tumu</string>
+    <string name="log_tag_other">Diger</string>
+    <string name="log_menu_clear">Gunlukleri temizle</string>
+    <string name="log_menu_export">Gunlukleri disa aktar</string>
+    <string name="log_menu_share">Gunlukleri paylas</string>
+    <string name="log_clear_title">Gunlukleri temizle</string>
+    <string name="log_clear_all_message">Tum gunlukleri temizlemek istediginizden emin misiniz? Buna uygulama gunlukleri ve Xposed gunlukleri dahildir. Bu islem geri alinamaz.</string>
+    <string name="log_clear_success">Gunlukler temizlendi</string>
+    <string name="log_clear_failed">Gunlukler temizlenemedi</string>
+    <string name="log_clear_in_progress">Gunlukler temizleniyor…</string>
+    <string name="log_export_preparing">Disa aktarma hazirlaniyor…</string>
+    <string name="log_export_success">Gunlukler basariyla disa aktarildi</string>
+    <string name="log_export_failed">Gunlukler disa aktarilamadi</string>
+    <string name="log_share_title">Gunlukleri paylas</string>
+    <string name="log_share_preparing">Paylasim hazirlaniyor…</string>
+    <string name="log_share_failed">Gunlukler paylasilamadi</string>
+    <string name="log_share_text">HyperCeiler gunluk dosyasi</string>
+    <string name="log_copy">Kopyala</string>
+    <string name="log_copy_success">Gunlukler panoya kopyalandi</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Gunluk ayrintilari</string>
+    <string name="log_detail_time">Zaman</string>
+    <string name="log_detail_level">Seviye</string>
+    <string name="log_detail_tag">Etiket</string>
+    <string name="log_detail_message">Ayrintilar</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">Gunlukler yukleniyor…</string>
+    <string name="log_viewer">Gunluk goruntuleyici</string>
 </resources>

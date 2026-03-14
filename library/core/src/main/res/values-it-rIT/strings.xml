@@ -41,8 +41,6 @@
     <string name="reboot_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <!--HyperCeiler Tips-->
     <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
-    <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
-    <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
     <!--System UI-->
     <string name="system_ui">UI sistema</string>
     <!--System launcher-->
@@ -54,8 +52,6 @@
     <!--Other-->
     <string name="exit">Esci</string>
     <string name="ignore">Ignora</string>
-    <string name="log_level">Livello di registro</string>
-    <string name="log_level_none">Disabilita registro</string>
     <string name="disable_suggest">Disabilita suggerimento</string>
     <string name="enable_suggest">Abilita suggerimento</string>
 </resources>

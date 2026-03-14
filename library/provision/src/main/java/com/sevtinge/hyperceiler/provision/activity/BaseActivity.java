@@ -30,8 +30,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
+
+import fan.provision.OobeUtils;
+import fan.provision.ProvisionBaseActivity;
 
 public abstract class BaseActivity extends ProvisionBaseActivity {
 
@@ -53,7 +55,7 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (OobeUtils.isProvisioned(this)) {
+        if (OobeUtils.isProvisioned(this) && !OobeUtils.isDebugOobeMode(this)) {
             setResult(-1);
             finish();
         } else {

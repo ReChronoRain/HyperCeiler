@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <scale
+        android:duration="619"
+        android:fromXScale="1.3"
+        android:fromYScale="1.3"
+        android:interpolator="@anim/enter_home_spring_interpolator"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+    <alpha
+        android:duration="230"
+        android:fromAlpha="0.0"
+        android:interpolator="@anim/sine_in_out_interpolator"
+        android:startOffset="60"
+        android:toAlpha="1.0" />
+</set>

@@ -163,6 +163,7 @@
     <string name="settings_icon_medium">Middle</string>
     <string name="settings_icon_down">Bottom</string>
     <string name="settings_icon_mode">Icon style</string>
+    <string name="settings_float_nav">Floating Bottom Bar</string>
     <string name="settings_app_language">Language</string>
     <string name="settings_icon_miui_14">Rounded rectangle style</string>
     <string name="settings_icon_miui_13">Background cutout style</string>
@@ -1591,6 +1592,7 @@
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">Allow all apps to send focus notifications to the watch/bracelet.</string>
     <!--Phrase-->
     <string name="phrase">Clipboard and frequent phrases</string>
     <!--Other-->

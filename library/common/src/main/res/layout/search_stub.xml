@@ -7,7 +7,7 @@
     android:paddingHorizontal="@dimen/miuix_appcompat_search_mode_bg_padding">
 
     <RelativeLayout
-        android:id="@+id/inputArea"
+        android:id="@android:id/inputArea"
         android:layout_width="match_parent"
         android:layout_height="@dimen/miuix_appcompat_searchbar_bg_height"
         android:background="?attr/searchModeEditTextBackground">
@@ -27,8 +27,8 @@
                 android:scaleType="centerInside"
                 android:src="?attr/searchModeEditTextIcon" />
 
-            <com.fan.common.widget.SearchEditText
-                android:id="@+id/input"
+            <com.sevtinge.hyperceiler.common.widget.SearchEditText
+                android:id="@android:id/input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.0"

@@ -26,10 +26,8 @@
     <string name="provision_basic_settings_title">Allgemeine Einstellungen</string>
     <string name="provision_agree_and_next">Zustimmen</string>
     <string name="provision_agree_terms">Ich habe die Nutzungsvereinbarung und Datenschutzerklärung gelesen und stimme diesen zu.</string>
-    <string name="provision_user_agreement">Benutzervereinbarung</string>
-    <string name="provision_privacy_policy">Datenschutzerklärung</string>
     <string name="provision_terms_of_use">Nutzungsbedingungen</string>
-    <string name="provision_terms_of_use_label_use_network_china">Um Ihnen bessere Dienste anbieten zu können, müssen Sie vor der weiteren Nutzung des Systems unsere <a href="%1$s">Nutzungsvereinbarung</a> und <a href="%2$s">Datenschutzrichtlinie</a> lesen und diesen zustimmen. Wir schützen Ihre persönlichen Daten in Übereinstimmung mit den relevanten Gesetzen, Vorschriften und Datenschutzbestimmungen.</string>
+    <string name="provision_terms_of_use_label_use_network_china">Um Ihnen bessere Dienste anbieten zu können, müssen Sie vor der weiteren Nutzung des Systems unsere <annotation key="user_agreement">Nutzungsvereinbarung</annotation> und <annotation key="privacy_policy">Datenschutzrichtlinie</annotation> lesen und diesen zustimmen. Wir schützen Ihre persönlichen Daten in Übereinstimmung mit den relevanten Gesetzen, Vorschriften und Datenschutzbestimmungen.</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Wir schützen Ihre persönlichen Daten in Übereinstimmung mit den relevanten Gesetzen, Vorschriften und Datenschutzrichtlinien.</string>
     <string name="provision_service_agreement">Ich habe die Nutzungsbedingungen gelesen und ihnen zugestimmt.</string>

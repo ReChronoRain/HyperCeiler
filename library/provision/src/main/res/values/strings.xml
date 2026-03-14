@@ -10,10 +10,8 @@
     <string name="provision_basic_settings_title">Basic settings</string>
     <string name="provision_agree_and_next">Agree</string>
     <string name="provision_agree_terms">I\'ve read and agree to the User Agreement and Privacy Policy.</string>
-    <string name="provision_user_agreement">User Agreement</string>
-    <string name="provision_privacy_policy">Privacy Policy</string>
     <string name="provision_terms_of_use">Terms and conditions</string>
-    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <a href="%1$s">User Agreement</a> and <a href="%2$s">Privacy Policy</a> before you can continue using HyperCeiler. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
+    <string name="provision_terms_of_use_label_use_network_china">In order to provide you with better services, you must read and agree to our <annotation key="user_agreement">User Agreement</annotation> and <annotation key="privacy_policy">Privacy Policy</annotation> before you can continue using HyperCeiler. We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
     <string name="provision_terms_of_label_period"></string>
     <string name="provision_protect_persoanl_info_statement">We shall protect your personal information in accordance with the relevant laws, regulations, and privacy policies.</string>
     <string name="provision_service_agreement">I\'ve read and agreed to the terms and conditions.</string>

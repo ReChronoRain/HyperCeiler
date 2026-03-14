@@ -24,9 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;
@@ -101,7 +101,7 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private boolean isCustomEnabled() {
-        return hasKey(mCustomBackgroundEnabledKey) && PrefsUtils.getSharedBoolPrefs(getContext(), mCustomBackgroundEnabledKey, false);
+        return hasKey(mCustomBackgroundEnabledKey) && PrefsBridge.getBoolean(mCustomBackgroundEnabledKey, false);
     }
 
     private void setColor() {
@@ -109,15 +109,15 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
     }
 
     private int getColor(int defValue) {
-        return hasKey(mColorKey) ? PrefsUtils.getSharedIntPrefs(getContext(), mColorKey, defValue) : defValue;
+        return hasKey(mColorKey) ? PrefsBridge.getInt(mColorKey, defValue) : defValue;
     }
 
     private boolean isBackgroundBlurEnabled() {
-        return hasKey(mBlurEnabledKey) && PrefsUtils.getSharedBoolPrefs(getContext(), mBlurEnabledKey, false);
+        return hasKey(mBlurEnabledKey) && PrefsBridge.getBoolean(mBlurEnabledKey, false);
     }
 
     private int getSeekBarValue(String key, int defValue) {
-        return hasKey(key) ? PrefsUtils.getSharedIntPrefs(getContext(), key, defValue) : defValue;
+        return hasKey(key) ? PrefsBridge.getInt(key, defValue) : defValue;
     }
 
     @Override
@@ -138,26 +138,26 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
 
     private void setCustomEnable(boolean isCustomEnabled) {
         mCustomEnabledPreference.setChecked(isCustomEnabled);
-        PrefsUtils.mSharedPreferences.edit().putBoolean(mCustomBackgroundEnabledKey, isCustomEnabled).apply();
+        PrefsBridge.putByApp(mCustomBackgroundEnabledKey, isCustomEnabled);
     }
 
     private void setBackgroundColor(HSLColor value) {
         mColorPickerPreference.setColor(value.color);
-        PrefsUtils.mSharedPreferences.edit().putInt(mColorKey, value.color).apply();
+        PrefsBridge.putByApp(mColorKey, value.color);
     }
 
     private void setBackgroundCornerRadius(int value) {
         mCornerRadiusPreference.setCurrentValue(value);
-        PrefsUtils.mSharedPreferences.edit().putInt(mCornerRadiusKey, value).apply();
+        PrefsBridge.putByApp(mCornerRadiusKey, value);
     }
 
     private void setBlurEnabled(boolean isBlurEnabled) {
         mBlurEnabledPreference.setChecked(isBlurEnabled);
-        PrefsUtils.mSharedPreferences.edit().putBoolean(mBlurEnabledKey, isBlurEnabled).apply();
+        PrefsBridge.putByApp(mBlurEnabledKey, isBlurEnabled);
     }
 
     private void setBackgroundBlurRadius(int value) {
         mBlurRadiusPreference.setCurrentValue(value);
-        PrefsUtils.mSharedPreferences.edit().putInt(mBlurRadiusKey, value).apply();
+        PrefsBridge.putByApp(mBlurRadiusKey, value);
     }
 }

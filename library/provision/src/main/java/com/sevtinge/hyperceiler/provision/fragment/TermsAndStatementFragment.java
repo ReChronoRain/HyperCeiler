@@ -19,41 +19,52 @@
 package com.sevtinge.hyperceiler.provision.fragment;
 
 import android.os.Bundle;
+import android.text.Annotation;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.provision.R;
-import com.sevtinge.hyperceiler.provision.data.TermsAndStatementAdapter;
-import com.sevtinge.hyperceiler.provision.utils.OobeUtils;
+import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
+import com.sevtinge.hyperceiler.provision.widget.SimpleTextWatcher;
 
-public class TermsAndStatementFragment extends BaseListFragment {
+import fan.appcompat.app.AlertDialog;
+import fan.provision.OobeUtils;
 
-    private String mText;
+public class TermsAndStatementFragment extends BaseFragment {
+
+    private static final String USER_AGREEMENT_LINK = "user_agreement";
+    private static final String PRIVACY_POLICY_LINK = "privacy_policy";
+
 
     private View mNextView;
+    private TextView mPrivacyView;
     private CheckBox mAgreeCheckBox;
-    private TermsAndStatementAdapter mTermsAndStatementAdapter;
-
 
     @Override
-    protected int getCustomLayoutId() {
+    protected int getLayoutId() {
         return R.layout.provision_terms_and_statement_layout;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mTermsAndStatementAdapter = new TermsAndStatementAdapter(getActivity());
-        getListView().setAdapter(mTermsAndStatementAdapter);
-        getListView().setTextDirection(OobeUtils.isRTL() ? 4 : 3);
 
-        TextView mTextView = view.findViewById(R.id.privacy);
-
-        setWebText(mTextView, "https://gcore.jsdelivr.net/gh/ReChronoRain/website@main/Privacy.md");
+        mPrivacyView = view.findViewById(R.id.privacy);
+        mPrivacyView.setText(enhanceTermsTitle());
+        mPrivacyView.setMovementMethod(fan.androidbase.widget.LinkMovementMethod.getInstance());
+        mPrivacyView.setLinksClickable(true);
 
         mAgreeCheckBox = view.findViewById(R.id.checkbox_agree);
         mAgreeCheckBox.setVisibility(View.VISIBLE);
@@ -67,6 +78,16 @@ public class TermsAndStatementFragment extends BaseListFragment {
             }
             mNextView.setEnabled(mAgreeCheckBox.isChecked());
             mNextView.setAlpha(mAgreeCheckBox.isChecked() ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
+            mAgreeCheckBox.setOnClickListener(v -> {
+                if (mAgreeCheckBox.isChecked()) {
+                    mAgreeCheckBox.setChecked(false);
+                    showVerificationDialog(success -> {
+                        if (success) {
+                            mAgreeCheckBox.setChecked(true);
+                        }
+                    });
+                }
+            });
             mAgreeCheckBox.setOnCheckedChangeListener((v, isChecked) -> {
                 mNextView.setEnabled(isChecked);
                 mNextView.setAlpha(isChecked ? OobeUtils.NO_ALPHA : OobeUtils.HALF_ALPHA);
@@ -74,6 +95,53 @@ public class TermsAndStatementFragment extends BaseListFragment {
             });
         }
     }
+
+    private void showVerificationDialog(VerificationCallback callback) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.edit_verification_code_dialog, null);
+        EditText input = view.findViewById(R.id.title);
+
+        AlertDialog dialog = new AlertDialog.Builder(requireActivity())
+            .setTitle(R.string.provision_terms_of_use_verification_code_dialog_title)
+            .setView(view)
+            .setCancelable(false)
+            .setPositiveButton(R.string.provision_terms_of_use_verification_code_dialog_continue, (d, w) -> callback.onResult(true))
+            .setNegativeButton(android.R.string.cancel, (d, w) -> callback.onResult(false))
+            .create();
+
+        dialog.setOnShowListener(d -> {
+            Button okButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            okButton.setEnabled(false);
+
+            input.addTextChangedListener(new SimpleTextWatcher() {
+                @Override
+                public void onTextChanged(CharSequence s, int st, int b, int c) {
+                    // 核心：必须调用 toString()
+                    String inputStr = (s == null) ? "" : s.toString();
+                    String targetStr = OobeUtils.getSecureSixDigit();
+                    // 调试打印（可选）：如果还是不亮，看一眼 Logcat
+                    Log.d("Verify", "Input: [" + inputStr + "] Target: [" + targetStr + "]");
+
+
+                    okButton.setEnabled(inputStr.equals(targetStr));
+                }
+            });
+        });
+
+        dialog.show();
+    }
+
+    interface VerificationCallback {
+        void onResult(boolean success);
+    }
+
+    private boolean verifyInput(AlertDialog dialog) {
+        EditText editText = dialog.findViewById(R.id.title);
+        if (editText == null) return false;
+
+        String input = editText.getText().toString().trim();
+        return "123456".equals(input);
+    }
+
 
     public void setWebText(TextView tv, String httpUrl) {
 
@@ -84,5 +152,34 @@ public class TermsAndStatementFragment extends BaseListFragment {
             getActivity().setResult(-1);
             getActivity().finish();
         }
+    }
+
+    public SpannableStringBuilder enhanceTermsTitle() {
+        CharSequence raw = getText(R.string.provision_terms_of_use_label_use_network_china);
+        SpannableString builder = new SpannableString(raw);
+        Annotation[] annotations = builder.getSpans(0, builder.length(), Annotation.class);
+        int color = getResources().getColor(R.color.provision_button_text_high_color_light, requireContext().getTheme());
+        for (Annotation annotation : annotations) {
+            int start = builder.getSpanStart(annotation);
+            int end = builder.getSpanEnd(annotation);
+            builder.removeSpan(annotation);
+            int hyperlinkType = getHyperlinkType(annotation.getValue());
+            if (hyperlinkType == -1 || end <= start) {
+                continue;
+            }
+            builder.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new TermsTitleSpan(requireActivity(), hyperlinkType), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return new SpannableStringBuilder(builder);
+    }
+
+    private int getHyperlinkType(String url) {
+        if (USER_AGREEMENT_LINK.equals(url)) {
+            return 2;
+        }
+        if (PRIVACY_POLICY_LINK.equals(url)) {
+            return 1;
+        }
+        return -1;
     }
 }

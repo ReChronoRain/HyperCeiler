@@ -31,9 +31,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import fan.preference.RadioButtonPreference;
 
@@ -84,7 +84,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     }
 
     private void updateAction() {
-        int value = hasKey(mActionKey) ? PrefsUtils.getSharedIntPrefs(getContext(), mActionKey, 0) : 0;
+        int value = hasKey(mActionKey) ? PrefsBridge.getInt(mActionKey, 0) : 0;
         switch (value) {
             case 0 -> mNoAction.setChecked(true);
             case 1 -> mOpenNotificationCenter.setChecked(true);
@@ -142,12 +142,12 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     }
 
     private void editActionIntSharedPrefs(int value) {
-        PrefsUtils.mSharedPreferences.edit().putInt(mActionKey, value).apply();
+        PrefsBridge.putByApp(mActionKey, value);
     }
 
     public void updateAppSelectorTitle() {
         if (hasKey(mKey + "_app")) {
-            String title = getAppName(getContext(), PrefsUtils.mSharedPreferences.getString(mKey + "_app", ""));
+            String title = getAppName(getContext(), PrefsBridge.getString(mKey + "_app", ""));
             mAppSelector.setTitle(title);
         }
     }
@@ -183,7 +183,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
                 Intent data = result.getData();
                 String mAppPackageName = data.getStringExtra("appPackageName");
                 String mAppActivityName = data.getStringExtra("appActivityName");
-                getSharedPreferences().edit().putString(mKey + "_app", mAppPackageName + "|" + mAppActivityName).apply();
+                PrefsBridge.putByApp(mKey + "_app", mAppPackageName + "|" + mAppActivityName);
                 updateAppSelectorTitle();
             }
         });

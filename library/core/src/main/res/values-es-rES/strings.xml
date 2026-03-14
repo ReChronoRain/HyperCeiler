@@ -41,12 +41,10 @@
     <string name="reboot_failed">No puede reiniciarse, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
     <!--HyperCeiler Tips-->
     <string name="warn">Atención</string>
-    <string name="safe_mode_desc">%1$s ha entrado en modo seguro debido a múltiples bloqueos, y las características de HyperCeiler se han desactivado temporalmente.</string>
     <string name="safe_mode_history">Ver registros de excepciones</string>
     <string name="safe_mode_cancel">Desactivar modo seguro</string>
     <string name="safe_mode_ok">Cancelar</string>
     <string name="safe_mode_later_title">Sugerencia</string>
-    <string name="safe_mode_later_desc">%1$s todavía está en modo seguro y las funciones de HyperCeiler han sido desactivadas. ¿Deshabilitar el modo seguro?</string>
     <string name="safe_mode_recorder_title">Registros de excepciones</string>
     <string name="safe_mode_recorder_file">Archivo</string>
     <string name="safe_mode_recorder_class">Clase</string>
@@ -54,16 +52,8 @@
     <string name="safe_mode_recorder_line">Línea</string>
     <string name="safe_mode_recorder_msg">Mensaje de excepción</string>
     <string name="safe_mode_recorder_st">Seguimiento de la pila</string>
-    <string name="notification_channel_app_crash_name">La aplicación se está ejecutando anormalmente</string>
-    <string name="notification_title_message_emergency_crash">%s bloqueos múltiples</string>
-    <string name="notification_content_message">Haga clic para ver los detalles</string>
-    <string name="notification_view">Ver</string>
     <string name="tip_default">Consejo: Aquí está el consejo predeterminado. Si puede verlo, significa que hay un problema con HyperCeiler, por favor envíelo al desarrollador a tiempo de manera efectiva.</string>
-    <string name="headtip_warn_not_offical_rom">La fuente de ROM puede no ser oficial de Xiaomi, pero tal vez algunas funciones no funcionen. Póngase en contacto con el proveedor de ROM para obtener más información.</string>
-    <string name="headtip_warn_unsupport_sysver">El dispositivo actual se está ejecutando en una versión del sistema que no está (completamente) adaptada, lo que puede resultar en anomalías en la funcionalidad de HyperCeiler.</string>
-    <string name="headtip_warn_sign_verification_failed">La verificación de la firma falló, y la versión actual que está utilizando puede no ser de la versión oficial de HyperCeiler, que puede contener código malicioso.</string>
     <string name="headtip_tip_auto_safe_mode">El modo seguro automático puede desconectar algunas aplicaciones a tiempo cuando fallan varias veces para garantizar la seguridad. Esta función requiere el alcance del gancho del marco del sistema para ejecutarse. Recomendamos encender el ámbito del marco del sistema para activar el modo de seguridad automática.</string>
-    <string name="headtip_tip_long_press_to_copy">Puede seleccionar texto después de una pulsación larga o doble, o copiarlo y retroalimentarlo al desarrollador.</string>
     <string name="happy_birthday_hyperceiler">¡Hoy es el cumpleaños de HyperCeiler!\n¡Gracias por tu apoyo durante el año pasado, y sigamos trabajando juntos este año!</string>
     <string name="headtip_tip_fuck_coolapk">Hoy en la historia: Sevtinge pronunció un discurso importante el 14 de julio de 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">El servicio de registro de dispositivo actual es anormal y las características de HyperCeiler serán limitadas. Por favor, restaure el servicio de registro para que se pueda ejecutar normalmente.\nCódigo de error: %1$s</string>
@@ -79,8 +69,6 @@
     <!--Other-->
     <string name="exit">Salir</string>
     <string name="ignore">Ignorar</string>
-    <string name="log_level">Nivel de registro</string>
-    <string name="log_level_none">Desactivar registro</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<drawable xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    class="fan.theme.ActionIconDrawable"
+    android:width="26.0dip"
+    android:height="26.0dip"
+    android:viewportWidth="26.0"
+    android:viewportHeight="26.0"
+    android:tint="@color/color_on_surface"
+    app:actionIconDisabledAlpha="0.3"
+    app:actionIconHeight="@dimen/miuix_theme_title_button_height"
+    app:actionIconNormalAlpha="0.8"
+    app:actionIconPressedAlpha="0.5"
+    app:actionIconWidth="@dimen/miuix_theme_title_button_width">
+    <path
+        android:fillAlpha="1.0"
+        android:fillColor="#ff000000"
+        android:pathData="M23.571,4.8182C23.5176,4.7394 23.428,4.6728 23.2486,4.5396C23.0692,4.4064 22.9795,4.3398 22.8887,4.3115C22.726,4.2607 22.549,4.2869 22.4079,4.3825C22.3292,4.4358 22.2626,4.5255 22.1294,4.7049L10.6253,20.1956L3.8893,13.13C3.7352,12.9682 3.6581,12.8874 3.5734,12.8441C3.4216,12.7665 3.2428,12.7622 3.0875,12.8325C3.0009,12.8717 2.92,12.9488 2.7583,13.1029C2.5966,13.2571 2.5157,13.3342 2.4724,13.4189C2.3948,13.5707 2.3905,13.7495 2.4608,13.9047C2.5,13.9914 2.5771,14.0723 2.7313,14.234L10.0438,21.9044C10.2962,22.1691 10.4223,22.3014 10.5659,22.3437C10.6919,22.3809 10.8269,22.3726 10.9474,22.3203C11.0847,22.2607 11.1937,22.1139 11.4117,21.8203L23.4139,5.6588C23.5471,5.4794 23.6137,5.3898 23.642,5.2989C23.6927,5.1362 23.6666,4.9593 23.571,4.8182Z" />
+</drawable>

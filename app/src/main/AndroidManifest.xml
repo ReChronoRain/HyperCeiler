@@ -21,6 +21,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission
         android:name="android.permission.BROADCAST_CLOSE_SYSTEM_DIALOGS"
@@ -72,6 +73,13 @@
 
     <uses-permission android:name="hyperceiler.permission.APP_CRASH" />
 
+    <permission android:name="hyperceiler.permission.READ_SETTINGS" android:protectionLevel="normal" />
+    <permission android:name="hyperceiler.permission.WRITE_SETTINGS" android:protectionLevel="signature" />
+
+    <uses-permission android:name="hyperceiler.permission.READ_SETTINGS" />
+    <uses-permission android:name="hyperceiler.permission.WRITE_SETTINGS" />
+
+
     <permission
         android:name="${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
         tools:node="remove" />
@@ -89,7 +97,7 @@
         android:allowNativeHeapPointerTagging="true">
 
         <activity
-            android:name=".ui.HyperCeilerTabActivity"
+            android:name=".ui.SplashActivity"
             android:exported="true"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
@@ -98,11 +106,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:theme="@style/HomePageTheme" android:name=".ui.HomePageActivity" />
+
         <activity-alias
             android:name=".ui.LauncherActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:targetActivity=".ui.HyperCeilerTabActivity"
+            android:targetActivity=".ui.SplashActivity"
             tools:ignore="DiscouragedApi,LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -140,7 +150,7 @@
 
 
         <activity
-            android:name="com.sevtinge.hyperceiler.safemode.CrashActivity"
+            android:name=".home.safemode.CrashActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -154,12 +164,33 @@
         </activity>
 
         <activity
-            android:name="com.sevtinge.hyperceiler.safemode.ExceptionCrashActivity"
+            android:name=".home.safemode.ExceptionCrashActivity"
             android:theme="@style/CrashTheme"
             android:exported="true" />
 
+        <activity
+            android:name=".logviewer.LogViewerActivity"
+            android:exported="false"
+            android:label="LogViewer"
+            android:theme="@style/LogViewerTheme">
+            <intent-filter>
+                <action android:name="fan.intent.action.LOGVIEWER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <service
-            android:name="com.sevtinge.hyperceiler.safemode.CrashService"
+            android:name=".home.safemode.CrashService"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
@@ -168,7 +199,7 @@
         </service>
 
         <receiver
-            android:name=".safemode.CrashReceiver"
+            android:name=".home.safemode.CrashReceiver"
             android:enabled="true"
             android:exported="true"
             android:permission="hyperceiler.permission.APP_CRASH">
@@ -177,6 +208,12 @@
             </intent-filter>
         </receiver>
 
+        <provider
+            android:name="fan.provider.SettingsProvider"
+            android:authorities="hyperceiler.provider.settings"
+            android:exported="true"
+            android:readPermission="hyperceiler.permission.READ_SETTINGS"
+            android:writePermission="hyperceiler.permission.WRITE_SETTINGS" />
     </application>
 
 </manifest>

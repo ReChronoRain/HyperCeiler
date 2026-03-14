@@ -41,6 +41,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island.FocusNot
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PluginFactory
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -48,7 +49,7 @@ import java.lang.ref.WeakReference
 
 object NewPluginHelperKt : BaseHook() {
     private val isStyle by lazy {
-        mPrefsMap.getStringAsInt("system_ui_others_pct_style", 0)
+        PrefsBridge.getStringAsInt("system_ui_others_pct_style", 0)
     }
 
     override fun init() {
@@ -82,7 +83,6 @@ object NewPluginHelperKt : BaseHook() {
 
     private fun onPluginLoaded(factory: PluginFactory) {
         val mCardStyleTiles = getTileList()
-        val prefs = mPrefsMap
 
         val componentName = factory.mComponentName
         val pluginCtx = factory.pluginCtxRef.get()
@@ -98,7 +98,7 @@ object NewPluginHelperKt : BaseHook() {
 
                 val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(6)
 
-                if (isStyle == 2 && prefs.getBoolean("system_cc_volume_showpct_title")) {
+                if (isStyle == 2 && PrefsBridge.getBoolean("system_cc_volume_showpct_title")) {
                     enabledLoaders.add(
                         Pair(
                             "NewShowVolumePct",
@@ -107,7 +107,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("system_ui_plugin_enable_volume_blur")) {
+                if (PrefsBridge.getBoolean("system_ui_plugin_enable_volume_blur")) {
                     enabledLoaders.add(
                         Pair(
                             "EnableVolumeBlur",
@@ -116,7 +116,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("system_ui_volume_collpased_column_press")) {
+                if (PrefsBridge.getBoolean("system_ui_volume_collpased_column_press")) {
                     enabledLoaders.add(
                         Pair(
                             "StartCollpasedColumnPress",
@@ -125,7 +125,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("system_ui_volume_hide_foot_button")) {
+                if (PrefsBridge.getBoolean("system_ui_volume_hide_foot_button")) {
                     enabledLoaders.add(
                         Pair(
                             "StartCollpasedFootButton",
@@ -134,7 +134,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("system_ui_other_default_plugin_theme")) {
+                if (PrefsBridge.getBoolean("system_ui_other_default_plugin_theme")) {
                     enabledLoaders.add(
                         Pair(
                             "DefaultPluginTheme",
@@ -152,7 +152,7 @@ object NewPluginHelperKt : BaseHook() {
 
                 val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(10)
 
-                if ((isStyle == 1) && (prefs.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || prefs.getBoolean("system_ui_control_center_qs_volume_top_value_show"))) {
+                if ((isStyle == 1) && (PrefsBridge.getBoolean("system_ui_control_center_qs_brightness_top_value_show") || PrefsBridge.getBoolean("system_ui_control_center_qs_volume_top_value_show"))) {
                     enabledLoaders.add(
                         Pair(
                             "VolumeOrQSBrightnessValue",
@@ -161,7 +161,7 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("misound_bluetooth") && !isSupportFW()) {
+                if (PrefsBridge.getBoolean("misound_bluetooth") && !isSupportFW()) {
                     enabledLoaders.add(
                         Pair("AutoSEffSwitchForSystemUi",
                             AutoSEffSwitchForSystemUi::hookNonFWEffectSwitch
@@ -169,8 +169,8 @@ object NewPluginHelperKt : BaseHook() {
                     )
                 }
 
-                if (prefs.getBoolean("systemui_plugin_card_tiles_enabled")) {
-                    val tileStr = prefs.getString("systemui_plugin_card_tiles", "")
+                if (PrefsBridge.getBoolean("systemui_plugin_card_tiles_enabled")) {
+                    val tileStr = PrefsBridge.getString("systemui_plugin_card_tiles", "")
                     if (!tileStr.isNullOrEmpty()) {
                         enabledLoaders.add(
                             Pair("CustomCardTiles") { cl ->
@@ -180,31 +180,31 @@ object NewPluginHelperKt : BaseHook() {
                     }
                 }
 
-                if (prefs.getBoolean("system_ui_control_center_hide_edit_botton")) {
+                if (PrefsBridge.getBoolean("system_ui_control_center_hide_edit_botton")) {
                     enabledLoaders.add(Pair("HideEditButton", HideEditButton::initHideEditButton))
                 }
 
-                if (prefs.getBoolean("system_ui_control_center_tile_super_blur")) {
+                if (PrefsBridge.getBoolean("system_ui_control_center_tile_super_blur")) {
                     enabledLoaders.add(Pair("QsTileSuperBlur", QsTileSuperBlur::initQsTileSuperBlur))
                 }
 
-                if (prefs.getBoolean("system_ui_control_center_rounded_rect")) {
+                if (PrefsBridge.getBoolean("system_ui_control_center_rounded_rect")) {
                     enabledLoaders.add(Pair("CCGridForHyperOS", CCGridForHyperOSKt::initCCGridForHyperOS))
                 }
 
-                if (prefs.getBoolean("system_ui_control_center_qs_open_color") || prefs.getBoolean("system_ui_control_center_qs_big_open_color")) {
+                if (PrefsBridge.getBoolean("system_ui_control_center_qs_open_color") || PrefsBridge.getBoolean("system_ui_control_center_qs_big_open_color")) {
                     enabledLoaders.add(Pair("QSColor", QSColor::pluginHook))
                 }
 
-                if ((isStyle == 2) && prefs.getBoolean("system_showpct_title")) {
+                if ((isStyle == 2) && PrefsBridge.getBoolean("system_showpct_title")) {
                     enabledLoaders.add(Pair("NewBrightnessPct", NewBrightnessPct::initLoaderHook))
                 }
 
-                if (prefs.getBoolean("system_ui_control_center_disable_device_managed")) {
+                if (PrefsBridge.getBoolean("system_ui_control_center_disable_device_managed")) {
                     enabledLoaders.add(Pair("DisableDeviceManaged", DisableDeviceManagedNew::initDisableDeviceManaged))
                 }
 
-                if (prefs.getBoolean("security_center_unlock_car_sickness")) {
+                if (PrefsBridge.getBoolean("security_center_unlock_car_sickness")) {
                     enabledLoaders.add(Pair("UnlockCarSicknessTile") { cl -> UnlockCarSicknessTile.initUnlockCarSicknessTile(cl) })
                 }
 
@@ -216,7 +216,7 @@ object NewPluginHelperKt : BaseHook() {
                 XposedLog.d(TAG, lpparam.packageName, "Plugin for sysui NotificationStatPluginImpl loaded.")
 
                 val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(1)
-                if (prefs.getBoolean("system_ui_statusbar_music_switch") || prefs.getBoolean("system_ui_unlock_all_focus")) {
+                if (PrefsBridge.getBoolean("system_ui_statusbar_music_switch") || PrefsBridge.getBoolean("system_ui_unlock_all_focus")) {
                     enabledLoaders.add(Pair("FocusNotifLyric", FocusNotifLyric::initLoader))
                 }
                 loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
@@ -226,7 +226,7 @@ object NewPluginHelperKt : BaseHook() {
                 XposedLog.d(TAG, lpparam.packageName, "Plugin for aod ShortcutPluginImpl loaded.")
 
                 val enabledLoaders = ArrayList<Pair<String, (ClassLoader) -> Unit>>(1)
-                if (prefs.getBoolean("system_ui_lock_screen_blur_button") && isMoreSmallVersion(200, 2f)) {
+                if (PrefsBridge.getBoolean("system_ui_lock_screen_blur_button") && isMoreSmallVersion(200, 2f)) {
                     enabledLoaders.add(Pair("AodBlurButton", AodBlurButton::initLoader))
                 }
                 loadClassLoaders(componentName.toString(), classLoader, enabledLoaders)
@@ -272,7 +272,7 @@ object NewPluginHelperKt : BaseHook() {
     }
 
     private fun getTileList(): List<String> {
-        val raw = mPrefsMap.getString("systemui_plugin_card_tiles", "")?.removePrefix("List_") ?: ""
+        val raw = PrefsBridge.getString("systemui_plugin_card_tiles", "")?.removePrefix("List_") ?: ""
         if (raw.isBlank()) return emptyList()
         return raw.split('|').filter { it.isNotEmpty() }
     }

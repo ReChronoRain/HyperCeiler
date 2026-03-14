@@ -25,7 +25,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.preference.DropDownPreference;
 
@@ -43,7 +43,7 @@ public class MobileNetworkTypeSettings extends DashboardFragment
 
     @Override
     public void initPrefs() {
-        int mobileMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_status_bar_icon_show_mobile_network_type", "0"));
+        int mobileMode = PrefsBridge.getStringAsInt("prefs_key_system_ui_status_bar_icon_show_mobile_network_type", 0);
         mMobileMode = findPreference("prefs_key_system_ui_status_bar_icon_show_mobile_network_type");
         mMobileType = findPreference("prefs_key_system_ui_statusbar_mobile_type_enable");
         mMobileTypeGroup = findPreference("prefs_key_system_ui_statusbar_mobile_type_group");

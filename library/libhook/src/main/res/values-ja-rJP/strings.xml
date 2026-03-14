@@ -90,6 +90,10 @@
     <string name="tsmclient_nfc_turning_on">NFC を自動的にオンにしています……</string>
     <string name="tsmclient_nfc_turn_on_manually">NFC を手動でオンにする</string>
     <string name="tsmclient_nfc_turn_on_failed">NFC を自動的に有効にできませんでした</string>
+    <!--AICR-->
+    <string name="aicr">Xiaomi HyperAI エンジン</string>
+    <!--XMSF-->
+    <string name="xmsf">Xiaomi サービスフレームワーク</string>
     <!--Other-->
     <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">新しいタスク</string>
@@ -122,5 +126,4 @@
     <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
     <string name="misound_bluetooth_type_misound">Xiaomi サウンド</string>
     <string name="misound_bluetooth_type_keep">現在のサウンド効果を保持</string>
-    <string name="aicr">Xiaomi HyperAI エンジン</string>
 </resources>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -17,23 +16,7 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_selected="true">
-        <shape>
-            <solid android:color="@color/provision_item_selected_bg_color" />
-            <corners android:radius="20.0dp" />
-        </shape>
-    </item>
-    <item android:state_pressed="true">
-        <shape>
-            <solid android:color="@color/provision_item_pressed_bg_color" />
-            <corners android:radius="20.0dp" />
-        </shape>
-    </item>
-    <item>
-        <shape>
-            <solid android:color="@color/provision_item_bg_color" />
-            <corners android:radius="20.0dp" />
-        </shape>
-    </item>
-</selector>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="@color/provision_item_bg_color" />
+    <corners android:radius="@dimen/miuix_theme_radius_common" />
+</shape>

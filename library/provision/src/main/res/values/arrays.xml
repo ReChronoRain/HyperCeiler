@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="provision_basic_settings_icon">
+        <item>@string/provision_basic_settings_icon_disable</item>
+        <item>@string/provision_basic_settings_icon_top</item>
+        <item>@string/provision_basic_settings_icon_medium</item>
+        <item>@string/provision_basic_settings_icon_down</item>
+    </string-array>
+
+    <string-array name="provision_basic_settings_icon_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
+
+    <string-array name="provision_basic_settings_icon_mode">
+        <item>@string/provision_basic_settings_icon_miui_14</item>
+        <item>@string/provision_basic_settings_icon_miui_13</item>
+    </string-array>
+
+    <string-array name="provision_basic_settings_icon_mode_value">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>
