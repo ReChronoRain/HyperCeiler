@@ -26,8 +26,8 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -135,14 +135,14 @@ public class BackupUtils {
                         String[] array = ((String) value).split(",");
                         List<String> list = Arrays.asList(array);
                         Set<String> stringSet = new HashSet<>(list);
-                        PrefsBridge.putStringSet(key, stringSet);
+                        PrefsBridge.putByApp(key, stringSet);
                     } else {
-                        PrefsBridge.putString(key, s);
+                        PrefsBridge.putByApp(key, s);
                     }
                 }
-                case Boolean b -> PrefsBridge.putBoolean(key, b);
-                case Integer i -> PrefsBridge.putInt(key, i);
-                case Long l -> PrefsBridge.putLong(key, l);
+                case Boolean b -> PrefsBridge.putByApp(key, b);
+                case Integer i -> PrefsBridge.putByApp(key, i);
+                case Long l -> PrefsBridge.putByApp(key, l);
                 default -> {
                 }
             }
@@ -191,14 +191,14 @@ public class BackupUtils {
                     String[] array = ((String) value).split(",");
                     List<String> list = Arrays.asList(array);
                     Set<String> stringSet = new HashSet<>(list);
-                    PrefsBridge.putStringSet(key, stringSet);
+                    PrefsBridge.putByApp(key, stringSet);
                 } else {
-                    PrefsBridge.putString(key, (String) value);
+                    PrefsBridge.putByApp(key, value);
                 }
             } else if (value instanceof Boolean) {
-                PrefsBridge.putBoolean(key, (Boolean) value);
+                PrefsBridge.putByApp(key, value);
             } else if (value instanceof Integer) {
-                PrefsBridge.putInt(key, (Integer) value);
+                PrefsBridge.putByApp(key, value);
             }
         }
         bufferedReader.close();

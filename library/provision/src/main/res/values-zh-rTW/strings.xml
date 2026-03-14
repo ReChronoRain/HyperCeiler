@@ -26,10 +26,8 @@
     <string name="provision_basic_settings_title">基本設定</string>
     <string name="provision_agree_and_next">同意</string>
     <string name="provision_agree_terms">我已閱讀並同意用戶協議與隱私鄭策。</string>
-    <string name="provision_user_agreement">用戶協議</string>
-    <string name="provision_privacy_policy">隱私政策</string>
     <string name="provision_terms_of_use">條款與條件</string>
-    <string name="provision_terms_of_use_label_use_network_china">為了向您提供更好的服務，您必須閱讀並同意我們的<a href="%1$s">用戶協議</a>和<a href="%2$s">隱私政策</a>，您才能繼續使用系統。我們將按照相關法律、法規和隱私政策保護您的個人信息。</string>
+    <string name="provision_terms_of_use_label_use_network_china">為了向您提供更好的服務，您必須閱讀並同意我們的<annotation key="user_agreement">用戶協議</annotation>和<annotation key="privacy_policy">隱私政策</annotation>，您才能繼續使用系統。我們將按照相關法律、法規和隱私政策保護您的個人信息。</string>
     <string name="provision_terms_of_label_period">。</string>
     <string name="provision_protect_persoanl_info_statement">我們將按照相關法律、法規和隱私政策保護您的個人信息。</string>
     <string name="provision_service_agreement">我已經閱讀並同意了條款和條件。</string>

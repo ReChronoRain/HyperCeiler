@@ -26,10 +26,8 @@
     <string name="provision_basic_settings_title">Configurações adicionais</string>
     <string name="provision_agree_and_next">Aceitar</string>
     <string name="provision_agree_terms">Li e aceito o Contrato do Usuário e a Política de Privacidade.</string>
-    <string name="provision_user_agreement">Contrato do Usuário</string>
-    <string name="provision_privacy_policy">Política de Privacidade</string>
     <string name="provision_terms_of_use">Termos e Condições</string>
-    <string name="provision_terms_of_use_label_use_network_china">Para lhe fornecer melhores serviços, você deve ler e aceitar o nosso <a href="%1$s">Contrato do Usuário</a> e a <a href="%2$s">Política de Privacidade</a> antes de continuar usando o sistema. Protegeremos suas informações pessoais de acordo com as leis, regulamentos e políticas de privacidade relevantes.</string>
+    <string name="provision_terms_of_use_label_use_network_china">Para lhe fornecer melhores serviços, você deve ler e aceitar o nosso <annotation key="user_agreement">Contrato do Usuário</annotation> e a <annotation key="privacy_policy">Política de Privacidade</annotation> antes de continuar usando o sistema. Protegeremos suas informações pessoais de acordo com as leis, regulamentos e políticas de privacidade relevantes.</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">Protegeremos suas informações pessoais de acordo com as leis, regulamentos e políticas de privacidade relevantes.</string>
     <string name="provision_service_agreement">Eu li e aceito os termos e condições.</string>

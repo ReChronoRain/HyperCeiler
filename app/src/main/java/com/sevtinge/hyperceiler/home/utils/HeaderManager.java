@@ -3,8 +3,8 @@ package com.sevtinge.hyperceiler.home.utils;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.home.Header;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.Header;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -65,7 +65,7 @@ public class HeaderManager {
                 removeList.add(getPackageName(h));
             }
         }
-        PrefsBridge.putStringSet(PREF_REMOVE_LIST, removeList);
+        PrefsBridge.putByApp(PREF_REMOVE_LIST, removeList);
     }
 
     /**

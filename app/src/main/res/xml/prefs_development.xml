@@ -46,11 +46,7 @@
         <Preference
             android:key="prefs_key_development_oobe"
             android:title="OOBE"
-            android:enabled="true">
-            <intent
-                android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.hyperceiler.provision.activity.DefaultActivity"/>
-        </Preference>
+            android:enabled="true" />
 
     </PreferenceCategory>
 

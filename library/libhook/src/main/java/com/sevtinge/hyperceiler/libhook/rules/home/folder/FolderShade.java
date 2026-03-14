@@ -31,11 +31,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 
@@ -85,8 +85,8 @@ public class FolderShade extends HomeBaseHookNew {
                             bkg = null;
                         }
                         new Handler(context.getMainLooper()).post(() -> {
-                            PrefsBridge.put("prefs_key_home_folder_shade", String.valueOf(opt));
-                            PrefsBridge.put("prefs_key_home_folder_shade_level", level);
+                            PrefsBridge.putHookCache("prefs_key_home_folder_shade", String.valueOf(opt));
+                            PrefsBridge.putHookCache("prefs_key_home_folder_shade_level", level);
                             folder.setBackground(bkg);
                         });
                     } catch (Throwable t) {

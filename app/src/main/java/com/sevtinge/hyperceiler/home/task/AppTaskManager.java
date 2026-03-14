@@ -1,7 +1,5 @@
 package com.sevtinge.hyperceiler.home.task;
 
-import static com.sevtinge.hyperceiler.utils.DialogHelper.showUserAgreeDialog;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
@@ -17,7 +15,6 @@ import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
-import com.sevtinge.hyperceiler.utils.CtaUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
@@ -30,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 
-import fan.provision.OobeUtils;
 import io.github.libxposed.service.XposedServiceHelper;
 
 /**
@@ -131,21 +127,9 @@ public class AppTaskManager {
         runner.addTask(new Task("UI_Effect", false) {
             @Override
             public void execute() {
-                requestCta(activity);
                 SearchHelper.initIndex(activity, true);
             }
         });
-    }
-
-    public static void requestCta(HomePageActivity activity) {
-        if (OobeUtils.getOperatorState(activity, "cm_pick_status")) return;
-        if (CtaUtils.isCtaNeedShow(activity)) {
-            if (CtaUtils.isCtaBypass()) {
-                CtaUtils.showCtaDialog(activity.mCtaLauncher, activity);
-            } else {
-                showUserAgreeDialog(activity);
-            }
-        }
     }
 
     private static void checkAppMod(Context context, String pkg) {

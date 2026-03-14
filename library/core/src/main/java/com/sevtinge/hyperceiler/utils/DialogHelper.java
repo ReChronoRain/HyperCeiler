@@ -18,36 +18,21 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.CtaUtils.setCtaValue;
-import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatus;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.text.Annotation;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.TextPaint;
-import android.text.style.ClickableSpan;
-import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
-
-import com.sevtinge.hyperceiler.view.RestartAlertDialog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
-import fan.androidbase.widget.LinkMovementMethod;
 import fan.appcompat.app.AlertDialog;
 
 public class DialogHelper {
@@ -101,69 +86,6 @@ public class DialogHelper {
                 .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
                 .setNegativeButton(R.string.ignore, null)
                 .show();
-    }
-
-    public static void showUserAgreeDialog(Context context) {
-        int textColor = ContextCompat.getColor(context, R.color.textview_black);
-        int linkColor = ContextCompat.getColor(context, R.color.textview_blue);
-
-        CharSequence raw = context.getText(R.string.new_cta_app_all_purpose_title);
-        SpannableString ss = new SpannableString(raw);
-
-        // 全文颜色
-        // 也可用 msgView.setTextColor(textColor)
-        ss.setSpan(new ForegroundColorSpan(textColor), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-        Annotation[] anns = ss.getSpans(0, ss.length(), Annotation.class);
-        for (Annotation an : anns) {
-            int start = ss.getSpanStart(an);
-            int end = ss.getSpanEnd(an);
-            String key = an.getValue(); // "protocol" or "privacy"
-            ss.removeSpan(an);
-
-            ClickableSpan span;
-            if ("protocol".equals(key)) {
-                span = new ClickableSpan() {
-                    @Override
-                    public void onClick(@NonNull View widget) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Protocol")));
-                    }
-                    @Override
-                    public void updateDrawState(@NonNull TextPaint ds) {
-                        ds.setColor(linkColor);
-                        ds.setUnderlineText(true);
-                    }
-                };
-            } else if ("privacy".equals(key)) {
-                span = new ClickableSpan() {
-                    @Override public void onClick(@NonNull View widget) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Privacy")));
-                    }
-                    @Override public void updateDrawState(@NonNull TextPaint ds) {
-                        ds.setColor(linkColor);
-                        ds.setUnderlineText(true);
-                    }
-                };
-            } else {
-                continue;
-            }
-            ss.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-
-        TextView msgView = new TextView(context);
-        msgView.setText(ss);
-        msgView.setMovementMethod(LinkMovementMethod.getInstance());
-        msgView.setPadding(dp2px(context, 24), dp2px(context, 12), dp2px(context, 24), dp2px(context, 24));
-        msgView.setTextSize(16);
-
-        AlertDialog dialog = new AlertDialog.Builder(context)
-            .setCancelable(false)
-            .setTitle(R.string.new_cta_app_all_purpose_welcome)
-            .setView(msgView)
-            .setPositiveButton(R.string.new_cta_app_all_purpose_agree, (d, w) -> setCtaValue(context, true))
-            .setNegativeButton(R.string.new_cta_app_all_purpose_reject, (d, w) -> System.exit(0))
-            .create();
-        dialog.show();
     }
 
     public static void showCrashReportDialog(Activity activity, View view) {
@@ -221,11 +143,11 @@ public class DialogHelper {
                 .setCancelable(false)
                 .setPositiveButton(R.string.safe_mode_cancel, (dialog, which) -> {
                     ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"\"").sync();
-                    PrefsBridge.remove("prefs_key_system_ui_safe_mode_enable");
-                    PrefsBridge.remove("prefs_key_home_safe_mode_enable");
-                    PrefsBridge.remove("prefs_key_system_settings_safe_mode_enable");
-                    PrefsBridge.remove("prefs_key_security_center_safe_mode_enable");
-                    PrefsBridge.remove("prefs_key_demo_safe_mode_enable");
+                    PrefsBridge.removeByApp("prefs_key_system_ui_safe_mode_enable");
+                    PrefsBridge.removeByApp("prefs_key_home_safe_mode_enable");
+                    PrefsBridge.removeByApp("prefs_key_system_settings_safe_mode_enable");
+                    PrefsBridge.removeByApp("prefs_key_security_center_safe_mode_enable");
+                    PrefsBridge.removeByApp("prefs_key_demo_safe_mode_enable");
                     dialog.dismiss();
                 })
                 .setNegativeButton(R.string.safe_mode_ok, (dialog, which) -> dialog.dismiss())

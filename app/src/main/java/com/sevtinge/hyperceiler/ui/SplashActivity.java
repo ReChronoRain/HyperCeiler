@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 
 import fan.appcompat.app.AppCompatActivity;
@@ -18,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Intent intent;
         // 根据逻辑分发
-        if (OobeUtils.isProvisioned(this) || BuildConfig.DEBUG) {
+        if (OobeUtils.isProvisioned(this)) {
             // 跳转到主页
             intent = new Intent(this, HomePageActivity.class);
         } else {

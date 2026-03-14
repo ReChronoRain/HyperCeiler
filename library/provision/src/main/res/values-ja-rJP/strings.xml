@@ -26,10 +26,8 @@
     <string name="provision_basic_settings_title">基本設定</string>
     <string name="provision_agree_and_next">同意する</string>
     <string name="provision_agree_terms">利用規約とプライバシーポリシーを読んで同意しました。</string>
-    <string name="provision_user_agreement">ユーザー契約</string>
-    <string name="provision_privacy_policy">プライバシーポリシー</string>
     <string name="provision_terms_of_use">利用規約</string>
-    <string name="provision_terms_of_use_label_use_network_china">より良いサービスを提供するために システムの使用を続けるには、 <a href="%1$s">ユーザー契約</a> および <a href="%2$s">プライバシーポリシー</a> を読み、同意する必要があります。私達は、関連する法令およびプライバシーポリシーに従って、お客様の個人情報を保護します。</string>
+    <string name="provision_terms_of_use_label_use_network_china">より良いサービスを提供するために システムの使用を続けるには、 <annotation key="user_agreement">ユーザー契約</annotation> および <annotation key="privacy_policy">プライバシーポリシー</annotation> を読み、同意する必要があります。私達は、関連する法令およびプライバシーポリシーに従って、お客様の個人情報を保護します。</string>
     <string name="provision_terms_of_label_period">.</string>
     <string name="provision_protect_persoanl_info_statement">私達は、ご利用者の個人情報を関連する法令およびプライバシーポリシーに従って保護します。</string>
     <string name="provision_service_agreement">利用規約を読んで、これらに同意しました。</string>

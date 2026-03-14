@@ -40,11 +40,11 @@ import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.IntentUtils;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
+import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.SearchResultAdapter;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.search.widget.FlowLayout;
-import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
@@ -64,6 +64,10 @@ import fan.view.ActionModeAnimationListener;
 import fan.view.SearchActionMode;
 
 public class HomePageFragment extends BasePreferenceFragment implements OnCompleteCallBack {
+
+    public static int getHomeHeadersResourceId() {
+        return R.xml.settings_header;
+    }
 
     private volatile boolean isClicking = false;
     private volatile boolean mIsInActionMode;
@@ -266,7 +270,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     @Override
     protected int getHeadersResourceId() {
-        return R.xml.settings_header;
+        return getHomeHeadersResourceId();
     }
 
     @Override

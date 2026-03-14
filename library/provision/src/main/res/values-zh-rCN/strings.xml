@@ -10,10 +10,8 @@
     <string name="provision_basic_settings_title">基础设置</string>
     <string name="provision_agree_and_next">同意并继续</string>
     <string name="provision_agree_terms">我已仔细阅读并同意上述条款</string>
-    <string name="provision_user_agreement">《用户协议》</string>
-    <string name="provision_privacy_policy">《隐私政策》</string>
     <string name="provision_terms_of_use">使用条款</string>
-    <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意&lt;a href="%1$s"&gt;《用户协议》&lt;/a&gt;与&lt;a href="%2$s"&gt;《隐私政策》&lt;/a&gt;才可继续使用 HyperCeiler，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
+    <string name="provision_terms_of_use_label_use_network_china">为了给您提供更好的服务，您需要阅读并同意<annotation key="user_agreement">《用户协议》</annotation>与<annotation key="privacy_policy">《隐私政策》</annotation>才可继续使用 HyperCeiler，我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
     <string name="provision_protect_persoanl_info_statement">我们将严格遵守相关法律法规和隐私政策以保护您的个人信息。</string>
     <string name="provision_service_agreement">我已仔细阅读并同意上述条款</string>
     <string name="provision_service_name_download">下载管理</string>

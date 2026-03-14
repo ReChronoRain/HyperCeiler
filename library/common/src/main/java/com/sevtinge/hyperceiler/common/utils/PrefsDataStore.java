@@ -14,32 +14,32 @@ public class PrefsDataStore extends PreferenceDataStore {
 
     @Override
     public void putString(@NonNull String key, @Nullable String value) {
-        PrefsBridge.putString(key, value);
+        PrefsBridge.putByApp(key, value);
     }
 
     @Override
     public void putStringSet(@NonNull String key, @Nullable Set<String> values) {
-        PrefsBridge.putStringSet(key, values);
+        PrefsBridge.putByApp(key, values);
     }
 
     @Override
     public void putInt(@NonNull String key, int value) {
-        PrefsBridge.putInt(key, value);
+        PrefsBridge.putByApp(key, value);
     }
 
     @Override
     public void putLong(@NonNull String key, long value) {
-        PrefsBridge.putLong(key, value);
+        PrefsBridge.putByApp(key, value);
     }
 
     @Override
     public void putFloat(@NonNull String key, float value) {
-        PrefsBridge.putFloat(key, value);
+        PrefsBridge.putByApp(key, value);
     }
 
     @Override
     public void putBoolean(@NonNull String key, boolean value) {
-        PrefsBridge.putBoolean(key, value);
+        PrefsBridge.putByApp(key, value);
     }
 
     @Override

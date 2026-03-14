@@ -19,12 +19,10 @@
 package com.sevtinge.hyperceiler.provision.fragment;
 
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.Html;
+import android.text.Annotation;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,7 +31,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,13 +38,14 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
 import com.sevtinge.hyperceiler.provision.widget.SimpleTextWatcher;
-import com.sevtinge.hyperceiler.provision.widget.TermsAndStatementBottomSheet;
-
-import fan.provision.OobeUtils;
 
 import fan.appcompat.app.AlertDialog;
+import fan.provision.OobeUtils;
 
 public class TermsAndStatementFragment extends BaseFragment {
+
+    private static final String USER_AGREEMENT_LINK = "user_agreement";
+    private static final String PRIVACY_POLICY_LINK = "privacy_policy";
 
 
     private View mNextView;
@@ -64,12 +62,9 @@ public class TermsAndStatementFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         mPrivacyView = view.findViewById(R.id.privacy);
-
-        String terms = getString(R.string.provision_terms_of_use_label_use_network_china);
-        if (enhanceTermsTitle(terms) != null) {
-            mPrivacyView.setText(enhanceTermsTitle(terms));
-            mPrivacyView.setMovementMethod(fan.androidbase.widget.LinkMovementMethod.getInstance());
-        }
+        mPrivacyView.setText(enhanceTermsTitle());
+        mPrivacyView.setMovementMethod(fan.androidbase.widget.LinkMovementMethod.getInstance());
+        mPrivacyView.setLinksClickable(true);
 
         mAgreeCheckBox = view.findViewById(R.id.checkbox_agree);
         mAgreeCheckBox.setVisibility(View.VISIBLE);
@@ -159,26 +154,32 @@ public class TermsAndStatementFragment extends BaseFragment {
         }
     }
 
-    public SpannableStringBuilder enhanceTermsTitle(String str) {
-
-        String userAgreement = getString(R.string.provision_user_agreement);
-        String privacyPolicy = getString(R.string.provision_privacy_policy);
-        String spanned = Html.fromHtml(str, Html.FROM_HTML_MODE_LEGACY).toString();
-        int lastIndexOf = spanned.lastIndexOf(userAgreement);
-        int length = userAgreement.length() + lastIndexOf;
-        if (lastIndexOf >= 0 && length <= spanned.length()) {
-            int indexOf = spanned.indexOf(privacyPolicy);
-            int length2 = privacyPolicy.length() + indexOf;
-            if (indexOf >= 0 && length2 <= spanned.length()) {
-                SpannableStringBuilder builder = new SpannableStringBuilder(spanned);
-                int color = getResources().getColor(R.color.provision_button_text_high_color_light, requireContext().getTheme());
-                builder.setSpan(new ForegroundColorSpan(color), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new ForegroundColorSpan(color), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(requireActivity(), 2), lastIndexOf, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                builder.setSpan(new TermsTitleSpan(requireActivity(), 1), indexOf, length2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                return builder;
+    public SpannableStringBuilder enhanceTermsTitle() {
+        CharSequence raw = getText(R.string.provision_terms_of_use_label_use_network_china);
+        SpannableString builder = new SpannableString(raw);
+        Annotation[] annotations = builder.getSpans(0, builder.length(), Annotation.class);
+        int color = getResources().getColor(R.color.provision_button_text_high_color_light, requireContext().getTheme());
+        for (Annotation annotation : annotations) {
+            int start = builder.getSpanStart(annotation);
+            int end = builder.getSpanEnd(annotation);
+            builder.removeSpan(annotation);
+            int hyperlinkType = getHyperlinkType(annotation.getValue());
+            if (hyperlinkType == -1 || end <= start) {
+                continue;
             }
+            builder.setSpan(new ForegroundColorSpan(color), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new TermsTitleSpan(requireActivity(), hyperlinkType), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        return null;
+        return new SpannableStringBuilder(builder);
+    }
+
+    private int getHyperlinkType(String url) {
+        if (USER_AGREEMENT_LINK.equals(url)) {
+            return 2;
+        }
+        if (PRIVACY_POLICY_LINK.equals(url)) {
+            return 1;
+        }
+        return -1;
     }
 }

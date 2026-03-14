@@ -31,9 +31,9 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.preference.RadioButtonPreference;
 
@@ -142,7 +142,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
     }
 
     private void editActionIntSharedPrefs(int value) {
-        PrefsBridge.putInt(mActionKey, value);
+        PrefsBridge.putByApp(mActionKey, value);
     }
 
     public void updateAppSelectorTitle() {
@@ -183,7 +183,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
                 Intent data = result.getData();
                 String mAppPackageName = data.getStringExtra("appPackageName");
                 String mAppActivityName = data.getStringExtra("appActivityName");
-                getSharedPreferences().edit().putString(mKey + "_app", mAppPackageName + "|" + mAppActivityName).apply();
+                PrefsBridge.putByApp(mKey + "_app", mAppPackageName + "|" + mAppActivityName);
                 updateAppSelectorTitle();
             }
         });

@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app.Home.os3;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.libhook.rules.home.DisablePrestart;
@@ -34,7 +35,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.drawer.PinyinArrangement;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.BigFolderItemMaxCount;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderColumns;
-import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderShade;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
@@ -88,7 +88,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 
@@ -197,7 +196,7 @@ public class HomePhone extends BaseLoad {
         initHook(new BigFolderItemMaxCount(), PrefsBridge.getBoolean("home_big_folder_item_max_count"));
         initHook(FolderAutoClose.INSTANCE, PrefsBridge.getBoolean("home_folder_auto_close"));
         // 待修复
-        initHook(new FolderShade(), PrefsBridge.getStringAsInt("home_folder_shade", 1) > 0);
+        // initHook(new FolderShade(), PrefsBridge.getStringAsInt("home_folder_shade", 1) > 0);
 
         // 小部件
         initHook(new AllWidgetAnimation(), PrefsBridge.getBoolean("home_widget_all_widget_animation"));

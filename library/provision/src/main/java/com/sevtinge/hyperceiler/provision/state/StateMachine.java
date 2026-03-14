@@ -17,6 +17,8 @@ import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 
 import java.util.ArrayList;
 
+import fan.provision.OobeUtils;
+
 public class StateMachine {
 
     private static final String TAG = "StateMachine";
@@ -107,7 +109,9 @@ public class StateMachine {
     }
 
     public void start(boolean z) {
-        restoreState();
+        if (OobeUtils.shouldPersistOobeState(mContext)) {
+            restoreState();
+        }
         int size = mStateStack.size() - 1;
         if (z) {
             mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), true);
@@ -226,6 +230,9 @@ public class StateMachine {
     }
 
     private void clearState() {
+        if (!OobeUtils.shouldPersistOobeState(mContext)) {
+            return;
+        }
         mContext.getSharedPreferences("pref_oobe_state", 0).edit().clear().apply();
     }
 
@@ -240,6 +247,9 @@ public class StateMachine {
     }
 
     private void saveState() {
+        if (!OobeUtils.shouldPersistOobeState(mContext)) {
+            return;
+        }
         SharedPreferences.Editor edit = mContext.getSharedPreferences("pref_oobe_state", 0).edit();
         edit.clear();
         for (int i = 0; i < mStateStack.size(); i++) {

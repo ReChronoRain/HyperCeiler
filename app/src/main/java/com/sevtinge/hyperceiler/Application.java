@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.utils.ScopeManager;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import fan.provision.OobeUtils;
 import io.github.libxposed.service.XposedService;
 import io.github.libxposed.service.XposedServiceHelper;
 
@@ -44,6 +45,7 @@ public class Application extends fan.app.Application
         super.onCreate();
         // 应用启动阶段，预热非 UI 任务（如 Shell、语言包、权限检查）
         AppInitializer.initOnAppCreate(this);
+        OobeUtils.syncHookAvailability(this);
         // 初始化日志系统
         Context appContext = this;
         com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(
@@ -71,6 +73,7 @@ public class Application extends fan.app.Application
 
             SharedPreferences remote = service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote");
             PrefsBridge.setRemotePrefs(remote);
+            OobeUtils.syncHookAvailability(this);
 
             reloadListener.run();
         }

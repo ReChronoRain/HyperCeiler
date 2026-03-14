@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter.AppViewHolder;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppEditManager;
-import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import java.util.ArrayList;
@@ -130,7 +130,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             selectedApps.remove(appData.packageName);
         }
 
-        PrefsBridge.putStringSet(mKey, selectedApps);
+        PrefsBridge.putByApp(mKey, selectedApps);
 
         notifyItemChanged(position);
     }

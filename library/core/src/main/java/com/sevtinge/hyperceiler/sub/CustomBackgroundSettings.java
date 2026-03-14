@@ -24,9 +24,9 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.pickerwidget.color.HSLColor;
 import fan.preference.ColorPickerPreference;
@@ -138,26 +138,26 @@ public class CustomBackgroundSettings extends SettingsPreferenceFragment impleme
 
     private void setCustomEnable(boolean isCustomEnabled) {
         mCustomEnabledPreference.setChecked(isCustomEnabled);
-        PrefsBridge.putBoolean(mCustomBackgroundEnabledKey, isCustomEnabled);
+        PrefsBridge.putByApp(mCustomBackgroundEnabledKey, isCustomEnabled);
     }
 
     private void setBackgroundColor(HSLColor value) {
         mColorPickerPreference.setColor(value.color);
-        PrefsBridge.putInt(mColorKey, value.color);
+        PrefsBridge.putByApp(mColorKey, value.color);
     }
 
     private void setBackgroundCornerRadius(int value) {
         mCornerRadiusPreference.setCurrentValue(value);
-        PrefsBridge.putInt(mCornerRadiusKey, value);
+        PrefsBridge.putByApp(mCornerRadiusKey, value);
     }
 
     private void setBlurEnabled(boolean isBlurEnabled) {
         mBlurEnabledPreference.setChecked(isBlurEnabled);
-        PrefsBridge.putBoolean(mBlurEnabledKey, isBlurEnabled);
+        PrefsBridge.putByApp(mBlurEnabledKey, isBlurEnabled);
     }
 
     private void setBackgroundBlurRadius(int value) {
         mBlurRadiusPreference.setCurrentValue(value);
-        PrefsBridge.putInt(mBlurRadiusKey, value);
+        PrefsBridge.putByApp(mBlurRadiusKey, value);
     }
 }

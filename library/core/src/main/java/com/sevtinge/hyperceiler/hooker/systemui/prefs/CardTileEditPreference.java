@@ -31,10 +31,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.model.adapter.CardTileAdapter;
 import com.sevtinge.hyperceiler.model.adapter.CardTileAddAdapter;
-import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -151,7 +151,7 @@ public class CardTileEditPreference extends Preference {
             builder.append(tile).append("|");
         }
         String mCardStyleTiles = "List_" + builder;
-        PrefsBridge.putString("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
+        PrefsBridge.putByApp("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
     }
 
     public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {

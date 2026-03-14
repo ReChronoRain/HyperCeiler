@@ -20,16 +20,17 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
-import com.sevtinge.hyperceiler.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import fan.appcompat.app.AlertDialog;
 import fan.internal.utils.ViewUtils;
 import fan.preference.DropDownPreference;
 import fan.provider.Settings;
+import fan.provision.OobeUtils;
 
 public class SettingsFragment extends BasePreferenceFragment
     implements Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
@@ -133,7 +134,8 @@ public class SettingsFragment extends BasePreferenceFragment
             case "prefs_key_back" -> mBackupLauncher.launch(BackupUtils.getCreateDocumentIntent());
             case "prefs_key_rest" -> mRestoreLauncher.launch(BackupUtils.getOpenDocumentIntent());
             case "prefs_key_reset" -> {
-                PrefsBridge.clearAll();
+                PrefsBridge.clearAllByApp();
+                OobeUtils.resetOobeState(requireContext());
                 Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
             }
         }

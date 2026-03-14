@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.settings.development;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.fixLSPosedLogService;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -32,9 +33,11 @@ import androidx.preference.Preference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
+import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.AlertDialog;
+import fan.provision.OobeUtils;
 
 public class DevelopmentFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -42,6 +45,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
     Preference mDeleteAllDexKitCache;
     Preference mFixLsposedLog;
     Preference mClearAppProperties;
+    Preference mOobe;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -54,11 +58,13 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
         mDeleteAllDexKitCache = findPreference("prefs_key_development_delete_all_dexkit_cache");
         mFixLsposedLog = findPreference("prefs_key_development_fix_lsposed_log");
         mClearAppProperties = findPreference("prefs_key_development_clear_app_properties");
+        mOobe = findPreference("prefs_key_development_oobe");
 
         mCmdR.setOnPreferenceClickListener(this);
         mDeleteAllDexKitCache.setOnPreferenceClickListener(this);
         mFixLsposedLog.setOnPreferenceClickListener(this);
         mClearAppProperties.setOnPreferenceClickListener(this);
+        mOobe.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -86,6 +92,11 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                     rootExecCmd("resetprop -p --delete persist.hyperceiler.crash.report");
                     Toast.makeText(getActivity(), R.string.clear_app_properties_success, Toast.LENGTH_LONG).show();
                 });
+            }
+            case "prefs_key_development_oobe" -> {
+                Intent intent = new Intent(requireContext(), DefaultActivity.class);
+                intent.putExtra(OobeUtils.EXTRA_DEBUG_OOBE, true);
+                startActivity(intent);
             }
         }
         return true;

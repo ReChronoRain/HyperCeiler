@@ -27,8 +27,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.core.R;
 
 public abstract class SettingsPreferenceFragment extends BasePreferenceFragment {
 
@@ -100,7 +100,7 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
 
     public boolean cleanKey(String key) {
         if (hasKey(key)) {
-            getSharedPreferences().edit().remove(key).apply();
+            PrefsBridge.removeByApp(key);
             return true;
         }
         return hasKey(key);

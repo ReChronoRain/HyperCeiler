@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.lang.reflect.InvocationTargetException;
 
+import fan.provision.OobeUtils;
+
 public class State {
 
     private static final String TAG = "State";
@@ -88,6 +90,9 @@ public class State {
             intent.setClass(mContext, mTargetClass);
         } else {
             intent.setClassName(mPackageName, mClassName);
+        }
+        if (OobeUtils.isDebugOobeMode(mContext)) {
+            intent.putExtra(OobeUtils.EXTRA_DEBUG_OOBE, true);
         }
         return intent;
     }

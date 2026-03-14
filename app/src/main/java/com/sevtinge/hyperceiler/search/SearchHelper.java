@@ -17,6 +17,7 @@ import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.home.HomePageFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.prefs.LayoutPreference;
@@ -74,13 +75,13 @@ public class SearchHelper {
         Resources res = getLocaleResources(context);
         List<ModEntity> entities = new ArrayList<>();
 
-        int mainXmlResId = context.getResources().getIdentifier("prefs_main", "xml", context.getPackageName());
-        if (mainXmlResId == 0) {
-            AndroidLog.e(TAG, "prefs_main.xml not found!");
+        int headersXmlResId = HomePageFragment.getHomeHeadersResourceId();
+        if (headersXmlResId == 0) {
+            AndroidLog.e(TAG, "Home headers xml not found!");
             return;
         }
 
-        scanMainPrefs(res, mainXmlResId, entities);
+        scanHeaders(res, headersXmlResId, entities);
 
         AppDatabase.getInstance(context).runInTransaction(() -> {
             dao.deleteAll();
@@ -89,10 +90,10 @@ public class SearchHelper {
         });
     }
 
-    private static void scanMainPrefs(Resources res, int mainXmlResId, List<ModEntity> entities) {
+    private static void scanHeaders(Resources res, int headersXmlResId, List<ModEntity> entities) {
         GROUP_PACKAGE_MAP.clear();
         GROUP_ICON_MAP.clear();
-        try (XmlResourceParser xml = res.getXml(mainXmlResId)) {
+        try (XmlResourceParser xml = res.getXml(headersXmlResId)) {
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
                 if (eventType == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml.getName())) {
@@ -128,7 +129,7 @@ public class SearchHelper {
                 eventType = xml.next();
             }
         } catch (Throwable t) {
-            AndroidLog.e(TAG, "Failed to scan prefs_main", t);
+            AndroidLog.e(TAG, "Failed to scan home headers", t);
         }
     }
 
@@ -237,7 +238,7 @@ public class SearchHelper {
     }
 
     private static boolean isPreferenceHeaderTag(String tag) {
-        return isTagOrSubclass(tag, PreferenceHeader.class);
+        return "header".equals(tag) || isTagOrSubclass(tag, PreferenceHeader.class);
     }
 
     private static boolean isPreferenceScreenTag(String tag) {

@@ -27,13 +27,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
@@ -106,7 +106,7 @@ public class ScreenSwipe extends BaseHook {
                             if (!name.contains(PREF_DOWN_SWIPE)) return;
 
                             try {
-                                updatePrefsMap(activity, name, type);
+                                updatePrefsMap(name, type);
                             } catch (Throwable t) {
                                 AndroidLog.d(TAG, "setAction", t);
                             }
@@ -116,7 +116,8 @@ public class ScreenSwipe extends BaseHook {
             });
     }
 
-    private void updatePrefsMap(Activity activity, String name, PrefType type) {
+    private void updatePrefsMap(String name, PrefType type) {
+        PrefsBridge.removeHookCache(name);
         Object value = switch (type) {
             case String -> PrefsBridge.getString(name, "");
             case Integer -> PrefsBridge.getInt(name, 1);
@@ -124,7 +125,7 @@ public class ScreenSwipe extends BaseHook {
             default -> null;
         };
         if (value != null) {
-            PrefsBridge.put(name, value);
+            PrefsBridge.putHookCache(name, value);
         }
     }
 
@@ -261,4 +262,3 @@ public class ScreenSwipe extends BaseHook {
         }
     }
 }
-

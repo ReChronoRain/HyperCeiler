@@ -27,10 +27,8 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
 
 public class PrefsChangeObserver extends ContentObserver {
-    private static final String TAG = "PrefsChangeObserver";
     private final boolean autoApplyChange;
     private final PrefType prefType;
-    private final Context context;
     private final Object def;
     private final String name;
 
@@ -52,7 +50,6 @@ public class PrefsChangeObserver extends ContentObserver {
         Uri uri = null;
         this.name = name;
         prefType = type;
-        this.context = context;
         this.autoApplyChange = autoApplyChange;
         switch (type) {
             case Any -> uri = PrefToUri.anyPrefToUri();
@@ -94,7 +91,8 @@ public class PrefsChangeObserver extends ContentObserver {
     }
 
     private void applyChange() {
-        PrefsBridge.put(name, switch (prefType) {
+        PrefsBridge.removeHookCache(name);
+        PrefsBridge.putHookCache(name, switch (prefType) {
             case String -> PrefsBridge.getString(name, (String) def);
             case StringSet -> PrefsBridge.getStringSet(name);
             case Integer -> PrefsBridge.getInt(name, (Integer) def);
@@ -129,4 +127,3 @@ public class PrefsChangeObserver extends ContentObserver {
         }
     }
 }
-

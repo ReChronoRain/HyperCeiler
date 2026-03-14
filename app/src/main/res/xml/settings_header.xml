@@ -423,6 +423,13 @@
         app:inflatedXml="@xml/community"/>
 
     <header
+        android:icon="@drawable/ic_default"
+        android:key="prefs_key_xmsf"
+        android:summary="com.xiaomi.xmsf"
+        android:title="@string/xmsf"
+        app:inflatedXml="@xml/xmsf" />
+
+    <header
         android:fragment="com.sevtinge.hyperceiler.hooker.VariousFragment"
         android:icon="@drawable/ic_various_new"
         android:id="@+id/various"

@@ -19,7 +19,6 @@
 package fan.provision;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -36,16 +35,20 @@ import android.widget.Toast;
 import com.sevtinge.hyperceiler.provision.R;
 
 import java.security.SecureRandom;
-import java.util.List;
 import java.util.Locale;
 
-import fan.core.utils.HyperMaterialUtils;
 import fan.internal.utils.LiteUtils;
 import fan.os.Build;
 
 public class OobeUtils {
 
     private static final String TAG = "Provision_Utils";
+    public static final String EXTRA_DEBUG_OOBE = "extra_debug_oobe";
+    private static final String PREF_OOBE_STATE = "pref_oobe_state";
+    private static final String PREF_OPERATOR_STATUS = "operator_status";
+    private static final String PREF_HOOK_STATE = "hyperceiler_prefs";
+    private static final String KEY_IS_PROVISIONED = "is_provisioned";
+    private static final String KEY_ALLOW_HOOK = "prefs_key_allow_hook";
 
     public static float NO_ALPHA = 1.0f;
     public static float HALF_ALPHA = 0.5f;
@@ -55,7 +58,44 @@ public class OobeUtils {
     private static String sCurrentCode = ""; // 缓存当前的验证码
 
     public static boolean isProvisioned(Context context) {
-        return context.getSharedPreferences("pref_oobe_state", Context.MODE_PRIVATE).getBoolean("is_provisioned", false);
+        return context.getSharedPreferences(PREF_OOBE_STATE, Context.MODE_PRIVATE).getBoolean(KEY_IS_PROVISIONED, false);
+    }
+
+    public static boolean isDebugOobeMode(Context context) {
+        if (!(context instanceof Activity activity)) {
+            return false;
+        }
+        Intent intent = activity.getIntent();
+        return intent != null && intent.getBooleanExtra(EXTRA_DEBUG_OOBE, false);
+    }
+
+    public static boolean shouldPersistOobeState(Context context) {
+        return !isDebugOobeMode(context);
+    }
+
+    public static void resetOobeState(Context context) {
+        context.getSharedPreferences(PREF_OOBE_STATE, Context.MODE_PRIVATE).edit().clear().apply();
+        context.getSharedPreferences(PREF_OPERATOR_STATUS, Context.MODE_PRIVATE).edit().clear().apply();
+        syncHookAvailability(context, false);
+        sCurrentCode = "";
+    }
+
+    public static void setProvisioned(Context context, boolean provisioned) {
+        context.getSharedPreferences(PREF_OOBE_STATE, Context.MODE_PRIVATE).edit()
+            .putBoolean(KEY_IS_PROVISIONED, provisioned)
+            .apply();
+        syncHookAvailability(context, provisioned);
+    }
+
+    public static void syncHookAvailability(Context context) {
+        syncHookAvailability(context, isProvisioned(context));
+    }
+
+    public static void syncHookAvailability(Context context, boolean allowHook) {
+        Context protectedContext = context.createDeviceProtectedStorageContext();
+        protectedContext.getSharedPreferences(PREF_HOOK_STATE, Context.MODE_PRIVATE).edit()
+            .putBoolean(KEY_ALLOW_HOOK, allowHook)
+            .apply();
     }
 
     public static boolean isRTL() {
@@ -99,11 +139,17 @@ public class OobeUtils {
     }
 
     public static boolean getOperatorState(Context context, String str) {
-        return context.getSharedPreferences("operator_status", 0).getBoolean(str, false);
+        if (isDebugOobeMode(context)) {
+            return false;
+        }
+        return context.getSharedPreferences(PREF_OPERATOR_STATUS, 0).getBoolean(str, false);
     }
 
     public static void saveOperatorState(Context context, String str, boolean z) {
-        SharedPreferences.Editor edit = context.getSharedPreferences("operator_status", 0).edit();
+        if (isDebugOobeMode(context)) {
+            return;
+        }
+        SharedPreferences.Editor edit = context.getSharedPreferences(PREF_OPERATOR_STATUS, 0).edit();
         edit.clear();
         edit.putBoolean(str, z);
         edit.apply();

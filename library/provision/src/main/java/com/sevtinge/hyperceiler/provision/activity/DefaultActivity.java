@@ -51,7 +51,7 @@ public class DefaultActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (isDeviceIsProvisioned()) {
+        if (isDeviceIsProvisioned() && !OobeUtils.isDebugOobeMode(this)) {
             finishSetup();
             return;
         }

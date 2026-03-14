@@ -22,13 +22,13 @@ import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.HashMap;
 
@@ -64,6 +64,10 @@ public class XposedInitEntry extends XposedModule {
     public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
         // load preferences
         initPrefs();
+        if (!isModuleReady()) {
+            AndroidLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
+            return;
+        }
 
         // set xposed module
         EzxHelpUtils.setXposedModule(this);
@@ -95,6 +99,10 @@ public class XposedInitEntry extends XposedModule {
         if (!lpparam.isFirstPackage()) return;
         // load preferences
         initPrefs();
+        if (!isModuleReady()) {
+            AndroidLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
+            return;
+        }
         // load EzXposed
         EzXposed.initOnPackageLoaded(lpparam);
         // invoke module
@@ -160,6 +168,10 @@ public class XposedInitEntry extends XposedModule {
         SharedPreferences remote = getRemotePreferences(remoteName);
         // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
         PrefsBridge.initForHook(remote);
+    }
+
+    private boolean isModuleReady() {
+        return PrefsBridge.getBoolean("allow_hook", false);
     }
 
 }

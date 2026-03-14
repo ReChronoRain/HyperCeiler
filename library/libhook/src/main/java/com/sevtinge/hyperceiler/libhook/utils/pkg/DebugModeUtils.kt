@@ -31,17 +31,19 @@ object DebugModeUtils {
 
     /**
      * 手动设置指定包名的调试版本号
+     * 仅允许在应用进程调用，写入后由应用侧同步到 Hook 进程。
      */
     fun setChooseResult(pkg: String, isModified: Int) {
         clearChooseResult(pkg)
-        PrefsBridge.putInt("debug_choose_$pkg", isModified)
+        PrefsBridge.putByApp("debug_choose_$pkg", isModified)
     }
 
     /**
      * 清除指定包名的调试版本号
+     * 仅允许在应用进程调用，写入后由应用侧同步到 Hook 进程。
      */
     fun clearChooseResult(pkg: String) {
-        PrefsBridge.remove("debug_choose_$pkg")
+        PrefsBridge.removeByApp("debug_choose_$pkg")
     }
 
 }

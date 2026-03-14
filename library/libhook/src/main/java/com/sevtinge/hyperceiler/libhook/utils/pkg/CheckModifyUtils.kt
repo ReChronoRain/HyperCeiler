@@ -41,17 +41,19 @@ object CheckModifyUtils {
 
     /**
      * 手动设置指定包名的检查结果
+     * 仅允许在应用进程调用，写入后由应用侧同步到 Hook 进程。
      */
     fun setCheckResult(pkg: String, isModified: Boolean) {
         clearCheckResult(pkg)
-        PrefsBridge.putBoolean("debug_mode_$pkg", isModified)
+        PrefsBridge.putByApp("debug_mode_$pkg", isModified)
     }
 
     /**
      * 清除指定包名的检查结果
+     * 仅允许在应用进程调用，写入后由应用侧同步到 Hook 进程。
      */
     fun clearCheckResult(pkg: String) {
-        PrefsBridge.remove("debug_mode_$pkg")
+        PrefsBridge.removeByApp("debug_mode_$pkg")
     }
 
     /**

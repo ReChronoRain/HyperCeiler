@@ -28,13 +28,13 @@ import android.os.Handler;
 import android.util.Pair;
 import android.view.View;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import java.util.Iterator;
@@ -63,12 +63,13 @@ public class CleanOpenMenu extends BaseHook {
                         try {
                             if (!name.contains("pref_key_system_framework_clean_open_apps")) return;
 
+                            PrefsBridge.removeHookCache(name);
                             switch (type) {
                                 case PrefType.StringSet ->
-                                    PrefsBridge.put(name, PrefsBridge.getStringSet(name));
+                                    PrefsBridge.putHookCache(name, PrefsBridge.getStringSet(name));
 
                                 case PrefType.Integer ->
-                                    PrefsBridge.put(name, PrefsBridge.getInt(name, 0));
+                                    PrefsBridge.putHookCache(name, PrefsBridge.getInt(name, 0));
                             }
                         } catch (Throwable t) {
                             XposedLog.e(TAG, getPackageName(), t);

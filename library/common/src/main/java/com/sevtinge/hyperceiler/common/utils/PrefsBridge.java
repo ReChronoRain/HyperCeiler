@@ -3,18 +3,25 @@ package com.sevtinge.hyperceiler.common.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PrefsBridge {
 
+    private static final String TAG = "PrefsBridge";
     public static final String PREFS_NAME = "hyperceiler_prefs";
+    private static final Set<String> sWarnedHookWrites = Collections.synchronizedSet(new HashSet<>());
+    private static final Map<String, Object> sHookCache = new ConcurrentHashMap<>();
 
     // App 进程本地存储句柄
     private static SharedPreferences mPhysicalPrefs;
@@ -39,6 +46,7 @@ public class PrefsBridge {
 
     /**
      * Hook 进程初始化：在 Xposed 模块入口中调用
+     * Hook 进程中的偏好设置仅支持读取，不应在该进程内执行写入。
      *
      * @param remote 传入 LSPosed 提供的远程 SharedPreferences 对象
      */
@@ -60,6 +68,11 @@ public class PrefsBridge {
 
     /**
      * 获取原生 SharedPreferences 对象
+     * <p>
+     * 该方法仅用于直接读取底层 SharedPreferences。
+     * 不要对返回值调用 edit() 进行写入，否则会绕过应用侧同步逻辑，
+     * Hook 进程下还可能直接命中只读实现。
+     * 如需持久化写入，请使用 putByApp/removeByApp/clearAllByApp。
      *
      * @return 根据当前进程环境返回物理句柄或远程句柄
      */
@@ -67,58 +80,105 @@ public class PrefsBridge {
         return getImpl();
     }
 
+    public static boolean isHookProcess() {
+        return isHookProcess;
+    }
+
+    /**
+     * 仅更新 Hook 进程内的临时缓存，不会写入真实 prefs，也不会触发远端同步。
+     * 适用于兼容旧版 mPrefsMap 的“刷新本地可见值”场景。
+     */
+    public static void putHookCache(String key, @Nullable Object value) {
+        String rKey = wrap(key);
+        if (value == null) {
+            sHookCache.remove(rKey);
+            return;
+        }
+        if (value instanceof Set<?> setValue) {
+            LinkedHashSet<String> stringSet = new LinkedHashSet<>();
+            for (Object item : setValue) {
+                if (item instanceof String str) {
+                    stringSet.add(str);
+                }
+            }
+            sHookCache.put(rKey, stringSet);
+            return;
+        }
+        sHookCache.put(rKey, value);
+    }
+
+    public static void removeHookCache(String key) {
+        sHookCache.remove(wrap(key));
+    }
+
+    public static void clearHookCache() {
+        sHookCache.clear();
+    }
+
     private static String wrap(String key) {
         return (key != null && !key.startsWith("prefs_key_")) ? "prefs_key_" + key : key;
     }
 
-    // --- 写入方法族 (支持双轨同步与物理强制落盘) ---
+    // --- 写入方法族 ---
+    // 约定：所有写入都应由应用进程发起，再同步到远程。
 
     public static void putBoolean(String key, boolean val) {
-        put(key, val);
+        putByApp(key, val);
     }
 
     public static void putString(String key, String val) {
-        put(key, val);
+        putByApp(key, val);
     }
 
     public static void putInt(String key, int val) {
-        put(key, val);
+        putByApp(key, val);
     }
 
     public static void putLong(String key, long val) {
-        put(key, val);
+        putByApp(key, val);
     }
 
     public static void putFloat(String key, float val) {
-        put(key, val);
+        putByApp(key, val);
     }
 
     public static void putStringSet(String key, Set<String> vals) {
-        put(key, vals);
+        putByApp(key, vals);
     }
 
-    // 核心写入逻辑：本地与远程双写，保持 UI/Hook 两端一致。
-    public static void put(String key, Object value) {
+    /**
+     * 应用进程写入入口：先更新本地，再同步到远程。
+     * Hook 进程调用会被忽略并输出警告。
+     */
+    public static void putByApp(String key, Object value) {
         String rKey = wrap(key);
-        if (mPhysicalPrefs != null) {
-            SharedPreferences.Editor editor = mPhysicalPrefs.edit();
-            performPut(editor, rKey, value);
-            editor.apply();
-        }
-        if (mRemotePrefs != null) {
-            SharedPreferences.Editor editor = mRemotePrefs.edit();
-            performPut(editor, rKey, value);
-            editor.apply();
-        }
+        if (warnAndSkipIfHookWrite("put", rKey)) return;
+        applyPut(mPhysicalPrefs, rKey, value, "physical");
+        applyPut(mRemotePrefs, rKey, value, "remote");
+    }
+
+    /**
+     * 兼容旧调用，语义等同于 {@link #putByApp(String, Object)}。
+     */
+    public static void put(String key, Object value) {
+        putByApp(key, value);
     }
 
     /**
      * 移除特定配置项
      */
-    public static void remove(String key) {
+    public static void removeByApp(String key) {
         String rKey = wrap(key);
-        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().remove(rKey).apply();
-        if (mRemotePrefs != null) mRemotePrefs.edit().remove(rKey).apply();
+        if (warnAndSkipIfHookWrite("remove", rKey)) return;
+        applyRemove(mPhysicalPrefs, rKey, "physical");
+        applyRemove(mRemotePrefs, rKey, "remote");
+    }
+
+    /**
+     * 兼容旧调用，语义等同于 {@link #removeByApp(String)}。
+     */
+    public static void remove(String key) {
+        removeByApp(key);
     }
 
     // --- 读取方法 (自动根据当前环境切换读取源) ---
@@ -134,14 +194,18 @@ public class PrefsBridge {
      * 读取布尔值
      */
     public static boolean getBoolean(String key, boolean def) {
-        return requireImpl().getBoolean(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        return cached instanceof Boolean ? (Boolean) cached : requireImpl().getBoolean(rKey, def);
     }
 
     /**
      * 读取字符串
      */
     public static String getString(String key, String def) {
-        return requireImpl().getString(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        return cached instanceof String ? (String) cached : requireImpl().getString(rKey, def);
     }
 
     /**
@@ -163,21 +227,27 @@ public class PrefsBridge {
      * 读取整型，包含 String 转 Int 的鲁棒性处理
      */
     public static int getInt(String key, int def) {
-        return requireImpl().getInt(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        return cached instanceof Integer ? (Integer) cached : requireImpl().getInt(rKey, def);
     }
 
     /**
      * 读取长整型
      */
     public static long getLong(String key, long def) {
-        return requireImpl().getLong(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        return cached instanceof Long ? (Long) cached : requireImpl().getLong(rKey, def);
     }
 
     /**
      * 读取浮点型
      */
     public static float getFloat(String key, float def) {
-        return requireImpl().getFloat(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        return cached instanceof Float ? (Float) cached : requireImpl().getFloat(rKey, def);
     }
 
     /**
@@ -192,7 +262,18 @@ public class PrefsBridge {
      */
     @Nullable
     public static Set<String> getStringSet(String key, @Nullable Set<String> def) {
-        Set<String> value = requireImpl().getStringSet(wrap(key), def);
+        String rKey = wrap(key);
+        Object cached = sHookCache.get(rKey);
+        if (cached instanceof Set<?> setValue) {
+            LinkedHashSet<String> result = new LinkedHashSet<>();
+            for (Object item : setValue) {
+                if (item instanceof String str) {
+                    result.add(str);
+                }
+            }
+            return result;
+        }
+        Set<String> value = requireImpl().getStringSet(rKey, def);
         return value == null ? null : new LinkedHashSet<>(value);
     }
 
@@ -261,18 +342,70 @@ public class PrefsBridge {
     private static void syncPhysicalToRemote() {
         if (mPhysicalPrefs == null || mRemotePrefs == null) return;
         Map<String, ?> all = mPhysicalPrefs.getAll();
-        SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
-        for (Map.Entry<String, ?> entry : all.entrySet()) {
-            performPut(remoteEdit, entry.getKey(), entry.getValue());
+        try {
+            SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
+            for (Map.Entry<String, ?> entry : all.entrySet()) {
+                performPut(remoteEdit, entry.getKey(), entry.getValue());
+            }
+            remoteEdit.apply();
+        } catch (UnsupportedOperationException e) {
+            Log.w(TAG, "Remote SharedPreferences is read-only while syncing from app process.", e);
         }
-        remoteEdit.apply();
     }
 
     /**
      * 一键重置：清空所有本地与远程数据
      */
+    public static void clearAllByApp() {
+        if (warnAndSkipIfHookWrite("clearAll", PREFS_NAME)) return;
+        applyClear(mPhysicalPrefs, "physical");
+        applyClear(mRemotePrefs, "remote");
+        clearHookCache();
+    }
+
+    /**
+     * 兼容旧调用，语义等同于 {@link #clearAllByApp()}。
+     */
     public static void clearAll() {
-        if (mPhysicalPrefs != null) mPhysicalPrefs.edit().clear().apply();
-        if (mRemotePrefs != null) mRemotePrefs.edit().clear().apply();
+        clearAllByApp();
+    }
+
+    private static boolean warnAndSkipIfHookWrite(String operation, String key) {
+        if (!isHookProcess) return false;
+        String warnKey = operation + ":" + key;
+        if (sWarnedHookWrites.add(warnKey)) {
+            Log.w(TAG, "Ignored prefs " + operation + " for " + key
+                + " in hook process. Hook processes are read-only; perform writes from the app process instead.");
+        }
+        return true;
+    }
+
+    private static void applyPut(@Nullable SharedPreferences prefs, String key, Object value, String source) {
+        if (prefs == null) return;
+        try {
+            SharedPreferences.Editor editor = prefs.edit();
+            performPut(editor, key, value);
+            editor.apply();
+        } catch (UnsupportedOperationException e) {
+            Log.w(TAG, "Failed to put " + key + " to " + source + " prefs because the implementation is read-only.", e);
+        }
+    }
+
+    private static void applyRemove(@Nullable SharedPreferences prefs, String key, String source) {
+        if (prefs == null) return;
+        try {
+            prefs.edit().remove(key).apply();
+        } catch (UnsupportedOperationException e) {
+            Log.w(TAG, "Failed to remove " + key + " from " + source + " prefs because the implementation is read-only.", e);
+        }
+    }
+
+    private static void applyClear(@Nullable SharedPreferences prefs, String source) {
+        if (prefs == null) return;
+        try {
+            prefs.edit().clear().apply();
+        } catch (UnsupportedOperationException e) {
+            Log.w(TAG, "Failed to clear " + source + " prefs because the implementation is read-only.", e);
+        }
     }
 }

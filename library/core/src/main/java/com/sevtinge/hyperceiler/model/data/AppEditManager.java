@@ -135,7 +135,7 @@ public class AppEditManager implements IEditCallback {
 
     private void saveToSharedPreferences() {
         try {
-            PrefsBridge.putStringSet(mKey, new LinkedHashSet<>(mSelectedApps));
+            PrefsBridge.putByApp(mKey, new LinkedHashSet<>(mSelectedApps));
         } catch (Exception e) {
             Log.e("AppEditManager", "Error saving to shared preferences", e);
         }

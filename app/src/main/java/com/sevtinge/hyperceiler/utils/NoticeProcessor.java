@@ -19,20 +19,20 @@
 
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -321,7 +321,7 @@ public class NoticeProcessor {
             .setTitle(result.title)
             .setMessage(result.content)
             .setPositiveButton(android.R.string.ok, (d, which) -> {
-                PrefsBridge.putInt("prefs_key_notice_id", result.id);
+                PrefsBridge.putByApp("prefs_key_notice_id", result.id);
             })
             .create();
 

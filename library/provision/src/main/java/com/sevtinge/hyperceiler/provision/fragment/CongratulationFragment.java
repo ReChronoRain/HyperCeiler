@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.provision.fragment;
 
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -38,6 +37,7 @@ import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
 import com.sevtinge.hyperceiler.provision.utils.Utils;
 
+import fan.animation.Folme;
 import fan.animation.FolmeEase;
 import fan.animation.IStateStyle;
 import fan.animation.ITouchStyle;
@@ -45,11 +45,9 @@ import fan.animation.base.AnimConfig;
 import fan.animation.controller.AnimState;
 import fan.animation.listener.TransitionListener;
 import fan.animation.property.ViewProperty;
-import fan.provision.OobeUtils;
-
-import fan.animation.Folme;
 import fan.core.utils.MiuiBlurUtils;
 import fan.internal.utils.LiteUtils;
+import fan.provision.OobeUtils;
 
 public class CongratulationFragment extends BaseFragment implements IOnFocusListener {
 
@@ -336,8 +334,10 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void startHome() {
-        getContext().getSharedPreferences("pref_oobe_state", Context.MODE_PRIVATE).edit()
-            .putBoolean("is_provisioned", true).apply();
+        boolean isDebugOobe = OobeUtils.isDebugOobeMode(requireActivity());
+        if (!isDebugOobe) {
+            OobeUtils.setProvisioned(requireContext(), true);
+        }
         try {
             ActivityOptions customTaskAnimation = ActivityOptions.makeCustomAnimation(requireContext(), R.anim.enter_home_anim, R.anim.provision_out_anim);
             startActivity(getHomeIntent(), customTaskAnimation.toBundle());
@@ -351,7 +351,12 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private Intent getHomeIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setPackage(requireContext().getPackageName());
-        intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.SplashActivity");
+        if (OobeUtils.isDebugOobeMode(requireActivity())) {
+            intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.HomePageActivity");
+            intent.putExtra(OobeUtils.EXTRA_DEBUG_OOBE, true);
+        } else {
+            intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.SplashActivity");
+        }
         // 清除掉引导页所在的整个任务栈
         // 这样跳转后，栈内只有主页，按返回键会直接回到手机桌面
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
