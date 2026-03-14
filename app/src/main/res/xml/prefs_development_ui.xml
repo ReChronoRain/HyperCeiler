@@ -44,7 +44,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="PreferenceCategory">
-        <com.sevtinge.hyperceiler.common.prefs.PreferenceHeader
+        <com.sevtinge.hyperceiler.prefs.PreferenceHeader
             android:icon="@drawable/ic_hyperceiler_settings_v140"
             android:title="PreferenceHeader" />
 

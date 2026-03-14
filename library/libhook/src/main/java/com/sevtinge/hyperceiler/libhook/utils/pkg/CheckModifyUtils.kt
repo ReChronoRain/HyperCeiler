@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.pkg
 
 import android.content.Context
 import android.content.pm.PackageManager
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import java.security.MessageDigest
 
 object CheckModifyUtils {
@@ -32,11 +32,11 @@ object CheckModifyUtils {
      * 返回 true 表示被修改
      */
     fun getCheckResult(context: Context, pkg: String): Boolean {
-        return PrefsUtils.getSharedBoolPrefs(context, "prefs_key_debug_mode_$pkg", false)
+        return PrefsBridge.getBoolean("debug_mode_$pkg", false)
     }
 
     fun getCheckResult(pkg: String): Boolean {
-        return PrefsUtils.mPrefsMap.getBoolean("debug_mode_$pkg")
+        return PrefsBridge.getBoolean("debug_mode_$pkg")
     }
 
     /**
@@ -44,14 +44,14 @@ object CheckModifyUtils {
      */
     fun setCheckResult(pkg: String, isModified: Boolean) {
         clearCheckResult(pkg)
-        PrefsUtils.editor().putBoolean("prefs_key_debug_mode_$pkg", isModified).commit()
+        PrefsBridge.putBoolean("debug_mode_$pkg", isModified)
     }
 
     /**
      * 清除指定包名的检查结果
      */
     fun clearCheckResult(pkg: String) {
-        PrefsUtils.editor().remove("prefs_key_debug_mode_$pkg").commit()
+        PrefsBridge.remove("debug_mode_$pkg")
     }
 
     /**

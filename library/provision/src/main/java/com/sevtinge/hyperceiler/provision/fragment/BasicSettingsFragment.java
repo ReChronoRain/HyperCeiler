@@ -23,23 +23,34 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
 import com.sevtinge.hyperceiler.provision.R;
 
+import fan.preference.DropDownPreference;
 import fan.preference.PreferenceFragment;
 
 public class BasicSettingsFragment extends PreferenceFragment {
 
     private boolean mIsScrolledBottom = false;
 
+    SwitchPreference mHideAppIcon;
+    DropDownPreference mIconModePreference;
+    DropDownPreference mIconModeValue;
 
     private RecyclerView mRecyclerView;
 
-
     @Override
     public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+        PrefsConfigurator.setup(this);
         setPreferencesFromResource(R.xml.provision_basic_settings, rootKey);
+
+        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mIconModePreference = findPreference("prefs_key_settings_icon");
+        mIconModeValue = findPreference("prefs_key_settings_icon_mode");
     }
 
     @Override
@@ -56,6 +67,21 @@ public class BasicSettingsFragment extends PreferenceFragment {
                 }
             }
         });
+
+        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
+        mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mIconModePreference = findPreference("prefs_key_settings_icon");
+        mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+
+        mHideAppIcon.setChecked(PrefsBridge.getBoolean("prefs_key_settings_hide_app_icon", false));
+        mIconModePreference.setValueIndex(mIconMode);
+        mIconModeValue.setValueIndex(PrefsBridge.getStringAsInt("prefs_key_settings_icon_mode", 0));
+
+        setIconMode(mIconMode);
+        mIconModePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            setIconMode(Integer.parseInt((String) newValue));
+            return true;
+        });
     }
 
     public void adjustNextView() {
@@ -66,6 +92,10 @@ public class BasicSettingsFragment extends PreferenceFragment {
                 ((TextView) mNextView).setText(R.string.more);
             }
         }*/
+    }
+
+    private void setIconMode(int mode) {
+        mIconModeValue.setVisible(mode != 0);
     }
 
 }

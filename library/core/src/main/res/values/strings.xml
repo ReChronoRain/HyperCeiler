@@ -18,8 +18,6 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
 <resources>
-    <string name="pull_to_enter_private">Pull down to enter the private space</string>
-    <string name="release_enter_private">Release to enter the private space</string>
 
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>
@@ -45,20 +43,14 @@
     <string name="reboot_failed">Reboot failed. Please check if HyperCeiler has been granted Root/Su permission.</string>
     <string name="experimental_features">Experimental features</string>
     <!--HyperCeiler Tips-->
-    <string name="error">Error</string>
     <string name="warn">Attention</string>
-    <string name="module_app_failed">A fatal error occurred in the module</string>
-    <string name="module_app_copy_desc">Press and hold the content to copy</string>
     <string name="module_title_1">Basic message</string>
     <string name="module_title_2">Stack message</string>
     <string name="app_error_desc">HyperCeiler was unexpectedly closed. To help us fix this, provide the information below:\n\nPress and hold any message to copy everything.</string>
-    <string name="app_exit">OK</string>
-    <string name="safe_mode_desc">%1$s has entered Safe mode due to multiple crashes, and HyperCeiler features has been temporarily disabled.</string>
     <string name="safe_mode_history">View exception records</string>
     <string name="safe_mode_cancel">Disable Safe mode</string>
     <string name="safe_mode_ok">Cancel</string>
     <string name="safe_mode_later_title">Tip</string>
-    <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
     <string name="safe_mode_recorder_title">Exception records</string>
     <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Class</string>
@@ -73,18 +65,8 @@
     <string name="error_version_name">Version name</string>
     <string name="error_git_hash">Git hash</string>
     <string name="error_build_time">Build time</string>
-    <string name="copy_ok">Copied to clipboard</string>
-    <string name="notification_channel_app_crash_name">The app is running abnormally</string>
-    <string name="notification_title_message_emergency_crash">%s has crashed multiple times</string>
-    <string name="notification_content_message">Click to view details</string>
-    <string name="notification_view">View</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there\'s a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
-    <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
-    <string name="headtip_warn_unsupport_xposed">The Xposed framework you\'re currently using may cause some features to malfunction. If you experience these issues, try using a different version of the Xposed framework and check if the issue persists.</string>
-    <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
-    <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you\'re using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
     <string name="headtip_tip_auto_safe_mode">Safe mode can unhook some apps in time when they crash multiple times to ensure security. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Safe mode.</string>
-    <string name="headtip_tip_long_press_to_copy">You can select text after long or double press, or copy it and send it back to the developer.</string>
     <string name="happy_birthday_hyperceiler">Today is HyperCeiler\'s birthday!\nThank you for your support over the past year, and let\'s continue to work together this year!</string>
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
@@ -92,6 +74,7 @@
     <string name="unsupported_system_func">This feature isn\'t supported in the current system version</string>
     <string name="supported_system_func">This feature is officially supported in the current system version</string>
     <string name="feature_doing_func">The current feature is under development, stay tuned.</string>
+    <string name="search_result_not_available">This feature may not be supported on this device or is hidden under some options</string>
     <!--System UI-->
     <string name="system_ui">System UI</string>
     <!--System launcher-->
@@ -101,75 +84,14 @@
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Security</string>
     <!--Other-->
-    <string name="demo" translatable="false">Demo</string>
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
-    <string name="log_level">Log level</string>
-    <string name="log_level_none">Disabled</string>
-    <string name="log_viewer">Log viewer</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
     <string name="search_apps_hint">Search %d apps</string>
     <string name="load_apps_failed">Failed to load application list</string>
-    <string name="logo_egg_NotificationName">Easter egg notification</string>
-    <string name="logo_egg_NotificationName_tips">This is an Easter egg notification</string>
-    <string name="logo_egg_Notification_tips">Please enable notifications in Settings to see the Easter eggs</string>
-    <string name="logo_egg1">Wow, you actually found this place, that\'s amazing!</string>
-    <string name="logo_egg2">Damn, will I be found even if I hide here…</string>
-    <string name="logo_egg3">There are no Android eggs here, but there are HyperCeiler eggs!</string>
-    <string name="uninstall_title">Uninstall HyperCeiler</string>
-    <string name="uninstall_summary">After uninstalling HyperCeiler, the module configuration remains in the Xposed framework database. To remove it completely, first go to the module settings and reset the module configuration, then uninstall.</string>
     <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions of this scope have been disabled. Please try switching to an app package released by official Xiaomi, or go to "HyperCeiler Settings - Developer options - Debug mode" to specify the mounted version and try again.</string>
-    <string name="debug_mode">Debug mode</string>
-    <string name="open_debug_mode_tips">This option is only used to correctly handle the mounted version of the target app and should be used only when necessary.\nFor the app being debugged, functionality cannot be guaranteed. If you enable this, please **do not report** any issues that occur with that target app to the developer.</string>
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>
     <string name="debug_mode_switch">Debug version</string>
-    <string name="debug_mode_home_version">Set home version code</string>
-    <string name="debug_mode_home_version_desc">A version number that is too high will still be blocked, so please fill it in carefully.</string>
 
-    <!-- LogViewer -->
-    <string name="log_search_hint">Search logs</string>
-    <string name="log_type_label">Log type</string>
-    <string name="log_level_label">Level</string>
-    <string name="log_tag_label">Tag</string>
-    <string name="log_type_app">App Log</string>
-    <string name="log_type_xposed">Xposed Log</string>
-    <string name="log_filter_stats">Log list (%1$d/%2$d)</string>
-    <string name="log_loading">Log loading…</string>
-    <string name="log_filter_all">All</string>
-    <string name="log_tag_other">Other</string>
-    <string name="log_menu_clear">Clear logs</string>
-    <string name="log_menu_export">Export logs</string>
-    <string name="log_menu_share">Share logs</string>
-    <string name="log_clear_title">Clear logs</string>
-    <string name="log_clear_all_message">Are you sure you want to clear all logs? This includes app logs and Xposed logs. This action cannot be undone.</string>
-    <string name="log_clear_success">Logs cleared</string>
-    <string name="log_clear_failed">Failed to clear logs</string>
-    <string name="log_clear_in_progress">Clearing logs…</string>
-    <string name="log_export_preparing">Preparing export…</string>
-    <string name="log_export_success">Logs exported successfully</string>
-    <string name="log_export_failed">Failed to export logs</string>
-    <string name="log_share_title">Share logs</string>
-    <string name="log_share_preparing">Preparing to share…</string>
-    <string name="log_share_failed">Failed to share logs</string>
-    <string name="log_share_text">HyperCeiler log file</string>
-    <string name="log_copy">Copy</string>
-    <string name="log_copy_success">Logs copied to clipboard</string>
-
-    <!-- Log detail dialog -->
-    <string name="log_detail_title">Log Details</string>
-    <string name="log_detail_time">Time</string>
-    <string name="log_detail_level">Level</string>
-    <string name="log_detail_tag">Tag</string>
-    <string name="log_detail_message">Details</string>
-
-    <!-- Log levels -->
-    <string name="log_level_crash" translatable="false">Crash</string>
-    <string name="log_level_debug" translatable="false">Debug</string>
-    <string name="log_level_info" translatable="false">Info</string>
-    <string name="log_level_warn" translatable="false">Warn</string>
-    <string name="log_level_error" translatable="false">Error</string>
-    <string name="xmsf">Xiaomi Service Framework</string>
-    <string name="xmsf_unlock_foucs_app_sign_white_list">Unlock Focus Notification Whitelist Signature Verification</string>
-    <string name="health_unlock_foucs_app_sign_white_list_title">Allow all apps to send focus notifications to the watch/bracelet.</string>
 </resources>

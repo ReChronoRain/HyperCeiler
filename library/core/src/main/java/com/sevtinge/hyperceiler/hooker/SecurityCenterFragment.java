@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.hooker;
 
-import com.sevtinge.hyperceiler.common.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 

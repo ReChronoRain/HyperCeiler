@@ -48,13 +48,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
-import com.sevtinge.hyperceiler.common.utils.MainActivityContextHelper;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
+import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
-import com.sevtinge.hyperceiler.main.banner.HomePageBannerHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -118,7 +117,7 @@ public class DeviceInfoBuilder {
             propertiesSystem.put("InternationalBuild", String.valueOf(isInternational()));
             propertiesSystem.put("Host", getHost());
             propertiesSystem.put("BuildDate", getBuildDate());
-            propertiesSystem.put("UnofficialRom", String.valueOf(HomePageBannerHelper.getIsUnofficialRom(context)));
+            propertiesSystem.put("UnofficialRom", String.valueOf(HomePageBannerManager.isUnofficialRom(context)));
         } catch (Exception e) {
             Log.w(TAG, "Failed to get system info", e);
         }
@@ -127,9 +126,9 @@ public class DeviceInfoBuilder {
         try {
             List<DeviceHelper.Module.ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
 
-            if (!module.isEmpty()) {
-                propertiesCheck.put("XposedManger", module.getFirst().extractName());
-                propertiesCheck.put("XposedMangerVersion", module.getFirst().formattedVersion());
+            if (module != null && !module.isEmpty()) {
+                propertiesCheck.put("XposedManger", module.get(0).extractName());
+                propertiesCheck.put("XposedMangerVersion", module.get(0).formattedVersion());
             } else {
                 propertiesCheck.put("XposedManger", "N/A");
                 propertiesCheck.put("XposedMangerVersion", "N/A");
@@ -138,7 +137,7 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
             propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
-                PrefsUtils.getSharedBoolPrefs(context, "prefs_key_development_debug_mode", false)));
+                PrefsBridge.getBoolean("prefs_key_development_debug_mode", false)));
             if ("NOT_CHECKED".equals(LoggerHealthChecker.diagSummary)) {
                 LoggerHealthChecker.isLoggerAlive();
             }

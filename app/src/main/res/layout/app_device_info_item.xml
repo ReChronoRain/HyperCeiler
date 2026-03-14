@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@android:color/transparent"
+    android:clipChildren="false"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="@dimen/preference_item_padding"
+    android:paddingTop="@dimen/miuix_preference_item_padding_top"
+    android:paddingBottom="@dimen/miuix_preference_item_padding_bottom">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fadingEdge="horizontal"
+        android:hyphenationFrequency="full"
+        android:singleLine="true"
+        android:text="@string/device_name"
+        android:textAppearance="@style/TextAppearance.PreferenceList"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@id/summary"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:fadingEdge="horizontal"
+        android:textAlignment="textEnd"
+        android:maxLines="10"
+        android:layout_weight="1"
+        android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
+        android:textColor="@color/app_device_info_item_summary_color"
+        android:textSize="14sp" />
+
+</LinearLayout>

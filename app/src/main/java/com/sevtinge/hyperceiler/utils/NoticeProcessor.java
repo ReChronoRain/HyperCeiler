@@ -19,8 +19,8 @@
 
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.appLanguages;
-import static com.sevtinge.hyperceiler.common.utils.LanguageHelper.localeFromAppLanguage;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
+import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
@@ -32,7 +32,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,10 +54,8 @@ public class NoticeProcessor {
      * Main entry point, used to check whether the display conditions are met and to package the display results
      */
     public static NoticeResult process(Context context) {
-        AndroidLog.e("NoticeProcessor running");
         try {
             String json = request(NOTICE_URL);
-            AndroidLog.e("NoticeProcessor "+json);
             if (json == null || json.isEmpty()) return null;
 
             Notice notice = parseNotice(new JSONObject(json));
@@ -134,7 +132,7 @@ public class NoticeProcessor {
      */
     private static boolean checkNoticeValid(Notice n, Context context) {
         long now = System.currentTimeMillis() / 1000;
-        if (!n.alwaysShow && n.id == PrefsUtils.getSharedIntPrefs(context, "prefs_key_notice_id", 0)) return false;
+        if (!n.alwaysShow && n.id == PrefsBridge.getInt("prefs_key_notice_id", 0)) return false;
 
         // Time window
         if (n.startTime > 0 && now < n.startTime) return false;
@@ -166,9 +164,9 @@ public class NoticeProcessor {
         }
 
         // HyperCeiler language
-        int selectedLang = Integer.parseInt(PrefsUtils.getSharedStringPrefs(context, "prefs_key_settings_app_language", "0"));
-        if (selectedLang < 0 || selectedLang >= appLanguages.length) selectedLang = 0;
-        Locale locale = localeFromAppLanguage(appLanguages[selectedLang]);
+        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
+        if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
+        Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
         String lang = locale.toLanguageTag();
         if (!matchStringListAllowAll(n.lang, lang)) {
             return false;
@@ -323,7 +321,7 @@ public class NoticeProcessor {
             .setTitle(result.title)
             .setMessage(result.content)
             .setPositiveButton(android.R.string.ok, (d, which) -> {
-                PrefsUtils.putInt("prefs_key_notice_id", result.id);
+                PrefsBridge.putInt("prefs_key_notice_id", result.id);
             })
             .create();
 

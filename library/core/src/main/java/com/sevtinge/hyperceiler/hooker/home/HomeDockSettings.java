@@ -27,7 +27,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
@@ -64,7 +64,7 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
         }
 
 
-        int mBlurMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_home_dock_add_blur", "0"));
+        int mBlurMode = PrefsBridge.getStringAsInt("prefs_key_home_dock_add_blur", 0);
         mDockBackgroundBlurEnable = findPreference("prefs_key_home_dock_add_blur");
 
         if (isMoreHyperOSVersion(3f)) {

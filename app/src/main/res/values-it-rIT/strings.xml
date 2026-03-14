@@ -16,7 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">Cronologia di ricerca</string>
+    <string name="search_history_clear_description">Cancella cronologia di ricerca</string>
+    <string name="revert">Ripristina</string>
+    <string name="custom_order_title">Personalizzato</string>
+    <string name="app_version_update">Nuova versione disponibile</string>
+    <string name="developer_build">Build di sviluppo</string>
+    <string name="device_name">Nome dispositivo</string>
+    <string name="app_device_version_parameters">Versione OS</string>
+    <string name="pull_to_enter_private">Scorri verso il basso per entrare nello spazio privato</string>
+    <string name="release_enter_private">Rilascia per entrare nello spazio privato</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Seleziona tutto</string>
     <string name="miuix_appcompat_cancel_description">Cancella</string>
@@ -28,6 +40,7 @@
     <string name="miuix_appcompat_search_input_description">Cerca</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Altro</string>
     <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
+
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Suggerimento</string>
     <string name="root">Alcune funzioni non sono disponibili senza l\'autorizzazione Root/Su</string>
@@ -39,18 +52,69 @@
     <string name="start_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <string name="pid_failed">L\'applicazione selezionata non è in esecuzione e non è necessario riavviarla.</string>
     <string name="reboot_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
+    <string name="experimental_features">Funzionalita sperimentali</string>
+
     <!--HyperCeiler Tips-->
+    <string name="error">Errore</string>
+    <string name="warn">Avviso</string>
+    <string name="module_app_failed">Si e verificato un errore fatale nel modulo</string>
+    <string name="module_app_copy_desc">Tieni premuto il contenuto per copiarlo</string>
+    <string name="module_title_1">Messaggio di base</string>
+    <string name="module_title_2">Messaggio dello stack</string>
+    <string name="app_error_desc">HyperCeiler e stato chiuso in modo imprevisto. Per aiutarci a risolvere il problema, fornisci le informazioni seguenti:\n\nTieni premuto qualsiasi messaggio per copiare tutto.</string>
+    <string name="app_exit">OK</string>
+    <string name="safe_mode_desc">%1$s e entrato in modalita sicura dopo ripetuti arresti anomali e le funzioni di HyperCeiler sono state temporaneamente disabilitate.</string>
+    <string name="safe_mode_history">Visualizza i record delle eccezioni</string>
+    <string name="safe_mode_cancel">Disattiva modalita sicura</string>
+    <string name="safe_mode_ok">Annulla</string>
+    <string name="safe_mode_later_title">Suggerimento</string>
+    <string name="safe_mode_later_desc">%1$s e ancora in modalita sicura e le funzioni di HyperCeiler sono state disabilitate. Disattivare la modalita sicura?</string>
+    <string name="safe_mode_recorder_title">Registri delle eccezioni</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Classe</string>
+    <string name="safe_mode_recorder_method">Metodo</string>
+    <string name="safe_mode_recorder_line">Riga</string>
+    <string name="safe_mode_recorder_msg">Messaggio eccezione</string>
+    <string name="safe_mode_recorder_st">Traccia dello stack</string>
+    <string name="error_message">Messaggio eccezione</string>
+    <string name="error_type">Tipo di eccezione</string>
+    <string name="error_file_name">Nome file</string>
+    <string name="error_time">Ora della registrazione</string>
+    <string name="error_version_name">Nome versione</string>
+    <string name="error_git_hash">Hash Git</string>
+    <string name="error_build_time">Ora di compilazione</string>
+    <string name="copy_ok">Copiato negli appunti</string>
+    <string name="notification_channel_app_crash_name">L\'app funziona in modo anomalo</string>
+    <string name="notification_title_message_emergency_crash">%s si e arrestata piu volte</string>
+    <string name="notification_content_message">Tocca per vedere i dettagli</string>
+    <string name="notification_view">Visualizza</string>
     <string name="tip_default">Suggerimento: ecco il suggerimento predefinito. Se riesci a vedermi significa che c\'è un problema con HyperCeiler, segnalalo allo sviluppatore in modo tempestivo ed efficace.</string>
     <string name="headtip_warn_not_offical_rom">La fonte della ROM che stai utilizzando potrebbe non essere ufficiale di Xiaomi e alcune funzioni potrebbero non funzionare, contatta il provider che stai utilizzando per i dettagli.</string>
+    <string name="headtip_warn_unsupport_xposed">Il framework Xposed che stai utilizzando potrebbe causare malfunzionamenti di alcune funzioni. Se riscontri questi problemi, prova a usare una versione diversa del framework Xposed e verifica se il problema persiste.</string>
+    <string name="headtip_warn_unsupport_sysver">Il dispositivo attuale esegue una versione di sistema non completamente adattata, il che puo causare anomalie nelle funzioni di HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">La verifica della firma non è riuscita e il la versione corrente che stai utilizzando potrebbe non provenire dalla versione ufficiale di Re.chronoRain e potrebbe contenere codice dannoso.</string>
+    <string name="headtip_tip_auto_safe_mode">La modalita sicura puo sganciare tempestivamente alcune app quando vanno in crash piu volte per garantire la sicurezza. Questa funzione richiede l\'ambito hook di System Framework. Consigliamo vivamente di abilitare l\'ambito System Framework per attivare la modalita sicura.</string>
+    <string name="headtip_tip_long_press_to_copy">Puoi selezionare il testo con una pressione prolungata o un doppio tocco, oppure copiarlo e inviarlo allo sviluppatore.</string>
+    <string name="happy_birthday_hyperceiler">Oggi e il compleanno di HyperCeiler!\nGrazie per il tuo supporto nell\'ultimo anno e continuiamo a lavorare insieme anche quest\'anno!</string>
+    <string name="headtip_tip_fuck_coolapk">Oggi nella storia: Sevtinge ha tenuto un importante discorso il 14 luglio 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Il servizio di log del dispositivo non funziona correttamente e le funzioni di HyperCeiler saranno limitate. Ripristina il servizio di log affinche possa funzionare normalmente.\nCodice errore: %1$s</string>
+    <string name="headtip_notice_dead_logger">Il servizio di log del dispositivo non funziona correttamente e le funzioni di HyperCeiler saranno limitate. Ripristina il servizio di log affinche possa funzionare normalmente.</string>
+    <string name="unsupported_system_func">Questa funzione non e supportata nella versione di sistema attuale</string>
+    <string name="supported_system_func">Questa funzione e ufficialmente supportata nella versione di sistema attuale</string>
+    <string name="feature_doing_func">Questa funzione e in fase di sviluppo, restate sintonizzati.</string>
+
     <!--System UI-->
     <string name="system_ui">UI sistema</string>
+
     <!--System launcher-->
     <string name="mihome">Avvio del sistema</string>
+
     <!--Settings-->
     <string name="system_settings">Impostazioni</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Strumenti di sicurezza</string>
+
     <!--Other-->
     <string name="exit">Esci</string>
     <string name="ignore">Ignora</string>
@@ -58,4 +122,58 @@
     <string name="log_level_none">Disabilita registro</string>
     <string name="disable_suggest">Disabilita suggerimento</string>
     <string name="enable_suggest">Abilita suggerimento</string>
+    <string name="logo_egg_NotificationName">Notifica dell\'Easter egg</string>
+    <string name="logo_egg_NotificationName_tips">Questa e una notifica dell\'Easter egg</string>
+    <string name="logo_egg_Notification_tips">Attiva le notifiche nelle impostazioni per vedere gli Easter egg</string>
+    <string name="logo_egg1">Wow, hai davvero trovato questo posto, incredibile!</string>
+    <string name="logo_egg2">Dannazione, mi troveranno anche se mi nascondo qui…</string>
+    <string name="logo_egg3">Qui non ci sono Android eggs, ma ci sono HyperCeiler eggs!</string>
+    <string name="uninstall_title">Disinstalla HyperCeiler</string>
+    <string name="uninstall_summary">Dopo aver disinstallato HyperCeiler, la configurazione del modulo rimane nel database del framework Xposed. Per rimuoverla completamente, vai prima nelle impostazioni del modulo e reimposta la configurazione del modulo, poi disinstalla.</string>
+    <string name="unsupported_func_tips">La fonte dell\'ambito di destinazione corrente potrebbe non essere ufficiale Xiaomi. Per motivi di sicurezza, tutte le funzioni per questo ambito sono state disabilitate. Prova a passare a un pacchetto app rilasciato da Xiaomi oppure vai su &quot;Impostazioni di HyperCeiler - Opzioni sviluppatore - Modalita debug&quot; per specificare la versione montata e riprovare.</string>
+    <string name="debug_mode">Modalita debug</string>
+    <string name="open_debug_mode_tips">Questa opzione serve solo a gestire correttamente la versione montata dell\'app di destinazione e dovrebbe essere usata solo quando necessario.\nPer l\'app in fase di debug non e possibile garantire il corretto funzionamento. Se abiliti questa opzione, **non segnalare** allo sviluppatore i problemi di quell\'app di destinazione.</string>
+    <string name="debug_mode_running">L\'ambito di destinazione corrente e in modalita debug. Se non e necessario, disattivalo.\nVersione attuale dell\'app: %1$s\nVersione di destinazione selezionata: %2$s\nHook applicato con successo: %3$s</string>
+    <string name="debug_mode_switch">Versione di debug</string>
+    <string name="debug_mode_home_version">Imposta il codice versione del launcher</string>
+    <string name="debug_mode_home_version_desc">Un numero di versione troppo alto verra comunque bloccato, quindi compilalo con attenzione.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">Cerca nei log</string>
+    <string name="log_type_label">Tipo di log</string>
+    <string name="log_level_label">Livello</string>
+    <string name="log_tag_label">Tag</string>
+    <string name="log_type_app">Log dell\'app</string>
+    <string name="log_type_xposed">Log di Xposed</string>
+    <string name="log_filter_stats">Elenco log (%1$d/%2$d)</string>
+    <string name="log_filter_all">Tutti</string>
+    <string name="log_tag_other">Altro</string>
+    <string name="log_menu_clear">Cancella log</string>
+    <string name="log_menu_export">Esporta log</string>
+    <string name="log_menu_share">Condividi log</string>
+    <string name="log_clear_title">Cancella log</string>
+    <string name="log_clear_all_message">Vuoi davvero cancellare tutti i log? Questo include i log dell\'app e i log di Xposed. L\'azione non puo essere annullata.</string>
+    <string name="log_clear_success">Log cancellati</string>
+    <string name="log_clear_failed">Impossibile cancellare i log</string>
+    <string name="log_clear_in_progress">Cancellazione dei log…</string>
+    <string name="log_export_preparing">Preparazione esportazione…</string>
+    <string name="log_export_success">Log esportati con successo</string>
+    <string name="log_export_failed">Esportazione dei log non riuscita</string>
+    <string name="log_share_title">Condividi log</string>
+    <string name="log_share_preparing">Preparazione condivisione…</string>
+    <string name="log_share_failed">Impossibile condividere i log</string>
+    <string name="log_share_text">File di log di HyperCeiler</string>
+    <string name="log_copy">Copia</string>
+    <string name="log_copy_success">Log copiati negli appunti</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Dettagli log</string>
+    <string name="log_detail_time">Ora</string>
+    <string name="log_detail_level">Livello</string>
+    <string name="log_detail_tag">Tag</string>
+    <string name="log_detail_message">Dettagli</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">Caricamento log…</string>
+    <string name="log_viewer">Visualizzatore log</string>
 </resources>

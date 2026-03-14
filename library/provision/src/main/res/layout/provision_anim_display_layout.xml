@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -18,8 +17,11 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:id="@+id/provision_preview_layout"
+    android:layout_width="@dimen/provision_preview_width"
+    android:layout_height="@dimen/provision_preview_height"
+    android:layout_gravity="center_horizontal"
+    android:visibility="gone">
 
     <ImageView
         android:id="@+id/provision_preview_img"

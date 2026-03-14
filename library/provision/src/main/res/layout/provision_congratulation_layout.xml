@@ -18,32 +18,16 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/enter_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:importantForAccessibility="no">
+    android:background="@color/miuix_default_color_surface_low_light">
 
-    <FrameLayout
+    <com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout
+        android:id="@+id/render_view_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.opengl.GLSurfaceView
-            android:id="@+id/gl_surface_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@null"
-            android:importantForAccessibility="no"
-            android:visibility="gone" />
-
-        <ImageView
-            android:id="@+id/background_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/provision_logo_image_bg"
-            android:contentDescription="@null"
-            android:importantForAccessibility="no"
-            android:scaleType="centerCrop" />
-    </FrameLayout>
+        android:layout_height="match_parent"
+        android:importantForAccessibility="no"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/content_view"
@@ -55,7 +39,7 @@
             android:id="@+id/space_top"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="20.0" />
+            android:layout_weight="18" />
 
         <RelativeLayout
             android:id="@+id/logo_content"
@@ -63,69 +47,77 @@
             android:layout_height="0dp"
             android:layout_weight="40.0">
 
-            <include
-                layout="@layout/provision_logo_image_wrapper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/logo_image_wrapper"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/logo_image_wrapper"
-                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/congratulation_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/provision_congratulation_logo_margin_top"
-                    android:fontFamily="mipro-medium"
-                    android:textColor="@color/provision_complete_title_color"
-                    android:textSize="@dimen/provision_congratulation_title_text_size_complete" />
+                <ImageView
+                    android:id="@+id/logo_image"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:contentDescription="@null"
+                    android:importantForAccessibility="no"
+                    android:layout_gravity="center"
+                    android:src="@drawable/provision_logo_image_lite" />
+
+                <ImageView
+                    android:id="@+id/text_logo_image"
+                    android:layout_width="@dimen/provision_startup_logo_width_thirteen"
+                    android:layout_height="@dimen/provision_startup_logo_height_thirteen"
+                    android:layout_marginTop="20dp"
+                    android:src="@drawable/provision_text_logo_image_lite" />
 
                 <TextView
-                    android:id="@+id/congratulation_label"
+                    android:id="@+id/system_state_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/provision_congratulation_slogan_margin_top_complete"
-                    android:fontFamily="mipro-medium"
-                    android:letterSpacing="0.29"
-                    android:textColor="@color/provision_slogan_text_color"
-                    android:textSize="@dimen/provision_congratulation_start_up_slogan_text_size" />
-
+                    android:layout_marginTop="30dp"
+                    android:fontFamily="mipro-regular"
+                    android:textColor="#BF000000"
+                    android:textSize="24sp" />
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/next"
-                android:layout_width="336dp"
-                android:layout_height="50dp"
+                android:id="@+id/next_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="bottom">
+                android:layout_marginBottom="44dp"
+                android:paddingHorizontal="20dp">
 
-                <View
-                    android:id="@+id/btn_bg"
+                <FrameLayout
+                    android:id="@id/next"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/provision_next_btn_background" />
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:maxWidth="336dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/provision_complete_text"
-                    android:textColor="#FFFFFFFF"
-                    android:textSize="17sp" />
+                    <View
+                        android:id="@+id/btn_bg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/provision_next_btn_background" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/provision_complete_text"
+                        android:textColor="#FFFFFFFF"
+                        android:textSize="17dp" />
+                </FrameLayout>
             </FrameLayout>
         </RelativeLayout>
 
-        <Space
+        <View
             android:id="@+id/space_bottom"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/provision_congratulation_end_bottom_margin" />
+            android:layout_weight="0.2" />
+
     </LinearLayout>
 </FrameLayout>

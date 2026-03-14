@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import java.io.BufferedReader
 import java.io.File
 import java.io.FileReader
@@ -111,7 +111,7 @@ object LogConfigManager {
     }
 
     private fun getDefaultLogLevel(): Int {
-        val level = mPrefsMap.getStringAsInt("log_level", 3)
+        val level = PrefsBridge.getStringAsInt("log_level", 3)
         return LogLevelManager.getEffectiveLogLevel(level)
     }
 }

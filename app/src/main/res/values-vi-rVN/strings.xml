@@ -16,9 +16,19 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  --><resources>
+  -->
+<resources>
+    <string name="search_history_description">Lịch sử tìm kiếm</string>
+    <string name="search_history_clear_description">Xóa lịch sử tìm kiếm</string>
+    <string name="revert">Khôi phục</string>
+    <string name="custom_order_title">Tùy chỉnh</string>
+    <string name="app_version_update">Có phiên bản mới</string>
+    <string name="developer_build">Bản phát triển</string>
+    <string name="device_name">Tên thiết bị</string>
+    <string name="app_device_version_parameters">Phiên bản OS</string>
     <string name="pull_to_enter_private">Kéo xuống để vào không gian riêng tư</string>
     <string name="release_enter_private">Thả ra để vào không gian riêng tư</string>
+
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Chọn tất cả</string>
     <string name="miuix_appcompat_cancel_description">Hủy</string>
@@ -30,6 +40,7 @@
     <string name="miuix_appcompat_search_input_description">Tìm kiếm</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Xem thêm</string>
     <string name="miuix_appcompat_action_mode_inverse">Đảo ngược</string>
+
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Mẹo</string>
     <string name="root">Một số tính năng không khả dụng nếu không có quyền Root/Su</string>
@@ -42,6 +53,7 @@
     <string name="pid_failed">Ứng dụng mục tiêu không chạy và không cần phải khởi động lại.</string>
     <string name="reboot_failed">Khởi động lại không thành công. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
     <string name="experimental_features">Tính năng thử nghiệm</string>
+
     <!--HyperCeiler Tips-->
     <string name="error">Lỗi</string>
     <string name="warn">Cảnh báo</string>
@@ -90,14 +102,19 @@
     <string name="unsupported_system_func">Tính năng này không được hỗ trợ trong phiên bản hệ thống hiện tại</string>
     <string name="supported_system_func">Chức năng này được hỗ trợ chính thức bởi phiên bản hệ thống hiện tại</string>
     <string name="feature_doing_func">Chức năng hiện tại đang được tạo ra, vui lòng chờ</string>
+
     <!--System UI-->
     <string name="system_ui">Giao diện hệ thống</string>
+
     <!--System launcher-->
     <string name="mihome">Trình khởi chạy hệ thống</string>
+
     <!--Settings-->
     <string name="system_settings">Cài đặt</string>
+
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Bảo mật</string>
+
     <!--Other-->
     <string name="exit">Thoát</string>
     <string name="ignore">Bỏ qua</string>
@@ -120,4 +137,43 @@
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
     <string name="debug_mode_home_version">Đặt mã phiên bản gốc</string>
     <string name="debug_mode_home_version_desc">Số phiên bản quá cao vẫn sẽ bị chặn, vì vậy hãy điền cẩn thận.</string>
+
+    <!-- LogViewer -->
+    <string name="log_search_hint">Tìm kiếm log</string>
+    <string name="log_type_label">Loại log:</string>
+    <string name="log_level_label">Mức độ:</string>
+    <string name="log_tag_label">Nhãn:</string>
+    <string name="log_type_app">Log của ứng dụng</string>
+    <string name="log_type_xposed">Xposed Log</string>
+    <string name="log_filter_stats">Hiển thị: %1$d/%2$d</string>
+    <string name="log_filter_all">Tất cả</string>
+    <string name="log_tag_other">Khác</string>
+    <string name="log_menu_clear">Xoá log</string>
+    <string name="log_menu_export">Xuất log</string>
+    <string name="log_menu_share">Chia sẻ log</string>
+    <string name="log_clear_title">Xoá log</string>
+    <string name="log_clear_all_message">Bạn có chắc chắn muốn xóa tất cả nhật ký, bao gồm cả nhật ký ứng dụng và nhật ký Xposed không? Thao tác này không thể đảo ngược.</string>
+    <string name="log_clear_success">Log đã xoá</string>
+    <string name="log_clear_failed">Xoá log thất bại</string>
+    <string name="log_clear_in_progress">Đang xoá log…</string>
+    <string name="log_export_preparing">Đang chuẩn bị xuất…</string>
+    <string name="log_export_success">Xuất log thành công</string>
+    <string name="log_export_failed">Xuất log thất bại</string>
+    <string name="log_share_title">Chia sẻ log</string>
+    <string name="log_share_preparing">Đang chuẩn bị chia sẻ…</string>
+    <string name="log_share_failed">Chia sẻ log thất bại</string>
+    <string name="log_share_text">Tệp log HyperCeiler</string>
+    <string name="log_copy">Sao chép</string>
+    <string name="log_copy_success">Log đã được sao chép vào clipboard</string>
+
+    <!-- Log detail dialog -->
+    <string name="log_detail_title">Log chi tiết</string>
+    <string name="log_detail_time">Thời gian</string>
+    <string name="log_detail_level">Mức độ</string>
+    <string name="log_detail_tag">Nhãn</string>
+    <string name="log_detail_message">Chi tiết</string>
+
+    <!-- Log Viewer -->
+    <string name="log_loading">Đang tải log…</string>
+    <string name="log_viewer">Xem log</string>
 </resources>

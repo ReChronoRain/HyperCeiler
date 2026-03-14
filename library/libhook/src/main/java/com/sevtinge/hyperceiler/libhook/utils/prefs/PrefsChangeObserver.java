@@ -18,13 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.prefs;
 
-import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap;
-
 import android.content.Context;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
 
 public class PrefsChangeObserver extends ContentObserver {
@@ -95,11 +94,11 @@ public class PrefsChangeObserver extends ContentObserver {
     }
 
     private void applyChange() {
-        mPrefsMap.put(name, switch (prefType) {
-            case String -> PrefsUtils.getSharedStringPrefs(context, name, (String) def);
-            case StringSet -> PrefsUtils.getSharedStringSetPrefs(context, name);
-            case Integer -> PrefsUtils.getSharedIntPrefs(context, name, (Integer) def);
-            case Boolean -> PrefsUtils.getSharedBoolPrefs(context, name, (boolean) def);
+        PrefsBridge.put(name, switch (prefType) {
+            case String -> PrefsBridge.getString(name, (String) def);
+            case StringSet -> PrefsBridge.getStringSet(name);
+            case Integer -> PrefsBridge.getInt(name, (Integer) def);
+            case Boolean -> PrefsBridge.getBoolean(name, (boolean) def);
             default -> null;
         });
     }

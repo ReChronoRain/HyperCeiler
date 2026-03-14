@@ -101,6 +101,9 @@
     <!--AICR-->
     <string name="aicr">小米澎湃 AI 引擎</string>
     <string name="aicr_modify_browser_copy">修改复制直达使用的浏览器</string>
+    <!--XMSF-->
+    <string name="xmsf">小米服务框架</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">解锁焦点通知白名单签名验证</string>
     <!--Other-->
     <string name="share_center">小米妙享中心</string>
     <string name="new_task">多开</string>

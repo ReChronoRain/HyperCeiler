@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_layout"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/custom_order_item_height"
+    android:layout_marginBottom="@dimen/custom_order_item_margin_top"
+    android:background="@drawable/item_card_bg"
+    android:elevation="0dp"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:importantForAccessibility="yes"
+    android:orientation="horizontal">
+
+    <ImageButton
+        android:id="@+id/move_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/custom_order_item_margin"
+        android:background="@drawable/ic_navigation_rearrange"
+        android:clickable="false"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/title_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/custom_order_item_margin_start"
+        android:layout_weight="1.0"
+        android:ellipsize="end"
+        android:fontFamily="mipro-medium"
+        android:gravity="center|start"
+        android:maxLines="1"
+        android:text="Card Title"
+        android:textColor="@color/color_on_surface"
+        android:textSize="17sp" />
+
+    <CheckBox
+        android:id="@+id/CheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingEnd="16dp"
+        android:theme="@style/Widget.CompoundButton.CheckBox" />
+</LinearLayout>

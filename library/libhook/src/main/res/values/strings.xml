@@ -107,6 +107,9 @@
     <!--AICR-->
     <string name="aicr">Xiaomi AI Engine</string>
     <string name="aicr_modify_browser_copy">Change the browser used for direct copy</string>
+    <!--XMSF-->
+    <string name="xmsf">Xiaomi Service Framework</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">Unlock Focus Notification Whitelist Signature Verification</string>
     <!--Other-->
     <string name="share_center">Xiaomi Smart Hub</string>
     <string name="new_task">New task</string>

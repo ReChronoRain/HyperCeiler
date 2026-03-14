@@ -27,8 +27,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsMap;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -50,7 +48,6 @@ import io.github.libxposed.api.XposedModuleInterface.SystemServerLoadedParam;
 public abstract class BaseHook {
     public static String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
     public final String TAG = getClass().getSimpleName();
-    public static final PrefsMap<String, Object> mPrefsMap = PrefsUtils.mPrefsMap;
 
     /**
      * 初始化 Hook，子类实现此方法编写具体 Hook 逻辑

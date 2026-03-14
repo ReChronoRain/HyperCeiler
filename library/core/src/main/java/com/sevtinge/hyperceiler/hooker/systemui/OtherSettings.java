@@ -33,7 +33,7 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellPackageManager;
 
 import fan.preference.DropDownPreference;
@@ -62,7 +62,7 @@ public class OtherSettings extends DashboardFragment
 
     @Override
     public void initPrefs() {
-        int mPct = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_system_ui_others_pct_style", "0"));
+        int mPct = PrefsBridge.getStringAsInt("prefs_key_system_ui_others_pct_style", 0);
 
         mDisableInfinitymodeGesture = findPreference("prefs_key_system_ui_disable_infinitymode_gesture");
         mVolume = findPreference("prefs_key_system_ui_disable_volume");

@@ -19,7 +19,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_hyperos">
-    <com.sevtinge.hyperceiler.common.prefs.LayoutPreference
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
         android:enabled="false"
         android:key="prefs_key_security_unsupported"
         android:layout="@layout/headtip_warn"
@@ -30,7 +30,7 @@
             android:fragment="com.sevtinge.hyperceiler.hooker.securitycenter.ApplicationsSettings"
             android:title="@string/security_center_app_title" />
 
-        <com.sevtinge.hyperceiler.common.prefs.XmlPreference
+        <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:title="@string/security_center_battery_title"
             app:inflatedXml="@xml/security_center_battery"/>
 

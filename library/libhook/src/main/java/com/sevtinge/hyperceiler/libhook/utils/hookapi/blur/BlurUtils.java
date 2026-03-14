@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.blur;
 
-import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -32,6 +30,7 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 public class BlurUtils {
     private final Context mContext;
@@ -105,14 +104,14 @@ public class BlurUtils {
             String mAlphaKey = key + "_color_alpha";
             String mCornerRadiusKey = key + "_corner_radius";
 
-            isEnable = mPrefsMap.getBoolean(mCustomBackgroundEnabledKey);
+            isEnable = PrefsBridge.getBoolean(mCustomBackgroundEnabledKey);
 
-            isBlurEnable = mPrefsMap.getBoolean(mBlurEnableKey);
-            mBlurRadius = mPrefsMap.getInt(mBlurRadiusKey, 60);
+            isBlurEnable = PrefsBridge.getBoolean(mBlurEnableKey);
+            mBlurRadius = PrefsBridge.getInt(mBlurRadiusKey, 60);
 
-            mColor = mPrefsMap.getInt(mColorKey, 2113929215);
-            mAlpha = mPrefsMap.getInt(mAlphaKey, 60);
-            mCornerRadius = DisplayUtils.dp2px(context, mPrefsMap.getInt(mCornerRadiusKey, 18));
+            mColor = PrefsBridge.getInt(mColorKey, 2113929215);
+            mAlpha = PrefsBridge.getInt(mAlphaKey, 60);
+            mCornerRadius = DisplayUtils.dp2px(context, PrefsBridge.getInt(mCornerRadiusKey, 18));
 
         } else {
             isEnable = false;

@@ -17,8 +17,6 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    <string name="pull_to_enter_private">Gizli bölmeye girmek için aşağı çekin</string>
-    <string name="release_enter_private">Gizli bölmeye girmek için bırakın</string>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Tümünü seç</string>
     <string name="miuix_appcompat_cancel_description">İptal</string>
@@ -43,20 +41,14 @@
     <string name="reboot_failed">Yeniden başlatma başarısız, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
     <string name="experimental_features">Deneysel özellikler</string>
     <!--HyperCeiler Tips-->
-    <string name="error">Hata</string>
     <string name="warn">Dikkat</string>
-    <string name="module_app_failed">Modülde kurtarılamaz hata oluştu</string>
-    <string name="module_app_copy_desc">Kopyalamak için bas</string>
     <string name="module_title_1">Basit mesaj</string>
     <string name="module_title_2">Biftek mesajı</string>
     <string name="app_error_desc">HyperCeiler beklenmedik bir şekilde durduruldu. Bunu düzeltmeye yardım etmek için, aşağıdaki bilgiyi sağlayın:\n\nHer şeyi kopyalamak için herhangi bir mesajı basılı tutun.</string>
-    <string name="app_exit">Tamam</string>
-    <string name="safe_mode_desc">%1$s birden fazla çökme nedeniyle Güvenli moda girdi ve HyperCeiler özellikleri geçici olarak devre dışı bırakıldı.</string>
     <string name="safe_mode_history">Hata kayıtlarını görüntüle</string>
     <string name="safe_mode_cancel">Güvenli Modu kapat</string>
     <string name="safe_mode_ok">İptal</string>
     <string name="safe_mode_later_title">İpucu</string>
-    <string name="safe_mode_later_desc">%1$s güvenli modda ve HyperCeiler özellikleri devre dışı bırakıldı. Güvenli mod devre dışı bırakılsın mı?</string>
     <string name="safe_mode_recorder_title">Hata kayıtları</string>
     <string name="safe_mode_recorder_file">Dosya</string>
     <string name="safe_mode_recorder_class">Sınıf</string>
@@ -71,17 +63,8 @@
     <string name="error_version_name">Versiyon adı</string>
     <string name="error_git_hash">Git özeti</string>
     <string name="error_build_time">Yapım zamanı</string>
-    <string name="copy_ok">Panoya kopyalandı</string>
-    <string name="notification_channel_app_crash_name">Uygulama anormal çalışıyor</string>
-    <string name="notification_title_message_emergency_crash">%s birçok kez çöktü</string>
-    <string name="notification_content_message">Ayrıntıları görmek için tıklayın</string>
-    <string name="notification_view">Gör</string>
     <string name="tip_default">İpucu: İşte ipucu. Beni görebiliyorsanız, HyperCeiler ile ilgili bir sorun var demektir. Lütfen bunu zamanında ve etkili bir şekilde geliştiriciye bildirin.</string>
-    <string name="headtip_warn_not_offical_rom">Şu anki kullandığınız ROM\'un kaynağı resmi Xiaomi ROM\'u olmayabilir, ve bazı özellikler çalışmayabilir. Lütfen detaylı bilgi için tedarikçiniz ile iletişime geçin.</string>
-    <string name="headtip_warn_unsupport_sysver">Şuanki cihaz, (tamamen) adapte edilmemiş ve HyperCeiler işlevlerin de anomaliye sebep olabilecek bir sistem versiyonunda çalışıyor.</string>
-    <string name="headtip_warn_sign_verification_failed">İmza doğrulaması başarısız oldu, ve kullandığınız sürüm HyperCeiler\'in resmi sürümü olmayabilir, ve zararlı kod içerebilir.</string>
     <string name="headtip_tip_auto_safe_mode">Güvenli mod, güvenliği sağlamak için bazı uygulamalar birden çok kez çöktüğünde zaman içinde kancayı kaldırabilir. Bu özelliğin çalışması için Sistem Çerçevesi kanca kapsamı gerekir. Güvenli modu açmak için Sistem Çerçevesi kapsamını kontrol etmenizi şiddetle tavsiye ederiz.</string>
-    <string name="headtip_tip_long_press_to_copy">Uzun veya çift basıştan sonra metni seçebilir veya kopyalayıp geliştiriciye geri postalayabilirsiniz.</string>
     <string name="happy_birthday_hyperceiler">Bugün HyperCeiler\'ın doğum günü!\nBu özel yıl boyunca verdiğiniz destek için teşekkür eder ve bu yılda daha iyisi için köle gibi çalışmaya devam edelim!</string>
     <string name="headtip_tip_fuck_coolapk">Tarihte bugün: Sevtinge 14 Temmuz 2022\'de önemli bir miting yaptı.</string>
     <string name="headtip_notice_dead_logger_errcode">Mevcut cihaz günlük hizmeti anormal ve HyperCeiler özellikleri sınırlı olacaktır. Normal şekilde çalışabilmesi için lütfen günlük hizmetini geri yükleyin.\nHata kodu: %1$s</string>
@@ -100,8 +83,6 @@
     <!--Other-->
     <string name="exit">Çık</string>
     <string name="ignore">Yoksay</string>
-    <string name="log_level">Günlük düzeyi</string>
-    <string name="log_level_none">Devre dışı</string>
     <string name="disable_suggest">Tavsiyeleri devre dışı bırak</string>
     <string name="enable_suggest">Tavsiyeleri etkinleştir</string>
 </resources>

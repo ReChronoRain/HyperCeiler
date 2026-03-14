@@ -24,7 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-import com.sevtinge.hyperceiler.dashboard.base.activity.SettingsBaseActivity;
+import com.sevtinge.hyperceiler.dashboard.base.SettingsBaseActivity;
 import com.sevtinge.hyperceiler.hooker.framework.OtherSettings;
 import com.sevtinge.hyperceiler.hooker.home.HomeDockSettings;
 import com.sevtinge.hyperceiler.hooker.home.HomeFolderSettings;

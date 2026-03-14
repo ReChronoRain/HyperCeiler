@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool;
 
-import static com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils.mPrefsMap;
-
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.app.backup.BackupManager;
@@ -46,13 +44,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 import java.io.File;
@@ -170,7 +168,7 @@ public class AppsTool {
                 FrameLayout.LayoutParams.WRAP_CONTENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT
             );
-            lp.topMargin = Math.round(mPrefsMap.getInt("system_ui_others_showpct_top", 54) * density *
+            lp.topMargin = Math.round(PrefsBridge.getInt("system_ui_others_showpct_top", 54) * density *
                 (res.getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 0.7f : 1.0f));
             lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
             mPct.setPadding(
@@ -189,7 +187,7 @@ public class AppsTool {
                 XposedLog.e("ShowPct", err);
             }
 
-            if (mPrefsMap.getBoolean("system_showpct_use_blur")) {
+            if (PrefsBridge.getBoolean("system_showpct_use_blur")) {
                 try {
                     int blurRadius = isDarkMode(getSystemContext()) ? 220 : 320;
                     int alpha = isDarkMode(getSystemContext()) ? 140 : 160;
@@ -228,45 +226,6 @@ public class AppsTool {
         public static int LINK = 32;
         public static int OTHERS = 64;
         public static int ALL = IMAGE | AUDIO | VIDEO | DOCUMENT | ARCHIVE | LINK | OTHERS;
-    }
-
-    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
-    public static void fixPermissionsAsync(Context context) {
-        sPermissionExecutor.execute(() -> {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-            setFilePermissions(context.getDataDir());
-            setFilePermissions(new File(PrefsUtils.getSharedPrefsPath()));
-            setFilePermissions(new File(PrefsUtils.getSharedPrefsFile()));
-        });
-    }
-
-    @SuppressLint({"SetWorldReadable", "SetWorldWritable"})
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private static void setFilePermissions(File file) {
-        if (file != null && file.exists()) {
-            file.setExecutable(true, false);
-            file.setReadable(true, false);
-            file.setWritable(true, false);
-        }
-    }
-
-
-    public static void registerFileObserver(Context context) {
-        try {
-            sFileObserver = new FileObserver(new File(PrefsUtils.getSharedPrefsPath()), FileObserver.CLOSE_WRITE) {
-                @Override
-                public void onEvent(int event, String path) {
-                    AppsTool.fixPermissionsAsync(context);
-                }
-            };
-            sFileObserver.startWatching();
-        } catch (Throwable t) {
-            AndroidLog.e(TAG, "Failed to start FileObserver!");
-        }
     }
 
     public static void requestBackup(Context context) {

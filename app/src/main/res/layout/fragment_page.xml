@@ -80,8 +80,12 @@
             android:id="@+id/search_result"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:paddingHorizontal="4dp"
+            android:paddingBottom="?android:attr/actionBarSize"
             android:overScrollMode="ifContentScrolls"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
     </fan.nestedheader.widget.NestedHeaderLayout>
 

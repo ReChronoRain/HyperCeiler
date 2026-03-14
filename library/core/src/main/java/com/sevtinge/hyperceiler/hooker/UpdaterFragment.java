@@ -24,7 +24,7 @@ import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsUtils;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import fan.preference.DropDownPreference;
 
@@ -41,7 +41,7 @@ public class UpdaterFragment extends DashboardFragment
 
     @Override
     public void initPrefs() {
-        int mMode = Integer.parseInt(PrefsUtils.getSharedStringPrefs(getContext(), "prefs_key_updater_version_mode", "1"));
+        int mMode = PrefsBridge.getStringAsInt("prefs_key_updater_version_mode", 1);
         mUpdateMode = findPreference("prefs_key_updater_version_mode");
         mBigVersion = findPreference("prefs_key_various_updater_big_version");
 

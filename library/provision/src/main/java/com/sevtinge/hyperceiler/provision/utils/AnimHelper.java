@@ -27,8 +27,12 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import fan.animation.Folme;
+import fan.animation.FolmeEase;
+import fan.animation.IStateStyle;
+import fan.animation.base.AnimConfig;
 import fan.animation.base.AnimSpecialConfig;
 import fan.animation.controller.AnimState;
+import fan.animation.listener.TransitionListener;
 import fan.animation.property.ViewProperty;
 import fan.animation.utils.EaseManager;
 
@@ -56,9 +60,6 @@ public class AnimHelper {
         alpha.start();
     }
 
-    public static void startPageBtnAnim(View target) {
-        startPageBtnAnim(target, null);
-    }
 
     public static void startPageBtnEnabledAnim(View target) {
         startPageBtnAnim(target, new Animator.AnimatorListener() {
@@ -144,4 +145,41 @@ public class AnimHelper {
         alpha.start();
     }
 
+
+
+
+
+    public static void startPageLogoAnim(View view) {
+        if (view == null) return;
+        AnimState animState = new AnimState("start");
+        ViewProperty viewProperty = ViewProperty.SCALE_X;
+        AnimState animStateAdd = animState.add(viewProperty, 0.5d);
+        ViewProperty viewProperty2 = ViewProperty.SCALE_Y;
+        AnimState animStateAdd2 = animStateAdd.add(viewProperty2, 0.5d);
+        AnimState animStateAdd3 = new AnimState("middle").add(viewProperty, 0.95d).add(viewProperty2, 0.95d);
+        Folme.use(view).state().setTo(animStateAdd2).to(animStateAdd3, new AnimConfig().setEase(FolmeEase.sinOut(440L))).then(new AnimState("end").add(viewProperty, 1.0d).add(viewProperty2, 1.0d), new AnimConfig().setEase(FolmeEase.cubicOut(700L)));
+        AnimConfig delay = new AnimConfig().setDelay(60L);
+        IStateStyle iStateStyleState = Folme.use(view).state();
+        ViewProperty viewProperty3 = ViewProperty.ALPHA;
+        iStateStyleState.setTo(viewProperty3, Float.valueOf(0.0f)).to(viewProperty3, Float.valueOf(1.0f), delay);
+    }
+
+
+    public static void startPageBtnAnim(View view, TransitionListener transitionListener) {
+        if (view == null) return;
+
+        AnimState animState = new AnimState("start");
+        ViewProperty viewProperty = ViewProperty.ALPHA;
+        AnimState animStateAdd = animState.add(viewProperty, 0.0d);
+        ViewProperty viewProperty2 = ViewProperty.SCALE_X;
+        AnimState animStateAdd2 = animStateAdd.add(viewProperty2, 0.9d);
+        ViewProperty viewProperty3 = ViewProperty.SCALE_Y;
+        AnimState animStateAdd3 = animStateAdd2.add(viewProperty3, 0.9d);
+        AnimState animStateAdd4 = new AnimState("end").add(viewProperty, 1.0d).add(viewProperty2, 1.0d).add(viewProperty3, 1.0d);
+        AnimConfig delay = new AnimConfig().setEase(FolmeEase.cubicOut(450L)).setDelay(1340L);
+        if (transitionListener != null) {
+            delay.addListeners(transitionListener);
+        }
+        Folme.use(view).state().setTo(animStateAdd3).to(animStateAdd4, delay);
+    }
 }

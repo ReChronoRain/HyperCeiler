@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginStart="@dimen/card_margin_edge"
+    android:layout_marginEnd="@dimen/card_margin_edge"
+    android:paddingBottom="10dp"
+    android:background="@drawable/app_device_card_background">
+
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:paddingVertical="20dp"
+        android:textAppearance="@style/TextAppearance.PreferenceList"
+        android:textColor="@color/textview_black_title"
+        android:textSize="24sp"
+        android:text="HyperCeiler User's Device"/>
+
+    <LinearLayout
+        android:id="@+id/info_device"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/device_info_device_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textColor="@color/textview_black_title"
+            android:textSize="14dp"
+            android:text="HyperCeiler Device"/>
+
+        <TextView
+            android:id="@+id/device_info_device_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
+            android:textColor="@color/textview_black_summary"
+            android:textSize="11dp"
+            android:text="@string/about_device_info_device"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_info_android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/device_info_android_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textColor="@color/textview_black_title"
+            android:textSize="14dp"
+            android:text="16"/>
+
+        <TextView
+            android:id="@+id/device_info_android_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
+            android:textColor="@color/textview_black_summary"
+            android:textSize="11dp"
+            android:text="@string/about_device_info_android"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/device_info_os"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/device_info_os_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList"
+            android:textColor="@color/textview_black_title"
+            android:textSize="14dp"
+            android:text="OS2.0.1.0.UNBCNXM"/>
+
+        <TextView
+            android:id="@+id/device_info_os_summary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="18dp"
+            android:layout_marginEnd="18dp"
+            android:textAppearance="@style/TextAppearance.PreferenceList.Secondary"
+            android:textColor="@color/textview_black_summary"
+            android:textSize="11dp"
+            android:text="@string/about_device_info_os"/>
+
+    </LinearLayout>
+
+</LinearLayout>
