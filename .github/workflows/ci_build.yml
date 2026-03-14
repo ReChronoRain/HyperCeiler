@@ -155,6 +155,9 @@ jobs:
           compare_url = event.get("compare", "")
           caption_limit = 1024
 
+          def escape_code_block(text):
+              return text.replace("\\", "\\\\").replace("`", "\\`")
+
           def parse_commit(commit):
               msg = commit.get("message", "").strip() or "(empty commit message)"
 
@@ -179,24 +182,25 @@ jobs:
           def build_full_caption():
               lines = ["New push to GitHub", "Branch: OS2"]
               for clean_msg, _, authors in parsed_commits:
-                  lines.extend(["", clean_msg, f"by {authors}"])
+                  block = escape_code_block(f"{clean_msg}\nby {authors}")
+                  lines.extend(["", "```", block, "```"])
               if compare_url:
-                  lines.extend(["", f"Details: {compare_url}"])
+                  lines.extend(["", f"Details: [compare]({compare_url})"])
               return "\n".join(lines).strip()
 
           def build_title_only_caption():
-              footer = f"\n\nDetails: {compare_url}" if compare_url else ""
+              footer = f"\n\nDetails: [compare]({compare_url})" if compare_url else ""
               lines = ["New push to GitHub", "Branch: OS2"]
 
               for index, (_, title, _) in enumerate(parsed_commits):
-                  candidate_lines = lines + [f"- {title}"]
+                  candidate_lines = lines + ["", "```", escape_code_block(title), "```"]
                   candidate = "\n".join(candidate_lines) + footer
                   if len(candidate) <= caption_limit:
                       lines = candidate_lines
                       continue
 
                   remaining = len(parsed_commits) - index
-                  summary = f"- And {remaining} more commits"
+                  summary = f"And {remaining} more commits"
                   if len("\n".join(lines + [summary]) + footer) <= caption_limit:
                       lines.append(summary)
                   break
@@ -207,8 +211,20 @@ jobs:
           if len(caption) > caption_limit:
               caption = build_title_only_caption()
 
+          if len(caption) > caption_limit:
+              caption = "\n".join(
+                  line
+                  for line in [
+                      "New push to GitHub",
+                      "Branch: OS3",
+                      "",
+                      f"Details: [compare]({compare_url})" if compare_url else "",
+                  ]
+                  if line
+              )
+
           with open("commit_caption.txt", "w", encoding="utf-8") as f:
-              f.write(caption[:caption_limit])
+              f.write(caption)
           EOF
 
 
@@ -226,6 +242,7 @@ jobs:
           curl -fsS -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" \
             -F chat_id="${GROUP_ID}" \
             -F document="@${CANARY}" \
+            -F parse_mode="MarkdownV2" \
             --form-string caption="${CAPTION}"
 
   push_to_debug_group:
