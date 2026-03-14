@@ -25,7 +25,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -34,9 +33,9 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,14 +46,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BaseActivity;
 import com.sevtinge.hyperceiler.common.widget.SearchEditText;
-import com.sevtinge.hyperceiler.common.widget.SpinnerItemView;
 import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.logviewer.widget.LogoPreviewDetailBottomSheet;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import fan.appcompat.app.ActionBar;
+import fan.appcompat.internal.view.menu.MenuBuilder;
+import fan.appcompat.widget.HyperPopupMenu;
+import fan.miuixbase.widget.FilterSortTabView;
+import fan.miuixbase.widget.FilterSortView2;
 import fan.nestedheader.widget.NestedHeaderLayout;
 import fan.recyclerview.card.CardDefaultItemAnimator;
 import fan.recyclerview.card.CardItemDecoration;
@@ -81,14 +87,13 @@ public class LogViewerActivity extends BaseActivity
     private LogManager mLogManager;
 
     private SearchEditText mSearchEditText;
-    private SpinnerItemView mLogTypeSpinner;
-    private SpinnerItemView mLevelSpinner;
-    private SpinnerItemView mModuleSpinner;
     private TextView mFilterStatsTextView;
 
-    private final List<String> mLogTypeList = new ArrayList<>();
     private final List<String> mLevelList = new ArrayList<>();
     private final List<String> mModuleList = new ArrayList<>();
+
+    private final Map<Integer, Boolean> mSortPopoMenuSaveMap = new HashMap<>();
+    private final Map<Integer, Boolean[]> mSortPopoMenuSaveSecondMap = new HashMap<>();
 
     private int mCurrentLogType = 0;
 
@@ -108,6 +113,7 @@ public class LogViewerActivity extends BaseActivity
         super.onCreate();
         mLogManager = LogManager.getInstance();
         initViews();
+        initActionBar();
         loadXposedInBackground();
     }
 
@@ -153,9 +159,6 @@ public class LogViewerActivity extends BaseActivity
         mRecyclerView = findViewById(R.id.recyclerView);
 
         mSearchEditText = findViewById(android.R.id.input);
-        mLogTypeSpinner = findViewById(R.id.spinnerLogType);
-        mLevelSpinner = findViewById(R.id.spinnerLevel);
-        mModuleSpinner = findViewById(R.id.spinnerModule);
         mFilterStatsTextView = findViewById(R.id.textFilterStats);
 
         mNestedHeaderLayout.setEnableBlur(false);
@@ -170,6 +173,17 @@ public class LogViewerActivity extends BaseActivity
 
         // 延迟加载数据
         mRecyclerView.post(this::loadDataAsync);
+    }
+
+    private void initActionBar() {
+        ImageView endView = new ImageView(this);
+        endView.setImageResource(R.drawable.ic_function_setting);
+        endView.setOnClickListener(v -> showFilterMenu(v));
+
+        ActionBar actionBar = getAppCompatActionBar();
+        if (actionBar != null) {
+            actionBar.setEndView(endView);
+        }
     }
 
     private void setupEmptyRecyclerView() {
@@ -187,54 +201,6 @@ public class LogViewerActivity extends BaseActivity
 
     private void onAdapterDataUpdated() {
         updateList();
-        mLevelSpinner.getSpinner().setOnItemSelectedListener(null);
-        mModuleSpinner.getSpinner().setOnItemSelectedListener(null);
-        refreshFilterSpinners();
-        mRecyclerView.post(this::setupSpinnerListeners);
-    }
-
-    private void setupSpinnerListeners() {
-        mLevelSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mLogAdapter == null) return;
-                try {
-                    if (position >= 0 && position < mLevelList.size()) {
-                        mLogAdapter.setLevelFilter(mLevelList.get(position));
-                    } else {
-                        mLogAdapter.setLevelFilter("ALL");
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error in level spinner selection", e);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                if (mLogAdapter != null) mLogAdapter.setLevelFilter("ALL");
-            }
-        });
-
-        mModuleSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (mLogAdapter == null) return;
-                try {
-                    if (position >= 0 && position < mModuleList.size()) {
-                        mLogAdapter.setModuleFilter(mModuleList.get(position));
-                    } else {
-                        mLogAdapter.setModuleFilter("ALL");
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, "Error in module spinner selection", e);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                if (mLogAdapter != null) mLogAdapter.setModuleFilter("ALL");
-            }
-        });
     }
 
     private void updateList() {
@@ -247,44 +213,21 @@ public class LogViewerActivity extends BaseActivity
     }
 
     private void setupLogTypeFilter() {
-        mLogTypeList.clear();
-        mLogTypeList.add(getString(R.string.log_type_app));
-        mLogTypeList.add(getString(R.string.log_type_xposed));
+        FilterSortView2 mLogType = findViewById(R.id.log_type);
 
-        ArrayAdapter<String> logTypeAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout, android.R.id.text1, mLogTypeList);
-        logTypeAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
-        mLogTypeSpinner.setAdapter(logTypeAdapter);
-        mLogTypeSpinner.setSelection(0);
+        FilterSortTabView mLogTypeApp = findViewById(R.id.log_type_app);
+        FilterSortTabView mLogTypeXposed = findViewById(R.id.log_type_xposed);
 
-        mLogTypeSpinner.getSpinner().setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != mCurrentLogType) {
-                    mCurrentLogType = position;
-                    switchLogType();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+        mLogType.setFilteredTab(mCurrentLogType);
+        mLogTypeApp.setOnClickListener(v -> {
+            mCurrentLogType = 0;
+            switchLogType();
         });
-    }
 
-    private void refreshFilterSpinners() {
-        ArrayAdapter<String> levelAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout,
-            android.R.id.text1, mLevelList);
-        levelAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
-        mLevelSpinner.setAdapter(levelAdapter);
-        mLevelSpinner.setSelection(0);
-
-        ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(
-            this, fan.appcompat.R.layout.miuix_appcompat_simple_spinner_integrated_layout,
-            android.R.id.text1, mModuleList);
-        moduleAdapter.setDropDownViewResource(fan.appcompat.R.layout.miuix_appcompat_simple_spinner_dropdown_item);
-        mModuleSpinner.setAdapter(moduleAdapter);
-        mModuleSpinner.setSelection(0);
+        mLogTypeXposed.setOnClickListener(v -> {
+            mCurrentLogType = 2;
+            switchLogType();
+        });
     }
 
     private void setupSearchFilter() {
@@ -318,12 +261,6 @@ public class LogViewerActivity extends BaseActivity
         if (mSearchEditText != null) {
             mSearchEditText.setText("");
         }
-        if (mLevelSpinner != null) {
-            mLevelSpinner.setSelection(0);
-        }
-        if (mModuleSpinner != null) {
-            mModuleSpinner.setSelection(0);
-        }
         if (mLogAdapter != null) {
             mLogAdapter.clearAllFilters();
         }
@@ -339,7 +276,6 @@ public class LogViewerActivity extends BaseActivity
             }
             mLogAdapter.updateData(logEntries);
             updateList();
-            refreshFilterSpinners();
 
             if (mRecyclerView != null && mLogAdapter.getItemCount() > 0) {
                 mRecyclerView.scrollToPosition(0);
@@ -546,6 +482,80 @@ public class LogViewerActivity extends BaseActivity
         LogoPreviewDetailBottomSheet bottomSheet = new LogoPreviewDetailBottomSheet(this);
         bottomSheet.initView(this, logEntry, v -> copyLogToClipboard(logEntry));
         bottomSheet.show();
+    }
+
+    public final void showFilterMenu(View view) {
+        HyperPopupMenu mPopupMenu = new HyperPopupMenu(this, view);
+        mPopupMenu.inflate(R.menu.log_sort_menu);
+
+        injectDynamicSubMenu(mPopupMenu, R.id.log_level, mLevelList);
+        injectDynamicSubMenu(mPopupMenu, R.id.log_tag, mModuleList);
+
+        mPopupMenu.preCheckPrimaryItem(mSortPopoMenuSaveMap);
+        mPopupMenu.preCheckSecondaryItem(mSortPopoMenuSaveSecondMap);
+
+        mPopupMenu.notifyDataChanged();
+
+        mPopupMenu.setOnMenuItemClickListener(item -> {
+            int groupId = item.getGroupId();
+            int index = item.getItemId();
+
+            if (groupId == R.id.log_level || groupId == R.id.log_tag) {
+                if (groupId == R.id.log_level) {
+                    if (mLogAdapter != null) {
+                        mLogAdapter.setLevelFilter(index < mLevelList.size() ? mLevelList.get(index) : "ALL");
+                    }
+                } else {
+                    if (mLogAdapter != null) {
+                        mLogAdapter.setModuleFilter(index < mModuleList.size() ? mModuleList.get(index) : "ALL");
+                    }
+                }
+                updateSecondaryMapState(groupId, index);
+            }
+            mPopupMenu.savePrimaryCheckedMap(mSortPopoMenuSaveMap);
+            mPopupMenu.saveSecondaryCheckedMap(mSortPopoMenuSaveSecondMap);
+        });
+        mPopupMenu.show();
+    }
+
+    /**
+     * 向指定的子菜单（app_filter 或 app_order）动态添加单选列表
+     *
+     * @param popupMenu HyperPopupMenu 实例
+     * @param parentId  父菜单项 ID (R.id.app_filter 或 R.id.app_order)
+     * @param items     动态字符串列表
+     */
+    private void injectDynamicSubMenu(HyperPopupMenu popupMenu, int parentId, List<String> items) {
+        Menu menu = popupMenu.getMenu();
+        MenuItem parentItem = menu.findItem(parentId);
+
+        if (parentItem == null) return;
+
+        SubMenu subMenu = parentItem.getSubMenu();
+        subMenu.clear();
+
+        Boolean[] status = mSortPopoMenuSaveSecondMap.get(parentId);
+        if (status == null || status.length != items.size()) {
+            status = new Boolean[items.size()];
+            for (int i = 0; i < items.size(); i++) {
+                status[i] = (i == 0);
+            }
+            mSortPopoMenuSaveSecondMap.put(parentId, status);
+        }
+
+        for (int i = 0; i < items.size(); i++) {
+            MenuItem subItem = subMenu.add(parentId, i, Menu.NONE, items.get(i));
+            subItem.setCheckable(true);
+            subItem.setChecked(status[i]);
+        }
+    }
+
+    private void updateSecondaryMapState(int groupId, int index) {
+        Boolean[] status = mSortPopoMenuSaveSecondMap.get(groupId);
+        if (status != null && index < status.length) {
+            Arrays.fill(status, Boolean.FALSE);
+            status[index] = Boolean.TRUE;
+        }
     }
 
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 日志类型切换 -->
+    <!--<group android:id="@+id/log_type_group">
+        <item
+            android:id="@+id/log_type_app"
+            android:checkable="true"
+            android:contentDescription="@string/log_type_app"
+            android:title="@string/log_type_app" />
+
+        <item
+            android:id="@+id/log_type_xposed"
+            android:checkable="true"
+            android:contentDescription="@string/log_type_xposed"
+            android:title="@string/log_type_xposed" />
+    </group>-->
+
+    <group android:id="@+id/log_filter_group">
+        <!-- 模块过滤器 -->
+        <item
+            android:id="@+id/log_level"
+            android:contentDescription="@string/log_level_label"
+            android:title="@string/log_level_label">
+            <menu>
+                <item
+                    android:id="@+id/log_level_all"
+                    android:checkable="true"
+                    android:title="@string/log_filter_all" />
+            </menu>
+        </item>
+        <!-- 级别过滤器 -->
+        <item
+            android:id="@+id/log_tag"
+            android:contentDescription="@string/log_tag_label"
+            android:title="@string/log_tag_label">
+            <menu>
+                <item
+                    android:id="@+id/log_tag_all"
+                    android:checkable="true"
+                    android:title="@string/log_filter_all"/>
+            </menu>
+        </item>
+    </group>
+</menu>

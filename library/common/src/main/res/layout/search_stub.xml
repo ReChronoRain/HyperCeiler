@@ -3,7 +3,7 @@
     android:id="@+id/search_panel"
     style="@style/Widget.SearchActionMode.Input"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/miuix_appcompat_search_view_default_height"
+    android:layout_height="wrap_content"
     android:paddingHorizontal="@dimen/miuix_appcompat_search_mode_bg_padding">
 
     <RelativeLayout
