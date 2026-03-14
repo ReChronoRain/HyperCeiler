@@ -35,10 +35,10 @@ import androidx.annotation.XmlRes;
 import androidx.core.view.MenuProvider;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -79,8 +79,8 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         boolean unavailable = !pref.isVisible() || !pref.isEnabled();
         if (!unavailable && pref.getDependency() != null) {
             Preference dep = findPreference(pref.getDependency());
-            if (dep instanceof androidx.preference.TwoStatePreference tsp) {
-                unavailable = !tsp.isChecked();
+            if (dep != null) {
+                unavailable = dep.shouldDisableDependents();
             }
         }
 

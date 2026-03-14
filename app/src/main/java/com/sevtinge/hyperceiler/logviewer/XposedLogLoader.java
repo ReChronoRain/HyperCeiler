@@ -493,11 +493,18 @@ public class XposedLogLoader {
                 } else {
                     AndroidLog.d(TAG, "No Xposed log entries found");
                 }
+                logManager.setXposedLogsLoaded(true);
             }
         } catch (OutOfMemoryError e) {
             AndroidLog.e(TAG, "OOM while loading filtered logs to memory", e);
         } catch (Exception e) {
             AndroidLog.e(TAG, "Failed to load filtered logs to memory", e);
+        } finally {
+            try {
+                LogManager.getInstance().setXposedLogsLoaded(true);
+            } catch (Exception e) {
+                AndroidLog.w(TAG, "Failed to mark Xposed logs as loaded", e);
+            }
         }
     }
 
@@ -602,6 +609,7 @@ public class XposedLogLoader {
         initLogDirectories();
         try {
             LogManager.getInstance().clearXposedLogs();
+            LogManager.getInstance().setXposedLogsLoaded(true);
         } catch (Exception e) {
             AndroidLog.w(TAG, "Failed to clear Xposed logs from LogManager", e);
         }

@@ -11,10 +11,16 @@ import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.Log;
 
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
+
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.prefs.LayoutPreference;
+import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
 import com.sevtinge.hyperceiler.search.data.ModDao;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
@@ -38,12 +44,6 @@ public class SearchHelper {
     public static final int MARK_COLOR_VIBRANT = Color.parseColor("#277af7");
     private static final String ANDROID_NS = "http://schemas.android.com/apk/res/android";
     private static final String APP_NS = "http://schemas.android.com/apk/res-auto";
-
-    private static final Set<String> SKIP_TAGS = Set.of(
-        "PreferenceScreen",
-        "PreferenceCategory",
-        "com.sevtinge.hyperceiler.common.prefs.LayoutPreference"
-    );
 
     private static final Set<Integer> REGISTERED = Collections.synchronizedSet(new HashSet<>());
 
@@ -95,7 +95,7 @@ public class SearchHelper {
         try (XmlResourceParser xml = res.getXml(mainXmlResId)) {
             int eventType = xml.getEventType();
             while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && xml.getName().contains("PreferenceHeader")) {
+                if (eventType == XmlPullParser.START_TAG && isPreferenceHeaderTag(xml.getName())) {
                     String fragment = xml.getAttributeValue(ANDROID_NS, "fragment");
                     String titleAttr = xml.getAttributeValue(ANDROID_NS, "title");
                     String summaryAttr = xml.getAttributeValue(ANDROID_NS, "summary");
@@ -148,13 +148,13 @@ public class SearchHelper {
                 if (eventType == XmlPullParser.START_TAG) {
                     String tag = xml.getName();
 
-                    if ("PreferenceScreen".equals(tag)) {
+                    if (isPreferenceScreenTag(tag)) {
                         String myLoc = xml.getAttributeValue(APP_NS, "myLocation");
                         if (myLoc != null && location == null) {
                             location = resolveStringRef(res, myLoc);
                             locationId = resolveResId(myLoc);
                         }
-                    } else if (!SKIP_TAGS.contains(tag)) {
+                    } else if (!shouldSkipTag(tag)) {
                         String titleAttr = xml.getAttributeValue(ANDROID_NS, "title");
                         String keyAttr = xml.getAttributeValue(ANDROID_NS, "key");
                         String isVisibleAttr = xml.getAttributeValue(APP_NS, "isPreferenceVisible");
@@ -228,6 +228,55 @@ public class SearchHelper {
             }
         } catch (Throwable ignored) {}
         return 0;
+    }
+
+    private static boolean shouldSkipTag(String tag) {
+        return isPreferenceCategoryTag(tag)
+            || isLayoutPreferenceTag(tag)
+            || isContainerTag(tag);
+    }
+
+    private static boolean isPreferenceHeaderTag(String tag) {
+        return isTagOrSubclass(tag, PreferenceHeader.class);
+    }
+
+    private static boolean isPreferenceScreenTag(String tag) {
+        return isTagOrSubclass(tag, PreferenceScreen.class);
+    }
+
+    private static boolean isPreferenceCategoryTag(String tag) {
+        return isTagOrSubclass(tag, PreferenceCategory.class);
+    }
+
+    private static boolean isLayoutPreferenceTag(String tag) {
+        return isTagOrSubclass(tag, LayoutPreference.class);
+    }
+
+    private static boolean isContainerTag(String tag) {
+        Class<?> tagClass = loadTagClass(tag);
+        return tagClass != null && PreferenceGroup.class.isAssignableFrom(tagClass);
+    }
+
+    private static boolean isTagOrSubclass(String tag, Class<?> targetClass) {
+        if (TextUtils.isEmpty(tag)) {
+            return false;
+        }
+        if (targetClass.getSimpleName().equals(tag) || targetClass.getName().equals(tag)) {
+            return true;
+        }
+        Class<?> tagClass = loadTagClass(tag);
+        return tagClass != null && targetClass.isAssignableFrom(tagClass);
+    }
+
+    private static Class<?> loadTagClass(String tag) {
+        if (TextUtils.isEmpty(tag) || !tag.contains(".")) {
+            return null;
+        }
+        try {
+            return Class.forName(tag);
+        } catch (Throwable ignored) {
+            return null;
+        }
     }
 
     private static Method findMethod(Class<?> clazz, String name) {

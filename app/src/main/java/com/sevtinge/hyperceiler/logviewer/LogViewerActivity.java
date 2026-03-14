@@ -130,6 +130,10 @@ public class LogViewerActivity extends BaseActivity
         mFilterStatsTextView.setText(getString(R.string.log_loading));
 
         if (mLogAdapter == null || mLogManager == null) return;
+        if (mCurrentLogType == 1 && !mLogManager.isXposedLogsLoaded()) {
+            mLogAdapter.updateData(new ArrayList<>());
+            return;
+        }
         List<LogEntry> entries;
         if (mCurrentLogType == 0) {
             entries = mLogManager.getLogEntries();
@@ -524,6 +528,10 @@ public class LogViewerActivity extends BaseActivity
 
     @Override
     public void onFilterChanged(int filteredCount, int totalCount) {
+        if (mCurrentLogType == 1 && mLogManager != null && !mLogManager.isXposedLogsLoaded()) {
+            mFilterStatsTextView.setText(getString(R.string.log_loading));
+            return;
+        }
         String stats = getString(R.string.log_filter_stats, filteredCount, totalCount);
         mFilterStatsTextView.setText(stats);
     }

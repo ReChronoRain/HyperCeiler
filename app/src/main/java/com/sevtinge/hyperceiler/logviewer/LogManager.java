@@ -60,6 +60,7 @@ public class LogManager {
     private static volatile LogManager sInstance;
     private final List<LogEntry> mLogEntries = new ArrayList<>();
     private final List<LogEntry> mXposedLogEntries = new ArrayList<>();
+    private volatile boolean mXposedLogsLoaded = false;
     private WeakReference<Context> mContextRef;
     private Context mAppContext;
     private boolean mInitialized = false;
@@ -415,6 +416,14 @@ public class LogManager {
         synchronized (mXposedLogEntries) {
             mXposedLogEntries.clear();
         }
+    }
+
+    public void setXposedLogsLoaded(boolean loaded) {
+        mXposedLogsLoaded = loaded;
+    }
+
+    public boolean isXposedLogsLoaded() {
+        return mXposedLogsLoaded;
     }
 
     /**
