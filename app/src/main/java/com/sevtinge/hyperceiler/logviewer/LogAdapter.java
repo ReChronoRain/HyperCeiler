@@ -294,16 +294,16 @@ public class LogAdapter extends CardGroupAdapter<LogViewHolder>
 
     @Override
     public int getItemViewGroup(int position) {
-        return position;
+        return 0;
     }
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
+        super.onBindViewHolder(holder, position);
         if (position >= 0 && position < mFilteredLogEntries.size()) {
             LogEntry logEntry = mFilteredLogEntries.get(position);
             holder.bind(logEntry, mSearchKeyword);
             holder.itemView.setOnClickListener(v -> {
-                AnimHelper.addItemPressEffect(v);
                 if (mLogItemClickListener != null) {
                     mLogItemClickListener.onLogItemClick(logEntry);
                 }

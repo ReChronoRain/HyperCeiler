@@ -18,6 +18,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
@@ -61,7 +62,7 @@ public class SearchResultAdapter extends CardGroupAdapter<SearchResultAdapter.Mo
     @NonNull
     @Override
     public ModSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(com.sevtinge.hyperceiler.core.R.layout.item_search_result, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_search_result, parent, false);
         return new ModSearchViewHolder(view);
     }
 
