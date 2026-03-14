@@ -146,42 +146,69 @@ jobs:
       - name: Build Commit Messages
         run: |
           python3 << 'EOF'
-          import json, os, re
+          import json
+          import os
+          import re
 
           event = json.load(open(os.environ["GITHUB_EVENT_PATH"], "r"))
           commits = event.get("commits", [])
-          compare_url = event.get("compare")
+          compare_url = event.get("compare", "")
+          caption_limit = 1024
 
-          blocks = []
+          def parse_commit(commit):
+              msg = commit.get("message", "").strip() or "(empty commit message)"
 
-          for c in commits:
-              msg = c["message"].strip()
-
-              authors = set()
-              authors.add(c["author"]["name"])
-
+              authors = {commit.get("author", {}).get("name", "Unknown")}
+              body_lines = []
               for line in msg.splitlines():
                   m = re.match(r"Co-authored-by:\s*(.+?)\s*<", line)
                   if m:
                       authors.add(m.group(1))
+                      continue
+                  body_lines.append(line)
 
-              clean_msg = "\n".join(
-                  l for l in msg.splitlines()
-                  if not l.startswith("Co-authored-by:")
-              ).strip()
-
-              blocks.append(
-                  f"```\n{clean_msg}\nby {', '.join(f'`{a}`' for a in sorted(authors))}\n```"
+              clean_msg = "\n".join(body_lines).strip() or "(empty commit message)"
+              title = next(
+                  (line.strip() for line in clean_msg.splitlines() if line.strip()),
+                  "(empty commit message)",
               )
+              return clean_msg, title, ", ".join(sorted(authors))
 
-          final_message = (
-              "New push to GitHub"
-              + "".join(blocks)
-              + f"See commit details [here]({compare_url})"
-          )
+          parsed_commits = [parse_commit(commit) for commit in commits]
 
-          with open("commit_message.txt", "w") as f:
-              f.write(final_message)
+          def build_full_caption():
+              lines = ["New push to GitHub", "Branch: OS3"]
+              for clean_msg, _, authors in parsed_commits:
+                  lines.extend(["", clean_msg, f"by {authors}"])
+              if compare_url:
+                  lines.extend(["", f"Details: {compare_url}"])
+              return "\n".join(lines).strip()
+
+          def build_title_only_caption():
+              footer = f"\n\nDetails: {compare_url}" if compare_url else ""
+              lines = ["New push to GitHub", "Branch: OS3"]
+
+              for index, (_, title, _) in enumerate(parsed_commits):
+                  candidate_lines = lines + [f"- {title}"]
+                  candidate = "\n".join(candidate_lines) + footer
+                  if len(candidate) <= caption_limit:
+                      lines = candidate_lines
+                      continue
+
+                  remaining = len(parsed_commits) - index
+                  summary = f"- And {remaining} more commits"
+                  if len("\n".join(lines + [summary]) + footer) <= caption_limit:
+                      lines.append(summary)
+                  break
+
+              return ("\n".join(lines) + footer).strip()
+
+          caption = build_full_caption()
+          if len(caption) > caption_limit:
+              caption = build_title_only_caption()
+
+          with open("commit_caption.txt", "w", encoding="utf-8") as f:
+              f.write(caption[:caption_limit])
           EOF
 
 
@@ -192,18 +219,14 @@ jobs:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           CANARY: ${{ env.APK_FILE_CANARY }}
         run: |
-          ESCAPED=$(python3 << 'EOF'
-          import json, urllib.parse
+          set -euo pipefail
 
-          with open("commit_message.txt", "r") as f:
-              raw = f.read()
+          CAPTION="$(cat commit_caption.txt)"
 
-          print(urllib.parse.quote(json.dumps(raw)))
-          EOF
-          )
-
-          curl -s "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_ID}&media=%5B%7B%22type%22:%22document%22,%22media%22:%22attach://canary%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" \
-            -F canary="@${CANARY}"
+          curl -fsS -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" \
+            -F chat_id="${GROUP_ID}" \
+            -F document="@${CANARY}" \
+            --form-string caption="${CAPTION}"
 
   push_to_debug_group:
     if: |
