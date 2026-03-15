@@ -18,7 +18,6 @@
  */
 package fan.provision;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
@@ -27,6 +26,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -43,13 +43,12 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.provision.R;
 
-import fan.core.utils.EnvStateManager;
-import fan.internal.utils.ViewUtils;
-import fan.provision.ProvisionAnimHelper.AnimListener;
-
 import fan.appcompat.app.AppCompatActivity;
 import fan.appcompat.app.GroupButtonsConfig;
+import fan.core.utils.EnvStateManager;
+import fan.internal.utils.ViewUtils;
 import fan.os.Build;
+import fan.provision.ProvisionAnimHelper.AnimListener;
 
 public abstract class ProvisionBaseActivity extends AppCompatActivity
         implements AnimListener {
@@ -90,7 +89,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
 
     private MediaPlayer mMediaPlayer;
     private GroupButtonsConfig mConfig;
-    private final Handler mHandler = new Handler();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private final View.OnClickListener mNextClickListener = v -> {
         if (OobeUtils.needFastAnimation()) {
             updateButtonState(false);
@@ -100,6 +99,8 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
         if (mProvisionAnimHelper != null) {
             mProvisionAnimHelper.setAnimY(getTitleLayoutHeight());
             mProvisionAnimHelper.goNextStep(0);
+        } else {
+            onNextAminStart();
         }
     };
     private final View.OnClickListener mSkipClickListener = new View.OnClickListener() {
