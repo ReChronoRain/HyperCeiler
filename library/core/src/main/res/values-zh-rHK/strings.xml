@@ -90,4 +90,5 @@
     <string name="debug_mode_switch">偵錯版本</string>
     <string name="search_apps_hint">搜尋 %d 個應用</string>
     <string name="load_apps_failed">加載應用程式列表失敗</string>
+    <string name="search_result_not_available">此功能可能不支持此裝置或隱藏到部分選項下</string>
 </resources>

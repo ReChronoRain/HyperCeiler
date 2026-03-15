@@ -434,7 +434,7 @@
     <string name="system_framework_allow_disable_protected_package">允許冻結受保護的應用程式</string>
     <string name="system_framework_disable_miui_watermark">禁用全局水印</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">預設允許全部應用程式安裝未知來源的應用程式</string>
-    <string name="system_framework_bypass_force_mi_appstore">跳轉到應用程式商店時允許選擇第三方應用商店</string>
+    <string name="system_framework_bypass_force_mi_appstore">跳轉到應用程式商店時強制顯示選擇器</string>
     <string name="system_framework_market_use_detailmini">跳轉到小米應用程式商店時始終使用小窗口打開</string>
     <string name="system_framework_market_use_detailmini_desc">解除應用程式在未使用 appClientId 的情况下跳轉到小米應用程式商店其他應用程式的詳情頁會被拒絕展示的限制</string>
     <string name="system_framework_bypass_force_downloadui">打開下載頁面時不強制使用小米下載管理器</string>
@@ -1648,4 +1648,12 @@
     <string name="health_disable_splash_ad">停用開幕廣告</string>
     <string name="phrase">剪貼簿與常用語</string>
     <string name="ic_qs_title_nfc">NFC</string>
+    <string name="development_tools">除錯</string>
+    <string name="development_system">管理</string>
+    <string name="development_cache">緩存與日誌</string>
+    <string name="settings_float_nav">懸浮底欄</string>
+    <string name="system_framework_bypass_force_mi_appstore_desc">避免無詢問直接跳轉小米應用程式商店，同時允許選擇第三方應用程式商店</string>
+    <string name="milink_unlock_send_app">解鎖全部應用程式流轉</string>
+    <string name="milink_unlock_send_app_desc">需要額外勾選 跨屏協同服務 作用域</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">允許所有應用程式發送焦點通知到手錶/手環</string>
 </resources>
