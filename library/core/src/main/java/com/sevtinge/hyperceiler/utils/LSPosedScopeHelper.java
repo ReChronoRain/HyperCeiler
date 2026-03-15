@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;

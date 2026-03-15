@@ -25,10 +25,14 @@
 
         <item
             android:id="@+id/menu_export"
-            android:title="@string/log_menu_export" />
+            android:title="@string/log_menu_export"
+            android:showAsAction="always"
+            android:icon="@drawable/miuix_action_icon_update_light"/>
 
         <item
             android:id="@+id/menu_share"
-            android:title="@string/log_menu_share" />
+            android:title="@string/log_menu_share"
+            android:showAsAction="always"
+            android:icon="@drawable/miuix_action_icon_share_light"/>
     </group>
 </menu>

@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.shell;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.libhook.callback.IResult;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

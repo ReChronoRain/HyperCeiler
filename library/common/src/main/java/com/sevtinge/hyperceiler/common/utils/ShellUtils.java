@@ -16,11 +16,11 @@
  *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.libhook.utils.shell;
+package com.sevtinge.hyperceiler.common.utils;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;

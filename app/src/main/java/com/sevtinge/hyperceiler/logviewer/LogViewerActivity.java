@@ -46,7 +46,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BaseActivity;
 import com.sevtinge.hyperceiler.common.widget.SearchEditText;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.logviewer.widget.LogoPreviewDetailBottomSheet;
 
 import java.io.File;
@@ -57,7 +57,6 @@ import java.util.List;
 import java.util.Map;
 
 import fan.appcompat.app.ActionBar;
-import fan.appcompat.internal.view.menu.MenuBuilder;
 import fan.appcompat.widget.HyperPopupMenu;
 import fan.miuixbase.widget.FilterSortTabView;
 import fan.miuixbase.widget.FilterSortView2;
@@ -435,10 +434,6 @@ public class LogViewerActivity extends BaseActivity
         ClipData clip = ClipData.newPlainText("HyperCeiler Log", logText);
         clipboard.setPrimaryClip(clip);
         showToast(getString(R.string.log_copy_success));
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override

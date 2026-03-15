@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.api;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
