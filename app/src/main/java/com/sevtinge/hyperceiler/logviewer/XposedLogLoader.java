@@ -18,13 +18,13 @@
  */
 package com.sevtinge.hyperceiler.logviewer;
 
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

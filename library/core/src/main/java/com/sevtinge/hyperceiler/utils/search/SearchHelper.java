@@ -80,7 +80,7 @@ import com.sevtinge.hyperceiler.hooker.systemui.statusbar.NewClockIndicatorSetti
 import com.sevtinge.hyperceiler.hooker.systemui.statusbar.StrongToastSettings;
 import com.sevtinge.hyperceiler.hooker.various.AOSPSettings;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.xmlpull.v1.XmlPullParser;

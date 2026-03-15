@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.utils;
 
 
 import static com.sevtinge.hyperceiler.Application.isModuleActivated;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease;
 
 import android.content.Context;
 import android.os.Handler;

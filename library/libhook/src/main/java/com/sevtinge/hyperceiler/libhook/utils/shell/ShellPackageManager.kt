@@ -19,8 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.utils.shell
 
 import android.content.ComponentName
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.common.log.AndroidLog
+import com.sevtinge.hyperceiler.common.utils.ShellUtils
 
 /**
  * 包启用/禁用工具

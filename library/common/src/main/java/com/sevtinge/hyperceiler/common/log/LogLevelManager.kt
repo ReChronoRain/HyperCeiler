@@ -16,12 +16,11 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.libhook.utils.log
-
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isBeta
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isCanary
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease
+package com.sevtinge.hyperceiler.common.log
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isBeta
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isCanary
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease
 
 /**
  * 日志级别管理器

@@ -16,14 +16,14 @@
  *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.libhook.utils.log
+package com.sevtinge.hyperceiler.common.log
 
 import android.os.Process.myPid
 import android.util.Log
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.ALIVE_THRESHOLD
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.confidence
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker.diagSummary
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.ALIVE_THRESHOLD
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.confidence
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.diagSummary
+import com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader

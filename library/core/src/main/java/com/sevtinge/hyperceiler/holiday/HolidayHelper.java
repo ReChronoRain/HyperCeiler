@@ -41,7 +41,7 @@ import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.holiday.weather.ConfettiManager;
 import com.sevtinge.hyperceiler.holiday.weather.PrecipType;
 import com.sevtinge.hyperceiler.holiday.weather.confetto.ConfettoGenerator;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

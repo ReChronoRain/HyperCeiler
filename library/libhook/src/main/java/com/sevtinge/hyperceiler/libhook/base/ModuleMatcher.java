@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;

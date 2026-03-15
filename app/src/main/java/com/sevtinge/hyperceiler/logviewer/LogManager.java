@@ -23,7 +23,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

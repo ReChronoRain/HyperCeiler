@@ -23,6 +23,8 @@ public abstract class FragmentStateAdapter extends PagerAdapter {
         mFragmentManager = fm;
     }
 
+
+
     public abstract int getItemCount();
     public abstract Fragment createFragment(int position);
 

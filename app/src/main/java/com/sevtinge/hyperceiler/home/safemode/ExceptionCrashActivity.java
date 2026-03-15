@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -52,8 +52,8 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
