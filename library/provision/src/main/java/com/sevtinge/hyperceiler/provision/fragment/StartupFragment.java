@@ -10,10 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -332,14 +329,20 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         int[] iArr = new int[2];
         mNext.getLocationInWindow(iArr);
         ActivityOptions activityOptionsMakeScaleUpAnim = ActivityOptionsHelper.makeScaleUpAnim(this.mNext, bitmap, iArr[0], iArr[1], width, animForeGroundColor, 1.0f, mMainHandler, mExitStartedCallback, mExitFinishCallback, null, null, 102);
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), PermissionSettingsActivity.class);
+        intent.putExtra("isShowDelayAnim", true);
+        if (activityOptionsMakeScaleUpAnim == null) {
+            Log.w(TAG, "startPickPage: scale-up animation is unavailable, launching without ActivityOptions");
+            Utils.IS_START_ANIMA = false;
+            requireActivity().startActivityForResult(intent, 0);
+            return;
+        }
         Utils.LOCATION_X = iArr[0];
         Utils.LOCATION_Y = iArr[1];
         Utils.CACHE_BITMAP = bitmap;
         Utils.IS_RTL = isRtl();
         Utils.IS_START_ANIMA = true;
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), PermissionSettingsActivity.class);
-        intent.putExtra("isShowDelayAnim", true);
         requireActivity().startActivityForResult(intent, 0, activityOptionsMakeScaleUpAnim.toBundle());
     }
 

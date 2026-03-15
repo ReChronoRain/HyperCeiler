@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.INPUT_MODE;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.ALL_APPS_MODE;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,9 +28,9 @@ import android.os.Bundle;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 public class HomeTitleSettings extends DashboardFragment {
@@ -59,7 +59,7 @@ public class HomeTitleSettings extends DashboardFragment {
         mIconTitleCustomization = findPreference("prefs_key_home_title_title_icontitlecustomization");
         mIconTitleCustomization.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", INPUT_MODE);
+            intent.putExtra("mode", ALL_APPS_MODE);
             intent.putExtra("key", preference.getKey());
             startActivity(intent);
             return true;

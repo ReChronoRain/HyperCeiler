@@ -7,8 +7,8 @@ import android.content.pm.ResolveInfo;
 import android.os.Parcelable;
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
+import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class AppDataManager {
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
                 List<ResolveInfo> resolveInfosHaveNoLauncher =
-                    pm.queryIntentActivities(new Intent(Intent.ACTION_MAIN),
+                    pm.queryIntentActivities(intent,
                         PackageManager.GET_ACTIVITIES | PackageManager.MATCH_DEFAULT_ONLY);
 
                 mPackageMap.clear();

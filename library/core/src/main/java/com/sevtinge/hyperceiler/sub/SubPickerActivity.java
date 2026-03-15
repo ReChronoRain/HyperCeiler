@@ -42,13 +42,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.SearchCallback;
-import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
-import com.sevtinge.hyperceiler.model.data.AppData;
-import com.sevtinge.hyperceiler.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
+import com.sevtinge.hyperceiler.model.data.AppData;
+import com.sevtinge.hyperceiler.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
 import java.text.Collator;
 import java.util.ArrayList;
@@ -77,8 +78,6 @@ public class SubPickerActivity extends AppCompatActivity
     public static final int PROCESS_TEXT_MODE = 4;
     public static final int ALL_APPS_MODE = 5;
 
-    private static final int DELAY_LOAD_DATA = 120;
-
     private String mKey;
     private int mModeSelection;
 
@@ -88,7 +87,7 @@ public class SubPickerActivity extends AppCompatActivity
     private NestedHeaderLayout mNestedHeaderLayout;
     private RecyclerView mAppListRecyclerView;
     private AppDataAdapter mAppListAdapter;
-    private final Handler mHandler = new Handler(Looper.myLooper());
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
     private SearchCallback mSearchCallback;
 
     private final AppDataManager mAppDataManager = new AppDataManager();
@@ -153,6 +152,7 @@ public class SubPickerActivity extends AppCompatActivity
         mAppListAdapter = new AppDataAdapter(new ArrayList<>(), mKey, mModeSelection);
         mAppListRecyclerView.setAdapter(mAppListAdapter);
         mAppListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mAppListRecyclerView.setHasFixedSize(true);
         mAppListRecyclerView.addItemDecoration(new CardItemDecoration(this));
         mAppListRecyclerView.setItemAnimator(new CardDefaultItemAnimator());
 
@@ -162,7 +162,7 @@ public class SubPickerActivity extends AppCompatActivity
     private void setupSearchCallback() {
         mSearchCallback = new SearchCallback(this, this);
         mSearchCallback.setup(mSearchBar, mNestedHeaderLayout.getScrollableView());
-        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallback, 0));
+        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallback));
     }
 
     private void setupItemClickListener() {
@@ -216,48 +216,41 @@ public class SubPickerActivity extends AppCompatActivity
     private void initializeData() {
         mProgressBar.setVisibility(View.VISIBLE);
 
-        new Thread(() -> {
+        ThreadUtils.postOnBackgroundThread(() -> {
             try {
-                // 模拟加载延迟
-                Thread.sleep(DELAY_LOAD_DATA);
-                mHandler.post(this::loadAppData);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                Log.e(TAG, "Data loading interrupted", e);
+                List<AppData> loadedData = mAppDataManager.getAppInfo(mModeSelection);
+                List<AppData> processedData = processAppData(new ArrayList<>(loadedData));
+                mHandler.post(() -> displayAppData(processedData));
+            } catch (Exception e) {
+                Log.e(TAG, "Error loading app data", e);
+                mHandler.post(this::showLoadAppsError);
             }
-        }).start();
+        });
     }
 
-    private void loadAppData() {
-        try {
-            List<AppData> loadedData = mAppDataManager.getAppInfo(mModeSelection);
-            processAndDisplayAppData(loadedData);
-        } catch (Exception e) {
-            runOnUiThread(() -> {
-                mProgressBar.setVisibility(View.GONE);
-                Toast.makeText(this, getString(R.string.load_apps_failed), Toast.LENGTH_SHORT).show();
-            });
+    private void displayAppData(List<AppData> processedData) {
+        if (isFinishing() || isDestroyed()) {
+            return;
         }
-    }
-
-    private void processAndDisplayAppData(List<AppData> loadedData) {
-        // 处理数据：排序、移动特定应用到顶部等
-        List<AppData> processedData = processAppData(loadedData);
-
-        // 更新原始数据和当前数据
         mOriginalAppDataList.clear();
         mOriginalAppDataList.addAll(processedData);
 
         mCurrentAppDataList.clear();
         mCurrentAppDataList.addAll(processedData);
 
-        runOnUiThread(() -> {
-            mAppListAdapter.setData(mCurrentAppDataList);
-            mSearchInputView.setHint(String.format(getString(R.string.search_apps_hint), mAppListAdapter.getData().size()));
-            mProgressBar.setVisibility(View.GONE);
-            mSearchBar.setClickable(true);
-            mAppListRecyclerView.setVisibility(View.VISIBLE);
-        });
+        mAppListAdapter.setData(mCurrentAppDataList);
+        mSearchInputView.setHint(String.format(getString(R.string.search_apps_hint), mAppListAdapter.getData().size()));
+        mProgressBar.setVisibility(View.GONE);
+        mSearchBar.setClickable(true);
+        mAppListRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    private void showLoadAppsError() {
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+        mProgressBar.setVisibility(View.GONE);
+        Toast.makeText(this, getString(R.string.load_apps_failed), Toast.LENGTH_SHORT).show();
     }
 
     private List<AppData> processAppData(List<AppData> data) {
