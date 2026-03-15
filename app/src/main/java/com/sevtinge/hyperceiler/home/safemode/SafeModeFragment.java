@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.home.safemode;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isDebug;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 
 import android.content.pm.PackageManager;
@@ -32,7 +32,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 import org.xmlpull.v1.XmlPullParser;

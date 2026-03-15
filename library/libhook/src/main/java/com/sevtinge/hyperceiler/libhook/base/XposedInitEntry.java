@@ -27,8 +27,8 @@ import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.util.HashMap;
 

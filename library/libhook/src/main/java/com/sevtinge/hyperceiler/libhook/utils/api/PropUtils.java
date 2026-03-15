@@ -23,9 +23,9 @@ import android.content.Context;
 import android.os.SystemProperties;
 
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 
 /**
  * 系统属性工具类

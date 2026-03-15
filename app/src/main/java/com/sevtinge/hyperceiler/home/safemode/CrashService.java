@@ -26,7 +26,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 
 public class CrashService extends Service {

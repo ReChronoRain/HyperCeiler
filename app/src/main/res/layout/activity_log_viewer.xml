@@ -1,7 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<fan.nestedheader.widget.NestedHeaderLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nested_header_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:headerView="@id/search_bar"
+    app:scrollableView="@id/view_pager"
+    app:stickyView="@id/sticky_view">
 
-</LinearLayout>
+    <fan.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- 搜索行 -->
+    <include
+        android:id="@+id/search_bar"
+        layout="@layout/search_stub" />
+
+    <LinearLayout
+        android:id="@id/sticky_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- 日志类型切换 -->
+        <fan.miuixbase.widget.FilterSortView2
+            android:id="@+id/log_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/miuix_theme_padding_horizontal_common">
+
+            <fan.miuixbase.widget.FilterSortTabView
+                android:id="@+id/log_type_app"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_type_app" />
+
+            <fan.miuixbase.widget.FilterSortTabView
+                android:id="@+id/log_type_xposed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/log_type_xposed" />
+
+        </fan.miuixbase.widget.FilterSortView2>
+    </LinearLayout>
+
+</fan.nestedheader.widget.NestedHeaderLayout>

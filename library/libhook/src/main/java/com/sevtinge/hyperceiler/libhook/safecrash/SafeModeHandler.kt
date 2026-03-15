@@ -26,7 +26,7 @@ import android.os.SystemProperties
 import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.setProp
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object SafeModeHandler : ICrashHandler {

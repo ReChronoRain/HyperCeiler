@@ -18,6 +18,9 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.log
 
+import com.sevtinge.hyperceiler.common.log.LogConfigManager
+import com.sevtinge.hyperceiler.common.log.LogLevelManager
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker
 import java.io.File
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

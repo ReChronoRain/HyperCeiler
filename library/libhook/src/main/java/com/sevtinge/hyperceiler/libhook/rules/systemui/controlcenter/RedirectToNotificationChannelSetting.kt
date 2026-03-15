@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Dependency
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass

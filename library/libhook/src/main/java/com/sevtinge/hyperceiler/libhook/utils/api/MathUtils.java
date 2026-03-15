@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.utils.api;
 
 import android.graphics.Rect;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 public class MathUtils {
     private static final float DEG_TO_RAD = 0.017453292f;

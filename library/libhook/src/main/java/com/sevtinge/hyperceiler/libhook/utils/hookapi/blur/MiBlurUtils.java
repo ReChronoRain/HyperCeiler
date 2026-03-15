@@ -22,7 +22,7 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.libhook.utils.api.InvokeUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 public class MiBlurUtils {
 

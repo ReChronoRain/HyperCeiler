@@ -179,6 +179,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".log.LogViewerActivity"
+            android:exported="false"
+            android:label="LogViewer"
+            android:theme="@style/LogViewerTheme">
+            <intent-filter>
+                <action android:name="fan.intent.action.LOGVIEWER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

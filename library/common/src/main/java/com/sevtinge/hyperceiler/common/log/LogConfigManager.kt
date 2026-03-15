@@ -16,7 +16,7 @@
  *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.libhook.utils.log
+package com.sevtinge.hyperceiler.common.log
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import java.io.BufferedReader

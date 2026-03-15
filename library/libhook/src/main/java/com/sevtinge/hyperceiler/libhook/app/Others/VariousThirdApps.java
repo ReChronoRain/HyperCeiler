@@ -33,7 +33,7 @@ import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.LoadInputMethodD
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;

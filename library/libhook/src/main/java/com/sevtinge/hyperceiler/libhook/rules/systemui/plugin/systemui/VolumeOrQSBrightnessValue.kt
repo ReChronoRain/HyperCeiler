@@ -42,7 +42,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookReplace
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder

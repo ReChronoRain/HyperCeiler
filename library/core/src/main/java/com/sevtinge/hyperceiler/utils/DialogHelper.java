@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatus;
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 
 import android.app.Activity;
 import android.content.Context;

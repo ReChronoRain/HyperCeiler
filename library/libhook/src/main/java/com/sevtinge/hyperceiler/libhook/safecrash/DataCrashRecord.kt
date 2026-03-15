@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.safecrash
 
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import org.json.JSONArray
 import org.json.JSONObject
 

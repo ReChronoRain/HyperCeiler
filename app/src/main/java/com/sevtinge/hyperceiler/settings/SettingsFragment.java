@@ -1,8 +1,8 @@
 package com.sevtinge.hyperceiler.settings;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isBeta;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isCanary;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isBeta;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isCanary;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease;
 
 import android.app.Activity;
 import android.content.ComponentName;

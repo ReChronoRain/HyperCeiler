@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.shell;
 
 import com.sevtinge.hyperceiler.libhook.callback.IResult;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 /**
  * ShellExec 单例管理器。

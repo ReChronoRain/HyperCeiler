@@ -16,9 +16,10 @@
 
   * Copyright (C) 2023-2026 HyperCeiler Contributions
 */
-package com.sevtinge.hyperceiler.libhook.utils.api;
+package com.sevtinge.hyperceiler.common.utils.api;
 
-import com.sevtinge.hyperceiler.libhook.BuildConfig;
+
+import com.sevtinge.hyperceiler.common.BuildConfig;
 
 /**
  * 项目配置工具类

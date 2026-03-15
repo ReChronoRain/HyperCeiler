@@ -32,7 +32,7 @@ import android.util.Log;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

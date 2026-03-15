@@ -24,7 +24,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import com.google.gson.Gson
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.res.IconParams
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.res.Left
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.res.Right

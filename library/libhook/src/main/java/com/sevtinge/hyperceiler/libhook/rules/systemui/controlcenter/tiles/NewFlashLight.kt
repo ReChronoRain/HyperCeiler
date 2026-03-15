@@ -33,9 +33,9 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStati
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils
+import com.sevtinge.hyperceiler.common.utils.ShellUtils
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
