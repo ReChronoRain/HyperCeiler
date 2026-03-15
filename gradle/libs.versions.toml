@@ -15,7 +15,7 @@ roomCompiler = "2.8.4"
 viewpager2 = "1.1.0"
 
 # UI Libraries
-miuix = "1.0.11.9"
+miuix = "1.0.12.0"
 
 # Xposed & Hooks
 xposed-api = "100-1.0.4"

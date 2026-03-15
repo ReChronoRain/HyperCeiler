@@ -59,8 +59,13 @@ public class HomePageActivity extends AppCompatActivity
 
     private void setupNavigation() {
         mSwitchManager = new SwitchManager(findViewById(R.id.container));
-        mSwitchManager.addSwitchView(R.menu.bottom_nav_menu, NavigationStyle.BOTTOM_LABEL);
 
+        // 同步读取浮动样式设置，避免先创建底栏再切换样式造成闪烁
+        boolean isFloating = Settings.Global.getBoolean(getContentResolver(), "settings_float_nav", false);
+        NavigationStyle initialStyle = isFloating ? NavigationStyle.CAPSULE_ICON : NavigationStyle.BOTTOM_LABEL;
+        mSwitchManager.addSwitchView(R.menu.bottom_nav_menu, initialStyle);
+
+        // 后续变化通过 LiveData 监听
         LiveData<Boolean> isFloatNavEnabled = Settings.Global.getBooleanLiveData(this, "settings_float_nav", false);
         isFloatNavEnabled.observe(this, isEnabled -> mSwitchManager.setFloatingStyle(isEnabled));
 

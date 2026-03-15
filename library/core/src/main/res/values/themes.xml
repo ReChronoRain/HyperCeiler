@@ -25,5 +25,6 @@
         <item name="searchActionModeInputBackground">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="windowSearchMask">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
+        <item name="windowSplitActionBar">true</item>
     </style>
 </resources>

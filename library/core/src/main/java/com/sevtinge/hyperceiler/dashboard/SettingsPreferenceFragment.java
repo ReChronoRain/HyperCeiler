@@ -25,6 +25,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
@@ -45,6 +47,22 @@ public abstract class SettingsPreferenceFragment extends BasePreferenceFragment 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         highlightPreferenceIfNeeded(mPreferenceKey);
+
+        RecyclerView listView = getListView();
+        if (listView != null) {
+            listView.setHasFixedSize(true);
+            listView.setItemAnimator(null);
+
+            RecyclerView.RecycledViewPool pool = listView.getRecycledViewPool();
+            for (int i = 0; i < 15; i++) {
+                pool.setMaxRecycledViews(i, 10);
+            }
+
+            RecyclerView.LayoutManager lm = listView.getLayoutManager();
+            if (lm instanceof LinearLayoutManager) {
+                ((LinearLayoutManager) lm).setInitialPrefetchItemCount(6);
+            }
+        }
     }
 
     @Override

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
@@ -16,6 +17,7 @@ import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter.AppViewHolder;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppEditManager;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
+import com.sevtinge.hyperceiler.utils.AppIconCache;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -73,16 +75,14 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
     }
 
     /**
-     * 设置数据并刷新
+     * 使用 DiffUtil 进行差量更新，替代 notifyDataSetChanged()
      */
     public void setData(List<AppData> data) {
-        if (data == null) {
-            mAppDataList.clear();
-        } else {
-            mAppDataList.clear();
-            mAppDataList.addAll(data);
-        }
-        notifyDataSetChanged();
+        List<AppData> newList = (data != null) ? data : new ArrayList<>();
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new AppDiffCallback(mAppDataList, newList));
+        mAppDataList.clear();
+        mAppDataList.addAll(newList);
+        result.dispatchUpdatesTo(this);
     }
 
     /**
@@ -149,6 +149,41 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         void onItemClick(View itemView, AppData appData, int position);
     }
 
+    /**
+     * DiffUtil.Callback 实现，基于 packageName 判断是否同一项
+     */
+    private static class AppDiffCallback extends DiffUtil.Callback {
+        private final List<AppData> oldList;
+        private final List<AppData> newList;
+
+        AppDiffCallback(List<AppData> oldList, List<AppData> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() { return oldList.size(); }
+
+        @Override
+        public int getNewListSize() { return newList.size(); }
+
+        @Override
+        public boolean areItemsTheSame(int oldPos, int newPos) {
+            String oldPkg = oldList.get(oldPos).packageName;
+            String newPkg = newList.get(newPos).packageName;
+            if (oldPkg == null || newPkg == null) return oldPkg == newPkg;
+            return oldPkg.equals(newPkg);
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldPos, int newPos) {
+            AppData o = oldList.get(oldPos);
+            AppData n = newList.get(newPos);
+            return o.isSelected == n.isSelected
+                && String.valueOf(o.label).equals(String.valueOf(n.label));
+        }
+    }
+
     public class AppViewHolder extends RecyclerView.ViewHolder {
 
         private final ImageView mAppIcon;
@@ -186,12 +221,31 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             }
         }
 
+        /**
+         * 异步加载图标，使用 AppIconCache 缓存
+         */
         private void updateAppIcon(AppData appInfo) {
-            if (appInfo.icon != null) {
-                mAppIcon.setImageDrawable(appInfo.icon);
-            } else {
-                mAppIcon.setImageResource(android.R.drawable.sym_def_app_icon);
+            // 先尝试从缓存获取
+            android.graphics.drawable.Drawable cached = AppIconCache.getCached(appInfo.packageName);
+            if (cached != null) {
+                mAppIcon.setImageDrawable(cached);
+                return;
             }
+
+            // 设置占位图，避免闪烁
+            mAppIcon.setImageResource(android.R.drawable.sym_def_app_icon);
+
+            // 记录当前 packageName 防止复用错位
+            mAppIcon.setTag(appInfo.packageName);
+
+            AppIconCache.loadIconAsync(mItemView.getContext(), appInfo.packageName, icon -> {
+                // 检查 ViewHolder 是否已被复用
+                if (appInfo.packageName.equals(mAppIcon.getTag())) {
+                    if (icon != null) {
+                        mAppIcon.setImageDrawable(icon);
+                    }
+                }
+            });
         }
 
         private void updateCheckboxVisibility(AppData appInfo) {

@@ -58,8 +58,9 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
     public void setFragment(Fragment fragment) {
         getSupportFragmentManager()
             .beginTransaction()
+            .setReorderingAllowed(true)
             .replace(R.id.frame_content, fragment)
-            .commit();
+            .commitNow();
     }
 
     @Override

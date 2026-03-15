@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.collection.LruCache;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
@@ -33,11 +35,50 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
 
     private LayoutInflater mInflater;
 
+    // 滚动状态：快速滚动时跳过异步图标加载
+    private boolean mIsScrolling = false;
+
+    // Bitmap 缓存，避免每次 bind 都 createBitmap
+    private static final LruCache<Integer, Bitmap> sBitmapCache = new LruCache<Integer, Bitmap>(
+        (int) (Runtime.getRuntime().maxMemory() / 1024 / 16)
+    ) {
+        @Override
+        protected int sizeOf(Integer key, Bitmap value) {
+            return value.getByteCount() / 1024;
+        }
+    };
+
     public HeaderAdapter(BasePreferenceFragment fragment, List<Header> headers) {
         mHeaders = headers;
         mFragment = fragment;
         mContext = fragment.getContext();
         mInflater = LayoutInflater.from(fragment.getContext());
+    }
+
+    /**
+     * 绑定到 RecyclerView 时注册滚动监听，快速滚动时暂停图标加载
+     */
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView rv, int newState) {
+                boolean wasScrolling = mIsScrolling;
+                mIsScrolling = (newState == RecyclerView.SCROLL_STATE_SETTLING);
+                // 停止滚动时只刷新可见范围内的 item，避免全量 notifyDataSetChanged
+                if (wasScrolling && !mIsScrolling) {
+                    RecyclerView.LayoutManager lm = rv.getLayoutManager();
+                    if (lm instanceof LinearLayoutManager) {
+                        int first = ((LinearLayoutManager) lm).findFirstVisibleItemPosition();
+                        int last = ((LinearLayoutManager) lm).findLastVisibleItemPosition();
+                        if (first >= 0 && last >= first) {
+                            notifyItemRangeChanged(first, last - first + 1);
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public List<Header> getHeaders() {
@@ -108,22 +149,32 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     }
 
     public void setIcon(HeaderViewHolder holder, Header header) {
-        if (holder != null) {
-            ImageView iconView = holder.icon;
-            if (iconView != null && iconView.getVisibility() != View.GONE) {
-                if (header.iconRes != 0) {
-                    iconView.setVisibility(View.VISIBLE);
-                    iconView.setImageResource(header.iconRes);
-                    iconView.setScaleType(ImageView.ScaleType.FIT_XY);
-                    setIconAndTitle(holder, header);
-                } else {
-                    holder.icon.setVisibility(View.INVISIBLE);
-                }
-                if ((holder.icon.getDrawable() instanceof BitmapDrawable)) {
-                    int headerIconSize = holder.icon.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
-                    iconView.setImageBitmap(createBitmap(iconView.getDrawable(), headerIconSize, headerIconSize));
+        if (holder == null) return;
+        ImageView iconView = holder.icon;
+        if (iconView == null || iconView.getVisibility() == View.GONE) return;
+
+        if (header.iconRes != 0) {
+            iconView.setVisibility(View.VISIBLE);
+            iconView.setScaleType(ImageView.ScaleType.FIT_XY);
+
+            // 先尝试从缓存获取已缩放的 Bitmap
+            int headerIconSize = iconView.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
+            Bitmap cached = sBitmapCache.get(header.iconRes);
+            if (cached != null) {
+                iconView.setImageBitmap(cached);
+            } else {
+                iconView.setImageResource(header.iconRes);
+                if (iconView.getDrawable() instanceof BitmapDrawable) {
+                    Bitmap bitmap = createBitmap(iconView.getDrawable(), headerIconSize, headerIconSize);
+                    sBitmapCache.put(header.iconRes, bitmap);
+                    iconView.setImageBitmap(bitmap);
                 }
             }
+
+            // 异步加载真实应用图标（不先设资源图标，直接覆盖）
+            setIconAndTitle(holder, header);
+        } else {
+            iconView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -224,12 +275,17 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
     private void setIconAndTitle(HeaderViewHolder holder, Header header) {
         long id = header.id;
         if (holder == null || id == R.id.various || TextUtils.isEmpty(header.summary)) return;
+        // 快速滚动时跳过异步图标加载，停止后会通过 notifyDataSetChanged 重新 bind
+        if (mIsScrolling) return;
         String packageName = header.summary.toString();
         // 精准更新 UI
         IconTitleLoader.load(mContext, packageName, (info) -> {
-            holder.icon.setImageDrawable(info.icon);
-            if (id != R.id.system_framework) {
-                holder.title.setText(info.label);
+            // 检查 ViewHolder 是否已被复用
+            if (holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
+                holder.icon.setImageDrawable(info.icon);
+                if (id != R.id.system_framework) {
+                    holder.title.setText(info.label);
+                }
             }
         });
     }

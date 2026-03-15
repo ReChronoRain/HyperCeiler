@@ -198,8 +198,28 @@ public class SearchHelper {
 
     public static List<ModEntity> search(Context context, String keyword) {
         if (TextUtils.isEmpty(keyword)) return new ArrayList<>();
-        String query = keyword.trim().replace("'", "''") + "*";
-        return AppDatabase.getInstance(context).modDao().search(query);
+        String trimmed = keyword.trim();
+        ModDao dao = AppDatabase.getInstance(context).modDao();
+
+        // 中文（简体/繁体）按字模糊匹配，其它语言按词汇匹配
+        if (containsChinese(trimmed)) {
+            return dao.testSearch(trimmed);
+        } else {
+            String query = trimmed.replace("'", "''") + "*";
+            return dao.search(query);
+        }
+    }
+
+    private static boolean containsChinese(String text) {
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+            if (c >= 0x4E00 && c <= 0x9FFF  // CJK Unified Ideographs
+                || c >= 0x3400 && c <= 0x4DBF  // CJK Extension A
+                || c >= 0xF900 && c <= 0xFAFF) { // CJK Compatibility Ideographs
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void clearIndex() {
