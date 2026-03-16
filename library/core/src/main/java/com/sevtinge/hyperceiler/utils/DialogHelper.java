@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
+import static android.os.Process.killProcess;
+import static android.os.Process.myPid;
 import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatus;
 import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 
@@ -83,7 +85,12 @@ public class DialogHelper {
                 .setTitle(R.string.tip)
                 .setMessage(R.string.hook_failed)
                 .setHapticFeedbackEnabled(true)
-                .setPositiveButton(R.string.exit, (dialogInterface, i) -> System.exit(0))
+                .setPositiveButton(R.string.exit, (dialogInterface, i) -> {
+                    if (context instanceof Activity) {
+                        ((Activity) context).finishAffinity();
+                        killProcess(myPid());
+                    }
+                })
                 .setNegativeButton(R.string.ignore, null)
                 .show();
     }

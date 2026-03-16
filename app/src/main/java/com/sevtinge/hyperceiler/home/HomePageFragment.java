@@ -293,7 +293,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         mListView.setFocusable(true);
         mListView.setFocusableInTouchMode(true);
         mListView.setItemAnimator(null);
-        mListView.setItemViewCacheSize(-1);
+        mListView.setHasFixedSize(true);
 
         mSearchResultListView = v.findViewById(R.id.search_result);
         mSearchResultListView.setFocusable(true);
@@ -482,6 +482,22 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mListView.addItemDecoration(decoration);
         }
         mProxyAdapter.updateGroupInfo();
+
+        // 预加载所有需要图标的 header，全部完成后再刷新列表
+        List<String> packageNames = new ArrayList<>();
+        for (Header h : displayHeaders) {
+            if (h.fragment != null && !TextUtils.isEmpty(h.summary) && h.id != R.id.various) {
+                packageNames.add(h.summary.toString());
+            }
+        }
+        if (!packageNames.isEmpty()) {
+            IconTitleLoader.preloadAll(requireContext(), packageNames, () -> {
+                if (isAdded() && mHeaderAdapter != null) {
+                    mHeaderAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+
         if (!mIsInActionMode) {
             mSearchResultListView.setVisibility(View.GONE);
             LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());

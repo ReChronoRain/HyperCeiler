@@ -39,10 +39,13 @@ import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
 import org.xmlpull.v1.XmlPullParser;
 
 import java.lang.reflect.Field;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import fan.preference.PreferenceFragment;
 
@@ -50,6 +53,9 @@ public class DashboardFragment extends SettingsPreferenceFragment {
 
     private static final String TAG = "DashboardFragment";
     private static final String APP_NS = "http://schemas.android.com/apk/res-auto";
+
+    // 静态缓存，避免每次进入子页面都重新解析 XML
+    private static final Map<Integer, String> sQuickRestartCache = new ConcurrentHashMap<>();
 
     private String mQuickRestartPackageName;
 
@@ -61,7 +67,21 @@ public class DashboardFragment extends SettingsPreferenceFragment {
     @Override
     public void onCreatePreferencesAfter(Bundle bundle, String s) {
         super.onCreatePreferencesAfter(bundle, s);
-        mQuickRestartPackageName = getQuickRestartPackageName(requireContext(), getPreferenceScreenResId());
+        int xmlResId = getPreferenceScreenResId();
+        // 先查缓存
+        if (sQuickRestartCache.containsKey(xmlResId)) {
+            mQuickRestartPackageName = sQuickRestartCache.get(xmlResId);
+        } else {
+            // 缓存未命中，后台解析，不阻塞主线程
+            ThreadUtils.postOnBackgroundThread(() -> {
+                String pkg = getQuickRestartPackageName(requireContext(), xmlResId);
+                sQuickRestartCache.put(xmlResId, pkg != null ? pkg : "");
+                ThreadUtils.postOnMainThread(() -> {
+                    mQuickRestartPackageName = pkg;
+                    requireActivity().invalidateOptionsMenu();
+                });
+            });
+        }
         checkHighlightedKeyVisibility();
     }
 
