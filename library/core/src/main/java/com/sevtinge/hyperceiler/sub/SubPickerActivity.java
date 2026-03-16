@@ -162,7 +162,20 @@ public class SubPickerActivity extends AppCompatActivity
     private void setupSearchCallback() {
         mSearchCallback = new SearchCallback(this, this);
         mSearchCallback.setup(mSearchBar, mNestedHeaderLayout.getScrollableView());
-        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallback));
+        mSearchBar.setOnClickListener(v -> startSearchActionMode());
+    }
+
+    private void startSearchActionMode() {
+        if (mSearchCallback == null || mSearchCallback.isSearchOn()) {
+            return;
+        }
+
+        ActionMode actionMode = onWindowStartingActionMode(mSearchCallback);
+        if (actionMode != null) {
+            return;
+        }
+
+        Log.w(TAG, "Unable to start search action mode from activity delegate");
     }
 
     private void setupItemClickListener() {
