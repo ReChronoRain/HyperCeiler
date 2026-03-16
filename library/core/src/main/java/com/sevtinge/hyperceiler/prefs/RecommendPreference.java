@@ -151,7 +151,7 @@ public class RecommendPreference extends Preference
     }
 
     @Override
-    public boolean isEnabledCardStyle() {
+    public boolean isCardStyleEnabled() {
         return false;
     }
 
