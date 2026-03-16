@@ -45,8 +45,7 @@ public class AppDataManager {
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
 
                 List<ResolveInfo> resolveInfosHaveNoLauncher =
-                    pm.queryIntentActivities(intent,
-                        PackageManager.GET_ACTIVITIES | PackageManager.MATCH_DEFAULT_ONLY);
+                    pm.queryIntentActivities(intent, PackageManager.MATCH_ALL);
 
                 mPackageMap.clear();
                 List<ResolveInfo> resolveInfoList = new ArrayList<>();
