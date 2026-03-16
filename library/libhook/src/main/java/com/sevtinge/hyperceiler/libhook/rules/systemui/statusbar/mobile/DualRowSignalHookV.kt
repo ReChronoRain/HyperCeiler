@@ -26,6 +26,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
@@ -49,7 +50,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.getResourceIdByName
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -70,7 +70,7 @@ class DualRowSignalHookV : BaseHook() {
         PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8
     }
     private val iconScale by lazy {
-        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_size", 100)
     }
     private val verticalOffset by lazy {
         PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40)
@@ -218,14 +218,14 @@ class DualRowSignalHookV : BaseHook() {
                     if (isMoreAndroidVersion(36)) {
                         val lp = mobileSignal.layoutParams as ViewGroup.LayoutParams
                         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                        lp.height = if (iconScale != 10) DisplayUtils.dp2px(iconScale * 2.0f) else ViewGroup.LayoutParams.MATCH_PARENT
+                        lp.height = if (iconScale != 100) DisplayUtils.dp2px(iconScale / 10 * 2.0f) else ViewGroup.LayoutParams.MATCH_PARENT
                         mobileSignal.layoutParams = lp
                         mobileSignal2.layoutParams = lp
                     } else {
                         val lp = mobileSignal.layoutParams as FrameLayout.LayoutParams
                         lp.width = ViewGroup.LayoutParams.WRAP_CONTENT
-                        if (iconScale != 10) {
-                            lp.height = DisplayUtils.dp2px(iconScale * 2.0f)
+                        if (iconScale != 100) {
+                            lp.height = DisplayUtils.dp2px(iconScale / 10 * 2.0f)
                             lp.gravity = Gravity.CENTER
                         } else {
                             lp.height = ViewGroup.LayoutParams.MATCH_PARENT
