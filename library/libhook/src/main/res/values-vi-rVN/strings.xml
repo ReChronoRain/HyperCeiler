@@ -120,4 +120,10 @@
     <string name="mode_pad">Pad</string>
     <string name="misound_bluetooth_type_none">Gốc</string>
     <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
+    <string name="misound_bluetooth_type_misound">Âm thanh Mi</string>
+    <string name="misound_bluetooth_type_keep">Giữ nguyên hiện tại</string>
+    <string name="aicr">Công cụ Xiaomi AI</string>
+    <string name="aicr_modify_browser_copy">Thay đổi trình duyệt được sử dụng để sao chép và truy cập trực tiếp.</string>
+    <string name="xmsf">Khung dịch vụ Xiaomi</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">Mở khóa thông báo tập trung danh sách cho phép xác minh chữ ký</string>
 </resources>
