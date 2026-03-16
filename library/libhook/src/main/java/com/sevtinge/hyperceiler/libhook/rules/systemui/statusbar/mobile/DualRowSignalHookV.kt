@@ -63,7 +63,7 @@ class DualRowSignalHookV : MobileSignalHook() {
         PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_left_margin", 8) - 8
     }
     private val iconScale by lazy {
-        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_size", 10)
+        PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_size", 100)
     }
     private val verticalOffset by lazy {
         PrefsBridge.getInt("system_ui_statusbar_mobile_network_icon_vertical_offset", 40)
@@ -145,7 +145,7 @@ class DualRowSignalHookV : MobileSignalHook() {
 
         val signalLp = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
-            if (iconScale != 10) DisplayUtils.dp2px(iconScale * 2.0f) else ViewGroup.LayoutParams.MATCH_PARENT
+            if (iconScale != 100) DisplayUtils.dp2px(iconScale / 10 * 2.0f) else ViewGroup.LayoutParams.MATCH_PARENT
         )
         dualContainer.addView(slot1, ViewGroup.LayoutParams(signalLp))
         dualContainer.addView(slot2, ViewGroup.LayoutParams(signalLp))

@@ -36,12 +36,12 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_system_ui_statusbar_mobile_network_icon_size"
             android:title="@string/system_ui_statusbar_iconmanage_mobile_network_icon_size"
-            app:defaultValue="10"
+            app:defaultValue="100"
             app:defaultValueTitle="@string/array_default"
-            app:dividerValue="10"
-            app:format="%.1f X"
-            app:maxValue="16"
-            app:minValue="6"
+            app:dividerValue="100"
+            app:format="%.2f X"
+            app:maxValue="140"
+            app:minValue="70"
             app:stepValue="1" />
 
         <SeekBarPreferenceCompat
