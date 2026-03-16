@@ -24,43 +24,51 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 
+/**
+ * Aligns Recents header title/lock views with the header button padding.
+ */
 object TaskViewHeaderTitlePadding : BaseHook() {
+    private const val HOME_PKG = "com.miui.home"
+    private const val RES_PADDING = "recents_task_view_header_button_padding"
+    private const val RES_TITLE_ID = "title"
+    private const val RES_LOCK_ID = "lock_imageView"
+
     override fun init() {
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
-        taskViewHeaderClass.afterHookMethod("onFinishInflate") {
-            val hostView = it.thisObject as? View ?: return@afterHookMethod
-            val res = hostView.resources
-            val paddingResId = res.getIdentifier(
-                "recents_task_view_header_button_padding",
-                "dimen",
-                "com.miui.home"
-            )
-            if (paddingResId == 0) return@afterHookMethod
+        taskViewHeaderClass.afterHookMethod("onFinishInflate") { param ->
+            val hostView = param.thisObject as? View
+            if (hostView != null) {
+                val res = hostView.resources
+                val paddingResId = res.getIdentifier(RES_PADDING, "dimen", HOME_PKG)
+                if (paddingResId != 0) {
+                    val paddingBottom = res.getDimensionPixelSize(paddingResId)
+                    val titleView = try {
+                        param.thisObject.getObjectField("mTitleView") as? TextView
+                    } catch (_: Throwable) {
+                        null
+                    } ?: run {
+                        val titleId = res.getIdentifier(RES_TITLE_ID, "id", HOME_PKG)
+                        if (titleId == 0) null else hostView.findViewById(titleId)
+                    }
 
-            val paddingBottom = res.getDimensionPixelSize(paddingResId)
-            val titleView = runCatching {
-                it.thisObject.getObjectField("mTitleView") as? TextView
-            }.getOrNull() ?: run {
-                val titleId = res.getIdentifier("title", "id", "com.miui.home")
-                if (titleId == 0) null else hostView.findViewById(titleId)
-            }
+                    titleView?.setPaddingRelative(
+                        paddingBottom,
+                        titleView.paddingTop,
+                        titleView.paddingEnd,
+                        paddingBottom
+                    )
 
-            titleView?.setPaddingRelative(
-                paddingBottom,
-                titleView.paddingTop,
-                titleView.paddingEnd,
-                paddingBottom
-            )
-
-            val lockId = res.getIdentifier("lock_imageView", "id", "com.miui.home")
-            if (lockId != 0) {
-                val lockView = hostView.findViewById<View>(lockId)
-                lockView?.setPadding(
-                    lockView.paddingLeft,
-                    lockView.paddingTop,
-                    lockView.paddingRight,
-                    paddingBottom
-                )
+                    val lockId = res.getIdentifier(RES_LOCK_ID, "id", HOME_PKG)
+                    if (lockId != 0) {
+                        val lockView = hostView.findViewById<View>(lockId)
+                        lockView?.setPadding(
+                            lockView.paddingLeft,
+                            lockView.paddingTop,
+                            lockView.paddingRight,
+                            paddingBottom
+                        )
+                    }
+                }
             }
         }
     }
