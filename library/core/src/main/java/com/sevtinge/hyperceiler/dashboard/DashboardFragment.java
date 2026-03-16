@@ -184,7 +184,6 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), pkgName);
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
         boolean isDebugVersion = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) == 0;
-
         p.setVisible(check && !isDebugMode && isDebugVersion);
     }
 }

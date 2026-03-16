@@ -18,42 +18,14 @@
 */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
-import androidx.annotation.NonNull;
-import androidx.preference.Preference;
-
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
-import fan.preference.DropDownPreference;
+public class DoubleLineNetworkSettings extends DashboardFragment {
 
-public class DoubleLineNetworkSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
-
-    DropDownPreference mIconTheme;
-    DropDownPreference mIconStyle;
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.system_ui_status_bar_doubleline_network;
     }
 
-    @Override
-    public void initPrefs() {
-        mIconTheme = findPreference("prefs_key_system_ui_statusbar_iconmanage_mobile_network_icon_theme");
-        mIconStyle = findPreference("prefs_key_system_ui_status_mobile_network_icon_style");
-
-        //setCanBeVisible(mBlurMode);
-        mIconTheme.setOnPreferenceChangeListener(this);
-        mIconStyle.setVisible(mIconTheme.hashCode() == 2);
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        if (preference == mIconTheme) {
-            setCanBeVisible(Integer.parseInt((String) o));
-        }
-        return true;
-    }
-
-    private void setCanBeVisible(int mode) {
-        mIconStyle.setVisible(mode == 2);
-    }
 }

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_status_bar_mobile_title"
+    app:quick_restart="com.android.systemui">
+
+    <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_title">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_mode"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_mode"
+            app:entries="@array/status_bar_icon_signal_mode"
+            app:entryValues="@array/status_bar_icon_signal_mode_value" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_no_card"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_1"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_hide_card_1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_2"
+            android:title="@string/system_ui_status_bar_icon_mobile_network_hide_card_2" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_new_hd"
+            android:title="@string/system_ui_status_bar_icon_new_hd"
+            app:entries="@array/status_bar_icon_mode_new"
+            app:entryValues="@array/status_bar_icon_mode_new_value" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_small_hd"
+            android:title="@string/system_ui_status_bar_icon_small_hd"
+            app:entries="@array/status_bar_icon_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_status_bar_icon_big_hd"
+            android:title="@string/system_ui_status_bar_icon_big_hd"
+            app:entries="@array/status_bar_icon_mode"
+            app:entryValues="@array/status_bar_icon_mode_value" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_mobile_hide_roaming_icon"
+            android:title="@string/system_ui_status_bar_icon_roaming" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_vowifi"
+            android:title="@string/system_ui_status_bar_icon_vowifi" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_icon_volte"
+            android:title="@string/system_ui_status_bar_icon_volte" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_big_mobile_network_type"
+            android:title="@string/system_ui_status_bar_big_mobile_network_type"
+            app:isPreferenceVisible="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/system_ui_status_bar_strong_toast_layout">
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkTypeSettings"
+            android:key="prefs_key_system_ui_status_bar_mobile_type"
+            android:title="@string/system_ui_status_bar_mobile_type_single_title" />
+
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings"
+            android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network"
+            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

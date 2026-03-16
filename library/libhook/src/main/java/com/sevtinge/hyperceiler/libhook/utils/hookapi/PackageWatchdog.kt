@@ -43,7 +43,7 @@ object PackageWatchdog {
     fun clearRecord(context: Context, packageName: String) {
         getInstance(context).allObservers.forEach { (_, v) ->
             val pkg = v.callMethod("getMonitoredPackage", packageName) ?: return@forEach
-            MonitoredPackageStub(pkg).mitigationCalls!!.invokeMethod("clear")
+            MonitoredPackageStub(pkg).mitigationCalls!!.callMethod("clear")
         }
     }
 

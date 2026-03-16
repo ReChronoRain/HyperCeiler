@@ -581,9 +581,6 @@
     <string name="system_ui_statusbar_music_title">歌詞のフォーカス</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">ダブルタップでスリープ</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">二行のシグナルバー</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">アイコンテーマ</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">クラシック</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Origin アーキテクチャ</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">アイコンのスタイル</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">アイコンの大きさ</string>
     <string name="system_ui_status_bar_mobile_type_single">モバイルネットワークタイプのアイコンを別々に表示</string>
@@ -739,7 +736,6 @@
     <string name="system_control_center_qs_columns_horizontal">列数 (横画面)</string>
     <string name="system_ui_control_center_notification_disable_transparent">透明モードを無効化</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">通知の背景を透明にする設定を無効にします</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">アルバム画像の角丸トランジションを最適化</string>
     <string name="system_ui_control_center_media_control_progress">プログレスバー</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">一部の音楽アプリのカスタムアクション制限を削除</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波状</string>
@@ -747,8 +743,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">太さ</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">プログレスバーの角の半径</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">時間表示の文字サイズ</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">プログレスバーの色</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">スライダーの色</string>
     <string name="system_ui_control_center_media_control_media_button_custom">アクションボタンのサイズをカスタマイズ</string>
     <string name="system_ui_control_center_media_control_media_button">組込みアクションボタンのサイズ</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景画像のぼかし半径</string>
@@ -758,7 +752,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">アニメーションを使用してテキストの色を更新</string>
     <string name="system_ui_control_center_media_control_inverse_color">色を自動的に反転</string>
     <string name="system_ui_control_center_media_control_media_album_mode">メディアカバー</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">「非表示」を選択した後、レイアウトの変更スイッチも有効にする必要があります。</string>
     <string name="system_ui_control_center_media_control_media_button_title">メディアコントロール</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">レイアウトの変更を有効化</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">フォントの変更を有効化</string>

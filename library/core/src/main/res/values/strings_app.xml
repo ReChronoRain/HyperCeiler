@@ -306,6 +306,7 @@
     <string name="array_default_thin">Default font</string>
     <string name="array_default_bold">Default font-bold</string>
     <string name="array_bold">Bold</string>
+    <string name="array_class">Classic</string>
     <string name="array_theme">Follow the subject</string>
     <string name="array_global_actions_none">No action</string>
     <string name="array_global_actions_notif">Open the Notification shade</string>
@@ -348,6 +349,8 @@
     <string name="status_bar_icon_mode_off">Always hidden</string>
     <string name="status_bar_icon_mode_on_control_center">Only show in control center</string>
     <string name="status_bar_icon_mode_on_status_bar">Only show in status bar</string>
+    <string name="status_bar_mobile_mode_on_status_bar">Show only when connected</string>
+    <string name="status_bar_mobile_mode_2_on_status_bar">Show only the data SIM</string>
     <string name="status_bar_icon_mode_off_unconnect">Hide only when not connected</string>
     <string name="status_bar_icon_mode_on_beforering">Show only before ringing</string>
     <string name="seek_points_roll">Show only when swiping the screen</string>
@@ -642,12 +645,17 @@
     <string name="system_ui_navigation_frame_custom_height_land">Horizontal navigation frame height</string>
     <string name="system_ui_statusbar_title">Status bar</string>
     <string name="system_ui_statusbar_iconmanage_title">Manage icons</string>
+    <string name="system_ui_status_bar_mobile_title">Mobile network</string>
     <string name="system_ui_statusbar_network_speed_indicator_title">Manage network speed indicator</string>
     <string name="system_ui_statusbar_clock_title">Manage clock indicator</string>
+    <string name="system_ui_statusbar_focus_notif_title">Focus notification</string>
+    <string name="system_ui_statusbar_island_title">Super Island</string>
     <string name="system_ui_statusbar_strong_toast_title">Smart strong toast</string>
+    <string name="system_ui_statusbar_island_media_card_title">Media card</string>
     <string name="system_ui_statusbar_music_title">Focus lyrics</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Double-tap status bar to sleep</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
+    <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">This feature is disabled because the mobile network signal card icon is currently hidden</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Icon themes</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Classic</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Rounded</string>
@@ -684,6 +692,7 @@
     <string name="system_ui_status_bar_icon_new_hd">New HD icon</string>
     <string name="system_ui_status_bar_icon_small_hd">Small HD icon</string>
     <string name="system_ui_status_bar_icon_big_hd">Big HD icon</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_mode">Mobile signal display logic</string>
     <string name="system_ui_status_bar_icon_mobile_network_signal_no_card">No SIM card icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_1">Hide SIM 1 signal icon</string>
     <string name="system_ui_status_bar_icon_mobile_network_hide_card_2">Hide SIM 2 signal icon</string>
@@ -808,7 +817,6 @@
     <string name="system_control_center_qs_columns_horizontal">Columns (Horizontal)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Disable transparent mode</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Disable set notification background to transparent</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optimize rounded corner transition of album images</string>
     <string name="system_ui_control_center_media_control_progress">Progress bar</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remove custom action restrictions of some music app</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Wavy</string>
@@ -819,8 +827,8 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Thickness</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Progress bar corner radius</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Time view text size</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Progress bar color</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Slider color</string>
+    <string name="system_ui_control_center_media_control_progress_comet">Comet progress bar</string>
+    <string name="system_ui_control_center_media_control_progress_round">Rounded progress bar</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Custom action button size</string>
     <string name="system_ui_control_center_media_control_media_button">Intrinsic action button size</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Background blur radius</string>
@@ -829,8 +837,13 @@
     <string name="system_ui_control_center_media_control_color_anim">Color animation</string>
     <string name="system_ui_control_center_media_control_color_anim_desc">Update text color with animation</string>
     <string name="system_ui_control_center_media_control_inverse_color">Auto color inversion</string>
+    <string name="system_ui_control_center_media_control_ambient_light">Ambient Light Effect</string>
+    <string name="system_ui_control_center_media_control_ambient_light_desc">Music flow light effect similar to the Dynamic Island. Best experienced with Always Dark mode enabled.\nThis feature consumes significant resources; use with caution.</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt">Optimize color picking</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt_desc">Ambient light color picking logic optimized using the Material 3 Monet color system</string>
+    <string name="system_ui_control_center_media_control_always_dark">Always Dark Mode</string>
+    <string name="system_ui_control_center_media_control_always_dark_desc">Keep the media card in dark mode at all times</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Media cover</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">After selecting \"Invisible\", you must also enable the layout modification option for it to take effect.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Media controls</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Enable layout modification</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Enable font modification</string>

@@ -27,7 +27,6 @@ import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.HashMap;
@@ -45,11 +44,7 @@ public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
 
-    private volatile boolean mPrefsListenerRegistered = false;
-
     protected String processName;
-    protected SharedPreferences remotePrefs;
-    protected SharedPreferences.OnSharedPreferenceChangeListener mListener;
 
     public XposedInitEntry(@NonNull XposedInterface base, @NonNull ModuleLoadedParam param) {
         super(base, param);
@@ -64,8 +59,8 @@ public class XposedInitEntry extends XposedModule {
     public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
         // load preferences
         initPrefs();
-        if (!isModuleReady()) {
-            AndroidLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
+        if (isModuleReady()) {
+            XposedLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
             return;
         }
 
@@ -76,17 +71,17 @@ public class XposedInitEntry extends XposedModule {
         try {
             new CrashMonitor(lpparam);
         } catch (Exception e) {
-            AndroidLog.e(TAG, "system", "Crash Hook load failed, " + e);
+            XposedLog.e(TAG, "system", "Crash Hook load failed, " + e);
         }
 
         // load Third Hook
         if (PrefsBridge.getBoolean("system_framework_core_patch_enable")) {
             new CorePatch().onLoad(lpparam);
-            AndroidLog.d(TAG, "system", "CorePatch loaded");
+            XposedLog.d(TAG, "system", "CorePatch loaded");
         }
         if (PrefsBridge.getBoolean("system_other_flag_secure")) {
             new FlagSecure().onLoad(lpparam);
-            AndroidLog.d(TAG, "system", "FlagSecure loaded");
+            XposedLog.d(TAG, "system", "FlagSecure loaded");
         }
 
         // load Hook
@@ -99,8 +94,8 @@ public class XposedInitEntry extends XposedModule {
         if (!lpparam.isFirstPackage()) return;
         // load preferences
         initPrefs();
-        if (!isModuleReady()) {
-            AndroidLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
+        if (isModuleReady()) {
+            XposedLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
             return;
         }
         // load EzXposed
@@ -171,7 +166,7 @@ public class XposedInitEntry extends XposedModule {
     }
 
     private boolean isModuleReady() {
-        return PrefsBridge.getBoolean("allow_hook", false);
+        return !PrefsBridge.getBoolean("allow_hook", false);
     }
 
 }

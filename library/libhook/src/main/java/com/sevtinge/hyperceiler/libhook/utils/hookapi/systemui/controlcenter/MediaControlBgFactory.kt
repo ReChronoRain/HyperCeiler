@@ -41,16 +41,17 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaControlPanel
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.playerTwoCircleView
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabackground.MediaViewColorConfig
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.MediaViewColorConfig
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findFieldOrNull
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import java.util.WeakHashMap
 import kotlin.math.max
 import kotlin.math.min
 
-// https://github.com/HowieHChen/XiaomiHelper/blob/b1ab58484326372575a72f6509580cc60c272300/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/media/MediaControlBgFactory.kt
+// https://github.com/HowieHChen/XiaomiHelper/blob/6a0e424ad9276205fdf47f523cc6c8bb72e49e7f/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/media/MediaControlBgFactory.kt
 object MediaControlBgFactory : BaseHook() {
 
     val ColorSchemeClass by lazy {
@@ -64,31 +65,37 @@ object MediaControlBgFactory : BaseHook() {
         Color.BLACK
     )
 
-    val conColorScheme2 by lazy {
-        ColorSchemeClass!!.constructorFinder().filterByParamCount(2).single()
+    val conColorScheme by lazy {
+        runCatching {
+            ColorSchemeClass!!.constructorFinder().filterByParamCount(3).single()
+        }.getOrElse {
+            ColorSchemeClass!!.constructorFinder().filterByParamCount(2).single()
+        }
     }
-    val conColorScheme3 by lazy {
-        ColorSchemeClass!!.constructorFinder().filterByParamCount(3).single()
+
+    private val conColorSchemeParamCount by lazy {
+        conColorScheme.parameterCount
     }
+
     val fldTonalPaletteAllShades by lazy {
         loadClass("com.android.systemui.monet.TonalPalette")
             .findFieldOrNull("allShades")
     }
     val fldColorSchemeNeutral1 by lazy {
-        ColorSchemeClass!!.findFieldOrNull("mNeutral1") ?:
-        ColorSchemeClass!!.findFieldOrNull("neutral1")
+        ColorSchemeClass!!.findFieldOrNull("mNeutral1")
+            ?: ColorSchemeClass!!.findFieldOrNull("neutral1")
     }
     val fldColorSchemeNeutral2 by lazy {
-        ColorSchemeClass!!.findFieldOrNull("mNeutral2") ?:
-        ColorSchemeClass!!.findFieldOrNull("neutral2")
+        ColorSchemeClass!!.findFieldOrNull("mNeutral2")
+            ?: ColorSchemeClass!!.findFieldOrNull("neutral2")
     }
     val fldColorSchemeAccent1 by lazy {
-        ColorSchemeClass!!.findFieldOrNull("mAccent1") ?:
-        ColorSchemeClass!!.findFieldOrNull("accent1")
+        ColorSchemeClass!!.findFieldOrNull("mAccent1")
+            ?: ColorSchemeClass!!.findFieldOrNull("accent1")
     }
     val fldColorSchemeAccent2 by lazy {
-        ColorSchemeClass!!.findFieldOrNull("mAccent2") ?:
-        ColorSchemeClass!!.findFieldOrNull("accent2")
+        ColorSchemeClass!!.findFieldOrNull("mAccent2")
+            ?: ColorSchemeClass!!.findFieldOrNull("accent2")
     }
     val enumStyleContent: Any? by lazy {
         loadClass("com.android.systemui.monet.Style", lpparam.classLoader).methodFinder()
@@ -102,17 +109,15 @@ object MediaControlBgFactory : BaseHook() {
             .first()
     }
 
+    // WallpaperColors 缓存
+    private val artworkColorCache = WeakHashMap<Icon, WallpaperColors>()
 
     override fun init() {
         playerTwoCircleView
         miuiMediaControlPanel
         miuiMediaViewControllerImpl
         ColorSchemeClass
-        runCatching {
-            conColorScheme2
-        }.onFailure {
-            conColorScheme3
-        }
+        conColorScheme
         fldTonalPaletteAllShades
         fldColorSchemeNeutral1
         fldColorSchemeNeutral2
@@ -120,6 +125,19 @@ object MediaControlBgFactory : BaseHook() {
         fldColorSchemeAccent2
         enumStyleContent
         metIconGetBitmap
+    }
+
+    /**
+     * 创建 ColorScheme 实例，自动适配 2/3 参数构造器
+     */
+    fun newColorScheme(wallpaperColors: WallpaperColors): Any? {
+        return runCatching {
+            if (conColorSchemeParamCount == 3) {
+                conColorScheme.newInstance(wallpaperColors, true, enumStyleContent)
+            } else {
+                conColorScheme.newInstance(wallpaperColors, enumStyleContent)
+            }
+        }.getOrNull()
     }
 
     fun Context.getScaledBackground(icon: Icon?, width: Int, height: Int): Drawable? {
@@ -135,18 +153,39 @@ object MediaControlBgFactory : BaseHook() {
         return loadDrawable
     }
 
-    fun Context.getWallpaperColor(icon: Icon?): WallpaperColors? {
+    /**
+     * 带缓存的 WallpaperColors 获取
+     */
+    fun Context.getCachedWallpaperColor(icon: Icon?): WallpaperColors? {
         val iconType = icon?.type ?: return null
-        if (iconType != Icon.TYPE_BITMAP && iconType != Icon.TYPE_ADAPTIVE_BITMAP) {
+        synchronized(artworkColorCache) {
+            artworkColorCache[icon]?.let { return it }
+        }
+        val colors = if (iconType != Icon.TYPE_BITMAP && iconType != Icon.TYPE_ADAPTIVE_BITMAP) {
             val drawable = icon.loadDrawable(this) ?: return null
-            return WallpaperColors.fromDrawable(drawable)
+            WallpaperColors.fromDrawable(drawable)
         } else {
             val bitmap = metIconGetBitmap.invoke(icon) as? Bitmap
-            return if (bitmap?.isRecycled == false) {
+            if (bitmap?.isRecycled == false) {
                 WallpaperColors.fromBitmap(bitmap)
             } else {
                 null
             }
+        }
+        if (colors != null) {
+            synchronized(artworkColorCache) {
+                artworkColorCache[icon] = colors
+            }
+        }
+        return colors
+    }
+
+    /**
+     * 释放缓存
+     */
+    fun releaseCachedWallpaperColor() {
+        synchronized(artworkColorCache) {
+            artworkColorCache.clear()
         }
     }
 
@@ -160,8 +199,7 @@ object MediaControlBgFactory : BaseHook() {
                 val red = Color.red(pixel)
                 val green = Color.green(pixel)
                 val blue = Color.blue(pixel)
-                val brightness =
-                    0.299f * red + 0.587f * green + 0.114f * blue
+                val brightness = 0.299f * red + 0.587f * green + 0.114f * blue
                 totalBrightness += brightness
             }
         }

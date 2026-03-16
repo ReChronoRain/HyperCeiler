@@ -16,12 +16,15 @@
 
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
+@file:Suppress("UNCHECKED_CAST")
+
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
+import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
@@ -35,6 +38,17 @@ import java.lang.reflect.Member
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
+/**
+ * Hook 回调 DSL 构建器
+ *
+ * 用法示例：
+ * ```kotlin
+ * clazz.hookMethod("methodName", String::class.java) {
+ *     before { param -> ... }
+ *     after { param -> ... }
+ * }
+ * ```
+ */
 class MethodHookBuilder {
     private var beforeBlock: ((BeforeHookParam) -> Unit)? = null
     private var afterBlock: ((AfterHookParam) -> Unit)? = null
@@ -59,6 +73,8 @@ class MethodHookBuilder {
         }
     }
 }
+
+// -------------------- 方法 Hook --------------------
 
 inline fun Class<*>.beforeHookMethod(
     methodName: String,
@@ -118,6 +134,8 @@ inline fun Class<*>.replaceMethod(
     )
 }
 
+// -------------------- 构造器 Hook --------------------
+
 inline fun Class<*>.beforeHookConstructor(
     vararg args: Any,
     crossinline block: (BeforeHookParam) -> Unit
@@ -159,66 +177,103 @@ inline fun Class<*>.hookAllConstructors(
     return EzxHelpUtils.hookAllConstructors(this, builder.build())
 }
 
-// ==================== Any 扩展函数 ====================
 
-fun Any.getObjectField(fieldName: String): Any? = EzxHelpUtils.getObjectField(this, fieldName)
-fun <T> Any.getObjectFieldAs(fieldName: String): T = getObjectField(fieldName) as T
+fun Method.hook(callback: IMethodHook): MethodUnhooker<*> =
+    EzxHelpUtils.hookMethod(this, callback)
+
+fun Method.hookReplace(callback: IReplaceHook): MethodUnhooker<*> =
+    EzxHelpUtils.hookMethod(this, callback)
+
+fun Constructor<*>.hook(callback: IMethodHook): MethodUnhooker<*> =
+    EzxHelpUtils.hookConstructor(this, callback)
+
+fun Method.deoptimizeMethod() = EzxHelpUtils.deoptimize(this)
+
+fun Class<*>.deoptimizeMethods(vararg names: String?) =
+    EzxHelpUtils.deoptimizeMethods(this, *names)
+
+
+// -------------------- 顶层字段查找工具 --------------------
+
+/**
+ * 通过字段名递归查找字段值（遍历父类）
+ *
+ * @param target 对象实例
+ * @param fieldName 字段名
+ * @param clazz 指定起始搜索类，默认使用对象的实际类型
+ * @return 字段值，找不到返回 null
+ */
+fun getValueByField(target: Any, fieldName: String, clazz: Class<*>? = null): Any? {
+    val targetClass = clazz ?: target.javaClass
+    return try {
+        val field = targetClass.getDeclaredField(fieldName)
+        field.isAccessible = true
+        field.get(target)
+    } catch (_: Throwable) {
+        if (targetClass.superclass == null) {
+            null
+        } else {
+            getValueByField(target, fieldName, targetClass.superclass)
+        }
+    }
+}
+
+// -------------------- Any 实例字段 get/set --------------------
+
+fun Any.getObjectField(fieldName: String): Any? =
+    EzxHelpUtils.getObjectField(this, fieldName)
+
+fun <T> Any.getObjectFieldAs(fieldName: String): T =
+    getObjectField(fieldName) as T
+
 fun Any.setObjectField(fieldName: String, value: Any?) =
     EzxHelpUtils.setObjectField(this, fieldName, value)
 
-fun Any.getBooleanField(fieldName: String): Boolean = EzxHelpUtils.getBooleanField(this, fieldName)
+fun Any.getBooleanField(fieldName: String): Boolean =
+    EzxHelpUtils.getBooleanField(this, fieldName)
+
 fun Any.setBooleanField(fieldName: String, value: Boolean) =
     EzxHelpUtils.setBooleanField(this, fieldName, value)
 
-fun Any.getIntField(fieldName: String): Int = EzxHelpUtils.getIntField(this, fieldName)
+fun Any.getIntField(fieldName: String): Int =
+    EzxHelpUtils.getIntField(this, fieldName)
+
 fun Any.setIntField(fieldName: String, value: Int) =
     EzxHelpUtils.setIntField(this, fieldName, value)
 
-fun Any.getLongField(fieldName: String): Long = EzxHelpUtils.getLongField(this, fieldName)
+fun Any.getLongField(fieldName: String): Long =
+    EzxHelpUtils.getLongField(this, fieldName)
+
 fun Any.setLongField(fieldName: String, value: Long) =
     EzxHelpUtils.setLongField(this, fieldName, value)
 
-fun Any.getFloatField(fieldName: String): Float = EzxHelpUtils.getFloatField(this, fieldName)
+fun Any.getFloatField(fieldName: String): Float =
+    EzxHelpUtils.getFloatField(this, fieldName)
+
 fun Any.setFloatField(fieldName: String, value: Float) =
     EzxHelpUtils.setFloatField(this, fieldName, value)
 
-fun Any.getObjectFieldOrNull(fieldName: String): Any? {
-    return runCatching { getObjectField(fieldName) }.getOrNull()
-}
+// -------------------- Any 实例字段 safe (OrNull) --------------------
 
-fun <T> Any.getObjectFieldOrNullAs(fieldName: String): T? {
-    return runCatching {
-        getObjectField(fieldName) as? T
-    }.getOrNull()
-}
+fun Any.getObjectFieldOrNull(fieldName: String): Any? =
+    runCatching { getObjectField(fieldName) }.getOrNull()
 
-fun Any.getBooleanFieldOrNull(fieldName: String): Boolean? {
-    return runCatching { getBooleanField(fieldName) }.getOrNull()
-}
+fun <T> Any.getObjectFieldOrNullAs(fieldName: String): T? =
+    runCatching { getObjectField(fieldName) as? T }.getOrNull()
 
-fun Any.getIntFieldOrNull(fieldName: String): Int? {
-    return runCatching { getIntField(fieldName) }.getOrNull()
-}
+fun Any.getBooleanFieldOrNull(fieldName: String): Boolean? =
+    runCatching { getBooleanField(fieldName) }.getOrNull()
 
-fun Any.getLongFieldOrNull(fieldName: String): Long? {
-    return runCatching { getLongField(fieldName) }.getOrNull()
-}
+fun Any.getIntFieldOrNull(fieldName: String): Int? =
+    runCatching { getIntField(fieldName) }.getOrNull()
 
-fun Any.getFloatFieldOrNull(fieldName: String): Float? {
-    return runCatching { getFloatField(fieldName) }.getOrNull()
-}
+fun Any.getLongFieldOrNull(fieldName: String): Long? =
+    runCatching { getLongField(fieldName) }.getOrNull()
 
-fun Any.callMethod(methodName: String, vararg args: Any?): Any? =
-    EzxHelpUtils.callMethod(this, methodName, *args)
+fun Any.getFloatFieldOrNull(fieldName: String): Float? =
+    runCatching { getFloatField(fieldName) }.getOrNull()
 
-fun <T> Any.callMethodAs(methodName: String, vararg args: Any?): T =
-    callMethod(methodName, *args) as T
-
-fun Any.callMethodOrNull(methodName: String, vararg args: Any?): Any? {
-    return runCatching {
-        EzxHelpUtils.callMethod(this, methodName, *args)
-    }.getOrNull()
-}
+// -------------------- Any 按类型查找字段 --------------------
 
 fun Any.getFirstFieldByExactType(type: Class<*>): Any? =
     javaClass.findFirstFieldByExactType(type).get(this)
@@ -226,27 +281,14 @@ fun Any.getFirstFieldByExactType(type: Class<*>): Any? =
 fun <T> Any.getFirstFieldByExactTypeAs(type: Class<*>) =
     javaClass.findFirstFieldByExactType(type).get(this) as? T
 
-fun Any.getAdditionalInstanceField(field: String): Any? =
-    EzxHelpUtils.getAdditionalInstanceField(this, field)
-
-fun <T> Any.getAdditionalInstanceFieldAs(field: String) =
-    EzxHelpUtils.getAdditionalInstanceField(this, field) as T
-
-fun Any.setAdditionalInstanceField(
-    field: String,
-    value: Any?
-): Any? = EzxHelpUtils.setAdditionalInstanceField(this, field, value)
-
-fun Any.removeAdditionalInstanceField(
-    field: String
-): Any? = EzxHelpUtils.removeAdditionalInstanceField(this, field)
-
-// ==================== Class 扩展函数 ====================
+// -------------------- Class<*> 静态字段 get/set --------------------
 
 fun Class<*>.getStaticObjectField(fieldName: String): Any? =
     EzxHelpUtils.getStaticObjectField(this, fieldName)
 
-fun <T> Class<*>.getStaticObjectFieldAs(fieldName: String): T = getStaticObjectField(fieldName) as T
+fun <T> Class<*>.getStaticObjectFieldAs(fieldName: String): T =
+    getStaticObjectField(fieldName) as T
+
 fun Class<*>.setStaticObjectField(fieldName: String, value: Any?) =
     EzxHelpUtils.setStaticObjectField(this, fieldName, value)
 
@@ -268,42 +310,30 @@ fun Class<*>.getStaticLongField(fieldName: String): Long =
 fun Class<*>.setStaticLongField(fieldName: String, value: Long) =
     EzxHelpUtils.setStaticLongField(this, fieldName, value)
 
-fun Class<*>.getStaticObjectFieldOrNull(fieldName: String): Any? {
-    return runCatching { getStaticObjectField(fieldName) }.getOrNull()
-}
+// -------------------- Class<*> 静态字段 safe (OrNull) --------------------
 
-fun <T> Class<*>.getStaticObjectFieldAsOrNull(fieldName: String): T? {
-    return runCatching {
-        getStaticObjectField(fieldName) as? T
-    }.getOrNull()
-}
+fun Class<*>.getStaticObjectFieldOrNull(fieldName: String): Any? =
+    runCatching { getStaticObjectField(fieldName) }.getOrNull()
 
-fun Class<*>.getStaticBooleanFieldOrNull(fieldName: String): Boolean? {
-    return runCatching { getStaticBooleanField(fieldName) }.getOrNull()
-}
+fun <T> Class<*>.getStaticObjectFieldAsOrNull(fieldName: String): T? =
+    runCatching { getStaticObjectField(fieldName) as? T }.getOrNull()
 
-fun Class<*>.getStaticIntFieldOrNull(fieldName: String): Int? {
-    return runCatching { getStaticIntField(fieldName) }.getOrNull()
-}
+fun Class<*>.getStaticBooleanFieldOrNull(fieldName: String): Boolean? =
+    runCatching { getStaticBooleanField(fieldName) }.getOrNull()
 
-fun Class<*>.getStaticLongFieldOrNull(fieldName: String): Long? {
-    return runCatching { getStaticLongField(fieldName) }.getOrNull()
-}
+fun Class<*>.getStaticIntFieldOrNull(fieldName: String): Int? =
+    runCatching { getStaticIntField(fieldName) }.getOrNull()
 
-fun Class<*>.callStaticMethod(methodName: String, vararg args: Any?): Any? =
-    EzxHelpUtils.callStaticMethod(this, methodName, *args)
+fun Class<*>.getStaticLongFieldOrNull(fieldName: String): Long? =
+    runCatching { getStaticLongField(fieldName) }.getOrNull()
 
-fun <T> Class<*>.callStaticMethodAs(methodName: String, vararg args: Any?): T =
-    callStaticMethod(methodName, *args) as T
-
-fun <T> Class<*>.newInstance(vararg args: Any?): T = EzxHelpUtils.newInstance(this, *args) as T
+// -------------------- Class<*> 字段查找 --------------------
 
 fun Class<*>.findField(name: String): Field =
     EzxHelpUtils.findField(this, name)
 
-fun Class<*>.findFieldOrNull(name: String): Field? = runCatching {
-        EzxHelpUtils.findField(this, name)
-    }.getOrNull()
+fun Class<*>.findFieldOrNull(name: String): Field? =
+    runCatching { EzxHelpUtils.findField(this, name) }.getOrNull()
 
 fun Class<*>.findFieldByExactType(type: Class<*>): Field =
     EzxHelpUtils.findFirstFieldByExactType(this, type)
@@ -311,35 +341,69 @@ fun Class<*>.findFieldByExactType(type: Class<*>): Field =
 fun Class<*>.findFirstFieldByExactType(type: Class<*>): Field =
     EzxHelpUtils.findFirstFieldByExactType(this, type)
 
+// -------------------- 附加实例字段 --------------------
 
-// ==================== String 扩展函数 ====================
+fun Any.getAdditionalInstanceField(field: String): Any? =
+    EzxHelpUtils.getAdditionalInstanceField(this, field)
 
-fun String.toClass(classLoader: ClassLoader?): Class<*> = EzxHelpUtils.findClass(this, classLoader)
+fun <T> Any.getAdditionalInstanceFieldAs(field: String) =
+    EzxHelpUtils.getAdditionalInstanceField(this, field) as? T
+
+fun Any.setAdditionalInstanceField(field: String, value: Any?): Any? =
+    EzxHelpUtils.setAdditionalInstanceField(this, field, value)
+
+fun Any.removeAdditionalInstanceField(field: String): Any? =
+    EzxHelpUtils.removeAdditionalInstanceField(this, field)
+
+
+// -------------------- Any 实例方法调用 --------------------
+
+fun Any.callMethod(methodName: String, vararg args: Any?): Any? =
+    EzxHelpUtils.callMethod(this, methodName, *args)
+
+fun <T> Any.callMethodAs(methodName: String, vararg args: Any?): T =
+    callMethod(methodName, *args) as T
+
+fun Any.callMethodOrNull(methodName: String, vararg args: Any?): Any? =
+    runCatching { EzxHelpUtils.callMethod(this, methodName, *args) }.getOrNull()
+
+// -------------------- Class<*> 静态方法调用 --------------------
+
+fun Class<*>.callStaticMethod(methodName: String, vararg args: Any?): Any? =
+    EzxHelpUtils.callStaticMethod(this, methodName, *args)
+
+fun <T> Class<*>.callStaticMethodAs(methodName: String, vararg args: Any?): T =
+    callStaticMethod(methodName, *args) as T
+
+// -------------------- 实例化 --------------------
+
+fun <T> Class<*>.newInstance(vararg args: Any?): T =
+    EzxHelpUtils.newInstance(this, *args) as T
+
+fun String.toClass(classLoader: ClassLoader?): Class<*> =
+    EzxHelpUtils.findClass(this, classLoader)
+
 fun String.toClassOrNull(classLoader: ClassLoader?): Class<*>? =
     EzxHelpUtils.findClassIfExists(this, classLoader)
 
-// ==================== Hook 扩展函数 ====================
-
-fun Method.hook(callback: IMethodHook): MethodUnhooker<*> = EzxHelpUtils.hookMethod(this, callback)
-fun Method.hookReplace(callback: IReplaceHook): MethodUnhooker<*> =
-    EzxHelpUtils.hookMethod(this, callback)
-
-fun Constructor<*>.hook(callback: IMethodHook): MethodUnhooker<*> =
-    EzxHelpUtils.hookConstructor(this, callback)
-
-fun Method.deoptimizeMethod() = EzxHelpUtils.deoptimize(this)
-fun Class<*>.deoptimizeMethods(vararg names: String?) = EzxHelpUtils.deoptimizeMethods(this, *names)
 
 val Member.isStatic: Boolean
     inline get() = Modifier.isStatic(modifiers)
+
 val Member.isFinal: Boolean
     inline get() = Modifier.isFinal(modifiers)
+
 val Member.isPublic: Boolean
     inline get() = Modifier.isPublic(modifiers)
+
 val Member.isNotStatic: Boolean
     inline get() = !isStatic
+
 val Class<*>.isAbstract: Boolean
     inline get() = !isPrimitive && Modifier.isAbstract(modifiers)
+
+
+// -------------------- Context 资源查找 --------------------
 
 @SuppressLint("DiscouragedApi")
 fun Context.getIdByName(
@@ -351,22 +415,32 @@ fun Context.getIdByName(
 fun Context.getStringIdByName(name: String): Int = getIdByName(name, "string")
 fun Context.getString(name: String): String = getString(getStringIdByName(name))
 
+@DimenRes
+fun Context.getDimenByName(name: String): Int = getIdByName(name, "dimen")
+
 @DrawableRes
 fun Context.getDrawableIdByName(name: String): Int = getIdByName(name, "drawable")
-fun Context.getDrawable(
-    name: String
-): Drawable? = getDrawable(getDrawableIdByName(name))
+fun Context.getDrawable(name: String): Drawable? =
+    getDrawable(getDrawableIdByName(name))
 
-fun View.setPadding(padding: Int) = setPadding(padding, padding, padding, padding)
+// -------------------- View padding --------------------
 
-fun View.setPaddingLeft(paddingLeft: Int) = setPaddingSide(paddingLeft, paddingRight)
-fun View.setPaddingRight(paddingRight: Int) = setPaddingSide(paddingLeft, paddingRight)
+fun View.setPadding(padding: Int) =
+    setPadding(padding, padding, padding, padding)
 
-fun View.setPaddingSide(paddingSide: Int) = setPaddingSide(paddingSide, paddingSide)
-fun View.setPaddingSide(
-    paddingLeft: Int,
-    paddingRight: Int
-) = setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+fun View.setPaddingLeft(paddingLeft: Int) =
+    setPaddingSide(paddingLeft, paddingRight)
+
+fun View.setPaddingRight(paddingRight: Int) =
+    setPaddingSide(paddingLeft, paddingRight)
+
+fun View.setPaddingSide(paddingSide: Int) =
+    setPaddingSide(paddingSide, paddingSide)
+
+fun View.setPaddingSide(paddingLeft: Int, paddingRight: Int) =
+    setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom)
+
+// -------------------- Resources Hook 数据类 --------------------
 
 data class ResourcesHookData(val type: String, val afterValue: Any)
 

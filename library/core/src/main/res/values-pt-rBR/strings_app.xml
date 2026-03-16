@@ -578,9 +578,6 @@
     <string name="system_ui_statusbar_music_title">Letras de foco</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Toque duas vezes na barra de status para desligar a tela</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Barra de sinal de duas linhas</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema do ícone</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Clássico</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Arredondado</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilo do ícone</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Escala do ícone</string>
     <string name="system_ui_status_bar_mobile_type_single">Exibir ícone do tipo de rede móvel separadamente</string>
@@ -736,7 +733,6 @@
     <string name="system_control_center_qs_columns_horizontal">Colunas (Horizontal)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Desativar modo transparente</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Desative a configuração do plano de fundo da notificação para ser transparente</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Otimizar transição de cantos arredondados das imagens do álbum</string>
     <string name="system_ui_control_center_media_control_progress">Barra de progresso</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Remover restrições personalizadas para notificação de mídia</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Ondulado</string>
@@ -744,8 +740,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Rígido</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Raio do canto da barra de progresso</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Tamanho do texto de visualização da hora</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Cor da barra de progresso</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Cor do slider</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Personalizar tamanho do botão de ação</string>
     <string name="system_ui_control_center_media_control_media_button">Tamanho do botão de ação intrínseca</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Raio do blur da imagem de fundo</string>
@@ -755,7 +749,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">Atualize a cor do texto com animação</string>
     <string name="system_ui_control_center_media_control_inverse_color">Inversão automática de cores</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Capa da mídia</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">Após selecionar \"Invisível\", você também deve ativar a opção de modificação de layout para que ela tenha efeito.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Controles de mídia</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Ativar modificação de layout</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Ativar modificação de fonte</string>

@@ -20,16 +20,20 @@ package com.sevtinge.hyperceiler.hooker.systemui;
 
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isSupportTelephony;
 
 import android.os.Bundle;
 
+import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 
 public class StatusBarSettings extends DashboardFragment {
+
+    Preference mMobileNetwork;
     RecommendPreference mRecommend;
     SwitchPreference mHideStatusBarOnLockScreen;
 
@@ -44,6 +48,13 @@ public class StatusBarSettings extends DashboardFragment {
         mHideStatusBarOnLockScreen = findPreference("prefs_key_system_ui_status_bar_hide_icon");
         if (isMoreSmallVersion(200, 2f)) {
             mHideStatusBarOnLockScreen.setSummary(R.string.system_ui_status_bar_hide_icon_desc);
+        }
+
+        mMobileNetwork = findPreference("prefs_key_statubar_mobile_network");
+        if (getContext() != null) {
+            if (!isSupportTelephony(getContext())) {
+                setFuncHint(mMobileNetwork, 1);
+            }
         }
 
         Bundle args1 = new Bundle();

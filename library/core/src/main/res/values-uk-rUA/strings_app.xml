@@ -555,9 +555,6 @@
     <string name="system_ui_statusbar_music_title">Фокус на тексті пісні</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Подвійний дотик до рядка стану для сну</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Дворядковий індикатор сигналу</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Теми іконок</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Класичний</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Закруглений</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Стиль іконки</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Масштаб іконки</string>
     <string name="system_ui_status_bar_mobile_type_single">Окреме відображення іконки типу мобільної мережі</string>
@@ -711,7 +708,6 @@
     <string name="system_control_center_qs_columns_horizontal">Стовпці (горизонтально)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Вимкнути прозорий режим</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Вимкнути встановлення прозорого фону для сповіщень</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Оптимізувати перехід закруглених кутів зображень альбому</string>
     <string name="system_ui_control_center_media_control_progress">Смуга прогресу</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Зняти обмеження на користувацькі дії деяких музичних додатків</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Хвилястий</string>
@@ -719,8 +715,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Товщина</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Радіус закруглення смуги прогресу</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Розмір тексту часу</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Колір смуги прогресу</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Колір повзунка</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Розмір кнопки користувацької дії</string>
     <string name="system_ui_control_center_media_control_media_button">Внутрішній розмір кнопки дії</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Радіус розмиття фону</string>

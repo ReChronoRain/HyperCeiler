@@ -573,9 +573,6 @@
     <string name="system_ui_statusbar_music_title">تركيز الكلمات</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">نقر مزدوج للنوم</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">شريط مزدوج لشريط الإشارة</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">ثيمات الأيقونات</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">كلاسيكي</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">المنشأ الأصل</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">أنماط الأيقونات</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">حجم الأيقونات</string>
     <string name="system_ui_status_bar_mobile_type_single">يتم عرض أيقونة نوع شبكة الهاتف المحمول بشكل منفصل</string>
@@ -730,7 +727,6 @@
     <string name="system_control_center_qs_columns_horizontal">الأعمدة (بالعرض)</string>
     <string name="system_ui_control_center_notification_disable_transparent">تعطيل الوضع الشفاف</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">تعطيل ضبط خلفية الإشعارات لتكون شفافة</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">تحسين انتقال الزوايا المستديرة لصور الألبوم</string>
     <string name="system_ui_control_center_media_control_progress">شريط التقدم</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">إزالة قيود الإجراءات المخصصة لبطاقات إشعار الوسائط</string>
     <string name="system_ui_control_center_media_control_progress_wavy">موجي</string>
@@ -738,8 +734,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">السماكة</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">نصف قطر شريط التقدم</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">حجم نص عرض الوقت</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">لون شريط التقدم</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">لون المؤشر</string>
     <string name="system_ui_control_center_media_control_media_button_custom">تخصيص حجم زر الإجراء</string>
     <string name="system_ui_control_center_media_control_media_button">حجم زر الإجراء الافتراضي</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">نصف قطر خلفية التشويش</string>
@@ -749,7 +743,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">عربي</string>
     <string name="system_ui_control_center_media_control_inverse_color">عربي</string>
     <string name="system_ui_control_center_media_control_media_album_mode">عربي</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">بعد اختيار \"غير مرئي\"، يجب عليك أيضًا تمكين خِيار تعديل التخطيط حتى يصبح مفعل.</string>
     <string name="system_ui_control_center_media_control_media_button_title">زر الوسائط</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">عربي</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">عربي</string>

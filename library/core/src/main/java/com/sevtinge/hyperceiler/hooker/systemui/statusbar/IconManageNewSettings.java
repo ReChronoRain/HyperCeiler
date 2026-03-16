@@ -18,12 +18,9 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui.statusbar;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isSupportTelephony;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isSupportWifi;
 
-import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
@@ -33,9 +30,6 @@ import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;
 
 public class IconManageNewSettings extends DashboardFragment {
-    DropDownPreference mNewHD;
-    DropDownPreference mSmallHD;
-    DropDownPreference mBigHD;
 
     DropDownPreference mAlarmClockIcon;
     SeekBarPreferenceCompat mAlarmClockIconN;
@@ -45,16 +39,7 @@ public class IconManageNewSettings extends DashboardFragment {
     SwitchPreference mHideWifiIndicator;
     DropDownPreference mHideWifi;
     DropDownPreference mHideWifiStandard;
-
-    DropDownPreference mHideNoSIM;
-    SwitchPreference mHideCard1;
-    SwitchPreference mHideCard2;
-    SwitchPreference mHideRoaming;
-    SwitchPreference mHideVoWiFi;
-    SwitchPreference mHideVoLTE;
     SwitchPreference mSwitchSwap;
-    Preference mMobileType;
-    Preference mIconMobileNetwork;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -63,10 +48,6 @@ public class IconManageNewSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        mSmallHD = findPreference("prefs_key_system_ui_status_bar_icon_small_hd");
-        mBigHD = findPreference("prefs_key_system_ui_status_bar_icon_big_hd");
-        mNewHD = findPreference("prefs_key_system_ui_status_bar_icon_new_hd");
-
         mAlarmClockIcon = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock");
         mAlarmClockIconN = findPreference("prefs_key_system_ui_status_bar_icon_alarm_clock_n");
 
@@ -77,29 +58,9 @@ public class IconManageNewSettings extends DashboardFragment {
         mHideWifi = findPreference("prefs_key_system_ui_status_bar_icon_wifi");
         mHideWifiStandard = findPreference("prefs_key_system_ui_status_bar_icon_wifi_standard");
 
-        mHideNoSIM = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card");
-        mHideCard1 = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_1");
-        mHideCard2 = findPreference("prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_2");
-        mHideRoaming = findPreference("prefs_key_system_ui_status_bar_mobile_hide_roaming_icon");
-        mHideVoWiFi = findPreference("prefs_key_system_ui_status_bar_icon_vowifi");
-        mHideVoLTE = findPreference("prefs_key_system_ui_status_bar_icon_volte");
-        mMobileType = findPreference("prefs_key_system_ui_status_bar_mobile_type");
-        mIconMobileNetwork = findPreference("prefs_key_system_ui_statusbar_iconmanage_mobile_network");
         mSwitchSwap = findPreference("prefs_key_system_ui_status_bar_swap_wifi_and_mobile_network");
 
         mAlarmClockIconN.setVisible(Integer.parseInt(getSharedPreferences().getString("prefs_key_system_ui_status_bar_icon_alarm_clock", "0")) == 3);
-
-        if (isMoreHyperOSVersion(3f)) {
-            setPreVisible(mSmallHD, false);
-            setPreVisible(mBigHD, false);
-            setPreVisible(mNewHD, false);
-            setPreVisible(mHideRoaming, false);
-            setPreVisible(mIconMobileNetwork, false);
-        } else if (isMoreSmallVersion(200, 2f)) {
-            setFuncHint(mSmallHD, 1);
-            setFuncHint(mBigHD, 1);
-            setFuncHint(mNewHD, 1);
-        }
 
         if (getContext() != null) {
             if (!isSupportWifi(getContext())) {
@@ -109,17 +70,6 @@ public class IconManageNewSettings extends DashboardFragment {
             }
 
             if (!isSupportTelephony(getContext())) {
-                setPreVisible(mSmallHD, false);
-                setPreVisible(mBigHD, false);
-                setPreVisible(mNewHD, false);
-                setPreVisible(mHideNoSIM, false);
-                setPreVisible(mHideCard1, false);
-                setPreVisible(mHideCard2, false);
-                setPreVisible(mHideRoaming, false);
-                setPreVisible(mHideVoWiFi, false);
-                setPreVisible(mHideVoLTE, false);
-                setPreVisible(mMobileType, false);
-                setPreVisible(mIconMobileNetwork, false);
                 setPreVisible(mSwitchSwap, false);
             }
 

@@ -581,9 +581,6 @@
     <string name="system_ui_statusbar_music_title">Lời bài hát Focus</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Nhấn đúp để khoá màn hình</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Cột sóng kép</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Kiến trúc gốc</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Kiểu biểu tượng cột sóng</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Tỉ lệ biểu tượng</string>
     <string name="system_ui_status_bar_mobile_type_single">Biểu tượng loại mạng di động tùy chỉnh</string>
@@ -740,7 +737,6 @@
     <string name="system_control_center_qs_columns_horizontal">Cột (màn hình ngang)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Tắt chế độ trong suốt</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Tắt cài đặt nền thông báo trong suốt</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Tối ưu hóa chuyển tiếp góc bo tròn của hình ảnh album</string>
     <string name="system_ui_control_center_media_control_progress">Thanh tiến trình</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Loại bỏ hạn chế trong việc áp dụng các hành động tùy chỉnh cho thẻ thông báo phương tiện</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Sóng</string>
@@ -748,8 +744,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Độ dày</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Bán kính góc thanh tiến trình</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Kích thước văn bản xem thời gian</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Màu thanh tiến trình</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Màu thanh trượt</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Tùy chỉnh kích thước nút hành động</string>
     <string name="system_ui_control_center_media_control_media_button">Kích thước nút hành động có sẵn</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Bán kính mờ ảnh nền</string>
@@ -759,7 +753,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">Cập nhật màu văn bản với hoạt ảnh động</string>
     <string name="system_ui_control_center_media_control_inverse_color">Tự động đảo ngược màu sắc</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Bìa phương tiện</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">Sau khi chọn \"Ẩn\", bạn cũng phải bật công tắc sửa đổi bố cục để có hiệu lực.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Phím phương tiện</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Cho phép sửa đổi bố cục</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Cho phép sửa đổi font chữ</string>

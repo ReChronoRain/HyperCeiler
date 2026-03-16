@@ -88,6 +88,8 @@ public class DexKit {
     private static volatile Gson sGson = null;
     private static volatile File sCacheFile = null;
     private static volatile CacheData sCacheData = null;
+    private static volatile Map<String, BaseData> sSessionCache = new HashMap<>();
+    private static volatile Map<String, BaseDataList<?>> sSessionCacheList = new HashMap<>();
 
     /**
      * 准备 DexKit 会话（必须在 initDexkitBridge 之前调用）
@@ -279,6 +281,28 @@ public class DexKit {
         }
     }
 
+    /**
+     * 获取会话中缓存的 BaseData（用于链式查询）
+     */
+    @Nullable
+    public static <T extends BaseData> T getCachedData(@NonNull String key) {
+        synchronized (sLock) {
+            // noinspection unchecked
+            return (T) sSessionCache.get(key);
+        }
+    }
+
+    /**
+     * 获取会话中缓存的 BaseDataList（用于链式查询）
+     */
+    @Nullable
+    public static <T extends BaseDataList<?>> T getCachedDataList(@NonNull String key) {
+        synchronized (sLock) {
+            // noinspection unchecked
+            return (T) sSessionCacheList.get(key);
+        }
+    }
+
     // ======================== 查找方法 ========================
 
     public static <T> T findMember(@NonNull String key, IDexKit iDexKit) {
@@ -300,6 +324,7 @@ public class DexKit {
             if (cachedData == null) {
                 try {
                     BaseData baseData = iDexKit.dexkit(dexKitBridge);
+                    sSessionCache.put(key, baseData);
                     if (baseData instanceof FieldData fieldData) {
                         String serialized = fieldData.toDexField().serialize();
                         safePutMember(key, new MemberData(TYPE_FIELD, serialized));
@@ -358,6 +383,7 @@ public class DexKit {
             if (cachedData == null) {
                 try {
                     BaseDataList<?> baseDataList = iDexKitList.dexkit(dexKitBridge);
+                    sSessionCacheList.put(key, baseDataList);
                     ArrayList<String> serializeList = new ArrayList<>();
                     ArrayList<T> instanceList = new ArrayList<>();
 
@@ -479,6 +505,10 @@ public class DexKit {
 
             if (sDexKitBridge != null) {
                 try {
+                    sSessionCache.clear();
+                    sSessionCacheList.clear();
+                    sSessionCache = new HashMap<>();
+                    sSessionCacheList = new HashMap<>();
                     sDexKitBridge.close();
                 } catch (Throwable t) {
                     XposedLog.w(sTag, "Error closing DexKitBridge", t);

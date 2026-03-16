@@ -491,9 +491,6 @@
     <string name="system_ui_statusbar_strong_toast_title">Toast Inteligente</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Doble toque para apagar la pantalla</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Barra de señal de fila doble</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema de iconos</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Clásico</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Arquitectura de origen</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Estilo de icono</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Achicar icono</string>
     <string name="system_ui_status_bar_mobile_type_single">Icono separado de tipo de red móvil</string>
@@ -612,8 +609,6 @@
     <string name="system_ui_control_center_media_control_progress_sleek">Elegante</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Grosor</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Tamaño del texto de la vista de tiempo</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Color de la barra de progreso</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Color del cursor</string>
     <string name="system_ui_control_center_media_control_media_button">Tamaño del botón de acción intrínseco</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radio de borrosidad de imagen de fondo</string>
     <string name="system_ui_control_center_redirect_notice">Redirigir configuraciones de notificación</string>

@@ -26,6 +26,11 @@
             android:title="@string/system_ui_statusbar_iconmanage_title" />
 
         <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkSettings"
+            android:key="prefs_key_statubar_mobile_network"
+            android:title="@string/system_ui_status_bar_mobile_title" />
+
+        <Preference
             android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.NetworkSpeedIndicatorSettings"
             android:title="@string/system_ui_statusbar_network_speed_indicator_title" />
 
@@ -34,13 +39,8 @@
             android:title="@string/system_ui_statusbar_clock_title" />
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.StrongToastSettings"
-            android:title="@string/system_ui_statusbar_strong_toast_title" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.FocusNotificationLyrics"
-            android:key="prefs_key_system_ui_status_bar_music"
-            android:title="@string/system_ui_statusbar_music_title" />
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.FocusNotificationSettings"
+            android:title="@string/system_ui_statusbar_focus_notif_title" />
 
     </PreferenceCategory>
 

@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app.SystemUI;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
@@ -38,12 +39,13 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.OldWeather;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.RedirectToNotificationChannelSetting;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.UnimportantNotification;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ZenModeFix;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.CustomBackground;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.MediaViewLayout;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.MediaViewSize;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.UnlockCustomActions;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.b.MediaPicture;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.b.MediaSeekBar;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AlwaysDark;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AmbientLight;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.CustomBackground;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaSeekBar;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaViewLayout;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaViewSize;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.NewUnlockCustomActions;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.AutoCollapse;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.FiveGTile;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.FixTilesList;
@@ -87,6 +89,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.WifiNe
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.b.HideBatteryIconB;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island.HideStrongToast;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.DualRowSignalHookV;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.MobilePublicHookV;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.MobileTypeSingle2Hook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.MobileTypeTextCustom;
@@ -96,7 +99,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetw
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 
@@ -196,17 +198,17 @@ public class SystemUIB extends BaseLoad {
         initHook(new FixTilesList(), PrefsBridge.getBoolean("system_ui_control_center_fix_tiles_list"));
 
         // Media Card
-        initHook(new UnlockCustomActions(), PrefsBridge.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
-        initHook(MediaControlBgFactory.INSTANCE, PrefsBridge.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) != 0);
-        initHook(CustomBackground.INSTANCE, PrefsBridge.getStringAsInt("system_ui_control_center_media_control_background_mode", 0) != 0);
+        int ncBgMode = PrefsBridge.getStringAsInt("system_ui_control_center_media_control_background_mode", 0);
+        int diBgMode = PrefsBridge.getStringAsInt("system_ui_island_media_control_background_mode", 0);
+        initHook(NewUnlockCustomActions.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
+        initHook(MediaControlBgFactory.INSTANCE, ncBgMode != 0 || diBgMode != 0);
+        initHook(CustomBackground.INSTANCE, ncBgMode != 0 || diBgMode != 0);
         initHook(MediaViewLayout.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_media_button_layout_switch"));
         initHook(MediaViewSize.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_media_button_size_switch"));
-        initHook(MediaPicture.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_album_picture_rounded_corners") ||
-            PrefsBridge.getStringAsInt("system_ui_control_center_media_control_media_album_mode", 0) == 1);
-        initHook(MediaSeekBar.INSTANCE, PrefsBridge.getInt("system_ui_control_center_media_control_seekbar_color", -1) != -1
-            || PrefsBridge.getInt("system_ui_control_center_media_control_seekbar_thumb_color", -1) != -1
-            || PrefsBridge.getStringAsInt("system_ui_control_center_media_control_progress_mode", 0) != 0
-            || PrefsBridge.getStringAsInt("system_ui_control_center_media_control_progress_thumb_mode", 0) != 0);
+        initHook(MediaSeekBar.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_progress_on") ||
+            PrefsBridge.getBoolean("system_ui_island_media_control_progress_on"));
+        initHook(AmbientLight.INSTANCE, ncBgMode == 0 || diBgMode == 0);
+        initHook(AlwaysDark.INSTANCE, ncBgMode == 0 && PrefsBridge.getBoolean("system_ui_control_center_media_control_always_dark"));
 
         // Other
         initHook(DoubleTapToSleep.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
@@ -237,8 +239,14 @@ public class SystemUIB extends BaseLoad {
         initHook(SwapWiFiAndMobileNetwork.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_swap_wifi_and_mobile_network"));
         // 移动网络图标
         boolean isEnabledDualRowSignal = PrefsBridge.getBoolean("system_ui_statusbar_network_icon_enable");
-        // initHook(new DualRowSignalHookV(), isEnabledDualRowSignal);
+        initHook(new DualRowSignalHookV(), isEnabledDualRowSignal && !(
+                PrefsBridge.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_mode", 0) != 0 ||
+                PrefsBridge.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
+                PrefsBridge.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2")
+            )
+        );
         initHook(new MobilePublicHookV(), isEnabledDualRowSignal ||
+            PrefsBridge.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_mode", 0) != 0 ||
             PrefsBridge.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1") ||
             PrefsBridge.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_2") ||
             PrefsBridge.getBoolean("system_ui_status_bar_mobile_hide_roaming_icon") ||

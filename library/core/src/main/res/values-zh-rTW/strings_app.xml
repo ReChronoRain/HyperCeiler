@@ -576,9 +576,6 @@
     <string name="system_ui_statusbar_music_title">焦點歌詞</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">雙擊狀態欄鎖定螢幕</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">雙排蜂窩移動網路圖示</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">圖示主題</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">經典</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">圓滑</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">圖示樣式</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">圖示縮放</string>
     <string name="system_ui_status_bar_mobile_type_single">蜂窩移動網路類型圖示單獨顯示</string>
@@ -733,7 +730,6 @@
     <string name="system_control_center_qs_columns_horizontal">列（橫向）</string>
     <string name="system_ui_control_center_notification_disable_transparent">停用透明模式</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">禁止將通知背景設為透明</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">優化相簿圖片的圓角轉場</string>
     <string name="system_ui_control_center_media_control_progress">進度條</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">取消媒體通知卡應用程式自訂操作的限制</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
@@ -741,8 +737,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">粗細</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">進度條圓角半徑</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">時間文字大小</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">進度條顏色</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">滑桿顔色</string>
     <string name="system_ui_control_center_media_control_media_button_custom">自訂操作按鈕的大小</string>
     <string name="system_ui_control_center_media_control_media_button">固有操作按鈕尺寸</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景圖案模糊半徑</string>
