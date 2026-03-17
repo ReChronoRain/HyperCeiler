@@ -8,9 +8,9 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.h
 import android.content.pm.ApplicationInfo;
 import android.content.pm.Signature;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

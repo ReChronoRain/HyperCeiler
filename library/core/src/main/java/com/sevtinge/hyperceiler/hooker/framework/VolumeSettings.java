@@ -18,10 +18,10 @@
  */
 package com.sevtinge.hyperceiler.hooker.framework;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
 
 import fan.preference.DropDownPreference;
 

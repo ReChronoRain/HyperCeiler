@@ -23,15 +23,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.SystemProperties
-import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
-import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
-import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.setProp
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.CrashIntentContract
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
+import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.setProp
 
 object SafeModeHandler : ICrashHandler {
     private const val TAG = "SafeModeHandler"
-    private const val PROP_REPORT = "persist.service.hyperceiler.crash.report"
 
     override fun onCrashDetected(
         context: Context,
@@ -46,30 +45,29 @@ object SafeModeHandler : ICrashHandler {
         }
 
         val alias = CrashScope.getAlias(pkgName) ?: return false
+        updateCrashProp(alias)
 
         return runCatching {
             val intent = Intent().apply {
                 component = ComponentName("com.sevtinge.hyperceiler", "com.sevtinge.hyperceiler.home.safemode.CrashActivity")
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP
 
-                putExtra("key_is_need_set_prop", true)
-                putExtra("key_pkg", alias)
+                putExtra(CrashIntentContract.KEY_PKG_ALIAS, alias)
 
-                if (longMsg != null) putExtra("key_longMsg", longMsg)
-                if (stackTrace != null) putExtra("key_stackTrace", stackTrace)
+                if (longMsg != null) putExtra(CrashIntentContract.KEY_LONG_MSG, longMsg)
+                if (stackTrace != null) putExtra(CrashIntentContract.KEY_STACK_TRACE, stackTrace)
 
                 crashInfo?.let {
-                    putExtra("key_throwClassName", it.throwClassName)
-                    putExtra("key_throwFileName", it.throwFileName)
-                    putExtra("key_throwLineNumber", it.throwLineNumber)
-                    putExtra("key_throwMethodName", it.throwMethodName)
+                    putExtra(CrashIntentContract.KEY_THROW_CLASS, it.throwClassName)
+                    putExtra(CrashIntentContract.KEY_THROW_FILE, it.throwFileName)
+                    putExtra(CrashIntentContract.KEY_THROW_LINE, it.throwLineNumber)
+                    putExtra(CrashIntentContract.KEY_THROW_METHOD, it.throwMethodName)
                 }
             }
             context.startActivity(intent)
             true
         }.getOrElse {
-            XposedLog.e(TAG, "Failed to start CrashActivity, fallback to setprop", it)
-            updateCrashProp(alias)
+            XposedLog.e(TAG, "Failed to start CrashActivity after safe mode update", it)
             true
         }
     }
@@ -85,24 +83,40 @@ object SafeModeHandler : ICrashHandler {
     }
 
     private fun isInSafeModeByProp(pkgName: String): Boolean {
-        val currentProp = PropUtils.getProp(PROP_REPORT, "")
-        val alias = CrashScope.getAlias(pkgName) ?: return false
-        return currentProp.split(",").contains(alias)
+        return CrashScope.isPackageInSafeModeProp(pkgName)
     }
 
+    @JvmStatic
     fun updateCrashProp(alias: String) {
-        val current = PropUtils.getProp(PROP_REPORT, "")
-        val newProp = if (current.isEmpty()) alias else "$current,$alias"
-
-        val uniqueProp = newProp.split(",").distinct().joinToString(",")
+        val uniqueProp = (CrashScope.getCrashingAliases() + alias)
+            .filter { it.isNotEmpty() }
+            .sorted()
+            .joinToString(",")
 
         try {
-            setProp(PROP_REPORT, uniqueProp)
+            setProp(CrashScope.PROP_SAFE_MODE, uniqueProp)
         } catch (_: Throwable) {
             try {
-                SystemProperties.set(PROP_REPORT, uniqueProp)
+                SystemProperties.set(CrashScope.PROP_SAFE_MODE, uniqueProp)
             } catch (ex: Exception) {
                 XposedLog.e(TAG, "Failed to set prop", ex)
+            }
+        }
+    }
+
+    @JvmStatic
+    fun removeCrashProp(alias: String) {
+        val newProp = CrashScope.getCrashingAliases()
+            .filter { it != alias && it.isNotEmpty() }
+            .sorted()
+            .joinToString(",")
+        try {
+            setProp(CrashScope.PROP_SAFE_MODE, newProp)
+        } catch (_: Throwable) {
+            try {
+                SystemProperties.set(CrashScope.PROP_SAFE_MODE, newProp)
+            } catch (ex: Exception) {
+                XposedLog.e(TAG, "Failed to clear prop", ex)
             }
         }
     }

@@ -31,11 +31,11 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 

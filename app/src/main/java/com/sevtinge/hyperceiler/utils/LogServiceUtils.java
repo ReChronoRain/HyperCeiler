@@ -20,19 +20,19 @@ package com.sevtinge.hyperceiler.utils;
 
 
 import static com.sevtinge.hyperceiler.Application.isModuleActivated;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.sevtinge.hyperceiler.common.log.LogStatusManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 
 public class LogServiceUtils {
 
     public static void init(Context context) {
-        LogManager.onHealthCheckDone(() -> {
+        LogStatusManager.onHealthCheckDone(() -> {
             if (shouldShowLogServiceWarn()) {
                 new Handler(Looper.getMainLooper()).post(() ->
                     DialogHelper.showLogServiceWarnDialog(context)
@@ -42,7 +42,7 @@ public class LogServiceUtils {
     }
 
     private static boolean shouldShowLogServiceWarn() {
-        return !LogManager.IS_LOGGER_ALIVE && isModuleActivated && !isRelease() &&
+        return !LogStatusManager.IS_LOGGER_ALIVE && isModuleActivated && !isRelease() &&
             !PrefsBridge.getBoolean("prefs_key_development_close_log_alert_dialog", false);
     }
 }

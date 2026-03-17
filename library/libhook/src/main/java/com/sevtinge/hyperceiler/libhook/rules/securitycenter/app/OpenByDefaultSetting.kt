@@ -29,13 +29,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.net.toUri
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam

@@ -21,11 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.volume;
 import android.content.Context;
 import android.os.Handler;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 

@@ -47,13 +47,13 @@ import com.hchen.superlyricapi.SuperLyricData
 import com.hchen.superlyricapi.SuperLyricTool
 import com.hyperfocus.api.FocusApi
 import com.hyperfocus.api.IslandApi
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min

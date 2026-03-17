@@ -18,16 +18,16 @@
  */
 package com.sevtinge.hyperceiler.hooker;
 
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_DEFAULT_EFFECT;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_LOCK_SELECTION;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.SETTINGS_KEY_CONFIG_REMEMBER_DEVICE;
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd;
 
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import fan.preference.DropDownPreference;
 

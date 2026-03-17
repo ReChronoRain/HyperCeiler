@@ -29,10 +29,10 @@ import android.view.MotionEvent;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;

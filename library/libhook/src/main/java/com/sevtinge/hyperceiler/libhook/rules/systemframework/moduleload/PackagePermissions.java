@@ -21,10 +21,10 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.ResolveInfo;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;

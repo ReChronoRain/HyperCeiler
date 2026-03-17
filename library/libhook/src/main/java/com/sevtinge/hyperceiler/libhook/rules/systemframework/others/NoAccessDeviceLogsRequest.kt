@@ -18,12 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook

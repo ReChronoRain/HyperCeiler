@@ -120,6 +120,8 @@
     <string name="ignore">忽略</string>
     <string name="log_level">日志输出等级</string>
     <string name="log_level_none">禁用日志输出</string>
+    <string name="log_level_general">一般日志</string>
+    <string name="log_level_detailed">详细日志</string>
     <string name="disable_suggest">禁用推荐</string>
     <string name="enable_suggest">启用推荐</string>
     <string name="logo_egg_NotificationName">彩蛋通知</string>
@@ -149,10 +151,11 @@
     <string name="log_filter_all">全部</string>
     <string name="log_tag_other">其他</string>
     <string name="log_menu_clear">清空日志</string>
+    <string name="log_menu_filter">筛选日志</string>
     <string name="log_menu_export">导出日志</string>
     <string name="log_menu_share">分享日志</string>
     <string name="log_clear_title">清空日志</string>
-    <string name="log_clear_all_message">确定要清空所有日志吗？包括应用日志和 Xposed 日志，此操作不可恢复。</string>
+    <string name="log_clear_all_message">确定要清空所有日志吗？这会清除应用日志、Xposed 日志数据库以及 Crash 日志，此操作不可恢复。</string>
     <string name="log_clear_success">日志已清空</string>
     <string name="log_clear_failed">清空日志失败</string>
     <string name="log_clear_in_progress">正在清空日志…</string>
@@ -165,6 +168,9 @@
     <string name="log_share_text">HyperCeiler 日志文件</string>
     <string name="log_copy">复制</string>
     <string name="log_copy_success">日志已复制到剪贴板</string>
+    <string name="log_empty_no_logs">暂无日志</string>
+    <string name="log_empty_no_results">未找到匹配的日志</string>
+    <string name="log_empty_root_required">请授予 Root 权限后重启应用以加载</string>
 
     <!-- Log detail dialog -->
     <string name="log_detail_title">日志详情</string>

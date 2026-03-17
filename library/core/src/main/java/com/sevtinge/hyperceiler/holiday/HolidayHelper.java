@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.holiday;
 
-import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isLunarNewYearThemeView;
 
 import android.app.Activity;
 import android.content.Context;
@@ -37,11 +37,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.holiday.weather.ConfettiManager;
 import com.sevtinge.hyperceiler.holiday.weather.PrecipType;
 import com.sevtinge.hyperceiler.holiday.weather.confetto.ConfettoGenerator;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;

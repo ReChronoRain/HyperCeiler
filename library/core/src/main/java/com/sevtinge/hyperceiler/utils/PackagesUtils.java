@@ -31,9 +31,9 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.model.data.AppData;
 
 import java.util.ArrayList;

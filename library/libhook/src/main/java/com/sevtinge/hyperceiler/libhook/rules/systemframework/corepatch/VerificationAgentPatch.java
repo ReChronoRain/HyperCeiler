@@ -3,8 +3,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import io.github.libxposed.api.XposedModuleInterface;
 

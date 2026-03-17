@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.utils;
 
 import static android.os.Process.killProcess;
 import static android.os.Process.myPid;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatus;
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.log.LogStatusManager.formatLoggerStatus;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 
 import android.app.Activity;
 import android.content.Context;
@@ -29,10 +29,10 @@ import android.content.DialogInterface;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellExec;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.view.RestartAlertDialog;
 
 import fan.appcompat.app.AlertDialog;

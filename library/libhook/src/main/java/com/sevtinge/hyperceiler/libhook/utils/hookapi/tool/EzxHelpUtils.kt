@@ -22,9 +22,9 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
 import android.app.Application
 import android.content.Context
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder

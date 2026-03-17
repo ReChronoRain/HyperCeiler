@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.externalstorage;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;

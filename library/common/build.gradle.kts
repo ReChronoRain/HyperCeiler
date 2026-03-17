@@ -8,6 +8,12 @@ android {
 
     defaultConfig {
         minSdk = 35
+
+        buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -31,4 +37,6 @@ java {
 
 dependencies {
     api(libs.bundles.miuix)
+    // libxposed API 100
+    compileOnlyApi(libs.libxposed.api)
 }

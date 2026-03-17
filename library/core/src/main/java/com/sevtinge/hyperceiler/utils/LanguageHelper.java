@@ -25,7 +25,7 @@ import android.content.res.Resources;
 import android.os.LocaleList;
 import android.text.TextUtils;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.HashMap;

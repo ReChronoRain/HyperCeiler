@@ -24,6 +24,7 @@ import android.view.View.OnClickListener
 import android.widget.ImageView
 import android.widget.PopupWindow
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
@@ -32,7 +33,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 

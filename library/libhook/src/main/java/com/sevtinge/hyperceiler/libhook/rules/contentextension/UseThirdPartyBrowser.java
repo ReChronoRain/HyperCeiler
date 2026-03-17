@@ -23,9 +23,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 ;
 

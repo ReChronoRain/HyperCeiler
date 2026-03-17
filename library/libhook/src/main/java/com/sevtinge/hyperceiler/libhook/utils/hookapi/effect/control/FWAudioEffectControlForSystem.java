@@ -35,10 +35,10 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.g
 import android.content.Context;
 import android.provider.Settings;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;

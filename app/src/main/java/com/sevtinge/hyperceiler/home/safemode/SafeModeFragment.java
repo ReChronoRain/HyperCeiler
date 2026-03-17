@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.home.safemode;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isDebug;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 
 import android.content.pm.PackageManager;
@@ -31,15 +31,15 @@ import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
+import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -62,7 +62,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
 
     @Override
     public void initPrefs() {
-        mPkgList = getProp("persist.service.hyperceiler.crash.report");
+        mPkgList = getProp(CrashScope.PROP_SAFE_MODE);
         mHome = findPreference("prefs_key_home_safe_mode_enable");
         mSettings = findPreference("prefs_key_system_settings_safe_mode_enable");
         mSystemUi = findPreference("prefs_key_system_ui_safe_mode_enable");
@@ -82,9 +82,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
     }
 
     private void setCheckedState() {
-        // 用逗号分割避免 contains 误判
-        String[] pkgs = mPkgList == null ? new String[0] : mPkgList.split(",");
-        Set<String> pkgSet = new HashSet<>(Arrays.asList(pkgs));
+        Set<String> pkgSet = new HashSet<>(CrashScope.getCrashingAliases());
         mSystemUi.setChecked(pkgSet.contains("systemui"));
         mSettings.setChecked(pkgSet.contains("settings"));
         mHome.setChecked(pkgSet.contains("home"));
@@ -149,18 +147,12 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
             key = "demo";
         }
         if (key != null) {
-            String mPkgList = getProp("persist.service.hyperceiler.crash.report");
-            Set<String> pkgSet = new HashSet<>();
-            if (mPkgList != null && !mPkgList.isEmpty()) {
-                pkgSet.addAll(Arrays.asList(mPkgList.split(",")));
-            }
             if ((boolean) o) {
-                pkgSet.add(key);
+                SafeModeHandler.updateCrashProp(key);
             } else {
-                pkgSet.remove(key);
+                SafeModeHandler.removeCrashProp(key);
             }
-            String newPkgList = String.join(",", pkgSet);
-            ShellInit.getShell().run("setprop persist.service.hyperceiler.crash.report \"" + newPkgList + "\"").sync();
+            mPkgList = getProp(CrashScope.PROP_SAFE_MODE);
         }
         return true;
     }

@@ -36,11 +36,11 @@ import android.os.Looper;
 import android.os.UserHandle;
 import android.widget.Toast;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;

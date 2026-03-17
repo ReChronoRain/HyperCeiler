@@ -23,12 +23,12 @@ import android.content.Intent
 import android.provider.Settings
 import android.service.notification.StatusBarNotification
 import android.widget.ImageView
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Dependency
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass

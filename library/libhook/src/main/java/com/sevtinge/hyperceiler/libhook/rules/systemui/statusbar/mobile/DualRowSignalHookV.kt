@@ -26,12 +26,13 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Dependency
@@ -49,7 +50,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.getResourceIdByName
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder

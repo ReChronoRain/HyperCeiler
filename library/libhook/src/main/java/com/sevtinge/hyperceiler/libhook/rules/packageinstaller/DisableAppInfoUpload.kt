@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import android.content.Context
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.matchers.base.AccessFlagsMatcher
 import java.lang.reflect.Method

@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.binder;
 
 import android.os.RemoteException;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.BaseEffectControl;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.Collections;
 import java.util.Map;

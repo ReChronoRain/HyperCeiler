@@ -32,10 +32,10 @@ import android.graphics.Rect;
 import android.provider.Settings;
 import android.util.Pair;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.util.ArrayList;
 import java.util.List;

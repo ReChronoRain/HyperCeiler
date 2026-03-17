@@ -30,11 +30,11 @@ import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellPackageManager;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellPackageManager;
 
 import fan.preference.DropDownPreference;
 import fan.preference.SeekBarPreferenceCompat;

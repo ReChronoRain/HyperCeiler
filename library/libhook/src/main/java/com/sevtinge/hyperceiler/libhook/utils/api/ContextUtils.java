@@ -25,7 +25,7 @@ import android.content.Context;
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

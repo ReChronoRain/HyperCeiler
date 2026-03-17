@@ -27,6 +27,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.FlashlightController
@@ -41,7 +42,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullA
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam

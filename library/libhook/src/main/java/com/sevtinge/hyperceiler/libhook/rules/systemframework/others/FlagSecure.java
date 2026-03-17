@@ -7,8 +7,8 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

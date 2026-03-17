@@ -22,11 +22,11 @@ import android.app.ActivityManager
 import android.content.Context
 import android.text.format.Formatter
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook

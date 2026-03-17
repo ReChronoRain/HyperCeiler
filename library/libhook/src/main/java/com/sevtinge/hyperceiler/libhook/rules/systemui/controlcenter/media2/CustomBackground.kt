@@ -30,6 +30,8 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import android.widget.TextView
 import androidx.core.graphics.drawable.toDrawable
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.getValueByField
@@ -58,8 +60,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull

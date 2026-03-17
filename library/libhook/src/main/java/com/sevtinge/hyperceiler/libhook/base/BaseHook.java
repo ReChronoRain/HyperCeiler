@@ -23,10 +23,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Method;
 import java.util.List;

@@ -11,7 +11,6 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +29,8 @@ import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.LogStatusManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
@@ -40,7 +41,6 @@ import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.home.utils.IntentUtils;
 import com.sevtinge.hyperceiler.home.utils.SearchHistorySPUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.search.SearchResultAdapter;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
@@ -64,6 +64,8 @@ import fan.view.ActionModeAnimationListener;
 import fan.view.SearchActionMode;
 
 public class HomePageFragment extends BasePreferenceFragment implements OnCompleteCallBack {
+
+    private static final String TAG = "HomePageFragment";
 
     public static int getHomeHeadersResourceId() {
         return R.xml.settings_header;
@@ -265,7 +267,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             mBannerCallback = new BannerCallback(this);
         }
 
-        LogManager.onHealthCheckDone(() -> mMainHandler.post(this::refreshHeader));
+        LogStatusManager.onHealthCheckDone(() -> mMainHandler.post(this::refreshHeader));
     }
 
     @Override
@@ -390,7 +392,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                 }
             }
         } catch (Exception e) {
-            Log.e("SettingsFragment", "initSearchHistoryView fail: ", e);
+            AndroidLog.e(TAG, "initSearchHistoryView failed", e);
         }
     }
 
@@ -593,7 +595,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                     }
                 }
             } catch (Exception e) {
-                Log.e("SettingsFragment", "handleMessage Exception " + e);
+                AndroidLog.e(TAG, "SearchHandler handleMessage failed", e);
             }
 
         }

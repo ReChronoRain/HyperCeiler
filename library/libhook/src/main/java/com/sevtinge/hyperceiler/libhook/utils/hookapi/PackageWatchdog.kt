@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.Context
 import android.util.ArrayMap
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.BaseReflectObject
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 
 object PackageWatchdog {
     private lateinit var classLoader: ClassLoader

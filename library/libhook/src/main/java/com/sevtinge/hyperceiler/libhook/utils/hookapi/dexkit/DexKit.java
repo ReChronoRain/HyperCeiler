@@ -27,8 +27,8 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import org.jetbrains.annotations.NotNull;
 import org.luckypray.dexkit.DexKitBridge;

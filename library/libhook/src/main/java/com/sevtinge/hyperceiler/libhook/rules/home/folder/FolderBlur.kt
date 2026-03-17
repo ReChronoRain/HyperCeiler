@@ -22,14 +22,14 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.MotionEvent
 import android.view.View
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object FolderBlur : BaseHook() {
     @SuppressLint("SuspiciousIndentation")

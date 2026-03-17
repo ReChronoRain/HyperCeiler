@@ -30,9 +30,9 @@ import android.os.Process;
 
 import androidx.core.content.ContextCompat;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.ref.WeakReference;
 

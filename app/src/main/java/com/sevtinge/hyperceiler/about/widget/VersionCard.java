@@ -14,7 +14,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import androidx.core.app.NotificationCompat;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.about.controller.AboutAnimationController;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.view.CubicEaseOutInterpolater;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.utils.EggHelper;
@@ -307,7 +307,7 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
             enableTextBlur(mTextIconImageView, true, logoColors, new int[]{mModeValue, 100, 106});
             mTextIconImageView.setBackgroundResource(R.drawable.ic_text_logo);
 
-            Log.d("MiuiVersionCard", "start logoBlur: ");
+            AndroidLog.d("VersionCard", "startLogoBlur: enabled");
         } else {
             mIconImageView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
             mTextIconImageView.setBackgroundResource(R.drawable.ic_text_logo_lite);

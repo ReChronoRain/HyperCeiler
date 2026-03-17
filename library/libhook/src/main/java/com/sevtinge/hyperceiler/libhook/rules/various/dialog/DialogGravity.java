@@ -26,13 +26,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 
-
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

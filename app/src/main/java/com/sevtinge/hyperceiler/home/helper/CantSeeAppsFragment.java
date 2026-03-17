@@ -22,10 +22,9 @@ import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mDisableOrHidden
 import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mNoScoped;
 import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mUninstallApp;
 
-import android.util.Log;
-
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
@@ -48,7 +47,7 @@ public class CantSeeAppsFragment extends SettingsPreferenceFragment {
             if (!mDisableOrHiddenApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_disable) + String.join("\n", mDisableOrHiddenApp);
             if (!mUninstallApp.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_uninstall) + String.join("\n", mUninstallApp);
             if (!mNoScoped.isEmpty()) summary = summary + "\n\n" + getString(R.string.help_cant_see_apps_scope) + String.join("\n", mNoScoped);
-            Log.d("mHelpCantSeeApps", "initPrefs: "+summary);
+            AndroidLog.d("CantSeeAppsFragment", "initPrefs: summary built");
             mHelpCantSeeApps.setSummary(summary);
         }
     }

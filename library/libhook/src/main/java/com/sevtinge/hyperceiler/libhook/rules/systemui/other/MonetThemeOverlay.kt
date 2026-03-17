@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other
 
 import android.content.Context
 import android.os.Handler
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefType
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefType
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.prefs.PrefsChangeObserver
 
 class MonetThemeOverlay : BaseHook() {
     var mContext: Context? = null

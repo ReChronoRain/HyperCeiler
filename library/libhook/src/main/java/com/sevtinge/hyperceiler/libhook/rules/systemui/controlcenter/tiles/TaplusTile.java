@@ -28,12 +28,12 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 public class TaplusTile extends TileUtils {
 

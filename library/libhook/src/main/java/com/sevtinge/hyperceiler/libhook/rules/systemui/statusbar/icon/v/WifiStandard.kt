@@ -18,9 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.v
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
@@ -29,8 +31,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook

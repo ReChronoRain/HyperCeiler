@@ -29,14 +29,14 @@ import android.graphics.drawable.ShapeDrawable
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import kotlin.math.sqrt
 
 @SuppressLint("StaticFieldLeak")

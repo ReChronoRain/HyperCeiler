@@ -21,10 +21,10 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import java.lang.reflect.Method;
 

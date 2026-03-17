@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of HyperCeiler.
   ~
   ~ HyperCeiler is free software: you can redistribute it and/or modify
@@ -20,15 +19,24 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/miuix_action_end_menu_group">
         <item
-            android:id="@+id/menu_clear"
-            android:title="@string/log_menu_clear" />
-
-        <item
             android:id="@+id/menu_export"
+            android:contentDescription="@string/log_menu_export"
+            android:icon="@drawable/miuix_action_icon_update_light"
+            android:showAsAction="always"
             android:title="@string/log_menu_export" />
 
         <item
             android:id="@+id/menu_share"
+            android:contentDescription="@string/log_menu_share"
+            android:icon="@drawable/miuix_action_icon_share_light"
+            android:showAsAction="always"
             android:title="@string/log_menu_share" />
+
+        <item
+            android:id="@+id/menu_filter"
+            android:contentDescription="@string/log_menu_filter"
+            android:icon="@drawable/ic_function_setting"
+            android:showAsAction="always"
+            android:title="@string/log_menu_filter" />
     </group>
 </menu>

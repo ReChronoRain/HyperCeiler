@@ -34,10 +34,10 @@ import android.os.IBinder;
 import android.os.RemoteException;
 import android.provider.Settings;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;

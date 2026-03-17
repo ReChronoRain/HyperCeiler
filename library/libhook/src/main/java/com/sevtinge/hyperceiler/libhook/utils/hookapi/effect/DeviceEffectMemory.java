@@ -27,7 +27,7 @@ import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.io.File;
 import java.io.FileOutputStream;

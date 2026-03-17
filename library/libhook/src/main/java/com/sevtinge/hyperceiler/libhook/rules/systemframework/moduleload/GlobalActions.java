@@ -34,10 +34,10 @@ import android.os.UserHandle;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
 

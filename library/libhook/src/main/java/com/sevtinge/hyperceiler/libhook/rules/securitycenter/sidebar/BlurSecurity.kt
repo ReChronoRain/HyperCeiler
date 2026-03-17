@@ -30,6 +30,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.api.ColorUtils
@@ -42,8 +44,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBa
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook

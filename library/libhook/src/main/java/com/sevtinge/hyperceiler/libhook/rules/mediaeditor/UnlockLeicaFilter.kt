@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier

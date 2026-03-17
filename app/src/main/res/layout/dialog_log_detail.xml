@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -34,7 +52,7 @@
                 android:id="@+id/flow_header"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:constraint_referenced_ids="dialog_time,dialog_tag,dialog_level"
+                app:constraint_referenced_ids="dialog_time,dialog_process,dialog_tag,dialog_level"
                 app:flow_horizontalAlign="start"
                 app:flow_horizontalBias="0"
                 app:flow_horizontalGap="8dp"
@@ -53,11 +71,21 @@
                 android:textSize="13sp" />
 
             <TextView
+                android:id="@+id/dialog_process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:textColor="?itemViewSummaryTextColor"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/dialog_tag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_level_badge"
-                android:paddingHorizontal="8dp"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -67,7 +95,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_level_badge"
-                android:paddingHorizontal="8dp"
+                android:includeFontPadding="false"
+                android:paddingHorizontal="6dp"
                 android:paddingVertical="2dp"
                 android:textSize="11sp"
                 android:textStyle="bold" />

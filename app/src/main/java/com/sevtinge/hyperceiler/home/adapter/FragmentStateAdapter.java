@@ -1,13 +1,13 @@
 package com.sevtinge.hyperceiler.home.adapter;
 
+import android.view.View;
+import android.view.ViewGroup;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
-
-import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * 仿 ViewPager2 风格的 ViewPager1 适配器
@@ -22,6 +22,8 @@ public abstract class FragmentStateAdapter extends PagerAdapter {
     public FragmentStateAdapter(@NonNull FragmentManager fm) {
         mFragmentManager = fm;
     }
+
+
 
     public abstract int getItemCount();
     public abstract Fragment createFragment(int position);

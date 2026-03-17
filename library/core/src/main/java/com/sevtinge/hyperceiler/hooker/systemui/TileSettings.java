@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.hooker.systemui;
 
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getWhoAmI;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd;
 
 import android.os.Handler;
 import android.os.Looper;

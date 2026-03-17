@@ -23,11 +23,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;

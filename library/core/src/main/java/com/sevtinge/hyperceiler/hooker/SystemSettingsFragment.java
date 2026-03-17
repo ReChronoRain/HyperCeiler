@@ -25,12 +25,12 @@ import android.widget.SeekBar;
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 
 import fan.preference.SeekBarPreferenceCompat;
 

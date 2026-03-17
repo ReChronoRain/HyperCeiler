@@ -29,11 +29,11 @@ import android.provider.Settings;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

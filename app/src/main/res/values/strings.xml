@@ -116,6 +116,8 @@
     <string name="ignore">Ignore</string>
     <string name="log_level">Log level</string>
     <string name="log_level_none">Disabled</string>
+    <string name="log_level_general">General logs</string>
+    <string name="log_level_detailed">Detailed logs</string>
     <string name="disable_suggest">Disable suggest</string>
     <string name="enable_suggest">Enable suggest</string>
     <string name="logo_egg_NotificationName">Easter egg notification</string>
@@ -144,10 +146,11 @@
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
     <string name="log_menu_clear">Clear logs</string>
+    <string name="log_menu_filter">Filter logs</string>
     <string name="log_menu_export">Export logs</string>
     <string name="log_menu_share">Share logs</string>
     <string name="log_clear_title">Clear logs</string>
-    <string name="log_clear_all_message">Are you sure you want to clear all logs? This includes app logs and Xposed logs. This action cannot be undone.</string>
+    <string name="log_clear_all_message">Are you sure you want to clear all logs? This will erase the app logs, Xposed log database, and crash logs. This action is irreversible.</string>
     <string name="log_clear_success">Logs cleared</string>
     <string name="log_clear_failed">Failed to clear logs</string>
     <string name="log_clear_in_progress">Clearing logs…</string>
@@ -160,6 +163,9 @@
     <string name="log_share_text">HyperCeiler log file</string>
     <string name="log_copy">Copy</string>
     <string name="log_copy_success">Logs copied to clipboard</string>
+    <string name="log_empty_no_logs">No logs yet</string>
+    <string name="log_empty_no_results">No matching logs found</string>
+    <string name="log_empty_root_required">Grant Root permission and restart the app to load logs</string>
     <!-- Log detail dialog -->
     <string name="log_detail_title">Log Details</string>
     <string name="log_detail_time">Time</string>

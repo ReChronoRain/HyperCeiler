@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
 
 public class SnowLeopardModeTile extends TileUtils {
     private static boolean isInSnowLeopardMode = false;

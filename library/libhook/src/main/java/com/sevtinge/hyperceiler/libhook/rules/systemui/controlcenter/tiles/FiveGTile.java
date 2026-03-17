@@ -33,6 +33,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
@@ -43,8 +45,6 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.TelephonyManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;

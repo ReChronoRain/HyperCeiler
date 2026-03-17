@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.updater
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookReplace
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 

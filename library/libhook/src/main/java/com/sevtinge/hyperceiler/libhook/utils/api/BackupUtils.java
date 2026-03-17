@@ -26,8 +26,8 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 
 import org.json.JSONArray;
 import org.json.JSONException;
