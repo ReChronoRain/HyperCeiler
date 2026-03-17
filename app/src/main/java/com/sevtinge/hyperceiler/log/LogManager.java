@@ -30,12 +30,15 @@ import com.sevtinge.hyperceiler.home.safemode.CrashRecordStore;
 import com.sevtinge.hyperceiler.log.db.LogEntry;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -46,6 +49,8 @@ import java.util.zip.ZipOutputStream;
 public class LogManager {
 
     private static final String TAG = "LogManager";
+    private static final String APP_MODULE = "App";
+    private static final String APP_EXPORT_RELATIVE_PATH = "app/app_runtime.log";
 
     private static volatile LogManager sInstance;
     private static volatile boolean sStatusManagerInitialized;
@@ -189,6 +194,9 @@ public class LogManager {
         File zipFile = new File(exportDir, generateZipFileName());
 
         try {
+            if (!syncAppLogsForExport(sourceDir)) {
+                return null;
+            }
             if (zipDirectory(sourceDir, zipFile)) return zipFile;
         } catch (IOException e) {
             AndroidLog.e(TAG, "Export logs: failed to create zip", e);
@@ -225,6 +233,37 @@ public class LogManager {
         try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
             addPathToZip(sourceDir, sourceDir.getName(), zos);
             return true;
+        }
+    }
+
+    private boolean syncAppLogsForExport(File logRootDir) {
+        File appLogFile = new File(logRootDir, APP_EXPORT_RELATIVE_PATH);
+        File appLogParent = appLogFile.getParentFile();
+        if (appLogParent != null && !appLogParent.exists() && !appLogParent.mkdirs()) {
+            AndroidLog.e(TAG, "Export logs: failed to create app log export directory");
+            return false;
+        }
+
+        List<LogEntry> appLogs = LogRepository.getInstance().getLogsByModuleForExportSync(APP_MODULE);
+        if (appLogs.isEmpty()) {
+            if (appLogFile.exists() && !appLogFile.delete()) {
+                AndroidLog.w(TAG, "Export logs: failed to delete stale app log export file");
+            }
+            return true;
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(
+            new OutputStreamWriter(new FileOutputStream(appLogFile, false), StandardCharsets.UTF_8))) {
+            for (LogEntry entry : appLogs) {
+                writer.write(formatLogEntryForCopy(entry));
+                writer.newLine();
+                writer.newLine();
+            }
+            writer.flush();
+            return true;
+        } catch (IOException e) {
+            AndroidLog.e(TAG, "Export logs: failed to sync app logs before export", e);
+            return false;
         }
     }
 

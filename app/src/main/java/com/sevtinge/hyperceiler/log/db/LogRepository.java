@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.log.db;
 
 import android.content.Context;
@@ -5,11 +23,13 @@ import android.content.Context;
 import androidx.room.Room;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.log.LogManager;
 import com.sevtinge.hyperceiler.log.XposedLogLoader;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 日志仓库 - 整个 App 唯一的数据库访问点
@@ -105,6 +125,16 @@ public class LogRepository {
      */
     public ExecutorService getIoExecutor() {
         return mIoExecutor;
+    }
+
+    public List<LogEntry> getLogsByModuleForExportSync(String module) {
+        try {
+            return mIoExecutor.submit(() -> mLogDao.getLogsByModuleForExport(module))
+                .get(5, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to query logs for export: " + module, e);
+            return Collections.emptyList();
+        }
     }
 
     /**

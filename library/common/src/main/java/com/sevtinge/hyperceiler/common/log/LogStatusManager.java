@@ -1,3 +1,21 @@
+/*
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.common.log;
 
 import java.io.File;
@@ -18,11 +36,12 @@ public class LogStatusManager {
     private static final Object lock = new Object();
     private static boolean checkDone = false;
 
-    public static int logLevel = readLogLevelFromFile();
+    public static volatile int logLevel = LogLevelManager.getDefaultLogLevel();
 
     public static void init(String appPrivateDir, Runnable xposedLogSyncer, Runnable onConfigReady) {
         // 1. 初始化配置管理器
         LogConfigManager.init(appPrivateDir);
+        logLevel = readLogLevelFromFile();
 
         // 2. 设置本地日志基准目录
         LoggerHealthChecker.localLogBaseDir = new File(appPrivateDir, "files/log");
@@ -53,7 +72,7 @@ public class LogStatusManager {
      * 获取当前日志级别
      */
     public static int getLogLevel() {
-        return readLogLevelFromFile();
+        return logLevel;
     }
 
     /**
@@ -105,11 +124,13 @@ public class LogStatusManager {
     public static void setLogLevel(int level) {
         int effectiveLogLevel = LogLevelManager.getEffectiveLogLevel(level);
         LogConfigManager.writeLogLevel(effectiveLogLevel);
+        logLevel = effectiveLogLevel;
     }
 
     public static void setLogLevel(int level, String basePath) {
         int effectiveLogLevel = LogLevelManager.getEffectiveLogLevel(level);
         LogConfigManager.writeLogLevel(basePath, effectiveLogLevel);
+        logLevel = effectiveLogLevel;
     }
 
     public static int readLogLevelFromFile() {
