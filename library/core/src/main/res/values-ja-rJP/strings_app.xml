@@ -1651,4 +1651,5 @@
     <string name="milink_unlock_send_app_desc">「デバイス相互接続サービス」のスコープを追加で選択する必要があります</string>
     <string name="settings_float_nav">フローティングボトムバー</string>
     <string name="system_framework_bypass_force_mi_appstore_desc">確認なしに Xiaomi アプリストアに直接リダイレクトすることを回避して、サードパーティのアプリストアを選択できるようにします</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">すべてのアプリがスマートウォッチやスマートバンドにフォーカス通知を送信できるようにする</string>
 </resources>
