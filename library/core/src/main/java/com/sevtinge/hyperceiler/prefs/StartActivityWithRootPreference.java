@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.prefs;
 
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -29,7 +29,7 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceViewHolder;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

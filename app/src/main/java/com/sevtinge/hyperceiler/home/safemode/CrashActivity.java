@@ -28,24 +28,15 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.CrashIntentContract;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
-import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import fan.appcompat.app.AppCompatActivity;
 
 public class CrashActivity extends AppCompatActivity {
-
-    private static final String KEY_PKG_ALIAS = "key_pkg";
-    private static final String KEY_IS_NEED_SET_PROP = "key_is_need_set_prop";
-    private static final String KEY_LONG_MSG = "key_longMsg";
-    private static final String KEY_STACK_TRACE = "key_stackTrace";
-    private static final String KEY_THROW_CLASS = "key_throwClassName";
-    private static final String KEY_THROW_FILE = "key_throwFileName";
-    private static final String KEY_THROW_LINE = "key_throwLineNumber";
-    private static final String KEY_THROW_METHOD = "key_throwMethodName";
 
     private String longMsg;
     private String stackTrace;
@@ -66,21 +57,20 @@ public class CrashActivity extends AppCompatActivity {
             finish();
             return;
         }
-        String alias = intent.getStringExtra(KEY_PKG_ALIAS);
+        CrashRecordStore.CrashRecord record =
+            CrashRecordStore.read(this, intent.getStringExtra(CrashRecordStore.EXTRA_RECORD_ID));
+        String alias = record != null ? record.packageAlias : intent.getStringExtra(CrashIntentContract.KEY_PKG_ALIAS);
 
-        boolean isNeedSetProp = intent.getBooleanExtra(KEY_IS_NEED_SET_PROP, false);
-        if (isNeedSetProp && alias != null) {
-            SafeModeHandler.INSTANCE.updateCrashProp(alias);
-        }
+        longMsg = record != null ? record.message : intent.getStringExtra(CrashIntentContract.KEY_LONG_MSG);
+        stackTrace = record != null ? record.stackTrace : intent.getStringExtra(CrashIntentContract.KEY_STACK_TRACE);
+        throwClassName = record != null ? record.className : intent.getStringExtra(CrashIntentContract.KEY_THROW_CLASS);
+        throwFileName = record != null ? record.fileName : intent.getStringExtra(CrashIntentContract.KEY_THROW_FILE);
+        throwLineNumber = record != null ? record.lineNumber : intent.getIntExtra(CrashIntentContract.KEY_THROW_LINE, -1);
+        throwMethodName = record != null ? record.methodName : intent.getStringExtra(CrashIntentContract.KEY_THROW_METHOD);
 
-        longMsg = intent.getStringExtra(KEY_LONG_MSG);
-        stackTrace = intent.getStringExtra(KEY_STACK_TRACE);
-        throwClassName = intent.getStringExtra(KEY_THROW_CLASS);
-        throwFileName = intent.getStringExtra(KEY_THROW_FILE);
-        throwLineNumber = intent.getIntExtra(KEY_THROW_LINE, -1);
-        throwMethodName = intent.getStringExtra(KEY_THROW_METHOD);
-
-        String realPkgName = CrashScope.INSTANCE.getPackageName(alias);
+        String realPkgName = record != null && record.packageName != null
+            ? record.packageName
+            : CrashScope.INSTANCE.getPackageName(alias);
         if (realPkgName == null) realPkgName = alias != null ? alias : "unknown";
 
         String appName = getAppName(realPkgName);

@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal
 
 import android.app.Application
 import android.content.Context
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.ContextConsumer
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.IApplicationHook
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
 

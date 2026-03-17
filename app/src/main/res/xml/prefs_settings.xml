@@ -89,7 +89,7 @@
             android:title="@string/log_viewer">
             <intent
                 android:targetPackage="com.sevtinge.hyperceiler"
-                android:targetClass="com.sevtinge.hyperceiler.logviewer.LogViewerActivity"/>
+                android:targetClass="com.sevtinge.hyperceiler.log.LogViewerActivity"/>
         </Preference>
 
         <Preference

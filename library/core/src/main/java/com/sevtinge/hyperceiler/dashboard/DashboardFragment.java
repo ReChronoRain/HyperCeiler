@@ -36,7 +36,7 @@ import androidx.core.view.MenuProvider;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;

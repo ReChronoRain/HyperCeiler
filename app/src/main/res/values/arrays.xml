@@ -7,17 +7,13 @@
 
     <string-array name="log_level">
         <item>@string/log_level_none</item>
-        <item>Error</item>
-        <item>Warn</item>
-        <item>Info</item>
-        <item>Debug</item>
+        <item>@string/log_level_general</item>
+        <item>@string/log_level_detailed</item>
     </string-array>
 
     <string-array name="log_level_value">
         <item>0</item>
         <item>1</item>
         <item>2</item>
-        <item>3</item>
-        <item>4</item>
     </string-array>
 </resources>

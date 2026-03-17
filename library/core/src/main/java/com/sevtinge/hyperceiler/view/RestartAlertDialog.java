@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.view;
 
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 
 import android.content.Context;
 import android.content.res.Resources;

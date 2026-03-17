@@ -19,6 +19,8 @@
 package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.Application.isModuleActivated;
+import static com.sevtinge.hyperceiler.common.log.LogStatusManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.common.log.LogStatusManager.formatLoggerStatusDetail;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getBrand;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getDeviceName;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getDeviceToken;
@@ -41,19 +43,17 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getXmsVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.formatLoggerStatusDetail;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -89,7 +89,7 @@ public class DeviceInfoBuilder {
             propertiesModule.put("GitCode", BuildConfig.GIT_CODE);
             propertiesModule.put("GitHash", BuildConfig.GIT_HASH);
         } catch (Exception e) {
-            Log.w(TAG, "Failed to get module info", e);
+            AndroidLog.w(TAG, "Failed to collect module info", e);
         }
 
         try {
@@ -105,7 +105,7 @@ public class DeviceInfoBuilder {
             propertiesDevice.put("Language", getLanguage());
             propertiesDevice.put("DeviceToken", getDeviceToken(MainActivityContextHelper.getAndroidId(context)));
         } catch (Exception e) {
-            Log.w(TAG, "Failed to get device info", e);
+            AndroidLog.w(TAG, "Failed to collect device info", e);
         }
 
         try {
@@ -119,7 +119,7 @@ public class DeviceInfoBuilder {
             propertiesSystem.put("BuildDate", getBuildDate());
             propertiesSystem.put("UnofficialRom", String.valueOf(HomePageBannerManager.isUnofficialRom(context)));
         } catch (Exception e) {
-            Log.w(TAG, "Failed to get system info", e);
+            AndroidLog.w(TAG, "Failed to collect system info", e);
         }
 
         // 检查信息
@@ -146,7 +146,7 @@ public class DeviceInfoBuilder {
             propertiesCheck.put("Signature", SignUtils.getSHA256Signature(context));
             propertiesCheck.put("SignCheckPass", String.valueOf(SignUtils.isSignCheckPass(context)));
         } catch (Exception e) {
-            Log.w(TAG, "Failed to get check info", e);
+            AndroidLog.w(TAG, "Failed to collect check info", e);
         }
 
         StringBuilder debugInfo = new StringBuilder("Debug Info by HyperCeiler");

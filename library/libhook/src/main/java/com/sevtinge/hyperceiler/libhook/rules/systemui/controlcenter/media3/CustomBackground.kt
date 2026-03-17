@@ -39,6 +39,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.graphics.drawable.toDrawable
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
@@ -86,7 +87,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullA
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getValueByField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
 object CustomBackground : BaseHook() {

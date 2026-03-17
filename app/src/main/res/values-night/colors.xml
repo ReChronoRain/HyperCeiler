@@ -34,4 +34,18 @@
     <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_dark</color>
 
     <color name="switch_view_background_color">#fa2c2c2c</color>
+
+    <color name="log_level_badge_bg_crash">#FFE76767</color>
+    <color name="log_level_badge_bg_error">#43FF6B6B</color>
+    <color name="log_level_badge_bg_warn">#43FFB74D</color>
+    <color name="log_level_badge_bg_info">#4338D67A</color>
+    <color name="log_level_badge_bg_debug">#4359A6FF</color>
+    <color name="log_level_badge_bg_default">#43B0B6BE</color>
+
+    <color name="log_level_badge_text_crash">#FFFFFFFF</color>
+    <color name="log_level_badge_text_error">#FFFFB4AB</color>
+    <color name="log_level_badge_text_warn">#FFFFD08A</color>
+    <color name="log_level_badge_text_info">#FF98F0AE</color>
+    <color name="log_level_badge_text_debug">#FFA8C7FF</color>
+    <color name="log_level_badge_text_default">#FFD7DBE0</color>
 </resources>

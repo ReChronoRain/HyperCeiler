@@ -22,14 +22,12 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 
-import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import java.util.Arrays;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -48,21 +46,6 @@ public class ModuleMatcher {
     public static final int DEVICE_ALL = 0;
     public static final int DEVICE_PAD_ONLY = 1;
     public static final int DEVICE_PHONE_ONLY = 2;
-    private static final String PROP_SAFE_MODE = "persist.service.hyperceiler.crash.report";
-
-    private static final Map<String, String> SAFE_MODE_ALIAS = Map.of(
-        "com.android.systemui", "systemui",
-        "com.miui.home", "home",
-        "com.android.settings", "settings",
-        "com.miui.securitycenter", "securitycenter"
-    );
-
-    private static final Map<String, String> SAFE_MODE_CONFIG = Map.of(
-        "com.android.systemui", "system_ui_safe_mode_enable",
-        "com.miui.home", "home_safe_mode_enable",
-        "com.android.settings", "settings_safe_mode_enable",
-        "com.miui.securitycenter", "security_center_safe_mode_enable"
-    );
 
     private static final Set<String> SECURITY_CHECK_PACKAGES = Set.of(
         "com.miui.securitycenter",
@@ -124,19 +107,13 @@ public class ModuleMatcher {
     }
 
     private boolean isInSafeModeByConfig(String packageName) {
-        String configKey = SAFE_MODE_CONFIG.get(packageName);
+        String configKey = CrashScope.getSafeModeConfigKey(packageName);
         if (configKey == null) return false;
         return PrefsBridge.getBoolean(configKey);
     }
 
     private boolean isInSafeModeByProp(String packageName) {
-        String alias = SAFE_MODE_ALIAS.get(packageName);
-        if (alias == null) return false;
-
-        String currentProp = PropUtils.getProp(PROP_SAFE_MODE, "");
-        if (currentProp.isEmpty()) return false;
-
-        return Arrays.asList(currentProp.split(",")).contains(alias);
+        return CrashScope.isPackageInSafeModeProp(packageName);
     }
 
     private boolean passSecurityCheck(String packageName) {

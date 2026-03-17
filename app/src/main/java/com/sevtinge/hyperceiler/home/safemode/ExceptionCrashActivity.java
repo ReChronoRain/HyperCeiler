@@ -32,7 +32,7 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -52,22 +52,39 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
         getAppCompatActionBar().setTitle(getString(R.string.error));
 
         Intent intent = getIntent();
-        Throwable throwable = intent.getSerializableExtra("crashInfo", Throwable.class);
-        if (throwable == null) return;
+        AppCrashStore.clear(this);
 
-        String message = throwable.getMessage();
-        String exceptionType = throwable.getClass().getName();
-        StackTraceElement element = throwable.getStackTrace()[0];
-        String fileName = element.getFileName();
-        String className = element.getClassName();
-        String methodName = element.getMethodName();
-        int lineNumber = element.getLineNumber();
-        Date timestamp = new Date();
+        String message = valueOrFallback(intent.getStringExtra("crash_message"), "Unknown");
+        String exceptionType = valueOrFallback(intent.getStringExtra("crash_type"), "Unknown");
+        String fileName = valueOrFallback(intent.getStringExtra("crash_file"), "Unknown");
+        String className = valueOrFallback(intent.getStringExtra("crash_class"), "Unknown");
+        String methodName = valueOrFallback(intent.getStringExtra("crash_method"), "Unknown");
+        int lineNumber = intent.getIntExtra("crash_line", -1);
+        long crashTime = intent.getLongExtra("crash_time", System.currentTimeMillis());
+        String fullDetail = intent.getStringExtra("crash_stack");
 
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        throwable.printStackTrace(pw);
-        String fullDetail = sw.toString();
+        if (fullDetail == null) {
+            Throwable throwable = intent.getSerializableExtra("crashInfo", Throwable.class);
+            if (throwable != null) {
+                message = valueOrFallback(throwable.getMessage(), message);
+                exceptionType = throwable.getClass().getName();
+                if (throwable.getStackTrace().length > 0) {
+                    StackTraceElement element = throwable.getStackTrace()[0];
+                    fileName = valueOrFallback(element.getFileName(), fileName);
+                    className = valueOrFallback(element.getClassName(), className);
+                    methodName = valueOrFallback(element.getMethodName(), methodName);
+                    lineNumber = element.getLineNumber();
+                }
+                StringWriter sw = new StringWriter();
+                PrintWriter pw = new PrintWriter(sw);
+                throwable.printStackTrace(pw);
+                fullDetail = sw.toString();
+            } else {
+                fullDetail = valueOrFallback(intent.getStringExtra("crashInfo"), "No stack trace");
+            }
+        }
+
+        Date timestamp = new Date(crashTime);
 
         buildMsg = getString(com.sevtinge.hyperceiler.core.R.string.error_version_name) + ": "  + BuildConfig.VERSION_NAME +
             "\n" + getString(com.sevtinge.hyperceiler.core.R.string.error_git_hash) + ": "  + BuildConfig.GIT_HASH +
@@ -126,5 +143,9 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
         Toast.makeText(v.getContext(), getString(R.string.copy_ok), Toast.LENGTH_SHORT).show();
 
         return true;
+    }
+
+    private String valueOrFallback(String value, String fallback) {
+        return value == null || value.isEmpty() ? fallback : value;
     }
 }

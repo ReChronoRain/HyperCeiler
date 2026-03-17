@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal
 
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder
 import java.lang.reflect.Field
 import java.util.WeakHashMap

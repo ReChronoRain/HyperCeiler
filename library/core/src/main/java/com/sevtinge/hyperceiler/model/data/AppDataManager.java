@@ -5,8 +5,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Parcelable;
-import android.util.Log;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
@@ -32,7 +32,7 @@ public class AppDataManager {
                 default -> new ArrayList<>();
             };
         } catch (Exception e) {
-            Log.e(TAG, "Error getting app info for mode: " + modeSelection, e);
+            AndroidLog.e(TAG, "getAppInfo failed for mode " + modeSelection, e);
             return new ArrayList<>();
         }
     }
@@ -78,7 +78,7 @@ public class AppDataManager {
         try {
             return PackagesUtils.getOpenWithApps();
         } catch (Exception e) {
-            Log.e(TAG, "Error getting open with apps", e);
+            AndroidLog.e(TAG, "getOpenWithApps failed", e);
             return new ArrayList<>();
         }
     }

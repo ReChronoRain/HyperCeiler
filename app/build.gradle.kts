@@ -200,8 +200,8 @@ dependencies {
     implementation(projects.library.core)
     implementation(projects.library.common)
 
-    implementation (libs.room.runtime)
-    annotationProcessor (libs.room.compiler)
+    api (libs.room.runtime)
     // FTS 支持
-    implementation (libs.room.ktx)
+    api (libs.room.ktx)
+    annotationProcessor (libs.room.compiler)
 }
