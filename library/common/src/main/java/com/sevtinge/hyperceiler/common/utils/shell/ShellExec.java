@@ -1,26 +1,7 @@
-/*
- * This file is part of HyperCeiler.
- *
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * Copyright (C) 2023-2026 HyperCeiler Contributions
- */
-package com.sevtinge.hyperceiler.libhook.utils.shell;
+package com.sevtinge.hyperceiler.common.utils.shell;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.libhook.callback.IResult;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.BufferedReader;
@@ -33,14 +14,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * 可以执行多条 Shell 命令并实时获取结果的 Shell 工具。
- * 本工具使用简单的方法延续 Su/Sh 命令执行窗口，使得调用者无须频繁的执行 Su。
- * 请在适当的时机调用 {@link ShellExec#close} 用来释放资源。
- *
- * @author 焕晨HChen
- * @noinspection UnusedReturnValue
- */
 public class ShellExec {
     private final static String TAG = "ShellExec";
     private Process process;
@@ -198,7 +171,7 @@ public class ShellExec {
     protected synchronized void cancelSync() {
         try {
             this.notify();
-        } catch (IllegalMonitorStateException e) {
+        } catch (IllegalMonitorStateException ignored) {
         }
         close();
     }
@@ -242,7 +215,7 @@ public class ShellExec {
         try {
             isFilter = true;
             os.writeBytes("result=$?; string=\"The execution of command <" + count + "> is complete. Return value: <$result>\"; " +
-                    "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
+                "if [[ $result != 0 ]]; then echo $string 1>&2; else echo $string 2>/dev/null; fi");
             os.writeBytes("\n");
             os.flush();
         } catch (IOException e) {
@@ -417,14 +390,14 @@ public class ShellExec {
                         if (result != null && count != null) {
                             if (use) {
                                 mIResult.result(command.passCommands.get(Integer.parseInt(count)),
-                                        Integer.parseInt(result));
+                                    Integer.parseInt(result));
                                 if (finish) mIResult.readOutput("Finish!!", true);
                             }
                             shellExec.setResult = Integer.parseInt(result);
                             synchronized (shellExec) {
                                 try {
                                     shellExec.notify();
-                                } catch (IllegalMonitorStateException e) {
+                                } catch (IllegalMonitorStateException ignored) {
                                 }
                             }
                             shellExec.isFilter = false;
@@ -450,4 +423,3 @@ public class ShellExec {
         }
     }
 }
-

@@ -1,31 +1,45 @@
+/*
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.log;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
-import androidx.room.Room;
+import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.log.db.LogDao;
-import com.sevtinge.hyperceiler.log.db.LogDatabase;
+import com.sevtinge.hyperceiler.common.log.LogStatusManager;
+import com.sevtinge.hyperceiler.home.safemode.AppCrashStore;
+import com.sevtinge.hyperceiler.home.safemode.CrashRecordStore;
 import com.sevtinge.hyperceiler.log.db.LogEntry;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
-import com.sevtinge.hyperceiler.logviewer.DeviceInfoProvider;
-import com.sevtinge.hyperceiler.logviewer.XposedLogLoader;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -34,6 +48,7 @@ public class LogManager {
     private static final String TAG = "LogManager";
 
     private static volatile LogManager sInstance;
+    private static volatile boolean sStatusManagerInitialized;
 
     private Context mAppContext;
     private static DeviceInfoProvider sDeviceInfoProvider;
@@ -46,9 +61,28 @@ public class LogManager {
     }
 
     public static void init(Context context) {
+        init(context, null, null);
+    }
+
+    public static void init(Context context, @Nullable DeviceInfoProvider provider, @Nullable Runnable xposedLogSyncer) {
         if (sInstance == null) {
             synchronized (LogManager.class) {
                 if (sInstance == null) sInstance = new LogManager(context);
+            }
+        }
+        if (provider != null) {
+            setDeviceInfoProvider(provider);
+        }
+        if (!sStatusManagerInitialized) {
+            synchronized (LogManager.class) {
+                if (!sStatusManagerInitialized) {
+                    LogStatusManager.init(
+                        context.getDataDir().getAbsolutePath(),
+                        xposedLogSyncer,
+                        null
+                    );
+                    sStatusManagerInitialized = true;
+                }
             }
         }
     }
@@ -106,7 +140,7 @@ public class LogManager {
         return LogRepository.getInstance().getDao().queryLogs(
             module,
             (level == null || level.equals("ALL")) ? "ALL" : level,
-            (tag == null || tag.equals("全部标签")) ? "全部标签" : tag,
+            tag == null ? "" : tag,
             keyword == null ? "" : keyword
         );
     }
@@ -115,7 +149,10 @@ public class LogManager {
      * 清空所有日志
      */
     public void clearAllLogs() {
-        LogRepository.getInstance().clearAllLogs();
+        LogRepository.getInstance().getDao().clearAll();
+        XposedLogLoader.clearAllSync(mAppContext);
+        CrashRecordStore.clearAll(mAppContext);
+        AppCrashStore.clear(mAppContext);
     }
 
     /**
@@ -127,97 +164,89 @@ public class LogManager {
             entry.getLevel(),
             entry.getTag(),
             entry.getModule(),
-            entry.getMessage());
+            LogDisplayHelper.getExportMessage(entry.getModule(), entry.getMessage()));
+    }
+
+    public static String generateZipFileName() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        return "hyperceiler_logs_" + sdf.format(new Date()) + ".zip";
     }
 
     /**
-     * 导出日志压缩包到指定 Uri (数据库版实现)
+     * 创建日志压缩包到缓存目录
      */
-    public boolean exportLogsZipToUri(Uri uri) {
-        File tempDir = new File(mAppContext.getCacheDir(), "log_export_" + System.currentTimeMillis());
-        if (!tempDir.mkdirs()) return false;
+    public File createLogZipFile() {
+        File exportDir = new File(mAppContext.getCacheDir(), "log_export");
+        if (!exportDir.exists() && !exportDir.mkdirs()) {
+            return null;
+        }
 
-        File zipFile = new File(mAppContext.getCacheDir(), "temp_logs.zip");
+        File sourceDir = new File(mAppContext.getFilesDir(), "log");
+        if (!sourceDir.exists() && !sourceDir.mkdirs()) {
+            return null;
+        }
+
+        File zipFile = new File(exportDir, generateZipFileName());
 
         try {
-            // 1. 生成设备信息文件
-            File deviceInfoFile = new File(tempDir, "devices.txt");
-            String deviceInfo = (sDeviceInfoProvider != null) ?
-                sDeviceInfoProvider.getDeviceInfo(mAppContext) : "No device info provider set.";
-            Files.write(deviceInfoFile.toPath(), deviceInfo.getBytes());
-
-            // 2. 从数据库提取日志并写入文件
-            File logFile = new File(tempDir, "all_logs.log");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(logFile))) {
-                // 分批次查询防止 OOM，这里简单处理拿全部，如果日志极多建议分段查询
-                List<LogEntry> allLogs = LogRepository.getInstance().getDao().queryLogs("ALL", "ALL", "全部标签", "");
-                for (LogEntry entry : allLogs) {
-                    writer.write(formatLogEntryForFile(entry));
-                    writer.newLine();
-                }
-            }
-
-            // 3. 压缩目录
-            if (createZipFromDirectory(tempDir, zipFile)) {
-                // 4. 将压缩后的文件流写入 Uri
-                try (InputStream is = new FileInputStream(zipFile);
-                     OutputStream os = mAppContext.getContentResolver().openOutputStream(uri)) {
-                    if (os == null) return false;
-                    byte[] buffer = new byte[8192];
-                    int len;
-                    while ((len = is.read(buffer)) != -1) {
-                        os.write(buffer, 0, len);
-                    }
-                    return true;
-                }
-            }
+            if (zipDirectory(sourceDir, zipFile)) return zipFile;
         } catch (IOException e) {
-            Log.e(TAG, "Export logs failed", e);
-        } finally {
-            // 清理临时文件
-            deleteDirectory(tempDir);
-            if (zipFile.exists()) zipFile.delete();
+            AndroidLog.e(TAG, "Export logs: failed to create zip", e);
         }
-        return false;
+        if (zipFile.exists()) zipFile.delete();
+        return null;
     }
 
     /**
-     * 格式化日志用于文件输出，模拟之前的日志行格式
+     * 导出日志压缩包到指定 Uri
      */
-    private String formatLogEntryForFile(LogEntry entry) {
-        // 格式: [2026-03-15T16:30:00.000 1000:1234:5678 I/TagName] Message
-        return String.format("[%s %s/%s] %s",
-            entry.getFormattedTime(),
-            entry.getLevel(),
-            entry.getTag(),
-            entry.getMessage());
-    }
+    public boolean exportLogsZipToUri(Uri uri) {
+        File zipFile = createLogZipFile();
+        if (zipFile == null || !zipFile.exists()) return false;
 
-    /**
-     * 压缩目录工具 (保持你原有的逻辑即可，只需简单封装)
-     */
-    private boolean createZipFromDirectory(File sourceDir, File zipFile) {
-        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
-            File[] files = sourceDir.listFiles();
-            if (files == null) return false;
-            for (File file : files) {
-                ZipEntry entry = new ZipEntry(file.getName());
-                zos.putNextEntry(entry);
-                Files.copy(file.toPath(), zos);
-                zos.closeEntry();
+        try (InputStream is = new FileInputStream(zipFile);
+             OutputStream os = mAppContext.getContentResolver().openOutputStream(uri)) {
+            if (os == null) return false;
+            byte[] buffer = new byte[8192];
+            int len;
+            while ((len = is.read(buffer)) != -1) {
+                os.write(buffer, 0, len);
             }
             return true;
         } catch (IOException e) {
+            AndroidLog.e(TAG, "Export logs: failed to write zip to uri", e);
             return false;
+        } finally {
+            if (zipFile.exists()) zipFile.delete();
         }
     }
 
-    private void deleteDirectory(File dir) {
-        File[] files = dir.listFiles();
-        if (files != null) {
-            for (File f : files) f.delete();
+    private boolean zipDirectory(File sourceDir, File zipFile) throws IOException {
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(zipFile))) {
+            addPathToZip(sourceDir, sourceDir.getName(), zos);
+            return true;
         }
-        dir.delete();
     }
 
+    private void addPathToZip(File file, String entryName, ZipOutputStream zos) throws IOException {
+        String normalizedName = entryName.replace(File.separatorChar, '/');
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            if (children == null || children.length == 0) {
+                ZipEntry entry = new ZipEntry(normalizedName + "/");
+                zos.putNextEntry(entry);
+                zos.closeEntry();
+                return;
+            }
+            for (File child : children) {
+                addPathToZip(child, normalizedName + "/" + child.getName(), zos);
+            }
+            return;
+        }
+
+        ZipEntry entry = new ZipEntry(normalizedName);
+        zos.putNextEntry(entry);
+        Files.copy(file.toPath(), zos);
+        zos.closeEntry();
+    }
 }

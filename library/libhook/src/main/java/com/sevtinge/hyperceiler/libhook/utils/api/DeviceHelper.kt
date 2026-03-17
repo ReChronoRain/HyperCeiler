@@ -27,11 +27,11 @@ import android.graphics.BlendMode
 import android.graphics.BlendModeColorFilter
 import android.os.Build
 import android.os.Process
+import com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission
+import com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd
 import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isPadDevice
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.rootExecCmd
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 import java.io.File
 import java.nio.charset.Charset

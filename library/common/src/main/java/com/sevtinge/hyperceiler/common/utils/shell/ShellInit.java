@@ -1,33 +1,7 @@
-/*
- * This file is part of HyperCeiler.
- *
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * Copyright (C) 2023-2026 HyperCeiler Contributions
- */
-package com.sevtinge.hyperceiler.libhook.utils.shell;
+package com.sevtinge.hyperceiler.common.utils.shell;
 
-import com.sevtinge.hyperceiler.libhook.callback.IResult;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
-/**
- * ShellExec 单例管理器。
- * 本工具默认使用 Root 启动。
- * 本工具只可以在本应用使用！不可在 Hook 代码内使用！
- *
- * @author 焕晨HChen
- */
 public class ShellInit {
     private final static String TAG = "ShellInit";
     private static ShellExec mShell = null;
@@ -97,4 +71,3 @@ public class ShellInit {
         return false;
     }
 }
-

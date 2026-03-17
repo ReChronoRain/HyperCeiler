@@ -16,6 +16,10 @@
     </group>-->
 
     <group android:id="@+id/log_filter_group">
+        <item
+            android:id="@+id/log_clear"
+            android:title="@string/log_menu_clear" />
+
         <!-- 模块过滤器 -->
         <item
             android:id="@+id/log_level"

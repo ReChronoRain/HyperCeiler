@@ -2,9 +2,9 @@ package com.sevtinge.hyperceiler.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.util.regex.Pattern;
 
@@ -65,11 +65,11 @@ public class AboutPhoneUtils {
                 }
                 return s2;
             } catch (Exception e) {
-                Log.d(TAG, "ParseInt err: " + e);
+                AndroidLog.d(TAG, "compareValidVersion: parse secondary version failed " + e);
                 return s;
             }
         } catch (final Exception e) {
-            Log.d(TAG, "ParseInt err: " + e);
+            AndroidLog.d(TAG, "compareValidVersion: parse primary version failed " + e);
             return s2;
         }
     }

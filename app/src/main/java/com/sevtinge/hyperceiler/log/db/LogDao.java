@@ -24,7 +24,7 @@ public interface LogDao {
 
     /**
      * 3. UI 列表核心查询：
-     * 支持模块筛选、级别过滤、关键词搜索、分页展示（最近 1000 条）
+     * 支持模块筛选、级别过滤、关键词搜索，单页查看时放宽到最近 20000 条
      */
     @Query("SELECT * FROM logs WHERE module = :module " +
         "AND (:level = 'ALL' OR level = :level) " +
@@ -33,28 +33,15 @@ public interface LogDao {
     List<LogEntry> queryLogs(String module, String level, String keyword);
 
     /**
-     * 4. 增量同步辅助：获取最后一条 Xposed 日志的时间戳
-     * 用于 loader 避免重复读取旧日志
-     */
-    @Query("SELECT MAX(timestamp) FROM logs WHERE module = 'Xposed'")
-    long getLastXposedTimestamp();
-
-    /**
-     * 5. 导出功能：按时间顺序获取所有日志
-     */
-    @Query("SELECT * FROM logs WHERE module = :module ORDER BY timestamp ASC")
-    List<LogEntry> getAllLogsForExport(String module);
-
-    /**
-     * 6. 清理功能：按模块清空日志
+     * 4. 清理功能：按模块清空日志
      */
     @Query("DELETE FROM logs WHERE module = :module")
     void deleteByModule(String module);
 
     /**
-     * 7. 维护功能：防止数据库过大，只保留最近的 5000 条
+     * 5. 维护功能：防止数据库过大，只保留最近的 50000 条
      */
-    @Query("DELETE FROM logs WHERE id NOT IN (SELECT id FROM logs ORDER BY timestamp DESC LIMIT 5000)")
+    @Query("DELETE FROM logs WHERE id NOT IN (SELECT id FROM logs ORDER BY timestamp DESC LIMIT 50000)")
     void autoTrim();
 
     /**
@@ -72,12 +59,15 @@ public interface LogDao {
 
     /**
      * 四参数核心查询：支持 模块 + 级别 + 标签 + 关键词
-     * 处理逻辑：如果 level 是 'ALL'，或者 tag 是 '全部标签'，则跳过该条件
+     * 处理逻辑：如果 level 是 'ALL'，或者 tag 为空，则跳过该条件
      */
     @Query("SELECT * FROM logs WHERE module = :module " +
         "AND (:level = 'ALL' OR level = :level) " +
-        "AND (:tag = '全部标签' OR :tag = '' OR tag = :tag) " +
+        "AND (:tag = '' OR tag = :tag) " +
         "AND (:keyword = '' OR message LIKE '%' || :keyword || '%' OR tag LIKE '%' || :keyword || '%') " +
         "ORDER BY timestamp DESC LIMIT 1000")
     List<LogEntry> queryLogs(String module, String level, String tag, String keyword);
+
+    @Query("SELECT * FROM logs ORDER BY timestamp ASC")
+    List<LogEntry> getAllLogsForExport();
 }

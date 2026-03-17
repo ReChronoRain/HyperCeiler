@@ -1,22 +1,4 @@
-/*
- * This file is part of HyperCeiler.
- *
- * HyperCeiler is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the
- * License.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
- *
- * Copyright (C) 2023-2026 HyperCeiler Contributions
- */
-package com.sevtinge.hyperceiler.libhook.utils.prefs;
+package com.sevtinge.hyperceiler.common.utils.prefs;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -24,9 +6,11 @@ import android.net.Uri;
 import android.os.Handler;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 
 public class PrefsChangeObserver extends ContentObserver {
+    private static final String SHARED_PREFS_AUTHORITY = ProjectApi.mAppModulePkg + ".provider.sharedprefs";
+
     private final boolean autoApplyChange;
     private final PrefType prefType;
     private final Object def;
@@ -81,12 +65,6 @@ public class PrefsChangeObserver extends ContentObserver {
         else onChange(prefType, uri, name, def);
     }
 
-    /**
-     * @param type 类型
-     * @param uri  uri
-     * @param name 完整 key
-     * @param def  传入的默认值
-     */
     public void onChange(PrefType type, Uri uri, String name, Object def) {
     }
 
@@ -103,27 +81,27 @@ public class PrefsChangeObserver extends ContentObserver {
 
     public static class PrefToUri {
         public static Uri stringPrefToUri(String name, String defValue) {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/string/" + name + "/" + defValue);
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/string/" + name + "/" + defValue);
         }
 
         public static Uri stringSetPrefToUri(String name) {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/stringset/" + name);
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/stringset/" + name);
         }
 
         public static Uri intPrefToUri(String name, int defValue) {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/integer/" + name + "/" + defValue);
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/integer/" + name + "/" + defValue);
         }
 
         public static Uri boolPrefToUri(String name, boolean defValue) {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/boolean/" + name + "/" + (defValue ? '1' : '0'));
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/boolean/" + name + "/" + (defValue ? '1' : '0'));
         }
 
         public static Uri shortcutIconPrefToUri(String name) {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/shortcut_icon/" + name);
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/shortcut_icon/" + name);
         }
 
         public static Uri anyPrefToUri() {
-            return Uri.parse("content://" + SharedPrefsProvider.AUTHORITY + "/pref/");
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/pref/");
         }
     }
 }

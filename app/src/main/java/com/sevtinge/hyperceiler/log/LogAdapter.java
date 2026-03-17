@@ -7,18 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.log.LogLevelFilter;
 import com.sevtinge.hyperceiler.log.db.LogEntry;
-import com.sevtinge.hyperceiler.logviewer.LogXposedParseHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import fan.recyclerview.card.CardGroupAdapter;
 
@@ -27,19 +24,15 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder> {
     private List<LogEntry> mData = new ArrayList<>();
     private String mKeyword = "";
     private final Context mContext;
+    private final OnLogClickListener mOnLogClickListener;
 
-    public LogAdapter(Context context) {
+    public LogAdapter(Context context, OnLogClickListener onLogClickListener) {
         mContext = context;
-    }
-
-    public void setData(List<LogEntry> data) {
-        mData.clear();
-        mData.addAll(data);
+        mOnLogClickListener = onLogClickListener;
     }
 
     public void updateData(List<LogEntry> newData, String keyword) {
         mKeyword = keyword;
-        // 增量刷新核心逻辑
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
             @Override
             public int getOldListSize() {
@@ -68,13 +61,12 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder> {
     @NonNull
     @Override
     public LogViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.item_log_view, parent, false);
-        return new LogViewHolder(v);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_log_view, parent, false);
+        return new LogViewHolder(view);
     }
 
     @Override
     public void setHasStableIds() {
-
     }
 
     @Override
@@ -84,7 +76,13 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull LogViewHolder holder, int position) {
-        holder.onBind(mData.get(position), mKeyword);
+        LogEntry entry = mData.get(position);
+        holder.onBind(entry, mKeyword);
+        holder.itemView.setOnClickListener(v -> {
+            if (mOnLogClickListener != null) {
+                mOnLogClickListener.onLogClick(entry);
+            }
+        });
     }
 
     @Override
@@ -93,33 +91,52 @@ public class LogAdapter extends CardGroupAdapter<LogAdapter.LogViewHolder> {
     }
 
     static class LogViewHolder extends RecyclerView.ViewHolder {
-        TextView tvLevel, tvTag, tvMsg, tvTime;
 
-        public LogViewHolder(@NonNull View itemView) {
+        private final TextView tvLevel;
+        private final TextView tvTag;
+        private final TextView tvMsg;
+        private final TextView tvTime;
+        private final TextView tvModule;
+        private final int mDefaultMessageColor;
+
+        LogViewHolder(@NonNull View itemView) {
             super(itemView);
             tvLevel = itemView.findViewById(R.id.textLevel);
             tvTag = itemView.findViewById(R.id.textTag);
             tvMsg = itemView.findViewById(R.id.textMessage);
             tvTime = itemView.findViewById(R.id.textTime);
+            tvModule = itemView.findViewById(R.id.textModule);
+            mDefaultMessageColor = tvMsg.getCurrentTextColor();
         }
 
-        public void onBind(LogEntry entry, String keyword) {
-            // 设置等级颜色
-            tvLevel.setText(entry.getLevel());
-            tvLevel.getBackground().setTint(getLogColor(entry.getLevel()));
+        void onBind(LogEntry entry, String keyword) {
+            String level = entry.getLevel();
+            String module = entry.getModule();
+            String message = entry.getMessage();
+            String title = LogDisplayHelper.getListTitle(module, entry.getTag(), message, level);
+            String subtitle = LogDisplayHelper.getListSubtitle(module, entry.getTag(), message);
+            String body = LogDisplayHelper.getListMessage(module, message, level);
+            int badgeColor = ContextCompat.getColor(itemView.getContext(), LogDisplayHelper.getLevelBadgeColorRes(level));
+            int badgeTextColor = ContextCompat.getColor(itemView.getContext(), LogDisplayHelper.getLevelTextColorRes(level));
 
+            tvLevel.setText(level == null ? "" : level);
+            tvLevel.getBackground().mutate().setTint(badgeColor);
+            tvLevel.setTextColor(badgeTextColor);
+
+            tvTag.setText(HighLightUtils.getHighlightedText(title, keyword));
             tvTime.setText(entry.getFormattedTime());
-
-            // 高亮处理消息和 Tag
-            tvTag.setText(HighLightUtils.getHighlightedText(entry.getTag(), keyword));
-            tvMsg.setText(HighLightUtils.getHighlightedText(entry.getMessage(), keyword));
-        }
-
-        private int getLogColor(String level) {
-            for (LogLevelFilter f : LogLevelFilter.values()) {
-                if (f.getValue().equals(level)) return f.getColor();
+            if (subtitle == null || subtitle.isEmpty()) {
+                tvModule.setVisibility(View.GONE);
+            } else {
+                tvModule.setVisibility(View.VISIBLE);
+                tvModule.setText(HighLightUtils.getHighlightedText(subtitle, keyword));
             }
-            return 0xFF757575;
+            tvMsg.setText(HighLightUtils.getHighlightedText(body, keyword));
+            tvMsg.setTextColor("C".equals(level) ? badgeColor : mDefaultMessageColor);
         }
+    }
+
+    public interface OnLogClickListener {
+        void onLogClick(LogEntry entry);
     }
 }

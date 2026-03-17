@@ -6,11 +6,11 @@ import android.graphics.RenderEffect;
 import android.graphics.RuntimeShader;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import androidx.annotation.RawRes;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -113,7 +113,7 @@ public class BgEffectPainter {
             }
             return s;
         } catch (Exception e) {
-            Log.e("Error", e.toString());
+            AndroidLog.e("BgEffectPainter", "loadShader failed", e);
             return null;
         }
     }

@@ -14,26 +14,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
-            android:gravity="center">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textLevel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="17dp"
+                android:layout_height="15dp"
                 android:background="@drawable/bg_level_badge"
-                android:paddingHorizontal="6dp"
+                android:gravity="center"
+                android:includeFontPadding="false"
                 android:textAlignment="center"
                 android:textColor="?itemViewBackgroundColor"
-                android:textSize="11sp"
+                android:textSize="8sp"
                 android:textStyle="bold"
                 tools:text="I" />
 
@@ -66,6 +66,7 @@
         android:id="@+id/textModule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:singleLine="true"
         android:textColor="?itemViewSummaryTextColor"
@@ -79,9 +80,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:ellipsize="end"
-        android:maxLines="4"
+        android:maxLines="3"
         android:text="Log message content"
-        android:textColor="?itemViewSummaryTextColor"
-        android:textSize="12sp" />
+        android:textColor="?itemViewTitleTextColor"
+        android:textSize="13sp"
+        android:typeface="monospace" />
 
 </LinearLayout>

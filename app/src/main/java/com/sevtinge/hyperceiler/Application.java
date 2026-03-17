@@ -1,28 +1,40 @@
+/*
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler;
 
+import static android.os.Process.killProcess;
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Process;
 
 import androidx.annotation.NonNull;
 
-import com.sevtinge.hyperceiler.log.LogManager;
-import com.sevtinge.hyperceiler.common.log.LogStatusManager;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.home.safemode.ExceptionCrashActivity;
-import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.home.safemode.AppCrashStore;
+import com.sevtinge.hyperceiler.home.task.AppInitializer;
+import com.sevtinge.hyperceiler.log.LogManager;
 import com.sevtinge.hyperceiler.log.XposedLogLoader;
-import com.sevtinge.hyperceiler.logviewer.LogViewerActivity;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import fan.provision.OobeUtils;
 import io.github.libxposed.service.XposedService;
@@ -48,27 +60,10 @@ public class Application extends fan.app.Application
         AppInitializer.initOnAppCreate(this);
         OobeUtils.syncHookAvailability(this);
 
-        Context appContext = this;
-        com.sevtinge.hyperceiler.libhook.utils.log.LogManager.init(
-            this.getDataDir().getAbsolutePath(),
-            () -> com.sevtinge.hyperceiler.logviewer.XposedLogLoader.getInstance(appContext).syncLogsSync(),
-            () -> {
-                com.sevtinge.hyperceiler.logviewer.LogManager.init(appContext);
-                com.sevtinge.hyperceiler.logviewer.LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
-                LogViewerActivity.setXposedLogLoader((context, callback) ->
-                    com.sevtinge.hyperceiler.logviewer.XposedLogLoader.loadLogs(callback));
-            });
-
-        // 初始化日志系统
-        LogStatusManager.init(
-            getDataDir().getAbsolutePath(),
-            // 这里的 Runnable 是为了让 Hook 侧能在 App 启动时同步一次日志
-            () -> XposedLogLoader.syncLogsToDatabase(this),
-            () -> {
-                LogManager.init(this);
-                LogManager.setDeviceInfoProvider(DeviceInfoBuilder::build);
-                XposedLogLoader.syncLogsToDatabase(this);
-            }
+        LogManager.init(
+            this,
+            DeviceInfoBuilder::build,
+            () -> XposedLogLoader.syncLogsToDatabaseSync(this)
         );
         setupCrashHandler();
     }
@@ -104,21 +99,13 @@ public class Application extends fan.app.Application
         final Thread.UncaughtExceptionHandler defaultHandler = Thread.getDefaultUncaughtExceptionHandler();
 
         Thread.setDefaultUncaughtExceptionHandler((thread, ex) -> {
-            StringWriter sw = new StringWriter();
-            ex.printStackTrace(new PrintWriter(sw));
-            final String crashInfo = sw.toString();
-
-            new Handler(Looper.getMainLooper()).post(() -> {
-                Intent intent = new Intent(getApplicationContext(), ExceptionCrashActivity.class);
-                intent.putExtra("crashInfo", crashInfo);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                getApplicationContext().startActivity(intent);
-            });
+            AppCrashStore.persist(getApplicationContext(), ex);
+            AndroidLog.e("Crash", "App crash captured", ex);
 
             if (defaultHandler != null) {
                 defaultHandler.uncaughtException(thread, ex);
             } else {
-                android.os.Process.killProcess(Process.myPid());
+                killProcess(Process.myPid());
                 System.exit(1);
             }
         });

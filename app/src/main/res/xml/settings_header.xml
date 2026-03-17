@@ -361,6 +361,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/aicr"
+        android:summary="com.xiaomi.aicr"
+        android:title="@string/aicr"
+        app:inflatedXml="@xml/aicr"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/barrage"
         android:summary="com.xiaomi.barrage"
         android:title="@string/barrage"

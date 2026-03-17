@@ -12,6 +12,7 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.about.AboutPageFragment;
 import com.sevtinge.hyperceiler.about.AboutSettingsFragment;
+import com.sevtinge.hyperceiler.common.utils.shell.IResult;
 import com.sevtinge.hyperceiler.dashboard.base.ActivityCallback;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
 import com.sevtinge.hyperceiler.home.adapter.HomeContentAdapter;
@@ -20,7 +21,6 @@ import com.sevtinge.hyperceiler.home.task.AppInitializer;
 import com.sevtinge.hyperceiler.home.widget.NavigationStyle;
 import com.sevtinge.hyperceiler.home.widget.SwitchManager;
 import com.sevtinge.hyperceiler.home.widget.SwitchMediator;
-import com.sevtinge.hyperceiler.libhook.callback.IResult;
 import com.sevtinge.hyperceiler.settings.SettingsFragment;
 import com.sevtinge.hyperceiler.settings.SettingsPageFragment;
 

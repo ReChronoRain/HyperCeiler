@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
 
 import java.lang.ref.WeakReference;
@@ -34,7 +34,7 @@ public class BannerCallback implements View.OnClickListener {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bean.getUrl()));
                 context.startActivity(intent);
             } catch (Exception e) {
-                Log.e("BannerCallback", "Failed to open URL: " + bean.getUrl());
+                AndroidLog.e("BannerCallback", "Failed to open URL: " + bean.getUrl(), e);
             }
             return;
         }

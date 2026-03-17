@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.widget;
 
 import android.content.Context;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import fan.springback.trigger.BaseTrigger;
 import fan.springback.trigger.DefaultTrigger;
@@ -94,16 +94,16 @@ public class PullViewHelper {
             if (!mEnableLoadMore) {
                 if (mTrigger.isActionRunning()) {
                     mPendingActions.put(ACTION_REMOVE_LOAD, true);
-                    Log.i(TAG, "setEnableLoadMore false isActionRunning, addTo PendingTask");
+                    AndroidLog.i(TAG, "setEnableLoadMore: action running, defer remove load more");
                 } else {
                     mTrigger.removeAction(mLoadUpAction);
                 }
             } else {
-                Log.i(TAG, "setEnableLoadMore contain, enable, clear loadMore");
+                AndroidLog.i(TAG, "setEnableLoadMore: action exists, clear pending remove");
                 mPendingActions.delete(ACTION_REMOVE_LOAD);
             }
         } else if (mEnableLoadMore) {
-            Log.i(TAG, "setEnableLoadMore addAction");
+            AndroidLog.i(TAG, "setEnableLoadMore: add load more action");
             addAction(mLoadUpAction);
         }
     }
@@ -112,14 +112,14 @@ public class PullViewHelper {
         mEnablePrivate = enabled;
         if (mTrigger.containAction(mLockAction)) {
             if (!mEnablePrivate) {
-                Log.i(TAG, "setEnablePrivate remove LockAction");
+                AndroidLog.i(TAG, "setEnablePrivate: remove lock action");
                 if (mTrigger.isActionRunning()) {
                     mPendingActions.put(ACTION_REMOVE_PRIVATE, true);
                 } else {
                     mTrigger.removeAction(mLockAction);
                 }
             } else {
-                Log.i(TAG, "setEnablePrivate contain, enable, clear private");
+                AndroidLog.i(TAG, "setEnablePrivate: action exists, clear pending remove");
                 mPendingActions.delete(ACTION_REMOVE_PRIVATE);
             }
         } else if (mEnablePrivate) {
@@ -137,7 +137,7 @@ public class PullViewHelper {
                     mTrigger.removeAction(this.mLoadAction);
                 }
             } else {
-                Log.i(TAG, "setEnablePullRefresh contain, enable, clear refresh");
+                AndroidLog.i(TAG, "setEnablePullRefresh: action exists, clear pending remove");
                 mPendingActions.delete(ACTION_REMOVE_REFRESH);
             }
         } else if (mEnablePullRefresh) {
@@ -168,17 +168,17 @@ public class PullViewHelper {
     public void checkPendingTask() {
         if (mTrigger != null && mPendingActions.size() != 0) {
             if (mPendingActions.get(ACTION_REMOVE_PRIVATE)) {
-                Log.i(TAG, "checkPendingTask remove LockAction");
+                AndroidLog.i(TAG, "checkPendingTask: remove lock action");
                 mTrigger.removeAction(mLockAction);
                 mPendingActions.delete(ACTION_REMOVE_PRIVATE);
             }
             if (mPendingActions.get(ACTION_REMOVE_REFRESH)) {
-                Log.i(TAG, "checkPendingTask remove LoadAction");
+                AndroidLog.i(TAG, "checkPendingTask: remove refresh action");
                 mTrigger.removeAction(mLoadAction);
                 mPendingActions.delete(ACTION_REMOVE_REFRESH);
             }
             if (mPendingActions.get(ACTION_REMOVE_LOAD)) {
-                Log.i(TAG, "checkPendingTask remove LoadUpAction ");
+                AndroidLog.i(TAG, "checkPendingTask: remove load more action");
                 mTrigger.removeAction(mLoadUpAction);
                 mPendingActions.delete(ACTION_REMOVE_LOAD);
             }
@@ -234,24 +234,24 @@ public class PullViewHelper {
         }
 
         public void onActivated() {
-            Log.i(TAG, "LoadAction_onActivated");
+            AndroidLog.i(TAG, "LoadAction: activated");
         }
 
         public void onEntered() {
-            Log.i(TAG, "LoadAction_onEntered");
+            AndroidLog.i(TAG, "LoadAction: entered");
         }
 
         public void onExit() {
-            Log.i(TAG, "LoadAction_onExit");
+            AndroidLog.i(TAG, "LoadAction: exit");
         }
 
         public void onFinished() {
-            Log.i(TAG, "LoadAction_onFinish");
+            AndroidLog.i(TAG, "LoadAction: finished");
             checkPendingTask();
         }
 
         public void onTriggered() {
-            Log.i(TAG, "LoadAction_onTriggered");
+            AndroidLog.i(TAG, "LoadAction: triggered");
             notifyListenerRefresh();
         }
     }
@@ -263,24 +263,24 @@ public class PullViewHelper {
         }
 
         public void onActivated() {
-            Log.i("MiuiPullRecyclerViewHelper", "LoadUpAction_onActivated");
+            AndroidLog.i(TAG, "LoadUpAction: activated");
         }
 
         public void onEntered() {
-            Log.i("MiuiPullRecyclerViewHelper", "LoadUpAction_onEntered");
+            AndroidLog.i(TAG, "LoadUpAction: entered");
         }
 
         public void onExit() {
-            Log.i("MiuiPullRecyclerViewHelper", "LoadUpAction_onExit");
+            AndroidLog.i(TAG, "LoadUpAction: exit");
         }
 
         public void onFinished() {
-            Log.i("MiuiPullRecyclerViewHelper", "LoadUpAction_onFinish");
+            AndroidLog.i(TAG, "LoadUpAction: finished");
             checkPendingTask();
         }
 
         public void onTriggered() {
-            Log.i("MiuiPullRecyclerViewHelper", "LoadUpAction_onTriggered");
+            AndroidLog.i(TAG, "LoadUpAction: triggered");
             notifyListenerLoadMore();
         }
     }
@@ -312,7 +312,7 @@ public class PullViewHelper {
         }
 
         public void onActivated() {
-            Log.i("MiuiPullRecyclerViewHelper", "LockAction_onActivated");
+            AndroidLog.i(TAG, "LockAction: activated");
             mIconBody.setImageDrawable(mContext.getDrawable(fan.springback.R.drawable.miuix_sbl_simple_indicator_locked_body_blue));
             mIconHeader.setImageDrawable(mContext.getDrawable(fan.springback.R.drawable.miuix_sbl_simple_indicator_locked_header_blue));
             mLabel.setText(R.string.release_enter_private);
@@ -325,7 +325,7 @@ public class PullViewHelper {
         }
 
         public void onEntered() {
-            Log.i("PullRecyclerViewHelper", "LockAction_onEntered");
+            AndroidLog.i(TAG, "LockAction: entered");
             mIconBody.setImageDrawable(mContext.getDrawable(fan.springback.R.drawable.miuix_sbl_simple_indicator_locked_body_gray));
             mIconHeader.setImageDrawable(mContext.getDrawable(fan.springback.R.drawable.miuix_sbl_simple_indicator_locked_header_gray));
             mLabel.setText(R.string.pull_to_enter_private);
@@ -333,16 +333,16 @@ public class PullViewHelper {
         }
 
         public void onExit() {
-            Log.i("PullRecyclerViewHelper", "LockAction_onExit");
+            AndroidLog.i(TAG, "LockAction: exit");
         }
 
         public void onFinished() {
-            Log.i("PullRecyclerViewHelper", "LockAction_onFinish");
+            AndroidLog.i(TAG, "LockAction: finished");
             checkPendingTask();
         }
 
         public void onTriggered() {
-            Log.i("PullRecyclerViewHelper", "LockAction_onTriggered");
+            AndroidLog.i(TAG, "LockAction: triggered");
             notifyListenerEnterPrivate();
         }
     }

@@ -169,17 +169,6 @@
             android:exported="true" />
 
         <activity
-            android:name=".logviewer.LogViewerActivity"
-            android:exported="false"
-            android:label="LogViewer"
-            android:theme="@style/LogViewerTheme">
-            <intent-filter>
-                <action android:name="fan.intent.action.LOGVIEWER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
             android:name=".log.LogViewerActivity"
             android:exported="false"
             android:label="LogViewer"

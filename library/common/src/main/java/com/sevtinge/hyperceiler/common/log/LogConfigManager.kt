@@ -96,7 +96,7 @@ object LogConfigManager {
                         try {
                             val level = line.trim().toInt()
                             if (level in 0..4) {
-                                return level
+                                return LogLevelManager.getEffectiveLogLevel(level)
                             }
                         } catch (_: NumberFormatException) {
                         }
@@ -111,7 +111,7 @@ object LogConfigManager {
     }
 
     private fun getDefaultLogLevel(): Int {
-        val level = PrefsBridge.getStringAsInt("log_level", 3)
+        val level = PrefsBridge.getStringAsInt("log_level", LogLevelManager.getDefaultLogLevel())
         return LogLevelManager.getEffectiveLogLevel(level)
     }
 }

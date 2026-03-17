@@ -165,6 +165,9 @@
     <string name="log_share_text">HyperCeiler 日誌文件</string>
     <string name="log_copy">複製</string>
     <string name="log_copy_success">日誌已複製到剪貼簿</string>
+    <string name="log_empty_no_logs">暫無日誌</string>
+    <string name="log_empty_no_results">未找到匹配的日誌</string>
+    <string name="log_empty_root_required">請授予 Root 權限後重啟應用以加載</string>
 
     <!-- Log detail dialog -->
     <string name="log_detail_title">日誌詳情</string>

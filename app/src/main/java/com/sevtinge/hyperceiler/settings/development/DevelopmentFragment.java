@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.settings.development;
 
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.fixLSPosedLogService;
+import static com.sevtinge.hyperceiler.common.log.LogStatusManager.fixLSPosedLogService;
 import static com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd;
 
 import android.content.Intent;

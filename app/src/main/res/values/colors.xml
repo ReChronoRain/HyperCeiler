@@ -40,4 +40,18 @@
 
     <color name="ic_launcher_background">#FC5B8D</color>
 
+    <color name="log_level_badge_bg_crash">#FFD84D4F</color>
+    <color name="log_level_badge_bg_error">#4AF04438</color>
+    <color name="log_level_badge_bg_warn">#4AFFB300</color>
+    <color name="log_level_badge_bg_info">#4A2EBD59</color>
+    <color name="log_level_badge_bg_debug">#4A1976D2</color>
+    <color name="log_level_badge_bg_default">#4A5F6368</color>
+
+    <color name="log_level_badge_text_crash">#FFFFFFFF</color>
+    <color name="log_level_badge_text_error">#C62828</color>
+    <color name="log_level_badge_text_warn">#A15C00</color>
+    <color name="log_level_badge_text_info">#1E7D32</color>
+    <color name="log_level_badge_text_debug">#1565C0</color>
+    <color name="log_level_badge_text_default">#5F6368</color>
+
 </resources>
