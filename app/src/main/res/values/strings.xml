@@ -137,12 +137,10 @@
     <string name="debug_mode_home_version_desc">A version number that is too high will still be blocked, so please fill it in carefully.</string>
     <!-- LogViewer -->
     <string name="log_search_hint">Search logs</string>
-    <string name="log_type_label">Log type</string>
     <string name="log_level_label">Level</string>
     <string name="log_tag_label">Tag</string>
     <string name="log_type_app">App Log</string>
     <string name="log_type_xposed">Xposed Log</string>
-    <string name="log_filter_stats">Log list (%1$d/%2$d)</string>
     <string name="log_filter_all">All</string>
     <string name="log_tag_other">Other</string>
     <string name="log_menu_clear">Clear logs</string>

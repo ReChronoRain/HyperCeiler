@@ -37,7 +37,6 @@ import androidx.core.graphics.drawable.DrawableCompat;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BaseActivity;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.log.LogLevelFilter;
 import com.sevtinge.hyperceiler.common.widget.SearchEditText;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
 
@@ -130,15 +129,9 @@ public class LogViewerActivity extends BaseActivity {
 
         mLogType.setFilteredTab(mCurrentType);
 
-        mLogTypeApp.setOnClickListener(v -> {
-            onTabChanged(0);
-            mViewPager.setCurrentItem(0, mViewPager.isDraggable());
-        });
+        mLogTypeApp.setOnClickListener(v -> handleTabClick(0));
 
-        mLogTypeXposed.setOnClickListener(v -> {
-            onTabChanged(1);
-            mViewPager.setCurrentItem(1, mViewPager.isDraggable());
-        });
+        mLogTypeXposed.setOnClickListener(v -> handleTabClick(1));
     }
 
     private void setupViewPager() {
@@ -159,6 +152,23 @@ public class LogViewerActivity extends BaseActivity {
             // 搜索框一动，立即同步给当前可见的 Fragment
             dispatchFilter();
         });
+    }
+
+    private void handleTabClick(int position) {
+        if (mViewPager.getCurrentItem() == position) {
+            boolean hadActiveFilters = hasActiveFilters();
+            resetFilters();
+            onTabChanged(position);
+            if (!hadActiveFilters) {
+                refreshCurrentFragment();
+            }
+            return;
+        }
+        mViewPager.setCurrentItem(position, mViewPager.isDraggable());
+    }
+
+    private boolean hasActiveFilters() {
+        return !mKeyword.isEmpty() || mSelectedLevelPos != 0 || mSelectedTagPos != 0;
     }
 
     /**
@@ -415,7 +425,7 @@ public class LogViewerActivity extends BaseActivity {
         HyperPopupMenu popupMenu = new HyperPopupMenu(this, view);
         popupMenu.inflate(R.menu.log_sort_menu);
 
-        injectDynamicSubMenu(popupMenu, R.id.log_level, Arrays.asList(LogLevelFilter.getTitles()));
+        injectDynamicSubMenu(popupMenu, R.id.log_level, Arrays.asList(LogLevelFilter.getTitles(this)));
         injectDynamicSubMenu(popupMenu, R.id.log_tag, mCurrentAvailableTags);
         popupMenu.preCheckSecondaryItem(mPopupCheckedState);
         popupMenu.notifyDataChanged();

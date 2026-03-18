@@ -140,12 +140,10 @@
 
     <!-- LogViewer -->
     <string name="log_search_hint">Пошук у журналах</string>
-    <string name="log_type_label">Тип журналу</string>
     <string name="log_level_label">Рівень</string>
     <string name="log_tag_label">Тег</string>
     <string name="log_type_app">Журнал застосунку</string>
     <string name="log_type_xposed">Журнал Xposed</string>
-    <string name="log_filter_stats">Список журналів (%1$d/%2$d)</string>
     <string name="log_filter_all">Усі</string>
     <string name="log_tag_other">Інше</string>
     <string name="log_menu_clear">Очистити журнали</string>

@@ -77,8 +77,8 @@
             android:title="@string/settings_safe_mode" />
 
         <fan.preference.DropDownPreference
-            android:defaultValue="2"
-            android:key="prefs_key_log_level"
+            android:defaultValue="1"
+            android:key="prefs_key_log_level_v2"
             android:summary="@string/disable_detailed_log_desc"
             android:title="@string/log_level"
             app:entries="@array/log_level"

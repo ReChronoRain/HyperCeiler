@@ -64,7 +64,7 @@ public class LogListFragment extends Fragment {
     private ImageView mEmptyIcon;
 
     private String mCurrentKeyword = "";
-    private String mCurrentLevel = "ALL";
+    private String mCurrentLevel = LogLevelFilter.ALL.getValue();
     private String mCurrentTag = ALL_TAG_VALUE;
 
     private PullViewHelper mPullViewHelper;
@@ -171,7 +171,7 @@ public class LogListFragment extends Fragment {
         final String keyword = mCurrentKeyword;
         final String level = mCurrentLevel;
         final String tag = mCurrentTag;
-        final boolean isFiltering = !keyword.isEmpty() || !"ALL".equals(level) || !ALL_TAG_VALUE.equals(tag);
+        final boolean isFiltering = !keyword.isEmpty() || !LogLevelFilter.isAll(level) || !ALL_TAG_VALUE.equals(tag);
 
         new Thread(() -> {
             boolean hasRootPermission;
@@ -187,7 +187,7 @@ public class LogListFragment extends Fragment {
             LogDao dao = LogRepository.getInstance().getDao();
             List<LogEntry> logs = dao.queryLogs(module, level, tag, keyword);
             boolean hasAnyModuleLogs = isFiltering
-                ? !dao.queryLogs(module, "ALL", ALL_TAG_VALUE, "").isEmpty()
+                ? !dao.queryLogs(module, LogLevelFilter.ALL.getValue(), ALL_TAG_VALUE, "").isEmpty()
                 : !logs.isEmpty();
 
             if (getActivity() != null) {
@@ -218,7 +218,7 @@ public class LogListFragment extends Fragment {
         mEmptyLayout.setVisibility(state == STATE_EMPTY ? View.VISIBLE : View.GONE);
 
         if (state == STATE_EMPTY) {
-            boolean isFiltering = !mCurrentKeyword.isEmpty() || !mCurrentLevel.equals("ALL") ||
+            boolean isFiltering = !mCurrentKeyword.isEmpty() || !LogLevelFilter.isAll(mCurrentLevel) ||
                 !ALL_TAG_VALUE.equals(mCurrentTag);
 
             if (mModule == 1 && !mHasRootPermission && !mHasAnyModuleLogs) {

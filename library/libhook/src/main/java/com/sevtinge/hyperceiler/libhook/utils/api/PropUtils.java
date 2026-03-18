@@ -113,13 +113,27 @@ public class PropUtils {
      */
     public static boolean setProp(String name, Object value) {
         try {
-            if (ShellInit.getShell() != null) {
-                return ShellInit.getShell().run("setprop " + name + " " + value).sync().isResult();
+            String stringValue = String.valueOf(value);
+            if (stringValue.isEmpty() && runCommand("resetprop -p --delete " + name)) {
+                return true;
             }
-            return ShellUtils.getResultBoolean("setprop " + name + " " + value, true);
+            String command = "setprop " + name + " " + shellQuote(value);
+            return runCommand(command);
         } catch (Throwable e) {
             AndroidLog.e(TAG, "setProp: " + name, e);
             return false;
         }
+    }
+
+    private static boolean runCommand(String command) {
+        if (ShellInit.getShell() != null) {
+            return ShellInit.getShell().run(command).sync().isResult();
+        }
+        return ShellUtils.getResultBoolean(command, true);
+    }
+
+    private static String shellQuote(Object value) {
+        String stringValue = String.valueOf(value);
+        return "\"" + stringValue.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
     }
 }

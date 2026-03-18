@@ -32,6 +32,7 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
@@ -83,11 +84,15 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
 
     private void setCheckedState() {
         Set<String> pkgSet = new HashSet<>(CrashScope.getCrashingAliases());
-        mSystemUi.setChecked(pkgSet.contains("systemui"));
-        mSettings.setChecked(pkgSet.contains("settings"));
-        mHome.setChecked(pkgSet.contains("home"));
-        mSecurityCenter.setChecked(pkgSet.contains("center"));
-        mDemo.setChecked(pkgSet.contains("demo"));
+        mSystemUi.setChecked(isEnabled("systemui", "system_ui_safe_mode_enable", pkgSet));
+        mSettings.setChecked(isEnabled("settings", "settings_safe_mode_enable", pkgSet));
+        mHome.setChecked(isEnabled("home", "home_safe_mode_enable", pkgSet));
+        mSecurityCenter.setChecked(isEnabled("center", "security_center_safe_mode_enable", pkgSet));
+        mDemo.setChecked(isEnabled("demo", "demo_safe_mode_enable", pkgSet));
+    }
+
+    private boolean isEnabled(String alias, String configKey, Set<String> pkgSet) {
+        return pkgSet.contains(alias) || PrefsBridge.getBoolean(configKey, false);
     }
 
     private void setPreference() {

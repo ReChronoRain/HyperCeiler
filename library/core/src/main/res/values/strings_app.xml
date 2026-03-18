@@ -178,6 +178,7 @@
     <string name="backup_failed">Backup failed</string>
     <string name="rest_title">Recover</string>
     <string name="rest_success">Recovery succeeded</string>
+    <string name="rest_success_message">Please restart the app for the configuration to take effect.</string>
     <string name="rest_failed">Recovery failed</string>
     <string name="backup_ask">Do you want to write backups?</string>
     <string name="backup_permission">Now, you\'ve to manually enable permissions for this option.</string>

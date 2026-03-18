@@ -140,12 +140,10 @@
 
     <!-- LogViewer -->
     <string name="log_search_hint">Tìm kiếm log</string>
-    <string name="log_type_label">Loại log:</string>
-    <string name="log_level_label">Mức độ:</string>
-    <string name="log_tag_label">Nhãn:</string>
+    <string name="log_level_label">Mức độ</string>
+    <string name="log_tag_label">Nhãn</string>
     <string name="log_type_app">Log của ứng dụng</string>
     <string name="log_type_xposed">Xposed Log</string>
-    <string name="log_filter_stats">Hiển thị: %1$d/%2$d</string>
     <string name="log_filter_all">Tất cả</string>
     <string name="log_tag_other">Khác</string>
     <string name="log_menu_clear">Xoá log</string>

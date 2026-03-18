@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import fan.appcompat.app.AlertDialog;
@@ -96,7 +97,7 @@ public class SettingsFragment extends BasePreferenceFragment
         mLanguage = findPreference("prefs_key_settings_app_language");
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mFloatBottomPreference = findPreference("prefs_key_settings_float_nav");
-        mLogLevel = findPreference("prefs_key_log_level");
+        mLogLevel = findPreference("prefs_key_log_level_v2");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
@@ -150,9 +151,16 @@ public class SettingsFragment extends BasePreferenceFragment
             case "prefs_key_back" -> mBackupLauncher.launch(BackupUtils.getCreateDocumentIntent());
             case "prefs_key_rest" -> mRestoreLauncher.launch(BackupUtils.getOpenDocumentIntent());
             case "prefs_key_reset" -> {
-                PrefsBridge.clearAllByApp();
-                OobeUtils.resetOobeState(requireContext());
-                Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
+                DialogHelper.showDialog(
+                    requireActivity(),
+                    getString(com.sevtinge.hyperceiler.core.R.string.reset_title),
+                    getString(com.sevtinge.hyperceiler.core.R.string.reset_desc),
+                    (dialog, which) -> {
+                        PrefsBridge.clearAllByApp();
+                        OobeUtils.resetOobeState(requireContext());
+                        Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
+                    }
+                );
             }
         }
         return true;
@@ -171,10 +179,10 @@ public class SettingsFragment extends BasePreferenceFragment
     }
 
     /**
-     * 底层日志等级统一为三档：
+     * 日志等级统一为三档：
      * 0: 禁用日志输出
-     * 1: 一般日志（error + crash）
-     * 2: 详细日志（全部等级）
+     * 1: 仅输出 error
+     * 2: 输出全部日志
      * 设置页按构建类型裁剪展示：
      * release -> 0 / 1
      * others  -> 1 / 2
@@ -199,19 +207,24 @@ public class SettingsFragment extends BasePreferenceFragment
         mLogLevel.setEntryValues(entryValues);
         mLogLevel.setDefaultValue(defaultValue);
 
-        // 如果当前值不在允许的范围内，重置为默认值
         String currentValue = mLogLevel.getValue();
         if (currentValue != null) {
-            currentValue = String.valueOf(LogLevelManager.getEffectiveLogLevel(Integer.parseInt(currentValue)));
-        }
-        boolean isValidValue = false;
-        for (CharSequence value : entryValues) {
-            if (value.toString().equals(currentValue)) {
-                isValidValue = true;
-                break;
+            try {
+                currentValue = String.valueOf(LogLevelManager.getEffectiveLogLevel(Integer.parseInt(currentValue)));
+            } catch (NumberFormatException e) {
+                currentValue = defaultValue;
             }
         }
-        if (!isValidValue || currentValue == null) {
+        boolean isValidValue = false;
+        if (currentValue != null) {
+            for (CharSequence value : entryValues) {
+                if (value.toString().equals(currentValue)) {
+                    isValidValue = true;
+                    break;
+                }
+            }
+        }
+        if (!isValidValue) {
             mLogLevel.setValue(defaultValue);
         } else {
             mLogLevel.setValue(currentValue);
@@ -252,7 +265,7 @@ public class SettingsFragment extends BasePreferenceFragment
     private void processRestore(Uri uri) {
         try {
             BackupUtils.handleReadDocument(requireContext(), uri);
-            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), "请重启应用以使配置生效。");
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message));
         } catch (Exception e) {
             showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_failed), e.getMessage());
         }
