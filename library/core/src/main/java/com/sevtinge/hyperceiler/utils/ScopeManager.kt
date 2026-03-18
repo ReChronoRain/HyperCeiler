@@ -1,6 +1,6 @@
 package com.sevtinge.hyperceiler.utils
 
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog
+import com.sevtinge.hyperceiler.common.log.AndroidLog
 import io.github.libxposed.service.XposedService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

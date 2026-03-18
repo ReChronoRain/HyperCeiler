@@ -28,8 +28,8 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.Downgrad
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.ExactSignCheckPatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.SharedUserPatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.VerificationAgentPatch;
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import io.github.libxposed.api.XposedModuleInterface;
 

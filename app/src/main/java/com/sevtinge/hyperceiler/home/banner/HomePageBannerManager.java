@@ -1,5 +1,8 @@
 package com.sevtinge.hyperceiler.home.banner;
 
+import static com.sevtinge.hyperceiler.common.log.LogStatusManager.IS_LOGGER_ALIVE;
+import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
+import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBaseOs;
@@ -7,10 +10,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.get
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getRomAuthor;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSupportStatus;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSystemVersionIncremental;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
-import static com.sevtinge.hyperceiler.libhook.utils.log.LogManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.utils.LSPosedScopeHelper.mNotInSelectedScope;
 
 import android.content.Context;
@@ -18,10 +18,10 @@ import android.content.pm.PackageManager;
 import android.os.SystemClock;
 
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.log.LoggerHealthChecker;
 
 import java.util.ArrayList;
 import java.util.Calendar;

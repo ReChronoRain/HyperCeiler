@@ -169,7 +169,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".logviewer.LogViewerActivity"
+            android:name=".log.LogViewerActivity"
             android:exported="false"
             android:label="LogViewer"
             android:theme="@style/LogViewerTheme">

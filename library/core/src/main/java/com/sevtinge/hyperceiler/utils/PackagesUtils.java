@@ -33,8 +33,8 @@ import android.os.Parcelable;
 
 import com.sevtinge.hyperceiler.libhook.provider.SharedPrefsProvider;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.model.data.AppData;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import java.util.ArrayList;
 import java.util.List;

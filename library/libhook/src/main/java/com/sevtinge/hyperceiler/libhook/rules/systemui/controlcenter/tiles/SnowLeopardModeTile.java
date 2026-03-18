@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellUtils;
+import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 
 public class SnowLeopardModeTile extends TileUtils {
     private static boolean isInSnowLeopardMode = false;

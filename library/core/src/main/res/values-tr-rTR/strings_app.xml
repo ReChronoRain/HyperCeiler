@@ -554,9 +554,6 @@
     <string name="system_ui_statusbar_music_title">Şarkı sözlerine odaklan</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Çift dokunuşla uyutma</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Çift sıralı sinyal çubuğu</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Simge temaları</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Klasik</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Köken mimarisi</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Simge stilleri</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Simge ölçeklemesi</string>
     <string name="system_ui_status_bar_mobile_type_single">Mobil ağ tipini ayrı göster</string>
@@ -691,8 +688,6 @@
     <string name="system_ui_control_center_media_control_progress_sleek">Gösterişli</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Kaba</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Zaman görünümü metin boyutu</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">İlerleme çubuğu rengi</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Kaydırıcı rengi</string>
     <string name="system_ui_control_center_media_control_media_button">Control merkezi media düğmeleri boyutu</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Arka plan bulanıklaştırma yarıçapı</string>
     <string name="system_ui_control_center_redirect_notice">Yönlendirme bildirimi ayarları</string>

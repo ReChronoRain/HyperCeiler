@@ -140,12 +140,10 @@
 
     <!-- LogViewer -->
     <string name="log_search_hint">البحث في السجلات</string>
-    <string name="log_type_label">نوع السجل</string>
     <string name="log_level_label">المستوى</string>
     <string name="log_tag_label">الوسم</string>
     <string name="log_type_app">سجل التطبيق</string>
     <string name="log_type_xposed">سجل Xposed</string>
-    <string name="log_filter_stats">قائمة السجلات (%1$d/%2$d)</string>
     <string name="log_filter_all">الكل</string>
     <string name="log_tag_other">أخرى</string>
     <string name="log_menu_clear">مسح السجلات</string>

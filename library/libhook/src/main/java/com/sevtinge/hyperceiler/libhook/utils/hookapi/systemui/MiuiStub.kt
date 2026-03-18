@@ -26,6 +26,9 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldA
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import java.util.concurrent.Executor
 
 /**
@@ -37,7 +40,15 @@ object MiuiStub {
         loadClass("miui.stub.MiuiStub").getStaticObjectFieldAs<Any>("INSTANCE")
     }
 
-    lateinit var javaAdapter: JavaAdapter
+    private var systemJavaAdapter: JavaAdapter? = null
+
+    private val fallbackJavaAdapter by lazy {
+        val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+        JavaAdapter(scope)
+    }
+
+    val javaAdapter: JavaAdapter
+        get() = systemJavaAdapter ?: fallbackJavaAdapter
 
     val baseProvider by lazy {
         BaseProvider(INSTANCE.getObjectFieldAs("mBaseProvider"))
@@ -56,7 +67,7 @@ object MiuiStub {
         loadClass("com.android.systemui.util.kotlin.JavaAdapter").constructorFinder()
             .first()
             .createAfterHook {
-                javaAdapter = JavaAdapter(it.thisObject)
+                systemJavaAdapter = JavaAdapter(it.thisObject)
             }
     }
 

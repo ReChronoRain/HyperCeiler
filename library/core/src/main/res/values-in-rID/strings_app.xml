@@ -420,9 +420,6 @@
     <string name="system_ui_statusbar_strong_toast_title">Roti Bakar Kuat yang Cerdas</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Ketuk dua kali untuk tidur</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Bilah sinyal baris ganda</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Tema ikon</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Klasik</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Arsitektur Asal</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Gaya ikon</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Penskalaan ikon</string>
     <string name="system_ui_status_bar_mobile_type_single">Ikon jenis jaringan seluler ditampilkan secara terpisah</string>
@@ -552,8 +549,6 @@
     <string name="system_ui_control_center_media_control_progress_sleek">Ramping</string>
     <string name="system_ui_control_center_media_control_progress_thickness">Ketebalan</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Ukuran teks tampilan waktu</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Warna bilah kemajuan</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Warna penggeser</string>
     <string name="system_ui_control_center_media_control_media_button">Ukuran tombol tindakan intrinsik</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Radius keburaman latar belakang gambar</string>
     <string name="system_ui_control_center_redirect_notice">Pengaturan pemberitahuan pengalihan</string>

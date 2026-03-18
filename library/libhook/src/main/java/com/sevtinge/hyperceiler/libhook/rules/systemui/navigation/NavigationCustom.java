@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.navigation;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 public class NavigationCustom extends BaseHook {

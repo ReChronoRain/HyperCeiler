@@ -26,16 +26,16 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.model.data.AppData;
-import com.sevtinge.hyperceiler.utils.PackagesUtils;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellExec;
+import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellExec;
-import com.sevtinge.hyperceiler.libhook.utils.shell.ShellInit;
+import com.sevtinge.hyperceiler.model.data.AppData;
+import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.util.ArrayList;
 import java.util.List;

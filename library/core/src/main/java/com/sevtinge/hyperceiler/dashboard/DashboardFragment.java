@@ -36,7 +36,7 @@ import androidx.core.view.MenuProvider;
 import androidx.preference.Preference;
 
 import com.sevtinge.hyperceiler.core.R;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
@@ -184,7 +184,6 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), pkgName);
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
         boolean isDebugVersion = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) == 0;
-
         p.setVisible(check && !isDebugMode && isDebugVersion);
     }
 }

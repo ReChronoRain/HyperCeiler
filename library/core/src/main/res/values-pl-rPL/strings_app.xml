@@ -545,9 +545,6 @@
     <string name="system_ui_statusbar_music_title">Skoncentruj słowa piosenek</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Dwukrotnie dotknij, aby uśpić</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Dwurzędowy pasek sygnału</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Motywy ikon</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Klasyczny</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Bez ograniczeń</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Styl ikon</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Wielkość ikon</string>
     <string name="system_ui_status_bar_mobile_type_single">Oddzielne wyświetlanie ikon sieci komórkowej</string>
@@ -686,7 +683,6 @@
     <string name="system_control_center_qs_columns_horizontal">Kolumny (poziomo)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Wyłącz tryb przezroczysty</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Wyłącza ustawienie tła powiadomienia na przezroczyste</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Optymalizuj przejście zaokrąglonych rogów obrazów albumu</string>
     <string name="system_ui_control_center_media_control_progress">Pasek postępu</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Usuń ograniczenia niestandardowych akcji dla kart powiadomień multimediów</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Falisty</string>
@@ -694,8 +690,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Grubość</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Promień zaokrąglenia paska postępu</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Rozmiar tekstu wyświetlania czasu</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Kolor odtwarzacza</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Kolor suwaka</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Dostosuj rozmiar przycisku akcji</string>
     <string name="system_ui_control_center_media_control_media_button">Wbudowany rozmiar przycisku akcji</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Promień rozmycia tła</string>

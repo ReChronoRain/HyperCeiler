@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +21,18 @@ import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.R;
+import com.sevtinge.hyperceiler.about.controller.BgEffectController;
 import com.sevtinge.hyperceiler.about.widget.DeviceInfoCard;
 import com.sevtinge.hyperceiler.about.widget.DeviceNameCard;
 import com.sevtinge.hyperceiler.about.widget.VersionCard;
 import com.sevtinge.hyperceiler.about.widget.VersionNameCard;
-import com.sevtinge.hyperceiler.about.controller.BgEffectController;
-import com.sevtinge.hyperceiler.utils.ActionBarUtils;
-import com.sevtinge.hyperceiler.ui.HomePageActivity;
+import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.home.widget.SwitchManager;
 import com.sevtinge.hyperceiler.home.widget.SwitchView;
+import com.sevtinge.hyperceiler.ui.HomePageActivity;
+import com.sevtinge.hyperceiler.utils.ActionBarUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -46,7 +46,6 @@ import fan.internal.utils.ViewUtils;
 import fan.os.Build;
 import fan.preference.PreferenceFragment;
 import fan.springback.view.SpringBackLayout;
-import fan.theme.token.ContainerToken;
 
 public class AboutSettingsFragment extends BasePreferenceFragment
     implements View.OnScrollChangeListener {
@@ -258,7 +257,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             declaredField.setAccessible(true);
             declaredField.set(this, Boolean.FALSE);
         } catch (Exception e) {
-            Log.e("MiuiMyDeviceSettings", "declaredField", e);
+            AndroidLog.e("AboutSettingsFragment", "setOverlayMode failed", e);
         }
     }
 

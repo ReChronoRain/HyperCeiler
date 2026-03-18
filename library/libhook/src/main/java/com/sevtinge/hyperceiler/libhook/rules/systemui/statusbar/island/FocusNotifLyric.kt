@@ -34,7 +34,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullA
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setFloatField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setLongField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -145,10 +145,7 @@ object FocusNotifLyric : MusicBaseHook() {
                         val obj = param.thisObject
                         // 访问字段 "$authBundle"
                         val bundle = obj.getObjectField($$"$authBundle") as Bundle
-                        XposedLog.d(
-                            TAG,
-                            "authBundle result_code:${bundle.getInt("result_code", 114514)}"
-                        )
+                        XposedLog.d(TAG, "authBundle result_code:${bundle.getInt("result_code", 114514)}")
                         bundle.putInt("result_code",0)
                     }
                 }

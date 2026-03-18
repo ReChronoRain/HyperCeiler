@@ -50,18 +50,22 @@
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_control_center_media_control_media_album_mode"
-            android:summary="@string/system_ui_control_center_media_control_media_album_mode_desc"
-            android:title="@string/system_ui_control_center_media_control_media_album_mode"
-            app:entries="@array/system_ui_control_center_media_control_album_mode"
-            app:entryValues="@array/system_ui_control_center_media_control_album_mode_value" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_ambient_light"
+            android:summary="@string/system_ui_control_center_media_control_ambient_light_desc"
+            android:title="@string/system_ui_control_center_media_control_ambient_light" />
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_system_ui_control_center_media_control_album_picture_rounded_corners"
-            android:title="@string/system_ui_control_center_media_control_album_picture_rounded_corners" />
+            android:key="prefs_key_system_ui_control_center_media_control_ambient_light_opt"
+            android:summary="@string/system_ui_control_center_media_control_ambient_light_opt_desc"
+            android:title="@string/system_ui_control_center_media_control_ambient_light_opt" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_always_dark"
+            android:title="@string/system_ui_control_center_media_control_always_dark" />
 
     </PreferenceCategory>
 
@@ -87,6 +91,14 @@
             android:dependency="prefs_key_system_ui_control_center_media_control_media_button_layout_switch"
             android:key="prefs_key_system_ui_control_center_media_control_media_button_hide_seamless"
             android:title="@string/system_ui_control_center_media_control_media_button_hide_seamless" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:dependency="prefs_key_system_ui_control_center_media_control_media_button_layout_switch"
+            android:key="prefs_key_system_ui_control_center_media_control_media_album_mode"
+            android:title="@string/system_ui_control_center_media_control_media_album_mode"
+            app:entries="@array/system_ui_control_center_media_control_album_mode"
+            app:entryValues="@array/system_ui_control_center_media_control_album_mode_value" />
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
@@ -191,6 +203,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_control_center_media_control_media_seekbar_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_on"
+            android:title="@string/enable" />
+
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_system_ui_control_center_media_control_progress_mode"
@@ -222,20 +239,20 @@
             app:defaultValue="80"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
-            app:maxValue="260"
+            app:maxValue="110"
             app:minValue="20"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:key="prefs_key_system_ui_control_center_media_control_seekbar_color"
-            android:title="@string/system_ui_control_center_media_control_seekbar_color" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_comet"
+            android:title="@string/system_ui_control_center_media_control_progress_comet" />
 
-        <ColorPickerPreference
-            android:defaultValue="-1"
-            android:key="prefs_key_system_ui_control_center_media_control_seekbar_thumb_color"
-            android:title="@string/system_ui_control_center_media_control_seekbar_thumb_color" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_control_center_media_control_progress_round"
+            android:title="@string/system_ui_control_center_media_control_progress_round" />
 
     </PreferenceCategory>
 

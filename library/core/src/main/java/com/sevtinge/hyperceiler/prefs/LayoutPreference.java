@@ -135,7 +135,7 @@ public class LayoutPreference extends Preference implements PreferenceStyle {
     }
 
     @Override
-    public boolean isEnabledCardStyle() {
+    public boolean isCardStyleEnabled() {
         return false;
     }
 }

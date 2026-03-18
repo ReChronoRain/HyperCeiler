@@ -9,17 +9,16 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
@@ -61,7 +60,7 @@ public class SearchHelper {
     }
 
     public static void initIndex(Context context, boolean force) {
-        Log.d(TAG, "initIndex called, force = " + force);
+        AndroidLog.d(TAG, "initIndex: force = " + force);
         ThreadPoolManager.getInstance().submit(() -> {
             ModDao dao = AppDatabase.getInstance(context).modDao();
             if (force || dao.getCount() == 0) {
@@ -86,7 +85,7 @@ public class SearchHelper {
         AppDatabase.getInstance(context).runInTransaction(() -> {
             dao.deleteAll();
             dao.insertAll(entities);
-            Log.d(TAG, "Index built: " + entities.size() + " entries");
+            AndroidLog.d(TAG, "rebuildIndex: inserted " + entities.size() + " entries");
         });
     }
 

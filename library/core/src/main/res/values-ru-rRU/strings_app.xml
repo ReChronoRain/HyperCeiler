@@ -581,9 +581,6 @@
     <string name="system_ui_statusbar_music_title">Фокус текста</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Блокировка двойным нажатием</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Двухрядная индикаторная панель</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Темы значков</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Классический</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Исходная архитектура</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">Стили значков</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">Масштабирование значка</string>
     <string name="system_ui_status_bar_mobile_type_single">Значок типа мобильной сети отображается отдельно</string>
@@ -739,7 +736,6 @@
     <string name="system_control_center_qs_columns_horizontal">Кол-во столбцов (ландшафт)</string>
     <string name="system_ui_control_center_notification_disable_transparent">Отключить прозрачный режим</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">Отключить настройку прозрачности фона уведомлений</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">Оптимизировать закругленный переход к изображениям альбомов</string>
     <string name="system_ui_control_center_media_control_progress">Индикатор выполнения</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">Удалить ограничение на применение специальных действий для карточек мультимедийных уведомлений</string>
     <string name="system_ui_control_center_media_control_progress_wavy">Волнистый</string>
@@ -747,8 +743,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">Толщина</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">Радиус угла полосы выполнения</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">Размер текста просмотра времени</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">Цвет индикатора выполнения</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">Цвет ползунка</string>
     <string name="system_ui_control_center_media_control_media_button_custom">Настроить размер кнопки действия</string>
     <string name="system_ui_control_center_media_control_media_button">Размер встроенной кнопки действия</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">Радиус размытия фонового изображения</string>
@@ -758,7 +752,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">Обновить цвет текста вместе с анимацией</string>
     <string name="system_ui_control_center_media_control_inverse_color">Авто инверсия цвета</string>
     <string name="system_ui_control_center_media_control_media_album_mode">Обложка медиа</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">После выбора \"Невидимый\", вы также должны включить переключатель модификации макета, чтобы изменения вступили в силу.</string>
     <string name="system_ui_control_center_media_control_media_button_title">Кнопка \"Медиа\"</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">Включить модификацию макета</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">Включить модификацию шрифта</string>

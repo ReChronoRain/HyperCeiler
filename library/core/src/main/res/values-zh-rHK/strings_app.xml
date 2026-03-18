@@ -576,9 +576,6 @@
     <string name="system_ui_statusbar_music_title">焦點歌詞</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">雙擊狀態欄鎖定畫面</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">雙排行動網絡圖示</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">圖示主題</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">經典</string>
-    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">圓滑</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_style">圖示樣式</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_size">圖示缩放</string>
     <string name="system_ui_status_bar_mobile_type_single">行動網絡類型圖示單獨顯示</string>
@@ -734,7 +731,6 @@
     <string name="system_control_center_qs_columns_horizontal">列數（橫屏）</string>
     <string name="system_ui_control_center_notification_disable_transparent">禁用透明模式</string>
     <string name="system_ui_control_center_notification_disable_transparent_desc">禁止設定通知背景為非模糊或透明樣式</string>
-    <string name="system_ui_control_center_media_control_album_picture_rounded_corners">優化專輯圖片圓角過渡</string>
     <string name="system_ui_control_center_media_control_progress">媒體進度條樣式</string>
     <string name="system_ui_control_center_media_control_unlock_custom_actions">解除自定義動作應用限制</string>
     <string name="system_ui_control_center_media_control_progress_wavy">波浪</string>
@@ -742,8 +738,6 @@
     <string name="system_ui_control_center_media_control_progress_thickness">粗細</string>
     <string name="system_ui_control_center_media_control_progress_corner_radius">進度條圓角半徑</string>
     <string name="system_ui_control_center_media_control_time_view_text_size">時間預覽文本大小</string>
-    <string name="system_ui_control_center_media_control_seekbar_color">進度條顏色</string>
-    <string name="system_ui_control_center_media_control_seekbar_thumb_color">滑塊顏色</string>
     <string name="system_ui_control_center_media_control_media_button_custom">自定義動作按鈕大小</string>
     <string name="system_ui_control_center_media_control_media_button">固有動作按鈕大小</string>
     <string name="system_ui_control_center_media_control_panel_background_mix_blur_radius">背景模糊半徑</string>
@@ -753,7 +747,6 @@
     <string name="system_ui_control_center_media_control_color_anim_desc">使用動畫更新文字顏色</string>
     <string name="system_ui_control_center_media_control_inverse_color">自動反色</string>
     <string name="system_ui_control_center_media_control_media_album_mode">媒體封面</string>
-    <string name="system_ui_control_center_media_control_media_album_mode_desc">選擇不可見後，需同時啟用佈局修改開關才能生效</string>
     <string name="system_ui_control_center_media_control_media_button_title">媒體控件</string>
     <string name="system_ui_control_center_media_control_media_button_layout_switch">啟用佈局修改</string>
     <string name="system_ui_control_center_media_control_media_button_size_switch">啟用字體修改</string>

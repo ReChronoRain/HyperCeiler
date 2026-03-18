@@ -24,16 +24,16 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.VersionedPackage
 import android.os.SystemProperties
 import android.provider.Settings
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PackageWatchdog
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.removeAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
@@ -163,7 +163,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
                     val info = EzxHelpUtils.getObjectField(proc!!, "info") as? ApplicationInfo
                     val pkgName = info?.packageName ?: return@after
 
-                    XposedLog.e(TAG, "Crash detected: $pkgName, log: $longMsg")
+                    XposedLog.e(TAG, "Crash detected: $pkgName, log: $stackTrace")
 
                     handleCrashLogic(mContext, pkgName, timeMillis, crashInfo, longMsg, stackTrace)
                 }

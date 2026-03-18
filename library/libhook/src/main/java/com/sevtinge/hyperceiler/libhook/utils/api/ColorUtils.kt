@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.api
 
 import android.graphics.Color
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 
 object ColorUtils {
     // color转换不可靠，加一个默认值

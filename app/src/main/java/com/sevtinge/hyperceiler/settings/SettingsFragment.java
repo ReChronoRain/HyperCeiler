@@ -1,8 +1,22 @@
+/*
+ * This file is part of HyperCeiler.
+ *
+ * HyperCeiler is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ *
+ * Copyright (C) 2023-2026 HyperCeiler Contributions
+ */
 package com.sevtinge.hyperceiler.settings;
-
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isBeta;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isCanary;
-import static com.sevtinge.hyperceiler.libhook.utils.api.ProjectApi.isRelease;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -20,10 +34,13 @@ import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
+import com.sevtinge.hyperceiler.common.log.LogLevelManager;
+import com.sevtinge.hyperceiler.common.log.LogStatusManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.LogManager;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import fan.appcompat.app.AlertDialog;
@@ -80,7 +97,7 @@ public class SettingsFragment extends BasePreferenceFragment
         mLanguage = findPreference("prefs_key_settings_app_language");
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mFloatBottomPreference = findPreference("prefs_key_settings_float_nav");
-        mLogLevel = findPreference("prefs_key_log_level");
+        mLogLevel = findPreference("prefs_key_log_level_v2");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
@@ -134,9 +151,16 @@ public class SettingsFragment extends BasePreferenceFragment
             case "prefs_key_back" -> mBackupLauncher.launch(BackupUtils.getCreateDocumentIntent());
             case "prefs_key_rest" -> mRestoreLauncher.launch(BackupUtils.getOpenDocumentIntent());
             case "prefs_key_reset" -> {
-                PrefsBridge.clearAllByApp();
-                OobeUtils.resetOobeState(requireContext());
-                Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
+                DialogHelper.showDialog(
+                    requireActivity(),
+                    getString(com.sevtinge.hyperceiler.core.R.string.reset_title),
+                    getString(com.sevtinge.hyperceiler.core.R.string.reset_desc),
+                    (dialog, which) -> {
+                        PrefsBridge.clearAllByApp();
+                        OobeUtils.resetOobeState(requireContext());
+                        Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
+                    }
+                );
             }
         }
         return true;
@@ -151,55 +175,59 @@ public class SettingsFragment extends BasePreferenceFragment
     }
 
     private void setLogLevel(int level) {
-        LogManager.setLogLevel(level, requireContext().getApplicationInfo().dataDir);
+        LogStatusManager.setLogLevel(level, requireContext().getApplicationInfo().dataDir);
     }
 
     /**
-     * 根据构建类型设置日志等级选项
-     * Release: Disable, Error
-     * Beta: Error, Debug
-     * Canary: Info, Debug
-     * Debug: Disable, Error, Warn, Info, Debug
+     * 日志等级统一为三档：
+     * 0: 禁用日志输出
+     * 1: 仅输出 error
+     * 2: 输出全部日志
+     * 设置页按构建类型裁剪展示：
+     * release -> 0 / 1
+     * others  -> 1 / 2
      */
     private void setupLogLevelPreference() {
-        CharSequence[] entries;
-        CharSequence[] entryValues;
-        String defaultValue;
-
-        if (isRelease()) {
-            entries = new CharSequence[]{"Disable", "Error"};
-            entryValues = new CharSequence[]{"0", "1"};
-            defaultValue = "1";
-        } else if (isBeta()) {
-            entries = new CharSequence[]{"Error", "Debug"};
-            entryValues = new CharSequence[]{"1", "4"};
-            defaultValue = "4";
-        } else if (isCanary()) {
-            entries = new CharSequence[]{"Info", "Debug"};
-            entryValues = new CharSequence[]{"3", "4"};
-            defaultValue = "3";
-        } else {
-            // Debug 构建类型：全部选项
-            entries = new CharSequence[]{"Disable", "Error", "Warn", "Info", "Debug"};
-            entryValues = new CharSequence[]{"0", "1", "2", "3", "4"};
-            defaultValue = "4";
-        }
+        boolean isRelease = ProjectApi.isRelease();
+        CharSequence[] entries = isRelease
+            ? new CharSequence[]{
+                getString(R.string.log_level_none),
+                getString(R.string.log_level_general)
+            }
+            : new CharSequence[]{
+                getString(R.string.log_level_general),
+                getString(R.string.log_level_detailed)
+            };
+        CharSequence[] entryValues = isRelease
+            ? new CharSequence[]{"0", "1"}
+            : new CharSequence[]{"1", "2"};
+        String defaultValue = String.valueOf(LogLevelManager.getDefaultLogLevel());
 
         mLogLevel.setEntries(entries);
         mLogLevel.setEntryValues(entryValues);
         mLogLevel.setDefaultValue(defaultValue);
 
-        // 如果当前值不在允许的范围内，重置为默认值
         String currentValue = mLogLevel.getValue();
-        boolean isValidValue = false;
-        for (CharSequence value : entryValues) {
-            if (value.toString().equals(currentValue)) {
-                isValidValue = true;
-                break;
+        if (currentValue != null) {
+            try {
+                currentValue = String.valueOf(LogLevelManager.getEffectiveLogLevel(Integer.parseInt(currentValue)));
+            } catch (NumberFormatException e) {
+                currentValue = defaultValue;
             }
         }
-        if (!isValidValue || currentValue == null) {
+        boolean isValidValue = false;
+        if (currentValue != null) {
+            for (CharSequence value : entryValues) {
+                if (value.toString().equals(currentValue)) {
+                    isValidValue = true;
+                    break;
+                }
+            }
+        }
+        if (!isValidValue) {
             mLogLevel.setValue(defaultValue);
+        } else {
+            mLogLevel.setValue(currentValue);
         }
 
         mLogLevel.setOnPreferenceChangeListener((preference, o) -> {
@@ -237,7 +265,7 @@ public class SettingsFragment extends BasePreferenceFragment
     private void processRestore(Uri uri) {
         try {
             BackupUtils.handleReadDocument(requireContext(), uri);
-            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), "请重启应用以使配置生效。");
+            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message));
         } catch (Exception e) {
             showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_failed), e.getMessage());
         }

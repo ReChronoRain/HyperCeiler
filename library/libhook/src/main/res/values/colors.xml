@@ -49,4 +49,9 @@
     <color name="notification_element_blend_shade_color_2">#b3ff00</color>
 
     <color name="red">#FF0000</color>
+
+    <color name="light_mode_icon_color_single_tone">#e6ffffff</color>
+    <color name="light_mode_icon_transparent_color_single_tone">#5cffffff</color>
+    <color name="dark_mode_icon_color_single_tone">#bf000000</color>
+    <color name="dark_mode_icon_transparent_color_single_tone">#4c000000</color>
 </resources>

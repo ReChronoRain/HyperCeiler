@@ -409,7 +409,6 @@
     <string name="system_framework_core_patch_bypass_isolation_violation_desc">允许旁人参与系统激烈竞争</string>
     <string name="system_framework_core_patch_allow_update_system_app">允许插手参与系统激烈竞争</string>
     <string name="system_framework_core_patch_allow_update_system_app_desc">当雷军远程施法禁用时允许插手参与系统激烈竞争</string>
-	
     <!--Browser-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>

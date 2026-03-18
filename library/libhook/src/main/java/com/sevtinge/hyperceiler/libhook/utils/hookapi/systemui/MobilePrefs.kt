@@ -65,6 +65,10 @@ object MobilePrefs {
         // 双排信号
         PrefsBridge.getBoolean("system_ui_statusbar_network_icon_enable")
     }
+    val signalShowMode by lazy {
+        // 信号显示逻辑
+        PrefsBridge.getStringAsInt("system_ui_status_bar_icon_mobile_network_signal_mode", 0)
+    }
     val card1 by lazy {
         PrefsBridge.getBoolean("system_ui_status_bar_icon_mobile_network_hide_card_1")
     }

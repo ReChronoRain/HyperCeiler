@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.drawable
 
-// https://github.com/HowieHChen/XiaomiHelper/blob/b1ab58484326372575a72f6509580cc60c272300/app/src/main/kotlin/dev/lackluster/mihelper/hook/drawable/AnimationState.kt
+// https://github.com/HowieHChen/XiaomiHelper/blob/6a0e424ad9276205fdf47f523cc6c8bb72e49e7f/app/src/main/kotlin/dev/lackluster/mihelper/hook/drawable/AnimationState.kt
 enum class AnimationState {
     STARTING,
     RUNNING,

@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.log.XposedLog
+import com.sevtinge.hyperceiler.common.log.XposedLog
 
 object PackageWatchdog {
     private lateinit var classLoader: ClassLoader
@@ -43,7 +43,7 @@ object PackageWatchdog {
     fun clearRecord(context: Context, packageName: String) {
         getInstance(context).allObservers.forEach { (_, v) ->
             val pkg = v.callMethod("getMonitoredPackage", packageName) ?: return@forEach
-            MonitoredPackageStub(pkg).mitigationCalls!!.invokeMethod("clear")
+            MonitoredPackageStub(pkg).mitigationCalls!!.callMethod("clear")
         }
     }
 

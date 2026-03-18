@@ -54,79 +54,11 @@
 
         <fan.preference.DropDownPreference
             android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_new_hd"
-            android:title="@string/system_ui_status_bar_icon_new_hd"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_small_hd"
-            android:title="@string/system_ui_status_bar_icon_small_hd"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_big_hd"
-            android:title="@string/system_ui_status_bar_icon_big_hd"
-            app:entries="@array/status_bar_icon_mode"
-            app:entryValues="@array/status_bar_icon_mode_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_signal_no_card"
-            android:title="@string/system_ui_status_bar_icon_mobile_network_signal_no_card"
-            app:entries="@array/status_bar_icon_mode_new"
-            app:entryValues="@array/status_bar_icon_mode_new_value" />
-
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
             android:key="prefs_key_system_ui_status_bar_icon_airplane"
             android:title="@string/system_ui_status_bar_icon_airplane"
             app:entries="@array/status_bar_icon_mode_new"
             app:entryValues="@array/status_bar_icon_mode_new_value" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_1"
-            android:title="@string/system_ui_status_bar_icon_mobile_network_hide_card_1" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_icon_mobile_network_hide_card_2"
-            android:title="@string/system_ui_status_bar_icon_mobile_network_hide_card_2" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_mobile_hide_roaming_icon"
-            android:title="@string/system_ui_status_bar_icon_roaming" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_icon_vowifi"
-            android:title="@string/system_ui_status_bar_icon_vowifi" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_icon_volte"
-            android:title="@string/system_ui_status_bar_icon_volte" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_big_mobile_network_type"
-            android:title="@string/system_ui_status_bar_big_mobile_network_type"
-            app:isPreferenceVisible="false" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.MobileNetworkTypeSettings"
-            android:key="prefs_key_system_ui_status_bar_mobile_type"
-            android:title="@string/system_ui_status_bar_mobile_type_single_title" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.DoubleLineNetworkSettings"
-            android:key="prefs_key_system_ui_statusbar_iconmanage_mobile_network"
-            android:title="@string/system_ui_statusbar_iconmanage_mobile_network_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_bluetooth_title">

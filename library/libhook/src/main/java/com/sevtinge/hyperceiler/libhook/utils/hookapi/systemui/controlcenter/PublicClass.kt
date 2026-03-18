@@ -22,49 +22,57 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 
 object PublicClass {
 
-    // Android 16
+    // OS3
+    val hyperProgressSeekBar by lazy {
+        loadClassOrNull("miuix.miuixbasewidget.widget.HyperProgressSeekBar")
+    }
+    val clzConstraintSetClass by lazy {
+        loadClassOrNull("androidx.constraintlayout.widget.ConstraintSet")
+    }
+    val miuiIslandMediaControllerImpl by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.MiuiIslandMediaControllerImpl") ?:
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.MiuiIslandMediaController")
+    }
+    val miuiIslandMediaViewHolder by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.MiuiIslandMediaViewHolder")
+    }
+    val miuiIslandMediaViewBinderImpl by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.MiuiIslandMediaViewBinderImpl") ?:
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.MiuiIslandMediaViewBinder")
+    }
+    val playerIslandConstraintLayout by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediaisland.PlayerIslandConstraintLayout")
+    }
+    val mediaData by lazy {
+        loadClassOrNull("com.android.systemui.media.controls.shared.model.MediaData")
+    }
+    val miuiMediaNotificationControllerImpl by lazy {
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaNotificationControllerImpl") ?:
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaNotificationController")
+    }
     val mediaViewHolderNew by lazy {
         loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewHolder")
     }
     val miuiMediaViewControllerImpl by lazy {
-        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl")
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl") ?:
+        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewController")
     }
+
+    // Android 16
     val seekBarObserverNew by lazy {
         loadClassOrNull($$"com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl$seekBarObserver$1")
     }
-    val miuiMediaNotificationControllerImpl by lazy {
-        loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaNotificationControllerImpl")
-    }
 
-    // Android 15-
+    // Android 15
     val miuiMediaControlPanel by lazy {
         loadClassOrNull("com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaControlPanel")
     }
 
-    val mediaControlPanel by lazy {
-        loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaControlPanel")
-            ?: loadClassOrNull("com.android.systemui.media.controls.ui.MediaControlPanel")
-    }
-
-    val notificationUtil by lazy {
-        loadClassOrNull("com.miui.systemui.notification.MiuiBaseNotifUtil")
-    }
-
-    val mediaViewHolder by lazy {
-        loadClassOrNull("com.android.systemui.media.controls.ui.view.MediaViewHolder")
-    }
-
     val seekBarObserver by lazy {
         loadClassOrNull("com.android.systemui.media.controls.ui.binder.SeekBarObserver")
-            ?: loadClassOrNull($$"com.android.systemui.statusbar.notification.mediacontrol.MiuiMediaViewControllerImpl$seekBarObserver$1")
-            ?: loadClassOrNull("com.android.systemui.media.controls.models.player.SeekBarObserver")
     }
 
     val playerTwoCircleView by lazy {
         loadClassOrNull("com.miui.systemui.notification.media.PlayerTwoCircleView")
-    }
-
-    val statusBarStateControllerImpl by lazy {
-        loadClassOrNull("com.android.systemui.statusbar.StatusBarStateControllerImpl")
     }
 }

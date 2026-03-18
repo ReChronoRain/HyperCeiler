@@ -26,7 +26,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,10 +41,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.SearchCallback;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
-import com.sevtinge.hyperceiler.libhook.utils.log.AndroidLog;
 import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppDataManager;
@@ -116,7 +115,7 @@ public class SubPickerActivity extends AppCompatActivity
         if (isKeyRequiredMode(mModeSelection)) {
             mKey = args.getString("key");
             if (mKey == null) {
-                Log.e(TAG, "Key is null for mode: " + mModeSelection);
+                AndroidLog.e(TAG, "extractIntentData: key is null for mode " + mModeSelection);
                 finish();
             }
         }
@@ -162,7 +161,20 @@ public class SubPickerActivity extends AppCompatActivity
     private void setupSearchCallback() {
         mSearchCallback = new SearchCallback(this, this);
         mSearchCallback.setup(mSearchBar, mNestedHeaderLayout.getScrollableView());
-        mSearchBar.setOnClickListener(v -> startActionMode(mSearchCallback));
+        mSearchBar.setOnClickListener(v -> startSearchActionMode());
+    }
+
+    private void startSearchActionMode() {
+        if (mSearchCallback == null || mSearchCallback.isSearchOn()) {
+            return;
+        }
+
+        ActionMode actionMode = onWindowStartingActionMode(mSearchCallback);
+        if (actionMode != null) {
+            return;
+        }
+
+        AndroidLog.w(TAG, "startSearchActionMode: activity delegate did not start search mode");
     }
 
     private void setupItemClickListener() {
@@ -209,7 +221,7 @@ public class SubPickerActivity extends AppCompatActivity
                 .setOnCancelListener(DialogInterface::dismiss)
                 .show();
         } catch (Exception e) {
-            Log.e(TAG, "Error showing edit dialog", e);
+            AndroidLog.e(TAG, "showEditDialog failed", e);
         }
     }
 
@@ -222,7 +234,7 @@ public class SubPickerActivity extends AppCompatActivity
                 List<AppData> processedData = processAppData(new ArrayList<>(loadedData));
                 mHandler.post(() -> displayAppData(processedData));
             } catch (Exception e) {
-                Log.e(TAG, "Error loading app data", e);
+                AndroidLog.e(TAG, "initializeData: failed to load app data", e);
                 mHandler.post(this::showLoadAppsError);
             }
         });
