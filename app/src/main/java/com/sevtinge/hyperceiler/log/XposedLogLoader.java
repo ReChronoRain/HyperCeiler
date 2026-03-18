@@ -518,7 +518,7 @@ public class XposedLogLoader {
                 }
             }
         }
-        return "Other";
+        return LogDisplayHelper.OTHER_TAG_VALUE;
     }
 
     private boolean isValidPackageName(String name) {

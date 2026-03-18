@@ -92,16 +92,7 @@ object SafeModeHandler : ICrashHandler {
             .filter { it.isNotEmpty() }
             .sorted()
             .joinToString(",")
-
-        try {
-            setProp(CrashScope.PROP_SAFE_MODE, uniqueProp)
-        } catch (_: Throwable) {
-            try {
-                SystemProperties.set(CrashScope.PROP_SAFE_MODE, uniqueProp)
-            } catch (ex: Exception) {
-                XposedLog.e(TAG, "Failed to set prop", ex)
-            }
-        }
+        applyCrashProp(uniqueProp)
     }
 
     @JvmStatic
@@ -110,14 +101,23 @@ object SafeModeHandler : ICrashHandler {
             .filter { it != alias && it.isNotEmpty() }
             .sorted()
             .joinToString(",")
+        applyCrashProp(newProp)
+    }
+
+    private fun applyCrashProp(value: String) {
         try {
-            setProp(CrashScope.PROP_SAFE_MODE, newProp)
-        } catch (_: Throwable) {
-            try {
-                SystemProperties.set(CrashScope.PROP_SAFE_MODE, newProp)
-            } catch (ex: Exception) {
-                XposedLog.e(TAG, "Failed to clear prop", ex)
+            if (setProp(CrashScope.PROP_SAFE_MODE, value)) {
+                return
             }
+            XposedLog.w(TAG, "setProp returned false, falling back to SystemProperties.set")
+        } catch (_: Throwable) {
+            XposedLog.w(TAG, "setProp threw, falling back to SystemProperties.set")
+        }
+
+        try {
+            SystemProperties.set(CrashScope.PROP_SAFE_MODE, value)
+        } catch (ex: Exception) {
+            XposedLog.e(TAG, "Failed to update safe mode prop", ex)
         }
     }
 }

@@ -126,6 +126,7 @@
     <string name="backup_failed">备份失败</string>
     <string name="rest_title">恢复</string>
     <string name="rest_success">恢复成功</string>
+    <string name="rest_success_message">请重启应用以使配置生效。</string>
     <string name="rest_failed">恢复失败</string>
     <string name="backup_ask">您是否要写入备份？</string>
     <string name="backup_permission">现在您必须手动启用此选项的权限。</string>

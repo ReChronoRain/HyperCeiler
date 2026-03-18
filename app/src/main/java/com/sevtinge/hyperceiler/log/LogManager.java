@@ -128,7 +128,7 @@ public class LogManager {
         });
 
         // 添加一条启动日志
-        addLog(new LogEntry("App", "I", "LogManager", "LogManager 初始化成功"));
+        // addLog(new LogEntry("App", "I", "LogManager", "LogManager 初始化成功"));
     }
 
     /**
@@ -144,7 +144,7 @@ public class LogManager {
     public List<LogEntry> query(String module, String level, String tag, String keyword) {
         return LogRepository.getInstance().getDao().queryLogs(
             module,
-            (level == null || level.equals("ALL")) ? "ALL" : level,
+            (level == null || LogLevelFilter.isAll(level)) ? LogLevelFilter.ALL.getValue() : level,
             tag == null ? "" : tag,
             keyword == null ? "" : keyword
         );

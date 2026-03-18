@@ -25,43 +25,45 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease
  * 日志级别管理器
  */
 object LogLevelManager {
+    const val PREF_KEY = "log_level_v2"
+    const val LEVEL_DISABLED = 0
+    const val LEVEL_ERROR_ONLY = 1
+    const val LEVEL_VERBOSE = 2
+
     @JvmStatic
     fun getEffectiveLogLevel(level: Int): Int {
         return if (isRelease()) {
             when (level) {
-                0 -> 0
-                1, 2, 3, 4 -> 1
-                else -> 1
+                LEVEL_DISABLED -> LEVEL_DISABLED
+                LEVEL_ERROR_ONLY, LEVEL_VERBOSE -> LEVEL_ERROR_ONLY
+                else -> getDefaultLogLevel()
             }
         } else {
             when (level) {
-                0, 1 -> 1
-                2, 3, 4 -> 2
-                else -> 2
+                LEVEL_DISABLED, LEVEL_ERROR_ONLY -> LEVEL_ERROR_ONLY
+                LEVEL_VERBOSE -> LEVEL_VERBOSE
+                else -> getDefaultLogLevel()
             }
         }
     }
 
     @JvmStatic
     fun getDefaultLogLevel(): Int {
-        if (isRelease()) {
-            return 1
-        }
-        return 2
+        return LEVEL_ERROR_ONLY
     }
 
     @JvmStatic
     fun getCurrentLogLevel(): Int {
-        val level = PrefsBridge.getStringAsInt("log_level", getDefaultLogLevel())
+        val level = PrefsBridge.getStringAsInt(PREF_KEY, getDefaultLogLevel())
         return getEffectiveLogLevel(level)
     }
 
     @JvmStatic
     fun logLevelDesc(level: Int): String {
         return when (level) {
-            0 -> "Disabled"
-            1 -> "General"
-            2 -> "Detailed"
+            LEVEL_DISABLED -> "Disabled"
+            LEVEL_ERROR_ONLY -> "General"
+            LEVEL_VERBOSE -> "Detailed"
             else -> "Unknown"
         }
     }

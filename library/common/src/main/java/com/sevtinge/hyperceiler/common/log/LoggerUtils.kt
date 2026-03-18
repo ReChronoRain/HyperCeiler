@@ -2,10 +2,11 @@ package com.sevtinge.hyperceiler.common.log
 
 internal object LoggerUtils {
     fun shouldLog(logLevel: Int, requiredLevel: Int): Boolean = when (logLevel) {
-        0 -> false
-        1 -> requiredLevel == 1
-        2 -> true
-        else -> requiredLevel == 1
+        LogLevelManager.LEVEL_DISABLED -> false
+        LogLevelManager.LEVEL_ERROR_ONLY -> requiredLevel == LogLevelManager.LEVEL_ERROR_ONLY
+        LogLevelManager.LEVEL_VERBOSE -> requiredLevel == LogLevelManager.LEVEL_ERROR_ONLY ||
+            requiredLevel == LogLevelManager.LEVEL_VERBOSE
+        else -> false
     }
 
     fun formatBrackets(pkg: String?, tag: String, message: String): String {
@@ -24,9 +25,9 @@ internal object LoggerUtils {
     }
 
     fun logLevelDesc(level: Int): String = when (level) {
-        0 -> "Disabled"
-        1 -> "General"
-        2 -> "Detailed"
+        LogLevelManager.LEVEL_DISABLED -> "Disabled"
+        LogLevelManager.LEVEL_ERROR_ONLY -> "General"
+        LogLevelManager.LEVEL_VERBOSE -> "Detailed"
         else -> "Unknown"
     }
 }
