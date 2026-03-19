@@ -2,27 +2,23 @@ package com.sevtinge.hyperceiler.provision.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
-import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.renderengine.GlowController;
 import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.AnimHelper;
@@ -39,6 +35,26 @@ import fan.transition.ActivityOptionsHelper;
 public class StartupFragment extends BaseFragment implements IOnFocusListener {
 
     private static final String TAG = "StartupFragment";
+
+    private record PickPageAnimationContext(
+        DefaultActivity activity, View nextView, int locationX, int locationY, int width, int foregroundColor
+    ) {
+            private PickPageAnimationContext(
+                @NonNull DefaultActivity activity,
+                @NonNull View nextView,
+                int locationX,
+                int locationY,
+                int width,
+                int foregroundColor
+            ) {
+                this.activity = activity;
+                this.nextView = nextView;
+                this.locationX = locationX;
+                this.locationY = locationY;
+                this.width = width;
+                this.foregroundColor = foregroundColor;
+            }
+        }
 
     private final boolean IS_SUPPORT_WELCOME_ANIM = !OobeUtils.isLiteOrLowDevice();
 
@@ -65,39 +81,41 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     private Handler mAnimationHandler;
 
     Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable mDisplayOsAndoRunnable = () -> {
+        restoreNextButtonState();
+        if (mLogoImage != null) {
+            mLogoImage.setVisibility(View.VISIBLE);
+        }
 
-    Runnable mExitStartedCallback = () -> {
-        if (mNextLayout != null) {
-            mNextLayout.setVisibility(View.INVISIBLE);
-            Log.d(TAG, "exitStartedCallback: " + mNextLayout.getVisibility());
+        if (mLogoImageWrapper != null) {
+            mLogoImageWrapper.setVisibility(View.VISIBLE);
         }
+        AndroidLog.d(TAG, "displayOsAndoDelay");
     };
-    Runnable mExitFinishCallback = () -> {
-        if (mNextLayout != null) {
-            mNextLayout.setVisibility(View.VISIBLE);
-            Log.d(TAG, "exitFinishCallback: " + mNextLayout.getVisibility());
+    private final Runnable mRestoreNextButtonRunnable = () -> {
+        restoreNextButtonState();
+        Utils.IS_START_ANIMA = false;
+    };
+
+    private final View.OnClickListener mNextClickListener = v -> {
+        long jCurrentTimeMillis = System.currentTimeMillis();
+        if (Math.abs(jCurrentTimeMillis - lastClickTime) < 2000) {
+            AndroidLog.d(TAG, "click too fast");
+            return;
         }
+        lastClickTime = jCurrentTimeMillis;
+        AndroidLog.d(TAG, "click next button");
         FragmentActivity activity = getActivity();
-        if (activity != null) {
-            String topActivityClassName = Utils.getTopActivityClassName(activity);
-            if (topActivityClassName == null || !topActivityClassName.contains(DefaultActivity.class.getSimpleName())) {
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                Fragment fragment = fragmentManager.findFragmentByTag(StartupFragment.class.getSimpleName());
-                if (fragment != null) {
-                    FragmentTransaction beginTransaction = fragmentManager.beginTransaction();
-                    beginTransaction.remove(fragment);
-                    beginTransaction.commitAllowingStateLoss();
-                    Log.d(StartupFragment.TAG, "remove startup fragment finished");
-                }
-            } else {
-                Log.d(TAG, "topActivity is DefaultActivity");
-            }
-        } else {
-            Log.w(TAG, "exitFinishCallback: getActivity() is null, fragment may be detached");
+        View nextView = mNext;
+        if (!(activity instanceof DefaultActivity defaultActivity) || nextView == null) {
+            AndroidLog.w(TAG, "click next button: activity or next view is unavailable");
+            return;
         }
+        Utils.isFirstBoot = false;
+        PickPageAnimationContext pickPageAnimationContext = buildPickPageAnimationContext(defaultActivity, nextView);
+        defaultActivity.run(-1);
+        enterLanguagePickPage(pickPageAnimationContext);
     };
-
-
 
     @SuppressLint("HandlerLeak")
     @Override
@@ -107,7 +125,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             @Override
             public void handleMessage(@NonNull Message msg) {
                 if (msg.what == 5) {
-                    Log.i(TAG, " isFirstBoot value set");
+                    AndroidLog.i(TAG, " isFirstBoot value set");
                     Utils.isFirstBoot = false;
                 }
             }
@@ -137,7 +155,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         mMiuiEnterLayout = view.findViewById(R.id.miui_enter_layout);
 
         if (!IS_SUPPORT_WELCOME_ANIM) {
-            Log.i(TAG, "not support anim");
+            AndroidLog.i(TAG, "not support anim");
             mBackgroundImage.setImageResource(R.drawable.provision_logo_image_bg);
             mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
             mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image_lite);
@@ -148,7 +166,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             mRenderViewLayout.attachView(mGlowEffectView, 0.2f, -16777216);
             mGlowController = new GlowController(mGlowEffectView);
             if (Utils.isBlurEffectEnabled(getContext())) {
-                Log.i(TAG, " MiuiBlur EffectEnabled ");
+                AndroidLog.i(TAG, " MiuiBlur EffectEnabled ");
                 MiuiBlurUtils.setBackgroundBlur(mMiuiEnterLayout, (int) ((getResources().getDisplayMetrics().density * 50.0f) + 0.5f));
                 MiuiBlurUtils.setViewBlurMode(mMiuiEnterLayout, 0);
                 BlurUtils.setupViewBlur(mLogoImage, true, new int[]{-867546550, -11579569, -15011328}, new int[]{19, 100, 106});
@@ -162,7 +180,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                 mNextArrow.setVisibility(View.VISIBLE);
                 mNextArrow.setImageResource(R.drawable.provision_icon_arrow);
             } else {
-                Log.i(TAG, " MiuiBlur not EffectEnabled ");
+                AndroidLog.i(TAG, " MiuiBlur not EffectEnabled ");
                 mLogoImage.setImageResource(R.drawable.provision_logo_image_lite);
                 mTextLogoImage.setImageResource(R.drawable.provision_text_logo_image_lite);
                 setNextBackground();
@@ -170,43 +188,20 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
 
         if (Utils.IS_START_ANIMA) {
-            mNextLayout.setVisibility(View.INVISIBLE);
-            mMainHandler.postDelayed(() -> {
-                if (mNextLayout.getVisibility() == View.INVISIBLE) {
-                    mNextLayout.setVisibility(View.VISIBLE);
-                }
-                Utils.IS_START_ANIMA = false;
-            }, 505L);
+            syncNextButtonState();
         }
 
-        mNextLayout.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                long jCurrentTimeMillis = System.currentTimeMillis();
-                if (Math.abs(jCurrentTimeMillis - lastClickTime) < 2000) {
-                    Log.d(TAG, "click too fast");
-                    return;
-                }
-                lastClickTime = jCurrentTimeMillis;
-                Log.d(TAG, "click next button");
-                DefaultActivity defaultActivity = (DefaultActivity) getActivity();
-                Utils.isFirstBoot = false;
-                defaultActivity.run(-1);
-                //OTHelper.rdCountEvent(Constants.KEY_CLICK_FIRST_PAGE_START);
-                //BoostHelper.getInstance().boostDefault(this.mNext);
-                enterLanguagePickPage();
-            }
-        });
+        mNextLayout.setOnClickListener(mNextClickListener);
+        mNext.setOnClickListener(mNextClickListener);
+        mNextArrow.setOnClickListener(mNextClickListener);
 
 
         if (IS_SUPPORT_WELCOME_ANIM && mLogoImageWrapper != null && mLogoImage != null &&
                 mNextLayout != null && Utils.isFirstBoot) {
-            Log.i(TAG, "SUPPORT_WELCOME_ANIM");
+            AndroidLog.i(TAG, "SUPPORT_WELCOME_ANIM");
             mLogoImage.setVisibility(View.INVISIBLE);
             mLogoImageWrapper.setVisibility(View.INVISIBLE);
-            mNextLayout.setVisibility(View.INVISIBLE);
-            mNextLayout.setEnabled(false);
+            hideNextButtonState();
         }
     }
 
@@ -222,16 +217,24 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     @Override
     public void onStart() {
         super.onStart();
-        Log.d(TAG, "onStart");
+        lastClickTime = 0;
+        AndroidLog.d(TAG, "onStart");
         if (IS_SUPPORT_WELCOME_ANIM && !Utils.isFirstBoot && mGlowController != null) {
             mGlowController.start(false);
         }
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        lastClickTime = 0;
+        syncNextButtonState();
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         if (IS_SUPPORT_WELCOME_ANIM) {
-            Log.i(TAG, " onWindowFocusChanged " + hasFocus + " isFirst " + Utils.isFirstBoot);
+            AndroidLog.i(TAG, " onWindowFocusChanged " + hasFocus + " isFirst " + Utils.isFirstBoot);
             if (Utils.isFirstBoot) {
                 if (mGlowController != null) {
                     mGlowController.start(true);
@@ -253,13 +256,13 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
                         @Override
                         public void onComplete(Object obj) {
                             super.onComplete(obj);
-                            mNextLayout.setEnabled(true);
-                            Log.d(TAG, "onComplete: mNextLayout setEnabled");
+                            restoreNextButtonState();
+                            AndroidLog.d(TAG, "onComplete: mNextLayout restored");
                         }
                     });
                 }
                 resetFirstStart();
-                displayOsLogoDelay();
+                displayOsAndoDelay();
             }
         }
     }
@@ -267,10 +270,10 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     /*@Override
     public void onStop() {
         super.onStop();
-        Log.d(TAG, "onStop");
+        AndroidLog.d(TAG, "onStop");
         if (mGlowController != null) {
             mGlowController.stop();
-            Log.d(TAG, "GlowController: stop");
+            AndroidLog.d(TAG, "GlowController: stop");
         }
     }*/
 
@@ -284,66 +287,168 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i(TAG, "onDestroy");
+        AndroidLog.i(TAG, "onDestroy");
+        mMainHandler.removeCallbacks(mDisplayOsAndoRunnable);
+        mMainHandler.removeCallbacks(mRestoreNextButtonRunnable);
         if (mAnimationHandler != null) {
             mAnimationHandler.removeCallbacksAndMessages(null);
         }
     }
 
-    private void displayOsLogoDelay() {
-        new Handler().postDelayed(() -> {
-            if (mNextLayout != null) {
-                mNextLayout.setVisibility(View.VISIBLE);
-                mNextLayout.setEnabled(true);
-            }
-            if (mLogoImage != null) {
-                mLogoImage.setVisibility(View.VISIBLE);
-            }
-
-            if (mLogoImageWrapper != null) {
-                mLogoImageWrapper.setVisibility(View.VISIBLE);
-            }
-            Log.d(TAG, "displayOsLogoDelay");
-
-        }, 2500L);
+    private void displayOsAndoDelay() {
+        mMainHandler.removeCallbacks(mDisplayOsAndoRunnable);
+        mMainHandler.postDelayed(mDisplayOsAndoRunnable, 2500L);
     }
 
-    private void enterLanguagePickPage() {
-        ViewUtils.captureRoundedBitmap(getActivity(), mNext, mMainHandler, bitmap -> {
-            if (bitmap != null) {
-                startPickPage(bitmap);
-                return;
-            }
-            Log.d(TAG, "roundedBitmap is null ");
-            Intent intent = new Intent();
-            intent.setClass(requireContext(), PermissionSettingsActivity.class);
-            intent.putExtra("isShowDelayAnim", true);
-            requireActivity().startActivityForResult(intent, 0);
-        });
-    }
-
-
-    private void startPickPage(Bitmap bitmap) {
-        int animForeGroundColor = getAnimForeGroundColor();
-        int width = ((mNext.getWidth() - this.mNext.getPaddingRight()) - this.mNext.getPaddingLeft()) / 2;
-        int[] iArr = new int[2];
-        mNext.getLocationInWindow(iArr);
-        ActivityOptions activityOptionsMakeScaleUpAnim = ActivityOptionsHelper.makeScaleUpAnim(this.mNext, bitmap, iArr[0], iArr[1], width, animForeGroundColor, 1.0f, mMainHandler, mExitStartedCallback, mExitFinishCallback, null, null, 102);
-        Intent intent = new Intent();
-        intent.setClass(getActivity(), PermissionSettingsActivity.class);
-        intent.putExtra("isShowDelayAnim", true);
-        if (activityOptionsMakeScaleUpAnim == null) {
-            Log.w(TAG, "startPickPage: scale-up animation is unavailable, launching without ActivityOptions");
-            Utils.IS_START_ANIMA = false;
-            requireActivity().startActivityForResult(intent, 0);
+    private void syncNextButtonState() {
+        mMainHandler.removeCallbacks(mRestoreNextButtonRunnable);
+        if (IS_SUPPORT_WELCOME_ANIM && Utils.isFirstBoot) {
             return;
         }
-        Utils.LOCATION_X = iArr[0];
-        Utils.LOCATION_Y = iArr[1];
+        if (!Utils.IS_START_ANIMA) {
+            restoreNextButtonState();
+            return;
+        }
+        hideNextButtonState();
+        mMainHandler.postDelayed(mRestoreNextButtonRunnable, 505L);
+    }
+
+    private void hideNextButtonState() {
+        if (mNextLayout != null) {
+            mNextLayout.setVisibility(View.INVISIBLE);
+            mNextLayout.setEnabled(false);
+            mNextLayout.setClickable(false);
+        }
+        if (mNext != null) {
+            mNext.setEnabled(false);
+            mNext.setClickable(false);
+        }
+        if (mNextArrow != null) {
+            mNextArrow.setEnabled(false);
+            mNextArrow.setClickable(false);
+        }
+    }
+
+    private void restoreNextButtonState() {
+        if (mNextLayout != null) {
+            mNextLayout.setVisibility(View.VISIBLE);
+            mNextLayout.setEnabled(true);
+            mNextLayout.setClickable(true);
+        }
+        if (mNext != null) {
+            mNext.setEnabled(true);
+            mNext.setClickable(true);
+        }
+        if (mNextArrow != null) {
+            mNextArrow.setEnabled(true);
+            mNextArrow.setClickable(true);
+        }
+    }
+
+    @NonNull
+    private PickPageAnimationContext buildPickPageAnimationContext(@NonNull DefaultActivity activity, @NonNull View nextView) {
+        int[] location = new int[2];
+        nextView.getLocationInWindow(location);
+        int width = ((nextView.getWidth() - nextView.getPaddingRight()) - nextView.getPaddingLeft()) / 2;
+        return new PickPageAnimationContext(
+            activity,
+            nextView,
+            location[0],
+            location[1],
+            width,
+            getAnimForeGroundColor(activity)
+        );
+    }
+
+    private void enterLanguagePickPage(@NonNull PickPageAnimationContext animationContext) {
+        if (animationContext.activity.isFinishing() || animationContext.activity.isDestroyed()) {
+            AndroidLog.w(TAG, "enterLanguagePickPage: activity is unavailable");
+            return;
+        }
+        ViewUtils.captureRoundedBitmap(
+            animationContext.activity,
+            animationContext.nextView,
+            mMainHandler,
+            bitmap -> launchPermissionPickPage(animationContext, bitmap)
+        );
+    }
+
+
+    private void launchPermissionPickPage(@NonNull PickPageAnimationContext animationContext, @Nullable Bitmap bitmap) {
+        DefaultActivity activity = animationContext.activity;
+        if (activity.isFinishing() || activity.isDestroyed()) {
+            AndroidLog.w(TAG, "launchPermissionPickPage: activity unavailable after bitmap capture");
+            return;
+        }
+
+        ActivityOptions activityOptions = bitmap != null ? buildPickPageAnimation(animationContext, bitmap) : null;
+
+        if (activityOptions == null) {
+            if (bitmap == null) {
+                AndroidLog.d(TAG, "roundedBitmap is null");
+            } else {
+                AndroidLog.w(TAG, "launchPermissionPickPage: scale-up animation is unavailable, launching without ActivityOptions");
+            }
+            Utils.IS_START_ANIMA = false;
+            activity.enterCurrentState(null);
+            return;
+        }
+
+        AndroidLog.d(TAG, "launchPermissionPickPage: start activity with scale-up animation");
+        activity.enterCurrentState(activityOptions.toBundle());
+    }
+
+    @Nullable
+    private ActivityOptions buildPickPageAnimation(@NonNull PickPageAnimationContext animationContext, @NonNull Bitmap bitmap) {
+        if (animationContext.width <= 0) {
+            AndroidLog.w(TAG, "buildPickPageAnimation: next view width is invalid");
+            return null;
+        }
+        View nextLayout = mNextLayout;
+        ActivityOptions activityOptionsMakeScaleUpAnim = ActivityOptionsHelper.makeScaleUpAnim(
+            animationContext.nextView,
+            bitmap,
+            animationContext.locationX,
+            animationContext.locationY,
+            animationContext.width,
+            animationContext.foregroundColor,
+            1.0f,
+            mMainHandler,
+            buildExitStartedCallback(nextLayout),
+            buildExitFinishCallback(nextLayout),
+            null,
+            null,
+            102
+        );
+        if (activityOptionsMakeScaleUpAnim == null) {
+            return null;
+        }
+        Utils.LOCATION_X = animationContext.locationX;
+        Utils.LOCATION_Y = animationContext.locationY;
         Utils.CACHE_BITMAP = bitmap;
         Utils.IS_RTL = isRtl();
         Utils.IS_START_ANIMA = true;
-        requireActivity().startActivityForResult(intent, 0, activityOptionsMakeScaleUpAnim.toBundle());
+        return activityOptionsMakeScaleUpAnim;
+    }
+
+    @NonNull
+    private Runnable buildExitStartedCallback(@Nullable View nextLayout) {
+        return () -> {
+            if (nextLayout != null) {
+                nextLayout.setVisibility(View.INVISIBLE);
+                AndroidLog.d(TAG, "exitStartedCallback: " + nextLayout.getVisibility());
+            }
+        };
+    }
+
+    @NonNull
+    private Runnable buildExitFinishCallback(@Nullable View nextLayout) {
+        return () -> {
+            if (nextLayout != null) {
+                nextLayout.setVisibility(View.VISIBLE);
+                AndroidLog.d(TAG, "exitFinishCallback: " + nextLayout.getVisibility());
+            }
+        };
     }
 
     private int isRtl() {
@@ -355,11 +460,11 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         return isRtl() != Utils.IS_RTL;
     }
 
-    private int getAnimForeGroundColor() {
-        if (Utils.isBlurEffectEnabled(getContext())) {
-            return getResources().getColor(R.color.anim_foreground_color_blur_enable);
+    private int getAnimForeGroundColor(@NonNull Context context) {
+        if (Utils.isBlurEffectEnabled(context)) {
+            return context.getColor(R.color.anim_foreground_color_blur_enable);
         }
-        return getResources().getColor(R.color.anim_foreground_color);
+        return context.getColor(R.color.anim_foreground_color);
     }
 
 

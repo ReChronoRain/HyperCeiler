@@ -26,9 +26,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityOptionsCompat;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.provision.state.StartupState;
 import com.sevtinge.hyperceiler.provision.state.StateMachine;
 import com.sevtinge.hyperceiler.provision.utils.IKeyEvent;
@@ -43,10 +47,20 @@ public class DefaultActivity extends ProvisionBaseActivity {
     private static final String TAG = "DefaultActivity";
 
     private static final String STATE_ENTER_CURRENTSTATE = "com.android.provision:state_enter_currentstate";
+    private static final String STATE_PENDING_REQUEST_CODE = "com.android.provision:state_pending_request_code";
 
     private StateMachine mStateMachine;
 
     private final Handler mHandler = new Handler(Looper.getMainLooper());
+    private int mPendingRequestCode = -1;
+    private final ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            int requestCode = mPendingRequestCode;
+            mPendingRequestCode = -1;
+            handleActivityResult(requestCode, result.getResultCode(), result.getData());
+        }
+    );
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,19 +69,22 @@ public class DefaultActivity extends ProvisionBaseActivity {
             finishSetup();
             return;
         }
+        if (savedInstanceState != null) {
+            mPendingRequestCode = savedInstanceState.getInt(STATE_PENDING_REQUEST_CODE, -1);
+        }
 
         PageIntercepHelper.getInstance().register(this);
-        PageIntercepHelper.getInstance().setCallback(DefaultActivity.this::onActivityResult);
+        PageIntercepHelper.getInstance().setCallback(DefaultActivity.this::handleActivityResult);
 
         mStateMachine = new StateMachine(this);
         mStateMachine.start(savedInstanceState == null ||
             savedInstanceState.getBoolean(STATE_ENTER_CURRENTSTATE, true));
         ProvisionStateHolder.getInstance().setStateMachine(mStateMachine);
         if (mNewBackBtn != null) {
-            Log.i(TAG, "back button set accessibility no");
+            AndroidLog.i(TAG, "back button set accessibility no");
             mNewBackBtn.setImportantForAccessibility(2);
             if (mNewBackBtn.getParent() != null) {
-                Log.i(TAG, "back button remove");
+                AndroidLog.i(TAG, "back button remove");
                 ((ViewGroup) mNewBackBtn.getParent()).removeView(mNewBackBtn);
             }
         }
@@ -96,19 +113,36 @@ public class DefaultActivity extends ProvisionBaseActivity {
         mStateMachine.run(i);
     }
 
+    public void enterCurrentState(@Nullable Bundle activityOptions) {
+        mStateMachine.enterCurrentState(activityOptions);
+    }
+
+    public void launchStateActivityForResult(@NonNull Intent intent, int requestCode) {
+        launchStateActivityForResult(intent, requestCode, null);
+    }
+
+    public void launchStateActivityForResult(@NonNull Intent intent, int requestCode, @Nullable Bundle activityOptions) {
+        mPendingRequestCode = requestCode;
+        if (activityOptions == null) {
+            mActivityResultLauncher.launch(intent);
+            return;
+        }
+        mActivityResultLauncher.launch(intent, new BundleActivityOptionsCompat(activityOptions));
+    }
+
     private boolean isDeviceIsProvisioned() {
         return OobeUtils.isProvisioned(this);
     }
 
     public void finishSetup() {
-
-        mHandler.postDelayed(() -> finish(), 0L);
+        mHandler.postDelayed(this::finish, 0L);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putBoolean(STATE_ENTER_CURRENTSTATE, mStateMachine.getCurrentState() instanceof StartupState);
+        bundle.putInt(STATE_PENDING_REQUEST_CODE, mPendingRequestCode);
     }
 
     @Override
@@ -117,10 +151,8 @@ public class DefaultActivity extends ProvisionBaseActivity {
         super.onDestroy();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.i(TAG, "onActivityResult requestCode: " + requestCode + " resultCode =  " + resultCode);
+    public void handleActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        AndroidLog.i(TAG, "onActivityResult requestCode: " + requestCode + " resultCode =  " + resultCode);
         if (requestCode == 33 && OobeUtils.shouldNotFinishDefaultActivity()) {
             mStateMachine.resumeState();
         } else if (requestCode == 1) {
@@ -150,5 +182,19 @@ public class DefaultActivity extends ProvisionBaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private static final class BundleActivityOptionsCompat extends ActivityOptionsCompat {
+
+        private final Bundle mOptions;
+
+        private BundleActivityOptionsCompat(@NonNull Bundle options) {
+            mOptions = options;
+        }
+
+        @Override
+        public Bundle toBundle() {
+            return mOptions;
+        }
     }
 }

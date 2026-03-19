@@ -1,3 +1,13 @@
 package com.sevtinge.hyperceiler.provision.state;
 
-public class PermissionState extends State {}
+import android.content.Intent;
+
+public class PermissionState extends State {
+
+    @Override
+    protected Intent createEnterIntent(boolean canBack, boolean toNext) {
+        Intent intent = super.createEnterIntent(canBack, toNext);
+        intent.putExtra("isShowDelayAnim", true);
+        return intent;
+    }
+}

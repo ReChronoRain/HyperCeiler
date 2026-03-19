@@ -114,6 +114,13 @@
 
     <style name="HomePageTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
         <item name="android:windowBackground">@color/miuix_default_color_surface_low_dark</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+        <item name="android:windowOptOutEdgeToEdgeEnforcement">true</item>
+        <item name="android:useLocalePreferredLineHeightForMinimum">false</item>
         <!--<item name="android:actionBarStyle">@style/Gallery.Widget.ActionBar.NoDisplay.CustomBackground</item>-->
         <!--<item name="android:fastScrollThumbDrawable">@drawable/fast_scroll_thumb</item>-->
         <item name="actionBarEmbedTabs">true</item>
