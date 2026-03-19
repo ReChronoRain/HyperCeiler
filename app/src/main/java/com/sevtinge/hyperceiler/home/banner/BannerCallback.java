@@ -7,65 +7,81 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.home.HomePageFragment;
-
-import java.lang.ref.WeakReference;
+import com.sevtinge.hyperceiler.dashboard.SubSettings;
+import com.sevtinge.hyperceiler.home.safemode.SafeModeFragment;
+import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
 public class BannerCallback implements View.OnClickListener {
 
-    private final WeakReference mRef;
+    private static final String TAG = "BannerCallback";
+    public static final String ACTION_OPEN_SAFE_MODE_SETTINGS =
+        "com.sevtinge.hyperceiler.action.OPEN_SAFE_MODE_SETTINGS";
 
-    public BannerCallback(HomePageFragment fragment) {
-        mRef = new WeakReference(fragment);
-    }
-
+    public BannerCallback() {}
 
     @Override
-    public void onClick(View v) {
-        Object tag = v.getTag();
+    public void onClick(View view) {
+        Object tag = view.getTag();
         if (!(tag instanceof BannerBean)) return;
 
         BannerBean bean = (BannerBean) tag;
-        Context context = v.getContext();
-
-        // 1. 处理 URL 跳转 (比如打开网页)
-        if (!TextUtils.isEmpty(bean.getUrl())) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(bean.getUrl()));
-                context.startActivity(intent);
-            } catch (Exception e) {
-                AndroidLog.e("BannerCallback", "Failed to open URL: " + bean.getUrl(), e);
-            }
+        Context context = view.getContext();
+        if (handleUrl(context, bean)) {
             return;
         }
-        // 2. 处理特定的 Action (比如跳转特定的 Activity 或执行命令)
-        String action = bean.getAction();
-        if (!TextUtils.isEmpty(action)) {
-            Intent intent = new Intent(action);
-            // 如果有 Pkg，限制跳转的应用
-            if (!TextUtils.isEmpty(bean.getPkg())) {
-                intent.setPackage(bean.getPkg());
-            }
-            // 尝试处理 Extras (如果是 JSON 或简单字符串，这里需要对应的解析逻辑)
-            if (!TextUtils.isEmpty(bean.getExtras())) {
-                intent.putExtra("banner_extras", bean.getExtras());
-            }
+        handleAction(context, bean);
+    }
 
-            try {
-                context.startActivity(intent);
-            } catch (Exception e) {
-                // 如果是内部逻辑，也可以根据 action 字符串做 switch 判断
-                handleCustomAction(context, action, bean);
-            }
+    private boolean handleUrl(Context context, BannerBean bean) {
+        String url = bean.getUrl();
+        if (TextUtils.isEmpty(url)) {
+            return false;
+        }
+
+        try {
+            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            return true;
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to open URL: " + url, e);
+            return false;
         }
     }
 
-
-    private void handleCustomAction(Context context, String action, BannerBean bean) {
-        // 在这里处理你自定义的特殊逻辑，比如 "Test"
-        if ("Test".equals(action)) {
-            // 执行你的测试逻辑
+    private void handleAction(Context context, BannerBean bean) {
+        String action = bean.getAction();
+        if (TextUtils.isEmpty(action) || handleCustomAction(context, action)) {
+            return;
         }
+
+        try {
+            context.startActivity(buildActionIntent(bean, action));
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to handle action: " + action, e);
+        }
+    }
+
+    private Intent buildActionIntent(BannerBean bean, String action) {
+        Intent intent = new Intent(action);
+        if (!TextUtils.isEmpty(bean.getPkg())) {
+            intent.setPackage(bean.getPkg());
+        }
+        if (!TextUtils.isEmpty(bean.getExtras())) {
+            intent.putExtra("banner_extras", bean.getExtras());
+        }
+        return intent;
+    }
+
+    private boolean handleCustomAction(Context context, String action) {
+        if (ACTION_OPEN_SAFE_MODE_SETTINGS.equals(action)) {
+            SettingLauncherHelper.onStartSettingsForArguments(
+                context,
+                SubSettings.class,
+                SafeModeFragment.class.getName(),
+                com.sevtinge.hyperceiler.core.R.string.settings_safe_mode
+            );
+            return true;
+        }
+        return false;
     }
 
 }

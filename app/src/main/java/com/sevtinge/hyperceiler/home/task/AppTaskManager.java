@@ -1,31 +1,20 @@
 package com.sevtinge.hyperceiler.home.task;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 
-import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.home.data.AppInfoCache;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
-import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
-import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
 
 import io.github.libxposed.service.XposedServiceHelper;
 
@@ -34,20 +23,10 @@ import io.github.libxposed.service.XposedServiceHelper;
  */
 public class AppTaskManager {
 
-    private static final String TAG = "AppTaskManager";
-
     private static final List<String> CHECK_LIST = List.of(
         "com.miui.securitycenter",
         "com.android.camera",
         "com.miui.home"
-    );
-
-    private static final Map<String, Integer> APP_NAME_RES_MAP = Map.of(
-        "com.android.systemui", com.sevtinge.hyperceiler.core.R.string.system_ui,
-        "com.android.settings", com.sevtinge.hyperceiler.core.R.string.system_settings,
-        "com.miui.home", com.sevtinge.hyperceiler.core.R.string.mihome,
-        "com.hchen.demo", R.string.demo,
-        "com.miui.securitycenter", com.sevtinge.hyperceiler.core.R.string.security_center_hyperos
     );
 
     public static void attach(Context context) {
@@ -104,22 +83,14 @@ public class AppTaskManager {
             }
         });
 
-        // 异步业务逻辑：计算崩溃、签名校验
-        runner.addTask(new Task("BusinessLogic", true, "CoreService", "attachBaseContext") {
+        // 异步业务逻辑：初始化 Shell、执行签名校验
+        runner.addTask(new Task("BusinessLogic", true, "BaseEnv", "attachBaseContext") {
             @Override
             public void execute() {
                 ShellInit.init(activity);
                 // 原 Activity 的 checkAppMod 逻辑迁移到此
                 CHECK_LIST.parallelStream().forEach(pkg -> {
                     checkAppMod(activity, pkg);
-                });
-
-                // 原 Activity 的 computeCrashList 逻辑迁移到此
-                List<String> crashes = computeCrashList();
-
-                // 逻辑执行完，回调 UI
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    showSafeModeDialogIfNeeded(activity, crashes);
                 });
             }
         });
@@ -135,67 +106,5 @@ public class AppTaskManager {
     private static void checkAppMod(Context context, String pkg) {
         boolean check = CheckModifyUtils.INSTANCE.isApkModified(context, pkg, CheckModifyUtils.XIAOMI_SIGNATURE);
         CheckModifyUtils.INSTANCE.setCheckResult(pkg, check);
-    }
-
-    /**
-     * 原 Activity 的纯计算逻辑剥离到此
-     */
-    private static List<String> computeCrashList() {
-        try {
-            List<?> raw = CrashScope.getCrashingPackages();
-            if (raw.isEmpty()) {
-                return Collections.emptyList();
-            }
-            List<String> result = new ArrayList<>(raw.size());
-            for (Object o : raw) {
-                if (o instanceof String s) {
-                    result.add(s);
-                } else if (o != null) {
-                    result.add(o.toString());
-                }
-            }
-            return result;
-        } catch (Throwable t) {
-            AndroidLog.e(TAG, "CrashData: " + t);
-            return Collections.emptyList();
-        }
-    }
-
-    @SuppressLint("StringFormatInvalid")
-    private static void showSafeModeDialogIfNeeded(Context context, List<String> appCrash) {
-        if (appCrash.isEmpty()) return;
-
-        String appName = buildCrashAppNames(context, appCrash);
-        if (appName.isEmpty()) return;
-
-        String msg = cleanUpMessage(context.getString(R.string.safe_mode_later_desc, appName));
-        DialogHelper.showSafeModeDialog(context, msg);
-    }
-
-    private static String buildCrashAppNames(Context context, List<String> appCrash) {
-        StringJoiner joiner = new StringJoiner(", ");
-        for (String pkg : appCrash) {
-            Integer resId = APP_NAME_RES_MAP.get(pkg);
-            if (resId != null) {
-                joiner.add(context.getString(resId) + " (" + pkg + ")");
-            }
-        }
-        return joiner.toString();
-    }
-
-    private static String cleanUpMessage(String msg) {
-        if (msg == null || msg.isEmpty()) return "";
-
-        StringBuilder sb = new StringBuilder(msg.length());
-        char prev = 0;
-        for (int i = 0; i < msg.length(); i++) {
-            char c = msg.charAt(i);
-            if (c == '[' || c == ']') continue;
-            if (c == ' ' && prev == ' ') continue;
-            if (c == ' ' && (prev == '，' || prev == '、')) continue;
-            sb.append(c);
-            prev = c;
-        }
-        return sb.toString().trim();
     }
 }

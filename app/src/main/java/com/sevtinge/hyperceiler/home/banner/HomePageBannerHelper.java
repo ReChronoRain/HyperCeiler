@@ -4,21 +4,18 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 
 public class HomePageBannerHelper {
 
@@ -65,7 +62,7 @@ public class HomePageBannerHelper {
                 title.setVisibility(View.GONE);
             }
             if (bean.getTitleColorResId() != -1) {
-                title.setTextColor(bean.getTitleColorResId());
+                title.setTextColor(ContextCompat.getColor(context, bean.getTitleColorResId()));
             } else if (!TextUtils.isEmpty(bean.getTitleColor())) {
                 title.setTextColor(Color.parseColor(bean.getTitleColor()));
             }
@@ -78,7 +75,7 @@ public class HomePageBannerHelper {
             }
 
             if (bean.getSubTitleColorResId() != -1) {
-                summary.setTextColor(bean.getSubTitleColorResId());
+                summary.setTextColor(ContextCompat.getColor(context, bean.getSubTitleColorResId()));
             } else if (!TextUtils.isEmpty(bean.getSummaryColor())) {
                 summary.setTextColor(Color.parseColor(bean.getSummaryColor()));
             }

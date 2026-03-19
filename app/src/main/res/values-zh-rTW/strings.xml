@@ -69,6 +69,8 @@
     <string name="safe_mode_ok">取消</string>
     <string name="safe_mode_later_title">提示</string>
     <string name="safe_mode_later_desc">%1$s仍處於安全模式，HyperCeiler功能已被禁用。禁用安全模式？</string>
+    <string name="safe_mode_banner_title">主動安全模式已啟用</string>
+    <string name="safe_mode_banner_desc">%1$s 因多次崩潰，已被主動安全模式臨時停用相關功能。點按前往處理。</string>
     <string name="safe_mode_recorder_title">異常記錄</string>
     <string name="safe_mode_recorder_file">文件</string>
     <string name="safe_mode_recorder_class">種類</string>
