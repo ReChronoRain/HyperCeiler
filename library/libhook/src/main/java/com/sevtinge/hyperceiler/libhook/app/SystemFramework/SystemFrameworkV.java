@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app.SystemFramework;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.BypassIsolationViolation;
@@ -31,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.AllDarkMod
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.BackgroundBlur;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.DisplayCutout;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.EnhanceRecentsVisibility;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.FuckSubScreenWhiteList;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.ThemeProvider;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.display.UseAOSPScreenShot;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.AllowAutoStart;
@@ -82,7 +84,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeFirst
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AntiQues;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "system", maxSdk = 35)
 public class SystemFrameworkV extends BaseLoad {
@@ -127,6 +128,8 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(UseAOSPScreenShot.INSTANCE, PrefsBridge.getBoolean("system_ui_display_use_aosp_screenshot_enable"));
         initHook(new AllDarkMode(), PrefsBridge.getBoolean("system_framework_allow_all_dark_mode"));
         initHook(new ThemeProvider(), PrefsBridge.getBoolean("system_framework_allow_third_theme"));
+        initHook(FuckSubScreenWhiteList.INSTANCE, PrefsBridge.getBoolean("system_framework_fuck_subscreen_whiteList"));
+
 
         // 其他
         initHook(new AntiQues(), PrefsBridge.getBoolean("system_settings_anti_ques"));
