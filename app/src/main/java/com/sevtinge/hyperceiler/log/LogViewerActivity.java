@@ -368,17 +368,28 @@ public class LogViewerActivity extends BaseActivity {
         new Thread(() -> {
             try {
                 File cacheDir = new File(getCacheDir(), "log_export");
-                File[] files = cacheDir.listFiles();
-                if (files == null) return;
-                for (File file : files) {
-                    if (!file.delete()) {
-                        AndroidLog.w(TAG, "Share logs: failed to delete cache file " + file.getAbsolutePath());
-                    }
-                }
+                deleteRecursively(cacheDir);
             } catch (Exception e) {
                 AndroidLog.w(TAG, "Share logs: failed to clean cache", e);
             }
         }).start();
+    }
+
+    private void deleteRecursively(File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+        if (file.isDirectory()) {
+            File[] children = file.listFiles();
+            if (children != null) {
+                for (File child : children) {
+                    deleteRecursively(child);
+                }
+            }
+        }
+        if (!file.delete()) {
+            AndroidLog.w(TAG, "Share logs: failed to delete cache file " + file.getAbsolutePath());
+        }
     }
 
     private void grantShareUriPermission(Uri contentUri, Intent shareIntent) {

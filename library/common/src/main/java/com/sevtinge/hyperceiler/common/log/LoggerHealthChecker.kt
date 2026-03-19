@@ -23,6 +23,7 @@ import android.util.Log
 import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.ALIVE_THRESHOLD
 import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.confidence
 import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker.diagSummary
+import com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission
 import com.sevtinge.hyperceiler.common.utils.ShellUtils.rootExecCmd
 import java.io.BufferedReader
 import java.io.File
@@ -49,15 +50,17 @@ object LoggerHealthChecker {
 
     private const val TAG = "HyperCeilerLogManager"
 
-    const val ALIVE_THRESHOLD = 60
+    const val ALIVE_THRESHOLD = 75
 
     // ============ 各项权重 ============
     private const val WEIGHT_LOGCAT = 30
-    private const val WEIGHT_XPOSED_MODULES = 40
-    private const val WEIGHT_XPOSED_VERBOSE = 30
+    private const val WEIGHT_LSPD_DUMP = 40
+    private const val WEIGHT_LSPD_PAGE_HEADER = 30
+    private const val MIN_DUMP_FILE_SIZE_BYTES = 1L * 1024L
 
     private const val LOGCAT_READ_DELAY_MS = 150L
     private const val MAX_RETRIES = 3
+    private val PAGE_MARKER_REGEX = Regex("^----part \\d+ start----$")
 
     /**
      * 执行所有检查，更新 [confidence] 和 [diagSummary]。
@@ -67,21 +70,29 @@ object LoggerHealthChecker {
     fun isLoggerAlive(): Boolean {
         var score = 0
         val diag = mutableListOf<String>()
+        val hasRoot = checkRootPermission() == 0
 
         // Logcat 管道
         val logcatResult = checkLogcat()
         score += logcatResult.score
         diag.add("logcat=${logcatResult.tag}")
 
-        // Xposed modules 日志
-        val modulesResult = checkXposedLogFile("modules")
-        score += modulesResult.score
-        diag.add("xp_mod=${modulesResult.tag}")
+        if (hasRoot) {
+            val lspdDumpResult = checkLspdDumpFiles()
+            score += lspdDumpResult.score
+            diag.add("lspd_dump=${lspdDumpResult.tag}")
 
-        // Xposed verbose 日志
-        val verboseResult = checkXposedLogFile("verbose")
-        score += verboseResult.score
-        diag.add("xp_verb=${verboseResult.tag}")
+            val lspdHeaderResult = checkLspdPageHeaders()
+            score += lspdHeaderResult.score
+            diag.add("lspd_page=${lspdHeaderResult.tag}")
+        } else {
+            diag.add("lspd_dump=NO_ROOT")
+            diag.add("lspd_page=NO_ROOT")
+        }
+
+        if (!hasRoot && "OK" == logcatResult.tag) {
+            score = score.coerceAtLeast(ALIVE_THRESHOLD)
+        }
 
         confidence = score.coerceIn(0, 100)
         diagSummary = diag.joinToString(" ")
@@ -108,7 +119,7 @@ object LoggerHealthChecker {
 
     /**
      * 详细状态（用于设备信息/调试日志）
-     * 示例："HEALTHY(100%) logcat=OK xp_mod=OK xp_verb=OK"
+     * 示例："HEALTHY(100%) logcat=OK lspd_dump=OK lspd_page=OK"
      */
     @JvmStatic
     fun formatDetailedStatus(): String {
@@ -156,39 +167,54 @@ object LoggerHealthChecker {
         }
     }
 
-    /**
-     * 检查 XposedLogLoader 同步到本地的 Xposed 日志文件（不依赖 root）
-     * @param prefix "modules" 或 "verbose"
-     */
-    private fun checkXposedLogFile(prefix: String): CheckResult {
-        val weight = if (prefix == "modules") WEIGHT_XPOSED_MODULES else WEIGHT_XPOSED_VERBOSE
-        val logBase = localLogBaseDir ?: return CheckResult(0, "NO_DIR")
+    private fun checkLspdDumpFiles(): CheckResult {
+        val dumpFiles = findCurrentLspdLogCandidates()
 
-        val lspdLogDir = File(logBase, "lspd/log")
-        val lspdLogOldDir = File(logBase, "lspd/log.old")
+        if (dumpFiles.isEmpty()) {
+            return CheckResult(0, "NO_FILE")
+        }
+        if (dumpFiles.all { it.length() < MIN_DUMP_FILE_SIZE_BYTES }) {
+            return CheckResult(WEIGHT_LSPD_DUMP / 4, "TOO_SMALL")
+        }
+        return CheckResult(WEIGHT_LSPD_DUMP, "OK")
+    }
 
-        val latestFile = findLatestLogFile(lspdLogDir, prefix)
-            ?: findLatestLogFile(lspdLogOldDir, prefix)
-            ?: return CheckResult(0, "NO_FILE")
-
-        return try {
-            if (latestFile.length() == 0L) {
-                return CheckResult(weight / 4, "EMPTY_FILE")
-            }
-            val found = latestFile.bufferedReader().use { reader ->
-                reader.lineSequence().any { it.contains("HyperCeiler") }
-            }
-            if (found) CheckResult(weight, "OK")
-            else CheckResult(weight / 4, "EMPTY")
-        } catch (e: Exception) {
-            CheckResult(0, "READ_ERR:${e.message?.take(40)}")
+    private fun checkLspdPageHeaders(): CheckResult {
+        val dumpFiles = findCurrentLspdLogCandidates()
+        if (dumpFiles.isEmpty()) {
+            return CheckResult(0, "NO_FILE")
+        }
+        val invalidFile = dumpFiles.firstOrNull { !hasValidPageMarkerHeader(it) }
+        return if (invalidFile == null) {
+            CheckResult(WEIGHT_LSPD_PAGE_HEADER, "OK")
+        } else {
+            CheckResult(WEIGHT_LSPD_PAGE_HEADER / 2, "BAD_HEADER")
         }
     }
 
-    private fun findLatestLogFile(dir: File, prefix: String): File? {
-        if (!dir.exists()) return null
-        return dir.listFiles { _, name -> name.startsWith("${prefix}_") && name.endsWith(".log") }
-            ?.maxByOrNull { it.lastModified() }
+    private fun findCurrentLspdLogCandidates(): List<File> {
+        val logBase = localLogBaseDir ?: return emptyList()
+        return findLogCandidates(File(logBase, "lspd/log"))
+    }
+
+    private fun hasValidPageMarkerHeader(file: File): Boolean {
+        return try {
+            file.bufferedReader().use { reader ->
+                val firstNonBlankLine = reader.lineSequence()
+                    .map { it.trim() }
+                    .firstOrNull { it.isNotEmpty() }
+                firstNonBlankLine != null && PAGE_MARKER_REGEX.matches(firstNonBlankLine)
+            }
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    private fun findLogCandidates(dir: File): List<File> {
+        if (!dir.exists()) return emptyList()
+        return dir.listFiles { _, name ->
+            (name.startsWith("modules_") || name.startsWith("verbose_")) && name.endsWith(".log")
+        }?.sortedBy { it.name } ?: emptyList()
     }
 
     // ==================== 修复工具 ====================

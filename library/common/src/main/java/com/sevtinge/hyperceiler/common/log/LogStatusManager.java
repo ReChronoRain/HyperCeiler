@@ -18,6 +18,14 @@
  */
 package com.sevtinge.hyperceiler.common.log;
 
+import android.content.Context;
+import android.os.Handler;
+
+import androidx.annotation.Nullable;
+
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +33,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 日志管理器 (Java 版本)
+ * 日志管理器
  */
 public class LogStatusManager {
 
@@ -34,14 +42,20 @@ public class LogStatusManager {
     private static final CountDownLatch healthCheckLatch = new CountDownLatch(1);
     private static final List<Runnable> listeners = new ArrayList<>();
     private static final Object lock = new Object();
+    private static final Object logLevelLock = new Object();
     private static boolean checkDone = false;
+    private static PrefsChangeObserver logLevelObserver;
+    private static String logLevelConfigBasePath;
+    private static final String LOG_LEVEL_PREF_KEY = "prefs_key_" + LogLevelManager.PREF_KEY;
 
     public static volatile int logLevel = LogLevelManager.getDefaultLogLevel();
 
-    public static void init(String appPrivateDir, Runnable xposedLogSyncer, Runnable onConfigReady) {
+    public static void init(Context context, String appPrivateDir, Runnable xposedLogSyncer, Runnable onConfigReady) {
         // 1. 初始化配置管理器
         LogConfigManager.init(appPrivateDir);
+        logLevelConfigBasePath = appPrivateDir;
         logLevel = readLogLevelFromFile();
+        observeLogLevel(context, appPrivateDir);
 
         // 2. 设置本地日志基准目录
         LoggerHealthChecker.localLogBaseDir = new File(appPrivateDir, "files/log");
@@ -73,6 +87,57 @@ public class LogStatusManager {
      */
     public static int getLogLevel() {
         return logLevel;
+    }
+
+    public static void syncLogLevelFromPrefs() {
+        syncLogLevelFromPrefs(false);
+    }
+
+    private static void syncLogLevelFromPrefs(boolean persistToFile) {
+        try {
+            logLevel = LogLevelManager.getCurrentLogLevel();
+            if (persistToFile && logLevelConfigBasePath != null) {
+                LogConfigManager.writeLogLevel(logLevelConfigBasePath, logLevel);
+            }
+        } catch (IllegalStateException ignored) {
+            // PrefsBridge 在极早期可能尚未初始化，此时回退到已有缓存。
+        }
+    }
+
+    public static void observeLogLevel(Context context) {
+        observeLogLevel(context, null);
+    }
+
+    public static void observeLogLevel(Context context, @Nullable String configBasePath) {
+        if (context == null) {
+            return;
+        }
+        synchronized (logLevelLock) {
+            if (configBasePath != null) {
+                logLevelConfigBasePath = configBasePath;
+            }
+            if (logLevelObserver == null) {
+                Context appContext = context.getApplicationContext();
+                Context observerContext = appContext != null ? appContext : context;
+                Handler handler = new Handler(observerContext.getMainLooper());
+                logLevelObserver = new PrefsChangeObserver(
+                    observerContext,
+                    handler,
+                    false,
+                    PrefType.String,
+                    LOG_LEVEL_PREF_KEY,
+                    String.valueOf(LogLevelManager.getDefaultLogLevel())
+                ) {
+                    @Override
+                    public void onChange(PrefType type, android.net.Uri uri, String name, Object def) {
+                        if (LOG_LEVEL_PREF_KEY.equals(name)) {
+                            syncLogLevelFromPrefs(true);
+                        }
+                    }
+                };
+            }
+            syncLogLevelFromPrefs(true);
+        }
     }
 
     /**
@@ -122,15 +187,18 @@ public class LogStatusManager {
     }
 
     public static void setLogLevel(int level) {
-        int effectiveLogLevel = LogLevelManager.getEffectiveLogLevel(level);
-        LogConfigManager.writeLogLevel(effectiveLogLevel);
-        logLevel = effectiveLogLevel;
+        setLogLevel(level, null);
     }
 
-    public static void setLogLevel(int level, String basePath) {
+    public static void setLogLevel(int level, @Nullable String basePath) {
         int effectiveLogLevel = LogLevelManager.getEffectiveLogLevel(level);
-        LogConfigManager.writeLogLevel(basePath, effectiveLogLevel);
         logLevel = effectiveLogLevel;
+        if (basePath != null) {
+            logLevelConfigBasePath = basePath;
+        }
+        if (logLevelConfigBasePath != null) {
+            LogConfigManager.writeLogLevel(logLevelConfigBasePath, effectiveLogLevel);
+        }
     }
 
     public static int readLogLevelFromFile() {

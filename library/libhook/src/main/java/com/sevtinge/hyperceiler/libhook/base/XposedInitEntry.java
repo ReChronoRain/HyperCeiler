@@ -18,15 +18,18 @@
  */
 package com.sevtinge.hyperceiler.libhook.base;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.log.LogStatusManager;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.HashMap;
@@ -163,6 +166,12 @@ public class XposedInitEntry extends XposedModule {
         SharedPreferences remote = getRemotePreferences(remoteName);
         // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
         PrefsBridge.initForHook(remote);
+        Context observerContext = AppsTool.findContext(AppsTool.FLAG_ALL);
+        if (observerContext != null) {
+            LogStatusManager.observeLogLevel(observerContext);
+        } else {
+            LogStatusManager.syncLogLevelFromPrefs();
+        }
     }
 
     private boolean isModuleReady() {

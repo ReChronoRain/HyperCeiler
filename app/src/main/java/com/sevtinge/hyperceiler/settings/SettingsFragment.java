@@ -35,7 +35,6 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.log.LogLevelManager;
-import com.sevtinge.hyperceiler.common.log.LogStatusManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
@@ -174,10 +173,6 @@ public class SettingsFragment extends BasePreferenceFragment
         return true;
     }
 
-    private void setLogLevel(int level) {
-        LogStatusManager.setLogLevel(level, requireContext().getApplicationInfo().dataDir);
-    }
-
     /**
      * 日志等级统一为三档：
      * 0: 禁用日志输出
@@ -231,7 +226,6 @@ public class SettingsFragment extends BasePreferenceFragment
         }
 
         mLogLevel.setOnPreferenceChangeListener((preference, o) -> {
-            setLogLevel(Integer.parseInt((String) o));
             return true;
         });
     }

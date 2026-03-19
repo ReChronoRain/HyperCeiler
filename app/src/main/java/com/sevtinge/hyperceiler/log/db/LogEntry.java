@@ -36,6 +36,8 @@ import java.util.Locale;
     }
 )
 public class LogEntry {
+    public static final String SOURCE_GROUP_CURRENT = "log";
+    public static final String SOURCE_GROUP_OLD = "log.old";
 
     @PrimaryKey(autoGenerate = true)
     private long id;
@@ -55,21 +57,39 @@ public class LogEntry {
     @ColumnInfo(name = "timestamp")
     private long timestamp;
 
+    @ColumnInfo(name = "source_group", defaultValue = "'log'")
+    private String sourceGroup;
+
+    @ColumnInfo(name = "process_ids")
+    private String processIds;
+
     // 无参构造函数 (Room 需要)
     @Ignore
     public LogEntry() {}
 
     @Ignore
     public LogEntry(String module, String level, String tag, String message) {
-        this(module, level, tag, message, System.currentTimeMillis());
+        this(module, level, tag, message, System.currentTimeMillis(), SOURCE_GROUP_CURRENT, "");
     }
 
+    @Ignore
     public LogEntry(String module, String level, String tag, String message, long timestamp) {
+        this(module, level, tag, message, timestamp, SOURCE_GROUP_CURRENT, "");
+    }
+
+    @Ignore
+    public LogEntry(String module, String level, String tag, String message, long timestamp, String sourceGroup) {
+        this(module, level, tag, message, timestamp, sourceGroup, "");
+    }
+
+    public LogEntry(String module, String level, String tag, String message, long timestamp, String sourceGroup, String processIds) {
         this.module = module;
         this.level = level;
         this.tag = tag;
         this.message = message;
         this.timestamp = timestamp;
+        this.sourceGroup = sourceGroup == null || sourceGroup.isEmpty() ? SOURCE_GROUP_CURRENT : sourceGroup;
+        this.processIds = processIds == null ? "" : processIds;
     }
 
     public void setId(long id) {
@@ -100,6 +120,14 @@ public class LogEntry {
         return timestamp;
     }
 
+    public String getSourceGroup() {
+        return sourceGroup;
+    }
+
+    public String getProcessIds() {
+        return processIds;
+    }
+
     public String getFormattedTime() {
         return getDateTimeFormat(new Date(this.timestamp));
     }
@@ -109,4 +137,3 @@ public class LogEntry {
         return sDateTimeFormat.format(date);
     }
 }
-

@@ -147,6 +147,7 @@ public class BackupUtils {
                 }
             }
         }
+
     }
 
     public static void handleCreateDocument(Activity activity, @Nullable Uri data) throws IOException, JSONException {
