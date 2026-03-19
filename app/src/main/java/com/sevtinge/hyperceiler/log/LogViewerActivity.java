@@ -31,6 +31,8 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.drawable.DrawableCompat;
 
@@ -57,8 +59,6 @@ public class LogViewerActivity extends BaseActivity {
 
     private static final String TAG = "LogViewerActivity";
     private static final String ALL_TAG_VALUE = "";
-    private static final int EXPORT_CODE = 1001;
-    private static final int SHARE_CODE = 1002;
 
     private ViewPager mViewPager;
     private LogPagerAdapter mPagerAdapter;
@@ -78,6 +78,23 @@ public class LogViewerActivity extends BaseActivity {
     private int mSelectedTagPos = 0; // 当前选中的 Tag 索引
     private List<String> mCurrentAvailableTags = new ArrayList<>(List.of(ALL_TAG_VALUE)); // 当前 Tab 可用的 Tag
     private final Map<Integer, Boolean[]> mPopupCheckedState = new HashMap<>();
+    private final ActivityResultLauncher<Intent> mExportLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null || result.getData().getData() == null) {
+                return;
+            }
+            Uri uri = result.getData().getData();
+            new Thread(() -> {
+                boolean success = LogManager.getInstance().exportLogsZipToUri(uri);
+                runOnUiThread(() -> showToast(getString(success ? R.string.log_export_success : R.string.log_export_failed)));
+            }).start();
+        }
+    );
+    private final ActivityResultLauncher<Intent> mShareLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> cleanShareCache()
+    );
 
     @Override
     protected int getContentLayoutId() {
@@ -290,7 +307,7 @@ public class LogViewerActivity extends BaseActivity {
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("application/zip");
                 intent.putExtra(Intent.EXTRA_TITLE, LogManager.generateZipFileName());
-                startActivityForResult(intent, EXPORT_CODE);
+                mExportLauncher.launch(intent);
             });
         }).start();
     }
@@ -333,10 +350,7 @@ public class LogViewerActivity extends BaseActivity {
                         chooserIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         grantShareUriPermission(contentUri, shareIntent);
 
-                        startActivityForResult(
-                            chooserIntent,
-                            SHARE_CODE
-                        );
+                        mShareLauncher.launch(chooserIntent);
                     } catch (Exception e) {
                         AndroidLog.e(TAG, "Share logs: failed to launch chooser", e);
                         showToast(getString(R.string.log_share_failed));
@@ -348,23 +362,6 @@ public class LogViewerActivity extends BaseActivity {
                 runOnUiThread(() -> showToast(getString(R.string.log_share_failed)));
             }
         }).start();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == EXPORT_CODE && resultCode == Activity.RESULT_OK) {
-            if (data != null && data.getData() != null) {
-                Uri uri = data.getData();
-                new Thread(() -> {
-                    boolean success = LogManager.getInstance().exportLogsZipToUri(uri);
-                    runOnUiThread(() -> showToast(getString(success ? R.string.log_export_success : R.string.log_export_failed)));
-                }).start();
-            }
-        } else if (requestCode == SHARE_CODE) {
-            cleanShareCache();
-        }
     }
 
     private void cleanShareCache() {

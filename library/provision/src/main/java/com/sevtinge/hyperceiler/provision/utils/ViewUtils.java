@@ -9,10 +9,11 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
 import android.view.Window;
+
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 
 public class ViewUtils {
@@ -23,6 +24,16 @@ public class ViewUtils {
     }
 
     public static void captureRoundedBitmap(Activity activity, View view, Handler handler, final RoundedBitmapCallback roundedBitmapCallback) {
+        if (activity == null || view == null || handler == null || roundedBitmapCallback == null) {
+            if (roundedBitmapCallback != null) {
+                roundedBitmapCallback.onBitmapReady(null);
+            }
+            return;
+        }
+        if (activity.isFinishing() || activity.isDestroyed()) {
+            roundedBitmapCallback.onBitmapReady(null);
+            return;
+        }
         try {
             int[] iArr = new int[2];
             view.getLocationInWindow(iArr);
@@ -31,25 +42,29 @@ public class ViewUtils {
             if (width != 0 && height != 0) {
                 final Bitmap bitmapCreateBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
                 Window window = activity.getWindow();
+                if (window == null) {
+                    roundedBitmapCallback.onBitmapReady(null);
+                    return;
+                }
                 int i = iArr[0];
                 int i2 = iArr[1];
                 PixelCopy.request(window, new Rect(i, i2, width + i, height + i2), bitmapCreateBitmap, new PixelCopy.OnPixelCopyFinishedListener() {
                     @Override
-                    public final void onPixelCopyFinished(int i3) {
+                    public void onPixelCopyFinished(int i3) {
                         ViewUtils.$r8$lambda$NnYv_JfPqrX4fW6_6EFBfXItcPU(bitmapCreateBitmap, roundedBitmapCallback, i3);
                     }
                 }, handler);
                 return;
             }
-            Log.d(TAG, "width  " + width + " height " + height);
+            AndroidLog.d(TAG, "width  " + width + " height " + height);
             roundedBitmapCallback.onBitmapReady(null);
-        } catch (IllegalArgumentException unused) {
+        } catch (IllegalArgumentException | IllegalStateException unused) {
             roundedBitmapCallback.onBitmapReady(null);
         }
     }
 
     public static void $r8$lambda$NnYv_JfPqrX4fW6_6EFBfXItcPU(Bitmap bitmap, RoundedBitmapCallback roundedBitmapCallback, int i) {
-        Log.d(TAG, "PixelCopy request " + i);
+        AndroidLog.d(TAG, "PixelCopy request " + i);
         if (i == 0) {
             roundedBitmapCallback.onBitmapReady(cropBitmapToCircle(bitmap));
         } else {
