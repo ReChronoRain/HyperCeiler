@@ -3,10 +3,16 @@ package com.sevtinge.hyperceiler.provision.state;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -73,11 +79,32 @@ public class State {
     }
 
     public void onEnter(boolean z, boolean z2) {
+        onEnter(z, z2, null);
+    }
+
+    public void onEnter(boolean z, boolean z2, @Nullable Bundle activityOptions) {
         Log.d(TAG, "targetClass is " + mTargetClass);
+        Intent intent = createEnterIntent(z, z2);
+        launchIntent(intent, activityOptions);
+    }
+
+    protected Intent createEnterIntent(boolean canBack, boolean toNext) {
         Intent intent = getIntent();
-        intent.putExtra("extra_disable_back", !z);
-        intent.putExtra("extra_to_next", z2);
-        ((Activity) mContext).startActivityForResult(intent, 0);
+        intent.putExtra("extra_disable_back", !canBack);
+        intent.putExtra("extra_to_next", toNext);
+        return intent;
+    }
+
+    protected void launchIntent(@NonNull Intent intent, @Nullable Bundle activityOptions) {
+        if (mContext instanceof DefaultActivity activity) {
+            activity.launchStateActivityForResult(intent, 0, activityOptions);
+            return;
+        }
+        if (mContext instanceof Activity activity) {
+            activity.startActivity(intent, activityOptions);
+            return;
+        }
+        mContext.startActivity(intent);
     }
 
     public boolean isAvailable(boolean available) {

@@ -27,12 +27,9 @@ import com.sevtinge.hyperceiler.log.db.LogEntry;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,14 +51,11 @@ public class XposedLogLoader {
     private static final String LSPD_COPY_DIR = "lspd";
     private static final String LSPD_LOG_SUBDIR = "log";
     private static final String LSPD_LOG_OLD_SUBDIR = "log.old";
-    private static final String FILTERED_DIR = "hyperceiler_filtered";
-    private static final String FILTERED_LOG_PREFIX = "hyperceiler_";
-    private static final String ROTATION_MARKER = ".rotation_marker";
+    private static final String FILTERED_MODULE = "Xposed";
+    private static final String MODULES_LOG_PREFIX = "modules_";
+    private static final String VERBOSE_LOG_PREFIX = "verbose_";
 
     private static final String HYPERCEILER_TAG = "HyperCeiler";
-    private static final long PAGE_SIZE_BYTES = 4L * 1024 * 1024;
-    private static final String PAGE_MARKER_PREFIX = "----part ";
-    private static final String PAGE_MARKER_SUFFIX = " start----";
     private static final int MAX_ENTRY_MESSAGE_LENGTH = 32 * 1024;
     private static final int INSERT_BATCH_SIZE = 500;
 
@@ -82,10 +76,6 @@ public class XposedLogLoader {
     private final File mLspdCopyBaseDir;
     private final File mLspdLogDir;
     private final File mLspdLogOldDir;
-    private final File mFilteredDir;
-    private final File mFilteredLogDir;
-    private final File mFilteredLogOldDir;
-    private final File mRotationMarkerFile;
 
     private XposedLogLoader(Context context) {
         mContext = context.getApplicationContext();
@@ -93,10 +83,6 @@ public class XposedLogLoader {
         mLspdCopyBaseDir = new File(mAppLogBaseDir, LSPD_COPY_DIR);
         mLspdLogDir = new File(mLspdCopyBaseDir, LSPD_LOG_SUBDIR);
         mLspdLogOldDir = new File(mLspdCopyBaseDir, LSPD_LOG_OLD_SUBDIR);
-        mFilteredDir = new File(mAppLogBaseDir, FILTERED_DIR);
-        mFilteredLogDir = new File(mFilteredDir, LSPD_LOG_SUBDIR);
-        mFilteredLogOldDir = new File(mFilteredDir, LSPD_LOG_OLD_SUBDIR);
-        mRotationMarkerFile = new File(mAppLogBaseDir, ROTATION_MARKER);
         initLogDirectories();
     }
 
@@ -151,65 +137,19 @@ public class XposedLogLoader {
             return;
         }
 
-        syncLogsInternal();
+        initLogDirectories();
+        copyLspdLogs();
         persistFilteredLogsToDatabase();
     }
 
-    private void syncLogsInternal() {
-        initLogDirectories();
-        rotateLogsIfNeeded();
-        copyLspdLogs();
-        filterAndSaveLogs();
-    }
-
     private void initLogDirectories() {
+        cleanupLegacyRotationMarker();
         ensureDirs(
             mAppLogBaseDir,
             mLspdCopyBaseDir,
             mLspdLogDir,
-            mLspdLogOldDir,
-            mFilteredDir,
-            mFilteredLogDir,
-            mFilteredLogOldDir
+            mLspdLogOldDir
         );
-    }
-
-    private void rotateLogsIfNeeded() {
-        String checkCmd = "[ -d '" + LSPD_LOG_OLD_DIR + "' ] && echo exists || echo missing";
-        String result = ShellUtils.rootExecCmd(checkCmd).trim();
-        if (!"exists".equals(result)) {
-            if (mRotationMarkerFile.exists() && !mRotationMarkerFile.delete()) {
-                AndroidLog.w(TAG, "Failed to delete rotation marker");
-            }
-            return;
-        }
-
-        String lspdOldTimeCmd = "stat -c %Y '" + LSPD_LOG_OLD_DIR + "' 2>/dev/null";
-        String lspdOldTime = ShellUtils.rootExecCmd(lspdOldTimeCmd).trim();
-        long lastRotationTime = readRotationMarker();
-        try {
-            long currentLspdOldTime = Long.parseLong(lspdOldTime);
-            if (currentLspdOldTime > lastRotationTime) {
-                rotateLocalLogs();
-                writeRotationMarker(currentLspdOldTime);
-            }
-        } catch (NumberFormatException e) {
-            AndroidLog.w(TAG, "Failed to parse LSPosed log.old time", e);
-        }
-    }
-
-    private void rotateLocalLogs() {
-        deleteDirectory(mLspdLogOldDir);
-        deleteDirectory(mFilteredLogOldDir);
-
-        if (mLspdLogDir.exists() && hasFiles(mLspdLogDir) && !mLspdLogDir.renameTo(mLspdLogOldDir)) {
-            AndroidLog.w(TAG, "Failed to rotate local LSPosed log dir");
-        }
-        if (mFilteredLogDir.exists() && hasFiles(mFilteredLogDir) && !mFilteredLogDir.renameTo(mFilteredLogOldDir)) {
-            AndroidLog.w(TAG, "Failed to rotate local filtered log dir");
-        }
-
-        ensureDirs(mLspdLogDir, mFilteredLogDir);
     }
 
     private void copyLspdLogs() {
@@ -230,51 +170,56 @@ public class XposedLogLoader {
         ShellUtils.rootExecCmd("chmod -R 644 '" + targetDir.getAbsolutePath() + "'/* 2>/dev/null");
     }
 
-    private void filterAndSaveLogs() {
-        filterLogsInDirectory(mLspdLogDir, mFilteredLogDir);
-        filterLogsInDirectory(mLspdLogOldDir, mFilteredLogOldDir);
+    private void persistFilteredLogsToDatabase() {
+        LogDao dao = LogRepository.getInstance().getDao();
+        dao.deleteByModule(FILTERED_MODULE);
+
+        List<LogEntry> batch = new ArrayList<>(INSERT_BATCH_SIZE);
+        importDirectoryToDatabase(mLspdLogOldDir, LogEntry.SOURCE_GROUP_OLD, dao, batch);
+        importDirectoryToDatabase(mLspdLogDir, LogEntry.SOURCE_GROUP_CURRENT, dao, batch);
+        if (!batch.isEmpty()) {
+            dao.insertAll(batch);
+            batch.clear();
+        }
+        dao.autoTrim();
     }
 
-    private void filterLogsInDirectory(File sourceDir, File targetDir) {
-        clearDirectory(targetDir);
-        ensureDirs(targetDir);
-
-        if (!sourceDir.exists()) {
+    private void importDirectoryToDatabase(File directory, String sourceGroup, LogDao dao, List<LogEntry> batch) {
+        if (!directory.exists()) {
             return;
         }
 
-        File[] modulesFiles = sourceDir.listFiles((dir, name) ->
-            name.startsWith("modules_") && name.endsWith(".log")
-        );
-        if (modulesFiles != null && modulesFiles.length > 0) {
-            filterFiles(modulesFiles, targetDir);
+        File[] files = getSourceLogFiles(directory);
+        if (files == null || files.length == 0) {
             return;
         }
 
-        File[] verboseFiles = sourceDir.listFiles((dir, name) ->
-            name.startsWith("verbose_") && name.endsWith(".log")
-        );
-        if (verboseFiles != null && verboseFiles.length > 0) {
-            filterFiles(verboseFiles, targetDir);
-        }
-    }
-
-    private void filterFiles(File[] sourceFiles, File targetDir) {
-        Arrays.sort(sourceFiles, Comparator.comparing(File::getName));
-        for (File sourceFile : sourceFiles) {
-            File targetFile = new File(targetDir, FILTERED_LOG_PREFIX + sourceFile.getName());
+        for (File file : files) {
             try {
-                List<String> filteredEntries = filterLogFile(sourceFile);
-                writePagedEntries(targetFile, filteredEntries);
+                importSourceFile(file, sourceGroup, dao, batch);
             } catch (IOException e) {
-                AndroidLog.e(TAG, "Failed to filter log: " + sourceFile.getName(), e);
+                AndroidLog.e(TAG, "Failed to import filtered log: " + file.getName(), e);
             }
         }
     }
 
-    private List<String> filterLogFile(File sourceFile) throws IOException {
-        List<String> result = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(sourceFile), 16384)) {
+    private File[] getSourceLogFiles(File directory) {
+        File[] files = directory.listFiles((dir, name) ->
+            name.startsWith(MODULES_LOG_PREFIX) && name.endsWith(".log")
+        );
+        if (files == null || files.length == 0) {
+            files = directory.listFiles((dir, name) ->
+                name.startsWith(VERBOSE_LOG_PREFIX) && name.endsWith(".log")
+            );
+        }
+        if (files != null) {
+            Arrays.sort(files, Comparator.comparing(File::getName));
+        }
+        return files;
+    }
+
+    private void importSourceFile(File file, String sourceGroup, LogDao dao, List<LogEntry> batch) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
             String line;
             StringBuilder currentEntry = new StringBuilder();
             boolean isTarget = false;
@@ -282,7 +227,7 @@ public class XposedLogLoader {
             while ((line = reader.readLine()) != null) {
                 if (isNewLogEntry(line)) {
                     if (isTarget && !currentEntry.isEmpty()) {
-                        result.add(currentEntry.toString());
+                        addFilteredEntry(dao, batch, currentEntry.toString(), sourceGroup);
                     }
                     isTarget = line.contains(HYPERCEILER_TAG);
                     currentEntry = new StringBuilder(line);
@@ -293,104 +238,17 @@ public class XposedLogLoader {
             }
 
             if (isTarget && !currentEntry.isEmpty()) {
-                result.add(currentEntry.toString());
+                addFilteredEntry(dao, batch, currentEntry.toString(), sourceGroup);
             }
         }
-        return result;
     }
 
-    private void writePagedEntries(File targetFile, List<String> entries) throws IOException {
-        if (entries.isEmpty()) {
-            if (targetFile.exists() && !targetFile.delete()) {
-                AndroidLog.w(TAG, "Failed to delete empty filtered log: " + targetFile.getAbsolutePath());
-            }
+    private void addFilteredEntry(LogDao dao, List<LogEntry> batch, String rawEntry, String sourceGroup) {
+        LogEntry entry = parseFilteredEntry(rawEntry, sourceGroup);
+        if (entry == null) {
             return;
         }
-
-        int pageNum = 1;
-        String marker = buildPageMarker(pageNum);
-        long pageSize = utf8Size(marker);
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(targetFile, false), 16384)) {
-            writer.write(marker);
-            for (String entry : entries) {
-                String entryWithNewline = entry + '\n';
-                long entrySize = utf8Size(entryWithNewline);
-                if (pageSize + entrySize > PAGE_SIZE_BYTES) {
-                    pageNum++;
-                    marker = buildPageMarker(pageNum);
-                    writer.write(marker);
-                    pageSize = utf8Size(marker);
-                }
-                writer.write(entryWithNewline);
-                pageSize += entrySize;
-            }
-        }
-    }
-
-    private void persistFilteredLogsToDatabase() {
-        LogDao dao = LogRepository.getInstance().getDao();
-        dao.deleteByModule("Xposed");
-
-        List<LogEntry> batch = new ArrayList<>(INSERT_BATCH_SIZE);
-        importDirectoryToDatabase(mFilteredLogOldDir, dao, batch);
-        importDirectoryToDatabase(mFilteredLogDir, dao, batch);
-        if (!batch.isEmpty()) {
-            dao.insertAll(batch);
-            batch.clear();
-        }
-        dao.autoTrim();
-    }
-
-    private void importDirectoryToDatabase(File directory, LogDao dao, List<LogEntry> batch) {
-        if (!directory.exists()) {
-            return;
-        }
-
-        File[] files = directory.listFiles((dir, name) ->
-            name.startsWith(FILTERED_LOG_PREFIX) && name.endsWith(".log")
-        );
-        if (files == null || files.length == 0) {
-            return;
-        }
-
-        Arrays.sort(files, Comparator.comparing(File::getName));
-        for (File file : files) {
-            try {
-                importFilteredFile(file, dao, batch);
-            } catch (IOException e) {
-                AndroidLog.e(TAG, "Failed to import filtered log: " + file.getName(), e);
-            }
-        }
-    }
-
-    private void importFilteredFile(File file, LogDao dao, List<LogEntry> batch) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(file), 16384)) {
-            LogEntry currentEntry = null;
-            StringBuilder currentMessage = null;
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                if (isPageMarker(line)) {
-                    continue;
-                }
-                if (isNewLogEntry(line)) {
-                    if (currentEntry != null && currentMessage != null) {
-                        addBatchEntry(dao, batch, buildLogEntry(currentEntry, currentMessage.toString()));
-                    }
-                    currentEntry = parseXposedLogLine(line);
-                    currentMessage = new StringBuilder(Math.max(256, currentEntry.getMessage().length()));
-                    currentMessage.append(currentEntry.getMessage());
-                } else if (currentMessage != null
-                    && currentMessage.length() + line.length() + 1 <= MAX_ENTRY_MESSAGE_LENGTH) {
-                    currentMessage.append('\n').append(line);
-                }
-            }
-
-            if (currentEntry != null && currentMessage != null) {
-                addBatchEntry(dao, batch, buildLogEntry(currentEntry, currentMessage.toString()));
-            }
-        }
+        addBatchEntry(dao, batch, entry);
     }
 
     private void addBatchEntry(LogDao dao, List<LogEntry> batch, LogEntry entry) {
@@ -401,35 +259,57 @@ public class XposedLogLoader {
         }
     }
 
-    private LogEntry parseXposedLogLine(String line) {
+    private LogEntry parseFilteredEntry(String rawEntry, String sourceGroup) {
+        if (rawEntry == null || rawEntry.isEmpty()) {
+            return null;
+        }
+
+        int lineBreak = rawEntry.indexOf('\n');
+        if (lineBreak < 0) {
+            return parseXposedLogLine(rawEntry, sourceGroup);
+        }
+
+        String firstLine = rawEntry.substring(0, lineBreak);
+        LogEntry template = parseXposedLogLine(firstLine, sourceGroup);
+        return buildLogEntry(template, template.getMessage() + '\n' + rawEntry.substring(lineBreak + 1), sourceGroup);
+    }
+
+    private LogEntry parseXposedLogLine(String line, String sourceGroup) {
         long timestamp = parseTimestamp(line);
         String level = parseLevel(line);
         String message = extractMessage(line);
         String uidPid = extractUidPid(line);
+        String processIds = extractProcessIds(line);
         String tag = extractPackageName(message);
 
         if (message.contains("[CrashMonitor]")) {
             level = "C";
         }
-        return new LogEntry("Xposed", level, tag, LogDisplayHelper.withUidPidMeta(message, uidPid), timestamp);
+        return new LogEntry(
+            FILTERED_MODULE,
+            level,
+            tag,
+            LogDisplayHelper.withUidPidMeta(message, uidPid),
+            timestamp,
+            sourceGroup,
+            processIds
+        );
     }
 
-    private LogEntry buildLogEntry(LogEntry template, String message) {
+    private LogEntry buildLogEntry(LogEntry template, String message, String sourceGroup) {
         return new LogEntry(
-            "Xposed",
+            FILTERED_MODULE,
             template.getLevel(),
             template.getTag(),
             message.trim(),
-            template.getTimestamp()
+            template.getTimestamp(),
+            sourceGroup,
+            template.getProcessIds()
         );
     }
 
     private boolean isNewLogEntry(String line) {
         return line != null && line.startsWith("[") && TIME_PATTERN.matcher(line).find();
-    }
-
-    private boolean isPageMarker(String line) {
-        return line != null && line.startsWith(PAGE_MARKER_PREFIX) && line.endsWith(PAGE_MARKER_SUFFIX);
     }
 
     private long parseTimestamp(String line) {
@@ -471,6 +351,20 @@ public class XposedLogLoader {
             return "";
         }
         return uid + ":" + pid;
+    }
+
+    private String extractProcessIds(String line) {
+        Matcher prefixMatcher = LINE_PREFIX_LEVEL_PATTERN.matcher(line);
+        if (!prefixMatcher.find()) {
+            return "";
+        }
+        String uid = prefixMatcher.group(1);
+        String pid = prefixMatcher.group(2);
+        String tid = prefixMatcher.group(3);
+        if (uid == null || pid == null || tid == null || uid.isEmpty() || pid.isEmpty() || tid.isEmpty()) {
+            return "";
+        }
+        return uid + ":" + pid + ":" + tid;
     }
 
     private boolean isNewFormat(String line) {
@@ -544,33 +438,10 @@ public class XposedLogLoader {
         return true;
     }
 
-    private long readRotationMarker() {
-        if (!mRotationMarkerFile.exists()) {
-            return 0;
-        }
-        try (BufferedReader reader = new BufferedReader(new FileReader(mRotationMarkerFile))) {
-            String line = reader.readLine();
-            return line == null ? 0 : Long.parseLong(line.trim());
-        } catch (Exception e) {
-            return 0;
-        }
-    }
-
-    private void writeRotationMarker(long timestamp) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(mRotationMarkerFile, false))) {
-            writer.write(String.valueOf(timestamp));
-        } catch (IOException e) {
-            AndroidLog.e(TAG, "Failed to write rotation marker", e);
-        }
-    }
-
     private void clearLogs() {
-        LogRepository.getInstance().getDao().deleteByModule("Xposed");
+        LogRepository.getInstance().getDao().deleteByModule(FILTERED_MODULE);
         deleteDirectory(mLspdCopyBaseDir);
-        deleteDirectory(mFilteredDir);
-        if (mRotationMarkerFile.exists() && !mRotationMarkerFile.delete()) {
-            AndroidLog.w(TAG, "Failed to delete rotation marker");
-        }
+        cleanupLegacyRotationMarker();
         initLogDirectories();
 
         if (ShellUtils.checkRootPermission() == 0) {
@@ -617,16 +488,10 @@ public class XposedLogLoader {
         }
     }
 
-    private boolean hasFiles(File directory) {
-        File[] files = directory.listFiles();
-        return files != null && files.length > 0;
-    }
-
-    private String buildPageMarker(int pageNum) {
-        return PAGE_MARKER_PREFIX + pageNum + PAGE_MARKER_SUFFIX + '\n';
-    }
-
-    private long utf8Size(String text) {
-        return text.getBytes(StandardCharsets.UTF_8).length;
+    private void cleanupLegacyRotationMarker() {
+        File markerFile = new File(mAppLogBaseDir, ".rotation_marker");
+        if (markerFile.exists() && !markerFile.delete()) {
+            AndroidLog.w(TAG, "Failed to delete legacy rotation marker");
+        }
     }
 }

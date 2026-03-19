@@ -49,11 +49,15 @@ public class SharedPrefsProvider extends ContentProvider {
     SharedPreferences prefs;
 
     static {
+        uriMatcher.addURI(AUTHORITY, "string/*", 0);
         uriMatcher.addURI(AUTHORITY, "string/*/", 0);
         uriMatcher.addURI(AUTHORITY, "string/*/*", 1);
+        uriMatcher.addURI(AUTHORITY, "integer/*", 2);
         uriMatcher.addURI(AUTHORITY, "integer/*/*", 2);
+        uriMatcher.addURI(AUTHORITY, "boolean/*", 3);
         uriMatcher.addURI(AUTHORITY, "boolean/*/*", 3);
         uriMatcher.addURI(AUTHORITY, "stringset/*", 4);
+        uriMatcher.addURI(AUTHORITY, "pref/*/*", 7);
         uriMatcher.addURI(AUTHORITY, "test/*", 5);
         uriMatcher.addURI(AUTHORITY, "shortcut_icon/*", 6);
     }
@@ -93,18 +97,37 @@ public class SharedPrefsProvider extends ContentProvider {
                 return cursor;
             }
             case 2 -> {
-                int defValue = parseIntOrDefault(parts.get(2), 0);
+                int defValue = parts.size() >= 3 ? parseIntOrDefault(parts.get(2), 0) : 0;
                 cursor.newRow().add("data", prefs.getInt(parts.get(1), defValue));
                 return cursor;
             }
             case 3 -> {
-                int defValue = parseIntOrDefault(parts.get(2), 0);
+                int defValue = parts.size() >= 3 ? parseIntOrDefault(parts.get(2), 0) : 0;
                 cursor.newRow().add("data", prefs.getBoolean(parts.get(1), defValue == 1) ? 1 : 0);
                 return cursor;
             }
             case 4 -> {
                 Set<String> strings = prefs.getStringSet(parts.get(1), new LinkedHashSet<>());
                 for (String str : strings) cursor.newRow().add("data", str);
+                return cursor;
+            }
+            case 7 -> {
+                if (parts.size() < 3) {
+                    return cursor;
+                }
+                String prefType = parts.get(1);
+                String prefName = parts.get(2);
+                switch (prefType) {
+                    case "string" -> cursor.newRow().add("data", prefs.getString(prefName, ""));
+                    case "integer" -> cursor.newRow().add("data", prefs.getInt(prefName, 0));
+                    case "boolean" -> cursor.newRow().add("data", prefs.getBoolean(prefName, false) ? 1 : 0);
+                    case "stringset" -> {
+                        Set<String> strings = prefs.getStringSet(prefName, new LinkedHashSet<>());
+                        for (String str : strings) cursor.newRow().add("data", str);
+                    }
+                    default -> {
+                    }
+                }
                 return cursor;
             }
         }
@@ -116,8 +139,8 @@ public class SharedPrefsProvider extends ContentProvider {
             return false;
         }
         return switch (match) {
-            case 0, 4, 5, 6 -> parts.size() >= 2;
-            case 1, 2, 3 -> parts.size() >= 3;
+            case 0, 2, 3, 4, 5, 6 -> parts.size() >= 2;
+            case 1, 7 -> parts.size() >= 3;
             default -> false;
         };
     }

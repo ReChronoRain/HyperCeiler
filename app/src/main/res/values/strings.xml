@@ -69,6 +69,8 @@
     <string name="safe_mode_ok">Cancel</string>
     <string name="safe_mode_later_title">Tip</string>
     <string name="safe_mode_later_desc">%1$s is still in Safe mode and HyperCeiler features has been disabled. Disable Safe mode?</string>
+    <string name="safe_mode_banner_title">Safe mode active</string>
+    <string name="safe_mode_banner_desc">%1$s has had its HyperCeiler features temporarily disabled by Auto Safe Mode after repeated crashes. Tap to manage.</string>
     <string name="safe_mode_recorder_title">Exception records</string>
     <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Class</string>

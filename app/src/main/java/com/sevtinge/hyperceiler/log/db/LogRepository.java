@@ -137,6 +137,31 @@ public class LogRepository {
         }
     }
 
+    public List<LogEntry> getLogsByModulePageForExportSync(String module, int limit, int offset) {
+        try {
+            return mIoExecutor.submit(() -> mLogDao.getLogsByModulePageForExport(module, limit, offset))
+                .get(5, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to query paged logs for export: " + module, e);
+            return Collections.emptyList();
+        }
+    }
+
+    public List<LogEntry> getLogsByModuleAndSourceGroupPageForExportSync(
+        String module,
+        String sourceGroup,
+        int limit,
+        int offset
+    ) {
+        try {
+            return mIoExecutor.submit(() -> mLogDao.getLogsByModuleAndSourceGroupPageForExport(module, sourceGroup, limit, offset))
+                .get(5, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to query paged logs for export: " + module + ", " + sourceGroup, e);
+            return Collections.emptyList();
+        }
+    }
+
     /**
      * 执行同步操作（将文件搬运到数据库）
      */

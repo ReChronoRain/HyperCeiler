@@ -8,6 +8,9 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -25,6 +28,7 @@ public class PrefsBridge {
 
     // App 进程本地存储句柄
     private static SharedPreferences mPhysicalPrefs;
+    private static Context mAppContext;
     // Hook 进程远程存储句柄（来自 LSPosed service）
     private static SharedPreferences mRemotePrefs;
     private static boolean isHookProcess = false;
@@ -37,6 +41,7 @@ public class PrefsBridge {
     public static void initForApp(@NonNull Context baseContext) {
         isHookProcess = false;
         Context protectedContext = getProtectedContext(baseContext);
+        mAppContext = protectedContext;
         mPhysicalPrefs = protectedContext.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
@@ -153,8 +158,10 @@ public class PrefsBridge {
     public static void putByApp(String key, Object value) {
         String rKey = wrap(key);
         if (warnAndSkipIfHookWrite("put", rKey)) return;
+        PrefType prefType = resolvePrefType(rKey, value);
         applyPut(mPhysicalPrefs, rKey, value, "physical");
         applyPut(mRemotePrefs, rKey, value, "remote");
+        notifyPrefChanged(rKey, prefType);
     }
 
     /**
@@ -170,8 +177,10 @@ public class PrefsBridge {
     public static void removeByApp(String key) {
         String rKey = wrap(key);
         if (warnAndSkipIfHookWrite("remove", rKey)) return;
+        PrefType prefType = resolvePrefType(rKey, null);
         applyRemove(mPhysicalPrefs, rKey, "physical");
         applyRemove(mRemotePrefs, rKey, "remote");
+        notifyPrefChanged(rKey, prefType);
     }
 
     /**
@@ -358,9 +367,13 @@ public class PrefsBridge {
      */
     public static void clearAllByApp() {
         if (warnAndSkipIfHookWrite("clearAll", PREFS_NAME)) return;
+        Map<String, ?> allEntries = new HashMap<>(getAll());
         applyClear(mPhysicalPrefs, "physical");
         applyClear(mRemotePrefs, "remote");
         clearHookCache();
+        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
+            notifyPrefChanged(entry.getKey(), resolvePrefType(entry.getKey(), entry.getValue()));
+        }
     }
 
     /**
@@ -406,6 +419,39 @@ public class PrefsBridge {
             prefs.edit().clear().apply();
         } catch (UnsupportedOperationException e) {
             Log.w(TAG, "Failed to clear " + source + " prefs because the implementation is read-only.", e);
+        }
+    }
+
+    @Nullable
+    private static PrefType resolvePrefType(String key, @Nullable Object value) {
+        Object target = value;
+        if (target == null && mPhysicalPrefs != null) {
+            target = mPhysicalPrefs.getAll().get(key);
+        }
+        if (target instanceof String) return PrefType.String;
+        if (target instanceof Boolean) return PrefType.Boolean;
+        if (target instanceof Integer) return PrefType.Integer;
+        if (target instanceof Set<?>) return PrefType.StringSet;
+        return null;
+    }
+
+    private static void notifyPrefChanged(String key, @Nullable PrefType prefType) {
+        if (mAppContext == null || key == null) {
+            return;
+        }
+        try {
+            if (prefType != null) {
+                mAppContext.getContentResolver().notifyChange(PrefsChangeObserver.PrefToUri.prefToUri(prefType, key), null);
+                mAppContext.getContentResolver().notifyChange(PrefsChangeObserver.PrefToUri.anyPrefToUri(prefType, key), null);
+                return;
+            }
+
+            for (PrefType type : new PrefType[]{PrefType.String, PrefType.StringSet, PrefType.Integer, PrefType.Boolean}) {
+                mAppContext.getContentResolver().notifyChange(PrefsChangeObserver.PrefToUri.prefToUri(type, key), null);
+                mAppContext.getContentResolver().notifyChange(PrefsChangeObserver.PrefToUri.anyPrefToUri(type, key), null);
+            }
+        } catch (Throwable t) {
+            Log.w(TAG, "Failed to notify pref change for " + key, t);
         }
     }
 }

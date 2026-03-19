@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.log;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Process;
 
 import androidx.annotation.Nullable;
 
@@ -40,9 +41,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -50,7 +53,25 @@ public class LogManager {
 
     private static final String TAG = "LogManager";
     private static final String APP_MODULE = "App";
-    private static final String APP_EXPORT_RELATIVE_PATH = "app/app_runtime.log";
+    private static final String FILTERED_MODULE = "Xposed";
+    private static final String EXPORT_ROOT_DIR = "log";
+    private static final String EXPORT_CACHE_DIR = "log_export";
+    private static final String APP_EXPORT_DIR = "app";
+    private static final String FILTERED_EXPORT_DIR = "hyperceiler_filtered";
+    private static final String CURRENT_LOG_DIR = "log";
+    private static final String OLD_LOG_DIR = "log.old";
+    private static final String LSPD_EXPORT_DIR = "lspd";
+    private static final String APP_EXPORT_FILE_NAME = "app_runtime.log";
+    private static final String FILTERED_EXPORT_FILE_NAME = "hyperceiler.log";
+    private static final String DEVICES_FILE_NAME = "devices.txt";
+    private static final String LOG_CONFIG_FILE_NAME = "log_config_v2";
+    private static final String APP_LOGGER_NAME = "HyperCeilerApp";
+    private static final String APP_EXPORT_MODULE_PREFIX = "[com.sevtinge.hyperceiler,App] ";
+    private static final String FILTERED_EXPORT_MODULE_PREFIX = "[com.sevtinge.hyperceiler,HyperCeiler] ";
+    private static final String PAGE_MARKER_PREFIX = "----part ";
+    private static final String PAGE_MARKER_SUFFIX = " start----";
+    private static final long EXPORT_PAGE_SIZE_BYTES = 4L * 1024 * 1024;
+    private static final int EXPORT_QUERY_BATCH_SIZE = 500;
 
     private static volatile LogManager sInstance;
     private static volatile boolean sStatusManagerInitialized;
@@ -82,6 +103,7 @@ public class LogManager {
             synchronized (LogManager.class) {
                 if (!sStatusManagerInitialized) {
                     LogStatusManager.init(
+                        context,
                         context.getDataDir().getAbsolutePath(),
                         xposedLogSyncer,
                         null
@@ -117,9 +139,18 @@ public class LogManager {
             try {
                 // 如果是 Crash 标签，级别标记为 C
                 String finalLevel = "Crash".equals(tag) ? "C" : level;
+                String processIds = Process.myUid() + ":" + Process.myPid() + ":" + Process.myTid();
 
                 // 构造入库对象 (Module 为 "App")
-                LogEntry entry = new LogEntry("App", finalLevel, tag, message);
+                LogEntry entry = new LogEntry(
+                    APP_MODULE,
+                    finalLevel,
+                    tag,
+                    message,
+                    System.currentTimeMillis(),
+                    LogEntry.SOURCE_GROUP_CURRENT,
+                    processIds
+                );
 
                 // 丢给 Repository 执行异步插入
                 LogRepository.getInstance().insertLog(entry);
@@ -181,20 +212,27 @@ public class LogManager {
      * 创建日志压缩包到缓存目录
      */
     public File createLogZipFile() {
-        File exportDir = new File(mAppContext.getCacheDir(), "log_export");
+        File exportDir = new File(mAppContext.getCacheDir(), EXPORT_CACHE_DIR);
         if (!exportDir.exists() && !exportDir.mkdirs()) {
             return null;
         }
 
-        File sourceDir = new File(mAppContext.getFilesDir(), "log");
-        if (!sourceDir.exists() && !sourceDir.mkdirs()) {
+        File sourceDir = new File(exportDir, EXPORT_ROOT_DIR);
+        if (!prepareCleanDirectory(sourceDir)) {
             return null;
         }
 
         File zipFile = new File(exportDir, generateZipFileName());
 
         try {
-            if (!syncAppLogsForExport(sourceDir)) {
+            File lspdSourceDir = new File(new File(mAppContext.getFilesDir(), EXPORT_ROOT_DIR), LSPD_EXPORT_DIR);
+            if (!copyDirectoryForExport(lspdSourceDir, new File(sourceDir, LSPD_EXPORT_DIR))) {
+                return null;
+            }
+            if (!prepareExportMetaFiles(sourceDir)) {
+                return null;
+            }
+            if (!syncDatabaseLogsForExport(sourceDir)) {
                 return null;
             }
             if (zipDirectory(sourceDir, zipFile)) return zipFile;
@@ -236,35 +274,228 @@ public class LogManager {
         }
     }
 
-    private boolean syncAppLogsForExport(File logRootDir) {
-        File appLogFile = new File(logRootDir, APP_EXPORT_RELATIVE_PATH);
-        File appLogParent = appLogFile.getParentFile();
-        if (appLogParent != null && !appLogParent.exists() && !appLogParent.mkdirs()) {
-            AndroidLog.e(TAG, "Export logs: failed to create app log export directory");
-            return false;
-        }
+    private boolean syncDatabaseLogsForExport(File logRootDir) {
+        return exportAppLogs(new File(logRootDir, APP_EXPORT_DIR))
+            && exportFilteredLogs(new File(logRootDir, FILTERED_EXPORT_DIR));
+    }
 
-        List<LogEntry> appLogs = LogRepository.getInstance().getLogsByModuleForExportSync(APP_MODULE);
-        if (appLogs.isEmpty()) {
-            if (appLogFile.exists() && !appLogFile.delete()) {
-                AndroidLog.w(TAG, "Export logs: failed to delete stale app log export file");
-            }
+    private boolean prepareExportMetaFiles(File logRootDir) {
+        return writeDevicesFile(logRootDir) && copyOptionalFileForExport(
+            new File(new File(mAppContext.getFilesDir(), EXPORT_ROOT_DIR), LOG_CONFIG_FILE_NAME),
+            new File(logRootDir, LOG_CONFIG_FILE_NAME)
+        );
+    }
+
+    private boolean writeDevicesFile(File logRootDir) {
+        if (sDeviceInfoProvider == null) {
             return true;
+        }
+        File devicesFile = new File(logRootDir, DEVICES_FILE_NAME);
+        File parent = devicesFile.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            AndroidLog.e(TAG, "Export logs: failed to create devices file parent");
+            return false;
         }
 
         try (BufferedWriter writer = new BufferedWriter(
-            new OutputStreamWriter(new FileOutputStream(appLogFile, false), StandardCharsets.UTF_8))) {
-            for (LogEntry entry : appLogs) {
-                writer.write(formatLogEntryForCopy(entry));
-                writer.newLine();
-                writer.newLine();
+            new OutputStreamWriter(new FileOutputStream(devicesFile, false), StandardCharsets.UTF_8))) {
+            String content = sDeviceInfoProvider.getDeviceInfo(mAppContext);
+            writer.write(content == null ? "" : content);
+            writer.flush();
+            return true;
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Export logs: failed to write devices file", e);
+            return false;
+        }
+    }
+
+    private boolean copyOptionalFileForExport(File source, File target) {
+        if (!source.exists()) {
+            return true;
+        }
+        try {
+            File parent = target.getParentFile();
+            if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                AndroidLog.e(TAG, "Export logs: failed to create parent for optional file");
+                return false;
             }
+            Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return true;
+        } catch (IOException e) {
+            AndroidLog.e(TAG, "Export logs: failed to copy optional file " + source.getAbsolutePath(), e);
+            return false;
+        }
+    }
+
+    private boolean exportAppLogs(File outputDir) {
+        return writePagedLogFiles(outputDir, APP_EXPORT_FILE_NAME, APP_MODULE, null);
+    }
+
+    private boolean exportFilteredLogs(File outputDir) {
+        return writePagedLogFiles(
+            new File(outputDir, CURRENT_LOG_DIR),
+            FILTERED_EXPORT_FILE_NAME,
+            FILTERED_MODULE,
+            LogEntry.SOURCE_GROUP_CURRENT
+        ) && writePagedLogFiles(
+            new File(outputDir, OLD_LOG_DIR),
+            FILTERED_EXPORT_FILE_NAME,
+            FILTERED_MODULE,
+            LogEntry.SOURCE_GROUP_OLD
+        );
+    }
+
+    private boolean writePagedLogFiles(File outputDir, String baseFileName, String module, @Nullable String sourceGroup) {
+        if (!outputDir.exists() && !outputDir.mkdirs()) {
+            AndroidLog.e(TAG, "Export logs: failed to create output directory for " + outputDir.getAbsolutePath());
+            return false;
+        }
+
+        int offset = 0;
+        int pageIndex = 1;
+        long pageSize = 0;
+        long markerSize = 0;
+        boolean hasWrittenContent = false;
+        StringBuilder pageBuilder = new StringBuilder();
+
+        String marker = buildPageMarker(pageIndex);
+        markerSize = utf8Size(marker);
+        pageBuilder.append(marker);
+        pageSize = markerSize;
+
+        while (true) {
+            List<LogEntry> logs = sourceGroup == null
+                ? LogRepository.getInstance().getLogsByModulePageForExportSync(module, EXPORT_QUERY_BATCH_SIZE, offset)
+                : LogRepository.getInstance().getLogsByModuleAndSourceGroupPageForExportSync(
+                    module,
+                    sourceGroup,
+                    EXPORT_QUERY_BATCH_SIZE,
+                    offset
+                );
+            if (logs.isEmpty()) {
+                break;
+            }
+            offset += logs.size();
+
+            for (LogEntry entry : logs) {
+                String exportText = formatLogEntryForExport(entry);
+                if (!exportText.endsWith("\n")) {
+                    exportText += '\n';
+                }
+                long entrySize = utf8Size(exportText);
+                if (pageSize > markerSize && pageSize + entrySize > EXPORT_PAGE_SIZE_BYTES) {
+                    if (!writePageFile(outputDir, baseFileName, pageIndex, pageBuilder)) {
+                        return false;
+                    }
+                    hasWrittenContent = true;
+                    pageIndex++;
+                    pageBuilder.setLength(0);
+                    marker = buildPageMarker(pageIndex);
+                    markerSize = utf8Size(marker);
+                    pageBuilder.append(marker);
+                    pageSize = markerSize;
+                }
+                pageBuilder.append(exportText);
+                pageSize += entrySize;
+            }
+        }
+
+        if (pageSize > markerSize) {
+            if (!writePageFile(outputDir, baseFileName, pageIndex, pageBuilder)) {
+                return false;
+            }
+            hasWrittenContent = true;
+        }
+
+        if (!hasWrittenContent) {
+            AndroidLog.d(TAG, "Export logs: no entries for " + module + (sourceGroup == null ? "" : " [" + sourceGroup + "]"));
+        }
+        return true;
+    }
+
+    private boolean writePageFile(File outputDir, String baseFileName, int pageIndex, StringBuilder content) {
+        File outputFile = buildPagedOutputFile(outputDir, baseFileName, pageIndex);
+        try (BufferedWriter writer = new BufferedWriter(
+            new OutputStreamWriter(new FileOutputStream(outputFile, false), StandardCharsets.UTF_8))) {
+            writer.write(content.toString());
             writer.flush();
             return true;
         } catch (IOException e) {
-            AndroidLog.e(TAG, "Export logs: failed to sync app logs before export", e);
+            AndroidLog.e(TAG, "Export logs: failed to write file " + outputFile.getAbsolutePath(), e);
             return false;
         }
+    }
+
+    private File buildPagedOutputFile(File outputDir, String baseFileName, int pageIndex) {
+        int extensionIndex = baseFileName.lastIndexOf('.');
+        if (extensionIndex <= 0 || extensionIndex == baseFileName.length() - 1) {
+            return new File(outputDir, baseFileName + ".part" + pageIndex);
+        }
+        String name = baseFileName.substring(0, extensionIndex);
+        String extension = baseFileName.substring(extensionIndex);
+        return new File(outputDir, name + ".part" + pageIndex + extension);
+    }
+
+    private String formatLogEntryForExport(LogEntry entry) {
+        return FILTERED_MODULE.equals(entry.getModule())
+            ? formatFilteredLogEntry(entry)
+            : formatAppLogEntry(entry);
+    }
+
+    private String formatFilteredLogEntry(LogEntry entry) {
+        String message = LogDisplayHelper.getExportMessage(entry.getModule(), entry.getMessage());
+        return buildStructuredLogLine(entry, "LSPosedFramework", FILTERED_EXPORT_MODULE_PREFIX, message);
+    }
+
+    private String formatAppLogEntry(LogEntry entry) {
+        String message = entry.getMessage() == null ? "" : entry.getMessage();
+        String tag = entry.getTag() == null || entry.getTag().isEmpty() ? LogDisplayHelper.OTHER_TAG_VALUE : entry.getTag();
+        return buildStructuredLogLine(entry, APP_LOGGER_NAME, APP_EXPORT_MODULE_PREFIX, "[" + tag + "] " + message);
+    }
+
+    private String buildStructuredLogLine(LogEntry entry, String loggerName, String modulePrefix, String message) {
+        String[] processParts = splitProcessIds(entry.getProcessIds());
+        return String.format(
+            Locale.US,
+            "[ %s %8s:%6s:%6s %s/%s ] %s%s",
+            formatFullTimestamp(entry.getTimestamp()),
+            processParts[0],
+            processParts[1],
+            processParts[2],
+            sanitizeLevel(entry.getLevel()),
+            loggerName,
+            modulePrefix,
+            message == null ? "" : message
+        );
+    }
+
+    private String[] splitProcessIds(String processIds) {
+        String[] parts = {"0", "0", "0"};
+        if (processIds == null || processIds.isEmpty()) {
+            return parts;
+        }
+        String[] sourceParts = processIds.split(":");
+        for (int i = 0; i < parts.length && i < sourceParts.length; i++) {
+            if (!sourceParts[i].isEmpty()) {
+                parts[i] = sourceParts[i];
+            }
+        }
+        return parts;
+    }
+
+    private String sanitizeLevel(String level) {
+        if (level == null || level.isEmpty()) {
+            return "I";
+        }
+        return "C".equals(level) ? "E" : level;
+    }
+
+    private String formatFullTimestamp(long timestamp) {
+        return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", Locale.US).format(new Date(timestamp));
+    }
+
+    private String buildPageMarker(int pageIndex) {
+        return PAGE_MARKER_PREFIX + pageIndex + PAGE_MARKER_SUFFIX + '\n';
     }
 
     private void addPathToZip(File file, String entryName, ZipOutputStream zos) throws IOException {
@@ -287,5 +518,65 @@ public class LogManager {
         zos.putNextEntry(entry);
         Files.copy(file.toPath(), zos);
         zos.closeEntry();
+    }
+
+    private boolean prepareCleanDirectory(File directory) {
+        if (directory.exists() && !clearDirectory(directory)) {
+            return false;
+        }
+        return directory.exists() || directory.mkdirs();
+    }
+
+    private boolean clearDirectory(File directory) {
+        File[] children = directory.listFiles();
+        if (children == null) {
+            return true;
+        }
+        for (File child : children) {
+            boolean deleted = child.isDirectory() ? deleteDirectory(child) : child.delete();
+            if (!deleted) {
+                AndroidLog.w(TAG, "Export logs: failed to delete " + child.getAbsolutePath());
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean deleteDirectory(File directory) {
+        return clearDirectory(directory) && directory.delete();
+    }
+
+    private boolean copyDirectoryForExport(File source, File target) throws IOException {
+        if (!source.exists()) {
+            return true;
+        }
+        if (source.isDirectory()) {
+            if (!target.exists() && !target.mkdirs()) {
+                AndroidLog.e(TAG, "Export logs: failed to create directory " + target.getAbsolutePath());
+                return false;
+            }
+            File[] children = source.listFiles();
+            if (children == null) {
+                return true;
+            }
+            for (File child : children) {
+                if (!copyDirectoryForExport(child, new File(target, child.getName()))) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        File parent = target.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            AndroidLog.e(TAG, "Export logs: failed to create file parent " + parent.getAbsolutePath());
+            return false;
+        }
+        Files.copy(source.toPath(), target.toPath(), StandardCopyOption.REPLACE_EXISTING);
+        return true;
+    }
+
+    private long utf8Size(String text) {
+        return text.getBytes(StandardCharsets.UTF_8).length;
     }
 }

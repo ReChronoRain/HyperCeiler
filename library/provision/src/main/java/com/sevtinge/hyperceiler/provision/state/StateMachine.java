@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.os.Bundle;
 import android.util.SparseArray;
 
+import androidx.annotation.Nullable;
+
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.activity.BasicSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.CongratulationActivity;
@@ -126,8 +129,17 @@ public class StateMachine {
             }*/
     }
 
+    public void enterCurrentState(@Nullable Bundle activityOptions) {
+        if (mCurrentState == null) {
+            return;
+        }
+        int size = mStateStack.size() - 1;
+        boolean canBack = size >= 0 && mStateStack.get(size).canBackTo();
+        mCurrentState.onEnter(canBack, true, activityOptions);
+    }
+
     public void run(int code) {
-        Log.i("Provision_DefaultActivity", "run code: " + code);
+        AndroidLog.i("Provision_DefaultActivity", "run code: " + code);
         if (!PageIntercepHelper.getInstance().isIngoreCode(code)) {
             switch (code) {
                 case -1 -> transitToNext();
@@ -153,7 +165,7 @@ public class StateMachine {
                 break;
             }
         } while (!state.isAvailable(true));
-        Log.d(TAG, "getNextAvailableState is " + state);
+        AndroidLog.d(TAG, "getNextAvailableState is " + state);
         return state;
     }
 
@@ -172,25 +184,29 @@ public class StateMachine {
             mCurrentState = state2;
         }
         if (!mCurrentState.isAvailable(false)) {
-            Log.w("Provision_DefaultActivity", mCurrentState + " can not go back, stop here");
+            AndroidLog.w("Provision_DefaultActivity", mCurrentState + " can not go back, stop here");
         }
         return mCurrentState;
     }
 
     public void transitToNext() {
-        Log.d("Provision_DefaultActivity", "transitToNext mCurrentState is " + this.mCurrentState);
-        mCurrentState.onLeave();
-        if (needFinish()) {
+        AndroidLog.d("Provision_DefaultActivity", "transitToNext mCurrentState is " + this.mCurrentState);
+        State nextState = getNextAvailableState(mCurrentState);
+        boolean deferStartupLeaveForPermission = mCurrentState instanceof StartupState && nextState instanceof PermissionState;
+        if (!deferStartupLeaveForPermission) {
+            mCurrentState.onLeave();
+        }
+        if (nextState == null) {
             DefaultActivity activity = (DefaultActivity) mContext;
             activity.finishSetup();
             clearState();
             return;
         }
         mStateStack.add(mCurrentState);
-        mCurrentState = getNextAvailableState(mCurrentState);
+        mCurrentState = nextState;
 
         if (mCurrentState instanceof PermissionState) {
-            Log.d(TAG, "transitToNext: PermissionState");
+            AndroidLog.d(TAG, "transitToNext: PermissionState");
             //OobeUtils.checkAndActivateEsimAfterFactoryReset(mContext);
         } else {
             mCurrentState.onEnter(mCurrentState.canBackTo(), true);
@@ -206,9 +222,10 @@ public class StateMachine {
     private void transitToPrevious() {
         if (mStateStack.size() <= 0) return;
         mCurrentState = getPreviousAvailableState(mStateStack);
-        mCurrentState.onLeave();
         if (mCurrentState instanceof StartupState) {
             ((StartupState) mCurrentState).setBooted(true);
+        } else {
+            mCurrentState.onLeave();
         }
         int size = mStateStack.size() - 1;
         mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), false);
@@ -253,7 +270,7 @@ public class StateMachine {
         SharedPreferences.Editor edit = mContext.getSharedPreferences("pref_oobe_state", 0).edit();
         edit.clear();
         for (int i = 0; i < mStateStack.size(); i++) {
-            Log.w(TAG, " saveState is " + mStateStack.get(i).getClass().getSimpleName());
+            AndroidLog.w(TAG, " saveState is " + mStateStack.get(i).getClass().getSimpleName());
             edit.putString(PROVISION_STATE + i, mStateStack.get(i).getClass().getSimpleName());
         }
         edit.putString(PROVISION_STATE + mStateStack.size(), mCurrentState.getClass().getSimpleName());
@@ -269,12 +286,12 @@ public class StateMachine {
             state = null;
             try {
                 state = prefState.getString(PROVISION_STATE + i, null);
-            } catch (Exception e) {}
+            } catch (Exception ignored) {}
             if (state != null) {
                 if (i != 0) {
                     mStateStack.add(mCurrentState);
                 }
-                Log.w(TAG, " state is " + state + " and getStateInfo(state) is " + getStateInfo(state));
+                AndroidLog.w(TAG, " state is " + state + " and getStateInfo(state) is " + getStateInfo(state));
                 if (getStateInfo(state) != null) {
                     mCurrentState = getStateInfo(state).getCurrent();
                 }

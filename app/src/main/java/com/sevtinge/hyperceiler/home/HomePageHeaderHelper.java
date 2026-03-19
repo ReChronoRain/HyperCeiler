@@ -16,11 +16,20 @@ public class HomePageHeaderHelper {
     public static void refreshAll(Context context, ProxyHeaderViewAdapter adapter, View.OnClickListener listener) {
         if (context == null || adapter == null) return;
 
-        LinearLayout masterContainer = new LinearLayout(context);
-        masterContainer.setOrientation(LinearLayout.VERTICAL);
-        masterContainer.setLayoutParams(new ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT));
+        View oldView = adapter.getRemoveHintView();
+        LinearLayout masterContainer;
+        boolean isNewContainer = false;
+        if (oldView instanceof LinearLayout linearLayout) {
+            masterContainer = linearLayout;
+            masterContainer.removeAllViews();
+        } else {
+            masterContainer = new LinearLayout(context);
+            masterContainer.setOrientation(LinearLayout.VERTICAL);
+            masterContainer.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+            isNewContainer = true;
+        }
 
         List<View> bannerViews = HomePageBannerHelper.getBannerViews(context, listener);
         for (View v : bannerViews) {
@@ -33,9 +42,16 @@ public class HomePageHeaderHelper {
         masterContainer.addView(tipView);
 
         if (masterContainer.getChildCount() > 0) {
-            adapter.addRemovableHintView(masterContainer);
+            if (isNewContainer) {
+                if (oldView != null) {
+                    adapter.removeRemovableHintView(oldView);
+                }
+                adapter.addRemovableHintView(masterContainer);
+            } else {
+                masterContainer.requestLayout();
+                masterContainer.invalidate();
+            }
         } else {
-            View oldView = adapter.getRemoveHintView();
             if (oldView != null) {
                 adapter.removeRemovableHintView(oldView);
             }
