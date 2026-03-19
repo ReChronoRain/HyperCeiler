@@ -49,8 +49,12 @@
     <color name="update_text_border1">#00ffffff</color>
     <color name="update_text_border2">#30ffffff</color>
 
-    <color name="headtip_hyperceiler_color">#69263b</color>
-    <color name="headtip_notice_color">#634403</color>
-    <color name="headtip_tip_color">#0f274b</color>
-    <color name="headtip_warn_color">#280d00</color>
+    <color name="headtip_hyperceiler_color">#FF4A1D2D</color>
+    <color name="headtip_hyperceiler_text_color">#FFFFA1C3</color>
+    <color name="headtip_notice_color">#FF4B3605</color>
+    <color name="headtip_notice_text_color">#FFFFCF7A</color>
+    <color name="headtip_tip_color">#FF132A46</color>
+    <color name="headtip_tip_text_color">#FF87BEFF</color>
+    <color name="headtip_warn_color">#FF310808</color>
+    <color name="headtip_warn_text_color">#FFF72727</color>
 </resources>

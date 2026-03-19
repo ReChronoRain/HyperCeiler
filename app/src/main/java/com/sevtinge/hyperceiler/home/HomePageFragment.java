@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.home.banner.BannerCallback;
+import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.home.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.home.order.OnCompleteCallBack;
 import com.sevtinge.hyperceiler.home.tips.HomePageTipHelper;
@@ -119,6 +120,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     };
 
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable mRefreshHeaderTask = this::refreshHeader;
     private TextWatcher mTextWatcher = new TextWatcher() {
 
         @Override
@@ -264,10 +266,10 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         });
 
         if (mBannerCallback == null) {
-            mBannerCallback = new BannerCallback(this);
+            mBannerCallback = new BannerCallback();
         }
 
-        LogStatusManager.onHealthCheckDone(() -> mMainHandler.post(this::refreshHeader));
+        LogStatusManager.onHealthCheckDone(this::scheduleHeaderRefresh);
     }
 
     @Override
@@ -278,6 +280,9 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onResume() {
         super.onResume();
+        if (HomePageBannerManager.needsRefresh()) {
+            scheduleHeaderRefresh();
+        }
         mTipsHandler.postDelayed(mTipsAutoTask, 30000);
     }
 
@@ -409,6 +414,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mAnchorView = view.findViewById(R.id.header_view);
+        HomePageBannerManager.setRefreshCallback(this::scheduleHeaderRefresh);
         mAnchorView.setOnClickListener(v -> {
             if (isClicking || mIsInActionMode) return;
             isClicking = true;
@@ -453,8 +459,25 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     }
 
     private void refreshHeader() {
-        if (mProxyAdapter != null) {
+        if (mProxyAdapter == null || mListView == null) {
+            return;
+        }
+
+        mListView.suppressLayout(true);
+        try {
             HomePageHeaderHelper.refreshAll(getContext(), mProxyAdapter, mBannerCallback);
+        } finally {
+            mListView.suppressLayout(false);
+        }
+    }
+
+    private void scheduleHeaderRefresh() {
+        mMainHandler.removeCallbacks(mRefreshHeaderTask);
+        if (mListView != null) {
+            mListView.removeCallbacks(mRefreshHeaderTask);
+            mListView.post(mRefreshHeaderTask);
+        } else {
+            mMainHandler.post(mRefreshHeaderTask);
         }
     }
 
@@ -659,7 +682,12 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        HomePageBannerManager.setRefreshCallback(null);
         mTipsHandler.removeCallbacksAndMessages(null);
+        mMainHandler.removeCallbacks(mRefreshHeaderTask);
+        if (mListView != null) {
+            mListView.removeCallbacks(mRefreshHeaderTask);
+        }
         if (mSearchHandler != null) {
             mSearchHandler.removeCallbacksAndMessages(null);
         }

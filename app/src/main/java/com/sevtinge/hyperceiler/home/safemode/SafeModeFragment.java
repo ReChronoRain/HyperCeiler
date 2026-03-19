@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
+import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
 
@@ -158,6 +159,11 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                 SafeModeHandler.removeCrashProp(key);
             }
             mPkgList = getProp(CrashScope.PROP_SAFE_MODE);
+            if (HomePageBannerManager.updateSafeModeCache(requireContext())) {
+                HomePageBannerManager.requestRefresh();
+            } else {
+                HomePageBannerManager.invalidateCache();
+            }
         }
         return true;
     }
