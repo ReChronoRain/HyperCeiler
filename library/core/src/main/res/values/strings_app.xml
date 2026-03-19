@@ -484,6 +484,7 @@
     <string name="system_framework_quick_screenshot_desc">Disable screenshot delay</string>
     <string name="system_framework_disable_link_turbo_toast">Hide toast of mobile network used for acceleration</string>
     <string name="system_framework_allow_third_theme">Allow to use third-party themes</string>
+    <string name="system_framework_fuck_subscreen_whiteList">Remove the subscreen app whitelist</string>
     <string name="system_framework_allow_disable_protected_package">Allows to disable protected apps</string>
     <string name="system_framework_disable_miui_watermark">Disable full screen watermark</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Allow all apps to install apps from unknown sources</string>
