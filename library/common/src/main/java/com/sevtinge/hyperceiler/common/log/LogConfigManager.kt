@@ -31,7 +31,7 @@ import java.nio.file.StandardOpenOption
  * 日志配置管理器
  */
 object LogConfigManager {
-    private const val LOG_CONFIG_FILENAME = "/files/log/log_config_v2"
+    private const val LOG_CONFIG_FILENAME = "files/log/log_config_v2"
     // 应用私有目录，需要在初始化时设置
     private var appPrivateDir: String? = null
 
@@ -109,7 +109,11 @@ object LogConfigManager {
     }
 
     private fun getDefaultLogLevel(): Int {
-        val level = PrefsBridge.getStringAsInt(LogLevelManager.PREF_KEY, LogLevelManager.getDefaultLogLevel())
-        return LogLevelManager.getEffectiveLogLevel(level)
+        return try {
+            val level = PrefsBridge.getStringAsInt(LogLevelManager.PREF_KEY, LogLevelManager.getDefaultLogLevel())
+            LogLevelManager.getEffectiveLogLevel(level)
+        } catch (_: IllegalStateException) {
+            LogLevelManager.getDefaultLogLevel()
+        }
     }
 }

@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.common.log
 
 import android.util.Log
-import com.sevtinge.hyperceiler.common.log.LogStatusManager.logLevel
 import io.github.libxposed.api.XposedInterface
 
 /**
@@ -48,120 +47,124 @@ object XposedLog {
         else -> "V"
     }
 
+    private fun shouldLog(requiredLevel: Int): Boolean {
+        return LoggerUtils.shouldLog(LogStatusManager.getLogLevel(), requiredLevel)
+    }
+
     // --- Full logs: 2 ---
     @JvmStatic
     fun d(msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.DEBUG, msg)
     }
 
     @JvmStatic
     fun d(tag: String, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.DEBUG, "[$tag]: $msg")
     }
 
     @JvmStatic
     fun d(tag: String, msg: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.DEBUG, "[$tag]: $msg", t)
     }
 
     @JvmStatic
     fun d(tag: String, pkg: String?, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.DEBUG, LoggerUtils.formatBrackets(pkg, tag, msg))
     }
 
     // --- Full logs: 2 ---
     @JvmStatic
     fun i(msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.INFO, msg)
     }
 
     @JvmStatic
     fun i(tag: String, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.INFO, "[$tag]: $msg")
     }
 
     @JvmStatic
     fun i(tag: String, pkg: String?, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.INFO, LoggerUtils.formatBrackets(pkg, tag, msg))
     }
 
     // --- Full logs: 2 ---
     @JvmStatic
     fun w(msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.WARN, msg)
     }
 
     @JvmStatic
     fun w(tag: String, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.WARN, "[$tag]: $msg")
     }
 
     @JvmStatic
     fun w(tag: String, msg: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.WARN, "[$tag]: $msg", t)
     }
 
     @JvmStatic
     fun w(tag: String, pkg: String?, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.WARN, LoggerUtils.formatBrackets(pkg, tag, msg))
     }
 
     @JvmStatic
     fun w(tag: String, pkg: String?, msg: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_VERBOSE)) return
+        if (!shouldLog(LogLevelManager.LEVEL_VERBOSE)) return
         logRaw(Log.WARN, LoggerUtils.formatBrackets(pkg, tag, msg), t)
     }
 
     // --- Error only: 1 ---
     @JvmStatic
     fun e(msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, msg)
     }
 
     @JvmStatic
     fun e(tag: String, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, "[$tag]: $msg")
     }
 
     @JvmStatic
     fun e(tag: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, "[$tag]: ${t.message ?: t.toString()}", t)
     }
 
     @JvmStatic
     fun e(tag: String, msg: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, "[$tag]: $msg", t)
     }
 
     @JvmStatic
     fun e(tag: String, pkg: String?, msg: String) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, LoggerUtils.formatBrackets(pkg, tag, msg))
     }
 
     @JvmStatic
     fun e(tag: String, pkg: String?, msg: String, t: Throwable) {
-        if (!LoggerUtils.shouldLog(logLevel, LogLevelManager.LEVEL_ERROR_ONLY)) return
+        if (!shouldLog(LogLevelManager.LEVEL_ERROR_ONLY)) return
         logRaw(Log.ERROR, LoggerUtils.formatBrackets(pkg, tag, msg), t)
     }
 
     @JvmStatic
     fun logLevelDesc(): String {
-        return LoggerUtils.logLevelDesc(logLevel)
+        return LoggerUtils.logLevelDesc(LogStatusManager.getLogLevel())
     }
 }

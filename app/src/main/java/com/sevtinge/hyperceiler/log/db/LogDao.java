@@ -91,4 +91,11 @@ public interface LogDao {
 
     @Query("SELECT * FROM logs WHERE module = :module ORDER BY timestamp ASC")
     List<LogEntry> getLogsByModuleForExport(String module);
+
+    @Query("SELECT * FROM logs WHERE module = :module ORDER BY timestamp ASC, id ASC LIMIT :limit OFFSET :offset")
+    List<LogEntry> getLogsByModulePageForExport(String module, int limit, int offset);
+
+    @Query("SELECT * FROM logs WHERE module = :module AND source_group = :sourceGroup " +
+        "ORDER BY timestamp ASC, id ASC LIMIT :limit OFFSET :offset")
+    List<LogEntry> getLogsByModuleAndSourceGroupPageForExport(String module, String sourceGroup, int limit, int offset);
 }

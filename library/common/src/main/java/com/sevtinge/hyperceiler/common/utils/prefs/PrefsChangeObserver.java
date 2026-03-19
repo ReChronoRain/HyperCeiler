@@ -37,10 +37,10 @@ public class PrefsChangeObserver extends ContentObserver {
         this.autoApplyChange = autoApplyChange;
         switch (type) {
             case Any -> uri = PrefToUri.anyPrefToUri();
-            case String -> uri = PrefToUri.stringPrefToUri(name, (String) def);
+            case String -> uri = PrefToUri.stringPrefToUri(name);
             case StringSet -> uri = PrefToUri.stringSetPrefToUri(name);
-            case Integer -> uri = PrefToUri.intPrefToUri(name, (Integer) def);
-            case Boolean -> uri = PrefToUri.boolPrefToUri(name, (boolean) def);
+            case Integer -> uri = PrefToUri.intPrefToUri(name);
+            case Boolean -> uri = PrefToUri.boolPrefToUri(name);
         }
         if (uri != null) {
             context.getContentResolver().registerContentObserver(uri, type == PrefType.Any, this);
@@ -54,7 +54,8 @@ public class PrefsChangeObserver extends ContentObserver {
             if (prefType == PrefType.Any) return;
             applyChange();
         }
-        if (prefType == PrefType.Any)
+        if (prefType == PrefType.Any) {
+            if (uri == null || uri.getPathSegments().size() < 3) return;
             onChange(switch (uri.getPathSegments().get(1)) {
                 case "string" -> PrefType.String;
                 case "stringset" -> PrefType.StringSet;
@@ -62,7 +63,7 @@ public class PrefsChangeObserver extends ContentObserver {
                 case "boolean" -> PrefType.Boolean;
                 default -> PrefType.Any;
             }, uri, uri.getPathSegments().get(2), def);
-        else onChange(prefType, uri, name, def);
+        } else onChange(prefType, uri, name, def);
     }
 
     public void onChange(PrefType type, Uri uri, String name, Object def) {
@@ -80,20 +81,20 @@ public class PrefsChangeObserver extends ContentObserver {
     }
 
     public static class PrefToUri {
-        public static Uri stringPrefToUri(String name, String defValue) {
-            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/string/" + name + "/" + defValue);
+        public static Uri stringPrefToUri(String name) {
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/string/" + name);
         }
 
         public static Uri stringSetPrefToUri(String name) {
             return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/stringset/" + name);
         }
 
-        public static Uri intPrefToUri(String name, int defValue) {
-            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/integer/" + name + "/" + defValue);
+        public static Uri intPrefToUri(String name) {
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/integer/" + name);
         }
 
-        public static Uri boolPrefToUri(String name, boolean defValue) {
-            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/boolean/" + name + "/" + (defValue ? '1' : '0'));
+        public static Uri boolPrefToUri(String name) {
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/boolean/" + name);
         }
 
         public static Uri shortcutIconPrefToUri(String name) {
@@ -101,7 +102,31 @@ public class PrefsChangeObserver extends ContentObserver {
         }
 
         public static Uri anyPrefToUri() {
-            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/pref/");
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/pref");
+        }
+
+        public static Uri anyPrefToUri(PrefType type, String name) {
+            return Uri.parse("content://" + SHARED_PREFS_AUTHORITY + "/pref/" + typeToPath(type) + "/" + name);
+        }
+
+        public static Uri prefToUri(PrefType type, String name) {
+            return switch (type) {
+                case String -> stringPrefToUri(name);
+                case StringSet -> stringSetPrefToUri(name);
+                case Integer -> intPrefToUri(name);
+                case Boolean -> boolPrefToUri(name);
+                default -> anyPrefToUri();
+            };
+        }
+
+        private static String typeToPath(PrefType type) {
+            return switch (type) {
+                case String -> "string";
+                case StringSet -> "stringset";
+                case Integer -> "integer";
+                case Boolean -> "boolean";
+                default -> "pref";
+            };
         }
     }
 }

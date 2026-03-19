@@ -26,8 +26,8 @@ import android.net.Uri;
 
 import androidx.annotation.Nullable;
 
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -147,6 +147,7 @@ public class BackupUtils {
                 }
             }
         }
+
     }
 
     public static void handleCreateDocument(Activity activity, @Nullable Uri data) throws IOException, JSONException {
