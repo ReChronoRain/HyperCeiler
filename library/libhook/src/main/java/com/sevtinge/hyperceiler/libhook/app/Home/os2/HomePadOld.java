@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app.Home.os2;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.libhook.rules.home.DisablePrestart;
@@ -122,7 +123,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllowMoveAllWidgetToMi
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.ResizableWidgets;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.WidgetBlurOpt;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 

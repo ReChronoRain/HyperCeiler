@@ -19,12 +19,12 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.home.title;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class IconSize extends HomeBaseHookNew {
 
@@ -32,7 +32,7 @@ public class IconSize extends HomeBaseHookNew {
     private void initOS3Hook() {
         findAndHookMethod("com.miui.home.common.gridconfig.GridConfig$IconConfig", "getIconSize", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(PrefsBridge.getInt("home_title_icon_size", 182));
             }
         });
@@ -42,58 +42,58 @@ public class IconSize extends HomeBaseHookNew {
     public void initBase() {
         /*findAndHookMethod("com.miui.home.settings.IconSizeSeekBar", "getCurrentSetIconSizeValue", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(1.9f);
             }
         });
         findAndHookMethod("com.miui.home.launcher.common.PreferenceUtils", "getIconSizeScaleFromSP", float.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(1.9f);
             }
         });*/
         findAndHookMethod("com.miui.home.launcher.GridConfig$IconConfig", "getIconSize", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(PrefsBridge.getInt("home_title_icon_size", 182));
             }
         });
         /*setStaticIntField(findClassIfExists("com.miui.home.launcher.GridConfig"), "sCellCountYDef", 8);
         findAndHookMethod("com.miui.home.launcher.compat.GridSizeCalRules", "getCellCountY", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(8);
             }
         });*/
         /*findAndHookMethod("com.miui.home.launcher.compat.GridSizeCalRules", "getWorkspaceCellSide", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(100);
             }
         });*/
         /*findAndHookMethod("com.miui.home.launcher.DeviceConfig", "getIconHeight", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(300);
             }
         });*/
         /*setStaticIntField(findClassIfExists("com.miui.home.launcher.GridConfig"), "sCellCountYDef", 7);
         findAndHookMethod("com.miui.home.launcher.compat.GridSizeCalRules", "getHotseatHeight", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(100);
             }
         });*/
         /*findAndHookMethod("com.miui.home.launcher.compat.PhoneDeviceRules", "calGridSizeByFixedRows", int.class, int.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                 setIntField(param.thisObject, "mCellSize", 300);
                 setIntField(param.thisObject, "mHotseatCellWidth", 270);
             }
         });
         findAndHookMethod("com.miui.home.launcher.compat.PhoneDeviceRules", "calGridSizeByVariable", int.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                 setIntField(param.thisObject, "mCellSize", 300);
                 setIntField(param.thisObject, "mHotseatCellWidth", 270);
             }

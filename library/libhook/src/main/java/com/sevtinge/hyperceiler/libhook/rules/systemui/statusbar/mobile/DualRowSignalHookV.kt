@@ -42,10 +42,10 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.netwo
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -437,5 +437,4 @@ class DualRowSignalHookV : MobileSignalHook() {
         return "statusbar_signal_${slot}_$level$colorMode$iconStyle"
     }
 }
-
 

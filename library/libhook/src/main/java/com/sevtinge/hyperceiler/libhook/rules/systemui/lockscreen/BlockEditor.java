@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BlockEditor extends BaseHook {
     Class<?> mKeyguardEditorHelperCls;
@@ -32,7 +32,7 @@ public class BlockEditor extends BaseHook {
         mKeyguardEditorHelperCls = findClassIfExists("com.android.keyguard.KeyguardEditorHelper");
         findAndHookMethod(mKeyguardEditorHelperCls, "checkIfStartEditActivity", new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) {
+            public Object replace(HookParam param) {
                 return null;
             }
         });

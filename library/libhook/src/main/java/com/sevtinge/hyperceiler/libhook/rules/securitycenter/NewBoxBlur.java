@@ -25,13 +25,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NewBoxBlur extends BaseHook {
 
@@ -59,7 +59,7 @@ public class NewBoxBlur extends BaseHook {
 
         hookAllConstructors(mDockLayout, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ViewGroup view = (ViewGroup) param.getThisObject();
                 int paddingVertical = DisplayUtils.dp2px(PrefsBridge.getInt("security_center_newbox_bg_padding_vertical", 10));
                 int paddingHorizontal = DisplayUtils.dp2px(PrefsBridge.getInt("security_center_newbox_bg_padding_horizontal", 10));
@@ -71,7 +71,7 @@ public class NewBoxBlur extends BaseHook {
         //
         hookAllConstructors(mTurboLayout, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ViewGroup view = (ViewGroup) callMethod(param.getThisObject(), "getDockLayout");
                 new BlurUtils(view, "security_center_newbox_bg_custom");
             }
@@ -79,7 +79,7 @@ public class NewBoxBlur extends BaseHook {
 
         /*findAndHookConstructor(mNewBoxCls, Context.class, boolean.class, String.class, mWindowManager, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View view = (View) param.getThisObject();
                 new BlurUtils(view, "various_new_box_blur");
 
@@ -89,7 +89,7 @@ public class NewBoxBlur extends BaseHook {
 
         findAndHookMethod(mTurboaLayout, "a", boolean.class, boolean.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ImageView view = (ImageView) getObjectField(param.getThisObject(), "j");
                 GradientDrawable shapeDrawable = new GradientDrawable();
                 shapeDrawable.setColor(Color.TRANSPARENT);
@@ -99,7 +99,7 @@ public class NewBoxBlur extends BaseHook {
 
         findAndHookMethod(mTurboaLayout, "onAttachedToWindow", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View view = (View) param.getThisObject();
                 new BlurUtils(view, "security_center_newbox_bg_custom");
             }
@@ -107,7 +107,7 @@ public class NewBoxBlur extends BaseHook {
 
         findAndHookMethod(mVideoBoxCls, "a", Context.class, boolean.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ViewGroup viewGroup = (ViewGroup) getObjectField(param.getThisObject(), "b");
                 new BlurUtils(viewGroup, "security_center_newbox_bg_custom");
             }

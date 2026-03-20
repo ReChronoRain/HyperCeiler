@@ -21,13 +21,13 @@ package com.sevtinge.hyperceiler.libhook.app;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.contentextension.DoublePress;
 import com.sevtinge.hyperceiler.libhook.rules.contentextension.LinkOpenMode;
 import com.sevtinge.hyperceiler.libhook.rules.contentextension.Taplus;
 import com.sevtinge.hyperceiler.libhook.rules.contentextension.UnlockTaplus;
 import com.sevtinge.hyperceiler.libhook.rules.contentextension.UseThirdPartyBrowser;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.contentextension")
 public class ContentExtension extends BaseLoad {

@@ -33,7 +33,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -53,7 +53,7 @@ public class DebugMode extends BaseHook {
         });
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult("1");
             }
         });
@@ -71,7 +71,7 @@ public class DebugMode extends BaseHook {
         });
         hookMethod(method2, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });
@@ -89,7 +89,7 @@ public class DebugMode extends BaseHook {
         });
         hookMethod(method3, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });
@@ -107,7 +107,7 @@ public class DebugMode extends BaseHook {
         });
         hookMethod(method4, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });

@@ -23,8 +23,7 @@ import android.content.Context;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FoldDock extends BaseHook {
 
@@ -48,13 +47,13 @@ public class FoldDock extends BaseHook {
 
         findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "initContent", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 findAndHookMethod(mDeviceConfig, "isFoldDevice",
                     returnConstant(true));
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
 
                 findAndHookMethod(mDeviceConfig, "isFoldDevice",
                     returnConstant(false));
@@ -62,13 +61,13 @@ public class FoldDock extends BaseHook {
         });
         findAndHookMethod("com.miui.home.launcher.hotseats.HotSeats", "updateContentView", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 findAndHookMethod(mApplication, "isInFoldLargeScreen",
                     returnConstant(true));
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 findAndHookMethod(mApplication, "isInFoldLargeScreen",
                     returnConstant(false));
             }

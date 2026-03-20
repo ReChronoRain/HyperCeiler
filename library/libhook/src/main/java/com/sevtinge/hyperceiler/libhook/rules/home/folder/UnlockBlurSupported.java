@@ -24,7 +24,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockBlurSupported extends BaseHook {
     @Override
@@ -33,7 +33,7 @@ public class UnlockBlurSupported extends BaseHook {
             "isBlurSupported",
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     boolean isDefaultIcon = (boolean) callStaticMethod(
                         findClassIfExists("com.miui.home.launcher.DeviceConfig"),
                         "isDefaultIcon");
@@ -47,7 +47,7 @@ public class UnlockBlurSupported extends BaseHook {
             findAndHookMethod("com.miui.home.launcher.folder.LauncherFolder2x2IconContainer",
                 "resolveTopPadding", Rect.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // Rect rect = (Rect) param.args[0];
                         View view = (View) param.getThisObject();
                         callMethod(view,
@@ -61,14 +61,14 @@ public class UnlockBlurSupported extends BaseHook {
         } catch (Error | Exception ignore) {
             findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolder1x1", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });
 
             findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolderLarge", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });

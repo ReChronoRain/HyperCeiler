@@ -41,7 +41,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -86,7 +86,7 @@ public class DisableLiteVersion extends BaseHook {
         EzxHelpUtils.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
         findAndHookMethod("com.miui.personalassistant.PAApplication", "onCreate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 EzxHelpUtils.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
             }
         });

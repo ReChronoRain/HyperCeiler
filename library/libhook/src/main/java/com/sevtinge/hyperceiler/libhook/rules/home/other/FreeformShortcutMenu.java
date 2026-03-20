@@ -36,18 +36,17 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FreeformShortcutMenu extends BaseHook {
 
@@ -100,7 +99,7 @@ public class FreeformShortcutMenu extends BaseHook {
         hookAllMethods(darkModeHelper, "onConfigurationChanged",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     callStaticMethod(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems");
                 }
             });
@@ -113,7 +112,7 @@ public class FreeformShortcutMenu extends BaseHook {
         hookAllMethods(shortcutMenuItem, "getShortTitle",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     String title = String.valueOf(param.getResult());
                     if ("应用信息".equals(title)) {
                         param.setResult("信息");
@@ -128,7 +127,7 @@ public class FreeformShortcutMenu extends BaseHook {
         hookAllMethods(Activity.class, "onCreate",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mContext = (Context) param.getThisObject();
                 }
             });
@@ -140,7 +139,7 @@ public class FreeformShortcutMenu extends BaseHook {
         findAndHookMethod(mAppDetailsShortcutMenuItem, "getOnClickListener",
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (mContext == null) return;
 
                     Resources modRes = getModuleRes(mContext);
@@ -167,7 +166,7 @@ public class FreeformShortcutMenu extends BaseHook {
 
         IMethodHook hook = new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 param.setResult(6);
             }
         };
@@ -186,7 +185,7 @@ public class FreeformShortcutMenu extends BaseHook {
         hookAllMethods(mSystemShortcutMenuItem, "createAllSystemShortcutMenuItems",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (mContext == null) return;
                     addCustomShortcuts();
                 }

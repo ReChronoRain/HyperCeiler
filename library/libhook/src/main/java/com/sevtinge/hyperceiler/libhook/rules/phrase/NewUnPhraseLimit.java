@@ -51,8 +51,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NewUnPhraseLimit extends BaseHook {
 
@@ -61,17 +60,17 @@ public class NewUnPhraseLimit extends BaseHook {
         try {
             findAndHookMethod("android.inputmethodservice.InputMethodModuleManager", "loadDex", ClassLoader.class, String.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         ClassLoader classLoader = (ClassLoader) param.getArgs()[0];
                         setStaticField(findClass("com.miui.inputmethod.MiuiClipboardManager", classLoader), "MAX_CLIP_CONTENT_SIZE", Integer.MAX_VALUE);
                         EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "init", new IMethodHook() {
                                 @Override
-                                public void before(BeforeHookParam param) {
+                                public void before(HookParam param) {
                                     setStaticField(findClass("com.miui.inputmethod.MiuiClipboardManager", classLoader), "MAX_CLIP_CONTENT_SIZE", Integer.MAX_VALUE);
                                 }
 
                                 @Override
-                                public void after(AfterHookParam param) throws Exception {
+                                public void after(HookParam param) throws Exception {
                                     setStaticField(findClass("com.miui.inputmethod.MiuiClipboardManager", classLoader), "MAX_CLIP_CONTENT_SIZE", Integer.MAX_VALUE);
                                 }
                             }
@@ -93,7 +92,7 @@ public class NewUnPhraseLimit extends BaseHook {
             });
             hookMethod(method, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Object newModel = param.getArgs()[2];
                     String oldJson = (String) param.getArgs()[3];
                     Class<?> mgrCls = null;
@@ -126,7 +125,7 @@ public class NewUnPhraseLimit extends BaseHook {
             setStaticField(InputMethodUtil, "sPhraseListSize", 0);
             findAndHookMethod(InputMethodUtil, "queryPhrase", Context.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setStaticField(InputMethodUtil, "sPhraseListSize", 0);
                 }
             });
@@ -134,7 +133,7 @@ public class NewUnPhraseLimit extends BaseHook {
             Class<?> AddPhraseActivity = findClass("com.miui.phrase.AddPhraseActivity");
             findAndHookMethod("com.miui.phrase.PhraseEditActivity", "onClick", View.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Activity activity = (Activity) param.getThisObject();
                     Intent intent = new Intent(activity, AddPhraseActivity);
                     intent.setAction("com.miui.intent.action.PHRASE_ADD");
@@ -173,7 +172,7 @@ public class NewUnPhraseLimit extends BaseHook {
             });
             hookMethod(method1, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         EditText editText = (EditText) getObjectField(param.getThisObject(), field.getName());
                         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.MAX_VALUE)});
                     }

@@ -3,8 +3,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.libxposed.api.XposedModuleInterface;
 
@@ -12,7 +12,7 @@ public class VerificationAgentPatch extends CorePatchHelper {
 
     private static final String TAG = "VerificationAgentPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 11+
         try {
             hookAllMethods(getIsVerificationEnabledClass(lpparam.getClassLoader()), "isVerificationEnabled", new ReturnConstant("prefs_key_system_framework_disable_verification_agent", false));

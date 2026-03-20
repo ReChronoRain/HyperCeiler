@@ -34,8 +34,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllowAutoStart extends BaseHook {
     private Set<String> strings = new HashSet<>();
@@ -45,7 +44,7 @@ public class AllowAutoStart extends BaseHook {
     public void init() {
         findAndHookConstructor("miui.app.ActivitySecurityHelper", Context.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context context = (Context) param.getArgs()[0];
                 new PrefsChangeObserver(context, new Handler(context.getMainLooper()), true,
                     "prefs_key_system_framework_auto_start_apps");
@@ -54,14 +53,14 @@ public class AllowAutoStart extends BaseHook {
 
         findAndHookMethod("miui.app.ActivitySecurityHelper", "getCheckStartActivityIntent", ApplicationInfo.class, ApplicationInfo.class, Intent.class, boolean.class, int.class, boolean.class, int.class, int.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 calleeInfo = (ApplicationInfo) param.getArgs()[1];
             }
         });
 
         findAndHookMethod("miui.app.ActivitySecurityHelper", "restrictForChain", ApplicationInfo.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 strings = PrefsBridge.getStringSet("system_framework_auto_start_apps");
                 ApplicationInfo info = (ApplicationInfo) param.getArgs()[0];
                 if (calleeInfo != null) {

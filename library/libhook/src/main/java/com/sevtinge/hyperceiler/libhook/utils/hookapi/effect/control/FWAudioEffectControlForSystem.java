@@ -35,17 +35,16 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.g
 import android.content.Context;
 import android.provider.Settings;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.util.Arrays;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * FW 模式下控制音效
@@ -80,7 +79,7 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
             Context.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Object center = param.getResult();
                     mCenterRef.set(center);
                     if (center != null) {
@@ -102,7 +101,7 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
             String.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (getEarPhoneStateFinal()) {
                         String effect = (String) param.getArgs()[0];
                         XposedLog.d(TAG, "Earphone connected, skip setting effect: " + effect);
@@ -121,7 +120,7 @@ public class FWAudioEffectControlForSystem extends BaseEffectControl implements 
             "release",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mPresenterRef.set(null);
                     mCenterRef.set(null);
                     XposedLog.d(TAG, "AudioEffectCenter released");

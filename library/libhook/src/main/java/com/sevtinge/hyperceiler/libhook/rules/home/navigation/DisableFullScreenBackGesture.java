@@ -22,14 +22,14 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableFullScreenBackGesture extends BaseHook {
     @Override
     public void init(){
         EzxHelpUtils.findAndHookMethodReplace("com.miui.launcher.utils.NotesGestureCompat", "supportsGestureHeightExpansion", new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) {
+            public Object replace(HookParam param) {
                 return false;
             }
         });

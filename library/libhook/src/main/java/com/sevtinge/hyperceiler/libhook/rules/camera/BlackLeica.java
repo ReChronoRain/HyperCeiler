@@ -45,7 +45,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -175,16 +175,16 @@ public class BlackLeica extends BaseHook {
         EzxHelpUtils.setStaticIntField(field2.getDeclaringClass(), field2.getName(), Color.parseColor("#33FFFFFF"));
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 hookMethod(method2, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if ((int) param.getArgs()[2] == -16777216) param.getArgs()[2] = -1;
                     }
                 });
                 hookMethod(method3, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.getArgs()[0] = 1048576;
                     }
                 });

@@ -29,12 +29,12 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class LargeIconCornerRadius extends BaseHook {
 
@@ -47,7 +47,7 @@ public class LargeIconCornerRadius extends BaseHook {
 
         hookAllMethods(mBigIconUtil, "getCroppedFromCorner", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 Context context = (Context) param.getArgs()[3];
                 Bitmap bitmap = (Bitmap) param.getArgs()[2];
                 Drawable drawable = new BitmapDrawable(context.getResources(),

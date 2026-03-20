@@ -54,6 +54,8 @@ import android.provider.Settings;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory;
@@ -62,13 +64,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.binder.EffectInfoSe
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.AudioEffectControlForSystem;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.FWAudioEffectControlForSystem;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 自动切换音效 - 系统框架端 - 总控制端
@@ -200,7 +200,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
             "onSystemReady",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                     if (mContext == null) {
                         XposedLog.e(TAG, "Failed to get context from AudioService");

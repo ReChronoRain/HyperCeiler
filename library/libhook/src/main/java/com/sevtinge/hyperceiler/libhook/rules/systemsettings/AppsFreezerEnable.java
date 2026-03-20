@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AppsFreezerEnable extends BaseHook {
     @Override
@@ -30,7 +30,7 @@ public class AppsFreezerEnable extends BaseHook {
             "isAvailable",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     param.setResult(true);
                 }
             }

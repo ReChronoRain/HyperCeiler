@@ -35,7 +35,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BypassAdbInstallVerify extends BaseHook {
     @Override
@@ -64,7 +64,7 @@ public class BypassAdbInstallVerify extends BaseHook {
         });
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object instance = param.getThisObject();
                 Object adbInstallVerifyActivityInstance = newInstance(findClass("com.miui.permcenter.install.AdbInstallVerifyActivity$b", getClassLoader()), instance);
                 setObjectField(instance, "d", adbInstallVerifyActivityInstance);
@@ -76,7 +76,7 @@ public class BypassAdbInstallVerify extends BaseHook {
         });
         hookMethod(method2, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
             }
         });

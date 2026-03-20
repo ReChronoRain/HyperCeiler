@@ -34,7 +34,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -53,7 +53,7 @@ public class FuckDetection extends BaseHook {
         });
         hookMethod(method, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (param.getArgs()[0].equals(APP_MODULE_ID)) param.getArgs()[0] = null;
             }
         });

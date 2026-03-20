@@ -20,10 +20,14 @@ package com.sevtinge.hyperceiler.common.log;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.ContentObserver;
+import android.net.Uri;
+import android.os.Handler;
 
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -45,8 +49,8 @@ public class LogStatusManager {
     private static boolean checkDone = false;
     private static SharedPreferences localLogLevelPrefs;
     private static SharedPreferences.OnSharedPreferenceChangeListener localLogLevelListener;
-    private static SharedPreferences remoteLogLevelPrefs;
-    private static SharedPreferences.OnSharedPreferenceChangeListener remoteLogLevelListener;
+    private static Context hookLogLevelObserverContext;
+    private static ContentObserver hookLogLevelObserver;
     private static String logLevelConfigBasePath;
     private static final String LOG_LEVEL_PREF_KEY = "prefs_key_" + LogLevelManager.PREF_KEY;
 
@@ -123,32 +127,43 @@ public class LogStatusManager {
         }
     }
 
-    public static void initHookLogLevelSync(@Nullable SharedPreferences remotePrefs) {
-        synchronized (logLevelLock) {
-            registerRemoteLogLevelListener(remotePrefs);
-            syncLogLevelFromPrefs();
-        }
-    }
-
-    private static void registerRemoteLogLevelListener(@Nullable SharedPreferences remotePrefs) {
-        if (remotePrefs == null || remotePrefs == remoteLogLevelPrefs) {
+    public static void attachHookLogLevelObserver(@Nullable Context context) {
+        if (context == null) {
             return;
         }
-        if (remoteLogLevelListener == null) {
-            remoteLogLevelListener = (sharedPreferences, key) -> {
-                if (LOG_LEVEL_PREF_KEY.equals(key)) {
-                    syncLogLevelFromPrefs();
-                }
-            };
-        }
-        if (remoteLogLevelPrefs != null) {
-            try {
-                remoteLogLevelPrefs.unregisterOnSharedPreferenceChangeListener(remoteLogLevelListener);
-            } catch (Throwable ignored) {
+        synchronized (logLevelLock) {
+            Context targetContext = context.getApplicationContext() != null
+                ? context.getApplicationContext()
+                : context;
+            if (targetContext == hookLogLevelObserverContext) {
+                return;
             }
+            if (hookLogLevelObserver != null && hookLogLevelObserverContext != null) {
+                try {
+                    hookLogLevelObserverContext.getContentResolver().unregisterContentObserver(hookLogLevelObserver);
+                } catch (Throwable ignored) {
+                }
+            }
+            if (hookLogLevelObserver == null) {
+                Handler handler = new Handler(targetContext.getMainLooper());
+                hookLogLevelObserver = new ContentObserver(handler) {
+                    @Override
+                    public void onChange(boolean selfChange, @Nullable Uri uri) {
+                        if (selfChange) {
+                            return;
+                        }
+                        syncLogLevelFromPrefs();
+                    }
+                };
+            }
+            targetContext.getContentResolver().registerContentObserver(
+                PrefsChangeObserver.PrefToUri.stringPrefToUri(LOG_LEVEL_PREF_KEY),
+                false,
+                hookLogLevelObserver
+            );
+            hookLogLevelObserverContext = targetContext;
+            syncLogLevelFromPrefs();
         }
-        remotePrefs.registerOnSharedPreferenceChangeListener(remoteLogLevelListener);
-        remoteLogLevelPrefs = remotePrefs;
     }
 
     private static void registerLocalLogLevelListener() {

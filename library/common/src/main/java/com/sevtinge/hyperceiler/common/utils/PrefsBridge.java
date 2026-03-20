@@ -24,6 +24,7 @@ public class PrefsBridge {
 
     private static final String TAG = "PrefsBridge";
     public static final String PREFS_NAME = "hyperceiler_prefs";
+    public static final String REMOTE_PREFS_GROUP = PREFS_NAME + "_remote";
     private static final Set<String> sWarnedHookWrites = Collections.synchronizedSet(new HashSet<>());
     private static final Map<String, Object> sHookCache = new ConcurrentHashMap<>();
 
@@ -58,6 +59,7 @@ public class PrefsBridge {
      */
     public static void initForHook(@NonNull SharedPreferences remote) {
         isHookProcess = true;
+        clearHookCache();
         mRemotePrefs = remote;
     }
 

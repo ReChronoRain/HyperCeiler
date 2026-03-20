@@ -21,38 +21,37 @@ package com.sevtinge.hyperceiler.libhook.rules.gallery;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 ;
 
 public class EnablePdf extends BaseHook {
-    XposedInterface.MethodUnhooker isGlobal;
+    XposedInterface.HookHandle isGlobal;
 
     @Override
     public void init() {
         try {
             findAndHookMethod("com.miui.gallery.request.PicToPdfHelper", "isPicToPdfSupport", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });
         } catch (Throwable e) {
             hookAllConstructors("com.miui.gallery.ui.ProduceCreationDialogWithMediaEditorConfig",  new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     isGlobal = findAndHookMethod("com.miui.gallery.util.BuildUtil", "isGlobal", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult(false);
                         }
                     });
                 }
 
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (isGlobal != null) {
                         isGlobal.unhook();
                     }

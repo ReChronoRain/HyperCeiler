@@ -23,7 +23,7 @@ import android.net.Uri;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -32,7 +32,7 @@ public class DisableReadFiles extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.browser.provider.AdBlockRuleProvider", "openFile", Uri.class, String.class, new IMethodHook(){
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
             }
         });

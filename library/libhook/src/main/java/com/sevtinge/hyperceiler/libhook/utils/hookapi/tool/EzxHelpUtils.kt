@@ -29,8 +29,10 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxFieldHelp
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxHookHelper
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxMethodHelper
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxModuleHolder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory
+import io.github.libxposed.api.XposedInterface
+import io.github.libxposed.api.XposedInterface.HookHandle
 import io.github.libxposed.api.XposedInterface.Hooker
-import io.github.libxposed.api.XposedInterface.MethodUnhooker
 import io.github.libxposed.api.XposedModule
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
@@ -459,10 +461,10 @@ object EzxHelpUtils {
      *
      * @param method 要 Hook 的方法
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookMethod(method: Method, callback: IMethodHook): MethodUnhooker<*> =
+    fun hookMethod(method: Method, callback: IMethodHook): HookHandle =
         EzxHookHelper.hookMethod(method, callback)
 
     /**
@@ -470,10 +472,10 @@ object EzxHelpUtils {
      *
      * @param method 要 Hook 的方法
      * @param callback 替换回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookMethod(method: Method, callback: IReplaceHook): MethodUnhooker<*> =
+    fun hookMethod(method: Method, callback: IReplaceHook): HookHandle =
         EzxHookHelper.hookMethod(method, callback)
 
     /**
@@ -481,11 +483,271 @@ object EzxHelpUtils {
      *
      * @param constructor 要 Hook 的构造器
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): MethodUnhooker<*> =
+    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): HookHandle =
         EzxHookHelper.hookConstructor(constructor, callback)
+
+    private fun chainHooker(block: (XposedInterface.Chain) -> Any?): Hooker =
+        Hooker { chain -> block(chain) }
+
+    private fun resolveChainClass(clazzName: String, classLoader: ClassLoader? = null): Class<*> =
+        classLoader?.let { EzxClassHelper.findClass(clazzName, it) } ?: EzxClassHelper.findClass(clazzName)
+
+    private fun resolveChainMethod(clazz: Class<*>, methodName: String, vararg args: Any): Method {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
+    }
+
+    private fun resolveChainConstructor(clazz: Class<*>, vararg args: Any): Constructor<*> {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
+    }
+
+    @JvmSynthetic
+    fun chain(
+        method: Method,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(method, priority, exceptionMode, chainHooker(block))
+
+    @JvmSynthetic
+    fun chain(
+        constructor: Constructor<*>,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(constructor, priority, exceptionMode, chainHooker(block))
+
+    @JvmStatic
+    fun chain(method: Method, hooker: Hooker): HookHandle =
+        HookFactory.hook(method = method, hooker = hooker)
+
+    @JvmStatic
+    fun chain(
+        method: Method,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker
+    ): HookHandle = HookFactory.hook(priority = priority, method = method, exceptionMode = exceptionMode, hooker = hooker)
+
+    @JvmStatic
+    fun chain(constructor: Constructor<*>, hooker: Hooker): HookHandle =
+        HookFactory.hook(ctor = constructor, hooker = hooker)
+
+    @JvmStatic
+    fun chain(
+        constructor: Constructor<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker
+    ): HookHandle = HookFactory.hook(priority = priority, ctor = constructor, exceptionMode = exceptionMode, hooker = hooker)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, block)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), hooker)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, hooker)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName),
+        methodName,
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName), methodName, hooker, *args)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName), methodName, priority, exceptionMode, hooker, *args)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName, classLoader),
+        methodName,
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName, classLoader), methodName, hooker, *args)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName, classLoader),
+        methodName,
+        priority,
+        exceptionMode,
+        hooker,
+        *args
+    )
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, block)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), hooker)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, hooker)
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazzName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName),
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName), hooker, *args)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName), priority, exceptionMode, hooker, *args)
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName, classLoader),
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName, classLoader), hooker, *args)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName, classLoader),
+        priority,
+        exceptionMode,
+        hooker,
+        *args
+    )
 
     /**
      * 查找并 Hook 方法
@@ -502,7 +764,7 @@ object EzxHelpUtils {
         methodName: String,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
+    ): HookHandle {
         val method = EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
         return EzxHookHelper.hookMethod(method, callback)
     }
@@ -512,7 +774,7 @@ object EzxHelpUtils {
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethod(clazzName, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazzName, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethod(
@@ -520,7 +782,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethod(clazzName, classLoader, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazzName, classLoader, methodName, *args)
 
     /**
      * 查找并 Hook 方法
@@ -528,21 +790,21 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookMethod(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethod(clazz, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazz, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethodReplace(
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethodReplace(clazzName, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazzName, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethodReplace(
@@ -550,7 +812,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethodReplace(clazzName, classLoader, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazzName, classLoader, methodName, *args)
 
     /**
      * 查找并 Hook 方法（替换模式）
@@ -558,14 +820,14 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IReplaceHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookMethodReplace(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookMethodReplace(clazz, methodName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazz, methodName, *args)
 
     /**
      * 查找并 Hook 构造器
@@ -573,14 +835,14 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param parameterTypes 参数类型
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookConstructor(
         clazz: Class<*>,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
+    ): HookHandle {
         val constructor = EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
         return EzxHookHelper.hookConstructor(constructor, callback)
     }
@@ -589,24 +851,24 @@ object EzxHelpUtils {
     fun findAndHookConstructor(
         clazzName: String,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookConstructor(clazzName, *args)
+    ): HookHandle = EzxHookHelper.findAndHookConstructor(clazzName, *args)
 
     @JvmStatic
     fun findAndHookConstructor(
         clazzName: String,
         classLoader: ClassLoader,
         vararg args: Any
-    ): MethodUnhooker<*> = EzxHookHelper.findAndHookConstructor(clazzName, classLoader, *args)
+    ): HookHandle = EzxHookHelper.findAndHookConstructor(clazzName, classLoader, *args)
 
     /**
      * 查找并 Hook 构造器
      *
      * @param clazz 目标类
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
-    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): MethodUnhooker<*> =
+    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): HookHandle =
         EzxHookHelper.findAndHookConstructor(clazz, *args)
 
     @JvmStatic
@@ -614,7 +876,7 @@ object EzxHelpUtils {
         clazzName: String,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> = EzxHookHelper.hookAllMethods(clazzName, methodName, callback)
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazzName, methodName, callback)
 
     @JvmStatic
     fun hookAllMethods(
@@ -622,7 +884,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> = EzxHookHelper.hookAllMethods(clazzName, classLoader, methodName, callback)
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazzName, classLoader, methodName, callback)
 
     /**
      * Hook 类中所有指定名称的方法
@@ -630,24 +892,24 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
     @JvmStatic
     fun hookAllMethods(
         clazz: Class<*>,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> = EzxHookHelper.hookAllMethods(clazz, methodName, callback)
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazz, methodName, callback)
 
     /**
      * Hook 类中所有构造器
      *
      * @param clazz 目标类
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
     @JvmStatic
-    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<MethodUnhooker<*>> =
+    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<HookHandle> =
         EzxHookHelper.hookAllConstructors(clazz, callback)
 
     // ==================== 便捷 Hook 工具 ====================
@@ -677,7 +939,7 @@ object EzxHelpUtils {
         EzxHookHelper.deoptimizeMethods(clazz, *names)
 
     @JvmStatic
-    fun libHook(method: Method, hooker: Class<out Hooker>): MethodUnhooker<Method?> =
+    fun libHook(method: Method, hooker: Class<out Hooker>): HookHandle =
         EzxHookHelper.libHook(method, hooker)
 
     @JvmStatic

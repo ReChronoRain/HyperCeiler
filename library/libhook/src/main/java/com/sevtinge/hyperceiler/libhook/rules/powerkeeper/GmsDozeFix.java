@@ -23,14 +23,14 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.f
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.lang.reflect.Field;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -41,42 +41,42 @@ public class GmsDozeFix extends BaseHook {
 
         findAndHookMethod(GmsObserver, "updateGmsNetWork", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
 
         findAndHookMethod(GmsObserver, "updateGmsAlarm", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
 
         findAndHookMethod(GmsObserver, "updateGoogleReletivesWakelock", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
 
         findAndHookMethod(GmsObserver, "updateGoogleSync", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
 
         findAndHookMethod(GmsObserver, "updateGoogleBackup", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
 
         findAndHookMethod(GmsObserver, "onGoogleReachabilityChanged", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
@@ -85,7 +85,7 @@ public class GmsDozeFix extends BaseHook {
             Class<?> MilletPolicy = findClassIfExists("com.miui.powerkeeper.millet.MilletPolicy");
             if (MilletPolicy == null) return;
             findAndHookConstructor(MilletPolicy, Context.class, new IMethodHook() {
-                public void before(BeforeHookParam methodHookParam) {
+                public void before(HookParam methodHookParam) {
                     boolean mSystemBlackList = false;
                     boolean whiteApps = false;
                     boolean mDataWhiteList = false;

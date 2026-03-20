@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.EnableCard;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.EnableDocPpt;
@@ -27,7 +28,6 @@ import com.sevtinge.hyperceiler.libhook.rules.scanner.EnableTranslation;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnableDocument;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnableExcel;
 import com.sevtinge.hyperceiler.libhook.rules.scanner.document.EnablePpt;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.scanner")
 public class Scanner extends BaseLoad {

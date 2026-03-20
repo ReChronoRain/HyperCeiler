@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.ConservativeMillet;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.CustomRefreshRate;
@@ -27,7 +28,6 @@ import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.DontKillApps;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.GmsDozeFix;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.LockMaxFps;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.PreventBatteryWitelist;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.powerkeeper")
 public class PowerKeeper extends BaseLoad {

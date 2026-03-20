@@ -23,7 +23,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -32,13 +32,13 @@ public class DisableAd extends BaseHook {
     public void init() {
         findAndReplaceMethod("com.xiaomi.mitv.phone.remotecontroller.common.activity.BaseActivity", "setActionMark", "com.duokan.phone.remotecontroller.operation.Operation", View.OnClickListener.class, new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) throws Throwable {
+            public Object replace(HookParam param) throws Throwable {
                 return null;
             }
         });
         findAndReplaceMethod("com.duokan.phone.remotecontroller.operation.SHBusinessManager", "isUserClosedBanner", new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) throws Throwable {
+            public Object replace(HookParam param) throws Throwable {
                 return true;
             }
         });

@@ -26,14 +26,14 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.ViewSwitcher;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllAppsContainerViewSuperBlur extends BaseHook {
     private boolean isBlur;
@@ -44,7 +44,7 @@ public class AllAppsContainerViewSuperBlur extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.allapps.BaseAllAppsContainerView", "onFinishInflate",
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         ViewSwitcher mCategoryContainer = (ViewSwitcher) getObjectField(param.getThisObject(), "mCategoryContainer");
                         RelativeLayout appsView = (RelativeLayout) mCategoryContainer.getParent();
                         FrameLayout frameLayout = new FrameLayout(mCategoryContainer.getContext());

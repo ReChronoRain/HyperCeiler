@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 public class NotificationColor extends BaseHook {
     @Override

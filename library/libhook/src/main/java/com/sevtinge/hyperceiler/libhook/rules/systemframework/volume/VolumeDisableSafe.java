@@ -25,12 +25,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.media.AudioManager;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class VolumeDisableSafe extends BaseHook {
     private static boolean isHeadsetOn = false;
@@ -44,7 +43,7 @@ public class VolumeDisableSafe extends BaseHook {
 
         findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (mode == 1) {
                     param.setResult(2147483646);
                     return;
@@ -55,7 +54,7 @@ public class VolumeDisableSafe extends BaseHook {
 
         findAndHookMethod(SoundDoseHelper, "safeMediaVolumeIndex", int.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (mode == 1) {
                     param.setResult(2147483646);
                     return;
@@ -66,7 +65,7 @@ public class VolumeDisableSafe extends BaseHook {
 
         hookAllConstructors(SoundDoseHelper, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (mode == 1) {
                     return;
                 }

@@ -26,13 +26,13 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class LinkOpenMode extends BaseHook {
     Class<?> mAppsUtils;
@@ -44,7 +44,7 @@ public class LinkOpenMode extends BaseHook {
 
         hookAllMethods(mAppsUtils, "generateOpenIntent", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Context mContext = (Context) param.getArgs()[0];
                 Object o = param.getArgs()[1];
                 String detailUrl = (String) callMethod(o, "getIntent");

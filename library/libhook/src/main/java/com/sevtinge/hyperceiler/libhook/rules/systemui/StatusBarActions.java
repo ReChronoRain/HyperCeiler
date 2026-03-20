@@ -30,13 +30,13 @@ import android.os.Process;
 
 import androidx.core.content.ContextCompat;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.lang.ref.WeakReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // com.android.systemui
 public class StatusBarActions extends BaseHook {
@@ -68,7 +68,7 @@ public class StatusBarActions extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start",new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 mStatusBarRef = new WeakReference<>(param.getThisObject());
                 Context context = (Context) getObjectField(param.getThisObject(), "mContext");
 

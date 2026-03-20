@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.callback;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 方法替换 Hook 回调接口
@@ -29,7 +29,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
  * <pre>{@code
  * EzxHelpUtils.hookMethod(method, new IReplaceHook() {
  *     @Override
- *     public Object replace(BeforeHookParam param) {
+ *     public Object replace(HookParam param) {
  *         // 获取参数
  *         String arg0 = (String) param.getArgs()[0];
  *         Object thisObject = param.getThisObject();
@@ -51,5 +51,5 @@ public interface IReplaceHook {
      * @return 方法的返回值
      * @throws Throwable 可以抛出异常
      */
-    Object replace(BeforeHookParam param) throws Throwable;
+    Object replace(HookParam param) throws Throwable;
 }

@@ -30,8 +30,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder.`-Static`.fieldFinder
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -45,7 +44,7 @@ object AutoNfc : BaseHook() {
     override fun init() {
 
         findAndHookMethod(Activity::class.java, "onCreate", Bundle::class.java, object : IMethodHook {
-            override fun after(param: AfterHookParam) {
+            override fun after(param: HookParam) {
                 if (isNeed.endsWith("+onDestroy") || isNeed == "") {
                     createHook(param)
                 }
@@ -54,7 +53,7 @@ object AutoNfc : BaseHook() {
         })
 
         findAndHookMethod(Activity::class.java, "onPause", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 isNeed += "+onPause"
                 if (isNeed.endsWith("+onPause+onPause")) {
                     destroyHook()
@@ -64,7 +63,7 @@ object AutoNfc : BaseHook() {
         })
 
         findAndHookMethod(Activity::class.java, "onDestroy", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (isNeed.endsWith("+onPause")) destroyHook()
                 isNeed += "+onDestroy"
             }
@@ -100,7 +99,7 @@ object AutoNfc : BaseHook() {
             )
         }*/
 
-    private fun createHook (param: AfterHookParam) {
+    private fun createHook (param: HookParam) {
         EzXposed.initAppContext()
         NfcAdapter.getDefaultAdapter(EzXposed.appContext).let { nfcAdapter ->
             if (nfcAdapter.isEnabled) return

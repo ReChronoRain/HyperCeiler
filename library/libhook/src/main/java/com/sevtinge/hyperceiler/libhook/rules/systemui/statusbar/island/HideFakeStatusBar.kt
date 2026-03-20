@@ -29,6 +29,7 @@ import android.service.notification.StatusBarNotification
 import android.view.View
 import android.widget.TextView
 import com.hchen.superlyricapi.SuperLyricData
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.miuiConfigs
@@ -41,7 +42,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -75,7 +75,7 @@ object HideFakeStatusBar : MusicBaseHook() {
         loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
     }
 
-    private var unhook0: XposedInterface.MethodUnhooker<*>? = null
+    private var unhook0: XposedInterface.HookHandle? = null
 
     private fun updateLayout() {
         if (isShowingFocused.value && isLyric.value && !showCLock) {
@@ -143,7 +143,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                 // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
                 null
             } else {
-                invokeSuperMethod(it.member.name, it.thisObject)
+                invokeSuperMethod(it.executable.name, it.thisObject)
             }
            }
 
@@ -156,7 +156,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                             // 如果在显示歌词,就伪装成横屏,用来取消假时钟动画
                             false
                         } else {
-                            invokeSuperMethod(it.member.name, it.thisObject)
+                            invokeSuperMethod(it.executable.name, it.thisObject)
                         }
                     }
                 }

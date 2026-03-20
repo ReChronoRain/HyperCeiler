@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/master/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/android/RemoveFreeformRestriction.kt
 public class DisableFreeformBlackList extends BaseHook {
@@ -46,7 +46,7 @@ public class DisableFreeformBlackList extends BaseHook {
         if (atmService != null) {
             hookAllMethods(atmService, "retrieveSettings", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setBooleanField(param.getThisObject(), "mDevEnableNonResizableMultiWindow", true);
                 }
             });

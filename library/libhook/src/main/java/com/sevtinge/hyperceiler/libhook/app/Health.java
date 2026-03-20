@@ -20,10 +20,10 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.health.DisableSplashAd;
 import com.sevtinge.hyperceiler.libhook.rules.health.UnlockFoucsAuth;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.mi.health")
 public class Health extends BaseLoad {

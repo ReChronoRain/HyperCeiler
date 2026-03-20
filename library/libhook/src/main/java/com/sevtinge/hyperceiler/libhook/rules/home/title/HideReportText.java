@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HideReportText extends BaseHook {
     @Override
@@ -34,10 +34,10 @@ public class HideReportText extends BaseHook {
         try {
             findAndHookMethod("com.miui.home.launcher.uninstall.BaseUninstallDialog", "init", Context.class, List.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     findAndHookMethod("com.miui.home.launcher.ShortcutInfo", "getInstallerPackageName", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult("com.xiaomi.market");
                         }
                     });
@@ -46,10 +46,10 @@ public class HideReportText extends BaseHook {
         } catch (Throwable t) {
             findAndHookMethod("com.miui.home.launcher.uninstall.BaseUninstallDialog", "init", Context.class, List.class, String.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     findAndHookMethod("com.miui.home.launcher.ShortcutInfo", "getInstallerPackageName", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult("com.xiaomi.market");
                         }
                     });

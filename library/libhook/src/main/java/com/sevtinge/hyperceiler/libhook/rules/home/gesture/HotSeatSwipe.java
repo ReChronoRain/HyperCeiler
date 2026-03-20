@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HotSeatSwipe extends BaseHook {
 
@@ -48,7 +48,7 @@ public class HotSeatSwipe extends BaseHook {
 
     IMethodHook hook = new IMethodHook() {
         @Override
-        public void before(final BeforeHookParam param) {
+        public void before(final HookParam param) {
             MotionEvent ev = (MotionEvent) param.getArgs()[0];
             if (ev == null) return;
 

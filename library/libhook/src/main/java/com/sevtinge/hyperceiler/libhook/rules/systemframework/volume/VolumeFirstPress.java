@@ -23,7 +23,7 @@ import android.media.AudioManager;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class VolumeFirstPress extends BaseHook {
 
@@ -35,7 +35,7 @@ public class VolumeFirstPress extends BaseHook {
 
         findAndHookMethod(mVolumeController, "suppressAdjustment", int.class, int.class, boolean.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 int streamType = (int) param.getArgs()[0];
                 if (streamType != AudioManager.STREAM_MUSIC) return;
                 boolean isMuteAdjust = (boolean) param.getArgs()[2];

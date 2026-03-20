@@ -26,6 +26,7 @@ import android.graphics.drawable.LayerDrawable
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.ImageView
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
@@ -39,9 +40,8 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.leftButt
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 
 object BlurButton : BaseHook() {
@@ -79,7 +79,7 @@ object BlurButton : BaseHook() {
             }
     }
 
-    private fun systemBlur(param: AfterHookParam) {
+    private fun systemBlur(param: HookParam) {
         val mLeftAffordanceView: ImageView =
             param.thisObject.getObjectFieldOrNullAs<ImageView>("mLeftButton")!!
         val mRightAffordanceView: ImageView =
@@ -103,7 +103,7 @@ object BlurButton : BaseHook() {
 
     }
 
-    private fun hyperBlur(param: AfterHookParam) {
+    private fun hyperBlur(param: HookParam) {
         val mLeftAffordanceView: ImageView =
             param.thisObject.getObjectFieldOrNullAs<ImageView>("mLeftButton")!!
         val mRightAffordanceView: ImageView =

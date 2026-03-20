@@ -1,11 +1,11 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.aiasst.NewAiCaptions;
 import com.sevtinge.hyperceiler.libhook.rules.aiasst.UnlockAllCaptions;
 import com.sevtinge.hyperceiler.libhook.rules.aiasst.UnlockSplitTranslation;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.aiasst.vision")
 public class AiAsst extends BaseLoad {

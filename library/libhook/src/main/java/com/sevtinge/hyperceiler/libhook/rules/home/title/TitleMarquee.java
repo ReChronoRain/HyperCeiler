@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class TitleMarquee extends HomeBaseHookNew {
     TextView mTitle;
@@ -40,7 +40,7 @@ public class TitleMarquee extends HomeBaseHookNew {
 
         findAndHookMethod(mItemIcon, "onFinishInflate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 try {
                     mTitle = (TextView) getObjectField(param.getThisObject(), "mTitleView");
                 } catch (Throwable t) {
@@ -60,7 +60,7 @@ public class TitleMarquee extends HomeBaseHookNew {
         if (mShortcutIcon != null) {
             findAndHookMethod(mShortcutIcon, "setTitle", CharSequence.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mTitle = (TextView) param.getThisObject();
                     if (mTitle == null) return;
 
@@ -87,7 +87,7 @@ public class TitleMarquee extends HomeBaseHookNew {
 
         findAndHookMethod(mItemIcon, "onFinishInflate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 mTitleView = (TextView) getObjectField(param.getThisObject(), "mTitleView");
                 if (mTitleView == null) return;
 
@@ -103,7 +103,7 @@ public class TitleMarquee extends HomeBaseHookNew {
         if (mShortcutIcon != null) {
             findAndHookMethod(mShortcutIcon, "setTitle", CharSequence.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mTitle = (TextView) param.getThisObject();
                     if (mTitle == null) return;
 

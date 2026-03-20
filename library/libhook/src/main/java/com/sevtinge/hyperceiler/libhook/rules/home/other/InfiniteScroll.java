@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class InfiniteScroll extends BaseHook {
 
@@ -31,7 +31,7 @@ public class InfiniteScroll extends BaseHook {
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "getSnapToScreenIndex", int.class, int.class, int.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (param.getArgs()[0] != param.getResult()) return;
                 int screenCount = (int) callMethod(param.getThisObject(), "getScreenCount");
                 if ((int) param.getArgs()[2] == -1 && (int) param.getArgs()[0] == 0)
@@ -43,7 +43,7 @@ public class InfiniteScroll extends BaseHook {
 
         findAndHookMethod("com.miui.home.launcher.ScreenView", "getSnapUnitIndex", int.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 int index = (int) param.getResult();
                 int mCurrentScreenIndex = EzxHelpUtils.getIntField(param.getThisObject(), getPackageName().equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
                 if (mCurrentScreenIndex != index) return;

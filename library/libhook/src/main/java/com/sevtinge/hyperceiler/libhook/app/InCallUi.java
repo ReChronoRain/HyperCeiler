@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.incallui.AnswerInHeadUp;
 import com.sevtinge.hyperceiler.libhook.rules.incallui.HideCrbt;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.incallui")
 public class InCallUi extends BaseLoad {

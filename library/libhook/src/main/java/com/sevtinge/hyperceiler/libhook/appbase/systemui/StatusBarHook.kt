@@ -23,7 +23,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper
-import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import java.util.Collections.synchronizedSet
 import java.util.concurrent.ConcurrentHashMap
 

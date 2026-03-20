@@ -19,10 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.voicetrigger
 
 import android.annotation.SuppressLint
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier

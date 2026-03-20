@@ -12,7 +12,7 @@ import io.github.libxposed.api.XposedModuleInterface;
 public class DowngradeCheckPatch extends CorePatchHelper {
     private final String TAG = "DowngradeCheckPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 15+
         try {
             Class<?> PackageManagerServiceUtils =

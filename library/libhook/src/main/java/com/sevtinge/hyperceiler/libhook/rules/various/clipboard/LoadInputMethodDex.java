@@ -19,11 +19,11 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -43,7 +43,7 @@ public class LoadInputMethodDex extends BaseHook {
             ClassLoader.class, String.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (isLoaded) return;
 
                     ClassLoader classLoader = (ClassLoader) param.getArgs()[0];

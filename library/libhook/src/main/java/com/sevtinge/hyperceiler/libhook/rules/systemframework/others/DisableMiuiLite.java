@@ -23,14 +23,14 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.s
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableMiuiLite extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("miui.os.Build", "isMiuiLiteVersion", new IMethodHook() {
             @Override
-            public void before(final BeforeHookParam param) {
+            public void before(final HookParam param) {
                 param.setResult(false);
             }
         });

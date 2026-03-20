@@ -24,6 +24,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
+import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -461,7 +462,9 @@ internal object EzxMethodHelper {
      */
     fun invokeOriginalMethod(method: Method, thisObject: Any?, vararg args: Any?): Any? {
         return try {
-            EzxModuleHolder.xposedModule.invokeOrigin(method, thisObject, *args)
+            EzxModuleHolder.xposedModule.getInvoker(method)
+                .setType(XposedInterface.Invoker.Type.ORIGIN)
+                .invoke(thisObject, *args)
         } catch (t: Throwable) {
             XposedLog.e(TAG, "invokeOriginalMethod failed for ${formatMethodSignature(method)}", t)
             throw t
@@ -479,7 +482,9 @@ internal object EzxMethodHelper {
         val paramTypes = getParameterTypes(*args)
         val superClass = thisObject::class.java.superclass as Class<*>
         val method = findMethodBestMatch(superClass, methodName, *paramTypes)
-        EzxModuleHolder.xposedModule.invokeSpecial(method, thisObject, *args)
+        EzxModuleHolder.xposedModule.getInvoker(method)
+            .setType(XposedInterface.Invoker.Type.ORIGIN)
+            .invokeSpecial(thisObject, *args)
     }
 
     // ==================== 内部辅助方法 ====================

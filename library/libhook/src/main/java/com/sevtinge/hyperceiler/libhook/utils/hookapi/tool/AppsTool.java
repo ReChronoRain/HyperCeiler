@@ -240,7 +240,7 @@ public class AppsTool {
         return stackTrace[4].getMethodName();
     }
 
-    public static String getPackageVersionName(XposedModuleInterface.PackageLoadedParam param) {
+    public static String getPackageVersionName(XposedModuleInterface.PackageReadyParam param) {
         try {
             PackageManager pm = findContext(FlAG_ONLY_ANDROID).getPackageManager();
             PackageInfo pi = pm.getPackageInfo(param.getPackageName(), 0);
@@ -251,7 +251,7 @@ public class AppsTool {
         }
     }
 
-    public static int getPackageVersionCode(XposedModuleInterface.PackageLoadedParam param) {
+    public static int getPackageVersionCode(XposedModuleInterface.PackageReadyParam param) {
         try {
             PackageManager pm = findContext(FlAG_ONLY_ANDROID).getPackageManager();
             PackageInfo pi = pm.getPackageInfo(param.getPackageName(), 0);

@@ -25,18 +25,18 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class AntiQues extends BaseHook {
-    XposedInterface.MethodUnhooker<?> clHook;
+    XposedInterface.HookHandle clHook;
 
     @Override
     public void init() {
         clHook = findAndHookMethod("com.android.server.SystemServiceManager",
             "loadClassFromLoader", String.class, ClassLoader.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     try {
                         String clzName = (String) param.getArgs()[0];
                         ClassLoader cl = (ClassLoader) param.getArgs()[1];
@@ -44,7 +44,7 @@ public class AntiQues extends BaseHook {
                             EzxHelpUtils.findAndHookMethod("com.android.server.wifi.Utils", cl, "checkDeviceNameIsIllegalSync", Context.class, int.class, String.class,
                                 new IMethodHook() {
                                     @Override
-                                    public void before(BeforeHookParam param) {
+                                    public void before(HookParam param) {
                                         param.setResult(false);
                                     }
                                 });

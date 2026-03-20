@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class EnableIconMonoChrome extends HomeBaseHookNew {
 
@@ -31,7 +31,7 @@ public class EnableIconMonoChrome extends HomeBaseHookNew {
     private void initOS3Hook() {
         findAndHookMethod("com.miui.home.icon.MonochromeUtils", "isSupportMonochrome", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });
@@ -42,7 +42,7 @@ public class EnableIconMonoChrome extends HomeBaseHookNew {
     public void initBase() {
         findAndHookMethod("com.miui.home.launcher.graphics.MonochromeUtils", "isSupportMonochrome", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });

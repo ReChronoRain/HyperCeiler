@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.camera;
 
 import android.util.SparseArray;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -39,7 +39,7 @@ import org.luckypray.dexkit.result.MethodDataList;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class CustomWatermark extends BaseHook {
@@ -66,7 +66,7 @@ public class CustomWatermark extends BaseHook {
             try {
                 hookMethod(method, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         SparseArray<String[]> sparseArray = new SparseArray<>(1);
                         sparseArray.put(0, new String[]{PrefsBridge.getString("camera_custom_watermark_manufacturer", "XIAOMI"), PrefsBridge.getString("camera_custom_watermark_device", "MI PHONE")});
                         param.setResult(sparseArray);

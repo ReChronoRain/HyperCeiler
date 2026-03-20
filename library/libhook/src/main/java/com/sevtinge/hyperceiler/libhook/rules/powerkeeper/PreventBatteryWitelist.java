@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
-import androidx.annotation.NonNull;
-
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
@@ -34,11 +32,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 import java.util.function.Consumer;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory;
-import io.github.kyuubiran.ezxhelper.xposed.interfaces.IMethodBeforeHookCallback;
-
-;
 
 public class PreventBatteryWitelist extends BaseHook {
     @Override
@@ -65,13 +59,10 @@ public class PreventBatteryWitelist extends BaseHook {
         HookFactory.createMethodHook(method, new Consumer<>() {
             @Override
             public void accept(HookFactory hookFactory) {
-                hookFactory.before(new IMethodBeforeHookCallback() {
-                    @Override
-                    public void onMethodHooked(@NonNull BeforeHookParam beforeHookParam) {
-                        String[] strArr = (String[]) beforeHookParam.getArgs()[0];
-                        if (strArr.length > 1) {
-                            beforeHookParam.setResult(null);
-                        }
+                hookFactory.before(param -> {
+                    String[] strArr = (String[]) param.getArgs()[0];
+                    if (strArr.length > 1) {
+                        param.setResult(null);
                     }
                 });
             }

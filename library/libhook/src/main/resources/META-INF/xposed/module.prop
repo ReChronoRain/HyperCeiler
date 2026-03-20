@@ -1,4 +1,4 @@
-minApiVersion=100
-targetApiVersion=100
+minApiVersion=101
+targetApiVersion=101
 staticScope=false
 

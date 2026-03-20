@@ -21,18 +21,7 @@ object XposedLog {
     private fun logRaw(priority: Int, msg: String, t: Throwable? = null) {
         val xposed = sXposed
         if (xposed != null) {
-            try {
-                xposed.log(priority, TAG, msg, t)
-            } catch (_: NoSuchMethodError) {
-                val oldMsg =
-                    LoggerUtils.formatMessage(TAG, priorityToLevel(priority), msg)
-
-                if (t != null) {
-                    xposed.log(oldMsg, t)
-                } else {
-                    xposed.log(oldMsg)
-                }
-            }
+            xposed.log(priority, TAG, msg, t)
         } else {
             Log.println(priority, TAG, msg)
             t?.let { Log.println(priority, TAG, Log.getStackTraceString(it)) }

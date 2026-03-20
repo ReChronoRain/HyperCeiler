@@ -23,12 +23,11 @@ import android.view.MotionEvent;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
-import io.github.libxposed.api.XposedInterface.MethodUnhooker;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface.HookHandle;
 
 public class ToastSlideAgain extends BaseHook {
-    public MethodUnhooker<?> unhook = null;
+    public HookHandle unhook = null;
 
     @Override
     public void init() {
@@ -36,13 +35,13 @@ public class ToastSlideAgain extends BaseHook {
             "onPointerEvent", MotionEvent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     unhook = hookToast();
                     // logI("im hook onPointerEvent");
                 }
 
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     unHook(unhook);
                 }
             }
@@ -51,24 +50,24 @@ public class ToastSlideAgain extends BaseHook {
         findAndHookMethod("com.miui.home.recents.GestureModeApp",
              "onStartGesture", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     unhook = hookToast();
                     // logI("im hook onStartGesture");
                 }
 
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     unHook(unhook);
                 }
             }
         );
     }
 
-    public MethodUnhooker<?> hookToast() {
+    public HookHandle hookToast() {
         return findAndHookMethod(findClassIfExists("android.widget.Toast"),
             "show", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                     // logI("im hook Toast show");
                 }
@@ -76,7 +75,7 @@ public class ToastSlideAgain extends BaseHook {
         );
     }
 
-    public void unHook(MethodUnhooker<?> unhook) {
+    public void unHook(HookHandle unhook) {
         if (unhook != null) {
             unhook.unhook();
             // logI("the unhook is: " + unhook);

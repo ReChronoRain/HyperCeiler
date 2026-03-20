@@ -24,11 +24,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class StickyFloatingWindowsForHome extends BaseHook {
 
@@ -37,7 +37,7 @@ public class StickyFloatingWindowsForHome extends BaseHook {
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "onAttachedToWindow", new IMethodHook() {
             @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) callMethod(param.getThisObject(), "getContext");
                 mContext.registerReceiver(new BroadcastReceiver() {
                     @Override

@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.home;
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class WidgetCornerRadius extends BaseHook {
 
@@ -36,14 +36,14 @@ public class WidgetCornerRadius extends BaseHook {
 
         hookAllConstructors("com.miui.home.launcher.maml.MaMlHostView", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 mContext = (Context) param.getArgs()[0];
             }
         });
 
         hookAllMethods("com.miui.home.launcher.maml.MaMlHostView", "computeRoundedCornerRadius", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult((float) DisplayUtils.dp2px(PrefsBridge.getInt("home_widget_corner_radius", 0)));
             }
         });
@@ -51,14 +51,14 @@ public class WidgetCornerRadius extends BaseHook {
 
         hookAllConstructors("com.miui.home.launcher.LauncherAppWidgetHostView", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 mContext = (Context) param.getArgs()[0];
             }
         });
 
         hookAllMethods("com.miui.home.launcher.LauncherAppWidgetHostView", "computeRoundedCornerRadius", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult((float) DisplayUtils.dp2px(PrefsBridge.getInt("home_widget_corner_radius", 0)));
             }
         });

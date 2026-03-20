@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.telecom;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -30,7 +30,7 @@ public class ScamReminderBypass extends BaseHook {
     public void init() {
         hookAllMethods("com.android.server.telecom.MiuiScamReminder", "isPotentialInCfummi", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 param.setResult("");
             }
         });

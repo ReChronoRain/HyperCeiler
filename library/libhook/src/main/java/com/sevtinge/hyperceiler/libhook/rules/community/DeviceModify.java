@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.libhook.rules.community;
 
 import android.os.Build;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -36,7 +36,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DeviceModify extends BaseHook {
@@ -103,7 +103,7 @@ public class DeviceModify extends BaseHook {
 
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (param.getArgs()[0] == "ro.product.model") {
                     param.setResult(mModel);
                 } else if (param.getArgs()[0] == "ro.product.mod_device") {
@@ -117,19 +117,19 @@ public class DeviceModify extends BaseHook {
         });
         hookMethod(method2, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(mDevice);
             }
         });
         hookMethod(method3, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(mModel);
             }
         });
         hookMethod(method4, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(mManufacturer);
             }
         });

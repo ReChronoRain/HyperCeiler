@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.display;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BackgroundBlur extends BaseHook {
     private final static String TAG = "MYBackgroundBlur";
@@ -55,7 +55,7 @@ public class BackgroundBlur extends BaseHook {
 
     IMethodHook xcMethodHook = new IMethodHook() {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             if (done) return;
             Object def = null;
             Object result = param.getResult();
@@ -66,7 +66,7 @@ public class BackgroundBlur extends BaseHook {
             Object get = isBlurProp(key);
             // logE(TAG, "key: " + key + " def: " + def + " result: " + result + " get: " + get);
             if (get != null) {
-                if ("get".equals(param.getMember().getName())) {
+                if ("get".equals(param.getExecutable().getName())) {
                     param.setResult(String.valueOf(get));
                 } else param.setResult(get);
             }
