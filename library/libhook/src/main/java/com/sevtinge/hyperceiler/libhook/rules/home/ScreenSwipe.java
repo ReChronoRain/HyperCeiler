@@ -36,8 +36,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ScreenSwipe extends BaseHook {
 
@@ -65,7 +64,7 @@ public class ScreenSwipe extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.Workspace","onVerticalGesture", int.class, MotionEvent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if ((boolean) callMethod(param.getThisObject(), "isInNormalEditingMode")) {
                         return;
                     }
@@ -97,7 +96,7 @@ public class ScreenSwipe extends BaseHook {
             "onCreate", Bundle.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Activity activity = (Activity) param.getThisObject();
                     Handler handler = (Handler) getObjectField(activity, "mHandler");
                     new PrefsChangeObserver(activity, handler) {
@@ -134,7 +133,7 @@ public class ScreenSwipe extends BaseHook {
             "canInterceptTouch", MotionEvent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0) {
                         param.setResult(false);
                     }
@@ -147,7 +146,7 @@ public class ScreenSwipe extends BaseHook {
             "getPullDownGesture", Context.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     if (PrefsBridge.getInt(PREF_DOWN_SWIPE_ACTION, 1) > 1) {
                         param.setResult("no_action");
@@ -161,7 +160,7 @@ public class ScreenSwipe extends BaseHook {
             "getSlideUpGesture", Context.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult("no_action");
@@ -190,7 +189,7 @@ public class ScreenSwipe extends BaseHook {
                 "isGlobalSearchEnable", Context.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Context context = (Context) param.getArgs()[0];
                         if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);
@@ -208,7 +207,7 @@ public class ScreenSwipe extends BaseHook {
             "isTopSearchEnable",
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     View view = (View) param.getThisObject();
                     if (PrefsBridge.getInt(PREF_DOWN_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
@@ -220,7 +219,7 @@ public class ScreenSwipe extends BaseHook {
             "isBottomGlobalSearchEnable",
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     View view = (View) param.getThisObject();
                     if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
@@ -234,7 +233,7 @@ public class ScreenSwipe extends BaseHook {
             "isGlobalSearchBottomEffectEnable", Context.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                         param.setResult(false);
@@ -249,7 +248,7 @@ public class ScreenSwipe extends BaseHook {
                 "allowedSlidingUpToStartGolbalSearch", Context.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Context context = (Context) param.getArgs()[0];
                         if (PrefsBridge.getInt(PREF_UP_SWIPE_ACTION, 0) > 0) {
                             param.setResult(false);

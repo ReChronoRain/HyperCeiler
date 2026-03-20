@@ -24,7 +24,7 @@ import android.provider.Settings
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 class QuickManageOverlayPermission : BaseHook() {
     override fun init() {
@@ -32,7 +32,7 @@ class QuickManageOverlayPermission : BaseHook() {
             "redirectTabletActivity",
             Bundle::class.java,
             object : IMethodHook {
-                override fun before(param: BeforeHookParam) {
+                override fun before(param: HookParam) {
                     val intent = (param.thisObject as Activity).intent
                     if (intent.action != Settings.ACTION_MANAGE_OVERLAY_PERMISSION || intent.data == null || intent.data!!.scheme != "package") return
                     param.thisObject.objectHelper().setObjectUntilSuperclass(

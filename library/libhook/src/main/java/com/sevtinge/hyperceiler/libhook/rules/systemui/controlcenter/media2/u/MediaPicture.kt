@@ -33,13 +33,13 @@ import android.widget.ImageView
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.graphics.scale
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaControlPanel
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object MediaPicture : BaseHook() {
@@ -75,7 +75,7 @@ object MediaPicture : BaseHook() {
 
     fun optPicture(
         mMediaViewHolder: Any,
-        param: AfterHookParam,
+        param: HookParam,
         context: Context
     ) {
         val albumView = mMediaViewHolder.getObjectFieldOrNullAs<ImageView>("albumView")

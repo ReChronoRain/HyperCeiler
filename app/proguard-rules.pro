@@ -13,7 +13,8 @@
 -keep class com.fan.** { *; }
 
 # --- Obfuscation ---
--keepattributes SourceFile,LineNumberTable,Signature
+-keepattributes *Annotation*,RuntimeVisibleAnnotations,LineNumberTable,SourceFile,Signature
+-renamesourcefileattribute SourceFile
 -repackageclasses
 -allowaccessmodification
 #-obfuscationdictionary          dict.txt

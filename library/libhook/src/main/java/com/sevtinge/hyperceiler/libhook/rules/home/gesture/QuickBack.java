@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 启用桌面快捷返回功能
@@ -84,7 +84,7 @@ public class QuickBack extends BaseHook {
             "onSwipeStop", boolean.class, float.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     boolean isFinish = (boolean) param.getArgs()[0];
                     if (!isFinish) return;
 
@@ -139,7 +139,7 @@ public class QuickBack extends BaseHook {
             "getNextTask", Context.class, boolean.class, int.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     boolean shouldStart = (boolean) param.getArgs()[1];
                     int gestureStubPos = (int) param.getArgs()[2];

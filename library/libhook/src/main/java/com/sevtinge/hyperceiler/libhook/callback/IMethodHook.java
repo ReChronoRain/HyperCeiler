@@ -20,8 +20,7 @@ package com.sevtinge.hyperceiler.libhook.callback;
 
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 方法 Hook 回调接口
@@ -32,7 +31,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
  * <pre>{@code
  * EzxHelpUtils.hookMethod(method, new IMethodHook() {
  *     @Override
- *     public void before(BeforeHookParam param) {
+ *     public void before(HookParam param) {
  *         // 在方法执行前修改参数或设置返回值
  *         param.getArgs()[0] = "modified";
  *         // 或直接设置返回值跳过原方法
@@ -40,7 +39,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
  *     }
  *
  *     @Override
- *     public void after(AfterHookParam param) {
+ *     public void after(HookParam param) {
  *         // 在方法执行后获取或修改返回值
  *         Object result = param.getResult();
  *         param.setResult(modifiedResult);
@@ -57,7 +56,7 @@ public interface IMethodHook {
      *
      * @param param Hook 参数，可用于获取/修改参数、设置返回值等
      */
-    default void before(BeforeHookParam param) throws Throwable {
+    default void before(HookParam param) throws Throwable {
     }
 
     /**
@@ -65,27 +64,21 @@ public interface IMethodHook {
      *
      * @param param Hook 参数，可用于获取/修改返回值等
      */
-    default void after(AfterHookParam param) throws Exception {
+    default void after(HookParam param) throws Exception {
     }
 
     /**
      * 在方法的 this 对象中存储额外数据
      */
-    default void setObjectExtra(BeforeHookParam param, String key, Object value) {
+    default void setObjectExtra(HookParam param, String key, Object value) {
         EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), key, value);
     }
 
     /**
      * 从方法的 this 对象中获取额外数据
      */
-    default Object getObjectExtra(BeforeHookParam param, String key) {
+    default Object getObjectExtra(HookParam param, String key) {
         return EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), key);
     }
 
-    /**
-     * 在 after 中获取 before 中存储的数据
-     */
-    default Object getObjectExtra(AfterHookParam param, String key) {
-        return EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), key);
-    }
 }

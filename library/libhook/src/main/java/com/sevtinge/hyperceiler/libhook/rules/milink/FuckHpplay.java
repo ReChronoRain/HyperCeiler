@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -41,7 +41,7 @@ public class FuckHpplay extends BaseHook {
         XposedLog.d(TAG, getPackageName(), "Target path = " + TARGET_PATH);
         findAndHookMethod("com.hpplay.common.utils.ContextPath", "makeDir", String[].class, String.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 final boolean isExternalStorage = ((String) param.getArgs()[1]).startsWith(TARGET_PATH);
                 if (isExternalStorage) {
                     XposedLog.d(TAG, getPackageName(), "blocked");
@@ -54,7 +54,7 @@ public class FuckHpplay extends BaseHook {
             String.class, String.class, String.class, String.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (((String) param.getArgs()[0]).startsWith("com.milink.service")) {
                         XposedLog.d(TAG, FuckHpplay.this.getPackageName(), "reDirect");
                         param.getArgs()[0] = "MIUI" + File.separator + param.getArgs()[0];

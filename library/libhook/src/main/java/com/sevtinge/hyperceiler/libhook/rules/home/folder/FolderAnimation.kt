@@ -18,14 +18,14 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.folder
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.libxposed.api.XposedInterface.MethodUnhooker
+import io.github.libxposed.api.XposedInterface.HookHandle
 import kotlin.math.abs
 
 class FolderAnimation : BaseHook() {
@@ -41,8 +41,8 @@ class FolderAnimation : BaseHook() {
         value3 = abs(PrefsBridge.getInt("home_folder_anim_3", 99).toFloat() - 200) / 100
         value4 = PrefsBridge.getInt("home_folder_anim_4", 24).toFloat() / 100
         val mSpringAnimator = findClassIfExists("com.miui.home.launcher.animate.SpringAnimator")
-        var hook1: MethodUnhooker<*>? = null
-        var hook2: MethodUnhooker<*>? = null
+        var hook1: HookHandle? = null
+        var hook2: HookHandle? = null
 
         for (i in 47..60) {
             val launcherClass = findClassIfExists("com.miui.home.launcher.Launcher$$i")

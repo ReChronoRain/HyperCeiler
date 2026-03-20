@@ -41,7 +41,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class SelectiveHideIconForAlarmClock extends BaseHook {
 
@@ -58,7 +58,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
     private class ConstructorHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
             Object policy = param.getThisObject();
 
@@ -101,7 +101,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
     private class AlarmChangedHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             Object policy = getObjectField(param.getThisObject(), "this$0");
             lastAlarmState = (boolean) getObjectField(policy, "mHasAlarm");
             updateAlarmVisibility(policy, lastAlarmState);

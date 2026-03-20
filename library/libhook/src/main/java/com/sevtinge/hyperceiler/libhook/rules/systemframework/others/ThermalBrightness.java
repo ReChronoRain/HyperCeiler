@@ -26,8 +26,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ThermalBrightness extends BaseHook {
     public final String displayPowerControllerImpl = "com.android.server.display.DisplayPowerControllerImpl";
@@ -45,7 +44,7 @@ public class ThermalBrightness extends BaseHook {
             findAndHookConstructor(displayPowerControllerImpl,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         setBooleanField(param, "SUPPORT_TEMEPERATURE_CONTROL", false);
                         setBooleanField(param, "mThermalBrightnessControlAvailable", false);
                         setBooleanField(param, "mApplyThermalBrightnessRate", false);
@@ -61,7 +60,7 @@ public class ThermalBrightness extends BaseHook {
             findAndHookConstructor(automaticBrightnessControllerImpl,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         setBooleanField(param, "SUPPORT_TEMEPERATURE_CONTROL", false);
                     }
                 }
@@ -76,7 +75,7 @@ public class ThermalBrightness extends BaseHook {
                 findAndHookMethod(thermalHelper,
                     "updateTemperature", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult(null);
                         }
                     }
@@ -92,7 +91,7 @@ public class ThermalBrightness extends BaseHook {
                 findAndHookMethod(temperatureController,
                     "updateTemperature", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult(null);
                         }
                     }
@@ -109,7 +108,7 @@ public class ThermalBrightness extends BaseHook {
             findAndHookMethod(thermalObserver,
                 "updateTemperature", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(null);
                     }
                 }
@@ -123,7 +122,7 @@ public class ThermalBrightness extends BaseHook {
         hookAllMethods("com.android.server.display.DisplayPowerControllerImpl",
             "adjustBrightnessByThermal", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(param.getArgs()[0]);
                 }
             }
@@ -134,7 +133,7 @@ public class ThermalBrightness extends BaseHook {
             findAndHookMethod(displayPowerControllerImpl,
                 "updateThermalBrightness", float.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(null);
                     }
                 }
@@ -148,7 +147,7 @@ public class ThermalBrightness extends BaseHook {
             findAndHookMethod(thermalBrightnessController,
                 "updateThermalBrightnessIfNeeded", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(false);
                     }
                 }
@@ -161,7 +160,7 @@ public class ThermalBrightness extends BaseHook {
             findClassIfExists(thermalBrightnessController).getDeclaredMethod("updateConditionState", int.class);
             findAndHookMethod(thermalBrightnessController, "updateConditionState", int.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             });

@@ -41,7 +41,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class IconTitleCustomization extends HomeBaseHookNew {
 
@@ -71,7 +71,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
         findAndHookMethod(className, "onCreate", Bundle.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Activity activity = (Activity) param.getThisObject();
                     setupPrefsObserver(activity, param.getThisObject());
                 }
@@ -144,7 +144,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
         hookAllConstructors("com.miui.home.launcher.ShortcutInfo",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     saveOriginalLabel(param.getThisObject());
                     if (param.getArgs() != null && param.getArgs().length > 0) {
                         modifyTitle(param.getThisObject());
@@ -162,7 +162,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
             "setLabelAndUpdateDB", CharSequence.class, Context.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setAdditionalInstanceField(param.getThisObject(), "mLabelOrig", param.getArgs()[0]);
                     modifyTitle(param.getThisObject());
                 }
@@ -187,7 +187,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
     //复用的Hook 回调
     private class ShortcutInfoHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             saveOriginalLabel(param.getThisObject());
             modifyTitle(param.getThisObject());
         }
@@ -195,7 +195,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
 
     private class ModifyTitleHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             modifyTitle(param.getThisObject());
         }
     }

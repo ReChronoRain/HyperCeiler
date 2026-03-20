@@ -18,13 +18,13 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ClipboardWhitelist extends BaseHook {
     @Override
@@ -34,7 +34,7 @@ public class ClipboardWhitelist extends BaseHook {
         Set<String> selectedApps = PrefsBridge.getStringSet(key);
         hookAllMethods(clipboardClass, "clipboardAccessAllowed", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 for (String pkgName : selectedApps) {
                     if (pkgName.equals(param.getArgs()[1])) {
                         param.setResult(true);

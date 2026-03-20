@@ -39,8 +39,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 磁贴工具基类
@@ -251,7 +250,7 @@ public abstract class TileUtils extends BaseHook {
     private void registerCustomTile() {
         findAndHookMethod(CLASS_SYSTEMUI_APP, "onCreate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (mIsRegistered) return;
                 mIsRegistered = true;
 
@@ -301,7 +300,7 @@ public abstract class TileUtils extends BaseHook {
 
         findAndHookMethod(qsFactory, METHOD_CREATE_TILE, String.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String requestedTile = (String) param.getArgs()[0];
                 if (!mConfig.getTileName().equals(requestedTile)) return;
 
@@ -395,7 +394,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "isAvailable", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -412,7 +411,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "getTileLabel", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -429,7 +428,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "handleSetListening", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -447,7 +446,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "getLongClickIntent", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -468,7 +467,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "handleLongClick", mExpandableClass, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -491,7 +490,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "handleClick", mExpandableClass, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!isMethodOverridden("onTileClick", TileContext.class)) {
                     return;
                 }
@@ -509,7 +508,7 @@ public abstract class TileUtils extends BaseHook {
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 // 如果配置了图标，延迟刷新状态确保系统状态已更新
@@ -546,7 +545,7 @@ public abstract class TileUtils extends BaseHook {
 
         hookAllMethods(tileClass, "handleUpdateState", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -575,7 +574,7 @@ public abstract class TileUtils extends BaseHook {
 
         safeHookMethod(tileClass, "handleShowStateMessage", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (!shouldHandle(param)) return;
 
                 TileContext ctx = new TileContext(param);
@@ -639,24 +638,11 @@ public abstract class TileUtils extends BaseHook {
     // ==================== 辅助方法 ====================
 
     /**
-     * 判断是否应该处理该磁贴 (BeforeHookParam 版本)
+     * 判断是否应该处理该磁贴 (HookParam 版本)
      */
-    private boolean shouldHandle(BeforeHookParam param) {
+    private boolean shouldHandle(HookParam param) {
         if (!mConfig.isCustomTile()) {
             return true; // 覆写模式，始终处理
-        }
-
-        String tileName = (String) EzxHelpUtils.getAdditionalInstanceField(
-            param.getThisObject(), FIELD_CUSTOM_NAME);
-        return mConfig.getTileName().equals(tileName);
-    }
-
-    /**
-     * 判断是否应该处理该磁贴 (AfterHookParam 版本)
-     */
-    private boolean shouldHandle(AfterHookParam param) {
-        if (!mConfig.isCustomTile()) {
-            return true;
         }
 
         String tileName = (String) EzxHelpUtils.getAdditionalInstanceField(

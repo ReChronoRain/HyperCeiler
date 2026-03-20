@@ -44,8 +44,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * @author 焕晨HChen
@@ -134,7 +133,7 @@ public class ScLockApp extends BaseHook {
         Field finalField = field;
         hookAllConstructors(clazz, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context context = null;
                 if (value == 1) {
                     try {
@@ -176,7 +175,7 @@ public class ScLockApp extends BaseHook {
         hookMethod(method,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (isLock) {
                             param.setResult(false);
                         }

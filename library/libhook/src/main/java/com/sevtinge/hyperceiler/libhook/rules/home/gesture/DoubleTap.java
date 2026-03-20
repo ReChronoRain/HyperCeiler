@@ -28,8 +28,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DoubleTap extends BaseHook {
 
@@ -41,7 +40,7 @@ public class DoubleTap extends BaseHook {
 
         hookAllConstructors(mWorkspace, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                 Object mDoubleTapControllerEx = EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx != null) return;
                 mDoubleTapControllerEx = new DoubleTapController((Context) param.getArgs()[0], "home_gesture_double_tap");
@@ -51,7 +50,7 @@ public class DoubleTap extends BaseHook {
 
         findAndHookMethod(mWorkspace, "dispatchTouchEvent", MotionEvent.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 DoubleTapController mDoubleTapControllerEx = (DoubleTapController) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx == null) return;
                 if (!mDoubleTapControllerEx.isDoubleTapEvent((MotionEvent) param.getArgs()[0])) return;

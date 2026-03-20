@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class WorkspacePadding extends HomeBaseHookNew {
 
@@ -41,7 +41,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 mContext = (Context) param.getArgs()[0];
             }
         });
@@ -49,7 +49,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
         if (PrefsBridge.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(DisplayUtils.dp2px(mContext, PrefsBridge.getInt("home_layout_workspace_padding_bottom", 0)));
                 }
             });
@@ -60,14 +60,14 @@ public class WorkspacePadding extends HomeBaseHookNew {
                 // 新版本桌面，先标记，后续再做进一步修改
                 findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", Context.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(DisplayUtils.dp2px(PrefsBridge.getInt("home_layout_workspace_padding_top", 0)));
                     }
                 });
             } catch (Throwable t) {
                 findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingTop", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(DisplayUtils.dp2px(PrefsBridge.getInt("home_layout_workspace_padding_top", 0)));
                     }
                 });
@@ -78,7 +78,7 @@ public class WorkspacePadding extends HomeBaseHookNew {
             XposedLog.d(TAG, getPackageName(), "===============home_layout_workspace_padding_horizontal: " + PrefsBridge.getInt("home_layout_workspace_padding_horizontal", 0));
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingSide", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(DisplayUtils.dp2px(PrefsBridge.getInt("home_layout_workspace_padding_horizontal", 0)));
                 }
             });

@@ -19,12 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ForceSupportPlaybackCapture;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.SaveToMovies;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.ScreenRecorderConfig;
 import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.UnlockMoreVolumeFromNew;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.screenrecorder")
 public class ScreenRecorder extends BaseLoad {

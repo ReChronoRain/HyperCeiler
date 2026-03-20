@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Field;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FuckStatusbarGestures extends BaseHook {
     @Override
@@ -34,7 +34,7 @@ public class FuckStatusbarGestures extends BaseHook {
         hookAllConstructors("com.android.systemui.statusbar.phone.CentralSurfacesImpl", new IMethodHook() {
             @SuppressLint({"PrivateApi", "SdCardPath"})
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 try {
                     Object mGestureRec = param.getThisObject()
                             .getClass()

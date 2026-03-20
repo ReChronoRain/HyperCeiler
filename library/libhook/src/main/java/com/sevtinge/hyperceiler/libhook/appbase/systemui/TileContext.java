@@ -30,8 +30,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 磁贴上下文类
@@ -78,25 +77,14 @@ public final class TileContext {
     // ==================== 构造方法 ====================
 
     /**
-     * 从 BeforeHookParam 创建（可以设置返回值）
+     * 从 HookParam 创建
      *
-     * @param param BeforeHookParam
+     * @param param HookParam
      */
-    public TileContext(@NonNull BeforeHookParam param) {
+    public TileContext(@NonNull HookParam param) {
         this.tileInstance = param.getThisObject();
         this.args = param.getArgs() != null ? param.getArgs() : new Object[0];
         this.resultSetter = param::setResult;
-    }
-
-    /**
-     * 从 AfterHookParam 创建（不能设置返回值）
-     *
-     * @param param AfterHookParam
-     */
-    public TileContext(@NonNull AfterHookParam param) {
-        this.tileInstance = param.getThisObject();
-        this.args = param.getArgs() != null ? param.getArgs() : new Object[0];
-        this.resultSetter = null;  // after阶段不能设置结果
     }
 
     /**
@@ -149,7 +137,7 @@ public final class TileContext {
     /**
      * 是否可以设置返回值
      * <p>
-     * before 阶段可以设置，after 阶段不可以
+     * HookParam 语义下通常都可以设置结果
      */
     public boolean canSetResult() {
         return resultSetter != null;
@@ -314,8 +302,6 @@ public final class TileContext {
 
     /**
      * 设置方法返回值
-     * <p>
-     * 注意：仅在 before 阶段有效，after 阶段调用无效果
      *
      * @param result 返回值
      */

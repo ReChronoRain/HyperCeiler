@@ -36,14 +36,14 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class QuickManagerAccessibilityPermission extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.settings.SettingsActivity", "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) throws PackageManager.NameNotFoundException {
+            public void after(HookParam param) throws PackageManager.NameNotFoundException {
                 Activity activity = (Activity) param.getThisObject();
                 Intent intent = activity.getIntent();
                 String action = intent.getAction();

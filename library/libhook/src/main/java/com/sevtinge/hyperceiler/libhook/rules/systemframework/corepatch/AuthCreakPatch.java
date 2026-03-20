@@ -29,14 +29,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.zip.ZipEntry;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class AuthCreakPatch extends CorePatchHelper {
     private final String TAG = "AuthCreakPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 14+
         try {
             findAndHookMethod("com.android.server.pm.ScanPackageUtils", lpparam.getClassLoader(),
@@ -44,8 +43,8 @@ public class AuthCreakPatch extends CorePatchHelper {
                 "com.android.server.pm.pkg.AndroidPackage", int.class,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true)) {
+                    public void after(HookParam param) {
+                        if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, true)) {
                             param.setResult(null);
                         }
                     }
@@ -63,8 +62,8 @@ public class AuthCreakPatch extends CorePatchHelper {
                 if (assertMinSignatureSchemeIsValid != null) {
                     hookMethod(assertMinSignatureSchemeIsValid, new IMethodHook() {
                         @Override
-                        public void after(AfterHookParam param) {
-                            if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true)) {
+                        public void after(HookParam param) {
+                            if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, true)) {
                                 param.setResult(null);
                             }
                         }
@@ -76,8 +75,8 @@ public class AuthCreakPatch extends CorePatchHelper {
             if (strictJarVerifier != null) {
                 hookAllConstructors(strictJarVerifier, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true)) {
+                    public void after(HookParam param) {
+                        if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, true)) {
                             setBooleanField(param.getThisObject(), "signatureSchemeRollbackProtectionsEnforced", false);
                         }
                     }
@@ -95,8 +94,8 @@ public class AuthCreakPatch extends CorePatchHelper {
             var signatureInfoClass = findClass("android.util.apk.SignatureInfo", lpparam.getClassLoader());
             findAndHookMethod(apkSigningBlockClass, "parseVerityDigestAndVerifySourceLength", byte[].class, long.class, signatureInfoClass, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", false)) {
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, false)) {
                         param.setResult(Arrays.copyOfRange((byte[]) param.getArgs()[0], 0, 32));
                     }
                 }
@@ -104,8 +103,8 @@ public class AuthCreakPatch extends CorePatchHelper {
 
             findAndHookMethod(apkSigningBlockClass, "verifyIntegrityForVerityBasedAlgorithm", byte[].class, RandomAccessFile.class, signatureInfoClass, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", false)) {
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, false)) {
                         param.setResult(null);
                     }
                 }
@@ -157,11 +156,13 @@ public class AuthCreakPatch extends CorePatchHelper {
             signingDetailsArgs[1] = 1;
 
             hookAllMethods("android.util.apk.ApkSignatureVerifier", lpparam.getClassLoader(), "verifyV1Signature", new IMethodHook() {
-                public void after(AfterHookParam methodHookParam) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true)) {
+                public void after(HookParam methodHookParam) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, true)) {
                         Throwable throwable = methodHookParam.getThrowable();
                         Integer parseErr = null;
-                        if (parseResult != null && ((Method) methodHookParam.getMember()).getReturnType() == parseResult) {
+                        if (parseResult != null
+                            && methodHookParam.getExecutable() instanceof Method method
+                            && method.getReturnType() == parseResult) {
                             Object result = methodHookParam.getResult();
                             if ((boolean) EzxHelpUtils.callMethod(result, "isError")) {
                                 parseErr = (int) EzxHelpUtils.callMethod(result, "getErrorCode");
@@ -170,7 +171,7 @@ public class AuthCreakPatch extends CorePatchHelper {
                         if (throwable != null || parseErr != null) {
                             Signature[] lastSigs = null;
                             try {
-                                if (prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
+                                if (CorePatchHelper.isUsePreSignatureEnabled()) {
                                     Class<?> activityThreadClazz =
                                         findClassIfExists("android.app.ActivityThread", lpparam.getClassLoader());
                                     Method currentApplicationMethod =
@@ -194,7 +195,7 @@ public class AuthCreakPatch extends CorePatchHelper {
                             } catch (Throwable ignored) {
                             }
                             try {
-                                if (lastSigs == null && prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
+                                if (lastSigs == null && CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
                                     final Object origJarFile = constructorExact.newInstance(methodHookParam.getArgs()[parseErr == null ? 0 : 1], true, false);
                                     final ZipEntry manifestEntry = (ZipEntry) EzxHelpUtils.callMethod(origJarFile, "findEntry", "AndroidManifest.xml");
                                     final Certificate[][] lastCerts;

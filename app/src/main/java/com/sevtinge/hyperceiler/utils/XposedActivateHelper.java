@@ -20,16 +20,39 @@ package com.sevtinge.hyperceiler.utils;
 
 import static com.sevtinge.hyperceiler.Application.isModuleActivated;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+
+import java.lang.ref.WeakReference;
 
 public class XposedActivateHelper {
-    public static int XposedVersion = 0;
+    private static final long SERVICE_BIND_TIMEOUT_MS = 2000L;
+    private static final Handler MAIN_HANDLER = new Handler(Looper.getMainLooper());
+
 
     public static void init(Context context) {
+        if (isActive()) return;
+
+        if (context instanceof Activity activity) {
+            WeakReference<Activity> activityRef = new WeakReference<>(activity);
+            MAIN_HANDLER.postDelayed(() -> {
+                Activity current = activityRef.get();
+                if (current == null || current.isFinishing() || current.isDestroyed()) return;
+                checkActivateState(current);
+            }, SERVICE_BIND_TIMEOUT_MS);
+            return;
+        }
+
         checkActivateState(context);
     }
 
+    public static boolean isActive() {
+        return isModuleActivated;
+    }
+
     private static void checkActivateState(Context context) {
-        if (!isModuleActivated) DialogHelper.showXposedActivateDialog(context);
+        if (!isActive()) DialogHelper.showXposedActivateDialog(context);
     }
 }

@@ -27,7 +27,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.E
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hook;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
 
 import android.os.Bundle;
 
@@ -50,7 +50,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 非 FW 模式下的音效控制 UI
@@ -92,9 +92,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
                     ).singleOrThrow(() -> new IllegalStateException("Cannot find setDsOnSafely()"));
                 }
             });
-            hook(dolbySwitch, new IMethodHook() {
+            hookCallback(dolbySwitch, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
                         param.setResult(null);
                         XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting Dolby");
@@ -123,9 +123,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
                 }
             });
 
-            hook(miSoundSwitch, new IMethodHook() {
+            hookCallback(miSoundSwitch, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
                         param.setResult(null);
                         XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting MiSound");
@@ -172,8 +172,8 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             Method onCreate = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
             Method onResume = activityClass.getDeclaredMethod("onResume");
 
-            hook(onCreate, createOnCreatePreferencesHook(effectSelectionField));
-            hook(onResume, createOnResumeHook(effectSelectionField));// Hook 广播接收器
+            hookCallback(onCreate, createOnCreatePreferencesHook(effectSelectionField));
+            hookCallback(onResume, createOnResumeHook(effectSelectionField));// Hook 广播接收器
             hookBroadcastReceiver();
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook spatial audio activity", e);
@@ -197,9 +197,9 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
                 }
             });
 
-            hook(broadcastReceiver, new IMethodHook() {
+            hookCallback(broadcastReceiver, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     updateEffectSelectionState();
                     updateAutoSEffSwitchInfo();
                 }

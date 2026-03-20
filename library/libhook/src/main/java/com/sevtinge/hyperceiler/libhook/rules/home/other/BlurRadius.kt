@@ -18,9 +18,9 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object BlurRadius : BaseHook() {
     override fun init() {

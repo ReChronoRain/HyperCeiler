@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockCustomActions extends BaseHook {
 
@@ -38,7 +38,7 @@ public class UnlockCustomActions extends BaseHook {
             findAndHookMethod("com.android.systemui.statusbar.notification.mediacontrol.MediaActionsInjector$getCustomAction$1",
                 "run", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Object INSTANCE = EzxHelpUtils.getStaticObjectField(
                             findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager"),
                             "sINSTANCE");
@@ -52,7 +52,7 @@ public class UnlockCustomActions extends BaseHook {
             findAndHookMethod("com.android.systemui.media.controls.domain.pipeline.LegacyMediaDataManagerImpl$createActionsFromState$customActions$1",
                 "invoke", Object.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Class<?> NotificationSettingsManager;
                         // k60u
                         NotificationSettingsManager = findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager");

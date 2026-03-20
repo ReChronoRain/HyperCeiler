@@ -52,7 +52,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 @SuppressLint("DiscouragedApi")
 public class AppDisable extends BaseHook {
@@ -90,7 +90,7 @@ public class AppDisable extends BaseHook {
         findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onCreateOptionsMenu",
             Menu.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) throws Exception {
+                public void after(HookParam param) throws Exception {
                     Activity act = (Activity) param.getThisObject();
                     Menu menu = (Menu) param.getArgs()[0];
 
@@ -161,7 +161,7 @@ public class AppDisable extends BaseHook {
         findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onPrepareOptionsMenu",
             Menu.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (menuItem != null) {
                         menuItem.setVisible(false);
                     }
@@ -175,7 +175,7 @@ public class AppDisable extends BaseHook {
     private void hookOnResume() {
         findAndHookMethod(clazzName, "onResume", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (menuItem != null) {
                     menuItem.setVisible(false);
                 }
@@ -199,7 +199,7 @@ public class AppDisable extends BaseHook {
 
         hookMethod(method, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) throws Exception {
+            public void after(HookParam param) throws Exception {
                 MenuItem item = (MenuItem) param.getArgs()[0];
                 if (item != null && item.getItemId() == 666) {
                     handleDisableMenuClick(param, item);
@@ -211,7 +211,7 @@ public class AppDisable extends BaseHook {
     /**
      * 处理禁用菜单点击
      */
-    private void handleDisableMenuClick(AfterHookParam param, MenuItem item) throws Exception {
+    private void handleDisableMenuClick(HookParam param, MenuItem item) throws Exception {
         Activity act = getActivity(param);
         PackageInfo packageInfo = getPackageInfo(act, param.getThisObject());
         Resources modRes = getModuleRes(act);
@@ -264,7 +264,7 @@ public class AppDisable extends BaseHook {
     /**
      * 获取 Activity 对象
      */
-    private Activity getActivity(AfterHookParam param) {
+    private Activity getActivity(HookParam param) {
         if (isNewSecurityCenter) {
             return (Activity) EzxHelpUtils.callMethod(param.getThisObject(), "getActivity");
         } else {

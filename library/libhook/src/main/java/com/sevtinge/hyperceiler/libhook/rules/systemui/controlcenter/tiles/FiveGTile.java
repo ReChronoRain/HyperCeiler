@@ -49,8 +49,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FiveGTile extends TileUtils {
 
@@ -185,7 +184,7 @@ public class FiveGTile extends TileUtils {
                 Context.class, View.class, ViewGroup.class,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         Context context = (Context) param.getArgs()[0];
                         if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                             return;
@@ -213,7 +212,7 @@ public class FiveGTile extends TileUtils {
                 mItemClass,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Object item = param.getArgs()[0];
                         String className = item.getClass().getSimpleName();
 
@@ -245,7 +244,7 @@ public class FiveGTile extends TileUtils {
                 itemArrayClass,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) throws Throwable {
+                    public void before(HookParam param) throws Throwable {
                         handleSetItems(param);
                     }
                 }
@@ -283,7 +282,7 @@ public class FiveGTile extends TileUtils {
         });
     }
 
-    private void handleSetItems(BeforeHookParam param) throws Throwable {
+    private void handleSetItems(HookParam param) throws Throwable {
         ViewGroup content = (ViewGroup) param.getThisObject();
         Object suffix = EzxHelpUtils.getObjectField(content, "suffix");
 

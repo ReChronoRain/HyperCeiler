@@ -26,7 +26,7 @@ import android.annotation.SuppressLint;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BrightnessPct extends BaseHook {
     @Override
@@ -34,7 +34,7 @@ public class BrightnessPct extends BaseHook {
     public void init() {
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onStop", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 removePct(mPct);
             }
         });
@@ -42,7 +42,7 @@ public class BrightnessPct extends BaseHook {
         final Class<?> brightnessUtils = findClassIfExists("com.android.systemui.controlcenter.policy.BrightnessUtils");
         hookAllMethods("com.android.systemui.controlcenter.policy.MiuiBrightnessController", "onChanged", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 int pctTag = 0;
                 if (mPct != null && mPct.getTag() != null) {
                     pctTag = (int) mPct.getTag();

@@ -21,10 +21,10 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object CardTextSize : BaseHook() {
     override fun init() {

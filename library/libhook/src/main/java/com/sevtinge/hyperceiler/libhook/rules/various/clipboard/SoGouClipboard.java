@@ -31,8 +31,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -55,19 +54,19 @@ public class SoGouClipboard extends BaseHook {
 
         hookMethod(method, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 clipboard = true;
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 clipboard = false;
             }
         });
         findAndHookMethod("org.greenrobot.greendao.query.QueryBuilder",
             "list", new IMethodHook()  {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (clipboard) {
                             param.setResult(null);
 

@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.ref.WeakReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ToastBlur extends BaseHook {
     @Override
@@ -35,7 +35,7 @@ public class ToastBlur extends BaseHook {
             View.class, Context.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     // logE(TAG, "view: " + param.args[0] + " con: " + param.args[1] + " boo: " + param.args[2]);
                 }
             }
@@ -43,7 +43,7 @@ public class ToastBlur extends BaseHook {
 
         findAndHookMethod("android.widget.ToastPresenter", "trySendAccessibilityEvent", View.class, String.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 View mView = (View) getObjectField(param.getThisObject(), "mView");
                 if (mView == null) return;
                 Class<?> ToastStub = findClassIfExists("android.widget.ToastStub");
@@ -65,7 +65,7 @@ public class ToastBlur extends BaseHook {
             int.class, int.class, int.class, int.class, int.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     // logE(TAG, "change");
                 }
             }

@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.libhook.rules.home.layout;
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HotSeatsMarginTop extends HomeBaseHookNew {
 
@@ -34,7 +34,7 @@ public class HotSeatsMarginTop extends HomeBaseHookNew {
     private void initOS3Hook() {
         findAndHookMethod(DEVICE_CONFIG_NEW, "calcHotSeatsMarginTop", Context.class, boolean.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 Context context = (Context) param.getArgs()[0];
                 param.setResult(DisplayUtils.dp2px(context, PrefsBridge.getInt("home_layout_hotseats_margin_top", 60)));
             }
@@ -45,7 +45,7 @@ public class HotSeatsMarginTop extends HomeBaseHookNew {
     public void initBase() {
         findAndHookMethod(DEVICE_CONFIG_OLD, "calcHotSeatsMarginTop", Context.class, boolean.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 Context context = (Context) param.getArgs()[0];
                 param.setResult(DisplayUtils.dp2px(context, PrefsBridge.getInt("home_layout_hotseats_margin_top", 60)));
             }

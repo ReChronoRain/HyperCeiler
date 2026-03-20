@@ -18,18 +18,18 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.volume;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class VolumeMediaSteps extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("android.os.SystemProperties", "getInt", String.class, int.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if ("ro.config.media_vol_steps".equals(param.getArgs()[0])) {
                     if (PrefsBridge.getInt("system_framework_volume_media_steps", 15) > 15)
                         param.setResult(PrefsBridge.getInt("system_framework_volume_media_steps", 15));

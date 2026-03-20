@@ -21,14 +21,14 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.clock;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableAnim extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.systemui.statusbar.policy.FakeStatusBarClockController", "onPanelStretchChanged", float.class, boolean.class, new IMethodHook() {
             @Override
-            public void before(final BeforeHookParam param) {
+            public void before(final HookParam param) {
                 param.setResult(null);
             }
         });

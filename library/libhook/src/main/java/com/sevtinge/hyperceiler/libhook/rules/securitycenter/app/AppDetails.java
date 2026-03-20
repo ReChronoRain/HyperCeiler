@@ -46,8 +46,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AppDetails extends BaseHook {
 
@@ -99,7 +98,7 @@ public class AppDetails extends BaseHook {
     private void hookFragmentConstructor() {
         findAndHookConstructor(mFragmentCls, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Field piField = EzxHelpUtils.findFirstFieldByExactType(
                     param.getThisObject().getClass(), PackageInfo.class);
                 if (piField != null) {
@@ -115,7 +114,7 @@ public class AppDetails extends BaseHook {
     private void hookAppDetailsActivity() {
         findAndHookMethod(mAmAppInfoCls, "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(() -> handleActivityCreated((Activity) param.getThisObject()));
             }
@@ -194,7 +193,7 @@ public class AppDetails extends BaseHook {
     private void hookAddPreferenceMethod(Method addPrefMethod) {
         EzxHelpUtils.hookMethod(addPrefMethod, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
 
                 Object thiz = param.getThisObject();
@@ -320,7 +319,7 @@ public class AppDetails extends BaseHook {
         hookAllMethods(fragment.getClass(), "onPreferenceTreeClick", new IMethodHook() {
             @SuppressLint("DiscouragedApi")
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String key = (String) EzxHelpUtils.callMethod(param.getArgs()[0], "getKey");
                 String title = (String) EzxHelpUtils.callMethod(param.getArgs()[0], "getTitle");
 
@@ -332,7 +331,7 @@ public class AppDetails extends BaseHook {
     /**
      * 处理偏好设置点击事件
      */
-    private void handlePreferenceClick(String key, String title, Activity act, Resources modRes, BeforeHookParam param) {
+    private void handlePreferenceClick(String key, String title, Activity act, Resources modRes, HookParam param) {
         switch (key) {
             case "apk_filename" -> handleCopyPath(act, title, mLastPackageInfo.applicationInfo.sourceDir, param);
             case "data_path" -> handleCopyPath(act, title, mLastPackageInfo.applicationInfo.dataDir, param);
@@ -344,7 +343,7 @@ public class AppDetails extends BaseHook {
     /**
      * 处理复制路径
      */
-    private void handleCopyPath(Activity act, String title, String path, BeforeHookParam param) {
+    private void handleCopyPath(Activity act, String title, String path, HookParam param) {
         ClipboardManager clipboard = (ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);
         clipboard.setPrimaryClip(ClipData.newPlainText(title, path));
 
@@ -358,7 +357,7 @@ public class AppDetails extends BaseHook {
     /**
      * 处理在应用市场打开
      */
-    private void handleOpenInMarket(Activity act, BeforeHookParam param) {
+    private void handleOpenInMarket(Activity act, HookParam param) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("market://details?id=" + mLastPackageInfo.packageName));
@@ -377,7 +376,7 @@ public class AppDetails extends BaseHook {
     /**
      * 处理启动应用
      */
-    private void handleOpenInApp(Activity act, Resources modRes, BeforeHookParam param) {
+    private void handleOpenInApp(Activity act, Resources modRes, HookParam param) {
         Intent launchIntent = act.getPackageManager().getLaunchIntentForPackage(mLastPackageInfo.packageName);
 
         if (launchIntent == null) {

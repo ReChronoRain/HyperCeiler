@@ -23,17 +23,17 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllowDisableProtectedPackage extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.server.pm.PackageManagerService", "setEnabledSettings", List.class, int.class, String.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("com.android.server.pm.ProtectedPackages", "isPackageStateProtected", int.class, String.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(false);
                     }
                 });

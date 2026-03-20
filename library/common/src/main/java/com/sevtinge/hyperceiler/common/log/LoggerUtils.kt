@@ -17,13 +17,6 @@ internal object LoggerUtils {
         }
     }
 
-    fun formatMessage(baseTag: String, level: String, message: String): String {
-        if (message.contains("]: ")) {
-            return "[$baseTag][$level]$message"
-        }
-        return "[$baseTag][$level]: $message"
-    }
-
     fun logLevelDesc(level: Int): String = when (level) {
         LogLevelManager.LEVEL_DISABLED -> "Disabled"
         LogLevelManager.LEVEL_ERROR_ONLY -> "General"

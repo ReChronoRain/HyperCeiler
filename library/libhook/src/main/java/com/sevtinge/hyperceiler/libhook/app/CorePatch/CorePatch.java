@@ -18,13 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.app.CorePatch;
 
-import static com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.CorePatchHelper.prefs;
-
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.AuthCreakPatch;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.CorePatchHelper;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.DigestCreakPatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.DowngradeCheckPatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.ExactSignCheckPatch;
@@ -36,17 +35,17 @@ import io.github.libxposed.api.XposedModuleInterface;
 public class CorePatch {
 
     private static final String TAG = "CorePatch";
-    public void onLoad(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void onLoad(XposedModuleInterface.SystemServerStartingParam lpparam) {
         XposedLog.i(TAG, "CorePatchLoad: Current sdk version is " + Build.VERSION.SDK_INT);
 
         if (!ProjectApi.isRelease()) {
-            XposedLog.i(TAG, "system", "downgrade=" + prefs.getBoolean("prefs_key_system_framework_core_patch_downgr", true));
-            XposedLog.i(TAG, "system", "authcreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_auth_creak", true));
-            XposedLog.i(TAG, "system", "digestCreak=" + prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true));
-            XposedLog.i(TAG, "system", "UsePreSig=" + prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false));
-            XposedLog.i(TAG, "system", "exactSignatureCheck=" + prefs.getBoolean("prefs_key_system_framework_core_patch_exact_signature_check", false));
-            XposedLog.i(TAG, "system", "sharedUser=" + prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false));
-            XposedLog.i(TAG, "system", "disableVerificationAgent=" + prefs.getBoolean("prefs_key_system_framework_disable_verification_agent", true));
+            XposedLog.i(TAG, "system", "downgrade=" + CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DOWNGRADE, true));
+            XposedLog.i(TAG, "system", "authcreak=" + CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, true));
+            XposedLog.i(TAG, "system", "digestCreak=" + CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true));
+            XposedLog.i(TAG, "system", "UsePreSig=" + CorePatchHelper.isUsePreSignatureEnabled());
+            XposedLog.i(TAG, "system", "exactSignatureCheck=" + CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_EXACT_SIGNATURE_CHECK, false));
+            XposedLog.i(TAG, "system", "sharedUser=" + CorePatchHelper.isSharedUserEnabled());
+            XposedLog.i(TAG, "system", "disableVerificationAgent=" + CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DISABLE_VERIFICATION_AGENT, true));
         }
 
         new DowngradeCheckPatch().init(lpparam);

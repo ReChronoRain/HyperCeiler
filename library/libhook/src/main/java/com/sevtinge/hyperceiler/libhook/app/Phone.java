@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.phone.DisableRemoveNetworkMode;
 import com.sevtinge.hyperceiler.libhook.rules.phone.DualNrSupport;
@@ -29,7 +30,6 @@ import com.sevtinge.hyperceiler.libhook.rules.phone.N28BandPhone;
 import com.sevtinge.hyperceiler.libhook.rules.phone.N5N8BandPhone;
 import com.sevtinge.hyperceiler.libhook.rules.phone.UnlockVoiceLink;
 import com.sevtinge.hyperceiler.libhook.rules.phone.ViceSlotVolteButton;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.phone")
 public class Phone extends BaseLoad {

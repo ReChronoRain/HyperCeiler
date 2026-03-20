@@ -26,7 +26,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 abstract class HomeBaseHookNew : BaseHook() {
 
@@ -138,7 +138,7 @@ abstract class HomeBaseHookNew : BaseHook() {
     @JvmOverloads
     protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): IMethodHook {
         return object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 param.result = DisplayUtils.dp2px(
                     PrefsBridge.getInt(key, defaultValue).toFloat()
                 )

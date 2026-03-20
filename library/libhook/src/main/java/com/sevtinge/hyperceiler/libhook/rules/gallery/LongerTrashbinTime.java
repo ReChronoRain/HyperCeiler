@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.f
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -32,7 +32,7 @@ public class LongerTrashbinTime extends BaseHook {
     public void init() {
         findAndHookConstructor("com.miui.gallery.trash.TrashUtils$UserInfo", String.class, String.class, String.class, long.class, long.class, long.class, long.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[3] = 31536000000L;
                 param.getArgs()[6] = 31536000000L;
             }

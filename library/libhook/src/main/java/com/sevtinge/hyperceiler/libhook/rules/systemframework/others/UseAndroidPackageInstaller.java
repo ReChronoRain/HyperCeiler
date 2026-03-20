@@ -26,8 +26,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UseAndroidPackageInstaller extends BaseHook {
     static boolean fakeCts = false;
@@ -42,7 +41,7 @@ public class UseAndroidPackageInstaller extends BaseHook {
 
         findAndHookMethod(PackageManagerServiceImpl, "isCTS", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 // logD(TAG, packageName,"fakeCTS:"+ fakeCts);
                 param.setResult(fakeCts);
             }
@@ -55,12 +54,12 @@ public class UseAndroidPackageInstaller extends BaseHook {
                 // logD(TAG, packageName,"hook " + name);
                 hookMethod(method, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         fakeCts = true;
                     }
 
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         fakeCts = false;
                     }
                 });

@@ -22,11 +22,11 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.f
 
 import android.os.Build;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DeviceModify extends BaseHook {
@@ -42,7 +42,7 @@ public class DeviceModify extends BaseHook {
         mManufacturer = PrefsBridge.getString("market_device_modify_manufacturer", "");
         findAndHookConstructor("com.xiaomi.market.MarketApp", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 setStaticObjectField(Build.class, "DEVICE", mDevice);
                 setStaticObjectField(Build.class, "MODEL", mModel);
                 setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);

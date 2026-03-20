@@ -20,10 +20,10 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.community.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.community.FuckDetection;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.vipaccount")
 public class Community extends BaseLoad {

@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class UnPrivacyWatermark extends BaseHook {
@@ -42,13 +42,13 @@ public class UnPrivacyWatermark extends BaseHook {
         if (oldPrivacyWatermarkActivity != null) {
             findAndHookMethod("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity", "setWordMaxLength", int.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(num);
                 }
             });
             findAndHookMethod("com.miui.gallery.editor.photo.app.PrivacyWatermarkActivity", "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     drawWatermark((Canvas) param.getArgs()[0], (String) param.getArgs()[1], (int) param.getArgs()[2], (int) param.getArgs()[3], (int) param.getArgs()[4], true);
                     param.setResult(null);
                 }
@@ -56,7 +56,7 @@ public class UnPrivacyWatermark extends BaseHook {
         } else {
             findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity", "setWordMaxLength", int.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(num);
                 }
             });
@@ -64,7 +64,7 @@ public class UnPrivacyWatermark extends BaseHook {
             try {
                 findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkHelper", "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new IMethodHook() {
                     @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                         drawWatermark((Canvas) param.getArgs()[0], (String) param.getArgs()[1], (int) param.getArgs()[2], (int) param.getArgs()[3], (int) param.getArgs()[4], false);
                         param.setResult(null);
                     }
@@ -72,7 +72,7 @@ public class UnPrivacyWatermark extends BaseHook {
             } catch (Throwable t) {
                 findAndHookMethod("com.miui.gallery.privacywatermark.PrivacyWatermarkActivity", "drawWatermark", Canvas.class, String.class, int.class, int.class, int.class, new IMethodHook() {
                     @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                         drawWatermark((Canvas) param.getArgs()[0], (String) param.getArgs()[1], (int) param.getArgs()[2], (int) param.getArgs()[3], (int) param.getArgs()[4], false);
                         param.setResult(null);
                     }

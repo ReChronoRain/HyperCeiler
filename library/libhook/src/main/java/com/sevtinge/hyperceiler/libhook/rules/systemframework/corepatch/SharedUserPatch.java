@@ -12,14 +12,14 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class SharedUserPatch extends CorePatchHelper {
 
     private static final String TAG = "SharedUserPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 14+
         try {
             var utilClass = findClass("com.android.server.pm.ReconcilePackageUtils", lpparam.getClassLoader());
@@ -28,7 +28,7 @@ public class SharedUserPatch extends CorePatchHelper {
             }
 
             // https://cs.android.com/android/platform/superproject/+/android-14.0.0_r60:frameworks/base/services/core/java/com/android/server/pm/ReconcilePackageUtils.java;l=61;bpv=1;bpt=0
-            if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false)) {
+            if (CorePatchHelper.isSharedUserEnabled()) {
                 setStaticBooleanField(utilClass, "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS", true);
             }
         } catch (Throwable t) {
@@ -43,9 +43,8 @@ public class SharedUserPatch extends CorePatchHelper {
             // https://cs.android.com/android/platform/superproject/+/android-11.0.0_r21:frameworks/base/services/core/java/com/android/server/pm/PackageManagerServiceUtils.java;l=728;drc=02a58171a9d41ad0048d6a1a48d79dee585c22a5
             hookAllMethods(signingDetails, "hasCommonAncestor", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)
-                        && prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false)
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isSharedUserEnabled()
                         // because of LSPosed's bug, we can't hook verifySignatures while deoptimize it
                         && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> "verifySignatures".equals(o.getMethodName()))
                     )
@@ -62,8 +61,8 @@ public class SharedUserPatch extends CorePatchHelper {
             var sharedUserSettingClass = findClass("com.android.server.pm.SharedUserSetting", lpparam.getClassLoader());
             hookAllMethods(sharedUserSettingClass, "removePackage", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
-                        if (!prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) || !prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false))
+                    public void before(HookParam param) {
+                        if (!CorePatchHelper.isSharedUserEnabled())
                             return;
                         var flags = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "uidFlags");
                         if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0)
@@ -102,8 +101,8 @@ public class SharedUserPatch extends CorePatchHelper {
 
             hookAllMethods(sharedUserSettingClass, "addPackage", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
-                        if (!prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) || !prefs.getBoolean("prefs_key_system_framework_core_patch_shared_user", false))
+                    public void before(HookParam param) {
+                        if (!CorePatchHelper.isSharedUserEnabled())
                             return;
                         var flags = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "uidFlags");
                         if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0)

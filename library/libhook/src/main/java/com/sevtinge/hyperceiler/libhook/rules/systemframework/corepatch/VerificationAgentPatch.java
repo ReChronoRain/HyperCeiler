@@ -12,7 +12,7 @@ public class VerificationAgentPatch extends CorePatchHelper {
 
     private static final String TAG = "VerificationAgentPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 11+
         try {
             hookAllMethods(getIsVerificationEnabledClass(lpparam.getClassLoader()), "isVerificationEnabled", new ReturnConstant("prefs_key_system_framework_disable_verification_agent", false));

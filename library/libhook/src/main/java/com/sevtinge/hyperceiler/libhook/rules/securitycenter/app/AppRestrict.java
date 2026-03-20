@@ -28,8 +28,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AppRestrict extends BaseHook {
 
@@ -46,7 +45,7 @@ public class AppRestrict extends BaseHook {
         } else {
             hookMethod(mGetAppInfo[0], new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if ((int) param.getArgs()[3] == 128 && (int) param.getArgs()[4] == 0) {
                         ApplicationInfo appInfo = (ApplicationInfo) param.getResult();
                         appInfo.flags &= ~ApplicationInfo.FLAG_SYSTEM;
@@ -58,7 +57,7 @@ public class AppRestrict extends BaseHook {
 
         findAndHookMethod("com.miui.networkassistant.ui.fragment.ShowAppDetailFragment", "initFirewallData", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object mAppInfo = EzxHelpUtils.getObjectField(param.getThisObject(), "mAppInfo");
                 if (mAppInfo != null) EzxHelpUtils.setBooleanField(mAppInfo, "isSystemApp", false);
             }

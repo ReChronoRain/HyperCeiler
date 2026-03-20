@@ -18,20 +18,19 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.navigation;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BackGestureAreaWidth extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.miui.home.recents.GestureStubView", "initScreenSizeAndDensity", int.class, new IMethodHook() {
             @Override
-            public void after(final AfterHookParam param) {
+            public void after(final HookParam param) {
                 int pct = PrefsBridge.getInt("home_navigation_back_area_width", 100);
                 if (pct == 100) return;
                 int mGestureStubDefaultSize = EzxHelpUtils.getIntField(param.getThisObject(), "mGestureStubDefaultSize");
@@ -45,7 +44,7 @@ public class BackGestureAreaWidth extends BaseHook {
 
         findAndHookMethod("com.miui.home.recents.GestureStubView", "setSize", int.class, new IMethodHook() {
             @Override
-            public void before(final BeforeHookParam param) {
+            public void before(final HookParam param) {
                 int pct = PrefsBridge.getInt("home_navigation_back_area_width", 100);
                 if (pct == 100) return;
                 int mGestureStubDefaultSize = EzxHelpUtils.getIntField(param.getThisObject(), "mGestureStubDefaultSize");

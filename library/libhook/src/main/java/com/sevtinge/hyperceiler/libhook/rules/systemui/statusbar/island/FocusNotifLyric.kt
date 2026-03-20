@@ -84,7 +84,7 @@ object FocusNotifLyric : MusicBaseHook() {
         }
 
         // 拦截初始化状态栏焦点通知文本布局
-        var unhook: XposedInterface.MethodUnhooker<*>? = null
+        var unhook: XposedInterface.HookHandle? = null
         loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
             .filterByName("onCreateView")
             .first().createHook {

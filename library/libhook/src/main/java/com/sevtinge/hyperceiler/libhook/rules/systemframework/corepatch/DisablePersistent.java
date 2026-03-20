@@ -24,8 +24,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisablePersistent extends BaseHook {
     private boolean isInstall = false;
@@ -39,7 +38,7 @@ public class DisablePersistent extends BaseHook {
 
             findAndHookMethod(mPackage, "isPersistent", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     boolean isPersistent = (boolean) param.getResult();
                     if (isPersistent && isInstall) {
                         param.setResult(false);
@@ -53,12 +52,12 @@ public class DisablePersistent extends BaseHook {
         findAndHookMethod("com.android.server.pm.InstallPackageHelper", isMoreAndroidVersion(36) ?
             "preparePackage" : "preparePackageLI", "com.android.server.pm.InstallRequest", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 isInstall = true;
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 isInstall = false;
             }
         });

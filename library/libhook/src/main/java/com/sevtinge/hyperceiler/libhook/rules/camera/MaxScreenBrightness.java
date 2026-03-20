@@ -37,8 +37,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -63,7 +62,7 @@ public class MaxScreenBrightness extends BaseHook {
         XposedLog.d(TAG, getPackageName(), "getHaloBrightness() method is " + method);
         hookMethod(method, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity activity = (Activity) callMethod(param.getThisObject(), "getActivity");
                 setScreenBrightnessToMax(activity);
             }
@@ -72,7 +71,7 @@ public class MaxScreenBrightness extends BaseHook {
 
         findAndHookMethod(Window.class, "setAttributes", WindowManager.LayoutParams.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 WindowManager.LayoutParams layoutParams = (WindowManager.LayoutParams) param.getArgs()[0];
                 layoutParams.screenBrightness = 1.0f;
                 param.getArgs()[0] = layoutParams;
@@ -82,7 +81,7 @@ public class MaxScreenBrightness extends BaseHook {
 
         findAndHookMethod("com.android.camera.ActivityBase", "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity activity = (Activity) param.getThisObject();
                 setScreenBrightnessToMax(activity);
             }
@@ -90,7 +89,7 @@ public class MaxScreenBrightness extends BaseHook {
 
         findAndHookMethod("com.android.camera.ActivityBase", "onStart", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity activity = (Activity) param.getThisObject();
                 setScreenBrightnessToMax(activity);
             }
@@ -98,7 +97,7 @@ public class MaxScreenBrightness extends BaseHook {
 
         findAndHookMethod("com.android.camera.ActivityBase", "onRestart", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity activity = (Activity) param.getThisObject();
                 setScreenBrightnessToMax(activity);
             }
@@ -106,7 +105,7 @@ public class MaxScreenBrightness extends BaseHook {
 
         findAndHookMethod("com.android.camera.ActivityBase", "onResume", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity activity = (Activity) param.getThisObject();
                 setScreenBrightnessToMax(activity);
             }

@@ -45,8 +45,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AddSideBarExpandReceiver extends BaseHook {
 
@@ -102,7 +101,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
     private void hookRegionSamplingHelper(Class<?> regionSamplingHelper) {
         hookAllConstructors(regionSamplingHelper, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (!isHooked[0]) {
                     isHooked[0] = true;
                     View view = (View) param.getArgs()[0];
@@ -215,7 +214,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
             findAndHookMethod(onTouchListener.getClass(), "onTouch",
                 View.class, MotionEvent.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {MotionEvent motionEvent = (MotionEvent) param.getArgs()[1];
+                    public void before(HookParam param) {MotionEvent motionEvent = (MotionEvent) param.getArgs()[1];
                         if (motionEvent.getSource() != 9999) {
                             param.setResult(false);
                         }
@@ -239,7 +238,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
             Class<?> drawableClass = drawable.getClass();
             findAndHookMethod(drawableClass, "draw", Canvas.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             });
@@ -263,7 +262,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
             Class<?> drawableClass = background.getClass();
             findAndHookMethod(drawableClass, "draw", Canvas.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             });
@@ -281,7 +280,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         findAndHookMethod(regionSamplingHelper, "onViewDetachedFromWindow",
             View.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     isHooked[0] = false;
 
                     BroadcastReceiver showReceiver = (BroadcastReceiver)
@@ -310,7 +309,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
 
         hookMethod(methods[0], new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
             }
         });

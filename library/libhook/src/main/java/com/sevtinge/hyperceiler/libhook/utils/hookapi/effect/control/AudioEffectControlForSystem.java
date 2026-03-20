@@ -54,7 +54,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 非 FW 模式下控制音效
@@ -121,7 +121,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (!getEarPhoneStateFinal()) return;
 
                     Object thisObject = param.getThisObject();
@@ -151,7 +151,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (getEarPhoneStateFinal()) {
                         XposedLog.d(TAG, "Earphone connected, skip setting spatializer effect");
                         param.setResult(null);
@@ -170,7 +170,7 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
             int.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (getEarPhoneStateFinal()) {
                         XposedLog.d(TAG, "Earphone connected, skip setting 3dSurround effect");
                         param.setResult(null);

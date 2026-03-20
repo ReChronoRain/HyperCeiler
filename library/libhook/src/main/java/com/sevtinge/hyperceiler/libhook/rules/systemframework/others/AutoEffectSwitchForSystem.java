@@ -68,7 +68,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control.FWAudioEffe
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 自动切换音效 - 系统框架端 - 总控制端
@@ -200,7 +200,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
             "onSystemReady",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                     if (mContext == null) {
                         XposedLog.e(TAG, "Failed to get context from AudioService");

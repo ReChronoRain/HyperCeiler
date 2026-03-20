@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.other;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HomeMode extends HomeBaseHookNew {
 
@@ -35,7 +35,7 @@ public class HomeMode extends HomeBaseHookNew {
 
         findAndHookMethod(mDeviceConfig, "isDarkMode", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 int mHomeMode = PrefsBridge.getStringAsInt("home_other_home_mode", 0);
                 boolean isHomeMode = (mHomeMode == 2);
                 param.setResult(isHomeMode);
@@ -49,7 +49,7 @@ public class HomeMode extends HomeBaseHookNew {
 
         findAndHookMethod(mDeviceConfig, "isDarkMode", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 int mHomeMode = PrefsBridge.getStringAsInt("home_other_home_mode", 0);
                 boolean isHomeMode = (mHomeMode == 2);
                 param.setResult(isHomeMode);

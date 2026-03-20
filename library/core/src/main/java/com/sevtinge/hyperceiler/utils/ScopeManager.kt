@@ -1,9 +1,12 @@
 package com.sevtinge.hyperceiler.utils
 
+import android.os.Handler
+import android.os.Looper
 import com.sevtinge.hyperceiler.common.log.AndroidLog
 import io.github.libxposed.service.XposedService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.util.concurrent.CopyOnWriteArraySet
 import kotlin.concurrent.Volatile
 
 object ScopeManager {
@@ -11,20 +14,24 @@ object ScopeManager {
     private const val TAG = "ScopeManager"
     @Volatile
     private var sService: XposedService? = null
+    private val mainHandler = Handler(Looper.getMainLooper())
+    private val serviceStateListeners = CopyOnWriteArraySet<ServiceStateListener>()
 
     @JvmStatic
     fun setService(service: XposedService) {
         sService = service
+        notifyServiceStateChanged(service)
+    }
+
+    @JvmStatic
+    fun clearService() {
+        sService = null
+        notifyServiceStateChanged(null)
     }
 
     @JvmStatic
     fun getService(): XposedService? {
-        try {
-            return sService
-        } catch (e: Exception) {
-            AndroidLog.e(TAG, "getService failed", e)
-        }
-        return requireService()
+        return sService
     }
 
     fun requireService(): XposedService {
@@ -33,19 +40,53 @@ object ScopeManager {
         return s
     }
 
+    interface ServiceStateListener {
+        fun onServiceStateChanged(service: XposedService?)
+    }
+
+    @JvmStatic
+    fun addServiceStateListener(
+        listener: ServiceStateListener,
+        notifyImmediately: Boolean = false
+    ) {
+        serviceStateListeners.add(listener)
+        if (notifyImmediately) {
+            dispatchServiceState(listener, sService)
+        }
+    }
+
+    @JvmStatic
+    fun removeServiceStateListener(listener: ServiceStateListener) {
+        serviceStateListeners.remove(listener)
+    }
+
+    private fun notifyServiceStateChanged(service: XposedService?) {
+        for (listener in serviceStateListeners) {
+            dispatchServiceState(listener, service)
+        }
+    }
+
+    private fun dispatchServiceState(listener: ServiceStateListener, service: XposedService?) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            listener.onServiceStateChanged(service)
+            return
+        }
+        mainHandler.post { listener.onServiceStateChanged(service) }
+    }
+
     interface ScopeCallback {
         fun onScopeOperationSuccess(message: String)
         fun onScopeOperationFail(message: String)
     }
 
     suspend fun getScope(): List<String>? = withContext(Dispatchers.IO) {
-        val service = requireService()
+        val service = getService()
         if (service == null) {
             AndroidLog.e(TAG, "getScope: LSPosed service not available.")
             return@withContext null
         }
         return@withContext try {
-            service.scope
+            service.getScope()
         } catch (e: Exception) {
             AndroidLog.e(TAG, "getScope failed", e)
             null
@@ -59,28 +100,28 @@ object ScopeManager {
      */
     suspend fun addScope(packageName: String, callback: ScopeCallback) {
         withContext(Dispatchers.Main) {
-            val service = requireService()
+            val service = getService()
             if (service == null) {
                 callback.onScopeOperationFail("LSPosed service not available.")
                 return@withContext
             }
 
             val serviceCallback = object : XposedService.OnScopeEventListener {
-                override fun onScopeRequestApproved(pkg: String) {
-                    callback.onScopeOperationSuccess("$pkg enabled successfully.")
+                override fun onScopeRequestApproved(approved: List<String>) {
+                    if (approved.contains(packageName)) {
+                        callback.onScopeOperationSuccess("$packageName enabled successfully.")
+                    } else {
+                        callback.onScopeOperationFail("Scope request completed, but $packageName was not approved.")
+                    }
                 }
 
-                override fun onScopeRequestDenied(pkg: String) {
-                    callback.onScopeOperationFail("Request for $pkg was denied.")
-                }
-
-                override fun onScopeRequestFailed(pkg: String, message: String) {
-                    callback.onScopeOperationFail("Failed to enable $pkg: $message")
+                override fun onScopeRequestFailed(message: String) {
+                    callback.onScopeOperationFail("Failed to enable $packageName: $message")
                 }
             }
 
             try {
-                service.requestScope(packageName, serviceCallback)
+                service.requestScope(listOf(packageName), serviceCallback)
             } catch (e: Exception) {
                 AndroidLog.e(TAG, "addScope failed", e)
                 callback.onScopeOperationFail(e.message ?: "Unknown error")
@@ -94,16 +135,17 @@ object ScopeManager {
      * @return 成功则返回 null，失败则返回错误信息字符串。
      */
     suspend fun removeScope(packageName: String): String? = withContext(Dispatchers.IO) {
-        val service = requireService()
+        val service = getService()
         if (service == null) {
             AndroidLog.e(TAG, "removeScope: LSPosed service not available.")
             return@withContext "LSPosed service not available."
         }
-        return@withContext try {
-            service.removeScope(packageName)
+        try {
+            service.removeScope(listOf(packageName))
+            return@withContext null
         } catch (e: Exception) {
             AndroidLog.e(TAG, "removeScope failed", e)
-            e.message
+            return@withContext e.message
         }
     }
 }

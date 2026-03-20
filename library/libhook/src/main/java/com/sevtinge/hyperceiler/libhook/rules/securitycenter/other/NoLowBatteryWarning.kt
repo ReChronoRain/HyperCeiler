@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 import android.provider.Settings
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 object NoLowBatteryWarning : BaseHook() {
     override fun init() {
         val settingHook: IMethodHook = object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 val key = param.args[1] as String
                 if ("low_battery_dialog_disabled" == key) param.result = 1
                 else if ("low_battery_sound" == key) param.result = null

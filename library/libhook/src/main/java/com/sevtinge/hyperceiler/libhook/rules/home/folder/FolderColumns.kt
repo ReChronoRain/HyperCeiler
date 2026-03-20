@@ -28,6 +28,7 @@ import android.widget.FrameLayout
 import android.widget.GridView
 import android.widget.TextView
 import androidx.core.view.isNotEmpty
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
@@ -40,7 +41,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPadding
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingLeft
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingSide
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object FolderColumns : HomeBaseHookNew() {
     private const val FOLDER = "com.miui.home.launcher.Folder"

@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBa
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
@@ -110,7 +110,7 @@ object BlurSecurity : BaseHook() {
 
         // dock 应用栏
         EzxHelpUtils.hookAllConstructors(dockLayoutClass, object : IMethodHook {
-            override fun after(param: AfterHookParam) {
+            override fun after(param: HookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
                     object :
@@ -128,7 +128,7 @@ object BlurSecurity : BaseHook() {
 
         // 工具箱主体(这里只处理视频/会议/通话工具箱)
         findAndHookMethod(turboLayoutClass, "getTargetBox", object : IMethodHook {
-            override fun after(param: AfterHookParam) {
+            override fun after(param: HookParam) {
                 val targetBox: View? = param.result as View?
                 targetBox?.addOnAttachStateChangeListener(
                     object : View.OnAttachStateChangeListener {
@@ -164,7 +164,7 @@ object BlurSecurity : BaseHook() {
         ) ?: return
         // 游戏工具箱
         EzxHelpUtils.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
-            override fun after(param: AfterHookParam) {
+            override fun after(param: HookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
                     object : View.OnAttachStateChangeListener {
@@ -205,7 +205,7 @@ object BlurSecurity : BaseHook() {
         EzxHelpUtils.hookAllConstructors(
             ImageView::class.java,
             object : IMethodHook {
-                override fun after(param: AfterHookParam) {
+                override fun after(param: HookParam) {
                     (param.thisObject as? ImageView?)?.let {
                         if (it.id != View.NO_ID) {
                             val id = getId(it)
@@ -283,7 +283,7 @@ object BlurSecurity : BaseHook() {
                 detailSettingsLayoutClass,
                 "setFunctionType",
                 object : IMethodHook {
-                    override fun after(param: AfterHookParam) {
+                    override fun after(param: HookParam) {
                         val marqueeTextView = getObjectField(param.thisObject, "d")
                         if (marqueeTextView != null) {
                             marqueeTextView as TextView
@@ -297,7 +297,7 @@ object BlurSecurity : BaseHook() {
                             listViewAdapterInnerClass,
                             "a",
                             object : IMethodHook {
-                                override fun after(param: AfterHookParam) {
+                                override fun after(param: HookParam) {
                                     val isSetupFunction =
                                         param.args[0].toString().contains("BaseModel")
                                     if (isSetupFunction) {
@@ -340,7 +340,7 @@ object BlurSecurity : BaseHook() {
                 srsLevelSeekBarProClass,
                 "b", Context::class.java,
                 AttributeSet::class.java, Int::class.java, object : IMethodHook {
-                    override fun after(param: AfterHookParam) {
+                    override fun after(param: HookParam) {
                         val bgColorField = srsLevelSeekBarProClass.getDeclaredField("j")
                         bgColorField.isAccessible = true
                         bgColorField.setInt(
@@ -369,7 +369,7 @@ object BlurSecurity : BaseHook() {
 
             findAndHookMethod(srsLevelSeekBarInnerViewClass, "a", Context::class.java,
                 AttributeSet::class.java, Int::class.java, object : IMethodHook {
-                    override fun after(param: AfterHookParam) {
+                    override fun after(param: HookParam) {
                         val bgColorField = srsLevelSeekBarInnerViewClass.getDeclaredField("h")
                         bgColorField.isAccessible = true
                         bgColorField.setInt(
@@ -386,7 +386,7 @@ object BlurSecurity : BaseHook() {
                 "M",
                 Context::class.java,
                 object : IMethodHook {
-                    override fun after(param: AfterHookParam) {
+                    override fun after(param: HookParam) {
                         val view = getObjectField(param.thisObject, "d") as View
                         val parentView = view.parent
                         if (parentView is ViewGroup) {

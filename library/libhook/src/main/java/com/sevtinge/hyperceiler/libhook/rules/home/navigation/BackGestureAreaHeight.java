@@ -22,15 +22,14 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import android.view.WindowManager;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BackGestureAreaHeight extends HomeBaseHookNew {
 
@@ -38,7 +37,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
     private void initPadHook() {
         findAndHookMethod("com.miui.home.recents.GestureStubView", "getGestureStubWindowParam", new IMethodHook() {
             @Override
-            public void after(final AfterHookParam param) {
+            public void after(final HookParam param) {
                 WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
                 int pct = PrefsBridge.getInt("home_navigation_back_area_height", 60);
                 lp.height = Math.round(lp.height / 100.0f * pct);
@@ -53,7 +52,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
         try {   // 适用于5.39.10929+
             findAndReplaceMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new IReplaceHook() {
                 @Override
-                public Object replace(BeforeHookParam param) throws Throwable {
+                public Object replace(HookParam param) throws Throwable {
                     Object obj = param.getThisObject();
 
                     int mRotation = EzxHelpUtils.getIntField(obj, "mRotation");
@@ -76,7 +75,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
         } catch (NoSuchMethodError e) { // 旧版
             findAndHookMethod("com.miui.home.recents.GestureStubView", "getGestureStubWindowParam", new IMethodHook() {
                 @Override
-                public void after(final AfterHookParam param) {
+                public void after(final HookParam param) {
                     WindowManager.LayoutParams lp = (WindowManager.LayoutParams) param.getResult();
                     int pct = PrefsBridge.getInt("home_navigation_back_area_height", 60);
                     if (isPad()) {

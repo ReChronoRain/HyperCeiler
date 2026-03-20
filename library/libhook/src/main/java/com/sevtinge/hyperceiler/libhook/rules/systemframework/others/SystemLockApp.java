@@ -34,8 +34,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * @author 焕晨HChen
@@ -52,7 +51,7 @@ public class SystemLockApp extends BaseHook {
                 "onSystemReady",
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         try {
                             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
                             if (context == null) return;
@@ -87,7 +86,7 @@ public class SystemLockApp extends BaseHook {
                 String.class, boolean.class, String.class,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (!PrefsBridge.getBoolean("system_framework_guided_access_status"))
                             return; // 不知道为什么还是需要重启才生效
                         String shortcut = (String) param.getArgs()[1];
@@ -106,7 +105,7 @@ public class SystemLockApp extends BaseHook {
                 "shouldLockKeyguard", int.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (needLockScreen) {
                             param.setResult(true);
                         } else {
@@ -121,7 +120,7 @@ public class SystemLockApp extends BaseHook {
                     "onPointerEvent", MotionEvent.class,
                     new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             if (isLock) {
                                 param.setResult(null);
                             }

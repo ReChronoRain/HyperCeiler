@@ -59,6 +59,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodOrNull
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
@@ -66,7 +67,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -236,7 +236,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 }
 
                 // 调整初始样式
-                val isDataConnectedFlow = interactor.getObjectFieldAs<Any>("isDataConnected")
+                val isDataConnectedFlow = interactor?.getObjectFieldAs<Any>("isDataConnected")
                 // 在 200 版本 isDataConnected 初始总为 false
                 val isDataConnected = getStateFlowValue(isDataConnectedFlow) as Boolean
 

@@ -20,12 +20,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network;
 
 import android.os.Message;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NetworkSpeedSpacing extends BaseHook {
 
@@ -64,7 +63,7 @@ public class NetworkSpeedSpacing extends BaseHook {
 
     private class PostUpdateHook implements IMethodHook {
         @Override
-        public void before(BeforeHookParam param) {
+        public void before(HookParam param) {
             long interval = (long) param.getArgs()[0];
             if (interval == ORIGINAL_INTERVAL) {
                 param.getArgs()[0] = getCustomInterval();
@@ -74,7 +73,7 @@ public class NetworkSpeedSpacing extends BaseHook {
 
     private class HandleMessageHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             Message message = (Message) param.getArgs()[0];
             if (message.what != MSG_UPDATE_NETWORK_SPEED) return;
 

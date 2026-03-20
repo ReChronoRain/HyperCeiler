@@ -28,8 +28,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 ;
@@ -52,7 +51,7 @@ public class UnlockIme extends BaseHook {
         }
     }
 
-    private void startHook(XposedModuleInterface.PackageLoadedParam param) {
+    private void startHook(XposedModuleInterface.PackageReadyParam param) {
         // 检查是否为小米定制输入法
         boolean isNonCustomize = true;
         for (String isMiui : miuiImeList) {
@@ -81,7 +80,7 @@ public class UnlockIme extends BaseHook {
         boolean finalIsNonCustomize = isNonCustomize;
         findAndHookMethod("android.inputmethodservice.InputMethodModuleManager", "loadDex", ClassLoader.class, String.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     getSupportIme((ClassLoader) param.getArgs()[0]);
                     hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", (ClassLoader) param.getArgs()[0]);
                     if (finalIsNonCustomize) {
@@ -135,7 +134,7 @@ public class UnlockIme extends BaseHook {
                 "setNavigationBarColor", int.class,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if ((int) param.getArgs()[0] == 0) return;
                         navBarColor = (int) param.getArgs()[0];
                         customizeBottomViewColor(clazz);
@@ -145,7 +144,7 @@ public class UnlockIme extends BaseHook {
             hookAllMethods(clazz, "addMiuiBottomView",
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         customizeBottomViewColor(clazz);
                     }
                 }
@@ -202,7 +201,7 @@ public class UnlockIme extends BaseHook {
                 classLoader, "getSupportIme",
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         List<?> getEnabledInputMethodList = (List<?>) callMethod(
                             getObjectField(
                                 getStaticObjectField(

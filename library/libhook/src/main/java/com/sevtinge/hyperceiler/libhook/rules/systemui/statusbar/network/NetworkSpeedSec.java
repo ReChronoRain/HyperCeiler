@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NetworkSpeedSec extends BaseHook {
 
@@ -41,7 +41,7 @@ public class NetworkSpeedSec extends BaseHook {
             findAndHookMethod(NETWORK_SPEED_VIEW_CLASS, "setNetworkSpeed", String.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.getArgs()[0] = cleanNetworkSpeedText((String) param.getArgs()[0]);
                     }
                 });
@@ -56,7 +56,7 @@ public class NetworkSpeedSec extends BaseHook {
             findAndHookMethod(NETWORK_SPEED_VIEW_CLASS, "setNetworkSpeed", String.class, String.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.getArgs()[1] = cleanNetworkSpeedText((String) param.getArgs()[1]);
                     }
                 });

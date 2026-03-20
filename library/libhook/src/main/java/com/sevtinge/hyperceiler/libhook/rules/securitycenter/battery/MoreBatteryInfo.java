@@ -44,8 +44,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // Todo: 需要重写
 public class MoreBatteryInfo extends BaseHook {
@@ -111,10 +110,10 @@ public class MoreBatteryInfo extends BaseHook {
 
         findAndHookMethod("com.miui.powercenter.nightcharge.ChargeProtectFragment$d", "handleMessage", Message.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 hookMethod(method2, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(false);
                     }
                 });
@@ -122,7 +121,7 @@ public class MoreBatteryInfo extends BaseHook {
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 callMethod(param.getThisObject(), "a");
                 callMethod(param.getThisObject(), "b");
             }
@@ -130,11 +129,11 @@ public class MoreBatteryInfo extends BaseHook {
 
         findAndHookMethod("com.miui.powercenter.nightcharge.ChargeProtectFragment", "onCreatePreferences", Bundle.class, String.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object t = param.getThisObject();
                 findAndHookMethod("androidx.preference.PreferenceGroup", "removePreference", "androidx.preference.Preference", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         for (Field f : fieldList) {
                             if (f != field) {
                                 /*Context context = AndroidAppHelper.currentApplication().getApplicationContext();

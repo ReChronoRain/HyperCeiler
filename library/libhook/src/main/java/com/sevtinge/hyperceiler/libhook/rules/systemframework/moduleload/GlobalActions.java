@@ -39,7 +39,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // android
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
@@ -67,7 +67,7 @@ public class GlobalActions extends BaseHook {
     public void setupGlobalActions() {
         hookAllConstructors("com.android.server.accessibility.AccessibilityManagerService", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mGlobalContext = (Context) param.getArgs()[0];
                 IntentFilter mFilter = new IntentFilter();
                 // Actions
@@ -150,7 +150,7 @@ public class GlobalActions extends BaseHook {
     public void setupRestartActions() {
         hookAllMethods("com.android.server.policy.PhoneWindowManager", "init", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 IntentFilter intentfilter = new IntentFilter();
                 intentfilter.addAction(GlobalActionConstants.ACTION_RESTART_APPS);

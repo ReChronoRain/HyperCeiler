@@ -28,8 +28,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.Locale;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class PinyinArrangement extends BaseHook {
     LocaleList locale;
@@ -40,7 +39,7 @@ public class PinyinArrangement extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.compat.AlphabeticIndexCompat",
                 "computeSectionName", CharSequence.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         CharSequence charSequence = (CharSequence) param.getArgs()[0];
                         String bucketLabel;
                         Class<?> Pinyin = findClassIfExists("com.github.promeg.pinyinhelper.Pinyin");
@@ -72,14 +71,14 @@ public class PinyinArrangement extends BaseHook {
         hookAllMethods("com.miui.home.launcher.allapps.BaseAlphabeticalAppsList",
                 "onAppsUpdated", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         activity = (Activity) getObjectField(param.getThisObject(), "mLauncher");
                         locale = activity.getResources().getConfiguration().getLocales();
                         activity.getResources().getConfiguration().setLocale(Locale.SIMPLIFIED_CHINESE);
                     }
 
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         Configuration configuration = activity.getResources().getConfiguration();
                         configuration.setLocales(locale);
                     }

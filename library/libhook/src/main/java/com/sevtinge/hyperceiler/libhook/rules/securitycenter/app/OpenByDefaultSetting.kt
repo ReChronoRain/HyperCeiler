@@ -37,8 +37,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import java.lang.reflect.Method
 
 
@@ -132,14 +131,14 @@ class OpenByDefaultSetting : BaseHook() {
         if (Activity::class.java.isAssignableFrom(appDetailsView)) {
             // v1, v2
             hookMethod(onLoadDataFinishMethod, object : IMethodHook {
-                override fun after(param: AfterHookParam) {
+                override fun after(param: HookParam) {
                     handleActivityOnLoadDataFinish(param.thisObject as Activity)
                 }
             })
         } else {
             // v3
             hookMethod(onLoadDataFinishMethod, object : IMethodHook {
-                override fun after(param: AfterHookParam) {
+                override fun after(param: HookParam) {
                     handleFragmentOnLoadDataFinish(param.thisObject)
                 }
             })
@@ -149,7 +148,7 @@ class OpenByDefaultSetting : BaseHook() {
                 "onPreferenceClick",
                 "androidx.preference.Preference",
                 object : IMethodHook {
-                    override fun before(param: BeforeHookParam) {
+                    override fun before(param: HookParam) {
                         val pref = param.args[0]
                         if (callMethod(pref, "getKey") == "app_default_pref") {
                             val prefFrag = callMethod(param.thisObject, "requireActivity") as Activity

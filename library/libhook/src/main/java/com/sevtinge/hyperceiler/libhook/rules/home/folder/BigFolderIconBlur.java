@@ -26,16 +26,16 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BigFolderIconBlur extends BaseHook {
 
@@ -69,7 +69,7 @@ public class BigFolderIconBlur extends BaseHook {
 
         hookAllConstructors(mFolderIcon, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 Object mDockBlur = EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
                 if (mDockBlur != null) return;
@@ -80,7 +80,7 @@ public class BigFolderIconBlur extends BaseHook {
 
         IMethodHook mBigFolderIconBlur = new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 int mFolderWidth = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_width", 145));
                 int mFolderHeight = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_height", 145));
                 ImageView mIconImageView = (ImageView) EzxHelpUtils.getObjectField(param.getThisObject(), "mIconImageView");
@@ -107,7 +107,7 @@ public class BigFolderIconBlur extends BaseHook {
 
                 findAndHookMethod(mLauncher, "showEditPanel", boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         isShowEditPanel = (boolean) param.getArgs()[0];
                         if (isShowEditPanel) {
                             mDockBlur.setVisibility(View.GONE);
@@ -121,21 +121,21 @@ public class BigFolderIconBlur extends BaseHook {
 
                 findAndHookMethod(mLauncher, "openFolder", mFolderInfo, View.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         mDockBlur.setVisibility(View.GONE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "closeFolder", boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (!isShowEditPanel) mDockBlur.setVisibility(View.VISIBLE);
                     }
                 });
 
                 findAndHookMethod(mLauncher, "onStateSetStart", mLauncherState, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         Boolean mLauncherState = param.getArgs()[0].getClass().getSimpleName().equals("LauncherState");
                         Boolean mNormalState = param.getArgs()[0].getClass().getSimpleName().equals("NormalState");
 
@@ -162,7 +162,7 @@ public class BigFolderIconBlur extends BaseHook {
 
         hookAllConstructors(mDragView, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View mDragView = (View) param.getThisObject();
                 mDragView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 

@@ -42,7 +42,7 @@ import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 /**
@@ -79,7 +79,7 @@ public class ResourcesTool {
     private Handler mHandler = null;
 
     private final CopyOnWriteArrayList<Resources> resourcesArrayList = new CopyOnWriteArrayList<>();
-    private final CopyOnWriteArrayList<XposedInterface.MethodUnhooker<?>> unhooks = new CopyOnWriteArrayList<>();
+    private final CopyOnWriteArrayList<XposedInterface.HookHandle> unhooks = new CopyOnWriteArrayList<>();
     private final ConcurrentHashMap<ResKey, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
     private final ConcurrentHashMap<Integer, ResKey> resIdCache = new ConcurrentHashMap<>();
 
@@ -308,7 +308,7 @@ public class ResourcesTool {
             if (!shouldHookResourcesMethod(name, paramTypes, mask)) continue;
 
             try {
-                XposedInterface.MethodUnhooker<?> unhook = EzxHelpUtils.hookMethod(method, ResHooker);
+                XposedInterface.HookHandle unhook = EzxHelpUtils.hookMethod(method, ResHooker);
                 unhooks.add(unhook);
             } catch (Throwable t) {
                 XposedLog.e(TAG, "Failed to hook Resources." + name, t);
@@ -357,7 +357,7 @@ public class ResourcesTool {
             if (!isNeedHook(method, name, mask)) continue;
 
             try {
-                XposedInterface.MethodUnhooker<?> unhook = EzxHelpUtils.hookMethod(method, TypedArrayHooker);
+                XposedInterface.HookHandle unhook = EzxHelpUtils.hookMethod(method, TypedArrayHooker);
                 unhooks.add(unhook);
             } catch (Throwable t) {
                 XposedLog.e(TAG, "Failed to hook TypedArray." + name, t);
@@ -383,7 +383,7 @@ public class ResourcesTool {
      * 卸载所有 hook 并重置状态
      */
     public synchronized void unHookRes() {
-        for (XposedInterface.MethodUnhooker<?> unhook : unhooks) {
+        for (XposedInterface.HookHandle unhook : unhooks) {
             unhook.unhook();
         }
         unhooks.clear();
@@ -400,7 +400,7 @@ public class ResourcesTool {
      */
     private final IMethodHook TypedArrayHooker = new IMethodHook() {
         @Override
-        public void before(BeforeHookParam callback) {
+        public void before(HookParam callback) {
             if (Boolean.TRUE.equals(inReplacement.get())) return;
 
             Object[] args = callback.getArgs();
@@ -423,7 +423,7 @@ public class ResourcesTool {
             Resources mResources = (Resources) EzxHelpUtils.getObjectField(thisObject, "mResources");
             if (mResources == null) return;
 
-            String methodName = callback.getMember().getName();
+            String methodName = callback.getExecutable().getName();
             Object value = getTypedArrayReplacement(mResources, id, methodName);
             if (value == null) return;
 
@@ -439,7 +439,7 @@ public class ResourcesTool {
      */
     private final IMethodHook ResHooker = new IMethodHook() {
         @Override
-        public void before(BeforeHookParam callback) {
+        public void before(HookParam callback) {
             if (Boolean.TRUE.equals(inReplacement.get())) return;
 
             // 模块资源未加载时，尝试同步加载作为 fallback
@@ -458,7 +458,7 @@ public class ResourcesTool {
             if (reqId == 0) return;
 
             Resources thisRes = (Resources) callback.getThisObject();
-            String methodName = callback.getMember().getName();
+            String methodName = callback.getExecutable().getName();
 
             for (Resources resources : resourcesArrayList) {
                 if (resources == null) continue;

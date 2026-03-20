@@ -21,14 +21,14 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class RemoveNotifNumLimit extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator", "attach", "com.android.systemui.statusbar.notification.collection.NotifPipeline", new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) {
+            public Object replace(HookParam param) {
                 return null;
             }
         });
@@ -36,14 +36,14 @@ public class RemoveNotifNumLimit extends BaseHook {
         try {
             findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator$$ExternalSyntheticLambda0", "onViewBound", "com.android.systemui.statusbar.notification.collection.NotificationEntry", new IReplaceHook() {
                 @Override
-                public Object replace(BeforeHookParam param) {
+                public Object replace(HookParam param) {
                     return null;
                 }
             });
         } catch (Throwable t) {
             findAndHookMethod("com.android.systemui.statusbar.notification.collection.coordinator.CountLimitCoordinator$$ExternalSyntheticLambda0", "onViewBound$1", "com.android.systemui.statusbar.notification.collection.NotificationEntry", new IReplaceHook() {
                 @Override
-                public Object replace(BeforeHookParam param) {
+                public Object replace(HookParam param) {
                     return null;
                 }
             });

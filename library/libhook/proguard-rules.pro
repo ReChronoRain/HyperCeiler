@@ -19,19 +19,20 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keepattributes *Annotation*,Signature,InnerClasses,EnclosingMethod
 
 # --- Xposed ---
 -adaptresourcefilecontents META-INF/xposed/java_init.list
--keepattributes RuntimeVisibleAnnotations
+
 -keep,allowobfuscation,allowoptimization public class * extends io.github.libxposed.api.XposedModule {
     public <init>(...);
+    public void onModuleLoaded(...);
     public void onPackageLoaded(...);
-    public void onSystemServerLoaded(...);
+    public void onPackageReady(...);
+    public void onSystemServerStarting(...);
 }
--keep,allowoptimization,allowobfuscation @io.github.libxposed.api.annotations.* class * {
-    @io.github.libxposed.api.annotations.BeforeInvocation <methods>;
-    @io.github.libxposed.api.annotations.AfterInvocation <methods>;
+-keep,allowshrinking,allowoptimization,allowobfuscation class ** implements io.github.libxposed.api.XposedInterface$Hooker
+-keepclassmembers,allowoptimization class ** implements io.github.libxposed.api.XposedInterface$Hooker {
+    public *** intercept(...);
 }
 
 # --- Other ---

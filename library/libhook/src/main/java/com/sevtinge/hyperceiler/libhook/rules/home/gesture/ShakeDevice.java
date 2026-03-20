@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ShakeManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ShakeDevice extends HomeBaseHookNew {
 
@@ -40,7 +40,7 @@ public class ShakeDevice extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onResume", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ShakeManager shakeMgr = (ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
                 if (shakeMgr == null) {
                     shakeMgr = new ShakeManager((Context) param.getThisObject());
@@ -55,7 +55,7 @@ public class ShakeDevice extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onPause", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
@@ -69,7 +69,7 @@ public class ShakeDevice extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.Launcher", "onResume", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ShakeManager shakeMgr = (ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
                 if (shakeMgr == null) {
                     shakeMgr = new ShakeManager((Context) param.getThisObject());
@@ -84,7 +84,7 @@ public class ShakeDevice extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.Launcher", "onPause", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);

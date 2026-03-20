@@ -39,12 +39,12 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.mSupportSV
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookReplace
-import io.github.kyuubiran.ezxhelper.android.util.ViewUtil.findViewByIdName
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceCallback
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -327,7 +327,7 @@ object VolumeOrQSBrightnessValue {
 
         // 有超大音量功能的拦截隐藏
         if (mSupportSV) {
-            volumePanelViewController.methodFinder().filterByName("updateSuperVolumeView").first().hookReplace { null }
+            volumePanelViewController.methodFinder().filterByName("updateSuperVolumeView").first().replaceCallback { null }
         }
     }
 

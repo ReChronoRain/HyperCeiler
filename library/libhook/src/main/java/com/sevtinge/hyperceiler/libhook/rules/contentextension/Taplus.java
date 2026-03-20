@@ -33,8 +33,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -46,7 +45,7 @@ public class Taplus extends BaseHook {
         findAndHookMethod("com.miui.contentextension.setting.fragment.MainSettingsFragment",
             "onCreate", Bundle.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
                     ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
                         @Override
@@ -67,7 +66,7 @@ public class Taplus extends BaseHook {
         findAndHookMethod("com.miui.contentextension.setting.fragment.MainSettingsFragment",
             "onDestroy", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
                     ContentObserver contentObserver = (ContentObserver) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "taplusListener");
                     mContext.getContentResolver().unregisterContentObserver(contentObserver);
@@ -79,7 +78,7 @@ public class Taplus extends BaseHook {
             "setTaplusEnableStatus", Context.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context mContext = (Context) param.getArgs()[0];
                     boolean z = (boolean) param.getArgs()[1];
                     Settings.System.putInt(
@@ -94,7 +93,7 @@ public class Taplus extends BaseHook {
             "isTaplusEnable", Context.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context mContext = (Context) param.getArgs()[0];
                     SharedPreferences sharedPreferences = mContext.getSharedPreferences("pref_com_miui_contentextension", 0);
                     boolean system = false;

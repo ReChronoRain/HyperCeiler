@@ -34,7 +34,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -53,10 +53,10 @@ public class DisableGameBoosterAds extends BaseHook {
         });
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod(JSONObject.class, "put", String.class, boolean.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.getArgs()[1] = true;
                     }
                 });
@@ -75,7 +75,7 @@ public class DisableGameBoosterAds extends BaseHook {
         });
         EzxHelpUtils.hookMethod(method2, new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) throws Throwable {
+            public Object replace(HookParam param) throws Throwable {
                 return null;
             }
         });

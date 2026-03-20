@@ -7,22 +7,22 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class ExactSignCheckPatch extends CorePatchHelper {
 
     private final String TAG = "ExactSignCheckPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 11+
         try {
             Class<?> signingDetails = getSigningDetails(lpparam.getClassLoader());
             // Allow apk splits with different signatures to be installed together
             hookAllMethods(signingDetails, "signaturesMatchExactly", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_exact_signature_check", false))
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_EXACT_SIGNATURE_CHECK, false))
                         param.setResult(true);
                 }
             });

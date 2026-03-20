@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isM
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NotificationFreeform extends BaseHook {
     @Override
@@ -31,14 +31,14 @@ public class NotificationFreeform extends BaseHook {
         if (isMoreAndroidVersion(36)) {
             findAndHookMethod("com.android.systemui.statusbar.notification.row.ExpandableNotificationRowInjector", "updateMiniWindowBar", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setObjectField(param.getThisObject(), "canSlide", true);
                 }
             });
         } else {
             findAndHookMethod("com.android.systemui.statusbar.notification.row.MiuiExpandableNotificationRow", "updateMiniWindowBar", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setObjectField(param.getThisObject(), "mCanSlide", true);
                 }
             });

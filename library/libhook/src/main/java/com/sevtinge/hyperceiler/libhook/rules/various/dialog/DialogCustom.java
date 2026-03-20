@@ -37,7 +37,7 @@ import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DialogCustom extends BaseHook {
 
@@ -66,7 +66,7 @@ public class DialogCustom extends BaseHook {
         if (PrefsBridge.getBoolean("various_dialog_window_blur")) {
             hookAllConstructors(mAlertControllerCls, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Window mWindow = (Window) getObjectField(param.getThisObject(), "mWindow");
                     mWindow.getAttributes().setBlurBehindRadius(PrefsBridge.getInt("various_dialog_window_blur_radius", 60)); // android.R.styleable.Window_windowBlurBehindRadius
                     mWindow.addFlags(WindowManager.LayoutParams.FLAG_BLUR_BEHIND);
@@ -96,7 +96,7 @@ public class DialogCustom extends BaseHook {
 
             findAndHookMethod(mAlertControllerCls, "setupDialogPanel", Configuration.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
                     mContext = mParentPanel.getContext();
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
@@ -116,7 +116,7 @@ public class DialogCustom extends BaseHook {
             XposedLog.i(TAG, getPackageName(), "oldMethod not found.");
             hookAllMethods(mAlertControllerCls, "updateDialogPanel", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
                     mContext = mParentPanel.getContext();
                     FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
@@ -136,7 +136,7 @@ public class DialogCustom extends BaseHook {
         try {
             hookAllMethods(mAlertControllerCls, "updateParentPanelMarginByWindowInsets", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
 
                     mContext = mParentPanel.getContext();

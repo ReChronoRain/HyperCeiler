@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.utils;
 
-import static com.sevtinge.hyperceiler.Application.isModuleActivated;
 import static com.sevtinge.hyperceiler.common.log.LogStatusManager.IS_LOGGER_ALIVE;
 import static com.sevtinge.hyperceiler.common.log.LogStatusManager.formatLoggerStatusDetail;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getBrand;
@@ -135,7 +134,7 @@ public class DeviceInfoBuilder {
             }
             propertiesCheck.put("RootGroups", getRootGroupsInfo());
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
-            propertiesCheck.put("ModuleActive", String.valueOf(isModuleActivated));
+            propertiesCheck.put("ModuleActive", String.valueOf(XposedActivateHelper.isActive()));
             propertiesCheck.put("DebugModeActivate", String.valueOf(
                 PrefsBridge.getBoolean("prefs_key_development_debug_mode", false)));
             if ("NOT_CHECKED".equals(LoggerHealthChecker.diagSummary)) {

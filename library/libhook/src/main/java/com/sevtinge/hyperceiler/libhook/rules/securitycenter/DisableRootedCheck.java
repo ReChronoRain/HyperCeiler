@@ -45,7 +45,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableRootedCheck extends BaseHook {
     @Override
@@ -128,7 +128,7 @@ public class DisableRootedCheck extends BaseHook {
 
         hookMethod(returnEnvironment, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object obj = param.getArgs()[0];
                 if (clientApiRequest.isInstance(obj)) {
                     callMethod(obj, environmentPut.getName());
@@ -160,7 +160,7 @@ public class DisableRootedCheck extends BaseHook {
             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
             hookMethod(method, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             });

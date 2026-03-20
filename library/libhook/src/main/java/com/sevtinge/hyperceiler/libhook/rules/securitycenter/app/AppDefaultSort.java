@@ -29,7 +29,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Field;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AppDefaultSort extends BaseHook {
 
@@ -43,7 +43,7 @@ public class AppDefaultSort extends BaseHook {
 
         findAndHookMethod(mAppManagerCls, "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
                 Class<?> mFragXCls = findClassIfExists("androidx.fragment.app.Fragment");
                 Field[] fields = param.getThisObject().getClass().getDeclaredFields();
@@ -56,7 +56,7 @@ public class AppDefaultSort extends BaseHook {
                 if (fragCls != null) {
                     hookAllMethods(fragCls, "onActivityCreated", new IMethodHook() {
                         @Override
-                        public void before(final BeforeHookParam param) {
+                        public void before(final HookParam param) {
                             try {
                                 param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
                             } catch (Throwable t) {

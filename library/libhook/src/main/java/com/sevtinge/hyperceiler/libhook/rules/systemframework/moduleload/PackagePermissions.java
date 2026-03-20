@@ -30,8 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class PackagePermissions extends BaseHook {
     private final ArrayList<String> systemPackages = new ArrayList<>();
@@ -46,7 +45,7 @@ public class PackagePermissions extends BaseHook {
         // Allow signature level permissions for module
         hookAllMethods(PMSCls, "shouldGrantPermissionBySignature", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String pkgName = (String) callMethod(param.getArgs()[0], "getPackageName");
                 if (systemPackages.contains(pkgName)) param.setResult(true);
             }
@@ -55,7 +54,7 @@ public class PackagePermissions extends BaseHook {
 
         hookAllMethods("com.android.server.pm.PackageManagerServiceUtils", "verifySignatures", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String pkgName = (String) callMethod(param.getArgs()[0], "getName");
                 if (systemPackages.contains(pkgName)) param.setResult(true);
             }
@@ -66,7 +65,7 @@ public class PackagePermissions extends BaseHook {
         String ActQueryService = "com.android.server.pm.ComputerEngine";
         hookAllMethods(ActQueryService, "queryIntentActivitiesInternal", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (param.getArgs().length < 6) return;
                 List<ResolveInfo> infos = (List<ResolveInfo>) param.getResult();
                 if (infos != null) {
@@ -81,7 +80,7 @@ public class PackagePermissions extends BaseHook {
 
         findAndHookMethod("android.content.pm.ApplicationInfo", "isSystemApp", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ApplicationInfo ai = (ApplicationInfo) param.getThisObject();
                 if (ai != null && systemPackages.contains(ai.packageName)) {
                     param.setResult(true);
@@ -91,7 +90,7 @@ public class PackagePermissions extends BaseHook {
 
         findAndHookMethod("android.content.pm.ApplicationInfo", "isSignedWithPlatformKey", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ApplicationInfo ai = (ApplicationInfo) param.getThisObject();
                 if (ai != null && systemPackages.contains(ai.packageName)) {
                     param.setResult(true);

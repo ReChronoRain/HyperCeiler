@@ -22,7 +22,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.other;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // from nakixii
 public class OptAppLaunchDelay extends BaseHook {
@@ -30,7 +30,7 @@ public class OptAppLaunchDelay extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.systemui.shared.recents.utilities.WindowTransitionCallbackHelper", "executeFinishCallback", boolean.class, boolean.class, int.class, "android.window.WindowContainerTransaction", "com.android.systemui.shared.recents.utilities.ShellTransitionCallback", boolean.class, boolean.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.getArgs()[5] = false;
             }
         });

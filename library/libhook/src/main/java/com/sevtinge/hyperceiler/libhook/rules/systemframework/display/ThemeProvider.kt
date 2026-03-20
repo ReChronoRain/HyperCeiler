@@ -29,7 +29,7 @@ import miui.drm.ThemeReceiver
 
 class ThemeProvider : BaseHook() {
     override fun init() {
-        var hook: List<XposedInterface.MethodUnhooker<*>>? = null
+        var hook: List<XposedInterface.HookHandle>? = null
         try {
             ThemeReceiver::class.java.methodFinder().filterByName("validateTheme").first().createHook {
                 before {

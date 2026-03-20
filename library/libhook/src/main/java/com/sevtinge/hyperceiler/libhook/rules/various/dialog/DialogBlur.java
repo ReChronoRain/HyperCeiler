@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DialogBlur extends BaseHook {
@@ -35,7 +35,7 @@ public class DialogBlur extends BaseHook {
     public void init() {
         hookAllMethods(mDialogCls, "installContent", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
 
                 View mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
 
@@ -48,7 +48,7 @@ public class DialogBlur extends BaseHook {
 
         hookAllMethods(mDialogCls, "dismiss", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
                 mParentPanel.setVisibility(View.INVISIBLE);
             }

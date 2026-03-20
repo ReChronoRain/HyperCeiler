@@ -30,7 +30,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -47,10 +47,10 @@ public class ClipboardLimit extends BaseHook {
         EzxHelpUtils.setStaticIntField(EzxHelpUtils.findClassIfExists("com.miui.inputmethod.MiuiClipboardManager", classLoader), "MAX_CLIP_CONTENT_SIZE", Integer.MAX_VALUE);
         EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "processSingleItemOfClipData", ClipData.class, String.class ,new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) { // Todo: 这里原本是 param.getExtra().getClassLoader(), 不太清楚怎么拿
+            public void before(HookParam param) { // Todo: 这里原本是 param.getExtra().getClassLoader(), 不太清楚怎么拿
                 EzxHelpUtils.findAndHookMethod("java.lang.String", param.getThisObject().getClass().getClassLoader(), "substring", int.class, int.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                     String charSequence = (String) param.getThisObject();
                         int maxLength = (int) param.getArgs()[1];
                         StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
@@ -70,7 +70,7 @@ public class ClipboardLimit extends BaseHook {
 
         EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "getNoExpiredClipboardData", Context.class, String.class, long.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 /*Method method = DexKit.findMember("JsonToBean", new IDexKit() {
                     @Override
                     public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {

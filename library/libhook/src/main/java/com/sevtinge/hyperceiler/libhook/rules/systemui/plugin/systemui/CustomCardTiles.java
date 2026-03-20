@@ -32,8 +32,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class CustomCardTiles {
     private static final String TAG = "CustomCardTiles";
@@ -82,14 +81,14 @@ public class CustomCardTiles {
     private record GetCardStyleTileSpecsHook(List<String> cardStyleTiles) implements IMethodHook {
 
         @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(cardStyleTiles);
             }
         }
 
     private static class QSCardItemViewConstructorHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             LinearLayout linearLayout = (LinearLayout) param.getThisObject();
             Context context = linearLayout.getContext();
 
@@ -112,7 +111,7 @@ public class CustomCardTiles {
 
     private static class UpdateBackgroundHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             try {
                 Object state = EzxHelpUtils.getObjectField(param.getThisObject(), "state");
                 if (state == null) {
@@ -167,7 +166,7 @@ public class CustomCardTiles {
 
     private static class CreateVoWifiTilesHook implements IMethodHook {
         @Override
-        public void before(BeforeHookParam param) {
+        public void before(HookParam param) {
             param.setResult(null);
         }
     }

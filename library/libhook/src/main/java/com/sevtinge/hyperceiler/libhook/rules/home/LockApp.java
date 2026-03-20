@@ -33,8 +33,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * @author 焕晨HChen
@@ -63,7 +62,7 @@ public class LockApp extends BaseHook {
             Context.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     registerLockObserver(context);
                 }
@@ -73,7 +72,7 @@ public class LockApp extends BaseHook {
             "onInputEvent", InputEvent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (isAppLocked) {
                         param.setResult(null);
                     }
@@ -87,7 +86,7 @@ public class LockApp extends BaseHook {
             "com.miui.home.launcher.Launcher",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) getObjectField(param.getThisObject(), "mContext");
                     if (context == null) {
                         XposedLog.w(TAG, getPackageName(), "DockControllerImpl context is null");
@@ -103,7 +102,7 @@ public class LockApp extends BaseHook {
             Context.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     registerLockObserver(context);
                 }
@@ -113,7 +112,7 @@ public class LockApp extends BaseHook {
             "onTouchEvent", MotionEvent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (isAppLocked) {
                         param.setResult(false);
                     }

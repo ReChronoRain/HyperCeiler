@@ -31,7 +31,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * Binder 代理
@@ -67,7 +67,7 @@ public class EffectBinderProxy extends BaseHook {
             int.class,
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     handleRegisterReceiver(param);
                 }
             }
@@ -77,7 +77,7 @@ public class EffectBinderProxy extends BaseHook {
     /**
      * 处理广播注册结果
      */
-    private void handleRegisterReceiver(AfterHookParam param) {
+    private void handleRegisterReceiver(HookParam param) {
         try {
             Intent intent = (Intent) param.getResult();
             if (intent == null) return;

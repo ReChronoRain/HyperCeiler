@@ -21,11 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.mms;
 
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -35,8 +35,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DisableRiskTip extends BaseHook {
@@ -66,34 +65,34 @@ public class DisableRiskTip extends BaseHook {
         });
         findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isRiskyNumber", new IMethodHook()  {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(false);
             }
         });
         if (PrefsBridge.getBoolean("mms_disable_fraud_risk_tip")) findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isDefraudNumber", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(false);
             }
         });
         if (getPackageVersionCode(getLpparam()) >= 170000000) {
             findAndHookMethod("com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone", "isRiskyNumber", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             });
             if (PrefsBridge.getBoolean("mms_disable_fraud_risk_tip"))
                 findAndHookMethod("com.miui.smsextra.internal.sdk.xiaomi.YellowPagePhone", "isDefraudNumber", new IMethodHook()  {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(false);
                     }
                 });
         }
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 // XposedLog.d("smsrisk g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
                 if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");
@@ -103,7 +102,7 @@ public class DisableRiskTip extends BaseHook {
         });
         hookMethod(method2, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 // XposedLog.d("smsrisk n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));
                 // 不知道为什么set两遍才能跑，先留在这里吧
                 if (getObjectField(param.getArgs()[0], "mRiskType") == "11" && PrefsBridge.getBoolean("mms_disable_overseas_risk_tip")) setObjectField(param.getArgs()[0], "mRiskType", ""); setObjectField(param.getArgs()[0], "mRiskType", "");

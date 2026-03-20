@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -41,7 +41,7 @@ public class FuckMiuiUpload extends BaseHook {
             classs = findClass("com.miui.analytics.onetrack.p.u");
             findAndHookMethod(classs, "w", long.class, long.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             });
@@ -55,7 +55,7 @@ public class FuckMiuiUpload extends BaseHook {
             classs = findClass("com.miui.analytics.c.f.k");
             findAndHookMethod(classs, "y", long.class, long.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     // XposedBridge.log("com.miui.analytics:执行拦截！ --- 2");
                     param.setResult(null);
                 }
@@ -70,7 +70,7 @@ public class FuckMiuiUpload extends BaseHook {
             try {
                 findAndHookMethod(classs, "a", Context.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // XposedBridge.log("com.miui.analytics:执行拦截！ --- 3");
                         param.setResult(0);
                     }
@@ -83,7 +83,7 @@ public class FuckMiuiUpload extends BaseHook {
             try {
                 findAndHookMethod(classs, "b", Context.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // XposedBridge.log("com.miui.analytics:执行拦截！ --- 4");
                         param.setResult("NONE");
                     }
@@ -96,7 +96,7 @@ public class FuckMiuiUpload extends BaseHook {
             try {
                 findAndHookMethod(classs, "c", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // XposedBridge.log("com.miui.analytics:执行拦截！ --- 5");
                         param.setResult(false);
                     }

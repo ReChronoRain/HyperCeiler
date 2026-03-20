@@ -19,8 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -32,7 +34,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class VideoDolbyOpen extends BaseHook {
     @Override
@@ -72,8 +74,12 @@ public class VideoDolbyOpen extends BaseHook {
                 return methodData;
             }
         });
-        HookFactory.createMethodHook(method, hookFactory -> hookFactory.before(
-                methodHookParam -> methodHookParam.setResult(null)
-        ));
+
+        EzxHelpUtils.hookMethod(method, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                param.setResult(null);
+            }
+        });
     }
 }

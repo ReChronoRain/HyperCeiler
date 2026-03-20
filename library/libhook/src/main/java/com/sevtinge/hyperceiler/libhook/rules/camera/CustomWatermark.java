@@ -39,7 +39,7 @@ import org.luckypray.dexkit.result.MethodDataList;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class CustomWatermark extends BaseHook {
@@ -66,7 +66,7 @@ public class CustomWatermark extends BaseHook {
             try {
                 hookMethod(method, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         SparseArray<String[]> sparseArray = new SparseArray<>(1);
                         sparseArray.put(0, new String[]{PrefsBridge.getString("camera_custom_watermark_manufacturer", "XIAOMI"), PrefsBridge.getString("camera_custom_watermark_device", "MI PHONE")});
                         param.setResult(sparseArray);

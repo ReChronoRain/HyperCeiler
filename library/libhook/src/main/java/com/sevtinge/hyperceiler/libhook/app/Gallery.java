@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.ChangeBackupServer;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableHdrEnhance;
@@ -32,7 +33,6 @@ import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoEditor;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.EnableVideoPost;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.LongerTrashbinTime;
 import com.sevtinge.hyperceiler.libhook.rules.gallery.UnPrivacyWatermark;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.gallery")
 public class Gallery extends BaseLoad {

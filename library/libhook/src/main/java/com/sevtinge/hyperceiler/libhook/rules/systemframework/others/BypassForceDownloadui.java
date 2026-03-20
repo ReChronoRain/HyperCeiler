@@ -27,7 +27,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 修复从快速分享查看下载的内容时跳转错误
@@ -61,7 +61,7 @@ public class BypassForceDownloadui extends BaseHook {
                 final int index = intentIndex;
                 hookMethod(method, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         try {
                             Intent intent = (Intent) param.getArgs()[index];
                             if (intent == null) return;

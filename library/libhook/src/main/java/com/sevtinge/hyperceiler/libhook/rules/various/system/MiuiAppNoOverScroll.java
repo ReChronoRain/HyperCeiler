@@ -25,8 +25,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class MiuiAppNoOverScroll extends BaseHook {
 
@@ -40,7 +39,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
         try {
             IMethodHook hookParam = new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     param.getArgs()[0] = false;
                 }
@@ -50,7 +49,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
 
                 hookAllConstructors(mSpringBackCls, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     }
                 });
@@ -62,7 +61,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
             if (mRemixRvCls != null) {
                 hookAllConstructors(mRemixRvCls, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         ((View) param.getThisObject()).setOverScrollMode(View.OVER_SCROLL_NEVER);
                         EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     }

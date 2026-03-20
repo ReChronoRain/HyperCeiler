@@ -28,13 +28,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DockCustom extends BaseHook {
 
@@ -61,7 +61,7 @@ public class DockCustom extends BaseHook {
 
         findAndHookMethod(mLauncherCls, "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Activity mActivity = (Activity) param.getThisObject();
 
                 FrameLayout mSearchBarContainer = (FrameLayout) callMethod(param.getThisObject(), "getSearchBarContainer");
@@ -83,14 +83,14 @@ public class DockCustom extends BaseHook {
 
                 findAndHookMethod(mLauncherCls, "isFolderShowing", new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         isFolderShowing = (boolean) param.getResult();
                     }
                 });
 
                 findAndHookMethod(mLauncherCls, "showEditPanel", boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         isShowEditPanel = (boolean) param.getArgs()[0];
                         mDockView.setVisibility(isShowEditPanel ? View.GONE : View.VISIBLE);
                     }
@@ -98,21 +98,21 @@ public class DockCustom extends BaseHook {
 
                 findAndHookMethod(mLauncherCls, "openFolder", mFolderInfo, View.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         mDockView.setVisibility(View.GONE);
                     }
                 });
 
                 findAndHookMethod(mLauncherCls, "closeFolder", boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (!isShowEditPanel) mDockView.setVisibility(View.VISIBLE);
                     }
                 });
 
                 findAndHookMethod(mBlurUtils, "fastBlurWhenEnterRecents", mLauncherCls, mLauncherStateCls, boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         mDockView.setVisibility(View.GONE);
                     }
                 });
@@ -121,7 +121,7 @@ public class DockCustom extends BaseHook {
 
         findAndHookMethod(mLauncherCls, "onStateSetStart", mLauncherStateCls, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Boolean mLauncherState = param.getArgs()[0].getClass().getSimpleName().equals("LauncherState");
                 Boolean mNormalState = param.getArgs()[0].getClass().getSimpleName().equals("NormalState");
 
@@ -136,7 +136,7 @@ public class DockCustom extends BaseHook {
 
         /*findAndHookMethod(mDeviceConfigCls,"calcHotSeatsMarginTop", Context.class, boolean.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 Context context = (Context) param.getArgs()[0];
                 param.setResult(DisplayUtils.dip2px(context, PrefsBridge.getInt("home_dock_margin_top",25)));
             }
@@ -144,7 +144,7 @@ public class DockCustom extends BaseHook {
 
         findAndHookMethod(mDeviceConfigCls,"calcHotSeatsMarginBottom", Context.class, boolean.class, boolean.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 Context context = (Context) param.getArgs()[0];
                 param.setResult(DisplayUtils.dip2px(context, PrefsBridge.getInt("home_dock_icon_margin_bottom",90)));
             }

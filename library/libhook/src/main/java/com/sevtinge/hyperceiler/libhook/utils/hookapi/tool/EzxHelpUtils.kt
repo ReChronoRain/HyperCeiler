@@ -20,92 +20,62 @@
 
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
-import android.app.Application
 import android.content.Context
-import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
-import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
-import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxApplicationHookHelper
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxClassHelper
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxFieldHelper
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxHookHelper
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxMethodHelper
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal.EzxModuleHolder
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory
+import io.github.libxposed.api.XposedInterface
+import io.github.libxposed.api.XposedInterface.HookHandle
 import io.github.libxposed.api.XposedInterface.Hooker
-import io.github.libxposed.api.XposedInterface.MethodUnhooker
 import io.github.libxposed.api.XposedModule
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
 import java.lang.reflect.Method
-import java.lang.reflect.Modifier
-import java.util.Arrays
-import java.util.WeakHashMap
 
+/**
+ * Hook API
+ *
+ * 提供类查找、字段操作、方法操作、Hook 操作、Application 生命周期管理等功能。
+ * 内部实现委托给 internal 包下的各个 Helper 对象：
+ * - [EzxClassHelper] - 类查找
+ * - [EzxFieldHelper] - 字段操作
+ * - [EzxMethodHelper] - 方法/构造器查找与调用
+ * - [EzxHookHelper] - Hook 操作
+ * - [EzxApplicationHookHelper] - Application 生命周期管理
+ *
+ * Java 调用方通过 EzxHelpUtils.xxx() 访问，
+ * Kotlin 调用方通过 KtHelpUtils.kt 中的扩展函数访问。
+ */
 object EzxHelpUtils {
 
     @JvmStatic
-    private lateinit var xposedModule: XposedModule
-    private val additionalFields = WeakHashMap<Any, HashMap<String, Any?>>()
-
-    private val methodCache = WeakHashMap<String, Method?>()
-    private val constructorCache = WeakHashMap<String, Constructor<*>?>()
-    private val fieldCache = WeakHashMap<String, Field?>()
-
-    private const val TAG = "EzxHelpUtils"
-
-    @JvmStatic
     fun setXposedModule(module: XposedModule) {
-        xposedModule = module
+        EzxModuleHolder.xposedModule = module
     }
+
+    // ==================== 类查找 ====================
 
     @JvmStatic
-    fun findClass(name: String): Class<*> {
-        return findClassInternal(name, safeClassLoader)
-            ?: throw ClassNotFoundException("Class not found: $name")
-    }
+    fun findClass(name: String): Class<*> = EzxClassHelper.findClass(name)
 
     @JvmStatic
-    fun findClass(name: String, classLoader: ClassLoader?): Class<*> {
-        val cl = classLoader ?: safeClassLoader
-        return findClassInternal(name, cl)
-            ?: throw ClassNotFoundException("Class not found: $name")
-    }
+    fun findClass(name: String, classLoader: ClassLoader?): Class<*> =
+        EzxClassHelper.findClass(name, classLoader)
 
     @JvmStatic
-    fun findClassIfExists(name: String): Class<*>? {
-        return findClassInternal(name, safeClassLoader)
-    }
+    fun findClassIfExists(name: String): Class<*>? = EzxClassHelper.findClassIfExists(name)
 
     @JvmStatic
-    fun findClassIfExists(name: String, classLoader: ClassLoader?): Class<*>? {
-        val cl = classLoader ?: safeClassLoader
-        return findClassInternal(name, cl)
-    }
+    fun findClassIfExists(name: String, classLoader: ClassLoader?): Class<*>? =
+        EzxClassHelper.findClassIfExists(name, classLoader)
 
-    /**
-     * 带有内部类回退的内部类查找。
-     * 支持 "a.b.C.D" 和 "a.b.C$D" 两种内部类表示法
-     */
-    private fun findClassInternal(name: String, classLoader: ClassLoader): Class<*>? {
-        // Direct lookup
-        try {
-            return Class.forName(name, false, classLoader)
-        } catch (_: ClassNotFoundException) {}
-
-        // Inner class fallback: replace '.' with '$' from right to left
-        val chars = name.toCharArray()
-        for (i in chars.indices.reversed()) {
-            if (chars[i] == '.') {
-                chars[i] = '$'
-                try {
-                    return Class.forName(String(chars), false, classLoader)
-                } catch (_: ClassNotFoundException) {}
-            }
-        }
-        return null
-    }
+    // ==================== 字段查找 ====================
 
     /**
      * 在类层次结构中查找字段（包括父类）
@@ -116,64 +86,22 @@ object EzxHelpUtils {
      * @throws NoSuchFieldError 如果字段不存在
      */
     @JvmStatic
-    fun findField(clazz: Class<*>, fieldName: String): Field {
-        val fullFieldName = "${clazz.name}#$fieldName"
-
-        synchronized(fieldCache) {
-            if (fieldCache.containsKey(fullFieldName)) {
-                return fieldCache[fullFieldName] ?: throw NoSuchFieldError(fullFieldName)
-            }
-        }
-
-        val field = FieldFinder.fromClass(clazz)
-            .findSuper()
-            .firstOrNullByName(fieldName)
-
-        synchronized(fieldCache) {
-            fieldCache[fullFieldName] = field
-        }
-
-        return field?.apply { isAccessible = true }
-            ?: throw NoSuchFieldError(fullFieldName)
-    }
+    fun findField(clazz: Class<*>, fieldName: String): Field =
+        EzxFieldHelper.findField(clazz, fieldName)
 
     @JvmStatic
-    fun findFieldIfExists(clazz: Class<*>, fieldName: String): Field? {
-        return try {
-            findField(clazz, fieldName)
-        } catch (_: NoSuchFieldError) {
-            null
-        }
-    }
+    fun findFieldIfExists(clazz: Class<*>, fieldName: String): Field? =
+        EzxFieldHelper.findFieldIfExists(clazz, fieldName)
 
     @JvmStatic
-    fun findFirstFieldByExactType(clazz: Class<*>, type: Class<*>): Field {
-        val cacheKey = "${clazz.name}#type:${type.name}"
-
-        synchronized(fieldCache) {
-            if (fieldCache.containsKey(cacheKey)) {
-                return fieldCache[cacheKey] ?: throw NoSuchFieldError(cacheKey)
-            }
-        }
-
-        val field = FieldFinder.fromClass(clazz)
-            .findSuper()
-            .firstOrNullByType(type)
-
-        synchronized(fieldCache) {
-            fieldCache[cacheKey] = field
-        }
-
-        return field?.apply { isAccessible = true }
-            ?: throw NoSuchFieldError("Field of type ${type.name} in class ${clazz.name}")
-    }
+    fun findFirstFieldByExactType(clazz: Class<*>, type: Class<*>): Field =
+        EzxFieldHelper.findFirstFieldByExactType(clazz, type)
 
     @JvmStatic
-    fun findFirstFieldByExactTypeIfExists(clazz: Class<*>, type: Class<*>): Field? {
-        return FieldFinder.fromClass(clazz)
-            .findSuper()
-            .firstOrNullByType(type)?.apply { isAccessible = true }
-    }
+    fun findFirstFieldByExactTypeIfExists(clazz: Class<*>, type: Class<*>): Field? =
+        EzxFieldHelper.findFirstFieldByExactTypeIfExists(clazz, type)
+
+    // ==================== 实例字段操作 ====================
 
     /**
      * 获取对象字段值
@@ -183,15 +111,8 @@ object EzxHelpUtils {
      * @return 字段值
      */
     @JvmStatic
-    fun getObjectField(instance: Any, fieldName: String): Any? {
-        return try {
-            val field = findField(instance.javaClass, fieldName)
-            field.get(instance)
-        } catch (e: IllegalAccessException) {
-            XposedLog.e(TAG, "Failed to get field: $fieldName", e)
-            throw IllegalAccessError(e.message)
-        }
-    }
+    fun getObjectField(instance: Any, fieldName: String): Any? =
+        EzxFieldHelper.getObjectField(instance, fieldName)
 
     /**
      * 设置对象字段值（支持父类字段）
@@ -201,167 +122,102 @@ object EzxHelpUtils {
      * @param value 要设置的值
      */
     @JvmStatic
-    fun setObjectField(instance: Any, fieldName: String, value: Any?) {
-        try {
-            val field = findField(instance.javaClass, fieldName)
-            field.set(instance, value)
-        } catch (e: IllegalAccessException) {
-            XposedLog.e(TAG, "Failed to set field: $fieldName", e)
-            throw IllegalAccessError(e.message)
-        } catch (e: IllegalArgumentException) {
-            XposedLog.e(TAG, "Illegal argument for field: $fieldName", e)
-            throw e
-        }
-    }
+    fun setObjectField(instance: Any, fieldName: String, value: Any?) =
+        EzxFieldHelper.setObjectField(instance, fieldName, value)
 
     @JvmStatic
-    fun getBooleanField(instance: Any, fieldName: String): Boolean {
-        return getObjectField(instance, fieldName) as? Boolean ?: false
-    }
+    fun getBooleanField(instance: Any, fieldName: String): Boolean =
+        EzxFieldHelper.getBooleanField(instance, fieldName)
 
     @JvmStatic
-    fun setBooleanField(instance: Any, fieldName: String, value: Boolean) {
-        setObjectField(instance, fieldName, value)
-    }
+    fun setBooleanField(instance: Any, fieldName: String, value: Boolean) =
+        EzxFieldHelper.setBooleanField(instance, fieldName, value)
 
     @JvmStatic
-    fun getIntField(instance: Any, fieldName: String): Int {
-        return getObjectField(instance, fieldName) as? Int ?: 0
-    }
+    fun getIntField(instance: Any, fieldName: String): Int =
+        EzxFieldHelper.getIntField(instance, fieldName)
 
     @JvmStatic
-    fun setIntField(instance: Any, fieldName: String, value: Int) {
-        setObjectField(instance, fieldName, value)
-    }
+    fun setIntField(instance: Any, fieldName: String, value: Int) =
+        EzxFieldHelper.setIntField(instance, fieldName, value)
 
     @JvmStatic
-    fun getLongField(instance: Any, fieldName: String): Long {
-        return getObjectField(instance, fieldName) as? Long ?: 0L
-    }
+    fun getLongField(instance: Any, fieldName: String): Long =
+        EzxFieldHelper.getLongField(instance, fieldName)
 
     @JvmStatic
-    fun setLongField(instance: Any, fieldName: String, value: Long) {
-        setObjectField(instance, fieldName, value)
-    }
+    fun setLongField(instance: Any, fieldName: String, value: Long) =
+        EzxFieldHelper.setLongField(instance, fieldName, value)
 
     @JvmStatic
-    fun getFloatField(instance: Any, fieldName: String): Float {
-        return getObjectField(instance, fieldName) as? Float ?: 0f
-    }
+    fun getFloatField(instance: Any, fieldName: String): Float =
+        EzxFieldHelper.getFloatField(instance, fieldName)
 
     @JvmStatic
-    fun setFloatField(instance: Any, fieldName: String, value: Float) {
-        setObjectField(instance, fieldName, value)
-    }
+    fun setFloatField(instance: Any, fieldName: String, value: Float) =
+        EzxFieldHelper.setFloatField(instance, fieldName, value)
+
+    // ==================== 静态字段操作 ====================
 
     @JvmStatic
-    fun getStaticObjectField(clazz: Class<*>, fieldName: String): Any? {
-        return try {
-            val field = findField(clazz, fieldName)
-            field.get(null)
-        } catch (e: IllegalAccessException) {
-            XposedLog.e(TAG, "Failed to get static field: $fieldName", e)
-            throw IllegalAccessError(e.message)
-        }
-    }
+    fun getStaticObjectField(clazz: Class<*>, fieldName: String): Any? =
+        EzxFieldHelper.getStaticObjectField(clazz, fieldName)
 
     @JvmStatic
-    fun setStaticObjectField(clazz: Class<*>, fieldName: String, value: Any?) {
-        try {
-            val field = findField(clazz, fieldName)
-            field.set(null, value)
-        } catch (e: IllegalAccessException) {
-            XposedLog.e(TAG, "Failed to set static field: $fieldName", e)
-            throw IllegalAccessError(e.message)
-        }
-    }
+    fun setStaticObjectField(clazz: Class<*>, fieldName: String, value: Any?) =
+        EzxFieldHelper.setStaticObjectField(clazz, fieldName, value)
 
     @JvmStatic
-    fun getStaticBooleanField(clazz: Class<*>, fieldName: String): Boolean {
-        return getStaticObjectField(clazz, fieldName) as? Boolean ?: false
-    }
+    fun getStaticBooleanField(clazz: Class<*>, fieldName: String): Boolean =
+        EzxFieldHelper.getStaticBooleanField(clazz, fieldName)
 
     @JvmStatic
-    fun setStaticBooleanField(clazz: Class<*>, fieldName: String, value: Boolean) {
-        setStaticObjectField(clazz, fieldName, value)
-    }
+    fun setStaticBooleanField(clazz: Class<*>, fieldName: String, value: Boolean) =
+        EzxFieldHelper.setStaticBooleanField(clazz, fieldName, value)
 
     @JvmStatic
-    fun getStaticIntField(clazz: Class<*>, fieldName: String): Int {
-        return getStaticObjectField(clazz, fieldName) as? Int ?: 0
-    }
+    fun getStaticIntField(clazz: Class<*>, fieldName: String): Int =
+        EzxFieldHelper.getStaticIntField(clazz, fieldName)
 
     @JvmStatic
-    fun setStaticIntField(clazz: Class<*>, fieldName: String, value: Int) {
-        setStaticObjectField(clazz, fieldName, value)
-    }
+    fun setStaticIntField(clazz: Class<*>, fieldName: String, value: Int) =
+        EzxFieldHelper.setStaticIntField(clazz, fieldName, value)
 
     @JvmStatic
-    fun getStaticLongField(clazz: Class<*>, fieldName: String): Long {
-        return getStaticObjectField(clazz, fieldName) as? Long ?: 0L
-    }
+    fun getStaticLongField(clazz: Class<*>, fieldName: String): Long =
+        EzxFieldHelper.getStaticLongField(clazz, fieldName)
 
     @JvmStatic
-    fun setStaticLongField(clazz: Class<*>, fieldName: String, value: Long) {
-        setStaticObjectField(clazz, fieldName, value)
-    }
+    fun setStaticLongField(clazz: Class<*>, fieldName: String, value: Long) =
+        EzxFieldHelper.setStaticLongField(clazz, fieldName, value)
 
     @JvmStatic
-    fun getStaticFloatField(clazz: Class<*>, fieldName: String): Float {
-        return getStaticObjectField(clazz, fieldName) as? Float ?: 0f
-    }
+    fun getStaticFloatField(clazz: Class<*>, fieldName: String): Float =
+        EzxFieldHelper.getStaticFloatField(clazz, fieldName)
 
     @JvmStatic
-    fun setStaticFloatField(clazz: Class<*>, fieldName: String, value: Float) {
-        setStaticObjectField(clazz, fieldName, value)
-    }
+    fun setStaticFloatField(clazz: Class<*>, fieldName: String, value: Float) =
+        EzxFieldHelper.setStaticFloatField(clazz, fieldName, value)
+
+    // ==================== 方法调用 ====================
 
     @JvmStatic
-    fun callMethod(instance: Any, methodName: String, vararg args: Any?): Any? {
-        return findMethodBestMatch(instance::class.java, methodName, *args)
-            .invoke(instance, *args)
-    }
+    fun callMethod(instance: Any, methodName: String, vararg args: Any?): Any? =
+        EzxMethodHelper.callMethod(instance, methodName, *args)
 
     @JvmStatic
-    fun callStaticMethod(clazz: Class<*>, methodName: String, vararg args: Any?): Any? {
-        return findStaticMethodBestMatch(clazz, methodName, *args)
-    }
+    fun callStaticMethod(clazz: Class<*>, methodName: String, vararg args: Any?): Any? =
+        EzxMethodHelper.callStaticMethod(clazz, methodName, *args)
 
     @JvmStatic
-    fun getParameterTypes(vararg args: Any?): Array<Class<*>> {
-        val result = arrayOfNulls<Class<*>>(args.size)
-        for (i in args.indices) {
-            result[i] = args[i]?.javaClass
-        }
-        return result as Array<Class<*>>
-    }
+    fun getParameterTypes(vararg args: Any?): Array<Class<*>> =
+        EzxMethodHelper.getParameterTypes(*args)
 
     @JvmStatic
-    fun getParameterClasses(clazz: Class<*>, vararg args: Any?): Array<Class<*>> {
-        return args.filterNot { it is IMethodHook || it is IReplaceHook }
-            .mapIndexed { index, arg ->
-                when (arg) {
-                    null -> throw IllegalArgumentException(
-                        "Parameter type at index $index must not be null"
-                    )
-                    is Class<*> -> arg
-                    is String -> runCatching {
-                        findClass(arg, classLoader)
-                    }.recoverCatching {
-                        findClass(arg, clazz.classLoader)
-                    }.getOrElse { e ->
-                        throw IllegalArgumentException(
-                            "Failed to find class '$arg'", e
-                        )
-                    }
-                    else -> throw IllegalArgumentException(
-                        "Parameter type at index $index must be Class<?> or String, " +
-                            "but got ${arg.javaClass.simpleName}"
-                    )
-                }
-            }.toTypedArray()
-    }
+    fun getParameterClasses(clazz: Class<*>, vararg args: Any?): Array<Class<*>> =
+        EzxMethodHelper.getParameterClasses(clazz, *args)
 
+    // ==================== 方法查找 ====================
 
     /**
      * 查找方法（最佳匹配）
@@ -377,178 +233,49 @@ object EzxHelpUtils {
         clazz: Class<*>,
         methodName: String,
         vararg parameterTypes: Class<*>
-    ): Method {
-        val fullMethodName =
-            "${clazz.name}#$methodName${getParametersString(parameterTypes)}#bestmatch"
-
-        synchronized(methodCache) {
-            if (methodCache.containsKey(fullMethodName)) {
-                val method = methodCache[fullMethodName]
-                    ?: throw NoSuchMethodError(fullMethodName)
-                return method
-            }
-        }
-
-        fun cacheAndReturn(method: Method): Method {
-            method.isAccessible = true
-            synchronized(methodCache) {
-                methodCache[fullMethodName] = method
-            }
-            return method
-        }
-
-        try {
-            val exactMethod = findMethodExactIfExists(clazz, methodName, *parameterTypes)
-            return cacheAndReturn(exactMethod)
-        } catch (_: NoSuchMethodError) {
-        }
-
-        var bestMatch: Method? = null
-        var clz: Class<*>? = clazz
-        var considerPrivateMethods = true
-
-        while (clz != null) {
-            for (method in clz.declaredMethods) {
-                if (!considerPrivateMethods && Modifier.isPrivate(method.modifiers)) {
-                    continue
-                }
-
-                if (method.name == methodName && isAssignable(parameterTypes, method.parameterTypes)) {
-                    if (bestMatch == null || compareParameterTypes(
-                            method.parameterTypes,
-                            bestMatch.parameterTypes,
-                            parameterTypes
-                        ) < 0
-                    ) {
-                        bestMatch = method
-                    }
-                }
-            }
-            considerPrivateMethods = false
-            clz = clz.superclass
-        }
-
-        if (bestMatch != null) {
-            return cacheAndReturn(bestMatch)
-        } else {
-            synchronized(methodCache) {
-                methodCache[fullMethodName] = null
-            }
-            throw NoSuchMethodError(fullMethodName)
-        }
-    }
+    ): Method = EzxMethodHelper.findMethodBestMatch(clazz, methodName, *parameterTypes)
 
     @JvmStatic
     fun findMethodBestMatch(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any?
-    ): Method {
-        val parameterTypes = getParameterTypes(*args)
-        return findMethodBestMatch(clazz, methodName, *parameterTypes)
-    }
+    ): Method = EzxMethodHelper.findMethodBestMatch(clazz, methodName, *args)
 
+    /**
+     * 查找并调用静态方法（最佳匹配）
+     *
+     * 注意：此方法同时执行查找和调用，返回调用结果
+     */
     @JvmStatic
     fun findStaticMethodBestMatch(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any?
-    ): Any? {
-        val method = findMethodBestMatch(clazz, methodName, *args)
-        return try {
-            method.invoke(null, *args)
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "invokeStaticMethodBestMatch failed for ${formatMethodSignature(method)}", t)
-        }
-    }
-
-    private fun findMethodByReflection(
-        clazz: Class<*>,
-        methodName: String,
-        vararg parameterTypes: Class<*>
-    ): Method? {
-        val method = try {
-            if (parameterTypes.isEmpty()) {
-                clazz.getDeclaredMethod(methodName)
-            } else {
-                clazz.getDeclaredMethod(methodName, *parameterTypes)
-            }
-        } catch (_: Throwable) {
-            null
-        }
-        method?.isAccessible = true
-        return method
-    }
+    ): Any? = EzxMethodHelper.callStaticMethod(clazz, methodName, *args)
 
     @JvmStatic
     fun findMethodExactIfExists(
         clazz: Class<*>,
         methodName: String,
         vararg parameterTypes: Class<*>
-    ): Method {
-        val fullMethodName =
-            "${clazz.name}#$methodName${getParametersString(parameterTypes)}#exact"
-
-        synchronized(methodCache) {
-            if (methodCache.containsKey(fullMethodName)) {
-                return methodCache[fullMethodName] ?: throw NoSuchMethodError(fullMethodName)
-            }
-        }
-
-        var currentClass: Class<*>? = clazz
-
-        while (currentClass != null) {
-            val method = runCatching {
-                if (parameterTypes.isEmpty()) {
-                    MethodFinder.fromClass(currentClass)
-                        .filterByName(methodName)
-                        .firstOrNull()
-                } else {
-                    MethodFinder.fromClass(currentClass)
-                        .filterByName(methodName)
-                        .filterByParamTypes(*parameterTypes)
-                        .firstOrNull()
-                }
-            }.recoverCatching { e ->
-                XposedLog.w(TAG, "MethodFinder failed for ${currentClass.name}.$methodName, fallback to reflection", e)
-                findMethodByReflection(currentClass, methodName, *parameterTypes)
-            }.getOrNull()
-
-            if (method != null) {
-                method.isAccessible = true
-                synchronized(methodCache) {
-                    methodCache[fullMethodName] = method
-                }
-                return method
-            }
-
-            currentClass = currentClass.superclass
-        }
-
-        synchronized(methodCache) {
-            methodCache[fullMethodName] = null
-        }
-        throw NoSuchMethodError(fullMethodName)
-    }
+    ): Method = EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
 
     /**
-     * 查找方法（精确匹配，如果不存在返回 null）
+     * 查找方法（精确匹配）
      * 支持参数类型为 Class<?> 或 String
      *
      * @param clazz 目标类
      * @param methodName 方法名
      * @param parameterTypes 参数类型数组，可以是 Class<?> 或 String
-     * @return Method 对象，如果不存在返回 null
+     * @return Method 对象
      */
     @JvmStatic
     fun findMethodExactIfExists(
         clazz: Class<*>,
         methodName: String,
         vararg parameterTypes: Any
-    ): Method {
-        val paramTypes = getParameterClasses(clazz, *parameterTypes)
-        return findMethodExactIfExists(clazz, methodName, *paramTypes)
-    }
+    ): Method = EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
 
     @JvmStatic
     fun findMethodExactIfExists(
@@ -556,127 +283,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         vararg parameterTypes: Any
-    ): Method {
-        val clazz = findClass(clazzName, classLoader)
-        return findMethodExactIfExists(clazz, methodName, *parameterTypes)
-    }
-
-    /**
-     * 调用原始方法
-     *
-     * @param method 要调用的方法
-     * @param thisObject 对于非静态方法，传入 "this" 指针；对于静态方法传 null
-     * @param args 方法参数数组
-     * @return 方法返回值
-     * @throws NullPointerException 如果非静态方法的 receiver 为 null
-     * @throws IllegalAccessException 如果方法不可访问
-     * @throws IllegalArgumentException 如果参数数量或类型不匹配
-     * @throws InvocationTargetException 如果被调用的方法抛出异常
-     */
-    @JvmStatic
-    fun invokeOriginalMethod(method: Method, thisObject: Any?, vararg args: Any?): Any? {
-        return try {
-            xposedModule.invokeOrigin(method, thisObject, *args)
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "invokeOriginalMethod failed for ${formatMethodSignature(method)}", t)
-            throw t
-        }
-    }
-
-    @JvmStatic
-    fun newInstance(clazz: Class<*>, vararg args: Any?): Any {
-        val parameterTypes = getParameterTypes(*args)
-        val ctor = findConstructorBestMatch(clazz, *parameterTypes)
-        return ctor.newInstance(*args)
-    }
-
-    /**
-     * 查找构造器（精确匹配）
-     *
-     * @param clazz 目标类
-     * @param parameterTypes 参数类型数组
-     * @return 精确匹配的构造器
-     * @throws NoSuchMethodError 如果找不到
-     */
-    @JvmStatic
-    fun findConstructorExact(
-        clazz: Class<*>,
-        vararg parameterTypes: Class<*>
-    ): Constructor<*> {
-        return if (parameterTypes.isEmpty()) {
-            ConstructorFinder.fromClass(clazz)
-                .firstOrNull()
-        } else {
-            ConstructorFinder.fromClass(clazz)
-                .filterByParamTypes(*parameterTypes)
-                .firstOrNull()
-        } ?: throw NoSuchMethodError(
-            "${clazz.name}${getParametersString(parameterTypes)}#exact"
-        )
-    }
-
-    /**
-     * 查找构造器（最佳匹配）
-     *
-     * @param clazz 目标类
-     * @param parameterTypes 参数类型数组
-     * @return 最佳匹配的构造器
-     * @throws NoSuchMethodError 如果找不到合适的构造器
-     */
-    @JvmStatic
-    fun findConstructorBestMatch(
-        clazz: Class<*>,
-        vararg parameterTypes: Class<*>
-    ): Constructor<*> {
-        val fullConstructorName =
-            "${clazz.name}${getParametersString(parameterTypes)}#bestmatch"
-
-        synchronized(constructorCache) {
-            if (constructorCache.containsKey(fullConstructorName)) {
-                return constructorCache[fullConstructorName] ?: throw NoSuchMethodError(
-                    fullConstructorName
-                )
-            }
-        }
-
-        fun cacheAndReturn(constructor: Constructor<*>): Constructor<*> {
-            constructor.isAccessible = true
-            synchronized(constructorCache) {
-                constructorCache[fullConstructorName] = constructor
-            }
-            return constructor
-        }
-
-        try {
-            val exactConstructor = findConstructorExact(clazz, *parameterTypes)
-            return cacheAndReturn(exactConstructor)
-        } catch (_: NoSuchMethodError) {
-        }
-
-        var bestMatch: Constructor<*>? = null
-
-        for (constructor in clazz.declaredConstructors) {
-            if (isAssignable(parameterTypes, constructor.parameterTypes)) {
-                if (bestMatch == null || compareParameterTypes(
-                        constructor.parameterTypes,
-                        bestMatch.parameterTypes,
-                        parameterTypes
-                    ) < 0
-                ) {
-                    bestMatch = constructor
-                }
-            }
-        }
-
-        if (bestMatch != null) {
-            return cacheAndReturn(bestMatch)
-        } else {
-            synchronized(constructorCache) {
-                constructorCache[fullConstructorName] = null
-            }
-            throw NoSuchMethodError(fullConstructorName)
-        }
-    }
+    ): Method = EzxMethodHelper.findMethodExactIfExists(clazzName, classLoader, methodName, *parameterTypes)
 
     /**
      * 查找类中所有具有指定参数类型和返回类型的方法
@@ -691,108 +298,94 @@ object EzxHelpUtils {
         clazz: Class<*>,
         returnType: Class<*>?,
         vararg parameterTypes: Class<*>?
-    ): Array<Method> {
-        val result = mutableListOf<Method>()
+    ): Array<Method> = EzxMethodHelper.findMethodsByExactParameters(clazz, returnType, *parameterTypes)
 
-        for (method in clazz.declaredMethods) {
-            if (returnType != null && returnType != method.returnType) {
-                continue
-            }
-
-            val methodParameterTypes = method.parameterTypes
-            if (parameterTypes.size != methodParameterTypes.size) {
-                continue
-            }
-
-            var match = true
-            for (i in parameterTypes.indices) {
-                if (parameterTypes[i] != methodParameterTypes[i]) {
-                    match = false
-                    break
-                }
-            }
-
-            if (!match) {
-                continue
-            }
-
-            method.isAccessible = true
-            result.add(method)
-        }
-
-        return result.toTypedArray()
-    }
+    /**
+     * 调用原始方法
+     *
+     * @param method 要调用的方法
+     * @param thisObject 对于非静态方法，传入 "this" 指针；对于静态方法传 null
+     * @param args 方法参数数组
+     * @return 方法返回值
+     */
+    @JvmStatic
+    fun invokeOriginalMethod(method: Method, thisObject: Any?, vararg args: Any?): Any? =
+        EzxMethodHelper.invokeOriginalMethod(method, thisObject, *args)
 
     @JvmStatic
-    fun getSurroundingThis(obj: Any): Any? {
-        return getObjectField(obj, $$"this$0")
-    }
+    fun newInstance(clazz: Class<*>, vararg args: Any?): Any =
+        EzxMethodHelper.newInstance(clazz, *args)
+
+    // ==================== 构造器查找 ====================
+
+    /**
+     * 查找构造器（精确匹配）
+     *
+     * @param clazz 目标类
+     * @param parameterTypes 参数类型数组
+     * @return 精确匹配的构造器
+     * @throws NoSuchMethodError 如果找不到
+     */
+    @JvmStatic
+    fun findConstructorExact(
+        clazz: Class<*>,
+        vararg parameterTypes: Class<*>
+    ): Constructor<*> = EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
+
+    /**
+     * 查找构造器（最佳匹配）
+     *
+     * @param clazz 目标类
+     * @param parameterTypes 参数类型数组
+     * @return 最佳匹配的构造器
+     * @throws NoSuchMethodError 如果找不到合适的构造器
+     */
+    @JvmStatic
+    fun findConstructorBestMatch(
+        clazz: Class<*>,
+        vararg parameterTypes: Class<*>
+    ): Constructor<*> = EzxMethodHelper.findConstructorBestMatch(clazz, *parameterTypes)
+
+    // ==================== 附加字段 ====================
 
     @JvmStatic
-    fun setAdditionalInstanceField(instance: Any, key: String, value: Any?): Any? {
-        val objectFields: HashMap<String, Any?>
-        synchronized(additionalFields) {
-            objectFields = additionalFields.getOrPut(instance) { HashMap() }
-        }
-
-        synchronized(objectFields) {
-            return objectFields.put(key, value)
-        }
-    }
+    fun getSurroundingThis(obj: Any): Any? = EzxFieldHelper.getSurroundingThis(obj)
 
     @JvmStatic
-    fun getAdditionalInstanceField(instance: Any, key: String): Any? {
-        val objectFields: HashMap<String, Any?>
-        synchronized(additionalFields) {
-            objectFields = additionalFields[instance] ?: return null
-        }
-
-        synchronized(objectFields) {
-            return objectFields[key]
-        }
-    }
+    fun setAdditionalInstanceField(instance: Any, key: String, value: Any?): Any? =
+        EzxFieldHelper.setAdditionalInstanceField(instance, key, value)
 
     @JvmStatic
-    fun removeAdditionalInstanceField(instance: Any, key: String): Any? {
-        val objectFields: HashMap<String, Any?>
-        synchronized(additionalFields) {
-            objectFields = additionalFields[instance] ?: return null
-        }
-
-        synchronized(objectFields) {
-            return objectFields.remove(key)
-        }
-    }
+    fun getAdditionalInstanceField(instance: Any, key: String): Any? =
+        EzxFieldHelper.getAdditionalInstanceField(instance, key)
 
     @JvmStatic
-    fun setAdditionalStaticField(obj: Any, key: String, value: Any?): Any? {
-        return setAdditionalInstanceField(obj.javaClass, key, value)
-    }
+    fun removeAdditionalInstanceField(instance: Any, key: String): Any? =
+        EzxFieldHelper.removeAdditionalInstanceField(instance, key)
 
     @JvmStatic
-    fun getAdditionalStaticField(obj: Any, key: String): Any? {
-        return getAdditionalInstanceField(obj.javaClass, key)
-    }
+    fun setAdditionalStaticField(obj: Any, key: String, value: Any?): Any? =
+        EzxFieldHelper.setAdditionalStaticField(obj, key, value)
 
     @JvmStatic
-    fun removeAdditionalStaticField(obj: Any, key: String): Any? {
-        return removeAdditionalInstanceField(obj.javaClass, key)
-    }
+    fun getAdditionalStaticField(obj: Any, key: String): Any? =
+        EzxFieldHelper.getAdditionalStaticField(obj, key)
 
     @JvmStatic
-    fun setAdditionalStaticField(clazz: Class<*>, key: String, value: Any?): Any? {
-        return setAdditionalInstanceField(clazz, key, value)
-    }
+    fun removeAdditionalStaticField(obj: Any, key: String): Any? =
+        EzxFieldHelper.removeAdditionalStaticField(obj, key)
 
     @JvmStatic
-    fun getAdditionalStaticField(clazz: Class<*>, key: String): Any? {
-        return getAdditionalInstanceField(clazz, key)
-    }
+    fun setAdditionalStaticField(clazz: Class<*>, key: String, value: Any?): Any? =
+        EzxFieldHelper.setAdditionalStaticField(clazz, key, value)
 
     @JvmStatic
-    fun removeAdditionalStaticField(clazz: Class<*>, key: String): Any? {
-        return removeAdditionalInstanceField(clazz, key)
-    }
+    fun getAdditionalStaticField(clazz: Class<*>, key: String): Any? =
+        EzxFieldHelper.getAdditionalStaticField(clazz, key)
+
+    @JvmStatic
+    fun removeAdditionalStaticField(clazz: Class<*>, key: String): Any? =
+        EzxFieldHelper.removeAdditionalStaticField(clazz, key)
 
     // ==================== Application Hook ====================
 
@@ -811,10 +404,6 @@ object EzxHelpUtils {
         fun onApplicationAttachAfter(context: Context) {}
     }
 
-    private val applicationHooks = mutableListOf<IApplicationHook>()
-    private var isApplicationHooked = false
-    private val applicationHookLock = Any()
-
     /**
      * Java Consumer 接口
      */
@@ -828,12 +417,8 @@ object EzxHelpUtils {
      * @param hook 回调实例
      */
     @JvmStatic
-    fun registerApplicationHook(hook: IApplicationHook) {
-        synchronized(applicationHookLock) {
-            applicationHooks.add(hook)
-            ensureApplicationHooked()
-        }
-    }
+    fun registerApplicationHook(hook: IApplicationHook) =
+        EzxApplicationHookHelper.registerApplicationHook(hook)
 
     /**
      * 注册 Application 生命周期回调
@@ -842,20 +427,8 @@ object EzxHelpUtils {
      * @param after attach 之后的回调，可为 null
      */
     @JvmStatic
-    fun registerApplicationHook(
-        before: ContextConsumer?,
-        after: ContextConsumer?
-    ) {
-        registerApplicationHook(object : IApplicationHook {
-            override fun onApplicationAttachBefore(context: Context) {
-                before?.accept(context)
-            }
-
-            override fun onApplicationAttachAfter(context: Context) {
-                after?.accept(context)
-            }
-        })
-    }
+    fun registerApplicationHook(before: ContextConsumer?, after: ContextConsumer?) =
+        EzxApplicationHookHelper.registerApplicationHook(before, after)
 
     /**
      * 仅注册 Application attach 之后的回调
@@ -863,55 +436,8 @@ object EzxHelpUtils {
      * @param callback 回调函数
      */
     @JvmStatic
-    fun runOnApplicationAttach(callback: ContextConsumer) {
-        registerApplicationHook(null, callback)
-    }
-
-    /**
-     * 确保 Application.attach 已被 Hook
-     */
-    private fun ensureApplicationHooked() {
-        if (isApplicationHooked) return
-
-        synchronized(applicationHookLock) {
-            if (isApplicationHooked) return
-
-            try {
-                findAndHookMethod(
-                    Application::class.java,
-                    "attach",
-                    Context::class.java,
-                    object : IMethodHook {
-                        override fun before(param: BeforeHookParam) {
-                            val context = param.args[0] as? Context ?: return
-                            applicationHooks.forEach { hook ->
-                                try {
-                                    hook.onApplicationAttachBefore(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach before callback error", t)
-                                }
-                            }
-                        }
-
-                        override fun after(param: AfterHookParam) {
-                            val context = param.args[0] as? Context ?: return
-                            applicationHooks.forEach { hook ->
-                                try {
-                                    hook.onApplicationAttachAfter(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach after callback error", t)
-                                }
-                            }
-                            XposedLog.d(TAG, "Application created! package: ${context.packageName}")
-                        }
-                    }
-                )
-                isApplicationHooked = true
-            } catch (t: Throwable) {
-                XposedLog.e(TAG, "Failed to hook Application.attach", t)
-            }
-        }
-    }
+    fun runOnApplicationAttach(callback: ContextConsumer) =
+        EzxApplicationHookHelper.runOnApplicationAttach(callback)
 
     /**
      * 取消注册 Application 生命周期回调
@@ -919,138 +445,309 @@ object EzxHelpUtils {
      * @param hook 要取消的回调实例
      */
     @JvmStatic
-    fun unregisterApplicationHook(hook: IApplicationHook) {
-        synchronized(applicationHookLock) {
-            applicationHooks.remove(hook)
-        }
-    }
+    fun unregisterApplicationHook(hook: IApplicationHook) =
+        EzxApplicationHookHelper.unregisterApplicationHook(hook)
 
     /**
      * 清除所有 Application 生命周期回调
      */
     @JvmStatic
-    fun clearApplicationHooks() {
-        synchronized(applicationHookLock) {
-            applicationHooks.clear()
-        }
-    }
+    fun clearApplicationHooks() = EzxApplicationHookHelper.clearApplicationHooks()
 
     // ==================== Hook 方法 ====================
-
-    /**
-     * 格式化方法签名用于日志输出
-     */
-    private fun formatMethodSignature(method: Method): String {
-        val params = method.parameterTypes.joinToString(", ") { it.simpleName }
-        return "${method.declaringClass.simpleName}#${method.name}($params)"
-    }
-
-    /**
-     * 格式化构造器签名用于日志输出
-     */
-    private fun formatConstructorSignature(constructor: Constructor<*>): String {
-        val params = constructor.parameterTypes.joinToString(", ") { it.simpleName }
-        return "${constructor.declaringClass.simpleName}<init>($params)"
-    }
 
     /**
      * Hook 方法
      *
      * @param method 要 Hook 的方法
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookMethod(method: Method, callback: IMethodHook): MethodUnhooker<*> {
-        val signature = formatMethodSignature(method)
-        return try {
-            val unhook = method.createHook {
-                before { param ->
-                    try {
-                        callback.before(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] before callback error", t)
-                    }
-                }
-                after { param ->
-                    try {
-                        callback.after(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] after callback error", t)
-                    }
-                }
-            }
-            // XposedLog.i(TAG, "[$signature] hook success")
-            unhook
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "[$signature] hook failed", t)
-            throw t
-        }
-    }
+    fun hookMethod(method: Method, callback: IMethodHook): HookHandle =
+        EzxHookHelper.hookMethod(method, callback)
 
     /**
      * Hook 方法（替换模式）
      *
      * @param method 要 Hook 的方法
      * @param callback 替换回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookMethod(method: Method, callback: IReplaceHook): MethodUnhooker<*> {
-        val signature = formatMethodSignature(method)
-        return try {
-            val unhook = method.createHook {
-                replace { param ->
-                    try {
-                        callback.replace(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] replace callback error", t)
-                        throw t
-                    }
-                }
-            }
-            // XposedLog.i(TAG, "[$signature] hook (replace) success")
-            unhook
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "[$signature] hook (replace) failed", t)
-            throw t
-        }
-    }
+    fun hookMethod(method: Method, callback: IReplaceHook): HookHandle =
+        EzxHookHelper.hookMethod(method, callback)
 
     /**
      * Hook 构造器
      *
      * @param constructor 要 Hook 的构造器
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
     @JvmStatic
-    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): MethodUnhooker<*> {
-        val signature = formatConstructorSignature(constructor)
-        return try {
-            val unhook = constructor.createHook {
-                before { param ->
-                    try {
-                        callback.before(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] before callback error", t)
-                    }
-                }
-                after { param ->
-                    try {
-                        callback.after(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] after callback error", t)
-                    }
-                }
-            }
-            // XposedLog.i(TAG, "[$signature] hook success")
-            unhook
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "[$signature] hook failed", t)
-            throw t
-        }
+    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): HookHandle =
+        EzxHookHelper.hookConstructor(constructor, callback)
+
+    private fun chainHooker(block: (XposedInterface.Chain) -> Any?): Hooker =
+        Hooker { chain -> block(chain) }
+
+    private fun resolveChainClass(clazzName: String, classLoader: ClassLoader? = null): Class<*> =
+        classLoader?.let { EzxClassHelper.findClass(clazzName, it) } ?: EzxClassHelper.findClass(clazzName)
+
+    private fun resolveChainMethod(clazz: Class<*>, methodName: String, vararg args: Any): Method {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
     }
+
+    private fun resolveChainConstructor(clazz: Class<*>, vararg args: Any): Constructor<*> {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
+    }
+
+    @JvmSynthetic
+    fun chain(
+        method: Method,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(method, priority, exceptionMode, chainHooker(block))
+
+    @JvmSynthetic
+    fun chain(
+        constructor: Constructor<*>,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(constructor, priority, exceptionMode, chainHooker(block))
+
+    @JvmStatic
+    fun chain(method: Method, hooker: Hooker): HookHandle =
+        HookFactory.hook(method = method, hooker = hooker)
+
+    @JvmStatic
+    fun chain(
+        method: Method,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker
+    ): HookHandle = HookFactory.hook(priority = priority, method = method, exceptionMode = exceptionMode, hooker = hooker)
+
+    @JvmStatic
+    fun chain(constructor: Constructor<*>, hooker: Hooker): HookHandle =
+        HookFactory.hook(ctor = constructor, hooker = hooker)
+
+    @JvmStatic
+    fun chain(
+        constructor: Constructor<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker
+    ): HookHandle = HookFactory.hook(priority = priority, ctor = constructor, exceptionMode = exceptionMode, hooker = hooker)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, block)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), hooker)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, hooker)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName),
+        methodName,
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName), methodName, hooker, *args)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName), methodName, priority, exceptionMode, hooker, *args)
+
+    @JvmSynthetic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName, classLoader),
+        methodName,
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(resolveChainClass(clazzName, classLoader), methodName, hooker, *args)
+
+    @JvmStatic
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainMethod(
+        resolveChainClass(clazzName, classLoader),
+        methodName,
+        priority,
+        exceptionMode,
+        hooker,
+        *args
+    )
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, block)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), hooker)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, hooker)
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazzName: String,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName),
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName), hooker, *args)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName), priority, exceptionMode, hooker, *args)
+
+    @JvmSynthetic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        vararg args: Any,
+        priority: Int = XposedInterface.PRIORITY_DEFAULT,
+        exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
+        block: (XposedInterface.Chain) -> Any?
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName, classLoader),
+        *args,
+        priority = priority,
+        exceptionMode = exceptionMode,
+        block = block
+    )
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(resolveChainClass(clazzName, classLoader), hooker, *args)
+
+    @JvmStatic
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: Hooker,
+        vararg args: Any
+    ): HookHandle = findAndChainConstructor(
+        resolveChainClass(clazzName, classLoader),
+        priority,
+        exceptionMode,
+        hooker,
+        *args
+    )
 
     /**
      * 查找并 Hook 方法
@@ -1067,21 +764,17 @@ object EzxHelpUtils {
         methodName: String,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
-        val method = findMethodExactIfExists(clazz, methodName, *parameterTypes)
-        return hookMethod(method, callback)
+    ): HookHandle {
+        val method = EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
+        return EzxHookHelper.hookMethod(method, callback)
     }
-
 
     @JvmStatic
     fun findAndHookMethod(
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, safeClassLoader)
-        return findAndHookMethod(clazz, methodName, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazzName, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethod(
@@ -1089,10 +782,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
-        return findAndHookMethod(clazz, methodName, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazzName, classLoader, methodName, *args)
 
     /**
      * 查找并 Hook 方法
@@ -1100,32 +790,21 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookMethod(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        require(args.isNotEmpty()) { "args must contain at least the callback" }
-        val callback = args.last()
-        require(callback is IMethodHook) { "Last argument must be IMethodHook" }
-
-        val paramTypes = getParameterClasses(clazz, *args)
-        val method = findMethodExactIfExists(clazz, methodName, *paramTypes)
-        return hookMethod(method, callback)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethod(clazz, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethodReplace(
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
-        return findAndHookMethodReplace(clazz, methodName, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazzName, methodName, *args)
 
     @JvmStatic
     fun findAndHookMethodReplace(
@@ -1133,10 +812,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
-        return findAndHookMethodReplace(clazz, methodName, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazzName, classLoader, methodName, *args)
 
     /**
      * 查找并 Hook 方法（替换模式）
@@ -1144,22 +820,14 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IReplaceHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookMethodReplace(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        require(args.isNotEmpty()) { "args must contain at least the callback" }
-        val callback = args.last()
-        require(callback is IReplaceHook) { "Last argument must be IReplaceHook" }
-
-        val paramTypes = getParameterClasses(clazz, *args)
-        val method = findMethodExactIfExists(clazz, methodName, *paramTypes)
-        return hookMethod(method, callback)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookMethodReplace(clazz, methodName, *args)
 
     /**
      * 查找并 Hook 构造器
@@ -1167,64 +835,48 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param parameterTypes 参数类型
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
     fun findAndHookConstructor(
         clazz: Class<*>,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
-        val constructor = findConstructorExact(clazz, *parameterTypes)
-        return hookConstructor(constructor, callback)
+    ): HookHandle {
+        val constructor = EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
+        return EzxHookHelper.hookConstructor(constructor, callback)
     }
 
     @JvmStatic
     fun findAndHookConstructor(
         clazzName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
-        return findAndHookConstructor(clazz, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookConstructor(clazzName, *args)
 
     @JvmStatic
     fun findAndHookConstructor(
         clazzName: String,
         classLoader: ClassLoader,
         vararg args: Any
-    ): MethodUnhooker<*> {
-        val clazz = findClass(clazzName, classLoader)
-        return findAndHookConstructor(clazz, *args)
-    }
+    ): HookHandle = EzxHookHelper.findAndHookConstructor(clazzName, classLoader, *args)
 
     /**
      * 查找并 Hook 构造器
      *
      * @param clazz 目标类
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     @JvmStatic
-    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): MethodUnhooker<*> {
-        require(args.isNotEmpty()) { "args must contain at least the callback" }
-        val callback = args.last()
-        require(callback is IMethodHook) { "Last argument must be IMethodHook" }
-
-        val paramTypes = getParameterClasses(clazz, *args)
-        val constructor = findConstructorExact(clazz, *paramTypes)
-        return hookConstructor(constructor, callback)
-    }
+    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): HookHandle =
+        EzxHookHelper.findAndHookConstructor(clazz, *args)
 
     @JvmStatic
     fun hookAllMethods(
         clazzName: String,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
-        val clazz = findClass(clazzName, classLoader)
-        return hookAllMethods(clazz, methodName, callback)
-    }
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazzName, methodName, callback)
 
     @JvmStatic
     fun hookAllMethods(
@@ -1232,10 +884,7 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
-        val clazz = findClass(clazzName, classLoader)
-        return hookAllMethods(clazz, methodName, callback)
-    }
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazzName, classLoader, methodName, callback)
 
     /**
      * Hook 类中所有指定名称的方法
@@ -1243,60 +892,25 @@ object EzxHelpUtils {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
     @JvmStatic
     fun hookAllMethods(
         clazz: Class<*>,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
-        val methods = MethodFinder.fromClass(clazz)
-            .filterByName(methodName)
-            .toList()
-
-        if (methods.isEmpty()) {
-            XposedLog.w(TAG, "[${clazz.simpleName}#$methodName] no methods found")
-            return emptyList()
-        }
-
-        return methods.mapNotNull { method ->
-            try {
-                if (Modifier.isAbstract(method.modifiers)) {
-                    XposedLog.w(TAG, "[${clazz.simpleName}#${method.name}] is abstract, skipping")
-                    return@mapNotNull null
-                }
-                hookMethod(method, callback)
-            } catch (_: Throwable) {
-                null
-            }
-        }
-    }
+    ): List<HookHandle> = EzxHookHelper.hookAllMethods(clazz, methodName, callback)
 
     /**
      * Hook 类中所有构造器
      *
      * @param clazz 目标类
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
     @JvmStatic
-    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<MethodUnhooker<*>> {
-        val constructors = ConstructorFinder.fromClass(clazz).toList()
-
-        if (constructors.isEmpty()) {
-            XposedLog.w(TAG, "[${clazz.simpleName}<init>] no constructors found")
-            return emptyList()
-        }
-
-        return constructors.mapNotNull { constructor ->
-            try {
-                hookConstructor(constructor, callback)
-            } catch (t: Throwable) {
-                null
-            }
-        }
-    }
+    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<HookHandle> =
+        EzxHookHelper.hookAllConstructors(clazz, callback)
 
     // ==================== 便捷 Hook 工具 ====================
 
@@ -1307,170 +921,28 @@ object EzxHelpUtils {
      * @return IMethodHook 实例
      */
     @JvmStatic
-    fun returnConstant(result: Any?): IMethodHook {
-        return object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
-                param.result = result
-            }
-        }
-    }
+    fun returnConstant(result: Any?): IMethodHook = EzxHookHelper.returnConstant(result)
 
     /**
      * 什么都不做的 Hook（阻止原方法执行，返回 null）
      */
     @JvmField
-    val DO_NOTHING: IMethodHook = object : IMethodHook {
-        override fun before(param: BeforeHookParam) {
-            param.result = null
-        }
-    }
+    val DO_NOTHING: IMethodHook = EzxHookHelper.DO_NOTHING
 
     // ==================== deoptimize 相关 ====================
 
     @JvmStatic
-    fun deoptimize(method: Method): Boolean {
-        return try {
-            xposedModule.deoptimize(method)
-            XposedLog.d(TAG, "deoptimize $method success")
-            true
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "deoptimize $method failed, log: $t")
-            return false
-        }
-    }
+    fun deoptimize(method: Method): Boolean = EzxHookHelper.deoptimize(method)
 
     @JvmStatic
-    fun deoptimizeMethods(clazz: Class<*>, vararg names: String?) {
-        val list = listOf(*names)
-        Arrays.stream(clazz.declaredMethods)
-            .filter { method: Method? ->
-                list.contains(method!!.name)
-            }
-            .forEach { method: Method? ->
-                this.deoptimize(method!!)
-            }
-    }
+    fun deoptimizeMethods(clazz: Class<*>, vararg names: String?) =
+        EzxHookHelper.deoptimizeMethods(clazz, *names)
 
     @JvmStatic
-    fun libHook(method: Method, hooker: Class<out Hooker>): MethodUnhooker<Method?> {
-        return xposedModule.hook(method, hooker)
-    }
+    fun libHook(method: Method, hooker: Class<out Hooker>): HookHandle =
+        EzxHookHelper.libHook(method, hooker)
 
     @JvmStatic
-    fun invokeSuperMethod(methodName: String, thisObject: Any, vararg args: Any?) {
-        val paramTypes = getParameterTypes(*args)
-        val method = findMethodBestMatch(thisObject::class.java.superclass, methodName, *paramTypes)
-        xposedModule.invokeSpecial(method, thisObject, *paramTypes)
-    }
-}
-
-/**
- * 检查参数类型是否可分配
- *
- * @param parameterTypes 实际参数类型
- * @param methodParameterTypes 方法形式参数类型
- * @param autoboxing 是否允许自动装箱/拆箱
- * @return 如果所有参数都可分配则返回 true
- */
-private fun isAssignable(
-    parameterTypes: Array<out Class<*>?>,
-    methodParameterTypes: Array<Class<*>>,
-    autoboxing: Boolean = true
-): Boolean {
-    if (parameterTypes.size != methodParameterTypes.size) {
-        return false
-    }
-
-    for (i in parameterTypes.indices) {
-        val paramType = parameterTypes[i] ?: continue  // null 可以匹配任何类型
-        val methodParamType = methodParameterTypes[i]
-
-        // 直接赋值
-        if (methodParamType.isAssignableFrom(paramType)) {
-            continue
-        }
-
-        // 自动装箱/拆箱支持
-        if (autoboxing && isAutoboxingCompatible(paramType, methodParamType)) {
-            continue
-        }
-
-        return false
-    }
-
-    return true
-}
-
-/**
- * 比较参数类型的匹配程度
- *
- * 返回值：
- * - 负数：method1 比 method2 更匹配
- * - 0：两者匹配程度相同
- * - 正数：method2 比 method1 更匹配
- *
- * @param method1ParameterTypes 第一个方法的参数类型
- * @param method2ParameterTypes 第二个方法的参数类型
- * @param actualParameterTypes 实际参数类型
- * @return 比较结果
- */
-private fun compareParameterTypes(
-    method1ParameterTypes: Array<Class<*>>,
-    method2ParameterTypes: Array<Class<*>>,
-    actualParameterTypes: Array<out Class<*>?>
-): Int {
-    for (i in actualParameterTypes.indices) {
-        val method1ParamType = method1ParameterTypes[i]
-        val method2ParamType = method2ParameterTypes[i]
-        val actualParamType = actualParameterTypes[i]
-
-        if (method1ParamType == method2ParamType || actualParamType == null) {
-            continue
-        }
-
-        when {
-            method1ParamType == actualParamType -> {
-                return -1
-            }
-            method2ParamType == actualParamType -> {
-                return 1
-            }
-            method1ParamType.isAssignableFrom(method2ParamType) -> {
-                return 1
-            }
-            method2ParamType.isAssignableFrom(method1ParamType) -> {
-                return -1
-            }
-        }
-    }
-
-    return 0
-}
-
-/**
- * 检查两个类型是否兼容（支持自动装箱/拆箱）
- */
-private fun isAutoboxingCompatible(from: Class<*>, to: Class<*>): Boolean {
-    val primitiveToBoxed = mapOf(
-        java.lang.Integer.TYPE to Integer::class.java,
-        java.lang.Long.TYPE to java.lang.Long::class.java,
-        java.lang.Float.TYPE to java.lang.Float::class.java,
-        java.lang.Double.TYPE to java.lang.Double::class.java,
-        java.lang.Boolean.TYPE to java.lang.Boolean::class.java,
-        java.lang.Byte.TYPE to java.lang.Byte::class.java,
-        java.lang.Short.TYPE to java.lang.Short::class.java,
-        java.lang.Character.TYPE to java.lang.Character::class.java
-    )
-
-    return (primitiveToBoxed[from] == to) || (primitiveToBoxed[to] == from)
-}
-
-/**
- * 获取参数类型字符串表示
- *
- * @param parameterTypes 参数类型数组
- * @return 格式化的参数字符串，如 "(String,int)"
- */
-private fun getParametersString(parameterTypes: Array<out Class<*>?>): String {
-    return parameterTypes.joinToString(",", "(", ")") { it?.simpleName ?: "null" }
+    fun invokeSuperMethod(methodName: String, thisObject: Any, vararg args: Any?) =
+        EzxMethodHelper.invokeSuperMethod(methodName, thisObject, *args)
 }

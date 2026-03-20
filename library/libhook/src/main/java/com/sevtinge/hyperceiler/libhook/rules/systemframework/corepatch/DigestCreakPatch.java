@@ -18,23 +18,22 @@ import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class DigestCreakPatch extends CorePatchHelper {
 
     private final String TAG = "DigestCreak/UsePreSignPatch";
 
-    public void init(XposedModuleInterface.SystemServerLoadedParam lpparam) {
+    public void init(XposedModuleInterface.SystemServerStartingParam lpparam) {
         // Android 14+
         try {
             findAndHookMethod("com.android.server.pm.InstallPackageHelper", lpparam.getClassLoader(),
                 "doesSignatureMatchForPermissions", String.class,
                 "com.android.internal.pm.parsing.pkg.ParsedPackage", int.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
+                    public void after(HookParam param) {
+                        if (CorePatchHelper.isUsePreSignatureEnabled()) {
                             //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                             if (param.getResult().equals(false)) {
                                 String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
@@ -56,12 +55,12 @@ public class DigestCreakPatch extends CorePatchHelper {
             // 处理覆盖安装但签名不一致
             hookAllMethods(signingDetails, "checkCapability", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     // Don't handle PERMISSION & AUTH
                     // Or applications will have all privileged permissions
                     // https://cs.android.com/android/platform/superproject/+/master:frameworks/base/core/java/android/content/pm/PackageParser.java;l=5947?q=CertCapabilities
                     // https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/services/core/java/com/android/server/accounts/AccountManagerService.java;l=5867
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
                         if ((Integer) param.getArgs()[1] != 4 && (Integer) param.getArgs()[1] != 16) {
                             param.setResult(true);
                         }
@@ -74,8 +73,8 @@ public class DigestCreakPatch extends CorePatchHelper {
                 "doesSignatureMatchForPermissions", String.class,
                 ParsedPackage, int.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
+                    public void after(HookParam param) {
+                        if (CorePatchHelper.isUsePreSignatureEnabled()) {
                             //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                             if (param.getResult().equals(false)) {
                                 String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
@@ -101,8 +100,8 @@ public class DigestCreakPatch extends CorePatchHelper {
                     if (doesSignatureMatchForPermissions != null) {
                         hookMethod(doesSignatureMatchForPermissions, new IMethodHook() {
                             @Override
-                            public void after(AfterHookParam param) {
-                                if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
+                            public void after(HookParam param) {
+                                if (CorePatchHelper.isUsePreSignatureEnabled()) {
                                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                                     if (param.getResult().equals(false)) {
                                         String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
@@ -136,9 +135,9 @@ public class DigestCreakPatch extends CorePatchHelper {
             Object[] signingDetailsArgs = new Object[2];
             signingDetailsArgs[1] = 1;
             hookAllMethods("android.util.jar.StrictJarVerifier", lpparam.getClassLoader(), "verifyBytes", new IMethodHook() {
-                public void after(AfterHookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
-                        if (!prefs.getBoolean("prefs_key_system_framework_core_patch_use_pre_signature", false)) {
+                public void after(HookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
+                        if (!CorePatchHelper.isUsePreSignatureEnabled()) {
                             final Object block = constructor.newInstance(param.getArgs()[0]);
                             Object[] infos = (Object[]) EzxHelpUtils.callMethod(block, "getSignerInfos");
                             Object info = infos[0];
@@ -153,8 +152,8 @@ public class DigestCreakPatch extends CorePatchHelper {
             // if app is system app, allow to use hidden api, even if app not using a system signature
             findAndHookMethod("android.content.pm.ApplicationInfo", lpparam.getClassLoader(), "isPackageWhitelistedForHiddenApis", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
-                    if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true)) {
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
                         ApplicationInfo info = (ApplicationInfo) param.getThisObject();
                         if ((info.flags & ApplicationInfo.FLAG_SYSTEM) != 0
                             || (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
@@ -174,7 +173,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                 var shouldBypass = new ThreadLocal<Boolean>();
                 hookAllMethods(keySetManagerClass, "shouldCheckUpgradeKeySetLocked", new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         // 检查权限定义的签名的时候，如果定义包名相同，会使用 KeySetManagerService
                         // 我们利用这一点让它通过检查，也就是同包不同签名权限可覆盖
                         // R-Sv2: PackageManagerService#preparePackageLI
@@ -183,7 +182,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                         // https://cs.android.com/android/platform/superproject/+/android-14.0.0_r2:frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java;l=1097;drc=5ea7e53c3a787e25af86b0f31933ddd68ae3514e
                         // 16: InstallPackageHelper#preparePackage
                         // https://cs.android.com/android/platform/superproject/+/android-16.0.0_r2:frameworks/base/services/core/java/com/android/server/pm/InstallPackageHelper.java;l=1459;drc=d14620262929e39a409b55d11cb542c1d1c4d2f6
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> o.getMethodName().startsWith("preparePackage"))) {
+                        if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true) && Arrays.stream(Thread.currentThread().getStackTrace()).anyMatch((o) -> o.getMethodName().startsWith("preparePackage"))) {
                             shouldBypass.set(true);
                             param.setResult(true);
                         } else {
@@ -193,8 +192,8 @@ public class DigestCreakPatch extends CorePatchHelper {
                 });
                 hookAllMethods(keySetManagerClass, "checkUpgradeKeySetLocked", new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
-                        if (prefs.getBoolean("prefs_key_system_framework_core_patch_digest_creak", true) && shouldBypass.get()) {
+                    public void after(HookParam param) {
+                        if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true) && shouldBypass.get()) {
                             param.setResult(true);
                         }
                     }

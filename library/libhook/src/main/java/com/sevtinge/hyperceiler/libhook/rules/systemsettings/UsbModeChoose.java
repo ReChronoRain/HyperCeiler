@@ -32,7 +32,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.Locale;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UsbModeChoose extends BaseHook {
     ArrayMap<String, Integer> mode = new ArrayMap<>();
@@ -62,7 +62,7 @@ public class UsbModeChoose extends BaseHook {
             findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
                 "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                         activity = (Activity) param.getThisObject();
                         // XposedLog.e(TAG, "before: " + activity);
                     }
@@ -72,7 +72,7 @@ public class UsbModeChoose extends BaseHook {
             findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
                 "initModesList", long[].class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // XposedLog.e(TAG, "long: " + param.args[0]);
                         long[] jArr = {0, 8, 4, 16, 128};
                         if (addAll) return;
@@ -103,7 +103,7 @@ public class UsbModeChoose extends BaseHook {
                 "initDialog", new IMethodHook() {
                     @SuppressLint("WrongConstant")
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String action = activity.getIntent().getAction();
                         // XposedLog.e(TAG, "ac: " + action);
                         if (getMode.isEmpty())
@@ -142,7 +142,7 @@ public class UsbModeChoose extends BaseHook {
             findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
                 "initDialog", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String action = activity.getIntent().getAction();
                         if (action == null) {
                             param.setResult(null);

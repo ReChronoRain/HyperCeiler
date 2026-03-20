@@ -42,8 +42,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class StickyFloatingWindows extends BaseHook {
 
@@ -57,7 +56,7 @@ public class StickyFloatingWindows extends BaseHook {
         Class<?> MiuiMultiWindowUtils = findClass("android.util.MiuiMultiWindowUtils");
         hookAllMethods("com.android.server.wm.ActivityStarterInjector", "modifyLaunchActivityOptionIfNeed", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (param.getArgs().length != 8) return;
                 Intent intent = (Intent) param.getArgs()[5];
                 Object activityRecord = param.getArgs()[7];
@@ -96,7 +95,7 @@ public class StickyFloatingWindows extends BaseHook {
         hookAllMethods("com.android.server.wm.ActivityTaskSupervisor", "startActivityFromRecents", new IMethodHook() {
 
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object safeOptions = param.getArgs()[3];
                 ActivityOptions options = (ActivityOptions) callMethod(safeOptions, "getOptions", param.getThisObject());
                 String pkgName = getTaskPackageName(param.getThisObject(), (int) param.getArgs()[2], options);
@@ -115,7 +114,7 @@ public class StickyFloatingWindows extends BaseHook {
 
         findAndHookMethod("com.android.server.wm.MiuiFreeFormGestureController$FreeFormReceiver", "onReceive", Context.class, Intent.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Intent intent = (Intent) param.getArgs()[1];
                 String action = intent.getAction();
                 if (action.equals("miui.intent.action_launch_fullscreen_from_freeform")) {
@@ -127,7 +126,7 @@ public class StickyFloatingWindows extends BaseHook {
 
         hookAllMethods("com.android.server.wm.MiuiFreeFormGestureController", "notifyFullScreenWidnowModeStart", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (param.getArgs().length != 3) return;
                 String pkgName = (String) callMethod(param.getArgs()[1], "getStackPackageName");
                 Object skipClear = getAdditionalInstanceField(param.getThisObject(), "skipFreeFormStateClear");
@@ -148,7 +147,7 @@ public class StickyFloatingWindows extends BaseHook {
 
         hookAllMethods("com.android.server.wm.ActivityTaskManagerService", "launchSmallFreeFormWindow", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Object taskId = getObjectField(param.getArgs()[0], "taskId");
                 Object mMiuiFreeFormManagerService = getObjectField(param.getThisObject(), "mMiuiFreeFormManagerService");
                 Object miuiFreeFormActivityStack = callMethod(mMiuiFreeFormManagerService, "getMiuiFreeFormActivityStack", taskId);
@@ -165,7 +164,7 @@ public class StickyFloatingWindows extends BaseHook {
         findAndHookMethod("com.android.server.wm.ActivityTaskManagerService", "onSystemReady", new IMethodHook() {
             @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 restoreFwAppsInSetting(mContext);
                 Class<?> MiuiMultiWindowAdapter = findClass("android.util.MiuiMultiWindowAdapter");
@@ -221,7 +220,7 @@ public class StickyFloatingWindows extends BaseHook {
 
         hookAllMethods("com.android.server.wm.ActivityTaskManagerService", "resizeTask", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String pkgName = getTaskPackageName(param.getThisObject(), (int) param.getArgs()[0]);
                 if (pkgName != null) {
                     Object skipClear = getAdditionalInstanceField(param.getThisObject(), "skipFreeFormStateClear");

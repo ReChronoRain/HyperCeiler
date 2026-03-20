@@ -37,7 +37,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FolderShade extends HomeBaseHookNew {
 
@@ -59,7 +59,7 @@ public class FolderShade extends HomeBaseHookNew {
 
         IMethodHook hook = new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View folder = (View) param.getThisObject();
                 new Thread(() -> {
                     try {
@@ -102,7 +102,7 @@ public class FolderShade extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.Folder", "setBackgroundAlpha", float.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 int opt = PrefsBridge.getStringAsInt("home_folder_shade", 0);
                 Object mLauncher = getObjectField(param.getThisObject(), "mLauncher");
                 View folderCling = (View) callMethod(mLauncher, "getFolderCling");

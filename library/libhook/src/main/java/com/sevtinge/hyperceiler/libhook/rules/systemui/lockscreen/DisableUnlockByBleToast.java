@@ -26,22 +26,22 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableUnlockByBleToast extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.keyguard.KeyguardSecurityContainerController$3", "dismiss", boolean.class, int.class, boolean.class, "com.android.keyguard.KeyguardSecurityModel$SecurityMode", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod(Toast.class, "makeText", Context.class, int.class, int.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String resName = ((Context) param.getArgs()[0]).getResources().getResourceName((int) param.getArgs()[1]);
                         if (Objects.equals(resName, "com.android.systemui:string/miui_keyguard_ble_unlock_succeed_msg"))
                             findAndHookMethod(Toast.class, "show", new IMethodHook() {
                                 @Override
-                                public void before(BeforeHookParam param) {
+                                public void before(HookParam param) {
                                     param.setResult(null);
                                 }
                             });
@@ -51,15 +51,15 @@ public class DisableUnlockByBleToast extends BaseHook {
         });
         findAndHookMethod("com.android.keyguard.MiuiBleUnlockHelper", "tryUnlockByBle", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod(Toast.class, "makeText", Context.class, int.class, int.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String resName = ((Context) param.getArgs()[0]).getResources().getResourceName((int) param.getArgs()[1]);
                         if (Objects.equals(resName, "com.android.systemui:string/miui_keyguard_ble_unlock_succeed_msg"))
                             findAndHookMethod(Toast.class, "show", new IMethodHook() {
                                 @Override
-                                public void before(BeforeHookParam param) {
+                                public void before(HookParam param) {
                                     param.setResult(null);
                                 }
                             });

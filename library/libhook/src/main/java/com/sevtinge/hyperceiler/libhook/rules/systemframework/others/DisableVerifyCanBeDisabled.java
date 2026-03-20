@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableVerifyCanBeDisabled extends BaseHook {
     @Override
@@ -56,7 +56,7 @@ public class DisableVerifyCanBeDisabled extends BaseHook {
             hookMethod(voidMethod,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(null);
                     }
                 }
@@ -65,7 +65,7 @@ public class DisableVerifyCanBeDisabled extends BaseHook {
             hookMethod(booleanMethod,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(true);
                     }
                 }

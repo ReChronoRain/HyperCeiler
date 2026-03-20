@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.log.LogManager;
 import com.sevtinge.hyperceiler.log.XposedLogLoader;
 import com.sevtinge.hyperceiler.provision.fragment.PermissionSettingsFragment;
 import com.sevtinge.hyperceiler.utils.DeviceInfoBuilder;
+import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import fan.provision.OobeUtils;
@@ -45,7 +46,6 @@ public class Application extends fan.app.Application
 
     private static final String TAG = "Application";
     public static boolean isModuleActivated = false;
-    private static final Runnable reloadListener = () -> {};
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -75,13 +75,12 @@ public class Application extends fan.app.Application
         synchronized (this) {
             isModuleActivated = true;
             PermissionSettingsFragment.isModuleActive = true;
-            ScopeManager.setService(service);
 
-            SharedPreferences remote = service.getRemotePreferences(PrefsBridge.PREFS_NAME + "_remote");
+            SharedPreferences remote = service.getRemotePreferences(PrefsBridge.REMOTE_PREFS_GROUP);
             PrefsBridge.setRemotePrefs(remote);
             OobeUtils.syncHookAvailability(this);
-
-            reloadListener.run();
+            ScopeManager.setService(service);
+            LSPosedScopeHelper.reloadScope();
         }
     }
 
@@ -92,6 +91,7 @@ public class Application extends fan.app.Application
             isModuleActivated = false;
             PermissionSettingsFragment.isModuleActive = false;
             PrefsBridge.setRemotePrefs(null);
+            ScopeManager.clearService();
         }
     }
 

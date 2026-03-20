@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FakeNonDefaultIcon extends HomeBaseHookNew {
 
@@ -30,7 +30,7 @@ public class FakeNonDefaultIcon extends HomeBaseHookNew {
     private void initOS3Hook() {
         findAndHookMethod("com.miui.home.common.device.DeviceConfigs", "isDefaultMiuiIcon", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(false);
             }
         });
@@ -40,7 +40,7 @@ public class FakeNonDefaultIcon extends HomeBaseHookNew {
     public void initBase() {
         findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isDefaultIcon", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                 param.setResult(false);
             }
         });

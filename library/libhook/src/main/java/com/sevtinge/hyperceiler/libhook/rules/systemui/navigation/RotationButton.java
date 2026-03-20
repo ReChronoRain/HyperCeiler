@@ -38,8 +38,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class RotationButton extends BaseHook {
@@ -51,7 +50,7 @@ public class RotationButton extends BaseHook {
         hookAllConstructors("com.android.systemui.navigationbar.NavigationBar",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (!enable) return;
                     Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                     if (!isListen) {
@@ -81,7 +80,7 @@ public class RotationButton extends BaseHook {
                 "lambda$new$0",
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (!enable) {
                             return;
                         }
@@ -103,7 +102,7 @@ public class RotationButton extends BaseHook {
             findAndHookMethod("com.android.systemui.navigationbar.NavigationBarView$$ExternalSyntheticLambda1",
                 "get", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (!enable) {
                             return;
                         }
@@ -129,7 +128,7 @@ public class RotationButton extends BaseHook {
                 "onProposedRotationChanged", int.class, boolean.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (!enable) return;
                         Object mDumpHandler = getObjectField(param.getThisObject(), "mDumpHandler");
                         Context context = (Context) getObjectField(mDumpHandler, "context");
@@ -142,10 +141,10 @@ public class RotationButton extends BaseHook {
             findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
                 "onRotationProposal", int.class, boolean.class,
                 new IMethodHook() {
-                    XposedInterface.MethodUnhooker<?> unhook;
+                    XposedInterface.HookHandle unhook;
 
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (!enable) {
                             param.setResult(null);
                             return;
@@ -155,7 +154,7 @@ public class RotationButton extends BaseHook {
                     }
 
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (unhook != null) unhook.unhook();
                     }
                 }
@@ -165,7 +164,7 @@ public class RotationButton extends BaseHook {
                 "onRotationProposal", int.class, boolean.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (!enable) {
                             param.setResult(null);
                             // return;
@@ -178,7 +177,7 @@ public class RotationButton extends BaseHook {
                 "onRotationProposal", int.class, boolean.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (enable) param.setResult(null);
                     }
                 }
@@ -190,7 +189,7 @@ public class RotationButton extends BaseHook {
                 "onRotateSuggestionClick", View.class,
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (enable)
                             callMethod(param.getThisObject(), "setRotateSuggestionButtonState", false);
                     }
@@ -201,7 +200,7 @@ public class RotationButton extends BaseHook {
                 "onClick", View.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         if (enable) {
                             Object rotationButtonController = getObjectField(param.getThisObject(), "f$0");
                             callMethod(rotationButtonController, "setRotateSuggestionButtonState", false, true);

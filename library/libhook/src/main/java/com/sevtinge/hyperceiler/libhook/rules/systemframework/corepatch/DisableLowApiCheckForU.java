@@ -22,14 +22,14 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableLowApiCheckForU extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.server.pm.InstallPackageHelper", "preparePackageLI", "com.android.server.pm.InstallRequest", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object mInstallArgs = getObjectField(param.getArgs()[0], "mInstallArgs");
                 if (mInstallArgs == null) return;
                 EzxHelpUtils.setIntField(mInstallArgs, "mInstallFlags", EzxHelpUtils.getIntField(mInstallArgs, "mInstallFlags") | 0x01000000);

@@ -23,11 +23,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -39,8 +39,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class SkipCountDownLimit extends BaseHook {
     @Override
@@ -59,14 +58,14 @@ public class SkipCountDownLimit extends BaseHook {
         if (PrefsBridge.getBoolean("security_center_skip_count_down_limit_direct")){
             findAndHookMethod("com.miui.permcenter.privacymanager.InterceptBaseFragment", "onInflateView", LayoutInflater.class, ViewGroup.class, Bundle.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     callMethod(param.getThisObject(), method.getName(), true);
                 }
             });
         } else {
             findAndHookMethod("com.miui.permcenter.privacymanager.model.InterceptBaseActivity", "onCreate", Bundle.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Bundle bundle = (Bundle) param.getArgs()[0];
                     if (bundle == null) {
                         bundle = new Bundle();

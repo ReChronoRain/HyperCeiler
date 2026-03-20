@@ -43,8 +43,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * @author 焕晨HChen
@@ -72,7 +71,7 @@ public class UiLockApp extends BaseHook {
         hookAllConstructors("com.android.systemui.statusbar.phone.AutoHideController",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) param.getArgs()[0];
                     if (!isListen) {
                         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
@@ -101,7 +100,7 @@ public class UiLockApp extends BaseHook {
             hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
                 new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         try {
                             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
                             if (context == null) return;
@@ -133,7 +132,7 @@ public class UiLockApp extends BaseHook {
         findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
             "onTouchEvent", MotionEvent.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     MotionEvent motionEvent = (MotionEvent) param.getArgs()[0];
                     View view = (View) param.getThisObject();
                     // XposedLog.w();(TAG, "mo: " + motionEvent.getActionMasked());
@@ -228,7 +227,7 @@ public class UiLockApp extends BaseHook {
             "shouldHideCaption",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context context = (Context) getObjectField(param.getThisObject(), "mContext");
                     if (getLockApp(context) != -1) {
                         param.setResult(true);
@@ -240,7 +239,7 @@ public class UiLockApp extends BaseHook {
         findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isLockTaskKioskModeActive", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             }
@@ -249,7 +248,7 @@ public class UiLockApp extends BaseHook {
         findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
             "isScreenPinningActive", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             }
@@ -272,7 +271,7 @@ public class UiLockApp extends BaseHook {
         hookMethod(method,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             }

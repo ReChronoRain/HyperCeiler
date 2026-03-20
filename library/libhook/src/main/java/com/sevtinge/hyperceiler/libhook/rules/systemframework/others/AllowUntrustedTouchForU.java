@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllowUntrustedTouchForU extends BaseHook {
 
@@ -33,7 +33,7 @@ public class AllowUntrustedTouchForU extends BaseHook {
         //XposedHelpers.setStaticLongField(mInputManager, "BLOCK_UNTRUSTED_TOUCHES", 0x96aec7eL);
         findAndHookMethod("com.android.server.wm.WindowState", "getTouchOcclusionMode", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 param.setResult(2);
             }
         });

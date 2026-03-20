@@ -39,7 +39,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HyperCeilerSettings extends BaseHook {
 
@@ -67,7 +67,7 @@ public class HyperCeilerSettings extends BaseHook {
         findAndHookMethod(mMiuiSettings, "updateHeaderList", List.class, new IMethodHook() {
             @Override
             @SuppressLint("DiscouragedApi")
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (param.getArgs()[0] == null || opt == 0) return;
 
                 Activity activity = (Activity) param.getThisObject();

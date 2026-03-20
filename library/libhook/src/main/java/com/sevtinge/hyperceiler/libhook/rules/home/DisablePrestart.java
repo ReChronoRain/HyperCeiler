@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisablePrestart extends BaseHook {
     @Override
@@ -42,7 +42,7 @@ public class DisablePrestart extends BaseHook {
             ));
 
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String key = (String) param.getArgs()[0];
                 if (prop.contains(key)) {
                     param.setResult(false);

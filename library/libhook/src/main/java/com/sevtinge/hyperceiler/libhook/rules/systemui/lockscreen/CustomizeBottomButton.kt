@@ -44,7 +44,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object CustomizeBottomButton : BaseHook() {
@@ -159,7 +159,7 @@ object CustomizeBottomButton : BaseHook() {
                 }
             }
 
-        fun chargeImage(param: AfterHookParam, context: Context) {
+        fun chargeImage(param: HookParam, context: Context) {
             val mBottomIconRectIsDeep = param.thisObject.getObjectFieldAs<Boolean>("mBottomIconRectIsDeep")
             if (!mBottomIconRectIsDeep) {
                 offDrawable = context.getDrawable(R.drawable.ic_flashlight_off_filled_black)

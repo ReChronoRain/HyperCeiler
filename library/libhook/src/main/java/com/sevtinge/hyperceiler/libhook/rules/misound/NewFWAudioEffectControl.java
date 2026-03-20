@@ -23,7 +23,7 @@ import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.i
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_ARRAY;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hook;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
 
 import android.os.Bundle;
 
@@ -47,8 +47,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * FW 模式下的音效控制 UI
@@ -82,7 +81,7 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
             String.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
                         String effect = (String) param.getArgs()[0];
                         XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting effect: " + effect);
@@ -138,12 +137,12 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
             Method onCreate = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
             Method onResume = activityClass.getDeclaredMethod("onResume");
 
-            hook(onCreate, createOnCreatePreferencesHook(prefsField));
+            hookCallback(onCreate, createOnCreatePreferencesHook(prefsField));
 
             // 创建通用的刷新 Hook
             IMethodHook refreshHook = new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Object effectSelection = getFieldValue(param.getThisObject(), prefsField);
                     mEffectSelectionPrefsRef.set(effectSelection);
                     updateEffectSelectionState();
@@ -151,8 +150,8 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
                 }
             };
 
-            hook(refreshMethod, refreshHook);
-            hook(onResume, refreshHook);
+            hookCallback(refreshMethod, refreshHook);
+            hookCallback(onResume, refreshHook);
 
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook AVDolby activity", e);

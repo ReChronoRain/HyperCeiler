@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.app.Application
 import android.content.Context
 import android.content.res.Resources
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
@@ -29,14 +30,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesHookMap
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 object RecentResource : HomeBaseHookNew() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()
-    private fun hook(param: BeforeHookParam) {
+    private fun hook(param: HookParam) {
         try {
             val resName = appContext.resources.getResourceEntryName(param.args[0] as Int)
             val resType = appContext.resources.getResourceTypeName(param.args[0] as Int)

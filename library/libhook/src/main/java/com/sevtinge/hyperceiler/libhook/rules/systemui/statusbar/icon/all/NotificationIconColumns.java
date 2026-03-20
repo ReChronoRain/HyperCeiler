@@ -27,12 +27,11 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NotificationIconColumns extends BaseHook {
 
@@ -52,7 +51,7 @@ public class NotificationIconColumns extends BaseHook {
 
         hookAllConstructors(observerClass, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 mCurrentUserId = (int) getObjectField(param.getThisObject(), "mCurrentUserId");
                 registerObserver(mContext);
@@ -61,7 +60,7 @@ public class NotificationIconColumns extends BaseHook {
 
         findAndHookMethod(observerClass + "$1", "onUserChanged", int.class, Context.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 mCurrentUserId = (int) param.getArgs()[0];
                 updateSettingsState();
             }
@@ -69,7 +68,7 @@ public class NotificationIconColumns extends BaseHook {
 
         IMethodHook setMaxIconsHook = new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 setObjectField(param.getThisObject(), "mMaxIcons", maxIconsNum);
             }
         };

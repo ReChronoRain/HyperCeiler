@@ -38,7 +38,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 自动切换音效 - SystemUI 端
@@ -154,7 +154,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
             String.class, boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
                         String effect = (String) param.getArgs()[0];
                         XposedLog.d(TAG, "Lock enabled and earphone connected, skip setting effect: " + effect);
@@ -175,7 +175,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
             "handleClick",
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
                         XposedLog.d(TAG, "Lock enabled and earphone connected, skip Dolby tile click");
                         param.setResult(null);

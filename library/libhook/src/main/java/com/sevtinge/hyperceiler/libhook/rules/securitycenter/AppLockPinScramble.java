@@ -28,7 +28,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AppLockPinScramble extends BaseHook {
 
@@ -38,7 +38,7 @@ public class AppLockPinScramble extends BaseHook {
 
         hookAllConstructors("com.miui.applicationlock.widget.MiuiNumericInputView", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 LinearLayout keys = (LinearLayout) param.getThisObject();
                 ArrayList<View> mRandomViews = new ArrayList<>();
                 View bottom0 = null;

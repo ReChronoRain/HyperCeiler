@@ -38,7 +38,7 @@ import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 音效控制 UI 基类
@@ -210,7 +210,7 @@ public abstract class BaseEffectControlUI {
     protected IMethodHook createOnCreatePreferencesHook(Field effectSelectionField) {
         return new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 initPreferenceClasses();
                 createInfoPreference(param.getThisObject());
 
@@ -227,7 +227,7 @@ public abstract class BaseEffectControlUI {
     protected IMethodHook createOnResumeHook(Field effectSelectionField) {
         return new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Object effectSelection = getFieldValue(param.getThisObject(), effectSelectionField);
                 mEffectSelectionPrefsRef.set(effectSelection);
                 updateEffectSelectionState();

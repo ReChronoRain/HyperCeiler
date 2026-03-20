@@ -26,16 +26,15 @@ import android.content.IntentFilter;
 
 import androidx.core.content.ContextCompat;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import miui.app.MiuiFreeFormManager;
 
 public class OpenAppInFreeForm extends BaseHook {
@@ -52,7 +51,7 @@ public class OpenAppInFreeForm extends BaseHook {
 
             findAndHookMethod(mActivityTaskManagerService, "onSystemReady", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
                     IntentFilter intentFilter = new IntentFilter();
                     intentFilter.addAction(ACTION_PREFIX + "SetFreeFormPackage");
@@ -74,7 +73,7 @@ public class OpenAppInFreeForm extends BaseHook {
 
             hookAllMethods(mActivityStarter, "executeRequest", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Object request = param.getArgs()[0];
                     Intent intent = (Intent) EzxHelpUtils.getObjectField(request, "intent");
                     Object safeOptions = EzxHelpUtils.getObjectField(request, "activityOptions");

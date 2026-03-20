@@ -51,7 +51,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 
@@ -135,7 +135,7 @@ public class RoamingActivateHelper extends BaseHook {
         hookMethod(method, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
-            public void before(BeforeHookParam param) throws InvocationTargetException, IllegalAccessException {
+            public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
                 int subId = (int) getObjectField(param.getThisObject(), field.getName());
                 Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
                 Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
@@ -151,7 +151,7 @@ public class RoamingActivateHelper extends BaseHook {
         findAndHookMethod("com.xiaomi.activate.ActivationSmsReceiver", "onReceive", Context.class, Intent.class, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 int slotId = ((Intent) param.getArgs()[1]).getIntExtra("extra_sim_index", -1);
                 if (isRoaming((Context) param.getArgs()[0], slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) param.setResult(null);
             }
@@ -160,7 +160,7 @@ public class RoamingActivateHelper extends BaseHook {
         findAndHookMethod("com.xiaomi.accountsdk.activate.ActivateStatusReceiver", "onReceive", Context.class, Intent.class, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 int slotId = ((Intent) param.getArgs()[1]).getIntExtra("extra_sim_index", -1);
                 if (isRoaming((Context) param.getArgs()[0], slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) param.setResult(null);
             }
@@ -169,7 +169,7 @@ public class RoamingActivateHelper extends BaseHook {
         findAndHookMethod("com.xiaomi.activate.SimStateReceiver", "onReceive", Context.class, Intent.class, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 int slotId = ((Intent) param.getArgs()[1]).getIntExtra("slot_id", -1);
                 if (isRoaming((Context) param.getArgs()[0], slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) param.setResult(null);
             }

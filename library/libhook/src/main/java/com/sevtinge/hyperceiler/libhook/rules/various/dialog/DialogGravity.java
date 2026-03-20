@@ -39,7 +39,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DialogGravity extends BaseHook {
@@ -72,7 +72,7 @@ public class DialogGravity extends BaseHook {
 
                 findAndHookMethod(mDialogCls, "setupDialogPanel", Configuration.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
 
                         mContext = mParentPanel.getContext();
@@ -104,7 +104,7 @@ public class DialogGravity extends BaseHook {
                 if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
                     findAndHookMethod(mDialogCls, method.getName(), new IMethodHook() {
                         @Override
-                        public void after(AfterHookParam param) throws IllegalAccessException {
+                        public void after(HookParam param) throws IllegalAccessException {
                             Field field = findFirstFieldByExactType(mDialogCls, mDialogParentPanelCls);
                             mParentPanel = (View) field.get(param.getThisObject());
 
@@ -134,7 +134,7 @@ public class DialogGravity extends BaseHook {
 
         hookAllMethods(mDialogCls, "dismiss", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View mParentPanel = (View) getObjectField(param.getThisObject(), "mParentPanel");
                 mParentPanel.setVisibility(View.INVISIBLE);
             }

@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class IconsFromSystemManager extends BaseHook {
 
@@ -40,7 +40,7 @@ public class IconsFromSystemManager extends BaseHook {
                 String.class, "com.android.internal.statusbar.StatusBarIcon",
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String slotName = (String) param.getArgs()[0];
                         if (checkSlot(slotName)) {
                             setObjectField(param.getArgs()[1], "visible", false);
@@ -54,7 +54,7 @@ public class IconsFromSystemManager extends BaseHook {
                 String.class, "com.android.systemui.statusbar.phone.StatusBarIconHolder",
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String slotName = (String) param.getArgs()[0];
                         if (checkSlot(slotName)) {
                             Object statusBarIconInstance = getObjectField(param.getArgs()[1], "mIcon");

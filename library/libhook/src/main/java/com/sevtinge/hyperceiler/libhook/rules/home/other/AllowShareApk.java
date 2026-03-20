@@ -24,7 +24,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllowShareApk extends HomeBaseHookNew {
 
@@ -32,7 +32,7 @@ public class AllowShareApk extends HomeBaseHookNew {
     private void initOS3Hook() {
         findAndHookMethod("com.miui.home.common.utils.Utils", "isSecurityCenterSupportShareAPK", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             }
@@ -40,10 +40,10 @@ public class AllowShareApk extends HomeBaseHookNew {
 
         findAndHookMethod("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$ShareAppShortcutMenuItem", "isValid", "com.miui.home.model.api.ItemInfo", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     findAndHookMethod("com.miui.home.launcher.common.Utilities", "isSystemPackage", Context.class, String.class, new IMethodHook() {
                             @Override
-                            public void before(BeforeHookParam param) {
+                            public void before(HookParam param) {
                                 param.setResult(false);
                             }
                         }
@@ -57,17 +57,17 @@ public class AllowShareApk extends HomeBaseHookNew {
     public void initBase() {
         findAndHookMethod("com.miui.home.launcher.common.Utilities", "isSecurityCenterSupportShareAPK", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             }
         );
         findAndHookMethod("com.miui.home.launcher.shortcuts.SystemShortcutMenuItem$ShareAppShortcutMenuItem", "isValid", "com.miui.home.launcher.ItemInfo", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     findAndHookMethod("com.miui.home.launcher.common.Utilities", "isSystemPackage", Context.class, String.class, new IMethodHook() {
                             @Override
-                            public void before(BeforeHookParam param) {
+                            public void before(HookParam param) {
                                 param.setResult(false);
                             }
                         }

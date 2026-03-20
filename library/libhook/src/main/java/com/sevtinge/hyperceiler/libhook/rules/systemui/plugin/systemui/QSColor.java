@@ -33,8 +33,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class QSColor extends BaseHook {
     private static boolean small = false;
@@ -52,14 +51,14 @@ public class QSColor extends BaseHook {
             try {
                 findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, Context.class, Context.class, AttributeSet.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
                     }
                 });
             } catch (Exception | Error ignore) {
                 findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, Context.class, Context.class, boolean.class, new IMethodHook() {
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", color);
                     }
                 });
@@ -68,7 +67,7 @@ public class QSColor extends BaseHook {
             // from YunZiA
             EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "getActiveBackgroundDrawable", "com.android.systemui.plugins.qs.QSTile$State", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Drawable drawable = (Drawable) param.getResult();
                     if (drawable instanceof GradientDrawable) {
                         ((GradientDrawable) drawable).setColor(bgColor);
@@ -81,7 +80,7 @@ public class QSColor extends BaseHook {
             try {
                 EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader, "updateIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         EzxHelpUtils.setObjectField(param.getThisObject(), "iconColor", color);
                     }
                 });
@@ -91,14 +90,14 @@ public class QSColor extends BaseHook {
         if (big) {
             findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, Context.class, Context.class, AttributeSet.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     setObjectReplacement("miui.systemui.plugin", "color", "qs_icon_enabled_color", bigColor);
                 }
             });
 
             findAndHookConstructor("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, Context.class, AttributeSet.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     LinearLayout linearLayout = (LinearLayout) param.getThisObject();
                     int cornerRadius = linearLayout.getContext().getResources().getIdentifier("control_center_universal_corner_radius", "dimen", "miui.systemui.plugin");
                     cornerRadiusF = linearLayout.getContext().getResources().getDimensionPixelSize(cornerRadius);
@@ -108,7 +107,7 @@ public class QSColor extends BaseHook {
 
             EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, "updateBackground", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Object state = EzxHelpUtils.getObjectField(param.getThisObject(), "state");
                     // String spec = (String) EzxHelpUtils.getObjectField(state, "spec");
                     if (state == null) return; // 系统界面组件会先 null 几次才会获取到值，应该是官方写法有问题
@@ -128,7 +127,7 @@ public class QSColor extends BaseHook {
 
             EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, "setCornerRadius", float.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     if (cornerRadiusF != -1) {
                         param.getArgs()[0] = cornerRadiusF;
                     }
@@ -137,7 +136,7 @@ public class QSColor extends BaseHook {
 
             EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader, "updateState", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, boolean.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     Object state = param.getArgs()[0];
                     int i = EzxHelpUtils.getIntField(state, "state");
                     if (i == 2) {
@@ -167,7 +166,7 @@ public class QSColor extends BaseHook {
             try {
                 EzxHelpUtils.findAndHookMethod("miui.systemui.controlcenter.qs.tileview.QSCardItemIconView", classLoader, "setIcon", "com.android.systemui.plugins.qs.QSTile$State", boolean.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         EzxHelpUtils.setObjectField(param.getThisObject(), "iconColor", bigColor);
                     }
                 });
@@ -193,7 +192,7 @@ public class QSColor extends BaseHook {
         if (small) {
             findAndHookConstructor("com.android.systemui.qs.tileimpl.MiuiQSIconViewImpl", Context.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     EzxHelpUtils.setObjectField(param.getThisObject(), "mIconColorEnabled", color);
                     setObjectReplacement("com.android.systemui", "color", "qs_tile_icon_enabled_color", color);
                 }

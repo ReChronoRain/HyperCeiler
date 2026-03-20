@@ -30,8 +30,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class MoreNotificationSettings extends BaseHook {
 
@@ -57,7 +56,7 @@ public class MoreNotificationSettings extends BaseHook {
     private void hookSetPrefVisible(Class<?> clazz) {
         hookAllMethods(clazz, "setPrefVisible", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object pref = param.getArgs()[0];
                 if (pref == null) return;
 
@@ -76,7 +75,7 @@ public class MoreNotificationSettings extends BaseHook {
         hookAllMethods("com.android.systemui.statusbar.notification.row.MiuiNotificationMenuRow",
             "onClickInfoItem", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     try {
                         Context context = (Context) param.getArgs()[0];
                         Object parent = getObjectField(param.getThisObject(), "mParent");
@@ -115,7 +114,7 @@ public class MoreNotificationSettings extends BaseHook {
 
     private class SetupChannelDefaultPrefsHook implements IMethodHook {
         @Override
-        public void after(AfterHookParam param) {
+        public void after(HookParam param) {
             try {
                 Object thisObject = param.getThisObject();
                 Object pref = callMethod(thisObject, "findPreference", "importance");

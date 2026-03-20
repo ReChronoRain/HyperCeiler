@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookReplace
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceCallback
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -35,7 +35,7 @@ object DisableSafeModelTip : BaseHook() {
                     usingEqStrings($$"android.provider.MiuiSettings$Ad")
                 }
             }.singleOrNull()
-        }.hookReplace {
+        }.replaceCallback {
             false
         }
 

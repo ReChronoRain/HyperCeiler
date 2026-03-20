@@ -34,8 +34,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import kotlin.math.max
 
@@ -103,7 +102,7 @@ object LayoutRules : HomeBaseHookNew() {
         )
 
         findAndHookMethod(GRID_CONFIG_NEW, "getCellWidth", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (currentCellWidth != 0) {
                     param.result = currentCellWidth
                 }
@@ -111,7 +110,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_NEW, "getCellHeight", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (currentCellHeight != 0) {
                     param.result = currentCellHeight
                 }
@@ -119,7 +118,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_NEW, "getCountCellX", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (isUnlockGridsHook && currentCellCountX != 0) {
                     param.result = currentCellCountX
                 }
@@ -127,7 +126,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_NEW, "getCountCellY", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (isUnlockGridsHook && currentCellCountY != 0) {
                     param.result = currentCellCountY
                 }
@@ -182,7 +181,7 @@ object LayoutRules : HomeBaseHookNew() {
         }
 
         findAndHookMethod(GRID_CONFIG_OLD, "getCellWidth", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (currentCellWidth != 0) {
                     param.result = currentCellWidth
                 }
@@ -190,7 +189,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_OLD, "getCellHeight", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (currentCellHeight != 0) {
                     param.result = currentCellHeight
                 }
@@ -198,7 +197,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_OLD, "getCountCellX", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (isUnlockGridsHook && currentCellCountX != 0) {
                     param.result = currentCellCountX
                 }
@@ -206,7 +205,7 @@ object LayoutRules : HomeBaseHookNew() {
         })
 
         findAndHookMethod(GRID_CONFIG_OLD, "getCountCellY", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 if (isUnlockGridsHook && currentCellCountY != 0) {
                     param.result = currentCellCountY
                 }
@@ -215,7 +214,7 @@ object LayoutRules : HomeBaseHookNew() {
     }
 
     object PhoneCalGridSizeHookNew : IMethodHook {
-        override fun after(param: AfterHookParam) {
+        override fun after(param: HookParam) {
             val rules = param.thisObject
 
             val maxGridWidth = rules.getIntField("mScreenWidth")
@@ -336,7 +335,7 @@ object LayoutRules : HomeBaseHookNew() {
     }
 
     object PhoneCalGridSizeHook : IMethodHook {
-        override fun after(param: AfterHookParam) {
+        override fun after(param: HookParam) {
             val rules = param.thisObject
 
             val mMaxGridWidth = rules.getIntField("mMaxGridWidth")

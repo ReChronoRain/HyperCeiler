@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.gallery;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -30,7 +30,7 @@ public class EnableVideoEditor extends BaseHook {
     public void init() {
         findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isVlogAvailable", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });

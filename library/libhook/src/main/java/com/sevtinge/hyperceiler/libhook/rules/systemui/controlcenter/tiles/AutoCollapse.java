@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AutoCollapse extends BaseHook {
     @Override
@@ -30,7 +30,7 @@ public class AutoCollapse extends BaseHook {
 
         findAndHookMethod("com.android.systemui.qs.tileimpl.QSTileImpl", "click","com.android.systemui.animation.Expandable", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Object mState = callMethod(param.getThisObject(), "getState");
                 int state = EzxHelpUtils.getIntField(mState, "state");
                 if (state != 0) {

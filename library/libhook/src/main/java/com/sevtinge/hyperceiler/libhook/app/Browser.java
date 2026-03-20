@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.browser.DebugMode;
 import com.sevtinge.hyperceiler.libhook.rules.browser.DisableReadFiles;
 import com.sevtinge.hyperceiler.libhook.rules.browser.EnableDebugEnvironment;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.browser")
 public class Browser extends BaseLoad {

@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ScramblePIN extends BaseHook {
 
@@ -48,7 +48,7 @@ public class ScramblePIN extends BaseHook {
 
         findAndHookMethod(mKeyguardPINView, "onFinishInflate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View[][] mViews = (View[][]) getObjectField(param.getThisObject(), "mViews");
                 ArrayList<View> mRandomViews = collectRandomViews(mViews);
 

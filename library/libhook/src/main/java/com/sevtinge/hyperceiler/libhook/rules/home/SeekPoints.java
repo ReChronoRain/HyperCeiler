@@ -34,8 +34,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class SeekPoints extends BaseHook {
 
@@ -48,7 +47,7 @@ public class SeekPoints extends BaseHook {
             "android.widget.FrameLayout$LayoutParams",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     showSeekBar((View) param.getThisObject());
                 }
             }
@@ -58,7 +57,7 @@ public class SeekPoints extends BaseHook {
             "refreshScrollBound",
             new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (points == 2) showSeekBar((View) param.getThisObject());
                 }
             }
@@ -68,7 +67,7 @@ public class SeekPoints extends BaseHook {
             "updateSeekPoints",
             new IMethodHook() {
                 @Override
-                public void before(final BeforeHookParam param) {
+                public void before(final HookParam param) {
                     showSeekBar((View) param.getThisObject());
                 }
             }
@@ -78,7 +77,7 @@ public class SeekPoints extends BaseHook {
             "addView", View.class, int.class, ViewGroup.LayoutParams.class,
             new IMethodHook() {
                 @Override
-                public void before(final BeforeHookParam param) {
+                public void before(final HookParam param) {
                     showSeekBar((View) param.getThisObject());
                 }
             }
@@ -88,7 +87,7 @@ public class SeekPoints extends BaseHook {
             "removeScreen", int.class,
             new IMethodHook() {
                 @Override
-                public void before(final BeforeHookParam param) {
+                public void before(final HookParam param) {
                     showSeekBar((View) param.getThisObject());
                 }
             }
@@ -98,7 +97,7 @@ public class SeekPoints extends BaseHook {
             "removeScreensInLayout", int.class, int.class,
             new IMethodHook() {
                 @Override
-                public void before(final BeforeHookParam param) {
+                public void before(final HookParam param) {
                     showSeekBar((View) param.getThisObject());
                 }
             }

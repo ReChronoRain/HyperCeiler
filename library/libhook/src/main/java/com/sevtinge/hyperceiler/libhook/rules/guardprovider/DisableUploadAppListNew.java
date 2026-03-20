@@ -32,7 +32,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -51,7 +51,7 @@ public class DisableUploadAppListNew extends BaseHook {
         });
         EzxHelpUtils.hookMethod(method, new IReplaceHook() {
             @Override
-            public Object replace(BeforeHookParam param) throws Throwable {
+            public Object replace(HookParam param) throws Throwable {
                 return null;
             }
         });
