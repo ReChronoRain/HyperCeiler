@@ -3,11 +3,11 @@ package com.sevtinge.hyperceiler.common.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
 
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -67,7 +68,7 @@ public class PrefsBridge {
     public static void setRemotePrefs(SharedPreferences remote) {
         mRemotePrefs = remote;
         if (remote != null) {
-            syncPhysicalToRemote(); // 激活瞬间全量同步
+            syncPhysicalToRemote();
         }
     }
 
@@ -159,8 +160,15 @@ public class PrefsBridge {
         String rKey = wrap(key);
         if (warnAndSkipIfHookWrite("put", rKey)) return;
         PrefType prefType = resolvePrefType(rKey, value);
-        applyPut(mPhysicalPrefs, rKey, value, "physical");
-        applyPut(mRemotePrefs, rKey, value, "remote");
+        if (!commitPut(mPhysicalPrefs, rKey, value, "physical")) {
+            return;
+        }
+        if (mRemotePrefs == null) {
+            return;
+        }
+        if (!commitPut(mRemotePrefs, rKey, value, "remote")) {
+            return;
+        }
         notifyPrefChanged(rKey, prefType);
     }
 
@@ -178,8 +186,15 @@ public class PrefsBridge {
         String rKey = wrap(key);
         if (warnAndSkipIfHookWrite("remove", rKey)) return;
         PrefType prefType = resolvePrefType(rKey, null);
-        applyRemove(mPhysicalPrefs, rKey, "physical");
-        applyRemove(mRemotePrefs, rKey, "remote");
+        if (!commitRemove(mPhysicalPrefs, rKey, "physical")) {
+            return;
+        }
+        if (mRemotePrefs == null) {
+            return;
+        }
+        if (!commitRemove(mRemotePrefs, rKey, "remote")) {
+            return;
+        }
         notifyPrefChanged(rKey, prefType);
     }
 
@@ -350,15 +365,37 @@ public class PrefsBridge {
      */
     private static void syncPhysicalToRemote() {
         if (mPhysicalPrefs == null || mRemotePrefs == null) return;
-        Map<String, ?> all = mPhysicalPrefs.getAll();
+        Map<String, ?> physicalAll = new HashMap<>(mPhysicalPrefs.getAll());
+        Map<String, ?> remoteAll = new HashMap<>(mRemotePrefs.getAll());
+        LinkedHashSet<String> changedKeys = new LinkedHashSet<>();
+
         try {
             SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
-            for (Map.Entry<String, ?> entry : all.entrySet()) {
-                performPut(remoteEdit, entry.getKey(), entry.getValue());
+            for (String key : remoteAll.keySet()) {
+                if (!physicalAll.containsKey(key)) {
+                    remoteEdit.remove(key);
+                    changedKeys.add(key);
+                }
             }
-            remoteEdit.apply();
+            for (Map.Entry<String, ?> entry : physicalAll.entrySet()) {
+                Object remoteValue = remoteAll.get(entry.getKey());
+                if (!Objects.equals(remoteValue, entry.getValue())) {
+                    performPut(remoteEdit, entry.getKey(), entry.getValue());
+                    changedKeys.add(entry.getKey());
+                }
+            }
+            if (changedKeys.isEmpty()) {
+                return;
+            }
+            if (!commitEditor(remoteEdit, "remote", "sync local prefs to remote")) {
+                return;
+            }
+            for (String key : changedKeys) {
+                Object value = physicalAll.containsKey(key) ? physicalAll.get(key) : remoteAll.get(key);
+                notifyPrefChanged(key, resolvePrefType(value));
+            }
         } catch (UnsupportedOperationException e) {
-            Log.w(TAG, "Remote SharedPreferences is read-only while syncing from app process.", e);
+            AndroidLog.w(TAG, "Remote SharedPreferences is read-only while syncing from app process.", e);
         }
     }
 
@@ -367,12 +404,32 @@ public class PrefsBridge {
      */
     public static void clearAllByApp() {
         if (warnAndSkipIfHookWrite("clearAll", PREFS_NAME)) return;
-        Map<String, ?> allEntries = new HashMap<>(getAll());
-        applyClear(mPhysicalPrefs, "physical");
-        applyClear(mRemotePrefs, "remote");
+        Map<String, ?> localEntries = new HashMap<>(getAll());
+        if (!commitClear(mPhysicalPrefs, "physical")) {
+            return;
+        }
+        Map<String, ?> remoteEntries = mRemotePrefs == null ? Collections.emptyMap() : new HashMap<>(mRemotePrefs.getAll());
         clearHookCache();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            notifyPrefChanged(entry.getKey(), resolvePrefType(entry.getKey(), entry.getValue()));
+        if (mRemotePrefs == null) {
+            return;
+        }
+
+        LinkedHashSet<String> changedKeys = new LinkedHashSet<>();
+        changedKeys.addAll(localEntries.keySet());
+        changedKeys.addAll(remoteEntries.keySet());
+        if (!changedKeys.isEmpty()) {
+            SharedPreferences.Editor remoteEdit = mRemotePrefs.edit();
+            for (String key : remoteEntries.keySet()) {
+                remoteEdit.remove(key);
+            }
+            if (!commitEditor(remoteEdit, "remote", "clear remote prefs")) {
+                return;
+            }
+        }
+
+        for (String key : changedKeys) {
+            Object value = localEntries.containsKey(key) ? localEntries.get(key) : remoteEntries.get(key);
+            notifyPrefChanged(key, resolvePrefType(value));
         }
     }
 
@@ -387,38 +444,45 @@ public class PrefsBridge {
         if (!isHookProcess) return false;
         String warnKey = operation + ":" + key;
         if (sWarnedHookWrites.add(warnKey)) {
-            Log.w(TAG, "Ignored prefs " + operation + " for " + key
+            AndroidLog.w(TAG, "Ignored prefs " + operation + " for " + key
                 + " in hook process. Hook processes are read-only; perform writes from the app process instead.");
         }
         return true;
     }
 
-    private static void applyPut(@Nullable SharedPreferences prefs, String key, Object value, String source) {
-        if (prefs == null) return;
+    private static boolean commitPut(@Nullable SharedPreferences prefs, String key, Object value, String source) {
+        if (prefs == null) return false;
         try {
             SharedPreferences.Editor editor = prefs.edit();
             performPut(editor, key, value);
-            editor.apply();
+            return commitEditor(editor, source, "put " + key);
         } catch (UnsupportedOperationException e) {
-            Log.w(TAG, "Failed to put " + key + " to " + source + " prefs because the implementation is read-only.", e);
+            AndroidLog.w(TAG, "Failed to put " + key + " to " + source + " prefs because the implementation is read-only.", e);
+            return false;
         }
     }
 
-    private static void applyRemove(@Nullable SharedPreferences prefs, String key, String source) {
-        if (prefs == null) return;
+    private static boolean commitRemove(@Nullable SharedPreferences prefs, String key, String source) {
+        if (prefs == null) return false;
         try {
-            prefs.edit().remove(key).apply();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove(key);
+            return commitEditor(editor, source, "remove " + key);
         } catch (UnsupportedOperationException e) {
-            Log.w(TAG, "Failed to remove " + key + " from " + source + " prefs because the implementation is read-only.", e);
+            AndroidLog.w(TAG, "Failed to remove " + key + " from " + source + " prefs because the implementation is read-only.", e);
+            return false;
         }
     }
 
-    private static void applyClear(@Nullable SharedPreferences prefs, String source) {
-        if (prefs == null) return;
+    private static boolean commitClear(@Nullable SharedPreferences prefs, String source) {
+        if (prefs == null) return false;
         try {
-            prefs.edit().clear().apply();
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear();
+            return commitEditor(editor, source, "clear all prefs");
         } catch (UnsupportedOperationException e) {
-            Log.w(TAG, "Failed to clear " + source + " prefs because the implementation is read-only.", e);
+            AndroidLog.w(TAG, "Failed to clear " + source + " prefs because the implementation is read-only.", e);
+            return false;
         }
     }
 
@@ -428,11 +492,29 @@ public class PrefsBridge {
         if (target == null && mPhysicalPrefs != null) {
             target = mPhysicalPrefs.getAll().get(key);
         }
-        if (target instanceof String) return PrefType.String;
-        if (target instanceof Boolean) return PrefType.Boolean;
-        if (target instanceof Integer) return PrefType.Integer;
-        if (target instanceof Set<?>) return PrefType.StringSet;
+        return resolvePrefType(target);
+    }
+
+    @Nullable
+    private static PrefType resolvePrefType(@Nullable Object value) {
+        if (value instanceof String) return PrefType.String;
+        if (value instanceof Boolean) return PrefType.Boolean;
+        if (value instanceof Integer) return PrefType.Integer;
+        if (value instanceof Set<?>) return PrefType.StringSet;
         return null;
+    }
+
+    private static boolean commitEditor(SharedPreferences.Editor editor, String source, String action) {
+        try {
+            if (editor.commit()) {
+                return true;
+            }
+        } catch (RuntimeException e) {
+            AndroidLog.w(TAG, "Failed to " + action + " on " + source + " prefs.", e);
+            return false;
+        }
+        AndroidLog.w(TAG, "Failed to " + action + " on " + source + " prefs.");
+        return false;
     }
 
     private static void notifyPrefChanged(String key, @Nullable PrefType prefType) {
@@ -451,7 +533,7 @@ public class PrefsBridge {
                 mAppContext.getContentResolver().notifyChange(PrefsChangeObserver.PrefToUri.anyPrefToUri(type, key), null);
             }
         } catch (Throwable t) {
-            Log.w(TAG, "Failed to notify pref change for " + key, t);
+            AndroidLog.w(TAG, "Failed to notify pref change for " + key, t);
         }
     }
 }
