@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.base;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
@@ -29,7 +28,6 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.HashMap;
@@ -61,9 +59,14 @@ public class XposedInitEntry extends XposedModule {
     @Override
     public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
         // load preferences
-        initPrefs();
-        if (isModuleReady()) {
-            XposedLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
+        try {
+            initPrefs();
+            if (isModuleReady()) {
+                XposedLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
+                return;
+            }
+        } catch (Throwable t) {
+            XposedLog.e(TAG, "system", "An exception occurred while loading prefs, blocking further loading.", t);
             return;
         }
 
@@ -96,9 +99,14 @@ public class XposedInitEntry extends XposedModule {
         super.onPackageLoaded(lpparam);
         if (!lpparam.isFirstPackage()) return;
         // load preferences
-        initPrefs();
-        if (isModuleReady()) {
-            XposedLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
+        try {
+            initPrefs();
+            if (isModuleReady()) {
+                XposedLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
+                return;
+            }
+        } catch (Throwable t) {
+            XposedLog.e(TAG, lpparam.getPackageName(), "An exception occurred while loading prefs, blocking further loading.", t);
             return;
         }
         // load EzXposed
@@ -166,11 +174,18 @@ public class XposedInitEntry extends XposedModule {
         SharedPreferences remote = getRemotePreferences(remoteName);
         // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
         PrefsBridge.initForHook(remote);
-        Context observerContext = AppsTool.findContext(AppsTool.FLAG_ALL);
-        if (observerContext != null) {
-            LogStatusManager.observeLogLevel(observerContext);
-        } else {
-            LogStatusManager.syncLogLevelFromPrefs();
+        initLogLevelSync(remote);
+    }
+
+    private void initLogLevelSync(SharedPreferences remote) {
+        try {
+            LogStatusManager.initHookLogLevelSync(remote);
+        } catch (Throwable t) {
+            try {
+                LogStatusManager.syncLogLevelFromPrefs();
+            } catch (Throwable ignored) {
+            }
+            XposedLog.w(TAG, processName, "Failed to enable hot log-level sync, using current snapshot.", t);
         }
     }
 

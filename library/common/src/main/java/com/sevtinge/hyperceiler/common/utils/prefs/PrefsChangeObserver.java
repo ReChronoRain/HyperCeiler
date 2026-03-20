@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.common.utils.prefs;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Handler;
@@ -8,13 +9,18 @@ import android.os.Handler;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 
-public class PrefsChangeObserver extends ContentObserver {
+import java.util.Map;
+import java.util.Set;
+
+public class PrefsChangeObserver extends ContentObserver implements SharedPreferences.OnSharedPreferenceChangeListener {
     private static final String SHARED_PREFS_AUTHORITY = ProjectApi.mAppModulePkg + ".provider.sharedprefs";
 
     private final boolean autoApplyChange;
     private final PrefType prefType;
     private final Object def;
     private final String name;
+    private final Handler handler;
+    private final boolean remoteListenerRegistered;
 
     public PrefsChangeObserver(Context context, Handler handler) {
         this(context, handler, false, PrefType.Any, null, null);
@@ -30,11 +36,23 @@ public class PrefsChangeObserver extends ContentObserver {
 
     public PrefsChangeObserver(Context context, Handler handler, boolean autoApplyChange, PrefType type, String name, Object def) {
         super(handler);
+        this.handler = handler;
         this.def = def;
-        Uri uri = null;
         this.name = name;
         prefType = type;
         this.autoApplyChange = autoApplyChange;
+        remoteListenerRegistered = registerRemoteListenerIfAvailable();
+
+        Uri uri = resolveObserverUri(type, name);
+        if (uri != null) {
+            // Keep the old ContentObserver registration so the platform owns this observer's lifecycle.
+            // Hook-side refresh still comes from remote prefs listener when available.
+            context.getContentResolver().registerContentObserver(uri, type == PrefType.Any, this);
+        }
+    }
+
+    private Uri resolveObserverUri(PrefType type, String name) {
+        Uri uri = null;
         switch (type) {
             case Any -> uri = PrefToUri.anyPrefToUri();
             case String -> uri = PrefToUri.stringPrefToUri(name);
@@ -42,31 +60,61 @@ public class PrefsChangeObserver extends ContentObserver {
             case Integer -> uri = PrefToUri.intPrefToUri(name);
             case Boolean -> uri = PrefToUri.boolPrefToUri(name);
         }
-        if (uri != null) {
-            context.getContentResolver().registerContentObserver(uri, type == PrefType.Any, this);
+        return uri;
+    }
+
+    private boolean registerRemoteListenerIfAvailable() {
+        SharedPreferences remotePrefs = getRemotePrefsForHook();
+        if (remotePrefs == null) {
+            return false;
         }
+        remotePrefs.registerOnSharedPreferenceChangeListener(this);
+        return true;
     }
 
     @Override
     public void onChange(boolean selfChange, Uri uri) {
-        if (selfChange) return;
-        if (autoApplyChange) {
-            if (prefType == PrefType.Any) return;
-            applyChange();
-        }
+        if (selfChange || remoteListenerRegistered) return;
         if (prefType == PrefType.Any) {
             if (uri == null || uri.getPathSegments().size() < 3) return;
-            onChange(switch (uri.getPathSegments().get(1)) {
+            dispatchChange(switch (uri.getPathSegments().get(1)) {
                 case "string" -> PrefType.String;
                 case "stringset" -> PrefType.StringSet;
                 case "integer" -> PrefType.Integer;
                 case "boolean" -> PrefType.Boolean;
                 default -> PrefType.Any;
-            }, uri, uri.getPathSegments().get(2), def);
-        } else onChange(prefType, uri, name, def);
+            }, uri.getPathSegments().get(2), uri);
+            return;
+        }
+        dispatchChange(prefType, name, uri);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        if (key == null) {
+            return;
+        }
+        if (prefType != PrefType.Any && !key.equals(name)) {
+            return;
+        }
+        dispatchChange(resolveRemotePrefType(sharedPreferences, key), key, null);
     }
 
     public void onChange(PrefType type, Uri uri, String name, Object def) {
+    }
+
+    private void dispatchChange(PrefType type, String changedName, Uri uri) {
+        Runnable callback = () -> {
+            if (autoApplyChange && prefType != PrefType.Any) {
+                applyChange();
+            }
+            onChange(type, uri, changedName, def);
+        };
+        if (handler != null) {
+            handler.post(callback);
+        } else {
+            callback.run();
+        }
     }
 
     private void applyChange() {
@@ -78,6 +126,30 @@ public class PrefsChangeObserver extends ContentObserver {
             case Boolean -> PrefsBridge.getBoolean(name, (boolean) def);
             default -> null;
         });
+    }
+
+    private SharedPreferences getRemotePrefsForHook() {
+        if (!PrefsBridge.isHookProcess()) {
+            return null;
+        }
+        try {
+            return PrefsBridge.getSharedPreferences();
+        } catch (IllegalStateException ignored) {
+            return null;
+        }
+    }
+
+    private PrefType resolveRemotePrefType(SharedPreferences sharedPreferences, String key) {
+        if (prefType != PrefType.Any) {
+            return prefType;
+        }
+        Map<String, ?> all = sharedPreferences.getAll();
+        Object value = all.get(key);
+        if (value instanceof String) return PrefType.String;
+        if (value instanceof Set<?>) return PrefType.StringSet;
+        if (value instanceof Integer) return PrefType.Integer;
+        if (value instanceof Boolean) return PrefType.Boolean;
+        return PrefType.Any;
     }
 
     public static class PrefToUri {
