@@ -1285,6 +1285,8 @@
     <string name="miui_package_installer_modify">净化页面</string>
     <string name="miui_package_installer_disable_ad">禁用推广</string>
     <string name="miui_package_installer_install_risk">禁用风险检测</string>
+    <string name="miui_package_installer_disable_cloud_check">阻断云端配置下发</string>
+    <string name="miui_package_installer_disable_cloud_check_desc">拦截应用安装时的云端配置请求并伪造空响应，可提升加载速度并绕过断网环境下的安装限制和弹窗</string>
     <string name="miui_package_installer_safe_model_tip">禁用安全守护提示</string>
     <string name="miui_package_installer_count_checking">禁用频繁安装应用检查</string>
     <string name="miui_package_installer_update_system_app">解除系统应用安装限制</string>

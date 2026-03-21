@@ -38,6 +38,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_miui_package_installer_disable_cloud_check"
+            android:title="@string/miui_package_installer_disable_cloud_check"
+            android:summary="@string/miui_package_installer_disable_cloud_check_desc"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_miui_package_installer_safe_model_tip"
             android:title="@string/miui_package_installer_safe_model_tip"
             android:defaultValue="false" />
