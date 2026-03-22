@@ -1,6 +1,10 @@
 package com.sevtinge.hyperceiler.home.widget;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.Menu;
@@ -12,206 +16,306 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import com.sevtinge.hyperceiler.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import fan.cardview.HyperCardView;
+import fan.core.utils.HyperMaterialUtils;
+import fan.core.utils.MaterialDayNightConfig;
+import fan.core.utils.RomUtils;
 import fan.internal.utils.AttributeResolver;
+import fan.theme.token.BloomStrokeToken;
+import fan.theme.token.ColorBlendToken;
+import fan.theme.token.MaterialDayNightToken;
+import fan.theme.token.MaterialToken;
+import fan.theme.token.hypermaterial.Mask;
 
-public class SwitchView extends FrameLayout {
+public class SwitchView extends HyperCardView {
 
-    private View mDividerLine; // 新增分割线成员
-    private LinearLayout mTabContainer;    // 存放图标和文字的容器
-    private final List<View> mItemViews = new ArrayList<>(); // 所有的 Tab 视图
+    // --- 内部视图 ---
+    private View mDividerLine;
+    private LinearLayout mTabContainer;
+    private final List<View> mItemViews = new ArrayList<>();
 
-    private NavigationStyle mCurrentStyle = NavigationStyle.CAPSULE_ICON;
+    // --- 状态与数据 ---
+    private final ViewState mCapsuleState = new ViewState();
+    private final ViewState mBottomState = new ViewState();
+
+    private NavigationStyle mCurrentStyle;
     private int mSelectedPosition = -1;
     private int mCurrentMenuRes = -1;
+
+    // 系统底部导航栏高度缓存 (用于 Edge-to-Edge)
+    private int mSystemBottomInset = 0;
+
     private OnSwitchChangeListener mInternalListener;
+
+    public SwitchView(@NonNull Context context) {
+        this(context, null);
+    }
 
     public SwitchView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init();
+        initStructure();
+        prepareStates();
+        setupEdgeToEdge();
     }
 
-    private void init() {
-        // 1. 创建分割线 (置于顶部)
-        mDividerLine = new View(getContext());
-        mDividerLine.setBackgroundColor(AttributeResolver.resolveColor(getContext(), fan.theme.R.attr.colorDividerLine)); // 浅灰色边框
-        mDividerLine.setVisibility(GONE); // 默认隐藏（药丸模式不需要）
-        // 高度设为 1px 而非 1dp，更精致
-        addView(mDividerLine, new LayoutParams(LayoutParams.MATCH_PARENT, 1));
+    private void initStructure() {
+        setClickable(true);
+        setFocusable(true);
+        setCardBackgroundColor(getContext().getColor(R.color.switch_view_background_color));
 
-        // 初始化 Tab 容器
+        // 分割线
+        mDividerLine = new View(getContext());
+        mDividerLine.setBackgroundColor(AttributeResolver.resolveColor(getContext(), fan.theme.R.attr.colorDividerLine));
+        addView(mDividerLine, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+
+        // Tab 容器
         mTabContainer = new LinearLayout(getContext());
         mTabContainer.setOrientation(LinearLayout.HORIZONTAL);
-        mTabContainer.setGravity(Gravity.CENTER);
-        addView(mTabContainer, new LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            Gravity.CENTER
-        ));
+        addView(mTabContainer);
     }
 
     /**
-     * 更新样式逻辑
+     * Edge-to-Edge 核心逻辑
+     */
+    private void setupEdgeToEdge() {
+        ViewCompat.setOnApplyWindowInsetsListener(this, (v, insets) -> {
+            mSystemBottomInset = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+            // 收到 Insets 更新后，主动刷新一次当前样式，以应用正确的 Padding/Margin
+            if (mCurrentStyle != null) {
+                applyStyleState(mCurrentStyle == NavigationStyle.CAPSULE_ICON ? mCapsuleState : mBottomState);
+            }
+            return insets;
+        });
+    }
+
+    /**
+     * 物理隔离的变量配置池
+     */
+    private void prepareStates() {
+        Resources res = getResources();
+
+        // --- 药丸悬浮模式 ---
+        mCapsuleState.selfWidth = res.getDimensionPixelSize(R.dimen.switch_view_width);
+        mCapsuleState.selfHeight = res.getDimensionPixelSize(R.dimen.switch_view_height);
+        mCapsuleState.selfGravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+        mCapsuleState.selfBaseBottomMargin = res.getDimensionPixelSize(R.dimen.switch_view_margin_bottom);
+        mCapsuleState.radius = res.getDimensionPixelSize(R.dimen.switch_card_view_radius);
+        mCapsuleState.enableShadow = true;
+        mCapsuleState.materialConfig = getBloomStrokeDayNightConfig();
+
+        mCapsuleState.dividerVisibility = View.GONE;
+        mCapsuleState.containerWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+        mCapsuleState.containerHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+        mCapsuleState.containerGravity = Gravity.CENTER;
+
+        mCapsuleState.itemWidth = res.getDimensionPixelSize(R.dimen.switch_view_capsule_item_width);
+        mCapsuleState.itemHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+        mCapsuleState.itemWeight = 1f;
+        mCapsuleState.showText = false;
+        mCapsuleState.itemPaddingH = dpToPx(16);
+
+        // --- 底部模式 ---
+        mBottomState.selfWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+        mBottomState.selfHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+        mBottomState.selfGravity = Gravity.BOTTOM;
+        mBottomState.selfBaseBottomMargin = 0;
+        mBottomState.radius = 0;
+        mBottomState.enableShadow = false;
+        mBottomState.materialConfig = getDayNightConfig();
+
+        mBottomState.dividerVisibility = View.VISIBLE;
+        mBottomState.containerWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+        mBottomState.containerHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
+        mBottomState.containerGravity = Gravity.TOP;
+
+        mBottomState.itemWidth = 0;
+        mBottomState.itemHeight = res.getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_height);
+        mBottomState.itemWeight = 1.0f;
+        mBottomState.showText = true;
+        mBottomState.itemPaddingH = 0;
+    }
+
+    /**
+     * 唯一入口：更新样式
      */
     public void updateStyle(NavigationStyle style) {
+        if (mCurrentStyle == style) return;
         mCurrentStyle = style;
+        boolean isCapsule = (style == NavigationStyle.CAPSULE_ICON);
+        // 开启内部元素的丝滑形变动画
+        TransitionManager.beginDelayedTransition(this, new AutoTransition().setDuration(50));
+        applyStyleState(isCapsule ? mCapsuleState : mBottomState);
+    }
+
+    /**
+     * 将预设的状态变量应用到当前视图层级
+     */
+    private void applyStyleState(ViewState state) {
+        if (getLayoutParams() == null) return;
+
+        boolean isCapsule = (mCurrentStyle == NavigationStyle.CAPSULE_ICON);
+
+        if (isCapsule) {
+            setElevation(dpToPx(8));
+            setTranslationZ(dpToPx(4)); // 额外增加 Z 轴偏移量
+        } else {
+            setElevation(0);
+            setTranslationZ(0);
+        }
+
+        // HyperCardView 自身参数 (包含 Edge-to-Edge 适配)
+        FrameLayout.LayoutParams selfLp = (FrameLayout.LayoutParams) getLayoutParams();
+        selfLp.width = state.selfWidth;
+        selfLp.height = state.selfHeight;
+        selfLp.gravity = state.selfGravity;
+
+        // 悬浮药丸要把系统横条高度加到 margin 里避免遮挡；贴地底栏则不留 margin
+        selfLp.bottomMargin = isCapsule ? (state.selfBaseBottomMargin + mSystemBottomInset) : 0;
+        setLayoutParams(selfLp);
+
+        setRadius(state.radius);
+        applyShadow(state.enableShadow);
+        applyHyperMaterial(state.materialConfig);
+
+        // 配置 Tab 容器 (包含 Edge-to-Edge 适配)
+        mDividerLine.setVisibility(state.dividerVisibility);
+
+        FrameLayout.LayoutParams containerLp = (FrameLayout.LayoutParams) mTabContainer.getLayoutParams();
+        containerLp.width = state.containerWidth;
+        containerLp.height = state.containerHeight;
+        containerLp.gravity = state.containerGravity;
+        mTabContainer.setLayoutParams(containerLp);
+
+        // 贴地底栏要把系统横条高度加到 padding 里把内容顶上去；药丸模式则不需要
+        mTabContainer.setPadding(0, 0, 0, isCapsule ? 0 : mSystemBottomInset);
+
+        // 配置子项
+        for (View itemView : mItemViews) {
+            LinearLayout.LayoutParams itemLp = (LinearLayout.LayoutParams) itemView.getLayoutParams();
+            itemLp.width = state.itemWidth;
+            itemLp.height = state.itemHeight;
+            itemLp.weight = state.itemWeight;
+            itemView.setLayoutParams(itemLp);
+            itemView.setPadding(state.itemPaddingH, 0, state.itemPaddingH, 0);
+
+            View tv = itemView.findViewById(android.R.id.text1);
+            if (tv != null) tv.setVisibility(state.showText ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    // --- 菜单与 Item 渲染逻辑 ---
+    public void inflateMenu(int menuRes) {
+        if (mCurrentMenuRes == menuRes) return;
+        mCurrentMenuRes = menuRes;
+
         mTabContainer.removeAllViews();
         mItemViews.clear();
 
-        LayoutParams containerLp = (LayoutParams) mTabContainer.getLayoutParams();
-
-        if (style == NavigationStyle.CAPSULE_ICON) {
-            updateCapsuleNavLayout(containerLp);
-        } else {
-            updateBottomNavLayout(containerLp);
-        }
-
-        mTabContainer.setLayoutParams(containerLp);
-
-        // 如果已有菜单数据，根据新样式重新生成 Tab
-        if (mCurrentMenuRes != -1) {
-            refreshTabs();
-        }
-    }
-
-    /**
-     * 内部样式更新时同步线状态
-     */
-    private void updateBottomNavLayout(LayoutParams lp) {
-        lp.width = LayoutParams.MATCH_PARENT;
-        lp.height = getContext().getResources().getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_height);
-        lp.gravity = Gravity.TOP;
-        mTabContainer.setPadding(0, 0, 0, 0);
-
-        // 显示分割线
-        mDividerLine.setVisibility(VISIBLE);
-    }
-
-    private void updateCapsuleNavLayout(LayoutParams lp) {
-        lp.width = LayoutParams.MATCH_PARENT;
-        // 关键：容器本身只占 56dp 高度
-        lp.height = LayoutParams.MATCH_PARENT;
-        // 关键：重心设为顶部，这样它就不会被底部的 Padding 挤到中间或顶上去
-        lp.gravity = Gravity.CENTER;
-        mTabContainer.setPadding(0, 0, 0, 0);
-
-        // 隐藏分割线
-        mDividerLine.setVisibility(GONE);
-    }
-
-    /**
-     * 解析并渲染 Tabs
-     */
-    public void inflateMenu(int menuRes) {
-        mCurrentMenuRes = menuRes;
-        refreshTabs();
-    }
-
-    private void refreshTabs() {
         PopupMenu pm = new PopupMenu(getContext(), null);
-        pm.inflate(mCurrentMenuRes);
+        pm.inflate(menuRes);
         Menu menu = pm.getMenu();
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
-            if (mCurrentStyle == NavigationStyle.CAPSULE_ICON) {
-                createCapsuleItem(item, i);
-            } else {
-                createBottomNavItem(item);
-            }
+            View tabView = createUnifiedTabView(item, i);
+            mItemViews.add(tabView);
+            mTabContainer.addView(tabView);
         }
 
-        // 恢复选中状态（不触发回调）
-        if (!mItemViews.isEmpty()) {
-            int pos = Math.max(0, mSelectedPosition);
-            post(() -> setSelectedTab(pos, false));
+        // 刷新一下状态
+        if (mCurrentStyle != null) {
+            applyStyleState(mCurrentStyle == NavigationStyle.CAPSULE_ICON ? mCapsuleState : mBottomState);
         }
+
+        post(() -> setSelectedTab(Math.max(0, mSelectedPosition), false));
     }
 
-    // 创建：纯图标药丸项
-    private void createCapsuleItem(MenuItem item, int index) {
-        ImageView iv = new ImageView(getContext());
-        iv.setTag(item.getItemId()); // 存储 ID
-
-        iv.setImageDrawable(item.getIcon());
-        iv.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-        iv.setClickable(true);
-        iv.setFocusable(false);
-
-        // 布局参数：平分宽度 (weight=1)
-        LinearLayout.LayoutParams childLp = new LinearLayout.LayoutParams(
-            0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f);
-
-        iv.setOnClickListener(v -> setSelectedTab(mItemViews.indexOf(iv), true));
-        mTabContainer.addView(iv, childLp);
-        mItemViews.add(iv);
-    }
-
-    /**
-     * 创建底部导航子项：图标 + 文字 + 绝对居中
-     */
-    private void createBottomNavItem(MenuItem item) {
+    private View createUnifiedTabView(MenuItem item, int index) {
         LinearLayout itemView = new LinearLayout(getContext());
         itemView.setOrientation(LinearLayout.VERTICAL);
-        // 1. 核心：确保容器内的子 View 整体居中
         itemView.setGravity(Gravity.CENTER);
         itemView.setTag(item.getItemId());
 
-        // 2. 创建图标
         ImageView iv = new ImageView(getContext());
         iv.setImageDrawable(item.getIcon());
-        // 如果图标本身有白边，可以尝试：iv.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        int iconSize = getContext().getResources().getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_icon_size);
+        int iconSize = getResources().getDimensionPixelSize(fan.navigator.R.dimen.miuix_design_bottom_navigation_icon_size);
         itemView.addView(iv, new LinearLayout.LayoutParams(iconSize, iconSize));
 
-        // 3. 创建文字
         TextView tv = new TextView(getContext());
+        tv.setId(android.R.id.text1);
         tv.setText(item.getTitle());
         tv.setTextSize(12f);
-        // 确保文字在 TextView 内部也是居中的
         tv.setGravity(Gravity.CENTER);
         tv.setPadding(0, dpToPx(2), 0, 0);
+        itemView.addView(tv, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        // 将 TextView 宽度设为 MATCH_PARENT 配合 setGravity(CENTER) 实现水平对齐
-        LinearLayout.LayoutParams tvLp = new LinearLayout.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-        itemView.addView(tv, tvLp);
-
-        // 4. 设置点击监听
         itemView.setOnClickListener(v -> setSelectedTab(mItemViews.indexOf(itemView), true));
-
-        // 5. 底部样式平分宽度
-        mTabContainer.addView(itemView, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1.0f));
-        mItemViews.add(itemView);
+        return itemView;
     }
 
-
-    /**
-     * 设置选中状态并执行 Folme 动画
-     */
     public void setSelectedTab(int position, boolean notify) {
         if (position < 0 || position >= mItemViews.size()) return;
         mSelectedPosition = position;
-        View target = mItemViews.get(position);
 
-        // 未选中项半透明处理
         for (int i = 0; i < mItemViews.size(); i++) {
             mItemViews.get(i).setAlpha(i == position ? 1.0f : 0.4f);
         }
 
         if (notify && mInternalListener != null) {
-            mInternalListener.onSwitchChange(position, (int) target.getTag());
+            mInternalListener.onSwitchChange(position, (int) mItemViews.get(position).getTag());
         }
     }
 
-    // 辅助方法：按 ID 找位置
+    // --- 辅助方法 ---
+    private void applyShadow(boolean enable) {
+        if (enable) {
+            setShadowColor(getContext().getColor(R.color.switch_card_shadow_color));
+            setShadowDx(getResources().getDimensionPixelOffset(R.dimen.switch_view_card_shadow_dx));
+            setShadowDy(getResources().getDimensionPixelOffset(R.dimen.switch_view_card_shadow_dy));
+            setShadowRadius(getResources().getDimensionPixelOffset(R.dimen.switch_view_shadow_radius));
+        } else {
+            setShadowColor(Color.TRANSPARENT);
+            setShadowRadius(0);
+        }
+    }
+
+    private void applyHyperMaterial(MaterialDayNightConfig config) {
+        if (HyperMaterialUtils.isFeatureEnable(getContext()) && RomUtils.getHyperOsVersion() >= 2) {
+            setMaterial(config);
+        }
+    }
+
+    public MaterialDayNightConfig getBloomStrokeDayNightConfig() {
+        MaterialToken lightToken = new MaterialToken.Builder(30, "frosted-pured-regular", "light")
+            .setBlur(1, 1, 0, 40)
+            .setColorBlend(ColorBlendToken.Pured_Regular_Light)
+            .setBloomStroke(BloomStrokeToken.Glass_Stroke_Small_Light)
+            .build();
+
+        MaterialToken darkToken = new MaterialToken.Builder(30, "frosted-pured-extra-thick", "dark")
+            .setBlur(1, 1, 0, 40)
+            .setColorBlend(ColorBlendToken.Pured_Extra_Thick_Dark)
+            .setBloomStroke(BloomStrokeToken.Glass_Stroke_Small_Dark)
+            .build();
+
+        return MaterialDayNightConfig.create(new MaterialDayNightToken(lightToken, darkToken));
+    }
+
+    public MaterialDayNightConfig getDayNightConfig() {
+        return MaterialDayNightConfig.create(Mask.Pured_Regular);
+    }
+
     public int getPositionById(int itemId) {
         for (int i = 0; i < mItemViews.size(); i++) {
             if ((int) mItemViews.get(i).getTag() == itemId) return i;
@@ -219,7 +323,30 @@ public class SwitchView extends FrameLayout {
         return -1;
     }
 
-    public int getSelectedPosition() { return mSelectedPosition; }
-    public void setOnSwitchChangeListener(OnSwitchChangeListener l) { this.mInternalListener = l; }
-    private int dpToPx(int dp) { return (int) (dp * getResources().getDisplayMetrics().density); }
+    public int getSelectedPosition() {
+        return mSelectedPosition;
+    }
+
+    public void setOnSwitchChangeListener(OnSwitchChangeListener l) {
+        mInternalListener = l;
+    }
+
+    private int dpToPx(int dp) {
+        return (int) (dp * getResources().getDisplayMetrics().density);
+    }
+
+    // --- 状态结构体 ---
+    private static class ViewState {
+        int selfWidth, selfHeight, selfGravity, selfBaseBottomMargin;
+        float radius;
+        boolean enableShadow;
+        MaterialDayNightConfig materialConfig;
+
+        int dividerVisibility;
+        int containerWidth, containerHeight, containerGravity;
+
+        int itemWidth, itemHeight, itemPaddingH;
+        float itemWeight;
+        boolean showText;
+    }
 }

@@ -41,7 +41,6 @@ public class HomePageActivity extends AppCompatActivity
     public HomeContentAdapter mContentAdapter;
 
     public SwitchManager mSwitchManager;
-    public ViewPagerChangeListener mPageChangeCallback = new ViewPagerChangeListener();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
