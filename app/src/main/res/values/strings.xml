@@ -92,7 +92,8 @@
     <string name="notification_view">View</string>
     <string name="tip_default">Tip: Here is the default tip. If you can see me, it means that there\'s a problem with HyperCeiler. Please report it to the developer in a timely and effective manner.</string>
     <string name="headtip_warn_not_offical_rom">The source of the ROM you\'re using may not be an official Xiaomi ROM, and some features may not work. Please contact your supplier for more details.</string>
-    <string name="headtip_warn_unsupport_xposed">The Xposed framework you\'re currently using may cause some features to malfunction. If you experience these issues, try using a different version of the Xposed framework and check if the issue persists.</string>
+    <string name="headtip_warn_unsupport_xposed">%1$s is using Xposed API %2$d, but HyperCeiler requires API %3$d or later. Module features have been disabled. Tap to view details.</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler couldn\'t read the current framework information from XposedService. Module features have been disabled for safety. Tap to view details.</string>
     <string name="headtip_warn_unsupport_sysver">The current device is running on a system version that isn\'t (fully) adapted, which may result in anomalies in the HyperCeiler functionality.</string>
     <string name="headtip_warn_sign_verification_failed">The signature verification failed, and the current version you\'re using may not be from the official version of HyperCeiler, and may contain malicious code.</string>
     <string name="headtip_tip_auto_safe_mode">Safe mode can unhook some apps in time when they crash multiple times to ensure security. This feature requires the System Framework hook scope to run. We strongly recommend checking the System Framework scope to turn on Safe mode.</string>
@@ -131,6 +132,16 @@
     <string name="uninstall_title">Uninstall HyperCeiler</string>
     <string name="uninstall_summary">After uninstalling HyperCeiler, the module configuration remains in the Xposed framework database. To remove it completely, first go to the module settings and reset the module configuration, then uninstall.</string>
     <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions for this scope have been disabled. Please try switching to an app package released by Xiaomi, or go to \"HyperCeiler Settings – Developer Options – Debug Mode\" to specify the mounted version and try again.</string>
+    <string name="help_framework_warning_title">Current framework compatibility</string>
+    <string name="help_framework_warning_unknown_framework">Current framework</string>
+    <string name="help_framework_warning_card_compatible">The current framework meets HyperCeiler\'s runtime requirements. No abnormal Hook loading has been detected.</string>
+    <string name="help_framework_warning_card_incompatible">The current framework doesn\'t meet HyperCeiler\'s runtime requirements. Hook loading has been stopped. Please switch to another compatible framework and try again.</string>
+    <string name="help_framework_warning_card_service_error">The current framework information couldn\'t be read from XposedService. Hook loading has been stopped for safety. Please check the framework status and try again.</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler hasn\'t read the current framework information from XposedService yet, so compatibility can\'t be confirmed for now.</string>
+    <string name="help_framework_warning_section_framework_version">Current framework version:</string>
+    <string name="help_framework_warning_section_banner_reason">Why does the homepage show a warning?</string>
+    <string name="help_framework_warning_banner_reason">The homepage warning only appears when HyperCeiler detects that the current framework doesn\'t meet the minimum runtime requirements, or XposedService can\'t return framework information normally. To avoid instability caused by abnormal Hook loading, HyperCeiler will stop loading Hook at the same time.</string>
+    <string name="help_framework_warning_version_unavailable">The current framework version information couldn\'t be read from XposedService.</string>
     <string name="debug_mode">Debug mode</string>
     <string name="open_debug_mode_tips">This option is only used to correctly handle the mounted version of the target app and should be used only when necessary.\nFor the app being debugged, functionality cannot be guaranteed. If you enable this, please **do not report** any issues that occur with that target app to the developer.</string>
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>
@@ -150,7 +161,7 @@
     <string name="log_menu_export">Export logs</string>
     <string name="log_menu_share">Share logs</string>
     <string name="log_clear_title">Clear logs</string>
-    <string name="log_clear_all_message">Are you sure you want to clear all logs? This will erase the app logs, Xposed log database, and crash logs. This action is irreversible.</string>
+    <string name="log_clear_all_message">Are you sure you want to clear all logs? This will erase the app logs, the synced Xposed log database, and crash logs. Xposed source logs will be synced again the next time the app starts.</string>
     <string name="log_clear_success">Logs cleared</string>
     <string name="log_clear_failed">Failed to clear logs</string>
     <string name="log_clear_in_progress">Clearing logs…</string>

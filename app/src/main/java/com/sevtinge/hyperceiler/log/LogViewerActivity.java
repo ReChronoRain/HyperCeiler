@@ -256,6 +256,15 @@ public class LogViewerActivity extends BaseActivity {
         }
     }
 
+    private void refreshAllFragments() {
+        for (int i = 0; i < mPagerAdapter.getItemCount(); i++) {
+            LogListFragment fragment = mPagerAdapter.getFragment(mViewPager, i);
+            if (fragment != null) {
+                fragment.forceRefresh();
+            }
+        }
+    }
+
     private void resetFilters() {
         mKeyword = "";
         mSelectedLevelPos = 0;
@@ -279,7 +288,7 @@ public class LogViewerActivity extends BaseActivity {
                         runOnUiThread(() -> {
                             resetFilters();
                             updateTagsForModule(mCurrentType == 0 ? "App" : "Xposed");
-                            refreshCurrentFragment();
+                            refreshAllFragments();
                             showToast(getString(R.string.log_clear_success));
                         });
                     } catch (Exception e) {

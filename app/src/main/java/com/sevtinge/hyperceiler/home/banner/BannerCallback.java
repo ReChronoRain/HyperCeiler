@@ -6,8 +6,10 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.dashboard.SubSettings;
+import com.sevtinge.hyperceiler.home.helper.FrameworkWarningHelpFragment;
 import com.sevtinge.hyperceiler.home.safemode.SafeModeFragment;
 import com.sevtinge.hyperceiler.utils.SettingLauncherHelper;
 
@@ -16,6 +18,8 @@ public class BannerCallback implements View.OnClickListener {
     private static final String TAG = "BannerCallback";
     public static final String ACTION_OPEN_SAFE_MODE_SETTINGS =
         "com.sevtinge.hyperceiler.action.OPEN_SAFE_MODE_SETTINGS";
+    public static final String ACTION_OPEN_FRAMEWORK_WARNING_HELP =
+        "com.sevtinge.hyperceiler.action.OPEN_FRAMEWORK_WARNING_HELP";
 
     public BannerCallback() {}
 
@@ -78,6 +82,15 @@ public class BannerCallback implements View.OnClickListener {
                 SubSettings.class,
                 SafeModeFragment.class.getName(),
                 com.sevtinge.hyperceiler.core.R.string.settings_safe_mode
+            );
+            return true;
+        }
+        if (ACTION_OPEN_FRAMEWORK_WARNING_HELP.equals(action)) {
+            SettingLauncherHelper.onStartSettingsForArguments(
+                context,
+                SubSettings.class,
+                FrameworkWarningHelpFragment.class.getName(),
+                R.string.help_framework_warning_title
             );
             return true;
         }

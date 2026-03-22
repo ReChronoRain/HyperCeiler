@@ -79,18 +79,23 @@ object ScopeManager {
         fun onScopeOperationFail(message: String)
     }
 
-    suspend fun getScope(): List<String>? = withContext(Dispatchers.IO) {
+    @JvmStatic
+    fun getScopeSync(): List<String>? {
         val service = getService()
         if (service == null) {
-            AndroidLog.e(TAG, "getScope: LSPosed service not available.")
-            return@withContext null
+            AndroidLog.e(TAG, "getScopeSync: LSPosed service not available.")
+            return null
         }
-        return@withContext try {
+        return try {
             service.getScope()
         } catch (e: Exception) {
-            AndroidLog.e(TAG, "getScope failed", e)
+            AndroidLog.e(TAG, "getScopeSync failed", e)
             null
         }
+    }
+
+    suspend fun getScope(): List<String>? = withContext(Dispatchers.IO) {
+        getScopeSync()
     }
 
     /**

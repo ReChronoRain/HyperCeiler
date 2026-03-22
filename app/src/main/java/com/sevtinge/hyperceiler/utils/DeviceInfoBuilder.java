@@ -32,7 +32,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.g
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getSoc;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBuildDate;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getCurrentUserId;
@@ -52,16 +51,12 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
-import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import kotlin.text.Charsets;
 
 /**
  * 设备信息构建器
@@ -123,15 +118,10 @@ public class DeviceInfoBuilder {
 
         // 检查信息
         try {
-            List<DeviceHelper.Module.ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
-
-            if (module != null && !module.isEmpty()) {
-                propertiesCheck.put("XposedManger", module.get(0).extractName());
-                propertiesCheck.put("XposedMangerVersion", module.get(0).formattedVersion());
-            } else {
-                propertiesCheck.put("XposedManger", "N/A");
-                propertiesCheck.put("XposedMangerVersion", "N/A");
-            }
+            FrameworkStatusManager.Status frameworkStatus = FrameworkStatusManager.getCurrentStatus();
+            propertiesCheck.put("XposedManger", frameworkStatus.getFrameworkName() == null ? "N/A" : frameworkStatus.getFrameworkName());
+            propertiesCheck.put("XposedMangerVersion", buildFrameworkVersionSummary(frameworkStatus));
+            propertiesCheck.put("FrameworkCheck", buildFrameworkCheckSummary(frameworkStatus));
             propertiesCheck.put("RootGroups", getRootGroupsInfo());
             propertiesCheck.put("CurrentUserId", String.valueOf(getCurrentUserId()));
             propertiesCheck.put("ModuleActive", String.valueOf(XposedActivateHelper.isActive()));
@@ -170,5 +160,32 @@ public class DeviceInfoBuilder {
         }
 
         return debugInfo.toString();
+    }
+
+    private static String buildFrameworkVersionSummary(FrameworkStatusManager.Status status) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(status.getFrameworkVersion() == null ? "N/A" : status.getFrameworkVersion());
+        if (status.getFrameworkVersionCode() >= 0) {
+            sb.append(" (");
+            sb.append(status.getFrameworkVersionCode());
+            sb.append(")");
+        }
+        if (status.getFrameworkApiVersion() >= 0) {
+            sb.append(", API ");
+            sb.append(status.getFrameworkApiVersion());
+        }
+        return sb.toString();
+    }
+
+    private static String buildFrameworkCheckSummary(FrameworkStatusManager.Status status) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(status.getReason().name());
+        sb.append(", HookAllowed=");
+        sb.append(status.isHookAllowed());
+        if (status.getDetail() != null && !status.getDetail().isEmpty()) {
+            sb.append(", ");
+            sb.append(status.getDetail());
+        }
+        return sb.toString();
     }
 }

@@ -70,6 +70,7 @@ public class XposedLogLoader {
     private static final Pattern NEW_MODULE_PATTERN = Pattern.compile("\\[([^,\\]]+),([^\\]]+)\\]");
 
     private static volatile XposedLogLoader sInstance;
+    private static volatile boolean sSyncDeferredUntilNextLaunch;
 
     private final Context mContext;
     private final File mAppLogBaseDir;
@@ -105,6 +106,10 @@ public class XposedLogLoader {
         if (context == null) {
             return;
         }
+        if (sSyncDeferredUntilNextLaunch) {
+            AndroidLog.i(TAG, "Skip Xposed log sync until next app launch.");
+            return;
+        }
         getInstance(context).syncToDatabase();
     }
 
@@ -124,6 +129,7 @@ public class XposedLogLoader {
         if (context == null) {
             return;
         }
+        sSyncDeferredUntilNextLaunch = true;
         getInstance(context).clearLogs();
     }
 
@@ -443,14 +449,6 @@ public class XposedLogLoader {
         deleteDirectory(mLspdCopyBaseDir);
         cleanupLegacyRotationMarker();
         initLogDirectories();
-
-        if (ShellUtils.checkRootPermission() == 0) {
-            ShellUtils.rootExecCmd(
-                "for f in /data/adb/lspd/log/modules_*.log /data/adb/lspd/log/verbose_*.log " +
-                    "/data/adb/lspd/log.old/modules_*.log /data/adb/lspd/log.old/verbose_*.log; " +
-                    "do [ -f \"$f\" ] && : > \"$f\"; done"
-            );
-        }
     }
 
     private void ensureDirs(File... dirs) {

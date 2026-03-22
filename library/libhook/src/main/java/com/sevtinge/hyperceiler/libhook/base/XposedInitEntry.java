@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.base;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.common.log.LogStatusManager;
@@ -29,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedModule;
@@ -41,6 +44,12 @@ import io.github.libxposed.api.XposedModule;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+    private static final String PREF_ALLOW_HOOK = "allow_hook";
+    private static final String PREF_FRAMEWORK_ALLOW_HOOK = "framework_api_allow_hook";
+    private static final String PREF_FRAMEWORK_REASON = "framework_check_reason";
+    private static final String PREF_FRAMEWORK_NAME = "framework_check_name";
+    private static final String PREF_FRAMEWORK_VERSION = "framework_check_version";
+    private static final String PREF_FRAMEWORK_VERSION_CODE = "framework_check_version_code";
 
     protected String processName;
     private final Object prefsInitLock = new Object();
@@ -175,7 +184,7 @@ public class XposedInitEntry extends XposedModule {
 
     private boolean prepareHookLoad(String packageName) {
         if (!isHookEnabled()) {
-            XposedLog.w(TAG, packageName, "Skip loading hooks because OOBE is not completed.");
+            XposedLog.w(TAG, packageName, "Skip loading hooks because hook loading is disabled by app state.");
             return true;
         }
         return false;
@@ -190,7 +199,57 @@ public class XposedInitEntry extends XposedModule {
     }
 
     private boolean isHookEnabled() {
-        return PrefsBridge.getBoolean("allow_hook", false);
+        return PrefsBridge.getBoolean(PREF_ALLOW_HOOK, false)
+            && isFrameworkAllowedForCurrentRuntime();
+    }
+
+    private boolean isFrameworkAllowedForCurrentRuntime() {
+        boolean allowHook = PrefsBridge.getBoolean(PREF_FRAMEWORK_ALLOW_HOOK, true);
+        if (allowHook) {
+            return true;
+        }
+
+        String storedReason = PrefsBridge.getString(PREF_FRAMEWORK_REASON, null);
+        if (TextUtils.isEmpty(storedReason)) {
+            return false;
+        }
+
+        String currentFrameworkName;
+        String currentFrameworkVersion;
+        long currentFrameworkVersionCode;
+        try {
+            currentFrameworkName = normalizeFrameworkText(getFrameworkName());
+            currentFrameworkVersion = normalizeFrameworkText(getFrameworkVersion());
+            currentFrameworkVersionCode = getFrameworkVersionCode();
+        } catch (Throwable t) {
+            return false;
+        }
+
+        String checkedFrameworkName = normalizeFrameworkText(PrefsBridge.getString(PREF_FRAMEWORK_NAME, null));
+        String checkedFrameworkVersion = normalizeFrameworkText(PrefsBridge.getString(PREF_FRAMEWORK_VERSION, null));
+        long checkedFrameworkVersionCode = PrefsBridge.getLong(PREF_FRAMEWORK_VERSION_CODE, Long.MIN_VALUE);
+
+        boolean matched = Objects.equals(currentFrameworkName, checkedFrameworkName)
+            && Objects.equals(currentFrameworkVersion, checkedFrameworkVersion)
+            && currentFrameworkVersionCode == checkedFrameworkVersionCode;
+        if (matched) {
+            return false;
+        }
+
+        XposedLog.i(
+            TAG,
+            processName,
+            "Allow loading hooks temporarily because the running framework differs from the last framework blocked by XposedService."
+        );
+        return true;
+    }
+
+    private static String normalizeFrameworkText(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimValue = value.trim();
+        return trimValue.isEmpty() ? null : trimValue;
     }
 
 }

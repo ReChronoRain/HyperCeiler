@@ -1,9 +1,7 @@
 package com.sevtinge.hyperceiler.home.banner;
 
 import static com.sevtinge.hyperceiler.common.log.LogStatusManager.IS_LOGGER_ALIVE;
-import static com.sevtinge.hyperceiler.common.utils.ShellUtils.checkRootPermission;
 import static com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isRelease;
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Module.scanModules;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getBaseOs;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHost;
@@ -22,7 +20,7 @@ import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.log.LoggerHealthChecker;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
-import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
+import com.sevtinge.hyperceiler.utils.FrameworkStatusManager;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -30,8 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.StringJoiner;
-
-import kotlin.text.Charsets;
 
 public class HomePageBannerManager {
 
@@ -176,25 +172,42 @@ public class HomePageBannerManager {
                 null));
         }
 
-        int titleResId = resolveWarningTitleResId(context);
-        if (titleResId != -1) {
-            banners.add(createWarningBanner(
-                "warning",
-                context.getString(titleResId),
-                null));
+        BannerBean warningBanner = createWarningBannerIfNeeded(context);
+        if (warningBanner != null) {
+            banners.add(warningBanner);
         }
     }
 
-    private static int resolveWarningTitleResId(Context context) {
-        boolean isUnofficialRom = isUnofficialRom(context);
-        boolean isFullSupport = getSupportStatus() == SUPPORT_FULL;
-        boolean isWhileXposed = isWhileXposed();
-        boolean isSignPass = SignUtils.isSignCheckPass(context);
-
-        return !isSignPass ? R.string.headtip_warn_sign_verification_failed :
-            isUnofficialRom ? R.string.headtip_warn_not_offical_rom :
-                !isWhileXposed ? R.string.headtip_warn_unsupport_xposed :
-                    !isFullSupport ? R.string.headtip_warn_unsupport_sysver : -1;
+    private static BannerBean createWarningBannerIfNeeded(Context context) {
+        if (!SignUtils.isSignCheckPass(context)) {
+            return createWarningBanner(
+                "warning_sign",
+                context.getString(R.string.headtip_warn_sign_verification_failed),
+                null
+            );
+        }
+        if (isUnofficialRom(context)) {
+            return createWarningBanner(
+                "warning_rom",
+                context.getString(R.string.headtip_warn_not_offical_rom),
+                null
+            );
+        }
+        if (FrameworkStatusManager.hasBlockingIssue()) {
+            return createWarningBanner(
+                "warning_framework",
+                FrameworkStatusManager.getBannerSummary(context),
+                BannerCallback.ACTION_OPEN_FRAMEWORK_WARNING_HELP
+            );
+        }
+        if (getSupportStatus() != SUPPORT_FULL) {
+            return createWarningBanner(
+                "warning_sysver",
+                context.getString(R.string.headtip_warn_unsupport_sysver),
+                null
+            );
+        }
+        return null;
     }
 
     private static void addBannerIfPresent(List<BannerBean> banners, BannerBean banner) {
@@ -365,22 +378,6 @@ public class HomePageBannerManager {
 
         return hasRomAuthor || isSystemVersionContains || Objects.equals(host, "xiaomi.eu") || (isNotCustomBaseOs && isNotCustomHost) || hasAdvSettings || hasBaiyangLicense || hasCharacteristics;
     }
-
-    private static boolean isWhileXposed() {
-        if (checkRootPermission() != 0) return true; // 没 root 就别走校验了
-        try {
-            List<DeviceHelper.Module.ModuleInfo> module = scanModules("/data/adb/modules", Charsets.UTF_8);
-            String moduleName = module.getFirst().extractName();
-            if (moduleName.contains("nolog") || moduleName.contains("日志")) {
-                return false;
-            }
-            return moduleName.contains("LSPosed IT") || moduleName.equals("LSPosed - Irena");
-        } catch (Throwable e) {
-            AndroidLog.e("isWhileXposed", e);
-            return true;
-        }
-    }
-
 
     private static boolean isAppInstalled(Context context, String packageName) {
         try {
