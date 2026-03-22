@@ -9,6 +9,11 @@ object FuckSubScreenWhiteList : BaseHook() {
 
     override fun init() {
         val asI = findClass("com.android.server.wm.ActivityStarterImpl")
+        asI.hookAllMethods("handleSubScreen") {
+            before {
+                returnConstant(false)
+            }
+        }
         asI.hookAllMethods("isShouldShowOnRearDisplay") {
             before {
                 returnConstant(true)
