@@ -23,9 +23,9 @@ import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
@@ -115,7 +115,7 @@ public class DoubleTap extends BaseHook {
         }
 
         void onDoubleTapEvent() {
-            GlobalActions.handleAction(mContext, mActionKey);
+            GlobalActionBridge.handleAction(mContext, mActionKey);
         }
     }
 }

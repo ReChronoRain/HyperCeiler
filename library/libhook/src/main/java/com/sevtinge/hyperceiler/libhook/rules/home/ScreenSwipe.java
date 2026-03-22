@@ -32,9 +32,9 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
@@ -75,7 +75,7 @@ public class ScreenSwipe extends BaseHook {
                     Context context = ((ViewGroup) param.getThisObject()).getContext();
 
                     String key = getGestureKey(gestureType, fingerCount);
-                    if (key != null && GlobalActions.handleAction(context, key)) {
+                    if (key != null && GlobalActionBridge.handleAction(context, key)) {
                         param.setResult(true);
                     }
                 }

@@ -24,9 +24,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
@@ -98,7 +98,7 @@ public class CornerSlide extends BaseHook {
                         return;
                     }
                     String direction = inDirection == 1 ? "right" : "left";
-                    GlobalActions.handleAction(
+                    GlobalActionBridge.handleAction(
                         EzXposed.getAppContext(),
                         "home_navigation_assist_" + direction + "_slide"
                     );
