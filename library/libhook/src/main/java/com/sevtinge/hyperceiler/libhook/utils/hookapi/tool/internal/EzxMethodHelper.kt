@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.internal
 
-import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
@@ -41,8 +40,6 @@ import java.lang.reflect.Modifier
  * - callStaticMethod 与 callMethod 行为一致（纯查找+调用）
  */
 internal object EzxMethodHelper {
-
-    private const val TAG = "EzxMethodHelper"
 
     /** 方法缓存（String 键不会被 GC，使用 HashMap 替代 WeakHashMap） */
     private val methodCache = HashMap<String, Method?>()
@@ -247,7 +244,7 @@ internal object EzxMethodHelper {
 
         while (currentClass != null) {
             val searchClass = currentClass ?: break
-            val method = runCatching {
+            val method = try {
                 if (parameterTypes.isEmpty()) {
                     MethodFinder.fromClass(searchClass)
                         .filterByName(methodName)
@@ -258,10 +255,9 @@ internal object EzxMethodHelper {
                         .filterByParamTypes(*parameterTypes)
                         .firstOrNull()
                 }
-            }.recoverCatching { e ->
-                XposedLog.w(TAG, "MethodFinder failed for ${searchClass.name}.$methodName, fallback to reflection", e)
+            } catch (_: Throwable) {
                 findMethodByReflection(searchClass, methodName, *parameterTypes)
-            }.getOrNull()
+            }
 
             if (method != null) {
                 method.isAccessible = true
@@ -461,14 +457,9 @@ internal object EzxMethodHelper {
      * @throws java.lang.reflect.InvocationTargetException 如果被调用的方法抛出异常
      */
     fun invokeOriginalMethod(method: Method, thisObject: Any?, vararg args: Any?): Any? {
-        return try {
-            EzxModuleHolder.xposedModule.getInvoker(method)
-                .setType(XposedInterface.Invoker.Type.ORIGIN)
-                .invoke(thisObject, *args)
-        } catch (t: Throwable) {
-            XposedLog.e(TAG, "invokeOriginalMethod failed for ${formatMethodSignature(method)}", t)
-            throw t
-        }
+        return EzxModuleHolder.xposedModule.getInvoker(method)
+            .setType(XposedInterface.Invoker.Type.ORIGIN)
+            .invoke(thisObject, *args)
     }
 
     /**

@@ -28,6 +28,8 @@ import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
@@ -43,6 +45,66 @@ typealias HookBlock = (HookParam) -> Unit
 typealias ReplaceHookBlock = (HookParam) -> Any?
 typealias ChainInterceptor = XposedInterface.Chain.() -> Any?
 typealias HookExceptionMode = XposedInterface.ExceptionMode
+
+/**
+ * 仅供开发调试时使用的 callback 错误日志。
+ *
+ * 用法示例：
+ * ```kotlin
+ * debugCallbackError("after updateClock", t)
+ * ```
+ */
+fun BaseHook.debugCallbackError(where: String?, t: Throwable) {
+    val message = if (where.isNullOrEmpty()) {
+        "Debug callback error"
+    } else {
+        "Debug callback error at $where"
+    }
+    XposedLog.w(TAG, packageName, message, t)
+}
+
+/**
+ * 仅供开发调试时使用。
+ * 记录 callback 异常后吞掉，适合 before/after 这类不希望影响主流程的场景。
+ *
+ * 用法示例：
+ * ```kotlin
+ * afterHookMethod("updateClock") { param ->
+ *     debugProtect("after updateClock") {
+ *         param.result = param.result
+ *     }
+ * }
+ * ```
+ */
+inline fun BaseHook.debugProtect(where: String?, block: () -> Unit) {
+    try {
+        block()
+    } catch (t: Throwable) {
+        debugCallbackError(where, t)
+    }
+}
+
+/**
+ * 仅供开发调试时使用。
+ * 记录 callback 异常后继续抛出，适合 replace 或其他需要保留原始异常语义的场景。
+ *
+ * 用法示例：
+ * ```kotlin
+ * replaceMethod("buildIntent") { param ->
+ *     debugRethrow("replace buildIntent") {
+ *         param.result
+ *     }
+ * }
+ * ```
+ */
+inline fun <T> BaseHook.debugRethrow(where: String?, block: () -> T): T {
+    try {
+        return block()
+    } catch (t: Throwable) {
+        debugCallbackError(where, t)
+        throw t
+    }
+}
 
 /**
  * Hook 回调 DSL 构建器

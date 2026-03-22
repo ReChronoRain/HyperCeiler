@@ -100,8 +100,8 @@ internal object EzxApplicationHookHelper {
                             applicationHooks.forEach { hook ->
                                 try {
                                     hook.onApplicationAttachBefore(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach before callback error", t)
+                                } catch (_: Throwable) {
+                                    // Keep fan-out resilient; hooks decide whether to report their own errors.
                                 }
                             }
                         }
@@ -111,8 +111,8 @@ internal object EzxApplicationHookHelper {
                             applicationHooks.forEach { hook ->
                                 try {
                                     hook.onApplicationAttachAfter(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach after callback error", t)
+                                } catch (_: Throwable) {
+                                    // Keep fan-out resilient; hooks decide whether to report their own errors.
                                 }
                             }
                             XposedLog.d(TAG, "Application created! package: ${context.packageName}")
