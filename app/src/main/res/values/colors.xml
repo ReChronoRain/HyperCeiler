@@ -28,6 +28,7 @@
 
     <color name="settings_banner_bg_color">@color/miuix_recyclerview_card_group_background_light</color>
 
+    <color name="switch_card_shadow_color">@color/miuix_color_black_level5</color>
 
     <color name="switch_view_background_color">#faffffff</color>
 

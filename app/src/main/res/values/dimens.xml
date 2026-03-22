@@ -92,6 +92,13 @@
 
     <dimen name="switch_card_view_radius">25dp</dimen>
 
+    <dimen name="switch_view_card_shadow_dx">1dp</dimen>
+    <dimen name="switch_view_card_shadow_dy">1.5dp</dimen>
+    <dimen name="switch_view_shadow_radius">70dp</dimen>
+
+    <dimen name="switch_view_card_blur">40dp</dimen>
+
+    <dimen name="switch_view_capsule_item_width">56dp</dimen>
 
     <dimen name="logo_width">280dp</dimen>
     <dimen name="logo_height">40dp</dimen>
