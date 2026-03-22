@@ -49,10 +49,19 @@
             android:title="@string/system_framework_enhance_recents_visibility"
             android:key="prefs_key_system_framework_enhance_recents_visibility" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_framework_fuck_subscreen_whiteList"
-            android:title="@string/system_framework_fuck_subscreen_whiteList" />
+
+        <PreferenceCategory android:title="@string/subscreen">
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="prefs_key_system_framework_fuck_subscreen_whiteList"
+                android:title="@string/system_framework_fuck_subscreen_whiteList" />
+
+            <SwitchPreference
+                android:defaultValue="false"
+                android:key="prefs_key_system_framework_fuck_subscreen_not_go_to_home"
+                android:title="@string/system_framework_fuck_subscreen_not_go_to_home" />
+
+        </PreferenceCategory>
 
 
     </PreferenceCategory>

@@ -441,6 +441,7 @@
     <string name="system_framework_bypass_force_downloadui">打开下载页面时不强制使用小米下载管理器</string>
     <string name="system_framework_bypass_force_downloadui_desc">解决 Google 快速分享查看下载内容跳转错误的问题</string>
     <string name="system_framework_fuck_subscreen_whiteList">解除背屏软件白名单</string>
+    <string name="system_framework_fuck_subscreen_not_go_to_home">禁止背屏息屏/关闭的时候返回桌面</string>
     <!--核心破解-->
     <string name="system_framework_corepatch_tip">此列表下的功能需要在您了解此类功能后再选择性启用，部分选项存在一定危险性，请知悉\n常规选项的功能除总开关外均即时生效，扩展功能无论开关都需要重启才能生效</string>
     <string name="system_framework_corepatch_title">包管理服务</string>
@@ -1664,4 +1665,5 @@
     <string name="custom_hook_mode">选择模式</string>
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
+    <string name="subscreen">背屏</string>
 </resources>
