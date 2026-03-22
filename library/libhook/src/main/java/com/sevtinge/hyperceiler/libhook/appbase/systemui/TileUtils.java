@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * 磁贴工具基类
@@ -465,18 +466,19 @@ public abstract class TileUtils extends BaseHook {
             return;
         }
 
-        safeHookMethod(tileClass, "handleLongClick", mExpandableClass, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                if (!shouldHandle(param)) return;
-
-                TileContext ctx = new TileContext(param);
-                Intent intent = onHandleLongClick(ctx);
-                if (intent != null) {
-                    launchIntent(ctx, intent);param.setResult(null);
-                }
+        safeChainMethod(tileClass, "handleLongClick", chain -> {
+            if (!shouldHandle(chain.getThisObject())) {
+                return chain.proceed();
             }
-        });
+
+            TileContext ctx = createTileContext(chain);
+            Intent intent = onHandleLongClick(ctx);
+            if (intent != null) {
+                launchIntent(ctx, intent);
+                return null;
+            }
+            return chain.proceed();
+        }, mExpandableClass);
     }
 
     private void hookHandleClick(Class<?> tileClass) {
@@ -488,32 +490,33 @@ public abstract class TileUtils extends BaseHook {
 
         if (!needHook) return;
 
-        safeHookMethod(tileClass, "handleClick", mExpandableClass, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                if (!isMethodOverridden("onTileClick", TileContext.class)) {
-                    return;
-                }
+        safeChainMethod(tileClass, "handleClick", chain -> {
+            boolean hasCustomClick = isMethodOverridden("onTileClick", TileContext.class);
+            boolean shouldHandle = shouldHandle(chain.getThisObject());
+            boolean skippedOriginal = false;
+            Object result = null;
+            Throwable pendingThrowable = null;
 
-                if (!shouldHandle(param)) return;
-
-                TileContext ctx = new TileContext(param);
+            if (hasCustomClick && shouldHandle) {
+                TileContext ctx = createTileContext(chain);
                 try {
                     onTileClick(ctx);
-                    param.setResult(null);
                 } catch (Throwable t) {
                     XposedLog.e(TAG, "Error in onTileClick", t);
-                    param.setResult(null);
+                }
+                skippedOriginal = true;
+            } else {
+                try {
+                    result = chain.proceed();
+                } catch (Throwable t) {
+                    pendingThrowable = t;
                 }
             }
 
-            @Override
-            public void after(HookParam param) {
-                if (!shouldHandle(param)) return;
-
+            if (shouldHandle) {
                 // 如果配置了图标，延迟刷新状态确保系统状态已更新
-                if (mConfig.hasIcons() && !isMethodOverridden("onTileClick", TileContext.class)) {
-                    Object tile = param.getThisObject();
+                if (mConfig.hasIcons() && !hasCustomClick) {
+                    Object tile = chain.getThisObject();
                     Handler mainHandler = new Handler(Looper.getMainLooper());
                     mainHandler.postDelayed(() -> {
                         try {
@@ -524,16 +527,21 @@ public abstract class TileUtils extends BaseHook {
                     }, 50);
                 }
 
-                if (!needClickAfter()) return;
-
-                TileContext ctx = new TileContext(param);
-                try {
-                    onTileClickAfter(ctx);
-                } catch (Throwable t) {
-                    XposedLog.e(TAG, "Error in onTileClickAfter", t);
+                if (needClickAfter()) {
+                    TileContext ctx = createTileContext(chain);
+                    try {
+                        onTileClickAfter(ctx);
+                    } catch (Throwable t) {
+                        XposedLog.e(TAG, "Error in onTileClickAfter", t);
+                    }
                 }
             }
-        });
+
+            if (pendingThrowable != null) {
+                throw pendingThrowable;
+            }
+            return skippedOriginal ? null : result;
+        }, mExpandableClass);
     }
 
 
@@ -543,12 +551,17 @@ public abstract class TileUtils extends BaseHook {
             return;
         }
 
-        hookAllMethods(tileClass, "handleUpdateState", new IMethodHook() {
-            @Override
-            public void after(HookParam param) {
-                if (!shouldHandle(param)) return;
+        chainAllMethods(tileClass, "handleUpdateState", chain -> {
+            Object result = null;
+            Throwable pendingThrowable = null;
+            try {
+                result = chain.proceed();
+            } catch (Throwable t) {
+                pendingThrowable = t;
+            }
 
-                TileContext ctx = new TileContext(param);
+            if (shouldHandle(chain.getThisObject())) {
+                TileContext ctx = createTileContext(chain);
                 TileState state = onUpdateState(ctx);
 
                 if (state != null) {
@@ -564,6 +577,11 @@ public abstract class TileUtils extends BaseHook {
                     applyConfigIcons(ctx);
                 }
             }
+
+            if (pendingThrowable != null) {
+                throw pendingThrowable;
+            }
+            return result;
         });
     }
 
@@ -641,13 +659,26 @@ public abstract class TileUtils extends BaseHook {
      * 判断是否应该处理该磁贴 (HookParam 版本)
      */
     private boolean shouldHandle(HookParam param) {
+        return shouldHandle(param.getThisObject());
+    }
+
+    private boolean shouldHandle(@Nullable Object tileInstance) {
         if (!mConfig.isCustomTile()) {
             return true; // 覆写模式，始终处理
         }
 
+        if (tileInstance == null) {
+            return false;
+        }
+
         String tileName = (String) EzxHelpUtils.getAdditionalInstanceField(
-            param.getThisObject(), FIELD_CUSTOM_NAME);
+            tileInstance, FIELD_CUSTOM_NAME);
         return mConfig.getTileName().equals(tileName);
+    }
+
+    @NonNull
+    private TileContext createTileContext(@NonNull XposedInterface.Chain chain) {
+        return new TileContext(chain.getThisObject(), chain.getArgs().toArray(), null);
     }
 
     /**
@@ -773,6 +804,21 @@ public abstract class TileUtils extends BaseHook {
             XposedLog.d(TAG, "Method not found (skipping): " + clazz.getSimpleName() + "." + methodName);
         } catch (Throwable t) {
             XposedLog.e(TAG, "Failed to hook method: " + methodName, t);
+        }
+    }
+
+    private void safeChainMethod(
+        Class<?> clazz,
+        String methodName,
+        XposedInterface.Hooker hooker,
+        Object... parameterTypes
+    ) {
+        try {
+            findAndChainMethod(clazz, methodName, hooker, parameterTypes);
+        } catch (NoSuchMethodError e) {
+            XposedLog.d(TAG, "Method not found (skipping): " + clazz.getSimpleName() + "." + methodName);
+        } catch (Throwable t) {
+            XposedLog.e(TAG, "Failed to chain method: " + methodName, t);
         }
     }
 

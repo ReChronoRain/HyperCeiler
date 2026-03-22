@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedInterface;
@@ -48,6 +49,16 @@ import io.github.libxposed.api.XposedModuleInterface.SystemServerStartingParam;
 public abstract class BaseHook {
     public static String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
     public final String TAG = getClass().getSimpleName();
+
+    @FunctionalInterface
+    protected interface ThrowableRunnable {
+        void run() throws Throwable;
+    }
+
+    @FunctionalInterface
+    protected interface ThrowableSupplier<T> {
+        T get() throws Throwable;
+    }
 
     /**
      * 初始化 Hook，子类实现此方法编写具体 Hook 逻辑
@@ -179,20 +190,12 @@ public abstract class BaseHook {
         EzxHelpUtils.registerApplicationHook(new EzxHelpUtils.IApplicationHook() {
             @Override
             public void onApplicationAttachBefore(@NonNull Context context) {
-                try {
-                    BaseHook.this.onApplicationAttachBefore(context);
-                } catch (Throwable t) {
-                    XposedLog.e(TAG, "onApplicationAttachBefore error", t);
-                }
+                BaseHook.this.onApplicationAttachBefore(context);
             }
 
             @Override
             public void onApplicationAttachAfter(@NonNull Context context) {
-                try {
-                    BaseHook.this.onApplicationAttachAfter(context);
-                } catch (Throwable t) {
-                    XposedLog.e(TAG, "onApplicationAttachAfter error", t);
-                }
+                BaseHook.this.onApplicationAttachAfter(context);
             }
         });
     }
@@ -231,34 +234,130 @@ public abstract class BaseHook {
         return EzxHelpUtils.chain(method, hooker);
     }
 
+    public XposedInterface.HookHandle chain(
+        Method method,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker
+    ) {
+        return EzxHelpUtils.chain(method, priority, exceptionMode, hooker);
+    }
+
     public XposedInterface.HookHandle chain(Constructor<?> constructor, XposedInterface.Hooker hooker) {
         return EzxHelpUtils.chain(constructor, hooker);
+    }
+
+    public XposedInterface.HookHandle chain(
+        Constructor<?> constructor,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker
+    ) {
+        return EzxHelpUtils.chain(constructor, priority, exceptionMode, hooker);
     }
 
     public XposedInterface.HookHandle findAndChainMethod(Class<?> clazz, String methodName, XposedInterface.Hooker hooker, Object... args) {
         return EzxHelpUtils.findAndChainMethod(clazz, methodName, hooker, args);
     }
 
+    public XposedInterface.HookHandle findAndChainMethod(
+        Class<?> clazz,
+        String methodName,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, args);
+    }
+
     public XposedInterface.HookHandle findAndChainMethod(String className, String methodName, XposedInterface.Hooker hooker, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("BaseHook", "findAndChainMethod: class not found: " + className);
+            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
             return null;
         }
         return EzxHelpUtils.findAndChainMethod(clazz, methodName, hooker, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainMethod(
+        String className,
+        String methodName,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            return null;
+        }
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, args);
     }
 
     public XposedInterface.HookHandle findAndChainConstructor(Class<?> clazz, XposedInterface.Hooker hooker, Object... args) {
         return EzxHelpUtils.findAndChainConstructor(clazz, hooker, args);
     }
 
+    public XposedInterface.HookHandle findAndChainConstructor(
+        Class<?> clazz,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, hooker, args);
+    }
+
     public XposedInterface.HookHandle findAndChainConstructor(String className, XposedInterface.Hooker hooker, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("BaseHook", "findAndChainConstructor: class not found: " + className);
+            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
             return null;
         }
         return EzxHelpUtils.findAndChainConstructor(clazz, hooker, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainConstructor(
+        String className,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            return null;
+        }
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, hooker, args);
+    }
+
+    public Set<XposedInterface.HookHandle> chainAllMethods(Class<?> clazz, String methodName, XposedInterface.Hooker hooker) {
+        return EzxHelpUtils.chainAllMethods(clazz, methodName, hooker);
+    }
+
+    public Set<XposedInterface.HookHandle> chainAllMethods(String className, String methodName, XposedInterface.Hooker hooker) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "chainAllMethods: class not found: " + className);
+            return java.util.Collections.emptySet();
+        }
+        return EzxHelpUtils.chainAllMethods(clazz, methodName, hooker);
+    }
+
+    public Set<XposedInterface.HookHandle> chainAllConstructors(Class<?> clazz, XposedInterface.Hooker hooker) {
+        return EzxHelpUtils.chainAllConstructors(clazz, hooker);
+    }
+
+    public Set<XposedInterface.HookHandle> chainAllConstructors(String className, XposedInterface.Hooker hooker) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "chainAllConstructors: class not found: " + className);
+            return java.util.Collections.emptySet();
+        }
+        return EzxHelpUtils.chainAllConstructors(clazz, hooker);
     }
 
     /**
@@ -288,7 +387,7 @@ public abstract class BaseHook {
     public XposedInterface.HookHandle findAndHookMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("IHook", "findAndHookMethod: class not found: " + className);
+            XposedLog.w(TAG, "findAndHookMethod: class not found: " + className);
             return null;
         }
         return EzxHelpUtils.findAndHookMethod(clazz, methodName, args);
@@ -321,7 +420,7 @@ public abstract class BaseHook {
     public XposedInterface.HookHandle findAndReplaceMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("BaseHook", "findAndReplaceMethod: class not found: " + className);
+            XposedLog.w(TAG, "findAndReplaceMethod: class not found: " + className);
             return null;
         }
         return EzxHelpUtils.findAndHookMethodReplace(clazz, methodName, args);
@@ -350,7 +449,7 @@ public abstract class BaseHook {
     public List<XposedInterface.HookHandle> hookAllMethods(String className, String methodName, IMethodHook callback) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("BaseHook", "hookAllMethods: class not found: " + className);
+            XposedLog.w(TAG, "hookAllMethods: class not found: " + className);
             return java.util.Collections.emptyList();
         }
         return EzxHelpUtils.hookAllMethods(clazz, methodName, callback);
@@ -377,7 +476,7 @@ public abstract class BaseHook {
     public List<XposedInterface.HookHandle> hookAllConstructors(String className, IMethodHook callback) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w("BaseHook", "hookAllConstructors: class not found: " + className);
+            XposedLog.w(TAG, "hookAllConstructors: class not found: " + className);
             return java.util.Collections.emptyList();
         }
         return EzxHelpUtils.hookAllConstructors(clazz, callback);
@@ -402,6 +501,95 @@ public abstract class BaseHook {
     public Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
         return callStaticMethod(findClassIfExists("android.os.SystemProperties", classLoader),
             method, prop, val);
+    }
+
+    /**
+     * 仅供开发调试时使用的 callback 错误日志。
+     * <p>
+     * 使用 warn 级别，仅在详细日志模式下输出，避免常规使用时制造额外噪音。
+     * <p>
+     * 用法示例：
+     * <pre>{@code
+     * debugCallbackError("after updateClock", t);
+     * }</pre>
+     */
+    protected final void debugCallbackError(String where, Throwable t) {
+        String message = (where == null || where.isEmpty())
+            ? "Debug callback error"
+            : "Debug callback error at " + where;
+        XposedLog.w(TAG, getPackageName(), message, t);
+    }
+
+    /**
+     * 仅供开发调试时使用。
+     * <p>
+     * 记录 callback 异常后吞掉，适合 before/after 这类不希望影响主流程的场景。
+     * <p>
+     * 用法示例：
+     * <pre>{@code
+     * @Override
+     * public void after(HookParam param) {
+     *     debugProtect("after updateClock", () -> {
+     *         Object result = param.getResult();
+     *         param.setResult(result);
+     *     });
+     * }
+     * }</pre>
+     */
+    protected final void debugProtect(String where, ThrowableRunnable action) {
+        try {
+            action.run();
+        } catch (Throwable t) {
+            debugCallbackError(where, t);
+        }
+    }
+
+    /**
+     * 仅供开发调试时使用。
+     * <p>
+     * 记录 callback 异常后继续抛出，适合 replace 或其他需要保留原始异常语义的场景。
+     * <p>
+     * 用法示例：
+     * <pre>{@code
+     * @Override
+     * public void before(HookParam param) throws Throwable {
+     *     debugRethrow("before verifySignature", () -> {
+     *         throw new IllegalStateException("debug");
+     *     });
+     * }
+     * }</pre>
+     */
+    protected final void debugRethrow(String where, ThrowableRunnable action) throws Throwable {
+        try {
+            action.run();
+        } catch (Throwable t) {
+            debugCallbackError(where, t);
+            throw t;
+        }
+    }
+
+    /**
+     * 仅供开发调试时使用。
+     * <p>
+     * 记录 callback 异常后继续抛出，并返回回调结果。
+     * <p>
+     * 用法示例：
+     * <pre>{@code
+     * @Override
+     * public Object replace(HookParam param) throws Throwable {
+     *     return debugRethrow("replace buildIntent", () -> {
+     *         return param.getResult();
+     *     });
+     * }
+     * }</pre>
+     */
+    protected final <T> T debugRethrow(String where, ThrowableSupplier<T> action) throws Throwable {
+        try {
+            return action.get();
+        } catch (Throwable t) {
+            debugCallbackError(where, t);
+            throw t;
+        }
     }
 
     // ==================== 资源 Hook ====================
