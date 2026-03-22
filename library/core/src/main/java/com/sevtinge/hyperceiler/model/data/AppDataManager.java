@@ -28,7 +28,7 @@ public class AppDataManager {
                      SubPickerActivity.INPUT_MODE -> getLauncherApps();
                 case SubPickerActivity.APP_OPEN_MODE -> getOpenWithApps();
                 case SubPickerActivity.PROCESS_TEXT_MODE -> getProcessTextApps();
-                case SubPickerActivity.ALL_APPS_MODE -> getAllApps();
+                case SubPickerActivity.ALL_APPS_MODE, SubPickerActivity.SCOPE_MODE -> getAllApps();
                 default -> new ArrayList<>();
             };
         } catch (Exception e) {

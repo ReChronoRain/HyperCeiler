@@ -41,6 +41,7 @@
         <item name="windowSearchMask">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="windowSplitActionBar">true</item>
+        <item name="endActionMenuEnabled">true</item>
     </style>
 
 

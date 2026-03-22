@@ -35,6 +35,8 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
     private final AppEditManager mEditManager;
 
     private final List<AppData> mAppDataList; // 单一数据源
+    private final Set<String> mSelectedPackages = new LinkedHashSet<>();
+    private boolean mDeferredSelectionMode = false;
     private OnItemClickListener mOnItemClickListener;
 
     public AppDataAdapter(List<AppData> appInfoList, String key, int mode) {
@@ -92,14 +94,34 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         return new ArrayList<>(mAppDataList);
     }
 
+    public void setDeferredSelectionMode(boolean deferredSelectionMode) {
+        mDeferredSelectionMode = deferredSelectionMode;
+    }
+
+    public void setSelectedPackages(Set<String> selectedPackages) {
+        mSelectedPackages.clear();
+        if (selectedPackages != null) {
+            mSelectedPackages.addAll(selectedPackages);
+        }
+        refreshSelections();
+    }
+
+    public Set<String> getSelectedPackages() {
+        return new LinkedHashSet<>(mSelectedPackages);
+    }
+
     /**
      * 刷新选中状态
      */
     public void refreshSelections() {
-        if (mKey == null) return;
-
-        Set<String> selectedApps = new LinkedHashSet<>(
-            PrefsBridge.getStringSet(mKey));
+        Set<String> selectedApps;
+        if (mDeferredSelectionMode) {
+            selectedApps = new LinkedHashSet<>(mSelectedPackages);
+        } else if (mKey != null) {
+            selectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
+        } else {
+            selectedApps = new LinkedHashSet<>();
+        }
 
         // 更新所有项目的选中状态
         for (AppData appData : mAppDataList) {
@@ -113,24 +135,32 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
      * 切换指定位置的选中状态
      */
     public void toggleSelection(int position) {
-        if (position < 0 || position >= mAppDataList.size() || mKey == null) {
+        if (position < 0 || position >= mAppDataList.size()) {
             return;
         }
 
         AppData appData = mAppDataList.get(position);
         appData.isSelected = !appData.isSelected;
 
-        // 更新 SharedPreferences
-        Set<String> selectedApps = new LinkedHashSet<>(
-            PrefsBridge.getStringSet(mKey));
+        if (mDeferredSelectionMode) {
+            if (appData.isSelected) {
+                mSelectedPackages.add(appData.packageName);
+            } else {
+                mSelectedPackages.remove(appData.packageName);
+            }
+        } else if (mKey != null) {
+            // 更新 SharedPreferences
+            Set<String> selectedApps = new LinkedHashSet<>(
+                PrefsBridge.getStringSet(mKey));
 
-        if (appData.isSelected) {
-            selectedApps.add(appData.packageName);
-        } else {
-            selectedApps.remove(appData.packageName);
+            if (appData.isSelected) {
+                selectedApps.add(appData.packageName);
+            } else {
+                selectedApps.remove(appData.packageName);
+            }
+
+            PrefsBridge.putByApp(mKey, selectedApps);
         }
-
-        PrefsBridge.putByApp(mKey, selectedApps);
 
         notifyItemChanged(position);
     }
@@ -225,6 +255,12 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
          * 异步加载图标，使用 AppIconCache 缓存
          */
         private void updateAppIcon(AppData appInfo) {
+            if (appInfo.icon != null) {
+                mAppIcon.setImageDrawable(appInfo.icon);
+                mAppIcon.setTag(appInfo.packageName);
+                return;
+            }
+
             // 先尝试从缓存获取
             android.graphics.drawable.Drawable cached = AppIconCache.getCached(appInfo.packageName);
             if (cached != null) {
@@ -251,7 +287,9 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         private void updateCheckboxVisibility(AppData appInfo) {
             boolean shouldShowCheckbox = (mMode == SubPickerActivity.LAUNCHER_MODE ||
                 mMode == SubPickerActivity.APP_OPEN_MODE ||
-                mMode == SubPickerActivity.PROCESS_TEXT_MODE || mMode == SubPickerActivity.ALL_APPS_MODE);
+                mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
+                mMode == SubPickerActivity.ALL_APPS_MODE ||
+                mMode == SubPickerActivity.SCOPE_MODE);
 
             mSelectCheckbox.setVisibility(shouldShowCheckbox ? View.VISIBLE : View.GONE);
 
@@ -275,7 +313,9 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
                     if (mMode == SubPickerActivity.LAUNCHER_MODE ||
                         mMode == SubPickerActivity.APP_OPEN_MODE ||
-                        mMode == SubPickerActivity.PROCESS_TEXT_MODE) {
+                        mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
+                        mMode == SubPickerActivity.ALL_APPS_MODE ||
+                        mMode == SubPickerActivity.SCOPE_MODE) {
                         // 对于选择模式，点击item也切换选中状态
                         toggleSelection(position);
                     } else {

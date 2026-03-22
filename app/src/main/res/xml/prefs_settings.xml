@@ -29,6 +29,16 @@
             android:key="prefs_key_settings_float_nav"
             android:title="@string/settings_float_nav" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_settings_scope_sync"
+            android:summary="@string/settings_scope_sync_desc"
+            android:title="@string/settings_scope_sync" />
+
+        <Preference
+            android:key="prefs_key_settings_scope"
+            android:title="@string/settings_scope" />
+
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_settings_icon"

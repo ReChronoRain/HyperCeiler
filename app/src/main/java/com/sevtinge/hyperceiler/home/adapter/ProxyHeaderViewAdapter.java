@@ -13,8 +13,13 @@ import fan.recyclerview.card.CardGroupAdapter;
 
 public class ProxyHeaderViewAdapter extends CardGroupAdapter {
 
+    private static final int VIEW_TYPE_REMOVABLE_HEADER = 256;
+    private static final int VIEW_TYPE_DEFERRED_HEADER = 512;
+    private static final int VIEW_TYPE_FOOTER_HINT = 768;
+
     final RecyclerView.Adapter<?> mBaseAdapter;
     private final HashMap<Integer, View> mHeaderViews = new HashMap<>();
+    private View mFooterHintView;
     private boolean isRemovableViewExist = false;
 
 
@@ -63,17 +68,20 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
 
     @Override
     public int getItemCount() {
-        return mHeaderViews.size() + mBaseAdapter.getItemCount();
+        return mHeaderViews.size() + mBaseAdapter.getItemCount() + (mFooterHintView != null ? 1 : 0);
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == 256 && mHeaderViews.get(256) != null) {
-            return new FixedViewHolder(mHeaderViews.get(256));
+        if (viewType == VIEW_TYPE_REMOVABLE_HEADER && mHeaderViews.get(VIEW_TYPE_REMOVABLE_HEADER) != null) {
+            return new FixedViewHolder(mHeaderViews.get(VIEW_TYPE_REMOVABLE_HEADER));
         }
-        if (viewType == 512 && mHeaderViews.get(512) != null) {
-            return new FixedViewHolder(mHeaderViews.get(512));
+        if (viewType == VIEW_TYPE_DEFERRED_HEADER && mHeaderViews.get(VIEW_TYPE_DEFERRED_HEADER) != null) {
+            return new FixedViewHolder(mHeaderViews.get(VIEW_TYPE_DEFERRED_HEADER));
+        }
+        if (viewType == VIEW_TYPE_FOOTER_HINT && mFooterHintView != null) {
+            return new FixedViewHolder(mFooterHintView);
         }
         return mBaseAdapter.onCreateViewHolder(parent, viewType);
     }
@@ -100,36 +108,59 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
     public int getItemViewType(int position) {
         int size = mHeaderViews.size();
         if (position < size) {
-            return (position == 0 && isRemovableViewExist) ? 256 : 512;
+            return (position == 0 && isRemovableViewExist) ? VIEW_TYPE_REMOVABLE_HEADER : VIEW_TYPE_DEFERRED_HEADER;
+        }
+        int footerPosition = size + mBaseAdapter.getItemCount();
+        if (mFooterHintView != null && position == footerPosition) {
+            return VIEW_TYPE_FOOTER_HINT;
         }
         return mBaseAdapter.getItemViewType(position - size);
     }
 
     @Override
     public long getItemId(int position) {
-        int size = position - mHeaderViews.size();
-        if (size < 0 || size >= mBaseAdapter.getItemCount()) {
+        int basePosition = position - mHeaderViews.size();
+        if (basePosition < 0 || basePosition >= mBaseAdapter.getItemCount()) {
             return -1L;
         }
-        return mBaseAdapter.getItemId(size);
+        return mBaseAdapter.getItemId(basePosition);
     }
 
     public void addRemovableHintView(View view) {
         isRemovableViewExist = true;
-        addHeaderView(0, 256, view);
+        addHeaderView(0, VIEW_TYPE_REMOVABLE_HEADER, view);
     }
 
     public void removeRemovableHintView(View view) {
         isRemovableViewExist = false;
-        removeHeaderView(0, 256, view);
+        removeHeaderView(0, VIEW_TYPE_REMOVABLE_HEADER, view);
     }
 
     public void addDeferedSetupView(View view) {
-        addHeaderView(1, 512, view);
+        addHeaderView(1, VIEW_TYPE_DEFERRED_HEADER, view);
     }
 
     public void removeDeferedSetupView(View view) {
-        removeHeaderView(1, 512, view);
+        removeHeaderView(1, VIEW_TYPE_DEFERRED_HEADER, view);
+    }
+
+    public void addFooterHintView(View view) {
+        if (mFooterHintView == view) {
+            return;
+        }
+        mFooterHintView = view;
+        notifyDataSetChanged();
+    }
+
+    public void removeFooterHintView(View view) {
+        if (mFooterHintView == view) {
+            mFooterHintView = null;
+            notifyDataSetChanged();
+        }
+    }
+
+    public View getFooterHintView() {
+        return mFooterHintView;
     }
 
     public void addHeaderView(int i, int i2, View view) {
@@ -143,7 +174,7 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
     }
 
     public View getRemoveHintView() {
-        return mHeaderViews.get(256);
+        return mHeaderViews.get(VIEW_TYPE_REMOVABLE_HEADER);
     }
 
     public void removeHeaderView(int i, int i2, View view) {
@@ -155,9 +186,9 @@ public class ProxyHeaderViewAdapter extends CardGroupAdapter {
 
     @Override
     public int getItemViewGroup(int position) {
-        int size = position - mHeaderViews.size();
-        if (size >= 0 && size < mBaseAdapter.getItemCount()) {
-            return ((HeaderAdapter) mBaseAdapter).getHeaders().get(size).groupId;
+        int basePosition = position - mHeaderViews.size();
+        if (basePosition >= 0 && basePosition < mBaseAdapter.getItemCount()) {
+            return ((HeaderAdapter) mBaseAdapter).getHeaders().get(basePosition).groupId;
         }
         return Integer.MIN_VALUE;
     }
