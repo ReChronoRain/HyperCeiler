@@ -21,10 +21,11 @@ package com.sevtinge.hyperceiler.libhook.app.SystemUI;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.CustomCarrierText;
@@ -96,7 +97,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetw
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetworkSpeedStyle;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 
@@ -113,7 +113,7 @@ public class SystemUIB extends BaseLoad {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // Actions
-        initHook(new StatusBarActions(), true);
+        initHook(new StatusBarActionBootstrap(), true);
 
         // 锁屏
         initHook(HideLockScreenHint.INSTANCE, PrefsBridge.getBoolean("system_ui_lock_screen_unlock_tip"));

@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
@@ -86,10 +86,10 @@ public class HotSeatSwipe extends BaseHook {
             if (e1 == null || e2 == null) return false;
 
             if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE_HORIZ && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
-                return GlobalActions.handleAction(helperContext, "home_gesture_right_swipe");
+                return GlobalActionBridge.handleAction(helperContext, "home_gesture_right_swipe");
 
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE_HORIZ && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY)
-                return GlobalActions.handleAction(helperContext, "home_gesture_left_swipe");
+                return GlobalActionBridge.handleAction(helperContext, "home_gesture_left_swipe");
 
             return false;
         }

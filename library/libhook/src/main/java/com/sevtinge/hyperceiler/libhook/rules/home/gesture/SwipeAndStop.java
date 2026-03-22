@@ -24,9 +24,9 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.n
 import android.content.Context;
 import android.os.Bundle;
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
@@ -66,7 +66,7 @@ public class SwipeAndStop extends BaseHook {
                     Context mContext = (Context) param.getArgs()[0];
                     Bundle bundle = new Bundle();
                     bundle.putInt("inDirection", (int) param.getArgs()[2]);
-                    if (GlobalActions.handleAction(mContext, "pref_key_controls_fsg_swipeandstop")) {
+                    if (GlobalActionBridge.handleAction(mContext, "pref_key_controls_fsg_swipeandstop")) {
                         Class<?> Task = findClassIfExists("com.android.systemui.shared.recents.model.Task");
                         param.setResult(newInstance(Task));
                         return;

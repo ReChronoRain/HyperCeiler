@@ -136,28 +136,32 @@ public class FreeformShortcutMenu extends BaseHook {
     private void hookAppDetailsClick() {
         if (mAppDetailsShortcutMenuItem == null) return;
 
-        findAndHookMethod(mAppDetailsShortcutMenuItem, "getOnClickListener",
-            new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (mContext == null) return;
+        findAndChainMethod(mAppDetailsShortcutMenuItem, "getOnClickListener", chain -> {
+            if (mContext == null) {
+                return chain.proceed();
+            }
 
-                    Resources modRes = getModuleRes(mContext);
-                    Object shortcut = param.getThisObject();
-                    CharSequence title = (CharSequence) callMethod(shortcut, "getShortTitle");
+            Resources modRes = getModuleRes(mContext);
+            Object shortcut = chain.getThisObject();
+            CharSequence title = (CharSequence) callMethod(shortcut, "getShortTitle");
 
-                    if (title == null) return;
+            if (title == null) {
+                return chain.proceed();
+            }
 
-                    String titleStr = title.toString();
-                    if (titleStr.contentEquals(modRes.getString(R.string.share_center))) {
-                        callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", mContext);
-                    } else if (titleStr.contentEquals(modRes.getString(R.string.floating_window))) {
-                        param.setResult(createFreeformClickListener(shortcut, false));
-                    } else if (titleStr.contentEquals(modRes.getString(R.string.new_task))) {
-                        param.setResult(createFreeformClickListener(shortcut, true));
-                    }
-                }
-            });
+            String titleStr = title.toString();
+            if (titleStr.contentEquals(modRes.getString(R.string.share_center))) {
+                callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", mContext);
+                return chain.proceed();
+            }
+            if (titleStr.contentEquals(modRes.getString(R.string.floating_window))) {
+                return createFreeformClickListener(shortcut, false);
+            }
+            if (titleStr.contentEquals(modRes.getString(R.string.new_task))) {
+                return createFreeformClickListener(shortcut, true);
+            }
+            return chain.proceed();
+        });
     }
 
     private void hookMaxShortcutCount() {

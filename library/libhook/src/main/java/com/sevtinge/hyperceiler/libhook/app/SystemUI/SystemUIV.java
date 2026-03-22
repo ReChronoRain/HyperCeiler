@@ -24,12 +24,13 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isH
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.StatusBarActions;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.BlurEnable;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ControlCenterStyle;
@@ -124,19 +125,23 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NewNetw
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.MediaControlBgFactory;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 
 @HookBase(targetPackage = "com.android.systemui", maxSdk = 35)
 public class SystemUIV extends BaseLoad {
+
+    public SystemUIV() {
+        super(true);
+    }
+
     @Override
     public void onPackageLoaded() {
         MiuiStub.createHook();
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // Actions
-        initHook(new StatusBarActions(), true);
+        initHook(new StatusBarActionBootstrap(), true);
 
         // 锁屏
         initHook(CustomizeBottomButton.INSTANCE, Keyguard.getLeftButtonType() != 0 && !isMoreSmallVersion(200, 2f));
