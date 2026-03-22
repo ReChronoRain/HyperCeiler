@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -139,6 +140,7 @@ public class BackupUtils {
             Object value = jsonObject.get(key);
 
             switch (value) {
+                case JSONArray jsonArray -> PrefsBridge.putByApp(key, jsonArrayToStringSet(jsonArray));
                 case String s -> {
                     if (s.contains("[") && s.contains("]")) {
                         value = s.replace("[", "").replace("]", "").replace(" ", "");
@@ -169,7 +171,12 @@ public class BackupUtils {
             if (shouldSkipKey(entry.getKey())) {
                 continue;
             }
-            jsonObject.put(entry.getKey(), entry.getValue());
+            Object value = entry.getValue();
+            if (value instanceof Set<?>) {
+                jsonObject.put(entry.getKey(), new JSONArray((Set<?>) value));
+            } else {
+                jsonObject.put(entry.getKey(), value);
+            }
         }
         bufferedWriter.write(jsonObject.toString());
         bufferedWriter.close();
@@ -196,7 +203,9 @@ public class BackupUtils {
             Object value = jsonObject.get(key);
             // https://stackoverflow.com/a/78608931
             //noinspection IfCanBeSwitch
-            if (value instanceof String) {
+            if (value instanceof JSONArray jsonArray) {
+                PrefsBridge.putByApp(key, jsonArrayToStringSet(jsonArray));
+            } else if (value instanceof String) {
                 if (((String) value).contains("[") && ((String) value).contains("]")) {
                     value = ((String) value).replace("[", "").replace("]", "").replace(" ", "");
                     String[] array = ((String) value).split(",");
@@ -210,6 +219,8 @@ public class BackupUtils {
                 PrefsBridge.putByApp(key, value);
             } else if (value instanceof Integer) {
                 PrefsBridge.putByApp(key, value);
+            } else if (value instanceof Long) {
+                PrefsBridge.putByApp(key, value);
             }
         }
         bufferedReader.close();
@@ -219,5 +230,16 @@ public class BackupUtils {
         return KEY_ALLOW_HOOK.equals(key)
             || KEY_FRAMEWORK_ALLOW_HOOK.equals(key)
             || RUNTIME_FRAMEWORK_KEYS.contains(key);
+    }
+
+    private static Set<String> jsonArrayToStringSet(JSONArray jsonArray) throws JSONException {
+        Set<String> stringSet = new LinkedHashSet<>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            String item = jsonArray.optString(i, null);
+            if (item != null) {
+                stringSet.add(item);
+            }
+        }
+        return stringSet;
     }
 }

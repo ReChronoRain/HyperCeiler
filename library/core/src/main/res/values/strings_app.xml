@@ -111,7 +111,18 @@
     <string name="help_cant_see_apps_scope">Not selected as scoped:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">To maintain the simplicity and usability of the homepage, we\'ve hidden access to the following types of app features:\n\n • Those currently disabled or hidden\n • Those not found in your device\n • Those incompatible with the current version of the system or the app\n • Not selected as scoped\n\nPlease troubleshoot based on the above information, restart HyperCeiler, and try again. If you still can\'t find the app features, it may be a bug. Please provide timely and effective feedback to us.\n\nThere are currently no hidden features!</string>
     <string name="help_cant_see_apps_switch">Hide this help in homepage</string>
-    <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Reboot app to apply.</string>
+    <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Return to the homepage to apply.</string>
+    <!-- Scope -->
+    <string name="settings_scope">Scope</string>
+    <string name="settings_scope_sync">Scope sync</string>
+    <string name="settings_scope_sync_desc">Homepage selections will stay in sync with scope.</string>
+    <string name="scope_batch_no_changes">No scope changes.</string>
+    <string name="scope_batch_service_unavailable">LSPosed service not available.</string>
+    <string name="scope_batch_remove_failed">Failed to remove scope.</string>
+    <string name="scope_batch_updated">Scope updated.</string>
+    <string name="scope_batch_request_not_approved">Some scope requests were not approved: %1$s</string>
+    <string name="scope_batch_update_failed">Failed to update scope: %1$s</string>
+    <string name="scope_batch_request_failed">Failed to request scope.</string>
     <string name="help_support_version_title">Current app version support system version list</string>
     <string name="help_current_system_version">The system version you are currently using is:</string>
     <string name="help_full_support_desc">The current app version is fully compatible with the following system versions:</string>

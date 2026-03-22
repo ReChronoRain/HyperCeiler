@@ -37,10 +37,16 @@ import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.log.LogLevelManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
+import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
+import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 import fan.appcompat.app.AlertDialog;
 import fan.internal.utils.ViewUtils;
@@ -58,6 +64,8 @@ public class SettingsFragment extends BasePreferenceFragment
 
     DropDownPreference mLogLevel;
     DropDownPreference mLanguage;
+    SwitchPreference mScopeSyncPreference;
+    Preference mScopePreference;
 
     // 记录当前操作类型：0-备份，1-恢复
     private int currentAction = -1;
@@ -97,6 +105,8 @@ public class SettingsFragment extends BasePreferenceFragment
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
         mFloatBottomPreference = findPreference("prefs_key_settings_float_nav");
         mLogLevel = findPreference("prefs_key_log_level_v2");
+        mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
+        mScopePreference = findPreference("prefs_key_settings_scope");
 
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
@@ -134,6 +144,29 @@ public class SettingsFragment extends BasePreferenceFragment
             Settings.Global.putBoolean(getContext().getContentResolver(), "settings_float_nav", (Boolean) newValue);
             return true;
         });
+
+        if (mScopeSyncPreference != null) {
+            mScopeSyncPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+                if (Boolean.TRUE.equals(newValue)) {
+                    HeaderManager.syncHeaderPreferencesToCurrentScope(requireContext());
+                }
+                return true;
+            });
+        }
+
+        if (mScopePreference != null) {
+            mScopePreference.setOnPreferenceClickListener(preference -> {
+                Intent intent = new Intent(requireContext(), ScopePickerActivity.class);
+                if (HeaderManager.isScopeSyncEnabled()) {
+                    intent.putStringArrayListExtra(
+                        ScopePickerActivity.EXTRA_EXCLUDED_PACKAGES,
+                        new ArrayList<>(HeaderManager.getHomeManagedPackages(requireContext()))
+                    );
+                }
+                startActivity(intent);
+                return true;
+            });
+        }
 
         Preference backPreference = findPreference("prefs_key_back");
         Preference restPreference = findPreference("prefs_key_rest");
@@ -259,7 +292,24 @@ public class SettingsFragment extends BasePreferenceFragment
     private void processRestore(Uri uri) {
         try {
             BackupUtils.handleReadDocument(requireContext(), uri);
-            showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message));
+            if (!HeaderManager.isScopeSyncEnabled()) {
+                showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message));
+                return;
+            }
+
+            Set<String> currentSelected = HeaderManager.getCurrentScopeManagedPackages(requireContext());
+            Set<String> targetSelected = HeaderManager.getStoredScopeManagedPackages(requireContext());
+            ScopeManager.applyScopeDiffAsync(requireContext(), currentSelected, targetSelected, (success, message) -> {
+                if (!isAdded()) {
+                    return;
+                }
+
+                String restoreMessage = getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message);
+                if (!success && message != null && !message.isEmpty()) {
+                    restoreMessage = restoreMessage + "\n\n" + message;
+                }
+                showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), restoreMessage);
+            });
         } catch (Exception e) {
             showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_failed), e.getMessage());
         }

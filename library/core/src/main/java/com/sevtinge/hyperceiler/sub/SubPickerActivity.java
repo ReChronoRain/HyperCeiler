@@ -53,7 +53,6 @@ import com.sevtinge.hyperceiler.utils.ThreadUtils;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
@@ -76,6 +75,7 @@ public class SubPickerActivity extends AppCompatActivity
     public static final int INPUT_MODE = 3;
     public static final int PROCESS_TEXT_MODE = 4;
     public static final int ALL_APPS_MODE = 5;
+    public static final int SCOPE_MODE = 6;
 
     private String mKey;
     private int mModeSelection;
@@ -100,6 +100,9 @@ public class SubPickerActivity extends AppCompatActivity
         setExtraHorizontalPaddingEnable(true);
 
         extractIntentData();
+        if (isFinishing()) {
+            return;
+        }
         initializeViews();
         initializeData();
     }
@@ -291,7 +294,7 @@ public class SubPickerActivity extends AppCompatActivity
 
         // 3. 移动选中的应用到顶部
         if (mKey != null) {
-            Set<String> selectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
+            Set<String> selectedApps = PrefsBridge.getStringSet(mKey);
 
             List<AppData> selectedAppList = new ArrayList<>();
             iterator = data.iterator();
