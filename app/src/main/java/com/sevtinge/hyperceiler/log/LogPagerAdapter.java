@@ -47,8 +47,11 @@ public class LogPagerAdapter extends FragmentStateAdapter {
      * 获取 ViewPager 当前正在显示的 Fragment 实例
      */
     public LogListFragment getCurrentFragment(ViewPager viewPager) {
-        // 利用 instantiateItem 寻找当前位置的 Fragment 实例
-        Object item = instantiateItem(viewPager, viewPager.getCurrentItem());
+        return getFragment(viewPager, viewPager.getCurrentItem());
+    }
+
+    public LogListFragment getFragment(ViewPager viewPager, int position) {
+        Object item = instantiateItem(viewPager, position);
         if (item instanceof LogListFragment) {
             return (LogListFragment) item;
         }

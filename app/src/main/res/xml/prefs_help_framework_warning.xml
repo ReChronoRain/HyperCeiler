@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_layout_framework_compatible"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/help_framework_warning_card_compatible" />
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_layout_framework_service_error"
+        android:layout="@layout/headtip_notice"
+        android:title="@string/help_framework_warning_card_service_error" />
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_layout_framework_pending"
+        android:layout="@layout/headtip_notice"
+        android:title="@string/help_framework_warning_card_pending" />
+
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_layout_framework_incompatible"
+        android:layout="@layout/headtip_warn"
+        android:title="@string/help_framework_warning_card_incompatible" />
+
+    <Preference
+        android:enabled="false"
+        android:key="prefs_key_textview_help_framework_warning"
+        android:layout="@layout/preference_help"
+        android:summary=""
+        android:title="@string/help_framework_warning_title" />
+
+</PreferenceScreen>

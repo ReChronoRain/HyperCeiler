@@ -53,6 +53,16 @@ public class BackupUtils {
     public static final int CREATE_DOCUMENT_CODE = 255774;
     public static final int OPEN_DOCUMENT_CODE = 277451;
     public static final String BACKUP_FILE_NAME = "HyperCeiler_settings_backup";
+    private static final String KEY_ALLOW_HOOK = "prefs_key_allow_hook";
+    private static final String KEY_FRAMEWORK_ALLOW_HOOK = "prefs_key_framework_api_allow_hook";
+    private static final Set<String> RUNTIME_FRAMEWORK_KEYS = Set.of(
+        "prefs_key_framework_check_reason",
+        "prefs_key_framework_check_name",
+        "prefs_key_framework_check_version",
+        "prefs_key_framework_check_version_code",
+        "prefs_key_framework_check_api_version",
+        "prefs_key_framework_check_detail"
+    );
 
     // 获取备份用的 Intent
     public static Intent getCreateDocumentIntent() {
@@ -90,7 +100,7 @@ public class BackupUtils {
             JSONObject jsonObject = new JSONObject();
             for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
                 String key = entry.getKey();
-                if ("prefs_key_allow_hook".equals(key)) continue;
+                if (shouldSkipKey(key)) continue;
 
                 Object value = entry.getValue();
                 // 针对 StringSet 做特殊 JSON 处理，存为 JSONArray
@@ -124,7 +134,7 @@ public class BackupUtils {
 
         while (keys.hasNext()) {
             String key = keys.next();
-            if ("prefs_key_allow_hook".equals(key)) continue;
+            if (shouldSkipKey(key)) continue;
 
             Object value = jsonObject.get(key);
 
@@ -156,7 +166,7 @@ public class BackupUtils {
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
         JSONObject jsonObject = new JSONObject();
         for (Map.Entry<String, ?> entry : PrefsBridge.getAll().entrySet()) {
-            if ("prefs_key_allow_hook".equals(entry.getKey())) {
+            if (shouldSkipKey(entry.getKey())) {
                 continue;
             }
             jsonObject.put(entry.getKey(), entry.getValue());
@@ -180,7 +190,7 @@ public class BackupUtils {
         Iterator<String> keys = jsonObject.keys();
         while (keys.hasNext()) {
             String key = keys.next();
-            if ("prefs_key_allow_hook".equals(key)) {
+            if (shouldSkipKey(key)) {
                 continue;
             }
             Object value = jsonObject.get(key);
@@ -203,5 +213,11 @@ public class BackupUtils {
             }
         }
         bufferedReader.close();
+    }
+
+    private static boolean shouldSkipKey(String key) {
+        return KEY_ALLOW_HOOK.equals(key)
+            || KEY_FRAMEWORK_ALLOW_HOOK.equals(key)
+            || RUNTIME_FRAMEWORK_KEYS.contains(key);
     }
 }
