@@ -25,7 +25,7 @@ object FuckSubScreenWhiteList : BaseHook() {
         if (notGotoHome) {
             asI.hookAllMethods("handlerTransitionFinished") {
                 before { param ->
-                    param.args[4] = false
+                    param.args[3] = false
                 }
             }
 
