@@ -24,7 +24,9 @@ public class AppDataManager {
     public List<AppData> getAppInfo(int modeSelection) {
         try {
             return switch (modeSelection) {
-                case SubPickerActivity.LAUNCHER_MODE, SubPickerActivity.CALLBACK_MODE,
+                case SubPickerActivity.LAUNCHER_MODE,
+                     SubPickerActivity.CALLBACK_MODE,
+                     SubPickerActivity.LAUNCHER_PICK_MODE,
                      SubPickerActivity.INPUT_MODE -> getLauncherApps();
                 case SubPickerActivity.APP_OPEN_MODE -> getOpenWithApps();
                 case SubPickerActivity.PROCESS_TEXT_MODE -> getProcessTextApps();
