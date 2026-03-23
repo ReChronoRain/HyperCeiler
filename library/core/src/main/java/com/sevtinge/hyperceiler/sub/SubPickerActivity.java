@@ -76,6 +76,7 @@ public class SubPickerActivity extends AppCompatActivity
     public static final int PROCESS_TEXT_MODE = 4;
     public static final int ALL_APPS_MODE = 5;
     public static final int SCOPE_MODE = 6;
+    public static final int LAUNCHER_PICK_MODE = 7;
 
     private String mKey;
     private int mModeSelection;
@@ -126,7 +127,8 @@ public class SubPickerActivity extends AppCompatActivity
 
     private boolean isKeyRequiredMode(int mode) {
         return mode == APP_OPEN_MODE || mode == LAUNCHER_MODE ||
-            mode == INPUT_MODE || mode == PROCESS_TEXT_MODE || mode == ALL_APPS_MODE;
+            mode == INPUT_MODE || mode == PROCESS_TEXT_MODE ||
+            mode == ALL_APPS_MODE || mode == LAUNCHER_PICK_MODE;
     }
 
     private void initializeViews() {
@@ -186,7 +188,7 @@ public class SubPickerActivity extends AppCompatActivity
 
     private void handleAppItemClick(AppData appData) {
         switch (mModeSelection) {
-            case CALLBACK_MODE -> sendCallbackResult(appData);
+            case CALLBACK_MODE, LAUNCHER_PICK_MODE -> sendCallbackResult(appData);
             case INPUT_MODE -> showEditDialog(appData);
             // LAUNCHER_MODE, APP_OPEN_MODE, PROCESS_TEXT_MODE 已经在Adapter中处理
         }
@@ -292,7 +294,7 @@ public class SubPickerActivity extends AppCompatActivity
             data.add(0, tagApp);
         }
 
-        // 3. 移动选中的应用到顶部
+        // 3. 移动多选模式已选应用到顶部
         if (mKey != null) {
             Set<String> selectedApps = PrefsBridge.getStringSet(mKey);
 
@@ -309,6 +311,33 @@ public class SubPickerActivity extends AppCompatActivity
             }
 
             data.addAll(0, selectedAppList);
+        }
+
+        // 4. 手势应用选择保留 launcher 列表样式，但当前已选项需要置顶
+        if (mModeSelection == LAUNCHER_PICK_MODE && mKey != null) {
+            String selectedApp = PrefsBridge.getString(mKey + "_app", "");
+            if (!selectedApp.isEmpty()) {
+                String[] selectedParts = selectedApp.split("\\|", 2);
+                String selectedPackage = selectedParts.length > 0 ? selectedParts[0] : "";
+                String selectedActivity = selectedParts.length > 1 ? selectedParts[1] : "";
+
+                AppData selectedAppData = null;
+                iterator = data.iterator();
+                while (iterator.hasNext()) {
+                    AppData app = iterator.next();
+                    if (selectedPackage.equals(app.packageName) &&
+                        selectedActivity.equals(app.activityName)) {
+                        app.isSelected = true;
+                        selectedAppData = app;
+                        iterator.remove();
+                        break;
+                    }
+                }
+
+                if (selectedAppData != null) {
+                    data.add(0, selectedAppData);
+                }
+            }
         }
 
         return data;
@@ -405,9 +434,23 @@ public class SubPickerActivity extends AppCompatActivity
 
     @Override
     public void sendMsgToActivity(Drawable appIcon, String appName, String appPackageName, String appVersion, String appActivityName) {
-        Bitmap bitmap = BitmapUtils.drawableToBitmap(appIcon);
+        Drawable safeIcon = appIcon;
+        if (safeIcon == null && appPackageName != null && !appPackageName.isEmpty()) {
+            try {
+                safeIcon = getPackageManager().getApplicationIcon(appPackageName);
+            } catch (Exception e) {
+                AndroidLog.w(TAG, "sendMsgToActivity: failed to load app icon for " + appPackageName, e);
+            }
+        }
+        if (safeIcon == null) {
+            safeIcon = getDrawable(android.R.drawable.sym_def_app_icon);
+        }
+
         Intent intent = new Intent();
-        intent.putExtra("appIcon", BitmapUtils.Bitmap2Bytes(bitmap));
+        if (safeIcon != null) {
+            Bitmap bitmap = BitmapUtils.drawableToBitmap(safeIcon);
+            intent.putExtra("appIcon", BitmapUtils.Bitmap2Bytes(bitmap));
+        }
         intent.putExtra("appName", appName);
         intent.putExtra("appPackageName", appPackageName);
         intent.putExtra("appVersion", appVersion);

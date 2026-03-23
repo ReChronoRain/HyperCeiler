@@ -264,6 +264,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             // 先尝试从缓存获取
             android.graphics.drawable.Drawable cached = AppIconCache.getCached(appInfo.packageName);
             if (cached != null) {
+                appInfo.icon = cached;
                 mAppIcon.setImageDrawable(cached);
                 return;
             }
@@ -278,6 +279,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                 // 检查 ViewHolder 是否已被复用
                 if (appInfo.packageName.equals(mAppIcon.getTag())) {
                     if (icon != null) {
+                        appInfo.icon = icon;
                         mAppIcon.setImageDrawable(icon);
                     }
                 }
@@ -289,7 +291,8 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                 mMode == SubPickerActivity.APP_OPEN_MODE ||
                 mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
                 mMode == SubPickerActivity.ALL_APPS_MODE ||
-                mMode == SubPickerActivity.SCOPE_MODE);
+                mMode == SubPickerActivity.SCOPE_MODE ||
+                mMode == SubPickerActivity.LAUNCHER_PICK_MODE);
 
             mSelectCheckbox.setVisibility(shouldShowCheckbox ? View.VISIBLE : View.GONE);
 
@@ -331,7 +334,13 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             mSelectCheckbox.setOnClickListener(v -> {
                 int position = getAdapterPosition();
                 if (position != RecyclerView.NO_POSITION) {
-                    toggleSelection(position);
+                    if (mMode == SubPickerActivity.LAUNCHER_PICK_MODE) {
+                        if (position < mAppDataList.size() && mOnItemClickListener != null) {
+                            mOnItemClickListener.onItemClick(v, mAppDataList.get(position), position);
+                        }
+                    } else {
+                        toggleSelection(position);
+                    }
                 }
             });
         }
