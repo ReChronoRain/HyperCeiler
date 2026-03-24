@@ -19,21 +19,28 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.beauty
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 
 object BeautyPc : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("BeautyPc") {
+    override fun useDexKit() = true
+    private lateinit var beautyPcMethod: Method
+
+    override fun initDexKit(): Boolean {
+        beautyPcMethod = requiredMember("BeautyPc") {
             it.findMethod {
                 matcher {
                     usingEqStrings("persist.vendor.camera.facetracker.support")
                     returnType = "boolean"
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        beautyPcMethod.createHook {
             returnConstant(true)
         }
     }

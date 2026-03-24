@@ -19,14 +19,20 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 // by YifePlayte
 object RemoveGameToast : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        removeMethod1
+        removeMethod2
+        return true
+    }
     private val removeMethod1 by lazy<Method> {
-        DexKit.findMember("gameToast1") {
+        requiredMember("gameToast1") {
             it.findMethod {
                 matcher {
                     usingStrings = listOf("showWildModeToastView: ")
@@ -36,7 +42,7 @@ object RemoveGameToast : BaseHook() {
     }
 
     private val removeMethod2 by lazy<Method> {
-        DexKit.findMember("gameToast2") {
+        requiredMember("gameToast2") {
             it.findMethod {
                 matcher {
                     usingStrings = listOf("cancel game toast , isCanceled : ")
@@ -55,3 +61,4 @@ object RemoveGameToast : BaseHook() {
         }
     }
 }
+

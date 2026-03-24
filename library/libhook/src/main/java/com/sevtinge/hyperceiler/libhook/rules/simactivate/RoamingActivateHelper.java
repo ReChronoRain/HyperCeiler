@@ -31,7 +31,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -56,15 +55,26 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class RoamingActivateHelper extends BaseHook {
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
     private final List<String> mChinaIccidStartsWithList = List.of("8986");
     private final List<String> mChinaTeleZoneCodeList = List.of("+86", "86", "0086");
     private final int slotId = 1;
     private final boolean isRadical = PrefsBridge.getBoolean("sim_activation_service_disable_activate_when_roaming_radical");
+    private Method mStartActivateSimMethod;
+    private Method mCustomGetterMethod;
+    private Method mSlotIdGetterMethod;
+    private Method mStartActivateSimImsMethod;
+    private Field mActivateSimSubIdField;
+    private Field mActivateSimContextField;
 
 
     @Override
-    public void init() {
-        Method method = DexKit.findMember("StartActivateSim", new IDexKit() {
+    protected boolean initDexKit() {
+        mStartActivateSimMethod = requiredMember("StartActivateSim", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -74,8 +84,7 @@ public class RoamingActivateHelper extends BaseHook {
                 return methodData;
             }
         });
-
-        Method method2 = DexKit.findMember("CustomGetter", new IDexKit() {
+        mCustomGetterMethod = requiredMember("CustomGetter", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -90,8 +99,7 @@ public class RoamingActivateHelper extends BaseHook {
                 return methodData;
             }
         });
-
-        Method method3 = DexKit.findMember("SlotIdGetter", new IDexKit() {
+        mSlotIdGetterMethod = requiredMember("SlotIdGetter", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -101,8 +109,7 @@ public class RoamingActivateHelper extends BaseHook {
                 return methodData;
             }
         });
-
-        Method method4 = DexKit.findMember("StartActivateSimIms", new IDexKit() {
+        mStartActivateSimImsMethod = requiredMember("StartActivateSimIms", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -112,8 +119,7 @@ public class RoamingActivateHelper extends BaseHook {
                 return methodData;
             }
         });
-
-        Field field = DexKit.findMember("ActivateSimSubId", new IDexKit() {
+        mActivateSimSubIdField = requiredMember("ActivateSimSubId", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -130,8 +136,7 @@ public class RoamingActivateHelper extends BaseHook {
                 return fieldData;
             }
         });
-
-        Field field2 = DexKit.findMember("ActivateSimContext", new IDexKit() {
+        mActivateSimContextField = requiredMember("ActivateSimContext", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -145,17 +150,20 @@ public class RoamingActivateHelper extends BaseHook {
                 return fieldData;
             }
         });
+        return true;
+    }
 
-        hookMethod(method, new IMethodHook() {
+    @Override
+    public void init() {
+        hookMethod(mStartActivateSimMethod, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
             public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
-                int subId = (int) getObjectField(param.getThisObject(), field.getName());
-                //XposedLog.d(TAG, getPackageName(), "SIM " + subId);
-                Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
-                Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
+                int subId = (int) getObjectField(param.getThisObject(), mActivateSimSubIdField.getName());
+                Object contextGetter = callStaticMethod(mCustomGetterMethod.getDeclaringClass(), mCustomGetterMethod.getName());
+                Object originSlotId = EzxHelpUtils.findMethodBestMatch(mSlotIdGetterMethod.getDeclaringClass(), mSlotIdGetterMethod.getName(), subId).invoke(contextGetter, subId);
                 int slotId = (int) originSlotId;
-                Context context = (Context) getObjectField(param.getThisObject(), field2.getName());
+                Context context = (Context) getObjectField(param.getThisObject(), mActivateSimContextField.getName());
                 if (isRoaming(context, slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) {
                     XposedLog.d(TAG, getPackageName(), "Roaming SIM, skip activate.");
                     param.setResult(null);
@@ -164,16 +172,16 @@ public class RoamingActivateHelper extends BaseHook {
         });
 
         //findAndHookMethod("com.xiaomi.activate.simactivate.q", "C", new IMethodHook() {
-        hookMethod(method4, new IMethodHook() {
+        hookMethod(mStartActivateSimImsMethod, new IMethodHook() {
             @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
             @Override
             public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
-                int subId = (int) getObjectField(param.getThisObject(), field.getName());
+                int subId = (int) getObjectField(param.getThisObject(), mActivateSimSubIdField.getName());
                 //XposedLog.d(TAG, getPackageName(), "IMS SIM " + subId);
-                Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
-                Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
+                Object contextGetter = callStaticMethod(mCustomGetterMethod.getDeclaringClass(), mCustomGetterMethod.getName());
+                Object originSlotId = EzxHelpUtils.findMethodBestMatch(mSlotIdGetterMethod.getDeclaringClass(), mSlotIdGetterMethod.getName(), subId).invoke(contextGetter, subId);
                 int slotId = (int) originSlotId;
-                Context context = (Context) getObjectField(param.getThisObject(), field2.getName());
+                Context context = (Context) getObjectField(param.getThisObject(), mActivateSimContextField.getName());
                 if (isRoaming(context, slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) {
                     XposedLog.d(TAG, getPackageName(), "IMS Roaming SIM, skip activate.");
                     param.setResult(null);

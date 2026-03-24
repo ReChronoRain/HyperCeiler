@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.n
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -38,9 +37,17 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BypassAdbInstallVerify extends BaseHook {
+    private Method mAdbInstallNetworkVerifyMethod;
+    private Method mAdbInstallCallerMethod;
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("AdbInstallNetworkVerify", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mAdbInstallNetworkVerifyMethod = requiredMember("AdbInstallNetworkVerify", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -52,7 +59,7 @@ public class BypassAdbInstallVerify extends BaseHook {
                 return methodData;
             }
         });
-        Method method2 = DexKit.findMember("AdbInstallCaller", new IDexKit() {
+        mAdbInstallCallerMethod = requiredMember("AdbInstallCaller", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -62,7 +69,12 @@ public class BypassAdbInstallVerify extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method1, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mAdbInstallNetworkVerifyMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 Object instance = param.getThisObject();
@@ -74,7 +86,7 @@ public class BypassAdbInstallVerify extends BaseHook {
 
             }
         });
-        hookMethod(method2, new IMethodHook() {
+        hookMethod(mAdbInstallCallerMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(null);

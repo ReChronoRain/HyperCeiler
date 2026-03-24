@@ -26,9 +26,6 @@ import com.sevtinge.hyperceiler.libhook.rules.externalstorage.DisableFolderCantU
 @HookBase(targetPackage = "com.android.externalstorage")
 public class ExternalStorage extends BaseLoad {
 
-    public ExternalStorage() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

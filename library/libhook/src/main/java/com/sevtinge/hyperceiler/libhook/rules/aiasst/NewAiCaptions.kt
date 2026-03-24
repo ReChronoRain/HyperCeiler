@@ -19,18 +19,24 @@
 package com.sevtinge.hyperceiler.libhook.rules.aiasst
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object NewAiCaptions : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        getMethod
+        getMethodNew
+        return true
+    }
     private val mSupportAiSubtitlesUtils by lazy {
         findClassIfExists("com.xiaomi.aiasst.vision.utils.SupportAiSubtitlesUtils")
     }
 
     private val getMethod by lazy<Method> {
-        DexKit.findMember("AiCaptionsModel") {
+        requiredMember("AiCaptionsModel") {
            it.findMethod {
                matcher {
                    // SupportAiSubtitlesUtils
@@ -44,7 +50,7 @@ object NewAiCaptions : BaseHook() {
     }
 
     private val getMethodNew by lazy<Method> {
-        DexKit.findMember("AiCaptionsModelNew") {
+        requiredMember("AiCaptionsModelNew") {
             it.findClass {
                 matcher {
                     addEqString("SupportAiSubtitlesUtils")
@@ -94,3 +100,4 @@ object NewAiCaptions : BaseHook() {
         }
     }
 }
+

@@ -25,9 +25,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securityadd.DisableGameBoosterAds;
 
 @HookBase(targetPackage = "com.miui.securityadd")
 public class SecurityAdd extends BaseLoad {
-    public SecurityAdd() {
-        super(true);
-    }
+
 
     @Override
     public void onPackageLoaded() {

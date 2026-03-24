@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -33,10 +32,17 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 
 public class UnlockCarSicknessRelief extends BaseHook {
-    @Override
-    public void init() {
+    private Method mUnlockCarSicknessReliefMethod;
+    private Method mUnlockCarSicknessRemindTimingMethod;
 
-        Method method1 = DexKit.findMember("UnlockCarSicknessRelief", new IDexKit() {
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mUnlockCarSicknessReliefMethod = requiredMember("UnlockCarSicknessRelief", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -48,7 +54,7 @@ public class UnlockCarSicknessRelief extends BaseHook {
                 return methodData;
             }
         });
-        Method method2 = DexKit.findMember("UnlockCarSicknessRemindTiming", new IDexKit() {
+        mUnlockCarSicknessRemindTimingMethod = requiredMember("UnlockCarSicknessRemindTiming", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -62,9 +68,13 @@ public class UnlockCarSicknessRelief extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
 
-        hookMethod(method1, returnConstant(true));
-        hookMethod(method2, returnConstant(true));
+    @Override
+    public void init() {
+        hookMethod(mUnlockCarSicknessReliefMethod, returnConstant(true));
+        hookMethod(mUnlockCarSicknessRemindTimingMethod, returnConstant(true));
     }
 }
 

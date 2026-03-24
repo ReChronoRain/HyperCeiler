@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.personalassistant;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -38,9 +37,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class UnlockWidgetCountLimit extends BaseHook {
+    private Method mLimitResultMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("LimitResult", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mLimitResultMethod = requiredMember("LimitResult", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -54,7 +60,12 @@ public class UnlockWidgetCountLimit extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mLimitResultMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

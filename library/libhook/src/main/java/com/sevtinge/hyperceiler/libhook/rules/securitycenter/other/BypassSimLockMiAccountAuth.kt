@@ -19,14 +19,20 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object BypassSimLockMiAccountAuth : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        findMethod
+        return true
+    }
+
     private val findMethod by lazy<List<Method>> {
-        DexKit.findMemberList("BypassSimLockMiAccountAuth") {
+        requiredMemberList("BypassSimLockMiAccountAuth") {
             it.findClass {
                 matcher {
                     addUsingString("SimLockUtils", StringMatchType.Contains)

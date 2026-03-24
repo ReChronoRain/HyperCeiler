@@ -27,9 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch;
 @HookBase(targetPackage = "com.miui.misound")
 public class MiSound extends BaseLoad {
 
-    public MiSound() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

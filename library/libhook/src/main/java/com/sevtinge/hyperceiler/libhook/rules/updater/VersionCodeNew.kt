@@ -20,19 +20,24 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import android.os.Build
 import android.text.TextUtils
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 object VersionCodeNew : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        mBigMethod
+        mOSCode
+        return true
+    }
     private val mBigMethod by lazy<Method> {
-        DexKit.findMember("VersionCodeNew1") {
+        requiredMember("VersionCodeNew1") {
             it.findMethod {
                 matcher {
                     usingEqStrings("ro.miui.ui.version.name")
@@ -41,7 +46,7 @@ object VersionCodeNew : BaseHook() {
         }
     }
     private val mOSMethod by lazy<List<Method>> {
-        DexKit.findMemberList("VersionCodeNew2") {
+        requiredMemberList("VersionCodeNew2") {
             it.findMethod {
                 matcher {
                     usingEqStrings("ro.mi.os.version.incremental")
@@ -50,7 +55,7 @@ object VersionCodeNew : BaseHook() {
         }
     }
     private val mOSCode by lazy<Method> {
-        DexKit.findMember("VersionCodeNew3") {
+        requiredMember("VersionCodeNew3") {
             it.findMethod {
                 matcher {
                     usingEqStrings("ro.mi.os.version.name", "OS")
@@ -106,3 +111,4 @@ object VersionCodeNew : BaseHook() {
         }
     }
 }
+

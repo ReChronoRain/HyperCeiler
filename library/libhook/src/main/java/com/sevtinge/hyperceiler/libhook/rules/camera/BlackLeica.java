@@ -26,7 +26,6 @@ import android.text.TextPaint;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -50,12 +49,22 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class BlackLeica extends BaseHook {
-    Method method1 = null;
-    Class<?> clazz1 = null;
+    private Class<?> mTextColorMakerClazz;
+    private Method mWaterMakerLeicaMethod;
+    private Class<?> mDescStringColorMakerClazz;
+    private Method mTextPainterMethod;
+    private Method mTextColorMakerMethod;
+    private Field mDescStringColorField;
+    private Field mLeicaPendantColorField;
 
     @Override
-    public void init() {
-        Class<?> clazz2 = DexKit.findMember("TextColorMakerClazz", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mTextColorMakerClazz = requiredMember("TextColorMakerClazz", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -66,21 +75,19 @@ public class BlackLeica extends BaseHook {
             }
         });
 
-
-        try {
-            method1 = DexKit.findMember("WaterMakerLeicaNew", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("deviceNameLengthType")
-                            .returnType(clazz2)
-                        )).singleOrNull();
-                    return methodData;
-                }
-            });
-        } catch (Throwable ignore) {
-            method1 = DexKit.findMember("WaterMakerLeica", new IDexKit() {
+        mWaterMakerLeicaMethod = optionalMember("WaterMakerLeicaNew", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .usingStrings("deviceNameLengthType")
+                        .returnType(mTextColorMakerClazz)
+                    )).singleOrNull();
+                return methodData;
+            }
+        });
+        if (mWaterMakerLeicaMethod == null) {
+            mWaterMakerLeicaMethod = requiredMember("WaterMakerLeica", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -92,22 +99,21 @@ public class BlackLeica extends BaseHook {
             });
         }
 
-        try {
-            clazz1 = DexKit.findMember("DescStringColorMakerClazzNew", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    ClassData clazzData = bridge.findClass(FindClass.create()
-                        .matcher(ClassMatcher.create()
-                            .addMethod(MethodMatcher.create()
-                                .usingStrings("deviceNameLengthType")
-                                .returnType(clazz2)
-                            )
-                        )).singleOrNull();
-                    return clazzData;
-                }
-            });
-        } catch (Throwable ignore) {
-            clazz1 = DexKit.findMember("DescStringColorMakerClazz", new IDexKit() {
+        mDescStringColorMakerClazz = optionalMember("DescStringColorMakerClazzNew", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                ClassData clazzData = bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create()
+                        .addMethod(MethodMatcher.create()
+                            .usingStrings("deviceNameLengthType")
+                            .returnType(mTextColorMakerClazz)
+                        )
+                    )).singleOrNull();
+                return clazzData;
+            }
+        });
+        if (mDescStringColorMakerClazz == null) {
+            mDescStringColorMakerClazz = requiredMember("DescStringColorMakerClazz", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData clazzData = bridge.findClass(FindClass.create()
@@ -122,7 +128,7 @@ public class BlackLeica extends BaseHook {
         }
 
         // Class<?> clazz1 = method1.getClass();
-        Method method2 = DexKit.findMember("TextPainter", new IDexKit() {
+        mTextPainterMethod = requiredMember("TextPainter", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -133,31 +139,31 @@ public class BlackLeica extends BaseHook {
                 return methodData;
             }
         });
-        Method method3 = DexKit.findMember("TextColorMaker", new IDexKit() {
+        mTextColorMakerMethod = requiredMember("TextColorMaker", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass(clazz2)
+                                .declaredClass(mTextColorMakerClazz)
                                 .paramTypes(int.class)
-                                .returnType(clazz2)
+                                .returnType(mTextColorMakerClazz)
                         )).singleOrNull();
                 return methodData;
             }
         });
-        Field field1 = DexKit.findMember("DescStringColor", new IDexKit() {
+        mDescStringColorField = requiredMember("DescStringColor", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
-                                .declaredClass(clazz1)
+                                .declaredClass(mDescStringColorMakerClazz)
                                 .type(int.class)
-                                .addReadMethod(MethodMatcher.create().name(method1.getName()))
+                                .addReadMethod(MethodMatcher.create().name(mWaterMakerLeicaMethod.getName()))
                         )).singleOrNull();
                 return fieldData;
             }
         });
-        Field field2 = DexKit.findMember("LeicaPendantColor", new IDexKit() {
+        mLeicaPendantColorField = requiredMember("LeicaPendantColor", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -170,19 +176,23 @@ public class BlackLeica extends BaseHook {
                 return fieldData;
             }
         });
+        return true;
+    }
 
-        EzxHelpUtils.setStaticIntField(field1.getDeclaringClass(), field1.getName(), Color.parseColor("#8CFFFFFF"));
-        EzxHelpUtils.setStaticIntField(field2.getDeclaringClass(), field2.getName(), Color.parseColor("#33FFFFFF"));
-        hookMethod(method1, new IMethodHook() {
+    @Override
+    public void init() {
+        EzxHelpUtils.setStaticIntField(mDescStringColorField.getDeclaringClass(), mDescStringColorField.getName(), Color.parseColor("#8CFFFFFF"));
+        EzxHelpUtils.setStaticIntField(mLeicaPendantColorField.getDeclaringClass(), mLeicaPendantColorField.getName(), Color.parseColor("#33FFFFFF"));
+        hookMethod(mWaterMakerLeicaMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                hookMethod(method2, new IMethodHook() {
+                hookMethod(mTextPainterMethod, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
                         if ((int) param.getArgs()[2] == -16777216) param.getArgs()[2] = -1;
                     }
                 });
-                hookMethod(method3, new IMethodHook() {
+                hookMethod(mTextColorMakerMethod, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
                         param.getArgs()[0] = 1048576;

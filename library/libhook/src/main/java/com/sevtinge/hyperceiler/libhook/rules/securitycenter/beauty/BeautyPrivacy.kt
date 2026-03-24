@@ -19,14 +19,19 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.beauty
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 object BeautyPrivacy : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        R0
+        return true
+    }
     private val R0 by lazy<Method> {
-        DexKit.findMember("BeautyPrivacy") {
+        requiredMember("BeautyPrivacy") {
             it.findMethod {
                 matcher {
                     usingEqStrings("persist.sys.privacy_camera")
@@ -36,7 +41,7 @@ object BeautyPrivacy : BaseHook() {
     }
 
     private val invokeMethod by lazy<List<Method>> {
-        DexKit.findMemberList("BeautyPrivacyList") {
+        requiredMemberList("BeautyPrivacyList") {
             it.findClass {
                 matcher {
                     usingEqStrings("persist.sys.privacy_camera")
@@ -67,3 +72,4 @@ object BeautyPrivacy : BaseHook() {
         }
     }
 }
+

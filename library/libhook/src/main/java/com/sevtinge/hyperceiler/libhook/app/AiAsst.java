@@ -10,9 +10,6 @@ import com.sevtinge.hyperceiler.libhook.rules.aiasst.UnlockSplitTranslation;
 @HookBase(targetPackage = "com.xiaomi.aiasst.vision")
 public class AiAsst extends BaseLoad {
 
-    public AiAsst() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

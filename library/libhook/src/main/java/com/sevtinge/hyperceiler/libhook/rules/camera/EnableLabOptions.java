@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.camera;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -37,9 +36,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class EnableLabOptions extends BaseHook {
+    private Method mLabOptionsMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("LabOptions", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mLabOptionsMethod = requiredMember("LabOptions", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -49,7 +55,12 @@ public class EnableLabOptions extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mLabOptionsMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 String mStr = (String) param.getArgs()[0];
