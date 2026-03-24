@@ -10,6 +10,7 @@
 # --- App ---
 -keep class com.sevtinge.hyperceiler.ui.** { *; }
 -keep class com.sevtinge.hyperceiler.main.** { *; }
+-keep class com.sevtinge.hyperceiler.about.** { *; }
 -keep class com.fan.** { *; }
 
 # --- Obfuscation ---
