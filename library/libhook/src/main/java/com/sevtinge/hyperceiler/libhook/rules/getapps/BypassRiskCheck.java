@@ -41,7 +41,7 @@ public class BypassRiskCheck extends BaseHook {
                     param.getArgs()[0] = 0;
                 }
             });
-            hookAllMethods("com.xiaomi.market.common.component.componentbeans.AppSecurityCheckRules$Companion", "getTotalResult", new IMethodHook() {
+            findAndHookMethod("com.xiaomi.market.common.component.componentbeans.AppSecurityCheckRules$Companion", "getTotalResult", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(getStaticObjectField(findClassIfExists("com.xiaomi.market.common.component.componentbeans.TotalResult"), "TOTAL_EXCELLENT"));
