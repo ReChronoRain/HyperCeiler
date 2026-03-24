@@ -99,10 +99,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
                     .createBeforeHook { param ->
                         val pkg = param.args[2] as? String
                         if (pkg == ProjectApi.mAppModulePkg) {
-                            val balAllowDefault = EzxHelpUtils.getStaticObjectField(
-                                EzxHelpUtils.findClass(balVerdictClass, classLoader),
-                                "BAL_ALLOW_DEFAULT"
-                            )
+                            val balAllowDefault = EzxHelpUtils.getStaticObjectField(param.thisObject, "BAL_ALLOW_DEFAULT")
                             if (balAllowDefault != null) {
                                 param.result = balAllowDefault
                             } else {
