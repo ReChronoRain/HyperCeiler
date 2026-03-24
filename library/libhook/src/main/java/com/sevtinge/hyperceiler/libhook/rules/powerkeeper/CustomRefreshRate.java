@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -37,9 +36,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class CustomRefreshRate extends BaseHook {
+    private Method mFucSwitchMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("FucSwitch", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mFucSwitchMethod = requiredMember("FucSwitch", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -50,7 +56,12 @@ public class CustomRefreshRate extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mFucSwitchMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 EzxHelpUtils.setObjectField(param.getThisObject(), "mIsCustomFpsSwitch", "true");

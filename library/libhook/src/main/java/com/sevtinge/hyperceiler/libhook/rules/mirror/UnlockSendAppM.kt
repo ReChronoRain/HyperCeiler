@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.mirror
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -28,8 +27,14 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object UnlockSendAppM : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        method1
+        return true
+    }
     private val method1 by lazy {
-        DexKit.findMember("subScreen") {bridge ->
+        requiredMember("subScreen") {bridge ->
             bridge.findMethod {
                 matcher {
                     addUsingString("support_all_app_sub_screen", StringMatchType.Equals)
@@ -40,7 +45,7 @@ object UnlockSendAppM : BaseHook() {
     }
 
     private val class2 by lazy<List<Class<*>>> {
-        DexKit.findMemberList("relayAppMessage") {bridge ->
+        requiredMemberList("relayAppMessage") {bridge ->
             bridge.findClass {
                 matcher {
                     addUsingString("RelayAppMessage{type=")
@@ -89,3 +94,4 @@ object UnlockSendAppM : BaseHook() {
         }
     }
 }
+

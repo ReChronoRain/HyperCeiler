@@ -33,7 +33,6 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.isStatic
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
@@ -45,8 +44,14 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object ShowBatteryTemperatureNew : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        smartChargeClazz
+        return true
+    }
     private val smartChargeClazz by lazy<Method> {
-        DexKit.findMember("SmartChargeClazz") {
+        requiredMember("SmartChargeClazz") {
             it.findMethod {
                 searchPackages("com.miui.powercenter.nightcharge")
                 matcher {
@@ -214,3 +219,4 @@ object ShowBatteryTemperatureNew : BaseHook() {
         )!!.getIntExtra("temperature", 0) / 10
     }
 }
+

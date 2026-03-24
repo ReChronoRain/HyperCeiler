@@ -21,14 +21,27 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import java.lang.reflect.Method
 
 
 object DeviceModify : BaseHook() {
+    override fun useDexKit() = true
+    private lateinit var deviceModifyMethods: List<Method>
     private val deviceName: String = PrefsBridge.getString("updater_device", "")
+
+    override fun initDexKit(): Boolean {
+        deviceModifyMethods = requiredMemberList("DeviceModify") {
+            it.findMethod {
+                matcher {
+                    usingEqStrings("android.os.SystemProperties", "get", "get e")
+                }
+            }
+        }
+        return true
+    }
+
     override fun init() {
         try {
             findClass("android.os.SystemProperties").methodFinder()
@@ -56,13 +69,7 @@ object DeviceModify : BaseHook() {
                 e
             )
         }
-        DexKit.findMemberList<Method>("DeviceModify") {
-            it.findMethod {
-                matcher {
-                    usingEqStrings("android.os.SystemProperties", "get", "get e")
-                }
-            }
-        }.forEach { method ->
+        deviceModifyMethods.forEach { method ->
             method.createBeforeHook {
                 if (it.args[0] == "ro.product.mod_device") it.result = deviceName
             }

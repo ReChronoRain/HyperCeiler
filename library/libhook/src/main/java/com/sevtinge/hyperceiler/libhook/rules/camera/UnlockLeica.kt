@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.camera
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -29,6 +28,14 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockLeica : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        unlockMethod1
+        unlockMethod2
+        unlockMethod3
+        return true
+    }
     // 这破玩意写了十几个小时，得出的结论是，跨一个大版本就需要改一下特征点
     // 手上只有 5.3 和 6.1 两个版本，其他版本我不保证能解锁
     // 目前兼容到 6.2 版本
@@ -40,7 +47,7 @@ object UnlockLeica : BaseHook() {
     }
 
     private val unlockMethod1 by lazy<Method> {
-        DexKit.findMember("uM1") {
+        requiredMember("uM1") {
             // 6.x
             // 6.2 已合并方法，所以改回最初改颜色的方法
             it.findMethod {
@@ -61,7 +68,7 @@ object UnlockLeica : BaseHook() {
     }
 
     private val unlockMethod2 by lazy<Method> {
-        DexKit.findMember("uM2") {
+        requiredMember("uM2") {
             // 5.x
             it.findMethod {
                 matcher {
@@ -84,7 +91,7 @@ object UnlockLeica : BaseHook() {
     }
 
     private val unlockMethod3 by lazy<Method> {
-        DexKit.findMember("uM3") {
+        requiredMember("uM3") {
             if (isNewCamera) {
                 // 6.x
                 it.findMethod {
@@ -129,7 +136,7 @@ object UnlockLeica : BaseHook() {
 
     private val unlockMethod4 by lazy<List<Method>> {
         // 你家最缺德的 ku 就要查重写方法了
-        DexKit.findMemberList("uML4") {
+        requiredMemberList("uML4") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -176,3 +183,4 @@ object UnlockLeica : BaseHook() {
         if (c.isLetter()) (c.code - 1).toChar() else c
     }.joinToString("")
 }
+

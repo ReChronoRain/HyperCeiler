@@ -21,15 +21,19 @@ package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockLeicaFilter : BaseHook() {
-    private val leicaOld by lazy<List<Method>> {
-        DexKit.findMemberList("UnlockLeicaFilterOld") { dexkit ->
+    private var leicaOld: List<Method> = emptyList()
+    private var leicaNew: Method? = null
+
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        leicaOld = optionalMemberList("UnlockLeicaFilterOld") { dexkit ->
             dexkit.findMethod {
                 matcher {
                     // 仅适配 1.5 及 1.6 的部分版本，新版更换检测方式
@@ -42,17 +46,18 @@ object UnlockLeicaFilter : BaseHook() {
                 }
             }
         }
-    }
-    private val leicaNew by lazy<Method> {
-        DexKit.findMember("UnlockLeicaFilterNew") { dexkit ->
-            dexkit.findMethod {
-                matcher {
-                    // declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository" // 1.10.0.0.6 版本开始混淆，不再推荐使用
-                    usingStrings("portrait_support_devices") // 临时解决方法，可能很快就会失效
-                    returnType = "java.io.Serializable"
-                }
-            }.single()
+        if (leicaOld.isEmpty()) {
+            leicaNew = requiredMember("UnlockLeicaFilterNew") { dexkit ->
+                dexkit.findMethod {
+                    matcher {
+                        // declaredClass = "com.miui.mediaeditor.photo.filter.repository.FilterRepository" // 1.10.0.0.6 版本开始混淆，不再推荐使用
+                        usingStrings("portrait_support_devices") // 临时解决方法，可能很快就会失效
+                        returnType = "java.io.Serializable"
+                    }
+                }.single()
+            }
         }
+        return true
     }
 
     override fun init() {
@@ -65,7 +70,7 @@ object UnlockLeicaFilter : BaseHook() {
             }
         } else {
             XposedLog.d(TAG, lpparam.packageName, "New Leica name is $leicaNew") // debug 用
-            leicaNew.createHook {
+            leicaNew!!.createHook {
                 before {
                     AndroidBuildCls.setStaticObjectField("DEVICE", "aurora")
                 }

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.trustservice;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
@@ -32,14 +31,26 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class DisableMrm extends BaseHook {
+    private Method mMethod1;
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("Method1", bridge -> bridge.findMethod(FindMethod.create()
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mMethod1 = optionalMember("Method1", bridge -> bridge.findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("MiTrustService/statusEventHandle", "try init mrmd Service")
                 .returnType(boolean.class)
             )).singleOrNull());
-        if (method1 != null) hookMethod(method1, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        if (mMethod1 != null) hookMethod(mMethod1, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

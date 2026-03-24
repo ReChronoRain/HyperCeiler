@@ -36,6 +36,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class ClipboardLimit extends BaseHook {
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        return true;
+    }
     private static ClassLoader classLoader;
 
     @Override
@@ -71,17 +81,6 @@ public class ClipboardLimit extends BaseHook {
         EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.MiuiClipboardManager", classLoader, "getNoExpiredClipboardData", Context.class, String.class, long.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                /*Method method = DexKit.findMember("JsonToBean", new IDexKit() {
-                    @Override
-                    public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                        MethodData methodData = bridge.findMethod(FindMethod.create()
-                            .matcher(MethodMatcher.create()
-                                .usingStrings("jsonToBean jsonArray len =")
-                            )).singleOrNull();
-                        return methodData;
-                    }
-                });
-*/
                 //ArrayList<?> a = (ArrayList<?>) EzxHelpUtils.callStaticMethod(EzxHelpUtils.findClass(method.getClass().getName(), classLoader), method.getName(), param.args[1]);
                 ArrayList<?> a = (ArrayList<?>) EzxHelpUtils.callStaticMethod(EzxHelpUtils.findClass("a2.e", classLoader), "a", param.getArgs()[1]);
                 param.setResult(a);

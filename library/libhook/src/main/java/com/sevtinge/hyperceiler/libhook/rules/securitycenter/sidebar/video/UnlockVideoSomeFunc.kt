@@ -21,16 +21,24 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 
 object UnlockVideoSomeFunc : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        findFrcClass
+        findFrc
+        findTat
+        findFrcOrdered
+        return true
+    }
 
     private val findFrcClass by lazy<Class<*>> {
-        DexKit.findMember("findFrcClass") {
+        requiredMember("findFrcClass") {
             it.findClass {
                 matcher {
                     addUsingString("ro.vendor.media.video.frc.support", StringMatchType.Equals)
@@ -40,7 +48,7 @@ object UnlockVideoSomeFunc : BaseHook() {
     }
 
     private val findFrc by lazy<List<Method>> {
-        DexKit.findMemberList("findFrcA") {
+        requiredMemberList("findFrcA") {
             it.findMethod {
                 matcher {
                     declaredClass = findFrcClass.name
@@ -52,13 +60,31 @@ object UnlockVideoSomeFunc : BaseHook() {
     }
 
     private val findTat by lazy<Method> {
-        DexKit.findMember("findTat") {
+        requiredMember("findTat") {
             it.findMethod {
                 matcher {
                     declaredClass = findFrcClass.name
                     addUsingString("debug.config.media.video.ais.support", StringMatchType.Equals)
                 }
             }.single()
+        }
+    }
+
+    private val findFrcOrdered by lazy<List<Method>> {
+        requiredMemberList("findFrcB") {
+            it.findMethod {
+                matcher {
+                    declaredClass = findFrcClass.name
+                    returnType = "boolean"
+                    paramTypes("java.lang.String")
+                }
+            }.findMethod {
+                matcher {
+                    addUsingField {
+                        type = "java.util.List"
+                    }
+                }
+            }
         }
     }
 
@@ -76,22 +102,7 @@ object UnlockVideoSomeFunc : BaseHook() {
    }
 
     override fun init() {
-        val ordered = DexKit.findMemberList<Method>("findFrcB") {
-            it.findMethod {
-                matcher {
-                    declaredClass = findFrcClass.name
-                    returnType = "boolean"
-                    paramTypes("java.lang.String")
-                }
-            }.findMethod {
-                matcher {
-                    addUsingField {
-                        type = "java.util.List"
-                    }
-                }
-            }
-        }
-        val differentItems = findFrc.subtract(ordered.toSet())
+        val differentItems = findFrc.subtract(findFrcOrdered.toSet())
 
         if (memc) {
             differentItems.forEach { methods ->
@@ -136,3 +147,4 @@ object UnlockVideoSomeFunc : BaseHook() {
         }
     }
 }
+

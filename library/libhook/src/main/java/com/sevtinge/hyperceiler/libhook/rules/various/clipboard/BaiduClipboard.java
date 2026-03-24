@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
@@ -35,6 +34,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.List;
 
 ;
 
@@ -42,10 +42,18 @@ import java.util.Arrays;
  * @author 焕晨HChen
  */
 public class BaiduClipboard extends BaseHook {
+    private Class<?> mClipboardConfigClass;
+    private List<Method> mGetMaxQueryCountMethodList;
+
     @Override
-    public void init() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
         if ("com.baidu.input".equals(getPackageName())) {
-            Class<?> ClipboardConfig = DexKit.findMember("NewGetMaxQueryCount", new IDexKit() {
+            mClipboardConfigClass = optionalMember("NewGetMaxQueryCount", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData classData = bridge.findClass(FindClass.create()
@@ -55,16 +63,8 @@ public class BaiduClipboard extends BaseHook {
                     return classData;
                 }
             });
-
-            if (ClipboardConfig != null) {
-                Arrays.stream(ClipboardConfig.getDeclaredMethods()).forEach(method -> {
-                    if (method.getReturnType().equals(Integer.class)) {
-                        hookMethod(method, returnConstant(Integer.MAX_VALUE));
-                    }
-                });
-            }
         } else if ("com.baidu.input_mi".equals(getPackageName())) {
-            DexKit.findMemberList("GetMaxQueryCountList", new IDexKitList() {
+            mGetMaxQueryCountMethodList = optionalMemberList("GetMaxQueryCountList", new IDexKitList() {
                 @Override
                 public BaseDataList<?> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     MethodDataList methodDataList = bridge.findMethod(FindMethod.create()
@@ -76,7 +76,25 @@ public class BaiduClipboard extends BaseHook {
                     );
                     return methodDataList;
                 }
-            }).forEach(method -> hookMethod((Method) method, returnConstant(Integer.MAX_VALUE)));
+            });
+        }
+        return true;
+    }
+
+    @Override
+    public void init() {
+        if ("com.baidu.input".equals(getPackageName())) {
+            if (mClipboardConfigClass != null) {
+                Arrays.stream(mClipboardConfigClass.getDeclaredMethods()).forEach(method -> {
+                    if (method.getReturnType().equals(Integer.class)) {
+                        hookMethod(method, returnConstant(Integer.MAX_VALUE));
+                    }
+                });
+            }
+        } else if ("com.baidu.input_mi".equals(getPackageName())) {
+            if (mGetMaxQueryCountMethodList != null) {
+                mGetMaxQueryCountMethodList.forEach(method -> hookMethod(method, returnConstant(Integer.MAX_VALUE)));
+            }
         }
     }
 }

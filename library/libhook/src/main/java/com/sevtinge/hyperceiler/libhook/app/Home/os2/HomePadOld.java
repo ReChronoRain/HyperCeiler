@@ -129,9 +129,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 1, maxOSVersion = 2.0F)
 public class HomePadOld extends BaseLoad {
 
-    public HomePadOld() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

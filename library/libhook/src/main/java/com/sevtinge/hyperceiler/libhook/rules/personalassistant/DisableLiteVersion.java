@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.personalassistant;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -46,9 +45,17 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class DisableLiteVersion extends BaseHook {
+    private Method mGetDeviceLevelMethod;
+    private Field mCameraColorField;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("GetDeviceLevel", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mGetDeviceLevelMethod = requiredMember("GetDeviceLevel", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -60,7 +67,7 @@ public class DisableLiteVersion extends BaseHook {
                 return methodData;
             }
         });
-        Field field = DexKit.findMember("CameraColor", new IDexKit() {
+        mCameraColorField = requiredMember("CameraColor", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -76,18 +83,23 @@ public class DisableLiteVersion extends BaseHook {
                                 )
                             )
                         )
-                        .declaredClass(method.getDeclaringClass())
+                        .declaredClass(mGetDeviceLevelMethod.getDeclaringClass())
                         .type(boolean.class)
                         .modifiers(Modifier.PUBLIC)
                     )).singleOrNull();
                 return fieldData;
             }
         });
-        EzxHelpUtils.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
+        return true;
+    }
+
+    @Override
+    public void init() {
+        EzxHelpUtils.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
         findAndHookMethod("com.miui.personalassistant.PAApplication", "onCreate", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                EzxHelpUtils.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
+                EzxHelpUtils.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
             }
         });
     }

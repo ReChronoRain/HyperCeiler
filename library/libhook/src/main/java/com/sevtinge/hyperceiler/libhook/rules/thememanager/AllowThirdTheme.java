@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.thememanager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -37,9 +36,16 @@ import miui.drm.DrmManager;
 ;
 
 public class AllowThirdTheme extends BaseHook {
+    private Method mCheckRightsIsLegalMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("CheckRightsIsLegal", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mCheckRightsIsLegalMethod = requiredMember("CheckRightsIsLegal", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -49,7 +55,12 @@ public class AllowThirdTheme extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mCheckRightsIsLegalMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(DrmManager.DrmResult.DRM_SUCCESS);

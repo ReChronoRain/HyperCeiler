@@ -91,9 +91,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 1, minOSVersion = 3.0F)
 public class HomePad extends BaseLoad {
 
-    public HomePad() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

@@ -38,7 +38,19 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
+import org.luckypray.dexkit.DexKitBridge;
+import org.luckypray.dexkit.query.FindClass;
+import org.luckypray.dexkit.query.FindField;
+import org.luckypray.dexkit.query.FindMethod;
+import org.luckypray.dexkit.query.matchers.ClassMatcher;
+import org.luckypray.dexkit.query.matchers.FieldMatcher;
+import org.luckypray.dexkit.query.matchers.MethodMatcher;
+import org.luckypray.dexkit.result.base.BaseData;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -61,6 +73,123 @@ public class NewAutoSEffSwitch extends BaseHook {
     private BaseEffectControlUI mEffectControlUI;
 
     @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        ensureEffectControlUI();
+        if (mEffectControlUI instanceof NewFWAudioEffectControl fwControlUI) {
+            initFwDexMembers(fwControlUI);
+        } else if (mEffectControlUI instanceof NewAudioEffectControl nonFwControlUI) {
+            initNonFwDexMembers(nonFwControlUI);
+        } else {
+            mEffectControlUI.initDexKit();
+        }
+        return true;
+    }
+
+    private void initNonFwDexMembers(NewAudioEffectControl controlUI) {
+        Method dolbySwitchMethod = optionalMember("setDsOnSafely", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
+                        .usingStrings("setDsOnSafely: enter")
+                    )
+                ).singleOrNull();
+            }
+        });
+        Method miSoundSwitchMethod = optionalMember("setEffectEnable", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create().usingStrings("setEffectEnable() fail, exception: "))
+                        .usingStrings("setEffectEnable() fail, exception: ")
+                    )
+                ).singleOrNull();
+            }
+        });
+        Class<?> spatialAudioActivityClass = optionalMember("spatialAudio", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create().usingStrings("supports spatial audio 3.0 "))
+                ).singleOrNull();
+            }
+        });
+        Field effectSelectionField = spatialAudioActivityClass == null ? null : optionalMember("preference", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findField(FindField.create()
+                    .matcher(FieldMatcher.create()
+                        .declaredClass(spatialAudioActivityClass)
+                        .type(findClass("miuix.preference.DropDownPreference"))
+                        .addReadMethod(MethodMatcher.create()
+                            .declaredClass(spatialAudioActivityClass)
+                            .usingStrings("updateEffectSelectionPreference(): set as "))
+                    )
+                ).singleOrNull();
+            }
+        });
+        Method broadcastReceiverMethod = optionalMember("onReceive", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create().usingStrings("onReceive: to refreshEnable"))
+                        .usingStrings("onReceive: to refreshEnable")
+                    )
+                ).singleOrNull();
+            }
+        });
+        controlUI.setDexMembers(
+            dolbySwitchMethod,
+            miSoundSwitchMethod,
+            spatialAudioActivityClass,
+            effectSelectionField,
+            broadcastReceiverMethod
+        );
+    }
+
+    private void initFwDexMembers(NewFWAudioEffectControl controlUI) {
+        Class<?> avDolbyActivityClass = optionalMember("AVDolby", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findClass(FindClass.create()
+                    .matcher(ClassMatcher.create().usingStrings("refreshOnEffectChangeBroadcast AV Dolby: "))
+                ).singleOrNull();
+            }
+        });
+        Method avDolbyRefreshMethod = avDolbyActivityClass == null ? null : optionalMember("AVDolby2", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(avDolbyActivityClass)
+                        .usingStrings("refreshOnEffectChangeBroadcast AV Dolby: ")
+                    )
+                ).singleOrNull();
+            }
+        });
+        Field preferenceField = avDolbyActivityClass == null ? null : optionalMember("preference2", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findField(FindField.create()
+                    .matcher(FieldMatcher.create()
+                        .declaredClass(avDolbyActivityClass)
+                        .type(findClass("miuix.preference.DropDownPreference"))
+                    )
+                ).singleOrNull();
+            }
+        });
+        controlUI.setDexMembers(avDolbyActivityClass, avDolbyRefreshMethod, preferenceField);
+    }
+
+    @Override
     public void init() {
         loadConfig();
         initEffectControlUI();
@@ -78,6 +207,14 @@ public class NewAutoSEffSwitch extends BaseHook {
      * 初始化音效控制 UI
      */
     private void initEffectControlUI() {
+        ensureEffectControlUI();
+        mEffectControlUI.init();
+    }
+
+    private void ensureEffectControlUI() {
+        if (mEffectControlUI != null) {
+            return;
+        }
         if (isSupportFW()) {
             mEffectControlUI = new NewFWAudioEffectControl();
             XposedLog.d(TAG, "Using FW AudioEffectControl UI");
@@ -85,7 +222,6 @@ public class NewAutoSEffSwitch extends BaseHook {
             mEffectControlUI = new NewAudioEffectControl();
             XposedLog.d(TAG, "Using Non-FW AudioEffectControl UI");
         }
-        mEffectControlUI.init();
     }
 
     /**

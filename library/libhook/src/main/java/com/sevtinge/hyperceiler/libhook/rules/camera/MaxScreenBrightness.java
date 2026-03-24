@@ -26,7 +26,6 @@ import android.view.WindowManager;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -42,11 +41,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class MaxScreenBrightness extends BaseHook {
+    private Method mGetHaloBrightnessMethod;
 
     @Override
-    public void init() {
+    protected boolean useDexKit() {
+        return true;
+    }
 
-        Method method = DexKit.findMember("GetHaloBrightness", new IDexKit() {
+    @Override
+    protected boolean initDexKit() {
+        mGetHaloBrightnessMethod = requiredMember("GetHaloBrightness", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,9 +62,14 @@ public class MaxScreenBrightness extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
 
-        XposedLog.d(TAG, getPackageName(), "getHaloBrightness() method is " + method);
-        hookMethod(method, new IMethodHook() {
+    @Override
+    public void init() {
+
+        XposedLog.d(TAG, getPackageName(), "getHaloBrightness() method is " + mGetHaloBrightnessMethod);
+        hookMethod(mGetHaloBrightnessMethod, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 Activity activity = (Activity) callMethod(param.getThisObject(), "getActivity");

@@ -19,14 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockMinimumCropLimit2 : BaseHook() {
-    override fun init() {
-        DexKit.findMemberList<Method>("MinimumCropLimit2") { bridge ->
+    override fun useDexKit() = true
+    private lateinit var minimumCropMethods: List<Method>
+
+    override fun initDexKit(): Boolean {
+        minimumCropMethods = requiredMemberList("MinimumCropLimit2") { bridge ->
             bridge.findMethod {
                 matcher {
                     returnType = "int"
@@ -38,7 +40,12 @@ object UnlockMinimumCropLimit2 : BaseHook() {
                     addInvoke("Ljava/lang/Math;->max(II)I")
                 }
             }
-        }.forEach { method ->
+        }
+        return true
+    }
+
+    override fun init() {
+        minimumCropMethods.forEach { method ->
             method.createHook {
                 returnConstant(0)
             }

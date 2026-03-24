@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.camera
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.json.JSONObject
@@ -30,10 +29,18 @@ import java.lang.reflect.Modifier
 
 // thank HolyBear
 object CloudWatermark : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        cloudOld
+        cloudMethod
+        cloudDelete
+        return true
+    }
 
     private val cloudOld by lazy {
         // 仅支持 6.2 版本，用于强制获取云下发的新水印内容
-        DexKit.findMember("cloud") {
+        requiredMember("cloud") {
             it.findMethod {
                 searchPackages("com.xiaomi.camera")
                 matcher {
@@ -49,7 +56,7 @@ object CloudWatermark : BaseHook() {
     }
     private val cloudMethod by lazy {
         // 仅支持 6.3 及以上版本，用于强制获取云下发的新水印内容
-        DexKit.findMember("cloud") {
+        requiredMember("cloud") {
             it.findMethod {
                 searchPackages("com.xiaomi.camera")
                 matcher {
@@ -63,7 +70,7 @@ object CloudWatermark : BaseHook() {
 
     private val cloudDelete by lazy {
         // 仅支持 6.2 及以上版本，用于阻止删除已有的水印内容
-        DexKit.findMember("deleteCloud") {
+        requiredMember("deleteCloud") {
             it.findClass {
                 matcher {
                     addUsingString("watermark_enable", StringMatchType.Equals)
@@ -116,3 +123,4 @@ object CloudWatermark : BaseHook() {
             }
     }
 }
+

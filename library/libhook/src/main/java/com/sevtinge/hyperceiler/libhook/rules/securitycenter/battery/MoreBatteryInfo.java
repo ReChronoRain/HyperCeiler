@@ -24,7 +24,6 @@ import android.os.Message;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
@@ -48,9 +47,19 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // Todo: 需要重写
 public class MoreBatteryInfo extends BaseHook {
+    private List<Field> mBatteryInfoCategoryAllFields;
+    private Field mBatteryInfoCategoryField;
+    private Method mGetErpSupportMethod;
+    private Method mGetErpAndInternationalSupportMethod;
+
     @Override
-    public void init() {
-        List<Field> fieldList = DexKit.findMemberList("BatteryInfoCategoryAll", new IDexKitList() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mBatteryInfoCategoryAllFields = requiredMemberList("BatteryInfoCategoryAll", new IDexKitList() {
             @Override
             public BaseDataList<FieldData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldDataList fieldData = bridge.findField(FindField.create()
@@ -61,8 +70,7 @@ public class MoreBatteryInfo extends BaseHook {
                 return fieldData;
             }
         });
-
-        Field field = DexKit.findMember("BatteryInfoCategory", new IDexKit() {
+        mBatteryInfoCategoryField = requiredMember("BatteryInfoCategory", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
@@ -76,8 +84,7 @@ public class MoreBatteryInfo extends BaseHook {
                 return fieldData;
             }
         });
-
-        Method method1 = DexKit.findMember("GetErpSupport", new IDexKit() {
+        mGetErpSupportMethod = requiredMember("GetErpSupport", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -87,8 +94,7 @@ public class MoreBatteryInfo extends BaseHook {
                 return methodData;
             }
         });
-
-        Method method2 = DexKit.findMember("GetErpAndInternationalSupport", new IDexKit() {
+        mGetErpAndInternationalSupportMethod = requiredMember("GetErpAndInternationalSupport", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -107,11 +113,15 @@ public class MoreBatteryInfo extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
 
+    @Override
+    public void init() {
         findAndHookMethod("com.miui.powercenter.nightcharge.ChargeProtectFragment$d", "handleMessage", Message.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                hookMethod(method2, new IMethodHook() {
+                hookMethod(mGetErpAndInternationalSupportMethod, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
                         param.setResult(false);
@@ -134,8 +144,8 @@ public class MoreBatteryInfo extends BaseHook {
                 findAndHookMethod("androidx.preference.PreferenceGroup", "removePreference", "androidx.preference.Preference", new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        for (Field f : fieldList) {
-                            if (f != field) {
+                        for (Field f : mBatteryInfoCategoryAllFields) {
+                            if (f != mBatteryInfoCategoryField) {
                                 /*Context context = AndroidAppHelper.currentApplication().getApplicationContext();
                                 BatteryManager mBatteryManager = context.getSystemService(BatteryManager.class);
                                 // BATTERY_PROPERTY_MANUFACTURING_DATE = 7

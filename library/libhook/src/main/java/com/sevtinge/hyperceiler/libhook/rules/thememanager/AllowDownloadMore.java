@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.thememanager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -41,9 +40,18 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class AllowDownloadMore extends BaseHook {
+    private Class<?> mDownloadCounterClass;
+    private Method mDownloadListMethod;
+    private Method mDownloadListSizeMethod;
+
     @Override
-    public void init() {
-        Class<?> clazz = DexKit.findMember("DownloadCounter", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mDownloadCounterClass = requiredMember("DownloadCounter", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -53,31 +61,29 @@ public class AllowDownloadMore extends BaseHook {
                 return clazzData;
             }
         });
-
-        Method method1 = DexKit.findMember("DownloadList", new IDexKit() {
+        mDownloadListMethod = requiredMember("DownloadList", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass(clazz)
-                                .returnType(clazz)
+                                .declaredClass(mDownloadCounterClass)
+                                .returnType(mDownloadCounterClass)
                         )).singleOrNull();
                 return methodData;
             }
         });
-
-        Method method2 = DexKit.findMember("DownloadListSize", new IDexKit() {
+        mDownloadListSizeMethod = requiredMember("DownloadListSize", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData1 = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass(clazz)
+                                .declaredClass(mDownloadCounterClass)
                                 .returnType(int.class)
                                 .usingNumbers(0)
                         )).singleOrNull();
                 MethodDataList methodData2 = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .declaredClass(clazz)
+                                .declaredClass(mDownloadCounterClass)
                                 .returnType(int.class)
                         )
                 );
@@ -90,11 +96,15 @@ public class AllowDownloadMore extends BaseHook {
                 return null;
             }
         });
+        return true;
+    }
 
-        hookMethod(method1, new IMethodHook() {
+    @Override
+    public void init() {
+        hookMethod(mDownloadListMethod, new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                hookMethod(method2, new IMethodHook() {
+                hookMethod(mDownloadListSizeMethod, new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
                         param.setResult(1);

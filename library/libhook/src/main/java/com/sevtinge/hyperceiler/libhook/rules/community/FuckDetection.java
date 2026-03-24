@@ -23,7 +23,6 @@ import static com.sevtinge.hyperceiler.libhook.BuildConfig.APP_MODULE_ID;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -39,9 +38,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class FuckDetection extends BaseHook {
+    private Method mGetPackageVersionName;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("GetPackageVersionName", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mGetPackageVersionName = requiredMember("GetPackageVersionName", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +57,12 @@ public class FuckDetection extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mGetPackageVersionName, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 if (param.getArgs()[0].equals(APP_MODULE_ID)) param.getArgs()[0] = null;

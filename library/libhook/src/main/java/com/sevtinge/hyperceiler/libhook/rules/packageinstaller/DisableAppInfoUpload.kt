@@ -22,7 +22,6 @@ import android.content.Context
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.matchers.base.AccessFlagsMatcher
 import java.lang.reflect.Method
@@ -31,21 +30,16 @@ import java.util.stream.Collectors
 
 
 object DisableAppInfoUpload : BaseHook() {
+    override fun useDexKit() = true
+    private lateinit var avlUploadInvokerList: List<Method>
+    private lateinit var interceptCheckInvokerList: List<Method>
+    private lateinit var infoLayoutInvokerList: List<Method>
 
-    override fun init() {
-        disableInvokeInfoLayoutApi()
-        disableInvokeInterceptCheckApi()
-        disableInvokeAvlUploadApi()
-    }
-
-    /**
-     * after installing
-     */
-    private fun disableInvokeAvlUploadApi() {
+    override fun initDexKit(): Boolean {
         /**
          * methods invoke api '/avl/upload/'
          */
-        val avlUploadInvokerList = DexKit.findMemberList<Method>("avlUploadInvokerList") {
+        avlUploadInvokerList = requiredMemberList("avlUploadInvokerList") {
             it.findMethod {
                 matcher {
                     paramCount(4)
@@ -61,24 +55,10 @@ object DisableAppInfoUpload : BaseHook() {
                 }
             }
         }
-
-        if (avlUploadInvokerList.isEmpty()) {
-            throw IllegalStateException("cannot find MethodData invoking '/avl/upload/'")
-        }
-        logD("/avl/upload/", avlUploadInvokerList)
-
-        avlUploadInvokerList.forEach {
-            it.createHook {
-                replace { }
-            }
-        }
-    }
-
-    private fun disableInvokeInterceptCheckApi() {
         /**
          * methods invoke api '/v4/game/interceptcheck/'
          */
-        val interceptCheckInvokerList = DexKit.findMemberList<Method>("interceptCheckInvokerList") {
+        interceptCheckInvokerList = requiredMemberList("interceptCheckInvokerList") {
             it.findMethod {
                 matcher {
                     paramCount(6)
@@ -95,24 +75,10 @@ object DisableAppInfoUpload : BaseHook() {
                 }
             }
         }
-
-        if (interceptCheckInvokerList.isEmpty()) {
-            throw IllegalStateException("cannot find MethodData invoking 'interceptcheck'")
-        }
-        logD("/interceptcheck", interceptCheckInvokerList)
-
-        interceptCheckInvokerList.forEach {
-            it.createHook {
-                returnConstant(null)
-            }
-        }
-    }
-
-    private fun disableInvokeInfoLayoutApi() {
         /**
          * methods invoke api '/info/layout'
          */
-        val infoLayoutInvokerList = DexKit.findMemberList<Method>("interceptCheckInvokerList") {
+        infoLayoutInvokerList = requiredMemberList("infoLayoutInvokerList") {
             it.findMethod {
                 matcher {
                     paramCount(7)
@@ -128,10 +94,39 @@ object DisableAppInfoUpload : BaseHook() {
                 }
             }
         }
+        return true
+    }
 
-        if (infoLayoutInvokerList.isEmpty()) {
-            throw IllegalStateException("cannot find MethodData invoking '/info/layout'")
+    override fun init() {
+        disableInvokeInfoLayoutApi()
+        disableInvokeInterceptCheckApi()
+        disableInvokeAvlUploadApi()
+    }
+
+    /**
+     * after installing
+     */
+    private fun disableInvokeAvlUploadApi() {
+        logD("/avl/upload/", avlUploadInvokerList)
+
+        avlUploadInvokerList.forEach {
+            it.createHook {
+                replace { }
+            }
         }
+    }
+
+    private fun disableInvokeInterceptCheckApi() {
+        logD("/interceptcheck", interceptCheckInvokerList)
+
+        interceptCheckInvokerList.forEach {
+            it.createHook {
+                returnConstant(null)
+            }
+        }
+    }
+
+    private fun disableInvokeInfoLayoutApi() {
         logD("/info/layout'", infoLayoutInvokerList)
 
         infoLayoutInvokerList.forEach { method ->

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.screenrecorder;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -39,9 +38,17 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class ScreenRecorderConfig extends BaseHook {
+    private Method mFrameMethod;
+    private Method mBitRateMethod;
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("Frame", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mFrameMethod = requiredMember("Frame", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +58,22 @@ public class ScreenRecorderConfig extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method1, new IMethodHook() {
+        mBitRateMethod = requiredMember("BitRate", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("defaultBitRate = ")
+                        )).singleOrNull();
+                return methodData;
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mFrameMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) throws IllegalAccessException {
                 param.getArgs()[0] = 1200;
@@ -73,17 +95,7 @@ public class ScreenRecorderConfig extends BaseHook {
             }
         });
 
-        Method method2 = DexKit.findMember("BitRate", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("defaultBitRate = ")
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method2, new IMethodHook() {
+        hookMethod(mBitRateMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) throws IllegalAccessException {
                 param.getArgs()[0] = 1200;

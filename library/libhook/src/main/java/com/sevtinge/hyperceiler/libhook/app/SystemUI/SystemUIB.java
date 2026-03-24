@@ -103,9 +103,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.android.systemui", minSdk = 36)
 public class SystemUIB extends BaseLoad {
 
-    public SystemUIB() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

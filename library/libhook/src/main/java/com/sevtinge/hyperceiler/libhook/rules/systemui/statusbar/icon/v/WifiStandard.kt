@@ -24,7 +24,6 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
@@ -39,12 +38,18 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object WifiStandard : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        makeWifiStandardZero
+        return true
+    }
     private val showWifi by lazy {
         PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0)
     }
 
     private val makeWifiStandardZero by lazy {
-        DexKit.findMember("makeWifiStandardZero") { bridge ->
+        requiredMember("makeWifiStandardZero") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass {
@@ -108,3 +113,4 @@ object WifiStandard : BaseHook() {
         }
     }
 }
+

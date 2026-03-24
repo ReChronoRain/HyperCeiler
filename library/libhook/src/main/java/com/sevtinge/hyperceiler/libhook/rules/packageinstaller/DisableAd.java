@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -36,9 +35,18 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class DisableAd extends BaseHook {
+    private Method mAdsEnableMethod;
+    private Method mAppStoreRecommendMethod;
+    private Method mVirusScanInstallMethod;
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("AdsEnable", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mAdsEnableMethod = requiredMember("AdsEnable", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -49,14 +57,7 @@ public class DisableAd extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method1, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(false);
-            }
-        });
-
-        Method method2 = DexKit.findMember("AppStoreRecommend", new IDexKit() {
+        mAppStoreRecommendMethod = requiredMember("AppStoreRecommend", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -67,14 +68,7 @@ public class DisableAd extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method2, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(false);
-            }
-        });
-
-        Method method3 = DexKit.findMember("VirusScanInstall", new IDexKit() {
+        mVirusScanInstallMethod = requiredMember("VirusScanInstall", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -85,7 +79,26 @@ public class DisableAd extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method3, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mAdsEnableMethod, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                param.setResult(false);
+            }
+        });
+
+        hookMethod(mAppStoreRecommendMethod, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                param.setResult(false);
+            }
+        });
+
+        hookMethod(mVirusScanInstallMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -44,9 +43,17 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class DisableInstallerFullSafeVersion extends BaseHook {
+    private Method mIsFullSafeVersionMethod;
+    private Field mFullSecurityProtectVersionField;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("IsFullSafeVersion", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mIsFullSafeVersionMethod = requiredMember("IsFullSafeVersion", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -57,13 +64,7 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(false);
-            }
-        });
-        Field field = DexKit.findMember("FullSecurityProtectVersion", new IDexKit() {
+        mFullSecurityProtectVersionField = optionalMember("FullSecurityProtectVersion", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findClass(FindClass.create()
@@ -79,8 +80,19 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
                 return fieldData;
             }
         });
-        if (field != null) {
-            EzxHelpUtils.setStaticBooleanField(field.getDeclaringClass(), field.getName(), false);
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mIsFullSafeVersionMethod, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                param.setResult(false);
+            }
+        });
+        if (mFullSecurityProtectVersionField != null) {
+            EzxHelpUtils.setStaticBooleanField(mFullSecurityProtectVersionField.getDeclaringClass(), mFullSecurityProtectVersionField.getName(), false);
         }
     }
 }

@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.mms;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -37,9 +36,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class ImOldDevice extends BaseHook {
+    private Method mIsOldMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("IsOld", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mIsOldMethod = requiredMember("IsOld", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -49,7 +55,12 @@ public class ImOldDevice extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mIsOldMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

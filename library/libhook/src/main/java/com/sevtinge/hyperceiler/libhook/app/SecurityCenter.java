@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.BypassAdbInstallVerify;
@@ -74,14 +75,10 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.Disab
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VideoDolbyOpen;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.securitycenter")
 public class SecurityCenter extends BaseLoad {
 
-    public SecurityCenter() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

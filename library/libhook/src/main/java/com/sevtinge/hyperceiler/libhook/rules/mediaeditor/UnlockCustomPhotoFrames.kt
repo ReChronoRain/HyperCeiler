@@ -22,7 +22,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -34,6 +33,15 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockCustomPhotoFrames : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        methodA
+        methodB
+        methodC
+        cloudA
+        return true
+    }
     private val isCloudData by lazy {
         PrefsBridge.getBoolean("mediaeditor_unlock_cloud_custom_photo")
     }
@@ -48,7 +56,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val methodA by lazy<List<Method>> {
-        DexKit.findMemberList("MA") { bridge ->
+        requiredMemberList("MA") { bridge ->
             // 改动日志:
             // 现在这个查找方式直接兼容 1.5 - 2.3+
             // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
@@ -86,7 +94,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val methodB by lazy<Method?> {
-        DexKit.findMember("MB") { bridge ->
+        requiredMember("MB") { bridge ->
             bridge.findMethod {
                 matcher {
                     paramCount = 2
@@ -105,7 +113,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val methodC by lazy<List<Method>> {
-        DexKit.findMemberList("MC") { bridge ->
+        requiredMemberList("MC") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass = methodA.first().declaringClass.name
@@ -118,7 +126,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val cloudA by lazy<Method?> {
-        DexKit.findMember("CA") { bridge ->
+        requiredMember("CA") { bridge ->
             // 2.3.0.0.9 起 TAG 已混淆
             bridge.findMethod {
                 matcher {
@@ -268,3 +276,4 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 }
+

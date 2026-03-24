@@ -45,9 +45,6 @@ public class VariousThirdApps extends BaseLoad {
 
     public static List<String> mAppsUsingInputMethod = new ArrayList<>();
 
-    public VariousThirdApps() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

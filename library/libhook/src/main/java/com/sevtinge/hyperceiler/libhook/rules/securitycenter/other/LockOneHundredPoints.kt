@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 import android.view.View
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -29,8 +28,17 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object LockOneHundredPoints : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        scoreOld
+        score
+        score3
+        addRiskApp
+        return true
+    }
     private val scoreOld by lazy<Method> {
-        DexKit.findMember("LockOneHundredPoints1") {
+        requiredMember("LockOneHundredPoints1") {
             it.findClass {
                 matcher {
                     className = "com.miui.securityscan.scanner.ScoreManager"
@@ -45,7 +53,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     private val score by lazy<Method> {
-        DexKit.findMember("LockOneHundredPoints2") {
+        requiredMember("LockOneHundredPoints2") {
             it.findClass {
                 matcher {
                     className = "com.miui.securityscan.scanner.ScoreManager"
@@ -60,7 +68,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     private val score3 by lazy<Method> {
-        DexKit.findMember("LockOneHundredPointsField") {
+        requiredMember("LockOneHundredPointsField") {
             it.findClass {
                 matcher {
                     className = "com.miui.securityscan.scanner.ScoreManager"
@@ -82,7 +90,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     private val addRiskApp by lazy<Method> {
-        DexKit.findMember("AddRiskApp") {
+        requiredMember("AddRiskApp") {
             it.findClass {
                 matcher {
                     className = "com.miui.securityscan.scanner.ScoreManager"
@@ -123,3 +131,4 @@ object LockOneHundredPoints : BaseHook() {
         }
     }
 }
+

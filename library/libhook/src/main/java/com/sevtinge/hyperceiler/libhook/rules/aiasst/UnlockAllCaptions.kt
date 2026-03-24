@@ -19,18 +19,23 @@
 package com.sevtinge.hyperceiler.libhook.rules.aiasst
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockAllCaptions : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        getMethod
+        return true
+    }
     private val mBuildConfigUtils by lazy {
         findClassIfExists("com.xiaomi.aiasst.vision.common.BuildConfigUtils")
     }
     private val getMethod by lazy<Method> {
-        DexKit.findMember("BuildConfigUtils") {
+        requiredMember("BuildConfigUtils") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -57,3 +62,4 @@ object UnlockAllCaptions : BaseHook() {
         }
     }
 }
+

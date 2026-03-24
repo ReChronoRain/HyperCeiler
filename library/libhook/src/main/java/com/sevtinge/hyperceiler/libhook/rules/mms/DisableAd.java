@@ -22,7 +22,6 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -40,6 +39,29 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class DisableAd extends BaseHook {
+    private List<Method> mHideButtonMethods;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mHideButtonMethods = requiredMemberList("HideButton", new IDexKitList() {
+            @Override
+            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodDataList methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .name("setHideButton")
+                    )
+                );
+                return methodData;
+            }
+        });
+        return true;
+    }
+
     @Override
     public void init() {
 
@@ -51,19 +73,7 @@ public class DisableAd extends BaseHook {
                 }
             });
 
-        List<Method> methods = DexKit.findMemberList("HideButton", new IDexKitList() {
-            @Override
-            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodDataList methodData = bridge.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
-                        .name("setHideButton")
-                    )
-                );
-                return methodData;
-            }
-        });
-
-        for (Method method2 : methods) {
+        for (Method method2 : mHideButtonMethods) {
             if (!Modifier.isAbstract(method2.getModifiers())) {
                 hookMethod(method2, new IMethodHook() {
                     @Override

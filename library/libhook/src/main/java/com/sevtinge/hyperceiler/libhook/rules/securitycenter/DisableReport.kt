@@ -19,20 +19,27 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object DisableReport : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("DisableReport") {
+    override fun useDexKit() = true
+    private lateinit var disableReportMethod: Method
+
+    override fun initDexKit(): Boolean {
+        disableReportMethod = requiredMember("DisableReport") {
             it.findMethod {
                 matcher {
                     usingEqStrings("android.intent.action.VIEW", "com.xiaomi.market")
                     returnType = "boolean"
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        disableReportMethod.createHook {
             returnConstant(false)
         }
     }

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -36,11 +35,17 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 ;
 
 public class SoGouClipboard extends BaseHook {
+    private Method mSogouMethod;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
     public boolean clipboard;
 
     @Override
-    public void init() {
-        Method method = DexKit.findMember("sogou", new IDexKit() {
+    protected boolean initDexKit() {
+        mSogouMethod = requiredMember("sogou", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 return bridge.findMethod(FindMethod.create()
@@ -51,8 +56,12 @@ public class SoGouClipboard extends BaseHook {
                     )).single();
             }
         });
+        return true;
+    }
 
-        hookMethod(method, new IMethodHook() {
+    @Override
+    public void init() {
+        hookMethod(mSogouMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 clipboard = true;

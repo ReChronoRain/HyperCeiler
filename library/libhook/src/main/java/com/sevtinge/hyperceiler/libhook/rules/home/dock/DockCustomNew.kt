@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearMi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
@@ -49,6 +48,12 @@ import java.lang.reflect.Method
 import java.util.function.Consumer
 
 object DockCustomNew : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        showAnimationLambda
+        return true
+    }
     private val launcherClass by lazy {
         loadClassOrNull("com.miui.home.launcher.BaseLauncher")
             ?: loadClass("com.miui.home.launcher.Launcher")
@@ -64,7 +69,7 @@ object DockCustomNew : BaseHook() {
 
 
     private val showAnimationLambda by lazy {
-        DexKit.findMember("ShowAnimationLambda") { bridge ->
+        requiredMember("ShowAnimationLambda") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompat", StringMatchType.StartsWith)
@@ -204,3 +209,4 @@ object DockCustomNew : BaseHook() {
         }
     }
 }
+

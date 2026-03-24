@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -36,9 +35,16 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HideXOptModeTip extends BaseHook {
+    private Method mIsXOptModeMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("IsXOptMode", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mIsXOptModeMethod = requiredMember("IsXOptMode", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +57,12 @@ public class HideXOptModeTip extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mIsXOptModeMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(true);

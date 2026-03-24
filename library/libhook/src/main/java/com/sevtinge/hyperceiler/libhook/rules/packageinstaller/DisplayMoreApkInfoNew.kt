@@ -33,7 +33,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodsByExactParameters
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
@@ -51,12 +50,22 @@ import java.text.DecimalFormat
 import kotlin.math.roundToInt
 
 object DisplayMoreApkInfoNew : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        viewExcludeMethod2
+        viewExcludeMethod1
+        viewMethod
+        entryMethod
+        viewHolderField
+        return true
+    }
     private var mApkInfo: Class<*>? = null
     private var mAppInfoViewObject: Class<*>? = null
     private var mAppInfoViewObjectViewHolder: Class<*>? = null
 
     private val viewExcludeMethod2 by lazy<Method> {
-        DexKit.findMember("ViewExcludeMethod2") {
+        requiredMember("ViewExcludeMethod2") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -73,7 +82,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
     }
 
     private val viewExcludeMethod1 by lazy<Method> {
-        DexKit.findMember("ViewExcludeMethod1") {
+        requiredMember("ViewExcludeMethod1") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -90,7 +99,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
     }
 
     private val viewMethod by lazy<List<Method>> {
-        DexKit.findMemberList("ViewMethod") {
+        requiredMemberList("ViewMethod") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -106,7 +115,7 @@ object DisplayMoreApkInfoNew : BaseHook() {
     }
 
     private val entryMethod by lazy<Method> {
-        DexKit.findMember("EntryMethod") {
+        requiredMember("EntryMethod") {
             it.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -121,9 +130,8 @@ object DisplayMoreApkInfoNew : BaseHook() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    override fun init() {
-        val viewHolderField = DexKit.findMember<Field?>("ViewHolder") { bridge ->
+    private val viewHolderField by lazy<Field?> {
+        optionalMember("ViewHolder") { bridge ->
             bridge.findClass {
                 matcher {
                     addUsingString("context.ge…ta.versionName", StringMatchType.Contains)
@@ -135,7 +143,14 @@ object DisplayMoreApkInfoNew : BaseHook() {
                     modifiers = Modifier.PRIVATE
                 }
             }.singleOrNull()
-        } ?: return
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun init() {
+        if (viewHolderField == null) {
+            return
+        }
 
         // pick the first view method that is not excluded
         val reallyViewMethod: Method? = viewMethod.firstOrNull { it != viewExcludeMethod1 && it != viewExcludeMethod2 }

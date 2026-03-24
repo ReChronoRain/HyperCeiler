@@ -24,7 +24,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPa
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -39,9 +38,17 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DisableRiskTip extends BaseHook {
+    private Method mMethod1;
+    private Method mMethod2;
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("Method1", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mMethod1 = requiredMember("Method1", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,7 +58,7 @@ public class DisableRiskTip extends BaseHook {
                 return methodData;
             }
         });
-        Method method2 = DexKit.findMember("Method2", new IDexKit() {
+        mMethod2 = requiredMember("Method2", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -63,6 +70,11 @@ public class DisableRiskTip extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
+
+    @Override
+    public void init() {
         findAndHookMethod("com.miui.smsextra.sdk.SmartContact", "isRiskyNumber", new IMethodHook()  {
             @Override
             public void before(HookParam param) {
@@ -90,7 +102,7 @@ public class DisableRiskTip extends BaseHook {
                     }
                 });
         }
-        hookMethod(method1, new IMethodHook() {
+        hookMethod(mMethod1, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
@@ -100,7 +112,7 @@ public class DisableRiskTip extends BaseHook {
                 // XposedLog.d("smsrisk 2 g3.a "+getObjectField(param.getArgs()[0], "mRiskType"));
             }
         });
-        hookMethod(method2, new IMethodHook() {
+        hookMethod(mMethod2, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 // XposedLog.d("smsrisk n6.p "+getObjectField(param.getArgs()[0], "mRiskType"));

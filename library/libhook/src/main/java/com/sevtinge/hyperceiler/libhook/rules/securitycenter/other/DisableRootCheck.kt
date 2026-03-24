@@ -19,20 +19,27 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object DisableRootCheck : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("DisableRootCheck") {
+    override fun useDexKit() = true
+    private lateinit var disableRootCheckMethod: Method
+
+    override fun initDexKit(): Boolean {
+        disableRootCheckMethod = requiredMember("DisableRootCheck") {
             it.findMethod {
                 matcher {
                     usingEqStrings("key_check_item_root")
                     returnType = "boolean"
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        disableRootCheckMethod.createHook {
             returnConstant(false)
         }
     }

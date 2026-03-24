@@ -25,12 +25,16 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -50,6 +54,7 @@ import io.github.libxposed.api.XposedModuleInterface.SystemServerStartingParam;
 public abstract class BaseHook {
     public static String ACTION_PREFIX = "com.sevtinge.hyperceiler.module.action.";
     public final String TAG = getClass().getSimpleName();
+    private volatile boolean mInDexKitInit = false;
 
     @FunctionalInterface
     protected interface ThrowableRunnable {
@@ -65,6 +70,110 @@ public abstract class BaseHook {
      * 初始化 Hook，子类实现此方法编写具体 Hook 逻辑
      */
     public abstract void init();
+
+    /**
+     * 当前 Hook 是否需要 DexKit。
+     * <p>
+     * 返回 true 后，框架会在当前包加载期间为该 Hook 准备 DexKit 会话，
+     * 并先调用 {@link #initDexKit()}，再调用 {@link #init()}。
+     */
+    protected boolean useDexKit() {
+        return false;
+    }
+
+    /**
+     * DexKit 初始化阶段。
+     * <p>
+     * 约定：
+     * 1. 只在这里解析 DexKit 成员，不要在 hook 回调里首次触发 DexKit。
+     * 2. {@link #init()} 只消费这里解析好的 Method/Field/Class/List。
+     * <p>
+     * Kotlin 示例：
+     * <pre>{@code
+     * private lateinit var targetMethod: Method
+     *
+     * override fun useDexKit() = true
+     *
+     * override fun initDexKit(): Boolean {
+     *     targetMethod = requiredMember("targetMethod") { bridge ->
+     *         bridge.findMethod { matcher { name = "target" } }.single()
+     *     }
+     *     return true
+     * }
+     * }</pre>
+     * Java 示例：
+     * <pre>{@code
+     * private Method targetMethod;
+     *
+     * @Override
+     * protected boolean useDexKit() {
+     *     return true;
+     * }
+     *
+     * @Override
+     * protected boolean initDexKit() {
+     *     targetMethod = requiredMember("targetMethod",
+     *         bridge -> bridge.findMethod(...).single());
+     *     return true;
+     * }
+     * }</pre>
+     *
+     * @return true 表示继续执行 {@link #init()}；false 表示跳过当前 Hook。
+     */
+    protected boolean initDexKit() {
+        return true;
+    }
+
+    final void setDexKitInitInProgress(boolean inProgress) {
+        mInDexKitInit = inProgress;
+    }
+
+    private void ensureDexKitInitPhase(String apiName) {
+        if (!mInDexKitInit) {
+            throw new IllegalStateException(TAG + ": " + apiName + " can only be used in initDexKit()");
+        }
+    }
+
+    protected final <T> T requiredMember(@NonNull String key, @NonNull IDexKit finder) {
+        ensureDexKitInitPhase("requiredMember");
+        T member = DexKit.findMember(key, finder);
+        if (member == null) {
+            throw new IllegalStateException(TAG + ": required DexKit member not found: " + key);
+        }
+        return member;
+    }
+
+    protected final <T> List<T> requiredMemberList(@NonNull String key, @NonNull IDexKitList finder) {
+        ensureDexKitInitPhase("requiredMemberList");
+        List<T> members = DexKit.findMemberList(key, finder);
+        if (members == null || members.isEmpty()) {
+            throw new IllegalStateException(TAG + ": required DexKit member list not found: " + key);
+        }
+        return members;
+    }
+
+    @Nullable
+    protected final <T> T optionalMember(@NonNull String key, @NonNull IDexKit finder) {
+        ensureDexKitInitPhase("optionalMember");
+        try {
+            return DexKit.findMember(key, finder);
+        } catch (Throwable t) {
+            XposedLog.w(TAG, getPackageName(), "Optional DexKit member failed: " + key, t);
+            return null;
+        }
+    }
+
+    @NonNull
+    protected final <T> List<T> optionalMemberList(@NonNull String key, @NonNull IDexKitList finder) {
+        ensureDexKitInitPhase("optionalMemberList");
+        try {
+            List<T> members = DexKit.findMemberList(key, finder);
+            return members != null ? members : Collections.emptyList();
+        } catch (Throwable t) {
+            XposedLog.w(TAG, getPackageName(), "Optional DexKit member list failed: " + key, t);
+            return Collections.emptyList();
+        }
+    }
 
     /**
      * 获取类加载器
