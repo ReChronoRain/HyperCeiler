@@ -27,19 +27,20 @@ import android.provider.Settings
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PackageWatchdog
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.removeAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHooks
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.libxposed.api.XposedModuleInterface
+import java.lang.reflect.Constructor
 
 class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
     private val crashHandler: ICrashHandler = SafeModeHandler
@@ -66,70 +67,184 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
      * 允许 HyperCeiler 在后台启动界面
      */
     private fun hookBackgroundActivityStart(classLoader: ClassLoader) {
-        val bgControllerClass = "com.android.server.wm.BackgroundActivityStartController"
-        val balVerdictClass = $$"$$bgControllerClass$BalVerdict"
+        val bgControllerClassName = "com.android.server.wm.BackgroundActivityStartController"
+        val balStateClassName = $$"$$bgControllerClassName$BalState"
+        val balVerdictClassName = $$"$$bgControllerClassName$BalVerdict"
 
-        /*val paramTypes = if (DeviceHelper.System.isMoreAndroidVersion(36)) {
-            arrayOf(
-                Int::class.java, Int::class.java, String::class.java, Int::class.java,
-                "com.android.server.wm.WindowProcessController",
-                "com.android.server.am.PendingIntentRecord",
-                Boolean::class.java,
-                "com.android.server.wm.ActivityRecord",
-                Intent::class.java,
-                ActivityOptions::class.java
-            )
+        val bgControllerClass = EzxHelpUtils.findClassIfExists(bgControllerClassName, classLoader)
+        val balStateClass = EzxHelpUtils.findClassIfExists(balStateClassName, classLoader)
+        val allowVerdictFactory = resolveAllowByDefaultVerdictFactory(classLoader, balVerdictClassName)
+
+        if (bgControllerClass == null) {
+            XposedLog.w(TAG, "BackgroundActivityStartController not found, skip BAS hooks")
         } else {
-            arrayOf(
-                Int::class.java, Int::class.java, String::class.java, Int::class.java, Int::class.java,
-                "com.android.server.wm.WindowProcessController",
-                "com.android.server.am.PendingIntentRecord",
-                "android.app.BackgroundStartPrivileges",
-                "com.android.server.wm.ActivityRecord",
-                Intent::class.java,
-                ActivityOptions::class.java
-            )
-        }*/
+            val chainHookInstalled = if (balStateClass != null && allowVerdictFactory != null) {
+                hookBackgroundActivityStartChain(bgControllerClass, balStateClass, allowVerdictFactory)
+            } else {
+                false
+            }
 
-        EzxHelpUtils.findClassIfExists(bgControllerClass, classLoader)?.let { clazz ->
-            try {
-                clazz.methodFinder()
-                    .filterByName("checkBackgroundActivityStart")
-                    .first()
-                    .createBeforeHook { param ->
-                        val pkg = param.args[2] as? String
-                        if (pkg == ProjectApi.mAppModulePkg) {
-                            val balAllowDefault = EzxHelpUtils.getStaticObjectField(clazz, "BAL_ALLOW_DEFAULT")
-                            if (balAllowDefault != null) {
-                                param.result = balAllowDefault
-                            } else {
-                                XposedLog.w(TAG, "BAL_ALLOW_DEFAULT is null, skipping hook")
-                            }
-                        }
-                    }
-            } catch (e: Exception) {
-                XposedLog.e(TAG, "Failed to hook checkBackgroundActivityStart", e)
+            if (!chainHookInstalled) {
+                hookBackgroundActivityStartFallback(bgControllerClass, allowVerdictFactory)
             }
         }
 
-        EzxHelpUtils.hookAllMethods("com.android.server.wm.ActivityStarterImpl", classLoader, "isAllowedStartActivity",
-            object : IMethodHook {
-                override fun before(param: HookParam) {
-                    val pkg = param.args.firstOrNull { it is String } as? String
-                    if (pkg == ProjectApi.mAppModulePkg) {
-                        param.result = true
-                    }
-                }
-            })
+        hookActivityStarterImpl(classLoader)
+    }
 
-        EzxHelpUtils.hookAllMethods("com.android.server.wm.ActivityStarterImpl", classLoader, "isAllowedStartActivity", object : IMethodHook {
-            override fun before(param: HookParam) {
-                val pkg = param.args.firstOrNull { it is String } as? String
-                if (pkg == ProjectApi.mAppModulePkg) {
-                    param.result = true
+    private fun hookBackgroundActivityStartChain(
+        bgControllerClass: Class<*>,
+        balStateClass: Class<*>,
+        allowVerdictFactory: () -> Any
+    ): Boolean {
+        return runCatching {
+            bgControllerClass.chainMethod("abortLaunch", balStateClass) {
+                val state = getArg(0)
+                if (shouldAllowBackgroundActivityStart(state)) {
+                    return@chainMethod allowVerdictFactory()
+                }
+                proceed()
+            }
+            XposedLog.i(TAG, "Installed BAL chain hook: abortLaunch")
+            true
+        }.onFailure { throwable ->
+            XposedLog.w(TAG, "Failed to install BAL chain hook: abortLaunch", throwable)
+        }.getOrDefault(false)
+    }
+
+    private fun hookBackgroundActivityStartFallback(
+        bgControllerClass: Class<*>,
+        allowVerdictFactory: (() -> Any)?
+    ) {
+        if (allowVerdictFactory == null) {
+            XposedLog.w(TAG, "BalVerdict factory unavailable, skip BAS fallback hook")
+            return
+        }
+
+        runCatching {
+            bgControllerClass.methodFinder()
+                .filterByName("checkBackgroundActivityStart")
+                .filterByParamCount(11)
+                .first()
+                .hook {
+                    val pkg = getArg(2) as? String
+                    if (isModulePackage(pkg)) {
+                        return@hook allowVerdictFactory()
+                    }
+                    proceed()
+                }
+        }.onSuccess {
+            XposedLog.i(TAG, "Installed BAS fallback hook on checkBackgroundActivityStart")
+        }.onFailure { throwable ->
+            XposedLog.e(TAG, "Failed to hook checkBackgroundActivityStart", throwable)
+        }
+    }
+
+    private fun hookActivityStarterImpl(classLoader: ClassLoader) {
+        val stubClassName = "com.android.server.wm.ActivityStarterStub"
+        val stubClass = EzxHelpUtils.findClassIfExists(stubClassName, classLoader)
+        if (stubClass == null) {
+            XposedLog.w(TAG, "ActivityStarterStub not found, skip MIUI allow hook")
+            return
+        }
+
+        runCatching {
+            stubClass.chainMethod(
+                "isAllowedStartActivity",
+                Int::class.javaPrimitiveType!!,
+                Int::class.javaPrimitiveType!!,
+                String::class.java
+            ) {
+                val pkg = getArg(2) as? String
+                if (isModulePackage(pkg)) {
+                    return@chainMethod true
+                }
+                proceed()
+            }
+            XposedLog.i(TAG, "Installed ActivityStarter allow hook: $stubClassName#isAllowedStartActivity(int,int,String)")
+        }.onFailure { throwable ->
+            XposedLog.w(TAG, "Failed to install ActivityStarter allow hook", throwable)
+        }
+    }
+
+    private fun resolveAllowByDefaultVerdictFactory(
+        classLoader: ClassLoader,
+        balVerdictClassName: String
+    ): (() -> Any)? {
+        val balVerdictClass = EzxHelpUtils.findClassIfExists(balVerdictClassName, classLoader)
+            ?: run {
+                XposedLog.w(TAG, "BalVerdict class not found: $balVerdictClassName")
+                return null
+            }
+
+        val constructor = findAllowByDefaultConstructor(balVerdictClass)
+        if (constructor != null) {
+            return {
+                when (constructor.parameterTypes.size) {
+                    3 -> constructor.newInstance(1, false, "Default")
+                    else -> constructor.newInstance(1, "Default")
                 }
             }
-        })
+        }
+
+        val sharedVerdict = listOf("ALLOW_BY_DEFAULT", "BAL_ALLOW_DEFAULT")
+            .firstNotNullOfOrNull { fieldName ->
+                runCatching {
+                    EzxHelpUtils.getStaticObjectField(balVerdictClass, fieldName)
+                }.getOrNull()
+            }
+
+        if (sharedVerdict != null) {
+            XposedLog.w(TAG, "Falling back to shared BalVerdict instance; verdict flags may be reused")
+            return { sharedVerdict }
+        }
+
+        XposedLog.w(TAG, "Unable to resolve allow-by-default BalVerdict factory")
+        return null
+    }
+
+    private fun findAllowByDefaultConstructor(balVerdictClass: Class<*>): Constructor<*>? {
+        return runCatching {
+            balVerdictClass.declaredConstructors.firstOrNull { constructor ->
+                val parameterTypes = constructor.parameterTypes
+                when (parameterTypes.size) {
+                    2 -> {
+                        parameterTypes[0] == Int::class.javaPrimitiveType &&
+                            parameterTypes[1] == String::class.java
+                    }
+
+                    3 -> {
+                        parameterTypes[0] == Int::class.javaPrimitiveType &&
+                            parameterTypes[1] == Boolean::class.javaPrimitiveType &&
+                            parameterTypes[2] == String::class.java
+                    }
+
+                    else -> false
+                }
+            }?.apply {
+                isAccessible = true
+            }
+        }.getOrNull()
+    }
+
+    private fun shouldAllowBackgroundActivityStart(state: Any?): Boolean {
+        if (state == null) return false
+
+        val callingPackage = runCatching {
+            EzxHelpUtils.getObjectField(state, "mCallingPackage") as? String
+        }.getOrNull()
+        if (isModulePackage(callingPackage)) {
+            return true
+        }
+
+        val realCallingPackage = runCatching {
+            EzxHelpUtils.getObjectField(state, "mRealCallingPackage") as? String
+        }.getOrNull()
+        return isModulePackage(realCallingPackage)
+    }
+
+    private fun isModulePackage(pkg: String?): Boolean {
+        return pkg == ProjectApi.mAppModulePkg
     }
 
     /**
