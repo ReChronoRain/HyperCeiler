@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.provision.widget;
 
+import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -16,11 +17,14 @@ import fan.bottomsheet.BottomSheetModal;
 
 public class TermsAndStatementBottomSheet {
 
-    FragmentActivity mActivity;
+    static FragmentActivity mActivity;
     BottomSheetModal mBottomSheet;
 
-    ProgressBar mProgressBar;
-    MarkdownView mMarkdownView;
+    @SuppressLint("StaticFieldLeak")
+    static ProgressBar mProgressBar;
+    @SuppressLint("StaticFieldLeak")
+    static TextView verificationCodeTip;
+    static MarkdownView mMarkdownView;
 
     public TermsAndStatementBottomSheet(FragmentActivity activity) {
         mActivity = activity;
@@ -37,20 +41,21 @@ public class TermsAndStatementBottomSheet {
 
         mBottomSheet.setContentView(R.layout.fragment_bottom_sheet_web);
         View rootView = mBottomSheet.getRootView();
-        initView(rootView);
+        mProgressBar = rootView.findViewById(R.id.progress_bar);
+        mMarkdownView = rootView.findViewById(R.id.markdown);
+        verificationCodeTip = rootView.findViewById(R.id.verification_code_tip);
+        initView();
     }
 
-    public void initView(View view) {
+    public static void initView() {
         OobeUtils.refreshSecureSixDigit();
-        mProgressBar = view.findViewById(R.id.progress_bar);
-        mMarkdownView = view.findViewById(R.id.markdown);
 
         mProgressBar.setVisibility(View.VISIBLE);
         mMarkdownView.setVisibility(View.INVISIBLE);
+        verificationCodeTip.setVisibility(View.GONE);
 
         String verificationCode = OobeUtils.getSecureSixDigit();
 
-        TextView verificationCodeTip = view.findViewById(R.id.verification_code_tip);
         mMarkdownView.setOnMarkdownLoadListener(success -> {
             if (success) {
                 mProgressBar.setVisibility(View.INVISIBLE);
@@ -69,7 +74,7 @@ public class TermsAndStatementBottomSheet {
     }
 
 
-    public void loadMarkdown(String uri) {
+    public static void loadMarkdown(String uri) {
         if (mMarkdownView != null) {
             mMarkdownView.loadMarkdownFromUrl(uri);
         }

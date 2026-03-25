@@ -6,6 +6,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
@@ -32,6 +34,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,6 +55,8 @@ public class MarkdownView extends TextView {
     private static final int COLOR_LINK = Color.parseColor("#1A73E8");
     private static final int COLOR_BULLET = Color.parseColor("#888888");
     private static final int COLOR_DIVIDER = Color.parseColor("#CCCCCC");
+
+    private static String currentUrl;
 
     // 定义回调接口
     public interface OnMarkdownLoadListener {
@@ -78,12 +87,32 @@ public class MarkdownView extends TextView {
      * 加载在线 MD 文件
      */
     public void loadMarkdownFromUrl(final String urlString) {
-        new Thread(() -> {
+        currentUrl = urlString;
+
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnected();
+
+        if (!isConnected) {
+            String fallbackTemplate = getContext().getString(com.sevtinge.hyperceiler.provision.R.string.provision_get_md_failed);
+            String fallbackContent = fallbackTemplate.replace("%URL%", currentUrl);
+            mainHandler.post(() -> {
+                render(fallbackContent);
+                if (loadListener != null) loadListener.onResult(true);
+            });
+            return;
+        }
+
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        Future<?> future = executor.submit(() -> {
             boolean success = false;
             try {
-                URL url = new URL(urlString);
+                URL url = new URL(currentUrl);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setConnectTimeout(5000);
+                conn.setReadTimeout(5000);
+
                 if (conn.getResponseCode() == 200) {
                     BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     StringBuilder sb = new StringBuilder();
@@ -92,25 +121,44 @@ public class MarkdownView extends TextView {
                         sb.append(line).append("\n");
                     }
                     reader.close();
-                    final String rawContent = sb.toString();
+                    conn.disconnect();
 
-                    // 渲染并通知成功
+                    final String rawContent = sb.toString();
                     mainHandler.post(() -> {
                         render(rawContent);
                         if (loadListener != null) loadListener.onResult(true);
                     });
                     success = true;
                 }
-                conn.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            // 如果失败，通知外部
             if (!success) {
                 mainHandler.post(() -> {
-                    if (loadListener != null) loadListener.onResult(false);
+                    String fallbackTemplate = getContext().getString(com.sevtinge.hyperceiler.provision.R.string.provision_get_md_failed);
+                    String fallbackContent = fallbackTemplate.replace("%URL%", currentUrl);
+                    render(fallbackContent);
+                    if (loadListener != null) loadListener.onResult(true);
                 });
+            }
+        });
+
+        executor.shutdown();
+
+        new Thread(() -> {
+            try {
+                future.get(10, TimeUnit.SECONDS);
+            } catch (TimeoutException e) {
+                future.cancel(true);
+                mainHandler.post(() -> {
+                    String fallbackTemplate = getContext().getString(com.sevtinge.hyperceiler.provision.R.string.provision_get_md_failed);
+                    String fallbackContent = fallbackTemplate.replace("%URL%", currentUrl);
+                    render(fallbackContent);
+                    if (loadListener != null) loadListener.onResult(true);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }).start();
     }
@@ -214,10 +262,23 @@ public class MarkdownView extends TextView {
     private class CustomClickableSpan extends ClickableSpan {
         private final String url;
         CustomClickableSpan(String url) { this.url = url; }
-        @Override public void onClick(@NonNull View w) {
-            try { getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url))); } catch (Exception ignored) {}
+
+        @Override
+        public void onClick(@NonNull View w) {
+            if ("hyperceiler://refresh".equals(url)) {
+                if (currentUrl != null) {
+                    TermsAndStatementBottomSheet.loadMarkdown(currentUrl);
+                    TermsAndStatementBottomSheet.initView();
+                }
+                return;
+            }
+            try {
+                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            } catch (Exception ignored) {}
         }
-        @Override public void updateDrawState(@NonNull TextPaint ds) {
+
+        @Override
+        public void updateDrawState(@NonNull TextPaint ds) {
             super.updateDrawState(ds); ds.setColor(COLOR_LINK); ds.setUnderlineText(true);
         }
     }
