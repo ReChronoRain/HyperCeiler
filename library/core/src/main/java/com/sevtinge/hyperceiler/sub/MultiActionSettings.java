@@ -29,33 +29,36 @@ import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.preference.Preference;
+import androidx.preference.PreferenceCategory;
+import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 
-import fan.preference.RadioButtonPreference;
+import java.util.HashMap;
 
-public class MultiActionSettings extends SettingsPreferenceFragment {
+import fan.preference.RadioButtonPreference;
+import fan.preference.RadioButtonPreferenceCategory;
+
+public class MultiActionSettings extends SettingsPreferenceFragment
+    implements Preference.OnPreferenceChangeListener,
+    AppSelectorRadioButtonPreference.onArrowViewClickListener {
 
     Bundle args;
     String mKey = null;
     String mActionKey;
-    String mAppValue;
 
-    RadioButtonPreference mClearMemory;
-    RadioButtonPreference mInvertColors;
-    RadioButtonPreference mNoAction;
-    RadioButtonPreference mOpenNotificationCenter;
-    RadioButtonPreference mScreenLock;
-    RadioButtonPreference mScreenSleep;
-    RadioButtonPreference mScreenCapture;
-    RadioButtonPreference mOpenPowerMenu;
-    RadioButtonPreference mScreenRecents;
-    RadioButtonPreference mVolumeDialog;
-    RadioButtonPreference mOpenApp;
-    Preference mAppSelector;
+    private int mCurrentOptimizeMode;
+
+    int[] mMultiActionValues;
+    String[] mMultiActionKeys;
+
+    HashMap<String , Integer> mMultiActions = new HashMap<>();
+
+    private AppSelectorRadioButtonPreference mExpertPreference;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -68,88 +71,24 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
         mKey = args.getString("key");
         mActionKey = mKey + "_action";
 
-        mNoAction = findPreference("prefs_key_no_action");
-        mOpenNotificationCenter = findPreference("prefs_key_open_notification_center");
-        mScreenLock = findPreference("prefs_key_screen_lock");
-        mScreenSleep = findPreference("prefs_key_screen_sleep");
-        mScreenCapture = findPreference("prefs_key_screen_capture");
-        mOpenPowerMenu = findPreference("prefs_key_open_powermenu");
-        mClearMemory = findPreference("prefs_key_clear_memory");
-        mInvertColors = findPreference("prefs_key_invert_colors");
-        mScreenRecents = findPreference("prefs_key_screen_recents");
-        mVolumeDialog = findPreference("prefs_key_volume_dialog");
-        mOpenApp = findPreference("prefs_key_open_app");
-        mAppSelector = findPreference("prefs_key_open_app_selector");
-        updateAction();
+        mCurrentOptimizeMode = getMultiActionMode();
+        mMultiActionValues = getResources().getIntArray(R.array.multi_action_value);
+        mMultiActionKeys = getResources().getStringArray(R.array.multi_action_key);
+        generateScreenColorPreference();
     }
 
-    private void updateAction() {
-        int value = hasKey(mActionKey) ? PrefsBridge.getInt(mActionKey, 0) : 0;
-        switch (value) {
-            case 0 -> mNoAction.setChecked(true);
-            case 1 -> mOpenNotificationCenter.setChecked(true);
-            case 2 -> mClearMemory.setChecked(true);
-            case 3 -> mInvertColors.setChecked(true);
-            case 4 -> mScreenLock.setChecked(true);
-            case 5 -> mScreenSleep.setChecked(true);
-            case 6 -> mScreenCapture.setChecked(true);
-            case 7 -> mScreenRecents.setChecked(true);
-            case 8 -> mVolumeDialog.setChecked(true);
-            case 12 -> mOpenPowerMenu.setChecked(true);
-            case 13 -> {
-                mOpenApp.setChecked(true);
-                updateAppSelectorTitle();
-            }
-        }
+    private int getMultiActionMode() {
+        return hasKey(mActionKey) ? PrefsBridge.getInt(mActionKey, 0) : 0;
     }
 
-    @Override
-    public boolean onPreferenceTreeClick(Preference preference) {
-        if (preference != mAppSelector) {
-            editActionIntSharedPrefs(getAction(preference));
-        } else {
-            Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-            intent.putExtra("mode", LAUNCHER_PICK_MODE);
-            intent.putExtra("key", mKey);
-            appPickerLauncher.launch(intent);
-        }
-        return true;
-    }
-
-    private int getAction(Preference preference) {
-        if (preference == mOpenNotificationCenter) {
-            return 1;
-        } else if (preference == mClearMemory) {
-            return 2;
-        } else if (preference == mInvertColors) {
-            return 3;
-        } else if (preference == mScreenLock) {
-            return 4;
-        } else if (preference == mScreenSleep) {
-            return 5;
-        } else if (preference == mScreenCapture) {
-            return 6;
-        } else if (preference == mScreenRecents) {
-            return 7;
-        } else if (preference == mVolumeDialog) {
-            return 8;
-        } else if (preference == mOpenPowerMenu) {
-            return 12;
-        } else if (preference == mOpenApp) {
-            return 13;
-        } else {
-            return 0;
-        }
-    }
-
-    private void editActionIntSharedPrefs(int value) {
-        PrefsBridge.putByApp(mActionKey, value);
+    private void setMultiActionMode(int mode) {
+        PrefsBridge.putByApp(mActionKey, mode);
     }
 
     public void updateAppSelectorTitle() {
         if (hasKey(mKey + "_app")) {
             String title = getAppName(getContext(), PrefsBridge.getString(mKey + "_app", ""));
-            mAppSelector.setTitle(title);
+            mExpertPreference.setSummary(title);
         }
     }
 
@@ -188,4 +127,90 @@ public class MultiActionSettings extends SettingsPreferenceFragment {
                 updateAppSelectorTitle();
             }
         });
+
+
+
+
+    private void generateScreenColorPreference() {
+        PreferenceCategory preferenceCategory = generateCategory();
+        String[] multiActionTitles = getResources().getStringArray(R.array.multi_action_title);
+        for (int i = 0; i < mMultiActionKeys.length; i++) {
+            String key = mMultiActionKeys[i];
+            mMultiActions.put(key, mMultiActionValues[i]);
+            RadioButtonPreferenceCategory radioButtonPreferenceCategory = new RadioButtonPreferenceCategory(getThemedContext());
+            preferenceCategory.addPreference(radioButtonPreferenceCategory);
+            if (key.equals("prefs_key_open_app")) {
+                addExpertModeIfNeed(radioButtonPreferenceCategory, key);
+            } else {
+                RadioButtonPreference radioButtonPreference = new RadioButtonPreference(getThemedContext());
+                radioButtonPreference.setKey(mMultiActionKeys[i]);
+                radioButtonPreference.setTitle(multiActionTitles[i]);
+                radioButtonPreference.setPersistent(false);
+                radioButtonPreference.setLayoutResource(fan.preference.R.layout.miuix_preference_radiobutton_two_state_background);
+                radioButtonPreference.setOnPreferenceChangeListener(this);
+                radioButtonPreferenceCategory.addPreference(radioButtonPreference);
+                radioButtonPreference.setChecked(mMultiActionValues[i] == mCurrentOptimizeMode);
+            }
+        }
+    }
+
+    private void addExpertModeIfNeed(RadioButtonPreferenceCategory radioButtonPreferenceCategory, String key) {
+        mExpertPreference = new AppSelectorRadioButtonPreference(getThemedContext());
+        mExpertPreference.setKey(key);
+        mExpertPreference.setTitle(getResources().getString(R.string.array_global_actions_launch));
+        if (hasKey(mKey + "_app")) {
+            String title = getAppName(getContext(), PrefsBridge.getString(mKey + "_app", ""));
+            mExpertPreference.setSummary(title);
+        } else {
+            mExpertPreference.setSummary(getResources().getString(R.string.array_global_actions_launch_choose));
+        }
+        mExpertPreference.setPersistent(false);
+        mExpertPreference.setLayoutResource(fan.preference.R.layout.miuix_preference_radiobutton_two_state_background);
+        mExpertPreference.setOnPreferenceChangeListener(this);
+        mExpertPreference.setArrowViewClickListener(this);
+        radioButtonPreferenceCategory.addPreference(mExpertPreference);
+        mExpertPreference.setChecked(mCurrentOptimizeMode == 13);
+    }
+
+    private PreferenceCategory generateCategory() {
+        PreferenceScreen preferenceScreen = getPreferenceScreen();
+        PreferenceCategory preferenceCategory = new PreferenceCategory(getPrefContext());
+        preferenceCategory.setKey("multi_action");
+        preferenceCategory.setPersistent(false);
+        preferenceScreen.addPreference(preferenceCategory);
+        return preferenceCategory;
+    }
+
+    @Override
+    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+        String key = preference.getKey();
+        if (preference instanceof RadioButtonPreference) {
+            updateRadioButtonPreference(key);
+            return true;
+        }
+        return false;
+    }
+
+    private void updateRadioButtonPreference(String key) {
+        setMultiActionMode(mMultiActions.get(key));
+        PreferenceCategory preferenceCategory = getPreferenceScreen().findPreference("multi_action");
+        if (preferenceCategory != null) {
+            int preferenceCount = preferenceCategory.getPreferenceCount();
+            for (int i = 0; i < preferenceCount; i++) {
+                RadioButtonPreferenceCategory category = (RadioButtonPreferenceCategory) preferenceCategory.getPreference(i);
+                RadioButtonPreference preference = (RadioButtonPreference) category.getPreference(0);
+                if (preference != null) {
+                    preference.setChecked(preference.getKey().equals(key));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onClick() {
+        Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+        intent.putExtra("mode", LAUNCHER_PICK_MODE);
+        intent.putExtra("key", mKey);
+        appPickerLauncher.launch(intent);
+    }
 }
