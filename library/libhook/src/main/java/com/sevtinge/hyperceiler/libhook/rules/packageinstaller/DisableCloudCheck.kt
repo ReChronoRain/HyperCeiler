@@ -21,9 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 import android.content.Context
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.invokeOriginalMethod
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
-import java.util.HashMap
 
 object DisableCloudCheck : BaseHook() {
     override fun init() {
@@ -58,7 +58,11 @@ object DisableCloudCheck : BaseHook() {
 
                             successConstructor.newInstance(cloudParamsInstance)
                         } catch (e: Exception) {
-                            param.invokeOriginal()
+                            invokeOriginalMethod(
+                                param.executable as Method,
+                                param.thisObject,
+                                param.args
+                            )
                         }
                     }
                 }
