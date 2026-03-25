@@ -23,6 +23,7 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.DimenRes
@@ -503,10 +504,18 @@ val Class<*>.isAbstract: Boolean
 // -------------------- Context 资源查找 --------------------
 
 @SuppressLint("DiscouragedApi")
+fun Resources.getIdByName(
+    name: String,
+    type: String,
+    packageName: String
+): Int = getIdentifier(name, type, packageName)
+
+@SuppressLint("DiscouragedApi")
 fun Context.getIdByName(
     name: String,
-    type: String = "id"
-): Int = resources.getIdentifier(name, type, packageName)
+    type: String = "id",
+    packageName: String = this.packageName
+): Int = resources.getIdByName(name, type, packageName)
 
 @StringRes
 fun Context.getStringIdByName(name: String): Int = getIdByName(name, "string")

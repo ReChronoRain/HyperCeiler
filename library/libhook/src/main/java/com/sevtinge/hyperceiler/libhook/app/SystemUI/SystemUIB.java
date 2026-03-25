@@ -253,7 +253,8 @@ public class SystemUIB extends BaseLoad {
             PrefsBridge.getBoolean("system_ui_status_bar_mobile_indicator") ||
             PrefsBridge.getStringAsInt("system_ui_status_bar_icon_small_hd", 0) != 0 ||
             PrefsBridge.getStringAsInt("system_ui_status_bar_icon_big_hd", 0) != 0);
-        initHook(MobileTypeSingle2Hook.INSTANCE, PrefsBridge.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
+        initHook(MobileTypeSingle2Hook.INSTANCE, isEnabledDualRowSignal ||
+            PrefsBridge.getStringAsInt("system_ui_status_bar_icon_show_mobile_network_type", 0) != 0 ||
             PrefsBridge.getBoolean("system_ui_statusbar_mobile_type_enable"));
         initHook(MobileTypeTextCustom.INSTANCE, !Objects.equals(PrefsBridge.getString("system_ui_status_bar_mobile_type_custom", ""), ""));
 
