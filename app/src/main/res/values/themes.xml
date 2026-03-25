@@ -34,4 +34,5 @@
         <item name="endActionMenuEnabled">true</item>
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
     </style>
+
 </resources>

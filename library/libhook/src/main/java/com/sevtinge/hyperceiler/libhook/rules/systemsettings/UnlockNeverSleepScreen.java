@@ -26,17 +26,17 @@ import android.util.AttributeSet;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockNeverSleepScreen extends BaseHook {
     @Override
     public void init() {
         findAndHookConstructor("com.android.settings.KeyguardTimeoutListPreference", Context.class, AttributeSet.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("android.os.SystemProperties", "get", String.class, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         String key = (String) param.getArgs()[0];
                         if ("ro.vendor.display.type".equals(key) || "ro.display.type".equals(key)) {
                             param.setResult("lcd");

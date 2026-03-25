@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.milink;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -30,7 +30,7 @@ public class UnlockMiShare extends BaseHook {
     public void init() {
         hookAllMethods("com.miui.circulate.world.auth.AuthUtil", "doPermissionCheck", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
             }
         });

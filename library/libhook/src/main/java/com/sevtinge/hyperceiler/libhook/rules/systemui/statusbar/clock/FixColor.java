@@ -26,14 +26,14 @@ import com.sevtinge.hyperceiler.libhook.utils.api.MathUtils;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class FixColor extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.systemui.controlcenter.phone.widget.NotificationShadeFakeStatusBarClock", "updateHeaderColor", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Color bigTimeColor = (Color) getObjectField(param.getThisObject(), "bigTimeColor");
                 Color tintColor = Color.valueOf((int) getObjectField(param.getThisObject(), "mTint"));
                 Color lightColor = Color.valueOf((int) getObjectField(param.getThisObject(), "mLightColor"));

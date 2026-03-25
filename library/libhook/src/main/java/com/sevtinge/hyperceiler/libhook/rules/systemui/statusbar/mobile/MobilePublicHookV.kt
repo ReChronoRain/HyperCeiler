@@ -50,7 +50,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import java.util.concurrent.ConcurrentHashMap
 
 class MobilePublicHookV : BaseHook() {
@@ -216,7 +216,7 @@ class MobilePublicHookV : BaseHook() {
         )
     }
 
-    private fun updateIconState(param: AfterHookParam, fieldName: String, key: String) {
+    private fun updateIconState(param: HookParam, fieldName: String, key: String) {
         val opt = PrefsBridge.getStringAsInt(key, 0)
         if (opt != 0) {
             param.thisObject.setObjectField(fieldName, newReadonlyStateFlow(opt == 1))

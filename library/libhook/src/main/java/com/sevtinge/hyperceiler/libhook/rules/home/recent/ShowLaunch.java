@@ -18,11 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.recent;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ShowLaunch extends BaseHook {
     //from XiaomiHelper by HowieHChen
@@ -30,19 +30,19 @@ public class ShowLaunch extends BaseHook {
     public void init() {
         findAndHookMethod("com.miui.home.recents.NavStubView", "changeAlphaScaleForFsGesture", float.class, float.class, new IMethodHook(){
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = (1.0f - (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getArgs()[0] + (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100;
             }
         });
         findAndHookMethod("com.miui.home.recents.OverviewState", "getShortcutMenuLayerAlpha", new IMethodHook(){
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult((1.0f - (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100) * (float) param.getResult() + (float) PrefsBridge.getInt("home_recent_show_launch_alpha", 100) / 100);
             }
         });
         findAndHookMethod("com.miui.home.recents.OverviewState", "getShortcutMenuLayerScale", new IMethodHook(){
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult((float) PrefsBridge.getInt("home_recent_show_launch_size", 95) / 100);
             }
         });

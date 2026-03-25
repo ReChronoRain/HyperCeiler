@@ -34,7 +34,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -53,11 +53,11 @@ public class ScreenRecorderConfig extends BaseHook {
         });
         hookMethod(method1, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) throws IllegalAccessException {
+            public void before(HookParam param) throws IllegalAccessException {
                 param.getArgs()[0] = 1200;
                 param.getArgs()[1] = 1;
 
-                Field[] fields = param.getMember().getDeclaringClass().getDeclaredFields();
+                Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
                     if (Modifier.isFinal(field.getModifiers())) {
@@ -85,11 +85,11 @@ public class ScreenRecorderConfig extends BaseHook {
         });
         hookMethod(method2, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) throws IllegalAccessException {
+            public void before(HookParam param) throws IllegalAccessException {
                 param.getArgs()[0] = 1200;
                 param.getArgs()[1] = 1;
 
-                Field[] fields = param.getMember().getDeclaringClass().getDeclaredFields();
+                Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
                 for (Field field : fields) {
                     field.setAccessible(true);
                     if (Modifier.isFinal(field.getModifiers())) {

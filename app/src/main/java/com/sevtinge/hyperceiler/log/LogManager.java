@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.home.safemode.AppCrashStore;
 import com.sevtinge.hyperceiler.home.safemode.CrashRecordStore;
 import com.sevtinge.hyperceiler.log.db.LogEntry;
 import com.sevtinge.hyperceiler.log.db.LogRepository;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -43,6 +44,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -64,6 +67,7 @@ public class LogManager {
     private static final String APP_EXPORT_FILE_NAME = "app_runtime.log";
     private static final String FILTERED_EXPORT_FILE_NAME = "hyperceiler.log";
     private static final String DEVICES_FILE_NAME = "devices.txt";
+    private static final String SCOPES_FILE_NAME = "scopes.txt";
     private static final String LOG_CONFIG_FILE_NAME = "log_config_v2";
     private static final String APP_LOGGER_NAME = "HyperCeilerApp";
     private static final String APP_EXPORT_MODULE_PREFIX = "[com.sevtinge.hyperceiler,App] ";
@@ -280,7 +284,9 @@ public class LogManager {
     }
 
     private boolean prepareExportMetaFiles(File logRootDir) {
-        return writeDevicesFile(logRootDir) && copyOptionalFileForExport(
+        return writeDevicesFile(logRootDir)
+            && writeScopesFile(logRootDir)
+            && copyOptionalFileForExport(
             new File(new File(mAppContext.getFilesDir(), EXPORT_ROOT_DIR), LOG_CONFIG_FILE_NAME),
             new File(logRootDir, LOG_CONFIG_FILE_NAME)
         );
@@ -305,6 +311,41 @@ public class LogManager {
             return true;
         } catch (Exception e) {
             AndroidLog.e(TAG, "Export logs: failed to write devices file", e);
+            return false;
+        }
+    }
+
+    private boolean writeScopesFile(File logRootDir) {
+        File scopesFile = new File(logRootDir, SCOPES_FILE_NAME);
+        File parent = scopesFile.getParentFile();
+        if (parent != null && !parent.exists() && !parent.mkdirs()) {
+            AndroidLog.e(TAG, "Export logs: failed to create scopes file parent");
+            return false;
+        }
+
+        List<String> scopes = ScopeManager.getScopeSync();
+        List<String> exportScopes = scopes == null ? new ArrayList<>() : new ArrayList<>(scopes);
+        Collections.sort(exportScopes);
+
+        try (BufferedWriter writer = new BufferedWriter(
+            new OutputStreamWriter(new FileOutputStream(scopesFile, false), StandardCharsets.UTF_8))) {
+            writer.write("# HyperCeiler checked scope list");
+            writer.newLine();
+            if (scopes == null) {
+                writer.write("# unavailable: LSPosed service not connected");
+                writer.newLine();
+            } else {
+                writer.write("count=" + exportScopes.size());
+                writer.newLine();
+                for (String scope : exportScopes) {
+                    writer.write(scope);
+                    writer.newLine();
+                }
+            }
+            writer.flush();
+            return true;
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Export logs: failed to write scopes file", e);
             return false;
         }
     }

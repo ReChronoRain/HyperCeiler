@@ -18,12 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.gallery;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 
@@ -37,20 +36,20 @@ public class ChangeBackupServer extends BaseHook {
 
         if (isOneDrive) {
             findAndHookMethod("com.miui.gallery.ui.GallerySettingsFragment", "initGlobalBackupPreference", new IMethodHook() {
-                XposedInterface.MethodUnhooker isInternationalHook;
+                XposedInterface.HookHandle isInternationalHook;
 
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     isInternationalHook = findAndHookMethod("com.miui.gallery.util.BaseBuildUtil", "isInternational", new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             param.setResult(true);
                         }
                     });
                 }
 
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     if (isInternationalHook != null) {
                         isInternationalHook.unhook();
                         isInternationalHook = null;
@@ -59,27 +58,27 @@ public class ChangeBackupServer extends BaseHook {
             });
             findAndHookMethod("com.miui.gallery.util.PhotoModelTypeUtil", "isSupportOneDrive", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });
         } else {
             if (isXiaomi) {
                 findAndHookMethod("com.miui.gallery.ui.GallerySettingsFragment", "initGlobalBackupPreference", new IMethodHook() {
-                    XposedInterface.MethodUnhooker isInternationalHook;
+                    XposedInterface.HookHandle isInternationalHook;
 
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         isInternationalHook = findAndHookMethod("com.miui.gallery.util.BaseBuildUtil", "isInternational", new IMethodHook() {
                             @Override
-                            public void before(BeforeHookParam param) {
+                            public void before(HookParam param) {
                                 param.setResult(false);
                             }
                         });
                     }
 
                     @Override
-                    public void after(AfterHookParam param) {
+                    public void after(HookParam param) {
                         if (isInternationalHook != null) {
                             isInternationalHook.unhook();
                             isInternationalHook = null;
@@ -90,14 +89,14 @@ public class ChangeBackupServer extends BaseHook {
             try {
                 findAndHookMethod("com.miui.gallery.transfer.GoogleSyncHelper", "isCloudServiceOffLine", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(isGoogle);
                     }
                 });
             } catch (Throwable t) {
                 findAndHookMethod("com.miui.gallery.util.BuildUtil", "isGlobal", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.setResult(isGoogle);
                     }
                 });

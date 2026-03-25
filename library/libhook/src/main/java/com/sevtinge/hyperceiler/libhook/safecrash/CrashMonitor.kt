@@ -35,13 +35,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstance
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.removeAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHooks
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.libxposed.api.XposedModuleInterface
 
-class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
+class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
     private val crashHandler: ICrashHandler = SafeModeHandler
 
     companion object {
@@ -99,10 +99,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
                     .createBeforeHook { param ->
                         val pkg = param.args[2] as? String
                         if (pkg == ProjectApi.mAppModulePkg) {
-                            val balAllowDefault = EzxHelpUtils.getStaticObjectField(
-                                EzxHelpUtils.findClass(balVerdictClass, classLoader),
-                                "BAL_ALLOW_DEFAULT"
-                            )
+                            val balAllowDefault = EzxHelpUtils.getStaticObjectField(clazz, "BAL_ALLOW_DEFAULT")
                             if (balAllowDefault != null) {
                                 param.result = balAllowDefault
                             } else {
@@ -117,7 +114,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
 
         EzxHelpUtils.hookAllMethods("com.android.server.wm.ActivityStarterImpl", classLoader, "isAllowedStartActivity",
             object : IMethodHook {
-                override fun before(param: BeforeHookParam) {
+                override fun before(param: HookParam) {
                     val pkg = param.args.firstOrNull { it is String } as? String
                     if (pkg == ProjectApi.mAppModulePkg) {
                         param.result = true
@@ -126,7 +123,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerLoadedParam) {
             })
 
         EzxHelpUtils.hookAllMethods("com.android.server.wm.ActivityStarterImpl", classLoader, "isAllowedStartActivity", object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 val pkg = param.args.firstOrNull { it is String } as? String
                 if (pkg == ProjectApi.mAppModulePkg) {
                     param.result = true

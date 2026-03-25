@@ -24,15 +24,15 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
  * 绕过打开应用商店时强制使用小米应用商店
@@ -66,7 +66,7 @@ public class BypassForceMiAppStore extends BaseHook {
                 final int index = intentIndex;
                 hookMethod(method, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         try {
                             Intent intent = (Intent) param.getArgs()[index];
                             if (intent == null) return;

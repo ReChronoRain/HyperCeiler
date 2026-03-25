@@ -24,8 +24,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.ContextConsumer
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.IApplicationHook
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 /**
  * Application 生命周期 Hook 工具
@@ -96,24 +95,24 @@ internal object EzxApplicationHookHelper {
                     "attach",
                     Context::class.java,
                     object : IMethodHook {
-                        override fun before(param: BeforeHookParam) {
+                        override fun before(param: HookParam) {
                             val context = param.args[0] as? Context ?: return
                             applicationHooks.forEach { hook ->
                                 try {
                                     hook.onApplicationAttachBefore(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach before callback error", t)
+                                } catch (_: Throwable) {
+                                    // Keep fan-out resilient; hooks decide whether to report their own errors.
                                 }
                             }
                         }
 
-                        override fun after(param: AfterHookParam) {
+                        override fun after(param: HookParam) {
                             val context = param.args[0] as? Context ?: return
                             applicationHooks.forEach { hook ->
                                 try {
                                     hook.onApplicationAttachAfter(context)
-                                } catch (t: Throwable) {
-                                    XposedLog.e(TAG, "Application attach after callback error", t)
+                                } catch (_: Throwable) {
+                                    // Keep fan-out resilient; hooks decide whether to report their own errors.
                                 }
                             }
                             XposedLog.d(TAG, "Application created! package: ${context.packageName}")

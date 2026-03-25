@@ -70,10 +70,10 @@ include(
     "app",
     // ":library:hook",
     ":library:libhook",
+    ":library:xposed-api-101",
     ":library:core",
     ":library:provision",
     ":library:common",
     ":library:processor",
     ":library:hidden-api",
-    ":library:libxposed-compat"
 )

@@ -10,10 +10,12 @@
 # --- App ---
 -keep class com.sevtinge.hyperceiler.ui.** { *; }
 -keep class com.sevtinge.hyperceiler.main.** { *; }
+-keep class com.sevtinge.hyperceiler.about.** { *; }
 -keep class com.fan.** { *; }
 
 # --- Obfuscation ---
--keepattributes SourceFile,LineNumberTable,Signature
+-keepattributes *Annotation*,RuntimeVisibleAnnotations,LineNumberTable,SourceFile,Signature
+-renamesourcefileattribute SourceFile
 -repackageclasses
 -allowaccessmodification
 #-obfuscationdictionary          dict.txt

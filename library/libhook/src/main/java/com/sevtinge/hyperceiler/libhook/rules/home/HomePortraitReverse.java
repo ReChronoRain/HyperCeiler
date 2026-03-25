@@ -25,7 +25,7 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HomePortraitReverse extends BaseHook {
 
@@ -33,7 +33,7 @@ public class HomePortraitReverse extends BaseHook {
     public void init() {
         findAndHookMethod("com.miui.home.launcher.Launcher", "onCreate", Bundle.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                 Activity act = (Activity) param.getThisObject();
                 act.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
             }

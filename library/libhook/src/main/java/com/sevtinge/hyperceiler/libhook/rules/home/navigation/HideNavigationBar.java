@@ -28,7 +28,7 @@ import android.view.View;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HideNavigationBar extends BaseHook {
     @Override
@@ -36,14 +36,14 @@ public class HideNavigationBar extends BaseHook {
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             });
 
         findAndHookMethod("com.miui.home.recents.NavStubView", "isMistakeTouch", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 View navView = (View) param.getThisObject();
                 boolean setting = Settings.Global.getInt(navView.getContext().getContentResolver(), "show_mistake_touch_toast", 1) == 1;
                 boolean misTouch = (boolean) callMethod(param.getThisObject(), "isLandScapeActually");
@@ -53,7 +53,7 @@ public class HideNavigationBar extends BaseHook {
 
         findAndHookMethod("com.miui.home.recents.NavStubView", "onPointerEvent", MotionEvent.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 boolean mIsInFsMode = getBooleanField(param.getThisObject(), "mIsInFsMode");
                 MotionEvent motionEvent = (MotionEvent) param.getArgs()[0];
                 if (!mIsInFsMode) {
@@ -66,7 +66,7 @@ public class HideNavigationBar extends BaseHook {
 
         findAndHookMethod("com.miui.home.recents.NavStubView", "updateScreenSize", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 setBooleanField(param.getThisObject(), "mHideGestureLine", false);
             }
         });

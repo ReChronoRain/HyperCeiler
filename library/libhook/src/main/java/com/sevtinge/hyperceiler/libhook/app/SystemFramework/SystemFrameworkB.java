@@ -21,6 +21,9 @@ package com.sevtinge.hyperceiler.libhook.app.SystemFramework;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBootstrap;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.ModulePackageTrust;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.BypassIsolationViolation;
@@ -41,8 +44,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylus
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNeedFingerNum;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.PackagePermissions;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
@@ -81,7 +82,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeDisab
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeFirstPress;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeSteps;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "system", minSdk = 36)
 public class SystemFrameworkB extends BaseLoad {
@@ -99,8 +99,8 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new DisablePersistent(), PrefsBridge.getBoolean("system_framework_disable_persistent"));
 
         // 手势初始化
-        initHook(new PackagePermissions(), true);
-        initHook(new GlobalActions(), true);
+        initHook(new ModulePackageTrust(), true);
+        initHook(new GlobalActionBootstrap(), true);
 
         // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
         initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, PrefsBridge.getBoolean("system_framework_core_patch_unloss_fingerprint"));

@@ -32,7 +32,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -51,7 +51,7 @@ public class EnableLabOptions extends BaseHook {
         });
         hookMethod(method, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String mStr = (String) param.getArgs()[0];
                 if (Objects.equals(mStr, "camera.lab.options")) param.setResult(true);
             }

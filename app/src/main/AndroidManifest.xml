@@ -136,6 +136,12 @@
             android:label="@string/array_global_actions_launch_choose"
             tools:ignore="DiscouragedApi,LockedOrientationActivity" />
 
+        <activity
+            android:name=".sub.ScopePickerActivity"
+            android:theme="@style/SubPickerTheme"
+            android:label="@string/settings_scope"
+            tools:ignore="DiscouragedApi,LockedOrientationActivity" />
+
         <meta-data
             android:name="app_description_title"
             android:resource="@string/uninstall_title" />

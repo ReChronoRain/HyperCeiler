@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class SmartHome extends BaseHook {
 
@@ -35,14 +35,14 @@ public class SmartHome extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.systemui.shared.plugins.PluginManagerImpl", "getClassLoader", ApplicationInfo.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 ApplicationInfo appInfo = (ApplicationInfo) param.getArgs()[0];
                 if ("miui.systemui.plugin".equals(appInfo.packageName)) {
                     if (mPluginLoader == null) {
                         mPluginLoader = (ClassLoader) param.getResult();
                         EzxHelpUtils.findAndHookMethod("miui.systemui.devicecontrols.ui.MiuiControlsUiControllerImpl", mPluginLoader, "updateOrientation", new IMethodHook() {
                             @Override
-                            public void after(AfterHookParam param) {
+                            public void after(HookParam param) {
                                 RelativeLayout mParent = (RelativeLayout) getObjectField(param.getThisObject(), "parent");
                             }
                         });

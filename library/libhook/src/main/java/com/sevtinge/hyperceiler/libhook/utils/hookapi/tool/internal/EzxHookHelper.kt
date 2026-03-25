@@ -24,9 +24,10 @@ import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
 import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.safeClassLoader
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.libxposed.api.XposedInterface.Hooker
-import io.github.libxposed.api.XposedInterface.MethodUnhooker
+import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Constructor
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -57,24 +58,24 @@ internal object EzxHookHelper {
      *
      * @param method 要 Hook 的方法
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
-    fun hookMethod(method: Method, callback: IMethodHook): MethodUnhooker<*> {
+    fun hookMethod(method: Method, callback: IMethodHook): XposedInterface.HookHandle {
         val signature = EzxMethodHelper.formatMethodSignature(method)
         return try {
             val unhook = method.createHook {
                 before { param ->
                     try {
                         callback.before(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] before callback error", t)
+                    } catch (_: Throwable) {
+                        // Hooks decide whether callback failures should be reported.
                     }
                 }
                 after { param ->
                     try {
                         callback.after(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] after callback error", t)
+                    } catch (_: Throwable) {
+                        // Hooks decide whether callback failures should be reported.
                     }
                 }
             }
@@ -90,19 +91,14 @@ internal object EzxHookHelper {
      *
      * @param method 要 Hook 的方法
      * @param callback 替换回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
-    fun hookMethod(method: Method, callback: IReplaceHook): MethodUnhooker<*> {
+    fun hookMethod(method: Method, callback: IReplaceHook): XposedInterface.HookHandle {
         val signature = EzxMethodHelper.formatMethodSignature(method)
         return try {
             val unhook = method.createHook {
                 replace { param ->
-                    try {
-                        callback.replace(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] replace callback error", t)
-                        throw t
-                    }
+                    callback.replace(param)
                 }
             }
             unhook
@@ -117,24 +113,24 @@ internal object EzxHookHelper {
      *
      * @param constructor 要 Hook 的构造器
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象，可用于取消 Hook
+     * @return HookHandle 对象，可用于取消 Hook
      */
-    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): MethodUnhooker<*> {
+    fun hookConstructor(constructor: Constructor<*>, callback: IMethodHook): XposedInterface.HookHandle {
         val signature = formatConstructorSignature(constructor)
         return try {
             val unhook = constructor.createHook {
                 before { param ->
                     try {
                         callback.before(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] before callback error", t)
+                    } catch (_: Throwable) {
+                        // Hooks decide whether callback failures should be reported.
                     }
                 }
                 after { param ->
                     try {
                         callback.after(param)
-                    } catch (t: Throwable) {
-                        XposedLog.e(TAG, "[$signature] after callback error", t)
+                    } catch (_: Throwable) {
+                        // Hooks decide whether callback failures should be reported.
                     }
                 }
             }
@@ -143,6 +139,239 @@ internal object EzxHookHelper {
             XposedLog.e(TAG, "[$signature] hook failed", t)
             throw t
         }
+    }
+
+    // ==================== Chain Hook ====================
+
+    private fun resolveChainMethod(clazz: Class<*>, methodName: String, vararg args: Any): Method {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
+    }
+
+    private fun resolveChainConstructor(clazz: Class<*>, vararg args: Any): Constructor<*> {
+        val parameterTypes = EzxMethodHelper.getParameterClasses(clazz, *args)
+        return EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
+    }
+
+    fun chain(method: Method, hooker: XposedInterface.Hooker): XposedInterface.HookHandle =
+        HookFactory.hook(method = method, hooker = hooker)
+
+    fun chain(
+        method: Method,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker
+    ): XposedInterface.HookHandle =
+        HookFactory.hook(priority = priority, method = method, exceptionMode = exceptionMode, hooker = hooker)
+
+    fun chain(constructor: Constructor<*>, hooker: XposedInterface.Hooker): XposedInterface.HookHandle =
+        HookFactory.hook(ctor = constructor, hooker = hooker)
+
+    fun chain(
+        constructor: Constructor<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker
+    ): XposedInterface.HookHandle =
+        HookFactory.hook(priority = priority, ctor = constructor, exceptionMode = exceptionMode, hooker = hooker)
+
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle = chain(resolveChainMethod(clazz, methodName, *args), hooker)
+
+    fun findAndChainMethod(
+        clazz: Class<*>,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle =
+        chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, hooker)
+
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return findAndChainMethod(clazz, methodName, hooker, *args)
+    }
+
+    fun findAndChainMethod(
+        clazzName: String,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, *args)
+    }
+
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return findAndChainMethod(clazz, methodName, hooker, *args)
+    }
+
+    fun findAndChainMethod(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, *args)
+    }
+
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle = chain(resolveChainConstructor(clazz, *args), hooker)
+
+    fun findAndChainConstructor(
+        clazz: Class<*>,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle =
+        chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, hooker)
+
+    fun findAndChainConstructor(
+        clazzName: String,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return findAndChainConstructor(clazz, hooker, *args)
+    }
+
+    fun findAndChainConstructor(
+        clazzName: String,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return findAndChainConstructor(clazz, priority, exceptionMode, hooker, *args)
+    }
+
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return findAndChainConstructor(clazz, hooker, *args)
+    }
+
+    fun findAndChainConstructor(
+        clazzName: String,
+        classLoader: ClassLoader,
+        priority: Int,
+        exceptionMode: XposedInterface.ExceptionMode,
+        hooker: XposedInterface.Hooker,
+        vararg args: Any
+    ): XposedInterface.HookHandle {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return findAndChainConstructor(clazz, priority, exceptionMode, hooker, *args)
+    }
+
+    fun chainAllMethods(
+        clazz: Class<*>,
+        methodName: String,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val handles = LinkedHashSet<XposedInterface.HookHandle>()
+        val methods = LinkedHashSet<Method>()
+        methods.addAll(clazz.declaredMethods)
+        methods.addAll(clazz.methods)
+
+        if (methods.none { it.name == methodName }) {
+            XposedLog.w(TAG, "[${clazz.simpleName}#$methodName] no methods found")
+            return emptySet()
+        }
+
+        for (method in methods) {
+            if (method.name != methodName || Modifier.isAbstract(method.modifiers)) {
+                continue
+            }
+            try {
+                handles.add(chain(method, hooker))
+            } catch (t: Throwable) {
+                XposedLog.e(TAG, "[${clazz.simpleName}#${method.name}] chain failed", t)
+            }
+        }
+        return handles
+    }
+
+    fun chainAllMethods(
+        clazzName: String,
+        methodName: String,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return chainAllMethods(clazz, methodName, hooker)
+    }
+
+    fun chainAllMethods(
+        clazzName: String,
+        classLoader: ClassLoader,
+        methodName: String,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return chainAllMethods(clazz, methodName, hooker)
+    }
+
+    fun chainAllConstructors(
+        clazz: Class<*>,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val handles = LinkedHashSet<XposedInterface.HookHandle>()
+        for (constructor in clazz.declaredConstructors) {
+            try {
+                handles.add(chain(constructor, hooker))
+            } catch (t: Throwable) {
+                XposedLog.e(TAG, "[${formatConstructorSignature(constructor)}] chain failed", t)
+            }
+        }
+        return handles
+    }
+
+    fun chainAllConstructors(
+        clazzName: String,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
+        return chainAllConstructors(clazz, hooker)
+    }
+
+    fun chainAllConstructors(
+        clazzName: String,
+        classLoader: ClassLoader,
+        hooker: XposedInterface.Hooker
+    ): Set<XposedInterface.HookHandle> {
+        val clazz = EzxClassHelper.findClass(clazzName, classLoader)
+        return chainAllConstructors(clazz, hooker)
     }
 
     // ==================== findAndHook 方法 ====================
@@ -161,7 +390,7 @@ internal object EzxHookHelper {
         methodName: String,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val method = EzxMethodHelper.findMethodExactIfExists(clazz, methodName, *parameterTypes)
         return hookMethod(method, callback)
     }
@@ -170,7 +399,7 @@ internal object EzxHookHelper {
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
         return findAndHookMethod(clazz, methodName, *args)
     }
@@ -180,7 +409,7 @@ internal object EzxHookHelper {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
         return findAndHookMethod(clazz, methodName, *args)
     }
@@ -191,13 +420,13 @@ internal object EzxHookHelper {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     fun findAndHookMethod(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         require(args.isNotEmpty()) { "args must contain at least the callback" }
         val callback = args.last()
         require(callback is IMethodHook) { "Last argument must be IMethodHook" }
@@ -213,7 +442,7 @@ internal object EzxHookHelper {
         clazzName: String,
         methodName: String,
         vararg args: Any,
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
         return findAndHookMethodReplace(clazz, methodName, *args)
     }
@@ -223,7 +452,7 @@ internal object EzxHookHelper {
         classLoader: ClassLoader,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
         return findAndHookMethodReplace(clazz, methodName, *args)
     }
@@ -234,13 +463,13 @@ internal object EzxHookHelper {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param args 参数类型数组，最后一个元素必须是 IReplaceHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     fun findAndHookMethodReplace(
         clazz: Class<*>,
         methodName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         require(args.isNotEmpty()) { "args must contain at least the callback" }
         val callback = args.last()
         require(callback is IReplaceHook) { "Last argument must be IReplaceHook" }
@@ -258,13 +487,13 @@ internal object EzxHookHelper {
      * @param clazz 目标类
      * @param parameterTypes 参数类型
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
     fun findAndHookConstructor(
         clazz: Class<*>,
         vararg parameterTypes: Class<*>,
         callback: IMethodHook
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val constructor = EzxMethodHelper.findConstructorExact(clazz, *parameterTypes)
         return hookConstructor(constructor, callback)
     }
@@ -272,7 +501,7 @@ internal object EzxHookHelper {
     fun findAndHookConstructor(
         clazzName: String,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
         return findAndHookConstructor(clazz, *args)
     }
@@ -281,7 +510,7 @@ internal object EzxHookHelper {
         clazzName: String,
         classLoader: ClassLoader,
         vararg args: Any
-    ): MethodUnhooker<*> {
+    ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
         return findAndHookConstructor(clazz, *args)
     }
@@ -291,9 +520,9 @@ internal object EzxHookHelper {
      *
      * @param clazz 目标类
      * @param args 参数类型数组，最后一个元素必须是 IMethodHook
-     * @return MethodUnhooker 对象
+     * @return HookHandle 对象
      */
-    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): MethodUnhooker<*> {
+    fun findAndHookConstructor(clazz: Class<*>, vararg args: Any): XposedInterface.HookHandle {
         require(args.isNotEmpty()) { "args must contain at least the callback" }
         val callback = args.last()
         require(callback is IMethodHook) { "Last argument must be IMethodHook" }
@@ -309,7 +538,7 @@ internal object EzxHookHelper {
         clazzName: String,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
+    ): List<XposedInterface.HookHandle> {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
         return hookAllMethods(clazz, methodName, callback)
     }
@@ -319,7 +548,7 @@ internal object EzxHookHelper {
         classLoader: ClassLoader,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
+    ): List<XposedInterface.HookHandle> {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
         return hookAllMethods(clazz, methodName, callback)
     }
@@ -330,13 +559,13 @@ internal object EzxHookHelper {
      * @param clazz 目标类
      * @param methodName 方法名
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
     fun hookAllMethods(
         clazz: Class<*>,
         methodName: String,
         callback: IMethodHook
-    ): List<MethodUnhooker<*>> {
+    ): List<XposedInterface.HookHandle> {
         val methods = MethodFinder.fromClass(clazz)
             .filterByName(methodName)
             .toList()
@@ -364,9 +593,9 @@ internal object EzxHookHelper {
      *
      * @param clazz 目标类
      * @param callback Hook 回调
-     * @return MethodUnhooker 对象列表
+     * @return HookHandle 对象列表
      */
-    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<MethodUnhooker<*>> {
+    fun hookAllConstructors(clazz: Class<*>, callback: IMethodHook): List<XposedInterface.HookHandle> {
         val constructors = ConstructorFinder.fromClass(clazz).toList()
 
         if (constructors.isEmpty()) {
@@ -393,7 +622,7 @@ internal object EzxHookHelper {
      */
     fun returnConstant(result: Any?): IMethodHook {
         return object : IMethodHook {
-            override fun before(param: io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam) {
+            override fun before(param: HookParam) {
                 param.result = result
             }
         }
@@ -403,7 +632,7 @@ internal object EzxHookHelper {
      * 什么都不做的 Hook（阻止原方法执行，返回 null）
      */
     val DO_NOTHING: IMethodHook = object : IMethodHook {
-        override fun before(param: io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam) {
+        override fun before(param: HookParam) {
             param.result = null
         }
     }
@@ -432,7 +661,10 @@ internal object EzxHookHelper {
             }
     }
 
-    fun libHook(method: Method, hooker: Class<out Hooker>): MethodUnhooker<Method?> {
-        return EzxModuleHolder.xposedModule.hook(method, hooker)
+    fun libHook(method: Method, hooker: Class<out XposedInterface.Hooker>): XposedInterface.HookHandle {
+        val constructor = hooker.getDeclaredConstructor()
+        constructor.isAccessible = true
+        return EzxModuleHolder.xposedModule.hook(method)
+            .intercept(constructor.newInstance())
     }
 }

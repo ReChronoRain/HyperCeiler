@@ -27,8 +27,8 @@ import androidx.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
 import org.jetbrains.annotations.NotNull;
 import org.luckypray.dexkit.DexKitBridge;
@@ -60,7 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import io.github.libxposed.api.XposedModuleInterface.PackageLoadedParam;
+import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam;
 
 /**
  * DexKit 工具类
@@ -83,7 +83,7 @@ public class DexKit {
     private static volatile boolean sIsClosed = false;
 
     private static volatile String sTag = TAG_DEFAULT;
-    private static volatile PackageLoadedParam sParam = null;
+    private static volatile PackageReadyParam sParam = null;
     private static volatile DexKitBridge sDexKitBridge = null;
     private static volatile Gson sGson = null;
     private static volatile File sCacheFile = null;
@@ -94,7 +94,7 @@ public class DexKit {
     /**
      * 准备 DexKit 会话（必须在 initDexkitBridge 之前调用）
      */
-    public static void ready(PackageLoadedParam param, String tag) {
+    public static void ready(PackageReadyParam param, String tag) {
         synchronized (sLock) {
             sParam = param;
             sTag = (tag != null && !tag.isEmpty()) ? tag : TAG_DEFAULT;

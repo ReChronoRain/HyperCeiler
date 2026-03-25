@@ -22,7 +22,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // from Jess Mofrica
 public class DisableMiuiWatermark extends BaseHook {
@@ -30,7 +30,7 @@ public class DisableMiuiWatermark extends BaseHook {
     public void init() {
         findAndHookMethod("com.android.server.wm.MIUIWatermark", "drawIfNeeded", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(null);
             }
         });

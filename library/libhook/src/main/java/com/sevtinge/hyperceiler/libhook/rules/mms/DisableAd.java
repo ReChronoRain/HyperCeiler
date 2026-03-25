@@ -35,7 +35,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -46,7 +46,7 @@ public class DisableAd extends BaseHook {
         findAndHookMethod("com.miui.smsextra.ui.BottomMenu", "allowMenuMode",
             Context.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             });
@@ -67,7 +67,7 @@ public class DisableAd extends BaseHook {
             if (!Modifier.isAbstract(method2.getModifiers())) {
                 hookMethod(method2, new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         param.getArgs()[0] = true;
                     }
                 });

@@ -18,15 +18,11 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
-import android.content.SharedPreferences;
-
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ReturnConstant implements IMethodHook {
-
-    private final SharedPreferences prefs = CorePatchHelper.prefs;
     private final String prefsKey;
     private final Object value;
 
@@ -36,8 +32,8 @@ public class ReturnConstant implements IMethodHook {
     }
 
     @Override
-    public void before(BeforeHookParam param) {
-        if (prefs.getBoolean(prefsKey, true)) {
+    public void before(HookParam param) {
+        if (CorePatchHelper.isFeatureEnabled(prefsKey, true)) {
             param.setResult(value);
         }
     }

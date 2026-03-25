@@ -24,20 +24,20 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.s
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableNetworkAssistantOfflineInfoManager extends BaseHook {
     @Override
     public void init() {
         hookAllConstructors("com.miui.networkassistant.ui.bean.OffLineData$BaseData", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 setBooleanField(param.getThisObject(), "isOffline", false);
             }
         });
         findAndHookMethod("com.miui.networkassistant.ui.bean.OffLineData$BaseData", "isOffline", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(false);
             }
         });

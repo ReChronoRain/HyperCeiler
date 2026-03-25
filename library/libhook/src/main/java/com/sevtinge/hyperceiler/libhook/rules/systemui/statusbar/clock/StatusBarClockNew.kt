@@ -24,6 +24,7 @@ import android.util.TypedValue
 import android.view.Choreographer
 import android.view.View
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
@@ -31,10 +32,9 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.mNewClockClass
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
@@ -274,7 +274,7 @@ object StatusBarClockNew : BaseHook() {
         }
     }
 
-    private fun applyMiuiClockStyleAndFormat(hook: BeforeHookParam) {
+    private fun applyMiuiClockStyleAndFormat(hook: HookParam) {
         val textV = hook.thisObject as TextView
         val context = textV.context
         val miuiClockName = textV.resources.getResourceEntryName(textV.id) ?: return

@@ -24,14 +24,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class CornerSlide extends BaseHook {
     public int inDirection = 0;
@@ -48,7 +47,7 @@ public class CornerSlide extends BaseHook {
             float.class, float.class, long.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
                         "isAssistantGestureDisabled", param.getArgs()[2]);
                     if (!isDisabled) {
@@ -69,7 +68,7 @@ public class CornerSlide extends BaseHook {
         hookAllMethods(FsGestureAssistHelper,
             "handleTouchEvent", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     MotionEvent motionEvent = (MotionEvent) param.getArgs()[0];
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                         float mDownX = EzxHelpUtils.getFloatField(param.getThisObject(), "mDownX");
@@ -83,7 +82,7 @@ public class CornerSlide extends BaseHook {
         findAndHookConstructor("com.miui.home.recents.NavStubView",
             Context.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     mContext = (Context) param.getArgs()[0];
                 }
             }
@@ -93,13 +92,13 @@ public class CornerSlide extends BaseHook {
             "startAssistant", Bundle.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Bundle bundle = (Bundle) param.getArgs()[0];
                     if (bundle.getInt("triggered_by", 0) != 83 || bundle.getInt("invocation_type", 0) != 1) {
                         return;
                     }
                     String direction = inDirection == 1 ? "right" : "left";
-                    GlobalActions.handleAction(
+                    GlobalActionBridge.handleAction(
                         EzXposed.getAppContext(),
                         "home_navigation_assist_" + direction + "_slide"
                     );

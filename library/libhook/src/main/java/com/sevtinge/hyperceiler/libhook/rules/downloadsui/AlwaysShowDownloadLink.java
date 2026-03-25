@@ -18,11 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.downloadsui;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -40,7 +40,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -114,7 +114,7 @@ public class AlwaysShowDownloadLink extends BaseHook {
         });
 
         hookMethod(method1, new IMethodHook() {
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 String url = (String) getObjectField(param.getArgs()[0], field1.getName());
                 // @TODO 显示来源应用和路径
                 XposedLog.d(TAG, getPackageName(), "url:" + url);
@@ -124,7 +124,7 @@ public class AlwaysShowDownloadLink extends BaseHook {
 
         // findAndHookMethod("h1.h", "R", "i1.a",new IMethodHook() {
         //     @Override
-        //     public void before(BeforeHookParam param) {
+        //     public void before(HookParam param) {
         //         XposedLog.d(TAG, getPackageName(), "source: " + getObjectField(param.getArgs[0], "r") + "  path: " + getObjectField(param.getArgs[0], "i"));
         //         setObjectField(param.getArgs[0], "y", "");
         //     }

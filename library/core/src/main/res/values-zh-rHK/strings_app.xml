@@ -56,7 +56,18 @@
     <string name="help_cant_see_apps_scope">未被選擇為作用域的：\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">為了保持首頁的簡潔及易用性，我們對以下類型的應用程式功能入口進行了隱藏：\n\n - 當前應用程式被禁用或隱藏的\n - 裝置上不存在當前應用程式的\n - 當前系統或應用程式版本不適合使用功能的\n - 未被選擇為作用域的\n\n請根據以上内容排查後，重新啟動 HyperCeiler 再試。若仍然找不到應用程式功能入口，那可能是一個錯誤，請及時且有效的向我們回饋。</string>
     <string name="help_cant_see_apps_switch">在主頁隱藏此幫助</string>
-    <string name="help_cant_see_apps_switch_desc">您仍可以在 \"關於-幫助\" 找到此幫助，重新啟動模塊生效</string>
+    <string name="help_cant_see_apps_switch_desc">您仍可以在「關於-幫助」找到此幫助，返回首頁即可生效</string>
+    <!-- Scope -->
+    <string name="settings_scope">作用域</string>
+    <string name="settings_scope_sync">作用域同步</string>
+    <string name="settings_scope_sync_desc">首頁列表的勾選狀態會與作用域同步</string>
+    <string name="scope_batch_no_changes">作用域沒有變化</string>
+    <string name="scope_batch_service_unavailable">LSPosed 服務不可用</string>
+    <string name="scope_batch_remove_failed">移除作用域失敗</string>
+    <string name="scope_batch_updated">作用域已更新</string>
+    <string name="scope_batch_request_not_approved">以下作用域申請未被批准：%1$s</string>
+    <string name="scope_batch_update_failed">更新作用域失敗：%1$s</string>
+    <string name="scope_batch_request_failed">申請作用域失敗</string>
     <string name="help_support_version_title">當前應用程式版本適配系統情况</string>
     <string name="help_current_system_version">您目前使用的系統版本為：</string>
     <string name="help_full_support_desc">目前應用程式版本已完全適配於下列系統版本：</string>

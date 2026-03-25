@@ -24,13 +24,13 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockCarSicknessTile {
     public static void initUnlockCarSicknessTile(ClassLoader classLoader) {
         findAndHookMethod("miui.systemui.util.DeviceUtils", classLoader, "isSupportCarSickness", Context.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });

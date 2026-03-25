@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockAlwaysOnDisplay extends BaseHook {
 
@@ -33,7 +33,7 @@ public class UnlockAlwaysOnDisplay extends BaseHook {
                 String.class, boolean.class,
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         // XposedBridge.log(TAG + " " + " key: " + param.args[0] + " def: " + param.args[1]);
                         String key = (String) param.getArgs()[0];
                         if ("is_only_support_keycode_goto".equals(key)) {

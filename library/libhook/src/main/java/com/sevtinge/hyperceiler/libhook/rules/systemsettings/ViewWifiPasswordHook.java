@@ -32,8 +32,7 @@ import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ViewWifiPasswordHook extends BaseHook {
 
@@ -46,7 +45,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", "onBindViewHolder", new IMethodHook() {
             @Override
 
-            public void after(AfterHookParam param) throws PackageManager.NameNotFoundException {
+            public void after(HookParam param) throws PackageManager.NameNotFoundException {
                 View view = (View) getObjectField(param.getThisObject(), "mView");
                 int btnId = view.getResources().getIdentifier("btn_delete", "id", "com.android.settings");
                 Button button = view.findViewById(btnId);
@@ -58,7 +57,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         final String[] passwordTitle = new String[1];
         findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", "setTitle", int.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (wifiSharedKey[0] != null) {
                     param.getArgs()[0] = dlgTitleId;
                 }
@@ -67,7 +66,7 @@ public class ViewWifiPasswordHook extends BaseHook {
 
         findAndHookMethod("miuix.appcompat.app.AlertDialog$Builder", "setMessage", CharSequence.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 if (wifiSharedKey[0] != null) {
                     CharSequence str = (CharSequence) param.getArgs()[0];
                     str = str + "\n" + passwordTitle[0] + ": " + wifiSharedKey[0];
@@ -77,7 +76,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
         hookAllMethods("miuix.appcompat.app.AlertDialog", "onCreate", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if (wifiSharedKey[0] != null) {
                     TextView messageView = (TextView) callMethod(param.getThisObject(), "getMessageView");
                     messageView.setTextIsSelectable(true);
@@ -86,7 +85,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
         hookAllMethods("com.android.settings.wifi.MiuiSavedAccessPointsWifiSettings", "showDeleteDialog", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) throws PackageManager.NameNotFoundException {
+            public void before(HookParam param) throws PackageManager.NameNotFoundException {
                 Object wifiEntry = param.getArgs()[0];
                 boolean canShare = (boolean) callMethod(wifiEntry, "canShare");
                 if (canShare) {
@@ -100,7 +99,7 @@ public class ViewWifiPasswordHook extends BaseHook {
             }
 
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Object wifiEntry = param.getArgs()[0];
                 boolean canShare = (boolean) callMethod(wifiEntry, "canShare");
                 if (canShare) {
@@ -110,7 +109,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
     }
 
-    private String getSharedKey(BeforeHookParam param, Object wifiEntry) {
+    private String getSharedKey(HookParam param, Object wifiEntry) {
         Object mWifiManager = getObjectField(param.getThisObject(), "mWifiManager");
         Object wifiConfiguration = callMethod(wifiEntry, "getWifiConfiguration");
         Class<?> WifiDppUtilsClass = findClass("com.android.settings.wifi.dpp.WifiDppUtils");

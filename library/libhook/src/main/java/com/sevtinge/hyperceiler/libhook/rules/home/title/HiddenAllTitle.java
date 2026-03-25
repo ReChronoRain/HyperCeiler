@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.title;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HiddenAllTitle extends BaseHook {
     @Override
@@ -30,7 +30,7 @@ public class HiddenAllTitle extends BaseHook {
         findAndHookMethod("com.miui.home.launcher.ItemIcon", "setTitle",
             CharSequence.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(null);
                 }
             }

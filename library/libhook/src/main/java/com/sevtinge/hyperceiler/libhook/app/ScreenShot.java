@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.DeviceShellCustomize;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.HideStatusBarWhenShot;
@@ -28,7 +29,6 @@ import com.sevtinge.hyperceiler.libhook.rules.screenshot.SaveToPictures;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockCopyPicture;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockMinimumCropLimit2;
 import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockPrivacyMarking;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.screenshot")
 public class ScreenShot extends BaseLoad {

@@ -19,8 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import android.os.Build
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 
 
 object AndroidVersionCode : BaseHook() {

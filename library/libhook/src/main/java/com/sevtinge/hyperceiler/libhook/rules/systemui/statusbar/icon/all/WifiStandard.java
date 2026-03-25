@@ -18,12 +18,12 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class WifiStandard extends BaseHook {
 
@@ -39,7 +39,7 @@ public class WifiStandard extends BaseHook {
 
         findAndHookMethod(mWifiView, "applyWifiState", mWifiIconState, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 Object mWifiIconState = param.getArgs()[0];
                 int mWifiStandard = EzxHelpUtils.getIntField(mWifiIconState, "wifiStandard");
                 if (mWifiIconState != null) {
@@ -54,7 +54,7 @@ public class WifiStandard extends BaseHook {
         });
     }
 
-    private void setWifiStandardIconState(BeforeHookParam param) {
+    private void setWifiStandardIconState(HookParam param) {
         int wifiStandard = EzxHelpUtils.getIntField(param.getThisObject(), "wifiStandard");
         int key = PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0);
         if (key == 1) {

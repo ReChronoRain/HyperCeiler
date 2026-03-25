@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.base;
 
-import android.content.SharedPreferences;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -28,12 +28,12 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
-import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModule;
 
 /**
@@ -44,34 +44,41 @@ import io.github.libxposed.api.XposedModule;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+    private static final String PREF_ALLOW_HOOK = "allow_hook";
+    private static final String PREF_FRAMEWORK_ALLOW_HOOK = "framework_api_allow_hook";
+    private static final String PREF_FRAMEWORK_REASON = "framework_check_reason";
+    private static final String PREF_FRAMEWORK_NAME = "framework_check_name";
+    private static final String PREF_FRAMEWORK_VERSION = "framework_check_version";
+    private static final String PREF_FRAMEWORK_VERSION_CODE = "framework_check_version_code";
 
     protected String processName;
+    private final Object prefsInitLock = new Object();
+    private volatile boolean prefsInited = false;
 
-    public XposedInitEntry(@NonNull XposedInterface base, @NonNull ModuleLoadedParam param) {
-        super(base, param);
+    @Override
+    public void onModuleLoaded(@NonNull ModuleLoadedParam param) {
         processName = param.getProcessName();
 
-        XposedLog.init(base);
-        BaseLoad.init(base);
-        EzXposed.initXposedModule(base);
+        // load prefs
+        try {
+            initPrefs();
+        } catch (Throwable t) {
+            XposedLog.w(TAG, processName, "Failed to initialize prefs during module bootstrap, will retry later.", t);
+        }
+
+        EzXposed.initOnModuleLoaded(this, param);
+        BaseLoad.init(this);
     }
 
     @Override
-    public void onSystemServerLoaded(@NonNull final SystemServerLoadedParam lpparam) {
-        // load preferences
-        try {
-            initPrefs();
-            if (isModuleReady()) {
-                XposedLog.w(TAG, "system", "Skip loading hooks because OOBE is not completed.");
-                return;
-            }
-        } catch (Throwable t) {
-            XposedLog.e(TAG, "system", "An exception occurred while loading prefs, blocking further loading.", t);
+    public void onSystemServerStarting(@NonNull SystemServerStartingParam lpparam) {
+        if (prepareHookLoad("system")) {
             return;
         }
+        attachHookLogLevelObserver(true);
 
-        // set xposed module
-        EzxHelpUtils.setXposedModule(this);
+        // load ezx lpparam
+        EzXposed.initOnSystemServerStarting(lpparam);
 
         // load CrashHook
         try {
@@ -95,33 +102,25 @@ public class XposedInitEntry extends XposedModule {
     }
 
     @Override
-    public void onPackageLoaded(@NonNull final PackageLoadedParam lpparam) {
-        super.onPackageLoaded(lpparam);
+    public void onPackageReady(@NonNull PackageReadyParam lpparam) {
+        super.onPackageReady(lpparam);
         if (!lpparam.isFirstPackage()) return;
-        // load preferences
-        try {
-            initPrefs();
-            if (isModuleReady()) {
-                XposedLog.w(TAG, lpparam.getPackageName(), "Skip loading hooks because OOBE is not completed.");
-                return;
-            }
-        } catch (Throwable t) {
-            XposedLog.e(TAG, lpparam.getPackageName(), "An exception occurred while loading prefs, blocking further loading.", t);
+        String packageName = lpparam.getPackageName();
+        if (prepareHookLoad(packageName)) {
             return;
         }
-        // load EzXposed
-        EzXposed.initOnPackageLoaded(lpparam);
+
+        EzXposed.initOnPackageReady(lpparam);
+        attachHookLogLevelObserver(false);
         // invoke module
         invokeInit(lpparam);
-        // Sync preferences changes
-        //loadPreferenceChange();
     }
 
-    protected void invokeInit(PackageLoadedParam lpparam) {
+    protected void invokeInit(PackageReadyParam lpparam) {
         invokeInitInternal(lpparam.getPackageName(), module -> module.onLoad(lpparam));
     }
 
-    protected void invokeInit(SystemServerLoadedParam lpparam) {
+    protected void invokeInit(SystemServerStartingParam lpparam) {
         invokeInitInternal(BaseLoad.SYSTEM_SERVER, module -> module.onLoad(lpparam));
     }
 
@@ -170,27 +169,87 @@ public class XposedInitEntry extends XposedModule {
     }
 
     protected void initPrefs() {
-        String remoteName = PrefsBridge.PREFS_NAME + "_remote";
-        SharedPreferences remote = getRemotePreferences(remoteName);
-        // 直接塞给 Bridge，以后 PrefsBridge.getBoolean 就会直接读它
-        PrefsBridge.initForHook(remote);
-        initLogLevelSync(remote);
-    }
-
-    private void initLogLevelSync(SharedPreferences remote) {
-        try {
-            LogStatusManager.initHookLogLevelSync(remote);
-        } catch (Throwable t) {
-            try {
-                LogStatusManager.syncLogLevelFromPrefs();
-            } catch (Throwable ignored) {
+        if (prefsInited) {
+            return;
+        }
+        synchronized (prefsInitLock) {
+            if (prefsInited) {
+                return;
             }
-            XposedLog.w(TAG, processName, "Failed to enable hot log-level sync, using current snapshot.", t);
+            PrefsBridge.initForHook(getRemotePreferences(PrefsBridge.REMOTE_PREFS_GROUP));
+            LogStatusManager.syncLogLevelFromPrefs();
+            prefsInited = true;
         }
     }
 
-    private boolean isModuleReady() {
-        return !PrefsBridge.getBoolean("allow_hook", false);
+    private boolean prepareHookLoad(String packageName) {
+        if (!isHookEnabled()) {
+            XposedLog.w(TAG, packageName, "Skip loading hooks because hook loading is disabled by app state.");
+            return true;
+        }
+        return false;
+    }
+
+    private void attachHookLogLevelObserver(boolean isSystem) {
+        ContextUtils.getWaitContext(context -> {
+            if (context != null) {
+                LogStatusManager.attachHookLogLevelObserver(context);
+            }
+        }, isSystem);
+    }
+
+    private boolean isHookEnabled() {
+        return PrefsBridge.getBoolean(PREF_ALLOW_HOOK, false)
+            && isFrameworkAllowedForCurrentRuntime();
+    }
+
+    private boolean isFrameworkAllowedForCurrentRuntime() {
+        boolean allowHook = PrefsBridge.getBoolean(PREF_FRAMEWORK_ALLOW_HOOK, true);
+        if (allowHook) {
+            return true;
+        }
+
+        String storedReason = PrefsBridge.getString(PREF_FRAMEWORK_REASON, null);
+        if (TextUtils.isEmpty(storedReason)) {
+            return false;
+        }
+
+        String currentFrameworkName;
+        String currentFrameworkVersion;
+        long currentFrameworkVersionCode;
+        try {
+            currentFrameworkName = normalizeFrameworkText(getFrameworkName());
+            currentFrameworkVersion = normalizeFrameworkText(getFrameworkVersion());
+            currentFrameworkVersionCode = getFrameworkVersionCode();
+        } catch (Throwable t) {
+            return false;
+        }
+
+        String checkedFrameworkName = normalizeFrameworkText(PrefsBridge.getString(PREF_FRAMEWORK_NAME, null));
+        String checkedFrameworkVersion = normalizeFrameworkText(PrefsBridge.getString(PREF_FRAMEWORK_VERSION, null));
+        long checkedFrameworkVersionCode = PrefsBridge.getLong(PREF_FRAMEWORK_VERSION_CODE, Long.MIN_VALUE);
+
+        boolean matched = Objects.equals(currentFrameworkName, checkedFrameworkName)
+            && Objects.equals(currentFrameworkVersion, checkedFrameworkVersion)
+            && currentFrameworkVersionCode == checkedFrameworkVersionCode;
+        if (matched) {
+            return false;
+        }
+
+        XposedLog.i(
+            TAG,
+            processName,
+            "Allow loading hooks temporarily because the running framework differs from the last framework blocked by XposedService."
+        );
+        return true;
+    }
+
+    private static String normalizeFrameworkText(String value) {
+        if (value == null) {
+            return null;
+        }
+        String trimValue = value.trim();
+        return trimValue.isEmpty() ? null : trimValue;
     }
 
 }

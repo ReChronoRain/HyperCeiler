@@ -37,6 +37,7 @@
     <color name="dark_mode_icon_color_single_tone">#bf000000</color>
     <color name="dark_mode_icon_transparent_color_single_tone">#4c000000</color>
 
+    <color name="color_on_surface">@color/miuix_default_color_on_surface_light</color>
     <color name="color_on_surface_variant">#FAFCFCFC</color>
 
     <color name="preference_recommend_region_color">@color/miuix_color_white_solid_100</color>

@@ -24,7 +24,7 @@ import android.content.Intent;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class RunningServices extends BaseHook {
     @Override
@@ -33,7 +33,7 @@ public class RunningServices extends BaseHook {
             "getStartingFragmentClass", Intent.class,
             new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Intent intent = (Intent) param.getArgs()[0];
                     ComponentName componentName = intent.getComponent();
                     if (componentName != null) {

@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class CleanProcessTextMenu extends BaseHook {
 
@@ -48,7 +48,7 @@ public class CleanProcessTextMenu extends BaseHook {
 
         findAndHookMethod(mPackageManagerService, "systemReady", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 Handler mHandler = (Handler) getObjectField(param.getThisObject(), "mHandler");
                 new PrefsChangeObserver(mContext, mHandler, true,
@@ -59,7 +59,7 @@ public class CleanProcessTextMenu extends BaseHook {
         IMethodHook hook = new IMethodHook() {
             @Override
             @SuppressWarnings("unchecked")
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 try {
                     if (param.getArgs()[0] == null) return;
                     Intent origIntent = (Intent) param.getArgs()[0];

@@ -23,7 +23,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AddGoogleListHeader extends BaseHook {
     @Override
@@ -31,7 +31,7 @@ public class AddGoogleListHeader extends BaseHook {
         Class<?> mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
         findAndHookMethod(mMiuiSettings, "updateHeaderList", List.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 List<?> list = (List<?>) param.getArgs()[0];
                 callMethod(param.getThisObject(), "AddGoogleSettingsHeaders", list);
             }

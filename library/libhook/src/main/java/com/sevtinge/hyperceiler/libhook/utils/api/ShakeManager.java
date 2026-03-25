@@ -23,7 +23,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 
 public class ShakeManager implements SensorEventListener {
 
@@ -110,6 +110,6 @@ public class ShakeManager implements SensorEventListener {
     }
 
     private void executeShakeAction() {
-        GlobalActions.handleAction(helperContext, "prefs_key_home_gesture_shake");
+        GlobalActionBridge.handleAction(helperContext, "prefs_key_home_gesture_shake");
     }
 }

@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableAd;
@@ -32,7 +33,6 @@ import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisplayMoreApkInf
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallSource;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCloudCheck;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.packageinstaller")
 public class PackageInstaller extends BaseLoad {

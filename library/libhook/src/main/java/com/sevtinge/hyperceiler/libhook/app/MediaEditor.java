@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.CustomWatermark;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockAigc;
@@ -26,7 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockCustomPhotoFrame
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockDisney;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockLeicaFilter;
 import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.UnlockMinimumCropLimit2;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Objects;
 

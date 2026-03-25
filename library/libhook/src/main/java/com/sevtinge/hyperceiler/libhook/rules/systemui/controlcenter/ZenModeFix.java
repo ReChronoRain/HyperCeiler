@@ -25,7 +25,7 @@ import android.content.Context;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 // 典中典给小米擦屁股
 public class ZenModeFix extends BaseHook {
@@ -37,7 +37,7 @@ public class ZenModeFix extends BaseHook {
 
         hookAllMethods(NotificationLoadClass, "buzzBeepBlink", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                     NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
                     if (notificationManager.getCurrentInterruptionFilter() >= NotificationManager.INTERRUPTION_FILTER_PRIORITY) {

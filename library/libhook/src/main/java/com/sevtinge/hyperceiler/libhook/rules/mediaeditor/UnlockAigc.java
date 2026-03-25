@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -40,7 +40,7 @@ public class UnlockAigc extends BaseHook {
         try {
             findAndHookConstructor("com.miui.mediaeditor.aigc.AISupportItem", String.class, List.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     List<String> mDevices = new ArrayList<>();
                     mDevices.add("*");
                     param.getArgs()[1] = mDevices;
@@ -50,7 +50,7 @@ public class UnlockAigc extends BaseHook {
             // 2.1.3.2+
             findAndHookConstructor("com.miui.mediaeditor.aigc.AISupportItem", String.class, List.class, List.class, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     List<String> mDevices = new ArrayList<>();
                     mDevices.add("*");
                     param.getArgs()[1] = mDevices;

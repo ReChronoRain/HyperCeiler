@@ -21,6 +21,9 @@ package com.sevtinge.hyperceiler.libhook.app.SystemFramework;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBootstrap;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.ModulePackageTrust;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.AllowUpdateSystemApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch.BypassIsolationViolation;
@@ -44,8 +47,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylus
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNeedFingerNum;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.PackagePermissions;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
@@ -82,15 +83,14 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeFirst
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AntiQues;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "system", maxSdk = 35)
 public class SystemFrameworkV extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new PackagePermissions(), true);
-        initHook(new GlobalActions(), true);
+        initHook(new ModulePackageTrust(), true);
+        initHook(new GlobalActionBootstrap(), true);
         // initHook(new DisableMiuiWatermark(), PrefsBridge.getBoolean("system_framework_disable_miui_watermark"));
 
         // 核心破解

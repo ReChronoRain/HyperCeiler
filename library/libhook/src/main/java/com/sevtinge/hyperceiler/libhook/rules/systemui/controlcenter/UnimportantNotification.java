@@ -23,8 +23,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnimportantNotification extends BaseHook {
     Class clazz;
@@ -35,7 +34,7 @@ public class UnimportantNotification extends BaseHook {
                 "onPanelExpansionChanged$1", "com.android.systemui.shade.ShadeExpansionChangeEvent",
                 new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         Object FoldCoordinator = getObjectField(param.getThisObject(), "this$0");
                         setObjectField(FoldCoordinator, "mPendingNotifications", new ArrayList<>());
                     }
@@ -49,7 +48,7 @@ public class UnimportantNotification extends BaseHook {
                     "com.android.systemui.statusbar.notification.collection.NotificationEntry",
                     new IMethodHook() {
                         @Override
-                        public void after(AfterHookParam param) {
+                        public void after(HookParam param) {
                             // Object mSbn = getObjectField(param.args[1], "mSbn");
                             // String getPackageName = (String) callMethod(mSbn, "getPackageName");
                             // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);
@@ -65,7 +64,7 @@ public class UnimportantNotification extends BaseHook {
 
             hookAllMethods(clazz, "shouldIgnoreEntry", new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     // Object mSbn = getObjectField(param.args[1], "mSbn");
                     // String getPackageName = (String) callMethod(mSbn, "getPackageName");
                     // logE(TAG, "after: " + param.getResult() + " pkg: " + getPackageName);

@@ -23,14 +23,14 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ShadeHeaderGradientBlur extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.miui.systemui.shade.header.ShadeHeaderClipController", "getUseGradientBlur", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });

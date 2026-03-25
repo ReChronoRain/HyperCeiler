@@ -21,22 +21,90 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
-import io.github.libxposed.api.XposedInterface.MethodUnhooker
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.libxposed.api.XposedInterface
+import io.github.libxposed.api.XposedInterface.HookHandle
 import java.lang.reflect.Constructor
 import java.lang.reflect.Field
 import java.lang.reflect.Member
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
+
+typealias HookBlock = (HookParam) -> Unit
+typealias ReplaceHookBlock = (HookParam) -> Any?
+typealias ChainInterceptor = XposedInterface.Chain.() -> Any?
+typealias HookExceptionMode = XposedInterface.ExceptionMode
+
+/**
+ * 仅供开发调试时使用的 callback 错误日志。
+ *
+ * 用法示例：
+ * ```kotlin
+ * debugCallbackError("after updateClock", t)
+ * ```
+ */
+fun BaseHook.debugCallbackError(where: String?, t: Throwable) {
+    val message = if (where.isNullOrEmpty()) {
+        "Debug callback error"
+    } else {
+        "Debug callback error at $where"
+    }
+    XposedLog.w(TAG, packageName, message, t)
+}
+
+/**
+ * 仅供开发调试时使用。
+ * 记录 callback 异常后吞掉，适合 before/after 这类不希望影响主流程的场景。
+ *
+ * 用法示例：
+ * ```kotlin
+ * afterHookMethod("updateClock") { param ->
+ *     debugProtect("after updateClock") {
+ *         param.result = param.result
+ *     }
+ * }
+ * ```
+ */
+inline fun BaseHook.debugProtect(where: String?, block: () -> Unit) {
+    try {
+        block()
+    } catch (t: Throwable) {
+        debugCallbackError(where, t)
+    }
+}
+
+/**
+ * 仅供开发调试时使用。
+ * 记录 callback 异常后继续抛出，适合 replace 或其他需要保留原始异常语义的场景。
+ *
+ * 用法示例：
+ * ```kotlin
+ * replaceMethod("buildIntent") { param ->
+ *     debugRethrow("replace buildIntent") {
+ *         param.result
+ *     }
+ * }
+ * ```
+ */
+inline fun <T> BaseHook.debugRethrow(where: String?, block: () -> T): T {
+    try {
+        return block()
+    } catch (t: Throwable) {
+        debugCallbackError(where, t)
+        throw t
+    }
+}
 
 /**
  * Hook 回调 DSL 构建器
@@ -50,141 +118,170 @@ import java.lang.reflect.Modifier
  * ```
  */
 class MethodHookBuilder {
-    private var beforeBlock: ((BeforeHookParam) -> Unit)? = null
-    private var afterBlock: ((AfterHookParam) -> Unit)? = null
+    private var beforeBlock: HookBlock? = null
+    private var afterBlock: HookBlock? = null
 
-    fun before(block: (BeforeHookParam) -> Unit) {
+    fun before(block: HookBlock) {
         beforeBlock = block
     }
 
-    fun after(block: (AfterHookParam) -> Unit) {
+    fun after(block: HookBlock) {
         afterBlock = block
     }
 
     fun build(): IMethodHook {
         return object : IMethodHook {
-            override fun before(param: BeforeHookParam) {
+            override fun before(param: HookParam) {
                 beforeBlock?.invoke(param)
             }
 
-            override fun after(param: AfterHookParam) {
+            override fun after(param: HookParam) {
                 afterBlock?.invoke(param)
             }
         }
     }
 }
 
+inline fun methodHook(block: MethodHookBuilder.() -> Unit): IMethodHook {
+    val builder = MethodHookBuilder()
+    builder.block()
+    return builder.build()
+}
+
+inline fun beforeHook(crossinline block: HookBlock): IMethodHook {
+    return object : IMethodHook {
+        override fun before(param: HookParam) = block(param)
+    }
+}
+
+inline fun afterHook(crossinline block: HookBlock): IMethodHook {
+    return object : IMethodHook {
+        override fun after(param: HookParam) = block(param)
+    }
+}
+
+inline fun replaceHook(crossinline block: ReplaceHookBlock): IReplaceHook {
+    return IReplaceHook { param -> block(param) }
+}
+
+fun Method.hook(
+    priority: Int = XposedInterface.PRIORITY_DEFAULT,
+    exceptionMode: HookExceptionMode = HookExceptionMode.DEFAULT,
+    block: ChainInterceptor
+): HookHandle = EzxHelpUtils.chain(this, priority, exceptionMode) { chain -> chain.block() }
+
+fun Constructor<*>.hook(
+    priority: Int = XposedInterface.PRIORITY_DEFAULT,
+    exceptionMode: HookExceptionMode = HookExceptionMode.DEFAULT,
+    block: ChainInterceptor
+): HookHandle = EzxHelpUtils.chain(this, priority, exceptionMode) { chain -> chain.block() }
+
+fun Class<*>.chainMethod(
+    methodName: String,
+    vararg args: Any,
+    priority: Int = XposedInterface.PRIORITY_DEFAULT,
+    exceptionMode: HookExceptionMode = HookExceptionMode.DEFAULT,
+    block: ChainInterceptor
+): HookHandle = EzxHelpUtils.findAndChainMethod(
+    this,
+    methodName,
+    *args,
+    priority = priority,
+    exceptionMode = exceptionMode,
+    block = { chain -> chain.block() }
+)
+
+fun Class<*>.chainConstructor(
+    vararg args: Any,
+    priority: Int = XposedInterface.PRIORITY_DEFAULT,
+    exceptionMode: HookExceptionMode = HookExceptionMode.DEFAULT,
+    block: ChainInterceptor
+): HookHandle = EzxHelpUtils.findAndChainConstructor(
+    this,
+    *args,
+    priority = priority,
+    exceptionMode = exceptionMode,
+    block = { chain -> chain.block() }
+)
+
 // -------------------- 方法 Hook --------------------
 
 inline fun Class<*>.beforeHookMethod(
     methodName: String,
     vararg args: Any,
-    crossinline block: (BeforeHookParam) -> Unit
-): MethodUnhooker<*> {
-    return EzxHelpUtils.findAndHookMethod(
-        this, methodName, *args,
-        object : IMethodHook {
-            override fun before(param: BeforeHookParam) = block(param)
-        }
-    )
+    crossinline block: HookBlock
+): HookHandle {
+    return EzxHelpUtils.findAndHookMethod(this, methodName, *args, beforeHook(block))
 }
 
 inline fun Class<*>.afterHookMethod(
     methodName: String,
     vararg args: Any,
-    crossinline block: (AfterHookParam) -> Unit
-): MethodUnhooker<*> {
-    return EzxHelpUtils.findAndHookMethod(
-        this, methodName, *args,
-        object : IMethodHook {
-            override fun after(param: AfterHookParam) = block(param)
-        }
-    )
+    crossinline block: HookBlock
+): HookHandle {
+    return EzxHelpUtils.findAndHookMethod(this, methodName, *args, afterHook(block))
 }
 
 inline fun Class<*>.hookMethod(
     methodName: String,
     vararg args: Any,
     block: MethodHookBuilder.() -> Unit
-): MethodUnhooker<*> {
-    val builder = MethodHookBuilder()
-    builder.block()
-    return EzxHelpUtils.findAndHookMethod(this, methodName, *args, builder.build())
+): HookHandle {
+    return EzxHelpUtils.findAndHookMethod(this, methodName, *args, methodHook(block))
 }
 
 inline fun Class<*>.hookAllMethods(
     methodName: String,
     block: MethodHookBuilder.() -> Unit
-): List<MethodUnhooker<*>> {
-    val builder = MethodHookBuilder()
-    builder.block()
-    return EzxHelpUtils.hookAllMethods(this, methodName, builder.build())
+): List<HookHandle> {
+    return EzxHelpUtils.hookAllMethods(this, methodName, methodHook(block))
 }
 
 inline fun Class<*>.replaceMethod(
     methodName: String,
     vararg args: Any,
-    crossinline block: (BeforeHookParam) -> Any?
-): MethodUnhooker<*> {
-    return EzxHelpUtils.findAndHookMethodReplace(
-        this, methodName, *args,
-        object : IReplaceHook {
-            override fun replace(param: BeforeHookParam): Any? = block(param)
-        }
-    )
+    crossinline block: ReplaceHookBlock
+): HookHandle {
+    return EzxHelpUtils.findAndHookMethodReplace(this, methodName, *args, replaceHook(block))
 }
 
 // -------------------- 构造器 Hook --------------------
 
 inline fun Class<*>.beforeHookConstructor(
     vararg args: Any,
-    crossinline block: (BeforeHookParam) -> Unit
-): MethodUnhooker<*> {
-    return EzxHelpUtils.findAndHookConstructor(
-        this, *args,
-        object : IMethodHook {
-            override fun before(param: BeforeHookParam) = block(param)
-        }
-    )
+    crossinline block: HookBlock
+): HookHandle {
+    return EzxHelpUtils.findAndHookConstructor(this, *args, beforeHook(block))
 }
 
 inline fun Class<*>.afterHookConstructor(
     vararg args: Any,
-    crossinline block: (AfterHookParam) -> Unit
-): MethodUnhooker<*> {
-    return EzxHelpUtils.findAndHookConstructor(
-        this, *args,
-        object : IMethodHook {
-            override fun after(param: AfterHookParam) = block(param)
-        }
-    )
+    crossinline block: HookBlock
+): HookHandle {
+    return EzxHelpUtils.findAndHookConstructor(this, *args, afterHook(block))
 }
 
 inline fun Class<*>.hookConstructor(
     vararg args: Any,
     block: MethodHookBuilder.() -> Unit
-): MethodUnhooker<*> {
-    val builder = MethodHookBuilder()
-    builder.block()
-    return EzxHelpUtils.findAndHookConstructor(this, *args, builder.build())
+): HookHandle {
+    return EzxHelpUtils.findAndHookConstructor(this, *args, methodHook(block))
 }
 
 inline fun Class<*>.hookAllConstructors(
     block: MethodHookBuilder.() -> Unit
-): List<MethodUnhooker<*>> {
-    val builder = MethodHookBuilder()
-    builder.block()
-    return EzxHelpUtils.hookAllConstructors(this, builder.build())
+): List<HookHandle> {
+    return EzxHelpUtils.hookAllConstructors(this, methodHook(block))
 }
 
 
-fun Method.hook(callback: IMethodHook): MethodUnhooker<*> =
+fun Method.hookCallback(callback: IMethodHook): HookHandle =
     EzxHelpUtils.hookMethod(this, callback)
 
-fun Method.hookReplace(callback: IReplaceHook): MethodUnhooker<*> =
+fun Method.replaceCallback(callback: IReplaceHook): HookHandle =
     EzxHelpUtils.hookMethod(this, callback)
 
-fun Constructor<*>.hook(callback: IMethodHook): MethodUnhooker<*> =
+fun Constructor<*>.hookCallback(callback: IMethodHook): HookHandle =
     EzxHelpUtils.hookConstructor(this, callback)
 
 fun Method.deoptimizeMethod() = EzxHelpUtils.deoptimize(this)
@@ -422,6 +519,16 @@ fun Context.getDimenByName(name: String): Int = getIdByName(name, "dimen")
 fun Context.getDrawableIdByName(name: String): Int = getIdByName(name, "drawable")
 fun Context.getDrawable(name: String): Drawable? =
     getDrawable(getDrawableIdByName(name))
+
+fun View.findViewByIdName(name: String): View? {
+    val viewId = context.getIdByName(name)
+    return if (viewId != 0) findViewById(viewId) else null
+}
+
+fun Activity.findViewByIdName(name: String): View? {
+    val viewId = this.getIdByName(name)
+    return if (viewId != 0) findViewById(viewId) else null
+}
 
 // -------------------- View padding --------------------
 

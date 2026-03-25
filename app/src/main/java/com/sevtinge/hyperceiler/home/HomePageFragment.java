@@ -1,7 +1,6 @@
 package com.sevtinge.hyperceiler.home;
 
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,7 +30,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.log.LogStatusManager;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
 import com.sevtinge.hyperceiler.home.banner.BannerCallback;
@@ -53,7 +51,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 import fan.core.utils.MiuiBlurUtils;
 import fan.internal.utils.ViewUtils;
@@ -103,6 +100,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private HeaderAdapter mHeaderAdapter;
     private ProxyHeaderViewAdapter mProxyAdapter;
+    private String mLastHomeStateSignature;
 
     private SearchHistorySPUtils mSearchHistorySPUtils;
     private HandlerThread mSearchThread;
@@ -280,6 +278,10 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     @Override
     public void onResume() {
         super.onResume();
+        String currentSignature = HeaderManager.computeHomeStateSignature(getContext());
+        if (!Objects.equals(mLastHomeStateSignature, currentSignature)) {
+            buildAdapter();
+        }
         if (HomePageBannerManager.needsRefresh()) {
             scheduleHeaderRefresh();
         }
@@ -435,27 +437,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     @Override
     public void updateHeaderList(List<Header> headers) {
-        Set<String> headerRemoveList = PrefsBridge.getStringSet("header_remove_list");
-        for (Header header : headers) {
-
-            String pkgName = (header.summary != null) ? header.summary.toString() : "";
-
-            boolean isInstalled = isAppInstalled(pkgName);
-            boolean isUserHidden = headerRemoveList.contains(pkgName);
-            header.displayStatus = isInstalled && !isUserHidden;
-        }
-    }
-
-    private boolean isAppInstalled(String packageName) {
-        if (TextUtils.isEmpty(packageName) || !packageName.contains(".")) {
-            return true;
-        }
-        try {
-            getPackageManager().getPackageInfo(packageName, 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
-        }
+        HeaderManager.updateHeaderDisplayStates(getContext(), headers);
     }
 
     private void refreshHeader() {
@@ -486,6 +468,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         super.buildAdapter();
 
         List<Header> displayHeaders = HeaderManager.getDisplayHeaders(getContext(), mHeaders);
+        mLastHomeStateSignature = HeaderManager.computeHomeStateSignature(getContext());
 
         mHeaderAdapter = new HeaderAdapter(this, displayHeaders);
         mHeaderAdapter.setHasStableIds(true);

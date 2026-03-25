@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
 import android.content.Context;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ScreenRotation extends BaseHook {
 
@@ -35,7 +35,7 @@ public class ScreenRotation extends BaseHook {
 
         hookAllConstructors("com.android.server.wm.DisplayRotation", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 EzxHelpUtils.setIntField(param.getThisObject(), "mAllowAllRotations", PrefsBridge.getBoolean("system_framework_screen_all_rotations") ? 1 : 0);
             }
         });

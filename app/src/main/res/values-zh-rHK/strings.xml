@@ -92,7 +92,8 @@
     <string name="notification_view">查看</string>
     <string name="tip_default">Tip: 這個是預設 tip ~ 如果你能看見我，就說明 HyperCeiler 出現了問題，請及時且有效的回饋給開發人員。</string>
     <string name="headtip_warn_not_offical_rom">您正在使用的 ROM 來源可能并不是 Xiaomi 官方，部分功能可能會失效，詳情請咨詢您正在使用 ROM 的提供人員。</string>
-    <string name="headtip_warn_unsupport_xposed">您當前使用的 Xposed 框架可能會導致部分功能出現異常，若您在使用過程中遇到上述情況，請更換至其他版本的 Xposed 框架後再次嘗試。</string>
+    <string name="headtip_warn_unsupport_xposed">當前框架 %1$s 的 Xposed API 版本為 %2$d，低於 HyperCeiler 要求的 %3$d，相關模組功能已停止載入。點按查看詳情。</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler 無法透過 XposedService 讀取當前框架資訊，相關模組功能已出於安全原因停止載入。點按查看詳情。</string>
     <string name="headtip_warn_unsupport_sysver">當前裝置運行的系統版本未 (完全) 適配，HyperCeiler 功能可能存在異常。</string>
     <string name="headtip_warn_sign_verification_failed">簽名校驗失敗，您當前使用的版本可能並非來自於 HyperCeiler 官方的版本，可能包含恶意内容，請注意使用安全。</string>
     <string name="headtip_tip_auto_safe_mode">主動安全模式可以在部分應用多次崩潰時及時取消 hook 以確保安全。該功能需要 hook 作用域 \"系統框架\" 來運行，我們十分建議您勾選作用域 \"系統框架\" 以激活和運行主動安全模式。</string>
@@ -133,6 +134,16 @@
     <string name="uninstall_title">卸載 HyperCeiler</string>
     <string name="uninstall_summary">從此入口卸載 HyperCeiler 後，您的模組配置將仍然保留在 Xposed 框架資料庫中，如需徹底清除請先前往模組設定中重設模組配置，再進行卸載。</string>
     <string name="unsupported_func_tips">目前目標作用域來源可能並不是 Xiaomi 官方，出於安全考慮，已停止加載此作用域的所有功能，請嘗試更改為 Xiaomi 官方發布的應用包，或前往 \"HyperCeiler 設定-開發者選項-調試模式\" 指定掛載版本後重試。</string>
+    <string name="help_framework_warning_title">當前框架兼容情況</string>
+    <string name="help_framework_warning_unknown_framework">當前框架</string>
+    <string name="help_framework_warning_card_compatible">當前框架符合 HyperCeiler 的運行要求，未見 Hook 載入異常。</string>
+    <string name="help_framework_warning_card_incompatible">當前框架不符合 HyperCeiler 的運行要求，Hook 已停止載入，請更換其他符合要求的框架後再試。</string>
+    <string name="help_framework_warning_card_service_error">當前框架資訊無法透過 XposedService 正常讀取，Hook 已出於安全原因停止載入，請檢查框架狀態後再試。</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler 尚未從 XposedService 讀取到當前框架資訊，暫時無法確認兼容情況。</string>
+    <string name="help_framework_warning_section_framework_version">當前框架版本:</string>
+    <string name="help_framework_warning_section_banner_reason">為什麼首頁會彈出警告?</string>
+    <string name="help_framework_warning_banner_reason">只有在 HyperCeiler 檢測到當前框架不符合最低運行要求，或 XposedService 無法正常返回框架資訊時，首頁才會彈出這條警告。為避免異常 Hook 導致功能失效或系統不穩定，HyperCeiler 會同時停止載入 Hook。</string>
+    <string name="help_framework_warning_version_unavailable">無法透過 XposedService 讀取當前框架版本資訊。</string>
     <string name="debug_mode">偵錯模式</string>
     <string name="open_debug_mode_tips">此選項僅用於正確處理目標應用的掛載版本，僅供需要時使用。\n對於被調試的目標應用，無法確保功能能正常使用，開啟後對於該目標應用程式出現的任何問題請**不要**回饋給開發者。</string>
     <string name="debug_mode_running">目前目標作用域正處於偵錯模式，若無必要開啟請前往關閉。\n目前應用版本：%1$s\n選擇目標版本：%2$s\n是否成功掛鉤：%3$s</string>
@@ -152,7 +163,7 @@
     <string name="log_menu_export">匯出日誌</string>
     <string name="log_menu_share">分享日誌</string>
     <string name="log_clear_title">清空日誌</string>
-    <string name="log_clear_all_message">確定要清空所有日誌嗎？包括應用程式日誌和 Xposed 日誌，此操作不可恢復。</string>
+    <string name="log_clear_all_message">確定要清空所有日誌嗎？這會清除應用程式日誌、已同步的 Xposed 日誌資料庫以及 Crash 日誌。Xposed 原始日誌會在下次啟動應用程式時重新同步。</string>
     <string name="log_clear_success">日誌已清空</string>
     <string name="log_clear_failed">清空日誌失敗</string>
     <string name="log_clear_in_progress">正在清空日誌…</string>

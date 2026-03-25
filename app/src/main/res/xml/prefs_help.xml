@@ -22,6 +22,12 @@
     <PreferenceCategory>
 
     <Preference
+        android:key="prefs_key_help_framework_warning"
+        android:title="@string/help_framework_warning_title"
+        android:fragment="com.sevtinge.hyperceiler.home.helper.FrameworkWarningHelpFragment">
+    </Preference>
+
+    <Preference
         android:key="prefs_key_help_support_version"
         android:title="@string/help_support_version_title"
         android:fragment="com.sevtinge.hyperceiler.home.helper.SupportVersionFragment">

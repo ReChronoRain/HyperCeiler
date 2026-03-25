@@ -25,7 +25,7 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.HashSet;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class AllowManageAllNotifications extends BaseHook {
     @Override
@@ -33,10 +33,10 @@ public class AllowManageAllNotifications extends BaseHook {
 
         findAndHookMethod("com.android.settings.notification.AppNotificationSettings", "setupBlock", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                         param.setResult(true);
                     }
                 });
@@ -45,10 +45,10 @@ public class AllowManageAllNotifications extends BaseHook {
 
         findAndHookMethod("com.android.settings.notification.ChannelNotificationSettings", "setupBlock", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                         param.setResult(true);
                     }
                 });
@@ -57,10 +57,10 @@ public class AllowManageAllNotifications extends BaseHook {
 
         findAndHookMethod("com.android.settings.notification.app.AppNotificationSettings", "setupBlock", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                         param.setResult(true);
                     }
                 });
@@ -69,10 +69,10 @@ public class AllowManageAllNotifications extends BaseHook {
 
         findAndHookMethod("com.android.settings.notification.app.ChannelNotificationSettings", "setupBlock", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                         param.setResult(true);
                     }
                 });
@@ -83,7 +83,7 @@ public class AllowManageAllNotifications extends BaseHook {
 
         findAndHookMethod("android.app.NotificationChannel", "setBlockable", boolean.class, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.getArgs()[0] = true;
             }
         });
@@ -94,7 +94,7 @@ public class AllowManageAllNotifications extends BaseHook {
         findAndHookMethod("miui.util.NotificationFilterHelper", "containNonBlockableChannel", String.class, returnConstant(false));
         findAndHookMethod("miui.util.NotificationFilterHelper", "getNotificationForcedEnabledList", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(new HashSet<String>());
             }
         });

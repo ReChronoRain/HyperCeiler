@@ -19,11 +19,11 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.guardprovider;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -35,7 +35,7 @@ import org.luckypray.dexkit.result.MethodDataList;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 ;
 
@@ -59,7 +59,7 @@ public class DisableRootedCheck extends BaseHook {
             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
             hookMethod(method, new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             });

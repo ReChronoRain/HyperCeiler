@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DownloadAnimation extends HomeBaseHookNew {
 
@@ -30,13 +30,13 @@ public class DownloadAnimation extends HomeBaseHookNew {
     private void initOS3Hook() {
         hookAllMethods("com.miui.home.common.utils.DeviceLevelUtils", "needMamlProgressIcon", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(true);
             }
         });
         hookAllMethods("com.miui.home.common.utils.DeviceLevelUtils", "needRemoveDownloadAnimationDevice", new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 param.setResult(false);
             }
         });
@@ -47,20 +47,20 @@ public class DownloadAnimation extends HomeBaseHookNew {
         try {
             hookAllMethods("com.miui.home.launcher.common.DeviceLevelUtils", "needMamlProgressIcon", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });
             hookAllMethods("com.miui.home.launcher.common.DeviceLevelUtils", "needRemoveDownloadAnimationDevice", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(false);
                 }
             });
         } catch (Exception e) {
             hookAllMethods("com.miui.home.launcher.common.CpuLevelUtils", "needMamlDownload", new IMethodHook() {
                 @Override
-                public void before(BeforeHookParam param) {
+                public void before(HookParam param) {
                     param.setResult(true);
                 }
             });

@@ -24,7 +24,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.s
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class BypassUnknownSourcesRestrictions extends BaseHook {
     @Override
@@ -35,7 +35,7 @@ public class BypassUnknownSourcesRestrictions extends BaseHook {
         /*if (packageName.equals("com.miui.packageinstaller") || packageName.equals("com.android.packageinstaller")){
             XposedHelpers.findAndHookMethod("com.android.packageinstaller.PackageInstallerActivity", classLoader, "onCreate", android.os.Bundle.class, new XC_MethodHook() {
                 @Override
-                public void beforeHookedMethod(AfterHookParam param) {
+                public void beforeHookedMethod(HookParam param) {
                     super.beforeHookedMethod(param);
                     //很简单，只需要在 onCreate 方法执行前把 mAllowUnknownSources 字段设置为 true 即可
                     XposedHelpers.setBooleanField(param.thisObject,"mAllowUnknownSources",true);
@@ -47,7 +47,7 @@ public class BypassUnknownSourcesRestrictions extends BaseHook {
         // Hook 掉未知来源权限检查，一律返回有
         findAndHookMethod("com.android.server.appop.AppOpsService", "noteOperation", int.class, int.class, String.class, String.class, boolean.class, String.class, boolean.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 if ((Integer) param.getArgs()[0] == 66) {
                     // AppOpsManager.permissionToOpCode("android.permission.REQUEST_INSTALL_PACKAGES") == 66
                     // XposedBridge.log("com.android.server.appop.AppOpsService.noteOperation("+Arrays.toString(param.args)+") return:"+param.getResult());
@@ -60,14 +60,14 @@ public class BypassUnknownSourcesRestrictions extends BaseHook {
         try {
             findAndHookMethod("com.android.server.pm.IPackageManagerBase", "canRequestPackageInstalls", String.class, int.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     param.setResult(true);
                 }
             });
         } catch (Throwable t) {
             findAndHookMethod("com.android.server.pm.PackageManagerService", "canRequestPackageInstalls", String.class, int.class, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     param.setResult(true);
                 }
             });

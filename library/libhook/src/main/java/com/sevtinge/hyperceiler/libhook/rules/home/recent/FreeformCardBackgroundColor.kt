@@ -18,10 +18,10 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 
 object FreeformCardBackgroundColor : BaseHook() {
     override fun init() {

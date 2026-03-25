@@ -30,20 +30,20 @@ import android.content.pm.ServiceInfo;
 import android.os.Bundle;
 import android.view.accessibility.AccessibilityManager;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class QuickManagerAccessibilityPermission extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.settings.SettingsActivity", "onCreate", Bundle.class, new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) throws PackageManager.NameNotFoundException {
+            public void after(HookParam param) throws PackageManager.NameNotFoundException {
                 Activity activity = (Activity) param.getThisObject();
                 Intent intent = activity.getIntent();
                 String action = intent.getAction();

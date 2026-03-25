@@ -18,12 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.various.system;
 
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class CollapseMiuiTitle extends BaseHook {
 
@@ -36,7 +36,7 @@ public class CollapseMiuiTitle extends BaseHook {
         if (abvCls != null)
             hookAllConstructors(abvCls, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     EzxHelpUtils.setIntField(param.getThisObject(), "mExpandState", (int) EzxHelpUtils.getStaticObjectField(
                             findClassIfExists("miui.app.ActionBar"),
                             "STATE_EXPAND"));
@@ -52,7 +52,7 @@ public class CollapseMiuiTitle extends BaseHook {
         if (abvCls != null)
             hookAllConstructors(abvCls, new IMethodHook() {
                 @Override
-                public void after(AfterHookParam param) {
+                public void after(HookParam param) {
                     try {
                         setExpandState(param.getThisObject(), opt == 1 || opt == 3);
                         setResizable(param.getThisObject(), opt == 3 || opt == 4);

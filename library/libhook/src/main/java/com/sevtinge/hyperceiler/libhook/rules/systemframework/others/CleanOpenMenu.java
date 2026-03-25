@@ -41,7 +41,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class CleanOpenMenu extends BaseHook {
 
@@ -54,7 +54,7 @@ public class CleanOpenMenu extends BaseHook {
 
         findAndHookMethod(mPackageManagerService, "systemReady", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 Handler mHandler = (Handler) getObjectField(param.getThisObject(), "mHandler");
                 new PrefsChangeObserver(mContext, mHandler, PrefType.Any, null, null) {
@@ -82,7 +82,7 @@ public class CleanOpenMenu extends BaseHook {
         IMethodHook hook = new IMethodHook() {
             @Override
             @SuppressWarnings("unchecked")
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 try {
                     if (param.getArgs()[0] == null) return;
                     if (param.getArgs().length < 6) return;
@@ -130,7 +130,7 @@ public class CleanOpenMenu extends BaseHook {
 
         EzxHelpUtils.hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 Intent mOriginalIntent = (Intent) getObjectField(param.getThisObject(), "mOriginalIntent");
                 if (mOriginalIntent == null) return;
                 String action = mOriginalIntent.getAction();

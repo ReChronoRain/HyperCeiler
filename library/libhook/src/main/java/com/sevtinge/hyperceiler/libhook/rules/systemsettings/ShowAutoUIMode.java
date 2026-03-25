@@ -22,7 +22,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class ShowAutoUIMode extends BaseHook {
     @Override
@@ -30,7 +30,7 @@ public class ShowAutoUIMode extends BaseHook {
         findAndHookMethod("com.android.settings.utils.SettingsFeatures",
                 "shouldShowAutoUIModeSetting", new IMethodHook() {
                     @Override
-                    public void before(BeforeHookParam param) {
+                    public void before(HookParam param) {
                         boolean result = PropUtils.getProp("persist.miui.auto_ui_enable", false);
                         if (result) {
                             param.setResult(true);

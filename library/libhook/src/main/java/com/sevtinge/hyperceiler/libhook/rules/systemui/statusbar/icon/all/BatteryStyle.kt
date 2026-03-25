@@ -22,13 +22,13 @@ import android.graphics.Typeface
 import android.util.TypedValue
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
 object BatteryStyle : BaseHook() {
@@ -128,7 +128,7 @@ object BatteryStyle : BaseHook() {
         }
     }
 
-    private fun hookStatusBattery(param: AfterHookParam) {
+    private fun hookStatusBattery(param: HookParam) {
         val batteryView = param.thisObject as LinearLayout
         val mBatteryPercentView =
             getObjectField(param.thisObject, "mBatteryPercentView") as TextView

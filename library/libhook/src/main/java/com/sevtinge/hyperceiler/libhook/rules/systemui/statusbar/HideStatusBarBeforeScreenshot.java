@@ -29,7 +29,7 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.AfterHookParam;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class HideStatusBarBeforeScreenshot extends BaseHook {
 
@@ -42,7 +42,7 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
     public void init() {
         hookAllMethods(COLLAPSED_STATUS_BAR_CLASS, "onViewCreated", new IMethodHook() {
             @Override
-            public void after(AfterHookParam param) {
+            public void after(HookParam param) {
                 View view = (View) param.getArgs()[0];
                 registerScreenshotReceiver(view);
             }

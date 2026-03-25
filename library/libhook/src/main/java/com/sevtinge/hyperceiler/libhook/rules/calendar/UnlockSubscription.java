@@ -18,11 +18,11 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.calendar;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -34,9 +34,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam;
-
-;
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockSubscription extends BaseHook {
     @Override
@@ -57,12 +55,12 @@ public class UnlockSubscription extends BaseHook {
         XposedLog.d(TAG, getPackageName(), "method is " + method);
         hookMethod(method, new IMethodHook() {
             @Override
-            public void before(BeforeHookParam param) {
+            public void before(HookParam param) {
                 XposedLog.d(TAG, getPackageName(), "1");
                 try {
                     findAndHookMethod(findClass("android.app.SharedPreferencesImpl$EditorImpl"), "putBoolean", String.class, boolean.class, new IMethodHook() {
                         @Override
-                        public void before(BeforeHookParam param) {
+                        public void before(HookParam param) {
                             String param0 = (String) param.getArgs()[0];
                             if (Objects.equals(param0, "key_subscription_display") ||
                                     Objects.equals(param0, "key_import_todo") ||

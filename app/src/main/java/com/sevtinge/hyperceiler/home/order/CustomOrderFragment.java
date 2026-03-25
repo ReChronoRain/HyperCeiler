@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
-import com.sevtinge.hyperceiler.home.adapter.DraggableCardAdapter;
 import com.sevtinge.hyperceiler.home.Header;
+import com.sevtinge.hyperceiler.home.adapter.DraggableCardAdapter;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import java.util.List;
+import java.util.Set;
 
 import fan.bottomsheet.BottomSheetModal;
 
@@ -112,12 +115,45 @@ public class CustomOrderFragment extends Fragment implements View.OnClickListene
 
     public void onCompleteButtonClick() {
         if (adapter != null) {
-            HeaderManager.saveHeaderPreferences(adapter.getData());
-            bottomSheetModalDismiss();
-            if (mCompleteCallBack != null) {
-                mCompleteCallBack.refresh();
+            if (!HeaderManager.isScopeSyncEnabled()) {
+                HeaderManager.saveHeaderPreferences(adapter.getData());
+                bottomSheetModalDismiss();
+                if (mCompleteCallBack != null) {
+                    mCompleteCallBack.refresh();
+                }
+                mCompleteCallBack = null;
+                return;
             }
-            mCompleteCallBack = null;
+
+            confirmButton.setEnabled(false);
+            Set<String> currentSelected = HeaderManager.getCurrentScopeManagedPackages(adapter.getData());
+            Set<String> targetSelected = HeaderManager.collectSelectedScopeManagedPackages(adapter.getData());
+            ScopeManager.applyScopeDiffAsync(requireContext(), currentSelected, targetSelected, (success, message) -> {
+                if (!isAdded()) {
+                    return;
+                }
+
+                confirmButton.setEnabled(true);
+
+                Set<String> finalScope = ScopeManager.peekNormalizedScopeSync();
+                if (finalScope == null) {
+                    finalScope = ScopeManager.normalizeScopePackages(targetSelected);
+                }
+                HeaderManager.applyScopeStateToHeaders(adapter.getData(), finalScope);
+                HeaderManager.saveHeaderPreferencesFromScopeState(adapter.getData(), finalScope);
+                adapter.notifyDataSetChanged();
+
+                if (success) {
+                    bottomSheetModalDismiss();
+                    if (mCompleteCallBack != null) {
+                        mCompleteCallBack.refresh();
+                    }
+                    mCompleteCallBack = null;
+                    return;
+                }
+
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+            });
         }
     }
 

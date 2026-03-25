@@ -25,7 +25,7 @@ import android.os.Bundle
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 
-import io.github.kyuubiran.ezxhelper.xposed.common.BeforeHookParam
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 
 object RemoveSIMLockSuccessDialog : BaseHook() {
     @Throws(NoSuchMethodException::class)
@@ -35,7 +35,7 @@ object RemoveSIMLockSuccessDialog : BaseHook() {
             "onCreate",
             Bundle::class.java,
             object : IMethodHook {
-                override fun before(param: BeforeHookParam) {
+                override fun before(param: HookParam) {
                     (param.thisObject as Activity).finish()
                 }
             }
