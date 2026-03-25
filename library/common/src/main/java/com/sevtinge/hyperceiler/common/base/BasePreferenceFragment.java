@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -63,5 +64,9 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     public void finish() {
         getActivity().finish();
+    }
+
+    protected final Context getPrefContext() {
+        return getPreferenceManager().getContext();
     }
 }

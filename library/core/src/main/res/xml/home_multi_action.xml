@@ -20,128 +20,128 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:quick_restart="com.miui.home">
 
-    <PreferenceCategory />
-
-    <RadioButtonPreferenceCategory>
-
-        <RadioButtonPreference
-            android:key="prefs_key_no_action"
-            android:persistent="false"
-            android:title="@string/array_global_actions_none" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_open_notification_center"
-            android:title="@string/array_global_actions_notif" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_screen_lock"
-            android:title="@string/array_global_actions_lock" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_screen_sleep"
-            android:title="@string/array_global_actions_sleep" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_screen_capture"
-            android:title="@string/array_global_actions_screenshot" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_clear_memory"
-            android:title="@string/array_global_actions_clear_memory" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_invert_colors"
-            android:title="@string/array_global_actions_invert_colors" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_screen_recents"
-            android:title="@string/array_global_actions_recents" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_volume_dialog"
-            android:title="@string/array_global_actions_volume" />
-
-        <RadioButtonPreference
-            android:key="prefs_key_open_powermenu"
-            android:title="@string/array_global_actions_powermenu" />
-
-        <RadioSetPreferenceCategory>
+    <!--<PreferenceCategory>
+        <RadioButtonPreferenceCategory>
 
             <RadioButtonPreference
-                android:key="prefs_key_open_app"
-                android:title="@string/array_global_actions_launch" />
-
-            <Preference
-                android:dependency="prefs_key_open_app"
-                android:key="prefs_key_open_app_selector"
-                android:title="@string/array_global_actions_launch_choose" />
-
-        </RadioSetPreferenceCategory>
-
-        <!--<RadioSetPreferenceCategory>
+                android:key="prefs_key_no_action"
+                android:persistent="false"
+                android:title="@string/array_global_actions_none" />
 
             <RadioButtonPreference
-                android:key="open_activity"
-                android:title="@string/array_global_actions_activity" />
-
-            <Preference
-                android:title="@string/app_name"
-                android:dependency="open_activity"/>
-
-        </RadioSetPreferenceCategory>
-
-        <RadioSetPreferenceCategory>
+                android:key="prefs_key_open_notification_center"
+                android:title="@string/array_global_actions_notif" />
 
             <RadioButtonPreference
-                android:key="open_shortcut"
-                android:title="@string/array_global_actions_shortcut" />
+                android:key="prefs_key_screen_lock"
+                android:title="@string/array_global_actions_lock" />
 
-            <Preference
-                android:title="@string/app_name"
-                android:dependency="open_shortcut"/>
+            <RadioButtonPreference
+                android:key="prefs_key_screen_sleep"
+                android:title="@string/array_global_actions_sleep" />
 
-        </RadioSetPreferenceCategory>
+            <RadioButtonPreference
+                android:key="prefs_key_screen_capture"
+                android:title="@string/array_global_actions_screenshot" />
+
+            <RadioButtonPreference
+                android:key="prefs_key_clear_memory"
+                android:title="@string/array_global_actions_clear_memory" />
+
+            <RadioButtonPreference
+                android:key="prefs_key_invert_colors"
+                android:title="@string/array_global_actions_invert_colors" />
+
+            <RadioButtonPreference
+                android:key="prefs_key_screen_recents"
+                android:title="@string/array_global_actions_recents" />
+
+            <RadioButtonPreference
+                android:key="prefs_key_volume_dialog"
+                android:title="@string/array_global_actions_volume" />
+
+            <RadioButtonPreference
+                android:key="prefs_key_open_powermenu"
+                android:title="@string/array_global_actions_powermenu" />
+
+            <RadioSetPreferenceCategory>
+
+                <RadioButtonPreference
+                    android:key="prefs_key_open_app"
+                    android:title="@string/array_global_actions_launch" />
+
+                <Preference
+                    android:dependency="prefs_key_open_app"
+                    android:key="prefs_key_open_app_selector"
+                    android:title="@string/array_global_actions_launch_choose" />
+
+            </RadioSetPreferenceCategory>
+        </RadioButtonPreferenceCategory>
+    </PreferenceCategory>-->
 
 
+    <!--<RadioSetPreferenceCategory>
 
         <RadioButtonPreference
-            android:title="@string/array_global_actions_eqs"
-            android:layout="@layout/preference_radiobutton_two_state"/>
+            android:key="open_activity"
+            android:title="@string/array_global_actions_activity" />
 
+        <Preference
+            android:title="@string/app_name"
+            android:dependency="open_activity"/>
 
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_menu"
-            android:layout="@layout/preference_radiobutton_two_state"/>
+    </RadioSetPreferenceCategory>
 
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_recents"
-            android:layout="@layout/preference_radiobutton_two_state"/>
-
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_volume"
-            android:layout="@layout/preference_radiobutton_two_state"/>
+    <RadioSetPreferenceCategory>
 
         <RadioButtonPreference
-            android:title="@string/array_global_actions_volume_up"
-            android:layout="@layout/preference_radiobutton_two_state"/>
+            android:key="open_shortcut"
+            android:title="@string/array_global_actions_shortcut" />
 
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_volume_down"
-            android:layout="@layout/preference_radiobutton_two_state"/>
+        <Preference
+            android:title="@string/app_name"
+            android:dependency="open_shortcut"/>
 
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_toggle"
-            android:layout="@layout/preference_radiobutton_two_state"/>
-
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_back"
-            android:layout="@layout/preference_radiobutton_two_state"/>
-
-        <RadioButtonPreference
-            android:title="@string/array_global_actions_back"
-            android:layout="@layout/preference_radiobutton_two_state"/>-->
+    </RadioSetPreferenceCategory>
 
 
-    </RadioButtonPreferenceCategory>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_eqs"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_menu"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_recents"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_volume"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_volume_up"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_volume_down"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_toggle"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_back"
+        android:layout="@layout/preference_radiobutton_two_state"/>
+
+    <RadioButtonPreference
+        android:title="@string/array_global_actions_back"
+        android:layout="@layout/preference_radiobutton_two_state"/>-->
+
 
 </PreferenceScreen>

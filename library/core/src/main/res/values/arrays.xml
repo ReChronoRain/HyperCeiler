@@ -41,4 +41,46 @@
         <item>com.xiaomi.joyose</item>
         <item>com.xiaomi.NetworkBoost</item>-->
     </string-array>
+
+    <string-array name="multi_action_title">
+        <item>@string/array_global_actions_none</item>
+        <item>@string/array_global_actions_notif</item>
+        <item>@string/array_global_actions_lock</item>
+        <item>@string/array_global_actions_sleep</item>
+        <item>@string/array_global_actions_screenshot</item>
+        <item>@string/array_global_actions_clear_memory</item>
+        <item>@string/array_global_actions_invert_colors</item>
+        <item>@string/array_global_actions_recents</item>
+        <item>@string/array_global_actions_volume</item>
+        <item>@string/array_global_actions_powermenu</item>
+        <item>@string/array_global_actions_launch</item>
+    </string-array>
+
+    <string-array name="multi_action_key">
+        <item>prefs_key_no_action</item>
+        <item>prefs_key_open_notification_center</item>
+        <item>prefs_key_screen_lock</item>
+        <item>prefs_key_screen_sleep</item>
+        <item>prefs_key_screen_capture</item>
+        <item>prefs_key_clear_memory</item>
+        <item>prefs_key_invert_colors</item>
+        <item>prefs_key_screen_recents</item>
+        <item>prefs_key_volume_dialog</item>
+        <item>prefs_key_open_powermenu</item>
+        <item>prefs_key_open_app</item>
+    </string-array>
+
+    <integer-array name="multi_action_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>12</item>
+        <item>13</item>
+    </integer-array>
 </resources>
