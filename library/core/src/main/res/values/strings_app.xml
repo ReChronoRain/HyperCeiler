@@ -1360,6 +1360,8 @@
     <string name="miui_package_installer_modify">Clean page</string>
     <string name="miui_package_installer_disable_ad">Disable ads</string>
     <string name="miui_package_installer_install_risk">Disable risk detection</string>
+    <string name="miui_package_installer_disable_cloud_check">Block cloud config fetch</string>
+    <string name="miui_package_installer_disable_cloud_check_desc">Intercepts cloud configuration requests during app installation and spoofs an empty response. This improves loading speed and bypasses offline installation restrictions</string>
     <string name="miui_package_installer_safe_model_tip">Disable the security guard prompt</string>
     <string name="miui_package_installer_count_checking">Disable frequently installed app check</string>
     <string name="miui_package_installer_update_system_app">Remove system app installation restrictions</string>

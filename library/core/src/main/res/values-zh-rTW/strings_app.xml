@@ -1232,6 +1232,8 @@
     <string name="miui_package_installer_modify">淨化頁面</string>
     <string name="miui_package_installer_disable_ad">停用推廣</string>
     <string name="miui_package_installer_install_risk">停用風險檢測</string>
+    <string name="miui_package_installer_disable_cloud_check">阻斷雲端設定下發</string>
+    <string name="miui_package_installer_disable_cloud_check_desc">攔截應用程式安裝時的雲端設定請求並偽造空回應,可提升載入速度並繞過斷網環境下的安裝限制與彈跳視窗</string>
     <string name="miui_package_installer_safe_model_tip">停用安全守護提示</string>
     <string name="miui_package_installer_count_checking">停用頻繁安裝應用程式檢查</string>
     <string name="miui_package_installer_update_system_app">解除系統應用程式安裝限制</string>
