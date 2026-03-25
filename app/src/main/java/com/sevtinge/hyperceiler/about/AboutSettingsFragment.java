@@ -1,13 +1,20 @@
 package com.sevtinge.hyperceiler.about;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
+import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isInternetAvailable;
+import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isNetworkConnected;
 
+import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkRequest;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -39,11 +46,12 @@ import com.sevtinge.hyperceiler.home.widget.SwitchView;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.utils.ActionBarUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import fan.animation.Folme;
 import fan.animation.base.AnimConfig;
@@ -91,6 +99,11 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     private List<View> mCards = new ArrayList<>();
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private ConnectivityManager connectivityManager;
+    private ConnectivityManager.NetworkCallback networkCallback;
+    private long lastNetworkCheck = 0;
 
     @NonNull
     @Override
@@ -142,19 +155,32 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
         mAuthor = findPreference("prefs_key_about_author");
 
-        new Thread(() -> {
-            InputStream input = null;
-            try {
-                input = new java.net.URL("https://avatars.githubusercontent.com/u/89193494?s=256").openStream();
-            } catch (IOException e) {
-                AndroidLog.w("Get icon failed by: " + e);
-            }
-            Bitmap bitmap = BitmapFactory.decodeStream(input);
-            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+        if (mAuthor == null) {
+            AndroidLog.e("AboutSettingsFragment", "mAuthor is null! Check XML key.");
+            return;
+        }
 
-            requireActivity().runOnUiThread(() -> mAuthor.setIcon(drawable));
+        checkNetwork();
+        registerNetworkCallback();
+    }
+
+    private void loadAvatarFromNetwork(String urlString) {
+        new Thread(() -> {
+            try {
+                InputStream input = new java.net.URL(urlString).openStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(input);
+
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        mAuthor.setIcon(new BitmapDrawable(getResources(), bitmap));
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }).start();
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -426,6 +452,77 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         }
     }
 
+    private void checkNetwork() {
+        executor.execute(() -> {
+            boolean connected = isNetworkConnected(requireContext());
+            boolean internet = connected && isInternetAvailable();
+
+            if (!isAdded()) return;
+
+            requireActivity().runOnUiThread(() -> {
+                loadAvatarFromNetwork("https://avatars.githubusercontent.com/u/89193494?s=256");
+            });
+        });
+    }
+
+    private void updateNetworkState(boolean state) {
+        if (!isAdded()) return;
+
+        requireActivity().runOnUiThread(() -> {
+            loadAvatarFromNetwork("https://avatars.githubusercontent.com/u/89193494?s=256");
+        });
+    }
+
+
+    private void registerNetworkCallback() {
+        connectivityManager = (ConnectivityManager)
+            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager == null) return;
+
+        networkCallback = new ConnectivityManager.NetworkCallback() {
+            @Override
+            public void onAvailable(@NonNull Network network) {
+                checkNetworkDebounced();
+            }
+
+            @Override
+            public void onLost(@NonNull Network network) {
+                updateNetworkState(false);
+            }
+
+            @Override
+            public void onCapabilitiesChanged(@NonNull Network network, @NonNull NetworkCapabilities caps) {
+                if (!caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
+                    updateNetworkState(false);
+                } else {
+                    checkNetworkDebounced();
+                }
+            }
+        };
+
+        NetworkRequest request = new NetworkRequest.Builder()
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build();
+
+        connectivityManager.registerNetworkCallback(request, networkCallback);
+    }
+
+    private void unregisterNetworkCallback() {
+        if (connectivityManager != null && networkCallback != null) {
+            try {
+                connectivityManager.unregisterNetworkCallback(networkCallback);
+            } catch (Exception ignored) {}
+        }
+    }
+
+    private void checkNetworkDebounced() {
+        long now = System.currentTimeMillis();
+        if (now - lastNetworkCheck < 1500) return;
+        lastNetworkCheck = now;
+        checkNetwork();
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -433,6 +530,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             unregisterCoordinateScrollView(mRootView);
         }
         mRootView = null;
+        unregisterNetworkCallback();
+        executor.shutdownNow();
     }
 
     @Override
