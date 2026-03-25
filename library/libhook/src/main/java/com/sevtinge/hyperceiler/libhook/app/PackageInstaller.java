@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableSafeModelT
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallSource;
+import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCloudCheck;
 
 @HookBase(targetPackage = "com.miui.packageinstaller")
 public class PackageInstaller extends BaseLoad {
@@ -50,6 +51,9 @@ public class PackageInstaller extends BaseLoad {
 
         // 禁用风险检测
         initHook(InstallRiskDisable.INSTANCE, PrefsBridge.getBoolean("miui_package_installer_install_risk"));
+
+        // 阻断云端配置下发
+        initHook(DisableCloudCheck.INSTANCE, PrefsBridge.getBoolean("miui_package_installer_disable_cloud_check"));
 
         // 禁用安全守护提示
         initHook(DisableSafeModelTip.INSTANCE, PrefsBridge.getBoolean("miui_package_installer_safe_model_tip"));
