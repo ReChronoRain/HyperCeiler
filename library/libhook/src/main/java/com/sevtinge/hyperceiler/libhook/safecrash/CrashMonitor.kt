@@ -262,7 +262,10 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
             .createHook {
                 after { param ->
                     val mContext = EzxHelpUtils.getObjectField(param.thisObject, "mContext") as Context
-                    val proc = param.args[0] // ProcessRecord
+                    val proc = param.args[0] ?: run {
+                        XposedLog.w(TAG, "Crash callback received null process record, skip crash handling")
+                        return@after
+                    }
                     val crashInfo = param.args[1] as? ApplicationErrorReport.CrashInfo
                     //  val shortMsg = param.args[2] as? String
                     val longMsg = param.args[3] as? String
@@ -272,7 +275,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
                     // val callingUid = param.args[7] as Int
 
                     // 获取包名
-                    val info = EzxHelpUtils.getObjectField(proc!!, "info") as? ApplicationInfo
+                    val info = EzxHelpUtils.getObjectField(proc, "info") as? ApplicationInfo
                     val pkgName = info?.packageName ?: return@after
 
                     XposedLog.e(TAG, "Crash detected: $pkgName, log: $stackTrace")
