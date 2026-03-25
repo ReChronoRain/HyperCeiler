@@ -65,6 +65,7 @@
     <PreferenceCategory>
 
         <Preference
+            android:key="prefs_key_about_author"
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
             android:summary="\@Sevtinge"

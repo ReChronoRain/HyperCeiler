@@ -3,7 +3,11 @@ package com.sevtinge.hyperceiler.about;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
 
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.preference.Preference;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.R;
@@ -34,6 +39,8 @@ import com.sevtinge.hyperceiler.home.widget.SwitchView;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.utils.ActionBarUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +85,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private TextView noteLyout;
 
     private ViewUtils.RelativePadding mViewInitPadding;
+
+    private Preference mAuthor;
 
 
     private List<View> mCards = new ArrayList<>();
@@ -125,6 +134,26 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             setShaderBackGround();
         }
         return mRootView;
+    }
+
+    @Override
+    public void onCreatePreferences(@Nullable Bundle savedInstanceState, @Nullable String rootKey) {
+        setPreferencesFromResource(R.xml.prefs_about, rootKey);
+
+        mAuthor = findPreference("prefs_key_about_author");
+
+        new Thread(() -> {
+            InputStream input = null;
+            try {
+                input = new java.net.URL("https://avatars.githubusercontent.com/u/89193494?s=256").openStream();
+            } catch (IOException e) {
+                AndroidLog.w("Get icon failed by: " + e);
+            }
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+
+            requireActivity().runOnUiThread(() -> mAuthor.setIcon(drawable));
+        }).start();
     }
 
     @Override
