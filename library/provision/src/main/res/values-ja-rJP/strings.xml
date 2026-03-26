@@ -27,13 +27,34 @@
     <string name="provision_agree_and_next">同意する</string>
     <string name="provision_agree_terms">利用規約とプライバシーポリシーを読んで同意しました。</string>
     <string name="provision_terms_of_use">利用規約</string>
-    <string name="provision_terms_of_use_label_use_network_china">より良いサービスを提供するために システムの使用を続けるには、 <annotation key="user_agreement">ユーザー契約</annotation> および <annotation key="privacy_policy">プライバシーポリシー</annotation> を読み、同意する必要があります。私達は、関連する法令およびプライバシーポリシーに従って、お客様の個人情報を保護します。</string>
-    <string name="provision_terms_of_label_period">.</string>
+    <string name="provision_terms_of_use_label_use_network_china">より良いサービスを提供するため、HyperCeiler を引き続きご利用いただくには、 <annotation key="user_agreement">利用規約</annotation>および<annotation key="privacy_policy">プライバシーポリシー</annotation>をお読みいただき、同意していただく必要があります。当社は、お客様の個人情報を保護するため、関連する法令およびプライバシーポリシーを厳守いたします。</string>
     <string name="provision_protect_persoanl_info_statement">私達は、ご利用者の個人情報を関連する法令およびプライバシーポリシーに従って保護します。</string>
     <string name="provision_service_agreement">利用規約を読んで、これらに同意しました。</string>
     <string name="provision_service_name_download">ダウンロード</string>
     <string name="provision_service_policy_download"><Data><a href="%1$s">Thunder プライバシーポリシー</a> と <a href="%2$s">Thunder 社ネットワークサービス利用契約</a> を読み、同意します</Data></string>
     <string name="provision_congratulation_title">セットアップが完了しました</string>
-    <string name="provision_congratulation_label">エキサイティングな HyperOS が今ここに！</string>
-    <string name="provision_complete_text">システムに入る</string>
+    <string name="provision_congratulation_label">HyperCeiler へようこそ</string>
+    <string name="provision_complete_text">HyperCeiler を使い始める</string>
+    <string name="provision_back">戻る</string>
+    <string name="provision_set_permission_later">以下の必要な権限は後で設定できます</string>
+    <string name="provision_permission_internet">インターネットへの接続を許可</string>
+    <string name="provision_permission_root">Root 権限での操作を許可</string>
+    <string name="provision_permission_lsp">LSPosed マネージャーで有効化</string>
+    <string name="provision_terms_of_use_loading">読み込み中…</string>
+    <string name="provision_terms_of_use_verification_code_tip">認証コードは %1$s です。</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">認証コードを入力</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">利用規約またはプライバシーポリシーに記載されています</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">続行</string>
+    <string name="provision_basic_settings_hide_app_icon">ホーム画面のアイコン</string>
+    <string name="provision_basic_settings_icon">設定内のアイコン</string>
+    <string name="provision_basic_settings_icon_desc">システム設定でモジュールアイコンを表示する場所を設定します</string>
+    <string name="provision_basic_settings_icon_mode">アイコンのスタイル</string>
+    <string name="provision_basic_settings_icon_disable">無効にする</string>
+    <string name="provision_basic_settings_icon_top">上部</string>
+    <string name="provision_basic_settings_icon_medium">中間</string>
+    <string name="provision_basic_settings_icon_down">下部</string>
+    <string name="provision_basic_settings_icon_miui_14">角丸長方形スタイル</string>
+    <string name="provision_basic_settings_icon_miui_13">背景切り抜きスタイル</string>
+    <string name="provision_system_preparing">システムを準備しています…</string>
+    <string name="provision_system_complete">セットアップが完了しました</string>
 </resources>

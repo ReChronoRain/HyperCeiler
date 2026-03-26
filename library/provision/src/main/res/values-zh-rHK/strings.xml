@@ -36,4 +36,26 @@
     <string name="provision_congratulation_label">體驗激動人心的 HyperOS 吧！</string>
     <string name="provision_complete_text">進入系統</string>
     <string name="provision_back_description">後退</string>
+    <string name="provision_back">後退</string>
+    <string name="provision_set_permission_later">您可以稍後設定下列必要權限</string>
+    <string name="provision_permission_internet">允許訪問至 Internet</string>
+    <string name="provision_permission_root">允許以 Root 身份操作</string>
+    <string name="provision_permission_lsp">在 Xposed 管理器中激活</string>
+    <string name="provision_terms_of_use_loading">載入中…</string>
+    <string name="provision_terms_of_use_verification_code_tip">您的驗證碼是%1$s。</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">請輸入驗證碼</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">您可以在《用戶協議》或《私隱政策》中找到</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">繼續</string>
+    <string name="provision_basic_settings_hide_app_icon">桌面圖示</string>
+    <string name="provision_basic_settings_icon">設定圖示</string>
+    <string name="provision_basic_settings_icon_desc">設定模組入口在系統設定中的位置</string>
+    <string name="provision_basic_settings_icon_mode">圖示樣式</string>
+    <string name="provision_basic_settings_icon_disable">停用</string>
+    <string name="provision_basic_settings_icon_top">頂部</string>
+    <string name="provision_basic_settings_icon_medium">中部</string>
+    <string name="provision_basic_settings_icon_down">底部</string>
+    <string name="provision_basic_settings_icon_miui_14">圓角矩形樣式</string>
+    <string name="provision_basic_settings_icon_miui_13">背景鏤空樣式</string>
+    <string name="provision_system_preparing">系統準備中</string>
+    <string name="provision_system_complete">設定完畢</string>
 </resources>
