@@ -1127,6 +1127,10 @@
     <string name="home_gesture_up_swipe2_desc">Swipe up with two fingers on any Home screen</string>
     <string name="home_gesture_down_swipe2">Swipe down with two fingers</string>
     <string name="home_gesture_down_swipe2_desc">Swipe down with two fingers on any Home screen</string>
+    <string name="home_gesture_line_long_press">Gesture line long press</string>
+    <string name="home_gesture_line_long_press_desc">Long press the gesture line</string>
+    <string name="home_gesture_line_double_click">Gesture line double click</string>
+    <string name="home_gesture_line_double_click_desc">Double click the gesture line</string>
     <string name="home_gesture_pinch">Pinch with two fingers</string>
     <string name="home_gesture_spread">Zoom with two fingers</string>
     <string name="home_gesture_swipe_and_stop">Swipe and stop</string>

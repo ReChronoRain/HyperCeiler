@@ -1061,6 +1061,10 @@
     <string name="home_gesture_up_swipe2_desc">在任意主屏幕双指上滑</string>
     <string name="home_gesture_down_swipe2">双指下滑</string>
     <string name="home_gesture_down_swipe2_desc">在任意主屏幕双指下滑</string>
+    <string name="home_gesture_line_long_press">手势提示线长按</string>
+    <string name="home_gesture_line_long_press_desc">长按手势提示线</string>
+    <string name="home_gesture_line_double_click">手势提示线双击</string>
+    <string name="home_gesture_line_double_click_desc">双击手势提示线</string>
     <string name="home_gesture_pinch">双指捏合</string>
     <string name="home_gesture_spread">双指扩展</string>
     <string name="home_gesture_swipe_and_stop">滑动并停止</string>
