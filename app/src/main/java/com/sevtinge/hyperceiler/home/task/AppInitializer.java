@@ -19,8 +19,8 @@ public class AppInitializer {
         TaskRunner.getInstance().start();
     }
 
-    public static void initOnActivityCreate(HomePageActivity activity) {
-        AppTaskManager.setupActivityTasks(activity);
+    public static void initOnActivityCreate(HomePageActivity activity, Context context) {
+        AppTaskManager.setupActivityTasks(activity, context);
         TaskRunner.getInstance().start();
     }
 }
