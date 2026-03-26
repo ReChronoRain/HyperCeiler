@@ -105,6 +105,7 @@
     <string name="unsupported_system_func">当前系统版本不支持此功能</string>
     <string name="supported_system_func">当前系统版本官方已支持此功能</string>
     <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
+    <string name="load_failed">加载失败。</string>
 
     <!--System UI-->
     <string name="system_ui">系统界面</string>

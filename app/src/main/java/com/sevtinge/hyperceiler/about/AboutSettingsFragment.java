@@ -3,6 +3,8 @@ package com.sevtinge.hyperceiler.about;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
 import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isInternetAvailable;
 import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isNetworkConnected;
+import static com.sevtinge.hyperceiler.utils.GithubUserContentGetter.getUserAvatar;
+import static com.sevtinge.hyperceiler.utils.GithubUserContentGetter.getUserName;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -105,6 +107,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private ConnectivityManager.NetworkCallback networkCallback;
     private long lastNetworkCheck = 0;
 
+    private boolean userInfoUpdated = false;
+
     @NonNull
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -164,15 +168,18 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         registerNetworkCallback();
     }
 
-    private void loadAvatarFromNetwork(String urlString) {
+    private void loadInfoFromNetwork() {
+        if (userInfoUpdated) return;
+        userInfoUpdated = true;
         new Thread(() -> {
             try {
-                InputStream input = new java.net.URL(urlString).openStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(input);
+                Bitmap bitmap = getUserAvatar("89193494", "256");
+                String name = getUserName("Sevtinge");
 
                 if (isAdded()) {
                     requireActivity().runOnUiThread(() -> {
                         mAuthor.setIcon(new BitmapDrawable(getResources(), bitmap));
+                        mAuthor.setTitle(name != null ? name : "Sevtinge");
                     });
                 }
             } catch (Exception e) {
@@ -459,18 +466,14 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
             if (!isAdded()) return;
 
-            requireActivity().runOnUiThread(() -> {
-                loadAvatarFromNetwork("https://avatars.githubusercontent.com/u/89193494?s=256");
-            });
+            requireActivity().runOnUiThread(this::loadInfoFromNetwork);
         });
     }
 
     private void updateNetworkState(boolean state) {
         if (!isAdded()) return;
 
-        requireActivity().runOnUiThread(() -> {
-            loadAvatarFromNetwork("https://avatars.githubusercontent.com/u/89193494?s=256");
-        });
+        requireActivity().runOnUiThread(this::loadInfoFromNetwork);
     }
 
 

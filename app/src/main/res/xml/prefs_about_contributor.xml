@@ -16,13 +16,16 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <Preference
         android:summary="@string/about_contributer_desc"/>
 
-    <PreferenceCategory>
-        <Preference
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        android:key="prefs_key_about_contributors" >
+        <!--<Preference
             android:summary="GitHub@Adlyq"
             android:title="Adlyq">
             <intent
@@ -476,7 +479,16 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/pomelohan" />
-        </Preference>
+        </Preference>-->
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="prefs_key_about_contributors_progressing"
+        android:layout="@layout/pref_progress" />
+
+    <PreferenceCategory
+        app:isPreferenceVisible="false"
+        android:key="prefs_key_about_contributors_load_failed"
+        android:layout="@layout/pref_load_failed" />
 
 </PreferenceScreen>
