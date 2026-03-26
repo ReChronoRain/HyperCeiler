@@ -90,4 +90,5 @@
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
     <string name="search_apps_hint">Tìm kiếm %d ứng dụng</string>
     <string name="load_apps_failed">Không tải được danh sách ứng dụng</string>
+    <string name="search_result_not_available">Tính năng này có thể không được hỗ trợ trên thiết bị này hoặc có thể bị ẩn trong một số tùy chọn</string>
 </resources>

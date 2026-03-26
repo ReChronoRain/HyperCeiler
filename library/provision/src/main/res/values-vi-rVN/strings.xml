@@ -36,4 +36,26 @@
     <string name="provision_congratulation_title">Cài đặt</string>
     <string name="provision_congratulation_label">Hãy đến và trải nghiệm sự thú vị của HyperOS!</string>
     <string name="provision_complete_text">Nhập hệ thống</string>
+    <string name="provision_back">Quay lại</string>
+    <string name="provision_set_permission_later">Bạn có thể thiết lập các quyền cần thiết này sau.</string>
+    <string name="provision_permission_internet">Cho phép truy cập Internet</string>
+    <string name="provision_permission_root">Cho phép thao tác với quyền root.</string>
+    <string name="provision_permission_lsp">Kích hoạt trong Xposed Manager</string>
+    <string name="provision_terms_of_use_loading">Đang tải…</string>
+    <string name="provision_terms_of_use_verification_code_tip">Mã xác nhận của bạn là %1$s.</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">Vui lòng nhập mã xác nhận</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">Bạn có thể tìm thấy thông tin đó trong Thỏa thuận người dùng hoặc Chính sách bảo mật.</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">Tiếp tục</string>
+    <string name="provision_basic_settings_hide_app_icon">Biểu tượng trên màn hình chính</string>
+    <string name="provision_basic_settings_icon">Biểu tượng trong cài đặt</string>
+    <string name="provision_basic_settings_icon_desc">Thiết lập vị trí của mục module trong Cài đặt</string>
+    <string name="provision_basic_settings_icon_mode">Kiểu biểu tượng</string>
+    <string name="provision_basic_settings_icon_disable">Tắt</string>
+    <string name="provision_basic_settings_icon_top">Trên đầu</string>
+    <string name="provision_basic_settings_icon_medium">Giữa</string>
+    <string name="provision_basic_settings_icon_down">Dưới cùng</string>
+    <string name="provision_basic_settings_icon_miui_14">Kiểu hình chữ nhật bo tròn</string>
+    <string name="provision_basic_settings_icon_miui_13">Kiểu không nền</string>
+    <string name="provision_system_preparing">Hệ thống đang trong quá trình chuẩn bị</string>
+    <string name="provision_system_complete">Cài đặt hoàn tất</string>
 </resources>

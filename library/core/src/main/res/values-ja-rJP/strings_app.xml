@@ -423,7 +423,7 @@
     <string name="system_framework_allow_disable_protected_package">保護されたアプリの無効化を許可</string>
     <string name="system_framework_disable_miui_watermark">全画面の透かしを無効化</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">すべてのアプリに対して不明なアプリのインストールを許可</string>
-    <string name="system_framework_bypass_force_mi_appstore">App Store にリダイレクトする際にサードパーティのアプリを選択できるようにする</string>
+    <string name="system_framework_bypass_force_mi_appstore">App Store にリダイレクトする際に選択画面を強制的に表示する</string>
     <string name="system_framework_market_use_detailmini">GetApps を起動する際に常にフローティングウィンドウで開く</string>
     <string name="system_framework_market_use_detailmini_desc">appClientId を使用せずにアプリが GetApps 内の他のアプリの詳細ページにリダイレクトすることを妨げる制限を削除します。</string>
     <string name="system_framework_bypass_force_downloadui">ダウンロードのリダイレクトを修正</string>
@@ -475,7 +475,7 @@
     <string name="camera_unlock_leica">Leica のカスタムインターフェイスと機能をアンロック</string>
     <string name="camera_super_high_quality">超高画質をアンロック</string>
     <string name="camera_shot_hand_gesture">手のひらジェスチャー撮影をアンロック</string>
-    <string name="camera_settings_lab_options">ラボオプションを有効化</string>
+    <string name="camera_settings_lab_options">実験的な機能を有効化</string>
     <string name="camera_settings_track_eyes">目のトラッキングをアンロック</string>
     <string name="camera_max_brightness">カメラ使用時に明るさを最大にする</string>
     <string name="camera_black_leica">黒い Leica ウォーターマーク</string>
@@ -852,7 +852,7 @@
     <string name="system_ui_move_log_to_miui">statusbar_gestures.dat を MIUI ディレクトリに移動する</string>
     <string name="system_ui_plugin_enable_volume_blur_desc">GPU 負荷が高くなる可能性があります</string>
     <!--Telecom-->
-    <string name="telecom">電話</string>
+    <string name="telecom">通話管理</string>
     <string name="scam_reminder_bypass_caption">MMI コードによる着信転送を許可</string>
     <string name="scam_reminder_bypass_description">**21*8# などの MMI コードを直接ダイヤルして着信転送を有効にすることができます。</string>
     <!--Settings-->
@@ -912,7 +912,7 @@
     <string name="theme_manager_allow_download_more">ログインせずにダウンロードできるようにする</string>
     <string name="theme_manager_allow_download_more_desc">ログインせずに 10 個以上のアイテムをダウンロードできるようにします</string>
     <!--remotecontroller-->
-    <string name="remotecontroller">リモートコントローラー</string>
+    <string name="remotecontroller">Mi リモート</string>
     <string name="remotecontroller_disable_ad">広告を無効化</string>
     <!--Updater-->
     <string name="updater">アップデーター</string>
@@ -941,7 +941,7 @@
     <string name="sound_recorder_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <string name="sound_recorder_unlock_recording_scene">録音シーンのロックを解除</string>
     <!--Notes-->
-    <string name="notes">備考</string>
+    <string name="notes">メモ</string>
     <string name="notes_disable_ai_watermark">AI のウォーターマークを無効化</string>
     <!--Always-on display-->
     <string name="aod_hyperos">常時オンディスプレイとロック画面エディター</string>
@@ -1480,7 +1480,7 @@
     <string name="sogou_xiaomi_clipboard">クリップボードの 150 個上限を削除</string>
     <string name="add_clipboard_clear">クリアのクリップボードボタンを追加</string>
     <!--Sim Activation Service-->
-    <string name="sim_activation_service">Xiaomi SIM アクティベーションサービス</string>
+    <string name="sim_activation_service">Xiaomi SIM アクティブ化サービス</string>
     <string name="sim_activation_service_disable_activate_when_roaming">ローミング中に SIM カード 2 のアクティベーションを無効にする</string>
     <string name="sim_activation_service_disable_activate_when_roaming_desc">中国本土のみサポートされています</string>
     <string name="sim_activation_service_disable_activate_when_roaming_radical">より強力なローミングフィルタを使用する</string>
@@ -1649,4 +1649,7 @@
     <string name="development_cache">キャッシュ &amp; ログ</string>
     <string name="milink_unlock_send_app">すべてのアプリの転送をアンロック</string>
     <string name="milink_unlock_send_app_desc">「デバイス相互接続サービス」のスコープを追加で選択する必要があります</string>
+    <string name="settings_float_nav">フローティングボトムバー</string>
+    <string name="system_framework_bypass_force_mi_appstore_desc">確認なしに Xiaomi アプリストアに直接リダイレクトすることを回避して、サードパーティのアプリストアを選択できるようにします</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">すべてのアプリがスマートウォッチやスマートバンドにフォーカス通知を送信できるようにする</string>
 </resources>

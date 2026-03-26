@@ -423,7 +423,7 @@
     <string name="system_framework_allow_disable_protected_package">Cho phép tắt các ứng dụng được bảo vệ</string>
     <string name="system_framework_disable_miui_watermark">Tắt hình mờ bản quốc tế</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">Bỏ qua các hạn chế nguồn không xác định</string>
-    <string name="system_framework_bypass_force_mi_appstore">Cho phép chọn ứng dụng của bên thứ ba khi nhảy đến CH Play</string>
+    <string name="system_framework_bypass_force_mi_appstore">Buộc hiển thị lựa chọn ứng dụng cửa hàng muốn truy cập</string>
     <string name="system_framework_market_use_detailmini">Luôn mở trong cửa sổ nổi khi chuyển đến Xiaomi GetApps</string>
     <string name="system_framework_market_use_detailmini_desc">Bỏ qua hạn chế mà một ứng dụng không thể chuyển hướng đến trang chi tiết của ứng dụng khác trong GetApps mà không có appClientId</string>
     <string name="system_framework_bypass_force_downloadui">Bỏ qua việc buộc dùng Download Manager khi mở trang tải xuống</string>
@@ -1642,4 +1642,14 @@
     <string name="misound_bluetooth_remember_device_desc">Nhớ cài đặt âm thanh độc lập cho từng thiết bị</string>
     <string name="misound_bluetooth_default_effect">Hiệu ứng âm thanh mặc định</string>
     <string name="phrase">Bảng nhớ tạm và các thuật ngữ thông dụng</string>
+    <string name="help_partial_support_desc">Phiên bản ứng dụng hiện tại chỉ có một số tính năng chưa tương thích với các phiên bản hệ thống sau:</string>
+    <string name="help_not_support_desc">Phiên bản ứng dụng hiện tại không tương thích với các phiên bản hệ thống sau:</string>
+    <string name="development_tools">Gỡ lỗi</string>
+    <string name="development_system">Trình quản lý</string>
+    <string name="development_cache">Bộ nhớ đệm &amp; Log</string>
+    <string name="settings_float_nav">Thanh đáy nổi</string>
+    <string name="system_framework_bypass_force_mi_appstore_desc">Tránh việc tự động chuyển hướng người dùng đến Xiaomi App Store mà không hỏi ý kiến, đồng thời cho phép người dùng lựa chọn các cửa hàng ứng dụng của bên thứ ba</string>
+    <string name="milink_unlock_send_app">Mở khóa tất cả các ứng dụng chuyển tệp</string>
+    <string name="milink_unlock_send_app_desc">Bạn cần chọn thêm phạm vi cho \"com.xiaomi.mirror\"</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">Cho phép tất cả các ứng dụng gửi thông báo tập trung vào đồng hồ/vòng đeo tay.</string>
 </resources>

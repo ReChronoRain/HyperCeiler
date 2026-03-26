@@ -126,4 +126,6 @@
     <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
     <string name="misound_bluetooth_type_misound">Xiaomi サウンド</string>
     <string name="misound_bluetooth_type_keep">現在のサウンド効果を保持</string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list">フォーカス通知の署名検証のホワイトリスト制限を回避する</string>
+    <string name="aicr_modify_browser_copy">直接コピーに使用するブラウザを変更する</string>
 </resources>
