@@ -69,7 +69,7 @@ public class RoamingActivateHelper extends BaseHook {
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
-                                .usingStrings("cloud control not allow this mccmnc activate with method ")
+                                .usingStrings("IOException", "cloud control not allow this mccmnc activate with method ")
                         )).singleOrNull();
                 return methodData;
             }
@@ -108,7 +108,7 @@ public class RoamingActivateHelper extends BaseHook {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
-                                        .usingStrings("cloud control not allow this mccmnc activate with method ")
+                                        .usingStrings("IOException", "cloud control not allow this mccmnc activate with method ")
                                 )
                                 .type(int.class)
                                 .modifiers(Modifier.PUBLIC)
@@ -123,7 +123,7 @@ public class RoamingActivateHelper extends BaseHook {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
-                                        .usingStrings("cloud control not allow this mccmnc activate with method ")
+                                        .usingStrings("IOException", "cloud control not allow this mccmnc activate with method ")
                                 )
                                 .type(Context.class)
                                 .modifiers(Modifier.PROTECTED)
