@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Riwayat pencarian</string>
     <string name="search_history_clear_description">Hapus riwayat pencarian</string>
     <string name="revert">Pulihkan</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Versi OS</string>
     <string name="pull_to_enter_private">Tarik ke bawah untuk memasuki ruang pribadi</string>
     <string name="release_enter_private">Lepaskan untuk masuk ke ruang pribadi</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Pilih semua</string>
     <string name="miuix_appcompat_cancel_description">Batal</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Mencari</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Lagi</string>
     <string name="miuix_appcompat_action_mode_inverse">Terbalik</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Tip</string>
     <string name="root">Beberapa fitur tidak tersedia tanpa izin Root/Su</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
     <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
     <string name="experimental_features">Fitur eksperimental</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Kesalahan</string>
     <string name="warn">Perhatian</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
     <string name="supported_system_func">Fitur ini didukung secara resmi pada versi sistem saat ini</string>
     <string name="feature_doing_func">Fitur ini sedang dalam pengembangan, nantikan.</string>
-
     <!--System UI-->
     <string name="system_ui">UI Sistem</string>
-
     <!--System launcher-->
     <string name="mihome">Peluncur sistem</string>
-
     <!--Settings-->
     <string name="system_settings">Pengaturan</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Alat Keamanan</string>
-
     <!--Other-->
     <string name="exit">KELUAR</string>
     <string name="ignore">Mengabaikan</string>
@@ -130,14 +121,13 @@
     <string name="logo_egg3">Tidak ada Android eggs di sini, tetapi ada HyperCeiler eggs!</string>
     <string name="uninstall_title">Hapus instalasi HyperCeiler</string>
     <string name="uninstall_summary">Setelah menghapus instalasi HyperCeiler, konfigurasi modul tetap ada di basis data framework Xposed. Untuk menghapusnya sepenuhnya, buka pengaturan modul dan setel ulang konfigurasi modul terlebih dahulu, lalu hapus instalasinya.</string>
-    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka &quot;Setelan HyperCeiler - Opsi pengembang - Mode debug&quot; untuk menentukan versi yang dipasang lalu coba lagi.</string>
+    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka "Setelan HyperCeiler - Opsi pengembang - Mode debug" untuk menentukan versi yang dipasang lalu coba lagi.</string>
     <string name="debug_mode">Mode debug</string>
     <string name="open_debug_mode_tips">Opsi ini hanya digunakan untuk menangani versi aplikasi target yang dipasang dengan benar dan sebaiknya digunakan hanya bila perlu.\nUntuk aplikasi yang sedang di-debug, fungsinya tidak dapat dijamin. Jika Anda mengaktifkan opsi ini, **jangan laporkan** masalah yang terjadi pada aplikasi target tersebut kepada pengembang.</string>
     <string name="debug_mode_running">Cakupan target saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil di-hook: %3$s</string>
     <string name="debug_mode_switch">Versi debug</string>
     <string name="debug_mode_home_version">Setel kode versi launcher</string>
     <string name="debug_mode_home_version_desc">Nomor versi yang terlalu tinggi tetap akan diblokir, jadi isi dengan hati-hati.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Cari log</string>
     <string name="log_level_label">Level</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">Berkas log HyperCeiler</string>
     <string name="log_copy">Salin</string>
     <string name="log_copy_success">Log disalin ke papan klip</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Detail log</string>
     <string name="log_detail_time">Waktu</string>
     <string name="log_detail_level">Level</string>
     <string name="log_detail_tag">Tag</string>
     <string name="log_detail_message">Detail</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Memuat log…</string>
     <string name="log_viewer">Penampil log</string>
