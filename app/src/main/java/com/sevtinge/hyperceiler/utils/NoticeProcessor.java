@@ -56,6 +56,7 @@ public class NoticeProcessor {
     public static NoticeResult process(Context context) {
         try {
             String json = request(NOTICE_URL);
+            AndroidLog.i("NoticeProcessor", "Got notice.");
             if (json == null || json.isEmpty()) return null;
 
             Notice notice = parseNotice(new JSONObject(json));
@@ -64,6 +65,8 @@ public class NoticeProcessor {
             if (!checkNoticeValid(notice, context)) {
                 return null;
             }
+
+            AndroidLog.i("NoticeProcessor", "Notice is valid. Show notice.");
 
             // Package result
             return new NoticeResult(
@@ -74,7 +77,7 @@ public class NoticeProcessor {
             );
 
         } catch (Throwable t) {
-            AndroidLog.e("NoticeProcessor "+Log.getStackTraceString(t));
+            AndroidLog.e("NoticeProcessor", "Failed when request notice: " + Log.getStackTraceString(t));
             return null;
         }
     }
@@ -122,6 +125,8 @@ public class NoticeProcessor {
         n.miuiBigVersion = toFloatList(obj.optJSONArray("miuiBigVersion"));
         n.miuiSmallVersion = toFloatList(obj.optJSONArray("miuiSmallVersion"));
         n.lang = toStringList(obj.optJSONArray("lang"));
+
+        AndroidLog.i("NoticeProcessor", "NoticeId = " + n.id);
 
         return n;
     }

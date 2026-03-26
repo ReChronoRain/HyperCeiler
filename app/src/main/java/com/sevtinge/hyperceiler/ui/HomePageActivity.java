@@ -51,7 +51,7 @@ public class HomePageActivity extends AppCompatActivity
             return;
         }
         // Activity 启动阶段，绑定 UI 任务（如签名校验弹窗、公告展示）
-        AppInitializer.initOnActivityCreate(this);
+        AppInitializer.initOnActivityCreate(this, this);
         setContentView(R.layout.activity_home);
         setupNavigation();
     }
