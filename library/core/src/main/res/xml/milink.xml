@@ -33,6 +33,12 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:summary="@string/milink_disable_pc_clipboard_region_check_desc"
+            android:title="@string/milink_disable_pc_clipboard_region_check"
+            android:key="prefs_key_milink_disable_pc_clipboard_region_check"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/milink_allow_camera_devices"
             android:key="prefs_key_milink_allow_camera_devices"
             android:defaultValue="false" />

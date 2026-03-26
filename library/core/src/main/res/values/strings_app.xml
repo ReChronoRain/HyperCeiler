@@ -1020,6 +1020,8 @@
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="milink_unlock_send_app">Unlock all app transfers</string>
     <string name="milink_unlock_send_app_desc">Requires additionally checking the \"com.xiaomi.mirror\" scope</string>
+    <string name="milink_disable_pc_clipboard_region_check">Disable PC Manager clipboard region validation</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">Fixes PC to phone or tablet clipboard sync blocked by region mismatch</string>
     <string name="milink_allow_camera_devices">Force support for camera streaming</string>
     <string name="milink_fuck_hpplay">Block generate of hpplay folders</string>
     <!--Sound Recorder-->

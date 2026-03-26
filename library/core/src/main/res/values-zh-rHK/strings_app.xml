@@ -940,6 +940,10 @@
     <!--Cast-->
     <string name="milink_hyperos">互聯互通服務</string>
     <string name="milink_unlock_mishare">解鎖小米妙享</string>
+    <string name="milink_unlock_send_app">解鎖全部應用流轉</string>
+    <string name="milink_unlock_send_app_desc">需要額外勾選「跨屏協同服務」作用域</string>
+    <string name="milink_disable_pc_clipboard_region_check">關閉電腦管家剪貼簿地區校驗</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">修復電腦管家向手機或平板同步剪貼簿時，因地區不一致被互聯互通服務攔截</string>
     <string name="milink_allow_camera_devices">強制支持攝像頭流轉</string>
     <string name="milink_fuck_hpplay">阻止生成樂播投屏相關檔案</string>
     <!--Sound Recorder-->
