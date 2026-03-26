@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture
 
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.moduleload.GlobalActions
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 
@@ -29,7 +29,7 @@ object GestureLine : BaseHook() {
             findClass("com.miui.home.recents.gesture.NavStubGestureEventManager")
         navStubGestureEventManagerClass.hookAllMethods("handleLongPressEvent") {
             before {
-                if (GlobalActions.handleAction(
+                if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_long_press"
                     )
@@ -40,7 +40,7 @@ object GestureLine : BaseHook() {
         }
         navStubGestureEventManagerClass.hookAllMethods("handleDoubleClickEvent") {
             before {
-                if (GlobalActions.handleAction(
+                if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_double_click"
                     )

@@ -1660,8 +1660,5 @@
     <string name="development_system">管理</string>
     <string name="development_cache">緩存與日誌</string>
     <string name="settings_float_nav">懸浮底欄</string>
-    <string name="system_framework_bypass_force_mi_appstore_desc">避免無詢問直接跳轉小米應用程式商店，同時允許選擇第三方應用程式商店</string>
-    <string name="milink_unlock_send_app">解鎖全部應用程式流轉</string>
-    <string name="milink_unlock_send_app_desc">需要額外勾選 跨屏協同服務 作用域</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">允許所有應用程式發送焦點通知到手錶/手環</string>
 </resources>
