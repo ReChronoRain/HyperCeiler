@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">سجل البحث</string>
     <string name="search_history_clear_description">مسح سجل البحث</string>
     <string name="revert">استعادة</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">إصدار النظام</string>
     <string name="pull_to_enter_private">اسحب لأسفل للدخول إلى المساحة الخاصة</string>
     <string name="release_enter_private">اترك للدخول إلى المساحة الخاصة</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">تحديد الكل</string>
     <string name="miuix_appcompat_cancel_description">إلغاء</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">بحث</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">المزيد</string>
     <string name="miuix_appcompat_action_mode_inverse">إلغاء تحديد الكل</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">نصيحة</string>
     <string name="root">بعض الميزات غير متوفرة بدون صلاحيات الروت</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">التطبيق المستهدف ليس قيد التشغيل ولا يحتاج إلى إعادة تشغيله.</string>
     <string name="reboot_failed">فشل إعادة التشغيل. يرجى التحقق مما إذا تم منح HyperCeiler صلاحيات الجذر/المستخدم الخارق.</string>
     <string name="experimental_features">الميزات التجريبية</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">خطأ</string>
     <string name="warn">تنبيه</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">هذه الميزة غير مدعومة في إصدار النظام الحالي</string>
     <string name="supported_system_func">هذه الوظيفة مدعومة رسميا من خلال إصدار النظام الحالي</string>
     <string name="feature_doing_func">يتم إنتاج الوظيفة الحالية، يرجى التحلي بالصبر</string>
-
     <!--System UI-->
     <string name="system_ui">واجهة مستخدم النظام</string>
-
     <!--System launcher-->
     <string name="mihome">مشغل النظام</string>
-
     <!--Settings-->
     <string name="system_settings">الإعدادات</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">الحماية</string>
-
     <!--Other-->
     <string name="exit">خروج</string>
     <string name="ignore">تجاهل</string>
@@ -137,7 +128,6 @@
     <string name="debug_mode_switch">إصدار التصحيح</string>
     <string name="debug_mode_home_version">تعيين رمز إصدار الشاشة الرئيسية</string>
     <string name="debug_mode_home_version_desc">إذا كان رقم الإصدار مرتفعاً جداً فسيظل محظوراً، لذا يرجى تعبئته بعناية.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">البحث في السجلات</string>
     <string name="log_level_label">المستوى</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">ملف سجل HyperCeiler</string>
     <string name="log_copy">نسخ</string>
     <string name="log_copy_success">تم نسخ السجلات إلى الحافظة</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">تفاصيل السجل</string>
     <string name="log_detail_time">الوقت</string>
     <string name="log_detail_level">المستوى</string>
     <string name="log_detail_tag">الوسم</string>
     <string name="log_detail_message">التفاصيل</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">جارٍ تحميل السجلات…</string>
     <string name="log_viewer">عارض السجلات</string>
