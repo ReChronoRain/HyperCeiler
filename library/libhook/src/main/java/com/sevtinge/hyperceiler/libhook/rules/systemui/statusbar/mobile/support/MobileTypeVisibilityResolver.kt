@@ -33,18 +33,37 @@ internal class MobileTypeVisibilityResolver(
         mobileTypeSingleVisible: Boolean?,
         isWifiDefaultConnection: Boolean?,
         fallbackVisible: Boolean,
+        forceDualMode: Boolean = false,
     ): Boolean {
         val baseVisible = mobileTypeSingleVisible ?: fallbackVisible
+        val useDualMode = forceDualMode || shouldUseDualRowDataSimSync()
         if (!showMobileType) return false
-        if (!shouldUseDualRowDataSimSync()) {
-            return when (mobileNetworkType) {
-                0, 2, 4 -> mobileTypeSingleVisible ?: true
-                else -> baseVisible
-            }
-        }
         return when (mobileNetworkType) {
-            0, 2 -> isWifiDefaultConnection?.not() ?: (mobileTypeSingleVisible ?: true)
-            4 -> mobileTypeSingleVisible ?: true
+            1 -> true
+            3 -> false
+            2 -> {
+                if (useDualMode) {
+                    when (isWifiDefaultConnection) {
+                        true -> false
+                        false -> true
+                        null -> baseVisible
+                    }
+                } else {
+                    mobileTypeSingleVisible ?: (isWifiDefaultConnection?.not() ?: true)
+                }
+            }
+            0 -> {
+                if (useDualMode) {
+                    when (isWifiDefaultConnection) {
+                        true -> false
+                        false -> true
+                        null -> baseVisible
+                    }
+                } else {
+                    mobileTypeSingleVisible ?: (isWifiDefaultConnection?.not() ?: baseVisible)
+                }
+            }
+            4 -> baseVisible
             else -> baseVisible
         }
     }

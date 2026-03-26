@@ -86,6 +86,8 @@ import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
+    private const val LAST_BOUND_VIEW_MODEL_KEY = "mobile_type_single2_last_bound_vm"
+
     private val showNameFlowProxy = DataSimFlowProxy("")
     private val inOutVisibleProxy = DataSimFlowProxy(false)
     private val inOutResIdProxy = DataSimFlowProxy(0)
@@ -127,6 +129,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     )
 
     private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
+    @SuppressLint("MissingPermission")
     private val refreshBoundViewsRunnable = Runnable { refreshBoundViewsNow() }
 
     override fun init() {
@@ -205,20 +208,23 @@ object MobileTypeSingle2Hook : BaseHook() {
             )
 
             if (isEnableDouble) {
+                syncDataSimProxiesNow()
                 registerDataSimBroadcast()
             }
+            scheduleRefreshBoundViews()
         }
 
         modernStatusBarMobileView.methodFinder()
             .filterByName("constructAndBind")
-            .filterByParamCount(5)
-            .single()
-            .hook {
-                val result = proceed()
-                val rootView = result as? ViewGroup ?: return@hook result
-                val viewModel = unwrapCellProviderViewModel(args.lastOrNull()) ?: return@hook result
-                bindConstructedMobileView(rootView, viewModel)
-                result
+            .toList()
+            .forEach { method ->
+                method.hook {
+                    val result = proceed()
+                    val rootView = result as? ViewGroup ?: return@hook result
+                    val viewModel = resolveConstructAndBindViewModel(args) ?: return@hook result
+                    bindConstructedMobileViewIfNeeded(rootView, viewModel)
+                    result
+                }
             }
 
         if (!showMobileType && mobileNetworkType == 4) {
@@ -253,6 +259,48 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
     }
 
+    private fun resolveConstructAndBindViewModel(args: List<Any?>): Any? {
+        args.asReversed().forEach { arg ->
+            val candidate = unwrapCellProviderViewModel(arg) ?: return@forEach
+            val simpleName = candidate.javaClass.simpleName
+            if (simpleName.contains("MobileIconVM", ignoreCase = true) ||
+                simpleName.contains("CellularIcon", ignoreCase = true)
+            ) {
+                return candidate
+            }
+            val hasShowName = runCatching { candidate.getObjectField("showName") != null }.getOrDefault(false)
+            val hasLargeVisible = runCatching { candidate.getObjectField("mobileTypeSingleVisible") != null }.getOrDefault(false)
+            val hasSmallVisible = runCatching { candidate.getObjectField("mobileTypeVisible") != null }.getOrDefault(false)
+            if (hasShowName && (hasLargeVisible || hasSmallVisible)) {
+                return candidate
+            }
+        }
+        return null
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun safeIsWifiConnected(): Boolean? {
+        return runCatching { MobileViewHelper.isWifiConnected() }.getOrNull()
+    }
+
+    private fun normalizeWifiDefaultConnection(rawIsWifiDefault: Boolean?, wifiConnectedNow: Boolean?): Boolean? {
+        return when {
+            rawIsWifiDefault == true && wifiConnectedNow == false -> false
+            rawIsWifiDefault != null -> rawIsWifiDefault
+            else -> wifiConnectedNow
+        }
+    }
+
+    @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
+    private fun bindConstructedMobileViewIfNeeded(rootView: ViewGroup, viewModel: Any) {
+        val lastBoundViewModel = runCatching {
+            rootView.getAdditionalInstanceFieldAs<Any>(LAST_BOUND_VIEW_MODEL_KEY)
+        }.getOrNull()
+        if (lastBoundViewModel === viewModel) return
+        rootView.setAdditionalInstanceField(LAST_BOUND_VIEW_MODEL_KEY, viewModel)
+        bindConstructedMobileView(rootView, viewModel)
+    }
+
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     private fun bindConstructedMobileView(rootView: ViewGroup, viewModel: Any) {
         val interactor = viewModel.getAdditionalInstanceFieldAs<Any>("interactor")
@@ -285,39 +333,40 @@ object MobileTypeSingle2Hook : BaseHook() {
         if (showMobileType) {
             // ===== 大 5G 可见性 =====
             // 双排模式下 slot 1+ 整个视图已被 MobilePublicHookV 隐藏，跳过避免无效 Flow 订阅
-            if (isEnableDouble && !MobileViewHelper.isSingleSimMode() && slotIndex != 0) {
+            if (isEnableDouble && slotIndex != 0) {
                 return
+            }
+            if ((mobileNetworkType == 0 || mobileNetworkType == 2) && isEnableDouble) {
+                syncWifiDefaultConnectionSnapshot(interactor)
             }
 
             when (mobileNetworkType) {
                 0, 2 -> {
-                    if (isEnableDouble && !MobileViewHelper.isSingleSimMode()) {
-                        // 双排模式在 applyBoundViewState 中按当前上网卡统一判定显隐，
-                        // 避免 constructAndBind 之后再替换 Flow 导致文本与显隐不同步。
+                    viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(false))
+
+                    val defaultConnections = runCatching {
+                        interactor?.getObjectFieldAs<Any>("connectRepo")
+                            ?.getObjectFieldAs<Any>("defaultConnections")
+                    }.getOrNull()
+
+                    if (defaultConnections != null) {
+                        bindMobileTypeSingleVisibilityWithDefaultConnections(
+                            viewModel = viewModel,
+                            defaultConnections = defaultConnections,
+                            subId = subId
+                        )
                     } else {
-                        viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(false))
-
-                        val defaultConnections = if (isEnableDouble) {
-                            runCatching {
-                                interactor?.getObjectFieldAs<Any>("connectRepo")
-                                    ?.getObjectFieldAs<Any>("defaultConnections")
-                            }.getOrNull()
-                        } else {
-                            null
-                        }
-
-                        if (defaultConnections != null) {
-                            bindMobileTypeSingleVisibilityWithDefaultConnections(viewModel, defaultConnections)
-                        } else {
-                            bindMobileTypeSingleVisibilityWithWifiFlow(
-                                viewModel,
-                                viewModel.getObjectFieldAs("wifiAvailable")
-                            )
-                        }
+                        bindMobileTypeSingleVisibilityWithWifiFlow(
+                            viewModel = viewModel,
+                            wifiFlow = viewModel.getObjectFieldAs("wifiAvailable"),
+                            subId = subId
+                        )
                     }
                 }
+                1 -> viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
+                3 -> viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(false))
                 4 -> Unit
-                else -> viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
+                else -> Unit
             }
             applyBoundViewState(rootView)
             return
@@ -325,7 +374,7 @@ object MobileTypeSingle2Hook : BaseHook() {
 
         // ===== 小 5G 可见性 =====
         // 双排的 slot 1+ 整个视图已被 MobilePublicHookV 隐藏
-        if (isEnableDouble && !MobileViewHelper.isSingleSimMode() && slotIndex != 0) {
+        if (isEnableDouble && slotIndex != 0) {
             return
         }
 
@@ -334,7 +383,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             2 -> {
                 val wifiFlow = viewModel.getObjectFieldAs<Any>("wifiAvailable")
                 val initWifiOn = runCatching { getStateFlowValue(wifiFlow) as Boolean }
-                    .getOrElse { runCatching { MobileViewHelper.isWifiConnected() }.getOrDefault(false) }
+                    .getOrElse { safeIsWifiConnected() ?: false }
                 val flow = newReadonlyStateFlow(!initWifiOn)
                 viewModel.setObjectField("mobileTypeVisible", flow)
                 MiuiStub.javaAdapter.alwaysCollectFlow(
@@ -383,34 +432,58 @@ object MobileTypeSingle2Hook : BaseHook() {
         applyBoundViewState(rootView)
     }
 
-    private fun bindMobileTypeSingleVisibilityWithWifiFlow(viewModel: Any, wifiFlow: Any) {
+    private fun bindMobileTypeSingleVisibilityWithWifiFlow(viewModel: Any, wifiFlow: Any, subId: Int) {
         val visibleFlow = viewModel.getObjectField("mobileTypeSingleVisible")
-        val initialVisible = runCatching { !(getStateFlowValue(wifiFlow) as Boolean) }.getOrDefault(true)
+        val wifiFromFlow = runCatching { getStateFlowValue(wifiFlow) as Boolean }.getOrNull()
+        val wifiConnectedNow = safeIsWifiConnected() ?: wifiFromFlow ?: false
+        val initialVisible = !wifiConnectedNow
         setStateFlowValue(visibleFlow, initialVisible)
+        renderStateStore.updateMobileTypeSingleVisible(subId, initialVisible)
         MiuiStub.javaAdapter.alwaysCollectFlow(
             wifiFlow,
-            Consumer<Boolean> { wifiOn -> setStateFlowValue(visibleFlow, !wifiOn) }
+            Consumer<Boolean> { wifiOn ->
+                val visible = !wifiOn
+                setStateFlowValue(visibleFlow, visible)
+                renderStateStore.updateMobileTypeSingleVisible(subId, visible)
+            }
         )
     }
 
-    private fun bindMobileTypeSingleVisibilityWithDefaultConnections(viewModel: Any, defaultConnections: Any) {
+    private fun bindMobileTypeSingleVisibilityWithDefaultConnections(viewModel: Any, defaultConnections: Any, subId: Int) {
         val visibleFlow = viewModel.getObjectField("mobileTypeSingleVisible")
-        val initialVisible = runCatching {
-            val isWifiDefault = getStateFlowValue(defaultConnections)
+        val initialIsWifiDefault = runCatching {
+            getStateFlowValue(defaultConnections)
                 ?.getObjectField("wifi")
-                ?.getBooleanField("isDefault") == true
-            !isWifiDefault
-        }.getOrDefault(true)
+                ?.getBooleanField("isDefault")
+        }.getOrNull() ?: (safeIsWifiConnected() ?: false)
+        val initialVisible = !initialIsWifiDefault
         setStateFlowValue(visibleFlow, initialVisible)
+        renderStateStore.updateMobileTypeSingleVisible(subId, initialVisible)
         MiuiStub.javaAdapter.alwaysCollectFlow(
             defaultConnections,
             Consumer<Any> { conn ->
                 val isWifiDefault = runCatching {
                     conn.getObjectField("wifi")?.getBooleanField("isDefault")
-                }.getOrNull() == true
-                setStateFlowValue(visibleFlow, !isWifiDefault)
+                }.getOrNull() ?: (safeIsWifiConnected() ?: false)
+                val visible = !isWifiDefault
+                setStateFlowValue(visibleFlow, visible)
+                renderStateStore.updateMobileTypeSingleVisible(subId, visible)
             }
         )
+    }
+
+    private fun syncWifiDefaultConnectionSnapshot(interactor: Any?) {
+        val wifiConnectedNow = safeIsWifiConnected()
+        val currentIsWifiDefault = runCatching {
+            interactor?.getObjectFieldAs<Any>("connectRepo")
+                ?.getObjectFieldAs<Any>("defaultConnections")
+                ?.let { defaultConnections ->
+                    getStateFlowValue(defaultConnections)
+                        ?.getObjectField("wifi")
+                        ?.getBooleanField("isDefault")
+                }
+        }.getOrNull()
+        isWifiDefaultConnection = normalizeWifiDefaultConnection(currentIsWifiDefault, wifiConnectedNow)
     }
 
     /** 监听上网卡切换 + SIM 变化，刷新已绑定的官方 mobile 布局 */
@@ -425,15 +498,19 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
         EzXposed.appContext.registerReceiver(object : BroadcastReceiver() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
-                val slot0SubId = renderStateStore.findSlot0SubId()
-                showNameFlowProxy.syncFromBroadcast(slot0SubId)
-                inOutVisibleProxy.syncFromBroadcast(slot0SubId)
-                inOutResIdProxy.syncFromBroadcast(slot0SubId)
-                mobileTypeSingleVisibleProxy.syncFromBroadcast(slot0SubId)
-                mobileTypeVisibleProxy.syncFromBroadcast(slot0SubId)
+                syncDataSimProxiesNow()
                 scheduleRefreshBoundViews()
             }
         }, filter)
+    }
+
+    private fun syncDataSimProxiesNow() {
+        val slot0SubId = renderStateStore.findSlot0SubId()
+        showNameFlowProxy.syncFromBroadcast(slot0SubId)
+        inOutVisibleProxy.syncFromBroadcast(slot0SubId)
+        inOutResIdProxy.syncFromBroadcast(slot0SubId)
+        mobileTypeSingleVisibleProxy.syncFromBroadcast(slot0SubId)
+        mobileTypeVisibleProxy.syncFromBroadcast(slot0SubId)
     }
 
     @SuppressLint("NewApi")
@@ -447,19 +524,20 @@ object MobileTypeSingle2Hook : BaseHook() {
 
         if (defaultConnectionsCollectorSource !== miuiInt) {
             defaultConnectionsCollectorJob?.cancel()
-            runCatching {
-                isWifiDefaultConnection = getStateFlowValue(defaultConnections)
+            val initialRawIsWifiDefault = runCatching {
+                getStateFlowValue(defaultConnections)
                     ?.getObjectField("wifi")
-                    ?.getBooleanField("isDefault") == true
-            }.onFailure {
-                isWifiDefaultConnection = null
-            }
+                    ?.getBooleanField("isDefault")
+            }.getOrNull()
+            isWifiDefaultConnection = normalizeWifiDefaultConnection(initialRawIsWifiDefault, safeIsWifiConnected())
+            scheduleRefreshBoundViews()
             defaultConnectionsCollectorJob = MiuiStub.javaAdapter.alwaysCollectFlow(
                 defaultConnections,
                 Consumer<Any> { conn ->
-                    isWifiDefaultConnection = runCatching {
+                    val rawIsWifiDefault = runCatching {
                         conn.getObjectField("wifi")?.getBooleanField("isDefault")
                     }.getOrNull()
+                    isWifiDefaultConnection = normalizeWifiDefaultConnection(rawIsWifiDefault, safeIsWifiConnected())
                     scheduleRefreshBoundViews()
                 }
             )
@@ -589,15 +667,19 @@ object MobileTypeSingle2Hook : BaseHook() {
         val mobileTypeSmallView = rootView.findViewByIdName("mobile_type") as? ImageView
         val inOutView = rootView.findViewByIdName("mobile_left_mobile_inout") as? ImageView
 
+        val wifiConnectedNow = safeIsWifiConnected()
+        val normalizedWifiDefaultConnection = normalizeWifiDefaultConnection(isWifiDefaultConnection, wifiConnectedNow)
+        val effectiveWifiDefaultConnection = normalizedWifiDefaultConnection ?: wifiConnectedNow
         val resolvedLargeVisible = visibilityResolver.resolveLargeMobileTypeVisibility(
             mobileTypeSingleVisible = renderState.mobileTypeSingleVisible,
-            isWifiDefaultConnection = isWifiDefaultConnection,
-            fallbackVisible = mobileTypeSingleView?.isVisible ?: false
+            isWifiDefaultConnection = effectiveWifiDefaultConnection,
+            fallbackVisible = mobileTypeSingleView?.isVisible ?: false,
+            forceDualMode = isEnableDouble && (mobileNetworkType == 0 || mobileNetworkType == 2)
         )
         val effectiveWifiConnected = if (!showMobileType && mobileNetworkType == 2) {
-            runCatching { MobileViewHelper.isWifiConnected() }.getOrNull() ?: renderState.wifiConnected
+            safeIsWifiConnected() ?: renderState.wifiConnected
         } else {
-            renderState.wifiConnected ?: runCatching { MobileViewHelper.isWifiConnected() }.getOrNull()
+            renderState.wifiConnected ?: safeIsWifiConnected()
         }
         val resolvedSmallVisible = visibilityResolver.resolveSmallMobileTypeVisibility(
             mobileTypeVisible = renderState.mobileTypeVisible,
@@ -611,10 +693,12 @@ object MobileTypeSingle2Hook : BaseHook() {
             showName = renderState.showName,
             largeTypeVisible = resolvedLargeVisible
         )
-        viewRenderer.applyInOut(
-            indicatorView = inOutView,
-            inOutVisible = renderState.inOutVisible
-        )
+        if (!visibilityResolver.shouldUseDualRowDataSimSync()) {
+            viewRenderer.applyInOut(
+                indicatorView = inOutView,
+                inOutVisible = renderState.inOutVisible
+            )
+        }
         viewRenderer.applySmallMobileType(
             imageView = mobileTypeSmallView,
             smallVisible = resolvedSmallVisible,

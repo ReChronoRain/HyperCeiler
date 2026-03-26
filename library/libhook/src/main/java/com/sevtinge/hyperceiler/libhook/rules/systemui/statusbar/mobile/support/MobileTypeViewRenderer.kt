@@ -55,13 +55,10 @@ internal class MobileTypeViewRenderer(
 
         imageView.isVisible = smallVisible
 
-        val shouldRefreshDrawable = when {
-            mobileNetworkType == 4 && !visibilityResolver.shouldUseDualRowDataSimSync() ->
-                showName.isNotEmpty()
-            mobileNetworkType == 4 ->
-                visibilityResolver.shouldRefreshSmallMobileTypeDrawable(smallVisible, showName)
-            else ->
-                visibilityResolver.shouldRefreshSmallMobileTypeDrawable(smallVisible, showName)
+        val shouldRefreshDrawable = if (mobileNetworkType == 4 && !visibilityResolver.shouldUseDualRowDataSimSync()) {
+            showName.isNotEmpty()
+        } else {
+            visibilityResolver.shouldRefreshSmallMobileTypeDrawable(smallVisible, showName)
         }
         if (shouldRefreshDrawable) {
             updateMobileTypeDrawable(imageView, showName)
