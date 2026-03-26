@@ -123,7 +123,7 @@ public class IconTitleCustomization extends HomeBaseHookNew {
     }
 
     private boolean isApplication(Object shortcut) {
-        return !((boolean) callMethod(shortcut, "isApplicatoin"));
+        return !((boolean) callMethod(shortcut, "isApplication"));
     }
 
     private void updateIconView(Activity activity, Object launcher, Object shortcut) {
