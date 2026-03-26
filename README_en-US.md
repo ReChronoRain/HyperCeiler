@@ -84,6 +84,7 @@ In the future, this module will be extensively adapted to Xiaomi HyperOS 3.0 and
 | Gallery Editor                    | com.miui.mediaeditor               |
 | Xiaomi Cloud                      | com.miui.cloudservice              |
 | Smart cards                       | com.miui.tsmclient                 |
+| Mi Wallet                         | com.mipay.wallet                   |
 | iFlytek IME for MIUI              | com.iflytek.inputmethod.miui       |
 | Package installer                 | com.miui.packageinstaller          |
 | GetApps                           | com.xiaomi.market                  |

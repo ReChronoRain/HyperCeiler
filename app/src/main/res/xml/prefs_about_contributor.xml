@@ -219,6 +219,13 @@
                 android:data="https://github.com/pzcn" />
         </Preference>
         <Preference
+            android:summary="GitHub@uarix"
+            android:title="Quarix">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/uarix" />
+        </Preference>
+        <Preference
             android:summary="GitHub@qdsp6sw"
             android:title="qdsp6sw">
             <intent
