@@ -108,10 +108,13 @@ public class RoamingActivateHelper extends BaseHook {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
                                 .declaredClass(ClassMatcher.create()
-                                        .usingStrings("IOException", "cloud control not allow this mccmnc activate with method ")
+                                        .usingStrings("subId:", "cloud control not allow this mccmnc activate with method ")
+                                )
+                                .addReadMethod(MethodMatcher.create()
+                                        .usingNumbers(30000L)
                                 )
                                 .type(int.class)
-                                .modifiers(Modifier.PUBLIC)
+                                .modifiers(Modifier.PUBLIC | Modifier.FINAL)
                         )).singleOrNull();
                 return fieldData;
             }
@@ -137,6 +140,7 @@ public class RoamingActivateHelper extends BaseHook {
             @Override
             public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
                 int subId = (int) getObjectField(param.getThisObject(), field.getName());
+                XposedLog.d(TAG, getPackageName(), "Roaming SIM "+subId);
                 Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
                 Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
                 int slotId = (int) originSlotId;

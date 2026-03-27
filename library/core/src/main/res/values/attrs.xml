@@ -106,4 +106,17 @@
         <attr name="android:title" />
         <attr name="android:value" />
     </declare-styleable>
+
+
+    <attr name="aprilFoolsSlidingButtonStyle" format="reference" />
+
+    <declare-styleable name="aprilFoolsSlidingButton">
+        <attr name="frame" format="reference" />
+        <attr name="barOn" format="reference" />
+        <attr name="barOff" format="reference" />
+        <attr name="sliderOff" format="reference" />
+        <attr name="sliderOn" format="reference" />
+        <attr name="slidingBarColor" format="reference|color" />
+        <attr name="android:background" />
+    </declare-styleable>
 </resources>

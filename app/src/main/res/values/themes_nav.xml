@@ -174,6 +174,10 @@
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
     </style>
 
+    <style name="HomePageAprilFoolsTheme" parent="HomePageTheme">
+        <item name="slidingButtonStyle">@style/Widget.AprilFoolsSlidingButton.DayNight</item>
+        <item name="preferenceTheme">@style/AprilFoolsPreferenceTheme</item>
+    </style>
 
     <style name="NavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight.Content">
         <item name="android:windowBackground">@null</item>

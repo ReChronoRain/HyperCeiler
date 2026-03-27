@@ -25,6 +25,11 @@
         <item name="endActionMenuEnabled">true</item>
     </style>
 
+    <style name="AprilFoolsTheme" parent="Base.Theme.HyperCeiler.DayNight">
+        <item name="slidingButtonStyle">@style/Widget.AprilFoolsSlidingButton.DayNight</item>
+        <item name="preferenceTheme">@style/AprilFoolsPreferenceTheme</item>
+    </style>
+
     <style name="CrashTheme" parent="Base.Theme.HyperCeiler.DayNight">
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="android:colorBackground">@color/miuix_design_default_color_surface_variant_light</item>
@@ -34,7 +39,11 @@
 
     <style name="Base.Theme.HyperCeiler" parent="Theme.AppCompat.DayNight">
         <item name="rebootIconColor">@color/black</item>
-        <item name="preferenceTheme">@style/ThemeOverlay.Preference.Light</item>
+        <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
+    </style>
+
+    <style name="Base.Theme.HyperCeiler.AprilFools" parent="Theme.AppCompat.DayNight">
+        <item name="rebootIconColor">@color/black</item>
         <item name="SeekBarPreferenceCompatStyle">@style/Preference.SeekBarPreferenceCompat</item>
     </style>
 
@@ -75,4 +84,7 @@
 
     </style>
 
+    <style name="AprilFoolspreSwitchPreference" parent="@style/Preference.SwitchPreference">
+        <item name="android:widgetLayout">@layout/miuix_preference_widget_switch_mirror</item>
+    </style>
 </resources>

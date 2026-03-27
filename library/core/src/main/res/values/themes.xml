@@ -17,7 +17,6 @@
         <item name="dialogListItemBackground">@drawable/miuix_appcompat_list_item_bg_dialog_light</item>
         <item name="dialogMultiChoiceListItemBackground">@drawable/miuix_appcompat_list_item_bg_multichoice_light</item>
         <item name="dialogMultiChoiceListItemForeground">@drawable/miuix_appcompat_list_item_fg_multichoice_light</item>
-
     </style>
 
 
@@ -27,5 +26,9 @@
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="windowSplitActionBar">true</item>
         <item name="endActionMenuEnabled">true</item>
+    </style>
+
+    <style name="AprilFoolsPreferenceTheme" parent="@style/ThemeOverlay.Preference.Light.OS2">
+        <item name="switchPreferenceStyle">@style/AprilFoolspreSwitchPreference</item>
     </style>
 </resources>
