@@ -2,6 +2,8 @@ package com.sevtinge.hyperceiler.about.widget;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import static com.sevtinge.hyperceiler.utils.PersistConfig.isAprilFoolsThemeView;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -288,6 +290,9 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
     }
 
     private void setLogoBlur() {
+        int logoView = isAprilFoolsThemeView ? R.drawable.ic_hyperceiler_logo_sp : R.drawable.ic_hyperceiler_logo;
+        int textView = isAprilFoolsThemeView ? R.drawable.ic_text_logo_sp : R.drawable.ic_text_logo;
+        int textViewLite = isAprilFoolsThemeView ? R.drawable.ic_text_logo_lite_sp : R.drawable.ic_text_logo_lite;
         if (!DeviceUtils.isMiuiLiteRom() && MiuiBlurUtils.isEnable() && MiuiBlurUtils.isEffectEnable(getContext())) {
             MiuiBlurUtils.setBackgroundBlur(mRootView, (int) ((getResources().getDisplayMetrics().density * 50.0f) + 0.5f));
             MiuiBlurUtils.setViewBlurMode(mRootView, 0);
@@ -302,15 +307,15 @@ public class VersionCard extends FrameLayout implements View.OnClickListener {
                 mModeValue = 19;
             }
             enableTextBlur(mIconImageView, true, logoColors, new int[]{mModeValue, 100, 106});
-            mIconImageView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
+            mIconImageView.setBackgroundResource(logoView);
 
             enableTextBlur(mTextIconImageView, true, logoColors, new int[]{mModeValue, 100, 106});
-            mTextIconImageView.setBackgroundResource(R.drawable.ic_text_logo);
+            mTextIconImageView.setBackgroundResource(textView);
 
             AndroidLog.d("VersionCard", "startLogoBlur: enabled");
         } else {
-            mIconImageView.setBackgroundResource(R.drawable.ic_hyperceiler_logo);
-            mTextIconImageView.setBackgroundResource(R.drawable.ic_text_logo_lite);
+            mIconImageView.setBackgroundResource(logoView);
+            mTextIconImageView.setBackgroundResource(textViewLite);
         }
     }
 
