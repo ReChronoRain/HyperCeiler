@@ -19,11 +19,15 @@
 package com.sevtinge.hyperceiler.settings;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -35,23 +39,25 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.log.LogLevelManager;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
+import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import fan.appcompat.app.AlertDialog;
 import fan.internal.utils.ViewUtils;
 import fan.preference.DropDownPreference;
-import fan.provider.Settings;
 import fan.provision.OobeUtils;
 
 public class SettingsFragment extends BasePreferenceFragment
@@ -98,7 +104,13 @@ public class SettingsFragment extends BasePreferenceFragment
 
     @Override
     public void initPrefs() {
-        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
+        int mIconMode = AppSettingsStore.getIconIndex(requireContext());
+        int iconModeStyle = AppSettingsStore.getIconModeIndex(requireContext());
+        int languageIndex = AppSettingsStore.getAppLanguageIndex(requireContext());
+        boolean hideAppIconEnabled = AppSettingsStore.isHideAppIconEnabled(requireContext());
+        boolean isFloating = AppSettingsStore.isFloatNavEnabled(requireContext());
+        boolean scopeSyncEnabled = AppSettingsStore.isScopeSyncEnabled(requireContext());
+
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
         mLanguage = findPreference("prefs_key_settings_app_language");
@@ -108,14 +120,56 @@ public class SettingsFragment extends BasePreferenceFragment
         mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
         mScopePreference = findPreference("prefs_key_settings_scope");
 
+        if (mHideAppIcon != null) {
+            mHideAppIcon.setPersistent(false);
+        }
+        if (mFloatBottomPreference != null) {
+            mFloatBottomPreference.setPersistent(false);
+        }
+        if (mScopeSyncPreference != null) {
+            mScopeSyncPreference.setPersistent(false);
+        }
+        if (mIconModePreference != null) {
+            mIconModePreference.setPersistent(false);
+        }
+        if (mIconModeValue != null) {
+            mIconModeValue.setPersistent(false);
+        }
+        if (mLanguage != null) {
+            mLanguage.setPersistent(false);
+        }
+
+        if (mHideAppIcon != null) {
+            mHideAppIcon.setChecked(hideAppIconEnabled);
+        }
+        if (mFloatBottomPreference != null) {
+            mFloatBottomPreference.setChecked(isFloating);
+        }
+        if (mScopeSyncPreference != null) {
+            mScopeSyncPreference.setChecked(scopeSyncEnabled);
+        }
+        if (mIconModePreference != null) {
+            mIconModePreference.setValueIndex(mIconMode);
+        }
+        if (mIconModeValue != null) {
+            mIconModeValue.setValueIndex(iconModeStyle);
+        }
+        if (mLanguage != null) {
+            mLanguage.setValueIndex(languageIndex);
+        }
+
         setIconMode(mIconMode);
         mIconModePreference.setOnPreferenceChangeListener(this);
-        String language = LanguageHelper.getLanguage(requireContext());
-        int value = LanguageHelper.resultIndex(LanguageHelper.APP_LANGUAGES, language);
-        mLanguage.setValueIndex(value);
 
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
-            LanguageHelper.setIndexLanguage(getActivity(), Integer.parseInt((String) o), true);
+            int index = Integer.parseInt((String) o);
+            AppSettingsStore.setAppLanguageIndex(requireContext(), index);
+            LanguageHelper.setIndexLanguage(getActivity(), index, true);
+            return true;
+        });
+
+        mIconModeValue.setOnPreferenceChangeListener((preference, newValue) -> {
+            AppSettingsStore.setIconModeIndex(requireContext(), Integer.parseInt((String) newValue));
             return true;
         });
 
@@ -124,11 +178,13 @@ public class SettingsFragment extends BasePreferenceFragment
 
         if (mHideAppIcon != null) {
             mHideAppIcon.setOnPreferenceChangeListener((preference, o) -> {
+                boolean enabled = Boolean.TRUE.equals(o);
+                AppSettingsStore.setHideAppIconEnabled(requireContext(), enabled);
 
                 PackageManager pm = requireActivity().getPackageManager();
                 int mComponentEnabledState;
 
-                if ((Boolean) o) {
+                if (enabled) {
                     mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
                 } else {
                     mComponentEnabledState = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
@@ -140,18 +196,24 @@ public class SettingsFragment extends BasePreferenceFragment
         }
 
         mFloatBottomPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            //getSwitchManager().setFloatingStyle((Boolean) newValue);
-            Settings.Global.putBoolean(getContext().getContentResolver(), "settings_float_nav", (Boolean) newValue);
+            boolean enabled = Boolean.TRUE.equals(newValue);
+            AppSettingsStore.setFloatNavEnabled(requireContext(), enabled);
             return true;
         });
 
         if (mScopeSyncPreference != null) {
+            updateScopePreferenceTitle(scopeSyncEnabled);
             mScopeSyncPreference.setOnPreferenceChangeListener((preference, newValue) -> {
-                if (Boolean.TRUE.equals(newValue)) {
+                boolean enabled = Boolean.TRUE.equals(newValue);
+                AppSettingsStore.setScopeSyncEnabled(requireContext(), enabled);
+                if (enabled) {
                     HeaderManager.syncHeaderPreferencesToCurrentScope(requireContext());
                 }
+                updateScopePreferenceTitle(enabled);
                 return true;
             });
+        } else {
+            updateScopePreferenceTitle(false);
         }
 
         if (mScopePreference != null) {
@@ -189,6 +251,7 @@ public class SettingsFragment extends BasePreferenceFragment
                     getString(com.sevtinge.hyperceiler.core.R.string.reset_desc),
                     (dialog, which) -> {
                         PrefsBridge.clearAllByApp();
+                        AppSettingsStore.resetGlobalToDefaults(requireContext());
                         OobeUtils.resetOobeState(requireContext());
                         Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
                     }
@@ -201,7 +264,9 @@ public class SettingsFragment extends BasePreferenceFragment
     @Override
     public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
         if (preference == mIconModePreference) {
-            setIconMode(Integer.parseInt((String) o));
+            int index = Integer.parseInt((String) o);
+            AppSettingsStore.setIconIndex(requireContext(), index);
+            setIconMode(index);
         }
         return true;
     }
@@ -292,34 +357,148 @@ public class SettingsFragment extends BasePreferenceFragment
     private void processRestore(Uri uri) {
         try {
             BackupUtils.handleReadDocument(requireContext(), uri);
+            AppSettingsStore.syncGlobalFromPrefs(requireContext());
             if (!HeaderManager.isScopeSyncEnabled()) {
-                showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message));
+                showDialog(
+                    getString(com.sevtinge.hyperceiler.core.R.string.rest_success),
+                    getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message),
+                    (dialog, which) -> restartApp()
+                );
                 return;
             }
 
-            Set<String> currentSelected = HeaderManager.getCurrentScopeManagedPackages(requireContext());
-            Set<String> targetSelected = HeaderManager.getStoredScopeManagedPackages(requireContext());
-            ScopeManager.applyScopeDiffAsync(requireContext(), currentSelected, targetSelected, (success, message) -> {
-                if (!isAdded()) {
-                    return;
-                }
+            Set<String> currentSelected = ScopeManager.normalizeScopePackages(
+                HeaderManager.getCurrentScopeManagedPackages(requireContext())
+            );
+            Set<String> restoredSelected = ScopeManager.normalizeScopePackages(
+                HeaderManager.getStoredScopeManagedPackages(requireContext())
+            );
+            Set<String> targetSelected = filterInstalledScopePackages(restoredSelected);
+            Set<String> skippedPackages = new LinkedHashSet<>(restoredSelected);
+            skippedPackages.removeAll(targetSelected);
 
-                String restoreMessage = getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message);
-                if (!success && message != null && !message.isEmpty()) {
-                    restoreMessage = restoreMessage + "\n\n" + message;
-                }
-                showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_success), restoreMessage);
-            });
+            Set<String> newlyAddedScopes = new LinkedHashSet<>(targetSelected);
+            newlyAddedScopes.removeAll(currentSelected);
+            if (!newlyAddedScopes.isEmpty()) {
+                showScopeAuthorizationNotice(newlyAddedScopes, () ->
+                    applyRestoredScopeDiff(currentSelected, targetSelected, skippedPackages)
+                );
+            } else {
+                applyRestoredScopeDiff(currentSelected, targetSelected, skippedPackages);
+            }
         } catch (Exception e) {
             showDialog(getString(com.sevtinge.hyperceiler.core.R.string.rest_failed), e.getMessage());
         }
     }
 
+    private void applyRestoredScopeDiff(
+        Set<String> currentSelected,
+        Set<String> targetSelected,
+        Set<String> skippedPackages
+    ) {
+        ScopeManager.applyScopeDiffAsync(requireContext(), currentSelected, targetSelected, (success, message) -> {
+            if (!isAdded()) {
+                return;
+            }
+
+            String restoreMessage = getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message);
+            if (!skippedPackages.isEmpty()) {
+                restoreMessage = restoreMessage + "\n\n" + getString(
+                    com.sevtinge.hyperceiler.core.R.string.rest_scope_skip_uninstalled,
+                    TextUtils.join("、", skippedPackages)
+                );
+            }
+            if (!success && message != null && !message.isEmpty()) {
+                restoreMessage = restoreMessage + "\n\n" + message;
+            }
+            showDialog(
+                getString(com.sevtinge.hyperceiler.core.R.string.rest_success),
+                restoreMessage,
+                (dialog, which) -> restartApp()
+            );
+        });
+    }
+
+    private Set<String> filterInstalledScopePackages(Set<String> packages) {
+        Set<String> installedPackages = new LinkedHashSet<>();
+        if (packages == null || packages.isEmpty()) {
+            return installedPackages;
+        }
+
+        for (String packageName : packages) {
+            if (isScopePackageInstalled(packageName)) {
+                installedPackages.add(packageName);
+            }
+        }
+        return installedPackages;
+    }
+
+    private boolean isScopePackageInstalled(String packageName) {
+        if (ScopeManager.isSystemScopePackage(packageName)) {
+            return true;
+        }
+
+        try {
+            requireContext().getPackageManager().getPackageInfo(packageName, PackageManager.MATCH_ALL);
+            return true;
+        } catch (Exception ignored) {
+            return false;
+        }
+    }
+
+    private void showScopeAuthorizationNotice(Set<String> newlyAddedScopes, Runnable onConfirmed) {
+        String scopeList = TextUtils.join("、", newlyAddedScopes);
+        new AlertDialog.Builder(requireContext())
+            .setTitle(com.sevtinge.hyperceiler.core.R.string.rest_scope_authorize_title)
+            .setMessage(getString(com.sevtinge.hyperceiler.core.R.string.rest_scope_authorize_notice, scopeList))
+            .setPositiveButton(android.R.string.ok, (dialog, which) -> onConfirmed.run())
+            .show();
+    }
+
     private void showDialog(String title, String message) {
+        showDialog(title, message, null);
+    }
+
+    private void showDialog(String title, String message, android.content.DialogInterface.OnClickListener onClickListener) {
         new AlertDialog.Builder(requireContext())
             .setTitle(title)
             .setMessage(message)
-            .setPositiveButton(android.R.string.ok, null)
+            .setPositiveButton(android.R.string.ok, onClickListener)
             .show();
+    }
+
+    private void updateScopePreferenceTitle(boolean scopeSyncEnabled) {
+        if (mScopePreference == null) {
+            return;
+        }
+        mScopePreference.setTitle(scopeSyncEnabled
+            ? com.sevtinge.hyperceiler.core.R.string.settings_scope_extra
+            : com.sevtinge.hyperceiler.core.R.string.settings_scope);
+    }
+
+    private void restartApp() {
+        Context context = requireContext().getApplicationContext();
+        Intent restartIntent = new Intent(context, SplashActivity.class)
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            restartIntent,
+            PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 200, pendingIntent);
+        } else {
+            context.startActivity(restartIntent);
+        }
+
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.finishAffinity();
+        }
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 }

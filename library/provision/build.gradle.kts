@@ -34,5 +34,6 @@ java {
 }
 
 dependencies {
+    api(projects.library.common)
     api(projects.library.libhook)
 }

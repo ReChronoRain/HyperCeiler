@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/provision_basic_settings_category_app">
         <SwitchPreference
             android:defaultValue="true"
             android:key="prefs_key_settings_hide_app_icon"
@@ -22,6 +22,25 @@
             android:title="@string/provision_basic_settings_icon_mode"
             app:entries="@array/provision_basic_settings_icon_mode"
             app:entryValues="@array/provision_basic_settings_icon_mode_value" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_settings_app_language"
+            android:title="@string/provision_basic_settings_language"
+            app:entries="@array/provision_basic_settings_app_language"
+            app:entryValues="@array/provision_basic_settings_app_language_value" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/provision_basic_settings_category_scope">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_settings_scope_sync"
+            android:summary="@string/provision_basic_settings_scope_sync_desc"
+            android:title="@string/provision_basic_settings_scope_sync" />
+
+        <Preference
+            android:key="prefs_key_settings_scope"
+            android:title="@string/provision_basic_settings_scope" />
     </PreferenceCategory>
 
 </PreferenceScreen>

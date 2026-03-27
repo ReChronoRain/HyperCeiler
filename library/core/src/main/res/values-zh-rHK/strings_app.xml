@@ -59,6 +59,7 @@
     <string name="help_cant_see_apps_switch_desc">您仍可以在「關於-幫助」找到此幫助，返回首頁即可生效</string>
     <!-- Scope -->
     <string name="settings_scope">作用域</string>
+    <string name="settings_scope_extra">額外作用域</string>
     <string name="settings_scope_sync">作用域同步</string>
     <string name="settings_scope_sync_desc">首頁列表的勾選狀態會與作用域同步</string>
     <string name="scope_batch_no_changes">作用域沒有變化</string>
@@ -129,6 +130,9 @@
     <string name="backup_failed">備份失敗</string>
     <string name="rest_title">還原</string>
     <string name="rest_success">還原成功</string>
+    <string name="rest_scope_authorize_title">作用域授權提示</string>
+    <string name="rest_scope_authorize_notice">檢測到還原配置包含新增作用域，請在接下來的 LSPosed 授權彈窗中允許：\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">以下作用域未在當前設備安裝，已自動跳過：\n%1$s</string>
     <string name="rest_failed">還原失敗</string>
     <string name="backup_ask">您是否要寫入備份？</string>
     <string name="backup_permission">\"現在您必須手動啟用此選項的權限。</string>

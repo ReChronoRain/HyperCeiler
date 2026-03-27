@@ -62,6 +62,7 @@
     <string name="help_cant_see_apps_switch_desc">您仍可以在“关于-帮助”找到此帮助，返回首页即可生效</string>
     <!-- Scope -->
     <string name="settings_scope">作用域</string>
+    <string name="settings_scope_extra">额外作用域</string>
     <string name="settings_scope_sync">作用域同步</string>
     <string name="settings_scope_sync_desc">首页列表的勾选状态会与作用域同步</string>
     <string name="scope_batch_no_changes">作用域没有变化</string>
@@ -138,6 +139,9 @@
     <string name="rest_title">恢复</string>
     <string name="rest_success">恢复成功</string>
     <string name="rest_success_message">请重启应用以使配置生效。</string>
+    <string name="rest_scope_authorize_title">作用域授权提示</string>
+    <string name="rest_scope_authorize_notice">检测到恢复配置包含新增作用域，请在接下来的 LSPosed 授权弹窗中允许：\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">以下作用域未在当前设备安装，已自动跳过：\n%1$s</string>
     <string name="rest_failed">恢复失败</string>
     <string name="backup_ask">您是否要写入备份？</string>
     <string name="backup_permission">现在您必须手动启用此选项的权限。</string>

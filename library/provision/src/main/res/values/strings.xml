@@ -31,6 +31,12 @@
     <string name="provision_terms_of_use_verification_code_dialog_desc">You can found it in our User Agreement or Privacy Policy</string>
     <string name="provision_terms_of_use_verification_code_dialog_continue">Continue</string>
     <string name="provision_basic_settings_hide_app_icon">Icon in Home screen</string>
+    <string name="provision_basic_settings_category_app">App</string>
+    <string name="provision_basic_settings_category_scope">Scope</string>
+    <string name="provision_basic_settings_language">Language</string>
+    <string name="provision_basic_settings_scope_sync">Scope sync</string>
+    <string name="provision_basic_settings_scope_sync_desc">Keep homepage selections in sync with scope</string>
+    <string name="provision_basic_settings_scope">Scope</string>
     <string name="provision_basic_settings_icon">Icon in Settings</string>
     <string name="provision_basic_settings_icon_desc">Specify where the module icon will appear in Settings</string>
     <string name="provision_basic_settings_icon_mode">Icon style</string>
@@ -43,6 +49,7 @@
 
     <string name="provision_system_preparing">Preparing system…</string>
     <string name="provision_system_complete">Setup complete</string>
+    <string name="provision_scope_open_failed">Unable to open scope page</string>
 
     <string name="provision_get_md_failed">## Failed to get content.   \n - You can visit [here](%URL%) to view the origin content.   \n - Or try to [refresh](hyperceiler://refresh) this page.</string>
 </resources>

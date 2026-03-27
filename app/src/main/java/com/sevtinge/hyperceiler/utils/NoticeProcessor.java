@@ -31,6 +31,7 @@ import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
 
@@ -169,7 +170,7 @@ public class NoticeProcessor {
         }
 
         // HyperCeiler language
-        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
+        int selectedLang = AppSettingsStore.getAppLanguageIndex(context);
         if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
         Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
         String lang = locale.toLanguageTag();
