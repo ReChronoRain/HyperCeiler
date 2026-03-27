@@ -6,7 +6,6 @@ import android.hardware.display.DisplayManager;
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Field;
@@ -16,7 +15,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class FlagSecure {
@@ -24,6 +23,11 @@ public class FlagSecure {
     private static final String TAG = "FlagSecure";
 
     private static Field captureSecureLayersField;
+
+    @FunctionalInterface
+    private interface ChainHooker {
+        Object intercept(XposedInterface.Chain chain) throws Throwable;
+    }
 
     public void onLoad(XposedModuleInterface.SystemServerStartingParam lpparam) {
         var classLoader = lpparam.getClassLoader();
@@ -34,18 +38,21 @@ public class FlagSecure {
             XposedLog.e(TAG, "system", "deoptimize system server failed", t);
         }
 
+        // Screen record detection (V~Baklava)
         try {
             hookWindowManagerService(classLoader);
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "hook WindowManagerService failed", t);
         }
 
+        // Screenshot detection (U~Baklava)
         try {
             hookActivityTaskManagerService(classLoader);
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "hook ActivityTaskManagerService failed", t);
         }
 
+        // Xiaomi HyperOS (U~Baklava)
         try {
             hookHyperOS(classLoader);
         } catch (ClassNotFoundException ignored) {
@@ -53,24 +60,28 @@ public class FlagSecure {
             XposedLog.e(TAG, "system", "hook HyperOS failed", t);
         }
 
+        // ScreenCapture in WindowManagerService (S~Baklava)
         try {
             hookScreenCapture(classLoader);
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "hook ScreenCapture failed", t);
         }
 
+        // WifiDisplay (S~Baklava) / OverlayDisplay (S~Baklava) / VirtualDisplay (U~Baklava)
         try {
             hookDisplayControl(classLoader);
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "hook DisplayControl failed", t);
         }
 
+        // VirtualDisplay with MediaProjection (S~Baklava)
         try {
             hookVirtualDisplayAdapter(classLoader);
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "hook VirtualDisplayAdapter failed", t);
         }
 
+        // secureLocked flag
         try {
             hookWindowState(classLoader);
         } catch (Throwable t) {
@@ -78,109 +89,60 @@ public class FlagSecure {
         }
     }
 
-    private final IMethodHook createDisplayHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-                var stackTrace = new Throwable().getStackTrace();
-                for (int i = 4; i < stackTrace.length && i < 8; i++) {
-                    var name = stackTrace[i].getMethodName();
-                    if (name.equals("createVirtualDisplayLocked")) {
-                        return;
-                    }
-                }
+    private final ChainHooker createDisplayHooker = chain -> {
+        Object[] args = chain.getArgs().toArray();
+        args[1] = true;
+        return chain.proceed(args);
+    };
+
+    private final ChainHooker screenCaptureHooker = chain -> {
+        var captureArgs = chain.getArg(0);
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && isAtLeastBaklava1()) {
+                captureSecureLayersField.set(captureArgs, 1);
+            } else {
+                captureSecureLayersField.set(captureArgs, true);
             }
-            callback.getArgs()[1] = true;
+        } catch (IllegalAccessException t) {
+            XposedLog.e(TAG, "system", "ScreenCaptureHooker failed", t);
         }
+        return chain.proceed();
     };
 
-    private final IMethodHook checkPermissionHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            var permission = callback.getArgs()[0];
-            if ("android.permission.CAPTURE_BLACKOUT_CONTENT".equals(permission)) {
-                callback.getArgs()[0] = "android.permission.READ_FRAME_BUFFER";
-            }
+    private final ChainHooker createVirtualDisplayLockedHooker = chain -> {
+        var caller = (int) chain.getArg(2);
+        if (caller >= 10000 && chain.getArg(1) == null) {
+            // not os and not media projection
+            return chain.proceed();
         }
-    };
-
-    private final IMethodHook oplusScreenCaptureHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            callback.getArgs()[0] = -1;
-        }
-    };
-
-    private final IMethodHook screenCaptureHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            var captureArgs = callback.getArgs()[0];
-            try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && isAtLeastBaklava1()) {
-                    captureSecureLayersField.set(captureArgs, 1);
-                } else {
-                    captureSecureLayersField.set(captureArgs, true);
-                }
-            } catch (IllegalAccessException t) {
-                XposedLog.e(TAG, "system", "ScreenCaptureHooker failed", t);
+        for (int i = 3; i < chain.getArgs().size(); i++) {
+            var arg = chain.getArg(i);
+            if (arg instanceof Integer) {
+                var flags = (int) arg;
+                flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
+                Object[] args = chain.getArgs().toArray();
+                args[i] = flags;
+                return chain.proceed(args);
             }
         }
+        XposedLog.e(TAG, "system", "flag not found in CreateVirtualDisplayLockedHooker");
+        return chain.proceed();
     };
 
-    private final IMethodHook createVirtualDisplayLockedHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            var caller = (int) callback.getArgs()[2];
-            if (caller >= 10000 && callback.getArgs()[1] == null) {
-                return;
-            }
-            for (int i = 3; i < callback.getArgs().length; i++) {
-                var arg = callback.getArgs()[i];
-                if (arg instanceof Integer) {
-                    var flags = (int) arg;
-                    flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
-                    callback.getArgs()[i] = flags;
-                    return;
-                }
-            }
-            XposedLog.e(TAG, "system", "flag not found in CreateVirtualDisplayLockedHooker");
-        }
+    private final ChainHooker secureLockedHooker = chain -> {
+        var walker = StackWalker.getInstance();
+        var match = walker.walk(frames -> frames
+            .map(StackWalker.StackFrame::getMethodName)
+            .limit(10)
+            .skip(6)
+            .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
+        if (match) return chain.proceed();
+        return false;
     };
 
-    private final IMethodHook secureLockedHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            var walker = StackWalker.getInstance();
-            var match = walker.walk(frames -> frames
-                .map(StackWalker.StackFrame::getMethodName)
-                .limit(6)
-                .skip(2)
-                .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
-            if (match) return;
-            callback.setResult(false);
-        }
-    };
+    private final ChainHooker returnFalseHooker = chain -> false;
 
-    private final IMethodHook returnTrueHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            callback.setResult(true);
-        }
-    };
-
-    private final IMethodHook returnFalseHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            callback.setResult(false);
-        }
-    };
-
-    private final IMethodHook returnNullHooker = new IMethodHook() {
-        @Override
-        public void before(HookParam callback) {
-            callback.setResult(null);
-        }
-    };
+    private final ChainHooker returnNullHooker = chain -> null;
 
     private void deoptimizeSystemServer(ClassLoader classLoader) throws ClassNotFoundException {
         deoptimizeMethods(
@@ -259,33 +221,20 @@ public class FlagSecure {
         hook(method, returnFalseHooker);
     }
 
-    private void hookActivityManagerService(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
-        var activityTaskManagerServiceClazz = classLoader.loadClass("com.android.server.am.ActivityManagerService");
-        var method = activityTaskManagerServiceClazz.getDeclaredMethod("checkPermission", String.class, int.class, int.class);
-        hook(method, checkPermissionHooker);
-    }
-
     private void hookHyperOS(ClassLoader classLoader) throws ClassNotFoundException {
         var windowManagerServiceImplClazz = classLoader.loadClass("com.android.server.wm.WindowManagerServiceImpl");
         hookMethods(windowManagerServiceImplClazz, returnFalseHooker, "notAllowCaptureDisplay");
     }
 
-    private void hookScreenshotHardwareBuffer(ClassLoader classLoader) throws ClassNotFoundException, NoSuchMethodException {
-        var screenshotHardwareBufferClazz = classLoader.loadClass(
-            "android.window.ScreenCapture$ScreenshotHardwareBuffer");
-        var method = screenshotHardwareBufferClazz.getDeclaredMethod("containsSecureLayers");
-        hook(method, returnFalseHooker);
-    }
-
-    private void hookMethods(Class<?> clazz, IMethodHook hooker, String... names) {
+    private void hookMethods(Class<?> clazz, ChainHooker hooker, String... names) {
         List<String> list = Arrays.asList(names);
         Arrays.stream(clazz.getDeclaredMethods())
             .filter(method -> list.contains(method.getName()))
             .forEach(method -> hook(method, hooker));
     }
 
-    private void hook(Method method, IMethodHook hooker) {
-        EzxHelpUtils.hookMethod(method, hooker);
+    private void hook(Method method, ChainHooker hooker) {
+        EzxHelpUtils.chain(method, hooker::intercept);
     }
 
     private static boolean isAtLeastBaklava1() {
