@@ -29,6 +29,12 @@
     <string name="provision_terms_of_use_verification_code_dialog_desc">您可以在《用户协议》或《隐私政策》中找到</string>
     <string name="provision_terms_of_use_verification_code_dialog_continue">继续</string>
     <string name="provision_basic_settings_hide_app_icon">桌面图标</string>
+    <string name="provision_basic_settings_category_app">应用</string>
+    <string name="provision_basic_settings_category_scope">作用域</string>
+    <string name="provision_basic_settings_language">语言</string>
+    <string name="provision_basic_settings_scope_sync">作用域同步</string>
+    <string name="provision_basic_settings_scope_sync_desc">首页列表的勾选状态会与作用域同步</string>
+    <string name="provision_basic_settings_scope">作用域</string>
     <string name="provision_basic_settings_icon">设置图标</string>
     <string name="provision_basic_settings_icon_desc">设置模块入口在系统设置中的位置</string>
     <string name="provision_basic_settings_icon_mode">图标样式</string>
@@ -40,5 +46,6 @@
     <string name="provision_basic_settings_icon_miui_13">背景镂空样式</string>
     <string name="provision_system_preparing">系统准备中</string>
     <string name="provision_system_complete">设置完毕</string>
+    <string name="provision_scope_open_failed">无法打开作用域页面</string>
     <string name="provision_get_md_failed">## 获取内容失败。   \n - 您可前往[此处](%URL%)查看原始内容。   \n - 或尝试[刷新](hyperceiler://refresh)此页。</string>
 </resources>

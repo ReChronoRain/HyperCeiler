@@ -114,6 +114,7 @@
     <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Return to the homepage to apply.</string>
     <!-- Scope -->
     <string name="settings_scope">Scope</string>
+    <string name="settings_scope_extra">Additional scope</string>
     <string name="settings_scope_sync">Scope sync</string>
     <string name="settings_scope_sync_desc">Homepage selections will stay in sync with scope.</string>
     <string name="scope_batch_no_changes">No scope changes.</string>
@@ -190,6 +191,9 @@
     <string name="rest_title">Recover</string>
     <string name="rest_success">Recovery succeeded</string>
     <string name="rest_success_message">Please restart the app for the configuration to take effect.</string>
+    <string name="rest_scope_authorize_title">Scope authorization required</string>
+    <string name="rest_scope_authorize_notice">New scopes were found in the restored config. Please approve them in the upcoming LSPosed authorization prompt:\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">These scopes are not installed on this device and were skipped:\n%1$s</string>
     <string name="rest_failed">Recovery failed</string>
     <string name="backup_ask">Do you want to write backups?</string>
     <string name="backup_permission">Now, you\'ve to manually enable permissions for this option.</string>

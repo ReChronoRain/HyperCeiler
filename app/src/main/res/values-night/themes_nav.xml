@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="NavigatorActivityTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="bgBlurOptions">splitActionBar</item>
@@ -39,6 +40,7 @@
     </style>
 
     <style name="NavigatorContentFragmentTheme" parent="Theme.AppCompat.DayNight.Content">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="actionBarBackground">@color/miuix_design_default_color_surface_variant_dark</item>
@@ -58,6 +60,7 @@
     <style name="NaviFragmentTheme" parent="@style/Theme.AppCompat.DayNight.NavigationFragment"/>
 
     <style name="Theme.Navigator.ContentChild" parent="Theme.AppCompat.DayNight.ContentChild">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_dark</item>
 
@@ -78,6 +81,7 @@
     <style name="Theme.Navigator.ContentChild.Page" />
 
     <style name="Theme.Navigator.ContentChild.Home">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="bgBlurOptions">splitActionBar</item>
 
         <item name="actionbarSearchMaskColor">@android:color/transparent</item>
@@ -113,6 +117,7 @@
 
 
     <style name="HomePageTheme" parent="@style/Theme.AppCompat.DayNight.Navigator">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@color/miuix_default_color_surface_low_dark</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -149,6 +154,7 @@
     </style>
 
     <style name="NavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight.Content">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@null</item>
         <item name="android:actionModeBackground">@color/miuix_default_color_surface_low_dark</item>
         <item name="actionBarBackground">@color/miuix_default_color_surface_low_dark</item>
@@ -158,6 +164,7 @@
     </style>
 
     <style name="ContentTheme" parent="@style/Theme.AppCompat.DayNight">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:windowBackground">@color/miuix_default_color_surface_low_dark</item>
         <item name="android:actionBarStyle">@style/ActionBar.ShowTitle</item>
         <!--<item name="android:navigationBarColor">@color/navigation_bar_color</item>-->
@@ -199,6 +206,7 @@
     </style>
 
     <style name="AboutNavigatorContentTheme" parent="@style/Theme.AppCompat.DayNight">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
 
         <item name="windowSplitActionBar">true</item>
         <item name="windowActionBarOverlay">true</item>

@@ -46,6 +46,7 @@ public class ScopePickerActivity extends AppCompatActivity
 
     private static final String TAG = "ScopePickerActivity";
     public static final String EXTRA_EXCLUDED_PACKAGES = "excluded_packages";
+    public static final String EXTRA_INITIALIZATION_MODE = "initialization_mode";
     private static final int MODE_SCOPE = 6;
     private static final String SYSTEM_SCOPE_PACKAGE = "system";
 
@@ -64,6 +65,7 @@ public class ScopePickerActivity extends AppCompatActivity
     private final Set<String> mCurrentScopePackages = new LinkedHashSet<>();
     private final Set<String> mInitialSelectedPackages = new LinkedHashSet<>();
     private final Set<String> mExcludedPackages = new LinkedHashSet<>();
+    private boolean mInitializationMode = false;
 
     private boolean mIsApplyingScope = false;
 
@@ -86,6 +88,11 @@ public class ScopePickerActivity extends AppCompatActivity
     private void extractIntentData() {
         Bundle args = getIntent().getExtras();
         if (args == null) {
+            return;
+        }
+
+        mInitializationMode = args.getBoolean(EXTRA_INITIALIZATION_MODE, false);
+        if (mInitializationMode) {
             return;
         }
 

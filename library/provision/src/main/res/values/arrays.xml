@@ -23,4 +23,44 @@
         <item>0</item>
         <item>1</item>
     </string-array>
+
+    <string-array name="provision_basic_settings_app_language">
+        <item>English</item>
+        <item>简体中文</item>
+        <item>繁體中文 (台灣)</item>
+        <item>繁體中文 (香港)</item>
+        <item>日本語</item>
+        <item>Polski</item>
+        <item>Русский</item>
+        <item>العربية</item>
+        <item>Español</item>
+        <item>Português (Brasil)</item>
+        <item>Bahasa Indonesia</item>
+        <item>Türkçe</item>
+        <item>Tiếng Việt</item>
+        <item>Italiano</item>
+        <item>Deutsch</item>
+        <item>українська мова</item>
+        <item>梗体中文</item>
+    </string-array>
+
+    <string-array name="provision_basic_settings_app_language_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+    </string-array>
 </resources>

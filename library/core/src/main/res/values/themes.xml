@@ -21,6 +21,7 @@
 
 
     <style name="SubPickerTheme" parent="Theme.AppCompat.DayNight">
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="searchActionModeInputBackground">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="windowSearchMask">@color/miuix_design_default_color_surface_variant_light</item>
         <item name="android:windowBackground">@color/miuix_design_default_color_surface_variant_light</item>
