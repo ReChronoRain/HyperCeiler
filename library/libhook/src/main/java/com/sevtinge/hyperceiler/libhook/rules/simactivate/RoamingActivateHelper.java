@@ -102,6 +102,17 @@ public class RoamingActivateHelper extends BaseHook {
             }
         });
 
+        Method method4 = DexKit.findMember("StartActivateSimIms", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .usingStrings("ImsActivateTask", "cloud control not allow this mccmnc activate with method ")
+                    )).singleOrNull();
+                return methodData;
+            }
+        });
+
         Field field = DexKit.findMember("ActivateSimSubId", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -140,13 +151,31 @@ public class RoamingActivateHelper extends BaseHook {
             @Override
             public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
                 int subId = (int) getObjectField(param.getThisObject(), field.getName());
-                XposedLog.d(TAG, getPackageName(), "Roaming SIM "+subId);
+                //XposedLog.d(TAG, getPackageName(), "SIM " + subId);
                 Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
                 Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
                 int slotId = (int) originSlotId;
                 Context context = (Context) getObjectField(param.getThisObject(), field2.getName());
                 if (isRoaming(context, slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) {
                     XposedLog.d(TAG, getPackageName(), "Roaming SIM, skip activate.");
+                    param.setResult(null);
+                }
+            }
+        });
+
+        //findAndHookMethod("com.xiaomi.activate.simactivate.q", "C", new IMethodHook() {
+        hookMethod(method4, new IMethodHook() {
+            @RequiresPermission(allOf = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION, "android.permission.READ_PRIVILEGED_PHONE_STATE"})
+            @Override
+            public void before(HookParam param) throws InvocationTargetException, IllegalAccessException {
+                int subId = (int) getObjectField(param.getThisObject(), field.getName());
+                //XposedLog.d(TAG, getPackageName(), "IMS SIM " + subId);
+                Object contextGetter = callStaticMethod(method2.getDeclaringClass(), method2.getName());
+                Object originSlotId = EzxHelpUtils.findMethodBestMatch(method3.getDeclaringClass(), method3.getName(), subId).invoke(contextGetter, subId);
+                int slotId = (int) originSlotId;
+                Context context = (Context) getObjectField(param.getThisObject(), field2.getName());
+                if (isRoaming(context, slotId, mChinaTeleZoneCodeList, mChinaIccidStartsWithList, isRadical)) {
+                    XposedLog.d(TAG, getPackageName(), "IMS Roaming SIM, skip activate.");
                     param.setResult(null);
                 }
             }
