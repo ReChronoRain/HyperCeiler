@@ -29,10 +29,10 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * 绕过打开应用商店时强制使用小米应用商店
@@ -41,87 +41,93 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
  */
 public class BypassForceMiAppStore extends BaseHook {
 
+    private static final String PREF_FORCE_CHOOSER = "system_framework_bypass_force_mi_appstore";
+    private static final String PREF_DETAIL_MINI = "system_framework_market_use_detailmini";
+
     @Override
     public void init() {
 
         try {
-            Class<?> cls =
-                findClass("com.android.server.wm.ActivityTaskManagerService");
+            Class<?> atmsClass = findClassIfExists("com.android.server.wm.ActivityTaskManagerService");
+            if (atmsClass == null) {
+                XposedLog.w(TAG, getPackageName(), "Class not found: com.android.server.wm.ActivityTaskManagerService");
+                return;
+            }
 
-            for (Method method : cls.getDeclaredMethods()) {
-                if (!method.getName().equals("startActivity")) continue;
-                if (!Modifier.isPublic(method.getModifiers())) continue;
+            List<XposedInterface.HookHandle> handles = hookAllMethods(atmsClass, "startActivity", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    try {
+                        Object[] args = param.getArgs();
+                        int intentIndex = findIntentArgIndex(args);
+                        if (intentIndex < 0) return;
 
-                Class<?>[] paramTypes = method.getParameterTypes();
-                int intentIndex = -1;
-                for (int i = 0; i < paramTypes.length; i++) {
-                    if (Intent.class.equals(paramTypes[i])) {
-                        intentIndex = i;
-                        break;
+                        Intent intent = (Intent) args[intentIndex];
+                        if (intent == null || !Intent.ACTION_VIEW.equals(intent.getAction())) return;
+
+                        final boolean forceChooserEnabled = PrefsBridge.getBoolean(PREF_FORCE_CHOOSER);
+                        final boolean detailMiniEnabled = PrefsBridge.getBoolean(PREF_DETAIL_MINI);
+                        if (!forceChooserEnabled && !detailMiniEnabled) return;
+
+                        Uri data = intent.getData();
+                        if (data == null) return;
+
+                        Uri newData = data;
+                        String type = intent.getType();
+
+                        // 注意：该 hook 属于系统层 startActivity 拦截，开关间存在联动影响，必须将改写范围收窄到 market 相关 URI。
+                        if ("mimarket".equals(newData.getScheme())) {
+                            newData = newData.buildUpon().scheme("market").build();
+                        }
+
+                        // 如果启用了 detailmini，则将 market://details?id=... 改写为 market://details/detailmini?id=...
+                        String path = newData.getPath();
+                        if (detailMiniEnabled
+                            && isMarketDetailsHost(newData)
+                            && (path == null || path.isEmpty() || "/".equals(path))) {
+                            newData = newData.buildUpon().path("/detailmini").build();
+                        }
+
+                        // setData(...) 会清空 type，使用 setDataAndType(...) 保留 MIME type。
+                        if (!newData.equals(data)) {
+                            if (type != null) {
+                                intent.setDataAndType(newData, type);
+                            } else {
+                                intent.setData(newData);
+                            }
+                        }
+
+                        Uri finalData = intent.getData();
+                        if (finalData == null) return;
+
+                        // 只处理 market://details[(/detailmini)]?id=...，避免影响其他 ACTION_VIEW intent。
+                        if (isMarketDetailsIntent(finalData) && finalData.getQueryParameter("id") != null) {
+                            // 移除指定包名
+                            if (intent.getPackage() != null) {
+                                XposedLog.d(TAG, getPackageName(), "Removed package=：" + intent.getPackage());
+                                intent.setPackage(null);
+                            }
+
+                            // FLAG_ACTIVITY_RESET_TASK_IF_NEEDED 会导致小米应用商店无法打开，原因未知
+                            intent.removeFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+
+                            // 如果启用了 bypass_force_mi_appstore，则强制使用 chooser 打开应用商店
+                            if (forceChooserEnabled) {
+                                intent = Intent.createChooser(intent, null);
+                                XposedLog.d(TAG, getPackageName(), "Forced chooser for market://details intent");
+                            }
+                        }
+
+                        args[intentIndex] = intent;
+                    } catch (Throwable t) {
+                        XposedLog.w(TAG, getPackageName(), "Error - " + Log.getStackTraceString(t));
                     }
                 }
-
-                if (intentIndex == -1) continue;
-
-                final int index = intentIndex;
-                hookMethod(method, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        try {
-                            Intent intent = (Intent) param.getArgs()[index];
-                            if (intent == null) return;
-
-                            Uri data = intent.getData();
-                            if (!Intent.ACTION_VIEW.equals(intent.getAction()) || data == null)
-                                return;
-
-                            String uriStr = data.toString();
-
-                            if (uriStr != null) {
-                                // 始终替换 mimarket:// 为 market://
-                                uriStr = uriStr.replaceFirst("^mimarket://", "market://");
-
-                                // 如果启用了 detailmini 选项，则替换 path 中的 details → details/detailmini
-                                if (PrefsBridge.getBoolean("system_framework_market_use_detailmini")) {
-                                    uriStr = uriStr.replaceFirst("(?<=market://)(details)(?!/detailmini)", "details/detailmini");
-                                }
-
-                                intent.setData(Uri.parse(uriStr));
-                            }
-
-                            // 如果是 market://details?id=...
-                            if ("market".equals(intent.getData().getScheme())
-                                && ("details".equals(intent.getData().getHost()) || "details/detailmini".equals(intent.getData().getHost()))
-                                && intent.getData().getQueryParameter("id") != null
-                            ) {
-
-                                // 移除指定包名
-                                if (intent.getPackage() != null) {
-                                    XposedLog.d(TAG, getPackageName(), "Removed package=：" + intent.getPackage());
-                                    intent.setPackage(null);
-                                }
-
-                                //FLAG_ACTIVITY_RESET_TASK_IF_NEEDED 会导致小米应用商店无法打开，原因未知
-                                intent.removeFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-
-								// 如果启用了 bypass_force_mi_appstore，则强制使用 chooser 打开应用商店
-                                if (PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore")) {
-									intent = Intent.createChooser(intent, null);
-
-                                    XposedLog.d(TAG, getPackageName(), "Forced chooser for market://details intent");
-								}
-
-                            }
-                            param.getArgs()[index] = intent;
-
-                        } catch (Throwable t) {
-                            XposedLog.w(TAG, getPackageName(), "Error - " + Log.getStackTraceString(t));
-
-                        }
-                    }
-                });
-                XposedLog.d(TAG, getPackageName(), "Hooked method: " + method);
-                break;
+            });
+            if (handles == null || handles.isEmpty()) {
+                XposedLog.w(TAG, getPackageName(), "No startActivity overload hooked");
+            } else {
+                XposedLog.d(TAG, getPackageName(), "Hooked startActivity overloads: " + handles.size());
             }
 
         } catch (Throwable t) {
@@ -129,5 +135,25 @@ public class BypassForceMiAppStore extends BaseHook {
         }
     }
 
+    private static int findIntentArgIndex(Object[] args) {
+        if (args == null) return -1;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof Intent) return i;
+        }
+        return -1;
+    }
+
+    private static boolean isMarketDetailsHost(Uri uri) {
+        return uri != null
+            && "market".equals(uri.getScheme())
+            && "details".equals(uri.getHost());
+    }
+
+    private static boolean isMarketDetailsIntent(Uri uri) {
+        if (!isMarketDetailsHost(uri)) return false;
+
+        String path = uri.getPath();
+        return path == null || path.isEmpty() || "/".equals(path) || "/detailmini".equals(path);
+    }
 
 }
