@@ -29,8 +29,8 @@
     <string name="new_cta_app_all_purpose_reject">Từ chối &amp; Thoát</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Việt</string>
-    <string name="translator">MiuiVN &amp; MiuiTN</string>
-    <string name="translator_url">https://t.me/translation_abcxyz</string>
+    <string name="translator">HyperCeiler chính thức</string>
+    <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Trang chủ</string>
     <string name="help">Trợ giúp</string>
     <string name="settings">Cài đặt</string>
@@ -247,7 +247,7 @@
     <string name="array_global_actions_notif">Mở trung tâm thông báo</string>
     <string name="array_global_actions_eqs">Mở rộng bảng cài đặt nhanh</string>
     <string name="array_global_actions_lock">Màn hình khóa</string>
-    <string name="array_global_actions_sleep">Đóng màn hình</string>
+    <string name="array_global_actions_sleep">Tắt màn</string>
     <string name="array_global_actions_screenshot">Chụp màn hình</string>
     <string name="array_global_actions_menu">Mở menu</string>
     <string name="array_global_actions_recents">Mở trang gần đây</string>
