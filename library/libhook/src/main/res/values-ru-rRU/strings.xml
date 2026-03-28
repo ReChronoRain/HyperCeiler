@@ -57,17 +57,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Не скрывать полосу навигации</string>
     <string name="system_ui_hide_navigation_bar_more">Пожалуйста, перезапустите системный лаунчер и интерфейс системы</string>
     <string name="system_framework_guided_access_status">Скрыть строку состояния, когда приложение закреплено</string>
-    <string name="system_framework_guided_access_status_more">Способ выхода изменится на долгое нажатие кнопки питания, а строка состояния будет скрыта до тех пор, пока вы не выйдете из режима блокировки.</string>
-    <string name="system_framework_guided_access_sc">Блокировать боковую панель при закреплении</string>
-    <string name="system_framework_guided_access_screen">Перейти к экрану блокировки при откреплении</string>
+    <string name="system_framework_guided_access_status_more">Способ выхода изменится на долгое нажатие кнопки питания, а строка состояния будет скрыта до тех пор, пока вы не выйдете из режима блокировки</string>
     <string name="system_framework_guided_access">Фиксированные приложения</string>
-    <string name="system_framework_guided_access_will_lock">Удерживайте для блокировки</string>
-    <string name="system_framework_guided_access_lock">Заблокированное приложение</string>
-    <string name="system_framework_guided_access_unlock">Разблокированное приложение</string>
-    <string name="system_framework_guided_access_will_unlock">Долгое нажатие для разблокировки</string>
-    <string name="system_framework_guided_access_r">Восстановить</string>
-    <string name="system_framework_guided_access_e">Пожалуйста, разблокируйте это в заблокированном интерфейсе приложения</string>
-    <string name="system_framework_guided_access_more">Управляемый доступ, аналогичный iOS, который привязывает текущее приложение к экрану.\nДля активации зажмите строку состояния; для выхода, повторно зажмите строку состояния.\nПеред использованием требуется перезагрузка.</string>
+    <string name="system_framework_guided_access_more">При использовании необходимо одновременно включить область "System UI"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s вкл</string>
     <string name="quick_settings_state_change_message_off_my">%1$s выкл</string>

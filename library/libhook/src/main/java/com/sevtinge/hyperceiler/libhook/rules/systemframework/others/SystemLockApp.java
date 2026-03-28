@@ -18,16 +18,12 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
 
 import android.content.Context;
-import android.database.ContentObserver;
-import android.net.Uri;
-import android.os.Handler;
+import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.Settings;
-import android.view.MotionEvent;
-
-import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
@@ -40,115 +36,341 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
  * @author 焕晨HChen
  */
 public class SystemLockApp extends BaseHook {
-    private int taskId;
-    private boolean isObserver = false;
+    private static final long POWER_HOLD_EXIT_MS = 3000L;
+    private static final long SUPPRESS_POWER_MENU_AFTER_EXIT_MS = 1500L;
+
+    private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
+    private static final String SETTING_HIDE_GESTURE_LINE = "hide_gesture_line";
+    private static final int HIDE_GESTURE_LINE_SHOW = 0;
+    private static final int HIDE_GESTURE_LINE_HIDE = 1;
+
+    private static final String MIUI_POWER_KEY_RULE_CLASS = "com.android.server.input.shortcut.singlekeyrule.PowerKeyRule";
+    private static final String MIUI_POLICY_CLASS = "com.android.server.policy.BaseMiuiPhoneWindowManager";
+    private static final String PHONE_WINDOW_MANAGER_CLASS = "com.android.server.policy.PhoneWindowManager";
+    private static final String MIUI_SHORTCUT_ACTIONS_CLASS = "com.miui.server.input.util.ShortCutActionsUtils";
+
+    private static final String ACTION_LONG_PRESS_POWER_KEY = "long_press_power_key";
+    private static final String ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY = "imperceptible_press_power_key";
+
+    private Integer mGestureLineBeforeLock = null;
     boolean isLock = false;
-    boolean needLockScreen = false;
+    private volatile long mLastPowerExitUptimeMs = 0L;
 
     @Override
     public void init() {
-        findAndHookMethod("com.android.server.wm.ActivityTaskManagerService",
-                "onSystemReady",
+        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
+                "startSystemLockTaskMode",
                 new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
                         try {
                             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
                             if (context == null) return;
-                            if (!isObserver) {
-                                ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
-                                    @Override
-                                    public void onChange(boolean selfChange, @Nullable Uri uri, int flags) {
-                                        isLock = getLockApp(context) != -1;
-                                        if (isLock) {
-                                            taskId = getLockApp(context);
-                                            callMethod(param.getThisObject(), "startSystemLockTaskMode", taskId);
-                                            needLockScreen = getMyLockScreen(context) == 1;
-                                        } else {
-                                            new Handler(context.getMainLooper()).postDelayed(() -> callMethod(param.getThisObject(), "stopSystemLockTaskMode"),300);
-                                        }
-                                    }
-                                };
-                                context.getContentResolver().registerContentObserver(
-                                        Settings.Global.getUriFor("key_lock_app"),
-                                        false, contentObserver);
-                                isObserver = true;
+
+                            int lockTaskId = -1;
+                            if (param.getArgs().length > 0 && param.getArgs()[0] instanceof Integer) {
+                                lockTaskId = (int) param.getArgs()[0];
                             }
+
+                            isLock = lockTaskId != -1;
+                            setLockApp(context, lockTaskId);
+                            applyGestureLineShielding(context, true);
                         } catch (Throwable e) {
-                            XposedLog.e(TAG, "E: " + e);
+                            XposedLog.e(TAG, "startSystemLockTaskMode E: " + e);
                         }
                     }
                 }
         );
 
-        findAndHookMethod("com.miui.server.input.util.ShortCutActionsUtils",
-                "triggerHapticFeedback", boolean.class, String.class,
-                String.class, boolean.class, String.class,
+        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
+                "stopSystemLockTaskMode",
                 new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
-                        if (!PrefsBridge.getBoolean("system_framework_guided_access_status"))
-                            return; // 不知道为什么还是需要重启才生效
-                        String shortcut = (String) param.getArgs()[1];
-                        if ("imperceptible_press_power_key".equals(shortcut) || "long_press_power_key".equals(shortcut)) {
+                        try {
                             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                            isLock = getLockApp(context) != -1;
-                            if (isLock) {
-                                setLockApp(context, -1);
-                            }
+                            if (context == null) return;
+
+                            isLock = false;
+                            setLockApp(context, -1);
+                            applyGestureLineShielding(context, false);
+                        } catch (Throwable e) {
+                            XposedLog.e(TAG, "stopSystemLockTaskMode E: " + e);
                         }
                     }
                 }
         );
+
+        // 确保 key_lock_app 和屏蔽状态一定能恢复。
+        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
+                "stopLockTaskModeInternal",
+                new IMethodHook() {
+                    @Override
+                    public void after(HookParam param) {
+                        try {
+                            Context context = (Context) getObjectField(param.getThisObject(), "mContext");
+                            if (context == null) return;
+                            if (!isLock && getLockApp(context) == -1) return;
+
+                            isLock = false;
+                            setLockApp(context, -1);
+                            applyGestureLineShielding(context, false);
+                        } catch (Throwable e) {
+                            XposedLog.e(TAG, "stopLockTaskModeInternal E: " + e);
+                        }
+                    }
+                }
+        );
+
+        hookMiuiPowerLongPressTimeout();
+        hookMiuiPowerPostDelay();
+        hookMiuiPowerShortcutTrigger();
+        hookSuppressPowerMenuAfterExit();
 
         findAndHookMethod("com.android.server.wm.LockTaskController",
                 "shouldLockKeyguard", int.class,
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        if (needLockScreen) {
-                            param.setResult(true);
-                        } else {
-                            param.setResult(false);
-                        }
+                        boolean exitLockScreen = PrefsBridge.getBoolean("system_framework_guided_access_exit_lockscreen", false);
+                        param.setResult(exitLockScreen);
                     }
                 }
         );
+    }
 
-        if (isPad()) {
-            findAndHookMethod("com.android.server.wm.MiuiCvwGestureController$GesturePointerEventListener",
-                    "onPointerEvent", MotionEvent.class,
-                    new IMethodHook() {
-                        @Override
-                        public void before(HookParam param) {
-                            if (isLock) {
-                                param.setResult(null);
-                            }
-                        }
+    private void hookMiuiPowerLongPressTimeout() {
+        Class<?> ruleClass = findClassIfExists(MIUI_POWER_KEY_RULE_CLASS);
+        if (ruleClass != null) {
+            try {
+                hookAllMethods(ruleClass, "getMiuiLongPressTimeoutMs", new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        if (!isLock) return;
+                        param.setResult(POWER_HOLD_EXIT_MS);
                     }
+                });
+            } catch (Throwable e) {
+                XposedLog.w(TAG, "Hook getMiuiLongPressTimeoutMs failed: " + e);
+            }
+        } else {
+            XposedLog.w(TAG, "Miui power key rule class not found: " + MIUI_POWER_KEY_RULE_CLASS);
+        }
+    }
+
+    private void hookMiuiPowerPostDelay() {
+        Class<?> policyClass = findClassIfExists(MIUI_POLICY_CLASS);
+        if (policyClass == null) {
+            XposedLog.w(TAG, "Miui policy class not found for postKeyFunction: " + MIUI_POLICY_CLASS);
+            return;
+        }
+
+        try {
+            findAndHookMethod(policyClass, "postKeyFunction", String.class, int.class, String.class, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    if (!isLock) return;
+                    String shortcut = (String) param.getArgs()[2];
+                    if (!ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)
+                        && !ACTION_LONG_PRESS_POWER_KEY.equals(shortcut)) {
+                        return;
+                    }
+
+                    // 固定应用中统一改为 3 秒触发，并把 0.5 秒链路归并到 long_press_power_key 处理。
+                    param.getArgs()[1] = (int) POWER_HOLD_EXIT_MS;
+                    if (ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)) {
+                        param.getArgs()[2] = ACTION_LONG_PRESS_POWER_KEY;
+                    }
+                }
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook postKeyFunction failed: " + e);
+        }
+    }
+
+    private void hookMiuiPowerShortcutTrigger() {
+        try {
+            findAndHookMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
+                "triggerFunction",
+                String.class, String.class, Bundle.class, boolean.class, String.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        if (!isLock) return;
+                        String action = (String) param.getArgs()[1];
+                        interceptPowerShortcutAction(action, param);
+                    }
+                }
             );
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook triggerFunction(5) failed: " + e);
+        }
+
+        try {
+            findAndHookMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
+                "triggerFunction",
+                String.class, String.class, Bundle.class, boolean.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        if (!isLock) return;
+                        String action = (String) param.getArgs()[1];
+                        interceptPowerShortcutAction(action, param);
+                    }
+                }
+            );
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook triggerFunction(4) failed: " + e);
+        }
+    }
+
+    private void interceptPowerShortcutAction(String action, HookParam param) {
+        if (ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(action)) {
+            // 0.5s 语音/无感按压链路：仅吞掉，不退出固定应用。
+            param.setResult(true);
+            return;
+        }
+        if (!ACTION_LONG_PRESS_POWER_KEY.equals(action)) return;
+
+        // 3s 长按触发：沿用官方退出流程（stopSystemLockTaskMode）。
+        markPowerExitAndSuppressMenuWindow();
+        stopSystemLockTaskMode();
+        param.setResult(true);
+    }
+
+    private void hookSuppressPowerMenuAfterExit() {
+        Class<?> pwmClass = findClassIfExists(PHONE_WINDOW_MANAGER_CLASS);
+        if (pwmClass == null) return;
+
+        try {
+            hookAllMethods(pwmClass, "powerLongPress", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    if (isLock) {
+                        markPowerExitAndSuppressMenuWindow();
+                        stopSystemLockTaskMode();
+                        trySetPowerKeyHandled(param.getThisObject(), true);
+                        param.setResult(null);
+                        return;
+                    }
+                    if (!shouldSuppressPowerMenuOnce()) return;
+                    trySetPowerKeyHandled(param.getThisObject(), true);
+                    param.setResult(null);
+                }
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook powerLongPress failed: " + e);
+        }
+
+        try {
+            hookAllMethods(pwmClass, "showGlobalActions", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    if (!shouldSuppressPowerMenuOnce()) return;
+                    trySetPowerKeyHandled(param.getThisObject(), true);
+                    param.setResult(null);
+                }
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook showGlobalActions failed: " + e);
+        }
+
+        try {
+            hookAllMethods(pwmClass, "showGlobalActionsInternal", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    if (!shouldSuppressPowerMenuOnce()) return;
+                    trySetPowerKeyHandled(param.getThisObject(), true);
+                    param.setResult(null);
+                }
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook showGlobalActionsInternal failed: " + e);
+        }
+    }
+
+    private void trySetPowerKeyHandled(Object pwmObj, boolean handled) {
+        if (pwmObj == null) return;
+        try {
+            setBooleanField(pwmObj, "mPowerKeyHandled", handled);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private void markPowerExitAndSuppressMenuWindow() {
+        mLastPowerExitUptimeMs = SystemClock.uptimeMillis();
+    }
+
+    private boolean shouldSuppressPowerMenuOnce() {
+        long mark = mLastPowerExitUptimeMs;
+        if (mark <= 0) return false;
+        long now = SystemClock.uptimeMillis();
+        if (now - mark > SUPPRESS_POWER_MENU_AFTER_EXIT_MS) return false;
+        mLastPowerExitUptimeMs = 0L;
+        return true;
+    }
+
+    private void applyGestureLineShielding(Context context, boolean enteringLockTask) {
+        if (context == null) return;
+
+        if (!enteringLockTask) {
+            restoreGestureLineState(context);
+            return;
+        }
+
+        if (!PrefsBridge.getBoolean("system_framework_guided_access_status")) return;
+
+        try {
+            if (mGestureLineBeforeLock == null) {
+                mGestureLineBeforeLock = Settings.Global.getInt(
+                    context.getContentResolver(),
+                    SETTING_HIDE_GESTURE_LINE,
+                    HIDE_GESTURE_LINE_SHOW
+                );
+            }
+            Settings.Global.putInt(context.getContentResolver(), SETTING_HIDE_GESTURE_LINE, HIDE_GESTURE_LINE_HIDE);
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "applyGestureLineShielding E: " + e);
+        }
+    }
+
+    private void restoreGestureLineState(Context context) {
+        if (context == null) return;
+        if (mGestureLineBeforeLock == null) return;
+
+        try {
+            Settings.Global.putInt(context.getContentResolver(), SETTING_HIDE_GESTURE_LINE, mGestureLineBeforeLock);
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "restoreGestureLineState E: " + e);
+        } finally {
+            mGestureLineBeforeLock = null;
         }
     }
 
     public static void setLockApp(Context context, int id) {
-        Settings.Global.putInt(context.getContentResolver(), "key_lock_app", id);
+        Settings.Global.putInt(context.getContentResolver(), SETTING_KEY_LOCK_APP, id);
     }
 
     public int getLockApp(Context context) {
         try {
-            return Settings.Global.getInt(context.getContentResolver(), "key_lock_app");
+            return Settings.Global.getInt(context.getContentResolver(), SETTING_KEY_LOCK_APP);
         } catch (Settings.SettingNotFoundException e) {
             XposedLog.e(TAG, getPackageName(), "getInt hyceiler_lock_app E: " + e);
         }
         return -1;
     }
 
-    public int getMyLockScreen(Context context) {
+    private void stopSystemLockTaskMode() {
         try {
-            return Settings.Global.getInt(context.getContentResolver(), "exit_lock_app_screen");
-        } catch (Settings.SettingNotFoundException e) {
-            XposedLog.e(TAG, getPackageName(), "getMyLockScreen E will set " + e);
+            Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
+            if (activityTaskManager == null) {
+                XposedLog.w(TAG, "ActivityTaskManager class is null");
+                return;
+            }
+            Object service = callStaticMethod(activityTaskManager, "getService");
+            callMethod(service, "stopSystemLockTaskMode");
+        } catch (Throwable e) {
+            XposedLog.e(TAG, "Power hold exit lock task E: " + e);
         }
-        return 0;
     }
 }

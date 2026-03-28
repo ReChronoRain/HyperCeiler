@@ -45,17 +45,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Hareket çizgilerini gizleme</string>
     <string name="system_ui_hide_navigation_bar_more">Lütfen Sistem başlatıcısını ve Sistem arayüzü kapsamlarını yeniden başlatın</string>
     <string name="system_framework_guided_access_status">Uygulama sabit iken durum çubuğunu gizle</string>
-    <string name="system_framework_guided_access_status_more">Çıkış yolu güç düğmesine uzun basma olarak değişecek ve siz kilit modundan çıkana kadar durum çubuğu gizlenecektir.</string>
-    <string name="system_framework_guided_access_sc">Sabitlendiğinde kenar çubuğunu kilitle</string>
-    <string name="system_framework_guided_access_screen">Sabitleme kaldırıldığında Kilit ekranına atla</string>
+    <string name="system_framework_guided_access_status_more">Çıkış yolu güç düğmesine uzun basma olarak değişecek ve siz kilit modundan çıkana kadar durum çubuğu gizlenecektir</string>
     <string name="system_framework_guided_access">Sabit uygulamalar</string>
-    <string name="system_framework_guided_access_will_lock">Uygulamayı kilitlemek için uzun basın</string>
-    <string name="system_framework_guided_access_lock">Kilitli uygulama</string>
-    <string name="system_framework_guided_access_unlock">Kilidi açık uygulama</string>
-    <string name="system_framework_guided_access_will_unlock">Uygulamanın kilidini açmak için uzun basın</string>
-    <string name="system_framework_guided_access_r">Eski haline getir</string>
-    <string name="system_framework_guided_access_e">Lütfen kilitli uygulama arayüzünde kilidini açın</string>
-    <string name="system_framework_guided_access_more">iOS\'a benzer, geçerli uygulamayı ekrana sabitleyen Rehberli Erişim.\nKullanmak için üst durum çubuğuna basılı tutun; çıkmak için üst durum çubuğuna tekrar basılı tutun.\nİlk kez kullandığınızda cihazı yeniden başlatmanız gerekir.</string>
+    <string name="system_framework_guided_access_more">Kullanırken "System UI" kapsamını aynı anda etkinleştirmeniz gerekir</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s açık</string>
     <string name="quick_settings_state_change_message_off_my">%1$s kapalı</string>

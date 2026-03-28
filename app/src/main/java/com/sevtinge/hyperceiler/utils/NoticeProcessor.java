@@ -30,9 +30,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
-import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,6 +57,7 @@ public class NoticeProcessor {
     public static NoticeResult process(Context context) {
         try {
             String json = request(NOTICE_URL);
+            AndroidLog.i("NoticeProcessor", "Got notice.");
             if (json == null || json.isEmpty()) return null;
 
             Notice notice = parseNotice(new JSONObject(json));
@@ -64,6 +66,8 @@ public class NoticeProcessor {
             if (!checkNoticeValid(notice, context)) {
                 return null;
             }
+
+            AndroidLog.i("NoticeProcessor", "Notice is valid. Show notice.");
 
             // Package result
             return new NoticeResult(
@@ -74,7 +78,7 @@ public class NoticeProcessor {
             );
 
         } catch (Throwable t) {
-            AndroidLog.e("NoticeProcessor "+Log.getStackTraceString(t));
+            AndroidLog.e("NoticeProcessor", "Failed when request notice: " + Log.getStackTraceString(t));
             return null;
         }
     }
@@ -123,6 +127,8 @@ public class NoticeProcessor {
         n.miuiSmallVersion = toFloatList(obj.optJSONArray("miuiSmallVersion"));
         n.lang = toStringList(obj.optJSONArray("lang"));
 
+        AndroidLog.i("NoticeProcessor", "NoticeId = " + n.id);
+
         return n;
     }
 
@@ -164,7 +170,7 @@ public class NoticeProcessor {
         }
 
         // HyperCeiler language
-        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
+        int selectedLang = AppSettingsStore.getAppLanguageIndex(context);
         if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
         Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
         String lang = locale.toLanguageTag();

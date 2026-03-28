@@ -62,6 +62,7 @@
     <string name="help_cant_see_apps_switch_desc">您仍可以在“关于-帮助”找到此帮助，返回首页即可生效</string>
     <!-- Scope -->
     <string name="settings_scope">作用域</string>
+    <string name="settings_scope_extra">额外作用域</string>
     <string name="settings_scope_sync">作用域同步</string>
     <string name="settings_scope_sync_desc">首页列表的勾选状态会与作用域同步</string>
     <string name="scope_batch_no_changes">作用域没有变化</string>
@@ -88,6 +89,16 @@
     <string name="kill_2">查找进程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">软件名 kill</string>
+    <string name="development_kill_loading_data">加载数据，请稍后</string>
+    <string name="development_kill_resource_not_ready">资源尚未加载完毕，请稍后！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名错误或不存在，无法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名错误或不存在，请查证后输入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失败！</string>
+    <string name="development_kill_process_not_found">未找到当前包名有任何正在运行的进程！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">加载完毕</string>
+    <string name="development_kill_permission_not_granted">读取应用列表权限未授予，无法加载应用列表。</string>
     <string name="edit_out">获取结果</string>
     <string name="prefs_1">不存在此 Key:</string>
     <string name="prefs_2">成功移除 Key:</string>
@@ -138,6 +149,9 @@
     <string name="rest_title">恢复</string>
     <string name="rest_success">恢复成功</string>
     <string name="rest_success_message">请重启应用以使配置生效。</string>
+    <string name="rest_scope_authorize_title">作用域授权提示</string>
+    <string name="rest_scope_authorize_notice">检测到恢复配置包含新增作用域，请在接下来的 LSPosed 授权弹窗中允许：\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">以下作用域未在当前设备安装，已自动跳过：\n%1$s</string>
     <string name="rest_failed">恢复失败</string>
     <string name="backup_ask">您是否要写入备份？</string>
     <string name="backup_permission">现在您必须手动启用此选项的权限。</string>
@@ -971,6 +985,8 @@
     <string name="milink_unlock_mishare">解锁小米妙享</string>
     <string name="milink_unlock_send_app">解锁全部应用流转</string>
     <string name="milink_unlock_send_app_desc">需要额外勾选 "跨屏协同服务" 作用域</string>
+    <string name="milink_disable_pc_clipboard_region_check">关闭电脑管家剪贴板地区校验</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">修复电脑管家向手机或平板同步剪贴板时，因地区不一致被互联互通服务拦截</string>
     <string name="milink_allow_camera_devices">强制支持摄像头流转</string>
     <string name="milink_fuck_hpplay">阻止生成乐播投屏相关文件</string>
     <!--录音机-->
@@ -1061,6 +1077,10 @@
     <string name="home_gesture_up_swipe2_desc">在任意主屏幕双指上滑</string>
     <string name="home_gesture_down_swipe2">双指下滑</string>
     <string name="home_gesture_down_swipe2_desc">在任意主屏幕双指下滑</string>
+    <string name="home_gesture_line_long_press">手势提示线长按</string>
+    <string name="home_gesture_line_long_press_desc">长按手势提示线</string>
+    <string name="home_gesture_line_double_click">手势提示线双击</string>
+    <string name="home_gesture_line_double_click_desc">双击手势提示线</string>
     <string name="home_gesture_pinch">双指捏合</string>
     <string name="home_gesture_spread">双指扩展</string>
     <string name="home_gesture_swipe_and_stop">滑动并停止</string>

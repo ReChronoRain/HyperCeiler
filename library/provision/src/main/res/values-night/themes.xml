@@ -22,6 +22,7 @@
     <style name="ProvisionTheme" parent="@style/Theme.AppCompat.Dark">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
 
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>

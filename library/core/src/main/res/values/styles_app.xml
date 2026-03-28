@@ -29,11 +29,13 @@
 
     <style name="ActionBar.ShowTitle" parent="@style/Widget.ActionBar">
         <item name="android:displayOptions">showTitle</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="tabIndicator">@null</item>
     </style>
 
     <style name="ActionBar.ShowTitleAndBack" parent="@style/Widget.ActionBar">
         <item name="android:displayOptions">homeAsUp|showTitle</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="android:homeAsUpIndicator">@drawable/miuix_appcompat_action_bar_back_light</item>
     </style>
 
@@ -56,4 +58,28 @@
         <item name="strokeGradientColors">@array/my_card_stroke_gradient_colors_light</item>
         <item name="strokeWidth">0dp</item>
     </style>
+
+    <style name="Widget.AprilFoolsSlidingButton" parent="@style/Widget.SlidingButton.DayNight">
+        <item name="android:background">@drawable/miuix_appcompat_sliding_btn_bg_light</item>
+        <item name="android:layerType">hardware</item>
+        <item name="barOff">@drawable/miuix_appcompat_sliding_btn_bar_off_light</item>
+        <item name="barOn">@drawable/miuix_appcompat_aprilfools_sliding_btn_bar_on_light</item>
+        <item name="frame">@drawable/miuix_appcompat_sliding_btn_frame_light</item>
+        <item name="sliderOff">@drawable/miuix_appcompat_sliding_btn_slider_off_light</item>
+        <item name="sliderOn">@drawable/miuix_appcompat_sliding_btn_slider_on_light</item>
+        <item name="slidingBarColor">#fc5b8d</item>
+    </style>
+
+    <style name="Widget.AprilFoolsSlidingButton.Dark" parent="@style/Widget.SlidingButton.DayNight">
+        <item name="android:background">@drawable/miuix_appcompat_sliding_btn_bg_dark</item>
+        <item name="android:layerType">hardware</item>
+        <item name="barOff">@drawable/miuix_appcompat_sliding_btn_bar_off_dark</item>
+        <item name="barOn">@drawable/miuix_appcompat_aprilfools_sliding_btn_bar_on_dark</item>
+        <item name="frame">@drawable/miuix_appcompat_sliding_btn_frame_dark</item>
+        <item name="sliderOff">@drawable/miuix_appcompat_sliding_btn_slider_off_dark</item>
+        <item name="sliderOn">@drawable/miuix_appcompat_sliding_btn_slider_on_dark</item>
+        <item name="slidingBarColor">#fc5b8d</item>
+    </style>
+
+    <style name="Widget.AprilFoolsSlidingButton.DayNight"/>
 </resources>

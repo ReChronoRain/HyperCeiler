@@ -12,6 +12,8 @@ import androidx.preference.PreferenceFragmentCompat;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.about.AboutPageFragment;
 import com.sevtinge.hyperceiler.about.AboutSettingsFragment;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.shell.IResult;
 import com.sevtinge.hyperceiler.dashboard.base.ActivityCallback;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
@@ -23,6 +25,7 @@ import com.sevtinge.hyperceiler.home.widget.SwitchManager;
 import com.sevtinge.hyperceiler.home.widget.SwitchMediator;
 import com.sevtinge.hyperceiler.settings.SettingsFragment;
 import com.sevtinge.hyperceiler.settings.SettingsPageFragment;
+import com.sevtinge.hyperceiler.utils.PersistConfig;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.preference.PreferenceFragment;
@@ -45,13 +48,14 @@ public class HomePageActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (PersistConfig.isAprilFoolsThemeView) setTheme(R.style.HomePageAprilFoolsTheme);
         if (!OobeUtils.isProvisioned(this) && !OobeUtils.isDebugOobeMode(this)) {
             startActivity(new Intent(this, SplashActivity.class));
             finish();
             return;
         }
         // Activity 启动阶段，绑定 UI 任务（如签名校验弹窗、公告展示）
-        AppInitializer.initOnActivityCreate(this);
+        AppInitializer.initOnActivityCreate(this, this);
         setContentView(R.layout.activity_home);
         setupNavigation();
     }
@@ -59,14 +63,22 @@ public class HomePageActivity extends AppCompatActivity
     private void setupNavigation() {
         mSwitchManager = new SwitchManager(findViewById(R.id.container));
 
-        // 同步读取浮动样式设置，避免先创建底栏再切换样式造成闪烁
-        boolean isFloating = Settings.Global.getBoolean(getContentResolver(), "settings_float_nav", false);
+        boolean isFloating = AppSettingsStore.isFloatNavEnabled(this);
+
         NavigationStyle initialStyle = isFloating ? NavigationStyle.CAPSULE_ICON : NavigationStyle.BOTTOM_LABEL;
         mSwitchManager.addSwitchView(R.menu.bottom_nav_menu, initialStyle);
 
         // 后续变化通过 LiveData 监听
-        LiveData<Boolean> isFloatNavEnabled = Settings.Global.getBooleanLiveData(this, "settings_float_nav", false);
-        isFloatNavEnabled.observe(this, isEnabled -> mSwitchManager.setFloatingStyle(isEnabled));
+        LiveData<Boolean> isFloatNavEnabled = Settings.Global.getBooleanLiveData(
+            this,
+            AppSettingsStore.KEY_FLOAT_NAV,
+            false
+        );
+        isFloatNavEnabled.observe(this, isEnabled -> {
+            // Hook/备份链路仍依赖 prefs，保持镜像同步。
+            PrefsBridge.putByApp(AppSettingsStore.PREF_FLOAT_NAV, isEnabled);
+            mSwitchManager.setFloatingStyle(isEnabled);
+        });
 
         mContentAdapter = new HomeContentAdapter(this);
         mContentAdapter.addFragment(new HomePageFragment());

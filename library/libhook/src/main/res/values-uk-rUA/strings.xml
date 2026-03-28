@@ -57,17 +57,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Не приховувати лінії жестів</string>
     <string name="system_ui_hide_navigation_bar_more">Перезапустіть системний лаунчер і області System UI</string>
     <string name="system_framework_guided_access_status">Приховати рядок стану, коли додаток закріплено</string>
-    <string name="system_framework_guided_access_status_more">Спосіб виходу зміниться на тривале натискання кнопки живлення. Рядок стану буде приховано, доки ви не вийдете з режиму блокування.</string>
-    <string name="system_framework_guided_access_sc">Заблокувати бічну панель при закріпленні</string>
-    <string name="system_framework_guided_access_screen">Перейти на екран блокування при відкріпленні</string>
+    <string name="system_framework_guided_access_status_more">Спосіб виходу зміниться на тривале натискання кнопки живлення. Рядок стану буде приховано, доки ви не вийдете з режиму блокування</string>
     <string name="system_framework_guided_access">Закріплені додатки</string>
-    <string name="system_framework_guided_access_will_lock">Тривале натискання для блокування додатку</string>
-    <string name="system_framework_guided_access_lock">Додаток заблоковано</string>
-    <string name="system_framework_guided_access_unlock">Додаток розблоковано</string>
-    <string name="system_framework_guided_access_will_unlock">Тривале натискання для розблокування додатку</string>
-    <string name="system_framework_guided_access_r">Відновити</string>
-    <string name="system_framework_guided_access_e">Будь ласка, розблокуйте в інтерфейсі заблокованого додатку</string>
-    <string name="system_framework_guided_access_more">Guided Access подібний до iOS, закріплює поточний додаток на екрані.\nДля використання затисніть верхній рядок стану; для виходу — знову затисніть верхній рядок стану.\nПри першому використанні потрібно перезапустити пристрій.</string>
+    <string name="system_framework_guided_access_more">Під час використання потрібно одночасно ввімкнути область "System UI"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s увімкнено</string>
     <string name="quick_settings_state_change_message_off_my">%1$s вимкнено</string>

@@ -15,7 +15,7 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
@@ -227,7 +227,7 @@ public class SearchHelper {
         GROUP_ICON_MAP.clear();
     }
     private static Resources getLocaleResources(Context context) {
-        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
+        int selectedLang = AppSettingsStore.getAppLanguageIndex(context);
         if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
         Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
 

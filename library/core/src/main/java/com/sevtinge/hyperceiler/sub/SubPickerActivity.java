@@ -42,6 +42,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.sevtinge.hyperceiler.callback.IAppSelectCallback;
 import com.sevtinge.hyperceiler.callback.SearchCallback;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
@@ -77,6 +78,7 @@ public class SubPickerActivity extends AppCompatActivity
     public static final int ALL_APPS_MODE = 5;
     public static final int SCOPE_MODE = 6;
     public static final int LAUNCHER_PICK_MODE = 7;
+    private static final int REQUEST_GET_INSTALLED_APPS = 1202;
 
     private String mKey;
     private int mModeSelection;
@@ -231,6 +233,9 @@ public class SubPickerActivity extends AppCompatActivity
     }
 
     private void initializeData() {
+        if (!ensureInstalledAppsPermission()) {
+            return;
+        }
         mProgressBar.setVisibility(View.VISIBLE);
 
         ThreadUtils.postOnBackgroundThread(() -> {
@@ -268,6 +273,14 @@ public class SubPickerActivity extends AppCompatActivity
         }
         mProgressBar.setVisibility(View.GONE);
         Toast.makeText(this, getString(R.string.load_apps_failed), Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean ensureInstalledAppsPermission() {
+        if (PermissionUtils.canReadInstalledApps(this)) {
+            return true;
+        }
+        requestPermissions(new String[]{PermissionUtils.PERMISSION_GET_INSTALLED_APPS}, REQUEST_GET_INSTALLED_APPS);
+        return false;
     }
 
     private List<AppData> processAppData(List<AppData> data) {
@@ -430,6 +443,20 @@ public class SubPickerActivity extends AppCompatActivity
         mAppListAdapter.setData(mCurrentAppDataList);
         mSearchInputView.setHint(String.format(getString(R.string.search_apps_hint), mAppListAdapter.getData().size()));
         mAppListRecyclerView.scrollToPosition(0);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_GET_INSTALLED_APPS) {
+            return;
+        }
+        if (PermissionUtils.canReadInstalledApps(this)
+            || PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)) {
+            initializeData();
+            return;
+        }
+        showLoadAppsError();
     }
 
     @Override

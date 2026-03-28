@@ -57,17 +57,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Không ẩn thanh cử chỉ</string>
     <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại trình Khởi chạy hệ thống và các phạm vi Giao diện người dùng hệ thống</string>
     <string name="system_framework_guided_access_status">Ẩn thanh trạng thái khi ứng dụng được ghim</string>
-    <string name="system_framework_guided_access_status_more">Cách thoát sẽ thay đổi thành nhấn giữ nút nguồn. Thanh trạng thái sẽ ẩn cho đến khi bạn thoát khỏi chế độ khóa.</string>
-    <string name="system_framework_guided_access_sc">Khóa thanh bên khi được ghim</string>
-    <string name="system_framework_guided_access_screen">Chuyển đến Màn hình khóa khi gỡ ghim</string>
+    <string name="system_framework_guided_access_status_more">Cách thoát sẽ thay đổi thành nhấn giữ nút nguồn. Thanh trạng thái sẽ ẩn cho đến khi bạn thoát khỏi chế độ khóa</string>
     <string name="system_framework_guided_access">Ứng dụng đã cố định</string>
-    <string name="system_framework_guided_access_will_lock">Nhấn giữ để khóa ứng dụng</string>
-    <string name="system_framework_guided_access_lock">Ứng dụng bị khóa</string>
-    <string name="system_framework_guided_access_unlock">Đã mở khóa ứng dụng</string>
-    <string name="system_framework_guided_access_will_unlock">Nhấn giữ để mở khóa ứng dụng</string>
-    <string name="system_framework_guided_access_r">Khôi phục</string>
-    <string name="system_framework_guided_access_e">Vui lòng mở khóa trong giao diện ứng dụng bị khóa</string>
-    <string name="system_framework_guided_access_more">Truy cập được hướng dẫn tương tự như iOS, ghim ứng dụng hiện tại vào màn hình.\nĐể sử dụng, nhấn và giữ thanh trạng thái phía trên; để thoát, nhấn và giữ thanh trạng thái phía trên một lần nữa.\nLần đầu tiên bạn sử dụng, bạn cần khởi động lại thiết bị.</string>
+    <string name="system_framework_guided_access_more">Khi sử dụng, cần đồng thời bật phạm vi "System UI"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s đang bật</string>
     <string name="quick_settings_state_change_message_off_my">%1$s đang tắt</string>

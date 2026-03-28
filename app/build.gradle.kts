@@ -40,14 +40,14 @@ fun loadPropertiesFromFile(fileName: String): Properties? =
 
 android {
     namespace = "com.sevtinge.hyperceiler"
-    compileSdk = 36
-    compileSdkMinor = 1
-    buildToolsVersion = "36.1.0"
+    compileSdk = 37
+    compileSdkMinor = 0
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = namespace
         minSdk = 35
-        targetSdk = 36
+        targetSdk = 37
         versionCode = gitVersionCode
         versionName = "2.10.165"
 

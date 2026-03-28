@@ -321,10 +321,14 @@ class DualRowSignalHookV : MobileSignalHook() {
                     currentState.getBooleanField("enabled")
                 }.getOrDefault(true)
                 val signalStrength = currentState.getObjectField("signalStrength")
-                val rawLevel = runCatching {
-                    currentState.getIntField("level")
-                }.getOrElse {
-                    if (!connected) 0 else signalStrength?.callMethodAs<Int>("getMiuiLevel") ?: 0
+                val rawLevel = if (!connected) {
+                    0
+                } else {
+                    runCatching {
+                        signalStrength?.callMethodAs<Int>("getMiuiLevel") ?: 0
+                    }.getOrElse {
+                        runCatching { currentState.getIntField("level") }.getOrDefault(0)
+                    }
                 }
                 val mappedLevel = if (rawLevel >= 2) rawLevel + 1 else rawLevel
                 val previousLevel = simSignalLevels[subscriptionId] ?: 0

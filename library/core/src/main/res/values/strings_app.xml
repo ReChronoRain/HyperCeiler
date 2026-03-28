@@ -114,6 +114,7 @@
     <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Return to the homepage to apply.</string>
     <!-- Scope -->
     <string name="settings_scope">Scope</string>
+    <string name="settings_scope_extra">Additional scope</string>
     <string name="settings_scope_sync">Scope sync</string>
     <string name="settings_scope_sync_desc">Homepage selections will stay in sync with scope.</string>
     <string name="scope_batch_no_changes">No scope changes.</string>
@@ -139,6 +140,16 @@
     <string name="kill_2">Find process</string>
     <string name="kill_3">Package name kill</string>
     <string name="kill_4">Software name kill</string>
+    <string name="development_kill_loading_data">Loading app list. Please wait.</string>
+    <string name="development_kill_resource_not_ready">Resources are still loading. Please try again later.</string>
+    <string name="development_kill_process_header">PID:       Process:\n</string>
+    <string name="development_kill_package_invalid_for_find">Package name is invalid or doesn\'t exist. Unable to find it.\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">Package name is invalid or doesn\'t exist. Please check and try again.\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">Kill succeeded:\n</string>
+    <string name="development_kill_failed_with_pkg">Kill failed: %1$s</string>
+    <string name="development_kill_process_not_found">No running process found for this package.\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">Loading complete</string>
+    <string name="development_kill_permission_not_granted">Installed app list permission is not granted, unable to load app list.</string>
     <string name="edit_out">Get the results</string>
     <string name="edit_key">Enter a value for the key</string>
     <string name="prefs_1">This key doesn\'t exist: </string>
@@ -190,6 +201,9 @@
     <string name="rest_title">Recover</string>
     <string name="rest_success">Recovery succeeded</string>
     <string name="rest_success_message">Please restart the app for the configuration to take effect.</string>
+    <string name="rest_scope_authorize_title">Scope authorization required</string>
+    <string name="rest_scope_authorize_notice">New scopes were found in the restored config. Please approve them in the upcoming LSPosed authorization prompt:\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">These scopes are not installed on this device and were skipped:\n%1$s</string>
     <string name="rest_failed">Recovery failed</string>
     <string name="backup_ask">Do you want to write backups?</string>
     <string name="backup_permission">Now, you\'ve to manually enable permissions for this option.</string>
@@ -1033,6 +1047,8 @@
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="milink_unlock_send_app">Unlock all app transfers</string>
     <string name="milink_unlock_send_app_desc">Requires additionally checking the \"com.xiaomi.mirror\" scope</string>
+    <string name="milink_disable_pc_clipboard_region_check">Disable PC Manager clipboard region validation</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">Fixes PC to phone or tablet clipboard sync blocked by region mismatch</string>
     <string name="milink_allow_camera_devices">Force support for camera streaming</string>
     <string name="milink_fuck_hpplay">Block generate of hpplay folders</string>
     <!--Sound Recorder-->
@@ -1127,6 +1143,10 @@
     <string name="home_gesture_up_swipe2_desc">Swipe up with two fingers on any Home screen</string>
     <string name="home_gesture_down_swipe2">Swipe down with two fingers</string>
     <string name="home_gesture_down_swipe2_desc">Swipe down with two fingers on any Home screen</string>
+    <string name="home_gesture_line_long_press">Gesture line long press</string>
+    <string name="home_gesture_line_long_press_desc">Long press the gesture line</string>
+    <string name="home_gesture_line_double_click">Gesture line double click</string>
+    <string name="home_gesture_line_double_click_desc">Double click the gesture line</string>
     <string name="home_gesture_pinch">Pinch with two fingers</string>
     <string name="home_gesture_spread">Zoom with two fingers</string>
     <string name="home_gesture_swipe_and_stop">Swipe and stop</string>

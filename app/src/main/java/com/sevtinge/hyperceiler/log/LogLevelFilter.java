@@ -27,6 +27,7 @@ import com.sevtinge.hyperceiler.R;
 
 public enum LogLevelFilter {
     ALL("ALL", R.string.log_filter_all),
+    CRASH("C", R.string.log_level_crash),
     DEBUG("D", R.string.log_level_debug),
     INFO("I", R.string.log_level_info),
     WARN("W", R.string.log_level_warn),
