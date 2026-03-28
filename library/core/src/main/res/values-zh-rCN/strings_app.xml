@@ -89,6 +89,16 @@
     <string name="kill_2">查找进程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">软件名 kill</string>
+    <string name="development_kill_loading_data">加载数据，请稍后</string>
+    <string name="development_kill_resource_not_ready">资源尚未加载完毕，请稍后！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名错误或不存在，无法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名错误或不存在，请查证后输入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失败！</string>
+    <string name="development_kill_process_not_found">未找到当前包名有任何正在运行的进程！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">加载完毕</string>
+    <string name="development_kill_permission_not_granted">读取应用列表权限未授予，无法加载应用列表。</string>
     <string name="edit_out">获取结果</string>
     <string name="prefs_1">不存在此 Key:</string>
     <string name="prefs_2">成功移除 Key:</string>
