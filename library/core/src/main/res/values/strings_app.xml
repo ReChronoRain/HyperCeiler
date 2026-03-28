@@ -140,6 +140,16 @@
     <string name="kill_2">Find process</string>
     <string name="kill_3">Package name kill</string>
     <string name="kill_4">Software name kill</string>
+    <string name="development_kill_loading_data">Loading app list. Please wait.</string>
+    <string name="development_kill_resource_not_ready">Resources are still loading. Please try again later.</string>
+    <string name="development_kill_process_header">PID:       Process:\n</string>
+    <string name="development_kill_package_invalid_for_find">Package name is invalid or doesn\'t exist. Unable to find it.\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">Package name is invalid or doesn\'t exist. Please check and try again.\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">Kill succeeded:\n</string>
+    <string name="development_kill_failed_with_pkg">Kill failed: %1$s</string>
+    <string name="development_kill_process_not_found">No running process found for this package.\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">Loading complete</string>
+    <string name="development_kill_permission_not_granted">Installed app list permission is not granted, unable to load app list.</string>
     <string name="edit_out">Get the results</string>
     <string name="edit_key">Enter a value for the key</string>
     <string name="prefs_1">This key doesn\'t exist: </string>

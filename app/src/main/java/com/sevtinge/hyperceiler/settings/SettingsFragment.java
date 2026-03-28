@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.log.LogLevelManager;
 import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
+import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
@@ -77,6 +78,8 @@ public class SettingsFragment extends BasePreferenceFragment
     private int currentAction = -1;
     private static final int ACTION_BACKUP = 0;
     private static final int ACTION_RESTORE = 1;
+    private static final int REQUEST_GET_INSTALLED_APPS = 1204;
+    private Uri mPendingRestoreUri;
 
     private final ActivityResultLauncher<Intent> mBackupLauncher = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
@@ -366,6 +369,14 @@ public class SettingsFragment extends BasePreferenceFragment
                 );
                 return;
             }
+            if (!PermissionUtils.canReadInstalledApps(requireContext())) {
+                mPendingRestoreUri = uri;
+                requestPermissions(
+                    new String[]{PermissionUtils.PERMISSION_GET_INSTALLED_APPS},
+                    REQUEST_GET_INSTALLED_APPS
+                );
+                return;
+            }
 
             Set<String> currentSelected = ScopeManager.normalizeScopePackages(
                 HeaderManager.getCurrentScopeManagedPackages(requireContext())
@@ -500,5 +511,30 @@ public class SettingsFragment extends BasePreferenceFragment
             activity.finishAffinity();
         }
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_GET_INSTALLED_APPS) {
+            return;
+        }
+
+        Uri pendingRestoreUri = mPendingRestoreUri;
+        mPendingRestoreUri = null;
+        if (pendingRestoreUri == null) {
+            return;
+        }
+
+        if (PermissionUtils.canReadInstalledApps(requireContext())
+            || PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)) {
+            processRestore(pendingRestoreUri);
+            return;
+        }
+
+        showDialog(
+            getString(com.sevtinge.hyperceiler.core.R.string.rest_failed),
+            getString(com.sevtinge.hyperceiler.core.R.string.rest_permission)
+        );
     }
 }

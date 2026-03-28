@@ -86,6 +86,16 @@
     <string name="kill_2">尋找進程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">軟體名 kill</string>
+    <string name="development_kill_loading_data">載入資料，請稍候</string>
+    <string name="development_kill_resource_not_ready">資源尚未載入完成，請稍候！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名錯誤或不存在，無法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名錯誤或不存在，請查證後輸入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失敗！</string>
+    <string name="development_kill_process_not_found">未找到當前包名有任何正在執行的程序！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">載入完成</string>
+    <string name="development_kill_permission_not_granted">未授予讀取應用列表權限，無法載入應用列表。</string>
     <string name="edit_out">獲取結果</string>
     <string name="edit_key">輸入 Key 值</string>
     <string name="prefs_1">不存在此 Key:</string>

@@ -24,6 +24,7 @@
     <string name="provision_set_permission_later">You can set these necessary permissions later</string>
     <string name="provision_permission_internet">Allow connect to Internet</string>
     <string name="provision_permission_root">Allow operations as Root</string>
+    <string name="provision_permission_installed_apps">Allow reading installed app list</string>
     <string name="provision_permission_lsp">Activate in Xposed Manager</string>
     <string name="provision_terms_of_use_loading">Loading…</string>
     <string name="provision_terms_of_use_verification_code_tip">Your verification code is %1$s.</string>
