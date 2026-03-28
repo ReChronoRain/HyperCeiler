@@ -70,18 +70,14 @@
     <string name="system_ui_hide_navigation_bar_toast">Don\'t switch to button navigation</string>
     <string name="system_ui_hide_navigation_bar_toast_2">Don\'t hide gesture lines</string>
     <string name="system_ui_hide_navigation_bar_more">Please restart the System launcher and System UI scopes</string>
-    <string name="system_framework_guided_access_status">Hide status bar when the app is pinned</string>
-    <string name="system_framework_guided_access_status_more">The exit way will change to long press the power button. The status bar will hide until you exit the lock mode.</string>
-    <string name="system_framework_guided_access_sc">Lock sidebar when pinned</string>
-    <string name="system_framework_guided_access_screen">Jump to the Lock screen when unpinned</string>
+    <string name="system_framework_guided_access_status">Enhanced shielding</string>
+    <string name="system_framework_guided_access_status_more">When pinned, hide status bar and gesture line until unpinned</string>
+    <string name="system_framework_guided_access_tile">QS tile entry</string>
+    <string name="system_framework_guided_access_tile_more">Add a "Guided Access" QS tile entry</string>
+    <string name="system_framework_guided_access_exit_lockscreen">Go to lock screen after unpin</string>
+    <string name="system_framework_guided_access_exit_lockscreen_more">After exiting pinned mode, jump to lock screen</string>
     <string name="system_framework_guided_access">Fixed apps</string>
-    <string name="system_framework_guided_access_will_lock">Long press to lock app</string>
-    <string name="system_framework_guided_access_lock">Locked app</string>
-    <string name="system_framework_guided_access_unlock">Unlocked app</string>
-    <string name="system_framework_guided_access_will_unlock">Long press to unlock app</string>
-    <string name="system_framework_guided_access_r">Restore</string>
-    <string name="system_framework_guided_access_e">Please unlock it in the locked app interface</string>
-    <string name="system_framework_guided_access_more">Guided Access similar to iOS, which pins the current app to the screen.\nTo use, press and hold the upper status bar; to exit, press and hold the upper status bar again.\nThe first time you use it, you need to restart the device.</string>
+    <string name="system_framework_guided_access_more">Requires enabling the "System UI" scope while in use</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>

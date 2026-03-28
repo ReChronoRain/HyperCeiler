@@ -57,17 +57,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Não ocultar indicador de tela infinita</string>
     <string name="system_ui_hide_navigation_bar_more">Por favor, reinicie os escopos Launcher do sistema e UI do Sistema.</string>
     <string name="system_framework_guided_access_status">Ocultar barra de status quando o app estiver fixado</string>
-    <string name="system_framework_guided_access_status_more">A forma de saída mudará ao pressionar longamente o botão liga/desliga. A barra de status ficará oculta até que você saia do modo de bloqueio.</string>
-    <string name="system_framework_guided_access_sc">Bloquear barra lateral quando fixada</string>
-    <string name="system_framework_guided_access_screen">Pule para a Tela de bloqueio quando estiver desafixado</string>
+    <string name="system_framework_guided_access_status_more">A forma de saída mudará ao pressionar longamente o botão liga/desliga. A barra de status ficará oculta até que você saia do modo de bloqueio</string>
     <string name="system_framework_guided_access">Apps fixados</string>
-    <string name="system_framework_guided_access_will_lock">Pressione e segure para bloquear o app</string>
-    <string name="system_framework_guided_access_lock">App bloqueado</string>
-    <string name="system_framework_guided_access_unlock">App desbloqueado</string>
-    <string name="system_framework_guided_access_will_unlock">Pressione e segure para desbloquear o app</string>
-    <string name="system_framework_guided_access_r">Restaurar</string>
-    <string name="system_framework_guided_access_e">Por favor, desbloqueie-o na interface bloqueada do app.</string>
-    <string name="system_framework_guided_access_more">Acesso Guiado semelhante ao iOS que fixa o app atual na tela.\nPara usar, pressione e segure a barra de status superior e, se quiser sair, pressione e segure a barra de status superior novamente.\nNa primeira vez que você usá-lo, você precisa reiniciar o dispositivo.</string>
+    <string name="system_framework_guided_access_more">Ao usar, é necessário ativar simultaneamente o escopo "System UI"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s está ativado</string>
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>

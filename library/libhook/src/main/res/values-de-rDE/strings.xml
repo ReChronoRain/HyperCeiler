@@ -45,17 +45,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">Gestenlinien nicht verstecken</string>
     <string name="system_ui_hide_navigation_bar_more">Bitte starten Sie System Launcher und System UI neu (Geltungsbereiche)</string>
     <string name="system_framework_guided_access_status">Statusleiste ausblenden, wenn die App angepinnt ist</string>
-    <string name="system_framework_guided_access_status_more">Der Beendigungsmodus ändert sich zu langem Drücken des Power-Buttons. Die Statusleiste bleibt ausgeblendet, bis du den Sperrmodus verlässt.</string>
-    <string name="system_framework_guided_access_sc">Sidebar sperren wenn angepinnt</string>
-    <string name="system_framework_guided_access_screen">Springe zum Sperrbildschirm beim Entpinnen</string>
+    <string name="system_framework_guided_access_status_more">Der Beendigungsmodus ändert sich zu langem Drücken des Power-Buttons. Die Statusleiste bleibt ausgeblendet, bis du den Sperrmodus verlässt</string>
     <string name="system_framework_guided_access">Angepinnte Apps</string>
-    <string name="system_framework_guided_access_will_lock">Lange drücken, um App zu sperren</string>
-    <string name="system_framework_guided_access_lock">Gesperrte Apps</string>
-    <string name="system_framework_guided_access_unlock">Entsperrte Apps</string>
-    <string name="system_framework_guided_access_will_unlock">Lange drücken, um App zu entsperren</string>
-    <string name="system_framework_guided_access_r">Wiederherstellen</string>
-    <string name="system_framework_guided_access_e">Bitte in der gesperrten App-Oberfläche entsperren</string>
-    <string name="system_framework_guided_access_more">Geführter Zugriff, ähnlich wie bei iOS, der die aktuelle App an den Bildschirm \"anheftet\".\nZur Nutzung halten Sie die obere Statusleiste gedrückt; zum Beenden halten Sie die obere Statusleiste erneut gedrückt.\nBei der ersten Verwendung müssen Sie das Gerät neu starten.</string>
+    <string name="system_framework_guided_access_more">Bei Verwendung muss gleichzeitig der Bereich „System UI“ aktiviert sein</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s ist an</string>
     <string name="quick_settings_state_change_message_off_my">%1$s ist aus</string>

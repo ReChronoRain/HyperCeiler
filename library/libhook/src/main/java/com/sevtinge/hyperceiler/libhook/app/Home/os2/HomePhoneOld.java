@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.libhook.rules.home.DisablePrestart;
 import com.sevtinge.hyperceiler.libhook.rules.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.libhook.rules.home.HomePortraitReverse;
-import com.sevtinge.hyperceiler.libhook.rules.home.LockApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.MaxFreeForm;
 import com.sevtinge.hyperceiler.libhook.rules.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.home.SeekPoints;
@@ -264,7 +263,6 @@ public class HomePhoneOld extends BaseLoad {
         initHook(HideDock.INSTANCE, PrefsBridge.getBoolean("home_dock_hide_dock"));
 
         // 其他
-        initHook(new LockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), PrefsBridge.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(new InfiniteScroll(), PrefsBridge.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"))));

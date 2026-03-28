@@ -44,18 +44,14 @@
     <string name="system_ui_hide_navigation_bar_toast">不要切換到導航按鈕</string>
     <string name="system_ui_hide_navigation_bar_toast_2">不隱藏手勢提示線</string>
     <string name="system_ui_hide_navigation_bar_more">請重新啟動係統桌面惡系統界面作用域</string>
-    <string name="system_framework_guided_access_status">當應用程式被固定時隱藏狀態欄</string>
-    <string name="system_framework_guided_access_status_more">退出方式將改為長按電源鍵。狀態欄將隱藏，直到退出鎖定模式。</string>
-    <string name="system_framework_guided_access_sc">鎖定側邊欄</string>
-    <string name="system_framework_guided_access_screen">取消鎖定時跳轉到鎖定熒幕</string>
+    <string name="system_framework_guided_access_status">增強屏蔽</string>
+    <string name="system_framework_guided_access_status_more">固定期間隱藏狀態欄與手勢提示線，退出固定後自動恢復</string>
+    <string name="system_framework_guided_access_tile">添加磁貼</string>
+    <string name="system_framework_guided_access_tile_more">添加 “引導式訪問” 的磁貼入口</string>
+    <string name="system_framework_guided_access_exit_lockscreen">退出固定後進入鎖屏</string>
+    <string name="system_framework_guided_access_exit_lockscreen_more">退出固定後立即跳轉至鎖屏介面</string>
     <string name="system_framework_guided_access">修復應用程式</string>
-    <string name="system_framework_guided_access_will_lock">長按鎖定應用程式</string>
-    <string name="system_framework_guided_access_lock">鎖定應用程式</string>
-    <string name="system_framework_guided_access_unlock">解鎖應用程式</string>
-    <string name="system_framework_guided_access_will_unlock">長按解鎖應用程式</string>
-    <string name="system_framework_guided_access_r">重置</string>
-    <string name="system_framework_guided_access_e">請在鎖定的應用程式界面解鎖</string>
-    <string name="system_framework_guided_access_more">類似iOS的引導訪問，將當前應用程式固定在熒幕上。\n去使用，按住上方狀態欄；需要退出時，再次按住上方狀態欄。\n第一次使用時，需要重新啟動設備。</string>
+    <string name="system_framework_guided_access_more">使用時需要同時開啟 “系統界面” 作用域</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s為開啟</string>
     <string name="quick_settings_state_change_message_off_my">%1$s為關閉</string>

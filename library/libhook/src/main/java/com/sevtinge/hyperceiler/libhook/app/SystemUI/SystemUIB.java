@@ -50,6 +50,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.AutoC
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.FiveGTile;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.FixTilesList;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.GmsTile;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.GuidedAccessTile;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.NewFlashLight;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.ReduceBrightColorsTile;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles.SnowLeopardModeTile;
@@ -72,6 +73,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableMiuiMultiWin
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.NotificationFreeform;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.RemoveMiuiMultiWinSwitch;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.other.UiLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.UnlockClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.QSColor;
@@ -190,6 +192,9 @@ public class SystemUIB extends BaseLoad {
         initHook(new SnowLeopardModeTile(), PrefsBridge.getBoolean("system_ui_control_center_snow_leopard_mode"));
         initHook(new GmsTile(), PrefsBridge.getBoolean("security_center_gms_open"));
         initHook(new ReduceBrightColorsTile(), PrefsBridge.getBoolean("security_center_reduce_bright_colors_tile"));
+        initHook(new GuidedAccessTile(),
+            PrefsBridge.getBoolean("system_framework_guided_access")
+                && PrefsBridge.getBoolean("system_framework_guided_access_tile", true));
         initHook(NewFlashLight.INSTANCE, PrefsBridge.getStringAsInt("security_flash_light_switch", 0) != 0);
         initHook(new SunlightModeTile(),
             PrefsBridge.getStringAsInt("system_control_center_sunshine_new_mode_high", 0) != 0 ||
@@ -222,6 +227,7 @@ public class SystemUIB extends BaseLoad {
         initHook(RemoveMiuiMultiWinSwitch.INSTANCE, PrefsBridge.getBoolean("system_ui_remove_miui_multi_win_switch"));
         initHook(DisableBottomBar.INSTANCE, PrefsBridge.getBoolean("system_ui_disable_bottombar"));
         initHook(UnlockClipboard.INSTANCE, PrefsBridge.getBoolean("system_ui_unlock_clipboard"));
+        initHook(new UiLockApp(), PrefsBridge.getBoolean("system_framework_guided_access") && PrefsBridge.getBoolean("system_framework_guided_access_status"));
 
         initHook(new VolumeMediaSteps(), PrefsBridge.getBoolean("system_framework_volume_media_steps_enable"));
         if (PrefsBridge.getBoolean("misound_bluetooth")) {

@@ -75,6 +75,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.PstedClipbo
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.QuickScreenshot;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ScreenRotation;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.SpeedInstall;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.SystemLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ThermalBrightness;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeDefaultStream;
@@ -141,6 +142,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new LinkTurboToast(), PrefsBridge.getBoolean("system_framework_disable_link_turbo_toast"));
         initHook(new AllowUntrustedTouchForU(), PrefsBridge.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(DeleteOnPostNotification.INSTANCE, PrefsBridge.getBoolean("system_other_delete_on_post_notification"));
+        initHook(new SystemLockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new AllowManageAllNotifications(), PrefsBridge.getBoolean("system_framework_allow_manage_all_notifications"));
 
         // 其它-底层

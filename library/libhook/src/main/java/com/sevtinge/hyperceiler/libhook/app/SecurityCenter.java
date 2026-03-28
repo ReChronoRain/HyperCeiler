@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.NewPrivacyThumbnail
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.PowerSaver;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveOpenAppConfirmationPopup;
-import com.sevtinge.hyperceiler.libhook.rules.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.UnlockCarSicknessRelief;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AddAppInfoEntry;
@@ -148,7 +147,6 @@ public class SecurityCenter extends BaseLoad {
         initHook(new NewBoxBlur(), PrefsBridge.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, PrefsBridge.getBoolean("se_enable"));
         initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
-        initHook(new ScLockApp(), PrefsBridge.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), PrefsBridge.getBoolean("security_center_remove_macro_black_list"));
         initHook(RemoveGameToast.INSTANCE, PrefsBridge.getBoolean("security_center_remove_game_toast"));
         initHook(UnlockGunService.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_gun_service"));

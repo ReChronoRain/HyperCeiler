@@ -53,18 +53,14 @@
     <string name="system_ui_hide_navigation_bar_toast">請勿切換經典導航鍵</string>
     <string name="system_ui_hide_navigation_bar_toast_2">請勿隱藏手勢提示線</string>
     <string name="system_ui_hide_navigation_bar_more">請重新啟動 \"系統桌面\" 和 \"系統界面\" 兩個作用域</string>
-    <string name="system_framework_guided_access_status">固定時完全隱藏狀態欄</string>
-    <string name="system_framework_guided_access_status_more">將熒幕完全移交至應用程式，僅允許通過長按電源鍵退出</string>
-    <string name="system_framework_guided_access_sc">固定時禁止呼出側邊欄</string>
-    <string name="system_framework_guided_access_screen">解除固定時跳轉鎖定畫面</string>
+    <string name="system_framework_guided_access_status">增強屏蔽</string>
+    <string name="system_framework_guided_access_status_more">固定期間隱藏狀態欄與手勢提示線，退出固定後自動恢復</string>
+    <string name="system_framework_guided_access_tile">添加磁貼</string>
+    <string name="system_framework_guided_access_tile_more">添加 “引導式訪問” 的磁貼入口</string>
+    <string name="system_framework_guided_access_exit_lockscreen">退出固定後進入鎖屏</string>
+    <string name="system_framework_guided_access_exit_lockscreen_more">退出固定後立即跳轉至鎖屏介面</string>
     <string name="system_framework_guided_access">引導式訪問</string>
-    <string name="system_framework_guided_access_will_lock">继續長按以進入引導式訪問</string>
-    <string name="system_framework_guided_access_lock">已開啟引導式訪問</string>
-    <string name="system_framework_guided_access_unlock">已退出引導式訪問</string>
-    <string name="system_framework_guided_access_will_unlock">继續長按以退出引導式訪問</string>
-    <string name="system_framework_guided_access_r">引導式訪問超次還原</string>
-    <string name="system_framework_guided_access_e">當前應用程式不是進入引導式訪問時固定的應用程式，請在被固定應用程式界面退出引導式訪問</string>
-    <string name="system_framework_guided_access_more">長按狀態欄 1 秒以固定或取消固定當前應用程式</string>
+    <string name="system_framework_guided_access_more">使用時需要同時開啟 “系統界面” 作用域</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s已開啟</string>
     <string name="quick_settings_state_change_message_off_my">%1$s已關閉</string>

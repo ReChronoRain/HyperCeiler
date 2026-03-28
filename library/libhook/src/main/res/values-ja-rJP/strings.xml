@@ -57,17 +57,9 @@
     <string name="system_ui_hide_navigation_bar_toast_2">ジェスチャーラインを非表示にしない</string>
     <string name="system_ui_hide_navigation_bar_more">システムランチャーとシステム UI スコープの両方を再起動してください</string>
     <string name="system_framework_guided_access_status">アプリのピン留め時にステータスバーを非表示にする</string>
-    <string name="system_framework_guided_access_status_more">終了方法が電源ボタンの長押しに変わります。ステータスバーはロックモードを終了するまで非表示になります。</string>
-    <string name="system_framework_guided_access_sc">ピン留め時にサイドバーをロックする</string>
-    <string name="system_framework_guided_access_screen">ピン留めを解除する時にロック画面に移動する</string>
+    <string name="system_framework_guided_access_status_more">終了方法が電源ボタンの長押しに変わります。ステータスバーはロックモードを終了するまで非表示になります</string>
     <string name="system_framework_guided_access">アプリを固定</string>
-    <string name="system_framework_guided_access_will_lock">長押しでアプリをロック</string>
-    <string name="system_framework_guided_access_lock">ロックされたアプリ</string>
-    <string name="system_framework_guided_access_unlock">ロックされていないアプリ</string>
-    <string name="system_framework_guided_access_will_unlock">長押しでアプリのロックを解除</string>
-    <string name="system_framework_guided_access_r">戻す</string>
-    <string name="system_framework_guided_access_e">ロックされたアプリの画面からロックを解除してください</string>
-    <string name="system_framework_guided_access_more">現在のアプリを画面にピン留めする iOS のアクセスガイドのような機能です。\n使用するには上部のステータスバーを長押しします。終了するにはもう一度上部のステータスバーを長押しします。\n初回使用時はシステム再起動が必要です。</string>
+    <string name="system_framework_guided_access_more">使用時は「System UI」スコープを同時に有効にする必要があります</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s はオンです</string>
     <string name="quick_settings_state_change_message_off_my">%1$s はオフです</string>
