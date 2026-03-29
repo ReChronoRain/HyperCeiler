@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -105,6 +107,9 @@ public class UiLockApp extends BaseHook {
             hookTaskbarDelegateClass(className);
         }
         hookScreenPinningDialogBlock();
+        if (isPad()) {
+            hookLauncherProxyStopScreenPinning();
+        }
     }
 
     private void hookStatusBarWindowControllerClass(String className) {
@@ -268,6 +273,26 @@ public class UiLockApp extends BaseHook {
                 }
             });
         }
+    }
+
+    private void hookLauncherProxyStopScreenPinning() {
+        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        if (launcherProxyClass == null) return;
+
+        chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object[] args = chain.getArgs().toArray();
+                if (args.length > 0 && "stopScreenPinning".equals(args[0])) {
+                    Context context = resolveContext(chain.getThisObject());
+                    if (context != null && getLockApp(context) != -1) {
+                        XposedLog.d(TAG, "block LauncherProxyService.stopScreenPinning while locked");
+                        return null;
+                    }
+                }
+                return chain.proceed();
+            }
+        });
     }
 
     private void startSystemLockTaskModeByTaskId(Object callbacks, int taskId) {
@@ -517,6 +542,13 @@ public class UiLockApp extends BaseHook {
         try {
             Object context = getObjectField(target, "context");
             if (context instanceof Context) return (Context) context;
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object outer = getObjectField(target, "this$0");
+            if (outer != null && outer != target) {
+                return resolveContext(outer);
+            }
         } catch (Throwable ignored) {
         }
         return null;
