@@ -35,6 +35,8 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import java.lang.ref.WeakReference;
 
+import io.github.libxposed.api.XposedInterface;
+
 public class StatusBarActionBootstrap extends BaseHook {
     private static final String INTENT_CLEAR_MEMORY = "com.android.systemui.taskmanager.Clear";
     private static final String INTENT_SYSTEM_ACTION_RECENTS = "SYSTEM_ACTION_RECENTS";
@@ -48,15 +50,20 @@ public class StatusBarActionBootstrap extends BaseHook {
 
     @Override
     public void init() {
-        findAndChainMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start", chain -> {
-            Object result = chain.proceed();
-            Object statusBar = chain.getThisObject();
-            sStatusBarRef = new WeakReference<>(statusBar);
+        findAndChainMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start",
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    Object statusBar = chain.getThisObject();
+                    sStatusBarRef = new WeakReference<>(statusBar);
 
-            Context context = (Context) getObjectField(statusBar, "mContext");
-            registerReceiver(context);
-            return result;
-        });
+                    Context context = (Context) getObjectField(statusBar, "mContext");
+                    registerReceiver(context);
+                    return result;
+                }
+            }
+        );
     }
 
     private void registerReceiver(Context context) {

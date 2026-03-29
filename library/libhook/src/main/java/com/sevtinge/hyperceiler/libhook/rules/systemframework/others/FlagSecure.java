@@ -89,60 +89,82 @@ public class FlagSecure {
         }
     }
 
-    private final ChainHooker createDisplayHooker = chain -> {
-        Object[] args = chain.getArgs().toArray();
-        args[1] = true;
-        return chain.proceed(args);
-    };
-
-    private final ChainHooker screenCaptureHooker = chain -> {
-        var captureArgs = chain.getArg(0);
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && isAtLeastBaklava1()) {
-                captureSecureLayersField.set(captureArgs, 1);
-            } else {
-                captureSecureLayersField.set(captureArgs, true);
-            }
-        } catch (IllegalAccessException t) {
-            XposedLog.e(TAG, "system", "ScreenCaptureHooker failed", t);
+    private final ChainHooker createDisplayHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) throws Throwable {
+            Object[] args = chain.getArgs().toArray();
+            args[1] = true;
+            return chain.proceed(args);
         }
-        return chain.proceed();
     };
 
-    private final ChainHooker createVirtualDisplayLockedHooker = chain -> {
-        var caller = (int) chain.getArg(2);
-        if (caller >= 10000 && chain.getArg(1) == null) {
-            // not os and not media projection
+    private final ChainHooker screenCaptureHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) throws Throwable {
+            var captureArgs = chain.getArg(0);
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BAKLAVA && isAtLeastBaklava1()) {
+                    captureSecureLayersField.set(captureArgs, 1);
+                } else {
+                    captureSecureLayersField.set(captureArgs, true);
+                }
+            } catch (IllegalAccessException t) {
+                XposedLog.e(TAG, "system", "ScreenCaptureHooker failed", t);
+            }
             return chain.proceed();
         }
-        for (int i = 3; i < chain.getArgs().size(); i++) {
-            var arg = chain.getArg(i);
-            if (arg instanceof Integer) {
-                var flags = (int) arg;
-                flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
-                Object[] args = chain.getArgs().toArray();
-                args[i] = flags;
-                return chain.proceed(args);
+    };
+
+    private final ChainHooker createVirtualDisplayLockedHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) throws Throwable {
+            var caller = (int) chain.getArg(2);
+            if (caller >= 10000 && chain.getArg(1) == null) {
+                // not os and not media projection
+                return chain.proceed();
             }
+            for (int i = 3; i < chain.getArgs().size(); i++) {
+                var arg = chain.getArg(i);
+                if (arg instanceof Integer) {
+                    var flags = (int) arg;
+                    flags |= DisplayManager.VIRTUAL_DISPLAY_FLAG_SECURE;
+                    Object[] args = chain.getArgs().toArray();
+                    args[i] = flags;
+                    return chain.proceed(args);
+                }
+            }
+            XposedLog.e(TAG, "system", "flag not found in CreateVirtualDisplayLockedHooker");
+            return chain.proceed();
         }
-        XposedLog.e(TAG, "system", "flag not found in CreateVirtualDisplayLockedHooker");
-        return chain.proceed();
     };
 
-    private final ChainHooker secureLockedHooker = chain -> {
-        var walker = StackWalker.getInstance();
-        var match = walker.walk(frames -> frames
-            .map(StackWalker.StackFrame::getMethodName)
-            .limit(10)
-            .skip(6)
-            .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
-        if (match) return chain.proceed();
-        return false;
+    private final ChainHooker secureLockedHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) throws Throwable {
+            var walker = StackWalker.getInstance();
+            var match = walker.walk(frames -> frames
+                .map(StackWalker.StackFrame::getMethodName)
+                .limit(10)
+                .skip(6)
+                .anyMatch(s -> s.equals("setInitialSurfaceControlProperties") || s.equals("createSurfaceLocked")));
+            if (match) return chain.proceed();
+            return false;
+        }
     };
 
-    private final ChainHooker returnFalseHooker = chain -> false;
+    private final ChainHooker returnFalseHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) {
+            return false;
+        }
+    };
 
-    private final ChainHooker returnNullHooker = chain -> null;
+    private final ChainHooker returnNullHooker = new ChainHooker() {
+        @Override
+        public Object intercept(XposedInterface.Chain chain) {
+            return null;
+        }
+    };
 
     private void deoptimizeSystemServer(ClassLoader classLoader) throws ClassNotFoundException {
         deoptimizeMethods(
@@ -234,7 +256,12 @@ public class FlagSecure {
     }
 
     private void hook(Method method, ChainHooker hooker) {
-        EzxHelpUtils.chain(method, hooker::intercept);
+        EzxHelpUtils.chain(method, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                return hooker.intercept(chain);
+            }
+        });
     }
 
     private static boolean isAtLeastBaklava1() {

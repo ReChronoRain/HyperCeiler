@@ -175,31 +175,40 @@ internal object EzxHookHelper {
     ): XposedInterface.HookHandle =
         HookFactory.hook(priority = priority, ctor = constructor, exceptionMode = exceptionMode, hooker = hooker)
 
+    private fun splitChainArgs(args: Array<out Any>): Pair<Array<out Any>, XposedInterface.Hooker> {
+        require(args.isNotEmpty()) { "args must contain at least XposedInterface.Hooker" }
+        val last = args.last()
+        require(last is XposedInterface.Hooker) { "Last argument must be XposedInterface.Hooker" }
+        return args.copyOfRange(0, args.size - 1) to last
+    }
+
     fun findAndChainMethod(
         clazz: Class<*>,
         methodName: String,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
-    ): XposedInterface.HookHandle = chain(resolveChainMethod(clazz, methodName, *args), hooker)
+    ): XposedInterface.HookHandle {
+        val (parameterTypes, hooker) = splitChainArgs(args)
+        return chain(resolveChainMethod(clazz, methodName, *parameterTypes), hooker)
+    }
 
     fun findAndChainMethod(
         clazz: Class<*>,
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
-    ): XposedInterface.HookHandle =
-        chain(resolveChainMethod(clazz, methodName, *args), priority, exceptionMode, hooker)
+    ): XposedInterface.HookHandle {
+        val (parameterTypes, hooker) = splitChainArgs(args)
+        return chain(resolveChainMethod(clazz, methodName, *parameterTypes), priority, exceptionMode, hooker)
+    }
 
     fun findAndChainMethod(
         clazzName: String,
         methodName: String,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
-        return findAndChainMethod(clazz, methodName, hooker, *args)
+        return findAndChainMethod(clazz, methodName, *args)
     }
 
     fun findAndChainMethod(
@@ -207,22 +216,20 @@ internal object EzxHookHelper {
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
-        return findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, *args)
+        return findAndChainMethod(clazz, methodName, priority, exceptionMode, *args)
     }
 
     fun findAndChainMethod(
         clazzName: String,
         classLoader: ClassLoader,
         methodName: String,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
-        return findAndChainMethod(clazz, methodName, hooker, *args)
+        return findAndChainMethod(clazz, methodName, *args)
     }
 
     fun findAndChainMethod(
@@ -231,56 +238,55 @@ internal object EzxHookHelper {
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
-        return findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, *args)
+        return findAndChainMethod(clazz, methodName, priority, exceptionMode, *args)
     }
 
     fun findAndChainConstructor(
         clazz: Class<*>,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
-    ): XposedInterface.HookHandle = chain(resolveChainConstructor(clazz, *args), hooker)
+    ): XposedInterface.HookHandle {
+        val (parameterTypes, hooker) = splitChainArgs(args)
+        return chain(resolveChainConstructor(clazz, *parameterTypes), hooker)
+    }
 
     fun findAndChainConstructor(
         clazz: Class<*>,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
-    ): XposedInterface.HookHandle =
-        chain(resolveChainConstructor(clazz, *args), priority, exceptionMode, hooker)
+    ): XposedInterface.HookHandle {
+        val (parameterTypes, hooker) = splitChainArgs(args)
+        return chain(resolveChainConstructor(clazz, *parameterTypes), priority, exceptionMode, hooker)
+    }
 
     fun findAndChainConstructor(
         clazzName: String,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
-        return findAndChainConstructor(clazz, hooker, *args)
+        return findAndChainConstructor(clazz, *args)
     }
 
     fun findAndChainConstructor(
         clazzName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, safeClassLoader)
-        return findAndChainConstructor(clazz, priority, exceptionMode, hooker, *args)
+        return findAndChainConstructor(clazz, priority, exceptionMode, *args)
     }
 
     fun findAndChainConstructor(
         clazzName: String,
         classLoader: ClassLoader,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
-        return findAndChainConstructor(clazz, hooker, *args)
+        return findAndChainConstructor(clazz, *args)
     }
 
     fun findAndChainConstructor(
@@ -288,11 +294,10 @@ internal object EzxHookHelper {
         classLoader: ClassLoader,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: XposedInterface.Hooker,
         vararg args: Any
     ): XposedInterface.HookHandle {
         val clazz = EzxClassHelper.findClass(clazzName, classLoader)
-        return findAndChainConstructor(clazz, priority, exceptionMode, hooker, *args)
+        return findAndChainConstructor(clazz, priority, exceptionMode, *args)
     }
 
     fun chainAllMethods(
