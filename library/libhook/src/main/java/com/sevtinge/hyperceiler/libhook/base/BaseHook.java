@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -256,8 +257,34 @@ public abstract class BaseHook {
         return EzxHelpUtils.chain(constructor, priority, exceptionMode, hooker);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(Class<?> clazz, String methodName, XposedInterface.Hooker hooker, Object... args) {
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, hooker, args);
+    /**
+     * 查找并 Chain Hook 方法
+     * <p>
+     * 最后一个参数必须是 {@link XposedInterface.Hooker}，前面的参数是参数类型
+     */
+    public XposedInterface.HookHandle findAndChainMethod(Class<?> clazz, String methodName, Object... args) {
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainMethod(
+        Class<?> clazz,
+        String methodName,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        Object... args
+    ) {
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainMethod(
+        Class<?> clazz,
+        String methodName,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, argsAndHook);
     }
 
     public XposedInterface.HookHandle findAndChainMethod(
@@ -268,16 +295,49 @@ public abstract class BaseHook {
         XposedInterface.Hooker hooker,
         Object... args
     ) {
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, args);
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(String className, String methodName, XposedInterface.Hooker hooker, Object... args) {
+    public XposedInterface.HookHandle findAndChainMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
             XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, hooker, args);
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainMethod(
+        String className,
+        String methodName,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            return null;
+        }
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainMethod(
+        String className,
+        String methodName,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            return null;
+        }
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, argsAndHook);
     }
 
     public XposedInterface.HookHandle findAndChainMethod(
@@ -293,11 +353,37 @@ public abstract class BaseHook {
             XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, args);
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(Class<?> clazz, XposedInterface.Hooker hooker, Object... args) {
-        return EzxHelpUtils.findAndChainConstructor(clazz, hooker, args);
+    /**
+     * 查找并 Chain Hook 构造器
+     * <p>
+     * 最后一个参数必须是 {@link XposedInterface.Hooker}，前面的参数是参数类型
+     */
+    public XposedInterface.HookHandle findAndChainConstructor(Class<?> clazz, Object... args) {
+        return EzxHelpUtils.findAndChainConstructor(clazz, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainConstructor(
+        Class<?> clazz,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        Object... args
+    ) {
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainConstructor(
+        Class<?> clazz,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainConstructor(clazz, argsAndHook);
     }
 
     public XposedInterface.HookHandle findAndChainConstructor(
@@ -307,16 +393,47 @@ public abstract class BaseHook {
         XposedInterface.Hooker hooker,
         Object... args
     ) {
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, hooker, args);
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(String className, XposedInterface.Hooker hooker, Object... args) {
+    public XposedInterface.HookHandle findAndChainConstructor(String className, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
             XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainConstructor(clazz, hooker, args);
+        return EzxHelpUtils.findAndChainConstructor(clazz, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainConstructor(
+        String className,
+        int priority,
+        XposedInterface.ExceptionMode exceptionMode,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            return null;
+        }
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, args);
+    }
+
+    public XposedInterface.HookHandle findAndChainConstructor(
+        String className,
+        XposedInterface.Hooker hooker,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            return null;
+        }
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainConstructor(clazz, argsAndHook);
     }
 
     public XposedInterface.HookHandle findAndChainConstructor(
@@ -331,7 +448,9 @@ public abstract class BaseHook {
             XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, hooker, args);
+        Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
+        argsAndHook[args.length] = hooker;
+        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, argsAndHook);
     }
 
     public Set<XposedInterface.HookHandle> chainAllMethods(Class<?> clazz, String methodName, XposedInterface.Hooker hooker) {

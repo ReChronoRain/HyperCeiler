@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.libxposed.api.XposedInterface;
+
 public class ModulePackageTrust extends BaseHook {
     private final ArrayList<String> systemPackages = new ArrayList<>();
 
@@ -39,63 +41,78 @@ public class ModulePackageTrust extends BaseHook {
 
         chainAllMethods("com.android.server.pm.permission.PermissionManagerServiceImpl",
             "shouldGrantPermissionBySignature",
-            chain -> {
-                String packageName = (String) callMethod(chain.getArg(0), "getPackageName");
-                if (systemPackages.contains(packageName)) {
-                    return true;
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    String packageName = (String) callMethod(chain.getArg(0), "getPackageName");
+                    if (systemPackages.contains(packageName)) {
+                        return true;
+                    }
+                    return chain.proceed();
                 }
-                return chain.proceed();
             });
 
         chainAllMethods("com.android.server.pm.PackageManagerServiceUtils",
             "verifySignatures",
-            chain -> {
-                String packageName = (String) callMethod(chain.getArg(0), "getName");
-                if (systemPackages.contains(packageName)) {
-                    return true;
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    String packageName = (String) callMethod(chain.getArg(0), "getName");
+                    if (systemPackages.contains(packageName)) {
+                        return true;
+                    }
+                    return chain.proceed();
                 }
-                return chain.proceed();
             });
 
         chainAllMethods("com.android.server.pm.ComputerEngine",
             "queryIntentActivitiesInternal",
-            chain -> {
-                Object result = chain.proceed();
-                if (chain.getArgs().size() < 6 || !(result instanceof List<?>)) {
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    if (chain.getArgs().size() < 6 || !(result instanceof List<?>)) {
+                        return result;
+                    }
+                    List<?> infos = (List<?>) result;
+                    for (Object item : infos) {
+                        if (!(item instanceof ResolveInfo)) {
+                            continue;
+                        }
+                        ResolveInfo info = (ResolveInfo) item;
+                        if (info.activityInfo == null) {
+                            continue;
+                        }
+                        if (systemPackages.contains(info.activityInfo.packageName)) {
+                            setObjectField(info, "system", true);
+                        }
+                    }
                     return result;
                 }
-                List<?> infos = (List<?>) result;
-                for (Object item : infos) {
-                    if (!(item instanceof ResolveInfo)) {
-                        continue;
-                    }
-                    ResolveInfo info = (ResolveInfo) item;
-                    if (info.activityInfo == null) {
-                        continue;
-                    }
-                    if (systemPackages.contains(info.activityInfo.packageName)) {
-                        setObjectField(info, "system", true);
-                    }
-                }
-                return result;
             });
 
-        findAndChainMethod("android.content.pm.ApplicationInfo", "isSystemApp", chain -> {
-            Object result = chain.proceed();
-            ApplicationInfo applicationInfo = (ApplicationInfo) chain.getThisObject();
-            if (applicationInfo != null && systemPackages.contains(applicationInfo.packageName)) {
-                return true;
+        findAndChainMethod("android.content.pm.ApplicationInfo", "isSystemApp", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                ApplicationInfo applicationInfo = (ApplicationInfo) chain.getThisObject();
+                if (applicationInfo != null && systemPackages.contains(applicationInfo.packageName)) {
+                    return true;
+                }
+                return result;
             }
-            return result;
         });
 
-        findAndChainMethod("android.content.pm.ApplicationInfo", "isSignedWithPlatformKey", chain -> {
-            Object result = chain.proceed();
-            ApplicationInfo applicationInfo = (ApplicationInfo) chain.getThisObject();
-            if (applicationInfo != null && systemPackages.contains(applicationInfo.packageName)) {
-                return true;
+        findAndChainMethod("android.content.pm.ApplicationInfo", "isSignedWithPlatformKey", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                ApplicationInfo applicationInfo = (ApplicationInfo) chain.getThisObject();
+                if (applicationInfo != null && systemPackages.contains(applicationInfo.packageName)) {
+                    return true;
+                }
+                return result;
             }
-            return result;
         });
 
         try {

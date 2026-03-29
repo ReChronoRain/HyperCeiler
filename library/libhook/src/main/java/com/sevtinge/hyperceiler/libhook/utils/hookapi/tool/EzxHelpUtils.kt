@@ -539,15 +539,21 @@ object EzxHelpUtils {
         priority: Int = XposedInterface.PRIORITY_DEFAULT,
         exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
         block: (XposedInterface.Chain) -> Any?
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazz, methodName, priority, exceptionMode, chainHooker(block), *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(
+        clazz,
+        methodName,
+        priority,
+        exceptionMode,
+        *args,
+        chainHooker(block)
+    )
 
     @JvmStatic
     fun findAndChainMethod(
         clazz: Class<*>,
         methodName: String,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazz, methodName, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(clazz, methodName, *args)
 
     @JvmStatic
     fun findAndChainMethod(
@@ -555,9 +561,8 @@ object EzxHelpUtils {
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazz, methodName, priority, exceptionMode, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(clazz, methodName, priority, exceptionMode, *args)
 
     @JvmSynthetic
     fun findAndChainMethod(
@@ -572,17 +577,16 @@ object EzxHelpUtils {
         methodName,
         priority,
         exceptionMode,
-        chainHooker(block),
-        *args
+        *args,
+        chainHooker(block)
     )
 
     @JvmStatic
     fun findAndChainMethod(
         clazzName: String,
         methodName: String,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, methodName, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, methodName, *args)
 
     @JvmStatic
     fun findAndChainMethod(
@@ -590,9 +594,8 @@ object EzxHelpUtils {
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, methodName, priority, exceptionMode, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, methodName, priority, exceptionMode, *args)
 
     @JvmSynthetic
     fun findAndChainMethod(
@@ -609,8 +612,8 @@ object EzxHelpUtils {
         methodName,
         priority,
         exceptionMode,
-        chainHooker(block),
-        *args
+        *args,
+        chainHooker(block)
     )
 
     @JvmStatic
@@ -618,9 +621,8 @@ object EzxHelpUtils {
         clazzName: String,
         classLoader: ClassLoader,
         methodName: String,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, classLoader, methodName, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainMethod(clazzName, classLoader, methodName, *args)
 
     @JvmStatic
     fun findAndChainMethod(
@@ -629,7 +631,6 @@ object EzxHelpUtils {
         methodName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
     ): HookHandle = EzxHookHelper.findAndChainMethod(
         clazzName,
@@ -637,7 +638,6 @@ object EzxHelpUtils {
         methodName,
         priority,
         exceptionMode,
-        hooker,
         *args
     )
 
@@ -648,23 +648,27 @@ object EzxHelpUtils {
         priority: Int = XposedInterface.PRIORITY_DEFAULT,
         exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
         block: (XposedInterface.Chain) -> Any?
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazz, priority, exceptionMode, chainHooker(block), *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(
+        clazz,
+        priority,
+        exceptionMode,
+        *args,
+        chainHooker(block)
+    )
 
     @JvmStatic
     fun findAndChainConstructor(
         clazz: Class<*>,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazz, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazz, *args)
 
     @JvmStatic
     fun findAndChainConstructor(
         clazz: Class<*>,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazz, priority, exceptionMode, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazz, priority, exceptionMode, *args)
 
     @JvmSynthetic
     fun findAndChainConstructor(
@@ -677,25 +681,23 @@ object EzxHelpUtils {
         clazzName,
         priority,
         exceptionMode,
-        chainHooker(block),
-        *args
+        *args,
+        chainHooker(block)
     )
 
     @JvmStatic
     fun findAndChainConstructor(
         clazzName: String,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, *args)
 
     @JvmStatic
     fun findAndChainConstructor(
         clazzName: String,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, priority, exceptionMode, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, priority, exceptionMode, *args)
 
     @JvmSynthetic
     fun findAndChainConstructor(
@@ -710,17 +712,16 @@ object EzxHelpUtils {
         classLoader,
         priority,
         exceptionMode,
-        chainHooker(block),
-        *args
+        *args,
+        chainHooker(block)
     )
 
     @JvmStatic
     fun findAndChainConstructor(
         clazzName: String,
         classLoader: ClassLoader,
-        hooker: Hooker,
         vararg args: Any
-    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, classLoader, hooker, *args)
+    ): HookHandle = EzxHookHelper.findAndChainConstructor(clazzName, classLoader, *args)
 
     @JvmStatic
     fun findAndChainConstructor(
@@ -728,14 +729,12 @@ object EzxHelpUtils {
         classLoader: ClassLoader,
         priority: Int,
         exceptionMode: XposedInterface.ExceptionMode,
-        hooker: Hooker,
         vararg args: Any
     ): HookHandle = EzxHookHelper.findAndChainConstructor(
         clazzName,
         classLoader,
         priority,
         exceptionMode,
-        hooker,
         *args
     )
 
