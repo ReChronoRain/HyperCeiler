@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.camera
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.json.JSONObject
@@ -29,11 +30,19 @@ import java.lang.reflect.Modifier
 
 // thank HolyBear
 object CloudWatermark : BaseHook() {
+
+    val is63Camera by lazy {
+        getPackageVersionCode(lpparam) >= 630000000
+    }
+
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        cloudOld
-        cloudMethod
+        if (is63Camera) {
+            cloudMethod
+        } else {
+            cloudOld
+        }
         cloudDelete
         return true
     }
