@@ -181,4 +181,5 @@
     <string name="log_level_general">一般日誌</string>
     <string name="log_level_detailed">詳細日誌</string>
     <string name="log_menu_filter">篩選日誌</string>
+    <string name="load_failed">載入失敗。</string>
 </resources>
