@@ -71,7 +71,7 @@
     <string name="system_framework_guided_access_exit_lockscreen">退出固定后进入锁屏</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">退出固定后立即跳转锁屏界面</string>
     <string name="system_framework_guided_access">引导式访问</string>
-    <string name="system_framework_guided_access_more">使用时需要同时开启 “系统界面” 作用域</string>
+    <string name="system_framework_guided_access_more">使用时需要同时开启 “系统界面”、“系统桌面” 作用域</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s已开启</string>
     <string name="quick_settings_state_change_message_off_my">%1$s已关闭</string>

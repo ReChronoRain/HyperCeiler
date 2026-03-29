@@ -59,7 +59,7 @@
     <string name="system_framework_guided_access_status">Приховати рядок стану, коли додаток закріплено</string>
     <string name="system_framework_guided_access_status_more">Спосіб виходу зміниться на тривале натискання кнопки живлення. Рядок стану буде приховано, доки ви не вийдете з режиму блокування</string>
     <string name="system_framework_guided_access">Закріплені додатки</string>
-    <string name="system_framework_guided_access_more">Під час використання потрібно одночасно ввімкнути область "System UI"</string>
+    <string name="system_framework_guided_access_more">Під час використання потрібно одночасно ввімкнути області "System UI" та "System launcher"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s увімкнено</string>
     <string name="quick_settings_state_change_message_off_my">%1$s вимкнено</string>

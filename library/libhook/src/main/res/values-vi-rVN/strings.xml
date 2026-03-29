@@ -59,7 +59,7 @@
     <string name="system_framework_guided_access_status">Ẩn thanh trạng thái khi ứng dụng được ghim</string>
     <string name="system_framework_guided_access_status_more">Cách thoát sẽ thay đổi thành nhấn giữ nút nguồn. Thanh trạng thái sẽ ẩn cho đến khi bạn thoát khỏi chế độ khóa</string>
     <string name="system_framework_guided_access">Ứng dụng đã cố định</string>
-    <string name="system_framework_guided_access_more">Khi sử dụng, cần đồng thời bật phạm vi "System UI"</string>
+    <string name="system_framework_guided_access_more">Khi sử dụng, cần đồng thời bật phạm vi "System UI" và "System launcher"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s đang bật</string>
     <string name="quick_settings_state_change_message_off_my">%1$s đang tắt</string>

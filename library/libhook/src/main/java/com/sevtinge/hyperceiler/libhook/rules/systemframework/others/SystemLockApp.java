@@ -21,16 +21,17 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
 
 import android.content.Context;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
+import android.view.WindowInsets;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * @author 焕晨HChen
@@ -38,6 +39,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 public class SystemLockApp extends BaseHook {
     private static final long POWER_HOLD_EXIT_MS = 3000L;
     private static final long SUPPRESS_POWER_MENU_AFTER_EXIT_MS = 1500L;
+    private static final long TRANSIENT_BLOCK_LOG_INTERVAL_MS = 1200L;
 
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
     private static final String SETTING_HIDE_GESTURE_LINE = "hide_gesture_line";
@@ -48,6 +50,8 @@ public class SystemLockApp extends BaseHook {
     private static final String MIUI_POLICY_CLASS = "com.android.server.policy.BaseMiuiPhoneWindowManager";
     private static final String PHONE_WINDOW_MANAGER_CLASS = "com.android.server.policy.PhoneWindowManager";
     private static final String MIUI_SHORTCUT_ACTIONS_CLASS = "com.miui.server.input.util.ShortCutActionsUtils";
+    private static final String INSETS_POLICY_CLASS = "com.android.server.wm.InsetsPolicy";
+    private static final String DISPLAY_POLICY_CLASS = "com.android.server.wm.DisplayPolicy";
 
     private static final String ACTION_LONG_PRESS_POWER_KEY = "long_press_power_key";
     private static final String ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY = "imperceptible_press_power_key";
@@ -55,87 +59,91 @@ public class SystemLockApp extends BaseHook {
     private Integer mGestureLineBeforeLock = null;
     boolean isLock = false;
     private volatile long mLastPowerExitUptimeMs = 0L;
+    private volatile long mLastTransientBlockLogUptimeMs = 0L;
 
     @Override
     public void init() {
-        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
-                "startSystemLockTaskMode",
-                new IMethodHook() {
-                    @Override
-                    public void after(HookParam param) {
-                        try {
-                            Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                            if (context == null) return;
+        chainAllMethods("com.android.server.wm.ActivityTaskManagerService",
+            "startSystemLockTaskMode",
+            chain -> {
+                Object result = chain.proceed();
+                long identity = Binder.clearCallingIdentity();
+                try {
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    if (context == null) return result;
 
-                            int lockTaskId = -1;
-                            if (param.getArgs().length > 0 && param.getArgs()[0] instanceof Integer) {
-                                lockTaskId = (int) param.getArgs()[0];
-                            }
-
-                            isLock = lockTaskId != -1;
-                            setLockApp(context, lockTaskId);
-                            applyGestureLineShielding(context, true);
-                        } catch (Throwable e) {
-                            XposedLog.e(TAG, "startSystemLockTaskMode E: " + e);
-                        }
+                    int lockTaskId = -1;
+                    if (!chain.getArgs().isEmpty() && chain.getArg(0) instanceof Integer) {
+                        lockTaskId = (int) chain.getArg(0);
                     }
+
+                    isLock = lockTaskId != -1;
+                    mLastPowerExitUptimeMs = 0L;
+                    setLockApp(context, lockTaskId);
+                    applyGestureLineShielding(context, true);
+                } catch (Throwable e) {
+                    XposedLog.e(TAG, "startSystemLockTaskMode E: " + e);
+                } finally {
+                    Binder.restoreCallingIdentity(identity);
                 }
+                return result;
+            }
         );
 
-        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
-                "stopSystemLockTaskMode",
-                new IMethodHook() {
-                    @Override
-                    public void after(HookParam param) {
-                        try {
-                            Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                            if (context == null) return;
+        chainAllMethods("com.android.server.wm.ActivityTaskManagerService",
+            "stopSystemLockTaskMode",
+            chain -> {
+                Object result = chain.proceed();
+                long identity = Binder.clearCallingIdentity();
+                try {
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    if (context == null) return result;
 
-                            isLock = false;
-                            setLockApp(context, -1);
-                            applyGestureLineShielding(context, false);
-                        } catch (Throwable e) {
-                            XposedLog.e(TAG, "stopSystemLockTaskMode E: " + e);
-                        }
-                    }
+                    isLock = false;
+                    setLockApp(context, -1);
+                    applyGestureLineShielding(context, false);
+                } catch (Throwable e) {
+                    XposedLog.e(TAG, "stopSystemLockTaskMode E: " + e);
+                } finally {
+                    Binder.restoreCallingIdentity(identity);
                 }
+                return result;
+            }
         );
 
         // 确保 key_lock_app 和屏蔽状态一定能恢复。
-        hookAllMethods("com.android.server.wm.ActivityTaskManagerService",
-                "stopLockTaskModeInternal",
-                new IMethodHook() {
-                    @Override
-                    public void after(HookParam param) {
-                        try {
-                            Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                            if (context == null) return;
-                            if (!isLock && getLockApp(context) == -1) return;
+        chainAllMethods("com.android.server.wm.ActivityTaskManagerService",
+            "stopLockTaskModeInternal",
+            chain -> {
+                Object result = chain.proceed();
+                long identity = Binder.clearCallingIdentity();
+                try {
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    if (context == null) return result;
+                    if (!isLock && getLockApp(context) == -1) return result;
 
-                            isLock = false;
-                            setLockApp(context, -1);
-                            applyGestureLineShielding(context, false);
-                        } catch (Throwable e) {
-                            XposedLog.e(TAG, "stopLockTaskModeInternal E: " + e);
-                        }
-                    }
+                    isLock = false;
+                    setLockApp(context, -1);
+                    applyGestureLineShielding(context, false);
+                } catch (Throwable e) {
+                    XposedLog.e(TAG, "stopLockTaskModeInternal E: " + e);
+                } finally {
+                    Binder.restoreCallingIdentity(identity);
                 }
+                return result;
+            }
         );
 
         hookMiuiPowerLongPressTimeout();
         hookMiuiPowerPostDelay();
         hookMiuiPowerShortcutTrigger();
         hookSuppressPowerMenuAfterExit();
+        hookTransientBarsSuppression();
 
-        findAndHookMethod("com.android.server.wm.LockTaskController",
-                "shouldLockKeyguard", int.class,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        boolean exitLockScreen = PrefsBridge.getBoolean("system_framework_guided_access_exit_lockscreen", false);
-                        param.setResult(exitLockScreen);
-                    }
-                }
+        findAndChainMethod("com.android.server.wm.LockTaskController",
+            "shouldLockKeyguard",
+            chain -> PrefsBridge.getBoolean("system_framework_guided_access_exit_lockscreen", false),
+            int.class
         );
     }
 
@@ -143,12 +151,9 @@ public class SystemLockApp extends BaseHook {
         Class<?> ruleClass = findClassIfExists(MIUI_POWER_KEY_RULE_CLASS);
         if (ruleClass != null) {
             try {
-                hookAllMethods(ruleClass, "getMiuiLongPressTimeoutMs", new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        if (!isLock) return;
-                        param.setResult(POWER_HOLD_EXIT_MS);
-                    }
+                chainAllMethods(ruleClass, "getMiuiLongPressTimeoutMs", chain -> {
+                    if (!isLock) return chain.proceed();
+                    return POWER_HOLD_EXIT_MS;
                 });
             } catch (Throwable e) {
                 XposedLog.w(TAG, "Hook getMiuiLongPressTimeoutMs failed: " + e);
@@ -166,23 +171,25 @@ public class SystemLockApp extends BaseHook {
         }
 
         try {
-            findAndHookMethod(policyClass, "postKeyFunction", String.class, int.class, String.class, new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (!isLock) return;
-                    String shortcut = (String) param.getArgs()[2];
-                    if (!ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)
-                        && !ACTION_LONG_PRESS_POWER_KEY.equals(shortcut)) {
-                        return;
-                    }
-
-                    // 固定应用中统一改为 3 秒触发，并把 0.5 秒链路归并到 long_press_power_key 处理。
-                    param.getArgs()[1] = (int) POWER_HOLD_EXIT_MS;
-                    if (ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)) {
-                        param.getArgs()[2] = ACTION_LONG_PRESS_POWER_KEY;
-                    }
+            findAndChainMethod(policyClass, "postKeyFunction", chain -> {
+                Object[] args = chain.getArgs().toArray();
+                String shortcut = (String) args[2];
+                if (!ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)
+                    && !ACTION_LONG_PRESS_POWER_KEY.equals(shortcut)) {
+                    return chain.proceed(args);
                 }
-            });
+                if (shouldSuppressPowerActionNow()) {
+                    return null;
+                }
+                if (!isLock) return chain.proceed(args);
+
+                // 固定应用中统一改为 3 秒触发，并把 0.5 秒链路归并到 long_press_power_key 处理。
+                args[1] = (int) POWER_HOLD_EXIT_MS;
+                if (ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(shortcut)) {
+                    args[2] = ACTION_LONG_PRESS_POWER_KEY;
+                }
+                return chain.proceed(args);
+            }, String.class, int.class, String.class);
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook postKeyFunction failed: " + e);
         }
@@ -190,52 +197,48 @@ public class SystemLockApp extends BaseHook {
 
     private void hookMiuiPowerShortcutTrigger() {
         try {
-            findAndHookMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
+            findAndChainMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
                 "triggerFunction",
-                String.class, String.class, Bundle.class, boolean.class, String.class,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        if (!isLock) return;
-                        String action = (String) param.getArgs()[1];
-                        interceptPowerShortcutAction(action, param);
-                    }
-                }
+                chain -> {
+                    String action = (String) chain.getArg(1);
+                    if (!isLock && !shouldSuppressPowerActionNow()) return chain.proceed();
+                    return interceptPowerShortcutAction(action, isLock, chain);
+                },
+                String.class, String.class, Bundle.class, boolean.class, String.class
             );
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook triggerFunction(5) failed: " + e);
         }
 
         try {
-            findAndHookMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
+            findAndChainMethod(MIUI_SHORTCUT_ACTIONS_CLASS,
                 "triggerFunction",
-                String.class, String.class, Bundle.class, boolean.class,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        if (!isLock) return;
-                        String action = (String) param.getArgs()[1];
-                        interceptPowerShortcutAction(action, param);
-                    }
-                }
+                chain -> {
+                    String action = (String) chain.getArg(1);
+                    if (!isLock && !shouldSuppressPowerActionNow()) return chain.proceed();
+                    return interceptPowerShortcutAction(action, isLock, chain);
+                },
+                String.class, String.class, Bundle.class, boolean.class
             );
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook triggerFunction(4) failed: " + e);
         }
     }
 
-    private void interceptPowerShortcutAction(String action, HookParam param) {
+    private Object interceptPowerShortcutAction(String action, boolean lockedNow, XposedInterface.Chain chain) throws Throwable {
         if (ACTION_IMPERCEPTIBLE_PRESS_POWER_KEY.equals(action)) {
             // 0.5s 语音/无感按压链路：仅吞掉，不退出固定应用。
-            param.setResult(true);
-            return;
+            return true;
         }
-        if (!ACTION_LONG_PRESS_POWER_KEY.equals(action)) return;
+        if (!ACTION_LONG_PRESS_POWER_KEY.equals(action)) return chain.proceed();
+        if (!lockedNow && shouldSuppressPowerActionNow()) {
+            return true;
+        }
 
         // 3s 长按触发：沿用官方退出流程（stopSystemLockTaskMode）。
         markPowerExitAndSuppressMenuWindow();
         stopSystemLockTaskMode();
-        param.setResult(true);
+        return true;
     }
 
     private void hookSuppressPowerMenuAfterExit() {
@@ -243,49 +246,66 @@ public class SystemLockApp extends BaseHook {
         if (pwmClass == null) return;
 
         try {
-            hookAllMethods(pwmClass, "powerLongPress", new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (isLock) {
-                        markPowerExitAndSuppressMenuWindow();
-                        stopSystemLockTaskMode();
-                        trySetPowerKeyHandled(param.getThisObject(), true);
-                        param.setResult(null);
-                        return;
-                    }
-                    if (!shouldSuppressPowerMenuOnce()) return;
-                    trySetPowerKeyHandled(param.getThisObject(), true);
-                    param.setResult(null);
+            chainAllMethods(pwmClass, "powerLongPress", chain -> {
+                if (isLock) {
+                    markPowerExitAndSuppressMenuWindow();
+                    stopSystemLockTaskMode();
+                    trySetPowerKeyHandled(chain.getThisObject(), true);
+                    return null;
                 }
+                if (!shouldSuppressPowerActionNow()) return chain.proceed();
+                trySetPowerKeyHandled(chain.getThisObject(), true);
+                return null;
             });
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook powerLongPress failed: " + e);
         }
 
         try {
-            hookAllMethods(pwmClass, "showGlobalActions", new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (!shouldSuppressPowerMenuOnce()) return;
-                    trySetPowerKeyHandled(param.getThisObject(), true);
-                    param.setResult(null);
-                }
+            chainAllMethods(pwmClass, "showGlobalActions", chain -> {
+                if (!shouldSuppressPowerActionNow()) return chain.proceed();
+                trySetPowerKeyHandled(chain.getThisObject(), true);
+                return null;
             });
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook showGlobalActions failed: " + e);
         }
 
         try {
-            hookAllMethods(pwmClass, "showGlobalActionsInternal", new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (!shouldSuppressPowerMenuOnce()) return;
-                    trySetPowerKeyHandled(param.getThisObject(), true);
-                    param.setResult(null);
-                }
+            chainAllMethods(pwmClass, "showGlobalActionsInternal", chain -> {
+                if (!shouldSuppressPowerActionNow()) return chain.proceed();
+                trySetPowerKeyHandled(chain.getThisObject(), true);
+                return null;
             });
         } catch (Throwable e) {
             XposedLog.w(TAG, "Hook showGlobalActionsInternal failed: " + e);
+        }
+    }
+
+    private void hookTransientBarsSuppression() {
+        try {
+            chainAllMethods(INSETS_POLICY_CLASS, "showTransient", chain -> {
+                if (!isLock || !isEnhancedShieldEnabled()) return chain.proceed();
+                int types = 0;
+                if (!chain.getArgs().isEmpty() && chain.getArg(0) instanceof Integer) {
+                    types = (Integer) chain.getArg(0);
+                }
+                if ((types & WindowInsets.Type.navigationBars()) == 0) return chain.proceed();
+                debugTransientBlock("block InsetsPolicy.showTransient types=" + types);
+                return null;
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook InsetsPolicy.showTransient failed: " + e);
+        }
+
+        try {
+            chainAllMethods(DISPLAY_POLICY_CLASS, "requestTransientBars", chain -> {
+                if (!isLock || !isEnhancedShieldEnabled()) return chain.proceed();
+                debugTransientBlock("block DisplayPolicy.requestTransientBars");
+                return null;
+            });
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "Hook DisplayPolicy.requestTransientBars failed: " + e);
         }
     }
 
@@ -301,12 +321,21 @@ public class SystemLockApp extends BaseHook {
         mLastPowerExitUptimeMs = SystemClock.uptimeMillis();
     }
 
-    private boolean shouldSuppressPowerMenuOnce() {
+    private void debugTransientBlock(String message) {
+        long now = SystemClock.uptimeMillis();
+        if (now - mLastTransientBlockLogUptimeMs < TRANSIENT_BLOCK_LOG_INTERVAL_MS) return;
+        mLastTransientBlockLogUptimeMs = now;
+        XposedLog.d(TAG, message);
+    }
+
+    private boolean shouldSuppressPowerActionNow() {
         long mark = mLastPowerExitUptimeMs;
         if (mark <= 0) return false;
         long now = SystemClock.uptimeMillis();
-        if (now - mark > SUPPRESS_POWER_MENU_AFTER_EXIT_MS) return false;
-        mLastPowerExitUptimeMs = 0L;
+        if (now - mark > SUPPRESS_POWER_MENU_AFTER_EXIT_MS) {
+            mLastPowerExitUptimeMs = 0L;
+            return false;
+        }
         return true;
     }
 
@@ -358,6 +387,10 @@ public class SystemLockApp extends BaseHook {
             XposedLog.e(TAG, getPackageName(), "getInt hyceiler_lock_app E: " + e);
         }
         return -1;
+    }
+
+    private boolean isEnhancedShieldEnabled() {
+        return PrefsBridge.getBoolean("system_framework_guided_access_status", false);
     }
 
     private void stopSystemLockTaskMode() {

@@ -77,7 +77,7 @@
     <string name="system_framework_guided_access_exit_lockscreen">Go to lock screen after unpin</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">After exiting pinned mode, jump to lock screen</string>
     <string name="system_framework_guided_access">Fixed apps</string>
-    <string name="system_framework_guided_access_more">Requires enabling the "System UI" scope while in use</string>
+    <string name="system_framework_guided_access_more">Requires enabling both the "System UI" and "System launcher" scopes while in use</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s is on</string>
     <string name="quick_settings_state_change_message_off_my">%1$s is off</string>

@@ -47,7 +47,7 @@
     <string name="system_framework_guided_access_status">Uygulama sabit iken durum çubuğunu gizle</string>
     <string name="system_framework_guided_access_status_more">Çıkış yolu güç düğmesine uzun basma olarak değişecek ve siz kilit modundan çıkana kadar durum çubuğu gizlenecektir</string>
     <string name="system_framework_guided_access">Sabit uygulamalar</string>
-    <string name="system_framework_guided_access_more">Kullanırken "System UI" kapsamını aynı anda etkinleştirmeniz gerekir</string>
+    <string name="system_framework_guided_access_more">Kullanırken "System UI" ve "System launcher" kapsamlarını aynı anda etkinleştirmeniz gerekir</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s açık</string>
     <string name="quick_settings_state_change_message_off_my">%1$s kapalı</string>

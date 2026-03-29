@@ -59,7 +59,7 @@
     <string name="system_framework_guided_access_status">アプリのピン留め時にステータスバーを非表示にする</string>
     <string name="system_framework_guided_access_status_more">終了方法が電源ボタンの長押しに変わります。ステータスバーはロックモードを終了するまで非表示になります</string>
     <string name="system_framework_guided_access">アプリを固定</string>
-    <string name="system_framework_guided_access_more">使用時は「System UI」スコープを同時に有効にする必要があります</string>
+    <string name="system_framework_guided_access_more">使用時は「System UI」と「System launcher」のスコープを同時に有効にする必要があります</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s はオンです</string>
     <string name="quick_settings_state_change_message_off_my">%1$s はオフです</string>
