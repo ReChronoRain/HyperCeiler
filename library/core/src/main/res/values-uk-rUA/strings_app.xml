@@ -1229,7 +1229,6 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Запобігти відновленню білого списку оптимізації батареї</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Вимкнути отримання коду керування дисплеєм</string>
     <string name="powerkeeper_gms_doze_fix">Дозволити GMS підключатися до мережі в будь-який час</string>
-    <string name="powerkeeper_conservative_millet">Зробити Millet консервативним</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Запис екрана</string>
     <string name="screen_recorder_force_support_playback_capture">Примусово увімкнути підтримку запису екрана AOSP</string>

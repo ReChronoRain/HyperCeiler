@@ -63,6 +63,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.FreeformCardBackgroundColor;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.GuidedAccessHome;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.HideRecentCard;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.HideStatusBarWhenEnterRecent;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RealMemory;
@@ -179,7 +180,9 @@ public class HomePhone extends BaseLoad {
         initHook(CardTextSize.INSTANCE, PrefsBridge.getInt("home_recent_text_size", -1) != -1);
         initHook(CardTextColor.INSTANCE, PrefsBridge.getInt("home_recent_text_color", -1) != -1);
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
-
+        initHook(new GuidedAccessHome(),
+            PrefsBridge.getBoolean("system_framework_guided_access")
+                && PrefsBridge.getBoolean("system_framework_guided_access_status"));
         // 图标
         initHook(new IconSize(), PrefsBridge.getBoolean("home_title_icon_size_enable"));
         initHook(BigIconCorner.INSTANCE, PrefsBridge.getBoolean("home_title_big_icon_corner"));

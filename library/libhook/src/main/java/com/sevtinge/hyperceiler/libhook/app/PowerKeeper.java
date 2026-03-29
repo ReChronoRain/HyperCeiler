@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.ConservativeMillet;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.CustomRefreshRate;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.DisableGetDisplayCtrlCode;
 import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.DontKillApps;
@@ -39,7 +38,6 @@ public class PowerKeeper extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new GmsDozeFix(), PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
-        initHook(new ConservativeMillet(), PrefsBridge.getBoolean("powerkeeper_conservative_millet"));
         initHook(new CustomRefreshRate(), PrefsBridge.getBoolean("various_custom_refresh_rate"));
         initHook(new DisableGetDisplayCtrlCode(), PrefsBridge.getBoolean("powerkeeper_disable_get_display_ctrl_code"));
         initHook(LockMaxFps.INSTANCE, PrefsBridge.getBoolean("powerkeeper_lock_max_fps"));

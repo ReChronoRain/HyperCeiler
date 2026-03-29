@@ -1282,7 +1282,6 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">停用恢復電池效能最佳化白名單</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止獲取顯示控制碼</string>
     <string name="powerkeeper_gms_doze_fix">允許 Google Play 服務隨時連接網路</string>
-    <string name="powerkeeper_conservative_millet">啟用小米保守模式</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">螢幕錄製</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生螢幕錄製支援</string>

@@ -1270,8 +1270,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">إيقاف الحصول على رمز التحكم في العرض</string>
     <string name="powerkeeper_gms_doze_fix">السماح لـ GMS بالاتصال بالشبكة في أي وقت</string>
     <string name="powerkeeper_gms_doze_fix_desc">تحتاج إلى تفعيل إطار النظام وتطبيق battery &amp; performance في Lsposed</string>
-    <string name="powerkeeper_conservative_millet">جعل ميليت محافظا</string>
-    <string name="powerkeeper_conservative_millet_desc">جعل سياسة الإدارة الخلفية أكثر تحفظا. تحتاج إلى تمكين إطار النظام ونطاقات البطارية والأداء.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">مسجل الشاشة</string>
     <string name="screen_recorder_force_support_playback_capture">تمكين دعم تسجيل الشاشة AOSP بالقوة</string>

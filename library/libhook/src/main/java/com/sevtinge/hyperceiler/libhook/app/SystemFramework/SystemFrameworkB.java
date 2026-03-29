@@ -57,7 +57,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanOpenMe
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanProcessTextMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanShareMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ClipboardWhitelist;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ConservativeMilletFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiuiLite;
@@ -160,7 +159,6 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new BypassUnknownSourcesRestrictions(), PrefsBridge.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
         initHook(new BypassForceMiAppStore(), PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore") || PrefsBridge.getBoolean("system_framework_market_use_detailmini"));
         initHook(new BypassForceDownloadui(), PrefsBridge.getBoolean("system_framework_bypass_force_downloadui"));
-        initHook(ConservativeMilletFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_conservative_millet"));
         initHook(GMSDozeFixFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
 
         // 清理菜单

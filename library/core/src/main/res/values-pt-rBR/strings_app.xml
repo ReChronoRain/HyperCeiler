@@ -1278,8 +1278,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Desativar busca de código do controle de exibição</string>
     <string name="powerkeeper_gms_doze_fix">Permitir que o GMS se conecte à rede a qualquer momento</string>
     <string name="powerkeeper_gms_doze_fix_desc">Você precisa ativar os escopos Framework do Sistema e Bateria e desempenho</string>
-    <string name="powerkeeper_conservative_millet">Tornar Millet conservador</string>
-    <string name="powerkeeper_conservative_millet_desc">Torne a política de gerenciamento de backend mais conservadora. Você precisa ativar os escopos Framework do Sistema e Bateria e desempenho.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Gravador de tela</string>
     <string name="screen_recorder_force_support_playback_capture">Forçar ativação do suporte de gravação de tela AOSP</string>

@@ -1281,8 +1281,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">ディスプレイ制御コードへのアクセスを無効化</string>
     <string name="powerkeeper_gms_doze_fix">GMS が常にネットワークの接続をできる状態にする</string>
     <string name="powerkeeper_gms_doze_fix_desc">システムフレームワークと「バッテリーとパフォーマンス」のスコープを有効にする必要があります</string>
-    <string name="powerkeeper_conservative_millet">Millet を保守的にする</string>
-    <string name="powerkeeper_conservative_millet_desc">バックエンドの管理ポリシーをより保守的にします。システムフレームワークと「バッテリーとパフォーマンス」のスコープを有効にする必要があります。</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">スクリーンレコーダー</string>
     <string name="screen_recorder_force_support_playback_capture">AOSP の画面録画を強制的に有効化</string>

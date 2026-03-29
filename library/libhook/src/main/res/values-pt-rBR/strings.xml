@@ -59,7 +59,7 @@
     <string name="system_framework_guided_access_status">Ocultar barra de status quando o app estiver fixado</string>
     <string name="system_framework_guided_access_status_more">A forma de saída mudará ao pressionar longamente o botão liga/desliga. A barra de status ficará oculta até que você saia do modo de bloqueio</string>
     <string name="system_framework_guided_access">Apps fixados</string>
-    <string name="system_framework_guided_access_more">Ao usar, é necessário ativar simultaneamente o escopo "System UI"</string>
+    <string name="system_framework_guided_access_more">Ao usar, é necessário ativar simultaneamente os escopos "System UI" e "System launcher"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s está ativado</string>
     <string name="quick_settings_state_change_message_off_my">%1$s está desativado</string>

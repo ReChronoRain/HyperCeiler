@@ -37,6 +37,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
 public class GuidedAccessTile extends TileUtils {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
     private static final String TILE_NAME = "custom_guided_access";
+    private static final long ENTER_DELAY_MS = 260L;
 
     @NonNull
     @Override
@@ -60,6 +61,7 @@ public class GuidedAccessTile extends TileUtils {
 
         if (lockTaskId != -1) {
             stopSystemLockTaskMode();
+            collapsePanelsSafely(ctx);
             ctx.refreshState();
             return;
         }
@@ -76,8 +78,16 @@ public class GuidedAccessTile extends TileUtils {
             return;
         }
 
-        startSystemLockTaskMode(runningTask.taskId);
-        ctx.refreshState();
+        final int targetTaskId = runningTask.taskId;
+        collapsePanelsSafely(ctx);
+        ctx.getMainHandler().postDelayed(() -> {
+            if (getLockApp(context) != -1) {
+                ctx.refreshState();
+                return;
+            }
+            startSystemLockTaskMode(targetTaskId);
+            ctx.refreshState();
+        }, ENTER_DELAY_MS);
     }
 
     @Nullable
@@ -148,6 +158,17 @@ public class GuidedAccessTile extends TileUtils {
             return Settings.Global.getInt(context.getContentResolver(), SETTING_KEY_LOCK_APP);
         } catch (Settings.SettingNotFoundException e) {
             return -1;
+        }
+    }
+
+    private void collapsePanelsSafely(TileContext ctx) {
+        try {
+            Object host = ctx.getField("mHost");
+            if (host != null) {
+                callMethod(host, "collapsePanels");
+            }
+        } catch (Throwable e) {
+            XposedLog.w(TAG, getPackageName(), "GuidedAccessTile collapsePanels E: " + e);
         }
     }
 }

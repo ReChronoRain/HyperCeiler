@@ -47,7 +47,7 @@
     <string name="system_framework_guided_access_status">Statusleiste ausblenden, wenn die App angepinnt ist</string>
     <string name="system_framework_guided_access_status_more">Der Beendigungsmodus ändert sich zu langem Drücken des Power-Buttons. Die Statusleiste bleibt ausgeblendet, bis du den Sperrmodus verlässt</string>
     <string name="system_framework_guided_access">Angepinnte Apps</string>
-    <string name="system_framework_guided_access_more">Bei Verwendung muss gleichzeitig der Bereich „System UI“ aktiviert sein</string>
+    <string name="system_framework_guided_access_more">Bei Verwendung müssen gleichzeitig die Bereiche „System UI“ und „System Launcher“ aktiviert sein</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s ist an</string>
     <string name="quick_settings_state_change_message_off_my">%1$s ist aus</string>

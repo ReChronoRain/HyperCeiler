@@ -59,7 +59,7 @@
     <string name="system_framework_guided_access_status">Скрыть строку состояния, когда приложение закреплено</string>
     <string name="system_framework_guided_access_status_more">Способ выхода изменится на долгое нажатие кнопки питания, а строка состояния будет скрыта до тех пор, пока вы не выйдете из режима блокировки</string>
     <string name="system_framework_guided_access">Фиксированные приложения</string>
-    <string name="system_framework_guided_access_more">При использовании необходимо одновременно включить область "System UI"</string>
+    <string name="system_framework_guided_access_more">При использовании необходимо одновременно включить области "System UI" и "System launcher"</string>
     <!--System UI-->
     <string name="quick_settings_state_change_message_on_my">%1$s вкл</string>
     <string name="quick_settings_state_change_message_off_my">%1$s выкл</string>
