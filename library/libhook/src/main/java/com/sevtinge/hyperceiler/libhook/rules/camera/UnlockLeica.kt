@@ -31,19 +31,31 @@ object UnlockLeica : BaseHook() {
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        unlockMethod1
-        unlockMethod2
+        if (is60Camera) {
+            unlockMethod1
+        } else {
+            unlockMethod2
+        }
         unlockMethod3
+        unlockMethod4
         return true
     }
+
     // 这破玩意写了十几个小时，得出的结论是，跨一个大版本就需要改一下特征点
     // 手上只有 5.3 和 6.1 两个版本，其他版本我不保证能解锁
-    // 目前兼容到 6.2 版本
+    // 目前兼容到 6.4 版本
     // 累了，先这样吧
     // 后面如果能优化的话再说
-    // 2025.5.1 ~ 2025.9.17
-    val isNewCamera by lazy {
+    // 2025.5.1 ~ 2026.3.30
+    val is60Camera by lazy {
         getPackageVersionCode(lpparam) >= 600000000
+    }
+    val is63Camera by lazy {
+        getPackageVersionCode(lpparam) >= 630000000
+    }
+    val is64Camera by lazy {
+        // 主包表示无法理解米米的行为，6.4 相机的内容和 6.2 一致，除了 CloudWatermark 这个云控内容
+        getPackageVersionCode(lpparam) >= 640000000
     }
 
     private val unlockMethod1 by lazy<Method> {
@@ -55,7 +67,13 @@ object UnlockLeica : BaseHook() {
                     declaredClass {
                         usingEqStrings("pref_qc_camera_sharpness_key", "pref_tint_color")
                     }
-                    addInvoke("Landroid/app/Application;->getColor(I)I")
+
+                    if (is63Camera && !is64Camera) {
+                        // 相机 6.3.005670.0
+                        addInvoke("Landroid/content/Context;->getColor(I)I")
+                    } else {
+                        addInvoke("Landroid/app/Application;->getColor(I)I")
+                    }
 
                     modifiers = Modifier.STATIC or Modifier.PUBLIC
                     returnType = "int"
@@ -92,7 +110,7 @@ object UnlockLeica : BaseHook() {
 
     private val unlockMethod3 by lazy<Method> {
         requiredMember("uM3") {
-            if (isNewCamera) {
+            if (is60Camera) {
                 // 6.x
                 it.findMethod {
                     matcher {
@@ -149,7 +167,7 @@ object UnlockLeica : BaseHook() {
     }
 
     override fun init() {
-        if (isNewCamera) {
+        if (is60Camera) {
             unlockMethod1.createHook {
                 returnConstant(true)
             }
