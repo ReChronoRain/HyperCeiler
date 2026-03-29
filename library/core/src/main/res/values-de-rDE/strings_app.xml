@@ -1235,7 +1235,6 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Wiederherstellung der Akku-Optimierungs-Whitelist verhindern</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">Abrufen des Display-Kontrollcodes deaktivieren</string>
     <string name="powerkeeper_gms_doze_fix">GMS erlauben jederzeit eine Netzwerkverbindung herzustellen</string>
-    <string name="powerkeeper_conservative_millet">Millet konservativ machen</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Bildschirmaufnahme</string>
     <string name="screen_recorder_force_support_playback_capture">AOSP-Bildschirmaufnahme-Unterstützung erzwingen</string>

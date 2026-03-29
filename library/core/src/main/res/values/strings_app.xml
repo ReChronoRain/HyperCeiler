@@ -1413,8 +1413,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable fetching display control code</string>
     <string name="powerkeeper_gms_doze_fix">Allow GMS to connect to network at any time</string>
     <string name="powerkeeper_gms_doze_fix_desc">You need to enable the System Framework and Battery and performance scopes</string>
-    <string name="powerkeeper_conservative_millet">Make Millet conservative</string>
-    <string name="powerkeeper_conservative_millet_desc">Make the backend management policy more conservative. You need to enable the System Framework and Battery and performance scopes.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>

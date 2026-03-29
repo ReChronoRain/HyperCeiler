@@ -952,6 +952,9 @@ object EzxHelpUtils {
     fun deoptimize(method: Method): Boolean = EzxHookHelper.deoptimize(method)
 
     @JvmStatic
+    fun deoptimize(constructor: Constructor<*>): Boolean = EzxHookHelper.deoptimize(constructor)
+
+    @JvmStatic
     fun deoptimizeMethods(clazz: Class<*>, vararg names: String?) =
         EzxHookHelper.deoptimizeMethods(clazz, *names)
 

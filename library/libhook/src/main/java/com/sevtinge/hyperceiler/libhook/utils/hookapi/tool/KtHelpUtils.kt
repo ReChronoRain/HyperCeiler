@@ -287,6 +287,8 @@ fun Constructor<*>.hookCallback(callback: IMethodHook): HookHandle =
 
 fun Method.deoptimizeMethod() = EzxHelpUtils.deoptimize(this)
 
+fun Constructor<*>.deoptimizeConstructor() = EzxHelpUtils.deoptimize(this)
+
 fun Class<*>.deoptimizeMethods(vararg names: String?) =
     EzxHelpUtils.deoptimizeMethods(this, *names)
 

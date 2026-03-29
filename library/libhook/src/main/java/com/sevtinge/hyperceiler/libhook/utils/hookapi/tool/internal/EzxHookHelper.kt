@@ -655,6 +655,18 @@ internal object EzxHookHelper {
         }
     }
 
+    fun deoptimize(constructor: Constructor<*>): Boolean {
+        val signature = formatConstructorSignature(constructor)
+        return try {
+            EzxModuleHolder.xposedModule.deoptimize(constructor)
+            XposedLog.d(TAG, "deoptimize $signature success")
+            true
+        } catch (t: Throwable) {
+            XposedLog.e(TAG, "deoptimize $signature failed, log: $t")
+            return false
+        }
+    }
+
     fun deoptimizeMethods(clazz: Class<*>, vararg names: String?) {
         val list = listOf(*names)
         Arrays.stream(clazz.declaredMethods)

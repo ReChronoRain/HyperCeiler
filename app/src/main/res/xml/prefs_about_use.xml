@@ -223,6 +223,13 @@
                 android:data="https://github.com/HChenX/HookTool" />
         </Preference>
         <Preference
+            android:summary="Howard20181 | GPL-3.0"
+            android:title="HyperOS_FCM_Live">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Howard20181/HyperOS_FCM_Live" />
+        </Preference>
+        <Preference
             android:summary="YuKongA | GPL-3.0"
             android:title="HyperOS XXL">
             <intent

@@ -19,109 +19,53 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
-
-import android.content.Context;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.deoptimize;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import java.lang.reflect.Field;
-import java.util.List;
+import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
-;
-
+/**
+ * Source:
+ * https://github.com/Howard20181/HyperOS_FCM_Live/blob/main/HyperFCMLive/src/main/java/io/github/howard20181/hyperos/fcmlive/Hooker.java
+ */
 public class GmsDozeFix extends BaseHook {
+    private static final String[] GMS_OBSERVER_METHODS = new String[]{
+        "updateGmsNetWork",
+        "updateGmsAlarm",
+        "updateGoogleReletivesWakelock"
+    };
+
+    private static final XposedInterface.Hooker FORCE_FALSE_HOOKER = chain -> {
+        Object[] args = chain.getArgs().toArray();
+        if (args.length > 0) {
+            args[0] = false;
+        }
+        return chain.proceed(args);
+    };
+
     @Override
     public void init() {
-        Class<?> GmsObserver = findClassIfExists("com.miui.powerkeeper.utils.GmsObserver");
+        Class<?> gmsObserverClass = findClassIfExists("com.miui.powerkeeper.utils.GmsObserver");
+        if (gmsObserverClass == null) return;
 
-        findAndHookMethod(GmsObserver, "updateGmsNetWork", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
+        for (String methodName : GMS_OBSERVER_METHODS) {
+            hookObserverMethod(gmsObserverClass, methodName);
+        }
+    }
 
-        findAndHookMethod(GmsObserver, "updateGmsAlarm", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
-
-        findAndHookMethod(GmsObserver, "updateGoogleReletivesWakelock", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
-
-        findAndHookMethod(GmsObserver, "updateGoogleSync", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
-
-        findAndHookMethod(GmsObserver, "updateGoogleBackup", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
-
-        findAndHookMethod(GmsObserver, "onGoogleReachabilityChanged", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.getArgs()[0] = true;
-            }
-        });
-
+    private void hookObserverMethod(Class<?> observerClass, String methodName) {
         try {
-            Class<?> MilletPolicy = findClassIfExists("com.miui.powerkeeper.millet.MilletPolicy");
-            if (MilletPolicy == null) return;
-            findAndHookConstructor(MilletPolicy, Context.class, new IMethodHook() {
-                public void before(HookParam methodHookParam) {
-                    boolean mSystemBlackList = false;
-                    boolean whiteApps = false;
-                    boolean mDataWhiteList = false;
-
-                    for (Field field : MilletPolicy.getDeclaredFields()) {
-                        if (field.getName().equals("mSystemBlackList")) {
-                            mSystemBlackList = true;
-                        } else if (field.getName().equals("whiteApps")) {
-                            whiteApps = true;
-                        } else if (field.getName().equals("mDataWhiteList")) {
-                            mDataWhiteList = true;
-                        }
-                    }
-
-                    if (mSystemBlackList) {
-                        List blackList = (List) getObjectField(methodHookParam.getThisObject(), "mSystemBlackList");
-                        blackList.remove("com.google.android.gms");
-                        setObjectField(methodHookParam.getThisObject(), "mSystemBlackList", blackList);
-                    }
-                    if (whiteApps) {
-                        List whiteAppList = (List) getObjectField(methodHookParam.getThisObject(), "whiteApps");
-                        whiteAppList.remove("com.google.android.gms");
-                        whiteAppList.remove("com.google.android.ext.services");
-                        setObjectField(methodHookParam.getThisObject(), "whiteApps", whiteAppList);
-                    }
-                    if (mDataWhiteList) {
-                        List dataWhiteList = (List) getObjectField(methodHookParam.getThisObject(), "mDataWhiteList");
-                        dataWhiteList.add("com.google.android.gms");
-
-                        setObjectField(methodHookParam.getThisObject(), "mDataWhiteList", dataWhiteList);
-                    }
-
-                }
-            });
-        } catch (Throwable e) {
-            XposedLog.e(TAG, getPackageName(), "Hook failed: " + e);
+            Method method = observerClass.getDeclaredMethod(methodName, boolean.class);
+            chain(method, FORCE_FALSE_HOOKER);
+            deoptimize(method);
+        } catch (NoSuchMethodException e) {
+            XposedLog.w(TAG, getPackageName(), "Skip missing method in GmsObserver: " + methodName, e);
+        } catch (Throwable t) {
+            XposedLog.e(TAG, getPackageName(), "Hook failed in " + methodName, t);
         }
     }
 }
