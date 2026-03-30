@@ -20,8 +20,10 @@ package com.sevtinge.hyperceiler.libhook.rules.thememanager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.guard.RearScreenFlowGuard;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -34,11 +36,11 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import miui.drm.DrmManager;
 
-;
-
 public class AllowThirdTheme extends BaseHook {
     @Override
     public void init() {
+        runOnApplicationAttach(RearScreenFlowGuard::ensureActivityTrackerRegistered);
+
         Method method = DexKit.findMember("CheckRightsIsLegal", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -52,6 +54,11 @@ public class AllowThirdTheme extends BaseHook {
         hookMethod(method, new IMethodHook() {
             @Override
             public void before(HookParam param) {
+                if (RearScreenFlowGuard.isRearScreenActivityActive(
+                    ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP)
+                )) {
+                    return;
+                }
                 param.setResult(DrmManager.DrmResult.DRM_SUCCESS);
             }
         });
