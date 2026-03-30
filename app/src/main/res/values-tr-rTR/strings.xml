@@ -162,4 +162,6 @@
     <!-- Log Viewer -->
     <string name="log_loading">Gunlukler yukleniyor…</string>
     <string name="log_viewer">Gunluk goruntuleyici</string>
+    <string name="safe_mode_banner_title">Güvenli mod etkin</string>
+    <string name="safe_mode_banner_desc">%1$s, tekrar eden çökmelerin ardından Otomatik Güvenlik Modu tarafından HyperCeiler özellikleri geçici olarak devre dışı bırakıldı. Yönetmek için dokunun.</string>
 </resources>
