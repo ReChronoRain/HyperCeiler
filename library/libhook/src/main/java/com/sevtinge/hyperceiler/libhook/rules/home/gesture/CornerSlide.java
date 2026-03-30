@@ -25,26 +25,40 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
-import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
+import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-public class CornerSlide extends BaseHook {
+public class CornerSlide extends HomeBaseHookNew {
     public int inDirection = 0;
+
+    private Class<?> canTriggerAssistantActionParam3;
 
     Context mContext;
 
+    @SuppressWarnings("unused")
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        canTriggerAssistantActionParam3 = long.class;
+        initBaseCore();
+    }
+
     @Override
-    public void init() {
+    public void initBase() {
+        canTriggerAssistantActionParam3 = int.class;
+        initBaseCore();
+    }
+    public void initBaseCore() {
         findAndHookMethod("com.android.systemui.shared.recents.system.AssistManager",
             "isSupportGoogleAssist", int.class,
             returnConstant(true));
         Class<?> FsGestureAssistHelper = findClassIfExists("com.miui.home.recents.FsGestureAssistHelper");
         findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
-            float.class, float.class, long.class,
+            float.class, float.class, canTriggerAssistantActionParam3,
             new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
