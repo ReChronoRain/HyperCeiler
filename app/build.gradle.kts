@@ -50,6 +50,20 @@ android {
     val scDebug = "debug"
     val typeString = "String"
 
+    val buildTimeSuffix = SimpleDateFormat("MMddHHmm").apply {
+        timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+    }.format(Date())
+    val dateSuffixString = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+
+    // Quoted values for buildConfigField to satisfy DRY checks
+    val valGitHash = "\"$gitHash\""
+    val valGitHashLong = "\"$gitHashLong\""
+    val valGitCode = "\"$gitVersionCode\""
+
+    // Repeated suffix strings
+    val suffixDate = "-$dateSuffixString"
+    val suffixVersion = "-r${gitVersionCode}"
+
     defaultConfig {
         applicationId = namespace
         minSdk = 35
@@ -106,15 +120,6 @@ android {
             ?: System.getenv(environmentName)
             ?: System.console()?.readLine("\n$prompt: ").orEmpty()
 
-    val buildTimeSuffix: String by lazy {
-        SimpleDateFormat("MMddHHmm").apply {
-            timeZone = TimeZone.getTimeZone("Asia/Shanghai")
-        }.format(Date())
-    }
-    val dateSuffix: String by lazy {
-        DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
-    }
-
     signingConfigs {
         create(scHasProperties) {
             if (hasSigning) {
@@ -139,36 +144,36 @@ android {
         val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField(typeString, propGitCode, "\"$gitVersionCode\"")
+            buildConfigField(typeString, propGitCode, valGitCode)
         }
 
         release {
             applyBase()
             configSigning()
-            buildConfigField(typeString, propGitHash, "\"$gitHash\"")
+            buildConfigField(typeString, propGitHash, valGitHash)
             proguardFiles("proguard-log.pro")
-            versionNameSuffix = "-$dateSuffix"
+            versionNameSuffix = suffixDate
         }
 
         create("beta") {
             applyBase()
             configSigning()
-            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
-            versionNameSuffix = "-$dateSuffix"
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            versionNameSuffix = suffixDate
         }
 
         create("canary") {
             applyBase()
             configSigning()
-            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
-            versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            versionNameSuffix = "-${gitHash}${suffixVersion}"
         }
 
         debug {
             isMinifyEnabled = false
-            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
-            buildConfigField(typeString, propGitCode, "\"$gitVersionCode\"")
-            versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            buildConfigField(typeString, propGitCode, valGitCode)
+            versionNameSuffix = "-${buildTimeSuffix}${suffixVersion}"
             if (hasSigning) {
                 signingConfig = signingConfigs.findByName(scHasProperties)
             }
