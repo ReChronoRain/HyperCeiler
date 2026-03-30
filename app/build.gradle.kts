@@ -44,6 +44,9 @@ android {
     compileSdkMinor = 0
     buildToolsVersion = "37.0.0"
 
+    val propGitHash = "GIT_HASH"
+    val propGitCode = "GIT_CODE"
+
     defaultConfig {
         applicationId = namespace
         minSdk = 35
@@ -93,6 +96,8 @@ android {
     }
 
     val properties: Properties? = loadPropertiesFromFile("signing.properties")
+    val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
+
     fun getString(propertyName: String, environmentName: String, prompt: String): String =
         properties?.getProperty(propertyName)
             ?: System.getenv(environmentName)
@@ -109,7 +114,7 @@ android {
 
     signingConfigs {
         create("hasProperties") {
-            if (properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null) {
+            if (hasSigning) {
                 storeFile = file(getString("storeFile", "STORE_FILE", "Store file"))
                 storePassword = getString("storePassword", "STORE_PASSWORD", "Store password")
                 keyAlias = getString("keyAlias", "KEY_ALIAS", "Key alias")
@@ -124,7 +129,6 @@ android {
 
     buildTypes {
         val configSigning: ApplicationBuildType.() -> Unit = {
-            val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
             val signingConfigName = if (hasSigning) "hasProperties" else "debug"
             signingConfig = signingConfigs.findByName(signingConfigName)
         }
@@ -132,13 +136,13 @@ android {
         val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
+            buildConfigField("String", propGitCode, "\"$gitVersionCode\"")
         }
 
         release {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+            buildConfigField("String", propGitHash, "\"$gitHash\"")
             proguardFiles("proguard-log.pro")
             versionNameSuffix = "-$dateSuffix"
         }
@@ -146,23 +150,22 @@ android {
         create("beta") {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
+            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
             versionNameSuffix = "-$dateSuffix"
         }
 
         create("canary") {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
+            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
             versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
         }
 
         debug {
             isMinifyEnabled = false
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
+            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
+            buildConfigField("String", propGitCode, "\"$gitVersionCode\"")
             versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
-            val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
             if (hasSigning) {
                 signingConfig = signingConfigs.findByName("hasProperties")
             }
