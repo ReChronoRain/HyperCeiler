@@ -109,7 +109,7 @@ android {
 
     signingConfigs {
         create("hasProperties") {
-            if (properties != null) {
+            if (properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null) {
                 storeFile = file(getString("storeFile", "STORE_FILE", "Store file"))
                 storePassword = getString("storePassword", "STORE_PASSWORD", "Store password")
                 keyAlias = getString("keyAlias", "KEY_ALIAS", "Key alias")
@@ -124,7 +124,8 @@ android {
 
     buildTypes {
         val configSigning: ApplicationBuildType.() -> Unit = {
-            val signingConfigName = if (properties != null) "hasProperties" else "debug"
+            val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
+            val signingConfigName = if (hasSigning) "hasProperties" else "debug"
             signingConfig = signingConfigs.findByName(signingConfigName)
         }
 
@@ -161,7 +162,8 @@ android {
             buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
             buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
             versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
-            if (properties != null) {
+            val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
+            if (hasSigning) {
                 signingConfig = signingConfigs.findByName("hasProperties")
             }
         }
