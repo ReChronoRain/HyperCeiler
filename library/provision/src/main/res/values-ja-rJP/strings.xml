@@ -57,4 +57,12 @@
     <string name="provision_basic_settings_icon_miui_13">背景切り抜きスタイル</string>
     <string name="provision_system_preparing">システムを準備しています…</string>
     <string name="provision_system_complete">セットアップが完了しました</string>
+    <string name="provision_permission_installed_apps">アプリリストの読み取りを許可</string>
+    <string name="provision_basic_settings_category_app">アプリ</string>
+    <string name="provision_basic_settings_category_scope">スコープ</string>
+    <string name="provision_basic_settings_language">言語</string>
+    <string name="provision_basic_settings_scope">スコープ</string>
+    <string name="provision_basic_settings_scope_sync">スコープと同期</string>
+    <string name="provision_basic_settings_scope_sync_desc">ホームページのリストのチェック状態はスコープと同期されます</string>
+    <string name="provision_get_md_failed">## コンテンツの取得に失敗しました \n - 元のコンテンツを表示するには、[こちら](%URL%)にアクセスしてください。 \n - または、このページを[更新](hyperceiler://refresh)してみてください。</string>
 </resources>
