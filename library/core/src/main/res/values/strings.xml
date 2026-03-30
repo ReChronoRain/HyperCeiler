@@ -73,6 +73,9 @@
     <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
     <string name="unsupported_system_func">This feature isn\'t supported in the current system version</string>
     <string name="supported_system_func">This feature is officially supported in the current system version</string>
+    <string name="unsupported_app_version_func">The current app version doesn\'t support this feature</string>
+    <string name="supported_app_version_func">The current app version supports this feature</string>
+    <string name="app_version_unavailable_warning_banner">The app version couldn\'t be read. To ensure Hook safety, all features for this app have been disabled.</string>
     <string name="feature_doing_func">The current feature is under development, stay tuned.</string>
     <string name="search_result_not_available">This feature may not be supported on this device or is hidden under some options</string>
     <!--System UI-->

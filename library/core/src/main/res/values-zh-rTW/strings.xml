@@ -70,6 +70,9 @@
     <string name="headtip_notice_dead_logger">當前設備 Log 服務異常，HyperCeiler 功能將被限制。 請恢復 Log 服務，使其可以正常運行。</string>
     <string name="unsupported_system_func">當前系統版本不支持此功能</string>
     <string name="supported_system_func">當前系統版本正式支持此特性</string>
+    <string name="unsupported_app_version_func">當前應用版本不支持此功能</string>
+    <string name="supported_app_version_func">當前應用版本已支持此功能</string>
+    <string name="app_version_unavailable_warning_banner">當前無法獲取此應用的版本號, 為確保 hook 安全, 已禁用本應用的全部功能</string>
     <string name="feature_doing_func">目前功能正在開發中，敬請期待。</string>
     <!--System UI-->
     <string name="system_ui">系統界面</string>
