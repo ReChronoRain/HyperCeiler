@@ -68,6 +68,8 @@
     <string name="system_framework_guided_access_status_more">固定期间隐藏状态栏与手势提示线，退出固定后自动恢复</string>
     <string name="system_framework_guided_access_tile">添加磁贴</string>
     <string name="system_framework_guided_access_tile_more">添加 “引导式访问” 的磁贴入口</string>
+    <string name="system_framework_guided_access_block_dialog">拦截固定应用弹窗</string>
+    <string name="system_framework_guided_access_block_dialog_more">拦截弹窗可能有意料之外的问题</string>
     <string name="system_framework_guided_access_exit_lockscreen">退出固定后进入锁屏</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">退出固定后立即跳转锁屏界面</string>
     <string name="system_framework_guided_access">引导式访问</string>

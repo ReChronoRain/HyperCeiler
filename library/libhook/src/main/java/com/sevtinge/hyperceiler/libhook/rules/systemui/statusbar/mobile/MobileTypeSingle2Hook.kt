@@ -365,7 +365,6 @@ object MobileTypeSingle2Hook : BaseHook() {
                 }
                 1 -> viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(true))
                 3 -> viewModel.setObjectField("mobileTypeSingleVisible", newReadonlyStateFlow(false))
-                4 -> Unit
                 else -> Unit
             }
             applyBoundViewState(rootView)
@@ -379,7 +378,6 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
 
         when (mobileNetworkType) {
-            0 -> Unit
             2 -> {
                 val wifiFlow = viewModel.getObjectFieldAs<Any>("wifiAvailable")
                 val initWifiOn = runCatching { getStateFlowValue(wifiFlow) as Boolean }
@@ -391,11 +389,9 @@ object MobileTypeSingle2Hook : BaseHook() {
                     Consumer<Boolean> { wifiOn -> setStateFlowValue(flow, !wifiOn) }
                 )
             }
-
             1 -> viewModel.setObjectField("mobileTypeVisible", newReadonlyStateFlow(true))
             3 -> viewModel.setObjectField("mobileTypeVisible", newReadonlyStateFlow(false))
-            4 -> Unit
-            else -> {
+            4 -> {
                 val wifiFlow = viewModel.getObjectFieldAs<Any>("wifiAvailable")
                 val dataConnectedFlow = interactor?.getObjectFieldAs<Any>("isDataConnected")
 
@@ -427,6 +423,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                     )
                 }
             }
+            else -> Unit
         }
 
         applyBoundViewState(rootView)
@@ -515,9 +512,14 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     @SuppressLint("NewApi")
     private fun setOnDefaultConnectionsListener(mobileUiAdapter: Any) {
-        val miuiInt = mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
-            .getObjectFieldAs<Any>("miuiIntsLazy")
-            .callMethodOrNull("get") ?: return
+        val miuiInt = runCatching {
+            mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
+                .getObjectFieldAs<Any>("miuiIntsLazy")
+                .callMethodOrNull("get")
+        }.recoverCatching {
+            mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
+                .getObjectFieldAs<Any>("miuiInt")
+        }.getOrNull() ?: return
 
         val defaultConnections = miuiInt.getObjectFieldAs<Any>("connectRepo")
             .getObjectFieldAs<Any>("defaultConnections")
@@ -547,9 +549,14 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     @SuppressLint("NewApi")
     private fun setOnDataChangedListener(mobileUiAdapter: Any) {
-        val miuiInt = mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
-            .getObjectFieldAs<Any>("miuiIntsLazy")
-            .callMethodOrNull("get") ?: return
+        val miuiInt = runCatching {
+            mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
+                .getObjectFieldAs<Any>("miuiIntsLazy")
+                .callMethodOrNull("get")
+        }.recoverCatching {
+            mobileUiAdapter.getObjectFieldAs<Any>("mobileIconsViewModel")
+                .getObjectFieldAs<Any>("miuiInt")
+        }.getOrNull() ?: return
 
         val dataConnected = miuiInt.getObjectFieldAs<Any>("dataConnected")
 

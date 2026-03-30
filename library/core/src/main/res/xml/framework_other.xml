@@ -92,6 +92,13 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="prefs_key_system_framework_guided_access"
+            android:key="prefs_key_system_framework_guided_access_block_dialog"
+            android:summary="@string/system_framework_guided_access_block_dialog_more"
+            android:title="@string/system_framework_guided_access_block_dialog" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_system_framework_guided_access"
             android:key="prefs_key_system_framework_guided_access_status"
             android:summary="@string/system_framework_guided_access_status_more"
             android:title="@string/system_framework_guided_access_status" />

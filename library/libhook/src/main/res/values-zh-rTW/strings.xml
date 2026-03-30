@@ -48,6 +48,8 @@
     <string name="system_framework_guided_access_status_more">固定期間隱藏狀態欄與手勢提示線，退出固定後自動恢復</string>
     <string name="system_framework_guided_access_tile">添加磁貼</string>
     <string name="system_framework_guided_access_tile_more">添加 “引導式訪問” 的磁貼入口</string>
+    <string name="system_framework_guided_access_block_dialog">攔截固定應用彈窗</string>
+    <string name="system_framework_guided_access_block_dialog_more">攔截彈窗可能有意料之外的問題</string>
     <string name="system_framework_guided_access_exit_lockscreen">退出固定後進入鎖屏</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">退出固定後立即跳轉至鎖屏介面</string>
     <string name="system_framework_guided_access">修復應用程式</string>

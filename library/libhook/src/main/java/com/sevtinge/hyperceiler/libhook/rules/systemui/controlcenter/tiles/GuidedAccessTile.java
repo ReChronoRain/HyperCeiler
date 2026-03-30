@@ -28,6 +28,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
@@ -85,7 +86,11 @@ public class GuidedAccessTile extends TileUtils {
                 ctx.refreshState();
                 return;
             }
-            startSystemLockTaskMode(targetTaskId);
+            if (isBlockDialogEnabled()) {
+                startSystemLockTaskMode(targetTaskId);
+            } else {
+                showScreenPinningRequest(context, targetTaskId);
+            }
             ctx.refreshState();
         }, ENTER_DELAY_MS);
     }
@@ -139,6 +144,20 @@ public class GuidedAccessTile extends TileUtils {
         }
     }
 
+    private void showScreenPinningRequest(Context context, int taskId) {
+        try {
+            Object statusBar = context.getSystemService("statusbar");
+            if (statusBar != null) {
+                callMethod(statusBar, "showScreenPinningRequest", taskId);
+                return;
+            }
+        } catch (Throwable e) {
+            XposedLog.w(TAG, getPackageName(), "GuidedAccessTile showScreenPinningRequest E: " + e);
+        }
+        // Fallback keeps tile usable on variants without this hidden API.
+        startSystemLockTaskMode(taskId);
+    }
+
     private void stopSystemLockTaskMode() {
         try {
             Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
@@ -151,6 +170,10 @@ public class GuidedAccessTile extends TileUtils {
         } catch (Throwable e) {
             XposedLog.w(TAG, getPackageName(), "GuidedAccessTile stopSystemLockTaskMode E: " + e);
         }
+    }
+
+    private boolean isBlockDialogEnabled() {
+        return PrefsBridge.getBoolean("system_framework_guided_access_block_dialog", false);
     }
 
     private static int getLockApp(Context context) {
