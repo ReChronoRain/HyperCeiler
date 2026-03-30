@@ -46,6 +46,8 @@ android {
 
     val propGitHash = "GIT_HASH"
     val propGitCode = "GIT_CODE"
+    val scHasProperties = "hasProperties"
+    val scDebug = "debug"
 
     defaultConfig {
         applicationId = namespace
@@ -113,7 +115,7 @@ android {
     }
 
     signingConfigs {
-        create("hasProperties") {
+        create(scHasProperties) {
             if (hasSigning) {
                 storeFile = file(getString("storeFile", "STORE_FILE", "Store file"))
                 storePassword = getString("storePassword", "STORE_PASSWORD", "Store password")
@@ -129,7 +131,7 @@ android {
 
     buildTypes {
         val configSigning: ApplicationBuildType.() -> Unit = {
-            val signingConfigName = if (hasSigning) "hasProperties" else "debug"
+            val signingConfigName = if (hasSigning) scHasProperties else scDebug
             signingConfig = signingConfigs.findByName(signingConfigName)
         }
 
@@ -167,23 +169,23 @@ android {
             buildConfigField("String", propGitCode, "\"$gitVersionCode\"")
             versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
             if (hasSigning) {
-                signingConfig = signingConfigs.findByName("hasProperties")
+                signingConfig = signingConfigs.findByName(scHasProperties)
             }
         }
     }
 
-}
-
-afterEvaluate {
-    base {
-        val buildTypeName = gradle.startParameter.taskNames
-            .firstOrNull { it.contains("assemble", ignoreCase = true) }
-            ?.substringAfterLast(":")
-            ?.replace("assemble", "", ignoreCase = true)
-            ?.lowercase() ?: "debug"
-        val suffix = android.buildTypes.findByName(buildTypeName)?.versionNameSuffix ?: ""
-        archivesName.set("$apkId-${android.defaultConfig.versionName}$suffix")
+    afterEvaluate {
+        base {
+            val buildTypeName = gradle.startParameter.taskNames
+                .firstOrNull { it.contains("assemble", ignoreCase = true) }
+                ?.substringAfterLast(":")
+                ?.replace("assemble", "", ignoreCase = true)
+                ?.lowercase() ?: scDebug
+            val suffix = android.buildTypes.findByName(buildTypeName)?.versionNameSuffix ?: ""
+            archivesName.set("$apkId-${android.defaultConfig.versionName}$suffix")
+        }
     }
+
 }
 
 // https://stackoverflow.com/a/77745844
