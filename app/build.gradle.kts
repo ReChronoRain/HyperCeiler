@@ -48,6 +48,7 @@ android {
     val propGitCode = "GIT_CODE"
     val scHasProperties = "hasProperties"
     val scDebug = "debug"
+    val typeString = "String"
 
     defaultConfig {
         applicationId = namespace
@@ -69,7 +70,7 @@ android {
         )
 
         for ((key, value) in buildConfigData) {
-            buildConfigField("String", key, "\"$value\"")
+            buildConfigField(typeString, key, "\"$value\"")
         }
 
         ndk {
@@ -138,13 +139,13 @@ android {
         val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", propGitCode, "\"$gitVersionCode\"")
+            buildConfigField(typeString, propGitCode, "\"$gitVersionCode\"")
         }
 
         release {
             applyBase()
             configSigning()
-            buildConfigField("String", propGitHash, "\"$gitHash\"")
+            buildConfigField(typeString, propGitHash, "\"$gitHash\"")
             proguardFiles("proguard-log.pro")
             versionNameSuffix = "-$dateSuffix"
         }
@@ -152,21 +153,21 @@ android {
         create("beta") {
             applyBase()
             configSigning()
-            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
+            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
             versionNameSuffix = "-$dateSuffix"
         }
 
         create("canary") {
             applyBase()
             configSigning()
-            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
+            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
             versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
         }
 
         debug {
             isMinifyEnabled = false
-            buildConfigField("String", propGitHash, "\"$gitHashLong\"")
-            buildConfigField("String", propGitCode, "\"$gitVersionCode\"")
+            buildConfigField(typeString, propGitHash, "\"$gitHashLong\"")
+            buildConfigField(typeString, propGitCode, "\"$gitVersionCode\"")
             versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
             if (hasSigning) {
                 signingConfig = signingConfigs.findByName(scHasProperties)
