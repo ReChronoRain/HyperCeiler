@@ -46,7 +46,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.OpenByDefaultSetting;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatteryHealth;
-import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfo;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.ShowBatteryTemperatureNew;
@@ -98,7 +98,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(new UnlockSmartCharge(), PrefsBridge.getBoolean("security_center_unlock_smart_charge"));
         initHook(BatteryHealth.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_health"));
         initHook(new UnlockLowTempExtEndurance(), PrefsBridge.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
-        initHook(new MoreBatteryInfo(), PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
+        initHook(MoreBatteryInfoNew.INSTANCE, PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), PrefsBridge.getBoolean("security_center_applock_pin_scramble"));

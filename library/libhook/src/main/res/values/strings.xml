@@ -41,6 +41,9 @@
     <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
     <string name="security_center_aosp_app_manager">Add AOSP app manager entry</string>
+    <string name="security_center_battery_design_capacity">Battery design capacity</string>
+    <string name="security_center_battery_full_capacity">Battery full capacity</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
     <string name="app_link_open_always">Allows the app to open supported links</string>
     <string name="app_link_open_never">Don\'t allow apps to open links</string>
     <string name="dashboard_5g">Use 5G</string>
