@@ -28,6 +28,7 @@ object BeautyPrivacy : BaseHook() {
 
     override fun initDexKit(): Boolean {
         R0
+        invokeMethod
         return true
     }
     private val R0 by lazy<Method> {

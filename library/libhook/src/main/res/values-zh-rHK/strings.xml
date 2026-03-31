@@ -32,6 +32,9 @@
     <string name="security_center_aosp_app_info">添加 \"原生應用程式訊息\" 入口</string>
     <string name="security_center_aosp_app_manager_label">原生應用程式管理</string>
     <string name="security_center_aosp_app_manager">添加 \"原生應用程式管理\" 入口</string>
+    <string name="security_center_battery_design_capacity">電池設計容量</string>
+    <string name="security_center_battery_full_capacity">電池充滿容量</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
     <string name="app_link_open_always">允許應用程式打開支持的連結</string>
     <string name="app_link_open_never">不允許應用程式打開連結</string>
     <string name="dashboard_5g">使用 5G 網絡</string>

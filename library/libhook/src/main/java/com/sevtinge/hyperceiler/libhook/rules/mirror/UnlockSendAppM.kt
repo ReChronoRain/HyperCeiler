@@ -31,6 +31,7 @@ object UnlockSendAppM : BaseHook() {
 
     override fun initDexKit(): Boolean {
         method1
+        class2
         return true
     }
     private val method1 by lazy {

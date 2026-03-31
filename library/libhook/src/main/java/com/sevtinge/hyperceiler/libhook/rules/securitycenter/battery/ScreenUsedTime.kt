@@ -28,6 +28,7 @@ object ScreenUsedTime : BaseHook() {
 
     override fun initDexKit(): Boolean {
         method1
+        method2
         return true
     }
     private val method1 by lazy<Method> {
