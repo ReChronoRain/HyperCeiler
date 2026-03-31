@@ -970,6 +970,12 @@
     <!--权限管理服务-->
     <string name="lbe">权限管理服务</string>
     <string name="lbe_auto_start">禁止自动关闭自启动</string>
+    <string name="lbe_paste_toast">剪贴板读取提示</string>
+    <string name="lbe_paste_toast_custom">自定义剪贴板读取提示</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">将关闭按钮改为关闭本次的提示</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">自定义关闭按钮名称</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">太小的按钮名称会导致难以点击</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">提示不透明度</string>
     <!--投屏-->
     <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>

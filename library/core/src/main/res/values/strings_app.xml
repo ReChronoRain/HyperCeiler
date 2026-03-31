@@ -1032,6 +1032,15 @@
     <!--Permissions-->
     <string name="lbe">Permissions</string>
     <string name="lbe_auto_start">Disable auto-shutdown of auto start</string>
+    <string name="lbe_paste_toast">Paste toast</string>
+    <string name="lbe_paste_toast_custom">Custom paste toast</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">Hook close button into close toast</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">Custom close button text</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">Text that is too small will affect clicking</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">Toast opacity</string>
+
+
+
     <!--Cast-->
     <string name="milink_hyperos">Interconnectivity services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
