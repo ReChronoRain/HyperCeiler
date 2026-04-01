@@ -340,6 +340,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/wallet"
+        android:summary="com.mipay.wallet"
+        android:title="@string/wallet"
+        app:inflatedXml="@xml/wallet"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/voicetrigger"
         android:summary="com.miui.voicetrigger"
         android:title="@string/voicetrigger"

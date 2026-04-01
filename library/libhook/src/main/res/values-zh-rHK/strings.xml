@@ -88,6 +88,11 @@
     <string name="tsmclient_nfc_turning_on">正在自動開啟 NFC …</string>
     <string name="tsmclient_nfc_turn_on_manually">手動開啟 NFC</string>
     <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
+
+    <!--小米錢包-->
+    <string name="wallet">小米錢包</string>
+    <string name="wallet_disable_splash_ad">移除開屏廣告</string>
+    <string name="wallet_disable_splash_ad_desc">跳過啟動頁，攔截廣告請求</string>
     <!--Other-->
     <string name="share_center">小米妙享中心</string>
     <string name="new_task">多開</string>

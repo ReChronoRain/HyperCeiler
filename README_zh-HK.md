@@ -92,6 +92,7 @@ Xiaomi HyperOS 3 或 4 將會是本項目的終點，就目前來說，小米官
 | 小米相簿-編輯           | com.miui.mediaeditor               |
 | 小米雲服務             | com.miui.cloudservice              |
 | 小米智慧卡             | com.miui.tsmclient                 |
+| 小米錢包               | com.mipay.wallet                   |
 | 訊飛輸入法小米版          | com.iflytek.inputmethod.miui       |
 | 應用程式檔案管理元件        | com.miui.packageinstaller          |
 | 應用商店              | com.xiaomi.market                  |
