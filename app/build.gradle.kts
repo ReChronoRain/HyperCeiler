@@ -130,6 +130,8 @@ android {
 
         val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
+            // noinspection NotShrinkingResources
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }
