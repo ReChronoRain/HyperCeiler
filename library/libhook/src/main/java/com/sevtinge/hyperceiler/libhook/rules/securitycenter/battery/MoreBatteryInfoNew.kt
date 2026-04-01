@@ -43,10 +43,10 @@ object MoreBatteryInfoNew : BaseHook() {
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        manufacturingDateMethod
-        firstUsageDateMethod
-        fullCapacityMethod
-        designCapacityMethod
+        manufacturingDateMethod.apply { isAccessible = true }
+        firstUsageDateMethod.apply { isAccessible = true }
+        fullCapacityMethod.apply { isAccessible = true }
+        designCapacityMethod.apply { isAccessible = true }
 
         return true
     }
@@ -95,7 +95,6 @@ object MoreBatteryInfoNew : BaseHook() {
         "com.miui.powercenter.nightcharge.ChargeProtectFragment"
     private const val CHARGE_PROTECT_HANDLER_CLASS =
         $$"com.miui.powercenter.nightcharge.ChargeProtectFragment$d"
-
     private const val BATTERY_HEALTH_KEY = "reference_battery_health"
     private const val CURRENT_TEMP_KEY = "reference_current_temp"
     private const val TODAY_CHARGE_KEY = "reference_toady_charge_time"
@@ -110,6 +109,23 @@ object MoreBatteryInfoNew : BaseHook() {
     private const val BATTERY_PROPERTY_FIRST_USAGE_DATE = 8
     private const val BATTERY_SYSFS_DIR = "/sys/class/power_supply/battery"
     private const val BATTERY_BMS_SYSFS_DIR = "/sys/class/power_supply/bms"
+    private val DESIGN_CAPACITY_PATHS = listOf(
+        "$BATTERY_SYSFS_DIR/charge_full_design",
+        "$BATTERY_BMS_SYSFS_DIR/charge_full_design"
+    )
+    private val FULL_CAPACITY_PATHS = listOf(
+        "$BATTERY_SYSFS_DIR/charge_full",
+        "$BATTERY_BMS_SYSFS_DIR/charge_full"
+    )
+    private val PRODUCTION_DATE_PATHS = listOf(
+        "$BATTERY_SYSFS_DIR/manufacturing_date",
+        "$BATTERY_SYSFS_DIR/production_date",
+        "$BATTERY_BMS_SYSFS_DIR/manufacturing_date"
+    )
+    private val FIRST_USE_DATE_PATHS = listOf(
+        "$BATTERY_SYSFS_DIR/first_usage_date",
+        "$BATTERY_BMS_SYSFS_DIR/first_usage_date"
+    )
 
     private val keepPreferenceKeys = setOf(
         BATTERY_HEALTH_KEY,
@@ -150,7 +166,6 @@ object MoreBatteryInfoNew : BaseHook() {
                 val key = runCatching {
                     preference?.callMethod("getKey") as? String
                 }.getOrNull()
-
                 if (key != null && key in keepPreferenceKeys) {
                     return@chainMethod false
                 }
@@ -167,6 +182,7 @@ object MoreBatteryInfoNew : BaseHook() {
 
         runCatching {
             fragmentClass.chainMethod("onCreatePreferences", Bundle::class.java, String::class.java) {
+                clearCapturedPreferences()
                 val result = proceed()
                 captureBatteryPreferences(thisObject)
                 refreshDynamicBatteryRows()
@@ -184,7 +200,17 @@ object MoreBatteryInfoNew : BaseHook() {
         runCatching {
             handlerClass.chainMethod("handleMessage", Message::class.java) {
                 val result = proceed()
-                refreshChargeProtectRows(thisObject)
+                val handler = thisObject
+                runCatching {
+                    handler.callMethod("a")
+                }.onFailure {
+                    XposedLog.e(TAG, packageName, "Refresh callback failed: a()", it)
+                }
+                runCatching {
+                    handler.callMethod("b")
+                }.onFailure {
+                    XposedLog.e(TAG, packageName, "Refresh callback failed: b()", it)
+                }
                 refreshDynamicBatteryRows()
                 result
             }
@@ -195,9 +221,16 @@ object MoreBatteryInfoNew : BaseHook() {
     }
 
     private fun captureBatteryPreferences(fragment: Any?) {
-        if (fragment == null) return
+        if (fragment == null) {
+            clearCapturedPreferences()
+            return
+        }
 
-        batteryContext = resolveFragmentContext(fragment)
+        batteryContext = runCatching {
+            fragment.callMethod("getContext") as? Context
+        }.getOrNull() ?: runCatching {
+            fragment.callMethod("requireContext") as? Context
+        }.getOrNull()
         val findPreferenceByKey: (String) -> Any? = { key ->
             runCatching {
                 fragment.callMethod("findPreference", key)
@@ -207,22 +240,8 @@ object MoreBatteryInfoNew : BaseHook() {
         batteryInfoCategory = findPreferenceByKey("preference_key_category_battery_info")
         productionDatePreference = findPreferenceByKey(PRODUCTION_DATE_KEY)
         firstUseDatePreference = findPreferenceByKey(FIRST_USE_DATE_KEY)
-    }
-
-    private fun refreshChargeProtectRows(handler: Any?) {
-        if (handler == null) return
-
-        runCatching {
-            handler.callMethod("a")
-        }.onFailure {
-            XposedLog.e(TAG, packageName, "Refresh callback failed: a()", it)
-        }
-
-        runCatching {
-            handler.callMethod("b")
-        }.onFailure {
-            XposedLog.e(TAG, packageName, "Refresh callback failed: b()", it)
-        }
+        designCapacityPreference = findPreferenceByKey(DESIGN_CAPACITY_KEY)
+        fullCapacityPreference = findPreferenceByKey(FULL_CAPACITY_KEY)
     }
 
     private fun ensureDynamicBatteryPreferences(modRes: Resources) {
@@ -288,10 +307,7 @@ object MoreBatteryInfoNew : BaseHook() {
             resolveCapacityText(
                 designCapacityMethod,
                 modRes,
-                listOf(
-                    "$BATTERY_SYSFS_DIR/charge_full_design",
-                    "$BATTERY_BMS_SYSFS_DIR/charge_full_design"
-                )
+                DESIGN_CAPACITY_PATHS
             )
         )
 
@@ -300,10 +316,7 @@ object MoreBatteryInfoNew : BaseHook() {
             resolveCapacityText(
                 fullCapacityMethod,
                 modRes,
-                listOf(
-                    "$BATTERY_SYSFS_DIR/charge_full",
-                    "$BATTERY_BMS_SYSFS_DIR/charge_full"
-                )
+                FULL_CAPACITY_PATHS
             )
         )
     }
@@ -396,7 +409,13 @@ object MoreBatteryInfoNew : BaseHook() {
 
     private fun formatBatteryDateCandidate(candidate: String?): String? {
         val value = candidate?.trim()
-        if (!isValidDateDigits(value)) {
+        if (
+            value == null ||
+            value.length != 8 ||
+            !value.all { it in '0'..'9' } ||
+            value == "00000000" ||
+            value == "99999999"
+        ) {
             return null
         }
 
@@ -411,14 +430,6 @@ object MoreBatteryInfoNew : BaseHook() {
             )
             SimpleDateFormat(pattern, Locale.getDefault()).format(parsed)
         }.getOrNull()?.takeIf { it.isNotBlank() }
-    }
-
-    private fun isValidDateDigits(value: String?): Boolean {
-        return value != null &&
-            value.length == 8 &&
-            value.all { it in '0'..'9' } &&
-            value != "00000000" &&
-            value != "99999999"
     }
 
     private fun readBatteryManagerDateSeconds(context: Context, propertyId: Int): Long? {
@@ -492,41 +503,16 @@ object MoreBatteryInfoNew : BaseHook() {
         text?.let { setPreferenceText(preference, it) }
     }
 
-    private fun resolveFragmentContext(fragment: Any?): Context? {
-        if (fragment == null) {
-            return null
-        }
-
-        val context = runCatching {
-            fragment.callMethod("getContext") as? Context
-        }.getOrNull()
-        if (context != null) {
-            return context
-        }
-
-        return runCatching {
-            fragment.callMethod("requireContext") as? Context
-        }.getOrNull()
-    }
-
     private fun callDexKitStaticValue(method: Method): Any? {
         return runCatching {
-            method.isAccessible = true
             method.invoke(null)
         }.getOrNull()
     }
 
     private fun readDateFromSysfs(label: String): String? {
         val candidates = when (label) {
-            "production" -> listOf(
-                "$BATTERY_SYSFS_DIR/manufacturing_date",
-                "$BATTERY_SYSFS_DIR/production_date",
-                "$BATTERY_BMS_SYSFS_DIR/manufacturing_date"
-            )
-            "first use" -> listOf(
-                "$BATTERY_SYSFS_DIR/first_usage_date",
-                "$BATTERY_BMS_SYSFS_DIR/first_usage_date"
-            )
+            "production" -> PRODUCTION_DATE_PATHS
+            "first use" -> FIRST_USE_DATE_PATHS
             else -> emptyList()
         }
 
@@ -560,6 +546,15 @@ object MoreBatteryInfoNew : BaseHook() {
                 reader.readLine()
             }
         }.getOrNull()
+    }
+
+    private fun clearCapturedPreferences() {
+        batteryInfoCategory = null
+        productionDatePreference = null
+        firstUseDatePreference = null
+        designCapacityPreference = null
+        fullCapacityPreference = null
+        batteryContext = null
     }
 
 }
