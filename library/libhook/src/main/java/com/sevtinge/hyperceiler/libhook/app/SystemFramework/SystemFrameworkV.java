@@ -69,6 +69,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableVeri
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinderProxy;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NativeFilePicker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.PstedClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.QuickScreenshot;
@@ -161,6 +162,7 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new UseAndroidPackageInstaller(), PrefsBridge.getBoolean("system_framework_use_android_package_installer"));
         initHook(new QuickScreenshot(), PrefsBridge.getBoolean("system_framework_quick_screenshot"));
         initHook(new LinkTurboToast(), PrefsBridge.getBoolean("system_framework_disable_link_turbo_toast"));
+        initHook(new NativeFilePicker(), PrefsBridge.getBoolean("system_framework_native_file_picker"));
 
         if (PrefsBridge.getBoolean("misound_bluetooth")) {
             initHook(new EffectBinderProxy());
