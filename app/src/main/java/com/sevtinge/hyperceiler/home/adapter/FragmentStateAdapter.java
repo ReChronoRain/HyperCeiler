@@ -28,6 +28,15 @@ public abstract class FragmentStateAdapter extends PagerAdapter {
     public abstract int getItemCount();
     public abstract Fragment createFragment(int position);
 
+    public String getFragmentTag(int position) {
+        return buildFragmentTag(position);
+    }
+
+    protected static String buildFragmentTag(int position) {
+        // 统一暴露 tag 规则，供外部在语言切换等场景下精确清理旧 fragment。
+        return "f" + position;
+    }
+
     @Override
     public int getCount() {
         return getItemCount();
@@ -46,7 +55,7 @@ public abstract class FragmentStateAdapter extends PagerAdapter {
         }
 
         // 唯一标识符，确保 Fragment 正确挂载
-        String name = "f" + position;
+        String name = getFragmentTag(position);
         Fragment fragment = mFragmentManager.findFragmentByTag(name);
 
         if (fragment != null) {

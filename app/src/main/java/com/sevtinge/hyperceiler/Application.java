@@ -50,7 +50,7 @@ public class Application extends fan.app.Application
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(base));
         AppInitializer.attach(this);
     }
 
