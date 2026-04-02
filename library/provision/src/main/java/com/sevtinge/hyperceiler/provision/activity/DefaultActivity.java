@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.provision.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityOptionsCompat;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.provision.state.StartupState;
 import com.sevtinge.hyperceiler.provision.state.StateMachine;
 import com.sevtinge.hyperceiler.provision.utils.IKeyEvent;
@@ -61,6 +63,11 @@ public class DefaultActivity extends ProvisionBaseActivity {
             handleActivityResult(requestCode, result.getResultCode(), result.getData());
         }
     );
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
