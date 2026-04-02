@@ -10,6 +10,7 @@ com.android.incallui
 com.android.mms
 com.android.nfc
 com.android.phone
+com.android.photopicker
 com.android.providers.downloads
 com.android.providers.downloads.ui
 com.android.server.telecom

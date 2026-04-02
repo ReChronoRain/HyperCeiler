@@ -1566,6 +1566,10 @@
     <!--超级小爱-->
     <string name="voiceassist">超级小爱</string>
     <string name="voiceassist_remove_screen_trans_watermark">移除屏幕翻译 \"AI 生成\" 水印</string>
+    <!--照片和视频-->
+    <string name="photopicker">照片和视频</string>
+    <string name="photopicker_disable_reroute">使用原生照片和文件选择器</string>
+    <string name="photopicker_disable_reroute_desc">不再使用 HyperOS 相册和文件管理提供的服务</string>
     <!--语音唤醒-->
     <string name="voicetrigger">语音唤醒</string>
     <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>

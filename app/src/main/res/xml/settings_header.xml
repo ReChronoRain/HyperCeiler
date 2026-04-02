@@ -81,6 +81,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/photopicker"
+        android:summary="com.android.photopicker"
+        android:title="@string/photopicker"
+        app:inflatedXml="@xml/photopicker"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/downloads"
         android:summary="com.android.providers.downloads"
         android:title="@string/downloads"

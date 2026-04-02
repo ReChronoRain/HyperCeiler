@@ -1630,6 +1630,10 @@
     <!--XIAO AI-->
     <string name="voiceassist">Xiaomi Hyper XiaoAi</string>
     <string name="voiceassist_remove_screen_trans_watermark">Remove screen translate AI generated watermark</string>
+    <!--Photos n Videos-->
+    <string name="photopicker">Photos &amp; Videos</string>
+    <string name="photopicker_disable_reroute">Use native file and photo picker</string>
+    <string name="photopicker_disable_reroute_desc">No longer use service from HyperOS gallery and file manager</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
