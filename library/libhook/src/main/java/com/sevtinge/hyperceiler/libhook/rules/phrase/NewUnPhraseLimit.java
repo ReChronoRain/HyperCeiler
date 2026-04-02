@@ -31,7 +31,6 @@ import android.widget.EditText;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -54,6 +53,57 @@ import java.util.Objects;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class NewUnPhraseLimit extends BaseHook {
+    private Method mBuildClipboardJsonMethod;
+    private Method mPhraseMethod;
+    private Field mPhraseEditTextField;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        if (Objects.equals(getPackageName(), "com.miui.phrase")) {
+            mBuildClipboardJsonMethod = requiredMember("BuildClipboardJson", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .usingStrings("get savedList size :")
+                        )).singleOrNull();
+                    return methodData;
+                }
+            });
+            mPhraseMethod = requiredMember("phrase$1", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .declaredClass(ClassMatcher.create()
+                                .usingStrings("phrase_list")
+                            )
+                            .usingStrings("layout_inflater")
+                        )).singleOrNull();
+                    return methodData;
+                }
+            });
+            mPhraseEditTextField = requiredMember("phrase$2", new IDexKit() {
+                @Override
+                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                    return bridge.findField(FindField.create()
+                        .matcher(FieldMatcher.create()
+                            .declaredClass(ClassMatcher.create()
+                                .usingStrings("phrase_list")
+                            )
+                            .type(EditText.class)
+                        )
+                    ).single();
+                }
+            });
+        }
+        return true;
+    }
 
     @Override
     public void init() {
@@ -80,17 +130,7 @@ public class NewUnPhraseLimit extends BaseHook {
             );
         } catch (Exception ignore) {}
         if (Objects.equals(getPackageName(), "com.miui.phrase")) {
-            Method method = DexKit.findMember("BuildClipboardJson", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("get savedList size :")
-                        )).singleOrNull();
-                    return methodData;
-                }
-            });
-            hookMethod(method, new IMethodHook() {
+            hookMethod(mBuildClipboardJsonMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     Object newModel = param.getArgs()[2];
@@ -143,37 +183,10 @@ public class NewUnPhraseLimit extends BaseHook {
             });
 
             // 解除字数限制
-            Method method1 = DexKit.findMember("phrase$1", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass(ClassMatcher.create()
-                                .usingStrings("phrase_list")
-                            )
-                            .usingStrings("layout_inflater")
-                        )).singleOrNull();
-                    return methodData;
-                }
-            });
-
-            Field field = DexKit.findMember("phrase$2", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                            .declaredClass(ClassMatcher.create()
-                                .usingStrings("phrase_list")
-                            )
-                            .type(EditText.class)
-                        )
-                    ).single();
-                }
-            });
-            hookMethod(method1, new IMethodHook() {
+            hookMethod(mPhraseMethod, new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
-                        EditText editText = (EditText) getObjectField(param.getThisObject(), field.getName());
+                        EditText editText = (EditText) getObjectField(param.getThisObject(), mPhraseEditTextField.getName());
                         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(Integer.MAX_VALUE)});
                     }
                 }

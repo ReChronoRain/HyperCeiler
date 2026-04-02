@@ -24,8 +24,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
-;
-
 public class EnablePdf extends BaseHook {
     XposedInterface.HookHandle isGlobal;
 

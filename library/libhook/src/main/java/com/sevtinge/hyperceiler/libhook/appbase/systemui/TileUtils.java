@@ -642,14 +642,14 @@ public abstract class TileUtils extends BaseHook {
             boolean enabled = (stateValue == TileState.STATE_ACTIVE);
 
             // 覆盖标签
-            String label = state.getLabel();
+            String label = state.label();
             if (label != null) {
                 EzxHelpUtils.setObjectField(booleanState, "label", label);
                 EzxHelpUtils.setObjectField(booleanState, "contentDescription", label);
             }
 
             // 覆盖图标
-            int iconResId = state.getIconResId();
+            int iconResId = state.iconResId();
             if (iconResId == -1 && mConfig.hasIcons()) {
                 iconResId = mConfig.getIconByState(enabled);
             }
@@ -698,11 +698,11 @@ public abstract class TileUtils extends BaseHook {
         if (booleanState == null) return;
 
         // 设置基础状态
-        EzxHelpUtils.setObjectField(booleanState, "value", state.isEnabled());
-        EzxHelpUtils.setObjectField(booleanState, "state", state.getStateValue());
+        EzxHelpUtils.setObjectField(booleanState, "value", state.enabled());
+        EzxHelpUtils.setObjectField(booleanState, "state", state.stateValue());
 
         // 设置标签
-        String label = state.getLabel();
+        String label = state.label();
         if (label == null) {
             label = ctx.getTileLabel();
         }
@@ -711,9 +711,9 @@ public abstract class TileUtils extends BaseHook {
         EzxHelpUtils.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
 
         // 设置图标
-        int iconResId = state.getIconResId();
+        int iconResId = state.iconResId();
         if (iconResId == -1 && mConfig.hasIcons()) {
-            iconResId = mConfig.getIconByState(state.isEnabled());
+            iconResId = mConfig.getIconByState(state.enabled());
         }
         if (iconResId != -1 && mResourceIconClass != null) {
             Object icon = EzxHelpUtils.callStaticMethod(mResourceIconClass, "get", iconResId);

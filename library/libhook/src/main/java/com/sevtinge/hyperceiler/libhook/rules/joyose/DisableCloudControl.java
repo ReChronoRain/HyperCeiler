@@ -19,33 +19,32 @@
 package com.sevtinge.hyperceiler.libhook.rules.joyose;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-;
-
 public class DisableCloudControl extends BaseHook {
+    private Method mSyncHelperMethod;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mSyncHelperMethod = requiredMember("SyncHelper", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("job exist, sync local...")
+                .returnType(void.class)
+            )).singleOrNull());
+        return true;
+    }
+
     @Override
     public void init() {
-        Method method = DexKit.findMember("SyncHelper", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("job exist, sync local...")
-                                .returnType(void.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method, returnConstant(null));
+        hookMethod(mSyncHelperMethod, returnConstant(null));
     }
 }

@@ -71,10 +71,10 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.RecentResource;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RecentText;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveCardAnim;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveIcon;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewVertical;
-import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DisableHideApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DownloadAnimation;
@@ -97,9 +97,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 2, minOSVersion = 3.0F)
 public class HomePhone extends BaseLoad {
 
-    public HomePhone() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

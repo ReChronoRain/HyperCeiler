@@ -353,11 +353,11 @@
         android:title="@string/weather" />
 
     <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.AiasstFragment"
         android:icon="@drawable/ic_default"
         android:id="@+id/aiasst"
         android:summary="com.xiaomi.aiasst.vision"
-        android:title="@string/aiasst"
-        app:inflatedXml="@xml/aiasst"/>
+        android:title="@string/aiasst" />
 
     <header
         android:icon="@drawable/ic_default"

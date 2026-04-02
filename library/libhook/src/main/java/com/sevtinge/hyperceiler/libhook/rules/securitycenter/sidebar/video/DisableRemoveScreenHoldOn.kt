@@ -19,13 +19,18 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object DisableRemoveScreenHoldOn : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        screen
+        return true
+    }
     private val screen by lazy<Method> {
-        DexKit.findMember("DisableRemoveScreenHoldOn") {
+        requiredMember("DisableRemoveScreenHoldOn") {
             it.findMethod {
                 matcher {
                     addEqString("remove_screen_off_hold_on")
@@ -41,3 +46,4 @@ object DisableRemoveScreenHoldOn : BaseHook() {
         }
     }
 }
+

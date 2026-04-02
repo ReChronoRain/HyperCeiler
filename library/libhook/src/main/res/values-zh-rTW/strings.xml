@@ -32,6 +32,9 @@
     <string name="security_center_aosp_app_info">添加原生安卓應用程式信息條目</string>
     <string name="security_center_aosp_app_manager_label">AOSP應用程式管理器</string>
     <string name="security_center_aosp_app_manager">添加原生安卓應用程式信息條目</string>
+    <string name="security_center_battery_design_capacity">電池設計容量</string>
+    <string name="security_center_battery_full_capacity">電池充滿容量</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
     <string name="app_link_open_always">允許應用程式打開支持的鏈接</string>
     <string name="app_link_open_never">不要允許應用程式打開鏈接</string>
     <string name="dashboard_5g">使用5G</string>
@@ -48,6 +51,8 @@
     <string name="system_framework_guided_access_status_more">固定期間隱藏狀態欄與手勢提示線，退出固定後自動恢復</string>
     <string name="system_framework_guided_access_tile">添加磁貼</string>
     <string name="system_framework_guided_access_tile_more">添加 “引導式訪問” 的磁貼入口</string>
+    <string name="system_framework_guided_access_block_dialog">攔截固定應用彈窗</string>
+    <string name="system_framework_guided_access_block_dialog_more">攔截彈窗可能有意料之外的問題</string>
     <string name="system_framework_guided_access_exit_lockscreen">退出固定後進入鎖屏</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">退出固定後立即跳轉至鎖屏介面</string>
     <string name="system_framework_guided_access">修復應用程式</string>

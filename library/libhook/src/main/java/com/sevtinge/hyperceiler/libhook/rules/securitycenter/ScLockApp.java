@@ -27,7 +27,6 @@ import android.view.View;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -50,14 +49,21 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
  * @author 焕晨HChen
  */
 public class ScLockApp extends BaseHook {
+    private Method mTouchMethod;
+    private Class<?> mTouchClazz;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
     boolean isListen = false;
     boolean isLock = false;
 
     int value = 0;
 
     @Override
-    public void init() {
-        Method method = DexKit.findMember("StartRegionSampling", new IDexKit() {
+    protected boolean initDexKit() {
+        mTouchMethod = optionalMember("StartRegionSampling", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -70,7 +76,7 @@ public class ScLockApp extends BaseHook {
                 return methodData;
             }
         });
-        Class<?> clazz = DexKit.findMember("StartRegionSamplingClazz", new IDexKit() {
+        mTouchClazz = optionalMember("StartRegionSamplingClazz", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData clazzData = bridge.findClass(FindClass.create()
@@ -80,10 +86,9 @@ public class ScLockApp extends BaseHook {
                 return clazzData;
             }
         });
-        Field field = null;
-        if (method == null) {
+        if (mTouchMethod == null) {
             value = 1;
-            method = DexKit.findMember("SidebarTouchListener", new IDexKit() {
+            mTouchMethod = optionalMember("SidebarTouchListener", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -96,7 +101,7 @@ public class ScLockApp extends BaseHook {
                     return methodData;
                 }
             });
-            clazz = DexKit.findMember("OnTouchClazz", new IDexKit() {
+            mTouchClazz = optionalMember("OnTouchClazz", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     ClassData clazzData = bridge.findClass(FindClass.create()
@@ -106,8 +111,7 @@ public class ScLockApp extends BaseHook {
                     return clazzData;
                 }
             });
-
-       DexKit.findMember("OnTouchField", new IDexKit() {
+            optionalMember("OnTouchField", new IDexKit() {
                 @Override
                 public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                     return bridge.findField(FindField.create()
@@ -120,8 +124,14 @@ public class ScLockApp extends BaseHook {
                 }
             });
         }
+        return true;
+    }
+
+    @Override
+    public void init() {
+        Field field = null;
         // XposedLog.e(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
-        if (clazz == null) {
+        if (mTouchClazz == null) {
             XposedLog.e(TAG, "Class is null");
             return;
         }
@@ -131,7 +141,7 @@ public class ScLockApp extends BaseHook {
         }
         // XposedLog.e(TAG, "data: " + data + " fieldData: " + fieldData + " methodData: " + methodData);
         Field finalField = field;
-        hookAllConstructors(clazz, new IMethodHook() {
+        hookAllConstructors(mTouchClazz, new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 Context context = null;
@@ -168,11 +178,11 @@ public class ScLockApp extends BaseHook {
             }
         });
 
-        if (method == null) {
+        if (mTouchMethod == null) {
             XposedLog.e(TAG, "Method is null");
             return;
         }
-        hookMethod(method,
+        hookMethod(mTouchMethod,
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {

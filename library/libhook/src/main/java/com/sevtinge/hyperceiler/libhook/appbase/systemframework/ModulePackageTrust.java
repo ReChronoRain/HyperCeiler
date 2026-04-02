@@ -71,15 +71,13 @@ public class ModulePackageTrust extends BaseHook {
                 @Override
                 public Object intercept(XposedInterface.Chain chain) throws Throwable {
                     Object result = chain.proceed();
-                    if (chain.getArgs().size() < 6 || !(result instanceof List<?>)) {
+                    if (chain.getArgs().size() < 6 || !(result instanceof List<?> infos)) {
                         return result;
                     }
-                    List<?> infos = (List<?>) result;
                     for (Object item : infos) {
-                        if (!(item instanceof ResolveInfo)) {
+                        if (!(item instanceof ResolveInfo info)) {
                             continue;
                         }
-                        ResolveInfo info = (ResolveInfo) item;
                         if (info.activityInfo == null) {
                             continue;
                         }

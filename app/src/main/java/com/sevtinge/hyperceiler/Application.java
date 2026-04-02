@@ -110,14 +110,13 @@ public class Application extends fan.app.Application
     @NonNull
     private static String describeFrameworkStatus() {
         FrameworkStatusManager.Status status = FrameworkStatusManager.getCurrentStatus();
-        StringBuilder sb = new StringBuilder();
-        sb.append(valueOrUnknown(status.getFrameworkName()));
-        sb.append(" v");
-        sb.append(valueOrUnknown(status.getFrameworkVersion()));
-        sb.append(" (API ");
-        sb.append(status.getFrameworkApiVersion() >= 0 ? status.getFrameworkApiVersion() : "Unknown");
-        sb.append(")");
-        return sb.toString();
+        String sb = valueOrUnknown(status.getFrameworkName()) +
+            " v" +
+            valueOrUnknown(status.getFrameworkVersion()) +
+            " (API " +
+            (status.getFrameworkApiVersion() >= 0 ? status.getFrameworkApiVersion() : "Unknown") +
+            ")";
+        return sb;
     }
 
     @NonNull

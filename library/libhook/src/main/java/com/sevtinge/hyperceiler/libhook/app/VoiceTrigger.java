@@ -20,16 +20,13 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.voicetrigger.BypassUDKWordLegalCheck;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.voicetrigger")
 public class VoiceTrigger extends BaseLoad {
 
-    public VoiceTrigger() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

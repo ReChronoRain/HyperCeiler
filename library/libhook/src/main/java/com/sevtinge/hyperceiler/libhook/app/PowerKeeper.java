@@ -31,9 +31,6 @@ import com.sevtinge.hyperceiler.libhook.rules.powerkeeper.PreventBatteryWitelist
 @HookBase(targetPackage = "com.miui.powerkeeper")
 public class PowerKeeper extends BaseLoad {
 
-    public PowerKeeper() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

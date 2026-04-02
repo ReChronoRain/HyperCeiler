@@ -26,20 +26,17 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.AllAsSystemApp;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableAd;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableAppInfoUpload;
+import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCloudCheck;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCountChecking;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableInstallerFullSafeVersion;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableSafeModelTip;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallRiskDisable;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallSource;
-import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCloudCheck;
 
 @HookBase(targetPackage = "com.miui.packageinstaller")
 public class PackageInstaller extends BaseLoad {
 
-    public PackageInstaller() {
-        super(true);
-    }
 
     public void onPackageLoaded() {
 

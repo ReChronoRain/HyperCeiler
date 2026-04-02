@@ -80,7 +80,7 @@ public class LogManager {
     private static volatile LogManager sInstance;
     private static volatile boolean sStatusManagerInitialized;
 
-    private Context mAppContext;
+    private final Context mAppContext;
     private static DeviceInfoProvider sDeviceInfoProvider;
 
     public static LogManager getInstance() {

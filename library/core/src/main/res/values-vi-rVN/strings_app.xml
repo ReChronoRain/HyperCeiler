@@ -1428,7 +1428,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI dịch</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
-    <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
     <string name="aiasst_unlock_split_screen_translation">Mở khóa dịch màn hình chia đôi</string>
     <!--Barrage-->
     <string name="barrage">Rào cản</string>

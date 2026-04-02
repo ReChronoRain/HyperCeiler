@@ -82,7 +82,7 @@ public class ViewUtils {
         float f = iMin / 2.0f;
         canvas.drawCircle(f, f, f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, (Rect) null, rect, paint);
+        canvas.drawBitmap(bitmap, null, rect, paint);
         return bitmapCreateBitmap;
     }
 

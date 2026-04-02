@@ -41,6 +41,9 @@
     <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
     <string name="security_center_aosp_app_manager">Add AOSP app manager entry</string>
+    <string name="security_center_battery_design_capacity">Battery design capacity</string>
+    <string name="security_center_battery_full_capacity">Battery full capacity</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
     <string name="app_link_open_always">Allows the app to open supported links</string>
     <string name="app_link_open_never">Don\'t allow apps to open links</string>
     <string name="dashboard_5g">Use 5G</string>
@@ -74,6 +77,8 @@
     <string name="system_framework_guided_access_status_more">When pinned, hide status bar and gesture line until unpinned</string>
     <string name="system_framework_guided_access_tile">QS tile entry</string>
     <string name="system_framework_guided_access_tile_more">Add a "Guided Access" QS tile entry</string>
+    <string name="system_framework_guided_access_block_dialog">Intercept pinning dialog</string>
+    <string name="system_framework_guided_access_block_dialog_more">Intercepting dialogs may cause unexpected issues</string>
     <string name="system_framework_guided_access_exit_lockscreen">Go to lock screen after unpin</string>
     <string name="system_framework_guided_access_exit_lockscreen_more">After exiting pinned mode, jump to lock screen</string>
     <string name="system_framework_guided_access">Fixed apps</string>

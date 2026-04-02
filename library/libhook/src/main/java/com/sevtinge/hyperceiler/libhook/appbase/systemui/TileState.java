@@ -43,7 +43,8 @@ import androidx.annotation.Nullable;
  * return TileState.unavailable();
  * </pre>
  */
-public final class TileState {
+public record TileState(boolean enabled, @DrawableRes int iconResId, @Nullable String label,
+                        int stateValue) {
 
     /**
      * 磁贴状态常量：不可用
@@ -59,13 +60,6 @@ public final class TileState {
      * 磁贴状态常量：已激活（开启）
      */
     public static final int STATE_ACTIVE = 2;
-
-    private final boolean enabled;
-    @DrawableRes
-    private final int iconResId;
-    @Nullable
-    private final String label;
-    private final int stateValue;
 
     /**
      * 创建简单的开关状态
@@ -105,11 +99,7 @@ public final class TileState {
      * @param label      自定义标签
      * @param stateValue 状态值 (STATE_UNAVAILABLE, STATE_INACTIVE, STATE_ACTIVE)
      */
-    public TileState(boolean enabled, @DrawableRes int iconResId, @Nullable String label, int stateValue) {
-        this.enabled = enabled;
-        this.iconResId = iconResId;
-        this.label = label;
-        this.stateValue = stateValue;
+    public TileState {
     }
 
     // ==================== Getters ====================
@@ -117,7 +107,8 @@ public final class TileState {
     /**
      * 是否启用
      */
-    public boolean isEnabled() {
+    @Override
+    public boolean enabled() {
         return enabled;
     }
 
@@ -126,8 +117,9 @@ public final class TileState {
      *
      * @return 图标资源ID，-1 表示未设置
      */
+    @Override
     @DrawableRes
-    public int getIconResId() {
+    public int iconResId() {
         return iconResId;
     }
 
@@ -143,8 +135,9 @@ public final class TileState {
      *
      * @return 标签，null 表示使用默认标签
      */
+    @Override
     @Nullable
-    public String getLabel() {
+    public String label() {
         return label;
     }
 
@@ -160,7 +153,8 @@ public final class TileState {
      * <p>
      * 0=不可用，1 = 未激活，2 = 已激活
      */
-    public int getStateValue() {
+    @Override
+    public int stateValue() {
         return stateValue;
     }
 

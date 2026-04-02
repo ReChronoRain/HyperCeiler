@@ -496,6 +496,8 @@
     <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
     <string name="system_framework_core_patch_unloss_fingerprint">禁用重置指纹</string>
     <string name="system_framework_core_patch_unloss_fingerprint_desc">也许能解决开启包管理服务部分功能后，重启设备导致指纹被重置的问题，仅供遇到此问题的设备使用</string>
+    <string name="system_framework_native_file_picker">使用原生文件选择器</string>
+    <string name="system_framework_native_file_picker_desc">不再使用 HyperOS 文件管理的安全访问</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
@@ -1499,7 +1501,6 @@
     <!--小爱翻译-->
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
-    <string name="aiasst_all_captions">解锁多语言在线字幕</string>
     <string name="aiasst_unlock_split_screen_translation">解锁分屏翻译</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>

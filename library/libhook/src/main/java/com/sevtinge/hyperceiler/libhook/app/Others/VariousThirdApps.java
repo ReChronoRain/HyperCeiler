@@ -23,6 +23,8 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
 import com.sevtinge.hyperceiler.libhook.rules.various.MusicHooks;
@@ -33,8 +35,6 @@ import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.LoadInputMethodD
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,9 +45,6 @@ public class VariousThirdApps extends BaseLoad {
 
     public static List<String> mAppsUsingInputMethod = new ArrayList<>();
 
-    public VariousThirdApps() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

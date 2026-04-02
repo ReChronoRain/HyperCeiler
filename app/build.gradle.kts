@@ -49,7 +49,7 @@ android {
         minSdk = 35
         targetSdk = 37
         versionCode = gitVersionCode
-        versionName = "2.10.165"
+        versionName = "2.10.166"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
@@ -130,6 +130,8 @@ android {
 
         val applyBase: ApplicationBuildType.() -> Unit = {
             isMinifyEnabled = true
+            // noinspection NotShrinkingResources
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }

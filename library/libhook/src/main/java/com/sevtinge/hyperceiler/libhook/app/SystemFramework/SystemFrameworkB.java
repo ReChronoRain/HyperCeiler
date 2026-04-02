@@ -69,6 +69,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinde
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NativeFilePicker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.PstedClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.QuickScreenshot;
@@ -160,6 +161,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new BypassForceMiAppStore(), PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore") || PrefsBridge.getBoolean("system_framework_market_use_detailmini"));
         initHook(new BypassForceDownloadui(), PrefsBridge.getBoolean("system_framework_bypass_force_downloadui"));
         initHook(GMSDozeFixFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
+        initHook(new NativeFilePicker(), PrefsBridge.getBoolean("system_framework_native_file_picker"));
 
         // 清理菜单
         initHook(new CleanShareMenu(), PrefsBridge.getBoolean("system_framework_clean_share_menu"));

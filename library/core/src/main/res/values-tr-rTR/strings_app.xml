@@ -1194,7 +1194,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Çeviri</string>
     <string name="aiasst_ai_captions">Zorla etkinleştirilen AI altyazıları</string>
-    <string name="aiasst_all_captions">Çok dilli çevrimiçi altyazıların kilidini açın</string>
     <!--Barrage-->
     <string name="barrage">Baraj</string>
     <string name="barrage_any_barrage">Tüm uygulamaların barajı kullanmasına izin ver</string>

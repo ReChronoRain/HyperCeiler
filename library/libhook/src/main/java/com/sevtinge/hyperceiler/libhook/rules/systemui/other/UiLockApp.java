@@ -106,7 +106,6 @@ public class UiLockApp extends BaseHook {
         for (String className : TASKBAR_DELEGATE_CLASS_CANDIDATES) {
             hookTaskbarDelegateClass(className);
         }
-        hookScreenPinningDialogBlock();
         if (isPad()) {
             hookLauncherProxyStopScreenPinning();
         }
@@ -146,8 +145,7 @@ public class UiLockApp extends BaseHook {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 Object result = chain.proceed();
-                if (chain.getThisObject() instanceof View) {
-                    View handleView = (View) chain.getThisObject();
+                if (chain.getThisObject() instanceof View handleView) {
                     registerGestureHandleView(handleView);
                 }
                 return result;
@@ -157,8 +155,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "setVisibility", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
@@ -170,8 +167,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "setAlpha", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
@@ -183,8 +179,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "onDraw", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 return null;
@@ -259,22 +254,6 @@ public class UiLockApp extends BaseHook {
         }
     }
 
-    private void hookScreenPinningDialogBlock() {
-        Class<?> centralSurfacesCallbacksClass = findClassIfExists(
-            "com.android.systemui.statusbar.phone.CentralSurfacesCommandQueueCallbacks");
-        if (centralSurfacesCallbacksClass != null) {
-            chainAllMethods(centralSurfacesCallbacksClass, "showScreenPinningRequest", new XposedInterface.Hooker() {
-                @Override
-                public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                    int taskId = readIntArg(chain.getArgs().toArray(), 0, -1);
-                    XposedLog.d(TAG, "trace CentralSurfaces.showScreenPinningRequest taskId=" + taskId);
-                    startSystemLockTaskModeByTaskId(chain.getThisObject(), taskId);
-                    return null;
-                }
-            });
-        }
-    }
-
     private void hookLauncherProxyStopScreenPinning() {
         Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
         if (launcherProxyClass == null) return;
@@ -293,23 +272,6 @@ public class UiLockApp extends BaseHook {
                 return chain.proceed();
             }
         });
-    }
-
-    private void startSystemLockTaskModeByTaskId(Object callbacks, int taskId) {
-        if (taskId < 0) return;
-        Context context = resolveContext(callbacks);
-        if (context != null && getLockApp(context) != -1) {
-            return;
-        }
-        try {
-            Class<?> activityTaskManagerClass = findClassIfExists("android.app.ActivityTaskManager");
-            if (activityTaskManagerClass == null) return;
-            Object service = callStaticMethod(activityTaskManagerClass, "getService");
-            callMethod(service, "startSystemLockTaskMode", taskId);
-            XposedLog.d(TAG, "trace startSystemLockTaskMode taskId=" + taskId);
-        } catch (Throwable e) {
-            XposedLog.w(TAG, "startSystemLockTaskMode from dialog hook E: " + e);
-        }
     }
 
     private void updateStatusBarVisibility(Context context) {
@@ -552,14 +514,6 @@ public class UiLockApp extends BaseHook {
         } catch (Throwable ignored) {
         }
         return null;
-    }
-
-    private int readIntArg(Object[] args, int index, int defValue) {
-        if (args == null || index < 0 || index >= args.length) return defValue;
-        Object value = args[index];
-        if (value instanceof Integer) return (Integer) value;
-        if (value instanceof Boolean) return (Boolean) value ? 1 : 0;
-        return defValue;
     }
 
     public static int getLockApp(Context context) {
