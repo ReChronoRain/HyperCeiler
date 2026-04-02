@@ -19,19 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.weather.SetCardLightDarkMode;
 import com.sevtinge.hyperceiler.libhook.rules.weather.SetDeviceLevel;
 import com.sevtinge.hyperceiler.libhook.rules.weather.UnlockSuperBlur;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.weather2")
 public class Weather extends BaseLoad {
-
-    public Weather() {
-        super(true);
-    }
-
     @Override
     public void onPackageLoaded() {
         initHook(new SetCardLightDarkMode(), PrefsBridge.getStringAsInt("weather_card_display_type", 0) != 0);

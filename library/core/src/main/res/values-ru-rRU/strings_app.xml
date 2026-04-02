@@ -1281,8 +1281,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Отключить, чтобы получить код управления отображением</string>
     <string name="powerkeeper_gms_doze_fix">Разрешить GMS подключаться к сети в любое время</string>
     <string name="powerkeeper_gms_doze_fix_desc">Вам нужно включить Системный фреймворк и Питание и производительность</string>
-    <string name="powerkeeper_conservative_millet">Сделать Millet консервативным</string>
-    <string name="powerkeeper_conservative_millet_desc">Сделать политику кодовой части более консервативной. Вам необходимо включить Системный Фреймворк, а также параметры Питание и производительность.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Запись экрана</string>
     <string name="screen_recorder_force_support_playback_capture">Принудительно включить поддержку записи экрана AOSP</string>
@@ -1428,7 +1426,6 @@
     <!--AI Translate-->
     <string name="aiasst">Переводчик AI</string>
     <string name="aiasst_ai_captions">Принудительно включить субтитры AI</string>
-    <string name="aiasst_all_captions">Разблокировать многоязычные онлайн-субтитры</string>
     <string name="aiasst_unlock_split_screen_translation">Разблокировать перевод на разделенном экране</string>
     <!--Barrage-->
     <string name="barrage">Защита</string>

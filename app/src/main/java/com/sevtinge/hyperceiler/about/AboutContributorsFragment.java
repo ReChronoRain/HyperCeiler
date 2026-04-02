@@ -1,5 +1,7 @@
 package com.sevtinge.hyperceiler.about;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -44,13 +46,21 @@ public class AboutContributorsFragment extends SettingsPreferenceFragment implem
                 "rechronorain", "cemiuiler"
             );
 
-            if (contributors.isEmpty()) {
-                mProcessing.setVisible(false);
-                mLoadFailed.setVisible(true);
-            }
-
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
+            Activity activity = getActivity();
+            if (isAdded() && activity != null && !activity.isFinishing() && !activity.isDestroyed()) {
+                activity.runOnUiThread(() -> {
+                    if (!isAdded()) {
+                        return;
+                    }
+                    Context context = getContext();
+                    if (context == null) {
+                        return;
+                    }
+                    if (contributors.isEmpty()) {
+                        mProcessing.setVisible(false);
+                        mLoadFailed.setVisible(true);
+                        return;
+                    }
                     mContributorsCategory.removeAll();
                     for (String item : contributors) {
                         String[] parts = item.split(",", 2);
@@ -61,7 +71,7 @@ public class AboutContributorsFragment extends SettingsPreferenceFragment implem
                             continue;
                         }
 
-                        Preference p = new Preference(getContext());
+                        Preference p = new Preference(context);
                         p.setTitle(nickname);
                         p.setSummary("@" + login);
                         Intent intent = new Intent(Intent.ACTION_VIEW,

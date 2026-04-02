@@ -33,6 +33,8 @@ import android.provider.Settings;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
+import io.github.libxposed.api.XposedInterface;
+
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
 public class GlobalActionBootstrap extends BaseHook {
     private static volatile boolean sGlobalReceiverRegistered;
@@ -86,19 +88,29 @@ public class GlobalActionBootstrap extends BaseHook {
 
     @Override
     public void init() {
-        chainAllConstructors("com.android.server.accessibility.AccessibilityManagerService", chain -> {
-            Object result = chain.proceed();
-            Context globalContext = (Context) chain.getArg(0);
-            registerGlobalReceiver(globalContext);
-            return result;
-        });
+        chainAllConstructors("com.android.server.accessibility.AccessibilityManagerService",
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    Context globalContext = (Context) chain.getArg(0);
+                    registerGlobalReceiver(globalContext);
+                    return result;
+                }
+            }
+        );
 
-        chainAllMethods("com.android.server.policy.PhoneWindowManager", "init", chain -> {
-            Object result = chain.proceed();
-            Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
-            registerRestartReceiver(context);
-            return result;
-        });
+        chainAllMethods("com.android.server.policy.PhoneWindowManager", "init",
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    registerRestartReceiver(context);
+                    return result;
+                }
+            }
+        );
     }
 
     private void registerGlobalReceiver(Context context) {

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter
 
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.core.view.isVisible
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
@@ -28,8 +27,6 @@ import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -53,37 +50,57 @@ object CustomCarrierText : BaseHook() {
                 param.result = false
             }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
-            .filterByName("onCarrierTextChanged")
-            .first().createBeforeHook { param ->
-                val carrierTextView = param.thisObject.getObjectField("mCarrierLabel")
-
-                TextView::class.java.methodFinder()
-                    .filterByName("setText")
-                    .filterByParamTypes(CharSequence::class.java)
-                    .first().createBeforeHook { param2 ->
-                        if (param2.thisObject == carrierTextView) {
-                            when (getOperator) {
-                                1 -> {
-                                    var original = param2.args[0] as? CharSequence
-                                    if (original != null) {
-                                        original = original.toString().replace("  |  ", "")
-                                        param2.args[0] = original.replace(" | ", "")
-                                    }
-                                }
-                                2 -> param2.args[0] = ""
-                                3 ->
-                                    param2.args[0] = PropUtils.getProp("persist.private.device_name")
-                            }
-
-                        }
-                    }
-            }
+        hookLegacyCarrierText()
+        hookModernCarrierText()
 
         when (getOperator) {
             1 -> hideCarrierSeparator()
             2 -> hideCarrierText()
-            3 -> showDeviceName()
+        }
+    }
+
+    private fun hookLegacyCarrierText() {
+        runCatching {
+            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
+                .filterByName("onCarrierTextChanged")
+                .first().createBeforeHook { param ->
+                    param.args[2] = transformCarrierText(
+                        slotId = param.args[1] as Int,
+                        carrierText = param.args[2] as? String
+                    )
+                }
+        }
+    }
+
+    // 显示设备名称
+    private fun hookModernCarrierText() {
+        runCatching {
+            loadClass($$"com.android.systemui.controlcenter.shade.ControlCenterCarrierText$mCarrierTextCallback$1")
+                .methodFinder()
+                .filterByName("onCarrierTextChanged")
+                .first().createBeforeHook { param ->
+                    param.args[2] = transformCarrierText(
+                        slotId = param.args[1] as Int,
+                        carrierText = param.args[2] as? String
+                    )
+                }
+        }
+    }
+
+    private fun transformCarrierText(slotId: Int, carrierText: String?): String? {
+        return when (getOperator) {
+            1 -> carrierText
+                ?.replace("  |  ", "")
+                ?.replace(" | ", "")
+
+            2 -> ""
+            3 -> if (slotId == 0) {
+                PropUtils.getProp("persist.private.device_name")
+            } else {
+                null
+            }
+
+            else -> carrierText
         }
     }
 
@@ -146,24 +163,6 @@ object CustomCarrierText : BaseHook() {
             .filterByName("updateCarrierAndPrivacyVisible")
             .first().createAfterHook { param ->
                 param.thisObject.getObjectFieldAs<View>("carrierLayout").visibility = View.INVISIBLE
-            }
-    }
-
-    // 显示设备名称
-    private fun showDeviceName() {
-        loadClass($$"com.android.systemui.controlcenter.shade.ControlCenterCarrierText$mCarrierTextCallback$1")
-            .methodFinder()
-            .filterByName("onCarrierTextChanged")
-            .filterByParamTypes(Int::class.java, Int::class.java, String::class.java)
-            .first().createBeforeHook { param ->
-                val carrierText = param.thisObject.getObjectFieldAs<Any>("this$0")
-                val slotId = carrierText.getIntField("innerCarrierSlotId")
-
-                param.args[2] = if (slotId == 0) { // 只显示第一张卡的名称
-                    PropUtils.getProp("persist.private.device_name");
-                } else { // 其它置空隐藏
-                    null
-                }
             }
     }
 }

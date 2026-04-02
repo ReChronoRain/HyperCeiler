@@ -85,6 +85,16 @@
     <string name="kill_2">查找進程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">軟體名 kill</string>
+    <string name="development_kill_loading_data">加載資料，請稍候</string>
+    <string name="development_kill_resource_not_ready">資源尚未加載完成，請稍候！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名錯誤或不存在，無法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名錯誤或不存在，請查證後輸入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失敗！</string>
+    <string name="development_kill_process_not_found">未找到當前包名有任何正在運行的進程！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">加載完畢</string>
+    <string name="development_kill_permission_not_granted">未授予讀取應用列表權限，無法加載應用列表。</string>
     <string name="edit_out">獲取結果</string>
     <string name="edit_key">輸入 Key 值</string>
     <string name="prefs_1">不存在此 Key:</string>
@@ -1293,8 +1303,6 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">禁止恢復電池優化白名單</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止獲取顯示控制碼</string>
     <string name="powerkeeper_gms_doze_fix">允許 Google Play 服務在任何時間聯網</string>
-    <string name="powerkeeper_conservative_millet">使 Millet 更保守</string>
-    <string name="powerkeeper_conservative_millet_desc">使後台管理策略更加保守</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">熒幕錄制</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生熒幕錄制支持</string>
@@ -1438,7 +1446,6 @@
     <!--AI Translate-->
     <string name="aiasst">小爱翻譯</string>
     <string name="aiasst_ai_captions">強制啟用實時字幕</string>
-    <string name="aiasst_all_captions">解鎖多語言在線字幕</string>
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
     <string name="barrage_any_barrage">允許所有應用程式使用彈幕通知</string>

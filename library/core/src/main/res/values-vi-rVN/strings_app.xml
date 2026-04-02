@@ -1282,8 +1282,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Tắt để lấy mã điều khiển hiển thị</string>
     <string name="powerkeeper_gms_doze_fix">Cho phép GMS kết nối với mạng bất cứ lúc nào</string>
     <string name="powerkeeper_gms_doze_fix_desc">Bạn cần bật các phạm vi System Framework, Pin và hiệu năng</string>
-    <string name="powerkeeper_conservative_millet">Làm cho Millet cẩn trọng</string>
-    <string name="powerkeeper_conservative_millet_desc">Làm cho chính sách quản lý backend trở nên bảo thủ hơn</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
@@ -1430,7 +1428,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI dịch</string>
     <string name="aiasst_ai_captions">Mở khoá Phụ đề AI</string>
-    <string name="aiasst_all_captions">Mở khóa phụ đề trực tuyến đa ngôn ngữ</string>
     <string name="aiasst_unlock_split_screen_translation">Mở khóa dịch màn hình chia đôi</string>
     <!--Barrage-->
     <string name="barrage">Rào cản</string>

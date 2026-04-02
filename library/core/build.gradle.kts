@@ -39,4 +39,5 @@ dependencies {
     // api(projects.library.hook)
     api(projects.library.common)
     api(projects.library.provision)
+    api(libs.appiconloader)
 }

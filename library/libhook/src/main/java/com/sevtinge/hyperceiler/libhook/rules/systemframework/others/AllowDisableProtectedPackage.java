@@ -18,26 +18,26 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import java.util.List;
-
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 public class AllowDisableProtectedPackage extends BaseHook {
     @Override
     public void init() {
-        findAndHookMethod("com.android.server.pm.PackageManagerService", "setEnabledSettings", List.class, int.class, String.class, new IMethodHook() {
+        findAndChainMethod("com.android.server.pm.ProtectedPackages", "isPackageStateProtected", new XposedInterface.Hooker() {
             @Override
-            public void before(HookParam param) {
-                findAndHookMethod("com.android.server.pm.ProtectedPackages", "isPackageStateProtected", int.class, String.class, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        param.setResult(false);
+            public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                for (StackTraceElement stackTraceElement : Thread.currentThread().getStackTrace()) {
+                    if ("com.android.server.pm.PackageManagerService".equals(stackTraceElement.getClassName())
+                        && "setEnabledSettings".equals(stackTraceElement.getMethodName())) {
+                        return false;
                     }
-                });
+                }
+                return chain.proceed();
             }
-        });
+        }, int.class, String.class);
     }
 }

@@ -25,11 +25,6 @@ import com.sevtinge.hyperceiler.libhook.rules.downloadsui.AlwaysShowDownloadLink
 
 @HookBase(targetPackage = "com.android.providers.downloads.ui")
 public class DownloadsUI extends BaseLoad {
-
-    public DownloadsUI() {
-        super(true);
-    }
-
     @Override
     public void onPackageLoaded() {
         initHook(new AlwaysShowDownloadLink(), PrefsBridge.getBoolean("downloads_ui_always_show_link"));

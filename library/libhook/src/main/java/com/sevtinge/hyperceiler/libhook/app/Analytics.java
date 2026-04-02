@@ -27,9 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.analytics.FuckMiuiUpload;
 @HookBase(targetPackage = "com.miui.analytics")
 public class Analytics extends BaseLoad {
 
-    public Analytics() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

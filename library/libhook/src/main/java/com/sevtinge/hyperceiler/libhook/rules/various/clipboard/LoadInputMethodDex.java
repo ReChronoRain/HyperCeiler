@@ -25,8 +25,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 /**
  * 获取常用语的 classloader。
  * from <a href="https://github.com/HChenX/ClipboardList">ClipboardList</a>

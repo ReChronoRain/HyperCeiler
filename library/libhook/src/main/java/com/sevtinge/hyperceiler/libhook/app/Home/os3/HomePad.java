@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsMarginBottom;
@@ -59,6 +60,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.CardTextColor;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.CardTextSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.FreeformCardBackgroundColor;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.GuidedAccessHome;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.HideRecentCard;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.HideStatusBarWhenEnterRecent;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.MemInfoShow;
@@ -92,14 +94,12 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 1, minOSVersion = 3.0F)
 public class HomePad extends BaseLoad {
 
-    public HomePad() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
         // 手势
         //initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(),
             PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0
@@ -166,6 +166,9 @@ public class HomePad extends BaseLoad {
         initHook(CardTextSize.INSTANCE, PrefsBridge.getInt("home_recent_text_size", -1) != -1);
         initHook(CardTextColor.INSTANCE, PrefsBridge.getInt("home_recent_text_color", -1) != -1);
         initHook(FreeformCardBackgroundColor.INSTANCE, true);
+        initHook(new GuidedAccessHome(),
+            PrefsBridge.getBoolean("system_framework_guided_access")
+                && PrefsBridge.getBoolean("system_framework_guided_access_status"));
 
         // 图标
         initHook(new IconSize(), PrefsBridge.getBoolean("home_title_icon_size_enable"));

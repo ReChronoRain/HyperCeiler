@@ -26,6 +26,7 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 
+import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellExec;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
@@ -44,6 +45,8 @@ import java.util.concurrent.ExecutorService;
 import fan.appcompat.app.AlertDialog;
 
 public class DevelopmentKillFragment extends SettingsPreferenceFragment implements Preference.OnPreferenceClickListener {
+    private static final int REQUEST_GET_INSTALLED_APPS = 1203;
+
     private List<AppData> appData = new ArrayList<>();
     private boolean init = false;
     Handler handler;
@@ -67,10 +70,12 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         mCheck = findPreference("prefs_key_development_kill_find_process");
         mKillPackage = findPreference("prefs_key_development_kill_package");
         mName = findPreference("prefs_key_development_kill_app_name");
-        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载数据，请稍后");
         ExecutorService executorService = ThreadPoolManager.getInstance();
         handler = new Handler(requireContext().getMainLooper());
-        initApp(executorService);
+        if (ensureInstalledAppsPermission()) {
+            ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_data));
+            initApp(executorService);
+        }
         mCheck.setOnPreferenceClickListener(this);
         mName.setOnPreferenceClickListener(this);
         mKillPackage.setOnPreferenceClickListener(this);
@@ -80,7 +85,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
     @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {
         if (!init) {
-            showOutDialog("资源尚未加载完毕，请稍后！");
+            showOutDialog(getString(R.string.development_kill_resource_not_ready));
             return true;
         }
         switch (preference.getKey()) {
@@ -94,11 +99,11 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                         }
                     }
                     if (!(pkg == null || pkg.isEmpty())) {
-                        showOutDialog(listToString("PID：       Process：\n",
+                        showOutDialog(listToString(getString(R.string.development_kill_process_header),
                             pidAndPkg(pkg)));
                         return;
                     }
-                    showOutDialog("包名错误或不存在，无法查找！\n" + "\"" + userInput + "\"");
+                    showOutDialog(getString(R.string.development_kill_package_invalid_for_find, userInput));
                 }
             });
             case "prefs_key_development_kill_package" -> showInDialog(new EditDialogCallback() {
@@ -112,18 +117,18 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                             }
                         }
                         if (pkg.isEmpty()) {
-                            showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
+                            showOutDialog(getString(R.string.development_kill_package_invalid, userInput));
                             return;
                         }
                         if (!pidAndPkg(pkg).isEmpty()) {
-                            String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                            String result = listToString(getString(R.string.development_kill_success_prefix), pidAndPkg(pkg));
                             if (killPackage(pkg)) {
                                 showOutDialog(result);
                             } else {
-                                showOutDialog("Kill: " + pkg + " 失败！");
+                                showOutDialog(getString(R.string.development_kill_failed_with_pkg, pkg));
                             }
                         } else {
-                            showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
+                            showOutDialog(getString(R.string.development_kill_process_not_found, userInput));
                         }
                     }
                 }
@@ -140,17 +145,17 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                         }
                         if (!(pkg == null || pkg.isEmpty())) {
                             if (!pidAndPkg(pkg).isEmpty()) {
-                                String result = listToString("成功 Kill：\n", pidAndPkg(pkg));
+                                String result = listToString(getString(R.string.development_kill_success_prefix), pidAndPkg(pkg));
                                 if (killPackage(pkg)) {
                                     showOutDialog(result);
                                 } else {
-                                    showOutDialog("Kill: " + pkg + " 失败！");
+                                    showOutDialog(getString(R.string.development_kill_failed_with_pkg, pkg));
                                 }
                             } else {
-                                showOutDialog("未找到当前包名有任何正在运行的进程！\n" + "\"" + userInput + "\"");
+                                showOutDialog(getString(R.string.development_kill_process_not_found, userInput));
                             }
                         } else
-                            showOutDialog("包名错误或不存在，请查证后输入！\n" + "\"" + userInput + "\"");
+                            showOutDialog(getString(R.string.development_kill_package_invalid, userInput));
                     }
                 }
             });
@@ -196,26 +201,11 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
                     @Override
                     public void run() {
                         init = true;
-                        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
+                        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_done));
                     }
                 });
             }
         });
-       /*AsyncTask 已经弃用
-         new AsyncTask<Void, Void, List<AppData>>() {
-            @Override
-            protected List<AppData> doInBackground(Void... voids) {
-                // 在后台线程中执行耗时任务
-                return PackageManagerUtils.getPackageByFlag(0);
-            }
-
-            @Override
-            protected void onPostExecute(List<AppData> result) {
-                ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), "加载完毕");
-                // 在UI线程更新UI
-                appData = result;
-            }
-        }.execute();*/
     }
 
     private void showInDialog(EditDialogCallback callback) {
@@ -246,5 +236,33 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
             .setMessage(show)
             .setPositiveButton(android.R.string.ok, null)
             .show();
+    }
+
+    private boolean ensureInstalledAppsPermission() {
+        if (PermissionUtils.canReadInstalledApps(requireContext())) {
+            return true;
+        }
+        requestPermissions(
+            new String[]{PermissionUtils.PERMISSION_GET_INSTALLED_APPS},
+            REQUEST_GET_INSTALLED_APPS
+        );
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_GET_INSTALLED_APPS) {
+            return;
+        }
+
+        if (PermissionUtils.canReadInstalledApps(requireContext())
+            || PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)) {
+            ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_data));
+            initApp(ThreadPoolManager.getInstance());
+            return;
+        }
+
+        showOutDialog(getString(R.string.development_kill_permission_not_granted));
     }
 }

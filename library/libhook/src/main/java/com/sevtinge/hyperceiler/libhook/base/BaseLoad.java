@@ -53,23 +53,7 @@ public abstract class BaseLoad {
     private static volatile XposedInterface sXposed;
     private static volatile String sCurrentHookTag = "BaseLoad";
     public static ResourcesTool mResHook;
-    private final boolean mNeedDexKit;
-
-    /**
-     * 默认构造函数，不启用 DexKit
-     */
-    public BaseLoad() {
-        this(false);
-    }
-
-    /**
-     * 指定是否启用 DexKit 的构造函数
-     *
-     * @param needDexKit 是否需要初始化 DexKit
-     */
-    protected BaseLoad(boolean needDexKit) {
-        this.mNeedDexKit = needDexKit;
-    }
+    private boolean mDexKitSessionPrepared = false;
 
     /**
      * 初始化 Xposed 运行时入口。
@@ -136,6 +120,7 @@ public abstract class BaseLoad {
             sSystemServerParam = null;
             sCurrentHookTag = this.getClass().getSimpleName();
             mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
+            mDexKitSessionPrepared = false;
         }
 
         loadModuleResources();
@@ -155,6 +140,7 @@ public abstract class BaseLoad {
             sSystemServerParam = lpparam;
             sCurrentHookTag = this.getClass().getSimpleName();
             mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
+            mDexKitSessionPrepared = false;
         }
 
         loadModuleResources();
@@ -179,18 +165,25 @@ public abstract class BaseLoad {
 
     private void executeHook() {
         try {
-            if (mNeedDexKit && !isSystemServer()) {
-                PackageReadyParam param = getLpparam();
-                if (param != null) {
-                    DexKit.ready(param, getTag());
-                }
-            }
             onPackageLoaded();
         } finally {
-            if (mNeedDexKit && !isSystemServer()) {
-                DexKit.close();
-            }
+            closeDexKitSession();
         }
+    }
+
+    private void prepareDexKitSession(String tag) {
+        if (mDexKitSessionPrepared || isSystemServer()) return;
+        PackageReadyParam param = getLpparam();
+        if (param != null) {
+            DexKit.ready(param, tag);
+            mDexKitSessionPrepared = true;
+        }
+    }
+
+    private void closeDexKitSession() {
+        if (!mDexKitSessionPrepared || isSystemServer()) return;
+        DexKit.close();
+        mDexKitSessionPrepared = false;
     }
 
     protected void initHook(BaseHook hook) {
@@ -206,6 +199,21 @@ public abstract class BaseLoad {
 
         try {
             if (condition.getAsBoolean()) {
+                if (hook.useDexKit() && !isSystemServer()) {
+                    prepareDexKitSession(hook.TAG);
+                    hook.setDexKitInitInProgress(true);
+                    try {
+                        if (!hook.initDexKit()) {
+                            XposedLog.w(hook.TAG, getPackageName(), "Skip hook because initDexKit returned false");
+                            return;
+                        }
+                    } catch (Throwable t) {
+                        XposedLog.e(hook.TAG, getPackageName(), "Skip hook because initDexKit failed", t);
+                        return;
+                    } finally {
+                        hook.setDexKitInitInProgress(false);
+                    }
+                }
                 hook.init();
                 XposedLog.i(hook.TAG, getPackageName(), "Hook Success");
             }

@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.libhook.rules.home.DisablePrestart;
 import com.sevtinge.hyperceiler.libhook.rules.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.libhook.rules.home.HomePortraitReverse;
-import com.sevtinge.hyperceiler.libhook.rules.home.LockApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.MaxFreeForm;
 import com.sevtinge.hyperceiler.libhook.rules.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.home.SeekPoints;
@@ -60,6 +59,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
@@ -129,15 +129,13 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 1, maxOSVersion = 2.0F)
 public class HomePadOld extends BaseLoad {
 
-    public HomePadOld() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
 
         // 手势
         initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(),
             PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0
@@ -252,7 +250,6 @@ public class HomePadOld extends BaseLoad {
         initHook(HideDock.INSTANCE, PrefsBridge.getBoolean("home_dock_hide_dock"));
 
         // 其他
-        initHook(new LockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), PrefsBridge.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(new InfiniteScroll(), PrefsBridge.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"));

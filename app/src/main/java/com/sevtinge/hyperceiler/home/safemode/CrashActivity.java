@@ -70,7 +70,7 @@ public class CrashActivity extends AppCompatActivity {
 
         String realPkgName = record != null && record.packageName != null
             ? record.packageName
-            : CrashScope.INSTANCE.getPackageName(alias);
+            : CrashScope.getPackageName(alias);
         if (realPkgName == null) realPkgName = alias != null ? alias : "unknown";
 
         String appName = getAppName(realPkgName);

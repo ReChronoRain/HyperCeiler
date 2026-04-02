@@ -22,39 +22,36 @@ package com.sevtinge.hyperceiler.libhook.rules.guardprovider;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.BaseDataList;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableRootedCheck extends BaseHook {
+    private List<Method> mCheckRootMethods;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mCheckRootMethods = requiredMemberList("CheckRoot", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("/system/bin/")
+                .returnType(boolean.class)
+            )));
+        return true;
+    }
+
     @Override
     public void init() {
-        List<Method> methods = DexKit.findMemberList("CheckRoot", new IDexKitList() {
-            @Override
-            public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodDataList methodData = bridge.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
-                        .usingStrings("/system/bin/")
-                        .returnType(boolean.class)
-                    )
-                );
-                return methodData;
-            }
-        });
-        for (Method method : methods) {
+        for (Method method : mCheckRootMethods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
             hookMethod(method, new IMethodHook() {

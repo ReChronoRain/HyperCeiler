@@ -89,6 +89,16 @@
     <string name="kill_2">查找进程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">软件名 kill</string>
+    <string name="development_kill_loading_data">加载数据，请稍后</string>
+    <string name="development_kill_resource_not_ready">资源尚未加载完毕，请稍后！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名错误或不存在，无法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名错误或不存在，请查证后输入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失败！</string>
+    <string name="development_kill_process_not_found">未找到当前包名有任何正在运行的进程！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">加载完毕</string>
+    <string name="development_kill_permission_not_granted">读取应用列表权限未授予，无法加载应用列表。</string>
     <string name="edit_out">获取结果</string>
     <string name="prefs_1">不存在此 Key:</string>
     <string name="prefs_2">成功移除 Key:</string>
@@ -486,6 +496,8 @@
     <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
     <string name="system_framework_core_patch_unloss_fingerprint">禁用重置指纹</string>
     <string name="system_framework_core_patch_unloss_fingerprint_desc">也许能解决开启包管理服务部分功能后，重启设备导致指纹被重置的问题，仅供遇到此问题的设备使用</string>
+    <string name="system_framework_native_file_picker">使用原生文件选择器</string>
+    <string name="system_framework_native_file_picker_desc">不再使用 HyperOS 文件管理的安全访问</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
@@ -1052,6 +1064,8 @@
     <string name="home_navigation_assist_right_slide">左上滑动</string>
     <string name="home_navigation_assist_right_slide_desc">在任意界面从屏幕右下角向内滑动</string>
     <string name="home_navigation_disable_full_screen_back_gesture">禁用全屏返回手势</string>
+    <string name="home_navigation_predictive_progress">修复预测性返回进度</string>
+    <string name="home_navigation_predictive_progress_desc">实验性功能，修复在 Xiaomi HyperOS 系统的部分场景下，预测性返回进度行程过短的问题</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
     <string name="home_gesture_title2">手势</string>
@@ -1346,8 +1360,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止获取显示控制码</string>
     <string name="powerkeeper_gms_doze_fix">允许 Google Play 服务在任何时间联网</string>
     <string name="powerkeeper_gms_doze_fix_desc">需要勾选系统框架和“电量和性能”作用域</string>
-    <string name="powerkeeper_conservative_millet">使 Millet 更保守</string>
-    <string name="powerkeeper_conservative_millet_desc">使后台管理策略更加保守，需要勾选系统框架和“电量和性能”作用域</string>
     <!--屏幕录制-->
     <string name="screenrecorder">屏幕录制</string>
     <string name="screen_recorder_force_support_playback_capture">强制启用原生屏幕录制支持</string>
@@ -1497,7 +1509,6 @@
     <!--小爱翻译-->
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
-    <string name="aiasst_all_captions">解锁多语言在线字幕</string>
     <string name="aiasst_unlock_split_screen_translation">解锁分屏翻译</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
@@ -1560,6 +1571,13 @@
     <string name="telecom">通话管理</string>
     <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
     <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
+    <!--超级小爱-->
+    <string name="voiceassist">超级小爱</string>
+    <string name="voiceassist_remove_screen_trans_watermark">移除屏幕翻译 \"AI 生成\" 水印</string>
+    <!--照片和视频-->
+    <string name="photopicker">照片和视频</string>
+    <string name="photopicker_disable_reroute">使用原生照片和文件选择器</string>
+    <string name="photopicker_disable_reroute_desc">不再使用 HyperOS 相册和文件管理提供的服务</string>
     <!--语音唤醒-->
     <string name="voicetrigger">语音唤醒</string>
     <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>

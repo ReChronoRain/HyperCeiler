@@ -21,40 +21,32 @@ package com.sevtinge.hyperceiler.libhook.rules.mishare
 import android.content.Context
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object NoAutoTurnOff : BaseHook() {
-    private val stopAdvertAllMethod by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff9") {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        stopAdvertAllMethod
+        showToastMethod
+        toastMethodNew
+        return true
+    }
+    private val stopAdvertAllMethod by lazy {
+        optionalMember("NoAutoTurnOff9") {
             it.findMethod {
                 matcher {
                     usingStrings("stopAdvertAll timeout. try stop ")
                 }
             }.single()
-        }
-    }
-
-    private val toastMethod by lazy<List<Method>> {
-        DexKit.findMemberList("NoAutoTurnOff4") {
-            it.findMethod {
-                matcher {
-                    declaredClass {
-                        usingStrings("EnablingState processMessage(0x%X)", "MiShareService")
-                    }
-                    returnType = "boolean"
-                    paramTypes = listOf("android.os.Message")
-                }
-            }
-        }
+        } as? Method
     }
 
     private val toastMethodNew by lazy<List<Method>> {
-        DexKit.findMemberList("NoAutoTurnOff4N") {
+        optionalMemberList("NoAutoTurnOff4N") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -66,8 +58,8 @@ object NoAutoTurnOff : BaseHook() {
         }
     }
 
-    private val showToastMethod by lazy<Method> {
-        DexKit.findMember("NoAutoTurnOff5") {
+    private val showToastMethod by lazy<Method?> {
+        optionalMember("NoAutoTurnOff5") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -85,59 +77,33 @@ object NoAutoTurnOff : BaseHook() {
     override fun init() {
 
         // 禁用小米互传功能自动关闭部分
-        stopAdvertAllMethod.createHook {
+        stopAdvertAllMethod?.createHook {
             returnConstant(null)
         }
 
 
         // 干掉小米互传十分钟倒计时 Toast
-        if (toastMethod.isNotEmpty()) {
-            toastMethod.createHooks {
-                before { param ->
-                    Context::class.java.methodFinder()
-                        .filterByName("getString")
-                        .filterByParamTypes {
-                            it.size == 1 && it[0] == Int::class.java
-                        }.first().createHook {
-                            before { param ->
-                                val resName =
-                                    (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
-                                if (resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes") param.result =
-                                    "Modify by HyperCeiler"
-                            }
-                        }
-                }
+        Context::class.java.chainMethod("getString", Int::class.javaPrimitiveType!!) {
+            val resName = runCatching {
+                (thisObject as Context).resources.getResourceName(getArg(0) as Int)
+            }.getOrNull()
+            if (
+                resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes" ||
+                resName == "com.miui.mishare.connectivity:string/toast_or_desc_advert_all_open"
+            ) {
+                return@chainMethod "Modify by HyperCeiler"
             }
+            proceed()
+        }
 
-            showToastMethod.createHook {
-                before { param ->
-                    if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
-                        null
-                }
+        showToastMethod?.createHook {
+            before { param ->
+                if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                    null
             }
-        } else {
-            toastMethodNew.createHooks {
-                before { _ ->
-                    Context::class.java.methodFinder()
-                        .filterByName("getString")
-                        .filterByParamTypes {
-                            it.size == 1 && it[0] == Int::class.java
-                        }.first().createHook {
-                            before { param ->
-                                val resName =
-                                    (param.thisObject as Context).resources.getResourceName(param.args[0] as Int)
-                                if (resName == "com.miui.mishare.connectivity:string/toast_or_desc_advert_all_open") param.result =
-                                    "Modify by HyperCeiler"
-                            }
-                        }
-                }
-            }
-            showToastMethod.createHook {
-                before { param ->
-                    if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
-                        null
-                }
-            }
+        }
+
+        if (toastMethodNew.isNotEmpty()) {
             setResReplacement("com.miui.mishare.connectivity", "string", "switch_mode_all", R.string.mishare_hook_switch_mode_all)
         }
     }

@@ -49,14 +49,14 @@ internal object EzxMethodHelper {
 
     /** 基本类型到包装类型的映射（常量，避免每次调用创建） */
     private val PRIMITIVE_TO_BOXED = mapOf(
-        java.lang.Integer.TYPE to Integer::class.java,
+        Integer.TYPE to Integer::class.java,
         java.lang.Long.TYPE to java.lang.Long::class.java,
         java.lang.Float.TYPE to java.lang.Float::class.java,
         java.lang.Double.TYPE to java.lang.Double::class.java,
         java.lang.Boolean.TYPE to java.lang.Boolean::class.java,
         java.lang.Byte.TYPE to java.lang.Byte::class.java,
         java.lang.Short.TYPE to java.lang.Short::class.java,
-        java.lang.Character.TYPE to java.lang.Character::class.java
+        Character.TYPE to Character::class.java
     )
 
     // ==================== 方法调用 ====================
@@ -92,14 +92,16 @@ internal object EzxMethodHelper {
 
     /**
      * 解析参数类型数组（支持 Class<?> 和 String 类型名）
-     * 会过滤掉 IMethodHook 和 IReplaceHook 回调参数
+     * 会过滤掉 IMethodHook、IReplaceHook、XposedInterface.Hooker 回调参数
      *
      * @param clazz 当前目标类（用于回退 classLoader）
      * @param args 参数数组
      * @return 解析后的 Class 数组
      */
     fun getParameterClasses(clazz: Class<*>, vararg args: Any?): Array<Class<*>> {
-        return args.filterNot { it is IMethodHook || it is IReplaceHook }
+        return args.filterNot {
+            it is IMethodHook || it is IReplaceHook || it is XposedInterface.Hooker
+        }
             .mapIndexed { index, arg ->
                 when (arg) {
                     null -> throw IllegalArgumentException(

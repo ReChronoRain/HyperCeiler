@@ -19,13 +19,15 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockGunService : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("UnlockGunService") {
+    override fun useDexKit() = true
+    private lateinit var unlockGunServiceMethod: Method
+
+    override fun initDexKit(): Boolean {
+        unlockGunServiceMethod = requiredMember("UnlockGunService") {
             it.findClass {
                 matcher {
                     addEqString("gb_game_collimator_status")
@@ -36,7 +38,12 @@ object UnlockGunService : BaseHook() {
                     paramTypes = listOf("java.lang.String")
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        unlockGunServiceMethod.createHook {
             returnConstant(true)
         }
     }

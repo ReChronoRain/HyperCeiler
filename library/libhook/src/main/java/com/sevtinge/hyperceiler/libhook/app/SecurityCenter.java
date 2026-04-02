@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.BypassAdbInstallVerify;
@@ -35,7 +36,6 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.NewPrivacyThumbnail
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.PowerSaver;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveConversationBubbleSettingsRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveOpenAppConfirmationPopup;
-import com.sevtinge.hyperceiler.libhook.rules.securitycenter.ScLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.UnlockCarSicknessRelief;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AddAppInfoEntry;
@@ -46,7 +46,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.OpenByDefaultSetting;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatteryHealth;
-import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfo;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.PowerConsumptionRanking;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.ScreenUsedTime;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.ShowBatteryTemperatureNew;
@@ -74,14 +74,10 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.Disab
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.UnlockVideoSomeFunc;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VBVideoMode;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video.VideoDolbyOpen;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.securitycenter")
 public class SecurityCenter extends BaseLoad {
 
-    public SecurityCenter() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
@@ -102,7 +98,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(new UnlockSmartCharge(), PrefsBridge.getBoolean("security_center_unlock_smart_charge"));
         initHook(BatteryHealth.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_health"));
         initHook(new UnlockLowTempExtEndurance(), PrefsBridge.getBoolean("security_center_battery_unlock_low_temp_ext_endurance"));
-        initHook(new MoreBatteryInfo(), PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
+        initHook(MoreBatteryInfoNew.INSTANCE, PrefsBridge.getBoolean("secutity_center_battery_show_more_info"));
 
         // 隐私保护
         initHook(new AppLockPinScramble(), PrefsBridge.getBoolean("security_center_applock_pin_scramble"));
@@ -148,7 +144,6 @@ public class SecurityCenter extends BaseLoad {
         initHook(new NewBoxBlur(), PrefsBridge.getBoolean("security_center_newbox_custom_enable"));
         initHook(BlurSecurity.INSTANCE, PrefsBridge.getBoolean("se_enable"));
         initHook(SidebarLineCustom.INSTANCE, PrefsBridge.getBoolean("security_center_sidebar_line_color"));
-        initHook(new ScLockApp(), PrefsBridge.getBoolean("system_framework_guided_access_sc"));
         initHook(new RemoveMacroBlackList(), PrefsBridge.getBoolean("security_center_remove_macro_black_list"));
         initHook(RemoveGameToast.INSTANCE, PrefsBridge.getBoolean("security_center_remove_game_toast"));
         initHook(UnlockGunService.INSTANCE, PrefsBridge.getBoolean("security_center_unlock_gun_service"));

@@ -22,6 +22,7 @@
     <string name="provision_set_permission_later">您可以稍后设置下列必要权限</string>
     <string name="provision_permission_internet">允许访问至 Internet</string>
     <string name="provision_permission_root">允许以 Root 身份操作</string>
+    <string name="provision_permission_installed_apps">允许读取应用列表</string>
     <string name="provision_permission_lsp">在 Xposed 管理器中激活</string>
     <string name="provision_terms_of_use_loading">加载中…</string>
     <string name="provision_terms_of_use_verification_code_tip">您的验证码是 %1$s。</string>

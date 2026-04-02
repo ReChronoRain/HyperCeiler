@@ -40,11 +40,14 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.base.BasePreferenceFragment;
 import com.sevtinge.hyperceiler.common.log.LogLevelManager;
 import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
+import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
+import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
+import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
@@ -74,9 +77,11 @@ public class SettingsFragment extends BasePreferenceFragment
     Preference mScopePreference;
 
     // 记录当前操作类型：0-备份，1-恢复
-    private int currentAction = -1;
+    private final int currentAction = -1;
     private static final int ACTION_BACKUP = 0;
     private static final int ACTION_RESTORE = 1;
+    private static final int REQUEST_GET_INSTALLED_APPS = 1204;
+    private Uri mPendingRestoreUri;
 
     private final ActivityResultLauncher<Intent> mBackupLauncher = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
@@ -106,7 +111,7 @@ public class SettingsFragment extends BasePreferenceFragment
     public void initPrefs() {
         int mIconMode = AppSettingsStore.getIconIndex(requireContext());
         int iconModeStyle = AppSettingsStore.getIconModeIndex(requireContext());
-        int languageIndex = AppSettingsStore.getAppLanguageIndex(requireContext());
+        int languageIndex = LanguageHelper.getCurrentLanguageIndex(requireContext());
         boolean hideAppIconEnabled = AppSettingsStore.isHideAppIconEnabled(requireContext());
         boolean isFloating = AppSettingsStore.isFloatNavEnabled(requireContext());
         boolean scopeSyncEnabled = AppSettingsStore.isScopeSyncEnabled(requireContext());
@@ -137,6 +142,8 @@ public class SettingsFragment extends BasePreferenceFragment
         }
         if (mLanguage != null) {
             mLanguage.setPersistent(false);
+            mLanguage.setEntries(LanguageHelper.getLanguageEntries(requireContext()));
+            mLanguage.setEntryValues(LanguageHelper.getLanguageEntryValues());
         }
 
         if (mHideAppIcon != null) {
@@ -163,8 +170,11 @@ public class SettingsFragment extends BasePreferenceFragment
 
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
             int index = Integer.parseInt((String) o);
-            AppSettingsStore.setAppLanguageIndex(requireContext(), index);
-            LanguageHelper.setIndexLanguage(getActivity(), index, true);
+            LanguageHelper.setIndexLanguage(getActivity(), index, false);
+            SearchHelper.initIndex(requireContext(), true);
+            if (getActivity() instanceof HomePageActivity activity) {
+                activity.reloadPagesForLanguageChange();
+            }
             return true;
         });
 
@@ -253,6 +263,8 @@ public class SettingsFragment extends BasePreferenceFragment
                         PrefsBridge.clearAllByApp();
                         AppSettingsStore.resetGlobalToDefaults(requireContext());
                         OobeUtils.resetOobeState(requireContext());
+                        LanguageHelper.clearLanguage(requireContext());
+                        SearchHelper.initIndex(requireContext(), true);
                         Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
                     }
                 );
@@ -363,6 +375,14 @@ public class SettingsFragment extends BasePreferenceFragment
                     getString(com.sevtinge.hyperceiler.core.R.string.rest_success),
                     getString(com.sevtinge.hyperceiler.core.R.string.rest_success_message),
                     (dialog, which) -> restartApp()
+                );
+                return;
+            }
+            if (!PermissionUtils.canReadInstalledApps(requireContext())) {
+                mPendingRestoreUri = uri;
+                requestPermissions(
+                    new String[]{PermissionUtils.PERMISSION_GET_INSTALLED_APPS},
+                    REQUEST_GET_INSTALLED_APPS
                 );
                 return;
             }
@@ -500,5 +520,30 @@ public class SettingsFragment extends BasePreferenceFragment
             activity.finishAffinity();
         }
         android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_GET_INSTALLED_APPS) {
+            return;
+        }
+
+        Uri pendingRestoreUri = mPendingRestoreUri;
+        mPendingRestoreUri = null;
+        if (pendingRestoreUri == null) {
+            return;
+        }
+
+        if (PermissionUtils.canReadInstalledApps(requireContext())
+            || PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)) {
+            processRestore(pendingRestoreUri);
+            return;
+        }
+
+        showDialog(
+            getString(com.sevtinge.hyperceiler.core.R.string.rest_failed),
+            getString(com.sevtinge.hyperceiler.core.R.string.rest_permission)
+        );
     }
 }
