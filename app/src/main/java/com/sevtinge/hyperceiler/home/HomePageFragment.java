@@ -516,7 +516,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             }
         }
         if (!packageNames.isEmpty()) {
-            IconTitleLoader.preloadAll(context.getApplicationContext(), packageNames, () ->
+            int headerIconSize = context.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
+            IconTitleLoader.preloadAll(context.getApplicationContext(), packageNames, headerIconSize, () ->
                 runOnUiThreadIfAlive(() -> {
                     if (mHeaderAdapter != null) {
                     mHeaderAdapter.notifyDataSetChanged();
