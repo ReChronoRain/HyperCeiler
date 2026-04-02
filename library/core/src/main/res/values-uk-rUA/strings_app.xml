@@ -1370,7 +1370,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Перекладач</string>
     <string name="aiasst_ai_captions">Примусово увімкнути субтитри ШІ</string>
-    <string name="aiasst_all_captions">Розблокувати багатомовні онлайн-субтитри</string>
     <!--Barrage-->
     <string name="barrage">Потокові сповіщення</string>
     <string name="barrage_any_barrage">Дозволити всім додаткам використовувати потокові сповіщення</string>
