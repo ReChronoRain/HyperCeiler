@@ -29,6 +29,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_navigation_predictive_progress"
+            android:summary="@string/home_navigation_predictive_progress_desc"
+            android:title="@string/home_navigation_predictive_progress" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_navigation_disable_full_screen_back_gesture"
             android:title="@string/home_navigation_disable_full_screen_back_gesture" />
 
