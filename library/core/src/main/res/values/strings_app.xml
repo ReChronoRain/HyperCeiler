@@ -1610,6 +1610,9 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
+    <!--XIAO AI-->
+    <string name="voiceassist">Xiaomi Hyper XiaoAi</string>
+    <string name="voiceassist_remove_screen_trans_watermark">Remove screen translate AI generated watermark</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>

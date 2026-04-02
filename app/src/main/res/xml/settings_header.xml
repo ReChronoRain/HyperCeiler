@@ -340,6 +340,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/voiceassist"
+        android:summary="com.miui.voiceassist"
+        android:title="@string/voiceassist"
+        app:inflatedXml="@xml/voiceassist"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/voicetrigger"
         android:summary="com.miui.voicetrigger"
         android:title="@string/voicetrigger"
