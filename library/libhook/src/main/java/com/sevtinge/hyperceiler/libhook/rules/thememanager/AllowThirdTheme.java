@@ -33,8 +33,6 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import miui.drm.DrmManager;
 
-;
-
 public class AllowThirdTheme extends BaseHook {
     private Method mCheckRightsIsLegalMethod;
 

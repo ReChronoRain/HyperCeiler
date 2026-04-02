@@ -40,8 +40,6 @@ import java.lang.reflect.Modifier;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableInstallerFullSafeVersion extends BaseHook {
     private Method mIsFullSafeVersionMethod;
     private Field mFullSecurityProtectVersionField;

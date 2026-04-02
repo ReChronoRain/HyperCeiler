@@ -179,11 +179,7 @@ public class NoticeProcessor {
         }
 
         // Is need sign check
-        if (n.signCheckPassNeed && !SignUtils.isSignCheckPass(context)) {
-            return false;
-        }
-
-        return true;
+        return !n.signCheckPassNeed || SignUtils.isSignCheckPass(context);
     }
 
     private static boolean matchStringList(List<String> list, String value) {
@@ -305,18 +301,7 @@ public class NoticeProcessor {
         public boolean signCheckPassNeed;
     }
 
-    public static class NoticeResult {
-        public final String title;
-        public final String content;
-        public final int confirmDelaySeconds;
-        public final int id;
-
-        public NoticeResult(String title, String content, int confirmDelaySeconds, int id) {
-            this.title = title;
-            this.content = content;
-            this.confirmDelaySeconds = confirmDelaySeconds;
-            this.id = id;
-        }
+    public record NoticeResult(String title, String content, int confirmDelaySeconds, int id) {
     }
 
     public static void showNoticeDialog(Context context, NoticeProcessor.NoticeResult result) {

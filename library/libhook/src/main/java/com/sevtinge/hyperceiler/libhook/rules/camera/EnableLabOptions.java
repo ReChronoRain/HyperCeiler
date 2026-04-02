@@ -33,8 +33,6 @@ import java.util.Objects;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class EnableLabOptions extends BaseHook {
     private Method mLabOptionsMethod;
 

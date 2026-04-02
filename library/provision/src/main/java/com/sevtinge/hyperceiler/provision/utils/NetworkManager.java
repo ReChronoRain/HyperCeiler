@@ -21,9 +21,7 @@ public class NetworkManager {
             if (nc != null) {
                 if (nc.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
                     return true;
-                } else if (nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
-                    return true;
-                }
+                } else return nc.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR);
             }
         }
         return false;

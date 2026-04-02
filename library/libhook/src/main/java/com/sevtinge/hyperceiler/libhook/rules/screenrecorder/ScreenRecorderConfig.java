@@ -35,8 +35,6 @@ import java.util.Arrays;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class ScreenRecorderConfig extends BaseHook {
     private Method mFrameMethod;
     private Method mBitRateMethod;

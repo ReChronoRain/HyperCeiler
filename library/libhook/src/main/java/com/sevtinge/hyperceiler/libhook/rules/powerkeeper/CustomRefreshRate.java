@@ -33,8 +33,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class CustomRefreshRate extends BaseHook {
     private Method mFucSwitchMethod;
 

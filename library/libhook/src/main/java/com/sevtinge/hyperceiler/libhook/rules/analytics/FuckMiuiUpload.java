@@ -27,8 +27,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 // from https://github.com/gykkuo/MIUI_NoGuard/blob/master/app/src/main/java/cn/fyyr/noguardpls/MainHook.java
 // Todo: 使用 DexKit 重写此 Hook
 public class FuckMiuiUpload extends BaseHook {

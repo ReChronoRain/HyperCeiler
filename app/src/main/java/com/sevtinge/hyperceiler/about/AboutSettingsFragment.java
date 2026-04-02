@@ -53,7 +53,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.app.ActionBar;
 import fan.device.DeviceUtils;
 import fan.internal.utils.ViewUtils;
@@ -73,7 +72,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     private boolean isFirst = true;
     private boolean isReboot = false;
-    private boolean isRunning = false;
+    private final boolean isRunning = false;
 
     private FrameLayout mContentView;
 
@@ -96,8 +95,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private Preference mAuthor;
 
 
-    private List<View> mCards = new ArrayList<>();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final List<View> mCards = new ArrayList<>();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private ConnectivityManager connectivityManager;
@@ -385,7 +384,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             .setTintMode(3)
             .setScale(1.0f)
             .setTouchRadius(leftTopRadius, rightTopRadius, leftBottomRadius, rightBottomRadius)
-            .handleTouchOf(view, new AnimConfig[0]);
+            .handleTouchOf(view);
     }
 
     private void initCardView() {
@@ -427,7 +426,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         );
         setContentViewPadding();
         if (mBgEffectView == null && mContentView != null) {
-            mBgEffectView = LayoutInflater.from(context).inflate(R.layout.app_about_bg, (ViewGroup) mContentView, false);
+            mBgEffectView = LayoutInflater.from(context).inflate(R.layout.app_about_bg, mContentView, false);
             mContentView.addView(mBgEffectView, 0);
             mBgEffectView = mContentView.findViewById(R.id.bgEffectView);
             mBgEffectController = new BgEffectController(mBgEffectView);

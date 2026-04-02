@@ -36,10 +36,10 @@ public class BgEffectPainter {
     private float[] startColorValue;
     private float uAnimTime = 0.0f;
     private float[] uBgBound = {0.0f, 0.4489f, 1.0f, 0.5511f};
-    private float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
+    private final float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
     private float prevT = 0.0f;
-    private float colorInterpT = 0.0f;
-    private float gradientSpeed = 1.0f;
+    private final float colorInterpT = 0.0f;
+    private final float gradientSpeed = 1.0f;
 
     public BgEffectPainter(Context context) {
         String loadShader = loadShader(context.getResources(), R.raw.bg_frag);

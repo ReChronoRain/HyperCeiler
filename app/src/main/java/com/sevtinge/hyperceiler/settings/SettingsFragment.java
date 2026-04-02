@@ -75,7 +75,7 @@ public class SettingsFragment extends BasePreferenceFragment
     Preference mScopePreference;
 
     // 记录当前操作类型：0-备份，1-恢复
-    private int currentAction = -1;
+    private final int currentAction = -1;
     private static final int ACTION_BACKUP = 0;
     private static final int ACTION_RESTORE = 1;
     private static final int REQUEST_GET_INSTALLED_APPS = 1204;

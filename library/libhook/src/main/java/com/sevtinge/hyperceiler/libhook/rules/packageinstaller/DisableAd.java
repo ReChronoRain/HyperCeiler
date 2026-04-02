@@ -32,8 +32,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableAd extends BaseHook {
     private Method mAdsEnableMethod;
     private Method mAppStoreRecommendMethod;
