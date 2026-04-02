@@ -1108,7 +1108,7 @@
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_disable_full_screen_back_gesture">Disable full screen back gesture</string>
     <string name="home_navigation_predictive_progress">Fix predictive back navigation progress</string>
-    <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation progress bar was too short in certain scenarios on Xiaomi devices</string>
+    <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation bar was too short in certain scenarios on the Xiaomi HyperOS system.</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="home_gesture_title2">Gesture</string>
