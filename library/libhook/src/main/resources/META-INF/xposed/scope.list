@@ -61,6 +61,7 @@ com.xiaomi.trustservice
 com.xiaomi.vipaccount
 com.iflytek.inputmethod.miui
 com.sohu.inputmethod.sogou.xiaomi
+com.miui.voiceassist
 com.miui.voicetrigger
 com.xiaomi.simactivate.service
 miui.systemui.plugin
