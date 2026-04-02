@@ -120,7 +120,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
     private final Runnable mRefreshHeaderTask = this::refreshHeader;
-    private TextWatcher mTextWatcher = new TextWatcher() {
+    private final TextWatcher mTextWatcher = new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -155,7 +155,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     };
 
-    private SearchActionMode.Callback mSearchCallback = new SearchActionMode.Callback() {
+    private final SearchActionMode.Callback mSearchCallback = new SearchActionMode.Callback() {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             return false;
@@ -243,11 +243,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                 if (mSearchListLayout != null) {
                     mSearchListLayout.setAlpha(1.0f);
                 }
-                if (z && mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty()) {
-                    setSearchHistoryVisiable(true);
-                } else {
-                    setSearchHistoryVisiable(false);
-                }
+                setSearchHistoryVisiable(z && mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty());
                 isClicking = false;
             }
         });
@@ -616,11 +612,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                                 mSearchAdapter.refresh(results, query, isChinaLocale);
                                 mSearchLoadingView.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
-                                if (TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0) {
-                                    setSearchHistoryVisiable(true);
-                                } else {
-                                    setSearchHistoryVisiable(false);
-                                }
+                                setSearchHistoryVisiable(TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0);
                             }
                         });
                     }

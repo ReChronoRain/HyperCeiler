@@ -44,7 +44,7 @@ public class QsTileSuperBlur{
     private static Object EDIT;
     private static final ConcurrentHashMap<View, Boolean> standardBtn2StateMap = new ConcurrentHashMap<>();
     private static final ConcurrentHashMap<View, Boolean> icon2StateMap = new ConcurrentHashMap<>();
-    private static boolean isOS1 = false;
+    private static final boolean isOS1 = false;
     private static final String os2 = "MainPanelController$Mode";
     private static final String os1 = "MainPanelModeController$MainPanelMode";
 

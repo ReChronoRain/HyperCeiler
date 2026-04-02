@@ -36,8 +36,6 @@ import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableAd extends BaseHook {
     private List<Method> mHideButtonMethods;
 

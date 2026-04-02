@@ -17,13 +17,7 @@ public class IconTitleLoader {
 
     private static final Map<String, AppInfo> sCache = new ConcurrentHashMap<>();
 
-    public static class AppInfo {
-        public final Drawable icon;
-        public final CharSequence label;
-        public AppInfo(Drawable icon, CharSequence label) {
-            this.icon = icon;
-            this.label = label;
-        }
+    public record AppInfo(Drawable icon, CharSequence label) {
     }
 
     public static void load(Context context, String pkg, LoadCallback callback) {

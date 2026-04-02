@@ -42,8 +42,6 @@ import java.util.Map;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableLiteVersion extends BaseHook {
     private Method mGetDeviceLevelMethod;
     private Field mCameraColorField;

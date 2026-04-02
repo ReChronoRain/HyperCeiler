@@ -84,7 +84,7 @@ final class DashboardFuncHintHelper {
         }
 
         boolean inRange = isInVersionRange(versionCode, rule.versionRanges);
-        boolean shouldDisable = rule.matchMode == DashboardFragment.APP_MATCH_IN_RANGE ? inRange : !inRange;
+        boolean shouldDisable = (rule.matchMode == DashboardFragment.APP_MATCH_IN_RANGE) == inRange;
         if (!shouldDisable) {
             return preference.isEnabled();
         }

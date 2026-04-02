@@ -32,8 +32,6 @@ import java.util.ArrayList;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 
 public class ClipboardLimit extends BaseHook {
 

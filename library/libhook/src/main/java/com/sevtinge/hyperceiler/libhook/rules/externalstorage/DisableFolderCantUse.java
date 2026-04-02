@@ -25,8 +25,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 
-;
-
 public class DisableFolderCantUse extends BaseHook {
 
     private final static List<String> METHOD_NAME_LIST = Arrays.asList("shouldBlockFromTree", "shouldBlockDirectoryFromTree");

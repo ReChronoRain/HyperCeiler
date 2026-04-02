@@ -40,7 +40,6 @@ import com.sevtinge.hyperceiler.provision.utils.Utils;
 import fan.animation.Folme;
 import fan.animation.FolmeEase;
 import fan.animation.IStateStyle;
-import fan.animation.ITouchStyle;
 import fan.animation.base.AnimConfig;
 import fan.animation.controller.AnimState;
 import fan.animation.listener.TransitionListener;
@@ -111,7 +110,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         }
         mNextView.setVisibility(View.GONE);
         mNextView.setEnabled(false);
-        Folme.use(mNextView).touch().setScale(1.0f, new ITouchStyle.TouchType[0]).handleTouchOf(this.mNextView, new AnimConfig[0]);
+        Folme.use(mNextView).touch().setScale(1.0f).handleTouchOf(this.mNextView);
         mNextView.setOnClickListener(v -> {
             startHome();
             startPageAnim();
@@ -276,9 +275,9 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         AnimState add3 = add2.add(viewProperty3, 1.0d);
         AnimState add4 = new AnimState("end").add(viewProperty, 0.0d).add(viewProperty2, 0.8d).add(viewProperty3, 0.8d);
         AnimConfig animConfig = new AnimConfig();
-        animConfig.setSpecial(viewProperty2, FolmeEase.spring(1.0f, 0.36f), new float[0]);
-        animConfig.setSpecial(viewProperty3, FolmeEase.spring(1.0f, 0.36f), new float[0]);
-        animConfig.setSpecial(viewProperty, FolmeEase.sinOut(360L), new float[0]);
+        animConfig.setSpecial(viewProperty2, FolmeEase.spring(1.0f, 0.36f));
+        animConfig.setSpecial(viewProperty3, FolmeEase.spring(1.0f, 0.36f));
+        animConfig.setSpecial(viewProperty, FolmeEase.sinOut(360L));
         if (mLogoImageWrapper != null) {
             Folme.use(mLogoImageWrapper).state().setTo(add3).to(add4, animConfig);
         }

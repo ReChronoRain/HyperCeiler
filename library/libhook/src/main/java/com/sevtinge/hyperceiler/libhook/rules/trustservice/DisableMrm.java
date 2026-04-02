@@ -28,8 +28,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableMrm extends BaseHook {
     private Method mMethod1;
 

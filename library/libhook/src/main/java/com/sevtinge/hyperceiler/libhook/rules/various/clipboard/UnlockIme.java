@@ -31,8 +31,6 @@ import java.util.List;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
-;
-
 public class UnlockIme extends BaseHook {
 
     private final String[] miuiImeList = new String[]{

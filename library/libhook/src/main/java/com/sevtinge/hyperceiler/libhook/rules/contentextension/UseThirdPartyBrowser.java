@@ -27,8 +27,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-;
-
 public class UseThirdPartyBrowser extends BaseHook {
 
     @Override
