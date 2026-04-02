@@ -33,6 +33,7 @@ import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils;
+import com.sevtinge.hyperceiler.utils.AppIconCache;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -130,6 +131,10 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
     }
 
     private void setPreference() {
+        if (getContext() == null) {
+            return;
+        }
+        int iconSize = getResources().getDimensionPixelSize(fan.preference.R.dimen.miuix_preference_icon_height);
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_development_debug_mode)) {
             int event = xml.getEventType();
@@ -138,11 +143,19 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
-                        Drawable icon = getPackageIcon(summary);
                         String name = getPackageName(summary);
                         DropDownPreference preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {
-                            if (icon != null) preferenceHeader.setIcon(icon);
+                            Drawable cachedIcon = AppIconCache.getCached(requireContext(), summary, iconSize);
+                            if (cachedIcon != null) {
+                                preferenceHeader.setIcon(cachedIcon);
+                            } else {
+                                AppIconCache.loadIconAsync(requireContext(), summary, iconSize, icon -> {
+                                    if (icon != null && isAdded()) {
+                                        preferenceHeader.setIcon(icon);
+                                    }
+                                });
+                            }
                             if (!"android".equals(summary) && name != null) preferenceHeader.setTitle(name);
                         }
                     }
@@ -151,14 +164,6 @@ public class DevelopmentDebugModeFragment extends SettingsPreferenceFragment {
             }
         } catch (XmlPullParserException | IOException e) {
             AndroidLog.e("DevelopmentDebugModeFragment", "An error occurred when reading the XML:", e);
-        }
-    }
-
-    private Drawable getPackageIcon(String packageName) {
-        try {
-            return requireContext().getPackageManager().getApplicationIcon(packageName);
-        } catch (PackageManager.NameNotFoundException e) {
-            return null;
         }
     }
 

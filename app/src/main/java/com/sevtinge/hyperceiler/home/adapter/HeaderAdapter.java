@@ -278,8 +278,9 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         // 快速滚动时跳过异步图标加载，停止后会通过 notifyDataSetChanged 重新 bind
         if (mIsScrolling) return;
         String packageName = header.summary.toString();
+        int headerIconSize = mContext.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
         // 精准更新 UI
-        IconTitleLoader.load(mContext, packageName, (info) -> {
+        IconTitleLoader.load(mContext, packageName, headerIconSize, (info) -> {
             // 检查 ViewHolder 是否已被复用
             if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
                 holder.icon.setImageDrawable(info.icon());

@@ -28,6 +28,7 @@ hiddenapibypass = "6.1"
 expansions = "1.0.0"
 gson = "2.13.2"
 hyperfocusapi = "2.0"
+appiconloader = "1.5.0"
 lunarcalendar = "latest.release"
 superLyricApi = "2.7"
 
@@ -82,6 +83,7 @@ libxposed-service = { module = "io.github.libxposed:service", version.ref = "xpo
 
 # Third-party
 auto-service = { module = "com.google.auto.service:auto-service", version.ref = "autoService" }
+appiconloader = { module = "me.zhanghai.android.appiconloader:appiconloader", version.ref = "appiconloader" }
 expansion = { module = "com.sevtinge.hyperceiler:hyperceiler-expansion", version.ref = "expansions" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 hyperfocusapi = { module = "com.github.ghhccghk:HyperFocusApi", version.ref = "hyperfocusapi" }
