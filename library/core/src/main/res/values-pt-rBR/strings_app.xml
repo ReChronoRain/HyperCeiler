@@ -1432,7 +1432,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Forçar ativação de legendas IA</string>
-    <string name="aiasst_all_captions">Desbloquear legendas online em vários idiomas</string>
     <!--Barrage-->
     <string name="barrage">Barragem</string>
     <string name="barrage_any_barrage">Permitir que todos os apps usem notificações de barragem</string>

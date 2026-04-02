@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.aiasst
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -29,6 +28,7 @@ object UnlockSplitTranslation : BaseHook() {
 
     override fun initDexKit(): Boolean {
         hook
+        skipSpilt
         return true
     }
 
@@ -36,10 +36,11 @@ object UnlockSplitTranslation : BaseHook() {
         requiredMember("unlockSplitTranslation") { dexKitBridge ->
             dexKitBridge.findClass {
                 matcher {
-                    addUsingString("SupportAiSubtitlesUtils", StringMatchType.Contains)
+                    addUsingString("SupportAiSubtitlesUtils")
                 }
             }.findMethod {
                 matcher {
+                    // public static boolean m5.a2.q()
                     addInvoke {
                         paramTypes("java.lang.String[]")
                     }
@@ -51,8 +52,26 @@ object UnlockSplitTranslation : BaseHook() {
         } as Method
     }
 
+    private val skipSpilt by lazy {
+        requiredMember("skipSplit") { dexKitBridge ->
+            dexKitBridge.findClass {
+                matcher {
+                    addUsingString("SplitScreenUtils")
+                }
+            }.findMethod {
+                matcher {
+                    addInvoke("Landroid/content/Context;->getSystemService(Ljava/lang/String;)Ljava/lang/Object;")
+                    returnType = "boolean"
+                }
+            }.single()
+        } as Method
+    }
+
     override fun init() {
         hook.createHook {
+            returnConstant(true)
+        }
+        skipSpilt.createHook {
             returnConstant(true)
         }
     }
