@@ -12,7 +12,9 @@ import java.lang.ref.WeakReference;
 
 public class HomePageTipHelper {
 
+    private static final Object TIP_REQUEST_LOCK = new Object();
     private static String mCurrentTip = "";
+    private static boolean sIsLoadingTip;
     private static WeakReference<TextView> sCurrentTipViewRef = new WeakReference<>(null);
 
     public static View getTipView(Context context) {
@@ -25,8 +27,8 @@ public class HomePageTipHelper {
                 tipView.setText("Tip: " + mCurrentTip);
             } else {
                 tipView.setText("Tip: Loading...");
+                updateTipTextWithView(context, tipView);
             }
-            updateTipTextWithView(context, tipView);
         }
 
         v.setOnClickListener(view -> {
@@ -47,9 +49,25 @@ public class HomePageTipHelper {
     public static void updateTipTextWithView(Context context, final TextView targetView) {
         if (context == null || targetView == null) return;
 
+        synchronized (TIP_REQUEST_LOCK) {
+            if (sIsLoadingTip) {
+                return;
+            }
+            sIsLoadingTip = true;
+        }
+
         HomePageTipManager.getRandomTipAsync(context.getApplicationContext(), tip -> {
+            synchronized (TIP_REQUEST_LOCK) {
+                sIsLoadingTip = false;
+            }
             mCurrentTip = tip;
-            targetView.setText("Tip: " + mCurrentTip);
+            String tipText = "Tip: " + mCurrentTip;
+            targetView.setText(tipText);
+
+            TextView currentTipView = sCurrentTipViewRef.get();
+            if (currentTipView != null && currentTipView != targetView) {
+                currentTipView.setText(tipText);
+            }
         });
     }
 }
