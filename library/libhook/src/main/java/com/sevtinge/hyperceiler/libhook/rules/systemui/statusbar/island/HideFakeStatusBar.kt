@@ -101,7 +101,6 @@ object HideFakeStatusBar : MusicBaseHook() {
     override fun onStop() {
     }
 
-    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun init() {
         // 点击显示时间
         loadClass("android.app.Application").methodFinder().first { name == "onCreate" }
@@ -113,7 +112,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                         showCLock = !showCLock
                         updateLayout()
                     }
-                }, mFilter)
+                }, mFilter, Context.RECEIVER_EXPORTED)
             }
 
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").methodFinder()
