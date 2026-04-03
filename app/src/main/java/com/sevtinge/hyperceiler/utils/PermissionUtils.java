@@ -22,7 +22,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -51,14 +50,6 @@ public class PermissionUtils {
         );
     }
 
-    // 权限项数组
-    public static final String[] PERMISSIONS = {
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.SYSTEM_ALERT_WINDOW
-    };
-
     private static int mRequestCode = -1;
 
     private static OnPermissionListener mOnPermissionListener;
@@ -84,9 +75,6 @@ public class PermissionUtils {
      * @param listener    权限请求监听
      */
     public static void requestPermissions(Activity context, String[] permissions, int requestCode, OnPermissionListener listener) {
-        if (Build.VERSION.SDK_INT < 23) {
-            return;
-        }
         mOnPermissionListener = listener;
         List<String> deniedPermissions = new ArrayList<>();
         for (String permission : permissions) {

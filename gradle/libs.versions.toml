@@ -53,24 +53,15 @@ miuix-basewidget = { module = "fan.miuix:basewidget", version.ref = "miuix" }
 miuix-bottomsheet = { module = "fan.miuix:bottomsheet", version.ref = "miuix" }
 miuix-cardview = { module = "fan.miuix:cardview", version.ref = "miuix" }
 miuix-core = { module = "fan.miuix:core", version.ref = "miuix" }
-miuix-flexible = { module = "fan.miuix:flexible", version.ref = "miuix" }
 miuix-folme = { module = "fan.miuix:folme", version.ref = "miuix" }
-miuix-graphics = { module = "fan.miuix:graphics", version.ref = "miuix" }
-miuix-haptic = { module = "fan.miuix:haptic", version.ref = "miuix" }
-miuix-mgl = { module = "fan.miuix:mgl", version.ref = "miuix" }
 miuix-navigator = { module = "fan.miuix:navigator", version.ref = "miuix" }
 miuix-nestedheader = { module = "fan.miuix:nestedheader", version.ref = "miuix" }
 miuix-pickerwidget = { module = "fan.miuix:pickerwidget", version.ref = "miuix" }
-miuix-popupwidget = { module = "fan.miuix:popupwidget", version.ref = "miuix" }
 miuix-preference = { module = "fan.miuix:preference", version.ref = "miuix" }
 miuix-recyclerview = { module = "fan.miuix:recyclerview", version.ref = "miuix" }
-miuix-slidingwidget = { module = "fan.miuix:slidingwidget", version.ref = "miuix" }
-miuix-smooth = { module = "fan.miuix:smooth", version.ref = "miuix" }
 miuix-springback = { module = "fan.miuix:springback", version.ref = "miuix" }
-miuix-stretchablewidget = { module = "fan.miuix:stretchablewidget", version.ref = "miuix" }
 miuix-theme = { module = "fan.miuix:theme", version.ref = "miuix" }
 miuix-viewpager = { module = "fan.miuix:viewpager", version.ref = "miuix" }
-miuix-visualcheck = { module = "fan.miuix:visualcheck", version.ref = "miuix" }
 miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 
 # Xposed & Hooks
@@ -98,10 +89,8 @@ lsparanoid = { id = "org.lsposed.lsparanoid", version.ref = "lsparanoid" }
 [bundles]
 miuix = [
     "miuix-animation", "miuix-appcompat", "miuix-basewidget", "miuix-bottomsheet",
-    "miuix-cardview", "miuix-core", "miuix-flexible", "miuix-folme", "miuix-graphics",
-    "miuix-haptic", "miuix-mgl", "miuix-navigator", "miuix-nestedheader",
-    "miuix-pickerwidget", "miuix-popupwidget", "miuix-preference", "miuix-recyclerview",
-    "miuix-slidingwidget", "miuix-smooth", "miuix-springback", "miuix-stretchablewidget",
-    "miuix-theme", "miuix-viewpager", "miuix-visualcheck", "miuix-transition"
+    "miuix-cardview", "miuix-core", "miuix-folme", "miuix-navigator",
+    "miuix-nestedheader", "miuix-pickerwidget", "miuix-preference", "miuix-recyclerview",
+    "miuix-springback", "miuix-theme", "miuix-viewpager", "miuix-transition"
 ]
 #ezxhelper = ["ezxhelper-core", "ezxhelper-xposed-api"]

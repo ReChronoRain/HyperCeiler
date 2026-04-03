@@ -186,11 +186,6 @@ public class DefaultActivity extends ProvisionBaseActivity {
         return false;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
     private static final class BundleActivityOptionsCompat extends ActivityOptionsCompat {
 
         private final Bundle mOptions;
