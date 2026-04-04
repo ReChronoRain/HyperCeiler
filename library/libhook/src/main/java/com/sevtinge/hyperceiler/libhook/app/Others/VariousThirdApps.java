@@ -26,12 +26,11 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
 import com.sevtinge.hyperceiler.libhook.rules.various.MusicHooks;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.BaiduClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClearClipboard;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClipboardLimit;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.LoadInputMethodDex;
+import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClipboardUnlock;
+import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.InputMethodDexHelper;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
@@ -52,20 +51,22 @@ public class VariousThirdApps extends BaseLoad {
             mAppsUsingInputMethod = getAppsUsingInputMethod(AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID));
         }
         mPackageName = getPackageName();
-        if (PrefsBridge.getBoolean("various_phrase_clipboardlist")) {
-            if (isInputMethod(mPackageName)) {
-                initHook(new LoadInputMethodDex());
-                initHook(new ClipboardLimit());
-            }
+        boolean isIme = isInputMethod(mPackageName);
+        boolean needClipboard = PrefsBridge.getBoolean("various_phrase_clipboardlist");
+        boolean needUnlockIme = PrefsBridge.getBoolean("various_unlock_ime");
+        boolean needClearClipboard = PrefsBridge.getBoolean("add_clipboard_clear");
+
+        if (isIme && (needClipboard || needUnlockIme || needClearClipboard)) {
+            InputMethodDexHelper.init();
         }
-        initHook(new UnlockIme(), PrefsBridge.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
-        initHook(new NewUnPhraseLimit(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
+
+        initHook(new ClipboardUnlock(), needClipboard && isIme);
+        initHook(new UnlockIme(), needUnlockIme && isIme);
         initHook(new SoGouClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
         initHook(new BaiduClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
                 ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
-        //initHook(new ClipboardList(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
-        initHook(new ClearClipboard(), PrefsBridge.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
+        initHook(new ClearClipboard(), needClearClipboard && isIme);
 
         // 焦点歌词（音乐软件相关）
         initHook(MusicHooks.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_music_switch") && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app"));
