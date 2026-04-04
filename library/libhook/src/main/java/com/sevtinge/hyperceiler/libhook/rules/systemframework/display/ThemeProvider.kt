@@ -20,25 +20,33 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import io.github.libxposed.api.XposedInterface
 import miui.drm.DrmManager
 import miui.drm.ThemeReceiver
 
 class ThemeProvider : BaseHook() {
+    companion object {
+        private val sBypassDrmCheck = ThreadLocal<Boolean>()
+    }
+
     override fun init() {
-        var hook: List<XposedInterface.HookHandle>? = null
         try {
-            ThemeReceiver::class.java.methodFinder().filterByName("validateTheme").first().createHook {
-                before {
-                    hook = DrmManager::class.java.methodFinder().filterByName("isLegal").toList().createHooks {
-                        returnConstant(DrmManager.DrmResult.DRM_SUCCESS)
+            chainAllMethods(DrmManager::class.java, "isLegal",
+                XposedInterface.Hooker { chain ->
+                    if (sBypassDrmCheck.get() == true) {
+                        return@Hooker DrmManager.DrmResult.DRM_SUCCESS
                     }
+                    chain.proceed()
                 }
-                after {
-                    hook?.forEach { it.unhook() }
+            )
+
+            ThemeReceiver::class.java.chainMethod("validateTheme") {
+                sBypassDrmCheck.set(true)
+                try {
+                    proceed()
+                } finally {
+                    sBypassDrmCheck.remove()
                 }
             }
         } catch (t: Throwable) {
