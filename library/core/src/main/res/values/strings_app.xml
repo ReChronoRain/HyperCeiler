@@ -538,6 +538,8 @@
     <string name="system_framework_core_patch_allow_update_system_app_desc">Allow installation of system apps when updating system apps is disabled</string>
     <string name="system_framework_core_patch_unloss_fingerprint">Disable reset fingerprint</string>
     <string name="system_framework_core_patch_unloss_fingerprint_desc">May help resolve the issue of fingerprints resetting after reboot when certain package management services are enabled. Intended only for devices affected by this problem.</string>
+    <string name="system_framework_fuck_subscreen_whiteList">Remove the subscreen app whitelist</string>
+    <string name="system_framework_fuck_subscreen_not_go_to_home">Prohibit returning to the home screen when the screen is facing down, idle, or turned off</string>
     <!--Browser-->
     <string name="browser">Browser</string>
     <string name="browser_debug_mode">Unlock developer options</string>
@@ -1743,4 +1745,5 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open source projects</string>
     <string name="close_source">Close source projects</string>
+    <string name="subscreen">Sub Screen</string>
 </resources>
