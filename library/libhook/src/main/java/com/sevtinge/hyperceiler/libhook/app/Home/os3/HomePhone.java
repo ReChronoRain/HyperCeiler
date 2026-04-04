@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsMarginBottom;
@@ -103,6 +104,7 @@ public class HomePhone extends BaseLoad {
         // 手势
         initHook(new DisableFullScreenBackGesture(), PrefsBridge.getBoolean("home_navigation_disable_full_screen_back_gesture"));
         //initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(),
             PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0

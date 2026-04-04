@@ -29,6 +29,8 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainConstructor
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getFloatField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
@@ -36,13 +38,10 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullA
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setFloatField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setLongField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.libxposed.api.XposedInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -54,6 +53,7 @@ object FocusNotifLyric : MusicBaseHook() {
     private var lastLyric = ""
     private val runnablePool = mutableMapOf<Int, Runnable>()
     private val focusTextViewList = mutableListOf<TextView>()
+    private val sCollectFocusedTextViews = ThreadLocal<Boolean>()
     private val textViewWidth by lazy {
         PrefsBridge.getInt("system_ui_statusbar_music_width", 0)
     }
@@ -83,22 +83,28 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
         }
 
-        // 拦截初始化状态栏焦点通知文本布局
-        var unhook: XposedInterface.HookHandle? = null
-        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
-            .filterByName("onCreateView")
-            .first().createHook {
-                before {
-                    unhook = loadClass("com.android.systemui.statusbar.widget.FocusedTextView").constructorFinder()
-                        .filterByParamCount(3)
-                        .first().createAfterHook {
-                            focusTextViewList += it.thisObject as TextView
-                        }
-                }
-                after {
-                    unhook?.unhook()
-                }
+        loadClass("com.android.systemui.statusbar.widget.FocusedTextView").chainConstructor(
+            android.content.Context::class.java,
+            android.util.AttributeSet::class.java,
+            Int::class.java
+        ) {
+            val result = proceed()
+            if (sCollectFocusedTextViews.get() == true) {
+                focusTextViewList += thisObject as TextView
             }
+            result
+        }
+
+        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").chainMethod(
+            "onCreateView"
+        ) {
+            sCollectFocusedTextViews.set(true)
+            try {
+                proceed()
+            } finally {
+                sCollectFocusedTextViews.remove()
+            }
+        }
 
         // 构建通知栏通知函数
         // loadClass("com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector").methodFinder()

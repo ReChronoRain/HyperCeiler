@@ -1,10 +1,14 @@
 package com.sevtinge.hyperceiler.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -17,6 +21,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.shell.IResult;
 import com.sevtinge.hyperceiler.dashboard.base.ActivityCallback;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
+import com.sevtinge.hyperceiler.home.IconTitleLoader;
 import com.sevtinge.hyperceiler.home.adapter.HomeContentAdapter;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
@@ -44,6 +49,11 @@ public class HomePageActivity extends AppCompatActivity
     public HomeContentAdapter mContentAdapter;
 
     public SwitchManager mSwitchManager;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,16 +90,55 @@ public class HomePageActivity extends AppCompatActivity
             mSwitchManager.setFloatingStyle(isEnabled);
         });
 
+        mViewPager = findViewById(R.id.vp_fragments);
+        rebuildContentPages();
+        new SwitchMediator(mSwitchManager, mViewPager, true).attach();
+    }
+
+    private void rebuildContentPages() {
         mContentAdapter = new HomeContentAdapter(this);
         mContentAdapter.addFragment(new HomePageFragment());
         mContentAdapter.addFragment(new SettingsPageFragment());
         mContentAdapter.addFragment(new AboutPageFragment());
 
-        mViewPager = findViewById(R.id.vp_fragments);
         mViewPager.setAdapter(mContentAdapter);
         mViewPager.setOffscreenPageLimit(3);
+    }
 
-        new SwitchMediator(mSwitchManager, mViewPager, true).attach();
+    public void reloadPagesForLanguageChange() {
+        if (mViewPager == null) {
+            return;
+        }
+        int currentItem = mViewPager.getCurrentItem();
+        // 首页条目标题会异步按包名覆盖，切语言时先清掉旧 locale 的 label 缓存。
+        IconTitleLoader.clearLabelCache();
+        mViewPager.setAdapter(null);
+        clearContentFragments();
+        rebuildContentPages();
+        if (mSwitchManager != null) {
+            mSwitchManager.setSelectedPosition(currentItem, false);
+        }
+        mViewPager.setCurrentItem(currentItem, false);
+    }
+
+    private void clearContentFragments() {
+        if (mContentAdapter == null) {
+            return;
+        }
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        boolean hasChanges = false;
+        // 这里必须移除旧 fragment，避免 ViewPager 复用旧实例导致首页列表不刷新语言。
+        for (int i = 0; i < mContentAdapter.getCount(); i++) {
+            Fragment fragment = fragmentManager.findFragmentByTag(mContentAdapter.getFragmentTag(i));
+            if (fragment != null) {
+                transaction.remove(fragment);
+                hasChanges = true;
+            }
+        }
+        if (hasChanges) {
+            transaction.commitNowAllowingStateLoss();
+        }
     }
 
     @Override

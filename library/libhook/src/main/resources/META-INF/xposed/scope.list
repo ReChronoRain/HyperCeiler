@@ -10,6 +10,7 @@ com.android.incallui
 com.android.mms
 com.android.nfc
 com.android.phone
+com.android.photopicker
 com.android.providers.downloads
 com.android.providers.downloads.ui
 com.android.server.telecom
@@ -61,6 +62,7 @@ com.xiaomi.trustservice
 com.xiaomi.vipaccount
 com.iflytek.inputmethod.miui
 com.sohu.inputmethod.sogou.xiaomi
+com.miui.voiceassist
 com.miui.voicetrigger
 com.xiaomi.simactivate.service
 miui.systemui.plugin

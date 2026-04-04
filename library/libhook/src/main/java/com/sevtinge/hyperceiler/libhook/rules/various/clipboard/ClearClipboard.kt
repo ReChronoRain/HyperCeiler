@@ -39,12 +39,9 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfte
 class ClearClipboard : BaseHook() {
     override fun init() {
         if (isMoreSmallVersion(200, 2f)) return
-        MethodFinder.fromClass("android.inputmethodservice.InputMethodModuleManager")
-            .filterByName("loadDex")
-            .filterByParamTypes(ClassLoader::class.java, String::class.java)
-            .first().createAfterHook {
-                createHook(it.args[0] as ClassLoader)
-            }
+        InputMethodDexHelper.addListener { classLoader ->
+            createHook(classLoader)
+        }
     }
 
     private fun createHook(classLoader: ClassLoader) {

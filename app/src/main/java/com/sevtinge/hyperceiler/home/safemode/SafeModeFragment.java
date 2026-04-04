@@ -37,6 +37,7 @@ import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.home.banner.HomePageBannerManager;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.libhook.safecrash.SafeModeHandler;
+import com.sevtinge.hyperceiler.utils.AppIconCache;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -97,6 +98,10 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
     }
 
     private void setPreference() {
+        if (getContext() == null) {
+            return;
+        }
+        int iconSize = getResources().getDimensionPixelSize(fan.preference.R.dimen.miuix_preference_icon_height);
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_settings_safe_mode)) {
             int event = xml.getEventType();
@@ -105,11 +110,19 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
                     String key = xml.getAttributeValue(ANDROID_NS, "key");
                     String summary = xml.getAttributeValue(ANDROID_NS, "summary");
                     if (key != null && summary != null) {
-                        Drawable icon = getPackageIcon(summary);
                         String name = getPackageName(summary);
                         SwitchPreference preferenceHeader = findPreference(key);
                         if (preferenceHeader != null) {
-                            if (icon != null) preferenceHeader.setIcon(icon);
+                            Drawable cachedIcon = AppIconCache.getCached(requireContext(), summary, iconSize);
+                            if (cachedIcon != null) {
+                                preferenceHeader.setIcon(cachedIcon);
+                            } else {
+                                AppIconCache.loadIconAsync(requireContext(), summary, iconSize, icon -> {
+                                    if (icon != null && isAdded()) {
+                                        preferenceHeader.setIcon(icon);
+                                    }
+                                });
+                            }
                             if (!"android".equals(summary) && name != null) preferenceHeader.setTitle(name);
                         }
                     }
@@ -118,14 +131,6 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
             }
         } catch (XmlPullParserException | IOException e) {
             AndroidLog.e("SafeModeFragment", "An error occurred when reading the XML:", e);
-        }
-    }
-
-    private Drawable getPackageIcon(String packageName) {
-        try {
-            return requireContext().getPackageManager().getApplicationIcon(packageName);
-        } catch (PackageManager.NameNotFoundException e) {
-            return null;
         }
     }
 

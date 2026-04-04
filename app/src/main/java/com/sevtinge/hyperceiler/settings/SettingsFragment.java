@@ -45,7 +45,9 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
+import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
+import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
@@ -109,7 +111,7 @@ public class SettingsFragment extends BasePreferenceFragment
     public void initPrefs() {
         int mIconMode = AppSettingsStore.getIconIndex(requireContext());
         int iconModeStyle = AppSettingsStore.getIconModeIndex(requireContext());
-        int languageIndex = AppSettingsStore.getAppLanguageIndex(requireContext());
+        int languageIndex = LanguageHelper.getCurrentLanguageIndex(requireContext());
         boolean hideAppIconEnabled = AppSettingsStore.isHideAppIconEnabled(requireContext());
         boolean isFloating = AppSettingsStore.isFloatNavEnabled(requireContext());
         boolean scopeSyncEnabled = AppSettingsStore.isScopeSyncEnabled(requireContext());
@@ -140,6 +142,8 @@ public class SettingsFragment extends BasePreferenceFragment
         }
         if (mLanguage != null) {
             mLanguage.setPersistent(false);
+            mLanguage.setEntries(LanguageHelper.getLanguageEntries(requireContext()));
+            mLanguage.setEntryValues(LanguageHelper.getLanguageEntryValues());
         }
 
         if (mHideAppIcon != null) {
@@ -166,8 +170,11 @@ public class SettingsFragment extends BasePreferenceFragment
 
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
             int index = Integer.parseInt((String) o);
-            AppSettingsStore.setAppLanguageIndex(requireContext(), index);
-            LanguageHelper.setIndexLanguage(getActivity(), index, true);
+            LanguageHelper.setIndexLanguage(getActivity(), index, false);
+            SearchHelper.initIndex(requireContext(), true);
+            if (getActivity() instanceof HomePageActivity activity) {
+                activity.reloadPagesForLanguageChange();
+            }
             return true;
         });
 
@@ -256,6 +263,8 @@ public class SettingsFragment extends BasePreferenceFragment
                         PrefsBridge.clearAllByApp();
                         AppSettingsStore.resetGlobalToDefaults(requireContext());
                         OobeUtils.resetOobeState(requireContext());
+                        LanguageHelper.clearLanguage(requireContext());
+                        SearchHelper.initIndex(requireContext(), true);
                         Toast.makeText(getActivity(), com.sevtinge.hyperceiler.core.R.string.reset_okay, Toast.LENGTH_LONG).show();
                     }
                 );

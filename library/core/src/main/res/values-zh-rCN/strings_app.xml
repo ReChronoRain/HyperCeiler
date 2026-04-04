@@ -1058,6 +1058,8 @@
     <string name="home_navigation_assist_right_slide">左上滑动</string>
     <string name="home_navigation_assist_right_slide_desc">在任意界面从屏幕右下角向内滑动</string>
     <string name="home_navigation_disable_full_screen_back_gesture">禁用全屏返回手势</string>
+    <string name="home_navigation_predictive_progress">修复预测性返回进度</string>
+    <string name="home_navigation_predictive_progress_desc">实验性功能，修复在 Xiaomi HyperOS 系统的部分场景下，预测性返回进度行程过短的问题</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
     <string name="home_gesture_title2">手势</string>
@@ -1563,6 +1565,13 @@
     <string name="telecom">通话管理</string>
     <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
     <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
+    <!--超级小爱-->
+    <string name="voiceassist">超级小爱</string>
+    <string name="voiceassist_remove_screen_trans_watermark">移除屏幕翻译 \"AI 生成\" 水印</string>
+    <!--照片和视频-->
+    <string name="photopicker">照片和视频</string>
+    <string name="photopicker_disable_reroute">使用原生照片和文件选择器</string>
+    <string name="photopicker_disable_reroute_desc">不再使用 HyperOS 相册和文件管理提供的服务</string>
     <!--语音唤醒-->
     <string name="voicetrigger">语音唤醒</string>
     <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>

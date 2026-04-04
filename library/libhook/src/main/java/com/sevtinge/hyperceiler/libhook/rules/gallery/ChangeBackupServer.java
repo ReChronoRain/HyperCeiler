@@ -27,6 +27,8 @@ import io.github.libxposed.api.XposedInterface;
 
 
 public class ChangeBackupServer extends BaseHook {
+    private static final ThreadLocal<Boolean> sOverrideIsInternational = new ThreadLocal<>();
+
     @Override
     public void init() {
         int backupServer = PrefsBridge.getStringAsInt("gallery_backup_server", 0);
@@ -34,28 +36,30 @@ public class ChangeBackupServer extends BaseHook {
         boolean isGoogle = backupServer == 2;
         boolean isOneDrive = backupServer == 3;
 
-        if (isOneDrive) {
-            findAndHookMethod("com.miui.gallery.ui.GallerySettingsFragment", "initGlobalBackupPreference", new IMethodHook() {
-                XposedInterface.HookHandle isInternationalHook;
-
-                @Override
-                public void before(HookParam param) {
-                    isInternationalHook = findAndHookMethod("com.miui.gallery.util.BaseBuildUtil", "isInternational", new IMethodHook() {
-                        @Override
-                        public void before(HookParam param) {
-                            param.setResult(true);
-                        }
-                    });
+        if (isOneDrive || isXiaomi) {
+            findAndChainMethod("com.miui.gallery.util.BaseBuildUtil", "isInternational",
+                chain -> {
+                    Boolean override = sOverrideIsInternational.get();
+                    if (override != null) {
+                        return override;
+                    }
+                    return chain.proceed();
                 }
+            );
+        }
 
-                @Override
-                public void after(HookParam param) {
-                    if (isInternationalHook != null) {
-                        isInternationalHook.unhook();
-                        isInternationalHook = null;
+        if (isOneDrive) {
+            findAndChainMethod("com.miui.gallery.ui.GallerySettingsFragment",
+                "initGlobalBackupPreference",
+                chain -> {
+                    sOverrideIsInternational.set(true);
+                    try {
+                        return chain.proceed();
+                    } finally {
+                        sOverrideIsInternational.remove();
                     }
                 }
-            });
+            );
             findAndHookMethod("com.miui.gallery.util.PhotoModelTypeUtil", "isSupportOneDrive", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
@@ -64,27 +68,17 @@ public class ChangeBackupServer extends BaseHook {
             });
         } else {
             if (isXiaomi) {
-                findAndHookMethod("com.miui.gallery.ui.GallerySettingsFragment", "initGlobalBackupPreference", new IMethodHook() {
-                    XposedInterface.HookHandle isInternationalHook;
-
-                    @Override
-                    public void before(HookParam param) {
-                        isInternationalHook = findAndHookMethod("com.miui.gallery.util.BaseBuildUtil", "isInternational", new IMethodHook() {
-                            @Override
-                            public void before(HookParam param) {
-                                param.setResult(false);
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void after(HookParam param) {
-                        if (isInternationalHook != null) {
-                            isInternationalHook.unhook();
-                            isInternationalHook = null;
+                findAndChainMethod("com.miui.gallery.ui.GallerySettingsFragment",
+                    "initGlobalBackupPreference",
+                    (XposedInterface.Hooker) chain -> {
+                        sOverrideIsInternational.set(false);
+                        try {
+                            return chain.proceed();
+                        } finally {
+                            sOverrideIsInternational.remove();
                         }
                     }
-                });
+                );
             }
             try {
                 findAndHookMethod("com.miui.gallery.transfer.GoogleSyncHelper", "isCloudServiceOffLine", new IMethodHook() {

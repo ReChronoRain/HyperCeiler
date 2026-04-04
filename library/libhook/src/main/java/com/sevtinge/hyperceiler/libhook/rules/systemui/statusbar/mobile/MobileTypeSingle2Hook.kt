@@ -498,7 +498,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 syncDataSimProxiesNow()
                 scheduleRefreshBoundViews()
             }
-        }, filter)
+        }, filter, Context.RECEIVER_EXPORTED)
     }
 
     private fun syncDataSimProxiesNow() {

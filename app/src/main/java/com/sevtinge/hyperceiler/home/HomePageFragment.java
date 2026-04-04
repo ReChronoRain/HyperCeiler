@@ -64,6 +64,7 @@ import fan.view.SearchActionMode;
 public class HomePageFragment extends BasePreferenceFragment implements OnCompleteCallBack {
 
     private static final String TAG = "HomePageFragment";
+    private static final long TIP_AUTO_REFRESH_INTERVAL_MS = 30_000L;
 
     public static int getHomeHeadersResourceId() {
         return R.xml.settings_header;
@@ -104,17 +105,23 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private SearchHistorySPUtils mSearchHistorySPUtils;
     private HandlerThread mSearchThread;
+    private boolean mIsTipsAutoRefreshActive;
 
     private final Handler mTipsHandler = new Handler(Looper.getMainLooper());
     private final Runnable mTipsAutoTask = new Runnable() {
         @Override
         public void run() {
-            Context context = getSafeContext();
-            if (context == null) {
+            if (!mIsTipsAutoRefreshActive) {
                 return;
             }
-            HomePageTipHelper.refreshCurrentTip(context);
-            mTipsHandler.postDelayed(this, 30000);
+            try {
+                Context context = getSafeContext();
+                if (context != null) {
+                    HomePageTipHelper.refreshCurrentTip(context);
+                }
+            } finally {
+                scheduleNextTipRefresh();
+            }
         }
     };
 
@@ -283,14 +290,13 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         if (HomePageBannerManager.needsRefresh()) {
             scheduleHeaderRefresh();
         }
-        mTipsHandler.removeCallbacks(mTipsAutoTask);
-        mTipsHandler.postDelayed(mTipsAutoTask, 30000);
+        startTipAutoRefresh();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mTipsHandler.removeCallbacks(mTipsAutoTask);
+        stopTipAutoRefresh();
     }
 
     @Override
@@ -476,6 +482,23 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     }
 
+    private void startTipAutoRefresh() {
+        mIsTipsAutoRefreshActive = true;
+        scheduleNextTipRefresh();
+    }
+
+    private void stopTipAutoRefresh() {
+        mIsTipsAutoRefreshActive = false;
+        mTipsHandler.removeCallbacks(mTipsAutoTask);
+    }
+
+    private void scheduleNextTipRefresh() {
+        mTipsHandler.removeCallbacks(mTipsAutoTask);
+        if (mIsTipsAutoRefreshActive) {
+            mTipsHandler.postDelayed(mTipsAutoTask, TIP_AUTO_REFRESH_INTERVAL_MS);
+        }
+    }
+
     @Override
     public void buildAdapter() {
         super.buildAdapter();
@@ -516,7 +539,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             }
         }
         if (!packageNames.isEmpty()) {
-            IconTitleLoader.preloadAll(context.getApplicationContext(), packageNames, () ->
+            int headerIconSize = context.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
+            IconTitleLoader.preloadAll(context.getApplicationContext(), packageNames, headerIconSize, () ->
                 runOnUiThreadIfAlive(() -> {
                     if (mHeaderAdapter != null) {
                     mHeaderAdapter.notifyDataSetChanged();
@@ -683,6 +707,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     public void onDestroyView() {
         super.onDestroyView();
         HomePageBannerManager.setRefreshCallback(null);
+        stopTipAutoRefresh();
         mTipsHandler.removeCallbacksAndMessages(null);
         mMainHandler.removeCallbacks(mRefreshHeaderTask);
         if (mListView != null) {

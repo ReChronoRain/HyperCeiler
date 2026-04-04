@@ -74,25 +74,21 @@ public class UnlockIme extends BaseHook {
         hookDeleteNotSupportIme("android.inputmethodservice.InputMethodServiceInjector$MiuiSwitchInputMethodListener",
             param.getClassLoader());
 
-        // 获取常用语的ClassLoader
+        // 通过 InputMethodDexHelper 获取常用语的 ClassLoader
         boolean finalIsNonCustomize = isNonCustomize;
-        findAndHookMethod("android.inputmethodservice.InputMethodModuleManager", "loadDex", ClassLoader.class, String.class, new IMethodHook() {
-                @Override
-                public void after(HookParam param) {
-                    getSupportIme((ClassLoader) param.getArgs()[0]);
-                    hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", (ClassLoader) param.getArgs()[0]);
-                    if (finalIsNonCustomize) {
-                        Class<?> InputMethodBottomManager = findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", (ClassLoader) param.getArgs()[0]);
-                        if (InputMethodBottomManager != null) {
-                            hookSIsImeSupport(InputMethodBottomManager);
-                            hookIsXiaoAiEnable(InputMethodBottomManager);
-                        } else {
-                            XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
-                        }
-                    }
+        InputMethodDexHelper.addListener(classLoader -> {
+            getSupportIme(classLoader);
+            hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader);
+            if (finalIsNonCustomize) {
+                Class<?> InputMethodBottomManager = findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", classLoader);
+                if (InputMethodBottomManager != null) {
+                    hookSIsImeSupport(InputMethodBottomManager);
+                    hookIsXiaoAiEnable(InputMethodBottomManager);
+                } else {
+                    XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
                 }
             }
-        );
+        });
     }
 
     /**
