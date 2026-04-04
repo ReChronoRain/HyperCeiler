@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.invokeSuperMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanFieldOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
@@ -47,7 +48,6 @@ import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.libxposed.api.XposedInterface
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @SuppressLint("StaticFieldLeak")
@@ -75,7 +75,7 @@ object HideFakeStatusBar : MusicBaseHook() {
         loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
     }
 
-    private var unhook0: XposedInterface.HookHandle? = null
+    private val sOverrideVerticalMode = ThreadLocal<Boolean>()
 
     private fun updateLayout() {
         if (isShowingFocused.value && isLyric.value && !showCLock) {
@@ -147,23 +147,25 @@ object HideFakeStatusBar : MusicBaseHook() {
            }
 
 
-        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").methodFinder()
-            .filterByName("onExpansionChanged").first().createHook {
-                before {
-                    unhook0 = miuiConfigs.replaceMethod("isVerticalMode") {
-                        if (isShowingFocusedLyric) {
-                            // 如果在显示歌词,就伪装成横屏,用来取消假时钟动画
-                            false
-                        } else {
-                            invokeSuperMethod(it.executable.name, it.thisObject)
-                        }
-                    }
-                }
-                after {
+        miuiConfigs.chainMethod("isVerticalMode") {
+            if (sOverrideVerticalMode.get() == true && isShowingFocusedLyric) {
+                // 如果在显示歌词,就伪装成横屏,用来取消假时钟动画
+                return@chainMethod false
+            }
+            proceed()
+        }
+
+        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1")
+            .chainMethod("onExpansionChanged", Float::class.java) {
+                sOverrideVerticalMode.set(true)
+                try {
+                    proceed()
+                } finally {
+                    sOverrideVerticalMode.remove()
                     if (isShowingFocusedLyric) {
                         // 在显示歌词的时候固定通知栏顶部时间和日期的位置和缩放
                         val notificationHeaderExpandController =
-                            it.thisObject.getObjectField("this$0")
+                            thisObject.getObjectField("this$0")
                         val combinedHeaderController =
                             notificationHeaderExpandController?.getObjectFieldOrNull("headerController")!!
                                 .callMethod("get")
@@ -186,15 +188,11 @@ object HideFakeStatusBar : MusicBaseHook() {
                         }
                         // 设置通知图标位置
                         combinedHeaderController.getObjectField("notificationShortcut")?.callMethod("setTranslationY", 0f)
-
                     }
-                    unhook0?.unhook()
                 }
             }
         loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").methodFinder()
             .filterByName("onAppearanceChanged").first().createHook {
-                before {
-                }
                 after {
                     if (isShowingFocusedLyric) {
                         // 显示歌词的时候手动调用动画,防止大时钟突然出现

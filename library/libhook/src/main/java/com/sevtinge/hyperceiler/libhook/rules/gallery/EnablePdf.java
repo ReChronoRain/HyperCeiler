@@ -22,10 +22,9 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
-import io.github.libxposed.api.XposedInterface;
 
 public class EnablePdf extends BaseHook {
-    XposedInterface.HookHandle isGlobal;
+    private static final ThreadLocal<Boolean> sBypassIsGlobal = new ThreadLocal<>();
 
     @Override
     public void init() {
@@ -37,23 +36,24 @@ public class EnablePdf extends BaseHook {
                 }
             });
         } catch (Throwable e) {
-            hookAllConstructors("com.miui.gallery.ui.ProduceCreationDialogWithMediaEditorConfig",  new IMethodHook() {
+            findAndChainMethod("com.miui.gallery.util.BuildUtil", "isGlobal",
+                chain -> {
+                    if (Boolean.TRUE.equals(sBypassIsGlobal.get())) {
+                        return false;
+                    }
+                    return chain.proceed();
+                }
+            );
+
+            hookAllConstructors("com.miui.gallery.ui.ProduceCreationDialogWithMediaEditorConfig", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
-                    isGlobal = findAndHookMethod("com.miui.gallery.util.BuildUtil", "isGlobal", new IMethodHook() {
-                        @Override
-                        public void before(HookParam param) {
-                            param.setResult(false);
-                        }
-                    });
+                    sBypassIsGlobal.set(true);
                 }
 
                 @Override
                 public void after(HookParam param) {
-                    if (isGlobal != null) {
-                        isGlobal.unhook();
-                    }
-                    isGlobal = null;
+                    sBypassIsGlobal.remove();
                 }
             });
         }
