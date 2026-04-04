@@ -127,4 +127,9 @@
     <string name="aicr_modify_browser_copy">修改複製直達使用的瀏覽器</string>
     <string name="xmsf">小米服務框架</string>
     <string name="xmsf_unlock_foucs_app_sign_white_list">解鎖焦點通知白名單簽名驗證</string>
+    <!--Home-->
+    <string name="home_share_apk_preparing">正在準備檔案…</string>
+    <string name="home_share_apk_preparing_split">正在打包分包 APK（共 %1$d 個檔案）…</string>
+    <string name="home_share_apk_failed">分享失敗</string>
+    <string name="home_share_apk_prepare_failed">檔案準備失敗</string>
 </resources>

@@ -103,4 +103,9 @@
     <string name="system_notifrowmenu_appinfo">應用程式訊息</string>
     <string name="system_notifrowmenu_openinfw">自由視窗</string>
     <string name="system_notifrowmenu_forceclose">強制關閉</string>
+    <!--Home-->
+    <string name="home_share_apk_preparing">正在準備檔案…</string>
+    <string name="home_share_apk_preparing_split">正在打包分包 APK（共 %1$d 個檔案）…</string>
+    <string name="home_share_apk_failed">分享失敗</string>
+    <string name="home_share_apk_prepare_failed">檔案準備失敗</string>
 </resources>

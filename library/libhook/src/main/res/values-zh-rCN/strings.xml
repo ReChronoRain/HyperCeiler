@@ -129,4 +129,9 @@
     <string name="system_notifrowmenu_appinfo">应用信息</string>
     <string name="system_notifrowmenu_openinfw">浮窗</string>
     <string name="system_notifrowmenu_forceclose">强制关闭</string>
+    <!--Home-->
+    <string name="home_share_apk_preparing">正在准备文件…</string>
+    <string name="home_share_apk_preparing_split">正在打包分包 APK（共 %1$d 个文件）…</string>
+    <string name="home_share_apk_failed">分享失败</string>
+    <string name="home_share_apk_prepare_failed">文件准备失败</string>
 </resources>
