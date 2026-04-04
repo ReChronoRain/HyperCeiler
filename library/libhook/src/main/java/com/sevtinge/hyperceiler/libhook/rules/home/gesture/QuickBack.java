@@ -431,7 +431,11 @@ public class QuickBack extends BaseHook {
         Object animatorListener = getObjectField(gestureStubView, "mAnimatorListener");
         Object backGestureUtils = getStaticObjectField(findClass(CLASS_BACK_GESTURE_UTILS), "INSTANCE");
         Object convertedOffset = callMethod(backGestureUtils, "convertOffset", offset);
-        callMethod(arrowView, "onSwipeStop", convertedOffset, animatorListener);
+        try {
+            callMethod(arrowView, "onSwipeStop", convertedOffset, animatorListener);
+        } catch (Throwable ignored) {
+            callMethod(arrowView, "onActionUp", convertedOffset, animatorListener);
+        }
     }
 
     private Class<?> findSwitchMapClass() {
