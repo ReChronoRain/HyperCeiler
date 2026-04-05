@@ -47,13 +47,13 @@ import com.hchen.superlyricapi.SuperLyricData
 import com.hchen.superlyricapi.SuperLyricTool
 import com.hyperfocus.api.FocusApi
 import com.hyperfocus.api.IslandApi
-import com.sevtinge.hyperceiler.libhook.R
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.libhook.R
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min
@@ -671,66 +671,67 @@ abstract class MusicBaseHook : BaseHook() {
         }
         return tokens
     }
-}
 
-/**
- * 资源 ID 缓存
- */
-private data class ResourceIds(
-    val focuslyricLayout: Int,
-    val focuslyricIslandLayout: Int,
-    val focusaodlyricLayout: Int,
-    val focuslyricId: Int,
-    val focusiconId: Int,
-    val focustflyricId: Int
-)
-
-/**
- * 图标包
- */
-private data class IconBundle(
-    val primaryBitmap: Bitmap,
-    val icon: Icon,
-    val darkIcon: Icon,
-    val circularIcon: Icon,
-    val activityIcon: Bitmap?,
-    val hasTint: Boolean
-)
-
-/**
- * RemoteView 类型
- */
-private enum class RemoteViewType {
-    DAY, ISLAND, AOD
-}
-
-/**
- * 拆字配置
- *
- * @param maxLength 最大长度
- * @param lookahead 前瞻距离
- * @param minFraction 最小分割比例
- * @param keepSpaceInSecond 是否保留第二部分开头的空格
- * @param pairedSymbols 成对符号映射
- */
-data class SplitConfig(
-    val maxLength: Int,
-    val lookahead: Int = 2,
-    val minFraction: Double = 0.45,
-    val keepSpaceInSecond: Boolean = false,
-    val pairedSymbols: Map<Char, Char> = mapOf(
-        '(' to ')',
-        '[' to ']',
-        '{' to '}',
-        '《' to '》',
-        '"' to '"',
-        '\'' to '\'',
-        '「' to '」',
-        '『' to '』'
+    /**
+     * 资源 ID 缓存
+     */
+    private data class ResourceIds(
+        val focuslyricLayout: Int,
+        val focuslyricIslandLayout: Int,
+        val focusaodlyricLayout: Int,
+        val focuslyricId: Int,
+        val focusiconId: Int,
+        val focustflyricId: Int
     )
-)
 
-/**
- * 分词 Token
- */
-data class Token(val text: String)
+    /**
+     * 图标包
+     */
+    private data class IconBundle(
+        val primaryBitmap: Bitmap,
+        val icon: Icon,
+        val darkIcon: Icon,
+        val circularIcon: Icon,
+        val activityIcon: Bitmap?,
+        val hasTint: Boolean
+    )
+
+    /**
+     * RemoteView 类型
+     */
+    private enum class RemoteViewType {
+        DAY, ISLAND, AOD
+    }
+
+    /**
+     * 拆字配置
+     *
+     * @param maxLength 最大长度
+     * @param lookahead 前瞻距离
+     * @param minFraction 最小分割比例
+     * @param keepSpaceInSecond 是否保留第二部分开头的空格
+     * @param pairedSymbols 成对符号映射
+     */
+    data class SplitConfig(
+        val maxLength: Int,
+        val lookahead: Int = 2,
+        val minFraction: Double = 0.45,
+        val keepSpaceInSecond: Boolean = false,
+        val pairedSymbols: Map<Char, Char> = mapOf(
+            '(' to ')',
+            '[' to ']',
+            '{' to '}',
+            '《' to '》',
+            '"' to '"',
+            '\'' to '\'',
+            '「' to '」',
+            '『' to '』'
+        )
+    )
+
+    /**
+     * 分词 Token
+     */
+    data class Token(val text: String)
+
+}
