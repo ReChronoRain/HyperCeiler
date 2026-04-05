@@ -1,6 +1,5 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodExactIfExists;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.hookMethod;
@@ -10,8 +9,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import io.github.libxposed.api.XposedModuleInterface;
 
 import android.os.Build;
-
-import java.lang.reflect.Method;
 
 public class DowngradeCheckPatch extends CorePatchHelper {
     private final String TAG = "DowngradeCheckPatch";
