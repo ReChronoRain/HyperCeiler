@@ -50,7 +50,7 @@ object UnlockSendAppM : BaseHook() {
             bridge.findClass {
                 matcher {
                     addUsingString("RelayAppMessage{type=")
-                    addInterface("com.xiaomi.mirror.message.Message")
+                    // addInterface("com.xiaomi.mirror.message.Message")
                 }
             }
         }
