@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.sub;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
@@ -70,6 +72,11 @@ public class ScopePickerActivity extends AppCompatActivity
     private boolean mInitializationMode = false;
 
     private boolean mIsApplyingScope = false;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

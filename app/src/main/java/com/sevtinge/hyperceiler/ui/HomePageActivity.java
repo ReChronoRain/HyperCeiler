@@ -6,9 +6,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.LiveData;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -43,7 +40,7 @@ public class HomePageActivity extends AppCompatActivity
     implements ActivityCallback, IResult,
     PreferenceFragment.OnPreferenceStartFragmentCallback {
 
-    private static final String TAG = "HomePageActivity";
+    private static final String STATE_CURRENT_PAGE = "home_current_page";
 
     public ViewPager mViewPager;
     public HomeContentAdapter mContentAdapter;
@@ -68,6 +65,7 @@ public class HomePageActivity extends AppCompatActivity
         AppInitializer.initOnActivityCreate(this, this);
         setContentView(R.layout.activity_home);
         setupNavigation();
+        restoreCurrentPage(savedInstanceState);
     }
 
     private void setupNavigation() {
@@ -106,38 +104,22 @@ public class HomePageActivity extends AppCompatActivity
     }
 
     public void reloadPagesForLanguageChange() {
-        if (mViewPager == null) {
+        if (isFinishing() || isDestroyed()) {
             return;
         }
-        int currentItem = mViewPager.getCurrentItem();
-        // 首页条目标题会异步按包名覆盖，切语言时先清掉旧 locale 的 label 缓存。
+        // 首页应用名和页面上下文都依赖当前 locale，直接重建能避免旧 Context 残留。
         IconTitleLoader.clearLabelCache();
-        mViewPager.setAdapter(null);
-        clearContentFragments();
-        rebuildContentPages();
-        if (mSwitchManager != null) {
-            mSwitchManager.setSelectedPosition(currentItem, false);
-        }
-        mViewPager.setCurrentItem(currentItem, false);
+        recreate();
     }
 
-    private void clearContentFragments() {
-        if (mContentAdapter == null) {
+    private void restoreCurrentPage(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null || mViewPager == null) {
             return;
         }
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        boolean hasChanges = false;
-        // 这里必须移除旧 fragment，避免 ViewPager 复用旧实例导致首页列表不刷新语言。
-        for (int i = 0; i < mContentAdapter.getCount(); i++) {
-            Fragment fragment = fragmentManager.findFragmentByTag(mContentAdapter.getFragmentTag(i));
-            if (fragment != null) {
-                transaction.remove(fragment);
-                hasChanges = true;
-            }
-        }
-        if (hasChanges) {
-            transaction.commitNowAllowingStateLoss();
+        int currentItem = savedInstanceState.getInt(STATE_CURRENT_PAGE, 0);
+        mViewPager.setCurrentItem(currentItem, false);
+        if (mSwitchManager != null) {
+            mSwitchManager.setSelectedPosition(currentItem, false);
         }
     }
 
@@ -177,6 +159,14 @@ public class HomePageActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         PageDecorator.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        if (mViewPager != null) {
+            outState.putInt(STATE_CURRENT_PAGE, mViewPager.getCurrentItem());
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override

@@ -46,6 +46,11 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
     private String stackMsg;
 
     @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crash);
