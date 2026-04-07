@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.sub;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -100,6 +101,11 @@ public class SubPickerActivity extends AppCompatActivity
     private final List<AppData> mOriginalAppDataList = new ArrayList<>(); // 原始数据备份
     private final List<AppData> mCurrentAppDataList = new ArrayList<>();  // 当前显示数据
     private boolean mImeSelectionApplying = false;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

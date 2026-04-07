@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.home.safemode;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -44,6 +45,11 @@ public class CrashActivity extends AppCompatActivity {
     private String throwFileName;
     private int throwLineNumber;
     private String throwMethodName;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
 
     @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
     @Override

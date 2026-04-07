@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.dashboard.base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -28,11 +29,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.core.R;
 
 import fan.appcompat.app.AppCompatActivity;
 
 public class SettingsBaseActivity extends AppCompatActivity implements ActivityCallback {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
