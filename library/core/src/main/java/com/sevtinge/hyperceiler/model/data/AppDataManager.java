@@ -30,6 +30,7 @@ public class AppDataManager {
                      SubPickerActivity.INPUT_MODE -> getLauncherApps();
                 case SubPickerActivity.APP_OPEN_MODE -> getOpenWithApps();
                 case SubPickerActivity.PROCESS_TEXT_MODE -> getProcessTextApps();
+                case SubPickerActivity.IME_MODE -> getInputMethodApps();
                 case SubPickerActivity.ALL_APPS_MODE, SubPickerActivity.SCOPE_MODE -> getAllApps();
                 default -> new ArrayList<>();
             };
@@ -143,6 +144,40 @@ public class AppDataManager {
                     );
                 });
                 return new ArrayList<>(resolveInfoList);
+            }
+        });
+    }
+
+    private List<AppData> getInputMethodApps() {
+        return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
+            @Override
+            public List<Parcelable> getPackageCodeList(PackageManager pm) {
+                Intent intent = new Intent("android.view.InputMethod");
+                List<ResolveInfo> resolveInfos = pm.queryIntentServices(
+                    intent, PackageManager.MATCH_ALL | PackageManager.MATCH_DISABLED_COMPONENTS);
+
+                mPackageMap.clear();
+                List<Parcelable> appInfoList = new ArrayList<>();
+                for (ResolveInfo resolveInfo : resolveInfos) {
+                    if (resolveInfo.serviceInfo == null || resolveInfo.serviceInfo.applicationInfo == null) {
+                        continue;
+                    }
+
+                    ApplicationInfo appInfo = resolveInfo.serviceInfo.applicationInfo;
+                    String packageName = appInfo.packageName;
+                    if (!mPackageMap.containsKey(packageName)) {
+                        mPackageMap.put(packageName, 1);
+                        appInfoList.add(appInfo);
+                    }
+                }
+
+                Collator collator = Collator.getInstance(Locale.getDefault());
+                appInfoList.sort((left, right) -> {
+                    CharSequence label1 = ((ApplicationInfo) left).loadLabel(pm);
+                    CharSequence label2 = ((ApplicationInfo) right).loadLabel(pm);
+                    return collator.compare(label1.toString(), label2.toString());
+                });
+                return appInfoList;
             }
         });
     }

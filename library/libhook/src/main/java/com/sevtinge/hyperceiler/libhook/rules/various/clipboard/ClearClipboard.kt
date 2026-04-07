@@ -26,9 +26,9 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
@@ -36,12 +36,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 
-class ClearClipboard : BaseHook() {
-    override fun init() {
+class ClearClipboard {
+
+    fun initLoader(classLoader: ClassLoader) {
         if (isMoreSmallVersion(200, 2f)) return
-        InputMethodDexHelper.addListener { classLoader ->
-            createHook(classLoader)
-        }
+        createHook(classLoader)
     }
 
     private fun createHook(classLoader: ClassLoader) {
@@ -78,7 +77,7 @@ class ClearClipboard : BaseHook() {
 
                         mPopWindow.getObjectField("mInputMethodClipboardAdapter")?.callMethod("clearClipboardListItem")
                         findClassIfExists("com.miui.inputmethod.MiuiClipboardManager", classLoader)
-                            .callStaticMethod(
+                            ?.callStaticMethod(
                                 "setClipboardModelList",
                                 mPopWindow.getObjectField("mContext"),
                                 mAllClipboardList
