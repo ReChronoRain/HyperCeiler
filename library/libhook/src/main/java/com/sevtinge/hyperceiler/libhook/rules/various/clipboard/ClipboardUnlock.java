@@ -22,7 +22,6 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 import android.content.ClipData;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -42,7 +41,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
  * 注意：不再将 MAX_CLIP_CONTENT_SIZE 设为 Integer.MAX_VALUE，
  * 以避免剪贴板 JSON 无限膨胀导致输入法卡顿。
  */
-public class ClipboardUnlock extends BaseHook {
+public class ClipboardUnlock {
     private static final String TAG = "ClipboardUnlock";
 
     /**
@@ -52,12 +51,7 @@ public class ClipboardUnlock extends BaseHook {
      */
     private static final int UNLOCKED_CLIP_CONTENT_SIZE = 500_000;
 
-    @Override
-    public void init() {
-        InputMethodDexHelper.addListener(this::applyHooks);
-    }
-
-    private void applyHooks(ClassLoader classLoader) {
+    public void initLoader(ClassLoader classLoader) {
         hookMaxClipContentSize(classLoader);
         hookProcessSingleItem(classLoader);
     }
