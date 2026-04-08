@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.ModulePackageTrust;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
@@ -40,6 +41,8 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.DisableFr
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeformBubble;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiAospImeSystem;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiuiImeUnlockSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
@@ -155,6 +158,8 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new DisableVerifyCanBeDisabled(), PrefsBridge.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new DisableMiuiLite(), PrefsBridge.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new PstedClipboard(), PrefsBridge.getBoolean("system_framework_posted_clipboard"));
+        initHook(new MiuiImeUnlockSystem(), InputMethodConfig.shouldHookMiuiImeListInSystem());
+        initHook(new MiAospImeSystem(), InputMethodConfig.shouldHookAospImeInSystem());
         initHook(new ClipboardWhitelist(), PrefsBridge.getBoolean("system_framework_clipboard_whitelist"));
         initHook(new AllowDisableProtectedPackage(), PrefsBridge.getBoolean("system_framework_allow_disable_protected_package"));
         initHook(new BypassUnknownSourcesRestrictions(), PrefsBridge.getBoolean("system_framework_bypass_unknown_sources_restrictions"));

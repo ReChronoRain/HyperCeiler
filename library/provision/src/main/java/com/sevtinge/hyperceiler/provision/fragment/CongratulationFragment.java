@@ -31,6 +31,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.renderengine.GlowController;
 import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
@@ -335,6 +336,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private void startHome() {
         boolean isDebugOobe = OobeUtils.isDebugOobeMode(requireActivity());
         if (!isDebugOobe) {
+            AppLanguageHelper.freezeCurrentLocaleIfUnset(requireContext());
             OobeUtils.setProvisioned(requireContext(), true);
         }
         try {

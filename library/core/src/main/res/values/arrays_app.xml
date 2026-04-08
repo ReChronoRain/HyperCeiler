@@ -387,6 +387,28 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="various_unlock_ime_style">
+        <item>@string/array_close</item>
+        <item>@string/various_unlock_ime_style_miui</item>
+        <item>@string/various_unlock_ime_style_aosp</item>
+    </string-array>
+
+    <string-array name="various_unlock_ime_style_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+    <string-array name="various_aosp_ime_nav_bar_layout_entries">
+        <item>@string/various_aosp_ime_nav_bar_layout_hide_ime</item>
+        <item>@string/various_aosp_ime_nav_bar_layout_ime_switcher</item>
+    </string-array>
+
+    <string-array name="various_aosp_ime_nav_bar_layout_values">
+        <item>back</item>
+        <item>ime_switcher</item>
+    </string-array>
+
     <string-array name="location">
         <item>@string/array_default</item>
         <item>@string/location_custom</item>

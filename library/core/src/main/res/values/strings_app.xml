@@ -1597,6 +1597,7 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
+    <string name="sogou_xiaomi_clipboard_desc">Remove the clipboard count limit built into Sogou Input Method, Baidu Input Method, and their Xiaomi-customized versions.</string>
     <string name="add_clipboard_clear">Add clear clipboard button</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
@@ -1647,8 +1648,19 @@
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
-    <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After turning it on, turn on the corresponding input method scope in the LSPosed.</string>
+    <string name="various_unlock_ime">Unlock IME fullscreen optimization</string>
+    <string name="various_unlock_ime_desc">Enable full-screen optimization for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
+    <string name="various_unlock_ime_apps">Target input methods</string>
+    <string name="various_unlock_ime_apps_desc">If a selected input method is not in scope, its scope will be requested as well.</string>
+    <string name="various_unlock_ime_show_all">Show all input methods</string>
+    <string name="various_unlock_ime_show_all_desc">Some input methods may appear incomplete in the switcher because they cannot query the installed app list.\nThis also requires System Framework scope and may affect performance. Enable with caution.</string>
+    <string name="various_unlock_ime_style_miui">MIUI style</string>
+    <string name="various_unlock_ime_style_aosp">AOSP style</string>
+    <string name="various_aosp_ime_nav_bar_layout_start">Left function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_end">Right function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">Hide input method</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">Switch input method</string>
+    <string name="various_input_method_apps_count">%1$d input methods selected</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>

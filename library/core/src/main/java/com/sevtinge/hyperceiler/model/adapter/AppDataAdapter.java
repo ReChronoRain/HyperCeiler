@@ -301,6 +301,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                 mMode == SubPickerActivity.APP_OPEN_MODE ||
                 mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
                 mMode == SubPickerActivity.ALL_APPS_MODE ||
+                mMode == SubPickerActivity.IME_MODE ||
                 mMode == SubPickerActivity.SCOPE_MODE ||
                 mMode == SubPickerActivity.LAUNCHER_PICK_MODE);
 
@@ -328,6 +329,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                         mMode == SubPickerActivity.APP_OPEN_MODE ||
                         mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
                         mMode == SubPickerActivity.ALL_APPS_MODE ||
+                        mMode == SubPickerActivity.IME_MODE ||
                         mMode == SubPickerActivity.SCOPE_MODE) {
                         // 对于选择模式，点击item也切换选中状态
                         toggleSelection(position);
