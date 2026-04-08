@@ -48,10 +48,6 @@ public class VariousFragment extends DashboardFragment {
     private static final String PREF_IME_SHOW_ALL = "prefs_key_various_unlock_ime_show_all";
     private static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_START = "prefs_key_various_aosp_ime_nav_bar_layout_start";
     private static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_END = "prefs_key_various_aosp_ime_nav_bar_layout_end";
-    private static final String PREF_LEGACY_MIUI_ENABLE = "prefs_key_various_unlock_ime";
-    private static final String PREF_LEGACY_AOSP_ENABLE = "prefs_key_various_aosp_ime";
-    private static final String PREF_LEGACY_AOSP_TARGET_APPS = "prefs_key_various_aosp_ime_apps";
-
     private static final int IME_STYLE_OFF = 0;
     private static final int IME_STYLE_MIUI = 1;
     private static final int IME_STYLE_AOSP = 2;
@@ -71,7 +67,6 @@ public class VariousFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
-        migrateLegacyInputMethodPrefs();
         mClipboard = findPreference("prefs_key_sogou_xiaomi_clipboard");
         mClipboardClear = findPreference("prefs_key_add_clipboard_clear");
         mImeStyle = findPreference(PREF_IME_STYLE);
@@ -162,7 +157,7 @@ public class VariousFragment extends DashboardFragment {
         }
 
         Set<String> packages = getInputMethodTargets();
-        if (packages == null || packages.isEmpty()) {
+        if (packages.isEmpty()) {
             mImeTargetApps.setSummary(R.string.various_unlock_ime_apps_desc);
             return;
         }
@@ -226,43 +221,6 @@ public class VariousFragment extends DashboardFragment {
         if (entry != null && !entry.isEmpty()) {
             preference.setSummary(entry);
         }
-    }
-
-    private void migrateLegacyInputMethodPrefs() {
-        SharedPreferences preferences = getSharedPreferences();
-        if (preferences == null || preferences.contains(PREF_IME_STYLE)) {
-            return;
-        }
-
-        boolean legacyMiuiEnabled = preferences.getBoolean(PREF_LEGACY_MIUI_ENABLE, false);
-        boolean legacyAospEnabled = preferences.getBoolean(PREF_LEGACY_AOSP_ENABLE, false);
-        LinkedHashSet<String> inputMethodTargets = new LinkedHashSet<>(
-            preferences.getStringSet(PREF_IME_TARGET_APPS, Collections.emptySet()));
-        LinkedHashSet<String> legacyAospTargets = new LinkedHashSet<>(
-            preferences.getStringSet(PREF_LEGACY_AOSP_TARGET_APPS, Collections.emptySet()));
-
-        int migratedStyle = IME_STYLE_OFF;
-        if (legacyMiuiEnabled) {
-            migratedStyle = IME_STYLE_MIUI;
-        } else if (legacyAospEnabled) {
-            migratedStyle = IME_STYLE_AOSP;
-            if (inputMethodTargets.isEmpty() && !legacyAospTargets.isEmpty()) {
-                inputMethodTargets.addAll(legacyAospTargets);
-            }
-        }
-
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(PREF_IME_STYLE, String.valueOf(migratedStyle));
-        if (legacyMiuiEnabled) {
-            editor.putBoolean(PREF_IME_SHOW_ALL, true);
-        }
-        if (!inputMethodTargets.isEmpty()) {
-            editor.putStringSet(PREF_IME_TARGET_APPS, inputMethodTargets);
-        }
-        editor.remove(PREF_LEGACY_MIUI_ENABLE);
-        editor.remove(PREF_LEGACY_AOSP_ENABLE);
-        editor.remove(PREF_LEGACY_AOSP_TARGET_APPS);
-        editor.apply();
     }
 
     private int getImeStyle() {

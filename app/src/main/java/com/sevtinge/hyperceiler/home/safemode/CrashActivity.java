@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import fan.appcompat.app.AppCompatActivity;
 
@@ -48,7 +49,7 @@ public class CrashActivity extends AppCompatActivity {
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
     }
 
     @SuppressLint({"SetTextI18n", "StringFormatInvalid"})

@@ -23,7 +23,6 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
-import io.github.libxposed.api.XposedInterface;
 
 
 public class ChangeBackupServer extends BaseHook {
@@ -70,7 +69,7 @@ public class ChangeBackupServer extends BaseHook {
             if (isXiaomi) {
                 findAndChainMethod("com.miui.gallery.ui.GallerySettingsFragment",
                     "initGlobalBackupPreference",
-                    (XposedInterface.Hooker) chain -> {
+                    chain -> {
                         sOverrideIsInternational.set(false);
                         try {
                             return chain.proceed();

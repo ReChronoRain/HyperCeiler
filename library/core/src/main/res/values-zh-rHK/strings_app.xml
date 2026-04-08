@@ -1530,7 +1530,7 @@
     <string name="various_phrase_clipboardlist">解除常用語剪貼簿條數和時間限制</string>
     <string name="various_phrase_clipboardlist_more">開啟後勾選輸入法作用域並重新啟動</string>
     <string name="various_unlock_ime">解鎖輸入法全面屏優化</string>
-    <string name="various_unlock_ime_desc">對所選輸入法啟用所選樣式的全面屏優化\n原生風格需要額外勾選系統框架作用域\n選擇原生風格後只對非小米定製版生效，小米定製版勾選後將加入鍵盤可切換列表</string>
+    <string name="various_unlock_ime_desc">對目標輸入法啟用所選樣式的全面屏優化\n原生風格需要額外勾選系統框架作用域\n選擇原生風格後只對非小米定製版生效，小米定製版勾選後將加入鍵盤可切換列表</string>
     <string name="various_unlock_ime_apps">目標輸入法</string>
     <string name="various_unlock_ime_apps_desc">若所選輸入法未加入作用域，將同時申請作用域</string>
     <string name="various_unlock_ime_show_all">顯示全部輸入法列表</string>
@@ -1541,9 +1541,6 @@
     <string name="various_aosp_ime_nav_bar_layout_end">右側功能鍵</string>
     <string name="various_aosp_ime_nav_bar_layout_hide_ime">收起輸入法</string>
     <string name="various_aosp_ime_nav_bar_layout_ime_switcher">切換輸入法</string>
-    <string name="various_aosp_ime">Mi_AOSP_IME</string>
-    <string name="various_aosp_ime_desc">對所選輸入法啟用 AOSP 風格導覽列/底欄。需要勾選對應輸入法作用域與 Android/System Framework 作用域</string>
-    <string name="various_aosp_ime_apps">Mi_AOSP_IME 目標輸入法</string>
     <string name="various_input_method_apps_count">已選擇 %1$d 個輸入法</string>
     <string name="various_collapse_miui_title">系統標題樣式</string>
     <string name="various_collapse_miui_title_desc">調整系統應用程式中的頂欄標題</string>

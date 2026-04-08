@@ -51,6 +51,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils;
 import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
@@ -104,7 +105,7 @@ public class SubPickerActivity extends AppCompatActivity
 
     @Override
     protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
     }
 
     @Override
