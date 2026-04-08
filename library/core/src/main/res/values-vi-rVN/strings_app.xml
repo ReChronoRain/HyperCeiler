@@ -29,8 +29,8 @@
     <string name="new_cta_app_all_purpose_reject">Từ chối &amp; Thoát</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="language">Tiếng Việt</string>
-    <string name="translator">MiuiVN &amp; MiuiTN</string>
-    <string name="translator_url">https://t.me/translation_abcxyz</string>
+    <string name="translator">HyperCeiler chính thức</string>
+    <string name="translator_url">https://github.com/ReChronoRain</string>
     <string name="home">Trang chủ</string>
     <string name="help">Trợ giúp</string>
     <string name="settings">Cài đặt</string>
@@ -57,7 +57,7 @@
     <string name="help_cant_see_apps_scope">Không được chọn là phạm vi:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">Để duy trì tính đơn giản và khả năng sử dụng của trang chủ, chúng tôi đã ẩn quyền truy cập vào các loại tính năng ứng dụng sau:\n\n - Các tính năng hiện đang bị tắt hoặc ẩn\n - Các tính năng không tìm thấy trên thiết bị của bạn\n - Các tính năng không tương thích với phiên bản hiện tại của hệ thống hoặc ứng dụng\n\nVui lòng khắc phục sự cố dựa trên thông tin trên, khởi động lại HyperCeiler và thử lại. Nếu bạn vẫn không tìm thấy các tính năng ứng dụng, thì có thể đó là lỗi. Vui lòng cung cấp phản hồi kịp thời và hiệu quả cho chúng tôi.\n\nHiện tại không có tính năng ẩn nào!</string>
     <string name="help_cant_see_apps_switch">Ẩn trợ giúp này trong trang chủ</string>
-    <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong \"Cài đặt - Thiết lập lối tắt trang chủ\". Khởi động lại ứng dụng để áp dụng.</string>
+    <string name="help_cant_see_apps_switch_desc">Bạn vẫn có thể tìm thấy trang này trong mục Giới thiệu &gt; Trợ giúp. Quay lại trang chủ để áp dụng.</string>
     <string name="help_support_version_title">Danh sách phiên bản hệ thống hỗ trợ phiên bản ứng dụng hiện tại</string>
     <string name="help_support_version_desc_3">Phiên bản hệ thống hiện tại đã được điều chỉnh đầy đủ.</string>
     <string name="help_support_version_desc_4">Phiên bản hệ thống hiện tại chưa được điều chỉnh (hoàn toàn).</string>
@@ -247,7 +247,7 @@
     <string name="array_global_actions_notif">Mở trung tâm thông báo</string>
     <string name="array_global_actions_eqs">Mở rộng bảng cài đặt nhanh</string>
     <string name="array_global_actions_lock">Màn hình khóa</string>
-    <string name="array_global_actions_sleep">Đóng màn hình</string>
+    <string name="array_global_actions_sleep">Tắt màn</string>
     <string name="array_global_actions_screenshot">Chụp màn hình</string>
     <string name="array_global_actions_menu">Mở menu</string>
     <string name="array_global_actions_recents">Mở trang gần đây</string>
@@ -1235,11 +1235,11 @@
     <string name="mediaeditor">Chỉnh sửa thư viện</string>
     <string name="mediaeditor_foundation">Nền tảng</string>
     <string name="mediaeditor_authoring">Người tạo</string>
-    <string name="mediaeditor_custom_photo_frames_title">Tùy chỉnh khung</string>
+    <string name="mediaeditor_custom_photo_frames_title">Tùy chỉnh framework</string>
     <string name="mediaeditor_custom_disney_title">Chức năng chung</string>
     <string name="mediaeditor_unlock_disney_title">Mở khóa các tính năng tùy chỉnh của Disney</string>
     <string name="mediaeditor_unlock_minimum_crop_limit">Mở khóa giới hạn cắt hình</string>
-    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Mở khóa tùy chỉnh khung</string>
+    <string name="mediaeditor_unlock_custom_photo_frames_v2_title">Mở khóa tùy chỉnh framework</string>
     <string name="mediaeditor_unlock_leica_filter_title">Mở khóa bộ lọc Leica</string>
     <string name="mediaeditor_unlock_leica_filter_desc">Chỉ hỗ trợ một số phiên bản</string>
     <string name="mediaeditor_unlock_aigc">Mở khóa AIGC</string>
@@ -1286,7 +1286,7 @@
     <string name="screenrecorder">Quay màn hình</string>
     <string name="screen_recorder_force_support_playback_capture">Cho phép AOSP hỗ trợ ghi hình</string>
     <string name="screen_recorder_force_support_playback_capture_desc">Yêu cầu hỗ trợ phiên bản quay màn hình</string>
-    <string name="screen_recorder_config">Mở khoá Tốc độ khung hình và Chất lượng Video cao</string>
+    <string name="screen_recorder_config">Thêm nhiều tùy chọn tốc độ khung hình và bitrate hơn</string>
     <string name="screen_recorder_config_desc">Vui lòng chọn phù hợp theo phần cứng</string>
     <string name="screen_recorder_more_volume">Mở khoá Nguồn âm thanh</string>
     <string name="screen_recorder_more_volume_desc">Một số phiên bản không hỗ trợ</string>
@@ -1297,7 +1297,7 @@
     <string name="screenshot_unlock_copy_to_clipboard">Mở khóa tự động sao chép ảnh chụp màn hình đến bảng ghi tạm</string>
     <string name="screenshot_unlock_privacy_marking_title">Mở khóa Đánh dấu quyền riêng tư</string>
     <string name="screenshot_save_to_pictures_desc">Vị trí lưu ảnh chụp màn hình /Pictures/Screenshots</string>
-    <string name="screenshot_device_customize_title">Tuỳ chỉnh khung thiết bị</string>
+    <string name="screenshot_device_customize_title">Tuỳ chỉnh framework thiết bị</string>
     <string name="screenshot_device_customize_desc">Vui lòng nhập mã</string>
     <!--System Service Plugin-->
     <string name="securityadd">Trình cắm dịch vụ bảo mật</string>
@@ -1642,4 +1642,38 @@
     <string name="milink_unlock_send_app">Mở khóa tất cả các ứng dụng chuyển tệp</string>
     <string name="milink_unlock_send_app_desc">Bạn cần chọn thêm phạm vi cho \"com.xiaomi.mirror\"</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">Cho phép tất cả các ứng dụng gửi thông báo tập trung vào đồng hồ/vòng đeo tay.</string>
+    <string name="settings_scope">Phạm vi</string>
+    <string name="settings_scope_sync">Đồng bộ phạm vi</string>
+    <string name="settings_scope_sync_desc">Các lựa chọn trên trang chủ sẽ luôn đồng bộ với phạm vi.</string>
+    <string name="scope_batch_no_changes">Không có thay đổi nào về phạm vi.</string>
+    <string name="scope_batch_service_unavailable">Dịch vụ LSPosed không khả dụng.</string>
+    <string name="scope_batch_remove_failed">Không thể xóa phạm vi.</string>
+    <string name="scope_batch_updated">Đã cập nhật phạm vi.</string>
+    <string name="scope_batch_request_not_approved">Một số yêu cầu về phạm vi không được chấp thuận: %1$s</string>
+    <string name="scope_batch_update_failed">Cập nhật phạm vi thất bại: %1$s</string>
+    <string name="scope_batch_request_failed">Yêu cầu phạm vi thất bại.</string>
+    <string name="rest_success_message">Vui lòng khởi động lại ứng dụng để cấu hình có hiệu lực.</string>
+    <string name="array_class">Cổ điển</string>
+    <string name="status_bar_mobile_mode_on_status_bar">Chỉ hiện khi được kết nối</string>
+    <string name="status_bar_mobile_mode_2_on_status_bar">Chỉ hiện SIM dữ liệu</string>
+    <string name="system_ui_status_bar_mobile_title">Mạng di động</string>
+    <string name="system_ui_statusbar_focus_notif_title">Thông báo tập trung</string>
+    <string name="system_ui_statusbar_island_title">HyperIsland</string>
+    <string name="system_ui_statusbar_island_media_card_title">Thẻ phương tiện</string>
+    <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">Tính năng này bị tắt vì biểu tượng thẻ tín hiệu mạng di động hiện đang bị ẩn</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Chủ đề biểu tượng</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">Cổ điển</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">Bo tròn</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_mode">Logic hiển thị tín hiệu di động</string>
+    <string name="system_ui_control_center_media_control_progress_comet">Thanh tiến độ sao chổi</string>
+    <string name="system_ui_control_center_media_control_progress_round">Thanh tiến độ có góc bo tròn</string>
+    <string name="system_ui_control_center_media_control_ambient_light">Hiệu ứng ánh sáng xung quanh</string>
+    <string name="system_ui_control_center_media_control_ambient_light_desc">Tương tự như hiệu ứng ánh sáng hòa quyện với âm nhạc trong HyperIsland, trải nghiệm sẽ còn tuyệt vời hơn khi sử dụng Chế độ luôn tối.\nTính năng này tiêu tốn nhiều tài nguyên, vì vậy hãy sử dụng cẩn thận.</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt">Tối ưu hóa việc lựa chọn màu sắc</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt_desc">Logic lựa chọn màu sắc ánh sáng môi trường được tối ưu hóa bằng cách sử dụng hệ thống màu Monet Material 3</string>
+    <string name="system_ui_control_center_media_control_always_dark">Chế độ luôn tối</string>
+    <string name="system_ui_control_center_media_control_always_dark_desc">Luôn để thẻ phương tiện ở chế độ tối</string>
+    <string name="home_recent_fix_card_title_padding">Sửa khoảng cách dưới cùng của tiêu đề thẻ</string>
+    <string name="miui_package_installer_disable_cloud_check">Chặn tải cấu hình đám mây</string>
+    <string name="miui_package_installer_disable_cloud_check_desc">Bằng cách chặn các yêu cầu cấu hình đám mây trong quá trình cài đặt ứng dụng và tạo ra các phản hồi trống, tốc độ tải có thể được cải thiện và các hạn chế cài đặt cũng như cửa sổ bật lên có thể được bỏ qua trong môi trường ngoại tuyến</string>
 </resources>

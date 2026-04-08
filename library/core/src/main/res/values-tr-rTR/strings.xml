@@ -34,7 +34,7 @@
     <string name="soft_reboot">Hızlı yeniden başlat</string>
     <string name="restart_app_desc">Şimdi yeniden başlatmak istediğinize emin misiniz %1$s?</string>
     <string name="hyperceiler_restart_quick">Hedef uygulamayı hızla yeniden başlatın</string>
-    <string name="hook_failed">Modül aktif değil. \nLütfen Xposed yöneticisinin etkin olup olmadığını kontrol edin. Öyleyse lütfen modülü yeniden başlatın veya yeniden optimize edin.</string>
+    <string name="hook_failed">HyperCeiler henüz etkinleştirilmemiştir. LSPosed\'in etkin olup olmadığını ve HyperCeiler\'ın otomatik olarak başlatılmasına izin verilip verilmediğini kontrol edin. Eğer öyleyse, lütfen modülü yeniden başlatın veya yeniden optimize edin.</string>
     <string name="kill_failed">İşlem sonlandırılamadı, lütfen HyperCeiler\'ın Root/Su izni olup olmadığını kontrol edin.</string>
     <string name="start_failed">İşlem başlatılamadı, lütfen HyperCeiler\'in root/su izinleri olup olmadığını kontrol ediniz.</string>
     <string name="pid_failed">Hedef uygulama çalışmıyor ve yeniden başlatılması gerekmiyor.</string>

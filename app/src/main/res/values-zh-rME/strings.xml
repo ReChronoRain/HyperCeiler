@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">我全都要！</string>
     <string name="miuix_appcompat_cancel_description">不干辣！</string>
@@ -29,7 +28,6 @@
     <string name="miuix_appcompat_search_input_description">搜刮西米露酱</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">还... 还想要...</string>
     <string name="miuix_appcompat_action_mode_inverse">两极反转！</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">我可跟您说了</string>
     <string name="root">杂鱼~♡，有些东西没有Root/Su许可，可不能让你这杂鱼用呢♡</string>
@@ -41,11 +39,14 @@
     <string name="start_failed">嘿，小鬼，没有 Root/Su 权限，我可不会给你办事</string>
     <string name="pid_failed">还没开呢，重开什么？</string>
     <string name="reboot_failed">没法重启，你是不是又忘了给我 Root/Su 权限ヽ(`Д´) ﾉ</string>
-
     <!--HyperCeiler Tips-->
     <string name="tip_default">绀漓手持锟斤拷，口中直呼烫烫烫，如果你能看到这条 Tip，说明 HyperCeiler 又被玩坏了！请与绀漓联系并友好交流解决这个问题。</string>
     <string name="happy_birthday_hyperceiler">今日无事可做？\n 你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>
-
     <!--System UI-->
     <string name="system_ui">进程\"System UI\"</string>
+    <string name="search_history_description">翻阅银角记录</string>
+    <string name="search_history_clear_description">清除银角痕迹</string>
+    <string name="revert">滚回去</string>
+    <string name="custom_order_title">五颜六色的东西</string>
+    <string name="app_version_update">最新最热</string>
 </resources>
