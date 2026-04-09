@@ -57,7 +57,7 @@
     <string name="help_cant_see_apps_scope">スコープとして未選択:\n</string>
     <string name="help_cant_see_apps_desc_no_hidden">ホームページのシンプルさと使いやすさを維持するため、以下のタイプのアプリ機能を非表示にしています:\n\n • 現在無効か非表示になっているアプリの機能\n • デバイスにないアプリの機能\n • 現在のシステムバージョンやアプリバージョンに非対応の機能\n • スコープとして選択されていないアプリの機能\n\n上記に当てはまるか確認し、修正したら HyperCeiler を再起動してください。それでも出てこなければバグかもしれません。タイムリーで効果的なフィードバックを提供してください。\n\n現在非表示になっているアプリ機能はありません！</string>
     <string name="help_cant_see_apps_switch">ホームページでこのヘルプを隠す</string>
-    <string name="help_cant_see_apps_switch_desc">このページは「アプリについて &gt; ヘルプ」で確認できます。適用するにはアプリを再起動してください。</string>
+    <string name="help_cant_see_apps_switch_desc">このページは「アプリについて &gt; ヘルプ」で確認できます。適用するにはホームページに戻ってください。</string>
     <string name="help_support_version_title">現在のアプリバージョンとサポートしているシステムバージョンの一覧</string>
     <string name="help_support_version_desc_3">現在のシステムバージョンは完全に適合しています。</string>
     <string name="help_support_version_desc_4">現在のシステムバージョンは適合 (完全に) されていません。</string>
@@ -1642,4 +1642,12 @@
     <string name="settings_float_nav">フローティングボトムバー</string>
     <string name="system_framework_bypass_force_mi_appstore_desc">確認なしに Xiaomi アプリストアに直接リダイレクトすることを回避して、サードパーティのアプリストアを選択できるようにします</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">すべてのアプリがスマートウォッチやスマートバンドにフォーカス通知を送信できるようにする</string>
+    <string name="settings_scope">スコープ</string>
+    <string name="settings_scope_extra">スコープを追加</string>
+    <string name="settings_scope_sync">スコープと同期</string>
+    <string name="settings_scope_sync_desc">ホームページの選択内容はスコープと同期されます。</string>
+    <string name="scope_batch_no_changes">スコープの変更はありません。</string>
+    <string name="scope_batch_service_unavailable">LSPosed サービスが利用できません。</string>
+    <string name="scope_batch_remove_failed">スコープを削除できませんでした。</string>
+    <string name="scope_batch_updated">スコープが更新されました。</string>
 </resources>
