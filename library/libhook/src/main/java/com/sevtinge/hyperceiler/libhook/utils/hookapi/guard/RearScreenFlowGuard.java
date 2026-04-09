@@ -16,7 +16,7 @@
  *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
-package com.sevtinge.hyperceiler.libhook.utils.guard;
+package com.sevtinge.hyperceiler.libhook.utils.hookapi.guard;
 
 import android.app.Activity;
 import android.app.ActivityManager;

@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils
-import com.sevtinge.hyperceiler.libhook.utils.guard.RearScreenFlowGuard
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.guard.RearScreenFlowGuard
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import io.github.libxposed.api.XposedInterface
 import miui.drm.DrmManager

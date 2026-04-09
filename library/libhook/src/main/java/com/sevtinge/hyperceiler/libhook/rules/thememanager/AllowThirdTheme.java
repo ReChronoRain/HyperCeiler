@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.libhook.rules.thememanager;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
-import com.sevtinge.hyperceiler.libhook.utils.guard.RearScreenFlowGuard;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.guard.RearScreenFlowGuard;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
