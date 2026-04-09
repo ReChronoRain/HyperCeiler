@@ -210,9 +210,9 @@ public class HomePageActivity extends AppCompatActivity
             return;
         }
 
-        button.setText(getString(R.string.exit) + " (5)");
+        button.setText(getString(R.string.exit) + " (30)");
 
-        new CountDownTimer(5_000L, 1_000L) {
+        new CountDownTimer(30_000L, 1_000L) {
             @Override
             public void onTick(long millisUntilFinished) {
                 button.setText(getString(R.string.exit) + " (" + (millisUntilFinished / 1000L) + ")");
