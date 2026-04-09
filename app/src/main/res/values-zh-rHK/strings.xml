@@ -98,6 +98,8 @@
     <string name="headtip_tip_fuck_coolapk">歷史上的今日：2022 年 7 月 14 日，紺漓發表重要講話 。</string>
     <string name="headtip_notice_dead_logger_errcode">當前裝置 Log 服務異常，HyperCeiler 功能將被限制。\n請復原 Log 服務，使其可以正常運行。\n錯誤代碼: %1$s</string>
     <string name="headtip_notice_dead_logger">當前裝置 Log 服務異常，HyperCeiler 功能將被限制。請復原 Log 服務，使其可以正常運行。</string>
+    <string name="homepage_unsupported_version_message">当前系統版本不在 HyperCeiler 內置系統版本列表中。\n\n%1$s\n\n為避免在未知系統環境下繼續運行，HyperCeiler 程式将在 5 秒后自動退出。</string>
+    <string name="homepage_unsupported_version_current">当前版本：Android SDK %1$d - HyperOS %2$s</string>
     <string name="unsupported_system_func">當前系統版本不支持此功能</string>
     <string name="supported_system_func">當前系統版本官方已支持此功能</string>
     <string name="feature_doing_func">當前功能正在製作中，敬請期待</string>

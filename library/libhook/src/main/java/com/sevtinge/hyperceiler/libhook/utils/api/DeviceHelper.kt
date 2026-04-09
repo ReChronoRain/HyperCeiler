@@ -255,14 +255,12 @@ object DeviceHelper {
         private val versionList: List<VersionInfo> by lazy {
             listOf(
                 // 已完全适配
-                VersionInfo(35, 2.0f, 2.0f, SUPPORT_FULL),
-                VersionInfo(35, 2.0f, 2.1f, SUPPORT_FULL),
-                VersionInfo(35, 2.0f, 2.2f, SUPPORT_FULL),
+                VersionInfo(35, 3.0f, 3.0f, SUPPORT_FULL),
                 VersionInfo(36, 3.0f, 3.0f, SUPPORT_FULL),
                 VersionInfo(36, 3.0f, 3.3f, SUPPORT_FULL),
 
                 // 部分功能未适配
-                VersionInfo(35, 3.0f, 3.0f, SUPPORT_PARTIAL),
+                // VersionInfo(37, 3.0f, 3.3f, SUPPORT_PARTIAL),
 
                 // 未适配
                 VersionInfo(36, 2.0f, 2.23f, SUPPORT_NOT)
@@ -397,6 +395,16 @@ object DeviceHelper {
                 SUPPORT_PARTIAL -> partialSupportVersions
                 SUPPORT_NOT -> notSupportVersions
                 else -> emptyList()
+            }
+        }
+
+        @JvmStatic
+        fun isVersionListed(): Boolean {
+            val currentAndroid = androidSDK
+            val currentSmall = getSmallVersion()
+
+            return versionList.any { info ->
+                info.androidVersion == currentAndroid && info.matchesSmallVersion(currentSmall)
             }
         }
 
