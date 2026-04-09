@@ -101,6 +101,7 @@ public class SubPickerActivity extends AppCompatActivity
     private final AppDataManager mAppDataManager = new AppDataManager();
     private final List<AppData> mOriginalAppDataList = new ArrayList<>(); // 原始数据备份
     private final List<AppData> mCurrentAppDataList = new ArrayList<>();  // 当前显示数据
+    private final Set<String> mAvailableImePackages = new LinkedHashSet<>();
     private boolean mImeSelectionApplying = false;
 
     @Override
@@ -271,6 +272,21 @@ public class SubPickerActivity extends AppCompatActivity
         }
         mOriginalAppDataList.clear();
         mOriginalAppDataList.addAll(processedData);
+
+        if (supportsConfirmAction()) {
+            mAvailableImePackages.clear();
+            mAvailableImePackages.addAll(collectNormalizedPackages(processedData));
+
+            LinkedHashSet<String> persistedSelectedPackages = getPersistedSelectedPackages();
+            LinkedHashSet<String> sanitizedSelectedPackages = ScopeManager.filterScopePackages(
+                persistedSelectedPackages,
+                mAvailableImePackages
+            );
+            if (!persistedSelectedPackages.equals(sanitizedSelectedPackages)) {
+                saveImeSelection(sanitizedSelectedPackages);
+            }
+            mAppListAdapter.setSelectedPackages(sanitizedSelectedPackages);
+        }
 
         updateCurrentAppData(processedData);
         setLoadingState(false);
@@ -538,6 +554,21 @@ public class SubPickerActivity extends AppCompatActivity
         return new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
     }
 
+    private LinkedHashSet<String> collectNormalizedPackages(List<AppData> appDataList) {
+        LinkedHashSet<String> packages = new LinkedHashSet<>();
+        if (appDataList == null || appDataList.isEmpty()) {
+            return packages;
+        }
+
+        for (AppData appData : appDataList) {
+            String normalizedPackage = ScopeManager.normalizeScopePackageName(appData.packageName);
+            if (normalizedPackage != null) {
+                packages.add(normalizedPackage);
+            }
+        }
+        return packages;
+    }
+
     private void updateCurrentAppData(List<AppData> appDataList) {
         mCurrentAppDataList.clear();
         if (appDataList != null) {
@@ -584,29 +615,29 @@ public class SubPickerActivity extends AppCompatActivity
             return;
         }
 
-        LinkedHashSet<String> selectedPackages = new LinkedHashSet<>(mAppListAdapter.getSelectedPackages());
+        LinkedHashSet<String> selectedPackages = ScopeManager.filterScopePackages(
+            mAppListAdapter.getSelectedPackages(),
+            mAvailableImePackages
+        );
         LinkedHashSet<String> normalizedSelectedPackages = ScopeManager.normalizeScopePackages(selectedPackages);
         LinkedHashSet<String> currentScope = ScopeManager.peekNormalizedScopeSync();
-        LinkedHashSet<String> missingScopePackages = new LinkedHashSet<>(normalizedSelectedPackages);
-        if (currentScope != null) {
-            missingScopePackages.removeAll(currentScope);
+        if (!selectedPackages.equals(mAppListAdapter.getSelectedPackages())) {
+            mAppListAdapter.setSelectedPackages(selectedPackages);
         }
 
-        if (missingScopePackages.isEmpty()) {
+        LinkedHashSet<String> sourceScope = currentScope != null ? new LinkedHashSet<>(currentScope) : new LinkedHashSet<>();
+        LinkedHashSet<String> targetScope = ScopeManager.filterInstalledScopePackages(this, sourceScope);
+        targetScope.addAll(normalizedSelectedPackages);
+
+        if (targetScope.equals(sourceScope)) {
             saveImeSelection(selectedPackages);
             setResult(RESULT_OK);
             finish();
             return;
         }
 
-        LinkedHashSet<String> targetScope = new LinkedHashSet<>();
-        if (currentScope != null) {
-            targetScope.addAll(currentScope);
-        }
-        targetScope.addAll(normalizedSelectedPackages);
-
         setImeSelectionApplying(true);
-        ScopeManager.applyScopeDiffAsync(this, currentScope, targetScope,
+        ScopeManager.applyScopeDiffAsync(this, sourceScope, targetScope,
             (success, message) -> {
                 if (isFinishing() || isDestroyed()) {
                     return;
