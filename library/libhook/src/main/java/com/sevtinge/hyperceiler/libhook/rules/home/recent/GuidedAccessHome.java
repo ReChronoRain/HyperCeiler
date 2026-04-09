@@ -23,9 +23,13 @@ import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+
+import io.github.libxposed.api.XposedInterface;
 
 public class GuidedAccessHome extends BaseHook {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
@@ -43,20 +47,26 @@ public class GuidedAccessHome extends BaseHook {
     private void hookPointerEvent() {
         findAndChainMethod("com.miui.home.recents.NavStubView",
             "onPointerEvent",
-            chain -> {
-                Context context = resolveContext(chain.getThisObject());
-                if (getLockApp(context) == -1) return chain.proceed();
-                return false;
-            },
-            MotionEvent.class
+            MotionEvent.class,
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                    Context context = resolveContext(chain.getThisObject());
+                    if (getLockApp(context) == -1) return chain.proceed();
+                    return false;
+                }
+            }
         );
     }
 
     private void hookIsMistakeTouch() {
-        findAndChainMethod("com.miui.home.recents.NavStubView", "isMistakeTouch", chain -> {
-            Context context = resolveContext(chain.getThisObject());
-            if (getLockApp(context) == -1) return chain.proceed();
-            return true;
+        findAndChainMethod("com.miui.home.recents.NavStubView", "isMistakeTouch", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                Context context = resolveContext(chain.getThisObject());
+                if (getLockApp(context) == -1) return chain.proceed();
+                return true;
+            }
         });
     }
 
@@ -64,12 +74,15 @@ public class GuidedAccessHome extends BaseHook {
         try {
             findAndChainMethod("com.miui.home.recents.NavStubView",
                 "screenPinTouchResolution",
-                chain -> {
-                    Context context = resolveContext(chain.getThisObject());
-                    if (getLockApp(context) == -1) return chain.proceed();
-                    return null;
-                },
-                MotionEvent.class
+                MotionEvent.class,
+                new XposedInterface.Hooker() {
+                    @Override
+                    public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                        Context context = resolveContext(chain.getThisObject());
+                        if (getLockApp(context) == -1) return chain.proceed();
+                        return null;
+                    }
+                }
             );
         } catch (Throwable e) {
             // Pad variant may not include this method; keep other hooks alive.
@@ -79,61 +92,73 @@ public class GuidedAccessHome extends BaseHook {
     private void hookLandscapeOverviewGestureView() {
         findAndChainMethod("com.miui.home.recents.views.RecentsContainer",
             "showLandscapeOverviewGestureView",
-            chain -> {
-                Context context = resolveContext(chain.getThisObject());
-                if (getLockApp(context) == -1) return chain.proceed();
-                return null;
-            },
-            boolean.class
+            boolean.class,
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                    Context context = resolveContext(chain.getThisObject());
+                    if (getLockApp(context) == -1) return chain.proceed();
+                    return null;
+                }
+            }
         );
     }
 
     private void hookHomeStartScreenPinningDirectly() {
         findAndChainMethod("com.miui.home.recents.SystemUiProxyWrapper",
             "startScreenPinning",
-            chain -> {
-                if (!PrefsBridge.getBoolean("system_framework_guided_access", false)) {
-                    return chain.proceed();
+            int.class,
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                    if (!PrefsBridge.getBoolean("system_framework_guided_access_block_dialog", false)) {
+                        return chain.proceed();
+                    }
+                    int taskId = (int) chain.getArg(0);
+                    if (taskId < 0) return chain.proceed();
+                    try {
+                        Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
+                        if (activityTaskManager == null) return chain.proceed();
+                        Object service = callStaticMethod(activityTaskManager, "getService");
+                        callMethod(service, "startSystemLockTaskMode", taskId);
+                        return true;
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "home direct startSystemLockTaskMode E: " + e);
+                        return chain.proceed();
+                    }
                 }
-                int taskId = (int) chain.getArg(0);
-                if (taskId < 0) return chain.proceed();
-                try {
-                    Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
-                    if (activityTaskManager == null) return chain.proceed();
-                    Object service = callStaticMethod(activityTaskManager, "getService");
-                    callMethod(service, "startSystemLockTaskMode", taskId);
-                    return true;
-                } catch (Throwable e) {
-                    XposedLog.w(TAG, "home direct startSystemLockTaskMode E: " + e);
-                    return chain.proceed();
-                }
-            },
-            int.class
+            }
         );
     }
 
     private void hookScreenPinnedHelperStartDirectly() {
         findAndChainMethod("com.miui.home.recents.ScreenPinnedHelper",
             "startScreenPinning",
-            chain -> {
-                if (!PrefsBridge.getBoolean("system_framework_guided_access", false)) {
-                    return chain.proceed();
+            int.class,
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
+                    if (!PrefsBridge.getBoolean("system_framework_guided_access", false)) {
+                        return chain.proceed();
+                    }
+                    if (!PrefsBridge.getBoolean("system_framework_guided_access_block_dialog", false)) {
+                        return chain.proceed();
+                    }
+                    int taskId = (int) chain.getArg(0);
+                    if (taskId < 0) return chain.proceed();
+                    try {
+                        Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
+                        if (activityTaskManager == null) return chain.proceed();
+                        Object service = callStaticMethod(activityTaskManager, "getService");
+                        callMethod(service, "startSystemLockTaskMode", taskId);
+                        XposedLog.d(TAG, "home helper direct startSystemLockTaskMode taskId=" + taskId);
+                        return null;
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "home helper direct startSystemLockTaskMode E: " + e);
+                        return chain.proceed();
+                    }
                 }
-                int taskId = (int) chain.getArg(0);
-                if (taskId < 0) return chain.proceed();
-                try {
-                    Class<?> activityTaskManager = findClassIfExists("android.app.ActivityTaskManager");
-                    if (activityTaskManager == null) return chain.proceed();
-                    Object service = callStaticMethod(activityTaskManager, "getService");
-                    callMethod(service, "startSystemLockTaskMode", taskId);
-                    XposedLog.d(TAG, "home helper direct startSystemLockTaskMode taskId=" + taskId);
-                    return null;
-                } catch (Throwable e) {
-                    XposedLog.w(TAG, "home helper direct startSystemLockTaskMode E: " + e);
-                    return chain.proceed();
-                }
-            },
-            int.class
+            }
         );
     }
 

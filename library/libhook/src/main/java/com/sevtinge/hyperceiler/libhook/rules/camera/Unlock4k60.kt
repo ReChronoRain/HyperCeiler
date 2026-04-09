@@ -19,13 +19,18 @@
 package com.sevtinge.hyperceiler.libhook.rules.camera
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object Unlock4k60 : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        isMethod
+        return true
+    }
     private val isMethod by lazy<Method> {
-        DexKit.findMember("4k60") {
+        requiredMember("4k60") {
             it.findMethod {
                 matcher {
                     paramCount = 3
@@ -43,3 +48,4 @@ object Unlock4k60 : BaseHook() {
         }
     }
 }
+

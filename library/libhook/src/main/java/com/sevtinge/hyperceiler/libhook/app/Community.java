@@ -28,9 +28,6 @@ import com.sevtinge.hyperceiler.libhook.rules.community.FuckDetection;
 @HookBase(targetPackage = "com.xiaomi.vipaccount")
 public class Community extends BaseLoad {
 
-    public Community() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

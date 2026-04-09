@@ -22,8 +22,6 @@ package com.sevtinge.hyperceiler.libhook.rules.personalassistant;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
-;
-
 public class WidgetBlurOpt extends BaseHook {
     @Override
     public void init() {

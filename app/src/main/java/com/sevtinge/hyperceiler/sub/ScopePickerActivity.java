@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.sub;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -25,6 +26,7 @@ import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.model.adapter.AppDataAdapter;
 import com.sevtinge.hyperceiler.model.data.AppData;
 import com.sevtinge.hyperceiler.model.data.AppDataManager;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
@@ -70,6 +72,11 @@ public class ScopePickerActivity extends AppCompatActivity
     private boolean mInitializationMode = false;
 
     private boolean mIsApplyingScope = false;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -249,24 +256,8 @@ public class ScopePickerActivity extends AppCompatActivity
             data.add(0, systemFrameworkApp);
         }
 
-        if (!mCurrentScopePackages.isEmpty()) {
-            List<AppData> selectedAppList = new ArrayList<>();
-            iterator = data.iterator();
-
-            mInitialSelectedPackages.clear();
-            while (iterator.hasNext()) {
-                AppData appData = iterator.next();
-                String normalizedPackage = ScopeManager.normalizeScopePackageName(appData.packageName);
-                if (normalizedPackage != null && mCurrentScopePackages.contains(normalizedPackage)) {
-                    appData.isSelected = true;
-                    mInitialSelectedPackages.add(appData.packageName);
-                    selectedAppList.add(appData);
-                    iterator.remove();
-                }
-            }
-
-            data.addAll(0, selectedAppList);
-        }
+        mInitialSelectedPackages.clear();
+        promoteSelectedAppsToTop(data, mCurrentScopePackages, mInitialSelectedPackages);
 
         return data;
     }
@@ -314,7 +305,11 @@ public class ScopePickerActivity extends AppCompatActivity
             }
         }
 
+        promoteSelectedAppsToTop(mOriginalAppDataList, mCurrentScopePackages, null);
         mAppListAdapter.setSelectedPackages(mInitialSelectedPackages);
+        filterAppList(mSearchInputView != null && mSearchInputView.getText() != null
+            ? mSearchInputView.getText().toString()
+            : null);
     }
 
     private void applyScopeSelection() {
@@ -359,6 +354,11 @@ public class ScopePickerActivity extends AppCompatActivity
         if (keyword == null || keyword.trim().isEmpty()) {
             mCurrentAppDataList.clear();
             mCurrentAppDataList.addAll(mOriginalAppDataList);
+            promoteSelectedAppsToTop(
+                mCurrentAppDataList,
+                getEffectiveSelectedScopePackages(),
+                null
+            );
             mAppListAdapter.setData(mCurrentAppDataList);
             return;
         }
@@ -374,7 +374,42 @@ public class ScopePickerActivity extends AppCompatActivity
 
         mCurrentAppDataList.clear();
         mCurrentAppDataList.addAll(filteredList);
+        promoteSelectedAppsToTop(
+            mCurrentAppDataList,
+            getEffectiveSelectedScopePackages(),
+            null
+        );
         mAppListAdapter.setData(mCurrentAppDataList);
+    }
+
+    private void promoteSelectedAppsToTop(List<AppData> data, Set<String> normalizedSelectedPackages, Set<String> selectedPackagesOut) {
+        if (data == null || data.isEmpty() || normalizedSelectedPackages == null || normalizedSelectedPackages.isEmpty()) {
+            return;
+        }
+
+        List<AppData> selectedAppList = new ArrayList<>();
+        Iterator<AppData> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            AppData appData = iterator.next();
+            String normalizedPackage = ScopeManager.normalizeScopePackageName(appData.packageName);
+            if (normalizedPackage != null && normalizedSelectedPackages.contains(normalizedPackage)) {
+                appData.isSelected = true;
+                if (selectedPackagesOut != null) {
+                    selectedPackagesOut.add(appData.packageName);
+                }
+                selectedAppList.add(appData);
+                iterator.remove();
+            }
+        }
+        data.addAll(0, selectedAppList);
+    }
+
+    private Set<String> getEffectiveSelectedScopePackages() {
+        Set<String> selected = ScopeManager.normalizeScopePackages(mAppListAdapter.getSelectedPackages());
+        if (selected != null && !selected.isEmpty()) {
+            return selected;
+        }
+        return mCurrentScopePackages;
     }
 
     @Override

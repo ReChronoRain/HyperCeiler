@@ -37,7 +37,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuiDialog;
@@ -57,10 +56,30 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 @SuppressLint("DiscouragedApi")
 public class AppDisable extends BaseHook {
 
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
     private ArrayList<String> mMiuiCoreApps = new ArrayList<>();
     private MenuItem menuItem = null;
     private boolean isNewSecurityCenter;
     private String clazzName;
+    private Method mMethodOnOptionsItemSelected;
+
+    @Override
+    protected boolean initDexKit() {
+        mMethodOnOptionsItemSelected = requiredMember("MethodOnOptionsItemSelected", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                return bridge.findMethod(FindMethod.create()
+                    .matcher(MethodMatcher.create()
+                        .usingStrings("application/vnd.android.package-archive")
+                    )).singleOrNull();
+            }
+        });
+        return true;
+    }
 
     @Override
     public void init() {
@@ -187,17 +206,7 @@ public class AppDisable extends BaseHook {
      * Hook 菜单项选择事件
      */
     private void hookOptionsItemSelected() {
-        Method method = DexKit.findMember("MethodOnOptionsItemSelected", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                return bridge.findMethod(FindMethod.create()
-                    .matcher(MethodMatcher.create()
-                        .usingStrings("application/vnd.android.package-archive")
-                    )).singleOrNull();
-            }
-        });
-
-        hookMethod(method, new IMethodHook() {
+        hookMethod(mMethodOnOptionsItemSelected, new IMethodHook() {
             @Override
             public void after(HookParam param) throws Exception {
                 MenuItem item = (MenuItem) param.getArgs()[0];

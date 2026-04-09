@@ -90,6 +90,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableBottomBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableInfinitymodeGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.DisableMiuiMultiWinSwitch;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.FuckStatusbarGestures;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.other.GuidedAccessDialogBlock;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.MonetThemeOverlay;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.NotificationFreeform;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.RemoveMiuiMultiWinSwitch;
@@ -132,9 +133,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.android.systemui", maxSdk = 35)
 public class SystemUIV extends BaseLoad {
 
-    public SystemUIV() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
@@ -267,6 +265,9 @@ public class SystemUIV extends BaseLoad {
         initHook(DoubleTapToSleep.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
         initHook(new HideStatusBarBeforeScreenshot(), PrefsBridge.getBoolean("system_ui_status_bar_hide_icon"));
 
+        initHook(new GuidedAccessDialogBlock(),
+            PrefsBridge.getBoolean("system_framework_guided_access")
+                && PrefsBridge.getBoolean("system_framework_guided_access_block_dialog"));
         initHook(new UiLockApp(), PrefsBridge.getBoolean("system_framework_guided_access") && PrefsBridge.getBoolean("system_framework_guided_access_status"));
         initHook(new AllowManageAllNotifications(), PrefsBridge.getBoolean("system_framework_allow_manage_all_notifications"));
         initHook(new MonetThemeOverlay(), PrefsBridge.getBoolean("system_ui_monet_overlay_custom"));

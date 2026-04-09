@@ -29,8 +29,6 @@ import java.io.FileNotFoundException;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class FuckHpplay extends BaseHook {
     private static final String TARGET_PACKAGE = "com.milink.service";
     private static final String TARGET_PATH = new File(Environment.getExternalStorageDirectory(), "com.milink.service").getAbsolutePath();

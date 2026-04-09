@@ -33,9 +33,6 @@ import com.sevtinge.hyperceiler.libhook.rules.screenshot.UnlockPrivacyMarking;
 @HookBase(targetPackage = "com.miui.screenshot")
 public class ScreenShot extends BaseLoad {
 
-    public ScreenShot() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

@@ -60,6 +60,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
@@ -132,15 +133,13 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 2, maxOSVersion = 2.0F)
 public class HomePhoneOld extends BaseLoad {
 
-    public HomePhoneOld() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
 
         // 手势
         initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(),
                 PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                         PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0

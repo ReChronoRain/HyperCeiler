@@ -19,13 +19,18 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenshot
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockCopyPicture : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        method
+        return true
+    }
     private val method by lazy {
-        DexKit.findMember("copyPicture") {
+        requiredMember("copyPicture") {
             it.findMethod {
                 matcher {
                     usingEqStrings("mi_screen_shots_write_clipboard_enable")
@@ -41,3 +46,4 @@ object UnlockCopyPicture : BaseHook() {
         }
     }
 }
+

@@ -65,6 +65,11 @@ public abstract class BaseEffectControlUI {
     public abstract void init();
 
     /**
+     * DexKit 预加载阶段
+     */
+    public void initDexKit() {}
+
+    /**
      * 设置 IEffectInfo
      */
     public void setEffectInfo(IEffectInfo effectInfo) {

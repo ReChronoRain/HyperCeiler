@@ -24,6 +24,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -42,7 +43,28 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     private boolean mCheckNewJump = true;
     private boolean mIsDisableBack = false;
 
-    private final View.OnClickListener mBackListener = v -> onBackPressed();
+    private final View.OnClickListener mBackListener = v -> getOnBackPressedDispatcher().onBackPressed();
+
+    private final OnBackPressedCallback mBackCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if (!mIsDisableBack) {
+                try {
+                    additionalProcess();
+                    if (!getSupportFragmentManager().isDestroyed()) {
+                        setEnabled(false);
+                        getOnBackPressedDispatcher().onBackPressed();
+                        setEnabled(true);
+                    }
+                    if (mFragment != null) {
+                        mFragment.getClass();
+                    }
+                } catch (Exception e) {
+                    Log.e("BaseActivity", "ex: " + e.getMessage());
+                }
+            }
+        }
+    };
 
     protected abstract Fragment getFragment();
     protected abstract String getFragmentTag();
@@ -55,6 +77,7 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, mBackCallback);
         if (OobeUtils.isProvisioned(this) && !OobeUtils.isDebugOobeMode(this)) {
             setResult(-1);
             finish();
@@ -134,23 +157,6 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
 
     protected void additionalProcess() {
         setResult(0);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mIsDisableBack) {
-            try {
-                additionalProcess();
-                if (!getSupportFragmentManager().isDestroyed()) {
-                    super.onBackPressed();
-                }
-                if (mFragment != null) {
-                    mFragment.getClass();
-                }
-            } catch (Exception e) {
-                Log.e("BaseActivity", "ex: " + e.getMessage());
-            }
-        }
     }
 
     protected void setPreviewDrawable(int id) {

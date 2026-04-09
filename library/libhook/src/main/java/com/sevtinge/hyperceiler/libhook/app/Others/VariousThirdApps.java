@@ -23,85 +23,108 @@ import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hchen.database.HookBase;
-import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
-import com.sevtinge.hyperceiler.libhook.rules.various.MusicHooks;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.BaiduClipboard;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClearClipboard;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClipboardLimit;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.LoadInputMethodDex;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
-import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodClassLoaderDispatcher;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
+import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
+import com.sevtinge.hyperceiler.libhook.rules.various.MusicHooks;
+import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.BaiduClipboard;
+import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.SoGouClipboard;
+import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
+import com.sevtinge.hyperceiler.libhook.rules.various.input.MiAospIme;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @HookBase(targetPackage = "VariousThirdApps")
 public class VariousThirdApps extends BaseLoad {
-    String mPackageName;
+    private static final String XIAOMI_SOGOU_PACKAGE = "com.sohu.inputmethod.sogou.xiaomi";
+    private static final String SOGOU_PACKAGE = "com.sohu.inputmethod.sogou";
+    private static final String XIAOMI_BAIDU_PACKAGE = "com.baidu.input_mi";
+    private static final String BAIDU_PACKAGE = "com.baidu.input";
 
-    public static List<String> mAppsUsingInputMethod = new ArrayList<>();
+    private static Set<String> sEnabledInputMethodPackages = Collections.emptySet();
 
-    public VariousThirdApps() {
-        super(true);
-    }
+    private String mPackageName;
+
 
     @Override
     public void onPackageLoaded() {
-        if (mAppsUsingInputMethod.isEmpty()) {
-            mAppsUsingInputMethod = getAppsUsingInputMethod(AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID));
-        }
         mPackageName = getPackageName();
-        if (PrefsBridge.getBoolean("various_phrase_clipboardlist")) {
-            if (isInputMethod(mPackageName)) {
-                initHook(new LoadInputMethodDex());
-                initHook(new ClipboardLimit());
-            }
-        }
-        initHook(new UnlockIme(), PrefsBridge.getBoolean("various_unlock_ime") && isInputMethod(mPackageName));
-        initHook(new NewUnPhraseLimit(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
-        initHook(new SoGouClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
-                ("com.sohu.inputmethod.sogou.xiaomi".equals(mPackageName) || "com.sohu.inputmethod.sogou".equals(mPackageName)));
-        initHook(new BaiduClipboard(), PrefsBridge.getBoolean("sogou_xiaomi_clipboard") &&
-                ("com.baidu.input".equals(mPackageName) || "com.baidu.input_mi".equals(mPackageName)));
-        //initHook(new ClipboardList(), PrefsBridge.getBoolean("various_phrase_clipboardlist") && isInputMethod(mPackageName));
-        initHook(new ClearClipboard(), PrefsBridge.getBoolean("add_clipboard_clear") && isInputMethod(mPackageName));
+        boolean isInputMethod = isEnabledInputMethodPackage(mPackageName);
 
-        // 焦点歌词（音乐软件相关）
+        if (isInputMethod) {
+            initInputMethodHooks();
+            initClipboardHooks();
+            return;
+        }
+
+        initMusicHooks();
+    }
+
+    private void initInputMethodHooks() {
+        boolean needMiuiImeUnlock = InputMethodConfig.shouldHookMiuiIme(mPackageName);
+        boolean needAospIme = InputMethodConfig.shouldHookAospIme(mPackageName);
+
+        initHook(new InputMethodClassLoaderDispatcher());
+        initHook(new UnlockIme(), needMiuiImeUnlock);
+        initHook(new MiAospIme(), needAospIme);
+    }
+
+    private void initClipboardHooks() {
+        boolean enableClipboardHook = PrefsBridge.getBoolean("sogou_xiaomi_clipboard");
+
+        initHook(new SoGouClipboard(), enableClipboardHook && isSogouPackage(mPackageName));
+        initHook(new BaiduClipboard(), enableClipboardHook && isBaiduPackage(mPackageName));
+    }
+
+    private void initMusicHooks() {
         initHook(MusicHooks.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_music_switch") && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app"));
     }
-
-    private List<String> getAppsUsingInputMethod(Context context) {
+    private Set<String> getEnabledInputMethodPackages(Context context) {
         try {
             if (context == null) {
-                XposedLog.e("getAppsUsingInputMethod", "context is null");
-                return new ArrayList<>();
+                XposedLog.e("getEnabledInputMethodPackages", "context is null");
+                return Collections.emptySet();
             }
-            List<String> pkgName = new ArrayList<>();
+
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            List<InputMethodInfo> enabledInputMethods = inputMethodManager.getEnabledInputMethodList();
-            for (InputMethodInfo inputMethodInfo : enabledInputMethods) {
-                pkgName.add(inputMethodInfo.getServiceInfo().packageName);
+            if (inputMethodManager == null) {
+                XposedLog.e("getEnabledInputMethodPackages", "inputMethodManager is null");
+                return Collections.emptySet();
             }
-            return pkgName;
+
+            List<InputMethodInfo> enabledInputMethods = inputMethodManager.getEnabledInputMethodList();
+            LinkedHashSet<String> packages = new LinkedHashSet<>();
+            for (InputMethodInfo inputMethodInfo : enabledInputMethods) {
+                if (inputMethodInfo.getServiceInfo() != null) {
+                    packages.add(inputMethodInfo.getServiceInfo().packageName);
+                }
+            }
+            return packages;
         } catch (Throwable e) {
-            XposedLog.e("getAppsUsingInputMethod", "have e: " + e + ", message: " + e.getMessage());
-            return new ArrayList<>();
+            XposedLog.e("getEnabledInputMethodPackages", "have e: " + e + ", message: " + e.getMessage());
+            return Collections.emptySet();
         }
     }
 
-    private boolean isInputMethod(String pkgName) {
-        if (mAppsUsingInputMethod.isEmpty()) {
-            return false;
+    private boolean isEnabledInputMethodPackage(String packageName) {
+        if (sEnabledInputMethodPackages.isEmpty()) {
+            sEnabledInputMethodPackages = getEnabledInputMethodPackages(
+                AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID));
         }
-        for (String inputMethod : mAppsUsingInputMethod) {
-            if (inputMethod.equals(pkgName)) {
-                return true;
-            }
-        }
-        return false;
+        return sEnabledInputMethodPackages.contains(packageName);
+    }
+
+    private boolean isSogouPackage(String packageName) {
+        return XIAOMI_SOGOU_PACKAGE.equals(packageName) || SOGOU_PACKAGE.equals(packageName);
+    }
+
+    private boolean isBaiduPackage(String packageName) {
+        return BAIDU_PACKAGE.equals(packageName) || XIAOMI_BAIDU_PACKAGE.equals(packageName);
     }
 }

@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery;
 
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -33,9 +32,16 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 public class UnlockSmartCharge extends BaseHook {
+    private List<Method> mVendorSmartChgMethods;
+
     @Override
-    public void init() {
-        List<Method> methods = DexKit.findMemberList("VendorSmartChg", new IDexKitList() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mVendorSmartChgMethods = requiredMemberList("VendorSmartChg", new IDexKitList() {
             @Override
             public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
@@ -46,7 +52,12 @@ public class UnlockSmartCharge extends BaseHook {
                 return methodData;
             }
         });
-        for (Method method : methods) {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        for (Method method : mVendorSmartChgMethods) {
             hookMethod(method, returnConstant(true));
         }
     }

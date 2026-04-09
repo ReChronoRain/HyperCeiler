@@ -9,10 +9,8 @@ import static com.sevtinge.hyperceiler.utils.GithubUserContentGetter.getUserName
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -48,7 +46,6 @@ import com.sevtinge.hyperceiler.home.widget.SwitchView;
 import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.utils.ActionBarUtils;
 
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +53,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.app.ActionBar;
 import fan.device.DeviceUtils;
 import fan.internal.utils.ViewUtils;
@@ -76,7 +72,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     private boolean isFirst = true;
     private boolean isReboot = false;
-    private boolean isRunning = false;
+    private final boolean isRunning = false;
 
     private FrameLayout mContentView;
 
@@ -99,8 +95,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private Preference mAuthor;
 
 
-    private List<View> mCards = new ArrayList<>();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final List<View> mCards = new ArrayList<>();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private ConnectivityManager connectivityManager;
@@ -176,12 +172,12 @@ public class AboutSettingsFragment extends BasePreferenceFragment
                 Bitmap bitmap = getUserAvatar("89193494", "256");
                 String name = getUserName("Sevtinge");
 
-                if (isAdded()) {
-                    requireActivity().runOnUiThread(() -> {
+                runOnUiThreadIfAlive(() -> {
+                    if (mAuthor != null) {
                         mAuthor.setIcon(new BitmapDrawable(getResources(), bitmap));
                         mAuthor.setTitle(name != null ? name : "Sevtinge");
-                    });
-                }
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -197,10 +193,16 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             recyclerView.setFocusableInTouchMode(false);
         }
 
-        if (requireActivity() instanceof HomePageActivity activity) {
+        if (getActivity() instanceof HomePageActivity activity) {
             SwitchManager switchManager = activity.getSwitchManager();
+            if (switchManager == null) {
+                return;
+            }
             SwitchView switchView = switchManager.getSwitchView();
-            switchView.post(() -> {
+            postIfViewAlive(switchView, () -> {
+                if (mVersionCardClickView == null || mDeviceInfoCardView == null) {
+                    return;
+                }
                 int[] switchLocation = new int[2];
                 int[] versionCardClickLocation = new int[2];
 
@@ -214,10 +216,14 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
                 int h1 = switchTop - versionCardClickTop;
 
-                mDeviceInfoCardView.post(() -> {
+                postIfViewAlive(mDeviceInfoCardView, () -> {
+                    Context context = getSafeContext();
+                    if (context == null) {
+                        return;
+                    }
                     int deviceHeight = mDeviceInfoCardView.getHeight();
 
-                    int nav = requireContext().getResources().getDimensionPixelSize(fan.theme.R.dimen.miuix_theme_content_padding_end);
+                    int nav = context.getResources().getDimensionPixelSize(fan.theme.R.dimen.miuix_theme_content_padding_end);
 
                     int h = h1 - nav - deviceHeight;
 
@@ -326,7 +332,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private void setActionBar() {
         ActionBar actionBar = getAppCompatActionBar();
         if (actionBar != null) {
-            actionBar.getActionBarView().post(() -> {
+            postIfViewAlive(actionBar.getActionBarView(), () -> {
                 actionBar.getExpandTitle().setTitle("");
                 actionBar.setExpandState(0);
                 actionBar.setResizable(false);
@@ -340,11 +346,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             View view = (View) recyclerView.getParent();
             if (view instanceof SpringBackLayout) {
                 view.setEnabled(false);
-                recyclerView.post(() -> {
-                    if (recyclerView != null) {
-                        setListViewPadding(recyclerView);
-                    }
-                });
+                postIfViewAlive(recyclerView, () -> setListViewPadding(recyclerView));
             }
         }
     }
@@ -382,7 +384,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             .setTintMode(3)
             .setScale(1.0f)
             .setTouchRadius(leftTopRadius, rightTopRadius, leftBottomRadius, rightBottomRadius)
-            .handleTouchOf(view, new AnimConfig[0]);
+            .handleTouchOf(view);
     }
 
     private void initCardView() {
@@ -412,6 +414,10 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     }
 
     private void setShaderBackGround() {
+        Context context = getSafeContext();
+        if (context == null) {
+            return;
+        }
         mViewInitPadding = new ViewUtils.RelativePadding(
             ViewCompat.getPaddingStart(mRootView),
             mRootView.getPaddingTop(),
@@ -419,8 +425,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             mRootView.getPaddingBottom()
         );
         setContentViewPadding();
-        if (mBgEffectView == null) {
-            mBgEffectView = LayoutInflater.from(getContext()).inflate(R.layout.app_about_bg, (ViewGroup) mContentView, false);
+        if (mBgEffectView == null && mContentView != null) {
+            mBgEffectView = LayoutInflater.from(context).inflate(R.layout.app_about_bg, mContentView, false);
             mContentView.addView(mBgEffectView, 0);
             mBgEffectView = mContentView.findViewById(R.id.bgEffectView);
             mBgEffectController = new BgEffectController(mBgEffectView);
@@ -449,37 +455,49 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private void startRuntimeShader() {
         if (mBgEffectView != null) {
             if (!DeviceUtils.isMiuiLiteRom()) {
-                mBgEffectView.post(() -> {
-                    if (getContext() != null) {
-                        mBgEffectController.start();
-                        mBgEffectController.setType(getContext().getApplicationContext(), mBgEffectView, getAppCompatActionBar());
+                postIfViewAlive(mBgEffectView, () -> {
+                    Context context = getSafeContext();
+                    ActionBar actionBar = getAppCompatActionBar();
+                    if (context == null || actionBar == null || mBgEffectController == null) {
+                        return;
                     }
+                    mBgEffectController.start();
+                    mBgEffectController.setType(context.getApplicationContext(), mBgEffectView, actionBar);
                 });
             }
         }
     }
 
     private void checkNetwork() {
+        Context context = getSafeContext();
+        if (context == null || executor.isShutdown()) {
+            return;
+        }
+        Context appContext = context.getApplicationContext();
         executor.execute(() -> {
-            boolean connected = isNetworkConnected(requireContext());
+            boolean connected = isNetworkConnected(appContext);
             boolean internet = connected && isInternetAvailable();
 
-            if (!isAdded()) return;
-
-            requireActivity().runOnUiThread(this::loadInfoFromNetwork);
+            if (connected && internet) {
+                runOnUiThreadIfAlive(this::loadInfoFromNetwork);
+            }
         });
     }
 
     private void updateNetworkState(boolean state) {
-        if (!isAdded()) return;
-
-        requireActivity().runOnUiThread(this::loadInfoFromNetwork);
+        if (state) {
+            runOnUiThreadIfAlive(this::loadInfoFromNetwork);
+        }
     }
 
 
     private void registerNetworkCallback() {
+        Context context = getSafeContext();
+        if (context == null) {
+            return;
+        }
         connectivityManager = (ConnectivityManager)
-            requireContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         if (connectivityManager == null) return;
 
@@ -529,6 +547,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mHandler.removeCallbacksAndMessages(null);
         if (mRootView != null) {
             unregisterCoordinateScrollView(mRootView);
         }

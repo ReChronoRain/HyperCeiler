@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsMarginBottom;
@@ -71,10 +72,10 @@ import com.sevtinge.hyperceiler.libhook.rules.home.recent.RecentResource;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RecentText;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveCardAnim;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.RemoveIcon;
+import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHorizontal;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewVertical;
-import com.sevtinge.hyperceiler.libhook.rules.home.recent.TaskViewHeaderTitlePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.BigIconCorner;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DisableHideApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.DownloadAnimation;
@@ -97,15 +98,13 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 2, minOSVersion = 3.0F)
 public class HomePhone extends BaseLoad {
 
-    public HomePhone() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
         // 手势
         initHook(new DisableFullScreenBackGesture(), PrefsBridge.getBoolean("home_navigation_disable_full_screen_back_gesture"));
         //initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(),
             PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
                 PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0

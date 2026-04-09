@@ -134,7 +134,7 @@ class SpringInterpolator @JvmOverloads constructor(
         return d11
     }
 
-    internal abstract inner class SpringSolution {
+    internal abstract class SpringSolution {
         abstract fun dX(f: Float): Double
 
         abstract fun x(f: Float): Double

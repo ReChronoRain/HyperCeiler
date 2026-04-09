@@ -26,8 +26,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class UnlockSuperWallpaper extends BaseHook {
     @Override
     public void init() {

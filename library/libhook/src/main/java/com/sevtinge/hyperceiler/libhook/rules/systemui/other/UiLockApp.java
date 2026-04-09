@@ -18,6 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -34,6 +36,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * @author 焕晨HChen
@@ -75,15 +79,18 @@ public class UiLockApp extends BaseHook {
     public void init() {
         findAndChainMethod("com.android.systemui.SystemUIApplication",
             "onCreate",
-            chain -> {
-                Object result = chain.proceed();
-                try {
-                    Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
-                    registerObserverIfNeeded(context);
-                } catch (Throwable e) {
-                    XposedLog.w(TAG, "SystemUIApplication onCreate hook E: " + e);
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    try {
+                        Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
+                        registerObserverIfNeeded(context);
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "SystemUIApplication onCreate hook E: " + e);
+                    }
+                    return result;
                 }
-                return result;
             }
         );
 
@@ -99,29 +106,34 @@ public class UiLockApp extends BaseHook {
         for (String className : TASKBAR_DELEGATE_CLASS_CANDIDATES) {
             hookTaskbarDelegateClass(className);
         }
-        hookScreenPinningDialogBlock();
+        if (isPad()) {
+            hookLauncherProxyStopScreenPinning();
+        }
     }
 
     private void hookStatusBarWindowControllerClass(String className) {
         Class<?> controllerClass = findClassIfExists(className);
         if (controllerClass == null || controllerClass.isInterface()) return;
 
-        chainAllConstructors(controllerClass, chain -> {
-            Object result = chain.proceed();
-            try {
-                Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
-                if (context == null) return result;
+        chainAllConstructors(controllerClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                try {
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    if (context == null) return result;
 
-                Object statusBarWindowView = getObjectField(chain.getThisObject(), "mStatusBarWindowView");
-                if (statusBarWindowView instanceof FrameLayout) {
-                    mStatusBarView = (FrameLayout) statusBarWindowView;
+                    Object statusBarWindowView = getObjectField(chain.getThisObject(), "mStatusBarWindowView");
+                    if (statusBarWindowView instanceof FrameLayout) {
+                        mStatusBarView = (FrameLayout) statusBarWindowView;
+                    }
+                    registerObserverIfNeeded(context);
+                    updateStatusBarVisibility(context);
+                } catch (Throwable e) {
+                    XposedLog.w(TAG, "StatusBarWindowController hook E: " + e);
                 }
-                registerObserverIfNeeded(context);
-                updateStatusBarVisibility(context);
-            } catch (Throwable e) {
-                XposedLog.w(TAG, "StatusBarWindowController hook E: " + e);
+                return result;
             }
-            return result;
         });
     }
 
@@ -129,41 +141,49 @@ public class UiLockApp extends BaseHook {
         Class<?> gestureHandleClass = findClassIfExists(className);
         if (gestureHandleClass == null) return;
 
-        chainAllConstructors(gestureHandleClass, chain -> {
-            Object result = chain.proceed();
-            if (chain.getThisObject() instanceof View) {
-                View handleView = (View) chain.getThisObject();
-                registerGestureHandleView(handleView);
+        chainAllConstructors(gestureHandleClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                if (chain.getThisObject() instanceof View handleView) {
+                    registerGestureHandleView(handleView);
+                }
+                return result;
             }
-            return result;
         });
 
-        chainAllMethods(gestureHandleClass, "setVisibility", chain -> {
-            if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-            View handleView = (View) chain.getThisObject();
-            Context context = handleView.getContext();
-            if (context == null || getLockApp(context) == -1) return chain.proceed();
-            Object[] args = chain.getArgs().toArray();
-            args[0] = View.GONE;
-            return chain.proceed(args);
+        chainAllMethods(gestureHandleClass, "setVisibility", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                Object[] args = chain.getArgs().toArray();
+                args[0] = View.GONE;
+                return chain.proceed(args);
+            }
         });
 
-        chainAllMethods(gestureHandleClass, "setAlpha", chain -> {
-            if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-            View handleView = (View) chain.getThisObject();
-            Context context = handleView.getContext();
-            if (context == null || getLockApp(context) == -1) return chain.proceed();
-            Object[] args = chain.getArgs().toArray();
-            args[0] = 0f;
-            return chain.proceed(args);
+        chainAllMethods(gestureHandleClass, "setAlpha", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                Object[] args = chain.getArgs().toArray();
+                args[0] = 0f;
+                return chain.proceed(args);
+            }
         });
 
-        chainAllMethods(gestureHandleClass, "onDraw", chain -> {
-            if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-            View handleView = (View) chain.getThisObject();
-            Context context = handleView.getContext();
-            if (context == null || getLockApp(context) == -1) return chain.proceed();
-            return null;
+        chainAllMethods(gestureHandleClass, "onDraw", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                return null;
+            }
         });
     }
 
@@ -182,15 +202,21 @@ public class UiLockApp extends BaseHook {
         Class<?> navigationBarClass = findClassIfExists(className);
         if (navigationBarClass == null) return;
 
-        chainAllConstructors(navigationBarClass, chain -> {
-            Object result = chain.proceed();
-            registerNavigationBar(chain.getThisObject());
-            return result;
+        chainAllConstructors(navigationBarClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                registerNavigationBar(chain.getThisObject());
+                return result;
+            }
         });
 
-        chainAllMethods(navigationBarClass, "updateScreenPinningGestures", chain -> {
-            registerNavigationBar(chain.getThisObject());
-            return chain.proceed();
+        chainAllMethods(navigationBarClass, "updateScreenPinningGestures", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                registerNavigationBar(chain.getThisObject());
+                return chain.proceed();
+            }
         });
     }
 
@@ -206,10 +232,13 @@ public class UiLockApp extends BaseHook {
         Class<?> taskbarDelegateClass = findClassIfExists(className);
         if (taskbarDelegateClass == null) return;
 
-        chainAllConstructors(taskbarDelegateClass, chain -> {
-            Object result = chain.proceed();
-            registerTaskbarDelegate(chain.getThisObject());
-            return result;
+        chainAllConstructors(taskbarDelegateClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                registerTaskbarDelegate(chain.getThisObject());
+                return result;
+            }
         });
     }
 
@@ -225,34 +254,24 @@ public class UiLockApp extends BaseHook {
         }
     }
 
-    private void hookScreenPinningDialogBlock() {
-        Class<?> centralSurfacesCallbacksClass = findClassIfExists(
-            "com.android.systemui.statusbar.phone.CentralSurfacesCommandQueueCallbacks");
-        if (centralSurfacesCallbacksClass != null) {
-            chainAllMethods(centralSurfacesCallbacksClass, "showScreenPinningRequest", chain -> {
-                int taskId = readIntArg(chain.getArgs().toArray(), 0, -1);
-                XposedLog.d(TAG, "trace CentralSurfaces.showScreenPinningRequest taskId=" + taskId);
-                startSystemLockTaskModeByTaskId(chain.getThisObject(), taskId);
-                return null;
-            });
-        }
-    }
+    private void hookLauncherProxyStopScreenPinning() {
+        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        if (launcherProxyClass == null) return;
 
-    private void startSystemLockTaskModeByTaskId(Object callbacks, int taskId) {
-        if (taskId < 0) return;
-        Context context = resolveContext(callbacks);
-        if (context != null && getLockApp(context) != -1) {
-            return;
-        }
-        try {
-            Class<?> activityTaskManagerClass = findClassIfExists("android.app.ActivityTaskManager");
-            if (activityTaskManagerClass == null) return;
-            Object service = callStaticMethod(activityTaskManagerClass, "getService");
-            callMethod(service, "startSystemLockTaskMode", taskId);
-            XposedLog.d(TAG, "trace startSystemLockTaskMode taskId=" + taskId);
-        } catch (Throwable e) {
-            XposedLog.w(TAG, "startSystemLockTaskMode from dialog hook E: " + e);
-        }
+        chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object[] args = chain.getArgs().toArray();
+                if (args.length > 0 && "stopScreenPinning".equals(args[0])) {
+                    Context context = resolveContext(chain.getThisObject());
+                    if (context != null && getLockApp(context) != -1) {
+                        XposedLog.d(TAG, "block LauncherProxyService.stopScreenPinning while locked");
+                        return null;
+                    }
+                }
+                return chain.proceed();
+            }
+        });
     }
 
     private void updateStatusBarVisibility(Context context) {
@@ -487,15 +506,14 @@ public class UiLockApp extends BaseHook {
             if (context instanceof Context) return (Context) context;
         } catch (Throwable ignored) {
         }
+        try {
+            Object outer = getObjectField(target, "this$0");
+            if (outer != null && outer != target) {
+                return resolveContext(outer);
+            }
+        } catch (Throwable ignored) {
+        }
         return null;
-    }
-
-    private int readIntArg(Object[] args, int index, int defValue) {
-        if (args == null || index < 0 || index >= args.length) return defValue;
-        Object value = args[index];
-        if (value instanceof Integer) return (Integer) value;
-        if (value instanceof Boolean) return (Boolean) value ? 1 : 0;
-        return defValue;
     }
 
     public static int getLockApp(Context context) {

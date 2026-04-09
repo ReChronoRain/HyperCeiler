@@ -93,7 +93,7 @@ object ScopeManager {
             return null
         }
         return try {
-            service.getScope()
+            service.scope
         } catch (e: Exception) {
             AndroidLog.e(TAG, "getScopeSync failed", e)
             null
@@ -134,7 +134,7 @@ object ScopeManager {
     fun peekNormalizedScopeSync(): LinkedHashSet<String>? {
         val service = getService() ?: return null
         return try {
-            normalizeScopePackages(service.getScope())
+            normalizeScopePackages(service.scope)
         } catch (e: Exception) {
             AndroidLog.e(TAG, "peekNormalizedScopeSync failed", e)
             null
