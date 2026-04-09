@@ -51,23 +51,6 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <string name="security_center" translatable="false">Security Center</string>
-    <string name="settings_app_en" translatable="false">English</string>
-    <string name="settings_app_zh_cn" translatable="false">简体中文</string>
-    <string name="settings_app_zh_tw" translatable="false">繁體中文 (台灣)</string>
-    <string name="settings_app_zh_hk" translatable="false">繁體中文 (香港)</string>
-    <string name="settings_app_ja_jp" translatable="false">日本語</string>
-    <string name="settings_app_pl_pl" translatable="false">Polski</string>
-    <string name="settings_app_ru_ru" translatable="false">Русский</string>
-    <string name="settings_app_ar_sa" translatable="false">العربية</string>
-    <string name="settings_app_es_es" translatable="false">Español</string>
-    <string name="settings_app_pt_br" translatable="false">Português (Brasil)</string>
-    <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
-    <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
-    <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
-    <string name="settings_app_it_it" translatable="false">Italiano</string>
-    <string name="settings_app_de_de" translatable="false">Deutsch</string>
-    <string name="settings_app_uk_ua" translatable="false">українська мова</string>
-    <string name="settings_app_zh_me" translatable="false">梗体中文</string>
     <!--Introduction to Xposed Modules-->
     <string name="description_hyperos" translatable="false">Make HyperOS Great Again!</string>
     <string name="new_permission_wifi_state_desc">Add and delete files on device\'s internal storage</string>
@@ -522,6 +505,8 @@
     <string name="system_framework_market_use_detailmini_desc">Remove the restriction that prevents an app from redirecting to another app\'s details page in GetApps without using the appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
     <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
+    <string name="system_framework_native_file_picker">Use Android file picker</string>
+    <string name="system_framework_native_file_picker_desc">No longer use HyperOS File Manager</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_tip">The features under this list should be enabled selectively only after you understand them; some options carry certain risks, please be aware.\nThe normal options take effect immediately except for the master switch; extended features require a restart to take effect regardless of their switch state.</string>
     <string name="system_framework_corepatch_title">Package manager service</string>
@@ -1122,6 +1107,8 @@
     <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_disable_full_screen_back_gesture">Disable full screen back gesture</string>
+    <string name="home_navigation_predictive_progress">Fix predictive back navigation progress</string>
+    <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation bar was too short in certain scenarios on the Xiaomi HyperOS system.</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
     <string name="home_gesture_title2">Gesture</string>
@@ -1562,7 +1549,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Force enable AI captions</string>
-    <string name="aiasst_all_captions">Unlock multi-language online captions</string>
     <string name="aiasst_unlock_split_screen_translation">Unlock split-screen translation</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
@@ -1611,6 +1597,7 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
+    <string name="sogou_xiaomi_clipboard_desc">Remove the clipboard count limit built into Sogou Input Method, Baidu Input Method, and their Xiaomi-customized versions.</string>
     <string name="add_clipboard_clear">Add clear clipboard button</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
@@ -1626,6 +1613,13 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
+    <!--XIAO AI-->
+    <string name="voiceassist">Xiaomi Hyper XiaoAi</string>
+    <string name="voiceassist_remove_screen_trans_watermark">Remove screen translate AI generated watermark</string>
+    <!--Photos n Videos-->
+    <string name="photopicker">Photos &amp; Videos</string>
+    <string name="photopicker_disable_reroute">Use native file and photo picker</string>
+    <string name="photopicker_disable_reroute_desc">No longer use service from HyperOS gallery and file manager</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
@@ -1654,8 +1648,19 @@
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
     <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
-    <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After turning it on, turn on the corresponding input method scope in the LSPosed.</string>
+    <string name="various_unlock_ime">Unlock IME fullscreen optimization</string>
+    <string name="various_unlock_ime_desc">Enable full-screen optimization for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
+    <string name="various_unlock_ime_apps">Target input methods</string>
+    <string name="various_unlock_ime_apps_desc">If a selected input method is not in scope, its scope will be requested as well.</string>
+    <string name="various_unlock_ime_show_all">Show all input methods</string>
+    <string name="various_unlock_ime_show_all_desc">Some input methods may appear incomplete in the switcher because they cannot query the installed app list.\nThis also requires System Framework scope and may affect performance. Enable with caution.</string>
+    <string name="various_unlock_ime_style_miui">MIUI style</string>
+    <string name="various_unlock_ime_style_aosp">AOSP style</string>
+    <string name="various_aosp_ime_nav_bar_layout_start">Left function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_end">Right function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">Hide input method</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">Switch input method</string>
+    <string name="various_input_method_apps_count">%1$d input methods selected</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>

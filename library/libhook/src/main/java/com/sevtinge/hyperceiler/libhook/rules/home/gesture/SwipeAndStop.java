@@ -32,22 +32,27 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class SwipeAndStop extends BaseHook {
+    private static final ThreadLocal<Boolean> sSuppressVibrate = new ThreadLocal<>();
+
     @Override
     public void init() {
         Class<?> VibratorCls = findClassIfExists("android.os.Vibrator");
-        hookAllMethods("com.miui.home.recents.GestureBackArrowView", "setReadyFinish", new IMethodHook() {
-            private XposedInterface.HookHandle vibratorHook = null;
-
-            @Override
-            public void before(HookParam param) {
-                vibratorHook = findAndHookMethod(VibratorCls, "vibrate", long.class, doNothing());
-            }
-
-            @Override
-            public void after(HookParam param) {
-                if (vibratorHook != null) {
-                    vibratorHook.unhook();
+        findAndChainMethod(VibratorCls, "vibrate", long.class,
+            (XposedInterface.Hooker) chain -> {
+                if (Boolean.TRUE.equals(sSuppressVibrate.get())) {
+                    return null;
                 }
+                return chain.proceed();
+            }
+        );
+
+        chainAllMethods("com.miui.home.recents.GestureBackArrowView", "setReadyFinish", chain -> {
+            sSuppressVibrate.set(true);
+
+            try {
+                return chain.proceed();
+            } finally {
+                sSuppressVibrate.remove();
             }
         });
 

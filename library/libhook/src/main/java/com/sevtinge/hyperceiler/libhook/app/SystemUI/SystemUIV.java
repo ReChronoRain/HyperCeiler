@@ -133,9 +133,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.android.systemui", maxSdk = 35)
 public class SystemUIV extends BaseLoad {
 
-    public SystemUIV() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

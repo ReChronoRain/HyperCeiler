@@ -22,7 +22,6 @@ import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.g
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isLockSelectionEnabled;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_ARRAY;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
 
 import android.os.Bundle;
@@ -30,17 +29,6 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-
-import org.luckypray.dexkit.DexKitBridge;
-import org.luckypray.dexkit.query.FindClass;
-import org.luckypray.dexkit.query.FindField;
-import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.matchers.ClassMatcher;
-import org.luckypray.dexkit.query.matchers.FieldMatcher;
-import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -57,6 +45,19 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 public class NewFWAudioEffectControl extends BaseEffectControlUI {
 
     private static final String TAG = "NewFWAudioEffectControl";
+    private Class<?> mAVDolbyActivityClass;
+    private Method mAVDolbyRefreshMethod;
+    private Field mPreferenceField;
+
+    void setDexMembers(
+        Class<?> avDolbyActivityClass,
+        Method avDolbyRefreshMethod,
+        Field preferenceField
+    ) {
+        mAVDolbyActivityClass = avDolbyActivityClass;
+        mAVDolbyRefreshMethod = avDolbyRefreshMethod;
+        mPreferenceField = preferenceField;
+    }
 
     @Override
     public void init() {
@@ -96,61 +97,28 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
      * Hook AV Dolby 设置界面
      */
     private void hookAVDolbyActivity() {
+        if (mAVDolbyActivityClass == null || mAVDolbyRefreshMethod == null || mPreferenceField == null) {
+            return;
+        }
         try {
-            // 查找 Activity 类
-            Class<?> activityClass = DexKit.findMember("AVDolby", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findClass(FindClass.create()
-                        .matcher(ClassMatcher.create().usingStrings("refreshOnEffectChangeBroadcast AV Dolby: "))
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find AVDolby class"));
-                }
-            });
-
-            // 查找刷新方法
-            Method refreshMethod = DexKit.findMember("AVDolby2", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass(activityClass)
-                            .usingStrings("refreshOnEffectChangeBroadcast AV Dolby: ")
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find AVDolby refresh method"));
-                }
-            });
-
-            // 查找音效选择字段
-            Field prefsField = DexKit.findMember("preference2", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                            .declaredClass(activityClass)
-                            .type(findClass("miuix.preference.DropDownPreference"))
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find preference field"));
-                }
-            });
-
             // Hook 方法
-            Method onCreate = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
-            Method onResume = activityClass.getDeclaredMethod("onResume");
+            Method onCreate = mAVDolbyActivityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
+            Method onResume = mAVDolbyActivityClass.getDeclaredMethod("onResume");
 
-            hookCallback(onCreate, createOnCreatePreferencesHook(prefsField));
+            hookCallback(onCreate, createOnCreatePreferencesHook(mPreferenceField));
 
             // 创建通用的刷新 Hook
             IMethodHook refreshHook = new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                    Object effectSelection = getFieldValue(param.getThisObject(), prefsField);
+                    Object effectSelection = getFieldValue(param.getThisObject(), mPreferenceField);
                     mEffectSelectionPrefsRef.set(effectSelection);
                     updateEffectSelectionState();
                     updateAutoSEffSwitchInfo();
                 }
             };
 
-            hookCallback(refreshMethod, refreshHook);
+            hookCallback(mAVDolbyRefreshMethod, refreshHook);
             hookCallback(onResume, refreshHook);
 
         } catch (Exception e) {

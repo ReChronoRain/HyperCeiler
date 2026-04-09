@@ -38,6 +38,7 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_sogou_xiaomi_clipboard"
+            android:summary="@string/sogou_xiaomi_clipboard_desc"
             android:title="@string/sogou_xiaomi_clipboard" />
 
         <SwitchPreference
@@ -46,11 +47,37 @@
             android:summary="@string/various_phrase_clipboardlist_more"
             android:title="@string/add_clipboard_clear" />
 
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_various_unlock_ime_style"
+            android:summary="@string/various_unlock_ime_desc"
+            android:title="@string/various_unlock_ime"
+            app:entries="@array/various_unlock_ime_style"
+            app:entryValues="@array/various_unlock_ime_style_value" />
+
+        <Preference
+            android:key="prefs_key_various_unlock_ime_apps"
+            android:summary="@string/various_unlock_ime_apps_desc"
+            android:title="@string/various_unlock_ime_apps" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="back"
+            android:key="prefs_key_various_aosp_ime_nav_bar_layout_start"
+            android:title="@string/various_aosp_ime_nav_bar_layout_start"
+            app:entries="@array/various_aosp_ime_nav_bar_layout_entries"
+            app:entryValues="@array/various_aosp_ime_nav_bar_layout_values" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="ime_switcher"
+            android:key="prefs_key_various_aosp_ime_nav_bar_layout_end"
+            android:title="@string/various_aosp_ime_nav_bar_layout_end"
+            app:entries="@array/various_aosp_ime_nav_bar_layout_entries"
+            app:entryValues="@array/various_aosp_ime_nav_bar_layout_values" />
+
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_various_unlock_ime"
-            android:summary="@string/various_unlock_ime_desc"
-            android:title="@string/various_unlock_ime" />
+            android:key="prefs_key_various_unlock_ime_show_all"
+            android:summary="@string/various_unlock_ime_show_all_desc"
+            android:title="@string/various_unlock_ime_show_all" />
 
     </PreferenceCategory>
 

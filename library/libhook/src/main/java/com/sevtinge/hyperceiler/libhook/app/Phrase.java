@@ -27,9 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
 @HookBase(targetPackage = "com.miui.phrase")
 public class Phrase extends BaseLoad {
 
-    public Phrase() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

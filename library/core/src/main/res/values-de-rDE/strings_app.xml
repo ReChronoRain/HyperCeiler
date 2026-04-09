@@ -1378,7 +1378,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi KI Übersetzer</string>
     <string name="aiasst_ai_captions">AI-Untertitel erzwingen</string>
-    <string name="aiasst_all_captions">Mehrsprachige Online-Untertitel freischalten</string>
     <!--Barrage-->
     <string name="barrage">Sperre</string>
     <string name="barrage_any_barrage">Allen Apps erlauben, Barrage-Benachrichtigungen zu verwenden</string>

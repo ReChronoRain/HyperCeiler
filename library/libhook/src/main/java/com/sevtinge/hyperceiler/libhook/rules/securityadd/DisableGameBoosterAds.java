@@ -19,11 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.securityadd;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.json.JSONObject;
 import org.luckypray.dexkit.DexKitBridge;
@@ -34,14 +30,22 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
-
-;
+import io.github.libxposed.api.XposedInterface;
 
 public class DisableGameBoosterAds extends BaseHook {
+    private Method mIsInternationalMethod;
+    private Method mXunyouMethod;
+
+    private static final ThreadLocal<Boolean> sInIsInternational = new ThreadLocal<>();
+
     @Override
-    public void init() {
-        Method method1 = DexKit.findMember("IsInternational", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mIsInternationalMethod = requiredMember("IsInternational", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -51,19 +55,7 @@ public class DisableGameBoosterAds extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method1, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod(JSONObject.class, "put", String.class, boolean.class, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        param.getArgs()[1] = true;
-                    }
-                });
-            }
-        });
-
-        Method method2 = DexKit.findMember("Xunyou", new IDexKit() {
+        mXunyouMethod = requiredMember("Xunyou", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -73,12 +65,30 @@ public class DisableGameBoosterAds extends BaseHook {
                 return methodData;
             }
         });
-        EzxHelpUtils.hookMethod(method2, new IReplaceHook() {
-            @Override
-            public Object replace(HookParam param) throws Throwable {
-                return null;
+        return true;
+    }
+
+    @Override
+    public void init() {
+        findAndChainMethod(JSONObject.class, "put",
+            String.class, boolean.class,
+            (XposedInterface.Hooker) chain -> {
+                if (Boolean.TRUE.equals(sInIsInternational.get())) {
+                    chain.getArgs().set(1, true);
+                }
+                return chain.proceed();
+            }
+        );
+
+        chain(mIsInternationalMethod, chain -> {
+            sInIsInternational.set(true);
+            try {
+                return chain.proceed();
+            } finally {
+                sInIsInternational.remove();
             }
         });
 
+        chain(mXunyouMethod, chain -> null);
     }
 }

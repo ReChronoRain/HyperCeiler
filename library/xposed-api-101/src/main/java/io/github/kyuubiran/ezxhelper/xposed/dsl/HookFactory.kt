@@ -319,7 +319,7 @@ class HookFactory private constructor(private val target: Executable) {
             priority: Int = XposedInterface.PRIORITY_DEFAULT,
             method: Method,
             exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
-            hooker: XposedInterface.Hooker,
+            hooker: Hooker,
         ): HookHandle = EzXposed.base.hook(method).setPriority(priority).setExceptionMode(exceptionMode).intercept(hooker)
 
         @JvmName("createConstructorHook")
@@ -359,7 +359,7 @@ class HookFactory private constructor(private val target: Executable) {
             priority: Int = XposedInterface.PRIORITY_DEFAULT,
             ctor: Constructor<*>,
             exceptionMode: XposedInterface.ExceptionMode = XposedInterface.ExceptionMode.DEFAULT,
-            hooker: XposedInterface.Hooker,
+            hooker: Hooker,
         ): HookHandle = EzXposed.base.hook(ctor).setPriority(priority).setExceptionMode(exceptionMode).intercept(hooker)
 
         @JvmName("createMethodHooks")

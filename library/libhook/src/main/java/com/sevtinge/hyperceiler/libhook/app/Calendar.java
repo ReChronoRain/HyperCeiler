@@ -19,16 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.calendar.UnlockSubscription;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.calendar")
 public class Calendar extends BaseLoad {
-
-    public Calendar() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

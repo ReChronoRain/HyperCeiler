@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.shell.IResult;
 import com.sevtinge.hyperceiler.dashboard.base.ActivityCallback;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
+import com.sevtinge.hyperceiler.home.IconTitleLoader;
 import com.sevtinge.hyperceiler.home.adapter.HomeContentAdapter;
 import com.sevtinge.hyperceiler.home.manager.PageDecorator;
 import com.sevtinge.hyperceiler.home.task.AppInitializer;
@@ -38,12 +40,17 @@ public class HomePageActivity extends AppCompatActivity
     implements ActivityCallback, IResult,
     PreferenceFragment.OnPreferenceStartFragmentCallback {
 
-    private static final String TAG = "HomePageActivity";
+    private static final String STATE_CURRENT_PAGE = "home_current_page";
 
     public ViewPager mViewPager;
     public HomeContentAdapter mContentAdapter;
 
     public SwitchManager mSwitchManager;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class HomePageActivity extends AppCompatActivity
         AppInitializer.initOnActivityCreate(this, this);
         setContentView(R.layout.activity_home);
         setupNavigation();
+        restoreCurrentPage(savedInstanceState);
     }
 
     private void setupNavigation() {
@@ -80,16 +88,39 @@ public class HomePageActivity extends AppCompatActivity
             mSwitchManager.setFloatingStyle(isEnabled);
         });
 
+        mViewPager = findViewById(R.id.vp_fragments);
+        rebuildContentPages();
+        new SwitchMediator(mSwitchManager, mViewPager, true).attach();
+    }
+
+    private void rebuildContentPages() {
         mContentAdapter = new HomeContentAdapter(this);
         mContentAdapter.addFragment(new HomePageFragment());
         mContentAdapter.addFragment(new SettingsPageFragment());
         mContentAdapter.addFragment(new AboutPageFragment());
 
-        mViewPager = findViewById(R.id.vp_fragments);
         mViewPager.setAdapter(mContentAdapter);
         mViewPager.setOffscreenPageLimit(3);
+    }
 
-        new SwitchMediator(mSwitchManager, mViewPager, true).attach();
+    public void reloadPagesForLanguageChange() {
+        if (isFinishing() || isDestroyed()) {
+            return;
+        }
+        // 首页应用名和页面上下文都依赖当前 locale，直接重建能避免旧 Context 残留。
+        IconTitleLoader.clearLabelCache();
+        recreate();
+    }
+
+    private void restoreCurrentPage(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState == null || mViewPager == null) {
+            return;
+        }
+        int currentItem = savedInstanceState.getInt(STATE_CURRENT_PAGE, 0);
+        mViewPager.setCurrentItem(currentItem, false);
+        if (mSwitchManager != null) {
+            mSwitchManager.setSelectedPosition(currentItem, false);
+        }
     }
 
     @Override
@@ -128,6 +159,14 @@ public class HomePageActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         PageDecorator.onPause();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        if (mViewPager != null) {
+            outState.putInt(STATE_CURRENT_PAGE, mViewPager.getCurrentItem());
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override

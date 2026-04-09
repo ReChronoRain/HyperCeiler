@@ -460,7 +460,7 @@
     <string name="system_framework_disable_miui_watermark">禁用全局水印</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">默认允许全部应用安装未知来源的应用</string>
     <string name="system_framework_bypass_force_mi_appstore">跳转到应用商店时强制显示选择器</string>
-	<string name="system_framework_bypass_force_mi_appstore_desc">避免无询问直接跳转小米应用商店，同时允许选择第三方应用商店</string>
+    <string name="system_framework_bypass_force_mi_appstore_desc">避免无询问直接跳转小米应用商店，同时允许选择第三方应用商店</string>
     <string name="system_framework_market_use_detailmini">跳转到小米应用商店时始终使用小窗口打开</string>
     <string name="system_framework_market_use_detailmini_desc">解除应用在未使用 appClientId 的情况下跳转到小米应用商店其他应用的详情页会被拒绝展示的限制</string>
     <string name="system_framework_bypass_force_downloadui">打开下载页面时不强制使用小米下载管理器</string>
@@ -496,6 +496,8 @@
     <string name="system_framework_core_patch_allow_update_system_app_desc">允许在被禁用更新系统应用时安装系统应用</string>
     <string name="system_framework_core_patch_unloss_fingerprint">禁用重置指纹</string>
     <string name="system_framework_core_patch_unloss_fingerprint_desc">也许能解决开启包管理服务部分功能后，重启设备导致指纹被重置的问题，仅供遇到此问题的设备使用</string>
+    <string name="system_framework_native_file_picker">使用原生文件选择器</string>
+    <string name="system_framework_native_file_picker_desc">不再使用 HyperOS 文件管理的安全访问</string>
     <!--浏览器-->
     <string name="browser">浏览器</string>
     <string name="browser_debug_mode">解锁开发者选项</string>
@@ -1056,6 +1058,8 @@
     <string name="home_navigation_assist_right_slide">左上滑动</string>
     <string name="home_navigation_assist_right_slide_desc">在任意界面从屏幕右下角向内滑动</string>
     <string name="home_navigation_disable_full_screen_back_gesture">禁用全屏返回手势</string>
+    <string name="home_navigation_predictive_progress">修复预测性返回进度</string>
+    <string name="home_navigation_predictive_progress_desc">实验性功能，修复在 Xiaomi HyperOS 系统的部分场景下，预测性返回进度行程过短的问题</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
     <string name="home_gesture_title2">手势</string>
@@ -1499,7 +1503,6 @@
     <!--小爱翻译-->
     <string name="aiasst">小爱翻译</string>
     <string name="aiasst_ai_captions">强制启用实时字幕</string>
-    <string name="aiasst_all_captions">解锁多语言在线字幕</string>
     <string name="aiasst_unlock_split_screen_translation">解锁分屏翻译</string>
     <!--弹幕通知-->
     <string name="barrage">弹幕通知</string>
@@ -1548,6 +1551,7 @@
     <!--搜狗输入法-->
     <string name="sogou_xiaomi">搜狗输入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪贴板数量限制</string>
+    <string name="sogou_xiaomi_clipboard_desc">解除搜狗输入法、百度输入法及这两个的小米定制版输入法内自身的剪切板数量限制</string>
     <string name="add_clipboard_clear">添加清空剪贴板按钮</string>
     <!--小爱视觉-->
     <string name="scanner_hyper">AI 扫描</string>
@@ -1562,6 +1566,13 @@
     <string name="telecom">通话管理</string>
     <string name="scam_reminder_bypass_caption">允许直接拨打呼叫转移 MMI 码</string>
     <string name="scam_reminder_bypass_description">允许直接拨打类似 **21*8# 的 MMI 码以开启呼叫转移</string>
+    <!--超级小爱-->
+    <string name="voiceassist">超级小爱</string>
+    <string name="voiceassist_remove_screen_trans_watermark">移除屏幕翻译 \"AI 生成\" 水印</string>
+    <!--照片和视频-->
+    <string name="photopicker">照片和视频</string>
+    <string name="photopicker_disable_reroute">使用原生照片和文件选择器</string>
+    <string name="photopicker_disable_reroute_desc">不再使用 HyperOS 相册和文件管理提供的服务</string>
     <!--语音唤醒-->
     <string name="voicetrigger">语音唤醒</string>
     <string name="bypass_udk_word_legal_check_caption">允许无网录入唤醒词</string>
@@ -1596,7 +1607,18 @@
     <string name="various_phrase_clipboardlist">解除常用语剪贴板条数和时间限制</string>
     <string name="various_phrase_clipboardlist_more">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
-    <string name="various_unlock_ime_desc">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
+    <string name="various_unlock_ime_desc">对目标输入法启用所选样式的全面屏优化\n原生风格需要额外勾选系统框架作用域\n选择原生风格后只对非小米定制版生效，小米定制版勾选将加入键盘可切换列表</string>
+    <string name="various_unlock_ime_apps">目标输入法</string>
+    <string name="various_unlock_ime_apps_desc">若所选输入法未加入作用域，将同时申请作用域</string>
+    <string name="various_unlock_ime_show_all">显示全部输入法列表</string>
+    <string name="various_unlock_ime_show_all_desc">部分输入法由于没有查看应用列表权限，可能会导致输入法切换列表显示不全\n此功能需要额外勾选系统框架，但可能会有性能影响，请谨慎开启</string>
+    <string name="various_unlock_ime_style_miui">MIUI 风格</string>
+    <string name="various_unlock_ime_style_aosp">原生风格</string>
+    <string name="various_aosp_ime_nav_bar_layout_start">左侧功能键</string>
+    <string name="various_aosp_ime_nav_bar_layout_end">右侧功能键</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">收起输入法</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">切换输入法</string>
+    <string name="various_input_method_apps_count">已选择 %1$d 个输入法</string>
     <string name="various_collapse_miui_title">系统标题样式</string>
     <string name="various_collapse_miui_title_desc">调整系统应用中的顶栏标题</string>
     <string name="various_disable_folder_cantuse">移除部分文件夹不可选择限制</string>

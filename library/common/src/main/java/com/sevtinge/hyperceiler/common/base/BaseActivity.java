@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.common.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,12 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.R;
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 
 import fan.appcompat.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected FrameLayout mContent;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

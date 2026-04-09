@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">搜索记录</string>
     <string name="search_history_clear_description">清除搜索记录</string>
     <string name="revert">还原</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">OS版本</string>
     <string name="pull_to_enter_private">向下拉进入隐私空间</string>
     <string name="release_enter_private">释放进入隐私空间</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">全选</string>
     <string name="miuix_appcompat_cancel_description">取消</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">搜索</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">更多</string>
     <string name="miuix_appcompat_action_mode_inverse">反选</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">提示</string>
     <string name="root">未授予Root/Su权限部分功能不可用</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">目标应用未运行，不需要重启。</string>
     <string name="reboot_failed">重启失败，请检查是否为 HyperCeiler 授予了 Root/Su 权限</string>
     <string name="experimental_features">实验性功能</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">异常终止</string>
     <string name="warn">警告</string>
@@ -106,19 +102,14 @@
     <string name="supported_system_func">当前系统版本官方已支持此功能</string>
     <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
     <string name="load_failed">加载失败。</string>
-
     <!--System UI-->
     <string name="system_ui">系统界面</string>
-
     <!--System launcher-->
     <string name="mihome">系统桌面</string>
-
     <!--Settings-->
     <string name="system_settings">设置</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">安全服务</string>
-
     <!--Other-->
     <string name="exit">退出</string>
     <string name="ignore">忽略</string>
@@ -153,7 +144,6 @@
     <string name="debug_mode_switch">调试版本</string>
     <string name="debug_mode_home_version">设置 系统桌面 版本号</string>
     <string name="debug_mode_home_version_desc">过高的版本号仍旧会被拦截，请认真填写</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">搜索日志</string>
     <string name="log_level_label">级别</string>
@@ -183,14 +173,12 @@
     <string name="log_empty_no_logs">暂无日志</string>
     <string name="log_empty_no_results">未找到匹配的日志</string>
     <string name="log_empty_root_required">请授予 Root 权限后重启应用以加载</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">日志详情</string>
     <string name="log_detail_time">时间</string>
     <string name="log_detail_level">级别</string>
     <string name="log_detail_tag">标签</string>
     <string name="log_detail_message">具体信息</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">日志加载中…</string>
     <string name="log_viewer">查看日志</string>

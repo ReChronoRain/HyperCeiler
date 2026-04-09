@@ -42,7 +42,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearMi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
@@ -50,6 +49,13 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object BlurSecurity : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        lottieAnimation
+        gameManagerMethod
+        return true
+    }
     private val blurRadius by lazy {
         PrefsBridge.getInt("security_center_blurradius", 60)
     }
@@ -84,10 +90,21 @@ object BlurSecurity : BaseHook() {
     private val keepColorList = arrayOf("rv_information")
 
     private val lottieAnimation by lazy<Method> {
-        DexKit.findMember("BlurSecurity1") {
+        requiredMember("BlurSecurity1") {
             it.findMethod {
                 matcher {
                     addUsingString("game_turbo_box_mode_change")
+                }
+            }.single()
+        }
+    }
+
+    private val gameManagerMethod by lazy<Method> {
+        requiredMember("BlurSecurity2") {
+            it.findMethod {
+                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
+                matcher {
+                    usingStrings = listOf("addView error")
                 }
             }.single()
         }
@@ -261,15 +278,6 @@ object BlurSecurity : BaseHook() {
                 "seekbar_text_size",
                 "seekbar_text_speed"
             )
-
-            val gameManagerMethod = DexKit.findMember<Method>("BlurSecurity2") {
-                it.findMethod {
-                    searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
-                    matcher {
-                        usingStrings = listOf("addView error")
-                    }
-                }.single()
-            }
 
             gameManagerMethod.createAfterHook {
                 val view = it.args[0] as View
@@ -516,3 +524,4 @@ object BlurSecurity : BaseHook() {
     }
 
 }
+

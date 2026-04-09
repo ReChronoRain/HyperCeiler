@@ -20,8 +20,8 @@ public class BannerBean {
     private String backgroundColor;
 
     private int iconResId = -1;
-    private int titleResId = -1;
-    private int subTitleResId = -1;
+    private final int titleResId = -1;
+    private final int subTitleResId = -1;
 
     private int titleColorResId = -1;
     private int subTitleColorResId = -1;
@@ -174,17 +174,14 @@ public class BannerBean {
     }
 
     public boolean equals(Object obj) {
-        if (!(obj instanceof BannerBean)) {
+        if (!(obj instanceof BannerBean bannerBean)) {
             return false;
         }
         if (this == obj) {
             return true;
         }
         if (obj != null && getClass() == obj.getClass()) {
-            BannerBean bannerBean = (BannerBean) obj;
-            if (this.priority == bannerBean.priority && this.arrowIcon == bannerBean.arrowIcon && TextUtils.equals(this.authority, bannerBean.authority) && TextUtils.equals(this.pkg, bannerBean.pkg) && TextUtils.equals(this.id, bannerBean.id) && TextUtils.equals(this.title, bannerBean.title) && TextUtils.equals(this.summary, bannerBean.summary) && TextUtils.equals(this.icon, bannerBean.icon) && TextUtils.equals(this.action, bannerBean.action) && TextUtils.equals(this.extras, bannerBean.extras) && TextUtils.equals(this.url, bannerBean.url)) {
-                return true;
-            }
+            return this.priority == bannerBean.priority && this.arrowIcon == bannerBean.arrowIcon && TextUtils.equals(this.authority, bannerBean.authority) && TextUtils.equals(this.pkg, bannerBean.pkg) && TextUtils.equals(this.id, bannerBean.id) && TextUtils.equals(this.title, bannerBean.title) && TextUtils.equals(this.summary, bannerBean.summary) && TextUtils.equals(this.icon, bannerBean.icon) && TextUtils.equals(this.action, bannerBean.action) && TextUtils.equals(this.extras, bannerBean.extras) && TextUtils.equals(this.url, bannerBean.url);
         }
         return false;
     }

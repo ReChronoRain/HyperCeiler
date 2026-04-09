@@ -286,6 +286,13 @@
                 android:data="https://github.com/YuKongA/MediaControl-BlurBg" />
         </Preference>
         <Preference
+            android:summary="Howard20181 | GPL-3.0"
+            android:title="Mi_AOSP_IME">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/Howard20181/Mi_AOSP_IME" />
+        </Preference>
+        <Preference
             android:summary="Art-Chen | AGPL-3.0"
             android:title="MIUI Extra">
             <intent

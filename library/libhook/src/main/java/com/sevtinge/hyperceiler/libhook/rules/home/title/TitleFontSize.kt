@@ -20,14 +20,14 @@ package com.sevtinge.hyperceiler.libhook.rules.home.title
 
 import android.util.TypedValue
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookConstructor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.common.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 
@@ -43,7 +43,7 @@ class TitleFontSize : HomeBaseHookNew() {
         }
 
         val defaultSizePx by lazy {  // 必须在 hooker 内被 call，DeviceConfig 依赖 Context
-            findClass("com.miui.home.launcher.DeviceConfig").callStaticMethod("getIconTitleTextSize") as Float
+            findClass("com.miui.home.common.device.DeviceConfigs").callStaticMethod("getIconTitleTextSize") as Float
         }
 
         val appIconClass =
@@ -62,13 +62,12 @@ class TitleFontSize : HomeBaseHookNew() {
 
         if (desktopSp == 12f) return
         // 文件夹标题
-        // Todo: 堆叠桌面版本不存在此类,需要修复
         runCatching {
-            findClass("com.miui.home.launcher.TitleTextView").replaceMethod("updateSizeOnIconSizeChanged") {
+            findClass("com.miui.home.icon.TitleTextView").replaceMethod("updateSizeOnIconSizeChanged") {
                 (it.thisObject as TextView).textSize = desktopSp
             }
 
-            findClass("com.miui.home.launcher.TitleTextView").afterHookConstructor {
+            findClass("com.miui.home.icon.TitleTextView").afterHookConstructor {
                 (it.thisObject as TextView).textSize = desktopSp
             }
         }.onFailure {

@@ -9,7 +9,6 @@
 
 # --- UI / fan ---
 -keep class fan.** { *; }
--keep class miuix.mgl.** { *; }
 
 # --- Warnings ---
 -dontwarn miui.**

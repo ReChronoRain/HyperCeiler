@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -30,6 +31,11 @@ import fan.appcompat.app.AppCompatActivity;
 import fan.provision.OobeUtils;
 
 public class SplashActivity extends AppCompatActivity {
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(com.sevtinge.hyperceiler.utils.LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

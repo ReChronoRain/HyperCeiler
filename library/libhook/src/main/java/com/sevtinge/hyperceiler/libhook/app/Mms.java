@@ -29,9 +29,6 @@ import com.sevtinge.hyperceiler.libhook.rules.mms.ImOldDevice;
 @HookBase(targetPackage = "com.android.mms")
 public class Mms extends BaseLoad {
 
-    public Mms() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

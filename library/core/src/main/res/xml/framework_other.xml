@@ -138,6 +138,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_framework_native_file_picker"
+            android:summary="@string/system_framework_native_file_picker_desc"
+            android:title="@string/system_framework_native_file_picker" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_framework_other_disable_cleaner"
             android:summary="@string/system_framework_other_disable_cleaner_desc"
             android:title="@string/system_framework_other_disable_cleaner" />

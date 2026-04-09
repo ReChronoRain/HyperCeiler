@@ -95,7 +95,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
                 public void onReceive(Context ctx, Intent intent) {
                     updateAlarmVisibility(policy, lastAlarmState);
                 }
-            }, filter);
+            }, filter, Context.RECEIVER_EXPORTED);
         }
     }
 

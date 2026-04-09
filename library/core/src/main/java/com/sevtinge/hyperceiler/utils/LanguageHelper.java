@@ -60,6 +60,14 @@ public class LanguageHelper {
         AppLanguageHelper.setIndexLanguage(activity, index, recreate);
     }
 
+    public static void clearLanguage(Context context) {
+        AppLanguageHelper.clearLanguage(context);
+    }
+
+    public static Context wrapContext(Context base) {
+        return AppLanguageHelper.wrapContext(base);
+    }
+
     public static String getLanguage(Context context) {
         return AppLanguageHelper.getLanguage(context);
     }
@@ -78,6 +86,30 @@ public class LanguageHelper {
 
     public static Locale localeFromAppLanguage(String lang) {
         return AppLanguageHelper.localeFromAppLanguage(lang);
+    }
+
+    public static Locale localeFromIndex(int index) {
+        return AppLanguageHelper.localeFromIndex(index);
+    }
+
+    public static Locale getCurrentLocale(Context context) {
+        return AppLanguageHelper.getCurrentLocale(context);
+    }
+
+    public static int getCurrentLanguageIndex(Context context) {
+        return AppLanguageHelper.getCurrentLanguageIndex(context);
+    }
+
+    public static CharSequence[] getLanguageEntries(Context context) {
+        return AppLanguageHelper.getLanguageEntries(context);
+    }
+
+    public static CharSequence[] getLanguageEntryValues() {
+        return AppLanguageHelper.getLanguageEntryValues();
+    }
+
+    public static boolean hasExplicitLanguage(Context context) {
+        return AppLanguageHelper.hasExplicitLanguage(context);
     }
 
 }

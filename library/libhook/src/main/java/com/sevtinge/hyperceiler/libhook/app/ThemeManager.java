@@ -19,19 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowDownloadMore;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.AllowThirdTheme;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.DisableThemeAdNew;
 import com.sevtinge.hyperceiler.libhook.rules.thememanager.UnlockAIWallPaper;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.thememanager")
 public class ThemeManager extends BaseLoad {
 
-    public ThemeManager() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
