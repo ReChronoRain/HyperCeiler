@@ -233,17 +233,16 @@ object DeviceHelper {
                 }
             }
 
-            @SuppressLint("DefaultLocale")
             fun getDisplayVersion(): String {
                 val version = smallVersion
                 val major = version.roundToInt()
                 val decimal = version - major
 
                 return if (decimal < 0.001f) {
-                    String.format("%d.0", major)
+                    String.format(Locale.ROOT, "%d.0", major)
                 } else {
                     val patch = (decimal * 1000).roundToInt()
-                    String.format("%d.0.%d", major, patch)
+                    String.format(Locale.ROOT, "%d.0.%d", major, patch)
                 }
             }
 
@@ -263,7 +262,7 @@ object DeviceHelper {
                 // VersionInfo(37, 3.0f, 3.3f, SUPPORT_PARTIAL),
 
                 // 未适配
-                VersionInfo(36, 2.0f, 2.23f, SUPPORT_NOT)
+                VersionInfo(36, 2.0f, 2.2f, SUPPORT_NOT)
             )
         }
 
@@ -297,10 +296,10 @@ object DeviceHelper {
 
         @JvmStatic
         fun getXmsVersion(): String = runCatching {
-                getProp("persist.sys.xms.version")
-            }.recoverCatching {
-                getProp("ro.mi.xms.version.incremental")
-            }.getOrElse { "null" }
+            getProp("persist.sys.xms.version")
+        }.recoverCatching {
+            getProp("ro.mi.xms.version.incremental")
+        }.getOrElse { "null" }
 
         @JvmStatic
         fun getRomAuthor(): String = getProp("ro.rom.author") + getProp("ro.romid")
@@ -320,10 +319,11 @@ object DeviceHelper {
         @JvmStatic
         fun getHyperOSVersion(): Float = hyperOSSDK
 
-        @SuppressLint("DefaultLocale")
         @JvmStatic
-        fun getSmallVersion(): Float =
-            String.format("%.1f", hyperOSSDK + smallVersion * 0.001f).toFloatOrNull() ?: -1f
+        fun getSmallVersion(): Float {
+            val tenth = smallVersion / 100
+            return hyperOSSDK + (tenth * 0.1f)
+        }
 
         @JvmStatic
         fun isSupportTelephony(context: Context): Boolean =
@@ -380,7 +380,6 @@ object DeviceHelper {
             }
         }
 
-        @SuppressLint("DefaultLocale")
         @JvmStatic
         fun getVersionListText(status: Int): String {
             return getVersionsByStatus(status).joinToString("\n") { info ->
