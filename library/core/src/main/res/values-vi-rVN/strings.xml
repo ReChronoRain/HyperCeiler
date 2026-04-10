@@ -91,4 +91,7 @@
     <string name="search_apps_hint">Tìm kiếm %d ứng dụng</string>
     <string name="load_apps_failed">Không tải được danh sách ứng dụng</string>
     <string name="search_result_not_available">Tính năng này có thể không được hỗ trợ trên thiết bị này hoặc có thể bị ẩn trong một số tùy chọn</string>
+    <string name="unsupported_app_version_func">Phiên bản ứng dụng hiện tại không hỗ trợ tính năng này</string>
+    <string name="supported_app_version_func">Phiên bản ứng dụng hiện tại hỗ trợ tính năng này</string>
+    <string name="app_version_unavailable_warning_banner">Hiện tại không thể lấy được số phiên bản của ứng dụng này. Để đảm bảo an toàn bảo mật, tất cả các chức năng của ứng dụng này đã bị vô hiệu hóa.</string>
 </resources>

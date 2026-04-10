@@ -181,4 +181,5 @@
     <string name="log_empty_no_logs">Chưa có nhật ký nào</string>
     <string name="log_empty_no_results">Không tìm thấy nhật ký phù hợp</string>
     <string name="log_empty_root_required">Cấp quyền Root và khởi động lại ứng dụng để tải nhật ký</string>
+    <string name="load_failed">Tải thất bại.</string>
 </resources>

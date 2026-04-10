@@ -56,7 +56,7 @@
     <string name="system_ui_hide_navigation_bar_toast">Không chuyển sang điều hướng bằng nút</string>
     <string name="system_ui_hide_navigation_bar_toast_2">Không ẩn thanh cử chỉ</string>
     <string name="system_ui_hide_navigation_bar_more">Vui lòng khởi động lại trình Khởi chạy hệ thống và các phạm vi Giao diện người dùng hệ thống</string>
-    <string name="system_framework_guided_access_status">Ẩn thanh trạng thái khi ứng dụng được ghim</string>
+    <string name="system_framework_guided_access_status">Tăng cường khả năng chống chịu</string>
     <string name="system_framework_guided_access_status_more">Cách thoát sẽ thay đổi thành nhấn giữ nút nguồn. Thanh trạng thái sẽ ẩn cho đến khi bạn thoát khỏi chế độ khóa</string>
     <string name="system_framework_guided_access">Ứng dụng đã cố định</string>
     <string name="system_framework_guided_access_more">Khi sử dụng, cần đồng thời bật phạm vi "System UI" và "System launcher"</string>
@@ -118,4 +118,17 @@
     <string name="aicr_modify_browser_copy">Thay đổi trình duyệt được sử dụng để sao chép và truy cập trực tiếp.</string>
     <string name="xmsf">Khung dịch vụ Xiaomi</string>
     <string name="xmsf_unlock_foucs_app_sign_white_list">Mở khóa thông báo tập trung danh sách cho phép xác minh chữ ký</string>
+    <string name="security_center_battery_design_capacity">Dung lượng thiết kế pin</string>
+    <string name="security_center_battery_full_capacity">Dung lượng pin đầy</string>
+    <string name="security_center_battery_capacity_format">%1$d mAh</string>
+    <string name="system_framework_guided_access_tile">Lối vào ô cài đặt nhanh</string>
+    <string name="system_framework_guided_access_tile_more">Thêm mục ô Truy cập nhanh có hướng dẫn</string>
+    <string name="system_framework_guided_access_block_dialog">Chặn cửa sổ bật lên của ứng dụng cố định</string>
+    <string name="system_framework_guided_access_block_dialog_more">Chặn cửa sổ bật lên có thể gây ra những sự cố không mong muốn</string>
+    <string name="system_framework_guided_access_exit_lockscreen">Vào màn hình khóa sau khi bỏ ghim</string>
+    <string name="system_framework_guided_access_exit_lockscreen_more">Sau khi thoát khỏi chế độ ghim, hãy chuyển đến màn hình khóa</string>
+    <string name="home_share_apk_preparing">Đang chuẩn bị tệp…</string>
+    <string name="home_share_apk_preparing_split">Đóng gói và chia nhỏ tệp APK (tổng cộng %1$d tệp)…</string>
+    <string name="home_share_apk_failed">Chia sẻ thất bại</string>
+    <string name="home_share_apk_prepare_failed">Chuẩn bị tập tin thất bại</string>
 </resources>
