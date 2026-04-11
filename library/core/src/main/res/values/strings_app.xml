@@ -665,6 +665,7 @@
     <string name="system_ui_statusbar_island_media_card_title">Media card</string>
     <string name="system_ui_statusbar_music_title">Focus lyrics</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">Double-tap status bar to sleep</string>
+    <string name="system_ui_status_bar_disable_scroll_to_top">Disable single-tap status bar to scroll to top</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">Double row signal bar</string>
     <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">This feature is disabled because the mobile network signal card icon is currently hidden</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">Icon themes</string>
