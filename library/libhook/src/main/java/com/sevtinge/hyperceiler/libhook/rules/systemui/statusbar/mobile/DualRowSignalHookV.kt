@@ -34,7 +34,6 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.setStateFlowValue
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Dependency
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.mobileSignalController
@@ -87,7 +86,7 @@ class DualRowSignalHookV : BaseHook() {
     private val dualSignalResMap = HashMap<String, Int>()
 
     private val setImageResWithTintLight by lazy {
-        DexKit.findMember("SetImageResWithTintLight") { bridge ->
+        requiredMember("SetImageResWithTintLight") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass(miuiMobileIconBinder)
@@ -96,6 +95,13 @@ class DualRowSignalHookV : BaseHook() {
                 }
             }.singleOrNull()
         } as Method
+    }
+
+    override fun useDexKit(): Boolean = true
+
+    override fun initDexKit(): Boolean {
+        setImageResWithTintLight
+        return true
     }
 
     override fun init() {
