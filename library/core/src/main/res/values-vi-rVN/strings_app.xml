@@ -1714,4 +1714,7 @@
     <string name="various_unlock_ime_style_aosp">Phong cách AOSP</string>
     <string name="various_aosp_ime_nav_bar_layout_start">Các phím chức năng bên trái</string>
     <string name="various_aosp_ime_nav_bar_layout_end">Các phím chức năng bên phải</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">Ẩn phương thức nhập</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">Chuyển đổi phương thức nhập</string>
+    <string name="various_input_method_apps_count">%1$d phương thức nhập liệu được chọn</string>
 </resources>
