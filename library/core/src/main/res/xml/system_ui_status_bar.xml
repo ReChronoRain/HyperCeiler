@@ -52,6 +52,11 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_disable_scroll_to_top"
+            android:title="@string/system_ui_status_bar_disable_scroll_to_top" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_hide_icon"
             android:title="@string/system_ui_status_bar_hide_icon" />
 
