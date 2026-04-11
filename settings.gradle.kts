@@ -11,9 +11,13 @@ fun loadGprCredentials(): GprCredentials {
         return GprCredentials(envUser, envKey)
     }
 
+    val isPR = System.getenv("GITHUB_EVENT_NAME") == "pull_request"
+    val isDebug = gradle.startParameter.taskNames.any { it.contains("debug", ignoreCase = true) }
+
     // 从 signing.properties 读取
     val propsFile = File(rootDir, "signing.properties")
     if (!propsFile.exists()) {
+        if (isPR || isDebug) return GprCredentials("", "")
         throw GradleException(
             "Missing GitHub credentials. Please either:\n" +
             "  1. Set GIT_ACTOR and GIT_TOKEN environment variables, or\n" +
@@ -29,6 +33,7 @@ fun loadGprCredentials(): GprCredentials {
     val key = props.getProperty("gpr.key")?.takeIf { it.isNotBlank() }
 
     if (user == null || key == null) {
+        if (isPR || isDebug) return GprCredentials("", "")
         throw GradleException("'gpr.user' and 'gpr.key' must be set in 'signing.properties'")
     }
 
