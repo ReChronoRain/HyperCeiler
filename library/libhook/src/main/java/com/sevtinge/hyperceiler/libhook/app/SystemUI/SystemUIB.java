@@ -115,7 +115,7 @@ public class SystemUIB extends BaseLoad {
         // PluginHelper
         initHook(NewPluginHelperKt.INSTANCE);
         // Actions
-        initHook(new StatusBarActionBootstrap(), true);
+        initHook(new StatusBarActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
 
         // 锁屏
         initHook(HideLockScreenHint.INSTANCE, PrefsBridge.getBoolean("system_ui_lock_screen_unlock_tip"));

@@ -58,7 +58,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.SmallFolderIconBlur;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
-import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
@@ -132,22 +132,24 @@ public class HomePadOld extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        boolean gesturesEnabled = PrefsBridge.getBoolean("home_gesture_enable");
+        boolean hasCornerGestureAction = PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0
+            || PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0;
+        boolean hasScreenSwipeAction = PrefsBridge.getInt("home_gesture_up_swipe_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_up_swipe2_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0;
+        boolean hasGestureLineAction = PrefsBridge.getInt("home_gesture_line_long_press_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_line_double_click_action", 0) > 0;
 
         // 手势
         initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
         initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
-        initHook(new CornerSlide(),
-            PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
-                PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0
-        );
-        initHook(new DoubleTap(), PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);
-        initHook(new ScreenSwipe(), PrefsBridge.getInt("home_gesture_up_swipe_action", 0) > 0 ||
-            PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0 ||
-            PrefsBridge.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
-            PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0);
-        initHook(new HotSeatSwipe(), PrefsBridge.getInt("home_gesture_left_swipe_action", 0) > 0
-            || PrefsBridge.getInt("home_gesture_right_swipe_action", 0) > 0);
-        initHook(new ShakeDevice(), PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
+        initHook(new CornerSlide(), gesturesEnabled && hasCornerGestureAction);
+        initHook(new DoubleTap(), gesturesEnabled && PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);
+        initHook(new ScreenSwipe(), gesturesEnabled && hasScreenSwipeAction);
+        initHook(new ShakeDevice(), gesturesEnabled && PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
+        initHook(GestureLine.INSTANCE, gesturesEnabled && hasGestureLineAction);
         // initHook(new SwipeAndStop(), PrefsBridge.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
 
         initHook(new BackGestureAreaHeight(), PrefsBridge.getInt("home_navigation_back_area_height", 60) != 60);

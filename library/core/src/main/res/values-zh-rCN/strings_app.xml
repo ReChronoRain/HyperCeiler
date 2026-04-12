@@ -299,6 +299,13 @@
     <string name="array_global_actions_powermenu_short">电源菜单</string>
     <string name="array_global_actions_clear_memory">清理内存</string>
     <string name="array_global_actions_invert_colors">颜色反转</string>
+    <string name="array_global_actions_home">返回桌面</string>
+    <string name="array_global_actions_control_center">打开控制中心</string>
+    <string name="array_global_actions_super_xiaoai">呼出超级小爱</string>
+    <string name="array_global_actions_super_xiaoai_circle_search">呼出超级小爱识屏</string>
+    <string name="array_global_actions_google_circle_to_search">呼出 Google 即圈即搜</string>
+    <string name="array_global_actions_google_voice_assistant">呼出 Google 语音助手</string>
+    <string name="array_global_actions_force_stop_current_app">停止当前应用</string>
     <string name="array_global_actions_switchkeyboard">切换键盘</string>
     <string name="array_global_actions_goback">返回</string>
     <string name="array_global_actions_onehanded_left">单手模式 (左)</string>
@@ -1062,7 +1069,10 @@
     <string name="home_navigation_predictive_progress_desc">实验性功能，修复在 Xiaomi HyperOS 系统的部分场景下，预测性返回进度行程过短的问题</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
     <string name="home_navigation_back_area_width">返回手势区域宽度</string>
+    <string name="home_gesture_enable">启用手势功能</string>
+    <string name="home_gesture_enable_desc">启用后，需要额外勾选系统框架和系统界面作用域才能生效</string>
     <string name="home_gesture_title2">手势</string>
+    <string name="home_gesture_google_usage_banner">Google 语音助手、Google 即圈即搜使用说明：\n- 需要安装 Google 应用\n- 需要设置 Google 为默认数字助理\n- 如遇到呼不出 Google 语音助手，请确保 Google 应用在后台运行或重新设置默认数字助理\n- 如遇到呼不出 Google 即圈即搜或提示不可用，可以勾选 Google 作用域伪装成支持的设备</string>
     <string name="home_gesture_mainscreen_title">主屏幕</string>
     <string name="home_gesture_gesture_title">全面屏手势</string>
     <string name="home_gesture_double_tap">双击</string>

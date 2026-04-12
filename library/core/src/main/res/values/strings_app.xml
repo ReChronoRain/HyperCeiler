@@ -339,6 +339,13 @@
     <string name="array_global_actions_powermenu_short">Power menu</string>
     <string name="array_global_actions_clear_memory">Clear memory</string>
     <string name="array_global_actions_invert_colors">Color inversion</string>
+    <string name="array_global_actions_home">Go home</string>
+    <string name="array_global_actions_control_center">Open Control Center</string>
+    <string name="array_global_actions_super_xiaoai">Open Super XiaoAi</string>
+    <string name="array_global_actions_super_xiaoai_circle_search">Open Super XiaoAi screen recognition</string>
+    <string name="array_global_actions_google_circle_to_search">Open Google Circle to Search</string>
+    <string name="array_global_actions_google_voice_assistant">Open Google Voice Assistant</string>
+    <string name="array_global_actions_force_stop_current_app">Stop current app</string>
     <string name="array_global_actions_switchkeyboard">Switch keyboard</string>
     <string name="array_global_actions_goback">Back</string>
     <string name="array_global_actions_onehanded_left">One-handed mode (Left)</string>
@@ -1111,7 +1118,10 @@
     <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation bar was too short in certain scenarios on the Xiaomi HyperOS system.</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
+    <string name="home_gesture_enable">Enable gestures</string>
+    <string name="home_gesture_enable_desc">After enabling, you also need to enable the System Framework and System UI scopes before it takes effect</string>
     <string name="home_gesture_title2">Gesture</string>
+    <string name="home_gesture_google_usage_banner">Google Voice Assistant and Google Circle Search Instructions:\n- You need to install the Google app\n- You need to set Google as the default digital assistant\n- If you cannot call Google Voice Assistant, please make sure the Google app is running in the background or reset the default digital assistant\n- If you cannot call Google Circle Search or the prompt is unavailable, you can check the Google scope to pretend to be a supported device</string>
     <string name="home_gesture_mainscreen_title">Homepage</string>
     <string name="home_gesture_gesture_title">Full screen gesture</string>
     <string name="home_gesture_double_tap">Double tap</string>
