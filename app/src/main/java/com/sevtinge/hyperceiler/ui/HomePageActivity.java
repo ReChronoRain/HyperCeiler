@@ -2,9 +2,12 @@ package com.sevtinge.hyperceiler.ui;
 
 import static android.os.Process.killProcess;
 import static android.os.Process.myPid;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_FULL;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.SUPPORT_PARTIAL;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getVersionListText;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isVersionListed;
 
 import android.content.Context;
@@ -194,11 +197,18 @@ public class HomePageActivity extends AppCompatActivity
             getAndroidVersion(),
             formatHyperOsVersion()
         );
+        String supportedVersionText = getVersionListText(SUPPORT_FULL);
+        String partialSupportedVersionText = getVersionListText(SUPPORT_PARTIAL);
+        if (!partialSupportedVersionText.isEmpty()) {
+            supportedVersionText = supportedVersionText.isEmpty()
+                ? partialSupportedVersionText
+                : supportedVersionText + "\n" + partialSupportedVersionText;
+        }
 
         AlertDialog dialog = new AlertDialog.Builder(this)
             .setCancelable(false)
             .setTitle(R.string.warn)
-            .setMessage(getString(R.string.homepage_unsupported_version_message, versionText))
+            .setMessage(getString(R.string.homepage_unsupported_version_message, versionText, supportedVersionText))
             .setPositiveButton(R.string.exit, (d, which) -> exitForUnsupportedVersion())
             .create();
 
