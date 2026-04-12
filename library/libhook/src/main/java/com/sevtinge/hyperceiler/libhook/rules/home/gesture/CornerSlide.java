@@ -18,6 +18,7 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
 
 import android.content.Context;
@@ -43,26 +44,49 @@ public class CornerSlide extends BaseHook {
             "isSupportGoogleAssist", int.class,
             returnConstant(true));
         Class<?> FsGestureAssistHelper = findClassIfExists("com.miui.home.recents.FsGestureAssistHelper");
-        findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
-            float.class, float.class, long.class,
-            new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
-                        "isAssistantGestureDisabled", param.getArgs()[2]);
-                    if (!isDisabled) {
-                        int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
-                        float f = (float) param.getArgs()[0];
-                        float f2 = (float) param.getArgs()[1];
-                        if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
-                            param.setResult(true);
-                            return;
+        if (isPad()) {
+            findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
+                float.class, float.class, int.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                            "isAssistantGestureDisabled", param.getArgs()[2]);
+                        if (!isDisabled) {
+                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            float f = (float) param.getArgs()[0];
+                            float f2 = (float) param.getArgs()[1];
+                            if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
+                                param.setResult(true);
+                                return;
+                            }
                         }
+                        param.setResult(false);
                     }
-                    param.setResult(false);
                 }
-            }
-        );
+            );
+        } else {
+            findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
+                float.class, float.class, long.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                            "isAssistantGestureDisabled", param.getArgs()[2]);
+                        if (!isDisabled) {
+                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            float f = (float) param.getArgs()[0];
+                            float f2 = (float) param.getArgs()[1];
+                            if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
+                                param.setResult(true);
+                                return;
+                            }
+                        }
+                        param.setResult(false);
+                    }
+                }
+            );
+        }
 
         // final int[] inDirection = {0};
         hookAllMethods(FsGestureAssistHelper,
@@ -98,10 +122,12 @@ public class CornerSlide extends BaseHook {
                         return;
                     }
                     String direction = inDirection == 1 ? "right" : "left";
-                    GlobalActionBridge.handleAction(
+                    if (GlobalActionBridge.handleAction(
                         EzXposed.getAppContext(),
                         "home_navigation_assist_" + direction + "_slide"
-                    );
+                    )) {
+                        param.setResult(null);
+                    }
                 }
             }
         );

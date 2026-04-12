@@ -19,30 +19,43 @@
 package com.sevtinge.hyperceiler.libhook.appbase.systemframework;
 
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
+import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Binder;
+import android.os.Bundle;
+import android.os.IBinder;
 import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.github.libxposed.api.XposedInterface;
+import io.github.libxposed.api.XposedInterface.HookHandle;
 
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
 public class GlobalActionBootstrap extends BaseHook {
     private static volatile boolean sGlobalReceiverRegistered;
     private static volatile boolean sRestartReceiverRegistered;
+    private static volatile int sContextualSearchPackageNameResId;
 
     private final BroadcastReceiver mGlobalReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            long token = Binder.clearCallingIdentity();
             try {
                 String action = intent.getAction();
                 if (action == null) {
@@ -59,15 +72,23 @@ public class GlobalActionBootstrap extends BaseHook {
                     callMethod(wms, "lockNow", (Object) null);
                 } else if (GlobalActionBridge.ACTION_GO_TO_SLEEP.equals(action)) {
                     callMethod(context.getSystemService(Context.POWER_SERVICE), "goToSleep", SystemClock.uptimeMillis());
+                } else if (GlobalActionBridge.ACTION_GO_HOME.equals(action)) {
+                    handleGoHome(context);
                 } else if (GlobalActionBridge.ACTION_SCREEN_CAPTURE.equals(action)) {
                     context.sendBroadcast(new Intent("android.intent.action.CAPTURE_SCREENSHOT"));
                 } else if (GlobalActionBridge.ACTION_OPEN_POWER_MENU.equals(action)) {
                     callMethod(wms, "showGlobalActions");
                 } else if (GlobalActionBridge.ACTION_LAUNCH_INTENT.equals(action)) {
                     handleLaunchIntent(context, intent);
+                } else if (GlobalActionBridge.ACTION_FORCE_STOP_TOP_APP.equals(action)) {
+                    handleForceStopTopApp(context);
+                } else if ((BaseHook.ACTION_PREFIX + "StartGoogleCircleToSearch").equals(action)) {
+                    handleStartGoogleCircleToSearch();
                 }
             } catch (Throwable t) {
                 AndroidLog.w(TAG, "system", "onReceive", t);
+            } finally {
+                Binder.restoreCallingIdentity(token);
             }
         }
     };
@@ -88,6 +109,23 @@ public class GlobalActionBootstrap extends BaseHook {
 
     @Override
     public void init() {
+        try {
+            Class<?> rString = findClass("com.android.internal.R$string", null);
+            sContextualSearchPackageNameResId = rString.getField("config_defaultContextualSearchPackageName").getInt(null);
+            chainAllMethods("com.android.server.SystemServer", "deviceHasConfigString",
+                new XposedInterface.Hooker() {
+                    @Override
+                    public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                        if ((Integer) chain.getArg(1) == sContextualSearchPackageNameResId) {
+                            return true;
+                        }
+                        return chain.proceed();
+                    }
+                }
+            );
+        } catch (Throwable ignored) {
+        }
+
         chainAllConstructors("com.android.server.accessibility.AccessibilityManagerService",
             new XposedInterface.Hooker() {
                 @Override
@@ -106,6 +144,7 @@ public class GlobalActionBootstrap extends BaseHook {
                 public Object intercept(XposedInterface.Chain chain) throws Throwable {
                     Object result = chain.proceed();
                     Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    registerGlobalReceiver(context);
                     registerRestartReceiver(context);
                     return result;
                 }
@@ -125,9 +164,12 @@ public class GlobalActionBootstrap extends BaseHook {
             filter.addAction(GlobalActionBridge.ACTION_TOGGLE_COLOR_INVERSION);
             filter.addAction(GlobalActionBridge.ACTION_LOCK_SCREEN);
             filter.addAction(GlobalActionBridge.ACTION_GO_TO_SLEEP);
+            filter.addAction(GlobalActionBridge.ACTION_GO_HOME);
             filter.addAction(GlobalActionBridge.ACTION_SCREEN_CAPTURE);
             filter.addAction(GlobalActionBridge.ACTION_OPEN_POWER_MENU);
             filter.addAction(GlobalActionBridge.ACTION_LAUNCH_INTENT);
+            filter.addAction(GlobalActionBridge.ACTION_FORCE_STOP_TOP_APP);
+            filter.addAction(BaseHook.ACTION_PREFIX + "StartGoogleCircleToSearch");
             context.registerReceiver(mGlobalReceiver, filter, Context.RECEIVER_EXPORTED);
             sGlobalReceiverRegistered = true;
         }
@@ -188,6 +230,157 @@ public class GlobalActionBootstrap extends BaseHook {
         } else {
             context.startActivity(launchIntent);
         }
+    }
+
+    private void handleGoHome(Context context) {
+        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+        homeIntent.addCategory(Intent.CATEGORY_HOME);
+        homeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(homeIntent);
+    }
+
+    private void handleForceStopTopApp(Context context) {
+        String packageName = getTopPackageName(context);
+        if (packageName == null || isProtectedPackage(packageName)) {
+            return;
+        }
+        forceStopPackage(context, packageName);
+    }
+
+    private void handleStartGoogleCircleToSearch() {
+        if (startContextualSearchService()) {
+            return;
+        }
+        startVoiceInteractionSession();
+    }
+
+    private boolean startContextualSearchService() {
+        ArrayList<HookHandle> hooks = new ArrayList<>();
+        long token = Binder.clearCallingIdentity();
+        try {
+            ClassLoader classLoader = getClassLoader();
+                Class<?> csmsClass = loadClass(
+                    "com.android.server.contextualsearch.ContextualSearchManagerService",
+                    classLoader
+                );
+            Method enforcePermission = csmsClass.getDeclaredMethod("enforcePermission", String.class);
+            Method getContextualSearchPackageName = csmsClass.getDeclaredMethod("getContextualSearchPackageName");
+            hooks.add(hookMethod(enforcePermission, new IMethodHook() {
+                @Override
+                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                    param.setResult(null);
+                }
+            }));
+            hooks.add(hookMethod(getContextualSearchPackageName, new IMethodHook() {
+                @Override
+                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                    param.setResult("com.google.android.googlequicksearchbox");
+                }
+            }));
+
+                Class<?> serviceManagerClass = loadClass("android.os.ServiceManager", classLoader);
+            IBinder binder = (IBinder) serviceManagerClass.getMethod("getService", String.class)
+                .invoke(null, "contextual_search");
+            if (binder == null) {
+                return false;
+            }
+
+                Class<?> stubClass = loadClass(
+                    "android.app.contextualsearch.IContextualSearchManager$Stub",
+                    classLoader
+                );
+            Object service = stubClass.getMethod("asInterface", IBinder.class).invoke(null, binder);
+            if (service == null) {
+                return false;
+            }
+
+            Object result = service.getClass().getMethod("startContextualSearch", int.class)
+                .invoke(service, 1);
+            return !(result instanceof Boolean) || (Boolean) result;
+        } catch (Throwable ignored) {
+            return false;
+        } finally {
+            for (HookHandle hook : hooks) {
+                if (hook != null) {
+                    hook.unhook();
+                }
+            }
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    private boolean startVoiceInteractionSession() {
+        try {
+            Bundle bundle = new Bundle();
+            bundle.putLong("invocation_time_ms", SystemClock.elapsedRealtime());
+            bundle.putInt("omni.entry_point", 1);
+            ClassLoader classLoader = getClassLoader();
+
+            Class<?> serviceManagerClass = loadClass("android.os.ServiceManager", classLoader);
+            IBinder binder = (IBinder) serviceManagerClass.getMethod("getService", String.class)
+                .invoke(null, "voiceinteraction");
+            if (binder == null) {
+                return false;
+            }
+
+            Class<?> stubClass = loadClass(
+                "com.android.internal.app.IVoiceInteractionManagerService$Stub",
+                classLoader
+            );
+            Object service = stubClass.getMethod("asInterface", IBinder.class).invoke(null, binder);
+            if (service == null) {
+                return false;
+            }
+
+            try {
+                Object result = service.getClass().getMethod(
+                    "showSessionFromSession",
+                    IBinder.class,
+                    Bundle.class,
+                    int.class,
+                    String.class
+                ).invoke(service, null, bundle, 7, "hyperOS_home");
+                return !(result instanceof Boolean) || (Boolean) result;
+            } catch (NoSuchMethodException ignored) {
+                Object result = service.getClass().getMethod(
+                    "showSessionFromSession",
+                    IBinder.class,
+                    Bundle.class,
+                    int.class
+                ).invoke(service, null, bundle, 7);
+                return !(result instanceof Boolean) || (Boolean) result;
+            }
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private String getTopPackageName(Context context) {
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (activityManager == null) {
+            return null;
+        }
+
+        List<RunningTaskInfo> tasks = activityManager.getRunningTasks(1);
+        if (tasks == null || tasks.isEmpty()) {
+            return null;
+        }
+
+        RunningTaskInfo taskInfo = tasks.get(0);
+        if (taskInfo.topActivity == null) {
+            return null;
+        }
+        return taskInfo.topActivity.getPackageName();
+    }
+
+    private boolean isProtectedPackage(String packageName) {
+        return "com.android.systemui".equals(packageName)
+            || "com.miui.home".equals(packageName)
+            || "com.miui.voiceassist".equals(packageName)
+            || getPackageName().equals(packageName)
+            || packageName.startsWith("com.android.inputmethod")
+            || packageName.startsWith("com.google.android.inputmethod");
     }
 
     private static void forceStopPackage(Context context, String packageName) {

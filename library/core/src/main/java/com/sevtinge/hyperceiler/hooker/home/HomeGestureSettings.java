@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.hooker.home;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
+import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
@@ -31,9 +32,11 @@ import fan.preference.SeekBarPreferenceCompat;
 public class HomeGestureSettings extends DashboardFragment {
 
     SwitchPreference mQuickBack;
+    SwitchPreference mGestureEnable;
     SwitchPreference mDisableAllGesture;
     SeekBarPreferenceCompat mHighBackArea;
     SeekBarPreferenceCompat mWideBackArea;
+    PreferenceCategory mGestureActions;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -42,12 +45,19 @@ public class HomeGestureSettings extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        mGestureEnable = findPreference("prefs_key_home_gesture_enable");
         mQuickBack = findPreference("prefs_key_home_navigation_quick_back");
         mDisableAllGesture = findPreference("prefs_key_home_navigation_disable_full_screen_back_gesture");
         mHighBackArea = findPreference("prefs_key_home_navigation_back_area_height");
         mWideBackArea = findPreference("prefs_key_home_navigation_back_area_width");
+        mGestureActions = findPreference("prefs_key_home_gesture_actions");
 
         boolean mSwitch = getSharedPreferences().getBoolean(mDisableAllGesture.getKey(), false);
+        boolean gesturesEnabled = getSharedPreferences().getBoolean(mGestureEnable.getKey(), false);
+
+        if (mGestureActions != null) {
+            mGestureActions.setVisible(gesturesEnabled);
+        }
 
         if (isPad()) {
             setFuncHint(mDisableAllGesture, 1);
@@ -62,6 +72,15 @@ public class HomeGestureSettings extends DashboardFragment {
                 boolean enabled = (Boolean) newValue;
                 mHighBackArea.setEnabled(enabled);
                 mWideBackArea.setEnabled(enabled);
+                return true;
+            }
+        );
+
+        mGestureEnable.setOnPreferenceChangeListener(
+            (v, newValue) -> {
+                if (mGestureActions != null) {
+                    mGestureActions.setVisible((Boolean) newValue);
+                }
                 return true;
             }
         );

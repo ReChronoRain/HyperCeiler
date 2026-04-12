@@ -19,6 +19,7 @@ com.android.systemui
 com.android.thememanager
 com.android.updater
 com.duokan.phone.remotecontroller
+com.google.android.googlequicksearchbox
 com.lbe.security.miui
 com.mi.health
 com.milink.service

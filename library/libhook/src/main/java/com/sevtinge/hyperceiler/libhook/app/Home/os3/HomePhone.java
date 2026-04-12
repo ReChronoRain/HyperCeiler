@@ -38,7 +38,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
-import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
@@ -112,8 +111,6 @@ public class HomePhone extends BaseLoad {
             PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0 ||
             PrefsBridge.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
             PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0);
-        initHook(new HotSeatSwipe(), PrefsBridge.getInt("home_gesture_left_swipe_action", 0) > 0
-            || PrefsBridge.getInt("home_gesture_right_swipe_action", 0) > 0);
         initHook(new ShakeDevice(), PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
         initHook(new BackGestureAreaHeight(), PrefsBridge.getInt("home_navigation_back_area_height", 60) != 60);
         initHook(new BackGestureAreaWidth(), PrefsBridge.getInt("home_navigation_back_area_width", 100) != 100);

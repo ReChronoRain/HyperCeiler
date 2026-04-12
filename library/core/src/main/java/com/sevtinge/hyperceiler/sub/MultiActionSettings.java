@@ -72,6 +72,10 @@ public class MultiActionSettings extends SettingsPreferenceFragment
         mActionKey = mKey + "_action";
 
         mCurrentOptimizeMode = getMultiActionMode();
+        if (mCurrentOptimizeMode == 5) {
+            mCurrentOptimizeMode = 4;
+            setMultiActionMode(4);
+        }
         mMultiActionValues = getResources().getIntArray(R.array.multi_action_value);
         mMultiActionKeys = getResources().getStringArray(R.array.multi_action_key);
         generateScreenColorPreference();
@@ -136,6 +140,9 @@ public class MultiActionSettings extends SettingsPreferenceFragment
         String[] multiActionTitles = getResources().getStringArray(R.array.multi_action_title);
         for (int i = 0; i < mMultiActionKeys.length; i++) {
             String key = mMultiActionKeys[i];
+            if (!shouldShowAction(key)) {
+                continue;
+            }
             mMultiActions.put(key, mMultiActionValues[i]);
             RadioButtonPreferenceCategory radioButtonPreferenceCategory = new RadioButtonPreferenceCategory(getThemedContext());
             preferenceCategory.addPreference(radioButtonPreferenceCategory);
@@ -152,6 +159,42 @@ public class MultiActionSettings extends SettingsPreferenceFragment
                 radioButtonPreference.setChecked(mMultiActionValues[i] == mCurrentOptimizeMode);
             }
         }
+    }
+
+    private boolean shouldShowAction(String key) {
+        if ("prefs_key_go_home".equals(key)) {
+            return supportsGoHomeAction();
+        }
+        if ("prefs_key_force_stop_current_app".equals(key)) {
+            return supportsLineLongPressAction();
+        }
+        if ("prefs_key_google_voice_assistant".equals(key)) {
+            return true;
+        }
+        if ("prefs_key_super_xiaoai_circle_search".equals(key)
+            || "prefs_key_google_circle_to_search".equals(key)
+            ) {
+            return supportsAssistantGestureAction();
+        }
+        return true;
+    }
+
+    private boolean supportsGoHomeAction() {
+        return "prefs_key_home_gesture_line_double_click".equals(mKey)
+            || "prefs_key_home_gesture_line_long_press".equals(mKey)
+            || "prefs_key_home_navigation_assist_left_slide".equals(mKey)
+            || "prefs_key_home_navigation_assist_right_slide".equals(mKey);
+    }
+
+    private boolean supportsLineLongPressAction() {
+        return "prefs_key_home_gesture_line_long_press".equals(mKey);
+    }
+
+    private boolean supportsAssistantGestureAction() {
+        return "prefs_key_home_gesture_line_long_press".equals(mKey)
+            || "prefs_key_home_gesture_line_double_click".equals(mKey)
+            || "prefs_key_home_navigation_assist_left_slide".equals(mKey)
+            || "prefs_key_home_navigation_assist_right_slide".equals(mKey);
     }
 
     private void addExpertModeIfNeed(RadioButtonPreferenceCategory radioButtonPreferenceCategory, String key) {

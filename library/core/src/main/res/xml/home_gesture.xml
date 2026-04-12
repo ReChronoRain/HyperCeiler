@@ -23,6 +23,12 @@
     <PreferenceCategory android:title="@string/home_navigation_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_gesture_enable"
+            android:summary="@string/home_gesture_enable_desc"
+            android:title="@string/home_gesture_enable" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_navigation_quick_back"
             android:summary="@string/home_navigation_quick_back_more"
             android:title="@string/home_navigation_quick_back" />
@@ -62,7 +68,9 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/home_gesture_title2">
+    <PreferenceCategory
+        android:key="prefs_key_home_gesture_actions"
+        android:title="@string/home_gesture_title2">
         <Preference
             android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
             android:key="prefs_key_home_gesture_double_tap"
@@ -74,18 +82,6 @@
             android:key="prefs_key_home_gesture_shake"
             android:summary="@string/home_gesture_shake_desc"
             android:title="@string/home_gesture_shake" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
-            android:key="prefs_key_home_gesture_left_swipe"
-            android:summary="@string/home_gesture_left_swipe_desc"
-            android:title="@string/home_gesture_left_swipe" />
-
-        <Preference
-            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
-            android:key="prefs_key_home_gesture_right_swipe"
-            android:summary="@string/home_gesture_right_swipe_desc"
-            android:title="@string/home_gesture_right_swipe" />
 
         <Preference
             android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
