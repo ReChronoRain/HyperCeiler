@@ -168,12 +168,16 @@ public class ScopePickerActivity extends AppCompatActivity
                 Set<String> currentScopePackages = scopePackages != null
                     ? new LinkedHashSet<>(scopePackages)
                     : new LinkedHashSet<>();
+                Set<String> installedScopePackages = ScopeManager.filterInstalledScopePackages(
+                    this,
+                    currentScopePackages
+                );
 
                 List<AppData> loadedData = mAppDataManager.getAppInfo(MODE_SCOPE);
                 loadedData = prepareScopeModeData(new ArrayList<>(loadedData));
                 Set<String> availableScopePackages = collectScopePackages(loadedData);
                 Set<String> sanitizedScopePackages = ScopeManager.filterScopePackages(
-                    currentScopePackages,
+                    installedScopePackages,
                     availableScopePackages
                 );
 
@@ -182,7 +186,7 @@ public class ScopePickerActivity extends AppCompatActivity
                 mAvailableScopePackages.clear();
                 mAvailableScopePackages.addAll(availableScopePackages);
 
-                cleanupUnavailableScopePackages(currentScopePackages, sanitizedScopePackages);
+                cleanupUnavailableScopePackages(currentScopePackages, installedScopePackages);
 
                 List<AppData> processedData = processAppData(new ArrayList<>(loadedData));
                 mHandler.post(() -> displayAppData(processedData));
@@ -301,12 +305,21 @@ public class ScopePickerActivity extends AppCompatActivity
         return packages;
     }
 
-    private void cleanupUnavailableScopePackages(Set<String> currentScopePackages, Set<String> sanitizedScopePackages) {
-        if (currentScopePackages == null || currentScopePackages.equals(sanitizedScopePackages)) {
+    private void cleanupUnavailableScopePackages(Set<String> currentScopePackages, Set<String> installedScopePackages) {
+        if (currentScopePackages == null) {
             return;
         }
 
-        ScopeManager.applyScopeDiffAsync(this, currentScopePackages, sanitizedScopePackages, (success, message) -> {
+        Set<String> cleanupSource = new LinkedHashSet<>(currentScopePackages);
+        Set<String> cleanupTarget = new LinkedHashSet<>(installedScopePackages);
+        cleanupSource.remove(SYSTEM_SCOPE_PACKAGE);
+        cleanupTarget.remove(SYSTEM_SCOPE_PACKAGE);
+
+        if (cleanupSource.equals(cleanupTarget)) {
+            return;
+        }
+
+        ScopeManager.applyScopeDiffAsync(this, cleanupSource, cleanupTarget, (success, message) -> {
             if (success) {
                 AndroidLog.i(TAG, "cleanupUnavailableScopePackages: removed uninstalled scope entries");
                 return;
@@ -366,7 +379,7 @@ public class ScopePickerActivity extends AppCompatActivity
             currentSelected = new LinkedHashSet<>(mCurrentScopePackages);
         }
 
-        Set<String> targetSelected = ScopeManager.filterScopePackages(currentSelected, mAvailableScopePackages);
+        Set<String> targetSelected = ScopeManager.filterInstalledScopePackages(this, currentSelected);
         targetSelected.removeAll(mSelectableScopePackages);
         targetSelected.addAll(ScopeManager.normalizeScopePackages(mAppListAdapter.getSelectedPackages()));
 
