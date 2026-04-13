@@ -25,13 +25,14 @@ public class AppDataManager {
         try {
             return switch (modeSelection) {
                 case SubPickerActivity.LAUNCHER_MODE,
-                     SubPickerActivity.CALLBACK_MODE,
                      SubPickerActivity.LAUNCHER_PICK_MODE,
                      SubPickerActivity.INPUT_MODE -> getLauncherApps();
                 case SubPickerActivity.APP_OPEN_MODE -> getOpenWithApps();
                 case SubPickerActivity.PROCESS_TEXT_MODE -> getProcessTextApps();
                 case SubPickerActivity.IME_MODE -> getInputMethodApps();
-                case SubPickerActivity.ALL_APPS_MODE, SubPickerActivity.SCOPE_MODE -> getAllApps();
+                case SubPickerActivity.ALL_APPS_MODE,
+                     SubPickerActivity.SCOPE_MODE,
+                     SubPickerActivity.CALLBACK_MODE -> getAllApps();
                 default -> new ArrayList<>();
             };
         } catch (Exception e) {
