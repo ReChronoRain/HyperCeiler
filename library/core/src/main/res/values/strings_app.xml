@@ -1114,6 +1114,11 @@
     <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_disable_full_screen_back_gesture">Disable full screen back gesture</string>
+    <string name="home_gesture_back_haptic">Back gesture haptic feedback</string>
+    <string name="home_gesture_back_haptic_default_tips">Perform haptic feedback on the start of swipes</string>
+    <string name="home_gesture_back_haptic_enhanced">Enhanced</string>
+    <string name="home_gesture_back_haptic_enhanced_tips">Perform haptic feedback on the start and release of swipes</string>
+    <string name="home_gesture_back_haptic_disabled">Disabled</string>
     <string name="home_navigation_predictive_progress">Fix predictive back navigation progress</string>
     <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation bar was too short in certain scenarios on the Xiaomi HyperOS system.</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>

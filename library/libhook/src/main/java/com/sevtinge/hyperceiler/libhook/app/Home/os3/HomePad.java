@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.BigFolderItemMaxCount;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.BackGestureHaptic;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
@@ -108,6 +109,7 @@ public class HomePad extends BaseLoad {
             || PrefsBridge.getInt("home_gesture_line_double_click_action", 0) > 0;
 
         // 手势
+        initHook(new BackGestureHaptic(), PrefsBridge.getStringAsInt("home_gesture_back_haptic", 0) != 0);
         initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(), gesturesEnabled && hasCornerGestureAction);
         initHook(new DoubleTap(), gesturesEnabled && PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);

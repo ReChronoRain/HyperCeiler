@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.BigFolderItemMaxCount;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderAutoClose;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderColumns;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.FolderVerticalSpacing;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.BackGestureHaptic;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
@@ -97,7 +98,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 2, minOSVersion = 3.0F)
 public class HomePhone extends BaseLoad {
 
-
     @Override
     public void onPackageLoaded() {
         boolean gesturesEnabled = PrefsBridge.getBoolean("home_gesture_enable");
@@ -112,6 +112,7 @@ public class HomePhone extends BaseLoad {
 
         // 手势
         initHook(new DisableFullScreenBackGesture(), PrefsBridge.getBoolean("home_navigation_disable_full_screen_back_gesture"));
+        initHook(new BackGestureHaptic(), PrefsBridge.getStringAsInt("home_gesture_back_haptic", 0) != 0);
         initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
         initHook(new CornerSlide(), gesturesEnabled && hasCornerGestureAction);
         initHook(new DoubleTap(), gesturesEnabled && PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);

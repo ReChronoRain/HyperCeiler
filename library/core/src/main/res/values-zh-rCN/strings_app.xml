@@ -1065,6 +1065,11 @@
     <string name="home_navigation_assist_right_slide">左上滑动</string>
     <string name="home_navigation_assist_right_slide_desc">在任意界面从屏幕右下角向内滑动</string>
     <string name="home_navigation_disable_full_screen_back_gesture">禁用全屏返回手势</string>
+    <string name="home_gesture_back_haptic">返回手势触觉反馈</string>
+    <string name="home_gesture_back_haptic_default_tips">在返回手势开始时震动</string>
+    <string name="home_gesture_back_haptic_enhanced">增强</string>
+    <string name="home_gesture_back_haptic_enhanced_tips">在返回手势开始和释放时震动</string>
+    <string name="home_gesture_back_haptic_disabled">禁用</string>
     <string name="home_navigation_predictive_progress">修复预测性返回进度</string>
     <string name="home_navigation_predictive_progress_desc">实验性功能，修复在 Xiaomi HyperOS 系统的部分场景下，预测性返回进度行程过短的问题</string>
     <string name="home_navigation_back_area_height">返回手势区域高度</string>
