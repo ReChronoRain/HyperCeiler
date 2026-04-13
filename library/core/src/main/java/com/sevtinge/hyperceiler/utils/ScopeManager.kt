@@ -1,6 +1,7 @@
 package com.sevtinge.hyperceiler.utils
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Handler
 import android.os.Looper
 import com.sevtinge.hyperceiler.common.log.AndroidLog
@@ -104,12 +105,18 @@ object ScopeManager {
         getScopeSync()
     }
 
+    /**
+     * 规范化单个作用域包名，统一去空白并转为小写。
+     */
     @JvmStatic
     fun normalizeScopePackageName(packageName: String?): String? {
         val normalized = packageName?.trim()?.lowercase()
         return if (normalized.isNullOrEmpty()) null else normalized
     }
 
+    /**
+     * 规范化一组作用域包名，并自动去重、忽略空值。
+     */
     @JvmStatic
     fun normalizeScopePackages(packageNames: Collection<String>?): LinkedHashSet<String> {
         val normalized = LinkedHashSet<String>()
@@ -130,6 +137,59 @@ object ScopeManager {
         return normalizeScopePackages(scopePackages).contains(normalizedPackage)
     }
 
+    /**
+     * 按给定可用包集合过滤作用域包，常用于保留当前页面仍可管理的项。
+     */
+    @JvmStatic
+    fun filterScopePackages(
+        scopePackages: Collection<String>?,
+        availablePackages: Collection<String>?
+    ): LinkedHashSet<String> {
+        val filtered = normalizeScopePackages(scopePackages)
+        filtered.retainAll(normalizeScopePackages(availablePackages))
+        return filtered
+    }
+
+    /**
+     * 过滤出当前设备上仍已安装的作用域包。
+     */
+    @JvmStatic
+    fun filterInstalledScopePackages(
+        context: Context?,
+        scopePackages: Collection<String>?
+    ): LinkedHashSet<String> {
+        val filtered = LinkedHashSet<String>()
+        normalizeScopePackages(scopePackages).forEach { packageName ->
+            if (isScopePackageInstalled(context, packageName)) {
+                filtered.add(packageName)
+            }
+        }
+        return filtered
+    }
+
+    /**
+     * 判断作用域包当前是否仍可用。
+     *
+     * 系统框架作用域始终视为可用；其余包通过 [PackageManager] 查询安装状态。
+     */
+    @JvmStatic
+    fun isScopePackageInstalled(context: Context?, packageName: String?): Boolean {
+        val normalizedPackage = normalizeScopePackageName(packageName) ?: return false
+        if (normalizedPackage == SYSTEM_SCOPE_PACKAGE) {
+            return true
+        }
+        val safeContext = context ?: return false
+        return try {
+            safeContext.packageManager.getPackageInfo(normalizedPackage, PackageManager.MATCH_ALL)
+            true
+        } catch (_: Exception) {
+            false
+        }
+    }
+
+    /**
+     * 同步读取当前生效的作用域，并返回规范化后的包集合。
+     */
     @JvmStatic
     fun peekNormalizedScopeSync(): LinkedHashSet<String>? {
         val service = getService() ?: return null
@@ -141,6 +201,11 @@ object ScopeManager {
         }
     }
 
+    /**
+     * 按当前集合与目标集合的差异批量更新作用域。
+     *
+     * 已存在但不在目标中的包会被移除；目标中新增的包会触发授权申请。
+     */
     @JvmStatic
     fun applyScopeDiffAsync(
         context: Context?,

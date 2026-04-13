@@ -102,6 +102,8 @@
     <string name="headtip_tip_fuck_coolapk">Today in history: Sevtinge delivered an important speech on July 14, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.\nError code: %1$s</string>
     <string name="headtip_notice_dead_logger">The current device log service is abnormal and HyperCeiler features will be limited. Please restore the log service so that it can run normally.</string>
+    <string name="homepage_unsupported_version_message">The current system version isn\'t included in HyperCeiler\'s built-in adaptation list.\n\n%1$s\n\nThe system versions supported by this release are:\n%2$s\n\nHyperCeiler will exit automatically after 30 seconds to avoid running in an unknown system environment.</string>
+    <string name="homepage_unsupported_version_current">Current version: Android SDK %1$d - HyperOS %2$s</string>
     <string name="unsupported_system_func">This feature isn\'t supported in the current system version</string>
     <string name="supported_system_func">This feature is officially supported in the current system version</string>
     <string name="feature_doing_func">The current feature is under development, stay tuned.</string>

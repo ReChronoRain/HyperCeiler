@@ -135,4 +135,9 @@
     <string name="system_notifrowmenu_appinfo">App info</string>
     <string name="system_notifrowmenu_openinfw">Floating window</string>
     <string name="system_notifrowmenu_forceclose">Force close</string>
+    <!--Home-->
+    <string name="home_share_apk_preparing">Preparing file…</string>
+    <string name="home_share_apk_preparing_split">Packaging split APKs (%1$d files)…</string>
+    <string name="home_share_apk_failed">Share failed</string>
+    <string name="home_share_apk_prepare_failed">Failed to prepare file</string>
 </resources>

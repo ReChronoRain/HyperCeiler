@@ -20,7 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.thememanager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.guard.RearScreenFlowGuard;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -58,9 +60,16 @@ public class AllowThirdTheme extends BaseHook {
 
     @Override
     public void init() {
+        runOnApplicationAttach(RearScreenFlowGuard::ensureActivityTrackerRegistered);
+
         hookMethod(mCheckRightsIsLegalMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
+                if (RearScreenFlowGuard.isRearScreenActivityActive(
+                    ContextUtils.getContextNoError(ContextUtils.FLAG_CURRENT_APP)
+                )) {
+                    return;
+                }
                 param.setResult(DrmManager.DrmResult.DRM_SUCCESS);
             }
         });

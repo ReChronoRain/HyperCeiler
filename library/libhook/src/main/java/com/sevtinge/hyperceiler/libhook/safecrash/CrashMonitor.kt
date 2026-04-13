@@ -278,7 +278,10 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
                     val info = EzxHelpUtils.getObjectField(proc, "info") as? ApplicationInfo
                     val pkgName = info?.packageName ?: return@after
 
-                    XposedLog.e(TAG, "Crash detected: $pkgName, log: $stackTrace")
+                    if (CrashScope.isScopeApp(pkgName)) {
+                        // 已经受不了你们反馈无关 Crash 了
+                        XposedLog.e(TAG, "Crash detected: $pkgName, log: $stackTrace")
+                    }
 
                     handleCrashLogic(mContext, pkgName, timeMillis, crashInfo, longMsg, stackTrace)
                 }

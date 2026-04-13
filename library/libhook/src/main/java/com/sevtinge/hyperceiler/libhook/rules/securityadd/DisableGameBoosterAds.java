@@ -19,10 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.securityadd;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.json.JSONObject;
 import org.luckypray.dexkit.DexKitBridge;
@@ -33,11 +30,13 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 public class DisableGameBoosterAds extends BaseHook {
     private Method mIsInternationalMethod;
     private Method mXunyouMethod;
+
+    private static final ThreadLocal<Boolean> sInIsInternational = new ThreadLocal<>();
 
     @Override
     protected boolean useDexKit() {
@@ -71,24 +70,25 @@ public class DisableGameBoosterAds extends BaseHook {
 
     @Override
     public void init() {
-        hookMethod(mIsInternationalMethod, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod(JSONObject.class, "put", String.class, boolean.class, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        param.getArgs()[1] = true;
-                    }
-                });
+        findAndChainMethod(JSONObject.class, "put",
+            String.class, boolean.class,
+            (XposedInterface.Hooker) chain -> {
+                if (Boolean.TRUE.equals(sInIsInternational.get())) {
+                    chain.getArgs().set(1, true);
+                }
+                return chain.proceed();
+            }
+        );
+
+        chain(mIsInternationalMethod, chain -> {
+            sInIsInternational.set(true);
+            try {
+                return chain.proceed();
+            } finally {
+                sInIsInternational.remove();
             }
         });
 
-        EzxHelpUtils.hookMethod(mXunyouMethod, new IReplaceHook() {
-            @Override
-            public Object replace(HookParam param) throws Throwable {
-                return null;
-            }
-        });
-
+        chain(mXunyouMethod, chain -> null);
     }
 }

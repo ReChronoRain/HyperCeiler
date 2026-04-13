@@ -34,7 +34,6 @@ import androidx.annotation.Nullable;
 import androidx.collection.LruCache;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 import me.zhanghai.android.appiconloader.AppIconLoader;
@@ -198,25 +197,18 @@ public class AppIconCache {
         void onIconLoaded(@Nullable Drawable icon);
     }
 
-    private static final class CacheKey {
-        private final String packageName;
-        private final int sizePx;
+    private record CacheKey(String packageName, int sizePx) {
+            private CacheKey(@NonNull String packageName, int sizePx) {
+                this.packageName = packageName;
+                this.sizePx = sizePx;
+            }
 
-        private CacheKey(@NonNull String packageName, int sizePx) {
-            this.packageName = packageName;
-            this.sizePx = sizePx;
-        }
+            @Override
+            public boolean equals(Object obj) {
+                if (this == obj) return true;
+                if (!(obj instanceof CacheKey other)) return false;
+                return sizePx == other.sizePx && packageName.equals(other.packageName);
+            }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) return true;
-            if (!(obj instanceof CacheKey other)) return false;
-            return sizePx == other.sizePx && packageName.equals(other.packageName);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(packageName, sizePx);
-        }
     }
 }

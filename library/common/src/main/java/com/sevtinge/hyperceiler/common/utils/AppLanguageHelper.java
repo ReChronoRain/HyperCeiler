@@ -94,6 +94,14 @@ public class AppLanguageHelper {
         updateContextResources(context, getSystemLocale());
     }
 
+    public static void freezeCurrentLocaleIfUnset(Context context) {
+        if (hasExplicitLanguage(context)) {
+            return;
+        }
+        AppSettingsStore.setAppLanguageIndex(context, findBestLanguageIndex(getCurrentLocale(context)));
+        updateContextResources(context, getCurrentLocale(context));
+    }
+
     public static String getLanguage(Context context) {
         Locale locale = getCurrentLocale(context);
         String country = locale.getCountry();
