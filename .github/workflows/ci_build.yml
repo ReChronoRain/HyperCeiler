@@ -154,7 +154,7 @@ jobs:
           commits = event.get("commits", [])
           compare_url = event.get("compare", "")
           caption_limit = 1024
-          branch_text = "Branch: HyperOS 2"
+          branch_text = "Branch:\nHyperOS 2"
 
           def escape_code_block(text):
               return text.replace("\\", "\\\\").replace("`", "\\`")
@@ -212,13 +212,16 @@ jobs:
           def build_code_block(text):
               return f"```{escape_code_block(text)}```"
 
+          def build_multiline_code_block(text):
+              return f"```\n{escape_code_block(text)}```"
+
           def build_caption(commit_entries, contributors_text):
               lines = [
                   "New push to GitHub",
                   build_code_block(branch_text),
                   "",
                   "Commits:",
-                  build_code_block(build_commit_text(commit_entries)),
+                  build_multiline_code_block(build_commit_text(commit_entries)),
                   "",
                   f"Contributors: {build_code_block(contributors_text)}",
               ]
