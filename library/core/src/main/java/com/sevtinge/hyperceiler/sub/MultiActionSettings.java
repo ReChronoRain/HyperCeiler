@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.sub;
 
-import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_PICK_MODE;
+import static com.sevtinge.hyperceiler.sub.SubPickerActivity.CALLBACK_MODE;
 
 import android.content.ComponentName;
 import android.content.Context;
@@ -252,7 +252,7 @@ public class MultiActionSettings extends SettingsPreferenceFragment
     @Override
     public void onClick() {
         Intent intent = new Intent(getActivity(), SubPickerActivity.class);
-        intent.putExtra("mode", LAUNCHER_PICK_MODE);
+        intent.putExtra("mode", CALLBACK_MODE);
         intent.putExtra("key", mKey);
         appPickerLauncher.launch(intent);
     }
