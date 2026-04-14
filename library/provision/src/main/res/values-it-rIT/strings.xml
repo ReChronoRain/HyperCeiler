@@ -17,4 +17,37 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    </resources>
+    <string name="provision_back_description">Indietro</string>
+    <string name="provision_start_content_description">Inizia</string>
+    <string name="provision_back">Indietro</string>
+    <string name="provision_next">Successivo</string>
+    <string name="provision_skip_underline">Salta</string>
+    <string name="provision_permission_settings_title">Impostazioni autorizzazioni</string>
+    <string name="provision_terms_and_statement_title">Termini e condizioni</string>
+    <string name="provision_basic_settings_title">Impostazioni basiche</string>
+    <string name="provision_agree_and_next">Accetta</string>
+    <string name="provision_agree_terms">Ho letto e accettato lo User Agreement e il Privacy Policy.</string>
+    <string name="provision_terms_of_use">Termini e condizioni</string>
+    <string name="provision_terms_of_use_label_use_network_china">Per poterti offrire servizi migliori, devi leggere e accettare il nostro <annotation key="user_agreement">Contratto con l\'utente</annotation> e la <annotation key="privacy_policy">Informativa sulla privacy</annotation></string>
+    <string name="provision_protect_persoanl_info_statement">Proteggeremo i vostri dati personali in conformità con le leggi, i regolamenti e le politiche sulla privacy applicabili.</string>
+    <string name="provision_service_agreement">Ho letto e accettato i termini e condizioni.</string>
+    <string name="provision_service_name_download">Downloads</string>
+    <string name="provision_service_policy_download"><Data>Leggi e accetta l\'<a href="%1$s">Informativa sulla privacy di Thunder</a> e il <a href="%2$s">Contratto di utilizzo del servizio di rete di Thunder Company</a></Data></string>
+    <string name="provision_congratulation_title">Inizializzazione completata</string>
+    <string name="provision_congratulation_label">Benvenuto su HyperCeiler</string>
+    <string name="provision_complete_text">Entra in HyperCeiler</string>
+    <string name="provision_set_permission_later">Potrai impostare queste autorizzazioni necessarie in un secondo momento</string>
+    <string name="provision_permission_internet">Consenti connessione a internet</string>
+    <string name="provision_permission_root">Consenti operazioni come Root</string>
+    <string name="provision_permission_installed_apps">Consenti lettura lista applicazioni installate</string>
+    <string name="provision_permission_lsp">Attiva sul manager Xposed</string>
+    <string name="provision_terms_of_use_loading">Caricamento…</string>
+    <string name="provision_terms_of_use_verification_code_tip">Il tuo codice di verifica è %1$s.</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">Inserisci il tuo codice di verifica</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">Puoi trovarlo nel nostro User Agreement o nel Privacy Policy</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">Continua</string>
+    <string name="provision_basic_settings_hide_app_icon">Icona su schermata home</string>
+    <string name="provision_basic_settings_category_app">Applicazione</string>
+    <string name="provision_basic_settings_language">Lingua</string>
+    <string name="provision_basic_settings_scope_sync">Sincronizzazione dell\'ambito</string>
+</resources>

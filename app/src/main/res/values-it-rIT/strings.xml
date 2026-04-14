@@ -18,13 +18,13 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
     <string name="search_history_description">Cronologia di ricerca</string>
-    <string name="search_history_clear_description">Cancella cronologia di ricerca</string>
+    <string name="search_history_clear_description">Cancella cronologia delle ricerche</string>
     <string name="revert">Ripristina</string>
     <string name="custom_order_title">Personalizzato</string>
     <string name="app_version_update">Nuova versione disponibile</string>
     <string name="developer_build">Build di sviluppo</string>
     <string name="device_name">Nome dispositivo</string>
-    <string name="app_device_version_parameters">Versione OS</string>
+    <string name="app_device_version_parameters">Versione Sistema Operativo</string>
     <string name="pull_to_enter_private">Scorri verso il basso per entrare nello spazio privato</string>
     <string name="release_enter_private">Rilascia per entrare nello spazio privato</string>
     <!--Pop-up window/miuix part-->
@@ -44,32 +44,32 @@
     <string name="soft_reboot">Riavvia</string>
     <string name="restart_app_desc">Sei sicuro di voler riavviare ora %1$s?</string>
     <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
-    <string name="hook_failed">Il modulo non è ancora attivato.\nVerifica se il gestore Xposed è abilitato. In tal caso, riavvia o riottimizza il modulo.</string>
+    <string name="hook_failed">HyperCeiler non è ancora attivo. Verifica se LSPosed è abilitato e se consenti l\'avvio automatico di HyperCeiler. In tal caso, riavvia o riottimizza il modulo.</string>
     <string name="kill_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <string name="start_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <string name="pid_failed">L\'applicazione selezionata non è in esecuzione e non è necessario riavviarla.</string>
     <string name="reboot_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
-    <string name="experimental_features">Funzionalita sperimentali</string>
+    <string name="experimental_features">Funzionalità sperimentali</string>
     <!--HyperCeiler Tips-->
     <string name="error">Errore</string>
-    <string name="warn">Avviso</string>
+    <string name="warn">Attenzione</string>
     <string name="module_app_failed">Si e verificato un errore fatale nel modulo</string>
     <string name="module_app_copy_desc">Tieni premuto il contenuto per copiarlo</string>
-    <string name="module_title_1">Messaggio di base</string>
-    <string name="module_title_2">Messaggio dello stack</string>
-    <string name="app_error_desc">HyperCeiler e stato chiuso in modo imprevisto. Per aiutarci a risolvere il problema, fornisci le informazioni seguenti:\n\nTieni premuto qualsiasi messaggio per copiare tutto.</string>
+    <string name="module_title_1">Messaggio base</string>
+    <string name="module_title_2">Messaggio di stack</string>
+    <string name="app_error_desc">HyperCeiler è stato chiuso inaspettatamente. Per aiutarci a risolvere il problema, fornisci le seguenti informazioni:\n\nTieni premuto su un messaggio qualsiasi per copiare tutto.</string>
     <string name="app_exit">OK</string>
     <string name="safe_mode_desc">%1$s e entrato in modalita sicura dopo ripetuti arresti anomali e le funzioni di HyperCeiler sono state temporaneamente disabilitate.</string>
-    <string name="safe_mode_history">Visualizza i record delle eccezioni</string>
-    <string name="safe_mode_cancel">Disattiva modalita sicura</string>
-    <string name="safe_mode_ok">Annulla</string>
+    <string name="safe_mode_history">Visualizza registro eccezioni</string>
+    <string name="safe_mode_cancel">Disabilita modalità Sicura</string>
+    <string name="safe_mode_ok">Cancella</string>
     <string name="safe_mode_later_title">Suggerimento</string>
     <string name="safe_mode_later_desc">%1$s e ancora in modalita sicura e le funzioni di HyperCeiler sono state disabilitate. Disattivare la modalita sicura?</string>
-    <string name="safe_mode_recorder_title">Registri delle eccezioni</string>
+    <string name="safe_mode_recorder_title">Registro eccezioni</string>
     <string name="safe_mode_recorder_file">File</string>
-    <string name="safe_mode_recorder_class">Classe</string>
-    <string name="safe_mode_recorder_method">Metodo</string>
-    <string name="safe_mode_recorder_line">Riga</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
     <string name="safe_mode_recorder_msg">Messaggio eccezione</string>
     <string name="safe_mode_recorder_st">Traccia dello stack</string>
     <string name="error_message">Messaggio eccezione</string>

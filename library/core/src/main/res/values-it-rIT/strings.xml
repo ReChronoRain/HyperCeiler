@@ -34,7 +34,7 @@
     <string name="soft_reboot">Riavvia</string>
     <string name="restart_app_desc">Sei sicuro di voler riavviare ora %1$s?</string>
     <string name="hyperceiler_restart_quick">Riavvia rapidamente le app</string>
-    <string name="hook_failed">Il modulo non è ancora attivato.\nVerifica se il gestore Xposed è abilitato. In tal caso, riavvia o riottimizza il modulo.</string>
+    <string name="hook_failed">HyperCeiler non è ancora attivo. Verifica se LSPosed è abilitato e se consenti l\'avvio automatico di HyperCeiler. In tal caso, riavvia o riottimizza il modulo.</string>
     <string name="kill_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <string name="start_failed">Impossibile terminare il processo, si prega di controllare se HyperCeiler ha ottenuto permessi di Root/Su.</string>
     <string name="pid_failed">L\'applicazione selezionata non è in esecuzione e non è necessario riavviarla.</string>
@@ -54,4 +54,19 @@
     <string name="ignore">Ignora</string>
     <string name="disable_suggest">Disabilita suggerimento</string>
     <string name="enable_suggest">Abilita suggerimento</string>
+    <string name="experimental_features">Funzionalità sperimentali</string>
+    <string name="warn">Attenzione</string>
+    <string name="module_title_1">Messaggio base</string>
+    <string name="module_title_2">Messaggio di stack</string>
+    <string name="app_error_desc">HyperCeiler è stato chiuso inaspettatamente. Per aiutarci a risolvere il problema, fornisci le seguenti informazioni:\n\nTieni premuto su un messaggio qualsiasi per copiare tutto.</string>
+    <string name="safe_mode_history">Visualizza registro eccezioni</string>
+    <string name="safe_mode_cancel">Disabilita modalità Sicura</string>
+    <string name="safe_mode_ok">Cancella</string>
+    <string name="safe_mode_later_title">Suggerimento</string>
+    <string name="safe_mode_recorder_title">Registro eccezioni</string>
+    <string name="safe_mode_recorder_file">File</string>
+    <string name="safe_mode_recorder_class">Class</string>
+    <string name="safe_mode_recorder_method">Method</string>
+    <string name="safe_mode_recorder_line">Line</string>
+    <string name="safe_mode_recorder_msg">Messaggio eccezione</string>
 </resources>
