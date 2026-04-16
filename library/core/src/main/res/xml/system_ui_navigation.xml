@@ -52,7 +52,7 @@
             android:key="prefs_key_system_ui_navigation_custom_height_land"
             android:title="@string/system_ui_navigation_custom_height_land"
             app:dividerValue="10"
-            app:format=".1f dp"
+            app:format="%.1f dp"
             app:maxValue="1000"
             app:minValue="1"
             app:showSeekBarValue="true"
