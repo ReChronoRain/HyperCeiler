@@ -1610,7 +1610,7 @@
     <string name="various_nobrightness">拒绝强制亮度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
-    <string name="various_phrase_clipboardlist">解除常用语剪贴板条数和时间限制</string>
+    <string name="various_phrase_clipboardlist">解除输入法全面屏优化常用语剪贴板条数和时间限制</string>
     <string name="various_phrase_clipboardlist_more">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
     <string name="various_unlock_ime_desc">对目标输入法启用所选样式的全面屏优化\n原生风格需要额外勾选系统框架作用域\n选择原生风格后只对非小米定制版生效，小米定制版勾选将加入键盘可切换列表</string>
