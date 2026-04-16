@@ -54,7 +54,7 @@ public class PasteToast extends BaseHook {
 
                     View view = (View) param.getResult();
                     if (view == null) return;
-                    view.setAlpha(PrefsBridge.getFloat("prefs_key_lbe_paste_toast_custom_toast_opacity", 100)/100);
+                    view.setAlpha((float) (PrefsBridge.getInt("prefs_key_lbe_paste_toast_custom_toast_opacity", 100)/100.0));
 
 
                     Context context = view.getContext();

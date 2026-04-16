@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.lbe.AutoStart;
@@ -33,7 +34,8 @@ public class Lbe extends BaseLoad {
         initHook(new AutoStart(), PrefsBridge.getBoolean("lbe_auto_start"));
 
         // paste toast
-        initHook(new PasteToast(), PrefsBridge.getBoolean("lbe_paste_toast"));
+        initHook(new PasteToast(), PrefsBridge.getBoolean("lbe_paste_toast_custom"));
+
 
     }
 }
