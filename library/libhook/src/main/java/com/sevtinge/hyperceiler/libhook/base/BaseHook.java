@@ -117,6 +117,8 @@ public abstract class BaseHook {
      *     return true;
      * }
      * }</pre>
+     * <p>
+     * 框架会在 {@link BaseLoad} 中自动把一批 Hook 的 {@link #initDexKit()} 并行执行。
      *
      * @return true 表示继续执行 {@link #init()}；false 表示跳过当前 Hook。
      */

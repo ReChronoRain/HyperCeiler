@@ -12,6 +12,8 @@ import androidx.annotation.RawRes;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
+import org.intellij.lang.annotations.Language;
+
 import java.io.InputStream;
 import java.util.Scanner;
 
@@ -38,10 +40,11 @@ public class BgEffectPainter {
     private float[] uBgBound = {0.0f, 0.4489f, 1.0f, 0.5511f};
     private final float[] uColors = {0.57f, 0.76f, 0.98f, 1.0f, 0.98f, 0.85f, 0.68f, 1.0f, 0.98f, 0.75f, 0.93f, 1.0f, 0.73f, 0.7f, 0.98f, 1.0f};
     private float prevT = 0.0f;
-    private final float colorInterpT = 0.0f;
-    private final float gradientSpeed = 1.0f;
+    private float colorInterpT = 0.0f;
+    private float gradientSpeed = 1.0f;
 
     public BgEffectPainter(Context context) {
+        @Language("AGSL")
         String loadShader = loadShader(context.getResources(), R.raw.bg_frag);
         loadShader.getClass();
         mBgRuntimeShader = new RuntimeShader(loadShader);
@@ -147,6 +150,7 @@ public class BgEffectPainter {
 
     private void executeAnim() {
         if (stateStyle != null) {
+            mHandler.removeCallbacksAndMessages(null);
             stateStyle.setTo("colorInterpT", Float.valueOf(0.0f));
             stateStyle.to("colorInterpT", Float.valueOf(1.0f), animConfig1);
             stateStyle.to("gradientSpeed", Float.valueOf(mBgEffectData.gradientSpeedChange), animConfig1);
@@ -167,10 +171,21 @@ public class BgEffectPainter {
         mBgRuntimeShader.setFloatUniform("uBound", uBound);
         mBgEffectData = mBgEffectDataManager.getData(deviceType, themeMode);
         uAnimTime = 0.0f;
+        cycleCount = 0.0f;
+        prevT = 0.0f;
+        colorInterpT = 0.0f;
+        gradientSpeed = mBgEffectData.gradientSpeedRest;
         startColorValue = mBgEffectData.gradientColors2;
         endColorValue = mBgEffectData.gradientColors2;
+        linearInterpolate(uColors, startColorValue, endColorValue, colorInterpT);
+        if (stateStyle != null) {
+            stateStyle.cancel();
+            stateStyle.setTo("colorInterpT", colorInterpT);
+            stateStyle.setTo("gradientSpeed", gradientSpeed);
+        }
         mBgRuntimeShader.setFloatUniform("uTranslateY", mBgEffectData.uTranslateY);
         mBgRuntimeShader.setFloatUniform("uPoints", mBgEffectData.uPoints);
+        mBgRuntimeShader.setFloatUniform("uColors", uColors);
         mBgRuntimeShader.setFloatUniform("uNoiseScale", mBgEffectData.uNoiseScale);
         mBgRuntimeShader.setFloatUniform("uPointOffset", mBgEffectData.uPointOffset);
         mBgRuntimeShader.setFloatUniform("uPointRadiusMulti", mBgEffectData.uPointRadiusMulti);
