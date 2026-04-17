@@ -242,10 +242,9 @@ public class UnlockIme extends BaseHook {
     }
 
     /**
-     * 解除切换输入法列表最多只显示四个的问题
-     * ~~虽然可以滚动就是了~~
-     * ——by LuoYunXI0407
+     * 解除切换输入法列表最多只显示四个的问题 (虽然本来可以滚动就是了)
      *
+     * @author LuoYunXi0407
      * @param classLoader
      */
     private void hookUnlockImeListUiCount(ClassLoader classLoader) {
