@@ -473,6 +473,7 @@
     <string name="system_framework_other_speed_install">Speed install</string>
     <string name="system_framework_other_speed_install_desc">Install with RAM to speed up installation. System core support is required.</string>
     <string name="system_framework_other_rotation_button">Rotation recommendations</string>
+    <string name="system_framework_other_rotation_button_desc">If forcing it doesn\'t work, you need to ensure that hiding the gesture line is not enabled in the system or module. \nIf you need to hide it, you can set the height of the navigation and navigation frame to 0dp in the custom navigation, and adjust the thickness of the gesture line to 0.00dp in the custom gesture line.</string>
     <string name="system_framework_other_thermal_brightness">Disable automatic screen brightness reduction</string>
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>

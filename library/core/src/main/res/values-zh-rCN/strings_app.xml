@@ -433,6 +433,7 @@
     <string name="system_framework_other_speed_install">快速安装</string>
     <string name="system_framework_other_speed_install_desc">安装至运行内存以提升安装速度，需要系统底层支持</string>
     <string name="system_framework_other_rotation_button">旋转建议</string>
+    <string name="system_framework_other_rotation_button_desc">若强制不生效，你需要确保没有在系统或模块中启用隐藏手势提示线\n如果你有隐藏手势提示线的需求，你可以在自定义导航栏中将导航栏和导航栏框架高度调为 0dp，并且在自定义手势提示线中把粗细调为 0.00dp</string>
     <string name="system_framework_other_thermal_brightness">禁止自动降低屏幕亮度</string>
     <string name="system_framework_other_thermal_brightness_more">仅限非温控导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止自动终止后台应用进程</string>
