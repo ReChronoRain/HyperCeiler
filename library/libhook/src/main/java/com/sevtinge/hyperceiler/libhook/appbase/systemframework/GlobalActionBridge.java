@@ -64,11 +64,11 @@ public final class GlobalActionBridge {
         }
         return switch (action) {
             case 1 -> StatusBarActionBridge.openNotificationCenter(context);
-            case 2 -> StatusBarActionBridge.clearMemory(context);
-            case 3 -> sendAction(context, "ToggleColorInversion");
-            case 4 -> sendAction(context, "LockScreen");
-            case 5 -> sendAction(context, "GoToSleep");
-            case 6 -> sendAction(context, "ScreenCapture");
+            case 2 -> sendAction(context, "LockScreen");
+            case 3 -> sendAction(context, "GoToSleep");
+            case 4 -> sendAction(context, "ScreenCapture");
+            case 5 -> StatusBarActionBridge.clearMemory(context);
+            case 6 -> sendAction(context, "ToggleColorInversion");
             case 7 -> StatusBarActionBridge.openRecents(context);
             case 8 -> StatusBarActionBridge.openVolumeDialog(context);
             case 12 -> sendAction(context, "OpenPowerMenu");
