@@ -18,6 +18,10 @@
  */
 package com.sevtinge.hyperceiler.libhook.app.Others;
 
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setStaticObjectField;
+
+import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
+
 import android.content.Context;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -60,6 +64,21 @@ public class VariousThirdApps extends BaseLoad {
         if (isInputMethod) {
             initInputMethodHooks();
             initClipboardHooks();
+            return;
+        }
+
+        if ("com.google.android.googlequicksearchbox".equals(mPackageName)) {
+            try {
+                Class <?> mBuild = loadClass("android.os.Build", getClassLoader());
+
+                setStaticObjectField(mBuild, "MANUFACTURER", "Google");
+                setStaticObjectField(mBuild, "BRAND", "google");
+                setStaticObjectField(mBuild, "MODEL", "Pixel 9 Pro");
+                setStaticObjectField(mBuild, "DEVICE", "caiman");
+                XposedLog.d("GoogleQuickSearchBox", "Spoofed device info to Pixel 9 Pro success");
+            } catch (Throwable e) {
+                XposedLog.e("GoogleQuickSearchBox", "Failed to spoof device info: " + e.getMessage());
+            }
             return;
         }
 

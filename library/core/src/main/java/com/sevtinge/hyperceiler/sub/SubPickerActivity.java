@@ -353,7 +353,7 @@ public class SubPickerActivity extends AppCompatActivity
         }
 
         // 4. 手势应用选择保留 launcher 列表样式，但当前已选项需要置顶
-        if (mModeSelection == LAUNCHER_PICK_MODE && mKey != null) {
+        if ((mModeSelection == LAUNCHER_PICK_MODE || mModeSelection == CALLBACK_MODE) && mKey != null) {
             String selectedApp = PrefsBridge.getString(mKey + "_app", "");
             if (!selectedApp.isEmpty()) {
                 String[] selectedParts = selectedApp.split("\\|", 2);

@@ -45,42 +45,60 @@
     <string-array name="multi_action_title">
         <item>@string/array_global_actions_none</item>
         <item>@string/array_global_actions_notif</item>
-        <item>@string/array_global_actions_lock</item>
-        <item>@string/array_global_actions_sleep</item>
-        <item>@string/array_global_actions_screenshot</item>
+        <item>@string/array_global_actions_control_center</item>
         <item>@string/array_global_actions_clear_memory</item>
         <item>@string/array_global_actions_invert_colors</item>
-        <item>@string/array_global_actions_recents</item>
-        <item>@string/array_global_actions_volume</item>
         <item>@string/array_global_actions_powermenu</item>
+        <item>@string/array_global_actions_lock</item>
+        <item>@string/array_global_actions_recents</item>
+        <item>@string/array_global_actions_home</item>
+        <item>@string/array_global_actions_screenshot</item>
+        <item>@string/array_global_actions_volume</item>
+        <item>@string/array_global_actions_super_xiaoai</item>
+        <item>@string/array_global_actions_super_xiaoai_circle_search</item>
+        <item>@string/array_global_actions_google_circle_to_search</item>
+        <item>@string/array_global_actions_google_voice_assistant</item>
+        <item>@string/array_global_actions_force_stop_current_app</item>
         <item>@string/array_global_actions_launch</item>
     </string-array>
 
     <string-array name="multi_action_key">
         <item>prefs_key_no_action</item>
         <item>prefs_key_open_notification_center</item>
-        <item>prefs_key_screen_lock</item>
-        <item>prefs_key_screen_sleep</item>
-        <item>prefs_key_screen_capture</item>
+        <item>prefs_key_open_control_center</item>
         <item>prefs_key_clear_memory</item>
         <item>prefs_key_invert_colors</item>
-        <item>prefs_key_screen_recents</item>
-        <item>prefs_key_volume_dialog</item>
         <item>prefs_key_open_powermenu</item>
+        <item>prefs_key_screen_lock</item>
+        <item>prefs_key_screen_recents</item>
+        <item>prefs_key_go_home</item>
+        <item>prefs_key_screen_capture</item>
+        <item>prefs_key_volume_dialog</item>
+        <item>prefs_key_super_xiaoai</item>
+        <item>prefs_key_super_xiaoai_circle_search</item>
+        <item>prefs_key_google_circle_to_search</item>
+        <item>prefs_key_google_voice_assistant</item>
+        <item>prefs_key_force_stop_current_app</item>
         <item>prefs_key_open_app</item>
     </string-array>
 
     <integer-array name="multi_action_value">
         <item>0</item>
         <item>1</item>
+        <item>15</item>
         <item>2</item>
         <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
         <item>12</item>
+        <item>4</item>
+        <item>7</item>
+        <item>14</item>
+        <item>6</item>
+        <item>8</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>20</item>
+        <item>19</item>
         <item>13</item>
     </integer-array>
 </resources>
