@@ -65,35 +65,15 @@ public class BypassWakePathChecker extends BaseHook {
                     }
                 }
             );
-            findAndHookMethod(
-                clazz,
-                "checkBroadcastWakePath",
-                String.class,
-                String.class,
-                String.class,
-                String.class,
-                int.class,
-                int.class,
-                int.class,
-                int.class,
-                new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        param.setResult(true);
-                    }
-                }
-            );
+
             findAndHookMethod(
                 clazz,
                 "checkAllowStartActivity",
                 String.class,
                 String.class,
-                String.class,
-                String.class,
                 int.class,
                 int.class,
-                int.class,
-                int.class,
+                android.content.Intent.class,
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
