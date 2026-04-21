@@ -1602,6 +1602,8 @@
     <!--Contacts-->
     <string name="contacts">通讯录与拨号</string>
     <string name="contacts_disable_offline_info_manager">禁用营业厅离线配置</string>
+    <string name="contacts_business_hall_ad_block">屏蔽营业厅广告</string>
+    <string name="contacts_business_hall_ad_block_desc">去除弹窗推荐（如"0元领副卡"）、推荐好物卡片、双卡Banner等推广内容</string>
     <!--Health-->
     <string name="health">小米运动健康</string>
     <string name="health_disable_splash_ad">禁用开屏广告</string>
