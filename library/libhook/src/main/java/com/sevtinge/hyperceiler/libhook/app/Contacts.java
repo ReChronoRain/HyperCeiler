@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
+import com.sevtinge.hyperceiler.libhook.rules.contacts.BusinessHallAdBlock;
 import com.sevtinge.hyperceiler.libhook.rules.contacts.DisableNetworkAssistantOfflineInfoManager;
 
 @HookBase(targetPackage = "com.android.contacts")
@@ -30,5 +31,6 @@ public class Contacts extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new DisableNetworkAssistantOfflineInfoManager(), PrefsBridge.getBoolean("contacts_disable_offline_info_manager"));
+        initHook(new BusinessHallAdBlock(), PrefsBridge.getBoolean("contacts_business_hall_ad_block"));
     }
 }

@@ -1644,6 +1644,8 @@
     <!--Contacts-->
     <string name="contacts">Contacts and dialer</string>
     <string name="contacts_disable_offline_info_manager">Disable business hall offline info</string>
+    <string name="contacts_business_hall_ad_block">Block business hall ads</string>
+    <string name="contacts_business_hall_ad_block_desc">Remove popup ads, recommended cards, dual-card banners and other promotions from business hall</string>
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
