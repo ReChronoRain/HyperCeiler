@@ -632,6 +632,7 @@
     <string name="system_ui_statusbar_island_media_card_title">媒体卡片</string>
     <string name="system_ui_statusbar_music_title">焦点歌词</string>
     <string name="system_ui_status_bar_double_tap_to_sleep">双击状态栏锁屏</string>
+    <string name="system_ui_status_bar_disable_scroll_to_top">禁用单击状态栏回到顶部</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_title">双排移动网络图标</string>
     <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">当前因隐藏信号卡图标，此功能将禁止使用</string>
     <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">图标主题</string>
