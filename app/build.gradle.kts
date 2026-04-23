@@ -44,6 +44,26 @@ android {
     compileSdkMinor = 0
     buildToolsVersion = "37.0.0"
 
+    val propGitHash = "GIT_HASH"
+    val propGitCode = "GIT_CODE"
+    val scHasProperties = "hasProperties"
+    val scDebug = "debug"
+    val typeString = "String"
+
+    val buildTimeSuffix = SimpleDateFormat("MMddHHmm").apply {
+        timeZone = TimeZone.getTimeZone("Asia/Shanghai")
+    }.format(Date())
+    val dateSuffixString = DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
+
+    // Quoted values for buildConfigField to satisfy DRY checks
+    val valGitHash = "\"$gitHash\""
+    val valGitHashLong = "\"$gitHashLong\""
+    val valGitCode = "\"$gitVersionCode\""
+
+    // Repeated suffix strings
+    val suffixDate = "-$dateSuffixString"
+    val suffixVersion = "-r${gitVersionCode}"
+
     defaultConfig {
         applicationId = namespace
         minSdk = 35
@@ -64,7 +84,7 @@ android {
         )
 
         for ((key, value) in buildConfigData) {
-            buildConfigField("String", key, "\"$value\"")
+            buildConfigField(typeString, key, "\"$value\"")
         }
 
         ndk {
@@ -93,23 +113,16 @@ android {
     }
 
     val properties: Properties? = loadPropertiesFromFile("signing.properties")
+    val hasSigning = properties?.containsKey("storeFile") == true || System.getenv("STORE_FILE") != null
+
     fun getString(propertyName: String, environmentName: String, prompt: String): String =
         properties?.getProperty(propertyName)
             ?: System.getenv(environmentName)
             ?: System.console()?.readLine("\n$prompt: ").orEmpty()
 
-    val buildTimeSuffix: String by lazy {
-        SimpleDateFormat("MMddHHmm").apply {
-            timeZone = TimeZone.getTimeZone("Asia/Shanghai")
-        }.format(Date())
-    }
-    val dateSuffix: String by lazy {
-        DateTimeFormatter.ofPattern("yyyyMMdd").format(LocalDateTime.now())
-    }
-
     signingConfigs {
-        create("hasProperties") {
-            if (properties != null) {
+        create(scHasProperties) {
+            if (hasSigning) {
                 storeFile = file(getString("storeFile", "STORE_FILE", "Store file"))
                 storePassword = getString("storePassword", "STORE_PASSWORD", "Store password")
                 keyAlias = getString("keyAlias", "KEY_ALIAS", "Key alias")
@@ -124,7 +137,7 @@ android {
 
     buildTypes {
         val configSigning: ApplicationBuildType.() -> Unit = {
-            val signingConfigName = if (properties != null) "hasProperties" else "debug"
+            val signingConfigName = if (hasSigning) scHasProperties else scDebug
             signingConfig = signingConfigs.findByName(signingConfigName)
         }
 
@@ -133,54 +146,54 @@ android {
             // noinspection NotShrinkingResources
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
+            buildConfigField(typeString, propGitCode, valGitCode)
         }
 
         release {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
+            buildConfigField(typeString, propGitHash, valGitHash)
             proguardFiles("proguard-log.pro")
-            versionNameSuffix = "-$dateSuffix"
+            versionNameSuffix = suffixDate
         }
 
         create("beta") {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            versionNameSuffix = "-$dateSuffix"
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            versionNameSuffix = suffixDate
         }
 
         create("canary") {
             applyBase()
             configSigning()
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            versionNameSuffix = "-${gitHash}-r${gitVersionCode}"
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            versionNameSuffix = "-${gitHash}${suffixVersion}"
         }
 
         debug {
             isMinifyEnabled = false
-            buildConfigField("String", "GIT_HASH", "\"$gitHashLong\"")
-            buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
-            versionNameSuffix = "-${buildTimeSuffix}-r${gitVersionCode}"
-            if (properties != null) {
-                signingConfig = signingConfigs.findByName("hasProperties")
+            buildConfigField(typeString, propGitHash, valGitHashLong)
+            buildConfigField(typeString, propGitCode, valGitCode)
+            versionNameSuffix = "-${buildTimeSuffix}${suffixVersion}"
+            if (hasSigning) {
+                signingConfig = signingConfigs.findByName(scHasProperties)
             }
         }
     }
 
-}
-
-afterEvaluate {
-    base {
-        val buildTypeName = gradle.startParameter.taskNames
-            .firstOrNull { it.contains("assemble", ignoreCase = true) }
-            ?.substringAfterLast(":")
-            ?.replace("assemble", "", ignoreCase = true)
-            ?.lowercase() ?: "debug"
-        val suffix = android.buildTypes.findByName(buildTypeName)?.versionNameSuffix ?: ""
-        archivesName.set("$apkId-${android.defaultConfig.versionName}$suffix")
+    afterEvaluate {
+        base {
+            val buildTypeName = gradle.startParameter.taskNames
+                .firstOrNull { it.contains("assemble", ignoreCase = true) }
+                ?.substringAfterLast(":")
+                ?.replace("assemble", "", ignoreCase = true)
+                ?.lowercase() ?: scDebug
+            val suffix = android.buildTypes.findByName(buildTypeName)?.versionNameSuffix ?: ""
+            archivesName.set("$apkId-${android.defaultConfig.versionName}$suffix")
+        }
     }
+
 }
 
 // https://stackoverflow.com/a/77745844
