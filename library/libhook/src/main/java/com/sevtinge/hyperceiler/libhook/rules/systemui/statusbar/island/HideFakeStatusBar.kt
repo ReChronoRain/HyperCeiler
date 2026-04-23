@@ -95,7 +95,7 @@ object HideFakeStatusBar : MusicBaseHook() {
 
     }
 
-    override fun onSuperLyric(data: SuperLyricData) {
+    override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
     }
 
     override fun onStop() {

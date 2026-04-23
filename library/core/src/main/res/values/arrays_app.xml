@@ -311,6 +311,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="home_gesture_back_haptic">
+        <item>@string/array_default</item>
+        <item>@string/home_gesture_back_haptic_enhanced</item>
+        <item>@string/home_gesture_back_haptic_disabled</item>
+    </string-array>
+
+    <string-array name="home_gesture_back_haptic_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="seek_points">
         <item>@string/array_default</item>
         <item>@string/seek_points_roll</item>
