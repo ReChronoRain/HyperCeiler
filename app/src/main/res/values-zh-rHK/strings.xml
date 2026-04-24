@@ -17,14 +17,14 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    <string name="search_history_description">搜尋記錄</string>
-    <string name="search_history_clear_description">清除搜尋記錄</string>
-    <string name="revert">還原</string>
-    <string name="custom_order_title">自訂</string>
-    <string name="app_version_update">有新版本</string>
-    <string name="developer_build">開發版</string>
-    <string name="device_name">裝置名稱</string>
-    <string name="app_device_version_parameters">OS 版本</string>
+    <string name="search_history_description">Search history</string>
+    <string name="search_history_clear_description">Clean search history</string>
+    <string name="revert">Revert</string>
+    <string name="custom_order_title">Custom</string>
+    <string name="app_version_update">New Version</string>
+    <string name="developer_build">DEV</string>
+    <string name="device_name">Device Name</string>
+    <string name="app_device_version_parameters">OS Version</string>
     <string name="pull_to_enter_private">向下拉進入私隱空間</string>
     <string name="release_enter_private">釋放進入私隱空間</string>
     <!--Pop-up window/miuix part-->
