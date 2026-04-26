@@ -19,9 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.lbe.AutoStart;
+import com.sevtinge.hyperceiler.libhook.rules.lbe.PasteToast;
+
 
 @HookBase(targetPackage = "com.lbe.security.miui")
 public class Lbe extends BaseLoad {
@@ -29,5 +32,10 @@ public class Lbe extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new AutoStart(), PrefsBridge.getBoolean("lbe_auto_start"));
+
+        // paste toast
+        initHook(new PasteToast(), PrefsBridge.getBoolean("lbe_paste_toast_custom"));
+
+
     }
 }

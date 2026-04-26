@@ -440,6 +440,7 @@
     <string name="system_framework_other_speed_install">快速安装</string>
     <string name="system_framework_other_speed_install_desc">安装至运行内存以提升安装速度，需要系统底层支持</string>
     <string name="system_framework_other_rotation_button">旋转建议</string>
+    <string name="system_framework_other_rotation_button_desc">若强制不生效，你需要确保没有在系统或模块中启用隐藏手势提示线\n如果你有隐藏手势提示线的需求，你可以在自定义导航栏中将导航栏和导航栏框架高度调为 0dp，并且在自定义手势提示线中把粗细调为 0.00dp</string>
     <string name="system_framework_other_thermal_brightness">禁止自动降低屏幕亮度</string>
     <string name="system_framework_other_thermal_brightness_more">仅限非温控导致的自动降低屏幕亮度</string>
     <string name="system_framework_other_disable_cleaner">禁止自动终止后台应用进程</string>
@@ -472,6 +473,9 @@
     <string name="system_framework_market_use_detailmini_desc">解除应用在未使用 appClientId 的情况下跳转到小米应用商店其他应用的详情页会被拒绝展示的限制</string>
     <string name="system_framework_bypass_force_downloadui">打开下载页面时不强制使用小米下载管理器</string>
     <string name="system_framework_bypass_force_downloadui_desc">解决 Google 快速分享查看下载内容跳转错误的问题</string>
+    <string name="system_framework_bypass_wake_path_checker">绕过链式启动检测器</string>
+    <string name="system_framework_bypass_wake_path_checker_desc">允许所有链式启动请求</string>
+
     <!--核心破解-->
     <string name="system_framework_corepatch_tip">此列表下的功能需要在您了解此类功能后再选择性启用，部分选项存在一定危险性，请知悉\n常规选项的功能除总开关外均即时生效，扩展功能无论开关都需要重启才能生效</string>
     <string name="system_framework_corepatch_title">包管理服务</string>
@@ -989,6 +993,12 @@
     <!--权限管理服务-->
     <string name="lbe">权限管理服务</string>
     <string name="lbe_auto_start">禁止自动关闭自启动</string>
+    <string name="lbe_paste_toast">剪贴板读取提示</string>
+    <string name="lbe_paste_toast_custom">自定义剪贴板读取提示</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">将关闭按钮改为关闭本次的提示</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">自定义关闭按钮名称</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">太小的按钮名称会导致难以点击</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">提示不透明度</string>
     <!--投屏-->
     <string name="milink_hyperos">互联互通服务</string>
     <string name="milink_unlock_mishare">解锁小米妙享</string>
@@ -1060,9 +1070,9 @@
     <string name="home_navigation_title">导航</string>
     <string name="home_navigation_quick_back">切换上一个应用</string>
     <string name="home_navigation_quick_back_more">从屏幕两侧向内滑动并停顿，快速切换上一个应用</string>
-    <string name="home_navigation_assist_left_slide">右上滑动</string>
+    <string name="home_navigation_assist_left_slide">左下角向内滑动</string>
     <string name="home_navigation_assist_left_slide_desc">在任意界面从屏幕左下角向内滑动</string>
-    <string name="home_navigation_assist_right_slide">左上滑动</string>
+    <string name="home_navigation_assist_right_slide">右下角向内滑动</string>
     <string name="home_navigation_assist_right_slide_desc">在任意界面从屏幕右下角向内滑动</string>
     <string name="home_navigation_disable_full_screen_back_gesture">禁用全屏返回手势</string>
     <string name="home_gesture_back_haptic">返回手势触觉反馈</string>
@@ -1619,13 +1629,14 @@
     <string name="various_nobrightness">拒绝强制亮度</string>
     <string name="various_no_overscroll">禁用越界回弹</string>
     <string name="various_disable_access_device_logs">关闭访问设备日志确认</string>
-    <string name="various_phrase_clipboardlist">解除常用语剪贴板条数和时间限制</string>
+    <string name="various_phrase_clipboardlist">解除输入法全面屏优化常用语剪贴板条数和时间限制</string>
     <string name="various_phrase_clipboardlist_more">开启后请在 Xposed 管理器中勾选对应输入法作用域</string>
     <string name="various_unlock_ime">解锁输入法全面屏优化</string>
     <string name="various_unlock_ime_desc">对目标输入法启用所选样式的全面屏优化\n原生风格需要额外勾选系统框架作用域\n选择原生风格后只对非小米定制版生效，小米定制版勾选将加入键盘可切换列表</string>
     <string name="various_unlock_ime_apps">目标输入法</string>
     <string name="various_unlock_ime_apps_desc">若所选输入法未加入作用域，将同时申请作用域</string>
-    <string name="various_unlock_ime_show_all">显示全部输入法列表</string>
+    <string name="various_unlock_ime_ui_count">解锁输入法列表 UI 数量</string>
+    <string name="various_unlock_ime_show_all">显示完整输入法列表</string>
     <string name="various_unlock_ime_show_all_desc">部分输入法由于没有查看应用列表权限，可能会导致输入法切换列表显示不全\n此功能需要额外勾选系统框架，但可能会有性能影响，请谨慎开启</string>
     <string name="various_unlock_ime_style_miui">MIUI 风格</string>
     <string name="various_unlock_ime_style_aosp">原生风格</string>

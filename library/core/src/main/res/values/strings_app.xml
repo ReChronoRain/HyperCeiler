@@ -480,6 +480,7 @@
     <string name="system_framework_other_speed_install">Speed install</string>
     <string name="system_framework_other_speed_install_desc">Install with RAM to speed up installation. System core support is required.</string>
     <string name="system_framework_other_rotation_button">Rotation recommendations</string>
+    <string name="system_framework_other_rotation_button_desc">If forcing it doesn\'t work, you need to ensure that hiding the gesture line is not enabled in the system or module. \nIf you need to hide it, you can set the height of the navigation and navigation frame to 0dp in the custom navigation, and adjust the thickness of the gesture line to 0.00dp in the custom gesture line.</string>
     <string name="system_framework_other_thermal_brightness">Disable automatic screen brightness reduction</string>
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
@@ -512,6 +513,8 @@
     <string name="system_framework_market_use_detailmini_desc">Remove the restriction that prevents an app from redirecting to another app\'s details page in GetApps without using the appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
     <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
+    <string name="system_framework_bypass_wake_path_checker">Bypass wake path checker</string>
+    <string name="system_framework_bypass_wake_path_checker_desc">Always allow chained start requests</string>
     <string name="system_framework_native_file_picker">Use Android file picker</string>
     <string name="system_framework_native_file_picker_desc">No longer use HyperOS File Manager</string>
     <!--Package Manager Service-->
@@ -1034,6 +1037,15 @@
     <!--Permissions-->
     <string name="lbe">Permissions</string>
     <string name="lbe_auto_start">Disable auto-shutdown of auto start</string>
+    <string name="lbe_paste_toast">Paste toast</string>
+    <string name="lbe_paste_toast_custom">Custom paste toast</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">Hook close button into close toast</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">Custom close button text</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">Text that is too small will affect clicking</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">Toast opacity</string>
+
+
+
     <!--Cast-->
     <string name="milink_hyperos">Interconnectivity services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
@@ -1661,12 +1673,13 @@
     <string name="various_nobrightness">Reject forced brightness</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
-    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
+    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for Enhance keyboard</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
-    <string name="various_unlock_ime">Unlock IME fullscreen optimization</string>
-    <string name="various_unlock_ime_desc">Enable full-screen optimization for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
+    <string name="various_unlock_ime">Unlock Enhance keyboard limitation</string>
+    <string name="various_unlock_ime_desc">Enable Enhance keyboard for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
     <string name="various_unlock_ime_apps">Target input methods</string>
     <string name="various_unlock_ime_apps_desc">If a selected input method is not in scope, its scope will be requested as well.</string>
+    <string name="various_unlock_ime_ui_count">Unlock input methods counts in UI</string>
     <string name="various_unlock_ime_show_all">Show all input methods</string>
     <string name="various_unlock_ime_show_all_desc">Some input methods may appear incomplete in the switcher because they cannot query the installed app list.\nThis also requires System Framework scope and may affect performance. Enable with caution.</string>
     <string name="various_unlock_ime_style_miui">MIUI style</string>

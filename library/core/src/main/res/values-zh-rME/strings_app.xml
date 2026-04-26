@@ -637,4 +637,19 @@
     <string name="ic_qs_title_bluetooth">蓝色牙齿</string>
     <string name="ic_qs_title_hotspot">非常热门的谁都想来蹭的热点</string>
     <string name="ic_qs_title_flashlight">烫点</string>
+
+    <!--权限管理服务-->
+    <string name="lbe">阿里郎只有使用权没有所有权</string>
+    <string name="lbe_auto_start">不许偷关掉我自启动</string>
+    <string name="lbe_paste_toast">小米又魔改了原生的剪贴板读取提示</string>
+    <string name="lbe_paste_toast_custom">爆改小米的假 Toast</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">点关闭是为了已读的不是为了关掉提示的！</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">要不把关闭按钮叫做确定吧，或者其他文本</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">假 Toast 不穿透，要么挡住要么误触关闭</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">假装假 Toast 能和真 Toast 一样有不透明度</string>
+
+    <string name="various_unlock_ime">凭什么输入法全面屏优化只有你家输入法才能用</string>
+    <string name="various_unlock_ime_ui_count">你家定制版输入法就占得切换输入法槽位不够用了</string>
+    <string name="various_unlock_ime_show_all">第三方输入法怎么了你</string>
+    <string name="various_unlock_ime_show_all_desc">凭什么切换输入法列表只有小米输入法? 过滤了一次就算了还从系统框架再过滤一次</string>
 </resources>
