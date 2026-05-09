@@ -5,7 +5,7 @@ import android.content.res.AssetManager;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -30,7 +30,7 @@ public class HomePageTipManager {
     }
 
     public static void getRandomTipAsync(Context context, TipCallback callback) {
-        String lang = DeviceHelper.Hardware.getLanguage();
+        String lang = AppLanguageHelper.getLanguage(context);
         EXECUTOR.execute(() -> {
             List<String> tips = getTipsFromAssets(context, lang);
             String selected = tips.isEmpty() ? "Enjoy using HyperCeiler!" : tips.get(RANDOM.nextInt(tips.size()));
