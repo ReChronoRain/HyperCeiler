@@ -17,15 +17,9 @@ android {
     }
 
     buildTypes {
-        release {
-            consumerProguardFiles("proguard-rules.pro")
-        }
-        create("beta") {
-            consumerProguardFiles("proguard-rules.pro")
-        }
-        create("canary") {
-            consumerProguardFiles("proguard-rules.pro")
-        }
+        release {}
+        create("beta") {}
+        create("canary") {}
     }
 }
 
