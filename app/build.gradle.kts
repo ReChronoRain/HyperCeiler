@@ -147,10 +147,7 @@ android {
         }
 
         val applyBase: ApplicationBuildType.() -> Unit = {
-            isMinifyEnabled = true
-            // noinspection NotShrinkingResources
-            isShrinkResources = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            optimization.enable = true
             buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }
 
@@ -158,7 +155,6 @@ android {
             applyBase()
             configSigning()
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
-            proguardFiles("proguard-log.pro")
             versionNameSuffix = "-$dateSuffix"
         }
 
