@@ -47,7 +47,6 @@ import com.sevtinge.hyperceiler.home.utils.HeaderManager;
 import com.sevtinge.hyperceiler.libhook.utils.api.BackupUtils;
 import com.sevtinge.hyperceiler.search.SearchHelper;
 import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
-import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
@@ -170,11 +169,8 @@ public class SettingsFragment extends BasePreferenceFragment
 
         mLanguage.setOnPreferenceChangeListener((preference, o) -> {
             int index = Integer.parseInt((String) o);
-            LanguageHelper.setIndexLanguage(getActivity(), index, false);
+            LanguageHelper.setIndexLanguage(getActivity(), index, true);
             SearchHelper.initIndex(requireContext(), true);
-            if (getActivity() instanceof HomePageActivity activity) {
-                activity.reloadPagesForLanguageChange();
-            }
             return true;
         });
 
