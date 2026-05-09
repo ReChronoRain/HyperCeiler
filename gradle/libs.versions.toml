@@ -1,11 +1,11 @@
 [versions]
 # Build tools
-agp = "9.1.0"
+agp = "9.2.1"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
 # AndroidX
-annotation = "1.9.1"
+annotation = "1.10.0"
 constraintlayout = "2.2.1"
 coordinatorlayout = "1.3.0"
 core = "1.18.0"
@@ -18,7 +18,7 @@ viewpager2 = "1.1.0"
 miuix = "1.0.12.5"
 
 # Xposed & Hooks
-xposed-api = "101.0.0"
+xposed-api = "101.0.1"
 xposed-service = "101.0.0"
 dexkit = "2.1.0"
 ezxhelper = "3.1.1-rc1"
@@ -26,7 +26,7 @@ hiddenapibypass = "6.1"
 
 # Third-party
 expansions = "1.0.0"
-gson = "2.13.2"
+gson = "2.14.0"
 hyperfocusapi = "2.0"
 appiconloader = "1.5.0"
 lunarcalendar = "latest.release"
