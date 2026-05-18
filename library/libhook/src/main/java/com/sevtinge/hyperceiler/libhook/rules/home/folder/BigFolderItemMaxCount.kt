@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.libhook.rules.home.folder
 
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 
 class BigFolderItemMaxCount : HomeBaseHookNew() {
 
@@ -37,22 +37,22 @@ class BigFolderItemMaxCount : HomeBaseHookNew() {
     }
 
     private fun hook(clazz: String, clazz2: String) {
-        findClass(clazz).beforeHookMethod(
-            "createOrRemoveView"
-        ) { param ->
+        findClass(clazz).findMethod {
+            name("createOrRemoveView")
+        }.createBeforeHook { param ->
             val thisObject = param.thisObject
             val info = thisObject.getObjectFieldAs<Any>("mInfo")
-            val container = thisObject.callMethodAs<Any>("getMPreviewContainer")
+            val container = thisObject.callMethod("getMPreviewContainer") as Any
 
-            val childCount1 = info.callMethodAs<Int>("count")
-            val childCount2 = container.callMethodAs<Int>("getMRealPvChildCount")
+            val childCount1: Int = info.callMethod("count") as Int
+            val childCount2: Int = container.callMethod("getMRealPvChildCount") as Int
             if (childCount1 == childCount2) {
-                return@beforeHookMethod
+                return@createBeforeHook
             }
 
-            val num = Character.getNumericValue(container::class.java.simpleName.last())
-            if (childCount2 - num >= 3) {
-                return@beforeHookMethod
+            val num: Int = Character.getNumericValue(container.javaClass.simpleName.last())
+            if (Integer.compare(childCount2, num + 3) >= 0) {
+                return@createBeforeHook
             }
 
             container.callMethod(
@@ -65,13 +65,13 @@ class BigFolderItemMaxCount : HomeBaseHookNew() {
             )
         }
 
-        findClass(clazz).beforeHookMethod(
-            "addItemOnclickListener"
-        ) { param ->
-            val container = param.thisObject.callMethodAs<Any>("getMPreviewContainer")
-            val childCount = container.callMethodAs<Int>("getMRealPvChildCount")
+        findClass(clazz).findMethod {
+            name("addItemOnclickListener")
+        }.createBeforeHook { param ->
+            val container = param.thisObject.callMethod("getMPreviewContainer") as Any
+            val childCount: Int = container.callMethod("getMRealPvChildCount") as Int
 
-            val num = Character.getNumericValue(container::class.java.simpleName.last())
+            val num: Int = Character.getNumericValue(container.javaClass.simpleName.last())
             param.thisObject.callMethod(
                 "setMLargeIconNum",
                 if (childCount <= num) {
@@ -83,11 +83,11 @@ class BigFolderItemMaxCount : HomeBaseHookNew() {
         }
 
         val hookFolderIconPreviewContainer = { num: Int ->
-            findClass(clazz2 + num).beforeHookMethod(
-                "preSetup2x2"
-            ) { param ->
+            findClass(clazz2 + num).findMethod {
+                name("preSetup2x2")
+            }.createBeforeHook { param ->
                 val container = param.thisObject
-                val childCount = container.callMethodAs<Int>("getMRealPvChildCount")
+                val childCount: Int = container.callMethod("getMRealPvChildCount") as Int
 
                 container.callMethod(
                     "setMLargeIconNum",

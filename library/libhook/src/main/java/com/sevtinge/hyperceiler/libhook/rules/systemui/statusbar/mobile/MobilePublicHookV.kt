@@ -45,12 +45,12 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.signa
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper.isMobileDataConnected
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper.isWifiConnected
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import java.util.concurrent.ConcurrentHashMap
 
 class MobilePublicHookV : BaseHook() {
@@ -103,8 +103,13 @@ class MobilePublicHookV : BaseHook() {
                     cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
                 }
                 if (hideRoaming) {
-                    cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
-                    cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
+                    // 新版 MiuiCellularIconVM 中 *RoamVisible 字段类型为
+                    // FlowKt__ZipKt$combine$$inlined$combineUnsafe$FlowKt__ZipKt$1
+                    // （combine 产生的匿名 Flow），直接 setObjectField 会抛
+                    // IllegalArgumentException。先尝试旧版直接替换 StateFlow，
+                    // 失败则改为劫持其内部 $transform$inlined$1 lambda 让合并结果恒为 false。
+                    forceRoamHidden(cellularIcon, "smallRoamVisible")
+                    forceRoamHidden(cellularIcon, "mobileRoamVisible")
                 }
                 if (!isMoreSmallVersion(200, 2f)) {
                     updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
@@ -140,6 +145,63 @@ class MobilePublicHookV : BaseHook() {
             setStateFlowValue(isVisible, newPair(shouldShow))
         } else {
             setStateFlowValue(isVisible, shouldShow)
+        }
+    }
+
+
+    /**
+     * 隐藏漫游图标。
+     *
+     * 旧版 MiuiCellularIconVM 中 *RoamVisible 是 StateFlow，可以直接替换；
+     * 新版被改成了 combine(...) 产生的匿名 Flow（FlowKt__ZipKt$combine$$inlined$combineUnsafe$…），
+     * 反射赋值会报 IllegalArgumentException。
+     *
+     * 该匿名类内部字段：
+     *  - \$flows\$inlined        : Flow[]
+     *  - \$transform\$inlined\$1  : Function (Function4/5/6)
+     *  - \$r8\$classId           : Int   (R8 合并分支标识，不同值对应不同元数 lambda)
+     *
+     * 思路：保留字段对象本身，只把 transform lambda 换成一个同接口且永远返回 false
+     * 的动态代理。这样 combine 输出恒为 false，运行时几乎零额外开销，且不会再抛异常。
+     */
+    private fun forceRoamHidden(cellularIcon: Any, fieldName: String) {
+        // 先走旧版快路径：直接替换整个 StateFlow。
+        if (runCatching {
+                cellularIcon.setObjectField(fieldName, newReadonlyStateFlow(false))
+            }.isSuccess) return
+
+        // 新版快路径：劫持 combine 内部的 transform lambda。
+        runCatching {
+            val flowObj = cellularIcon.getObjectFieldAs<Any>(fieldName)
+            val fakeTransform = createAlwaysFalseTransform(flowObj) ?: return
+            flowObj.setObjectField($$"$transform$inlined$1", fakeTransform)
+        }
+    }
+
+    /**
+     * 根据 combine 匿名 Flow 对象创建一个同元数、恒返 false 的 Function 代理。
+     * 通过读取 \$transform\$inlined\$1 原始实现的所有接口来推断 Function 元数，
+     * 避免硬编码 \$r8\$classId 与 Function4/5/6 的映射关系（不同版本映射可能不同）。
+     */
+    private fun createAlwaysFalseTransform(flowObj: Any): Any? {
+        val originalTransform = runCatching {
+            flowObj.getObjectFieldAs<Any>($$"$transform$inlined$1")
+        }.getOrNull() ?: return null
+
+        val interfaces = originalTransform.javaClass.interfaces
+            .filter { it.name.startsWith("kotlin.jvm.functions.Function") }
+            .toTypedArray()
+        if (interfaces.isEmpty()) return null
+
+        val cl = originalTransform.javaClass.classLoader ?: javaClass.classLoader
+        return java.lang.reflect.Proxy.newProxyInstance(cl, interfaces) { _, method, _ ->
+            when (method.name) {
+                "invoke" -> false
+                "toString" -> "AlwaysFalseTransform"
+                "hashCode" -> 0
+                "equals" -> false
+                else -> null
+            }
         }
     }
 

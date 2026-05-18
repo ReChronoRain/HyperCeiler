@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.barrage
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 //from StarVoyager by @hosizoraru
 object CustomBarrageLength : BaseHook() {
@@ -33,53 +33,53 @@ object CustomBarrageLength : BaseHook() {
     override fun init() {
         val clazzString = loadClass("java.lang.String")
 
-        clazzString.methodFinder()
-            .filterByName("subSequence")
-            .filterByParamCount(2)
-            .first().createHook {
-                before { param ->
-                    if (Throwable().stackTrace.any { it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" }) {
-                        param.args[1] = minOf(barrageLength, (param.thisObject as String).length)
-                    }
-                }
-
-                after {
-                    if (it.throwable != null) {
-                        it.throwable = null
-                        it.result = it.thisObject
-                    }
+        clazzString.findMethod {
+            name("subSequence")
+            paramCount(2)
+        }.createHook {
+            before { param ->
+                if (Throwable().stackTrace.any { it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" }) {
+                    param.args[1] = minOf(barrageLength, (param.thisObject as String).length)
                 }
             }
 
-        clazzString.methodFinder()
-            .filterByName("length")
-            .filterByParamCount(0)
-            .first().createHook {
-                after { param ->
-                    val stacktrace = Throwable().stackTrace
-                    if (stacktrace.any {
-                            it.className in setOf(
-                                "java.lang.String",
-                                "android.text.SpannableStringBuilder"
-                            )
-                        }) return@after
-                    if (stacktrace.any {
-                            it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" && it.methodName in setOf(
-                                "addBarrageNotification", "sendBarrage"
-                            )
-                        }) {
-                        val realResult = (param.result as Int)
-                        param.result = if (barrageLength < 36) {
-                            if (realResult > barrageLength) {
-                                maxOf(37, realResult)
-                            } else realResult
-                        } else {
-                            if (realResult <= barrageLength) {
-                                minOf(35, realResult)
-                            } else realResult
-                        }
+            after {
+                if (it.throwable != null) {
+                    it.throwable = null
+                    it.result = it.thisObject
+                }
+            }
+        }
+
+        clazzString.findMethod {
+            name("length")
+            paramCount(0)
+        }.createHook {
+            after { param ->
+                val stacktrace = Throwable().stackTrace
+                if (stacktrace.any {
+                    it.className in setOf(
+                        "java.lang.String",
+                        "android.text.SpannableStringBuilder"
+                    )
+                }) return@after
+                if (stacktrace.any {
+                    it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" && it.methodName in setOf(
+                        "addBarrageNotification", "sendBarrage"
+                    )
+                }) {
+                    val realResult = (param.result as Int)
+                    param.result = if (barrageLength < 36) {
+                        if (realResult > barrageLength) {
+                            maxOf(37, realResult)
+                        } else realResult
+                    } else {
+                        if (realResult <= barrageLength) {
+                            minOf(35, realResult)
+                        } else realResult
                     }
                 }
             }
+        }
     }
 }

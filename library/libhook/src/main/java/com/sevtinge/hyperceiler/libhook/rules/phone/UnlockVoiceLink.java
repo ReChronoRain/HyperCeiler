@@ -20,10 +20,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.phone;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockVoiceLink extends BaseHook {
     @Override
@@ -34,7 +33,7 @@ public class UnlockVoiceLink extends BaseHook {
                 param.setResult(true);
             }
         });
-        EzxHelpUtils.setStaticBooleanField(findClassIfExists("com.android.phone.CloudController.TelephonyCloudController"), "CLOUD_VOICE_LINK_FEATURE_DISABLED", false);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(findClassIfExists("com.android.phone.CloudController.TelephonyCloudController"), "CLOUD_VOICE_LINK_FEATURE_DISABLED", false);
 
     }
 }

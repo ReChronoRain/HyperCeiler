@@ -22,10 +22,10 @@ import android.content.pm.ApplicationInfo
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isInternational
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.hook
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticBooleanField
 
 // from SetoHook by SetoSkins
 class AllDarkMode : BaseHook() {
@@ -34,28 +34,26 @@ class AllDarkMode : BaseHook() {
         val clazzForceDarkAppListManager =
             findClass("com.android.server.ForceDarkAppListManager")
 
-        clazzForceDarkAppListManager.methodFinder().apply {
-            filterByName("getDarkModeAppList").toList()
-                .forEach {
-                    it.hook { chain ->
-                        clazzMiuiBuild.setStaticBooleanField("IS_INTERNATIONAL_BUILD", true)
-                        try {
-                            chain.proceed()
-                        } finally {
-                            clazzMiuiBuild.setStaticBooleanField("IS_INTERNATIONAL_BUILD", false)
-                        }
+        clazzForceDarkAppListManager.findAllMethods { name("getDarkModeAppList") }
+            .forEach {
+                it.createInterceptHook { chain ->
+                    clazzMiuiBuild.setStaticBooleanField("IS_INTERNATIONAL_BUILD", true)
+                    try {
+                        chain.proceed()
+                    } finally {
+                        clazzMiuiBuild.setStaticBooleanField("IS_INTERNATIONAL_BUILD", false)
                     }
                 }
+            }
 
-            filterByName("shouldShowInSettings").toList()
-                .createHooks {
-                    before { param ->
-                        val info = param.args[0] as ApplicationInfo?
-                        param.result =
-                            !(info == null || (
-                                callMethod(info, "isSystemApp") as Boolean) || info.uid < 10000)
-                    }
+        clazzForceDarkAppListManager.findAllMethods { name("shouldShowInSettings") }
+            .createHooks {
+                before { param ->
+                    val info = param.args[0] as ApplicationInfo?
+                    param.result =
+                        !(info == null || (
+                            callMethod(info, "isSystemApp") as Boolean) || info.uid < 10000)
                 }
-        }
+            }
     }
 }

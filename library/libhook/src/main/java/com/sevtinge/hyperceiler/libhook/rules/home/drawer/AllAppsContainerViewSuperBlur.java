@@ -28,12 +28,12 @@ import android.widget.ViewSwitcher;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AllAppsContainerViewSuperBlur extends BaseHook {
     private boolean isBlur;

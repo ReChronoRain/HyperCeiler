@@ -30,9 +30,9 @@ import android.widget.TextView;
 
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ViewWifiPasswordHook extends BaseHook {
 
@@ -45,7 +45,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         hookAllMethods("com.android.settings.wifi.SavedAccessPointPreference", "onBindViewHolder", new IMethodHook() {
             @Override
 
-            public void after(HookParam param) throws PackageManager.NameNotFoundException {
+            public void after(HookParam param) {
                 View view = (View) getObjectField(param.getThisObject(), "mView");
                 int btnId = view.getResources().getIdentifier("btn_delete", "id", "com.android.settings");
                 Button button = view.findViewById(btnId);
@@ -85,7 +85,7 @@ public class ViewWifiPasswordHook extends BaseHook {
         });
         hookAllMethods("com.android.settings.wifi.MiuiSavedAccessPointsWifiSettings", "showDeleteDialog", new IMethodHook() {
             @Override
-            public void before(HookParam param) throws PackageManager.NameNotFoundException {
+            public void before(HookParam param) {
                 Object wifiEntry = param.getArgs()[0];
                 boolean canShare = (boolean) callMethod(wifiEntry, "canShare");
                 if (canShare) {

@@ -36,20 +36,20 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.chooseBackgroundBlurContainer
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.mSupportSV
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticBooleanField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceCallback
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createReplaceHook
 import java.lang.reflect.Method
 import java.util.WeakHashMap
 
@@ -167,16 +167,15 @@ object VolumeOrQSBrightnessValue {
         // 控制中心音量条百分比进度值计算
         val sliderUpdateFinder = try {
             if (mSupportSV) {
-                // 你米还是太抽象了
-                volumeSliderController.methodFinder().filterByName("updateSuperVolume")
+                volumeSliderController.findMethod { name("updateSuperVolume") }
             } else {
-                volumeSliderController.methodFinder().filterByName("updateIconProgress")
+                volumeSliderController.findMethod { name("updateIconProgress") }
             }
         } catch (_: Throwable) {
-            volumeSliderController.methodFinder().filterByName("updateIconProgress")
+            volumeSliderController.findMethod { name("updateIconProgress") }
         }
 
-        sliderUpdateFinder.first().createAfterHook { param ->
+        sliderUpdateFinder.createAfterHook { param ->
             val sliderHolder = param.thisObject.callMethod("getHolder") ?: return@createAfterHook
             val topValue = getOrCacheTopText(
                 topTextCache,
@@ -212,13 +211,95 @@ object VolumeOrQSBrightnessValue {
         val volumePanelViewController = loadClass("com.android.systemui.miui.volume.VolumePanelViewController", classLoader)
         val util = Util(classLoader)
 
-        volumePanelViewController.methodFinder().apply {
-            filterByName("updateSuperVolumeView").first().createAfterHook { param ->
-                val thisObj = param.thisObject
-                val mExpanded = thisObj.getObjectFieldOrNullAs<Boolean>("mExpanded") ?: false
-                val volumeColumn = param.args[0] ?: return@createAfterHook
+        volumePanelViewController.findMethod { name("updateSuperVolumeView") }.createAfterHook { param ->
+            val thisObj = param.thisObject
+            val mExpanded = thisObj.getObjectFieldOrNullAs<Boolean>("mExpanded") ?: false
+            val volumeColumn = param.args[0] ?: return@createAfterHook
 
-                // 获取或刷新 superVolume TextView
+            // 获取或刷新 superVolume TextView
+            val superVolume = try {
+                val cached = superVolumeCache[volumeColumn]
+                if (cached != null && cached.isAttachedToWindow) cached
+                else {
+                    val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
+                    if (found != null) superVolumeCache[volumeColumn] = found
+                    found
+                }
+            } catch (e: Throwable) {
+                XposedLog.e("VolumeOrQSBrightnessValue", "get superVolume failed: ${e.message}")
+                null
+            } ?: return@createAfterHook
+
+            val mSuperVolumeBg = thisObj.getObjectFieldOrNullAs<View>("mSuperVolumeBg") ?: return@createAfterHook
+            normalizeTopTextViewLayout(superVolume, 13f)
+
+            util.setVisOrGone(mSuperVolumeBg, !mExpanded) // 侧边音量条进度值 UI 显示
+            util.setVisOrGone(superVolume, mExpanded) // All 场景二级音量条进度值 UI 显示
+
+            /*if (isMoreHyperOSVersion(3f)) {
+                // 为 All 二级进度值适配高级材质
+                val mContext = thisObj.getObjectField("mContext") as Context
+
+                superVolume.setTextColor(Color.WHITE)
+                val cacheKey = "$PLUGIN:miui_volume_icon_blend_colors_cc"
+                val colorArray = colorArrayCache.getOrPut(cacheKey) {
+                    mContext.resources.getIntArrayBy("miui_volume_icon_blend_colors_cc", PLUGIN)
+                }
+                util.setMiViewBlurAndBlendColor(superVolume, mExpanded, mContext, 3, colorArray, false)
+            }*/
+        }
+
+        // All 场景二级音量条百分比进度值计算显示
+        volumePanelViewController.findMethod { name("updateVolumeColumnSliderH") }.createAfterHook { param ->
+            val volumeColumn = param.args[0] ?: return@createAfterHook
+            val mState = param.thisObject.getObjectFieldOrNullAs<Any>("mState")
+            val states = mState?.getObjectFieldOrNullAs<SparseArray<*>>("states")
+
+            // 使用缓存获取 stream，避免频繁反射
+            val stream = getOrCacheStream(volumeColumn)
+            val streamState = states?.get(stream)
+            val mActiveStream = param.thisObject.getObjectFieldOrNullAs<Int>("mActiveStream") ?: -1
+
+            if (streamState != null) {
+                val maxLevel = streamState.getObjectFieldOrNullAs<Int>("levelMax") ?: return@createAfterHook
+                val level = streamState.getObjectFieldOrNullAs<Int>("level") ?: return@createAfterHook
+
+                val superVolumeTv = runCatching {
+                    val cached = superVolumeCache[volumeColumn]
+                    if (cached != null && cached.isAttachedToWindow) cached
+                    else {
+                        val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
+                        if (found != null) superVolumeCache[volumeColumn] = found
+                        found
+                    }
+                }.getOrNull() ?: return@createAfterHook
+
+                val newText = convertToPercentageVolumeProgress(level, maxLevel)
+                setTextIfChanged(superVolumeTv, newText)
+
+                if (stream == mActiveStream) {
+                    val mSuperVolumeTv = param.thisObject.getObjectFieldOrNullAs<TextView>("mSuperVolume")
+                    mSuperVolumeTv?.let { setTextIfChanged(it, newText) }
+                }
+            }
+        }
+
+        // 为 All 二级进度值适配高级材质
+        if (!isMoreHyperOSVersion(3f)) {
+            volumePanelViewController.findMethod { name("updateColumnSliderBlendColor") }.createAfterHook { param ->
+                val thisObj = param.thisObject
+                val volumeColumn = param.args[0] ?: return@createAfterHook
+                val mContext = thisObj.getObjectField("mContext") as Context
+                val mExpanded = thisObj.getObjectField("mExpanded") as Boolean
+                val mNeedShowDialog = thisObj.getObjectField("mNeedShowDialog") as Boolean
+                val colorArrayName = if (!mExpanded) {
+                    "miui_expanded_button_and_seekbar_icon_blend_colors_collapsed"
+                } else if (mNeedShowDialog) {
+                    "miui_seekbar_icon_blend_colors_expanded"
+                } else {
+                    "miui_seekbar_icon_blend_colors_expanded_cc"
+                }
+
                 val superVolume = try {
                     val cached = superVolumeCache[volumeColumn]
                     if (cached != null && cached.isAttachedToWindow) cached
@@ -228,106 +309,22 @@ object VolumeOrQSBrightnessValue {
                         found
                     }
                 } catch (e: Throwable) {
-                    XposedLog.e("VolumeOrQSBrightnessValue", "get superVolume failed: ${e.message}")
+                    XposedLog.e("VolumeOrQSBrightnessValue", "get superVolume in blend color failed: ${e.message}")
                     null
                 } ?: return@createAfterHook
 
-                val mSuperVolumeBg = thisObj.getObjectFieldOrNullAs<View>("mSuperVolumeBg") ?: return@createAfterHook
-                normalizeTopTextViewLayout(superVolume, 13f)
-
-                util.setVisOrGone(mSuperVolumeBg, !mExpanded) // 侧边音量条进度值 UI 显示
-                util.setVisOrGone(superVolume, mExpanded) // All 场景二级音量条进度值 UI 显示
-
-                /*if (isMoreHyperOSVersion(3f)) {
-                    // 为 All 二级进度值适配高级材质
-                    val mContext = thisObj.getObjectField("mContext") as Context
-
-                    superVolume.setTextColor(Color.WHITE)
-                    val cacheKey = "$PLUGIN:miui_volume_icon_blend_colors_cc"
-                    val colorArray = colorArrayCache.getOrPut(cacheKey) {
-                        mContext.resources.getIntArrayBy("miui_volume_icon_blend_colors_cc", PLUGIN)
-                    }
-                    util.setMiViewBlurAndBlendColor(superVolume, mExpanded, mContext, 3, colorArray, false)
-                }*/
-            }
-
-            // All 场景二级音量条百分比进度值计算显示
-            filterByName("updateVolumeColumnSliderH").first().createAfterHook { param ->
-                val volumeColumn = param.args[0] ?: return@createAfterHook
-                val mState = param.thisObject.getObjectFieldOrNullAs<Any>("mState")
-                val states = mState?.getObjectFieldOrNullAs<SparseArray<*>>("states")
-
-                // 使用缓存获取 stream，避免频繁反射
-                val stream = getOrCacheStream(volumeColumn)
-                val streamState = states?.get(stream)
-                val mActiveStream = param.thisObject.getObjectFieldOrNullAs<Int>("mActiveStream") ?: -1
-
-                if (streamState != null) {
-                    val maxLevel = streamState.getObjectFieldOrNullAs<Int>("levelMax") ?: return@createAfterHook
-                    val level = streamState.getObjectFieldOrNullAs<Int>("level") ?: return@createAfterHook
-
-                    val superVolumeTv = runCatching {
-                        val cached = superVolumeCache[volumeColumn]
-                        if (cached != null && cached.isAttachedToWindow) cached
-                        else {
-                            val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
-                            if (found != null) superVolumeCache[volumeColumn] = found
-                            found
-                        }
-                    }.getOrNull() ?: return@createAfterHook
-
-                    val newText = convertToPercentageVolumeProgress(level, maxLevel)
-                    setTextIfChanged(superVolumeTv, newText)
-
-                    if (stream == mActiveStream) {
-                        val mSuperVolumeTv = param.thisObject.getObjectFieldOrNullAs<TextView>("mSuperVolume")
-                        mSuperVolumeTv?.let { setTextIfChanged(it, newText) }
-                    }
+                superVolume.setTextColor(Color.WHITE)
+                val cacheKey = "$PLUGIN:$colorArrayName"
+                val colorArray = colorArrayCache.getOrPut(cacheKey) {
+                    mContext.resources.getIntArrayBy(colorArrayName, PLUGIN)
                 }
-            }
-
-            // 为 All 二级进度值适配高级材质
-            if (!isMoreHyperOSVersion(3f)) {
-                filterByName("updateColumnSliderBlendColor").first().createAfterHook { param ->
-                    val thisObj = param.thisObject
-                    val volumeColumn = param.args[0] ?: return@createAfterHook
-                    val mContext = thisObj.getObjectField("mContext") as Context
-                    val mExpanded = thisObj.getObjectField("mExpanded") as Boolean
-                    val mNeedShowDialog = thisObj.getObjectField("mNeedShowDialog") as Boolean
-                    val colorArrayName = if (!mExpanded) {
-                        "miui_expanded_button_and_seekbar_icon_blend_colors_collapsed"
-                    } else if (mNeedShowDialog) {
-                        "miui_seekbar_icon_blend_colors_expanded"
-                    } else {
-                        "miui_seekbar_icon_blend_colors_expanded_cc"
-                    }
-
-                    val superVolume = try {
-                        val cached = superVolumeCache[volumeColumn]
-                        if (cached != null && cached.isAttachedToWindow) cached
-                        else {
-                            val found = volumeColumn.getObjectFieldOrNullAs<TextView>("superVolume")
-                            if (found != null) superVolumeCache[volumeColumn] = found
-                            found
-                        }
-                    } catch (e: Throwable) {
-                        XposedLog.e("VolumeOrQSBrightnessValue", "get superVolume in blend color failed: ${e.message}")
-                        null
-                    } ?: return@createAfterHook
-
-                    superVolume.setTextColor(Color.WHITE)
-                    val cacheKey = "$PLUGIN:$colorArrayName"
-                    val colorArray = colorArrayCache.getOrPut(cacheKey) {
-                        mContext.resources.getIntArrayBy(colorArrayName, PLUGIN)
-                    }
-                    util.setMiViewBlurAndBlendColor(superVolume, mExpanded, mContext, 3, colorArray, false)
-                }
+                util.setMiViewBlurAndBlendColor(superVolume, mExpanded, mContext, 3, colorArray, false)
             }
         }
 
         // 有超大音量功能的拦截隐藏
         if (mSupportSV) {
-            volumePanelViewController.methodFinder().filterByName("updateSuperVolumeView").first().replaceCallback { null }
+            volumePanelViewController.findMethod { name("updateSuperVolumeView") }.createReplaceHook { null }
         }
     }
 
@@ -344,7 +341,7 @@ object VolumeOrQSBrightnessValue {
         }
 
         // 控制中心一级亮度条计算
-        brightnessSliderController.methodFinder().filterByName("updateIconProgress").first().createAfterHook { param ->
+        brightnessSliderController.findMethod { name("updateIconProgress") }.createAfterHook { param ->
             val sliderHolder = param.thisObject.callMethod("getSliderHolder") ?: return@createAfterHook
             val topValue = getOrCacheTopText(
                 topTextCache,
@@ -358,7 +355,7 @@ object VolumeOrQSBrightnessValue {
         }
 
         // 控制中心二级亮度条百分比进度值计算
-        brightnessPanelSliderController.methodFinder().filterByName("updateIconProgress").first().createAfterHook { param ->
+        brightnessPanelSliderController.findMethod { name("updateIconProgress") }.createAfterHook { param ->
             val controller = param.thisObject
             val vToggleSliderInner = controller.callMethod("getVToggleSliderInner") as ViewGroup
             val seekBar = sliderSeekBarCache.getOrPut(controller) { controller.callMethod("getVSlider") as SeekBar }
@@ -373,7 +370,7 @@ object VolumeOrQSBrightnessValue {
         }
 
         // 控制中心二级亮度条进度值高级材质适配
-        brightnessPanelSliderController.methodFinder().filterByName("updateBlendBlur").first().createAfterHook { param ->
+        brightnessPanelSliderController.findMethod { name("updateBlendBlur") }.createAfterHook { param ->
             val context = param.thisObject.callMethod("getContext") as Context
             val vToggleSliderInner = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
             val topValue = vToggleSliderInner.findViewByIdName("top_text") as TextView
@@ -404,14 +401,14 @@ object VolumeOrQSBrightnessValue {
         }
 
         // 设置展开的大小
-        brightnessPanelSliderController.methodFinder().filterByName("updateLargeSize").first().createAfterHook { param ->
+        brightnessPanelSliderController.findMethod { name("updateLargeSize") }.createAfterHook { param ->
             val item = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
             val topValue = item.findViewByIdName("top_text") as TextView
             normalizeTopTextViewLayout(topValue, 15f)
         }
 
         // 设置未展开的大小
-        brightnessPanelSliderController.methodFinder().filterByName("updateSmallSize").first().createAfterHook { param ->
+        brightnessPanelSliderController.findMethod { name("updateSmallSize") }.createAfterHook { param ->
             val item = param.thisObject.callMethod("getVToggleSliderInner") as ViewGroup
             val topValue = item.findViewByIdName("top_text") as TextView
             normalizeTopTextViewLayout(topValue, 13f)
@@ -424,7 +421,7 @@ object VolumeOrQSBrightnessValue {
         }
 
         // 修复过渡动画错位，并增加大小过渡动画
-        brightnessPanelAnimator.methodFinder().filterByName("frameCallback").first().createAfterHook { param ->
+        brightnessPanelAnimator.findMethod { name("frameCallback") }.createAfterHook { param ->
             val sliderController = param.thisObject.getObjectFieldOrNull("sliderController")
                 ?: param.thisObject.getObjectFieldOrNull("sliderDelegate")
                 ?: return@createAfterHook
@@ -447,7 +444,7 @@ object VolumeOrQSBrightnessValue {
 
         if (!isMoreAndroidVersion(36) || !isMoreHyperOSVersion(3f)) {
             // 修复展开动画错位之一
-            brightnessPanelSliderController.constructorFinder().toList().createAfterHooks { param ->
+            Constructors.find(brightnessPanelSliderController).toList().createAfterHooks { param ->
                 val brightnessPanel = param.args.getOrNull(0) as? FrameLayout ?: return@createAfterHooks
                 val topText = brightnessPanel.findViewByIdName("top_text") as? TextView ?: return@createAfterHooks
                 topText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
@@ -458,21 +455,21 @@ object VolumeOrQSBrightnessValue {
             }
 
             // 貌似用不到的修复展开动画错位的方法之一
-            brightnessSliderController.methodFinder()
-                .filterByName("createViewHolder")
-                .filterByParamTypes { it[0] == ViewGroup::class.java && it[1] == Int::class.java }
-                .first().createAfterHook { param ->
-                    val viewHolder = param.result
-                    if (viewHolder != null) {
-                        val root = viewHolder.getObjectFieldAs<ViewGroup>("itemView")
-                        val topText = root.findViewByIdName("top_text") as TextView
-                        topText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                        val mLayoutParams = (topText.layoutParams as ViewGroup.LayoutParams).apply {
-                            width = dpToPx(50f, root.resources.displayMetrics).toInt()
-                        }
-                        topText.layoutParams = mLayoutParams
+            brightnessSliderController.findMethod {
+                name("createViewHolder")
+                parameterTypes(ViewGroup::class.java, Int::class.javaPrimitiveType!!)
+            }.createAfterHook { param ->
+                val viewHolder = param.result
+                if (viewHolder != null) {
+                    val root = viewHolder.getObjectFieldAs<ViewGroup>("itemView")
+                    val topText = root.findViewByIdName("top_text") as TextView
+                    topText.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+                    val mLayoutParams = (topText.layoutParams as ViewGroup.LayoutParams).apply {
+                        width = dpToPx(50f, root.resources.displayMetrics).toInt()
                     }
+                    topText.layoutParams = mLayoutParams
                 }
+            }
         }
     }
 
@@ -483,53 +480,51 @@ object VolumeOrQSBrightnessValue {
     ) {
         val toggleSliderViewHolder = loadClass("miui.systemui.controlcenter.panel.main.recyclerview.ToggleSliderViewHolder", classLoader)
 
-        toggleSliderViewHolder.methodFinder().apply {
-            filterByName("updateSize").first().createAfterHook { param ->
-                val item = param.thisObject.getObjectField("itemView") as View
-                val topValue = getOrCacheTopText(topTextCache, item, { item }, { item.context })
-                topValue.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
-                topValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+        toggleSliderViewHolder.findMethod { name("updateSize") }.createAfterHook { param ->
+            val item = param.thisObject.getObjectField("itemView") as View
+            val topValue = getOrCacheTopText(topTextCache, item, { item }, { item.context })
+            topValue.textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            topValue.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13f)
+        }
+
+        toggleSliderViewHolder.findMethod { name("updateBlendBlur") }.createAfterHook { param ->
+            val context = param.thisObject.callMethod("getContext") as Context
+            val item = param.thisObject.getObjectField("itemView") as View
+            val topValue = getOrCacheTopText(topTextCache, item, { item }, { item.context })
+
+            if (!controlCenterUtils.getBackgroundBlurOpenedInDefaultTheme(context)) {
+                val colorId = context.resources.getIdentifier("toggle_slider_top_text_color", "color", PLUGIN)
+                val color = item.resources.getColor(colorId, null)
+                topValue.setTextColor(color)
+                miBlurCompat.setMiViewBlurModeCompat(topValue, 0)
+                miBlurCompat.clearMiBackgroundBlendColorCompat(topValue)
+                return@createAfterHook
             }
 
-            filterByName("updateBlendBlur").first().createAfterHook { param ->
-                val context = param.thisObject.callMethod("getContext") as Context
-                val item = param.thisObject.getObjectField("itemView") as View
-                val topValue = getOrCacheTopText(topTextCache, item, { item }, { item.context })
-
-                if (!controlCenterUtils.getBackgroundBlurOpenedInDefaultTheme(context)) {
-                    val colorId = context.resources.getIdentifier("toggle_slider_top_text_color", "color", PLUGIN)
-                    val color = item.resources.getColor(colorId, null)
-                    topValue.setTextColor(color)
-                    miBlurCompat.setMiViewBlurModeCompat(topValue, 0)
-                    miBlurCompat.clearMiBackgroundBlendColorCompat(topValue)
-                    return@createAfterHook
-                }
-
-                topValue.setTextColor(Color.WHITE)
-                val inMirror = param.thisObject.getObjectField("inMirror") as Boolean
-                topValue.chooseBackgroundBlurContainer(
-                    if (inMirror) {
-                        with(param.thisObject) {
-                            getObjectFieldOrNullAs<View>("mirrorBlendBackground")
-                                ?: getObjectFieldOrNullAs<View>("mirrorBlurProvider")
-                        }
-                    } else null
-                )
-                miBlurCompat.setMiViewBlurModeCompat(topValue, 3)
-
-                if (isMoreHyperOSVersion(3f)) {
-                    val cacheKey = "$PLUGIN:miui_volume_icon_blend_colors_cc"
-                    val colorArray: IntArray = colorArrayCache.getOrPut(cacheKey) {
-                        context.resources.getIntArrayBy("miui_volume_icon_blend_colors_cc", PLUGIN)
+            topValue.setTextColor(Color.WHITE)
+            val inMirror = param.thisObject.getObjectField("inMirror") as Boolean
+            topValue.chooseBackgroundBlurContainer(
+                if (inMirror) {
+                    with(param.thisObject) {
+                        getObjectFieldOrNullAs<View>("mirrorBlendBackground")
+                            ?: getObjectFieldOrNullAs<View>("mirrorBlurProvider")
                     }
-                    miBlurCompat.setMiBackgroundBlendColors(topValue, colorArray, 1f)
-                } else {
-                    val cacheKey = "$PLUGIN:toggle_slider_icon_blend_colors"
-                    val colorArray: IntArray = colorArrayCache.getOrPut(cacheKey) {
-                        context.resources.getIntArrayBy("toggle_slider_icon_blend_colors", PLUGIN)
-                    }
-                    miBlurCompat.setMiBackgroundBlendColors(topValue, colorArray, 1f)
+                } else null
+            )
+            miBlurCompat.setMiViewBlurModeCompat(topValue, 3)
+
+            if (isMoreHyperOSVersion(3f)) {
+                val cacheKey = "$PLUGIN:miui_volume_icon_blend_colors_cc"
+                val colorArray: IntArray = colorArrayCache.getOrPut(cacheKey) {
+                    context.resources.getIntArrayBy("miui_volume_icon_blend_colors_cc", PLUGIN)
                 }
+                miBlurCompat.setMiBackgroundBlendColors(topValue, colorArray, 1f)
+            } else {
+                val cacheKey = "$PLUGIN:toggle_slider_icon_blend_colors"
+                val colorArray: IntArray = colorArrayCache.getOrPut(cacheKey) {
+                    context.resources.getIntArrayBy("toggle_slider_icon_blend_colors", PLUGIN)
+                }
+                miBlurCompat.setMiBackgroundBlendColors(topValue, colorArray, 1f)
             }
         }
     }
@@ -544,13 +539,13 @@ object VolumeOrQSBrightnessValue {
         return "${percent}%"
     }
 
-    class ControlCenterUtils(classLoader: ClassLoader?) {
+    class ControlCenterUtils(classLoader: ClassLoader) {
         private val controlCenterUtils = loadClass("miui.systemui.controlcenter.utils.ControlCenterUtils", classLoader)
         fun getBackgroundBlurOpenedInDefaultTheme(context: Context) =
             controlCenterUtils.callStaticMethod("getBackgroundBlurOpenedInDefaultTheme", context) as Boolean
     }
 
-    class MiBlurCompat(classLoader: ClassLoader?) {
+    class MiBlurCompat(classLoader: ClassLoader) {
         private val miBlurCompat = loadClass("miui.systemui.util.MiBlurCompat", classLoader)
         fun setMiViewBlurModeCompat(view: View, mode: Int) {
             miBlurCompat.callStaticMethod("setMiViewBlurModeCompat", view, mode)
@@ -563,9 +558,9 @@ object VolumeOrQSBrightnessValue {
         }
     }
 
-    class Util(classLoader: ClassLoader?) {
+    class Util(classLoader: ClassLoader) {
         private val util = loadClass("com.android.systemui.miui.volume.Util", classLoader)
-        val DEBUG = getStaticBooleanField(util, "DEBUG")
+        val DEBUG = util.getStaticBooleanField("DEBUG")
 
         fun setMiViewBlurAndBlendColor(
             view: View,

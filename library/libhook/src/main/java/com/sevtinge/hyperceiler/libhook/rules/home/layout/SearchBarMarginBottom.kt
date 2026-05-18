@@ -25,16 +25,10 @@ class SearchBarMarginBottom : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findAndHookMethod(
-            DEVICE_CONFIG_NEW, "getSearchBarMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_searchbar_margin_bottom")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_NEW, "getSearchBarMarginBottom", "home_layout_searchbar_margin_bottom")
     }
 
     override fun initBase() {
-        findAndHookMethod(
-            DEVICE_CONFIG_OLD, "getSearchBarMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_searchbar_margin_bottom")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_OLD, "getSearchBarMarginBottom", "home_layout_searchbar_margin_bottom")
     }
 }

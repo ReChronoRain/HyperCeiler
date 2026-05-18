@@ -20,13 +20,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.getapps;
 
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode;
+import static io.github.lingqiqi5211.ezhooktool.core.java.Classes.loadClassFirst;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BypassRiskCheck extends BaseHook {
     @Override
@@ -39,7 +40,11 @@ public class BypassRiskCheck extends BaseHook {
                     param.getArgs()[0] = 0;
                 }
             });
-            findAndHookMethod("com.xiaomi.market.common.component.componentbeans.AppSecurityCheckRules$Companion", "getTotalResult", new IMethodHook() {
+            Class<?> result = loadClassFirst(
+                "com.xiaomi.market.common.component.componentbeans.AppSecurityCheckResult",
+                "com.xiaomi.market.common.component.componentbeans.AppSecurityCheckRules$Companion"
+            );
+            findAndHookMethod(result, "getTotalResult", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(getStaticObjectField(findClassIfExists("com.xiaomi.market.common.component.componentbeans.TotalResult"), "TOTAL_EXCELLENT"));

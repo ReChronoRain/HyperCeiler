@@ -21,11 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 import java.util.WeakHashMap
 
 object DisableBottomBar : BaseHook() {
@@ -34,14 +34,12 @@ object DisableBottomBar : BaseHook() {
     override fun init() {
         if (isMoreAndroidVersion(36)) {
             // 隐藏小窗小白条，外加沉浸
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationInfo")
-                .methodFinder().filterByName("getFreeformBottomCaptionHeight").first()
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationInfo").findMethod { name("getFreeformBottomCaptionHeight") }
                 .createHook {
                     returnConstant(0)
                 }
 
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationBottom")
-                .methodFinder().filterByName("getBottomCaptionHeight").first()
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationBottom").findMethod { name("getBottomCaptionHeight") }
                 .createHook {
                     after {
                         // 只要一碰小白条这个方法就会疯狂执行，猫猫问号？
@@ -62,8 +60,7 @@ object DisableBottomBar : BaseHook() {
                 }
 
         } else {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBottomDecoration")
-                .methodFinder().filterByName("createBottomCaption").first()
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBottomDecoration").findMethod { name("createBottomCaption") }
                 .createHook {
                     returnConstant(null)
                 }

@@ -36,9 +36,7 @@ import android.widget.Toast;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuiDialog;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -51,7 +49,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 @SuppressLint("DiscouragedApi")
 public class AppDisable extends BaseHook {
@@ -109,19 +108,23 @@ public class AppDisable extends BaseHook {
         findAndHookMethod("com.miui.appmanager.ApplicationsDetailsActivity", "onCreateOptionsMenu",
             Menu.class, new IMethodHook() {
                 @Override
-                public void after(HookParam param) throws Exception {
-                    Activity act = (Activity) param.getThisObject();
-                    Menu menu = (Menu) param.getArgs()[0];
+                public void after(HookParam param) {
+                    try {
+                        Activity act = (Activity) param.getThisObject();
+                        Menu menu = (Menu) param.getArgs()[0];
 
-                    menuItem = menu.findItem(6);
-                    if (menuItem != null) {
-                        menuItem.setVisible(false);
-                    }
+                        menuItem = menu.findItem(6);
+                        if (menuItem != null) {
+                            menuItem.setVisible(false);
+                        }
 
-                    addCustomMenuItem(act, menu);
-                    PackageInfo packageInfo = getPackageInfo(act, param.getThisObject());
-                    if (packageInfo != null) {
-                        configureMenuItems(act, menu, packageInfo);
+                        addCustomMenuItem(act, menu);
+                        PackageInfo packageInfo = getPackageInfo(act, param.getThisObject());
+                        if (packageInfo != null) {
+                            configureMenuItems(act, menu, packageInfo);
+                        }
+                    } catch (Exception e) {
+                        XposedLog.e(TAG, getPackageName(), "Failed to configure options menu", e);
                     }
                 }
             });
@@ -208,10 +211,14 @@ public class AppDisable extends BaseHook {
     private void hookOptionsItemSelected() {
         hookMethod(mMethodOnOptionsItemSelected, new IMethodHook() {
             @Override
-            public void after(HookParam param) throws Exception {
-                MenuItem item = (MenuItem) param.getArgs()[0];
-                if (item != null && item.getItemId() == 666) {
-                    handleDisableMenuClick(param, item);
+            public void after(HookParam param) {
+                try {
+                    MenuItem item = (MenuItem) param.getArgs()[0];
+                    if (item != null && item.getItemId() == 666) {
+                        handleDisableMenuClick(param, item);
+                    }
+                } catch (Exception e) {
+                    XposedLog.e(TAG, getPackageName(), "Failed to handle disable menu click", e);
                 }
             }
         });
@@ -275,7 +282,7 @@ public class AppDisable extends BaseHook {
      */
     private Activity getActivity(HookParam param) {
         if (isNewSecurityCenter) {
-            return (Activity) EzxHelpUtils.callMethod(param.getThisObject(), "getActivity");
+            return (Activity) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "getActivity");
         } else {
             return (Activity) param.getThisObject();
         }
@@ -288,15 +295,15 @@ public class AppDisable extends BaseHook {
         Field piField;
         if (isNewSecurityCenter) {
             Class<?> fragmentClass = findClassIfExists(clazzName);
-            Field fragmentField = EzxHelpUtils.findFirstFieldByExactType(act.getClass(), fragmentClass);
-            Object fragment = EzxHelpUtils.getObjectField(act, fragmentField.getName());
+            Field fragmentField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(act.getClass(), fragmentClass);
+            Object fragment = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(act, fragmentField.getName());
             if (fragment == null) {
                 return null;
             }
-            piField = EzxHelpUtils.findFirstFieldByExactType(fragment.getClass(), PackageInfo.class);
+            piField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(fragment.getClass(), PackageInfo.class);
             return (PackageInfo) piField.get(fragment);
         } else {
-            piField = EzxHelpUtils.findFirstFieldByExactType(obj.getClass(), PackageInfo.class);
+            piField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(obj.getClass(), PackageInfo.class);
             return (PackageInfo) piField.get(obj);
         }
     }

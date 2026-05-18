@@ -22,113 +22,162 @@ import android.graphics.Color;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.libhook.utils.api.InvokeUtils;
 
+/**
+ * Java 兼容入口，全部实现委托给 {@link MiBlurUtilsKt}（基于反射缓存）。
+ *
+ * <p>历史上这里用 EzHookTool 的 {@code Methods.callMethod} 做反射，但每次调用都要重新查方法，
+ * 还要手动写 parameterTypes 数组，重复且容易出错。
+ * 现在统一走 {@link MiBlurUtilsKt}：方法对象 lazy 缓存，签名维护在一处。</p>
+ */
 public class MiBlurUtils {
 
-    public static void setContainerPassBlur(View view, int i, boolean z) {
+    private static final String TAG = "MiBlurUtils";
+
+    private static final MiBlurUtilsKt KT = MiBlurUtilsKt.INSTANCE;
+
+    private MiBlurUtils() {
+    }
+
+    public static void setContainerPassBlur(View view, int radius, boolean passWindowBlur) {
         if (view == null) {
-            AndroidLog.d("MiBlurUtils", "setPassBlur view is null");
+            AndroidLog.d(TAG, "setPassBlur view is null");
             return;
         }
         try {
-            boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, z);
+            setPassWindowBlurEnabled(view, passWindowBlur);
             setMiBackgroundBlurMode(view, 1);
-            setMiBackgroundBlurRadius(view, i);
-            AndroidLog.i("MiBlurUtils", "setContainerPassBlur result :" + passWindowBlurEnabled + ",view : " + view);
-        } catch (Exception e) {
-            AndroidLog.e("MiBlurUtils", "setContainerPassBlur error , view :" + view);
+            setMiBackgroundBlurRadius(view, radius);
+            AndroidLog.i(TAG, "setContainerPassBlur view: " + view);
+        } catch (Throwable e) {
+            AndroidLog.e(TAG, "setContainerPassBlur error , view :" + view);
             e.printStackTrace();
         }
     }
 
-    public static boolean setPassWindowBlurEnabled(View view, boolean z) {
-        return InvokeUtils.callMethod(View.class, view, "setPassWindowBlurEnabled", new Class[]{boolean.class}, z);
+    public static boolean setPassWindowBlurEnabled(View view, boolean enabled) {
+        if (view == null) return false;
+        try {
+            KT.setPassWindowBlurEnabled(view, enabled);
+            return true;
+        } catch (Throwable e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
-    public static void setMiBackgroundBlurMode(View view, int i) {
-        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurMode", new Class[]{int.class}, i);
+    public static void setMiBackgroundBlurMode(View view, int mode) {
+        if (view == null) return;
+        try {
+            KT.setMiBackgroundBlurMode(view, mode);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void setMiBackgroundBlurRadius(View view, int i /* max 500 */) {
-        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurRadius", new Class[]{int.class}, i);
+    public static void setMiBackgroundBlurRadius(View view, int radius /* max 500 */) {
+        if (view == null) return;
+        try {
+            KT.setMiBackgroundBlurRadius(view, radius);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void addMiBackgroundBlendColor(View view, int i, int i2) {
+    public static void addMiBackgroundBlendColor(View view, int color, int mode) {
         /*
-        i2 =
-        101 子view模糊
-        103 当前view模糊
-        105 当前view和子view都模糊
-       */
-        InvokeUtils.callMethod(View.class, view, "addMiBackgroundBlendColor", new Class[]{int.class, int.class}, i, i2);
+         * mode:
+         * 101 子 view 模糊
+         * 103 当前 view 模糊
+         * 105 当前 view 和子 view 都模糊
+         */
+        if (view == null) return;
+        try {
+            KT.addMiBackgroundBlendColor(view, color, mode);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     public static void clearMiBackgroundBlendColor(View view) {
-        InvokeUtils.callMethod(View.class, view, "clearMiBackgroundBlendColor", new Class[]{});
+        if (view == null) return;
+        try {
+            KT.clearMiBackgroundBlendColor(view);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void setMiViewBlurMode(View view, int i) {
-        InvokeUtils.callMethod(View.class, view, "setMiViewBlurMode", new Class[]{int.class}, i);
+    public static void setMiViewBlurMode(View view, int mode) {
+        if (view == null) return;
+        try {
+            KT.setMiViewBlurMode(view, mode);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void disableMiBackgroundContainBelow(View view, boolean z) {
-        InvokeUtils.callMethod(View.class, view, "disableMiBackgroundContainBelow", new Class[]{boolean.class}, z);
+    public static void disableMiBackgroundContainBelow(View view, boolean disabled) {
+        if (view == null) return;
+        try {
+            KT.disableMiBackgroundContainBelow(view, disabled);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     public static void clearContainerPassBlur(View view) {
         if (view == null) {
-            AndroidLog.d("MiBlurUtils", "clearContainerMiBackgroundBlur view is null");
+            AndroidLog.d(TAG, "clearContainerMiBackgroundBlur view is null");
             return;
         }
         try {
             setMiBackgroundBlurMode(view, 0);
-            boolean passWindowBlurEnabled = setPassWindowBlurEnabled(view, false);
-            AndroidLog.d("MiBlurUtils", "clearContainerPassBlur result :" + passWindowBlurEnabled + ", view: " + view);
-        } catch (Exception e) {
-            AndroidLog.e("MiBlurUtils", "clearContainerMiBackgroundBlur error , view :" + view);
+            setPassWindowBlurEnabled(view, false);
+            AndroidLog.d(TAG, "clearContainerPassBlur view: " + view);
+        } catch (Throwable e) {
+            AndroidLog.e(TAG, "clearContainerMiBackgroundBlur error , view :" + view);
             e.printStackTrace();
         }
     }
 
-    public static void setMemberBlendColor(View view, boolean z, int i) {
-        setMemberBlendColor(view, z, i, 255);
+    public static void setMemberBlendColor(View view, boolean colorDark, int color) {
+        setMemberBlendColor(view, colorDark, color, 255);
     }
 
-    public static void setMemberBlendColor(View view, boolean z, int i, int i2) {
+    public static void setMemberBlendColor(View view, boolean colorDark, int color, int alpha) {
         if (view == null) {
-            AndroidLog.d("MiBlurUtils", "setMemberBlendColor view is null");
+            AndroidLog.d(TAG, "setMemberBlendColor view is null");
             return;
         }
         try {
             clearMiBackgroundBlendColor(view);
             setMiViewBlurMode(view, 3);
-            int argb = Color.argb(i2, Color.red(i), Color.green(i), Color.blue(i));
-            int argb2 = Color.argb(i2, 0, 0, 0);
+            int argb = Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
+            int labColor = Color.argb(alpha, 0, 0, 0);
             addMiBackgroundBlendColor(view, argb, 101);
-            if (z) {
-                addMiBackgroundBlendColor(view, argb2, 105);
-            } else {
-                addMiBackgroundBlendColor(view, argb2, 103);
-            }
-            AndroidLog.i("MiBlurUtils", "setMemberBlendColor: view:" + view + ",colorDark:" + z + ",color:" + Integer.toHexString(argb) + ",labColor:" + Integer.toHexString(argb2));
-        } catch (Exception e) {
-            AndroidLog.e("MiBlurUtils", "setMemberBlendColor error , view :" + view);
+            addMiBackgroundBlendColor(view, labColor, colorDark ? 105 : 103);
+            AndroidLog.i(TAG, "setMemberBlendColor: view:" + view
+                    + ",colorDark:" + colorDark
+                    + ",color:" + Integer.toHexString(argb)
+                    + ",labColor:" + Integer.toHexString(labColor));
+        } catch (Throwable e) {
+            AndroidLog.e(TAG, "setMemberBlendColor error , view :" + view);
             e.printStackTrace();
         }
     }
 
     public static void clearMemberBlendColor(View view) {
         if (view == null) {
-            AndroidLog.d("MiBlurUtils", "clearMemberBlendColor view is null");
+            AndroidLog.d(TAG, "clearMemberBlendColor view is null");
             return;
         }
         try {
             setMiViewBlurMode(view, 0);
             clearMiBackgroundBlendColor(view);
-            AndroidLog.d("MiBlurUtils", "clearMemberBlendColor view :" + view);
-        } catch (Exception e) {
-            AndroidLog.e("MiBlurUtils", "clearMemberBlendColor error , view :" + view);
+            AndroidLog.d(TAG, "clearMemberBlendColor view :" + view);
+        } catch (Throwable e) {
+            AndroidLog.e(TAG, "clearMemberBlendColor error , view :" + view);
             e.printStackTrace();
         }
     }

@@ -22,18 +22,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.ArrayMap
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 class RemoveConversationBubbleSettingsRestriction : BaseHook() {
     @SuppressLint("PrivateApi")
     override fun init() {
-        loadClass("com.miui.bubbles.settings.BubblesSettings").methodFinder()
-            .filterByName("getDefaultBubbles")
-            .single().createHook {
+        loadClass("com.miui.bubbles.settings.BubblesSettings").findMethod { name("getDefaultBubbles") }.createHook {
                 before { param ->
                     val classBubbleApp = loadClass("com.miui.bubbles.settings.BubbleApp")
                     val arrayMap = ArrayMap<String, Any>()

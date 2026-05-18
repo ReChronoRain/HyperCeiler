@@ -32,11 +32,13 @@ import android.widget.FrameLayout
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
 import kotlin.math.sqrt
 
 @SuppressLint("StaticFieldLeak")
@@ -99,8 +101,8 @@ object BlurWhenShowShortcutMenu : BaseHook() {
     }
 
     private fun hookShowShortcutMenu() {
-        shortcutMenuClass.hookAllMethods("showShortcutMenu") {
-            before { param ->
+        shortcutMenuClass.findAllMethods { name("showShortcutMenu") }
+            .toList().createBeforeHooks { param ->
                 val dragObject = param.args[0]
                 val dragViewInfo = dragObject?.callMethod("getDragInfo")
                 val iconIsInFolder = dragViewInfo?.callMethod("isInFolder") as Boolean
@@ -122,22 +124,21 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                 targetView = dragView?.callMethod("getContent") as? ViewGroup
 
                 hideBlurDrawables()
-                isShortcutMenuLayerBlurred = true}
-        }
+                isShortcutMenuLayerBlurred = true
+            }
     }
 
     private fun hookDragEvents() {
         shortcutMenuLayerClass.apply {
-            hookAllMethods("onDragStart") {
-                before {
+            this.findAllMethods { name("onDragStart") }
+                .toList().createBeforeHooks {
                     if (isShortcutMenuLayerBlurred) {
                         targetView?.transitionAlpha = 0f
                     }
                 }
-            }
 
-            hookAllMethods("onDragEnd") {
-                before {
+            this.findAllMethods { name("onDragEnd") }
+                .toList().createBeforeHooks {
                     if (isShortcutMenuLayerBlurred) {
                         val isLocked = utilitiesClass.callStaticMethod("isScreenCellsLocked") as Boolean
                         if (isLocked && dragView != null) {
@@ -145,34 +146,31 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                         }
                     }
                 }
-            }
         }
     }
 
     private fun hookDragViewRemove() {
-        dragViewClass.hookAllMethods("remove") {
-            before {
+        dragViewClass.findAllMethods { name("remove") }
+            .toList().createBeforeHooks {
                 if (isShortcutMenuLayerBlurred) {
                     it.result = null
                 }
             }
-        }
     }
 
     private fun hookShortcutMenuReset() {
-        shortcutMenuClass.hookAllMethods("reset") {
-            before {
+        shortcutMenuClass.findAllMethods { name("reset") }
+            .toList().createBeforeHooks {
                 if (isShortcutMenuLayerBlurred) {
                     resetBlurState()
                 }
             }
-        }
     }
 
     private fun hookHideShortcutMenu() {
-        shortcutMenuLayerClass.hookAllMethods("hideShortcutMenu") {
-            before { param ->
-                if (!isShortcutMenuLayerBlurred) return@before
+        shortcutMenuLayerClass.findAllMethods { name("hideShortcutMenu") }
+            .toList().createBeforeHooks { param ->
+                if (!isShortcutMenuLayerBlurred) return@createBeforeHooks
 
                 val editStateChangeReason = param.args[0]
                 val shortcutMenuLayer = param.thisObject as FrameLayout
@@ -202,43 +200,39 @@ object BlurWhenShowShortcutMenu : BaseHook() {
                     dragView?.callMethod("remove")
                 }
             }
-        }
     }
 
     private fun hookFastBlurDirectly() {
-        blurUtilsClass.hookAllMethods("fastBlurDirectly") {
-            before { param ->
+        blurUtilsClass.findAllMethods { name("fastBlurDirectly") }
+            .toList().createBeforeHooks { param ->
                 val blurRatio = param.args[0] as Float
                 if (isShortcutMenuLayerBlurred && blurRatio == 0f) {
                     param.result = null
                 }
             }
-        }
     }
 
     private fun hookMenuBackground() {
-        shortcutMenuClass.hookAllMethods("setMenuBg") {
-            after { param ->
-                if (!isShortcutMenuLayerBlurred) return@after
+        shortcutMenuClass.findAllMethods { name("setMenuBg") }
+            .toList().createAfterHooks { param ->
+                if (!isShortcutMenuLayerBlurred) return@createAfterHooks
 
                 setMenuAlpha(param.thisObject, "mAppShortcutMenu")
                 setMenuAlpha(param.thisObject, "mSystemShortcutMenu")
                 setMenuAlpha(param.thisObject, "mAppPersonaliseShortcutMenu")
                 setMenuAlpha(param.thisObject, "mFolderShortcutMenu")
             }
-        }
     }
 
     private fun hookArrowBackground() {
-        shortcutMenuClass.hookAllMethods("addArrow") {
-            after { param ->
-                if (!isShortcutMenuLayerBlurred) return@after
+        shortcutMenuClass.findAllMethods { name("addArrow") }
+            .toList().createAfterHooks { param ->
+                if (!isShortcutMenuLayerBlurred) return@createAfterHooks
 
                 val arrow = param.thisObject.getObjectField("mArrow") as? View
                 val arrowBackground = arrow?.background as? ShapeDrawable
                 arrowBackground?.alpha = shortcutMenuBackgroundAlpha
             }
-        }
     }
 
     private fun createBlurAnimation(
@@ -288,7 +282,7 @@ object BlurWhenShowShortcutMenu : BaseHook() {
 
             for (i in 0 until menu.childCount) {
                 val child = menu.getChildAt(i)
-                (child?.background as? Drawable)?.alpha = singleLayerAlpha
+                child?.background?.alpha = singleLayerAlpha
             }
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "setMenuAlpha failed for $fieldName", e)

@@ -20,19 +20,18 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.deoptimizeMethod
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isNotAbstract
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.java.Deoptimizers
 
 object RestoreEsc : BaseHook() {
     override fun init() {
-        findClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
-            .filterByName("switchPadMode").single().deoptimizeMethod()
-        findClass("com.android.server.input.InputManagerServiceStubImpl").methodFinder()
-            .filterByName("init").filter { this.isNotAbstract }.single().deoptimizeMethod()
-        findClass("com.android.server.input.config.InputCommonConfig").methodFinder()
-            .filterByName("setPadMode").single().createBeforeHook {
+        val inputManagerServiceStubImpl = findClass("com.android.server.input.InputManagerServiceStubImpl")
+          inputManagerServiceStubImpl.findAllMethods { name("switchPadMode") }.single()
+            .let(Deoptimizers::deoptimize)
+          inputManagerServiceStubImpl.findAllMethods { name("init"); notAbstract() }.single()
+            .let(Deoptimizers::deoptimize)
+        findClass("com.android.server.input.config.InputCommonConfig").findAllMethods { name("setPadMode") }.single().createBeforeHook {
                 it.args[0] = false
             }
     }

@@ -19,20 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.mtb
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object IsUserBuild : BaseHook() {
     override fun init() {
-        loadClass("com.xiaomi.mtb.MtbUtils").methodFinder()
-            .filterByName("IsUserBuild")
-            .single().createHook {
+        loadClass("com.xiaomi.mtb.MtbUtils").findMethod { name("IsUserBuild") }.createHook {
                 returnConstant(false)
         }
-        loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
-            .filterByName("isFactoryBuild")
-            .single().createHook {
+        loadClass("com.xiaomi.mtb.MtbApp").findMethod { name("isFactoryBuild") }.createHook {
                 returnConstant(true)
         }
     }

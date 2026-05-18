@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField;
 
 import android.content.Context;
 import android.os.Binder;

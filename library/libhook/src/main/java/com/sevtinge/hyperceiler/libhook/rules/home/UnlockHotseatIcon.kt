@@ -20,20 +20,25 @@ package com.sevtinge.hyperceiler.libhook.rules.home
 
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 class UnlockHotseatIcon : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findClass(DEVICE_CONFIG_NEW).replaceMethod("getHotseatMaxCount") {
-            99
+        findClass(DEVICE_CONFIG_NEW).findMethod {
+            name("getHotseatMaxCount")
+        }.createHook {
+            returnConstant(99)
         }
     }
 
     override fun initBase() {
-        findClass(DEVICE_CONFIG_OLD).replaceMethod("getHotseatMaxCount") {
-            99
+        findClass(DEVICE_CONFIG_OLD).findMethod {
+            name("getHotseatMaxCount")
+        }.createHook {
+            returnConstant(99)
         }
     }
 }

@@ -24,15 +24,14 @@ import androidx.core.view.isVisible
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
 
 /**
  * OS3 控制中心运行商名称自定义
@@ -44,9 +43,7 @@ object CustomCarrierText : BaseHook() {
     }
 
     override fun init() {
-        loadClass("com.android.systemui.statusbar.policy.HDController").methodFinder()
-            .filterByName("isVisible")
-            .first().createBeforeHook { param ->
+        loadClass("com.android.systemui.statusbar.policy.HDController").findMethod { name("isVisible") }.createBeforeHook { param ->
                 param.result = false
             }
 
@@ -61,9 +58,7 @@ object CustomCarrierText : BaseHook() {
 
     private fun hookLegacyCarrierText() {
         runCatching {
-            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").methodFinder()
-                .filterByName("onCarrierTextChanged")
-                .first().createBeforeHook { param ->
+            loadClass("com.android.systemui.statusbar.phone.MiuiKeyguardStatusBarView").findMethod { name("onCarrierTextChanged") }.createBeforeHook { param ->
                     param.args[2] = transformCarrierText(
                         slotId = param.args[1] as Int,
                         carrierText = param.args[2] as? String
@@ -75,10 +70,7 @@ object CustomCarrierText : BaseHook() {
     // 显示设备名称
     private fun hookModernCarrierText() {
         runCatching {
-            loadClass($$"com.android.systemui.controlcenter.shade.ControlCenterCarrierText$mCarrierTextCallback$1")
-                .methodFinder()
-                .filterByName("onCarrierTextChanged")
-                .first().createBeforeHook { param ->
+            loadClass($$"com.android.systemui.controlcenter.shade.ControlCenterCarrierText$mCarrierTextCallback$1").findMethod { name("onCarrierTextChanged") }.createBeforeHook { param ->
                     param.args[2] = transformCarrierText(
                         slotId = param.args[1] as Int,
                         carrierText = param.args[2] as? String
@@ -106,17 +98,14 @@ object CustomCarrierText : BaseHook() {
 
     // 隐藏分割线
     private fun hideCarrierSeparator() {
-        loadClass("com.android.systemui.controlcenter.shade.MiuiCarrierTextLayout").methodFinder()
-            .filterByName("onMeasure")
-            .filterByParamTypes(Int::class.java, Int::class.java)
-            .first().createBeforeHook { param ->
+        loadClass("com.android.systemui.controlcenter.shade.MiuiCarrierTextLayout").findMethod { name("onMeasure"); parameterTypes(Int::class.java, Int::class.java) }.createBeforeHook { param ->
                 val viewGroup = param.thisObject as ViewGroup
                 val widthMeasureSpec = param.args[0] as Int
                 val heightMeasureSpec = param.args[1] as Int
 
                 if (!viewGroup.isVisible) {
                     // super.onMeasure
-                    EzxHelpUtils.invokeSuperMethod(
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.invokeSuperMethod(
                         "onMeasure", viewGroup,
                         widthMeasureSpec,
                         heightMeasureSpec
@@ -141,7 +130,7 @@ object CustomCarrierText : BaseHook() {
                 }
 
                 // super.onMeasure
-                EzxHelpUtils.invokeSuperMethod(
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.invokeSuperMethod(
                     "onMeasure", viewGroup,
                     View.MeasureSpec.makeMeasureSpec(availableWidth, View.MeasureSpec.EXACTLY),
                     heightMeasureSpec
@@ -158,10 +147,7 @@ object CustomCarrierText : BaseHook() {
 
     // 隐藏全部名称
     private fun hideCarrierText() {
-        loadClass("com.android.systemui.controlcenter.shade.ControlCenterHeaderController")
-            .methodFinder()
-            .filterByName("updateCarrierAndPrivacyVisible")
-            .first().createAfterHook { param ->
+        loadClass("com.android.systemui.controlcenter.shade.ControlCenterHeaderController").findMethod { name("updateCarrierAndPrivacyVisible") }.createAfterHook { param ->
                 param.thisObject.getObjectFieldAs<View>("carrierLayout").visibility = View.INVISIBLE
             }
     }

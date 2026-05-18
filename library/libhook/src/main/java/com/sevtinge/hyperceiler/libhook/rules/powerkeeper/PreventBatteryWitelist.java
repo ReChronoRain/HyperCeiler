@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -29,9 +30,8 @@ import org.luckypray.dexkit.result.MethodData;
 import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
-import java.util.function.Consumer;
 
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class PreventBatteryWitelist extends BaseHook {
     private Method mFucSwitchMethod;
@@ -60,22 +60,20 @@ public class PreventBatteryWitelist extends BaseHook {
 
     @Override
     public void init() {
-        // hookAllMethods("com.miui.powerkeeper.utils.CommonAdapter", lpparam.classLoader, "addPowerSaveWhitelistApps", new MethodHook(20000) {
+        // hookAllMethods("com.miui.powerkeeper.utils.CommonAdapter", lpparam.classLoader, "addPowerSaveWhitelistApps", new IMethodHook(20000) {
         //     @Override
         //     protected void before(MethodHookParam param) throws Throwable {
         //         param.setResult(null);
         //     }
         // });
 
-        HookFactory.createMethodHook(mFucSwitchMethod, new Consumer<>() {
+        hookMethod(mFucSwitchMethod, new IMethodHook() {
             @Override
-            public void accept(HookFactory hookFactory) {
-                hookFactory.before(param -> {
-                    String[] strArr = (String[]) param.getArgs()[0];
-                    if (strArr.length > 1) {
-                        param.setResult(null);
-                    }
-                });
+            public void before(HookParam param) {
+                String[] strArr = (String[]) param.getArgs()[0];
+                if (strArr.length > 1) {
+                    param.setResult(null);
+                }
             }
         });
     }

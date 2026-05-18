@@ -20,17 +20,15 @@ package com.sevtinge.hyperceiler.libhook.rules.systemsettings
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object NoveltyHaptic : BaseHook() {
     override fun init() {
         if (PrefsBridge.getBoolean("system_settings_international_build")) return // 开启国际版设置界面将禁用此功能
 
-        loadClass("com.android.settings.utils.SettingsFeatures").methodFinder()
-            .filterByName("isNoveltyHaptic")
-            .single().createHook {
+        loadClass("com.android.settings.utils.SettingsFeatures").findMethod { name("isNoveltyHaptic") }.createHook {
                 returnConstant(true)
             }
     }

@@ -19,15 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.guardprovider;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class DisableUploadAppListNew extends BaseHook {
     private Method mAntiDefraudAppManagerMethod;
@@ -48,9 +47,9 @@ public class DisableUploadAppListNew extends BaseHook {
 
     @Override
     public void init() {
-        EzxHelpUtils.hookMethod(mAntiDefraudAppManagerMethod, new IReplaceHook() {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(mAntiDefraudAppManagerMethod, new IReplaceHook() {
             @Override
-            public Object replace(HookParam param) throws Throwable {
+            public Object replace(HookParam param) {
                 return null;
             }
         });

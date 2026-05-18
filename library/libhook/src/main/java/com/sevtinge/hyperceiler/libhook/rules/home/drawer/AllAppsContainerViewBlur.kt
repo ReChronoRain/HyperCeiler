@@ -28,22 +28,25 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.getCornerRadiusTop
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.zhenxiang.BlurFrameLayout
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.zhenxiang.model.CornersRadius
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 
 object AllAppsContainerViewBlur : BaseHook() {
     override fun init() {
-        Application::class.java.beforeHookMethod("attach", Context::class.java) {
+        Application::class.java.findMethod {
+            name("attach")
+        }.createBeforeHook {
             EzXposed.initAppContext(it.args[0] as Context)
 
-            loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").methodFinder().filter {
-                name == "onFinishInflate"
-            }.toList().createHooks {
+            loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").findAllMethods {
+                filter { name == "onFinishInflate" }
+            }.createHooks {
                 after { hookParam ->
                     val mCategoryContainer = hookParam.thisObject.getObjectField("mCategoryContainer") as ViewSwitcher
                     val appsView = mCategoryContainer.parent as RelativeLayout
@@ -60,9 +63,9 @@ object AllAppsContainerViewBlur : BaseHook() {
                     }
                     appsView.addView(blur, 0)
 
-                    loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").methodFinder().filter {
-                        name == "onResume"
-                    }.toList().createHooks {
+                    loadClass("com.miui.home.launcher.allapps.BaseAllAppsContainerView").findAllMethods {
+                        filter { name == "onResume" }
+                    }.createHooks {
                         after {
                             blur.refreshDrawableState()
                         }

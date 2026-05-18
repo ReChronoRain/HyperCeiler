@@ -19,16 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 
 object BypassSignCheckForT : BaseHook() {
     override fun init() {
         findClass("android.util.apk.ApkSignatureVerifier")
-            .hookAllMethods("getMinimumSignatureSchemeVersionForTargetSdk") {
-                after {
-                    it.result = 1
-                }
+            .findAllMethods { name("getMinimumSignatureSchemeVersionForTargetSdk") }
+            .createAfterHooks {
+                it.result = 1
             }
     }
 }

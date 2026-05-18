@@ -146,6 +146,13 @@
                 android:data="https://github.com/KyuubiRan/EzXHelper" />
         </Preference>
         <Preference
+            android:summary="Lingqiqi | MIT"
+            android:title="EzHookTool">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/lingqiqi5211/EzHookTool" />
+        </Preference>
+        <Preference
             android:summary="kooritea | No License"
             android:title="fcmfix">
             <intent

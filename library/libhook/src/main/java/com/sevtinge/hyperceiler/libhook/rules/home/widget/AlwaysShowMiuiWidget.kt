@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.widget
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object AlwaysShowMiuiWidget : BaseHook() {
     private val isHookActive = object : ThreadLocal<Boolean>() {
@@ -39,10 +39,7 @@ object AlwaysShowMiuiWidget : BaseHook() {
             }
         }
 
-        loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").methodFinder()
-            .filterByName("initMiuiAttribute")
-            .filterByParamCount(1)
-            .single().createHook {
+        loadClass("com.miui.home.launcher.widget.MIUIAppWidgetInfo").findMethod { name("initMiuiAttribute"); paramCount(1) }.createHook {
                 before {
                     if (isHookActive.get() == true) {
                         it.thisObject.setObjectField("isMIUIWidget", false)
@@ -50,9 +47,7 @@ object AlwaysShowMiuiWidget : BaseHook() {
                 }
             }
 
-        loadClass("com.miui.home.launcher.MIUIWidgetUtil").methodFinder()
-            .filterByName("isMIUIWidgetSupport")
-            .single().createHook {
+        loadClass("com.miui.home.launcher.MIUIWidgetUtil").findMethod { name("isMIUIWidgetSupport") }.createHook {
                 before {
                     if (isHookActive.get() == true) {
                         it.result = false
@@ -62,12 +57,8 @@ object AlwaysShowMiuiWidget : BaseHook() {
     }
 
     private fun findBuildAppWidgetsItemsMethod() = try {
-        loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").methodFinder()
-            .filterByName("buildAppWidgetsItems")
-            .single()
+        loadClass("com.miui.home.launcher.widget.WidgetsVerticalAdapter").findMethod { name("buildAppWidgetsItems") }
     } catch (_: Exception) {
-        loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").methodFinder()
-            .filterByName("buildAppWidgetsItems")
-            .single()
+        loadClass("com.miui.home.launcher.widget.BaseWidgetsVerticalAdapter").findMethod { name("buildAppWidgetsItems") }
     }
 }

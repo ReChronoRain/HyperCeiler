@@ -28,34 +28,23 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 // https://github.com/YunZiA/HyperStar/blob/master/app/src/main/java/com/yunzia/hyperstar/hook/app/mms/AutoCopyVerificationCode.kt
 object AutoCopyVerificationCode : BaseHook() {
     override fun init() {
-        PendingIntent::class.java.methodFinder().filterByName("getActivity").apply {
-            filterByParamTypes(Context::class.java,
-                Int::class.java,
-                Intent::class.java,
-                Int::class.java
-            ).first().createAfterHook {
-                (it.args[2] as Intent).getStringExtra("extra_text")?.run {
-                    (it.args[0] as Context).copyVerificationCodeToClipboard(this)
-                    XposedLog.d(TAG, "New verification code: $this")
-                }
+        PendingIntent::class.java.findMethod { name("getActivity"); parameterTypes(Context::class.java, Int::class.java, Intent::class.java, Int::class.java) }.createAfterHook {
+            (it.args[2] as Intent).getStringExtra("extra_text")?.run {
+                (it.args[0] as Context).copyVerificationCodeToClipboard(this)
+                XposedLog.d(TAG, "New verification code: $this")
             }
+        }
 
-            filterByParamTypes(Context::class.java,
-                Int::class.java,
-                Intent::class.java,
-                Int::class.java,
-                Bundle::class.java
-            ).first().createAfterHook {
-                (it.args[2] as Intent).getStringExtra("extra_text")?.run {
-                    (it.args[0] as Context).copyVerificationCodeToClipboard(this)
-                    XposedLog.d(TAG, "New verification code: $this")
-                }
+        PendingIntent::class.java.findMethod { name("getActivity"); parameterTypes(Context::class.java, Int::class.java, Intent::class.java, Int::class.java, Bundle::class.java) }.createAfterHook {
+            (it.args[2] as Intent).getStringExtra("extra_text")?.run {
+                (it.args[0] as Context).copyVerificationCodeToClipboard(this)
+                XposedLog.d(TAG, "New verification code: $this")
             }
         }
     }

@@ -19,21 +19,21 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object AllowThirdLockScreenUseFace : BaseHook() {
     override fun init() {
-        loadClassOrNull("com.android.keyguard.KeyguardUpdateMonitor")?.methodFinder()
-            ?.filterByName("isUnlockWithFacePossible")
-            ?.single()?.createHook {
+        loadClassOrNull("com.android.keyguard.KeyguardUpdateMonitor")
+            ?.findMethod { name("isUnlockWithFacePossible") }
+            ?.createHook {
                 returnConstant(true)
             }
 
-        loadClassOrNull($$"miui.stub.keyguard.KeyguardStub$registerKeyguardUpdateMonitor$1")?.methodFinder()
-            ?.filterByName("isUnlockWithFingerprintPossible")
-            ?.single()?.createHook {
+        loadClassOrNull($$"miui.stub.keyguard.KeyguardStub$registerKeyguardUpdateMonitor$1")
+            ?.findMethod { name("isUnlockWithFingerprintPossible") }
+            ?.createHook {
                 returnConstant(true)
             }
     }

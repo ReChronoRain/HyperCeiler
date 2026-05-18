@@ -20,17 +20,18 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object HideRecentCard : BaseHook() {
     override fun init() {
         findClass("com.android.systemui.shared.recents.system.ActivityManagerWrapper")
-            .afterHookMethod(
-                "needRemoveTask",
-                "com.android.systemui.shared.recents.model.GroupedRecentTaskInfoCompat"
-            ) { param ->
+            .findMethod {
+                name("needRemoveTask")
+                parameterTypes(findClass("com.android.systemui.shared.recents.model.GroupedRecentTaskInfoCompat"))
+            }.createAfterHook { param ->
                 val pkgName = param.args[0]
                     ?.getObjectField("mMainTaskInfo")
                     ?.getObjectField("realActivity")

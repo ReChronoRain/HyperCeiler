@@ -29,7 +29,7 @@
 -keep class com.hchen.superlyricapi.** { *; }
 -keep class org.luckypray.dexkit.** { *; }
 -keep class org.lsposed.** { *; }
--keep class io.github.kyuubiran.ezxhelper.** { *; }
+-keep class io.github.lingqiqi5211.ezhooktool.* { *; }
 
 # --- HyperCeiler Core ---
 -keep class com.sevtinge.hyperceiler.libhook.app.** { *; }

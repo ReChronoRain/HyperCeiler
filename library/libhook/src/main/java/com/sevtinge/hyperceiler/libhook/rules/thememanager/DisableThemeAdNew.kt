@@ -22,31 +22,32 @@ import android.view.View
 import android.widget.FrameLayout
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import miui.drm.DrmManager
 
 class DisableThemeAdNew : BaseHook() {
     override fun init() {
         runCatching {
-            DrmManager::class.java.methodFinder().filterByName("isSupportAd").toList().createHooks {
+            DrmManager::class.java.findAllMethods { name("isSupportAd") }.createHooks {
                 returnConstant(false)
             }
         }.onFailure {
             XposedLog.e(TAG, it)
         }
         runCatching {
-            DrmManager::class.java.methodFinder().filterByName("setSupportAd").toList().createHooks {
+            DrmManager::class.java.findAllMethods { name("setSupportAd") }.createHooks {
                 returnConstant(false)
             }
         }.onFailure {
             XposedLog.e(TAG, it)
         }
         runCatching {
-            loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").methodFinder().filterByName("isAdValid").filterByParamCount(1).first()
+            loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").findMethod { name("isAdValid"); paramCount(1) }
                 .createHook {
                     returnConstant(false)
                 }
@@ -60,7 +61,7 @@ class DisableThemeAdNew : BaseHook() {
 
     private fun removeAds(clazz: Class<*>) {
         try {
-            clazz.constructorFinder().filterByParamCount(2).first().createHook {
+            Constructors.find(clazz).filterByParamCount(2).first().createHook {
                 after {
                     if (it.args[0] != null) {
                         val view = it.args[0] as View

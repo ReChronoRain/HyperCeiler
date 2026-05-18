@@ -22,11 +22,11 @@ import android.widget.ImageView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.BlurButton
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.ShortcutEntity
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setBooleanField
 
 object AodBlurButton {
     private val hyperBlur by lazy {
@@ -39,12 +39,12 @@ object AodBlurButton {
     }
 
     fun initLoader(classLoader: ClassLoader) {
-        val aodPlugin = ClassUtil.loadClass(
+        val aodPlugin = loadClass(
             "com.miui.keyguard.shortcuts.controller.ShortcutViewLayoutController",
             classLoader
         )
 
-        aodPlugin.methodFinder().filterByName("updateShortcutView").first()
+        aodPlugin.findMethod { name("updateShortcutView") }
             .createAfterHook {
                 val controller = it.thisObject
                 val getShortcutEntity = ShortcutEntity(it.args[0]!!)

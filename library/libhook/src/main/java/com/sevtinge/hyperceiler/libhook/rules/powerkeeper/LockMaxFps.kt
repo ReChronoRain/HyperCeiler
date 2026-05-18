@@ -19,16 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object LockMaxFps : BaseHook() {
     override fun init() {
-        loadClass("com.miui.powerkeeper.statemachine.DisplayFrameSetting").methodFinder()
-            .filterByName("setScreenEffect")
-            .filterByParamCount(3)
-            .single().createHook {
+        findClass("com.miui.powerkeeper.statemachine.DisplayFrameSetting").findAllMethods { name("setScreenEffect"); paramCount(3) }.single().createHook {
                 returnConstant(null)
             }
     }

@@ -26,10 +26,10 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object BatteryStyle : BaseHook() {
     private val fontSize by lazy {
@@ -65,9 +65,7 @@ object BatteryStyle : BaseHook() {
     }
 
     override fun init() {
-        mBatteryMeterViewClass.methodFinder()
-            .filterByName("updateAll$1")
-            .single().createAfterHook { param ->
+        mBatteryMeterViewClass.findMethod { name("updateAll$1") }.createAfterHook { param ->
                 hookStatusBattery(param)
             }
     }

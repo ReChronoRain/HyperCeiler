@@ -20,22 +20,22 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object ControlCenterStyle : BaseHook() {
     override fun init() {
         if (isMoreAndroidVersion(36)) {
             loadClass("com.miui.systemui.controlcenter.data.repository.ControlCenterSettingsRepositoryImpl")
-                .constructors.createHooks {
+                .constructors.toList().createHooks {
                     after {
                         it.thisObject.setObjectField("forceUseControlCenter", false)
                     }
                 }
         } else {
             loadClass("com.android.systemui.controlcenter.policy.ControlCenterControllerImpl")
-                .declaredConstructors.createHooks {
+                .declaredConstructors.toList().createHooks {
                     after {
                         it.thisObject.setObjectField("forceUseControlCenterPanel", false)
                     }

@@ -19,17 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/a30d5a6/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/lockscreen/KeepNotification.kt
 object KeepNotification : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.notification.interruption.KeyguardNotificationVisibilityProviderImpl")
-            .methodFinder().filterByName("shouldHideNotification").first()
+        loadClass("com.android.systemui.statusbar.notification.interruption.KeyguardNotificationVisibilityProviderImpl").findMethod { name("shouldHideNotification") }
             .createBeforeHook {
                 val notificationEntry = it.args[0] ?: return@createBeforeHook
                 val mSbn = notificationEntry.getObjectField("mSbn") ?: return@createBeforeHook

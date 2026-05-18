@@ -19,15 +19,13 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object DontKillApps : BaseHook() {
     override fun init() {
-        loadClass("miui.process.ProcessManager").methodFinder()
-            .filterByName("kill")
-            .single().createHook {
+        loadClass("miui.process.ProcessManager").findMethod { name("kill") }.createHook {
                 returnConstant(false)
             }
     }

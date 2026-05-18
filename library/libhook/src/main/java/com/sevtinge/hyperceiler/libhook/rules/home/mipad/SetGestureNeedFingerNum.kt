@@ -20,19 +20,16 @@ package com.sevtinge.hyperceiler.libhook.rules.home.mipad
 
 import android.view.MotionEvent
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAsOrNull
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectFieldAsOrNull
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object SetGestureNeedFingerNum : BaseHook() {
     override fun init() {
         val clazzGestureOperationHelper =
             loadClass("com.miui.home.recents.GestureOperationHelper")
-        clazzGestureOperationHelper.methodFinder()
-            .filterByName("isThreePointerSwipeLeftOrRightInScreen")
-            .filterByParamTypes(MotionEvent::class.java, Int::class.java)
-            .first().createBeforeHook { param ->
+        clazzGestureOperationHelper.findMethod { name("isThreePointerSwipeLeftOrRightInScreen"); parameterTypes(MotionEvent::class.java, Int::class.java) }.createBeforeHook { param ->
                 val motionEvent = param.args[0] as MotionEvent
                 val swipeFlag = param.args[1] as Int
                 val flagSwipeLeft =

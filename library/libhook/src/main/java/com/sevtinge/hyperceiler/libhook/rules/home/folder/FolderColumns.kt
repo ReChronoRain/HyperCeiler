@@ -33,14 +33,15 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPadding
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingLeft
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setPaddingSide
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethodAs
 
 object FolderColumns : HomeBaseHookNew() {
     private const val FOLDER = "com.miui.home.launcher.Folder"
@@ -57,8 +58,7 @@ object FolderColumns : HomeBaseHookNew() {
 
         if (columns != 3) {
             findClassIfExists(ANIM_CONTROLLER_NEW)?.let {
-                it.hookAllMethods("setupView") {
-                    after { param ->
+                it.findAllMethods { name("setupView") }.createAfterHooks { param ->
                         val controller = param.thisObject
 
                         val mAnimaFolderGridView =
@@ -69,12 +69,11 @@ object FolderColumns : HomeBaseHookNew() {
                         )
                         controller.setIntField("mFolderColumnCount", columns)
                     }
-                }
             }
         }
 
-        findClassIfExists(FOLDER_NEW).hookAllMethods("onOpen") {
-            after { param ->
+        findClassIfExists(FOLDER_NEW)?.let {
+            it.findAllMethods { name("onOpen") }.createAfterHooks { param ->
                 param.thisObject.getObjectFieldAs<TextView>("mTitleText").also { mTitleText ->
                     if (mTitleText.ellipsize == TextUtils.TruncateAt.MARQUEE) {
                         return@also
@@ -88,12 +87,12 @@ object FolderColumns : HomeBaseHookNew() {
                     mTitleText.setHorizontallyScrolling(true)
                 }
 
-            }
+                }
         }
 
         val firstItemRect = Rect()
-        findClassIfExists(FOLDER_NEW).hookAllMethods("bind") {
-            after { param ->
+        findClassIfExists(FOLDER_NEW)?.let {
+            it.findAllMethods { name("bind") }.createAfterHooks { param ->
                 val folder = param.thisObject as ViewGroup
 
                 val mBackgroundView = folder.getObjectFieldAs<ViewGroup>("mBackgroundView")
@@ -130,8 +129,8 @@ object FolderColumns : HomeBaseHookNew() {
                         val setTitlePadding = {
                             if (firstItemRect.left >= sidePadding) {
                                 val configClass = findClassIfExists(DEVICE_CONFIG_NEW)
-                                val space = (configClass.callStaticMethodAs<Int>("getCellWidth") -
-                                    configClass.callStaticMethodAs<Int>("getIconWidth")) / 2
+                                val space = (configClass.callStaticMethodAs<Int>("getCellWidth")!! -
+                                    configClass.callStaticMethodAs<Int>("getIconWidth")!!) / 2
 
                                 val fixedValue = DisplayUtils.dp2px(4.0f)
                                 mTitleText.setPaddingLeft(firstItemRect.left - sidePadding + space + fixedValue)
@@ -168,7 +167,7 @@ object FolderColumns : HomeBaseHookNew() {
                     mRenameEdit.setPaddingLeft(mRenameEdit.paddingRight)
                 }
 
-            }
+                }
         }
     }
 
@@ -179,8 +178,8 @@ object FolderColumns : HomeBaseHookNew() {
         val isHorPaddingHook = PrefsBridge.getBoolean("home_folder_horizontal_padding_enable")
         val columns = PrefsBridge.getInt("home_folder_columns", 4)
 
-        findClassIfExists(FOLDER).hookAllMethods("onOpen") {
-            after { param ->
+        findClassIfExists(FOLDER)?.let {
+            it.findAllMethods { name("onOpen") }.createAfterHooks { param ->
                 param.thisObject.getObjectFieldAs<TextView>("mTitleText").also { mTitleText ->
                     if (mTitleText.ellipsize == TextUtils.TruncateAt.MARQUEE) {
                         return@also
@@ -193,12 +192,12 @@ object FolderColumns : HomeBaseHookNew() {
                     mTitleText.isSelected = true
                     mTitleText.setHorizontallyScrolling(true)
                 }
-            }
+                }
         }
 
         val firstItemRect = Rect()
-        findClassIfExists(FOLDER).hookAllMethods("bind") {
-            after { param ->
+        findClassIfExists(FOLDER)?.let {
+            it.findAllMethods { name("bind") }.createAfterHooks { param ->
                 val folder = param.thisObject as ViewGroup
 
                 val mBackgroundView = folder.getObjectFieldAs<ViewGroup>("mBackgroundView")
@@ -245,8 +244,8 @@ object FolderColumns : HomeBaseHookNew() {
                         val setTitlePadding = {
                             if (firstItemRect.left >= sidePadding) {
                                 val configClass = findClassIfExists(DEVICE_CONFIG_OLD)
-                                val space = (configClass.callStaticMethodAs<Int>("getCellWidth") -
-                                    configClass.callStaticMethodAs<Int>("getIconWidth")) / 2
+                                val space = (configClass.callStaticMethodAs<Int>("getCellWidth")!! -
+                                    configClass.callStaticMethodAs<Int>("getIconWidth")!!) / 2
 
                                 val fixedValue = DisplayUtils.dp2px(4.0f)
                                 mTitleText.setPaddingLeft(firstItemRect.left - sidePadding + space + fixedValue)
@@ -283,7 +282,7 @@ object FolderColumns : HomeBaseHookNew() {
                     mTitleText.setPaddingLeft(mTitleText.paddingRight)
                     mRenameEdit.setPaddingLeft(mRenameEdit.paddingRight)
                 }
-            }
+                }
         }
     }
 
@@ -300,24 +299,23 @@ object FolderColumns : HomeBaseHookNew() {
         }
 
         if (columns != 3) {
-            findClassIfExists(ANIM_CONTROLLER).hookAllMethods("setupView") {
-                after {
-                        param ->
-                    val controller = param.thisObject
+            findClassIfExists(ANIM_CONTROLLER)?.let {
+                it.findAllMethods { name("setupView") }.createAfterHooks { param ->
+                        val controller = param.thisObject
 
-                    val mAnimaFolderGridView =
-                        controller.getObjectFieldAs<GridView>("mAnimaFolderGridView")
-                    controller.setIntField(
-                        "DISPLAY_COUNT_MAX",
-                        mAnimaFolderGridView.callMethodAs<Int>("getMaxRow") * columns
-                    )
-                    controller.setIntField("mFolderColumnCount", columns)
-                }
+                        val mAnimaFolderGridView =
+                            controller.getObjectFieldAs<GridView>("mAnimaFolderGridView")
+                        controller.setIntField(
+                            "DISPLAY_COUNT_MAX",
+                            mAnimaFolderGridView.callMethodAs<Int>("getMaxRow")!! * columns
+                        )
+                        controller.setIntField("mFolderColumnCount", columns)
+                    }
             }
         }
 
-        findClassIfExists(FOLDER).hookAllMethods("onOpen") {
-            after { param ->
+        findClassIfExists(FOLDER)?.let {
+            it.findAllMethods { name("onOpen") }.createAfterHooks { param ->
                 param.thisObject.getObjectFieldAs<TextView>("mTitleText").also { mTitleText ->
                     if (mTitleText.ellipsize == TextUtils.TruncateAt.MARQUEE) {
                         return@also
@@ -330,12 +328,12 @@ object FolderColumns : HomeBaseHookNew() {
                     mTitleText.isSelected = true
                     mTitleText.setHorizontallyScrolling(true)
                 }
-            }
+                }
         }
 
         val firstItemRect = Rect()
-        findClassIfExists(FOLDER).hookAllMethods("bind") {
-            after { param ->
+        findClassIfExists(FOLDER)?.let {
+            it.findAllMethods { name("bind") }.createAfterHooks { param ->
                 val folder = param.thisObject as ViewGroup
 
                 val mBackgroundView = folder.getObjectFieldAs<ViewGroup>("mBackgroundView")
@@ -413,7 +411,7 @@ object FolderColumns : HomeBaseHookNew() {
                     mRenameEdit.setPaddingLeft(mRenameEdit.paddingRight)
                 }
 
-            }
+                }
         }
     }
 

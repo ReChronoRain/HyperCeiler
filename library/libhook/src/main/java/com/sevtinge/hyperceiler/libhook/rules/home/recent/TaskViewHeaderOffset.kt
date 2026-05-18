@@ -18,12 +18,13 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
 
 object TaskViewHeaderOffset : BaseHook() {
     override fun init() {
@@ -32,7 +33,9 @@ object TaskViewHeaderOffset : BaseHook() {
         }
 
         loadClass("com.miui.home.recents.views.TaskViewHeader")
-            .afterHookMethod("onAttachedToWindow") {
+            .findMethod {
+                name("onAttachedToWindow")
+            }.createAfterHook {
                 val thisObject = it.thisObject
                 thisObject.setIntField("mHeaderButtonPadding", horizontalOffsetValue)
                 thisObject.callMethod("setPadding", horizontalOffsetValue, 0, horizontalOffsetValue, 0)

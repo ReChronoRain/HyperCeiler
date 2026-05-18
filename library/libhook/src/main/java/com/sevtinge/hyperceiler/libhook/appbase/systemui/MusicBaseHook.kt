@@ -52,9 +52,8 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min
 
@@ -140,7 +139,7 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     init {
-        EzxHelpUtils.runOnApplicationAttach {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.runOnApplicationAttach {
             runCatching {
                 SuperLyricHelper.registerReceiver(receiver)
             }.onFailure {

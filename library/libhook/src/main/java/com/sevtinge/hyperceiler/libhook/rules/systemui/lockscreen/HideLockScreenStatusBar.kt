@@ -21,18 +21,16 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object HideLockScreenStatusBar : BaseHook() {
     override fun init() {
-        loadClassOrNull("com.android.systemui.statusbar.phone.CentralSurfacesImpl")!!.methodFinder()
-            .filterByName("updateIsKeyguard")
-            .single().createHook {
+        loadClassOrNull("com.android.systemui.statusbar.phone.CentralSurfacesImpl")!!.findMethod { name("updateIsKeyguard") }.createHook {
                 after { param ->
                     val shadeControllerImpl =
                         param.thisObject.getObjectField("mShadeController")

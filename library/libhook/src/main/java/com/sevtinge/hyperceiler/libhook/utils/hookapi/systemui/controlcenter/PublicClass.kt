@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter
 
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 
 object PublicClass {
 

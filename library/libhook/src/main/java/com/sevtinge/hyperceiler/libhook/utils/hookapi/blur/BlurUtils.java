@@ -30,7 +30,8 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
 
 public class BlurUtils {
     private final Context mContext;
@@ -70,12 +71,12 @@ public class BlurUtils {
 
     public static Drawable createBlurDrawable(View view, int blurRadius, int cornerRadius, int color) {
         try {
-            Object mViewRootImpl = EzxHelpUtils.callMethod(view, "getViewRootImpl");
+            Object mViewRootImpl = Methods.callMethod(view, "getViewRootImpl");
             if (mViewRootImpl == null) return null;
-            Drawable blurDrawable = (Drawable) EzxHelpUtils.callMethod(mViewRootImpl, "createBackgroundBlurDrawable");
-            EzxHelpUtils.callMethod(blurDrawable, "setBlurRadius", blurRadius);
-            EzxHelpUtils.callMethod(blurDrawable, "setCornerRadius", cornerRadius);
-            if (color != -1) EzxHelpUtils.callMethod(blurDrawable, "setColor", color);
+            Drawable blurDrawable = (Drawable) Methods.callMethod(mViewRootImpl, "createBackgroundBlurDrawable");
+            Methods.callMethod(blurDrawable, "setBlurRadius", blurRadius);
+            Methods.callMethod(blurDrawable, "setCornerRadius", cornerRadius);
+            if (color != -1) Methods.callMethod(blurDrawable, "setColor", color);
             return blurDrawable;
         } catch (Throwable e) {
             AndroidLog.e("createBlurDrawable", "Create BlurDrawable Error" + e);
@@ -130,7 +131,7 @@ public class BlurUtils {
         view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(@NonNull View v) {
-                mViewRootImpl = EzxHelpUtils.callMethod(v, "getViewRootImpl");
+                mViewRootImpl = Methods.callMethod(v, "getViewRootImpl");
                 mBlurDrawable = createBackgroundDrawable(mViewRootImpl, isBlurEnable, mColor, mCornerRadius, mBlurRadius);
                 v.setBackground(mBlurDrawable);
             }
@@ -145,7 +146,7 @@ public class BlurUtils {
     private Drawable createBackgroundDrawable(Object viewRootImpl, boolean isBlurEnable, int color, int cornerRadius, int blurRadius) {
         Drawable mBackgroundDrawable;
         if (isBlurEnable) {
-            mBackgroundDrawable = (Drawable) EzxHelpUtils.callMethod(viewRootImpl, "createBackgroundBlurDrawable");
+            mBackgroundDrawable = (Drawable) Methods.callMethod(viewRootImpl, "createBackgroundBlurDrawable");
             setColor(mBackgroundDrawable, color);
             setCornerRadius(mBackgroundDrawable, cornerRadius);
             setBlurRadius(mBackgroundDrawable, blurRadius);
@@ -174,14 +175,14 @@ public class BlurUtils {
         int mColorRed = (color & 0x00ff0000) >> 16;
         int mColorGreen = (color & 0x0000ff00) >> 8;
         int mColorBlue = (color & 0x000000ff);
-        EzxHelpUtils.callMethod(drawable, "setColor", Color.argb(mColorAlpha, mColorRed, mColorGreen, mColorBlue));
+        Methods.callMethod(drawable, "setColor", Color.argb(mColorAlpha, mColorRed, mColorGreen, mColorBlue));
     }
 
     public void setCornerRadius(Drawable drawable, int cornerRadius) {
-        EzxHelpUtils.callMethod(drawable, "setCornerRadius", cornerRadius);
+        Methods.callMethod(drawable, "setCornerRadius", cornerRadius);
     }
 
     public void setBlurRadius(Drawable drawable, int blurRadius) {
-        EzxHelpUtils.callMethod(drawable, "setBlurRadius", blurRadius);
+        Methods.callMethod(drawable, "setBlurRadius", blurRadius);
     }
 }

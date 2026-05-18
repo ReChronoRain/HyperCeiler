@@ -19,8 +19,6 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.phrase;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.InvokeUtils.setStaticField;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -30,7 +28,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.json.JSONArray;
@@ -48,7 +46,8 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class NewUnPhraseLimit extends BaseHook {
     private Method mBuildClipboardJsonMethod;
@@ -150,11 +149,11 @@ public class NewUnPhraseLimit extends BaseHook {
      */
     private void hookPhraseListLimit() {
         Class<?> InputMethodUtil = findClass("com.miui.inputmethod.InputMethodUtil");
-        setStaticField(InputMethodUtil, "sPhraseListSize", 0);
+        setPhraseListSize(InputMethodUtil);
         findAndHookMethod(InputMethodUtil, "queryPhrase", Context.class, new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                setStaticField(InputMethodUtil, "sPhraseListSize", 0);
+                setPhraseListSize(InputMethodUtil);
             }
         });
 
@@ -169,6 +168,14 @@ public class NewUnPhraseLimit extends BaseHook {
                 param.setResult(null);
             }
         });
+    }
+
+    private void setPhraseListSize(Class<?> inputMethodUtil) {
+        try {
+            Fields.setStaticObjectField(inputMethodUtil, "sPhraseListSize", 0);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     /**

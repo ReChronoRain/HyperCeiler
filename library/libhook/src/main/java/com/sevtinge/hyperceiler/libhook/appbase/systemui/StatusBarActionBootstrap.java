@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.appbase.systemui;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getBooleanField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getBooleanField;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -19,13 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object DeleteOnPostNotification : BaseHook() {
 
     override fun init() {
         findClass("com.android.server.wm.AlertWindowNotification")
-            .beforeHookMethod("onPostNotification") {
+            .findMethod {
+                name("onPostNotification")
+            }.createBeforeHook {
                 it.result = null
             }
     }

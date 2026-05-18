@@ -19,15 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.misettings
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object ShowMoreFpsList : BaseHook() {
     override fun init() {
-        loadClass("miui.util.FeatureParser").methodFinder()
-            .filterByName("getIntArray")
-            .single().createBeforeHook {
+        findClass("miui.util.FeatureParser").findAllMethods { name("getIntArray") }.single().createBeforeHook {
                 if (it.args[0] == "fpsList") {
                     it.result = intArrayOf(144, 120, 90, 60, 30)
                 }

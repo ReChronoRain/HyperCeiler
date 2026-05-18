@@ -19,10 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DisableLowApiCheckForU extends BaseHook {
     @Override
@@ -32,7 +31,7 @@ public class DisableLowApiCheckForU extends BaseHook {
             public void before(HookParam param) {
                 Object mInstallArgs = getObjectField(param.getArgs()[0], "mInstallArgs");
                 if (mInstallArgs == null) return;
-                EzxHelpUtils.setIntField(mInstallArgs, "mInstallFlags", EzxHelpUtils.getIntField(mInstallArgs, "mInstallFlags") | 0x01000000);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(mInstallArgs, "mInstallFlags", com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(mInstallArgs, "mInstallFlags") | 0x01000000);
             }
         });
     }

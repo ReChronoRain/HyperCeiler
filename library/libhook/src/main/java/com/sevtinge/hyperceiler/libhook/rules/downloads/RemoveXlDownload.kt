@@ -19,10 +19,11 @@
 package com.sevtinge.hyperceiler.libhook.rules.downloads
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.io.File
 import java.io.IOException
 
@@ -33,9 +34,7 @@ object RemoveXlDownload : BaseHook() {
     }
 
     override fun init() {
-        loadClass("java.io.File").methodFinder()
-            .filter { name in setOf("mkdir", "mkdirs") }
-            .toList()
+        loadClass("java.io.File").findAllMethods { filter { name in setOf("mkdir", "mkdirs") } }
             .createHooks {
                 before {
                     if (shouldBlock((it.thisObject as File).path)) {
@@ -45,10 +44,7 @@ object RemoveXlDownload : BaseHook() {
             }
 
 
-        loadClass("com.android.providers.downloads.config.XLConfig")
-            .methodFinder()
-            .filter { name in setOf("setDebug", "setSoDebug") }
-            .toList()
+        loadClass("com.android.providers.downloads.config.XLConfig").findAllMethods { filter { name in setOf("setDebug", "setSoDebug") } }
             .createHooks {
                 before {
                     if (shouldBlock(it.args[2] as? String)) {
@@ -57,8 +53,7 @@ object RemoveXlDownload : BaseHook() {
                 }
             }
 
-        loadClass("com.android.providers.downloads.util.FileUtil").methodFinder()
-            .filterByName("createFile").single().createHook {
+        loadClass("com.android.providers.downloads.util.FileUtil").findMethod { name("createFile") }.createHook {
                 before {
                     if (shouldBlock(it.args[0] as String)) {
                         it.throwable = IOException(".xlDownload is blocked")

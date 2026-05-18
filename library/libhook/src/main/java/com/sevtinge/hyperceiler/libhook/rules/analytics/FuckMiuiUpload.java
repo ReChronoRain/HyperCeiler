@@ -23,7 +23,7 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
@@ -41,7 +41,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 // from https://github.com/gykkuo/MIUI_NoGuard/blob/master/app/src/main/java/cn/fyyr/noguardpls/MainHook.java
 public class FuckMiuiUpload extends BaseHook {
@@ -144,21 +144,21 @@ public class FuckMiuiUpload extends BaseHook {
 
         hookMethod(mNetworkA, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 param.setResult(0);
             }
         });
 
         hookMethod(mNetworkB, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 param.setResult("NONE");
             }
         });
 
         hookMethod(mNetworkC, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 param.setResult(false);
             }
         });

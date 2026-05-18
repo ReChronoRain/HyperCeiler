@@ -22,19 +22,16 @@ import android.content.res.Configuration
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 class QQSGrid : BaseHook() {
     override fun init() {
         val cols = PrefsBridge.getInt("system_control_center_old_qs_grid_columns", 5)
         val colsHorizontal = PrefsBridge.getInt("system_control_center_old_qs_grid_columns_horizontal", 6)
 
-        loadClass("com.android.systemui.qs.MiuiQuickQSPanel").methodFinder()
-            .filterByName("setMaxTiles")
-            .filterByParamCount(1)
-            .single().createBeforeHook {
+        loadClass("com.android.systemui.qs.MiuiQuickQSPanel").findMethod { name("setMaxTiles"); paramCount(1) }.createBeforeHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val mConfiguration: Configuration = viewGroup.context.resources.configuration
                 if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {

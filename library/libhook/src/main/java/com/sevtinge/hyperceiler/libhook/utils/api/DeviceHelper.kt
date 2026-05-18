@@ -33,8 +33,8 @@ import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isPadDevice
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticBooleanField
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticBooleanField
 import java.io.File
 import java.nio.charset.Charset
 import java.util.Locale

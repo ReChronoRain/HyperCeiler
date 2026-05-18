@@ -26,19 +26,19 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.E
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod;
 
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /**
  * 非 FW 模式下的音效控制 UI
@@ -91,7 +91,7 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             return;
         }
         try {
-            hookCallback(mDolbySwitchMethod, new IMethodHook() {
+            hookMethod(mDolbySwitchMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
@@ -113,7 +113,7 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             return;
         }
         try {
-            hookCallback(mMiSoundSwitchMethod, new IMethodHook() {
+            hookMethod(mMiSoundSwitchMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
@@ -139,8 +139,8 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             Method onCreate = mSpatialAudioActivityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
             Method onResume = mSpatialAudioActivityClass.getDeclaredMethod("onResume");
 
-            hookCallback(onCreate, createOnCreatePreferencesHook(mEffectSelectionField));
-            hookCallback(onResume, createOnResumeHook(mEffectSelectionField));// Hook 广播接收器
+            hookMethod(onCreate, createOnCreatePreferencesHook(mEffectSelectionField));
+            hookMethod(onResume, createOnResumeHook(mEffectSelectionField));// Hook 广播接收器
             hookBroadcastReceiver();
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook spatial audio activity", e);
@@ -155,7 +155,7 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
             return;
         }
         try {
-            hookCallback(mBroadcastReceiverMethod, new IMethodHook() {
+            hookMethod(mBroadcastReceiverMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     updateEffectSelectionState();

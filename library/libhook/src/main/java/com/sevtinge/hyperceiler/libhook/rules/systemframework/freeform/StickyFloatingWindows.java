@@ -18,9 +18,9 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getAdditionalInstanceField;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getSurroundingThis;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setAdditionalInstanceField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getSurroundingThis;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField;
 
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
@@ -34,14 +34,14 @@ import android.util.Pair;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class StickyFloatingWindows extends BaseHook {
 

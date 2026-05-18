@@ -22,12 +22,11 @@ package com.sevtinge.hyperceiler.libhook.appbase.input;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClearClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.ClipboardUnlock;
 import com.sevtinge.hyperceiler.libhook.rules.various.clipboard.UnlockIme;
 import com.sevtinge.hyperceiler.libhook.rules.various.input.MiAospIme;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class InputMethodClassLoaderDispatcher extends BaseHook {
     private final Map<ClassLoader, Boolean> mLoadedClassLoaders =
@@ -50,7 +49,7 @@ public class InputMethodClassLoaderDispatcher extends BaseHook {
 
         try {
             findAndHookMethod(
-                EzxHelpUtils.findClass("android.inputmethodservice.InputMethodModuleManager", null),
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("android.inputmethodservice.InputMethodModuleManager", null),
                 "loadDex",
                 ClassLoader.class, String.class,
                 new IMethodHook() {

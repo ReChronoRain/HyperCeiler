@@ -20,12 +20,12 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
 import android.content.Context
 import android.os.Handler
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -64,7 +64,7 @@ object MiuiStub {
 
     @JvmStatic
     fun createHook() {
-        loadClass("com.android.systemui.util.kotlin.JavaAdapter").constructorFinder()
+        Constructors.find(loadClass("com.android.systemui.util.kotlin.JavaAdapter"))
             .first()
             .createAfterHook {
                 systemJavaAdapter = JavaAdapter(it.thisObject)
@@ -96,13 +96,13 @@ object MiuiStub {
     class SysUIProvider(instance: Any) : BaseReflectObject(instance) {
         val flashlightController by lazy {
             FlashlightController(
-                instance.getObjectFieldAs<Any>("mFlashlightController").callMethodAs("get")
+                instance.getObjectFieldAs<Any>("mFlashlightController").callMethod("get") as Any
             )
         }
 
         val activityStarter by lazy {
             ActivityStarter(
-                instance.getObjectFieldAs<Any>("mActivityStarter").callMethodAs("get")
+                instance.getObjectFieldAs<Any>("mActivityStarter").callMethod("get") as Any
             )
         }
     }

@@ -19,8 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object UseAOSPScreenShot : BaseHook() {
     override fun init() {
@@ -28,8 +28,7 @@ object UseAOSPScreenShot : BaseHook() {
         callStaticMethod(
             findClass("com.android.internal.util.ScreenshotHelperStub"), "getInstance"
         )?.let {
-            it::class.java.methodFinder().filterByName("getServiceComponent").filterNonAbstract()
-                .toList().createHooks {
+            it::class.java.findAllMethods { name("getServiceComponent"); notAbstract() }.createHooks {
                     returnConstant("com.android.systemui/com.android.systemui.screenshot.TakeScreenshotService")
                 }
         }

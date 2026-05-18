@@ -33,21 +33,19 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.miuiConfigs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.invokeSuperMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlinx.coroutines.flow.MutableStateFlow
 
 @SuppressLint("StaticFieldLeak")
@@ -103,8 +101,7 @@ object HideFakeStatusBar : MusicBaseHook() {
 
     override fun init() {
         // 点击显示时间
-        loadClass("android.app.Application").methodFinder().first { name == "onCreate" }
-            .createAfterHook {
+        loadClass("android.app.Application").findMethod { name("onCreate") }.createAfterHook {
                 val mFilter = IntentFilter()
                 mFilter.addAction("$CHANNEL_ID.actions.switchClockStatus")
                 context.registerReceiver(object : BroadcastReceiver() {
@@ -115,57 +112,68 @@ object HideFakeStatusBar : MusicBaseHook() {
                 }, mFilter, Context.RECEIVER_EXPORTED)
             }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").methodFinder()
-            .filterByName("onFinishInflate").first().createAfterHook {
+        loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").findMethod {
+            name("onFinishInflate")
+        }.createAfterHook {
                 // logD(TAG, lpparam.packageName, "onFinishInflate")
                 // 通知栏左边部分(包含时间和通知图标)
                 mStatusBarLeftContainer =
                     it.thisObject.getObjectFieldOrNullAs<View>("mStatusBarLeftContainer") ?: return@createAfterHook
                 // mStatusBarLeftContainer!!.visibility = View.INVISIBLE
             }
-        loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment").methodFinder()
-            .filterByName("onViewCreated").first().createAfterHook {
+        loadClass("com.android.systemui.statusbar.phone.fragment.CollapsedStatusBarFragment").findMethod {
+            name("onViewCreated")
+        }.createAfterHook {
                 // 焦点通知左边竖线
                 mFocusedNotLine = it.thisObject.getObjectFieldOrNullAs<View>("mFocusedNotLine") ?: return@createAfterHook
                 // 焦点通知左边占位布局
                 mClockSeat = it.thisObject.getObjectFieldOrNullAs<View>("mClockSeat") ?: return@createAfterHook
             }
 
-        miuiNotificationClass.methodFinder()
-            .filterByName("onFinishInflate").first().createAfterHook {
+        miuiNotificationClass.findMethod {
+            name("onFinishInflate")
+        }.createAfterHook {
                 // 大时钟布局
                 mBigTime = it.thisObject.getObjectFieldOrNullAs<TextView>("mBigTime") ?: return@createAfterHook
             }
 
-        miuiNotificationClass.replaceMethod("updateBigTimeColor") {
-            if (isShowingFocusedLyric) {
-                // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
-                null
-            } else {
-                invokeSuperMethod(it.executable.name, it.thisObject)
+        miuiNotificationClass.findMethod {
+            name("updateBigTimeColor")
+        }.createHook {
+            replace {
+                if (isShowingFocusedLyric) {
+                    // 显示歌词的时候取消设置大时钟颜色(假时钟动画会设置颜色,显示歌词的时候取消了假时钟动画,所以可能会下拉通知栏之后时间是黑色)
+                    null
+                } else {
+                    invokeSuperMethod(it.executable.name, it.thisObject)
+                }
             }
-           }
-
-
-        miuiConfigs.chainMethod("isVerticalMode") {
-            if (sOverrideVerticalMode.get() == true && isShowingFocusedLyric) {
-                // 如果在显示歌词,就伪装成横屏,用来取消假时钟动画
-                return@chainMethod false
-            }
-            proceed()
         }
 
-        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1")
-            .chainMethod("onExpansionChanged", Float::class.java) {
+
+        miuiConfigs.findMethod {
+            name("isVerticalMode")
+        }.createBeforeHook {
+            if (sOverrideVerticalMode.get() == true && isShowingFocusedLyric) {
+                // 如果在显示歌词,就伪装成横屏,用来取消假时钟动画
+                it.result = false
+            }
+        }
+
+        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").findMethod {
+            name("onExpansionChanged")
+        }.createHook {
+            before {
                 sOverrideVerticalMode.set(true)
+            }
+
+            after {
                 try {
-                    proceed()
-                } finally {
                     sOverrideVerticalMode.remove()
                     if (isShowingFocusedLyric) {
                         // 在显示歌词的时候固定通知栏顶部时间和日期的位置和缩放
                         val notificationHeaderExpandController =
-                            thisObject.getObjectField("this$0")
+                            it.thisObject.getObjectField("this$0")
                         val combinedHeaderController =
                             notificationHeaderExpandController?.getObjectFieldOrNull("headerController")!!
                                 .callMethod("get")
@@ -189,10 +197,12 @@ object HideFakeStatusBar : MusicBaseHook() {
                         // 设置通知图标位置
                         combinedHeaderController.getObjectField("notificationShortcut")?.callMethod("setTranslationY", 0f)
                     }
+                } finally {
+                    sOverrideVerticalMode.remove()
                 }
             }
-        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").methodFinder()
-            .filterByName("onAppearanceChanged").first().createHook {
+        }
+        loadClass($$"com.android.systemui.controlcenter.shade.NotificationHeaderExpandController$notificationCallback$1").findMethod { name("onAppearanceChanged") }.createHook {
                 after {
                     if (isShowingFocusedLyric) {
                         // 显示歌词的时候手动调用动画,防止大时钟突然出现
@@ -214,8 +224,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                 }
             }
 
-        loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptController").methodFinder()
-            .filterByName("notifyNotifBeanChanged").first().createHook {
+        loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptController").findMethod { name("notifyNotifBeanChanged") }.createHook {
                 before {
                     // 焦点通知更新的事件,通过这个判断当前展示的焦点通知是不是歌词
                     val sbn = it.args[0]?.getObjectFieldOrNullAs<StatusBarNotification?>("sbn") ?: return@before
@@ -228,7 +237,7 @@ object HideFakeStatusBar : MusicBaseHook() {
             loadClass("com.android.systemui.recents.LauncherProxyService")
         } else {
             loadClass("com.android.systemui.recents.OverviewProxyService")
-        }.methodFinder().filterByName("onFocusedNotifUpdate").first()
+        }.findMethod { name("onFocusedNotifUpdate") }
             .createBeforeHook { m ->
                 // 代码中的动画目标位置
                 val rect = m.args[2] as Rect
@@ -269,8 +278,7 @@ object HideFakeStatusBar : MusicBaseHook() {
                 }
             }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").methodFinder()
-            .filterByName("updateStatusBarVisibilities").first().createAfterHook {
+        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").findMethod { name("updateStatusBarVisibilities") }.createAfterHook {
                 // 获取是否在显示焦点通知
                 // 更新一次 isShowingFocused
                 isShowingFocused.value =

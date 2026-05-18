@@ -19,8 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenshot
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
 
 object SaveToPictures : BaseHook() {
     override fun init() {

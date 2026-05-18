@@ -20,10 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class WifiStandard extends BaseHook {
 
@@ -41,13 +40,13 @@ public class WifiStandard extends BaseHook {
             @Override
             public void before(HookParam param) {
                 Object mWifiIconState = param.getArgs()[0];
-                int mWifiStandard = EzxHelpUtils.getIntField(mWifiIconState, "wifiStandard");
+                int mWifiStandard = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(mWifiIconState, "wifiStandard");
                 if (mWifiIconState != null) {
                     int opt = PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0);
                     if (opt == 1) {
-                        EzxHelpUtils.setBooleanField(mWifiIconState, "showWifiStandard", mWifiStandard != 0);
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(mWifiIconState, "showWifiStandard", mWifiStandard != 0);
                     } else if (opt == 2) {
-                        EzxHelpUtils.setBooleanField(mWifiIconState, "showWifiStandard", false);
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(mWifiIconState, "showWifiStandard", false);
                     }
                 }
             }
@@ -55,12 +54,12 @@ public class WifiStandard extends BaseHook {
     }
 
     private void setWifiStandardIconState(HookParam param) {
-        int wifiStandard = EzxHelpUtils.getIntField(param.getThisObject(), "wifiStandard");
+        int wifiStandard = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), "wifiStandard");
         int key = PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wifi_standard", 0);
         if (key == 1) {
-            EzxHelpUtils.setBooleanField(param.getThisObject(), "showWifiStandard", wifiStandard != 0);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "showWifiStandard", wifiStandard != 0);
         } else if (key == 2) {
-            EzxHelpUtils.setBooleanField(param.getThisObject(), "showWifiStandard", false);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "showWifiStandard", false);
         }
     }
 }

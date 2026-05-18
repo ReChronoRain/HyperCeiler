@@ -20,8 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.weather;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
@@ -32,7 +31,7 @@ import org.luckypray.dexkit.query.matchers.MethodMatcher;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class SetCardLightDarkMode extends BaseHook {
     private static final String METHOD_NAME = "judgeCurrentColor() mLightDarkMode : ";
@@ -65,7 +64,7 @@ public class SetCardLightDarkMode extends BaseHook {
         hookMethod(mLightDarkModeMethod, new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                EzxHelpUtils.setIntField(param.getThisObject(), mLightDarkModeField.getName(), PrefsBridge.getStringAsInt("weather_card_display_type", 0));
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), mLightDarkModeField.getName(), PrefsBridge.getStringAsInt("weather_card_display_type", 0));
             }
         });
     }

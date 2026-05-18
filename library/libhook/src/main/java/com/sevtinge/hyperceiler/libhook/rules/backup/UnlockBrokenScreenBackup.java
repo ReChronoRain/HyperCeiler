@@ -21,10 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.backup;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockBrokenScreenBackup extends BaseHook {
     @Override
@@ -32,7 +31,7 @@ public class UnlockBrokenScreenBackup extends BaseHook {
         findAndHookMethod("com.miui.backup.settings.MoreSettingsFragment", "onCreatePreferences", Bundle.class, String.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                EzxHelpUtils.setStaticBooleanField(findClassIfExists("com.miui.backup.settings.MoreSettingsFragment"), "IS_INTERNATIONAL", false);
+                setStaticBooleanField(findClassIfExists("com.miui.backup.settings.MoreSettingsFragment"), "IS_INTERNATIONAL", false);
             }
         });
     }

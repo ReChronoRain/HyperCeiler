@@ -21,12 +21,12 @@ package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/fb2462aa819eed36b6b8875c85f9cb0887eb1ccd/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/miuihome/gesture/BackGestureHaptic.kt
 public class BackGestureHaptic extends BaseHook {

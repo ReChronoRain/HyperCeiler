@@ -37,12 +37,12 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiVi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.keyguardBottomAreaInjector
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.leftButtonType
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setBooleanField
 
 object BlurButton : BaseHook() {
     private val removeRight by lazy {
@@ -60,13 +60,9 @@ object BlurButton : BaseHook() {
 
     override fun init() {
         // by StarVoyager
-        keyguardBottomAreaInjector.methodFinder()
-            .filter {
-                name in setOf(
-                    "updateLeftIcon",
-                    "updateRightIcon"
-                )
-            }.toList().createHooks {
+        keyguardBottomAreaInjector.findAllMethods {
+            filter { name in setOf("updateLeftIcon", "updateRightIcon") }
+        }.createHooks {
                 after { param ->
                     runCatching {
                         if (hyperBlur) hyperBlur(param) else systemBlur(param)

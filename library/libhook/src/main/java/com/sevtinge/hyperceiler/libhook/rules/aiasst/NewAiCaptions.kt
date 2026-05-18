@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.aiasst
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -124,17 +124,17 @@ object NewAiCaptions : BaseHook() {
             }
         } else {
             runCatching {
-                mSupportAiSubtitlesUtils.methodFinder()
-                    .filterByName("isSupportAiSubtitles")
-                    .single().createHook {
-                        returnConstant(true)
-                    }
+                mSupportAiSubtitlesUtils.findMethod {
+                    name("isSupportAiSubtitles")
+                }.createHook {
+                    returnConstant(true)
+                }
 
-                mSupportAiSubtitlesUtils.methodFinder()
-                    .filterByName("isSupportOfflineAiSubtitles")
-                    .single().createHook {
-                        returnConstant(true)
-                    }
+                mSupportAiSubtitlesUtils.findMethod {
+                    name("isSupportOfflineAiSubtitles")
+                }.createHook {
+                    returnConstant(true)
+                }
 
             }
         }

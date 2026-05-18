@@ -18,17 +18,17 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.navigation;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getBooleanField;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getBooleanField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField;
 
 import android.provider.Settings;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class HideNavigationBar extends BaseHook {
     @Override

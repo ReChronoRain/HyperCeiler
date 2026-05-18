@@ -104,18 +104,18 @@ public class AppsTool {
     }
 
     private static Context currentApplication() {
-        Class<?> clazz = EzxHelpUtils.findClass("android.app.ActivityThread", null);
-        return (Application) EzxHelpUtils.callStaticMethod(clazz, "currentApplication");
+        Class<?> clazz = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("android.app.ActivityThread", null);
+        return (Application) com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(clazz, "currentApplication");
     }
 
     private static Context getSystemContext() {
-        Class<?> clazz = EzxHelpUtils.findClass("android.app.ActivityThread", null);
-        Object thread = EzxHelpUtils.callStaticMethod(clazz, "currentActivityThread");
+        Class<?> clazz = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("android.app.ActivityThread", null);
+        Object thread = com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(clazz, "currentActivityThread");
         if (thread == null) return null;
 
-        Context context = (Context) EzxHelpUtils.callMethod(thread, "getSystemContext");
+        Context context = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(thread, "getSystemContext");
         if (context == null) {
-            context = (Context) EzxHelpUtils.callMethod(thread, "getSystemUiContext");
+            context = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(thread, "getSystemUiContext");
         }
         return context;
     }
@@ -275,8 +275,8 @@ public class AppsTool {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                 intent.setData(Uri.parse("package:" + pkg));
                 if (user != 0) {
-                    Object userHandle = EzxHelpUtils.newInstance(UserHandle.class, user);
-                    EzxHelpUtils.callMethod(context, "startActivityAsUser", intent, userHandle);
+                    Object userHandle = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(UserHandle.class, user);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(context, "startActivityAsUser", intent, userHandle);
                 } else {
                     context.startActivity(intent);
                 }

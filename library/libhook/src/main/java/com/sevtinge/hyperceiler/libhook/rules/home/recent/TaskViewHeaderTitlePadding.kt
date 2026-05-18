@@ -21,8 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.view.View
 import android.widget.TextView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 /**
  * Aligns Recents header title/lock views with the header button padding.
@@ -35,7 +36,9 @@ object TaskViewHeaderTitlePadding : BaseHook() {
 
     override fun init() {
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
-        taskViewHeaderClass.afterHookMethod("onFinishInflate") { param ->
+        taskViewHeaderClass.findMethod {
+            name("onFinishInflate")
+        }.createAfterHook { param ->
             val hostView = param.thisObject as? View
             if (hostView != null) {
                 val res = hostView.resources

@@ -22,10 +22,10 @@ import android.os.Build
 import android.text.TextUtils
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.lang.reflect.Method
 
 object VersionCodeNew : BaseHook() {
@@ -73,9 +73,7 @@ object VersionCodeNew : BaseHook() {
 
     override fun init() {
         // 原始修改版本名
-        findClassIfExists("com.android.updater.Application").methodFinder()
-            .filterByName("onCreate")
-            .first().createBeforeHook {
+        findClassIfExists("com.android.updater.Application").findMethod { name("onCreate") }.createBeforeHook {
                 if (!TextUtils.isEmpty(mOldVersionCode)) {
                     Build.VERSION::class.java.setStaticObjectField(
                         "INCREMENTAL",

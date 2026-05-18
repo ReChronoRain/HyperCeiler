@@ -19,8 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
 import android.content.Context
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
 
 object MiuixPreferenceUtils {
     private const val DROP_DOWN_PREFERENCE_CLASS = "miuix.preference.DropDownPreference"
@@ -28,14 +27,13 @@ object MiuixPreferenceUtils {
     private const val ANDROIDX_PREFERENCE_CLASS = "androidx.preference.Preference"
 
     fun createDropDownPreference(context: Context): Any {
-        return loadClass(DROP_DOWN_PREFERENCE_CLASS).newInstance(context)
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(DROP_DOWN_PREFERENCE_CLASS), context)
     }
 
     fun createTextPreference(context: Context): Any {
-        return loadFirstClass(
-            TEXT_PREFERENCE_CLASS,
-            ANDROIDX_PREFERENCE_CLASS
-        ).newInstance(context)
+        val preferenceClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(TEXT_PREFERENCE_CLASS)
+            ?: com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(ANDROIDX_PREFERENCE_CLASS)
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(preferenceClass, context)
     }
 
     fun configureDropDownPreference(

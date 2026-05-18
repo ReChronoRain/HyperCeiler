@@ -23,39 +23,39 @@ import android.view.ViewGroup
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object NewBrightnessPct {
     fun initLoaderHook(classLoader: ClassLoader) {
         if (isMoreHyperOSVersion(3f)) {
             loadClass($$"miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate$prepareShow$5", classLoader)
-                .methodFinder().filterByName("onStartTrackingTouch")
-                .first().createBeforeHook {
+                .findMethod { name("onStartTrackingTouch") }
+                .createBeforeHook {
                     startPct(it)
                 }
 
             loadClass($$"miui.systemui.controlcenter.panel.secondary.brightness.BrightnessPanelSliderDelegate$seekBarListener$1", classLoader)
-                .methodFinder().filterByName("onStartTrackingTouch")
-                .first().createBeforeHook {
+                .findMethod { name("onStartTrackingTouch") }
+                .createBeforeHook {
                     startPct(it)
                 }
 
         } else {
             loadClass($$"miui.systemui.controlcenter.panel.main.brightness.BrightnessSliderController$seekBarListener$1", classLoader)
-                .methodFinder().filterByName("onStartTrackingTouch")
-                .first().createBeforeHook {
+                .findMethod { name("onStartTrackingTouch") }
+                .createBeforeHook {
                     startPct(it)
                 }
 
             loadClass($$"miui.systemui.controlcenter.panel.main.brightness.BrightnessPanelSliderController$seekBarListener$1", classLoader)
-                .methodFinder().filterByName("onStartTrackingTouch")
-                .first().createBeforeHook {
+                .findMethod { name("onStartTrackingTouch") }
+                .createBeforeHook {
                     startPct(it)
                 }
         }
@@ -72,7 +72,8 @@ object NewBrightnessPct {
     }
 
     private fun getView(str: String, cl: ClassLoader?): Any? {
-        val cl2 = loadClass(str, cl)
+        val loader = cl ?: return null
+        val cl2 = loadClass(str, loader)
         val controlCenterWindowView = cl2.callStaticMethod("getInstance")!!
             .callMethod("getPluginComponent")!!
             .getObjectField("controlCenterWindowViewCreatorProvider")!!

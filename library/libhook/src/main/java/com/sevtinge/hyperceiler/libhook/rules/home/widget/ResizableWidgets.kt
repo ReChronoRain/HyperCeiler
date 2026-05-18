@@ -20,23 +20,23 @@ package com.sevtinge.hyperceiler.libhook.rules.home.widget
 
 import android.appwidget.AppWidgetProviderInfo
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 
 object ResizableWidgets : BaseHook() {
     override fun init() {
         findClass("android.appwidget.AppWidgetHostView")
-            .hookAllMethods("getAppWidgetInfo") {
-                after {
-                    val widgetInfo = it.result as AppWidgetProviderInfo
-                    widgetInfo.resizeMode =
-                        AppWidgetProviderInfo.RESIZE_VERTICAL or AppWidgetProviderInfo.RESIZE_HORIZONTAL
-                    widgetInfo.minHeight = 0
-                    widgetInfo.minWidth = 0
-                    widgetInfo.minResizeHeight = 0
-                    widgetInfo.minResizeWidth = 0
-                    it.result = widgetInfo
-                }
+            .findAllMethods { name("getAppWidgetInfo") }
+            .createAfterHooks {
+                val widgetInfo = it.result as AppWidgetProviderInfo
+                widgetInfo.resizeMode =
+                    AppWidgetProviderInfo.RESIZE_VERTICAL or AppWidgetProviderInfo.RESIZE_HORIZONTAL
+                widgetInfo.minHeight = 0
+                widgetInfo.minWidth = 0
+                widgetInfo.minResizeHeight = 0
+                widgetInfo.minResizeWidth = 0
+                it.result = widgetInfo
             }
     }
 

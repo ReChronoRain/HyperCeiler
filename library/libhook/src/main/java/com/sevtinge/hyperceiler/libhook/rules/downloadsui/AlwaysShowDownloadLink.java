@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.downloadsui;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
@@ -34,7 +33,8 @@ import org.luckypray.dexkit.result.FieldDataList;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AlwaysShowDownloadLink extends BaseHook {
     private Class<?> mDownloadInfoClass;

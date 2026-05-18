@@ -33,15 +33,14 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CleanOpenMenu extends BaseHook {
 
@@ -128,7 +127,7 @@ public class CleanOpenMenu extends BaseHook {
 
         hookAllMethods("com.android.server.pm.ComputerEngine", "queryIntentActivitiesInternal", hook);
 
-        EzxHelpUtils.hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new IMethodHook() {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods("miui.securityspace.XSpaceResolverActivityHelper.ResolverActivityRunner", null, "run", new IMethodHook() {
             @Override
             public void after(HookParam param) {
                 Intent mOriginalIntent = (Intent) getObjectField(param.getThisObject(), "mOriginalIntent");

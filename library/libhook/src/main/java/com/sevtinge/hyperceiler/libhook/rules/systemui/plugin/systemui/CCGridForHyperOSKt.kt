@@ -22,9 +22,9 @@ import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.replaceHookMethod as replaceMethod
 
 // from YunZiA
 object CCGridForHyperOSKt {
@@ -33,7 +33,8 @@ object CCGridForHyperOSKt {
     }
 
     fun initCCGridForHyperOS(classLoader: ClassLoader?) {
-        loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader)
+        val loader = classLoader ?: return
+        loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", loader)
             .beforeHookMethod("setDisabledBg", Drawable::class.java) { param ->
                 runCatching {
                     val drawable = param.args[0] as Drawable
@@ -44,7 +45,7 @@ object CCGridForHyperOSKt {
                 }
             }
 
-        loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader)
+        loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", loader)
             .beforeHookMethod("setEnabledBg", Drawable::class.java) { param ->
                 runCatching {
                     val drawable = param.args[0] as Drawable
@@ -57,7 +58,7 @@ object CCGridForHyperOSKt {
 
         // OS2 加载磁贴时的圆角
         runCatching {
-            loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", classLoader)
+            loadClass("miui.systemui.controlcenter.qs.tileview.QSTileItemIconView", loader)
                 .replaceMethod("getCornerRadius") {
                     radius
                 }

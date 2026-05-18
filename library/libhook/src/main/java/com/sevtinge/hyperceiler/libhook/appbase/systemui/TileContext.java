@@ -28,9 +28,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /**
  * 磁贴上下文类
@@ -194,7 +193,7 @@ public final class TileContext {
      * 刷新磁贴状态
      */
     public void refreshState() {
-        EzxHelpUtils.callMethod(tileInstance, "refreshState");
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tileInstance, "refreshState");
     }
 
     /**
@@ -203,7 +202,7 @@ public final class TileContext {
      * @param arg 刷新参数
      */
     public void refreshState(@Nullable Object arg) {
-        EzxHelpUtils.callMethod(tileInstance, "refreshState", arg);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tileInstance, "refreshState", arg);
     }
 
     /**
@@ -213,7 +212,7 @@ public final class TileContext {
      */
     @Nullable
     public String getTileLabel() {
-        Object label = EzxHelpUtils.callMethod(tileInstance, "getTileLabel");
+        Object label = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tileInstance, "getTileLabel");
         return label != null ? label.toString() : null;
     }
 
@@ -239,7 +238,7 @@ public final class TileContext {
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> T getField(@NonNull String name) {
-        return (T) EzxHelpUtils.getObjectField(tileInstance, name);
+        return (T) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(tileInstance, name);
     }
 
     /**
@@ -249,7 +248,7 @@ public final class TileContext {
      * @param value 字段值
      */
     public void setField(@NonNull String name, @Nullable Object value) {
-        EzxHelpUtils.setObjectField(tileInstance, name, value);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(tileInstance, name, value);
     }
 
     /**
@@ -262,7 +261,7 @@ public final class TileContext {
     @SuppressWarnings("unchecked")
     @Nullable
     public <T> T getAdditionalField(@NonNull String name) {
-        return (T) EzxHelpUtils.getAdditionalInstanceField(tileInstance, name);
+        return (T) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(tileInstance, name);
     }
 
     /**
@@ -272,7 +271,7 @@ public final class TileContext {
      * @param value 字段值
      */
     public void setAdditionalField(@NonNull String name, @Nullable Object value) {
-        EzxHelpUtils.setAdditionalInstanceField(tileInstance, name, value);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(tileInstance, name, value);
     }
 
     /**
@@ -281,7 +280,7 @@ public final class TileContext {
      * @param name 字段名
      */
     public void removeAdditionalField(@NonNull String name) {
-        EzxHelpUtils.removeAdditionalInstanceField(tileInstance, name);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.removeAdditionalInstanceField(tileInstance, name);
     }
 
     // ==================== 方法调用 ====================
@@ -295,7 +294,7 @@ public final class TileContext {
      */
     @Nullable
     public Object callMethod(@NonNull String methodName, Object... args) {
-        return EzxHelpUtils.callMethod(tileInstance, methodName, args);
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tileInstance, methodName, args);
     }
 
     // ==================== 结果设置 ====================

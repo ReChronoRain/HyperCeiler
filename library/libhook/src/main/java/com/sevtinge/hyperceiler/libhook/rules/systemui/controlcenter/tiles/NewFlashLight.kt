@@ -31,11 +31,11 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils
 import com.sevtinge.hyperceiler.libhook.utils.api.MathUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticFloatField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticFloatField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticIntField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File

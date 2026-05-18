@@ -25,10 +25,10 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.WeatherView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 // 经典控制中心添加天气信息
 object OldWeather : BaseHook() {
@@ -39,9 +39,7 @@ object OldWeather : BaseHook() {
     @SuppressLint("DiscouragedApi")
     override fun init() {
         var mWeatherView: TextView?
-        loadClass("com.android.systemui.qs.MiuiQSHeaderView").methodFinder()
-            .filterByName("onFinishInflate")
-            .first().createAfterHook {
+        loadClass("com.android.systemui.qs.MiuiQSHeaderView").findMethod { name("onFinishInflate") }.createAfterHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val context = viewGroup.context
                 val layoutParam =

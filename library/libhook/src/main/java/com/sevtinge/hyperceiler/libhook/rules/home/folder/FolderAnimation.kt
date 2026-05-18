@@ -20,8 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.home.folder
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlin.math.abs
 
 class FolderAnimation : BaseHook() {
@@ -42,15 +43,20 @@ class FolderAnimation : BaseHook() {
         value4 = PrefsBridge.getInt("home_folder_anim_4", 24).toFloat() / 100
         val mSpringAnimator = findClassIfExists("com.miui.home.launcher.animate.SpringAnimator")
 
-        mSpringAnimator.chainMethod(
-            "setDampingResponse"
-        ) {
-            val override = sOverrideDampingResponse.get()
-            if (override != null) {
-                args[0] = override[0]
-                args[1] = override[1]
-            }
-            proceed()
+        mSpringAnimator?.let {
+            it.findMethod {
+                name("setDampingResponse")
+                parameterTypes(
+                    Float::class.javaPrimitiveType!!,
+                    Float::class.javaPrimitiveType!!
+                )
+            }.createHook {
+                    before { param ->
+                        val override = sOverrideDampingResponse.get() ?: return@before
+                        param.args[0] = override[0]
+                        param.args[1] = override[1]
+                    }
+                }
         }
 
         for (i in 47..60) {
@@ -65,14 +71,17 @@ class FolderAnimation : BaseHook() {
                             if (child.name != $$"val$folderInfo")
                                 continue
 
-                            mLauncherClass.chainMethod("run") {
-                                sOverrideDampingResponse.set(floatArrayOf(value1!!, value2!!))
-                                try {
-                                    proceed()
-                                } finally {
-                                    sOverrideDampingResponse.remove()
+                            mLauncherClass.findMethod {
+                                name("run")
+                                filter { parameterTypes.isEmpty() }
+                            }.createHook {
+                                    before {
+                                        sOverrideDampingResponse.set(floatArrayOf(value1!!, value2!!))
+                                    }
+                                    after {
+                                        sOverrideDampingResponse.remove()
+                                    }
                                 }
-                            }
                             break
                         }
                     }
@@ -80,19 +89,19 @@ class FolderAnimation : BaseHook() {
             }
         }
 
-        findClass("com.miui.home.launcher.Launcher").chainMethod(
-            "closeFolder",
-            Boolean::class.java
-        ) {
-            if (args[0] == true) {
-                sOverrideDampingResponse.set(floatArrayOf(value3!!, value4!!))
+        findClass("com.miui.home.launcher.Launcher").findMethod {
+            name("closeFolder")
+            parameterTypes(Boolean::class.javaPrimitiveType!!)
+        }.createHook {
+                before { param ->
+                    if (param.args[0] == true) {
+                        sOverrideDampingResponse.set(floatArrayOf(value3!!, value4!!))
+                    }
+                }
+                after {
+                    sOverrideDampingResponse.remove()
+                }
             }
-            try {
-                proceed()
-            } finally {
-                sOverrideDampingResponse.remove()
-            }
-        }
 
     }
 }

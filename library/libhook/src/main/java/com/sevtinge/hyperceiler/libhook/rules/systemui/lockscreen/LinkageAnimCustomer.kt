@@ -22,10 +22,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 import android.view.SurfaceControl
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 // from https://github.com/Art-Chen/MIUI-Extra-YukiAPI/blob/f5a3ba5d17e0e62114fc355c3ff1a8daa9da94ff/app/src/main/java/moe/chenxy/miuiextra/hooker/entity/systemui/LinkageAnimCustomer.kt
 class LinkageAnimCustomer : BaseHook() {
@@ -77,7 +76,7 @@ class LinkageAnimCustomer : BaseHook() {
                     initAnim()
 
                     showEase?.callMethod("setDuration", on.toLong())
-                    val stateStyle = EzxHelpUtils.callStaticMethod(
+                    val stateStyle = callStaticMethod(
                         findClass("miuix.animation.Folme"),
                         "useValue",
                         arrayOf("WallpaperParam")

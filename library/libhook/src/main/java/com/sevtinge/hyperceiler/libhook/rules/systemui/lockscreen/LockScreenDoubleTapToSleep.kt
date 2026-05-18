@@ -24,11 +24,11 @@ import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlin.math.abs
 
 object LockScreenDoubleTapToSleep : BaseHook() {
@@ -37,9 +37,7 @@ object LockScreenDoubleTapToSleep : BaseHook() {
     }
 
     override fun init() {
-        className.methodFinder()
-            .filterByName("onFinishInflate")
-            .single().createHook {
+        className.findMethod { name("onFinishInflate") }.createHook {
                 before {
                     val view = it.thisObject as View
                     view.setAdditionalInstanceField("currentTouchTime", 0L)

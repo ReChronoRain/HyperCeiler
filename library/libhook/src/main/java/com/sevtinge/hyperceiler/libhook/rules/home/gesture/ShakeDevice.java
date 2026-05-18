@@ -25,11 +25,10 @@ import android.hardware.SensorManager;
 
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ShakeManager;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ShakeDevice extends HomeBaseHookNew {
 
@@ -41,10 +40,10 @@ public class ShakeDevice extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onResume", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                ShakeManager shakeMgr = (ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
+                ShakeManager shakeMgr = (ShakeManager) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
                 if (shakeMgr == null) {
                     shakeMgr = new ShakeManager((Context) param.getThisObject());
-                    EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), shakeMgrKey, shakeMgr);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), shakeMgrKey, shakeMgr);
                 }
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
@@ -56,10 +55,10 @@ public class ShakeDevice extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onPause", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                if (EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
+                if (com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
-                sensorMgr.unregisterListener((ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey));
+                sensorMgr.unregisterListener((ShakeManager) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey));
             }
         });
     }
@@ -70,10 +69,10 @@ public class ShakeDevice extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.Launcher", "onResume", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                ShakeManager shakeMgr = (ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
+                ShakeManager shakeMgr = (ShakeManager) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey);
                 if (shakeMgr == null) {
                     shakeMgr = new ShakeManager((Context) param.getThisObject());
-                    EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), shakeMgrKey, shakeMgr);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), shakeMgrKey, shakeMgr);
                 }
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
@@ -85,10 +84,10 @@ public class ShakeDevice extends HomeBaseHookNew {
         findAndHookMethod("com.miui.home.launcher.Launcher", "onPause", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                if (EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
+                if (com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey) == null) return;
                 Activity launcherActivity = (Activity) param.getThisObject();
                 SensorManager sensorMgr = (SensorManager) launcherActivity.getSystemService(Context.SENSOR_SERVICE);
-                sensorMgr.unregisterListener((ShakeManager) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey));
+                sensorMgr.unregisterListener((ShakeManager) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), shakeMgrKey));
             }
         });
     }

@@ -19,7 +19,7 @@
 
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.deoptimize;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.deoptimize;
 
 import android.os.Bundle;
 

@@ -21,8 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.mishare
 import android.content.Context
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -83,17 +84,19 @@ object NoAutoTurnOff : BaseHook() {
 
 
         // 干掉小米互传十分钟倒计时 Toast
-        Context::class.java.chainMethod("getString", Int::class.javaPrimitiveType!!) {
+        Context::class.java.findMethod {
+            name("getString")
+            parameterTypes(Int::class.javaPrimitiveType!!)
+        }.createBeforeHook {
             val resName = runCatching {
-                (thisObject as Context).resources.getResourceName(getArg(0) as Int)
+                (it.thisObject as Context).resources.getResourceName(it.args[0] as Int)
             }.getOrNull()
             if (
                 resName == "com.miui.mishare.connectivity:string/toast_auto_close_in_minutes" ||
                 resName == "com.miui.mishare.connectivity:string/toast_or_desc_advert_all_open"
             ) {
-                return@chainMethod "Modify by HyperCeiler"
+                it.result = "Modify by HyperCeiler"
             }
-            proceed()
         }
 
         showToastMethod?.createHook {

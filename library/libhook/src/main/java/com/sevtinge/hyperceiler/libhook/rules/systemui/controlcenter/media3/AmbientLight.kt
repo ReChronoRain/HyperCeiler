@@ -50,17 +50,16 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.med
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.clone
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.connect
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.getMediaViewHolderFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 
 object AmbientLight : BaseHook() {
     private const val KEY_MEDIA_BG_VIEW = "KEY_AMBIENT_LIGHT_VIEW"
@@ -349,7 +348,7 @@ object AmbientLight : BaseHook() {
         }
 
         runCatching {
-            val cs = EzxHelpUtils.newInstance(clzConstraintSetClass!!)
+            val cs = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(clzConstraintSetClass!!)
             clone.invoke(cs, parent)
             connect.invoke(cs, mediaBgViewId, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
             connect.invoke(cs, mediaBgViewId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)

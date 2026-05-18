@@ -25,10 +25,9 @@ import android.view.ViewConfiguration;
 
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class DoubleTap extends BaseHook {
 
@@ -41,23 +40,23 @@ public class DoubleTap extends BaseHook {
         hookAllConstructors(mWorkspace, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                Object mDoubleTapControllerEx = EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
+                Object mDoubleTapControllerEx = com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx != null) return;
                 mDoubleTapControllerEx = new DoubleTapController((Context) param.getArgs()[0], "home_gesture_double_tap");
-                EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx", mDoubleTapControllerEx);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx", mDoubleTapControllerEx);
             }
         });
 
         findAndHookMethod(mWorkspace, "dispatchTouchEvent", MotionEvent.class, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
-                DoubleTapController mDoubleTapControllerEx = (DoubleTapController) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
+                DoubleTapController mDoubleTapControllerEx = (DoubleTapController) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "mDoubleTapControllerEx");
                 if (mDoubleTapControllerEx == null) return;
                 if (!mDoubleTapControllerEx.isDoubleTapEvent((MotionEvent) param.getArgs()[0])) return;
-                int mCurrentScreenIndex = EzxHelpUtils.getIntField(param.getThisObject(), getPackageName().equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
-                Object cellLayout = EzxHelpUtils.callMethod(param.getThisObject(), "getCellLayout", mCurrentScreenIndex);
-                if ((boolean) EzxHelpUtils.callMethod(cellLayout, "lastDownOnOccupiedCell")) return;
-                if ((boolean) EzxHelpUtils.callMethod(param.getThisObject(), "isInNormalEditingMode")) return;
+                int mCurrentScreenIndex = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), getPackageName().equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
+                Object cellLayout = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "getCellLayout", mCurrentScreenIndex);
+                if ((boolean) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(cellLayout, "lastDownOnOccupiedCell")) return;
+                if ((boolean) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "isInNormalEditingMode")) return;
                 mDoubleTapControllerEx.onDoubleTapEvent();
             }
         });

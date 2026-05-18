@@ -20,21 +20,19 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 
 object DisableInfinitymodeGesture : BaseHook() {
     override fun init() {
         if (isMoreAndroidVersion(36)) {
-            loadClass("com.android.wm.shell.multitasking.stubs.infinitymode.MiuiInfinityModeStatus", lpparam.classLoader)
-                .methodFinder().filterByName("isEnabled").single().createHook {
+            loadClass("com.android.wm.shell.multitasking.stubs.infinitymode.MiuiInfinityModeStatus", lpparam.classLoader).findMethod { name("isEnabled") }.createHook {
                     returnConstant(false)
                 }
         } else {
-            loadClass("com.android.wm.shell.multitasking.miuiinfinitymode.MiuiInfinityModeSizesPolicy", lpparam.classLoader)
-                .methodFinder().filterByName("isForbiddenWindow").single().createHook {
+            loadClass("com.android.wm.shell.multitasking.miuiinfinitymode.MiuiInfinityModeSizesPolicy", lpparam.classLoader).findMethod { name("isForbiddenWindow") }.createHook {
                     returnConstant(true)
                 }
         }

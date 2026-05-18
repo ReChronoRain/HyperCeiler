@@ -18,9 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.app.Others;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setStaticObjectField;
-
-import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField;
 
 import android.content.Context;
 import android.view.inputmethod.InputMethodInfo;
@@ -69,7 +68,7 @@ public class VariousThirdApps extends BaseLoad {
 
         if ("com.google.android.googlequicksearchbox".equals(mPackageName)) {
             try {
-                Class <?> mBuild = loadClass("android.os.Build", getClassLoader());
+                Class<?> mBuild = findClass("android.os.Build", getClassLoader());
 
                 setStaticObjectField(mBuild, "MANUFACTURER", "Google");
                 setStaticObjectField(mBuild, "BRAND", "google");

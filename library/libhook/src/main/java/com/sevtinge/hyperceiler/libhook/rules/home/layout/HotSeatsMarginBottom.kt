@@ -25,16 +25,10 @@ class HotSeatsMarginBottom : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findAndHookMethod(
-            DEVICE_CONFIG_NEW, "getHotSeatsMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_hotseats_margin_bottom", 60)
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_NEW, "getHotSeatsMarginBottom", "home_layout_hotseats_margin_bottom", 60)
     }
 
     override fun initBase() {
-        findAndHookMethod(
-            DEVICE_CONFIG_OLD, "getHotSeatsMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_hotseats_margin_bottom", 60)
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_OLD, "getHotSeatsMarginBottom", "home_layout_hotseats_margin_bottom", 60)
     }
 }

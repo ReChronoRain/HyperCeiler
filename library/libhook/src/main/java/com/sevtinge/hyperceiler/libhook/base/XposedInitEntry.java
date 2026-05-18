@@ -33,7 +33,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import java.util.HashMap;
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
 import io.github.libxposed.api.XposedModule;
 
 /**

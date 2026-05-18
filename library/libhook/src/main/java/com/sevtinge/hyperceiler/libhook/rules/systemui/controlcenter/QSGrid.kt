@@ -22,10 +22,10 @@ import android.content.res.Configuration
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 class QSGrid : BaseHook() {
     private val miuiTileClass by lazy {
@@ -39,9 +39,7 @@ class QSGrid : BaseHook() {
         val rowsHorizontal = PrefsBridge.getInt("system_control_center_old_qs_rows_horizontal", 2)
 
         hyperHooks(cols, colsHorizontal)
-        miuiTileClass.methodFinder()
-            .filterByName("updateResources")
-            .first().createAfterHook {
+        miuiTileClass.findMethod { name("updateResources") }.createAfterHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val mConfiguration: Configuration = viewGroup.context.resources.configuration
                 if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -57,10 +55,7 @@ class QSGrid : BaseHook() {
         cols: Int,
         colsHorizontal: Int
     ) {
-        miuiTileClass.methodFinder()
-            .filterByName("layoutTileRecords")
-            .filterByParamCount(1)
-            .first().createAfterHook {
+        miuiTileClass.findMethod { name("layoutTileRecords"); paramCount(1) }.createAfterHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val mConfiguration: Configuration = viewGroup.context.resources.configuration
                 if (mConfiguration.orientation == Configuration.ORIENTATION_PORTRAIT) {

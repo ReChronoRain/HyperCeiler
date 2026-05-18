@@ -23,9 +23,7 @@ import android.os.Build;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -35,7 +33,8 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 
 public class DeviceModify extends BaseHook {
@@ -109,9 +108,9 @@ public class DeviceModify extends BaseHook {
         mModel = PrefsBridge.getString("community_device_modify_model", "");
         mManufacturer = PrefsBridge.getString("community_device_modify_manufacturer", "");
 
-        EzxHelpUtils.setStaticObjectField(Build.class, "DEVICE", mDevice);
-        EzxHelpUtils.setStaticObjectField(Build.class, "MODEL", mModel);
-        EzxHelpUtils.setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
+        setStaticObjectField(Build.class, "DEVICE", mDevice);
+        setStaticObjectField(Build.class, "MODEL", mModel);
+        setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
 
         hookMethod(mSystemPropertiesGetStringWithNullMethod, new IMethodHook() {
             @Override

@@ -64,12 +64,12 @@ dependencies {
     compileOnlyApi(projects.library.hiddenApi)
 
     // libxposed API 101
-    api(projects.library.xposedApi101)
     compileOnlyApi(libs.libxposed.api)
     api(libs.libxposed.service)
 
     api(libs.dexkit)
-    api(libs.ezxhelper.core)
+    api(libs.ezhooktool.core)
+    api(libs.ezhooktool.xposed101)
     api(libs.hiddenapibypass)
     api(libs.gson)
     api(libs.hyperfocusapi)

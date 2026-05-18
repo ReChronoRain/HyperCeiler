@@ -18,16 +18,13 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
-
 import android.app.admin.DevicePolicyManager;
 import android.graphics.drawable.Drawable;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DisableDeviceManaged extends BaseHook {
     @Override
@@ -38,7 +35,7 @@ public class DisableDeviceManaged extends BaseHook {
                 param.setResult(false);
             }
         });
-        /*findAndHookMethod("com.android.systemui.statusbar.policy.SecurityControllerImpl", "isDeviceManaged", new MethodHook(){
+        /*findAndHookMethod("com.android.systemui.statusbar.policy.SecurityControllerImpl", "isDeviceManaged", new IMethodHook(){
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

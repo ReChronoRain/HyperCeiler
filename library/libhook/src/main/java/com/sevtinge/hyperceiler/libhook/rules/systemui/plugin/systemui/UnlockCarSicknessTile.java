@@ -18,13 +18,13 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod;
 
 import android.content.Context;
 
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockCarSicknessTile {
     public static void initUnlockCarSicknessTile(ClassLoader classLoader) {

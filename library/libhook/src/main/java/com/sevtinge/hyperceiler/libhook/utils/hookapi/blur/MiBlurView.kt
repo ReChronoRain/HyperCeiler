@@ -28,11 +28,11 @@ import android.view.animation.Interpolator
 import android.view.animation.LinearInterpolator
 import android.widget.FrameLayout
 import com.sevtinge.hyperceiler.libhook.utils.api.MathUtils.linearInterpolate
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils.setMiBackgroundBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils.setMiViewBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtils.setPassWindowBlurEnabled
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearAllBlur
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurMode
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
 import kotlin.math.abs
 
 class MiBlurView(context: Context): View(context) {
@@ -178,9 +178,9 @@ class MiBlurView(context: Context): View(context) {
     private fun initBlur() {
         if (isBlurInitialized) return
         this.clearAllBlur()
-        setPassWindowBlurEnabled(this, passWindowBlurEnabled)
-        setMiBackgroundBlurMode(this, 1)
-        setMiViewBlurMode(this, 1)
+        this.setPassWindowBlurEnabled(passWindowBlurEnabled)
+        this.setMiBackgroundBlurMode(1)
+        this.setMiViewBlurMode(1)
         isBlurInitialized = true
     }
 

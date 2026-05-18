@@ -25,11 +25,10 @@ import android.view.WindowManager;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 public class BackGestureAreaHeight extends HomeBaseHookNew {
 
@@ -52,12 +51,12 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
         try {   // 适用于5.39.10929+
             findAndReplaceMethod("com.miui.home.recents.GestureStubView", "updateGestureTouchHeight", new IReplaceHook() {
                 @Override
-                public Object replace(HookParam param) throws Throwable {
+                public Object replace(HookParam param) {
                     Object obj = param.getThisObject();
 
-                    int mRotation = EzxHelpUtils.getIntField(obj, "mRotation");
-                    int mScreenHeight = EzxHelpUtils.getIntField(obj, "mScreenHeight");
-                    int mScreenWidth = EzxHelpUtils.getIntField(obj, "mScreenWidth");
+                    int mRotation = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(obj, "mRotation");
+                    int mScreenHeight = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(obj, "mScreenHeight");
+                    int mScreenWidth = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(obj, "mScreenWidth");
 
                     float f = (float) PrefsBridge.getInt("home_navigation_back_area_height", 60) / 100;
 
@@ -67,7 +66,7 @@ public class BackGestureAreaHeight extends HomeBaseHookNew {
                     } else {
                         gestureTouchHeight = (int) (mScreenWidth * f);
                     }
-                    EzxHelpUtils.setIntField(obj, "mGestureTouchHeight", gestureTouchHeight);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(obj, "mGestureTouchHeight", gestureTouchHeight);
 
                     return null;
                 }

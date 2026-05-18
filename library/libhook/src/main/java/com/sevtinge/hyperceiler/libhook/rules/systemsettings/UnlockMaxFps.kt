@@ -20,16 +20,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemsettings
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object UnlockMaxFps : BaseHook() {
     override fun init() {
         // by TG@Crystal
-        loadClass("com.android.settings.development.ForcePeakRefreshRatePreferenceController").methodFinder()
-            .filterByName("isAvailable")
-            .single().createAfterHook {
+        loadClass("com.android.settings.development.ForcePeakRefreshRatePreferenceController").findMethod { name("isAvailable") }.createAfterHook {
                 it.result = true
             }
     }

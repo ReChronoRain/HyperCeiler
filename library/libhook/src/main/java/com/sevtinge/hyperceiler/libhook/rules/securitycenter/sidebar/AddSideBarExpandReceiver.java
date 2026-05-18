@@ -40,12 +40,11 @@ import androidx.core.content.ContextCompat;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AddSideBarExpandReceiver extends BaseHook {
 
@@ -151,7 +150,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
             new IntentFilter(ACTION_PREFIX + "ShowSideBar"),
             ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        EzxHelpUtils.setAdditionalInstanceField(regionSamplingHelper, "showReceiver", showReceiver);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(regionSamplingHelper, "showReceiver", showReceiver);
     }
 
     /**
@@ -201,12 +200,12 @@ public class AddSideBarExpandReceiver extends BaseHook {
      */
     private void removeOnTouchListener(View view) {
         try {
-            Object listenerInfo = EzxHelpUtils.getObjectField(view, "mListenerInfo");
+            Object listenerInfo = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(view, "mListenerInfo");
             if (listenerInfo == null) {
                 return;
             }
 
-            Object onTouchListener = EzxHelpUtils.getObjectField(listenerInfo, "mOnTouchListener");
+            Object onTouchListener = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(listenerInfo, "mOnTouchListener");
             if (onTouchListener == null) {
                 return;
             }
@@ -230,7 +229,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
      */
     private void removeDrawableNewVersion(View view) {
         try {
-            Object drawable = EzxHelpUtils.callMethod(view, "getDrawable");
+            Object drawable = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "getDrawable");
             if (drawable == null) {
                 return;
             }
@@ -243,7 +242,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
                 }
             });
 
-            EzxHelpUtils.callMethod(view, "setImageDrawable", (Drawable) null);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "setImageDrawable", (Drawable) null);
         } catch (Throwable e) {
             XposedLog.e(TAG, getPackageName(), "removeDrawableNewVersion failed", e);
         }
@@ -284,12 +283,12 @@ public class AddSideBarExpandReceiver extends BaseHook {
                     isHooked[0] = false;
 
                     BroadcastReceiver showReceiver = (BroadcastReceiver)
-                        EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "showReceiver");
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "showReceiver");
 
                     if (showReceiver != null) {
                         View view = (View) param.getArgs()[0];
                         view.getContext().unregisterReceiver(showReceiver);
-                        EzxHelpUtils.removeAdditionalInstanceField(param.getThisObject(), "showReceiver");
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.removeAdditionalInstanceField(param.getThisObject(), "showReceiver");
                     }
                 }
             });
@@ -299,7 +298,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
      * Hook 启动方法
      */
     private void hookStartMethod(Class<?> regionSamplingHelper) {
-        Method[] methods = EzxHelpUtils.findMethodsByExactParameters(
+        Method[] methods = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodsByExactParameters(
             regionSamplingHelper, void.class, Rect.class);
 
         if (methods.length == 0) {

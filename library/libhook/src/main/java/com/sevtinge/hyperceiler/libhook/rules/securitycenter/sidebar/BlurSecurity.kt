@@ -33,7 +33,6 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.api.ColorUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.isBlurDrawable
@@ -42,10 +41,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearMi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Method
 
 object BlurSecurity : BaseHook() {
@@ -126,8 +126,8 @@ object BlurSecurity : BaseHook() {
         }
 
         // dock 应用栏
-        EzxHelpUtils.hookAllConstructors(dockLayoutClass, object : IMethodHook {
-            override fun after(param: HookParam) {
+        dockLayoutClass.hookAllConstructors {
+            after { param ->
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
                     object :
@@ -141,7 +141,7 @@ object BlurSecurity : BaseHook() {
                         }
                     })
             }
-        })
+        }
 
         // 工具箱主体(这里只处理视频/会议/通话工具箱)
         findAndHookMethod(turboLayoutClass, "getTargetBox", object : IMethodHook {
@@ -180,7 +180,7 @@ object BlurSecurity : BaseHook() {
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
         // 游戏工具箱
-        EzxHelpUtils.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
             override fun after(param: HookParam) {
                 val view = param.thisObject as View
                 view.addOnAttachStateChangeListener(
@@ -219,7 +219,7 @@ object BlurSecurity : BaseHook() {
         })
 
         // 隐藏视频/游戏工具箱顶部静态图
-        EzxHelpUtils.hookAllConstructors(
+        hookAllConstructors(
             ImageView::class.java,
             object : IMethodHook {
                 override fun after(param: HookParam) {
@@ -287,7 +287,7 @@ object BlurSecurity : BaseHook() {
             val auditionViewClass =
                 findClassIfExists("com.miui.gamebooster.customview.AuditionView") ?: return
 
-            EzxHelpUtils.hookAllMethods(
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
                 detailSettingsLayoutClass,
                 "setFunctionType",
                 object : IMethodHook {
@@ -301,7 +301,7 @@ object BlurSecurity : BaseHook() {
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
                             findClassIfExists($$"$$listViewAdapterClassName$a") ?: return
-                        EzxHelpUtils.hookAllMethods(
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
                             listViewAdapterInnerClass,
                             "a",
                             object : IMethodHook {

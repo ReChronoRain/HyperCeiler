@@ -40,16 +40,14 @@ import androidx.preference.PreferenceManager
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.newInstance
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import fan.core.utils.MiuixUIUtils.dp2px
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.text.Collator
 import java.util.Locale
 
@@ -113,146 +111,136 @@ object ChangeBrowserForAIEngine : BaseHook() {
 
     private fun hookCopyWebsiteSettings() {
         loadClass(COPY_WEBSITE_SETTINGS_FRAGMENT_CLASS).apply {
-            methodFinder()
-                .filterByName("onCreatePreferences")
-                .first()
-                .createHook {
-                    after {
+            findMethod {
+                name("onCreatePreferences")
+            }.createHook {
+                after {
+                    syncCopyWebsiteSettings(it.thisObject)
+                }
+            }
+
+            findMethod {
+                name("onResume")
+            }.createHook {
+                after {
+                    syncCopyWebsiteSettings(it.thisObject)
+                }
+            }
+
+            findMethod {
+                name("onPreferenceChange")
+            }.createHook {
+                after {
+                    val preference = it.args[0] ?: return@after
+                    val key = preference.callMethod("getKey") as? String ?: return@after
+                    if (key == WEBSITE_SWITCH_KEY) {
                         syncCopyWebsiteSettings(it.thisObject)
                     }
                 }
-
-            methodFinder()
-                .filterByName("onResume")
-                .first()
-                .createHook {
-                    after {
-                        syncCopyWebsiteSettings(it.thisObject)
-                    }
-                }
-
-            methodFinder()
-                .filterByName("onPreferenceChange")
-                .first()
-                .createHook {
-                    after {
-                        val preference = it.args[0] ?: return@after
-                        val key = preference.callMethod("getKey") as? String ?: return@after
-                        if (key == WEBSITE_SWITCH_KEY) {
-                            syncCopyWebsiteSettings(it.thisObject)
-                        }
-                    }
-                }
+            }
         }
     }
 
     private fun hookSmartPasswordUtils() {
         loadClass(SMART_PASSWORD_UTILS_CLASS).apply {
-            methodFinder()
-                .filterByName("isSupportPackageName")
-                .filterByParamTypes(Int::class.javaPrimitiveType!!, String::class.java)
-                .first()
-                .createHook {
-                    before {
-                        if ((it.args[0] as Int) != COPY_WEBSITE_TYPE) return@before
+            findMethod {
+                name("isSupportPackageName")
+                parameterTypes(Int::class.javaPrimitiveType!!, String::class.java)
+            }.createHook {
+                before {
+                    if ((it.args[0] as Int) != COPY_WEBSITE_TYPE) return@before
 
-                        val context = getTargetAppContext() ?: return@before
-                        val packageName = it.args[1] as? String ?: ""
-                        it.result = findBrowserApp(context, packageName) != null
-                    }
+                    val context = getTargetAppContext() ?: return@before
+                    val packageName = it.args[1] as? String ?: ""
+                    it.result = findBrowserApp(context, packageName) != null
                 }
+            }
 
-            methodFinder()
-                .filterByName("isInstallForApp")
-                .first()
-                .createHook {
-                    before {
-                        if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
+            findMethod {
+                name("isInstallForApp")
+            }.createHook {
+                before {
+                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
 
-                        val context = it.args[0] as? Context ?: return@before
-                        it.result = canOpenSelectedBrowser(context)
-                    }
+                    val context = it.args[0] as? Context ?: return@before
+                    it.result = canOpenSelectedBrowser(context)
                 }
+            }
 
-            methodFinder()
-                .filterByName("getStartAppPackage")
-                .first()
-                .createHook {
-                    before {
-                        if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
+            findMethod {
+                name("getStartAppPackage")
+            }.createHook {
+                before {
+                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
 
-                        val context = it.args[0] as? Context ?: return@before
-                        it.result = getLaunchPackageName(
-                            context,
-                            resolveBrowserChoice(context, preferSnapshot = true)
-                        )
-                    }
+                    val context = it.args[0] as? Context ?: return@before
+                    it.result = getLaunchPackageName(
+                        context,
+                        resolveBrowserChoice(context, preferSnapshot = true)
+                    )
                 }
+            }
 
-            methodFinder()
-                .filterByName("startIntentToApp")
-                .filterByParamCount(3)
-                .first()
-                .createHook {
-                    before {
-                        if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@before
+            findMethod {
+                name("startIntentToApp")
+                paramCount(3)
+            }.createHook {
+                before {
+                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@before
 
-                        val context = it.args[0] as? Context ?: return@before
-                        val url = it.args[1] as? String ?: return@before
-                        openInSelectedBrowser(
-                            context,
-                            url,
-                            resolveBrowserChoice(context, preferSnapshot = true)
-                        )
-                        it.result = null
-                    }
+                    val context = it.args[0] as? Context ?: return@before
+                    val url = it.args[1] as? String ?: return@before
+                    openInSelectedBrowser(
+                        context,
+                        url,
+                        resolveBrowserChoice(context, preferSnapshot = true)
+                    )
+                    it.result = null
                 }
+            }
         }
     }
 
     private fun hookNotifications() {
         loadClass(NOTIFICATION_UTILS_CLASS).apply {
-            methodFinder()
-                .filterByName("getNotificationInfo")
-                .first()
-                .createHook {
-                    after {
-                        if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@after
+            findMethod {
+                name("getNotificationInfo")
+            }.createHook {
+                after {
+                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@after
 
-                        val context = it.args[0] as? Context ?: return@after
-                        val choice = resolveBrowserChoice(context)
-                        if (choice.useDefault) return@after
+                    val context = it.args[0] as? Context ?: return@after
+                    val choice = resolveBrowserChoice(context)
+                    if (choice.useDefault) return@after
 
-                        val title = resolveChosenBrowserApp(context, choice)?.label ?: return@after
-                        it.result?.setObjectField("title", title)
-                    }
+                    val title = resolveChosenBrowserApp(context, choice)?.label ?: return@after
+                    it.result?.setObjectField("title", title)
                 }
+            }
 
-            methodFinder()
-                .filterByName("getNotificationStartIntent")
-                .first()
-                .createHook {
-                    after {
-                        if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
+            findMethod {
+                name("getNotificationStartIntent")
+            }.createHook {
+                after {
+                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
 
-                        val context = it.args[0] as? Context ?: return@after
-                        val intent = it.result as? Intent ?: return@after
-                        writeBrowserSnapshot(intent, resolveBrowserChoice(context))
-                    }
+                    val context = it.args[0] as? Context ?: return@after
+                    val intent = it.result as? Intent ?: return@after
+                    writeBrowserSnapshot(intent, resolveBrowserChoice(context))
                 }
+            }
 
-            methodFinder()
-                .filterByName("showNotification")
-                .first()
-                .createHook {
-                    after {
-                        if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
+            findMethod {
+                name("showNotification")
+            }.createHook {
+                after {
+                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
 
-                        val context = it.args[0] as? Context ?: return@after
-                        val choice = resolveBrowserChoice(context)
-                        refreshNotificationBrowserIcon(context, choice)
-                    }
+                    val context = it.args[0] as? Context ?: return@after
+                    val choice = resolveBrowserChoice(context)
+                    refreshNotificationBrowserIcon(context, choice)
                 }
+            }
         }
     }
 
@@ -381,6 +369,7 @@ object ChangeBrowserForAIEngine : BaseHook() {
     private fun createBrowserSupportPreference(context: Context): Any {
         return if (hasLegacySupportAppPreference) {
             loadClass(APP_INSTALLATION_PREFERENCE_CLASS)
+                .getConstructor()
                 .newInstance(context)
         } else {
             MiuixPreferenceUtils.createTextPreference(context)

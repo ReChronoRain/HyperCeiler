@@ -18,15 +18,15 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookConstructor;
 
 import android.content.Context;
 import android.util.AttributeSet;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockNeverSleepScreen extends BaseHook {
     @Override

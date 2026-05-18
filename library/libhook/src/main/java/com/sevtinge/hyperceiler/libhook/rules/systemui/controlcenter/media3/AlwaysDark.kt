@@ -23,12 +23,14 @@ import android.content.res.Configuration
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object AlwaysDark : BaseHook() {
     private val backgroundStyle by lazy {
@@ -49,9 +51,9 @@ object AlwaysDark : BaseHook() {
             ?.declaredMethods?.firstOrNull { it.name == "get" }
 
         miuiMediaViewControllerImpl?.let { clz ->
-            clz.afterHookConstructor { param ->
+            Constructors.find(clz).toList().createAfterHooks { param ->
                 val context = param.thisObject.getObjectFieldOrNullAs<Context>("context")
-                    ?: return@afterHookConstructor
+                    ?: return@createAfterHooks
                 val oriConfig = context.resources.configuration
                 val newConfig = Configuration(oriConfig).apply {
                     uiMode = (oriConfig.uiMode and Configuration.UI_MODE_NIGHT_MASK.inv()) or
@@ -60,10 +62,12 @@ object AlwaysDark : BaseHook() {
                 param.thisObject.setObjectField("context", context.createConfigurationContext(newConfig))
             }
 
-            clz.afterHookMethod("attach") { param ->
-                val listener = param.thisObject.getObjectFieldOrNull("mediaFullAodListener") ?: return@afterHookMethod
+            clz.findMethod {
+                name("attach")
+            }.createAfterHook { param ->
+                val listener = param.thisObject.getObjectFieldOrNull("mediaFullAodListener") ?: return@createAfterHook
                 val controller = param.thisObject.getObjectFieldOrNull("fullAodController")
-                    ?.let { metLazyGet?.invoke(it) } ?: return@afterHookMethod
+                    ?.let { metLazyGet?.invoke(it) } ?: return@createAfterHook
                 (fldListeners?.get(controller) as? MutableList<*>)?.remove(listener)
             }
         }

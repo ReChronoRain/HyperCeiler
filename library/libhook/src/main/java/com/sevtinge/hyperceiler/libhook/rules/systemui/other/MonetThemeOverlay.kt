@@ -24,8 +24,8 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefType
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllMethods
 
 class MonetThemeOverlay : BaseHook() {
     var mContext: Context? = null
