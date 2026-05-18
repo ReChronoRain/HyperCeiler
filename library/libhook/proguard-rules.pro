@@ -53,3 +53,6 @@
 -keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.** { *; }
 -keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.** { *; }
 -keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.** { *; }
+
+# --- Warnning ---
+-dontwarn android.os.ServiceManager

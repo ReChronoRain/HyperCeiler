@@ -48,12 +48,11 @@ object MusicHooks : MusicBaseHook() {
         }*/
     }
 
-    override fun onSuperLyric(data: SuperLyricData) {
-        val pkgName = data.packageName
-        if (pkgName == context.packageName) {
-            if (data.lyric.isNotEmpty()) {
+    override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
+        if (packageName == context.packageName) {
+            if (data.lyric!!.text.isNotEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {
-                    sendNotification(data.lyric, data)
+                    sendNotification(data.lyric!!.text, data)
                 }
             }
         }

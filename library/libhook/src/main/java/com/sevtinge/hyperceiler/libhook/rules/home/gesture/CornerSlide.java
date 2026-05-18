@@ -18,9 +18,11 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
 
 import android.content.Context;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.MotionEvent;
 
@@ -36,6 +38,7 @@ public class CornerSlide extends BaseHook {
     public int inDirection = 0;
 
     Context mContext;
+    Class<?> mGestureOperationHelperClass;
 
     @Override
     public void init() {
@@ -43,26 +46,51 @@ public class CornerSlide extends BaseHook {
             "isSupportGoogleAssist", int.class,
             returnConstant(true));
         Class<?> FsGestureAssistHelper = findClassIfExists("com.miui.home.recents.FsGestureAssistHelper");
-        findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
-            float.class, float.class, long.class,
-            new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
-                        "isAssistantGestureDisabled", param.getArgs()[2]);
-                    if (!isDisabled) {
-                        int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
-                        float f = (float) param.getArgs()[0];
-                        float f2 = (float) param.getArgs()[1];
-                        if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
-                            param.setResult(true);
-                            return;
+        Class<?> gestureModeAssistantClass = findClassIfExists("com.miui.home.recents.GestureModeAssistant");
+        mGestureOperationHelperClass = findClassIfExists("com.miui.home.recents.GestureOperationHelper");
+        if (isPad()) {
+            findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
+                float.class, float.class, int.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                            "isAssistantGestureDisabled", param.getArgs()[2]);
+                        if (!isDisabled) {
+                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            float f = (float) param.getArgs()[0];
+                            float f2 = (float) param.getArgs()[1];
+                            if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
+                                param.setResult(true);
+                                return;
+                            }
                         }
+                        param.setResult(false);
                     }
-                    param.setResult(false);
                 }
-            }
-        );
+            );
+        } else {
+            findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction",
+                float.class, float.class, long.class,
+                new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                            "isAssistantGestureDisabled", param.getArgs()[2]);
+                        if (!isDisabled) {
+                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            float f = (float) param.getArgs()[0];
+                            float f2 = (float) param.getArgs()[1];
+                            if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
+                                param.setResult(true);
+                                return;
+                            }
+                        }
+                        param.setResult(false);
+                    }
+                }
+            );
+        }
 
         // final int[] inDirection = {0};
         hookAllMethods(FsGestureAssistHelper,
@@ -71,13 +99,26 @@ public class CornerSlide extends BaseHook {
                 public void after(HookParam param) {
                     MotionEvent motionEvent = (MotionEvent) param.getArgs()[0];
                     if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                        float mDownX = EzxHelpUtils.getFloatField(param.getThisObject(), "mDownX");
-                        int mAssistantWidth = EzxHelpUtils.getIntField(param.getThisObject(), "mAssistantWidth");
-                        inDirection = mDownX < mAssistantWidth ? 0 : 1;
+                        updateDirection(param.getThisObject(), motionEvent);
                     }
                 }
             }
         );
+
+        if (gestureModeAssistantClass != null) {
+            hookAllMethods(gestureModeAssistantClass,
+                "onStartGesture", new IMethodHook() {
+                    @Override
+                    public void after(HookParam param) {
+                        updateDirectionFromDownPoint(
+                            param.getThisObject(),
+                            EzxHelpUtils.getFloatField(param.getThisObject(), "mDownX"),
+                            EzxHelpUtils.getFloatField(param.getThisObject(), "mDownY")
+                        );
+                    }
+                }
+            );
+        }
 
         findAndHookConstructor("com.miui.home.recents.NavStubView",
             Context.class, new IMethodHook() {
@@ -98,12 +139,46 @@ public class CornerSlide extends BaseHook {
                         return;
                     }
                     String direction = inDirection == 1 ? "right" : "left";
-                    GlobalActionBridge.handleAction(
+                    if (GlobalActionBridge.handleAction(
                         EzXposed.getAppContext(),
                         "home_navigation_assist_" + direction + "_slide"
-                    );
+                    )) {
+                        param.setResult(null);
+                    }
                 }
             }
         );
+    }
+
+    private void updateDirection(Object helper, MotionEvent motionEvent) {
+        updateDirectionFromDownPoint(helper, motionEvent.getRawX(), motionEvent.getRawY());
+    }
+
+    private void updateDirectionFromDownPoint(Object helper, float downX, float downY) {
+        if (isPad() && updateDirectionWithGestureRegions(downX, downY)) {
+            return;
+        }
+        int assistantWidth = EzxHelpUtils.getIntField(helper, "mAssistantWidth");
+        inDirection = downX < assistantWidth ? 0 : 1;
+    }
+
+    private boolean updateDirectionWithGestureRegions(float downX, float downY) {
+        if (mGestureOperationHelperClass == null) {
+            return false;
+        }
+        try {
+            RectF leftRegion = (RectF) EzxHelpUtils.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_LEFT_CORNER");
+            RectF rightRegion = (RectF) EzxHelpUtils.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_RIGHT_CORNER");
+            if (leftRegion != null && leftRegion.contains(downX, downY)) {
+                inDirection = 0;
+                return true;
+            }
+            if (rightRegion != null && rightRegion.contains(downX, downY)) {
+                inDirection = 1;
+                return true;
+            }
+        } catch (Throwable ignored) {
+        }
+        return false;
     }
 }

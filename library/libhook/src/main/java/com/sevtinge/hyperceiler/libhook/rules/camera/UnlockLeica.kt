@@ -51,7 +51,7 @@ object UnlockLeica : BaseHook() {
         getPackageVersionCode(lpparam) >= 600000000
     }
     val is63Camera by lazy {
-        getPackageVersionCode(lpparam) >= 630000000
+        getPackageVersionCode(lpparam) >= 630040000
     }
     val is64Camera by lazy {
         // 主包表示无法理解米米的行为，6.4 相机的内容和 6.2 一致，除了 CloudWatermark 这个云控内容

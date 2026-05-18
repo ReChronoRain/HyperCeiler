@@ -21,6 +21,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -267,6 +268,12 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     }
 
     @Override
+    public void onStop() {
+        stopRuntimeShader();
+        super.onStop();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -468,6 +475,12 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         }
     }
 
+    private void stopRuntimeShader() {
+        if (mBgEffectController != null) {
+            mBgEffectController.stop();
+        }
+    }
+
     private void checkNetwork() {
         Context context = getSafeContext();
         if (context == null || executor.isShutdown()) {
@@ -546,11 +559,21 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     @Override
     public void onDestroyView() {
+        stopRuntimeShader();
         super.onDestroyView();
         mHandler.removeCallbacksAndMessages(null);
         if (mRootView != null) {
             unregisterCoordinateScrollView(mRootView);
         }
+        if (mBgEffectView != null) {
+            ViewParent parent = mBgEffectView.getParent();
+            if (parent instanceof ViewGroup viewGroup) {
+                viewGroup.removeView(mBgEffectView);
+            }
+        }
+        mBgEffectView = null;
+        mBgEffectController = null;
+        mContentView = null;
         mRootView = null;
         unregisterNetworkCallback();
         executor.shutdownNow();

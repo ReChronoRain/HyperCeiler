@@ -53,7 +53,7 @@ import java.io.File
  * 再把结果序列化后写回缓存。
  *
  * 线程安全约束：所有公开方法都可以跨线程调用。
- * [findMember] / [findMemberList] 整体同步执行（@Synchronized）
+ * DexKit 2.2.0 已支持同桥并发访问，框架层会在 Hook 初始化阶段自动并行调度。
  * 生命周期方法（[init] / [releaseBridge] / [clearAllCache]）使用内部锁保护状态。
  *
  * @author Ling Qiqi
@@ -124,16 +124,11 @@ internal object DexKitCacheManager {
      *
      * 缓存命中时：从 JSON 反序列化并结合 classLoader 解析，不创建原生桥。
      * 缓存未命中时：获取原生桥，执行 [iDexKit]，然后序列化并写入缓存。
-     *
-     * 整个方法同步执行：DexKit 内部使用多线程 native 扫描，
-     * 同一个桥并发调用会导致线程争抢，性能急剧恶化。
      */
-    @Synchronized
     @Suppress("UNCHECKED_CAST")
     fun <T> findMember(key: String, iDexKit: IDexKit): T {
         val currentParam = param ?: throw IllegalStateException("DexKit not ready")
         val classLoader = currentParam.classLoader
-        val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
 
         // 缓存 key 不带前缀，由 strings / lists 分组隐式区分
         // 先尝试命中内存缓存，命中时不创建原生桥
@@ -142,6 +137,7 @@ internal object DexKitCacheManager {
         }
 
         // 缓存未命中，获取原生桥执行查询
+        val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         var result: Any? = null
         currentBridge.withBridge { rawBridge ->
             val baseData: BaseData = try {
@@ -157,15 +153,11 @@ internal object DexKitCacheManager {
 
     /**
      * 查找成员列表，并带缓存支持。
-     *
-     * 同步约束同 [findMember]。
      */
-    @Synchronized
     @Suppress("UNCHECKED_CAST")
     fun <T> findMemberList(key: String, iDexKitList: IDexKitList): List<T> {
         val currentParam = param ?: throw IllegalStateException("DexKit not ready")
         val classLoader = currentParam.classLoader
-        val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
 
         // 缓存 key 不带前缀，由 strings / lists 分组隐式区分
         // 先尝试命中缓存
@@ -174,6 +166,7 @@ internal object DexKitCacheManager {
         }
 
         // 缓存未命中，获取原生桥执行查询
+        val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         val resultList = mutableListOf<T>()
         currentBridge.withBridge { rawBridge ->
             val baseDataList = try {

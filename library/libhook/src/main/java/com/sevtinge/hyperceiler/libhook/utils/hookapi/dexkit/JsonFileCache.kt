@@ -28,12 +28,16 @@ import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 import java.nio.channels.FileLock
 import java.nio.file.StandardOpenOption
+import java.util.TreeMap
+import java.util.concurrent.ConcurrentLinkedQueue
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * [DexKitCacheBridge.Cache] 的 JSON 文件实现。
  *
  * 缓存数据保存在 JSON 文件中，并在构造阶段做版本校验。
- * 内存读取走映射表，写入通过 dirty 标记延迟到 [flush] 时落盘。
+ * 所有写入先进入建议队列，再由单消费者串行应用到内存映射表，
+ * 最后在 [flush] 时统一落盘。
  *
  * 当前 JSON 格式示例：
  * ```json
@@ -68,12 +72,26 @@ internal class JsonFileCache(
         private const val KEY_LISTS = "lists"
     }
 
-    private val lock = Any()
+    private enum class WriteType {
+        PUT_STRING,
+        PUT_LIST,
+        REMOVE,
+        CLEAR,
+    }
+
+    private data class WriteSuggestion(
+        val type: WriteType,
+        val key: String? = null,
+        val stringValue: String? = null,
+        val listValue: List<String>? = null,
+    )
+
+    private val ioLock = Any()
     private val strings = LinkedHashMap<String, String>()
     private val lists = LinkedHashMap<String, List<String>>()
+    private val writeSuggestions = ConcurrentLinkedQueue<WriteSuggestion>()
 
-    @Volatile
-    private var dirty = false
+    private val dirty = AtomicBoolean(false)
 
     init {
         loadAndValidate()
@@ -82,43 +100,40 @@ internal class JsonFileCache(
     // ======================== 缓存接口实现 ========================
 
     override fun getString(key: String, default: String?): String? {
-        synchronized(lock) {
+        synchronized(ioLock) {
+            applyWriteSuggestionsLocked()
             return strings[key] ?: default
         }
     }
 
     override fun putString(key: String, value: String) {
-        synchronized(lock) {
-            strings[key] = value
-            dirty = true
-        }
+        enqueueWriteSuggestion(WriteSuggestion(WriteType.PUT_STRING, key = key, stringValue = value))
     }
 
     override fun getStringList(key: String, default: List<String>?): List<String>? {
-        synchronized(lock) {
+        synchronized(ioLock) {
+            applyWriteSuggestionsLocked()
             return lists[key]?.let(::ArrayList) ?: default
         }
     }
 
     override fun putStringList(key: String, value: List<String>) {
-        synchronized(lock) {
-            lists[key] = ArrayList(value)
-            dirty = true
-        }
+        enqueueWriteSuggestion(
+            WriteSuggestion(
+                WriteType.PUT_LIST,
+                key = key,
+                listValue = ArrayList(value)
+            )
+        )
     }
 
     override fun remove(key: String) {
-        synchronized(lock) {
-            val removedString = strings.remove(key) != null
-            val removedList = lists.remove(key) != null
-            if (removedString || removedList) {
-                dirty = true
-            }
-        }
+        enqueueWriteSuggestion(WriteSuggestion(WriteType.REMOVE, key = key))
     }
 
     override fun getAllKeys(): Collection<String> {
-        synchronized(lock) {
+        synchronized(ioLock) {
+            applyWriteSuggestionsLocked()
             val keys = LinkedHashSet<String>(strings.size + lists.size)
             keys.addAll(strings.keys)
             keys.addAll(lists.keys)
@@ -127,11 +142,7 @@ internal class JsonFileCache(
     }
 
     override fun clearAll() {
-        synchronized(lock) {
-            strings.clear()
-            lists.clear()
-            dirty = true
-        }
+        enqueueWriteSuggestion(WriteSuggestion(WriteType.CLEAR))
     }
 
     // ======================== 文件操作 ========================
@@ -141,16 +152,28 @@ internal class JsonFileCache(
      * 一般在当前 Hook 会话结束时调用。
      */
     fun flush() {
-        synchronized(lock) {
-            if (!dirty) return
-            if (saveToDisk()) {
-                dirty = false
+        synchronized(ioLock) {
+            while (true) {
+                val suggestionCount = applyWriteSuggestionsLocked()
+                if (suggestionCount == 0 && !dirty.get()) return
+
+                val stringsSnapshot = snapshotStringsLocked()
+                val listsSnapshot = snapshotListsLocked()
+                dirty.set(false)
+                if (!saveToDisk(stringsSnapshot, listsSnapshot)) {
+                    dirty.set(true)
+                    return
+                }
+                if (suggestionCount > 0) {
+                    XposedLog.d(tag, "JsonFileCache: applied $suggestionCount queued writes")
+                }
+                if (writeSuggestions.isEmpty() && !dirty.get()) return
             }
         }
     }
 
     private fun loadAndValidate() {
-        synchronized(lock) {
+        synchronized(ioLock) {
             if (!cacheFile.exists()) {
                 XposedLog.d(tag, "JsonFileCache: no cache file, starting fresh")
                 return
@@ -182,7 +205,7 @@ internal class JsonFileCache(
                 }
 
                 if (needClear) {
-                    dirty = true
+                    dirty.set(true)
                     return
                 }
 
@@ -210,12 +233,15 @@ internal class JsonFileCache(
                 XposedLog.w(tag, "JsonFileCache: failed to load cache, starting fresh", t)
                 strings.clear()
                 lists.clear()
-                dirty = true
+                dirty.set(true)
             }
         }
     }
 
-    private fun saveToDisk(): Boolean {
+    private fun saveToDisk(
+        stringsSnapshot: Map<String, String>,
+        listsSnapshot: Map<String, List<String>>,
+    ): Boolean {
         try {
             val dir = cacheFile.parentFile
             if (dir != null && !dir.exists()) {
@@ -231,13 +257,13 @@ internal class JsonFileCache(
             if (osVersion != null) root.put(KEY_OS_VERSION, osVersion)
 
             val strObj = JSONObject()
-            for ((k, v) in strings) {
+            for ((k, v) in stringsSnapshot) {
                 strObj.put(k, v)
             }
             root.put(KEY_STRINGS, strObj)
 
             val listObj = JSONObject()
-            for ((k, v) in lists) {
+            for ((k, v) in listsSnapshot) {
                 val arr = JSONArray()
                 for (s in v) arr.put(s)
                 listObj.put(k, arr)
@@ -274,11 +300,49 @@ internal class JsonFileCache(
                 }
             }
 
-            XposedLog.d(tag, "JsonFileCache: saved ${strings.size} strings, ${lists.size} lists")
+            XposedLog.d(tag, "JsonFileCache: saved ${stringsSnapshot.size} strings, ${listsSnapshot.size} lists")
             return true
         } catch (t: Throwable) {
             XposedLog.w(tag, "JsonFileCache: failed to save cache", t)
             return false
         }
     }
+
+    private fun enqueueWriteSuggestion(suggestion: WriteSuggestion) {
+        writeSuggestions.offer(suggestion)
+        dirty.set(true)
+    }
+
+    private fun applyWriteSuggestionsLocked(): Int {
+        var count = 0
+        while (true) {
+            val suggestion = writeSuggestions.poll() ?: break
+            when (suggestion.type) {
+                WriteType.PUT_STRING -> {
+                    strings[suggestion.key!!] = suggestion.stringValue!!
+                }
+
+                WriteType.PUT_LIST -> {
+                    lists[suggestion.key!!] = suggestion.listValue!!
+                }
+
+                WriteType.REMOVE -> {
+                    val key = suggestion.key ?: continue
+                    strings.remove(key)
+                    lists.remove(key)
+                }
+
+                WriteType.CLEAR -> {
+                    strings.clear()
+                    lists.clear()
+                }
+            }
+            count++
+        }
+        return count
+    }
+
+    private fun snapshotStringsLocked(): Map<String, String> = TreeMap(strings)
+
+    private fun snapshotListsLocked(): Map<String, List<String>> = TreeMap(lists)
 }

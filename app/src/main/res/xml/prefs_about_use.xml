@@ -293,6 +293,13 @@
                 android:data="https://github.com/Howard20181/Mi_AOSP_IME" />
         </Preference>
         <Preference
+            android:summary="parallelcc | GPL-3.0"
+            android:title="MiCTS">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/parallelcc/MiCTS" />
+        </Preference>
+        <Preference
             android:summary="Art-Chen | AGPL-3.0"
             android:title="MIUI Extra">
             <intent

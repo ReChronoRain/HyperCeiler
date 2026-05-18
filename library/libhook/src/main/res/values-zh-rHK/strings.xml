@@ -125,6 +125,8 @@
     <string name="misound_bluetooth_type_keep">保持當前</string>
     <string name="aicr">小米澎湃 AI 引擎</string>
     <string name="aicr_modify_browser_copy">修改複製直達使用的瀏覽器</string>
+    <string name="aicr_preferred_browser">選訂打開的瀏覽器</string>
+    <string name="aicr_default_browser">默認瀏覽器</string>
     <string name="xmsf">小米服務框架</string>
     <string name="xmsf_unlock_foucs_app_sign_white_list">解鎖焦點通知白名單簽名驗證</string>
     <!--Home-->

@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
     private var speed = -0.1f
-    private var lastLyric = ""
+    private var lastLyric: String? = ""
     private val runnablePool = mutableMapOf<Int, Runnable>()
     private val focusTextViewList = mutableListOf<TextView>()
     private val sCollectFocusedTextViews = ThreadLocal<Boolean>()
@@ -162,7 +162,7 @@ object FocusNotifLyric : MusicBaseHook() {
         // setStaticObject(loadClass("miui.systemui.notification.NotificationUtil", classLoader), "DEBUG", true)
     }
 
-    override fun onSuperLyric(data: SuperLyricData) {
+    override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
         val lyric = data.lyric
         focusTextViewList.forEach { textView ->
             textView.post {
@@ -175,8 +175,8 @@ object FocusNotifLyric : MusicBaseHook() {
                             callMethod("stop")
                         }
                     }
-                    textView.text = lyric
-                    lastLyric = lyric
+                    textView.text = lyric?.text
+                    lastLyric = lyric?.text
                 }
                 val key = textView.hashCode()
                 val startScroll = runnablePool.getOrPut(key) {
@@ -190,9 +190,9 @@ object FocusNotifLyric : MusicBaseHook() {
             }
         }
 
-        if (!isShowApp && data.lyric.isNotEmpty()) {
+        if (!isShowApp && data.lyric!!.text.isNotEmpty()) {
             CoroutineScope(Dispatchers.Main).launch {
-                sendNotification(data.lyric, data)
+                sendNotification(data.lyric!!.text, data)
             }
         }
     }

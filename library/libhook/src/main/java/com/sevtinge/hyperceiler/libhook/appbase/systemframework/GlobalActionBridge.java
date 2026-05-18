@@ -29,13 +29,37 @@ import android.view.KeyEvent;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.actions.HomeNativeGestureActions;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 public final class GlobalActionBridge {
+    private static final int ACTION_ID_NONE = 0;
+    private static final int ACTION_ID_NOTIFICATION_CENTER = 1;
+    private static final int ACTION_ID_CLEAR_MEMORY = 2;
+    private static final int ACTION_ID_INVERT_COLORS = 3;
+    private static final int ACTION_ID_LOCK_SCREEN = 4;
+    private static final int ACTION_ID_GO_TO_SLEEP = 5;
+    private static final int ACTION_ID_SCREENSHOT = 6;
+    private static final int ACTION_ID_RECENTS = 7;
+    private static final int ACTION_ID_VOLUME_DIALOG = 8;
+    private static final int ACTION_ID_POWER_MENU = 12;
+    private static final int ACTION_ID_LAUNCH_APP = 13;
+    private static final int ACTION_ID_GO_HOME = 14;
+    private static final int ACTION_ID_CONTROL_CENTER = 15;
+    private static final int ACTION_ID_SUPER_XIAOAI = 16;
+    private static final int ACTION_ID_SUPER_XIAOAI_SCREEN_RECOGNIZER = 17;
+    private static final int ACTION_ID_GOOGLE_CIRCLE_TO_SEARCH = 18;
+    private static final int ACTION_ID_FORCE_STOP_TOP_APP = 19;
+    private static final int ACTION_ID_GOOGLE_VOICE_ASSISTANT = 20;
+    private static final int ACTION_ID_MEDIA_KEY_MIN = 85;
+    private static final int ACTION_ID_MEDIA_KEY_MAX = 88;
+
     public static final String ACTION_TOGGLE_COLOR_INVERSION = BaseHook.ACTION_PREFIX + "ToggleColorInversion";
     public static final String ACTION_LOCK_SCREEN = BaseHook.ACTION_PREFIX + "LockScreen";
     public static final String ACTION_GO_TO_SLEEP = BaseHook.ACTION_PREFIX + "GoToSleep";
+    public static final String ACTION_GO_HOME = BaseHook.ACTION_PREFIX + "GoHome";
+    public static final String ACTION_FORCE_STOP_TOP_APP = BaseHook.ACTION_PREFIX + "ForceStopTopApp";
     public static final String ACTION_SCREEN_CAPTURE = BaseHook.ACTION_PREFIX + "ScreenCapture";
     public static final String ACTION_OPEN_POWER_MENU = BaseHook.ACTION_PREFIX + "OpenPowerMenu";
     public static final String ACTION_LAUNCH_INTENT = BaseHook.ACTION_PREFIX + "LaunchIntent";
@@ -52,33 +76,23 @@ public final class GlobalActionBridge {
         if (key == null || key.isEmpty()) {
             return false;
         }
-        int action = PrefsBridge.getInt(key + "_action", 0);
-        if (action <= 0) {
+        int action = PrefsBridge.getInt(key + "_action", ACTION_ID_NONE);
+        if (action <= ACTION_ID_NONE) {
             return false;
         }
-        if (action >= 85 && action <= 88) {
-            if (isMediaActionsAllowed(context)) {
-                sendDownUpKeyEvent(context, action, false);
-            }
+        if (handleMediaAction(context, action)) {
             return true;
         }
-        return switch (action) {
-            case 1 -> StatusBarActionBridge.openNotificationCenter(context);
-            case 2 -> StatusBarActionBridge.clearMemory(context);
-            case 3 -> sendAction(context, "ToggleColorInversion");
-            case 4 -> sendAction(context, "LockScreen");
-            case 5 -> sendAction(context, "GoToSleep");
-            case 6 -> sendAction(context, "ScreenCapture");
-            case 7 -> StatusBarActionBridge.openRecents(context);
-            case 8 -> StatusBarActionBridge.openVolumeDialog(context);
-            case 12 -> sendAction(context, "OpenPowerMenu");
-            case 13 -> launchAppIntent(context, key, skipLock);
-            default -> false;
-        };
-    }
-
-    public static boolean setAction(Context context, String actionSuffix) {
-        return sendAction(context, actionSuffix);
+        if (handleSystemUiAction(context, action)) {
+            return true;
+        }
+        if (handleHomeNativeAction(context, key, action)) {
+            return true;
+        }
+        if (handleSystemFrameworkAction(context, action)) {
+            return true;
+        }
+        return action == ACTION_ID_LAUNCH_APP && launchAppIntent(context, key, skipLock);
     }
 
     public static boolean sendAction(Context context, String actionSuffix) {
@@ -89,6 +103,60 @@ public final class GlobalActionBridge {
             AndroidLog.w("GlobalActionBridge", "system", "sendAction", t);
             return false;
         }
+    }
+
+    private static boolean handleMediaAction(Context context, int action) {
+        if (action < ACTION_ID_MEDIA_KEY_MIN || action > ACTION_ID_MEDIA_KEY_MAX) {
+            return false;
+        }
+        if (isMediaActionsAllowed(context)) {
+            sendDownUpKeyEvent(context, action, false);
+        }
+        return true;
+    }
+
+    private static boolean handleSystemUiAction(Context context, int action) {
+        return switch (action) {
+            case ACTION_ID_NOTIFICATION_CENTER -> StatusBarActionBridge.openNotificationCenter(context);
+            case ACTION_ID_CLEAR_MEMORY -> StatusBarActionBridge.clearMemory(context);
+            case ACTION_ID_RECENTS -> StatusBarActionBridge.openRecents(context);
+            case ACTION_ID_VOLUME_DIALOG -> StatusBarActionBridge.openVolumeDialog(context);
+            case ACTION_ID_CONTROL_CENTER -> StatusBarActionBridge.openControlCenter(context);
+            default -> false;
+        };
+    }
+
+    private static boolean handleHomeNativeAction(Context context, String key, int action) {
+        return switch (action) {
+            case ACTION_ID_LOCK_SCREEN -> HomeNativeGestureActions.lockScreen(context) || sendAction(context, "LockScreen");
+            case ACTION_ID_SUPER_XIAOAI -> HomeNativeGestureActions.launchSuperXiaoAi(context);
+            case ACTION_ID_SUPER_XIAOAI_SCREEN_RECOGNIZER -> HomeNativeGestureActions.launchSuperXiaoAiScreenRecognizer(context);
+            case ACTION_ID_GOOGLE_CIRCLE_TO_SEARCH -> launchGoogleCircleToSearch(context);
+            case ACTION_ID_GOOGLE_VOICE_ASSISTANT -> HomeNativeGestureActions.launchGoogleVoiceAssistant(context);
+            default -> false;
+        };
+    }
+
+    private static boolean handleSystemFrameworkAction(Context context, int action) {
+        return switch (action) {
+            case ACTION_ID_INVERT_COLORS -> sendAction(context, "ToggleColorInversion");
+            case ACTION_ID_GO_TO_SLEEP -> sendAction(context, "GoToSleep");
+            case ACTION_ID_SCREENSHOT -> sendAction(context, "ScreenCapture");
+            case ACTION_ID_POWER_MENU -> sendAction(context, "OpenPowerMenu");
+            case ACTION_ID_GO_HOME -> sendAction(context, "GoHome");
+            case ACTION_ID_FORCE_STOP_TOP_APP -> sendAction(context, "ForceStopTopApp");
+            default -> false;
+        };
+    }
+
+    private static boolean launchGoogleCircleToSearch(Context context) {
+        if (HomeNativeGestureActions.launchGoogleCircleToSearchFromHome(context)) {
+            return true;
+        }
+        if (sendAction(context, "StartGoogleCircleToSearch")) {
+            return true;
+        }
+        return HomeNativeGestureActions.triggerCircleToSearchViaVoiceInteraction();
     }
 
     public static boolean launchAppIntent(Context context, String key, boolean skipLock) {
@@ -152,10 +220,6 @@ public final class GlobalActionBridge {
             AndroidLog.w("GlobalActionBridge", "system", "getIntent", t);
             return null;
         }
-    }
-
-    public static Intent getIntent(Context context, String prefs, IntentType intentType, boolean skipLock) {
-        return getIntent(prefs, intentType, skipLock);
     }
 
     public static boolean isMediaActionsAllowed(Context context) {

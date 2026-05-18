@@ -29,11 +29,11 @@ public final class StatusBarActionBridge {
     // When adding a new action later, define it here and implement the
     // matching branch in StatusBarActionBootstrap.UnifiedReceiver together.
     public static final String ACTION_OPEN_NOTIFICATION_CENTER = BaseHook.ACTION_PREFIX + "OpenNotificationCenter";
+    public static final String ACTION_OPEN_CONTROL_CENTER = BaseHook.ACTION_PREFIX + "OpenControlCenter";
     public static final String ACTION_OPEN_RECENTS = BaseHook.ACTION_PREFIX + "OpenRecents";
     public static final String ACTION_OPEN_VOLUME_DIALOG = BaseHook.ACTION_PREFIX + "OpenVolumeDialog";
     public static final String ACTION_CLEAR_MEMORY = BaseHook.ACTION_PREFIX + "ClearMemory";
     public static final String ACTION_RESTART_SYSTEM_UI = BaseHook.ACTION_PREFIX + "RestartSystemUI";
-
     private static final String EXTRA_EXPAND_ONLY = "expand_only";
 
     private StatusBarActionBridge() {
@@ -53,6 +53,10 @@ public final class StatusBarActionBridge {
 
     public static boolean clearMemory(Context context) {
         return sendBroadcast(context, new Intent(ACTION_CLEAR_MEMORY));
+    }
+
+    public static boolean openControlCenter(Context context) {
+        return sendBroadcast(context, new Intent(ACTION_OPEN_CONTROL_CENTER));
     }
 
     public static boolean openRecents(Context context) {
