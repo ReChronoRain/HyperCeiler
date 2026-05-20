@@ -147,6 +147,7 @@ android {
             isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             buildConfigField(typeString, propGitCode, valGitCode)
+            optimization.enable = true
         }
 
         release {

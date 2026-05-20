@@ -101,7 +101,7 @@ public class SafeModeFragment extends SettingsPreferenceFragment implements Pref
         if (getContext() == null) {
             return;
         }
-        int iconSize = getResources().getDimensionPixelSize(fan.preference.R.dimen.miuix_preference_icon_height);
+        int iconSize = getResources().getDimensionPixelSize(R.dimen.header_icon_size);
         Resources resources = getResources();
         try (XmlResourceParser xml = resources.getXml(R.xml.prefs_settings_safe_mode)) {
             int event = xml.getEventType();
