@@ -1473,12 +1473,14 @@
     <string name="security_center_newbox_bg_padding_vertical">Horizontal margin</string>
     <string name="security_center_newbox_bg_padding_horizontal">Vertical margin</string>
     <string name="security">Security</string>
+    <string name="security_app_settings_title">App Settings</string>
+    <string name="security_app_about_title">Application details</string>
     <string name="security_app_title">Show additional app details</string>
-    <string name="security_app_summary">Add new fields to app into page:\n• App version number\n• User ID\n• Data directory\n• APK directory\n• Min SDK version\n• Target SDK version\n• Open with Play Store\n• Launch</string>
+    <string name="security_app_summary">Add SDK, ABI, install source, and other app details</string>
     <string name="security_app_sort_title">App management list sorting</string>
     <string name="security_app_sort_summary">Modify the default sorting of the manage apps list</string>
-    <string name="security_restrict_app_title">Full restrictions</string>
-    <string name="security_restrict_app_summary">Allows configuring Battery saver and Wi-Fi access for system apps</string>
+    <string name="security_restrict_app_title">Unlock Policy Application</string>
+    <string name="security_restrict_app_summary">Allow power saving and network policies to be configured for all configurable applications</string>
     <string name="security_disable_app_title">App state control</string>
     <string name="security_disable_app_summary">Allows disabling any app from app info page</string>
     <string name="security_disable_app_url_title">Apply open link management</string>

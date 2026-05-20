@@ -19,21 +19,35 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.tool
 
 import android.content.Context
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 
 object MiuixPreferenceUtils {
     private const val DROP_DOWN_PREFERENCE_CLASS = "miuix.preference.DropDownPreference"
+    private const val MIUIX_PREFERENCE_CATEGORY_CLASS = "miuix.preference.PreferenceCategory"
     private const val TEXT_PREFERENCE_CLASS = "miuix.preference.TextPreference"
     private const val ANDROIDX_PREFERENCE_CLASS = "androidx.preference.Preference"
+    private const val ANDROIDX_PREFERENCE_CATEGORY_CLASS = "androidx.preference.PreferenceCategory"
 
     fun createDropDownPreference(context: Context): Any {
-        return com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(DROP_DOWN_PREFERENCE_CLASS), context)
+        return BaseHook.newInstance(BaseHook.findClass(DROP_DOWN_PREFERENCE_CLASS), context)
+    }
+
+    fun createPreferenceCategory(context: Context): Any {
+        val preferenceClass =
+            BaseHook.findClassIfExists(MIUIX_PREFERENCE_CATEGORY_CLASS)
+                ?: BaseHook.findClass(ANDROIDX_PREFERENCE_CATEGORY_CLASS)
+        return runCatching {
+            BaseHook.newInstance(preferenceClass, context)
+        }.getOrElse {
+            BaseHook.newInstance(preferenceClass, context, null)
+        }
     }
 
     fun createTextPreference(context: Context): Any {
-        val preferenceClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(TEXT_PREFERENCE_CLASS)
-            ?: com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(ANDROIDX_PREFERENCE_CLASS)
-        return com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(preferenceClass, context)
+        val preferenceClass = BaseHook.findClassIfExists(TEXT_PREFERENCE_CLASS)
+            ?: BaseHook.findClass(ANDROIDX_PREFERENCE_CLASS)
+        return BaseHook.newInstance(preferenceClass, context)
     }
 
     fun configureDropDownPreference(
@@ -53,6 +67,55 @@ object MiuixPreferenceUtils {
             callMethod("setVisible", visible)
             callMethod("setOrder", order)
         }
+    }
+
+    fun configurePreferenceCategory(
+        preference: Any,
+        key: String,
+        title: CharSequence,
+        visible: Boolean,
+        order: Int
+    ) {
+        preference.apply {
+            callMethod("setKey", key)
+            callMethod("setTitle", title)
+            callMethod("setVisible", visible)
+            callMethod("setOrder", order)
+            callMethod("setPersistent", false)
+        }
+    }
+
+    fun configureTextPreference(
+        preference: Any,
+        key: String,
+        title: CharSequence,
+        text: CharSequence?,
+        visible: Boolean,
+        order: Int,
+        clickable: Boolean
+    ) {
+        preference.apply {
+            callMethod("setKey", key)
+            callMethod("setTitle", title)
+            if (text != null) {
+                runCatching { callMethod("setText", text) }
+                    .onFailure { callMethod("setSummary", text) }
+            }
+            callMethod("setVisible", visible)
+            callMethod("setOrder", order)
+            callMethod("setPersistent", false)
+            runCatching { callMethod("setSelectable", clickable) }
+            runCatching { callMethod("setClickable", clickable) }
+            runCatching { callMethod("setTouchAnimationEnable", clickable) }
+        }
+    }
+
+    fun addPreference(container: Any, preference: Any) {
+        container.callMethod("addPreference", preference)
+    }
+
+    fun removePreference(container: Any, preference: Any) {
+        container.callMethod("removePreference", preference)
     }
 
     fun getPreferenceKey(preference: Any): String? {

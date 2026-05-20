@@ -21,7 +21,7 @@ miuix = "1.0.12.5"
 xposed-api = "101.0.1"
 xposed-service = "101.0.0"
 dexkit = "2.2.0"
-ezhooktool = "1.0.3"
+ezhooktool = "1.0.4"
 ezxhelper = "3.1.1-rc1"
 hiddenapibypass = "6.1"
 
@@ -69,8 +69,6 @@ miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 dexkit = { module = "org.luckypray:dexkit", version.ref = "dexkit" }
 ezhooktool-core = { module = "io.github.lingqiqi5211.ezhooktool:core", version.ref = "ezhooktool" }
 ezhooktool-xposed101 = { module = "io.github.lingqiqi5211.ezhooktool:hook-xposed-101", version.ref = "ezhooktool" }
-ezxhelper-core = { module = "io.github.kyuubiran.ezxhelper:core", version.ref = "ezxhelper" }
-#ezxhelper-xposed-api = { module = "io.github.kyuubiran.ezxhelper:xposed-api-100", version.ref = "ezxhelper" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 libxposed-api = { module = "io.github.libxposed:api", version.ref = "xposed-api" }
 libxposed-service = { module = "io.github.libxposed:service", version.ref = "xposed-service" }

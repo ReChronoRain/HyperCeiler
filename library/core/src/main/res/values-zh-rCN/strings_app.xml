@@ -1427,12 +1427,14 @@
     <string name="security_center_newbox_bg_padding_vertical">水平边距</string>
     <string name="security_center_newbox_bg_padding_horizontal">垂直边距</string>
     <string name="security">手机管家</string>
+    <string name="security_app_settings_title">应用设置</string>
+    <string name="security_app_about_title">应用详情</string>
     <string name="security_app_title">显示更多应用信息</string>
-    <string name="security_app_summary">添加新字段到应用信息页面:\n- 版本代码\n- APK 完整目录\n- 数据目录\n- 用户标识符\n- 最低 SDK 版本\n- 目标 SDK 版本\n- 链接到商店页面\n- 启动应用</string>
+    <string name="security_app_summary">补充 SDK、架构、安装来源等信息</string>
     <string name="security_app_sort_title">应用管理列表排序</string>
     <string name="security_app_sort_summary">修改应用管理列表默认排序</string>
-    <string name="security_restrict_app_title">全限制</string>
-    <string name="security_restrict_app_summary">允许配置省电程序并且为系统应用接入 WIFI</string>
+    <string name="security_restrict_app_title">解锁应用策略</string>
+    <string name="security_restrict_app_summary">允许为全部可配置应用配置省电策略及联网策略</string>
     <string name="security_disable_app_title">应用状态控制</string>
     <string name="security_disable_app_summary">允许从应用信息页面禁用任何应用</string>
     <string name="security_disable_app_url_title">应用打开链接管理</string>

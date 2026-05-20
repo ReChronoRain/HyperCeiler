@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_app_title"
     app:quick_restart="com.miui.securitycenter">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/security_app_settings_title">
         <fan.preference.DropDownPreference
             android:defaultValue="0"
             android:key="prefs_key_security_center_app_default_sort"
@@ -31,14 +31,29 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:key="prefs_key_security_center_disable_ban"
-            android:title="@string/security_center_disable_ban" />
+            android:key="prefs_key_security_center_aosp_app_manager"
+            android:summary="@string/security_center_aosp_app_manager_desc"
+            android:title="@string/security_center_aosp_app_manager" />
 
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/security_app_about_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_app_restrict"
             android:summary="@string/security_restrict_app_summary"
             android:title="@string/security_restrict_app_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_app_disable"
+            android:summary="@string/security_disable_app_summary"
+            android:title="@string/security_disable_app_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_ban"
+            android:title="@string/security_center_disable_ban" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -49,20 +64,8 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_aosp_app_info"
-            android:title="@string/security_center_aosp_app_info"
-            app:isPreferenceVisible="false"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_aosp_app_manager"
-            android:title="@string/security_center_aosp_app_manager"
-            app:isPreferenceVisible="false"/>
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_app_disable"
-            android:summary="@string/security_disable_app_summary"
-            android:title="@string/security_disable_app_title" />
+            android:summary="@string/security_center_aosp_app_info_desc"
+            android:title="@string/security_center_aosp_app_info" />
 
         <SwitchPreference
             android:defaultValue="false"

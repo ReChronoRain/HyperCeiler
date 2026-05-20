@@ -38,9 +38,11 @@
     <string name="system_ui_statusbar_network_speed_speedunits" translatable="false">KMG</string>
     <string name="open_by_default">Open by default</string>
     <string name="security_center_aosp_app_info_label">AOSP app info</string>
-    <string name="security_center_aosp_app_info">Add AOSP app info entry</string>
+    <string name="security_center_aosp_app_info">AOSP app info</string>
+    <string name="security_center_aosp_app_info_desc">Add \"AOSP app info\" entry to the application details page</string>
     <string name="security_center_aosp_app_manager_label">AOSP app manager</string>
-    <string name="security_center_aosp_app_manager">Add AOSP app manager entry</string>
+    <string name="security_center_aosp_app_manager">AOSP app manager</string>
+    <string name="security_center_aosp_app_manager_desc">Add \"AOSP app manager\" entry to the menu in the upper right corner of the application settings</string>
     <string name="security_center_battery_design_capacity">Battery design capacity</string>
     <string name="security_center_battery_full_capacity">Battery full capacity</string>
     <string name="security_center_battery_capacity_format">%1$d mAh</string>
@@ -130,6 +132,15 @@
     <string name="app_details_app_uid">User ID</string>
     <string name="app_details_sdk">Target SDK version</string>
     <string name="app_details_min_sdk">Min SDK version</string>
+    <string name="app_details_compile_sdk">Build SDK version</string>
+    <string name="app_details_supported_abi">Supported ABI</string>
+    <string name="app_details_category_basic">Basic info</string>
+    <string name="app_details_category_sdk">SDK info</string>
+    <string name="app_details_category_file">Files and ABI</string>
+    <string name="app_details_category_install">Install info</string>
+    <string name="app_details_category_action">Actions</string>
+    <string name="app_details_unavailable">Unavailable</string>
+    <string name="app_details_no_native_libs">No native libraries</string>
     <string name="disable_app_settings">It\'s a bad idea!</string>
     <string name="disable_app_title">Are you sure you want to disable the app?</string>
     <string name="disable_app_text">If this is a necessary system app, disabling it could cause damage.</string>

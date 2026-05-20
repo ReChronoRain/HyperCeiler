@@ -20,76 +20,94 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.UserHandle
-import android.view.Menu
-import android.view.MenuItem
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.java.Methods
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
-import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
-import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.initAppContext
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 @SuppressLint("DiscouragedApi")
 object AddAppInfoEntry : BaseHook() {
-    //override val key = "add_aosp_app_info_entry"
-    private val idIdMiuixActionEndMenuGroup by lazy {
-        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.packageName)
-    }
-    private val idDrawableIconSettings by lazy {
-        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.packageName)
-    }
-    private val idStringAppManagerAppInfoLabel by lazy {
-        appContext.resources.getIdentifier("app_manager_app_info_label", "string", EzXposed.packageName)
-    }
+    private const val KEY_AOSP_APP_INFO = "hyperceiler_aosp_app_info_pref"
+    private const val KEY_OPEN_BY_DEFAULT = "app_default_pref"
 
     override fun init() {
-        val clazzApplicationsDetailsActivity =
-            loadClass("com.miui.appmanager.ApplicationsDetailsActivity")
-        clazzApplicationsDetailsActivity.findMethod { name("onCreateOptionsMenu") }
-            .createHook {
-                after {
-                    val activity = it.thisObject as Activity
-                    initAppContext(activity, true)
-                    val pkgName = activity.intent.getStringExtra("package_name")!!
-                    val myUserId =
-                        Methods.callStaticMethod(UserHandle::class.java, "myUserId") as Int
-                    val uid = activity.intent.getIntExtra("miui.intent.extra.USER_ID", myUserId)
-                    val menuItem = (it.args[0] as Menu).add(
-                        idIdMiuixActionEndMenuGroup, 0, 0, R.string.security_center_aosp_app_info_label
-                    )
-                    menuItem.intent = Intent(Intent.ACTION_MAIN).apply {
-                        val bundle = Bundle().apply {
-                            putString("package", pkgName)
-                            putInt("uid", uid)
-                        }
-                        val stringAppManagerAppInfoLabel =
-                            activity.getString(idStringAppManagerAppInfoLabel)
-                        setClassName(
-                            "com.android.settings",
-                            "com.android.settings.SubSettings"
-                        )
-                        putExtra(
-                            ":settings:show_fragment",
-                            "com.android.settings.applications.appinfo.AppInfoDashboardFragment"
-                        )
-                        putExtra(
-                            ":settings:show_fragment_title",
-                            stringAppManagerAppInfoLabel
-                        )
-                        putExtra(
-                            ":settings:show_fragment_args",
-                            bundle
-                        )
-                    }
-                    menuItem.setIcon(idDrawableIconSettings)
-                    menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-                }
+        val detailsFragmentClass =
+            findClassIfExists("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?: return
+
+        detailsFragmentClass.findMethod {
+            name("onCreatePreferences")
+            parameterTypes(Bundle::class.java, String::class.java)
+        }.createAfterHook {
+            addAppInfoPreference(it.thisObject)
+        }
+    }
+
+    private fun addAppInfoPreference(fragment: Any) {
+        if (callMethod(fragment, "findPreference", KEY_AOSP_APP_INFO) != null) return
+
+        val openByDefaultPref =
+            callMethod(fragment, "findPreference", KEY_OPEN_BY_DEFAULT) ?: return
+        val parent = callMethod(openByDefaultPref, "getParent") ?: return
+        val activity = callMethod(fragment, "requireActivity") as Activity
+        val insertOrder = (callMethod(openByDefaultPref, "getOrder") as Int) + 1
+
+        movePreferencesAfter(parent, insertOrder)
+
+        val pref = MiuixPreferenceUtils.createTextPreference(activity).apply {
+            callMethod(this, "setKey", KEY_AOSP_APP_INFO)
+            callMethod(
+                this,
+                "setTitle",
+                getModuleString(activity, R.string.security_center_aosp_app_info_label)
+            )
+            callMethod(this, "setVisible", true)
+            callMethod(this, "setPersistent", false)
+            callMethod(this, "setOrder", insertOrder)
+            callMethod(this, "setIntent", createAppInfoIntent(activity))
+        }
+        callMethod(parent, "addPreference", pref)
+    }
+
+    private fun movePreferencesAfter(parent: Any, insertOrder: Int) {
+        val count = callMethod(parent, "getPreferenceCount") as Int
+        for (index in 0 until count) {
+            val pref = callMethod(parent, "getPreference", index) ?: continue
+            val order = callMethod(pref, "getOrder") as Int
+            if (order >= insertOrder) {
+                callMethod(pref, "setOrder", order + 1)
             }
+        }
+    }
+
+    private fun getModuleString(context: Context, id: Int): String =
+        AppsTool.getModuleRes(context).getString(id)
+
+    private fun createAppInfoIntent(activity: Activity): Intent {
+        val pkgName = activity.intent.getStringExtra("package_name")!!
+        val myUserId = Methods.callStaticMethod(UserHandle::class.java, "myUserId") as Int
+        val uid = activity.intent.getIntExtra("miui.intent.extra.USER_ID", myUserId)
+        val bundle = Bundle().apply {
+            putString("package", pkgName)
+            putInt("uid", uid)
+        }
+        return Intent(Intent.ACTION_MAIN).apply {
+            setClassName("com.android.settings", "com.android.settings.SubSettings")
+            putExtra(
+                ":settings:show_fragment",
+                "com.android.settings.applications.appinfo.AppInfoDashboardFragment"
+            )
+            putExtra(
+                ":settings:show_fragment_title",
+                getModuleString(activity, R.string.security_center_aosp_app_info_label)
+            )
+            putExtra(":settings:show_fragment_args", bundle)
+        }
     }
 }

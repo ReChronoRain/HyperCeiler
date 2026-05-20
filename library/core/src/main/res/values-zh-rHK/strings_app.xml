@@ -1360,8 +1360,8 @@
     <string name="security_app_summary">添加新字段到應用程式訊息頁面:\n- 版本代碼\n- APK 完整目錄\n- 數據目錄\n- 用戶標識符\n- 最低 SDK 版本\n- 目標 SDK 版本\n- 連結到商店頁面\n- 啟動應用程式</string>
     <string name="security_app_sort_title">應用程式管理列表排序</string>
     <string name="security_app_sort_summary">修改應用程式管理列表預設排序</string>
-    <string name="security_restrict_app_title">全限制</string>
-    <string name="security_restrict_app_summary">允許配置省電程序並且為系統應用程式接入 WIFI</string>
+    <string name="security_restrict_app_title">解鎖策略應用程式</string>
+    <string name="security_restrict_app_summary">允許為全部可設定應用程式配置省電策略及網路策略</string>
     <string name="security_disable_app_title">應用程式狀態控制</string>
     <string name="security_disable_app_summary">允許從應用程式訊息頁面禁用任何應用程式</string>
     <string name="security_disable_app_url_title">應用程式打開連結管理</string>
