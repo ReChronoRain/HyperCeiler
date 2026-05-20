@@ -95,7 +95,7 @@ public class CornerSlide extends HomeBaseHookNew {
      */
     private void hookCanTriggerAssistantAction(Class<?> FsGestureAssistHelper) {
         // Tablets (Pads) match parameter signatures against explicit integer indexes, phones use long types
-        Class<?> paramType = isPad() ? int.class : long.class;
+        Class<?> paramType = canTriggerAssistantActionParam3; //isPad() ? int.class : long.class;
         
         findAndHookMethod(FsGestureAssistHelper, "canTriggerAssistantAction", float.class, float.class, paramType, new IMethodHook() {
             @Override
