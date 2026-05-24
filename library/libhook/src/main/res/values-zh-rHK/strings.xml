@@ -90,7 +90,7 @@
     <string name="tsmclient_nfc_turn_on_failed">自動開啟 NFC 失敗</string>
 
     <!--小米錢包-->
-    <string name="wallet">小米錢包</string>
+    <string name="wallet">錢包</string>
     <string name="wallet_disable_splash_ad">移除開屏廣告</string>
     <string name="wallet_disable_splash_ad_desc">跳過啟動頁，攔截廣告請求</string>
     <!--Other-->

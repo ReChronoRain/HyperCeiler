@@ -172,6 +172,13 @@
 
     <header
         android:icon="@drawable/ic_default"
+        android:id="@+id/wallet"
+        android:summary="com.mipay.wallet"
+        android:title="@string/wallet"
+        app:inflatedXml="@xml/wallet"/>
+
+    <header
+        android:icon="@drawable/ic_default"
         android:id="@+id/analytics"
         android:summary="com.miui.analytics"
         android:title="@string/analytics"
@@ -344,13 +351,6 @@
         android:summary="com.miui.tsmclient"
         android:title="@string/tsmclient"
         app:inflatedXml="@xml/tsmclient"/>
-
-    <header
-        android:icon="@drawable/ic_default"
-        android:id="@+id/wallet"
-        android:summary="com.mipay.wallet"
-        android:title="@string/wallet"
-        app:inflatedXml="@xml/wallet"/>
 
     <header
         android:icon="@drawable/ic_default"

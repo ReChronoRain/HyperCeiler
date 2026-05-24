@@ -101,7 +101,7 @@
     <string name="tsmclient_nfc_turn_on_failed">自动开启 NFC 失败</string>
 
     <!--小米钱包-->
-    <string name="wallet">小米钱包</string>
+    <string name="wallet">钱包</string>
     <string name="wallet_disable_splash_ad">移除开屏广告</string>
     <string name="wallet_disable_splash_ad_desc">跳过启动页，拦截广告请求</string>
     <!--AICR-->
