@@ -21,11 +21,16 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodBottomManagerHelper;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.List;
@@ -87,9 +92,19 @@ public class UnlockIme extends BaseHook {
 
         boolean showAllImeList = InputMethodConfig.shouldShowAllImeList();
         if (showAllImeList) {
+
+            // 阻止获取输入法列表时进行过滤。同时也 hook 了系统框架，否则 getEnabledInputMethodList() 获取到的输入法可能仍然不全
+            hookGetSupportIme(classLoader);
+
             // 针对 A11 的修复切换输入法列表
-            getSupportIme(classLoader);
             hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader);
+        }
+
+        boolean unlockImeListUiCount = InputMethodConfig.shouldUnlockImeListUiCount();
+        if (unlockImeListUiCount)
+        {
+
+            hookUnlockImeListUiCount(classLoader);
         }
 
         if (!isNonCustomizeIme(getPackageName())) {
@@ -206,7 +221,7 @@ public class UnlockIme extends BaseHook {
      *
      * @param classLoader
      */
-    private void getSupportIme(ClassLoader classLoader) {
+    private void hookGetSupportIme(ClassLoader classLoader) {
         try {
             EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
                 classLoader, "getSupportIme",
@@ -223,6 +238,66 @@ public class UnlockIme extends BaseHook {
             );
         } catch (Throwable e) {
             XposedLog.e(TAG, "Hook method getSupportIme: " + e);
+        }
+    }
+
+    /**
+     * 解除切换输入法列表最多只显示四个的问题 (虽然本来可以滚动就是了)
+     *
+     * @author LuoYunXi0407
+     * @param classLoader
+     */
+    private void hookUnlockImeListUiCount(ClassLoader classLoader) {
+        try {
+            EzxHelpUtils.findAndHookMethodReplace("com.miui.inputmethod.InputMethodSwitchPopupView",
+                classLoader, "setListViewHeight",
+                new IReplaceHook() {
+                    @Override
+                    public Object replace(HookParam param) {
+
+                        Object thiz = param.getThisObject();
+
+                        Object adapter = getObjectField(thiz, "mInputMethodSwitchAdapter");
+                        ListView listView = (ListView) getObjectField(thiz, "mListView");
+
+                        if (adapter == null) return null;
+
+                        int count = (int) callMethod(adapter, "getCount");
+
+                        int MAX = 10;  // 不会吧不会吧，不会有人输入法超过 10 个吧
+
+                        if (count > MAX) {
+                            count = MAX;
+                        }
+
+                        int measuredHeight = 0;
+
+                        for (int i = 0; i < count; i++) {
+                            View view = (View) callMethod(
+                                adapter,
+                                "getView",
+                                i,
+                                null,
+                                listView
+                            );
+
+                            view.measure(0, 0);
+                            measuredHeight += view.getMeasuredHeight();
+                        }
+
+                        int dividerHeight = listView.getDividerHeight();
+                        measuredHeight += dividerHeight * (count - 1);
+
+                        ViewGroup.LayoutParams lp = listView.getLayoutParams();
+                        lp.height = measuredHeight;
+                        listView.setLayoutParams(lp);
+
+                        return null;
+                    }
+                }
+            );
+        } catch (Throwable e) {
+            XposedLog.e(TAG, "Hook method setListViewHeight: " + e);
         }
     }
 

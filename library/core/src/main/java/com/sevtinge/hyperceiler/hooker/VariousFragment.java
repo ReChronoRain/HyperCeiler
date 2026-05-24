@@ -41,11 +41,14 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import fan.preference.DropDownPreference;
+import fan.preference.SeekBarPreferenceCompat;
 
 public class VariousFragment extends DashboardFragment {
     private static final String PREF_IME_STYLE = "prefs_key_various_unlock_ime_style";
     private static final String PREF_IME_TARGET_APPS = "prefs_key_various_unlock_ime_apps";
     private static final String PREF_IME_SHOW_ALL = "prefs_key_various_unlock_ime_show_all";
+    private static final String PREF_IME_UI_COUNT = "prefs_key_various_unlock_ime_ui_count";
+
     private static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_START = "prefs_key_various_aosp_ime_nav_bar_layout_start";
     private static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_END = "prefs_key_various_aosp_ime_nav_bar_layout_end";
     private static final int IME_STYLE_OFF = 0;
@@ -55,6 +58,7 @@ public class VariousFragment extends DashboardFragment {
     SwitchPreference mClipboard;
     SwitchPreference mClipboardClear;
     SwitchPreference mShowAllImeList;
+    SwitchPreference mImeListUiCount;
     DropDownPreference mImeStyle;
     DropDownPreference mAospImeNavBarLayoutStart;
     DropDownPreference mAospImeNavBarLayoutEnd;
@@ -72,6 +76,7 @@ public class VariousFragment extends DashboardFragment {
         mImeStyle = findPreference(PREF_IME_STYLE);
         mImeTargetApps = findPreference(PREF_IME_TARGET_APPS);
         mShowAllImeList = findPreference(PREF_IME_SHOW_ALL);
+        mImeListUiCount = findPreference(PREF_IME_UI_COUNT);
         mAospImeNavBarLayoutStart = findPreference(PREF_AOSP_IME_NAV_BAR_LAYOUT_START);
         mAospImeNavBarLayoutEnd = findPreference(PREF_AOSP_IME_NAV_BAR_LAYOUT_END);
 
@@ -96,6 +101,10 @@ public class VariousFragment extends DashboardFragment {
 
         if (mShowAllImeList != null) {
             mShowAllImeList.setChecked(getSharedPreferences().getBoolean(PREF_IME_SHOW_ALL, false));
+        }
+
+        if(mImeListUiCount != null){
+            mImeListUiCount.setChecked(getSharedPreferences().getBoolean(PREF_IME_UI_COUNT, false));
         }
 
         if (mAospImeNavBarLayoutStart != null) {
@@ -178,6 +187,9 @@ public class VariousFragment extends DashboardFragment {
         }
         if (mShowAllImeList != null) {
             mShowAllImeList.setVisible(imeStyle == IME_STYLE_MIUI);
+        }
+        if (mImeListUiCount != null) {
+            mImeListUiCount.setVisible(imeStyle == IME_STYLE_MIUI);
         }
         if (mAospImeNavBarLayoutStart != null) {
             mAospImeNavBarLayoutStart.setVisible(imeStyle == IME_STYLE_AOSP);
