@@ -24,7 +24,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -43,9 +42,16 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class CustomWatermark extends BaseHook {
+    private List<Method> mWatermarkMethods;
+
     @Override
-    public void init() {
-        List<Method> methods = DexKit.findMemberList("Watermark", new IDexKitList() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mWatermarkMethods = requiredMemberList("Watermark", new IDexKitList() {
             @Override
             public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
@@ -62,7 +68,12 @@ public class CustomWatermark extends BaseHook {
                 return methodData;
             }
         });
-        for (Method method : methods) {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        for (Method method : mWatermarkMethods) {
             try {
                 hookMethod(method, new IMethodHook() {
                     @Override

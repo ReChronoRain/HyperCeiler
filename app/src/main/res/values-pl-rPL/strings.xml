@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Historia wyszukiwania</string>
     <string name="search_history_clear_description">Wyczysc historie wyszukiwania</string>
     <string name="revert">Przywroc</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Wersja systemu</string>
     <string name="pull_to_enter_private">Pociągnij w dół aby otworzyć prywatną przestrzeń</string>
     <string name="release_enter_private">Póść aby otworzyć prywatną przestrzeń</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Zaznacz wszystko</string>
     <string name="miuix_appcompat_cancel_description">Anuluj</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Szukaj</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Więcej</string>
     <string name="miuix_appcompat_action_mode_inverse">Odwróć</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Rada</string>
     <string name="root">Niektóre funkcje nie są dostępne bez uprawnień Root/SU</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">Aplikacja docelowa nie jest uruchomiona i nie trzeba jej restartować.</string>
     <string name="reboot_failed">Restart się nie powiódł. Sprawdź, czy HyperCeiler otrzymał uprawnienia Root/SU.</string>
     <string name="experimental_features">Eksperymentalne funkcje</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Uwaga</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Ta funkcja nie jest obslugiwana w biezacej wersji systemu</string>
     <string name="supported_system_func">Ta funkcja jest oficjalnie obslugiwana w biezacej wersji systemu</string>
     <string name="feature_doing_func">Ta funkcja jest w trakcie opracowywania, badz na biezaco.</string>
-
     <!--System UI-->
     <string name="system_ui">Interfejs systemu</string>
-
     <!--System launcher-->
     <string name="mihome">Systemowy launcher</string>
-
     <!--Settings-->
     <string name="system_settings">Ustawienia</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Bezpieczeństwo</string>
-
     <!--Other-->
     <string name="exit">Wyjdź</string>
     <string name="ignore">Ignoruj</string>
@@ -130,14 +121,13 @@
     <string name="logo_egg3">Nie ma tu Android eggs, ale sa HyperCeiler eggs!</string>
     <string name="uninstall_title">Odinstaluj HyperCeiler</string>
     <string name="uninstall_summary">Po odinstalowaniu HyperCeiler konfiguracja modulu pozostanie w bazie danych frameworka Xposed. Aby usunac ja calkowicie, najpierw przejdz do ustawien modulu i zresetuj jego konfiguracje, a nastepnie odinstaluj modul.</string>
-    <string name="unsupported_func_tips">Biezace zrodlo docelowego zakresu moze nie pochodzic oficjalnie od Xiaomi. Ze wzgledow bezpieczenstwa wszystkie funkcje dla tego zakresu zostaly wylaczone. Sprobuj przelaczyc sie na pakiet aplikacji wydany przez Xiaomi albo przejdz do &quot;Ustawienia HyperCeiler - Opcje programistyczne - Tryb debugowania&quot;, aby wskazac zamontowana wersje i sprobowac ponownie.</string>
+    <string name="unsupported_func_tips">Biezace zrodlo docelowego zakresu moze nie pochodzic oficjalnie od Xiaomi. Ze wzgledow bezpieczenstwa wszystkie funkcje dla tego zakresu zostaly wylaczone. Sprobuj przelaczyc sie na pakiet aplikacji wydany przez Xiaomi albo przejdz do "Ustawienia HyperCeiler - Opcje programistyczne - Tryb debugowania", aby wskazac zamontowana wersje i sprobowac ponownie.</string>
     <string name="debug_mode">Tryb debugowania</string>
     <string name="open_debug_mode_tips">Ta opcja sluzy wylacznie do poprawnej obslugi zamontowanej wersji docelowej aplikacji i powinna byc uzywana tylko w razie potrzeby.\nDla debugowanej aplikacji funkcjonalnosc nie moze byc zagwarantowana. Jesli wlaczysz te opcje, **nie zglaszaj** deweloperowi problemow wystepujacych w tej docelowej aplikacji.</string>
     <string name="debug_mode_running">Biezacy docelowy zakres jest w trybie debugowania. Jesli nie jest to konieczne, wylacz go.\nAktualna wersja aplikacji: %1$s\nWybrana wersja docelowa: %2$s\nPomyslnie zahookowano: %3$s</string>
     <string name="debug_mode_switch">Wersja debugowania</string>
     <string name="debug_mode_home_version">Ustaw kod wersji launchera</string>
     <string name="debug_mode_home_version_desc">Zbyt wysoki numer wersji i tak zostanie zablokowany, dlatego wypelnij to pole uwaznie.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Szukaj w logach</string>
     <string name="log_level_label">Poziom</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">Plik logow HyperCeiler</string>
     <string name="log_copy">Kopiuj</string>
     <string name="log_copy_success">Logi skopiowano do schowka</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Szczegoly logu</string>
     <string name="log_detail_time">Czas</string>
     <string name="log_detail_level">Poziom</string>
     <string name="log_detail_tag">Tag</string>
     <string name="log_detail_message">Szczegoly</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Ladowanie logow…</string>
     <string name="log_viewer">Przegladarka logow</string>

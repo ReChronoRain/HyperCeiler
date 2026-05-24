@@ -20,19 +20,25 @@ package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object CustomWatermark : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        search
+        searchNew
+        return true
+    }
     private val name by lazy {
         PrefsBridge.getString("mediaeditor_custom_watermark", "")
     }
 
     // by StarVoyager
     private val search by lazy<Method> {
-        DexKit.findMember("CustomWatermark") {
+        requiredMember("CustomWatermark") {
             it.findMethod {
                 matcher {
                     addUsingString("K30 Pro Zoom E", StringMatchType.Equals)
@@ -46,7 +52,7 @@ object CustomWatermark : BaseHook() {
 
     private val searchNew by lazy<Method> {
         // 2.2.0.1.6 开始混淆类名和字符串
-        DexKit.findMember("CustomWatermarkNew") {
+        requiredMember("CustomWatermarkNew") {
             it.findClass {
                 matcher {
                     addUsingString("check geocode selectable", StringMatchType.Contains)
@@ -95,3 +101,4 @@ object CustomWatermark : BaseHook() {
             }*/
     }
 }
+

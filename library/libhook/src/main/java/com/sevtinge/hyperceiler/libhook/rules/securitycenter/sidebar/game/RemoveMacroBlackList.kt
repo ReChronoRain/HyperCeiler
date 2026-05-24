@@ -19,26 +19,27 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 class RemoveMacroBlackList : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("RemoveMacroBlackList1") {
+    override fun useDexKit() = true
+    private lateinit var removeMacroBlackListMethod1: Method
+    private lateinit var removeMacroBlackListMethod2: Method
+    private lateinit var removeMacroBlackListClass3: Class<*>
+
+    override fun initDexKit(): Boolean {
+        removeMacroBlackListMethod1 = requiredMember("RemoveMacroBlackList1") {
             it.findMethod {
                 matcher {
                     addEqString("pref_gb_unsupport_macro_apps")
                     paramCount = 0
                 }
             }.single()
-        }.createHook {
-            returnConstant(ArrayList<String>())
         }
-
-        DexKit.findMember<Method>("RemoveMacroBlackList2") {
+        removeMacroBlackListMethod2 = requiredMember("RemoveMacroBlackList2") {
             it.findMethod {
                 matcher {
                     returnType = "boolean"
@@ -48,18 +49,28 @@ class RemoveMacroBlackList : BaseHook() {
                     }
                 }
             }.single()
-        }.createHook {
-            returnConstant(false)
         }
-
-        DexKit.findMember<Class<*>>("RemoveMacroBlackList3") {
+        removeMacroBlackListClass3 = requiredMember("RemoveMacroBlackList3") {
             it.findClass {
                 matcher {
                     usingStrings =
                         listOf("content://com.xiaomi.macro.MacroStatusProvider/game_macro_change")
                 }
             }.single()
-        }.apply {
+        }
+        return true
+    }
+
+    override fun init() {
+        removeMacroBlackListMethod1.createHook {
+            returnConstant(ArrayList<String>())
+        }
+
+        removeMacroBlackListMethod2.createHook {
+            returnConstant(false)
+        }
+
+        removeMacroBlackListClass3.apply {
             methodFinder().filterByParamCount(2)
                 .toList().createHooks {
                     returnConstant(true)

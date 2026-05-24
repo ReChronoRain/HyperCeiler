@@ -79,7 +79,7 @@ public class AppsTool {
     @SuppressLint("StaticFieldLeak")
     public static TextView mPct = null;
 
-    private static FileObserver sFileObserver = null;
+    private static final FileObserver sFileObserver = null;
     private static final Executor sPermissionExecutor = Executors.newSingleThreadExecutor();
 
     public static synchronized Context getProtectedContext(Context context) {

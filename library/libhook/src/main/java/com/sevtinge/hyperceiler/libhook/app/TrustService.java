@@ -19,16 +19,13 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.trustservice.DisableMrm;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.xiaomi.trustservice")
 public class TrustService extends BaseLoad {
 
-    public TrustService() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

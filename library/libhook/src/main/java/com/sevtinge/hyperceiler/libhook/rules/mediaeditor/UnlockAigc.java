@@ -30,8 +30,6 @@ import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class UnlockAigc extends BaseHook {
 
     @Override

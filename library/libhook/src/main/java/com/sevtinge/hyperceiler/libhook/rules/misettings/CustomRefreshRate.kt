@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.misettings
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isFinal
 import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isStatic
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
@@ -27,8 +26,14 @@ import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object CustomRefreshRate : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        resultMethod
+        return true
+    }
     private val resultMethod by lazy<Method> {
-        DexKit.findMember("CustomRefreshRate") {
+        requiredMember("CustomRefreshRate") {
             it.findMethod {
                 matcher {
                     addEqString("btn_preferce_category")
@@ -50,3 +55,4 @@ object CustomRefreshRate : BaseHook() {
         }.apply { isAccessible = true }.set(null, true)
     }
 }
+

@@ -22,7 +22,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
@@ -48,9 +47,23 @@ import java.util.List;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableRootedCheck extends BaseHook {
+    private Method mReturnEnvironmentMethod;
+    private Class<?> mClientApiRequestClass;
+    private Method mEnvironmentPutMethod;
+    private Class<?> mRiskAppClass;
+    private Field mRiskAppField;
+    private Method mUnsetEnvironmentMethod;
+    private List<Method> mSetEnvironmentMethods;
+    private List<Method> mCheckRootMethods;
+
     @Override
-    public void init() {
-        Method returnEnvironment = DexKit.findMember("ReturnEnvironment", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mReturnEnvironmentMethod = requiredMember("ReturnEnvironment", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -60,7 +73,7 @@ public class DisableRootedCheck extends BaseHook {
                 return methodData;
             }
         });
-        Class<?> clientApiRequest = DexKit.findMember("ClientApiRequest", new IDexKit() {
+        mClientApiRequestClass = requiredMember("ClientApiRequest", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData classData = bridge.findClass(FindClass.create()
@@ -70,18 +83,18 @@ public class DisableRootedCheck extends BaseHook {
                 return classData;
             }
         });
-        Method environmentPut = DexKit.findMember("EnvironmentPut", new IDexKit() {
+        mEnvironmentPutMethod = requiredMember("EnvironmentPut", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                     .matcher(MethodMatcher.create()
-                        .declaredClass(clientApiRequest)
+                        .declaredClass(mClientApiRequestClass)
                         .returnType(boolean.class)
                     )).singleOrNull();
                 return methodData;
             }
         });
-        Class<?> riskAppClass = DexKit.findMember("RiskAppClass", new IDexKit() {
+        mRiskAppClass = requiredMember("RiskAppClass", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassData classData = bridge.findClass(FindClass.create()
@@ -91,18 +104,18 @@ public class DisableRootedCheck extends BaseHook {
                 return classData;
             }
         });
-        Field riskApp = DexKit.findMember("RiskApp", new IDexKit() {
+        mRiskAppField = requiredMember("RiskApp", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                     .matcher(FieldMatcher.create()
-                        .type(riskAppClass)
+                        .type(mRiskAppClass)
                         .modifiers(Modifier.PRIVATE)
                     )).singleOrNull();
                 return fieldData;
             }
         });
-        Method unsetEnvironment = DexKit.findMember("UnsetEnvironment", new IDexKit() {
+        mUnsetEnvironmentMethod = requiredMember("UnsetEnvironment", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -112,38 +125,20 @@ public class DisableRootedCheck extends BaseHook {
                 return methodData;
             }
         });
-        List<Method> setEnvironment = DexKit.findMemberList("SetEnvironment", new IDexKitList() {
+        mSetEnvironmentMethods = requiredMemberList("SetEnvironment", new IDexKitList() {
             @Override
             public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
                     .matcher(MethodMatcher.create()
                         .returnType(void.class)
-                        .paramTypes(clientApiRequest)
-                        .declaredClass(riskAppClass)
+                        .paramTypes(mClientApiRequestClass)
+                        .declaredClass(mRiskAppClass)
                     )
                 );
                 return methodData;
             }
         });
-
-        hookMethod(returnEnvironment, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                Object obj = param.getArgs()[0];
-                if (clientApiRequest.isInstance(obj)) {
-                    callMethod(obj, environmentPut.getName());
-                    Object thisObj = param.getThisObject();
-                    Object cField = getObjectField(thisObj, riskApp.getName());
-                    for (Method method : setEnvironment) {
-                        if (method != unsetEnvironment) {
-                            callMethod(cField, method.getName(), obj);
-                        }
-                    }
-                }
-            }
-        });
-
-        List<Method> methods = DexKit.findMemberList("CheckRoot", new IDexKitList() {
+        mCheckRootMethods = requiredMemberList("CheckRoot", new IDexKitList() {
             @Override
             public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
@@ -155,7 +150,28 @@ public class DisableRootedCheck extends BaseHook {
                 return methodData;
             }
         });
-        for (Method method : methods) {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mReturnEnvironmentMethod, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                Object obj = param.getArgs()[0];
+                if (mClientApiRequestClass.isInstance(obj)) {
+                    callMethod(obj, mEnvironmentPutMethod.getName());
+                    Object thisObj = param.getThisObject();
+                    Object cField = getObjectField(thisObj, mRiskAppField.getName());
+                    for (Method method : mSetEnvironmentMethods) {
+                        if (method != mUnsetEnvironmentMethod) {
+                            callMethod(cField, method.getName(), obj);
+                        }
+                    }
+                }
+            }
+        });
+        for (Method method : mCheckRootMethods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
             hookMethod(method, new IMethodHook() {

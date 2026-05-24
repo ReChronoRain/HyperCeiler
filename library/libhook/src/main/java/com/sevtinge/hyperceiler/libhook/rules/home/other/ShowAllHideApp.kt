@@ -19,14 +19,15 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object ShowAllHideApp : BaseHook() {
+    override fun useDexKit() = true
+    private lateinit var showAllHideAppMethod: Method
 
-    override fun init() {
-        DexKit.findMember<Method>("ShowAllHideAppNew") { bridge ->
+    override fun initDexKit(): Boolean {
+        showAllHideAppMethod = requiredMember("ShowAllHideAppNew") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass {
@@ -36,7 +37,12 @@ object ShowAllHideApp : BaseHook() {
                     name = "isHideAppValid"
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        showAllHideAppMethod.createHook {
             returnConstant(true)
         }
     }

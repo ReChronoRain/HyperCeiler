@@ -19,14 +19,21 @@
 package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object InstallRiskDisable : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        a1
+        b2
+        c3
+        return true
+    }
     private val a1 by lazy {
-        DexKit.findMember("InstallRiskDisable1") {
+        requiredMember("InstallRiskDisable1") {
             it.findMethod {
                 matcher {
                     addUsingString("secure_verify_enable", StringMatchType.Equals)
@@ -37,7 +44,7 @@ object InstallRiskDisable : BaseHook() {
     }
 
     private val b2 by lazy {
-        DexKit.findMember("InstallRiskDisable2") {
+        requiredMember("InstallRiskDisable2") {
             it.findMethod {
                 matcher {
                     addUsingString("installerOpenSafetyModel", StringMatchType.Equals)
@@ -48,7 +55,7 @@ object InstallRiskDisable : BaseHook() {
     }
 
     private val c3 by lazy {
-        DexKit.findMember("InstallRiskDisable3") {
+        requiredMember("InstallRiskDisable3") {
             it.findMethod {
                 matcher {
                     addUsingString($$"android.provider.MiuiSettings$Ad", StringMatchType.Equals)
@@ -64,3 +71,4 @@ object InstallRiskDisable : BaseHook() {
         }
     }
 }
+

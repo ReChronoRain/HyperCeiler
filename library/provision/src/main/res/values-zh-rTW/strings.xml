@@ -36,4 +36,5 @@
     <string name="provision_congratulation_title">進入系統</string>
     <string name="provision_congratulation_label">體驗激動人心的HyperOS！</string>
     <string name="provision_complete_text">進入系統</string>
+    <string name="provision_permission_installed_apps">允許讀取應用列表</string>
 </resources>

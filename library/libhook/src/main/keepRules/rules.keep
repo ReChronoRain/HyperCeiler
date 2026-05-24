@@ -1,0 +1,48 @@
+# Add project specific R8 rules here.
+# AGP will combine all keep rule files in src/main/keepRules to pass to R8
+#
+# For more details, see
+#   https://d.android.com/r/tools/r8/keep-rules
+
+# If your project uses WebView with JS, uncomment the following
+# and specify the fully qualified class name to the JavaScript interface
+# class:
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+#   public *;
+#}
+# --- Xposed ---
+-adaptresourcefilecontents META-INF/xposed/java_init.list
+
+-keep,allowobfuscation,allowoptimization public class * extends io.github.libxposed.api.XposedModule {
+    public <init>(...);
+    public void onModuleLoaded(...);
+    public void onPackageLoaded(...);
+    public void onPackageReady(...);
+    public void onSystemServerStarting(...);
+}
+-keep,allowshrinking,allowoptimization,allowobfuscation class ** implements io.github.libxposed.api.XposedInterface$Hooker
+-keepclassmembers,allowoptimization class ** implements io.github.libxposed.api.XposedInterface$Hooker {
+    public *** intercept(...);
+}
+
+# --- Other ---
+-keep class com.hchen.superlyricapi.** { *; }
+-keep class org.luckypray.dexkit.** { *; }
+-keep class org.lsposed.** { *; }
+-keep class io.github.kyuubiran.ezxhelper.** { *; }
+
+# --- HyperCeiler Core ---
+-keep class com.sevtinge.hyperceiler.libhook.app.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.rules.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.safecrash.** { *; }
+-keep class * extends com.sevtinge.hyperceiler.libhook.base.BaseHook { <init>(...); }
+
+# --- Tool ---
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.miuiStringToast.res.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.** { *; }
+-keep class com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.** { *; }
+
+# --- Warnning ---
+-dontwarn android.os.ServiceManager

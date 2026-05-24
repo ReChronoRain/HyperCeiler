@@ -466,18 +466,21 @@ public abstract class TileUtils extends BaseHook {
             return;
         }
 
-        safeChainMethod(tileClass, "handleLongClick", chain -> {
-            if (!shouldHandle(chain.getThisObject())) {
+        safeChainMethod(tileClass, "handleLongClick", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!shouldHandle(chain.getThisObject())) {
+                    return chain.proceed();
+                }
+
+                TileContext ctx = createTileContext(chain);
+                Intent intent = onHandleLongClick(ctx);
+                if (intent != null) {
+                    launchIntent(ctx, intent);
+                    return null;
+                }
                 return chain.proceed();
             }
-
-            TileContext ctx = createTileContext(chain);
-            Intent intent = onHandleLongClick(ctx);
-            if (intent != null) {
-                launchIntent(ctx, intent);
-                return null;
-            }
-            return chain.proceed();
         }, mExpandableClass);
     }
 
@@ -490,57 +493,60 @@ public abstract class TileUtils extends BaseHook {
 
         if (!needHook) return;
 
-        safeChainMethod(tileClass, "handleClick", chain -> {
-            boolean hasCustomClick = isMethodOverridden("onTileClick", TileContext.class);
-            boolean shouldHandle = shouldHandle(chain.getThisObject());
-            boolean skippedOriginal = false;
-            Object result = null;
-            Throwable pendingThrowable = null;
+        safeChainMethod(tileClass, "handleClick", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                boolean hasCustomClick = isMethodOverridden("onTileClick", TileContext.class);
+                boolean shouldHandle = shouldHandle(chain.getThisObject());
+                boolean skippedOriginal = false;
+                Object result = null;
+                Throwable pendingThrowable = null;
 
-            if (hasCustomClick && shouldHandle) {
-                TileContext ctx = createTileContext(chain);
-                try {
-                    onTileClick(ctx);
-                } catch (Throwable t) {
-                    XposedLog.e(TAG, "Error in onTileClick", t);
-                }
-                skippedOriginal = true;
-            } else {
-                try {
-                    result = chain.proceed();
-                } catch (Throwable t) {
-                    pendingThrowable = t;
-                }
-            }
-
-            if (shouldHandle) {
-                // 如果配置了图标，延迟刷新状态确保系统状态已更新
-                if (mConfig.hasIcons() && !hasCustomClick) {
-                    Object tile = chain.getThisObject();
-                    Handler mainHandler = new Handler(Looper.getMainLooper());
-                    mainHandler.postDelayed(() -> {
-                        try {
-                            EzxHelpUtils.callMethod(tile, "refreshState");
-                        } catch (Throwable t) {
-                            XposedLog.e(TAG, "Failed to delayed refresh state", t);
-                        }
-                    }, 50);
-                }
-
-                if (needClickAfter()) {
+                if (hasCustomClick && shouldHandle) {
                     TileContext ctx = createTileContext(chain);
                     try {
-                        onTileClickAfter(ctx);
+                        onTileClick(ctx);
                     } catch (Throwable t) {
-                        XposedLog.e(TAG, "Error in onTileClickAfter", t);
+                        XposedLog.e(TAG, "Error in onTileClick", t);
+                    }
+                    skippedOriginal = true;
+                } else {
+                    try {
+                        result = chain.proceed();
+                    } catch (Throwable t) {
+                        pendingThrowable = t;
                     }
                 }
-            }
 
-            if (pendingThrowable != null) {
-                throw pendingThrowable;
+                if (shouldHandle) {
+                    // 如果配置了图标，延迟刷新状态确保系统状态已更新
+                    if (mConfig.hasIcons() && !hasCustomClick) {
+                        Object tile = chain.getThisObject();
+                        Handler mainHandler = new Handler(Looper.getMainLooper());
+                        mainHandler.postDelayed(() -> {
+                            try {
+                                EzxHelpUtils.callMethod(tile, "refreshState");
+                            } catch (Throwable t) {
+                                XposedLog.e(TAG, "Failed to delayed refresh state", t);
+                            }
+                        }, 50);
+                    }
+
+                    if (needClickAfter()) {
+                        TileContext ctx = createTileContext(chain);
+                        try {
+                            onTileClickAfter(ctx);
+                        } catch (Throwable t) {
+                            XposedLog.e(TAG, "Error in onTileClickAfter", t);
+                        }
+                    }
+                }
+
+                if (pendingThrowable != null) {
+                    throw pendingThrowable;
+                }
+                return skippedOriginal ? null : result;
             }
-            return skippedOriginal ? null : result;
         }, mExpandableClass);
     }
 
@@ -551,37 +557,40 @@ public abstract class TileUtils extends BaseHook {
             return;
         }
 
-        chainAllMethods(tileClass, "handleUpdateState", chain -> {
-            Object result = null;
-            Throwable pendingThrowable = null;
-            try {
-                result = chain.proceed();
-            } catch (Throwable t) {
-                pendingThrowable = t;
-            }
-
-            if (shouldHandle(chain.getThisObject())) {
-                TileContext ctx = createTileContext(chain);
-                TileState state = onUpdateState(ctx);
-
-                if (state != null) {
-                    // 自定义磁贴：完全设置状态
-                    // 覆写模式：覆盖部分状态
-                    if (mConfig.isCustomTile()) {
-                        applyTileState(ctx, state);
-                    } else {
-                        applyTileStateOverlay(ctx, state);
-                    }
-                } else if (mConfig.hasIcons()) {
-                    // 没有自定义状态，但有配置图标，只替换图标
-                    applyConfigIcons(ctx);
+        chainAllMethods(tileClass, "handleUpdateState", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = null;
+                Throwable pendingThrowable = null;
+                try {
+                    result = chain.proceed();
+                } catch (Throwable t) {
+                    pendingThrowable = t;
                 }
-            }
 
-            if (pendingThrowable != null) {
-                throw pendingThrowable;
+                if (shouldHandle(chain.getThisObject())) {
+                    TileContext ctx = createTileContext(chain);
+                    TileState state = onUpdateState(ctx);
+
+                    if (state != null) {
+                        // 自定义磁贴：完全设置状态
+                        // 覆写模式：覆盖部分状态
+                        if (mConfig.isCustomTile()) {
+                            applyTileState(ctx, state);
+                        } else {
+                            applyTileStateOverlay(ctx, state);
+                        }
+                    } else if (mConfig.hasIcons()) {
+                        // 没有自定义状态，但有配置图标，只替换图标
+                        applyConfigIcons(ctx);
+                    }
+                }
+
+                if (pendingThrowable != null) {
+                    throw pendingThrowable;
+                }
+                return result;
             }
-            return result;
         });
     }
 
@@ -633,14 +642,14 @@ public abstract class TileUtils extends BaseHook {
             boolean enabled = (stateValue == TileState.STATE_ACTIVE);
 
             // 覆盖标签
-            String label = state.getLabel();
+            String label = state.label();
             if (label != null) {
                 EzxHelpUtils.setObjectField(booleanState, "label", label);
                 EzxHelpUtils.setObjectField(booleanState, "contentDescription", label);
             }
 
             // 覆盖图标
-            int iconResId = state.getIconResId();
+            int iconResId = state.iconResId();
             if (iconResId == -1 && mConfig.hasIcons()) {
                 iconResId = mConfig.getIconByState(enabled);
             }
@@ -689,11 +698,11 @@ public abstract class TileUtils extends BaseHook {
         if (booleanState == null) return;
 
         // 设置基础状态
-        EzxHelpUtils.setObjectField(booleanState, "value", state.isEnabled());
-        EzxHelpUtils.setObjectField(booleanState, "state", state.getStateValue());
+        EzxHelpUtils.setObjectField(booleanState, "value", state.enabled());
+        EzxHelpUtils.setObjectField(booleanState, "state", state.stateValue());
 
         // 设置标签
-        String label = state.getLabel();
+        String label = state.label();
         if (label == null) {
             label = ctx.getTileLabel();
         }
@@ -702,9 +711,9 @@ public abstract class TileUtils extends BaseHook {
         EzxHelpUtils.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
 
         // 设置图标
-        int iconResId = state.getIconResId();
+        int iconResId = state.iconResId();
         if (iconResId == -1 && mConfig.hasIcons()) {
-            iconResId = mConfig.getIconByState(state.isEnabled());
+            iconResId = mConfig.getIconByState(state.enabled());
         }
         if (iconResId != -1 && mResourceIconClass != null) {
             Object icon = EzxHelpUtils.callStaticMethod(mResourceIconClass, "get", iconResId);

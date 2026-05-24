@@ -22,6 +22,7 @@
     <style name="ProvisionTheme" parent="@style/Theme.AppCompat.DayNight">
         <item name="windowActionBar">false</item>
         <item name="windowActionBarOverlay">false</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
 
         <item name="android:windowDisablePreview">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
@@ -48,6 +49,7 @@
 
     <style name="TransparentActionBarTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="actionBarBackground">@android:color/transparent</item>
+        <item name="android:actionBarItemBackground">@android:color/transparent</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="bottomSheetStyle">@style/BottomSheetModalStyle</item>
     </style>

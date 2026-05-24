@@ -18,17 +18,20 @@
  */
 package com.sevtinge.hyperceiler.provision.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
 
@@ -37,12 +40,40 @@ import fan.provision.ProvisionBaseActivity;
 
 public abstract class BaseActivity extends ProvisionBaseActivity {
 
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        // 引导页面中的所有子页面 Activity 都应跨语言切换后同步语言，
+        // 否则仅 DefaultActivity 被包裹会造成子页面仍然显示旧语言。
+        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
+    }
+
     protected Fragment mFragment;
 
     private boolean mCheckNewJump = true;
     private boolean mIsDisableBack = false;
 
-    private final View.OnClickListener mBackListener = v -> onBackPressed();
+    private final View.OnClickListener mBackListener = v -> getOnBackPressedDispatcher().onBackPressed();
+
+    private final OnBackPressedCallback mBackCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if (!mIsDisableBack) {
+                try {
+                    additionalProcess();
+                    if (!getSupportFragmentManager().isDestroyed()) {
+                        setEnabled(false);
+                        getOnBackPressedDispatcher().onBackPressed();
+                        setEnabled(true);
+                    }
+                    if (mFragment != null) {
+                        mFragment.getClass();
+                    }
+                } catch (Exception e) {
+                    Log.e("BaseActivity", "ex: " + e.getMessage());
+                }
+            }
+        }
+    };
 
     protected abstract Fragment getFragment();
     protected abstract String getFragmentTag();
@@ -55,6 +86,7 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, mBackCallback);
         if (OobeUtils.isProvisioned(this) && !OobeUtils.isDebugOobeMode(this)) {
             setResult(-1);
             finish();
@@ -134,23 +166,6 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
 
     protected void additionalProcess() {
         setResult(0);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mIsDisableBack) {
-            try {
-                additionalProcess();
-                if (!getSupportFragmentManager().isDestroyed()) {
-                    super.onBackPressed();
-                }
-                if (mFragment != null) {
-                    mFragment.getClass();
-                }
-            } catch (Exception e) {
-                Log.e("BaseActivity", "ex: " + e.getMessage());
-            }
-        }
     }
 
     protected void setPreviewDrawable(int id) {

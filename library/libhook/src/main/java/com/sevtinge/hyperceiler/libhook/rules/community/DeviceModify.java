@@ -24,7 +24,6 @@ import android.os.Build;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -40,10 +39,68 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 
 public class DeviceModify extends BaseHook {
+    private Method mSystemPropertiesGetStringWithNullMethod;
+    private Method mGetDeviceMethod;
+    private Method mGetModelMethod;
+    private Method mGetManufacturerMethod;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
 
     String mDevice;
     String mModel;
     String mManufacturer;
+
+    @Override
+    protected boolean initDexKit() {
+        mSystemPropertiesGetStringWithNullMethod = requiredMember("SystemPropertiesGetStringWithNull", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
+                            .paramCount(1)
+                            .returnType(String.class)
+                        )).singleOrNull();
+                return methodData;
+            }
+        });
+        mGetDeviceMethod = requiredMember("GetDevice", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .usingStrings("ro.product.mod_device")
+                            .returnType(String.class)
+                            .paramCount(0)
+                        )).singleOrNull();
+                return methodData;
+            }
+        });
+        mGetModelMethod = requiredMember("GetModel", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                            .usingStrings("ro.product.model")
+                        )).singleOrNull();
+                return methodData;
+            }
+        });
+        mGetManufacturerMethod = requiredMember("GetManufacturer", new IDexKit() {
+            @Override
+            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
+                MethodData methodData = bridge.findMethod(FindMethod.create()
+                        .matcher(MethodMatcher.create()
+                                .usingStrings("ro.product.manufacturer")
+                        )).singleOrNull();
+                return methodData;
+            }
+        });
+        return true;
+    }
 
     @Override
     public void init() {
@@ -56,52 +113,7 @@ public class DeviceModify extends BaseHook {
         EzxHelpUtils.setStaticObjectField(Build.class, "MODEL", mModel);
         EzxHelpUtils.setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
 
-        Method method1 = DexKit.findMember("SystemPropertiesGetStringWithNull", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
-                            .paramCount(1)
-                            .returnType(String.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        Method method2 = DexKit.findMember("GetDevice", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("ro.product.mod_device")
-                            .returnType(String.class)
-                            .paramCount(0)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        Method method3 = DexKit.findMember("GetModel", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("ro.product.model")
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        Method method4 = DexKit.findMember("GetManufacturer", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("ro.product.manufacturer")
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-
-        hookMethod(method1, new IMethodHook() {
+        hookMethod(mSystemPropertiesGetStringWithNullMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 if (param.getArgs()[0] == "ro.product.model") {
@@ -115,19 +127,19 @@ public class DeviceModify extends BaseHook {
                 }
             }
         });
-        hookMethod(method2, new IMethodHook() {
+        hookMethod(mGetDeviceMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(mDevice);
             }
         });
-        hookMethod(method3, new IMethodHook() {
+        hookMethod(mGetModelMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(mModel);
             }
         });
-        hookMethod(method4, new IMethodHook() {
+        hookMethod(mGetManufacturerMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(mManufacturer);

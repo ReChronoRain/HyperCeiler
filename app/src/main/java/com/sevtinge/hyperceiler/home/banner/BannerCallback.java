@@ -26,9 +26,8 @@ public class BannerCallback implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         Object tag = view.getTag();
-        if (!(tag instanceof BannerBean)) return;
+        if (!(tag instanceof BannerBean bean)) return;
 
-        BannerBean bean = (BannerBean) tag;
         Context context = view.getContext();
         if (handleUrl(context, bean)) {
             return;

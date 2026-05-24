@@ -20,36 +20,35 @@ package com.sevtinge.hyperceiler.libhook.rules.guardprovider;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableUploadAppListNew extends BaseHook {
+    private Method mAntiDefraudAppManagerMethod;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mAntiDefraudAppManagerMethod = requiredMember("AntiDefraudAppManager", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app")
+            )).singleOrNull());
+        return true;
+    }
+
     @Override
     public void init() {
-        Method method = DexKit.findMember("AntiDefraudAppManager", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app")
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        EzxHelpUtils.hookMethod(method, new IReplaceHook() {
+        EzxHelpUtils.hookMethod(mAntiDefraudAppManagerMethod, new IReplaceHook() {
             @Override
             public Object replace(HookParam param) throws Throwable {
                 return null;

@@ -19,20 +19,27 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 class GamePerformanceWildMode : BaseHook() {
-    override fun init() {
+    override fun useDexKit() = true
+    private lateinit var gamePerformanceWildModeMethod: Method
+
+    override fun initDexKit(): Boolean {
         // 开放均衡/狂暴模式
-        DexKit.findMember<Method>("GamePerformanceWildMode") {
+        gamePerformanceWildModeMethod = requiredMember("GamePerformanceWildMode") {
             it.findMethod {
                 matcher {
                     addEqString("support_wild_boost")
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        gamePerformanceWildModeMethod.createHook {
             returnConstant(true)
         }
     }

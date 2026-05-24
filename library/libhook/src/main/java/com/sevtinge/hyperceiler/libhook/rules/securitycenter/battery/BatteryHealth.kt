@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
 import android.os.Message
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import org.luckypray.dexkit.query.enums.StringMatchType
@@ -28,8 +27,16 @@ import java.lang.reflect.Method
 
 
 object BatteryHealth : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        getSecurityBatteryHealth
+        cc
+        findMethod
+        return true
+    }
     private val getSecurityBatteryHealth by lazy<Method> {
-        DexKit.findMember("getSecurityBatteryHealth") {
+        requiredMember("getSecurityBatteryHealth") {
             it.findMethod {
                 matcher {
                     addUsingString("battery_health_soh", StringMatchType.Equals)
@@ -39,7 +46,7 @@ object BatteryHealth : BaseHook() {
     }
 
     private val cc by lazy<Method> {
-        DexKit.findMember("SecurityBatteryHealthMethod") {
+        requiredMember("SecurityBatteryHealthMethod") {
             it.findMethod {
                 searchPackages("com.miui.powercenter.nightcharge")
                 findFirst = true
@@ -52,7 +59,7 @@ object BatteryHealth : BaseHook() {
     }
 
     private val findMethod by lazy<Method> {
-        DexKit.findMember("ChargeFragmentMethod") {
+        requiredMember("ChargeFragmentMethod") {
             it.findMethod {
                 searchPackages("com.miui.powercenter.nightcharge")
                 findFirst = true
@@ -84,3 +91,4 @@ object BatteryHealth : BaseHook() {
 
     }
 }
+

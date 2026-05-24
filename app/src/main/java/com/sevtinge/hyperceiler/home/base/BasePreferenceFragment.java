@@ -1,7 +1,10 @@
 package com.sevtinge.hyperceiler.home.base;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -10,11 +13,11 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.home.Header;
 import com.sevtinge.hyperceiler.home.SubSettingLauncher;
-import com.sevtinge.hyperceiler.home.utils.HeaderUtils;
-import com.sevtinge.hyperceiler.ui.HomePageActivity;
-import com.sevtinge.hyperceiler.home.widget.SwitchManager;
 import com.sevtinge.hyperceiler.home.adapter.HeaderAdapter;
 import com.sevtinge.hyperceiler.home.adapter.ProxyHeaderViewAdapter;
+import com.sevtinge.hyperceiler.home.utils.HeaderUtils;
+import com.sevtinge.hyperceiler.home.widget.SwitchManager;
+import com.sevtinge.hyperceiler.ui.HomePageActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,5 +153,55 @@ public abstract class BasePreferenceFragment extends Fragment {
            return ((HomePageActivity) getActivity()).getSwitchManager();
         }
         return null;
+    }
+
+    protected final boolean isActivityAlive() {
+        Activity activity = getActivity();
+        return activity != null && !activity.isFinishing() && !activity.isDestroyed();
+    }
+
+    protected final boolean isFragmentContextAvailable() {
+        return isAdded() && getContext() != null && isActivityAlive();
+    }
+
+    protected final boolean isFragmentUiAvailable() {
+        return isFragmentContextAvailable() && getView() != null;
+    }
+
+    @Nullable
+    protected final Context getSafeContext() {
+        return isFragmentContextAvailable() ? getContext() : null;
+    }
+
+    protected final void runOnUiThreadIfAlive(@NonNull Runnable action) {
+        if (!isFragmentContextAvailable()) {
+            return;
+        }
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            if (isFragmentContextAvailable()) {
+                action.run();
+            }
+            return;
+        }
+        activity.runOnUiThread(() -> {
+            if (isFragmentContextAvailable()) {
+                action.run();
+            }
+        });
+    }
+
+    protected final void postIfViewAlive(@Nullable View view, @NonNull Runnable action) {
+        if (view == null) {
+            return;
+        }
+        view.post(() -> {
+            if (isFragmentUiAvailable()) {
+                action.run();
+            }
+        });
     }
 }

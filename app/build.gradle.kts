@@ -40,16 +40,16 @@ fun loadPropertiesFromFile(fileName: String): Properties? =
 
 android {
     namespace = "com.sevtinge.hyperceiler"
-    compileSdk = 36
-    compileSdkMinor = 1
-    buildToolsVersion = "36.1.0"
+    compileSdk = 37
+    compileSdkMinor = 0
+    buildToolsVersion = "37.0.0"
 
     defaultConfig {
         applicationId = namespace
         minSdk = 35
-        targetSdk = 36
+        targetSdk = 37
         versionCode = gitVersionCode
-        versionName = "2.10.165"
+        versionName = "2.10.166"
 
         val buildTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").apply {
             timeZone = TimeZone.getTimeZone("Asia/Shanghai")
@@ -129,8 +129,7 @@ android {
         }
 
         val applyBase: ApplicationBuildType.() -> Unit = {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            optimization.enable = true
             buildConfigField("String", "GIT_CODE", "\"$gitVersionCode\"")
         }
 
@@ -138,7 +137,6 @@ android {
             applyBase()
             configSigning()
             buildConfigField("String", "GIT_HASH", "\"$gitHash\"")
-            proguardFiles("proguard-log.pro")
             versionNameSuffix = "-$dateSuffix"
         }
 

@@ -25,9 +25,6 @@ import com.sevtinge.hyperceiler.libhook.rules.mishare.NoAutoTurnOff;
 
 @HookBase(targetPackage = "com.miui.mishare.connectivity")
 public class MiShare extends BaseLoad {
-    public MiShare() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

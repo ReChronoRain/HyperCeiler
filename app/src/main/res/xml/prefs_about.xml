@@ -69,7 +69,7 @@
             android:icon="@drawable/ic_sevtinge"
             android:layout="@layout/preference_round_layout"
             android:summary="\@Sevtinge"
-            android:title="绀漓 | Sevtinge">
+            android:title="Sevtinge">
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="https://github.com/sevtinge" />
@@ -79,10 +79,10 @@
 
     <PreferenceCategory>
 
-        <com.sevtinge.hyperceiler.prefs.XmlPreference
+        <Preference
             android:key="prefs_key_about_contributer"
             android:title="@string/about_contributer"
-            app:inflatedXml="@xml/prefs_about_contributor" />
+            android:fragment="com.sevtinge.hyperceiler.about.AboutContributorsFragment" />
 
         <Preference android:title="@string/about_offical">
             <intent

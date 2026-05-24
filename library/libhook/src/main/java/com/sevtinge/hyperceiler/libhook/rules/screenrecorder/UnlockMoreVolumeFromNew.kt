@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.screenrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
@@ -28,8 +27,16 @@ import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 object UnlockMoreVolumeFromNew : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        getClass
+        bothRecordMethod
+        fieldData
+        return true
+    }
     private val getClass by lazy<Class<*>> {
-        DexKit.findMember("UnlockMoreVolumeFromNewClass") {
+        requiredMember("UnlockMoreVolumeFromNewClass") {
             it.findClass {
                 matcher {
                     usingEqStrings("support_a2dp_inner_record")
@@ -39,7 +46,7 @@ object UnlockMoreVolumeFromNew : BaseHook() {
     }
 
     private val bothRecordMethod by lazy<Method> {
-        DexKit.findMember("BothRecordMethod") {
+        requiredMember("BothRecordMethod") {
             it.findMethod {
                 matcher {
                     usingStrings("ro.vendor.audio.screenrecorder.bothrecord")
@@ -48,8 +55,8 @@ object UnlockMoreVolumeFromNew : BaseHook() {
         }
     }
 
-    override fun init() {
-        val fieldData = DexKit.findMemberList<Field>("UnlockMoreVolumeFromNewField") { dexkit ->
+    private val fieldData by lazy<List<Field>> {
+        optionalMemberList("UnlockMoreVolumeFromNewField") { dexkit ->
             dexkit.findField {
                 matcher {
                     declaredClass(getClass)
@@ -57,7 +64,9 @@ object UnlockMoreVolumeFromNew : BaseHook() {
                 }
             }
         }
+    }
 
+    override fun init() {
         findAndHookConstructor(getClass, object : IMethodHook {
             override fun after(param: HookParam) {
                 for (i in fieldData) {
@@ -72,3 +81,4 @@ object UnlockMoreVolumeFromNew : BaseHook() {
         })
     }
 }
+

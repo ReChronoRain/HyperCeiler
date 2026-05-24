@@ -1,6 +1,8 @@
 package com.sevtinge.hyperceiler.home.task;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
@@ -12,6 +14,7 @@ import com.sevtinge.hyperceiler.ui.HomePageActivity;
 import com.sevtinge.hyperceiler.utils.LSPosedScopeHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.LogServiceUtils;
+import com.sevtinge.hyperceiler.utils.NoticeProcessor;
 import com.sevtinge.hyperceiler.utils.XposedActivateHelper;
 
 import java.util.List;
@@ -69,7 +72,7 @@ public class AppTaskManager {
     /**
      * 第二阶段任务定义：Activity 级别
      */
-    public static void setupActivityTasks(HomePageActivity activity) {
+    public static void setupActivityTasks(HomePageActivity activity, Context context) {
         TaskRunner runner = TaskRunner.getInstance();
 
         // UI 装饰任务：必须在主线程执行 (isAsync = false)
@@ -80,6 +83,15 @@ public class AppTaskManager {
                 PageDecorator.decorate(activity);
                 XposedActivateHelper.init(activity);
                 LogServiceUtils.init(activity);
+
+                new Thread(() -> {
+                    NoticeProcessor.NoticeResult result = NoticeProcessor.process(context);
+                    if (result != null) {
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            NoticeProcessor.showNoticeDialog(context, result);
+                        });
+                    }
+                }).start();
             }
         });
 

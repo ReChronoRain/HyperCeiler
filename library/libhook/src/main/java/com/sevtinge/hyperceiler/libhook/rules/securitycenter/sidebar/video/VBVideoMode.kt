@@ -19,21 +19,28 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 class VBVideoMode : BaseHook() {
-    override fun init() {
+    override fun useDexKit() = true
+    private lateinit var vbVideoModeMethod: Method
+
+    override fun initDexKit(): Boolean {
         // 开放影院/自定义模式
-        DexKit.findMember<Method>("VBVideoMode") {
+        vbVideoModeMethod = requiredMember("VBVideoMode") {
             it.findMethod {
                 matcher {
                     usingStrings = listOf("TheatreModeUtils")
                     usingNumbers = listOf(32)
                 }
             }.single()
-        }.createHook {
+        }
+        return true
+    }
+
+    override fun init() {
+        vbVideoModeMethod.createHook {
             returnConstant(true)
         }
     }

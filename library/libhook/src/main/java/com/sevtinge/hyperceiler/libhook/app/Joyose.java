@@ -26,11 +26,6 @@ import com.sevtinge.hyperceiler.libhook.rules.joyose.EnableGpuTuner;
 
 @HookBase(targetPackage = "com.xiaomi.joyose")
 public class Joyose extends BaseLoad {
-
-    public Joyose() {
-        super(true);
-    }
-
     @Override
     public void onPackageLoaded() {
         initHook(new DisableCloudControl(), PrefsBridge.getBoolean("various_disable_cloud_control"));

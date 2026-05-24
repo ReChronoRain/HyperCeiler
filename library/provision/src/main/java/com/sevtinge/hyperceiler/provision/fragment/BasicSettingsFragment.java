@@ -18,15 +18,21 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
+import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
 import com.sevtinge.hyperceiler.provision.R;
 
@@ -35,9 +41,17 @@ import fan.preference.PreferenceFragment;
 
 public class BasicSettingsFragment extends PreferenceFragment {
 
+    private static final String SCOPE_PICKER_CLASS_NAME = "com.sevtinge.hyperceiler.sub.ScopePickerActivity";
+    private static final String SCOPE_PICKER_EXTRA_INITIALIZATION_MODE = "initialization_mode";
+    private static final String LAUNCHER_ACTIVITY_CLASS_NAME = "com.sevtinge.hyperceiler.ui.LauncherActivity";
+    private static final String PREF_APP_LANGUAGE = "prefs_key_settings_app_language";
+
     private boolean mIsScrolledBottom = false;
 
     SwitchPreference mHideAppIcon;
+    SwitchPreference mScopeSyncPreference;
+    Preference mScopePreference;
+    DropDownPreference mLanguagePreference;
     DropDownPreference mIconModePreference;
     DropDownPreference mIconModeValue;
 
@@ -49,8 +63,29 @@ public class BasicSettingsFragment extends PreferenceFragment {
         setPreferencesFromResource(R.xml.provision_basic_settings, rootKey);
 
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
+        mScopePreference = findPreference("prefs_key_settings_scope");
+        mLanguagePreference = findPreference(PREF_APP_LANGUAGE);
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
+
+        if (mHideAppIcon != null) {
+            mHideAppIcon.setPersistent(false);
+        }
+        if (mScopeSyncPreference != null) {
+            mScopeSyncPreference.setPersistent(false);
+        }
+        if (mLanguagePreference != null) {
+            mLanguagePreference.setPersistent(false);
+            mLanguagePreference.setEntries(AppLanguageHelper.getLanguageEntries(requireContext()));
+            mLanguagePreference.setEntryValues(AppLanguageHelper.getLanguageEntryValues());
+        }
+        if (mIconModePreference != null) {
+            mIconModePreference.setPersistent(false);
+        }
+        if (mIconModeValue != null) {
+            mIconModeValue.setPersistent(false);
+        }
     }
 
     @Override
@@ -68,18 +103,69 @@ public class BasicSettingsFragment extends PreferenceFragment {
             }
         });
 
-        int mIconMode = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
+        int mIconMode = AppSettingsStore.getIconIndex(requireContext());
+        int languageIndex = AppLanguageHelper.getCurrentLanguageIndex(requireContext());
+        int iconModeValue = AppSettingsStore.getIconModeIndex(requireContext());
+        boolean hideAppIconEnabled = AppSettingsStore.isHideAppIconEnabled(requireContext());
+        boolean scopeSyncEnabled = AppSettingsStore.isScopeSyncEnabled(requireContext());
         mHideAppIcon = findPreference("prefs_key_settings_hide_app_icon");
+        mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
+        mScopePreference = findPreference("prefs_key_settings_scope");
+        mLanguagePreference = findPreference(PREF_APP_LANGUAGE);
         mIconModePreference = findPreference("prefs_key_settings_icon");
         mIconModeValue = findPreference("prefs_key_settings_icon_mode");
 
-        mHideAppIcon.setChecked(PrefsBridge.getBoolean("prefs_key_settings_hide_app_icon", false));
-        mIconModePreference.setValueIndex(mIconMode);
-        mIconModeValue.setValueIndex(PrefsBridge.getStringAsInt("prefs_key_settings_icon_mode", 0));
+        if (mHideAppIcon != null) {
+            mHideAppIcon.setChecked(hideAppIconEnabled);
+        }
+        if (mScopeSyncPreference != null) {
+            mScopeSyncPreference.setChecked(scopeSyncEnabled);
+        }
+        if (mLanguagePreference != null) {
+            mLanguagePreference.setValueIndex(languageIndex);
+        }
+        if (mIconModePreference != null) {
+            mIconModePreference.setValueIndex(mIconMode);
+        }
+        if (mIconModeValue != null) {
+            mIconModeValue.setValueIndex(iconModeValue);
+        }
 
         setIconMode(mIconMode);
+        applyLauncherIconState(hideAppIconEnabled);
+
+        mHideAppIcon.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean enabled = Boolean.TRUE.equals(newValue);
+            AppSettingsStore.setHideAppIconEnabled(requireContext(), enabled);
+            applyLauncherIconState(enabled);
+            return true;
+        });
+        mScopeSyncPreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            boolean enabled = Boolean.TRUE.equals(newValue);
+            AppSettingsStore.setScopeSyncEnabled(requireContext(), enabled);
+            if (enabled) {
+                syncHeaderPreferencesToCurrentScope();
+            }
+            return true;
+        });
         mIconModePreference.setOnPreferenceChangeListener((preference, newValue) -> {
-            setIconMode(Integer.parseInt((String) newValue));
+            int index = Integer.parseInt((String) newValue);
+            AppSettingsStore.setIconIndex(requireContext(), index);
+            setIconMode(index);
+            return true;
+        });
+        mIconModeValue.setOnPreferenceChangeListener((preference, newValue) -> {
+            AppSettingsStore.setIconModeIndex(requireContext(), Integer.parseInt((String) newValue));
+            return true;
+        });
+        mLanguagePreference.setOnPreferenceChangeListener((preference, newValue) -> {
+            int index = Integer.parseInt((String) newValue);
+            AppLanguageHelper.setIndexLanguage(requireActivity(), index, true);
+            return true;
+        });
+
+        mScopePreference.setOnPreferenceClickListener(preference -> {
+            launchScopePickerForInitialization();
             return true;
         });
     }
@@ -96,6 +182,42 @@ public class BasicSettingsFragment extends PreferenceFragment {
 
     private void setIconMode(int mode) {
         mIconModeValue.setVisible(mode != 0);
+    }
+
+    private void applyLauncherIconState(boolean enabled) {
+        PackageManager packageManager = requireActivity().getPackageManager();
+        int componentEnabledState = enabled
+            ? PackageManager.COMPONENT_ENABLED_STATE_ENABLED
+            : PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+
+        try {
+            packageManager.setComponentEnabledSetting(
+                new ComponentName(requireContext(), LAUNCHER_ACTIVITY_CLASS_NAME),
+                componentEnabledState,
+                PackageManager.DONT_KILL_APP
+            );
+        } catch (Exception ignored) {
+        }
+    }
+
+    private void launchScopePickerForInitialization() {
+        try {
+            Intent intent = new Intent();
+            intent.setClassName(requireContext(), SCOPE_PICKER_CLASS_NAME);
+            intent.putExtra(SCOPE_PICKER_EXTRA_INITIALIZATION_MODE, true);
+            startActivity(intent);
+        } catch (Exception e) {
+            Toast.makeText(requireContext(), R.string.provision_scope_open_failed, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void syncHeaderPreferencesToCurrentScope() {
+        try {
+            Class<?> headerManager = Class.forName("com.sevtinge.hyperceiler.home.utils.HeaderManager");
+            headerManager.getMethod("syncHeaderPreferencesToCurrentScope", android.content.Context.class)
+                .invoke(null, requireContext());
+        } catch (Exception ignored) {
+        }
     }
 
 }

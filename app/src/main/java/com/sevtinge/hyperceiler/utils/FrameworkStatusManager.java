@@ -76,15 +76,14 @@ public final class FrameworkStatusManager {
     @NonNull
     public static String buildHelpSummary(@NonNull Context context) {
         Status status = sCurrentStatus;
-        StringBuilder sb = new StringBuilder();
-        sb.append(context.getString(R.string.help_framework_warning_section_framework_version));
-        sb.append("\n\n");
-        sb.append(buildFrameworkVersionText(context, status));
-        sb.append(HELP_SECTION_GAP);
-        sb.append(context.getString(R.string.help_framework_warning_section_banner_reason));
-        sb.append("\n\n");
-        sb.append(context.getString(R.string.help_framework_warning_banner_reason));
-        return sb.toString();
+        String sb = context.getString(R.string.help_framework_warning_section_framework_version) +
+            "\n\n" +
+            buildFrameworkVersionText(context, status) +
+            HELP_SECTION_GAP +
+            context.getString(R.string.help_framework_warning_section_banner_reason) +
+            "\n\n" +
+            context.getString(R.string.help_framework_warning_banner_reason);
+        return sb;
     }
 
     private static void ensureHookGateInitialized() {

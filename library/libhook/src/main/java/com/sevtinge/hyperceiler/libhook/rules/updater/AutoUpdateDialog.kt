@@ -20,14 +20,20 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceCallback
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object AutoUpdateDialog : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        find1
+        find2
+        return true
+    }
     private val find1 by lazy<Method> {
-        DexKit.findMember("AutoUpdateDialog1") {
+        requiredMember("AutoUpdateDialog1") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -40,7 +46,7 @@ object AutoUpdateDialog : BaseHook() {
     }
 
     private val find2 by lazy<Method> {
-        DexKit.findMember("AutoUpdateDialog2") {
+        requiredMember("AutoUpdateDialog2") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -60,3 +66,4 @@ object AutoUpdateDialog : BaseHook() {
         }
     }
 }
+

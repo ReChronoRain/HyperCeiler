@@ -18,7 +18,6 @@
  */
 package com.sevtinge.hyperceiler.hooker.framework;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.APP_OPEN_MODE;
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.LAUNCHER_MODE;
 import static com.sevtinge.hyperceiler.sub.SubPickerActivity.PROCESS_TEXT_MODE;
@@ -27,22 +26,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
-import androidx.annotation.NonNull;
 import androidx.preference.Preference;
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
-import java.util.concurrent.ExecutorService;
-
-import fan.preference.DropDownPreference;
-
-public class OtherSettings extends DashboardFragment implements Preference.OnPreferenceChangeListener {
+public class OtherSettings extends DashboardFragment {
 
     Preference mCleanShareApps;
     Preference mCleanOpenApps;
@@ -50,10 +42,6 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
     Preference mAutoStart;
     Preference mClipboardWhitelistApps;
     SwitchPreference mVerifyDisable;
-    SwitchPreference mLockApp;
-    SwitchPreference mLockAppSc;
-    DropDownPreference mLockAppScreen;
-    SwitchPreference mLockAppStatus;
     RecommendPreference mRecommend;
     Handler handler;
 
@@ -70,19 +58,6 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
         mAutoStart = findPreference("prefs_key_system_framework_auto_start_apps");
         mClipboardWhitelistApps = findPreference("prefs_key_system_framework_clipboard_whitelist_apps");
         mVerifyDisable = findPreference("prefs_key_system_framework_disable_verify_can_ve_disabled");
-        mLockApp = findPreference("prefs_key_system_framework_guided_access");
-        mLockAppSc = findPreference("prefs_key_system_framework_guided_access_sc");
-        mLockAppScreen = findPreference("prefs_key_system_framework_guided_access_screen_int");
-        mLockAppStatus = findPreference("prefs_key_system_framework_guided_access_status");
-
-        if (isMoreAndroidVersion(36)) {
-            setFuncHint(mLockApp, 2);
-        } else {
-            mLockApp.setOnPreferenceChangeListener(this);
-            mLockAppSc.setOnPreferenceChangeListener(this);
-            mLockAppScreen.setOnPreferenceChangeListener(this);
-            mLockAppStatus.setOnPreferenceChangeListener(this);
-        }
 
         mAutoStart.setOnPreferenceClickListener(preference -> {
             Intent intent = new Intent(getActivity(), SubPickerActivity.class);
@@ -136,23 +111,5 @@ public class OtherSettings extends DashboardFragment implements Preference.OnPre
                 args1,
                 R.string.system_framework_display_title
         );
-    }
-
-    public void initApp(ExecutorService executorService, Runnable runnable) {
-        executorService.submit(() -> {
-            handler.post(runnable);
-        });
-    }
-
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object o) {
-        ExecutorService executorService = ThreadPoolManager.getInstance();
-        switch (preference.getKey()) {
-            case "prefs_key_system_framework_guided_access",
-                 "prefs_key_system_framework_guided_access_status" -> initApp(executorService, () -> AppsTool.killApps("com.miui.home", "com.android.systemui"));
-            case "prefs_key_system_framework_guided_access_sc" -> initApp(executorService, () -> AppsTool.killApps("com.miui.securitycenter"));
-            case "prefs_key_system_framework_guided_access_screen_int" -> initApp(executorService, () -> AppsTool.killApps("com.android.systemui"));
-        }
-        return true;
     }
 }

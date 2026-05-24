@@ -23,13 +23,15 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import androidx.preference.SwitchPreference;
 
-import com.sevtinge.hyperceiler.prefs.LayoutPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
+import com.sevtinge.hyperceiler.prefs.LayoutPreference;
 
 public class CameraNewFragment extends DashboardFragment {
 
+    SwitchPreference mThemeColor;
     SwitchPreference mBlackLeica;
+    SwitchPreference mCloudWatermark;
     SwitchPreference mLeica;
     SwitchPreference mHighQuality;
     LayoutPreference mHeader;
@@ -41,7 +43,9 @@ public class CameraNewFragment extends DashboardFragment {
 
     @Override
     public void initPrefs() {
+        mThemeColor = findPreference("prefs_key_camera_custom_theme_color");
         mBlackLeica = findPreference("prefs_key_camera_black_leica");
+        mCloudWatermark = findPreference("prefs_key_camera_cloud_watermark");
         mLeica = findPreference("prefs_key_camera_unlock_leica");
         mHighQuality = findPreference("prefs_key_camera_super_high_quality");
 
@@ -51,6 +55,14 @@ public class CameraNewFragment extends DashboardFragment {
             setFuncHint(mLeica, 1);
             setFuncHint(mHighQuality, 1);
         }
+
+        // 版本范围判断
+        setFuncHints("com.android.camera",
+            rule(mThemeColor, APP_HINT_SUPPORTED, APP_MATCH_OUT_OF_RANGE, atMost(620000000)),
+            rule(mBlackLeica, APP_HINT_SUPPORTED, APP_MATCH_OUT_OF_RANGE, atMost(630000000)),
+            rule(mCloudWatermark, APP_HINT_UNSUPPORTED, APP_MATCH_OUT_OF_RANGE, range(620000000, 700000000)),
+            rule(mHighQuality, APP_HINT_UNSUPPORTED, APP_MATCH_IN_RANGE, range(630000000, 640000000))
+        );
 
         mHeader = findPreference("prefs_key_camera_unsupported");
 

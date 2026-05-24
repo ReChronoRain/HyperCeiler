@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.calendar;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -37,23 +36,35 @@ import java.util.Objects;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockSubscription extends BaseHook {
+
+    Method targetMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("CalendarApplication", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        targetMethod = requiredMember("CalendarApplication", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("Cal:D:CalendarApplicationDelegate"))
-                                .usingStrings("key_subscription_display", "key_import_todo", "key_chinese_almanac_pref", "key_weather_display", "key_ai_time_parse")
-                                .paramCount(0)
-                        )).singleOrNull();
+                    .matcher(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create()
+                            .usingStrings("Cal:D:CalendarApplicationDelegate"))
+                        .usingStrings("key_subscription_display", "key_import_todo", "key_chinese_almanac_pref", "key_weather_display", "key_ai_time_parse")
+                        .paramCount(0)
+                    )).singleOrNull();
                 return methodData;
             }
         });
-        XposedLog.d(TAG, getPackageName(), "method is " + method);
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(targetMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 XposedLog.d(TAG, getPackageName(), "1");

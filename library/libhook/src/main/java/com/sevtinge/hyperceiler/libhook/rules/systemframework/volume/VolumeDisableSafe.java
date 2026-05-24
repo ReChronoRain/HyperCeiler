@@ -74,7 +74,7 @@ public class VolumeDisableSafe extends BaseHook {
                 intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
                 intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
                 intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-                context.registerReceiver(new Listener(), intentFilter);
+                context.registerReceiver(new Listener(), intentFilter, Context.RECEIVER_EXPORTED);
             }
         });
 

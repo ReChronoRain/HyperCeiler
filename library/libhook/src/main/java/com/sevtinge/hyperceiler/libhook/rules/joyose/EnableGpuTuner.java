@@ -19,33 +19,32 @@
 package com.sevtinge.hyperceiler.libhook.rules.joyose;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-;
-
 public class EnableGpuTuner extends BaseHook {
+    private Method mGpuTunerSwitchMethod;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mGpuTunerSwitchMethod = requiredMember("GpuTunerSwitch", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("GPUTUNER_SWITCH")
+                .returnType(boolean.class)
+            )).singleOrNull());
+        return true;
+    }
+
     @Override
     public void init() {
-        Method method = DexKit.findMember("GpuTunerSwitch", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("GPUTUNER_SWITCH")
-                                .returnType(boolean.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method, returnConstant(true));
+        hookMethod(mGpuTunerSwitchMethod, returnConstant(true));
     }
 }

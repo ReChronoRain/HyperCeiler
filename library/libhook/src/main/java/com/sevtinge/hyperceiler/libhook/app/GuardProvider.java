@@ -26,9 +26,6 @@ import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableUploadAppList
 
 @HookBase(targetPackage = "com.miui.guardprovider")
 public class GuardProvider extends BaseLoad {
-    public GuardProvider() {
-        super(true);
-    }
     @Override
     public void onPackageLoaded() {
         initHook(new DisableRootedCheck(), PrefsBridge.getBoolean("guard_provider_disable_root_check"));

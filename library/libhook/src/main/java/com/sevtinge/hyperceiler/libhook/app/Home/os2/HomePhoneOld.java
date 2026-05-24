@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.libhook.rules.home.AnimDurationRatio;
 import com.sevtinge.hyperceiler.libhook.rules.home.DisablePrestart;
 import com.sevtinge.hyperceiler.libhook.rules.home.FreeFormCountForHome;
 import com.sevtinge.hyperceiler.libhook.rules.home.HomePortraitReverse;
-import com.sevtinge.hyperceiler.libhook.rules.home.LockApp;
 import com.sevtinge.hyperceiler.libhook.rules.home.MaxFreeForm;
 import com.sevtinge.hyperceiler.libhook.rules.home.ScreenSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.home.SeekPoints;
@@ -60,7 +59,8 @@ import com.sevtinge.hyperceiler.libhook.rules.home.folder.SmallFolderIconBlur;
 import com.sevtinge.hyperceiler.libhook.rules.home.folder.UnlockBlurSupported;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.CornerSlide;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.DoubleTap;
-import com.sevtinge.hyperceiler.libhook.rules.home.gesture.HotSeatSwipe;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.GestureLine;
+import com.sevtinge.hyperceiler.libhook.rules.home.gesture.PredictiveBackProgress;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.QuickBack;
 import com.sevtinge.hyperceiler.libhook.rules.home.gesture.ShakeDevice;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.HotSeatsHeight;
@@ -133,27 +133,27 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.home", deviceType = 2, maxOSVersion = 2.0F)
 public class HomePhoneOld extends BaseLoad {
 
-    public HomePhoneOld() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {
+        boolean gesturesEnabled = PrefsBridge.getBoolean("home_gesture_enable");
+        boolean hasCornerGestureAction = PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0
+            || PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0;
+        boolean hasScreenSwipeAction = PrefsBridge.getInt("home_gesture_up_swipe_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_up_swipe2_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0;
+        boolean hasGestureLineAction = PrefsBridge.getInt("home_gesture_line_long_press_action", 0) > 0
+            || PrefsBridge.getInt("home_gesture_line_double_click_action", 0) > 0;
 
         // 手势
         initHook(new QuickBack(), PrefsBridge.getBoolean("home_navigation_quick_back"));
-        initHook(new CornerSlide(),
-                PrefsBridge.getInt("home_navigation_assist_left_slide_action", 0) > 0 ||
-                        PrefsBridge.getInt("home_navigation_assist_right_slide_action", 0) > 0
-        );
-        initHook(new DoubleTap(), PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);
-        initHook(new ScreenSwipe(), PrefsBridge.getInt("home_gesture_up_swipe_action", 0) > 0 ||
-                PrefsBridge.getInt("home_gesture_down_swipe_action", 0) > 0 ||
-                PrefsBridge.getInt("home_gesture_up_swipe2_action", 0) > 0 ||
-                PrefsBridge.getInt("home_gesture_down_swipe2_action", 0) > 0);
-        initHook(new HotSeatSwipe(), PrefsBridge.getInt("home_gesture_left_swipe_action", 0) > 0
-                || PrefsBridge.getInt("home_gesture_right_swipe_action", 0) > 0);
-        initHook(new ShakeDevice(), PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
+        initHook(new PredictiveBackProgress(), PrefsBridge.getBoolean("home_navigation_predictive_progress"));
+        initHook(new CornerSlide(), gesturesEnabled && hasCornerGestureAction);
+        initHook(new DoubleTap(), gesturesEnabled && PrefsBridge.getInt("home_gesture_double_tap_action", 0) > 0);
+        initHook(new ScreenSwipe(), gesturesEnabled && hasScreenSwipeAction);
+        initHook(new ShakeDevice(), gesturesEnabled && PrefsBridge.getInt("home_gesture_shake_action", 0) > 0);
+        initHook(GestureLine.INSTANCE, gesturesEnabled && hasGestureLineAction);
         // initHook(new SwipeAndStop(), PrefsBridge.getInt("home_gesture_swipe_and_stop_action" ,0) > 0);
 
         initHook(new DisableFullScreenBackGesture(), PrefsBridge.getBoolean("home_navigation_disable_full_screen_back_gesture"));
@@ -264,7 +264,6 @@ public class HomePhoneOld extends BaseLoad {
         initHook(HideDock.INSTANCE, PrefsBridge.getBoolean("home_dock_hide_dock"));
 
         // 其他
-        initHook(new LockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new HomeMode(), PrefsBridge.getStringAsInt("home_other_home_mode", 0) > 0);
         initHook(new InfiniteScroll(), PrefsBridge.getBoolean("home_other_infinite_scroll"));
         initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"))));

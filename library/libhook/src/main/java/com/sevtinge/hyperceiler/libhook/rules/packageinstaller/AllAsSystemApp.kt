@@ -20,13 +20,19 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import android.content.pm.ApplicationInfo
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 object AllAsSystemApp : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        systemMethod
+        return true
+    }
+
     private val systemMethod by lazy<List<Method>> {
-        DexKit.findMemberList("AllAsSystemApp") {
+        requiredMemberList("AllAsSystemApp") {
             it.findMethod {
                 matcher {
                     paramTypes = listOf("android.content.pm.ApplicationInfo")

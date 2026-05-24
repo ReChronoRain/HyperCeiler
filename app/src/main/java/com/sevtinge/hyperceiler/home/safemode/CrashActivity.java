@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.home.safemode;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashScope;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import fan.appcompat.app.AppCompatActivity;
 
@@ -44,6 +46,11 @@ public class CrashActivity extends AppCompatActivity {
     private String throwFileName;
     private int throwLineNumber;
     private String throwMethodName;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
+    }
 
     @SuppressLint({"SetTextI18n", "StringFormatInvalid"})
     @Override
@@ -70,7 +77,7 @@ public class CrashActivity extends AppCompatActivity {
 
         String realPkgName = record != null && record.packageName != null
             ? record.packageName
-            : CrashScope.INSTANCE.getPackageName(alias);
+            : CrashScope.getPackageName(alias);
         if (realPkgName == null) realPkgName = alias != null ? alias : "unknown";
 
         String appName = getAppName(realPkgName);

@@ -64,6 +64,7 @@ import fan.view.SearchActionMode;
 public class HomePageFragment extends BasePreferenceFragment implements OnCompleteCallBack {
 
     private static final String TAG = "HomePageFragment";
+    private static final long TIP_AUTO_REFRESH_INTERVAL_MS = 30_000L;
 
     public static int getHomeHeadersResourceId() {
         return R.xml.settings_header;
@@ -104,22 +105,29 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
     private SearchHistorySPUtils mSearchHistorySPUtils;
     private HandlerThread mSearchThread;
+    private boolean mIsTipsAutoRefreshActive;
 
     private final Handler mTipsHandler = new Handler(Looper.getMainLooper());
     private final Runnable mTipsAutoTask = new Runnable() {
         @Override
         public void run() {
-            Context context = getContext();
-            if (context != null) {
-                HomePageTipHelper.refreshCurrentTip(context);
+            if (!mIsTipsAutoRefreshActive) {
+                return;
             }
-            mTipsHandler.postDelayed(this, 30000);
+            try {
+                Context context = getSafeContext();
+                if (context != null) {
+                    HomePageTipHelper.refreshCurrentTip(context);
+                }
+            } finally {
+                scheduleNextTipRefresh();
+            }
         }
     };
 
     private final Handler mMainHandler = new Handler(Looper.getMainLooper());
     private final Runnable mRefreshHeaderTask = this::refreshHeader;
-    private TextWatcher mTextWatcher = new TextWatcher() {
+    private final TextWatcher mTextWatcher = new TextWatcher() {
 
         @Override
         public void afterTextChanged(Editable s) {
@@ -154,7 +162,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     };
 
-    private SearchActionMode.Callback mSearchCallback = new SearchActionMode.Callback() {
+    private final SearchActionMode.Callback mSearchCallback = new SearchActionMode.Callback() {
         @Override
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             return false;
@@ -206,7 +214,8 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                 mListView.setVisibility(View.VISIBLE);
             }
             mSearchText = null;
-            mSearchAdapter.refresh(null, "", isChina(requireContext()));
+            Context context = getSafeContext();
+            mSearchAdapter.refresh(null, "", context != null && isChina(context));
             if (mSearchHandler != null) {
                 mSearchHandler.removeMessages(1);
             }
@@ -241,11 +250,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                 if (mSearchListLayout != null) {
                     mSearchListLayout.setAlpha(1.0f);
                 }
-                if (z && mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty()) {
-                    setSearchHistoryVisiable(true);
-                } else {
-                    setSearchHistoryVisiable(false);
-                }
+                setSearchHistoryVisiable(z && mSearchHistoryLists != null && !mSearchHistoryLists.isEmpty());
                 isClicking = false;
             }
         });
@@ -285,13 +290,13 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         if (HomePageBannerManager.needsRefresh()) {
             scheduleHeaderRefresh();
         }
-        mTipsHandler.postDelayed(mTipsAutoTask, 30000);
+        startTipAutoRefresh();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mTipsHandler.removeCallbacks(mTipsAutoTask);
+        stopTipAutoRefresh();
     }
 
     @Override
@@ -371,15 +376,23 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
                     mSearchHistoryLists.add(mSearchHistoryLists.size(), query);
                 }
                 mSearchHistorySPUtils.saveDataList("tagSearchHistory", mSearchHistoryLists);
-                mMainHandler.post(() -> initSearchHistoryView());
+                mMainHandler.post(() -> {
+                    if (isFragmentUiAvailable()) {
+                        initSearchHistoryView();
+                    }
+                });
             });
         }
     }
 
     private void initSearchHistoryView() {
         try {
+            Context context = getSafeContext();
+            if (context == null || mSearchHistoryFl == null) {
+                return;
+            }
             mSearchHistoryFl.removeAllViews();
-            LayoutInflater inflater = LayoutInflater.from(getContext());
+            LayoutInflater inflater = LayoutInflater.from(context);
             mSearchHistoryLists = mSearchHistorySPUtils.loadDataList("tagSearchHistory");
             if (!mSearchHistoryLists.isEmpty()) {
                 for (int size = mSearchHistoryLists.size() - 1; size >= 0; size--) {
@@ -431,23 +444,29 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
 
 
         mNestedHeaderLayout = view.findViewById(R.id.nestedheaderlayout);
-        mNestedHeaderLayout.setOverlayMode(MiuiBlurUtils.isEffectEnable(getContext()));
-        mNestedHeaderLayout.setEnableBlur(MiuiBlurUtils.isEffectEnable(getContext()));
+        Context context = getSafeContext();
+        boolean effectEnabled = context != null && MiuiBlurUtils.isEffectEnable(context);
+        mNestedHeaderLayout.setOverlayMode(effectEnabled);
+        mNestedHeaderLayout.setEnableBlur(effectEnabled);
     }
 
     @Override
     public void updateHeaderList(List<Header> headers) {
-        HeaderManager.updateHeaderDisplayStates(getContext(), headers);
+        Context context = getSafeContext();
+        if (context != null) {
+            HeaderManager.updateHeaderDisplayStates(context, headers);
+        }
     }
 
     private void refreshHeader() {
-        if (mProxyAdapter == null || mListView == null) {
+        Context context = getSafeContext();
+        if (context == null || mProxyAdapter == null || mListView == null) {
             return;
         }
 
         mListView.suppressLayout(true);
         try {
-            HomePageHeaderHelper.refreshAll(getContext(), mProxyAdapter, mBannerCallback);
+            HomePageHeaderHelper.refreshAll(context, mProxyAdapter, mBannerCallback);
         } finally {
             mListView.suppressLayout(false);
         }
@@ -463,18 +482,39 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         }
     }
 
+    private void startTipAutoRefresh() {
+        mIsTipsAutoRefreshActive = true;
+        scheduleNextTipRefresh();
+    }
+
+    private void stopTipAutoRefresh() {
+        mIsTipsAutoRefreshActive = false;
+        mTipsHandler.removeCallbacks(mTipsAutoTask);
+    }
+
+    private void scheduleNextTipRefresh() {
+        mTipsHandler.removeCallbacks(mTipsAutoTask);
+        if (mIsTipsAutoRefreshActive) {
+            mTipsHandler.postDelayed(mTipsAutoTask, TIP_AUTO_REFRESH_INTERVAL_MS);
+        }
+    }
+
     @Override
     public void buildAdapter() {
         super.buildAdapter();
+        Context context = getSafeContext();
+        if (context == null || mListView == null || mSearchResultListView == null) {
+            return;
+        }
 
-        List<Header> displayHeaders = HeaderManager.getDisplayHeaders(getContext(), mHeaders);
-        mLastHomeStateSignature = HeaderManager.computeHomeStateSignature(getContext());
+        List<Header> displayHeaders = HeaderManager.getDisplayHeaders(context, mHeaders);
+        mLastHomeStateSignature = HeaderManager.computeHomeStateSignature(context);
 
         mHeaderAdapter = new HeaderAdapter(this, displayHeaders);
         mHeaderAdapter.setHasStableIds(true);
         mProxyAdapter = new ProxyHeaderViewAdapter(mHeaderAdapter);
 
-        LinearLayoutManager manager = new LinearLayoutManager(getContext()) {
+        LinearLayoutManager manager = new LinearLayoutManager(context) {
             @Override
             public boolean canScrollVertically() {
                 return mIsScrollEnableForListView && super.canScrollVertically();
@@ -486,7 +526,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
         mListView.setAdapter(mProxyAdapter);
         if (mListView.getItemDecorationCount() == 0) {
             CardItemDecoration decoration = new CardItemDecoration(getActivity());
-            decoration.setCardMarginTop(getContext().getResources().getDimensionPixelSize(R.dimen.settings_banner_ly_padding_top_and_bottom));
+            decoration.setCardMarginTop(context.getResources().getDimensionPixelSize(R.dimen.settings_banner_ly_padding_top_and_bottom));
             mListView.addItemDecoration(decoration);
         }
         mProxyAdapter.updateGroupInfo();
@@ -499,11 +539,14 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             }
         }
         if (!packageNames.isEmpty()) {
-            IconTitleLoader.preloadAll(requireContext(), packageNames, () -> {
-                if (isAdded() && mHeaderAdapter != null) {
+            int headerIconSize = context.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
+            IconTitleLoader.preloadAll(context.getApplicationContext(), packageNames, headerIconSize, () ->
+                runOnUiThreadIfAlive(() -> {
+                    if (mHeaderAdapter != null) {
                     mHeaderAdapter.notifyDataSetChanged();
-                }
-            });
+                    }
+                })
+            );
         }
 
         if (!mIsInActionMode) {
@@ -576,26 +619,24 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
             try {
                 if (msg.what == 1) {
                     String query = (String) msg.obj;
-                    if (mIsInActionMode && getContext() != null) {
+                    Context context = getSafeContext();
+                    if (mIsInActionMode && context != null) {
                         mMainHandler.post(() -> {
-                            if (mIsInActionMode) {
+                            if (mIsInActionMode && isFragmentUiAvailable() && mSearchLoadingView != null) {
                                 mSearchLoadingView.setVisibility(View.VISIBLE);
                             }
                         });
-                        List<ModEntity> results = SearchHelper.search(getContext(), query);
+                        List<ModEntity> results = SearchHelper.search(context, query);
 
-                        boolean isChinaLocale = isChina(getContext());
+                        boolean isChinaLocale = isChina(context);
 
                         mMainHandler.post(() -> {
-                            if (mIsInActionMode && mSearchAdapter != null) {
+                            if (mIsInActionMode && isFragmentUiAvailable() && mSearchAdapter != null
+                                && mSearchLoadingView != null && mListView != null) {
                                 mSearchAdapter.refresh(results, query, isChinaLocale);
                                 mSearchLoadingView.setVisibility(View.GONE);
                                 mListView.setVisibility(View.GONE);
-                                if (TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0) {
-                                    setSearchHistoryVisiable(true);
-                                } else {
-                                    setSearchHistoryVisiable(false);
-                                }
+                                setSearchHistoryVisiable(TextUtils.isEmpty(query) && mSearchHistoryLists != null && mSearchHistoryLists.size() > 0);
                             }
                         });
                     }
@@ -666,6 +707,7 @@ public class HomePageFragment extends BasePreferenceFragment implements OnComple
     public void onDestroyView() {
         super.onDestroyView();
         HomePageBannerManager.setRefreshCallback(null);
+        stopTipAutoRefresh();
         mTipsHandler.removeCallbacksAndMessages(null);
         mMainHandler.removeCallbacks(mRefreshHeaderTask);
         if (mListView != null) {

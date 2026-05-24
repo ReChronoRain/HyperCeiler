@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -34,10 +33,16 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class InstallIntercept extends BaseHook {
+    private Method mInstallMethod;
+
     @Override
-    public void init() {
-        long stime = System.currentTimeMillis();
-        Method method = DexKit.findMember("install", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mInstallMethod = requiredMember("install", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -48,8 +53,12 @@ public class InstallIntercept extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
 
-        hookMethod(method,
+    @Override
+    public void init() {
+        hookMethod(mInstallMethod,
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {

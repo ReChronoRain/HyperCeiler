@@ -23,8 +23,6 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import java.lang.reflect.Method;
 
-;
-
 
 public class NewIcon extends BaseHook {
     static Method isDesktopSupportOperationIcon;

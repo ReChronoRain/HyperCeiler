@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.app;
 import android.text.TextUtils;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.updater.AndroidVersionCode;
 import com.sevtinge.hyperceiler.libhook.rules.updater.AutoUpdateDialog;
@@ -28,14 +29,10 @@ import com.sevtinge.hyperceiler.libhook.rules.updater.DeviceModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VabUpdate;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeModify;
 import com.sevtinge.hyperceiler.libhook.rules.updater.VersionCodeNew;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.android.updater")
 public class Updater extends BaseLoad {
 
-    public Updater() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

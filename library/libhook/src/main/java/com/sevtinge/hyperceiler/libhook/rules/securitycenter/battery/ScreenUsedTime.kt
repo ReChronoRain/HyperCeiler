@@ -18,15 +18,21 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object ScreenUsedTime : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        method1
+        method2
+        return true
+    }
     private val method1 by lazy<Method> {
-        DexKit.findMember("ScreenUsedTime1") {
+        requiredMember("ScreenUsedTime1") {
             it.findMethod {
                 matcher {
                     usingEqStrings("ishtar", "nuwa", "fuxi")
@@ -37,7 +43,7 @@ object ScreenUsedTime : BaseHook() {
         }
     }
     private val method2 by lazy<List<Method>> {
-        DexKit.findMemberList("ScreenUsedTime2") {
+        requiredMemberList("ScreenUsedTime2") {
             it.findMethod {
                 matcher {
                     declaredClass {
@@ -64,3 +70,4 @@ object ScreenUsedTime : BaseHook() {
         }
     }
 }
+

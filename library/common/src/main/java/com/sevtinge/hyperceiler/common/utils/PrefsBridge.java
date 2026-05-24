@@ -127,6 +127,17 @@ public class PrefsBridge {
         return (key != null && !key.startsWith("prefs_key_")) ? "prefs_key_" + key : key;
     }
 
+    private static int parseStringInt(@Nullable String value, int def) {
+        if (TextUtils.isEmpty(value)) {
+            return def;
+        }
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+            return def;
+        }
+    }
+
     // --- 写入方法族 ---
     // 约定：所有写入都应由应用进程发起，再同步到远程。
 
@@ -239,14 +250,7 @@ public class PrefsBridge {
      */
     public static int getStringAsInt(String key, int def) {
         String value = getString(key, String.valueOf(def));
-        if (TextUtils.isEmpty(value)) {
-            return def;
-        }
-        try {
-            return Integer.parseInt(value);
-        } catch (NumberFormatException ignored) {
-            return def;
-        }
+        return parseStringInt(value, def);
     }
 
     /**
@@ -255,7 +259,26 @@ public class PrefsBridge {
     public static int getInt(String key, int def) {
         String rKey = wrap(key);
         Object cached = sHookCache.get(rKey);
-        return cached instanceof Integer ? (Integer) cached : requireImpl().getInt(rKey, def);
+        if (cached instanceof Integer intValue) {
+            return intValue;
+        }
+        if (cached instanceof Number numberValue) {
+            return numberValue.intValue();
+        }
+        if (cached instanceof String stringValue) {
+            return parseStringInt(stringValue, def);
+        }
+
+        SharedPreferences prefs = requireImpl();
+        try {
+            return prefs.getInt(rKey, def);
+        } catch (ClassCastException ignored) {
+            try {
+                return parseStringInt(prefs.getString(rKey, null), def);
+            } catch (ClassCastException ignoredAgain) {
+                return def;
+            }
+        }
     }
 
     /**

@@ -33,9 +33,9 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import java.lang.reflect.Method
@@ -44,6 +44,14 @@ import java.lang.reflect.Method
 @SuppressLint("DiscouragedApi")
 // from https://github.com/chsbuffer/MIUIQOL
 class OpenByDefaultSetting : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        appDetailsViewClass
+        onLoadDataFinishMethod
+        return true
+    }
+
     private val domainVerificationManager: DomainVerificationManager by lazy(LazyThreadSafetyMode.NONE) {
         appContext.getSystemService(
             DomainVerificationManager::class.java
@@ -63,10 +71,13 @@ class OpenByDefaultSetting : BaseHook() {
     }
     private fun getOpenDefaultTitle(): String = moduleContext.getString(R.string.open_by_default)
 
-    private val appDetailsView by lazy(LazyThreadSafetyMode.NONE) {
+    private val appDetailsViewClass by lazy<Class<*>>(LazyThreadSafetyMode.NONE) {
         // getClassData 很便宜，不需要前置
-        DexKit.initDexkitBridge().getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
-        DexKit.initDexkitBridge().getClassData("com.miui.appmanager.ApplicationsDetailsActivity")!!
+        requiredMember("appDetailsViewClass") { bridge ->
+            bridge.getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
+            bridge.getClassData("com.miui.appmanager.ApplicationsDetailsActivity")
+                ?: throw IllegalStateException("OpenByDefaultSetting: appDetailsView class not found")
+        }
     }
 
     /** LiveData 读取后更新 View 的方法 */
@@ -81,8 +92,10 @@ class OpenByDefaultSetting : BaseHook() {
         //          appDetailTextBannerView = this.p;
         //          i2 = R.string.app_manager_default_close_summary;
         //      }
-        DexKit.findMember("onLoadDataFinished") {
-            appDetailsView.findMethod {
+        requiredMember("onLoadDataFinished") { bridge ->
+            val appDetailsViewData = bridge.getClassData(appDetailsViewClass)
+                ?: throw IllegalStateException("OpenByDefaultSetting: appDetailsView classData not found")
+            appDetailsViewData.findMethod {
                 matcher {
                     addEqString("enter_way")
                     returnType = "void"
@@ -126,7 +139,7 @@ class OpenByDefaultSetting : BaseHook() {
     }*/
 
     override fun init() {
-        val appDetailsView = appDetailsView.getInstance(classLoader)
+        val appDetailsView = appDetailsViewClass
 
         if (Activity::class.java.isAssignableFrom(appDetailsView)) {
             // v1, v2
@@ -163,9 +176,8 @@ class OpenByDefaultSetting : BaseHook() {
     // v1, v2
     fun handleActivityOnLoadDataFinish(activity: Activity) {
         var openDefaultView: View? = null
-        val default_id = appContext.resources.getIdentifier(
-            "am_detail_default", "id", appContext.packageName
-        )
+        val default_id =
+            appContext.getIdByName("am_detail_default", "id", appContext.packageName)
         if (default_id != 0) {
             openDefaultView = activity.findViewById(default_id)
         }
@@ -183,9 +195,8 @@ class OpenByDefaultSetting : BaseHook() {
         val appmanagerTextBannerViewClass =
             findClass("com.miui.appmanager.widget.AppDetailTextBannerView", classLoader)
 
-        val anotherTextBannerId = appContext.resources.getIdentifier(
-            "am_global_perm", "id", appContext.packageName
-        )
+        val anotherTextBannerId =
+            appContext.getIdByName("am_global_perm", "id", appContext.packageName)
         val anotherTextBanner = activity.findViewById<LinearLayout>(anotherTextBannerId)
 
         val attributeSet = null
@@ -193,7 +204,8 @@ class OpenByDefaultSetting : BaseHook() {
             newInstance(appmanagerTextBannerViewClass, activity, attributeSet) as LinearLayout
         copyLinearLayoutStyle(defaultView, anotherTextBanner)
 
-        val insertAfterViewId = appContext.resources.getIdentifier("am_full_screen", "id", appContext.packageName)
+        val insertAfterViewId =
+            appContext.getIdByName("am_full_screen", "id", appContext.packageName)
         val insertAfterView = activity.findViewById<View>(insertAfterViewId)
         val viewGroup = insertAfterView.parent as ViewGroup
         viewGroup.addView(defaultView, viewGroup.indexOfChild(insertAfterView) + 1)

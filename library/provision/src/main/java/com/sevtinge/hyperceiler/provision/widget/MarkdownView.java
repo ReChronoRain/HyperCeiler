@@ -248,16 +248,20 @@ public class MarkdownView extends TextView {
         }
     }
 
-    private static class HorizontalLineSpan implements LeadingMarginSpan {
-        private final int color;
-        public HorizontalLineSpan(int color) { this.color = color; }
-        @Override public int getLeadingMargin(boolean first) { return 0; }
-        @Override public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int bsl, int bot, CharSequence txt, int s, int e, boolean f, Layout l) {
-            int old = p.getColor(); p.setColor(color);
-            c.drawRect(x, (top + bot) / 2f - 2f, x + l.getWidth(), (top + bot) / 2f + 2f, p);
-            p.setColor(old);
+    private record HorizontalLineSpan(int color) implements LeadingMarginSpan {
+        @Override
+        public int getLeadingMargin(boolean first) {
+            return 0;
         }
-    }
+
+        @Override
+        public void drawLeadingMargin(Canvas c, Paint p, int x, int dir, int top, int bsl, int bot, CharSequence txt, int s, int e, boolean f, Layout l) {
+                int old = p.getColor();
+            p.setColor(color);
+                c.drawRect(x, (top + bot) / 2f - 2f, x + l.getWidth(), (top + bot) / 2f + 2f, p);
+                p.setColor(old);
+            }
+        }
 
     private class CustomClickableSpan extends ClickableSpan {
         private final String url;

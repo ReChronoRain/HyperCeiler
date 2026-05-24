@@ -18,10 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Field
@@ -29,8 +27,16 @@ import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockDisney : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        mickey
+        bear
+        princess
+        return true
+    }
     private val mickey by lazy<Method> {
-        DexKit.findMember("UnlockDisneyMickey") {
+        requiredMember("UnlockDisneyMickey") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -47,7 +53,7 @@ object UnlockDisney : BaseHook() {
     }
 
     private val bear by lazy<Method> {
-        DexKit.findMember("UnlockDisneyBear") {
+        requiredMember("UnlockDisneyBear") {
             it.findMethod {
                 matcher {
                     declaredClass = mickey.declaringClass.name
@@ -63,7 +69,7 @@ object UnlockDisney : BaseHook() {
         // 2.0 改成了内联，只能拿字段去解析了
         // .field public static final n:Lak/a$i;
         // 里面的 method public final c(Ljava/lang/Object;)Ljava/lang/Object; 返回 true 即可解锁
-        DexKit.findMember("UnlockDisneyPrincess") {
+        requiredMember("UnlockDisneyPrincess") {
             it.findField {
                 matcher {
                     declaredClass = mickey.declaringClass.name
@@ -98,3 +104,4 @@ object UnlockDisney : BaseHook() {
         }
     }
 }
+

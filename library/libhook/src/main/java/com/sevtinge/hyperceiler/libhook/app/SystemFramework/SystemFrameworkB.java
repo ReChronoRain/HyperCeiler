@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.ModulePackageTrust;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
@@ -40,6 +41,8 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.DisableFr
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeFormCount;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeformBubble;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiAospImeSystem;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiuiImeUnlockSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
@@ -53,11 +56,11 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectS
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceDownloadui;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassUnknownSourcesRestrictions;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassWakePathChecker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanOpenMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanProcessTextMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanShareMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ClipboardWhitelist;
-import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ConservativeMilletFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DeleteOnPostNotification;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableGestureMonitor;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableMiuiLite;
@@ -70,11 +73,13 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinde
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NativeFilePicker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NoAccessDeviceLogsRequest;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.PstedClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.QuickScreenshot;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ScreenRotation;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.SpeedInstall;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.SystemLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.ThermalBrightness;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.UseAndroidPackageInstaller;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeDefaultStream;
@@ -99,8 +104,8 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new DisablePersistent(), PrefsBridge.getBoolean("system_framework_disable_persistent"));
 
         // 手势初始化
-        initHook(new ModulePackageTrust(), true);
-        initHook(new GlobalActionBootstrap(), true);
+        initHook(new ModulePackageTrust(), PrefsBridge.getBoolean("home_gesture_enable"));
+        initHook(new GlobalActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
 
         // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
         initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, PrefsBridge.getBoolean("system_framework_core_patch_unloss_fingerprint"));
@@ -141,6 +146,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new LinkTurboToast(), PrefsBridge.getBoolean("system_framework_disable_link_turbo_toast"));
         initHook(new AllowUntrustedTouchForU(), PrefsBridge.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(DeleteOnPostNotification.INSTANCE, PrefsBridge.getBoolean("system_other_delete_on_post_notification"));
+        initHook(new SystemLockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new AllowManageAllNotifications(), PrefsBridge.getBoolean("system_framework_allow_manage_all_notifications"));
 
         // 其它-底层
@@ -153,13 +159,16 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new DisableVerifyCanBeDisabled(), PrefsBridge.getBoolean("system_framework_disable_verify_can_ve_disabled"));
         initHook(new DisableMiuiLite(), PrefsBridge.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new PstedClipboard(), PrefsBridge.getBoolean("system_framework_posted_clipboard"));
+        initHook(new MiuiImeUnlockSystem(), InputMethodConfig.shouldHookMiuiImeListInSystem());
+        initHook(new MiAospImeSystem(), InputMethodConfig.shouldHookAospImeInSystem());
         initHook(new ClipboardWhitelist(), PrefsBridge.getBoolean("system_framework_clipboard_whitelist"));
         initHook(new AllowDisableProtectedPackage(), PrefsBridge.getBoolean("system_framework_allow_disable_protected_package"));
         initHook(new BypassUnknownSourcesRestrictions(), PrefsBridge.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
         initHook(new BypassForceMiAppStore(), PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore") || PrefsBridge.getBoolean("system_framework_market_use_detailmini"));
+        initHook(new BypassWakePathChecker(), PrefsBridge.getBoolean("system_framework_bypass_wake_path_checker"));
         initHook(new BypassForceDownloadui(), PrefsBridge.getBoolean("system_framework_bypass_force_downloadui"));
-        initHook(ConservativeMilletFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_conservative_millet"));
         initHook(GMSDozeFixFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
+        initHook(new NativeFilePicker(), PrefsBridge.getBoolean("system_framework_native_file_picker"));
 
         // 清理菜单
         initHook(new CleanShareMenu(), PrefsBridge.getBoolean("system_framework_clean_share_menu"));

@@ -26,8 +26,6 @@ import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DisableAiWatermark extends BaseHook {
     @Override
     public void init() {

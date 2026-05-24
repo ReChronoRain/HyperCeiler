@@ -19,14 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.weather
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockSuperBlur : BaseHook() {
+    private lateinit var unlock: Method
 
-    val unlock by lazy<Method> {
-        DexKit.findMember("superblur") { bridge ->
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        unlock = requiredMember("superblur") { bridge ->
             bridge.findMethod {
                 matcher {
                     addCaller {
@@ -37,6 +39,7 @@ object UnlockSuperBlur : BaseHook() {
                 }
             }.single()
         }
+        return true
     }
 
     override fun init() {

@@ -20,13 +20,19 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.beauty
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 object BeautyLightAuto : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        beautyAuto
+        return true
+    }
+
     private val beautyAuto by lazy<List<Method>> {
-        DexKit.findMemberList("superWirelessCharge") {
+        requiredMemberList("superWirelessCharge") {
             it.findMethod {
                 matcher {
                     usingEqStrings("taoyao")

@@ -21,104 +21,82 @@ package com.sevtinge.hyperceiler.libhook.rules.downloadsui;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindField;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.FieldMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.FieldData;
 import org.luckypray.dexkit.result.FieldDataList;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class AlwaysShowDownloadLink extends BaseHook {
+    private Class<?> mDownloadInfoClass;
+    private Method mShowTaskDetailMethod;
+    private Field mDownloadUrlField;
+    private Field mDownloadDescField;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mDownloadInfoClass = requiredMember("DownloadInfo", bridge -> bridge.findClass(FindClass.create()
+            .excludePackages("androidx")
+            .matcher(ClassMatcher.create()
+                .usingEqStrings("/s", " | ", "/")
+            )).singleOrNull());
+        mShowTaskDetailMethod = requiredMember("ShowTaskDetailMatcher", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .declaredClass(ClassMatcher.create().usingStrings("onEventMainThread noScrollListView="))
+                .usingNumbers(4, 8, 0)
+                .paramTypes(mDownloadInfoClass)
+                .returnType(void.class)
+            )).singleOrNull());
+        mDownloadUrlField = requiredMember("DownloadUrl", bridge -> bridge.findField(FindField.create()
+            .matcher(FieldMatcher.create()
+                .addReadMethod(MethodMatcher.create()
+                    .usingStrings("android.intent.action.PICK", "com.android.fileexplorer"))
+                .declaredClass(mDownloadInfoClass)
+                .type(String.class)
+            )).singleOrNull());
+        mDownloadDescField = requiredMember("DownloadDesc", bridge -> {
+            FieldDataList fieldDataList = bridge.findField(FindField.create()
+                .matcher(FieldMatcher.create()
+                    .addReadMethod(MethodMatcher.create()
+                        .declaredClass(ClassMatcher.create().usingStrings("onEventMainThread noScrollListView="))
+                        .usingNumbers(4, 8, 0)
+                        .paramTypes(mDownloadInfoClass)
+                        .returnType(void.class))
+                    .type(String.class)
+                ));
+            for (FieldData field : fieldDataList) {
+                if (field.getName().equals(mDownloadUrlField.getName())) {
+                    continue;
+                }
+                return field;
+            }
+            return null;
+        });
+        return true;
+    }
 
     @Override
     public void init() {
-
-        Class<?> class1 = DexKit.findMember("DownloadInfo", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                ClassData classData = bridge.findClass(FindClass.create()
-                        .excludePackages("androidx")
-                        .matcher(
-                                ClassMatcher.create()
-                                        .usingEqStrings("/s", " | ", "/")
-                        )).singleOrNull();
-                return classData;
-            }
-        });
-
-
-        Method method1 = DexKit.findMember("ShowTaskDetailMatcher", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create().usingStrings("onEventMainThread noScrollListView="))
-                                .usingNumbers(4, 8, 0)
-                                .paramTypes(class1)
-                                .returnType(void.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-
-        Field field1 = DexKit.findMember("DownloadUrl", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                FieldData fieldData = bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                                .addReadMethod(MethodMatcher.create()
-                                        .usingStrings("android.intent.action.PICK", "com.android.fileexplorer"))
-                                .declaredClass(class1)
-                                .type(String.class)
-                        )).singleOrNull();
-                return fieldData;
-            }
-        });
-
-        Field field2 = DexKit.findMember("DownloadDesc", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                FieldDataList fieldDataList = bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                                .addReadMethod(MethodMatcher.create()
-                                        .declaredClass(ClassMatcher.create().usingStrings("onEventMainThread noScrollListView="))
-                                        .usingNumbers(4, 8, 0)
-                                        .paramTypes(class1)
-                                        .returnType(void.class))
-                                .type(String.class)
-                        ));
-                // 感觉不太优雅 先这样吧.jpg 暂时没有更好的匹配方式了 反正method里就这两string
-                for (FieldData field : fieldDataList) {
-                    if (field.getName().equals(field1.getName())) continue;
-                    return field;
-                }
-                return null;
-
-            }
-        });
-
-        hookMethod(method1, new IMethodHook() {
+        hookMethod(mShowTaskDetailMethod, new IMethodHook() {
             public void before(HookParam param) {
-                String url = (String) getObjectField(param.getArgs()[0], field1.getName());
+                String url = (String) getObjectField(param.getArgs()[0], mDownloadUrlField.getName());
                 // @TODO 显示来源应用和路径
                 XposedLog.d(TAG, getPackageName(), "url:" + url);
-                setObjectField(param.getArgs()[0], field2.getName(), "");
+                setObjectField(param.getArgs()[0], mDownloadDescField.getName(), "");
             }
         });
 

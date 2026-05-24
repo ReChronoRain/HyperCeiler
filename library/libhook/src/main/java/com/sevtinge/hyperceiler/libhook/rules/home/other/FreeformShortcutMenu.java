@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 public class FreeformShortcutMenu extends BaseHook {
 
@@ -136,31 +137,34 @@ public class FreeformShortcutMenu extends BaseHook {
     private void hookAppDetailsClick() {
         if (mAppDetailsShortcutMenuItem == null) return;
 
-        findAndChainMethod(mAppDetailsShortcutMenuItem, "getOnClickListener", chain -> {
-            if (mContext == null) {
+        findAndChainMethod(mAppDetailsShortcutMenuItem, "getOnClickListener", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (mContext == null) {
+                    return chain.proceed();
+                }
+
+                Resources modRes = getModuleRes(mContext);
+                Object shortcut = chain.getThisObject();
+                CharSequence title = (CharSequence) callMethod(shortcut, "getShortTitle");
+
+                if (title == null) {
+                    return chain.proceed();
+                }
+
+                String titleStr = title.toString();
+                if (titleStr.contentEquals(modRes.getString(R.string.share_center))) {
+                    callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", mContext);
+                    return chain.proceed();
+                }
+                if (titleStr.contentEquals(modRes.getString(R.string.floating_window))) {
+                    return createFreeformClickListener(shortcut, false);
+                }
+                if (titleStr.contentEquals(modRes.getString(R.string.new_task))) {
+                    return createFreeformClickListener(shortcut, true);
+                }
                 return chain.proceed();
             }
-
-            Resources modRes = getModuleRes(mContext);
-            Object shortcut = chain.getThisObject();
-            CharSequence title = (CharSequence) callMethod(shortcut, "getShortTitle");
-
-            if (title == null) {
-                return chain.proceed();
-            }
-
-            String titleStr = title.toString();
-            if (titleStr.contentEquals(modRes.getString(R.string.share_center))) {
-                callStaticMethod(mRecentsAndFSGestureUtils, "startWorld", mContext);
-                return chain.proceed();
-            }
-            if (titleStr.contentEquals(modRes.getString(R.string.floating_window))) {
-                return createFreeformClickListener(shortcut, false);
-            }
-            if (titleStr.contentEquals(modRes.getString(R.string.new_task))) {
-                return createFreeformClickListener(shortcut, true);
-            }
-            return chain.proceed();
         });
     }
 
@@ -285,4 +289,3 @@ public class FreeformShortcutMenu extends BaseHook {
         return intent;
     }
 }
-

@@ -22,17 +22,15 @@ package com.sevtinge.hyperceiler.utils;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
-import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -43,7 +41,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -56,6 +53,7 @@ public class NoticeProcessor {
     public static NoticeResult process(Context context) {
         try {
             String json = request(NOTICE_URL);
+            AndroidLog.i("NoticeProcessor", "Got notice.");
             if (json == null || json.isEmpty()) return null;
 
             Notice notice = parseNotice(new JSONObject(json));
@@ -64,6 +62,8 @@ public class NoticeProcessor {
             if (!checkNoticeValid(notice, context)) {
                 return null;
             }
+
+            AndroidLog.i("NoticeProcessor", "Notice is valid. Show notice.");
 
             // Package result
             return new NoticeResult(
@@ -74,7 +74,7 @@ public class NoticeProcessor {
             );
 
         } catch (Throwable t) {
-            AndroidLog.e("NoticeProcessor "+Log.getStackTraceString(t));
+            AndroidLog.e("NoticeProcessor", "Failed when request notice: " + Log.getStackTraceString(t));
             return null;
         }
     }
@@ -123,6 +123,8 @@ public class NoticeProcessor {
         n.miuiSmallVersion = toFloatList(obj.optJSONArray("miuiSmallVersion"));
         n.lang = toStringList(obj.optJSONArray("lang"));
 
+        AndroidLog.i("NoticeProcessor", "NoticeId = " + n.id);
+
         return n;
     }
 
@@ -164,20 +166,13 @@ public class NoticeProcessor {
         }
 
         // HyperCeiler language
-        int selectedLang = PrefsBridge.getStringAsInt("prefs_key_settings_app_language", 0);
-        if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
-        Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
-        String lang = locale.toLanguageTag();
+        String lang = LanguageHelper.getCurrentLocale(context).toLanguageTag();
         if (!matchStringListAllowAll(n.lang, lang)) {
             return false;
         }
 
         // Is need sign check
-        if (n.signCheckPassNeed && !SignUtils.isSignCheckPass(context)) {
-            return false;
-        }
-
-        return true;
+        return !n.signCheckPassNeed || SignUtils.isSignCheckPass(context);
     }
 
     private static boolean matchStringList(List<String> list, String value) {
@@ -299,18 +294,7 @@ public class NoticeProcessor {
         public boolean signCheckPassNeed;
     }
 
-    public static class NoticeResult {
-        public final String title;
-        public final String content;
-        public final int confirmDelaySeconds;
-        public final int id;
-
-        public NoticeResult(String title, String content, int confirmDelaySeconds, int id) {
-            this.title = title;
-            this.content = content;
-            this.confirmDelaySeconds = confirmDelaySeconds;
-            this.id = id;
-        }
+    public record NoticeResult(String title, String content, int confirmDelaySeconds, int id) {
     }
 
     public static void showNoticeDialog(Context context, NoticeProcessor.NoticeResult result) {

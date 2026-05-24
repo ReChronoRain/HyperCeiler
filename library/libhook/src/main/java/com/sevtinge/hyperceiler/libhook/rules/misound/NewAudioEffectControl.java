@@ -26,7 +26,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.E
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_MISOUND_CONTROL;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SPATIAL_AUDIO;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_SURROUND;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
 
 import android.os.Bundle;
@@ -34,17 +33,6 @@ import android.os.Bundle;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-
-import org.luckypray.dexkit.DexKitBridge;
-import org.luckypray.dexkit.query.FindClass;
-import org.luckypray.dexkit.query.FindField;
-import org.luckypray.dexkit.query.FindMethod;
-import org.luckypray.dexkit.query.matchers.ClassMatcher;
-import org.luckypray.dexkit.query.matchers.FieldMatcher;
-import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -60,6 +48,25 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 public class NewAudioEffectControl extends BaseEffectControlUI {
 
     private static final String TAG = "NewAudioEffectControl";
+    private Method mDolbySwitchMethod;
+    private Method mMiSoundSwitchMethod;
+    private Class<?> mSpatialAudioActivityClass;
+    private Field mEffectSelectionField;
+    private Method mBroadcastReceiverMethod;
+
+    void setDexMembers(
+        Method dolbySwitchMethod,
+        Method miSoundSwitchMethod,
+        Class<?> spatialAudioActivityClass,
+        Field effectSelectionField,
+        Method broadcastReceiverMethod
+    ) {
+        mDolbySwitchMethod = dolbySwitchMethod;
+        mMiSoundSwitchMethod = miSoundSwitchMethod;
+        mSpatialAudioActivityClass = spatialAudioActivityClass;
+        mEffectSelectionField = effectSelectionField;
+        mBroadcastReceiverMethod = broadcastReceiverMethod;
+    }
 
     @Override
     public void init() {
@@ -80,19 +87,11 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
      * Hook Dolby 开关
      */
     private void hookDolbySwitch() {
+        if (mDolbySwitchMethod == null) {
+            return;
+        }
         try {
-            Method dolbySwitch = DexKit.findMember("setDsOnSafely", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass(ClassMatcher.create().usingStrings("setDsOnSafely: enter"))
-                            .usingStrings("setDsOnSafely: enter")
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find setDsOnSafely()"));
-                }
-            });
-            hookCallback(dolbySwitch, new IMethodHook() {
+            hookCallback(mDolbySwitchMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
@@ -110,20 +109,11 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
      * Hook MiSound 开关
      */
     private void hookMiSoundSwitch() {
+        if (mMiSoundSwitchMethod == null) {
+            return;
+        }
         try {
-            Method miSoundSwitch = DexKit.findMember("setEffectEnable", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass(ClassMatcher.create().usingStrings("setEffectEnable() fail, exception: "))
-                            .usingStrings("setEffectEnable() fail, exception: ")
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find setEffectEnable()"));
-                }
-            });
-
-            hookCallback(miSoundSwitch, new IMethodHook() {
+            hookCallback(mMiSoundSwitchMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (shouldBlockEffectSwitch()) {
@@ -141,39 +131,16 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
      * Hook 空间音频设置界面
      */
     private void hookSpatialAudioActivity() {
+        if (mSpatialAudioActivityClass == null || mEffectSelectionField == null) {
+            return;
+        }
         try {
-            // 查找 Activity 类
-            Class<?> activityClass = DexKit.findMember("spatialAudio", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findClass(FindClass.create()
-                        .matcher(ClassMatcher.create().usingStrings("supports spatial audio 3.0 "))
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find spatialAudio class"));
-                }
-            });
-
-            // 查找音效选择字段
-            Field effectSelectionField = DexKit.findMember("preference", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findField(FindField.create()
-                        .matcher(FieldMatcher.create()
-                            .declaredClass(activityClass)
-                            .type(findClass("miuix.preference.DropDownPreference"))
-                            .addReadMethod(MethodMatcher.create()
-                                .declaredClass(activityClass)
-                                .usingStrings("updateEffectSelectionPreference(): set as "))
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find preference field"));
-                }
-            });
-
             // Hook 方法
-            Method onCreate = activityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
-            Method onResume = activityClass.getDeclaredMethod("onResume");
+            Method onCreate = mSpatialAudioActivityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
+            Method onResume = mSpatialAudioActivityClass.getDeclaredMethod("onResume");
 
-            hookCallback(onCreate, createOnCreatePreferencesHook(effectSelectionField));
-            hookCallback(onResume, createOnResumeHook(effectSelectionField));// Hook 广播接收器
+            hookCallback(onCreate, createOnCreatePreferencesHook(mEffectSelectionField));
+            hookCallback(onResume, createOnResumeHook(mEffectSelectionField));// Hook 广播接收器
             hookBroadcastReceiver();
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook spatial audio activity", e);
@@ -184,20 +151,11 @@ public class NewAudioEffectControl extends BaseEffectControlUI {
      * Hook 广播接收器
      */
     private void hookBroadcastReceiver() {
+        if (mBroadcastReceiverMethod == null) {
+            return;
+        }
         try {
-            Method broadcastReceiver = DexKit.findMember("onReceive", new IDexKit() {
-                @Override
-                public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                    return bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .declaredClass(ClassMatcher.create().usingStrings("onReceive: to refreshEnable"))
-                            .usingStrings("onReceive: to refreshEnable")
-                        )
-                    ).singleOrThrow(() -> new IllegalStateException("Cannot find onReceive()"));
-                }
-            });
-
-            hookCallback(broadcastReceiver, new IMethodHook() {
+            hookCallback(mBroadcastReceiverMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     updateEffectSelectionState();

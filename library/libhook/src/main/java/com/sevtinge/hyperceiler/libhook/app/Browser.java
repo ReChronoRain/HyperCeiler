@@ -27,11 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.browser.EnableDebugEnvironment;
 
 @HookBase(targetPackage = "com.android.browser")
 public class Browser extends BaseLoad {
-
-    public Browser() {
-        super(true);
-    }
-
     @Override
     public void onPackageLoaded() {
         initHook(new DebugMode(), PrefsBridge.getBoolean("browser_debug_mode"));

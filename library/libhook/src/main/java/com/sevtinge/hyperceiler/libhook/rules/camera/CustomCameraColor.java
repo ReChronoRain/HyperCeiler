@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.camera;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
@@ -39,9 +38,17 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
 public class CustomCameraColor extends BaseHook {
+    private Method mCameraColorGetterMethod;
+    private Field mCameraColorField;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("CameraColorGetter", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mCameraColorGetterMethod = requiredMember("CameraColorGetter", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -58,17 +65,22 @@ public class CustomCameraColor extends BaseHook {
                 return methodData;
             }
         });
-        Field field = DexKit.findMember("CameraColor", new IDexKit() {
+        mCameraColorField = requiredMember("CameraColor", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 FieldData fieldData = bridge.findField(FindField.create()
                         .matcher(FieldMatcher.create()
-                                .declaredClass(method.getDeclaringClass())
+                                .declaredClass(mCameraColorGetterMethod.getDeclaringClass())
                                 .type(int.class)
                         )).singleOrNull();
                 return fieldData;
             }
         });
-        EzxHelpUtils.setStaticIntField(field.getDeclaringClass(), field.getName(), PrefsBridge.getInt("camera_custom_theme_color_picker", -2025677));
+        return true;
+    }
+
+    @Override
+    public void init() {
+        EzxHelpUtils.setStaticIntField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), PrefsBridge.getInt("camera_custom_theme_color_picker", -2025677));
     }
 }

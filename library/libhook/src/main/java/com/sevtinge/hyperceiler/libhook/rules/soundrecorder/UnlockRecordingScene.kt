@@ -19,13 +19,17 @@
 package com.sevtinge.hyperceiler.libhook.rules.soundrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockRecordingScene : BaseHook() {
-    private val unlockMethod by lazy<Method> {
-        DexKit.findMember("recordScene") {
+    private lateinit var unlockMethod: Method
+    private lateinit var unlockMethod2: Method
+
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        unlockMethod = requiredMember("recordScene") {
             it.findMethod {
                 matcher {
                     usingEqStrings("support_record_param")
@@ -33,10 +37,7 @@ object UnlockRecordingScene : BaseHook() {
                 }
             }.single()
         }
-    }
-
-    private val unlockMethod2 by lazy<Method> {
-        DexKit.findMember("recordScene2") {
+        unlockMethod2 = requiredMember("recordScene2") {
             it.findMethod {
                 matcher {
                     usingEqStrings("support_hd_record_param")
@@ -44,6 +45,7 @@ object UnlockRecordingScene : BaseHook() {
                 }
             }.single()
         }
+        return true
     }
 
     override fun init() {

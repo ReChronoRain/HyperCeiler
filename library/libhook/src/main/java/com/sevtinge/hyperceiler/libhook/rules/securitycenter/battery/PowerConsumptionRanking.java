@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -39,9 +38,17 @@ import java.util.List;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class PowerConsumptionRanking extends BaseHook {
+    private List<Class<?>> mMatcher1ClazzList;
+    private List<Method> mMiuiVersionCodeMethods;
+
     @Override
-    public void init() {
-        List<Class<?>> clazzs = DexKit.findMemberList("Matcher1Clazz", new IDexKitList() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mMatcher1ClazzList = requiredMemberList("Matcher1Clazz", new IDexKitList() {
             @Override
             public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 ClassDataList clazzData = bridge.findClass(
@@ -53,7 +60,7 @@ public class PowerConsumptionRanking extends BaseHook {
                 return clazzData;
             }
         });
-        List<Method> methods = DexKit.findMemberList("MiuiVersionCode", new IDexKitList() {
+        mMiuiVersionCodeMethods = requiredMemberList("MiuiVersionCode", new IDexKitList() {
             @Override
             public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodDataList methodData = bridge.findMethod(FindMethod.create()
@@ -67,7 +74,11 @@ public class PowerConsumptionRanking extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
 
+    @Override
+    public void init() {
         /*ClassDataList data = bridge.findClass(
             FindClass.create()
                 .matcher(ClassMatcher.create()
@@ -83,13 +94,13 @@ public class PowerConsumptionRanking extends BaseHook {
                     .returnType(boolean.class)
                 )
         );*/
-        for (Class<?> clazz : clazzs) {
+        for (Class<?> clazz : mMatcher1ClazzList) {
             XposedLog.d(TAG, getPackageName(), "Current hooking clazz is " + clazz);
             try {
                 hookAllConstructors(clazz, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        for (Method method : methods) {
+                        for (Method method : mMiuiVersionCodeMethods) {
                             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
                             try {
                                 hookMethod(method, new IMethodHook() {

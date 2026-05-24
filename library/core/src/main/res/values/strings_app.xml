@@ -51,23 +51,6 @@
     <string name="home_title_custom_anim_param_RADIUS_title" translatable="false">RADIUS</string>
     <string name="home_title_custom_anim_param_ALPHA_title" translatable="false">ALPHA</string>
     <string name="security_center" translatable="false">Security Center</string>
-    <string name="settings_app_en" translatable="false">English</string>
-    <string name="settings_app_zh_cn" translatable="false">简体中文</string>
-    <string name="settings_app_zh_tw" translatable="false">繁體中文 (台灣)</string>
-    <string name="settings_app_zh_hk" translatable="false">繁體中文 (香港)</string>
-    <string name="settings_app_ja_jp" translatable="false">日本語</string>
-    <string name="settings_app_pl_pl" translatable="false">Polski</string>
-    <string name="settings_app_ru_ru" translatable="false">Русский</string>
-    <string name="settings_app_ar_sa" translatable="false">العربية</string>
-    <string name="settings_app_es_es" translatable="false">Español</string>
-    <string name="settings_app_pt_br" translatable="false">Português (Brasil)</string>
-    <string name="settings_app_in_id" translatable="false">Bahasa Indonesia</string>
-    <string name="settings_app_tr_tr" translatable="false">Türkçe</string>
-    <string name="settings_app_vi_vn" translatable="false">Tiếng Việt</string>
-    <string name="settings_app_it_it" translatable="false">Italiano</string>
-    <string name="settings_app_de_de" translatable="false">Deutsch</string>
-    <string name="settings_app_uk_ua" translatable="false">українська мова</string>
-    <string name="settings_app_zh_me" translatable="false">梗体中文</string>
     <!--Introduction to Xposed Modules-->
     <string name="description_hyperos" translatable="false">Make HyperOS Great Again!</string>
     <string name="new_permission_wifi_state_desc">Add and delete files on device\'s internal storage</string>
@@ -114,6 +97,7 @@
     <string name="help_cant_see_apps_switch_desc">You can still find this page in About > Help. Return to the homepage to apply.</string>
     <!-- Scope -->
     <string name="settings_scope">Scope</string>
+    <string name="settings_scope_extra">Additional scope</string>
     <string name="settings_scope_sync">Scope sync</string>
     <string name="settings_scope_sync_desc">Homepage selections will stay in sync with scope.</string>
     <string name="scope_batch_no_changes">No scope changes.</string>
@@ -139,6 +123,16 @@
     <string name="kill_2">Find process</string>
     <string name="kill_3">Package name kill</string>
     <string name="kill_4">Software name kill</string>
+    <string name="development_kill_loading_data">Loading app list. Please wait.</string>
+    <string name="development_kill_resource_not_ready">Resources are still loading. Please try again later.</string>
+    <string name="development_kill_process_header">PID:       Process:\n</string>
+    <string name="development_kill_package_invalid_for_find">Package name is invalid or doesn\'t exist. Unable to find it.\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">Package name is invalid or doesn\'t exist. Please check and try again.\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">Kill succeeded:\n</string>
+    <string name="development_kill_failed_with_pkg">Kill failed: %1$s</string>
+    <string name="development_kill_process_not_found">No running process found for this package.\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">Loading complete</string>
+    <string name="development_kill_permission_not_granted">Installed app list permission is not granted, unable to load app list.</string>
     <string name="edit_out">Get the results</string>
     <string name="edit_key">Enter a value for the key</string>
     <string name="prefs_1">This key doesn\'t exist: </string>
@@ -190,6 +184,9 @@
     <string name="rest_title">Recover</string>
     <string name="rest_success">Recovery succeeded</string>
     <string name="rest_success_message">Please restart the app for the configuration to take effect.</string>
+    <string name="rest_scope_authorize_title">Scope authorization required</string>
+    <string name="rest_scope_authorize_notice">New scopes were found in the restored config. Please approve them in the upcoming LSPosed authorization prompt:\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">These scopes are not installed on this device and were skipped:\n%1$s</string>
     <string name="rest_failed">Recovery failed</string>
     <string name="backup_ask">Do you want to write backups?</string>
     <string name="backup_permission">Now, you\'ve to manually enable permissions for this option.</string>
@@ -342,6 +339,13 @@
     <string name="array_global_actions_powermenu_short">Power menu</string>
     <string name="array_global_actions_clear_memory">Clear memory</string>
     <string name="array_global_actions_invert_colors">Color inversion</string>
+    <string name="array_global_actions_home">Go home</string>
+    <string name="array_global_actions_control_center">Open Control Center</string>
+    <string name="array_global_actions_super_xiaoai">Open Super XiaoAi</string>
+    <string name="array_global_actions_super_xiaoai_circle_search">Open Super XiaoAi screen recognition</string>
+    <string name="array_global_actions_google_circle_to_search">Open Google Circle to Search</string>
+    <string name="array_global_actions_google_voice_assistant">Open Google Voice Assistant</string>
+    <string name="array_global_actions_force_stop_current_app">Stop current app</string>
     <string name="array_global_actions_switchkeyboard">Switch keyboard</string>
     <string name="array_global_actions_goback">Back</string>
     <string name="array_global_actions_onehanded_left">One-handed mode (Left)</string>
@@ -476,6 +480,7 @@
     <string name="system_framework_other_speed_install">Speed install</string>
     <string name="system_framework_other_speed_install_desc">Install with RAM to speed up installation. System core support is required.</string>
     <string name="system_framework_other_rotation_button">Rotation recommendations</string>
+    <string name="system_framework_other_rotation_button_desc">If forcing it doesn\'t work, you need to ensure that hiding the gesture line is not enabled in the system or module. \nIf you need to hide it, you can set the height of the navigation and navigation frame to 0dp in the custom navigation, and adjust the thickness of the gesture line to 0.00dp in the custom gesture line.</string>
     <string name="system_framework_other_thermal_brightness">Disable automatic screen brightness reduction</string>
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
@@ -508,6 +513,10 @@
     <string name="system_framework_market_use_detailmini_desc">Remove the restriction that prevents an app from redirecting to another app\'s details page in GetApps without using the appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
     <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
+    <string name="system_framework_bypass_wake_path_checker">Bypass wake path checker</string>
+    <string name="system_framework_bypass_wake_path_checker_desc">Always allow chained start requests</string>
+    <string name="system_framework_native_file_picker">Use Android file picker</string>
+    <string name="system_framework_native_file_picker_desc">No longer use HyperOS File Manager</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_tip">The features under this list should be enabled selectively only after you understand them; some options carry certain risks, please be aware.\nThe normal options take effect immediately except for the master switch; extended features require a restart to take effect regardless of their switch state.</string>
     <string name="system_framework_corepatch_title">Package manager service</string>
@@ -1018,21 +1027,34 @@
     <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable on non-VAB devices!\n• You can flash into internal test recovery ROM without internal test permissions.\n• It\'s recommended to clear data after flashing across different version types.\n• Doesn\'t support any unofficial ROM usage.\n• This feature is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
     <string name="updater_version_mode">Fake type</string>
     <string name="updater_big_version">Fake large version</string>
-    <string name="updater_big_version_desc">Items that need to be filled in when faking the Xiaomi HyperOS version, the default is V816.</string>
+    <string name="updater_big_version_desc">Items that need to be filled in when faking the Xiaomi HyperOS version.</string>
     <string name="updater_miui_version">Fake version for ROM</string>
     <string name="updater_android_version">Fake version for Android</string>
     <string name="updater_miui_version_desc">Only modify the Updater, which can block the system update.</string>
+    <string name="updater_xms_version">Fake version for hot update patch (XMS)</string>
+    <string name="updater_xms_version_desc">Items that need to be filled in when faking the XMS version, which starts with C.</string>
     <string name="updater_device">Fake device for Updater</string>
     <string name="updater_device_desc">Enter the model code of the target device to specify the model, which can be used to obtain ROM packages for other models, which is extremely dangerous.</string>
     <string name="updater_diable_dialog">Disable pop-up of \"Turn on automatic updates\" dialog</string>
     <!--Permissions-->
     <string name="lbe">Permissions</string>
     <string name="lbe_auto_start">Disable auto-shutdown of auto start</string>
+    <string name="lbe_paste_toast">Paste toast</string>
+    <string name="lbe_paste_toast_custom">Custom paste toast</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">Hook close button into close toast</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">Custom close button text</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">Text that is too small will affect clicking</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">Toast opacity</string>
+
+
+
     <!--Cast-->
     <string name="milink_hyperos">Interconnectivity services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
     <string name="milink_unlock_send_app">Unlock all app transfers</string>
     <string name="milink_unlock_send_app_desc">Requires additionally checking the \"com.xiaomi.mirror\" scope</string>
+    <string name="milink_disable_pc_clipboard_region_check">Disable PC Manager clipboard region validation</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">Fixes PC to phone or tablet clipboard sync blocked by region mismatch</string>
     <string name="milink_allow_camera_devices">Force support for camera streaming</string>
     <string name="milink_fuck_hpplay">Block generate of hpplay folders</string>
     <!--Sound Recorder-->
@@ -1106,9 +1128,19 @@
     <string name="home_navigation_assist_right_slide_desc">Slide inward from the bottom right corner of the screen</string>
     <string name="home_navigation_quick_back_more">Swipe across the screen starting from the edge to go back to previous app</string>
     <string name="home_navigation_disable_full_screen_back_gesture">Disable full screen back gesture</string>
+    <string name="home_gesture_back_haptic">Back gesture haptic feedback</string>
+    <string name="home_gesture_back_haptic_default_tips">Perform haptic feedback on the start of swipes</string>
+    <string name="home_gesture_back_haptic_enhanced">Enhanced</string>
+    <string name="home_gesture_back_haptic_enhanced_tips">Perform haptic feedback on the start and release of swipes</string>
+    <string name="home_gesture_back_haptic_disabled">Disabled</string>
+    <string name="home_navigation_predictive_progress">Fix predictive back navigation progress</string>
+    <string name="home_navigation_predictive_progress_desc">Experimental feature: Fixes an issue where the predictive back navigation bar was too short in certain scenarios on the Xiaomi HyperOS system.</string>
     <string name="home_navigation_back_area_height">Back gesture area height</string>
     <string name="home_navigation_back_area_width">Back gesture area width</string>
+    <string name="home_gesture_enable">Enable gestures</string>
+    <string name="home_gesture_enable_desc">After enabling, you also need to enable the System Framework and System UI scopes before it takes effect</string>
     <string name="home_gesture_title2">Gesture</string>
+    <string name="home_gesture_google_usage_banner">Google Voice Assistant and Google Circle Search Instructions:\n- You need to install the Google app\n- You need to set Google as the default digital assistant\n- If you cannot call Google Voice Assistant, please make sure the Google app is running in the background or reset the default digital assistant\n- If you cannot call Google Circle Search or the prompt is unavailable, you can check the Google scope to pretend to be a supported device</string>
     <string name="home_gesture_mainscreen_title">Homepage</string>
     <string name="home_gesture_gesture_title">Full screen gesture</string>
     <string name="home_gesture_double_tap">Double tap</string>
@@ -1127,6 +1159,10 @@
     <string name="home_gesture_up_swipe2_desc">Swipe up with two fingers on any Home screen</string>
     <string name="home_gesture_down_swipe2">Swipe down with two fingers</string>
     <string name="home_gesture_down_swipe2_desc">Swipe down with two fingers on any Home screen</string>
+    <string name="home_gesture_line_long_press">Gesture line long press</string>
+    <string name="home_gesture_line_long_press_desc">Long press the gesture line</string>
+    <string name="home_gesture_line_double_click">Gesture line double click</string>
+    <string name="home_gesture_line_double_click_desc">Double click the gesture line</string>
     <string name="home_gesture_pinch">Pinch with two fingers</string>
     <string name="home_gesture_spread">Zoom with two fingers</string>
     <string name="home_gesture_swipe_and_stop">Swipe and stop</string>
@@ -1393,8 +1429,6 @@
     <string name="powerkeeper_disable_get_display_ctrl_code">Disable fetching display control code</string>
     <string name="powerkeeper_gms_doze_fix">Allow GMS to connect to network at any time</string>
     <string name="powerkeeper_gms_doze_fix_desc">You need to enable the System Framework and Battery and performance scopes</string>
-    <string name="powerkeeper_conservative_millet">Make Millet conservative</string>
-    <string name="powerkeeper_conservative_millet_desc">Make the backend management policy more conservative. You need to enable the System Framework and Battery and performance scopes.</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">Screen Recorder</string>
     <string name="screen_recorder_force_support_playback_capture">Force enable AOSP screen recording support</string>
@@ -1544,7 +1578,6 @@
     <!--AI Translate-->
     <string name="aiasst">Mi AI Translate</string>
     <string name="aiasst_ai_captions">Force enable AI captions</string>
-    <string name="aiasst_all_captions">Unlock multi-language online captions</string>
     <string name="aiasst_unlock_split_screen_translation">Unlock split-screen translation</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>
@@ -1593,6 +1626,7 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">Sogou input method</string>
     <string name="sogou_xiaomi_clipboard">Remove the limit on the number of clipboards</string>
+    <string name="sogou_xiaomi_clipboard_desc">Remove the clipboard count limit built into Sogou Input Method, Baidu Input Method, and their Xiaomi-customized versions.</string>
     <string name="add_clipboard_clear">Add clear clipboard button</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">Xiaomi SIM Activation Service</string>
@@ -1608,6 +1642,13 @@
     <string name="scanner_excel">Unlock scan table</string>
     <string name="scanner_ppt">Unlock scan PPT</string>
     <string name="scanner_doc_ppt">Unlock scan files</string>
+    <!--XIAO AI-->
+    <string name="voiceassist">Xiaomi Hyper XiaoAi</string>
+    <string name="voiceassist_remove_screen_trans_watermark">Remove screen translate AI generated watermark</string>
+    <!--Photos n Videos-->
+    <string name="photopicker">Photos &amp; Videos</string>
+    <string name="photopicker_disable_reroute">Use native file and photo picker</string>
+    <string name="photopicker_disable_reroute_desc">No longer use service from HyperOS gallery and file manager</string>
     <!--Voice Trigger-->
     <string name="voicetrigger">Voice Trigger</string>
     <string name="bypass_udk_word_legal_check_caption">Allow recording of the Wake with voice without internet</string>
@@ -1617,6 +1658,8 @@
     <!--Contacts-->
     <string name="contacts">Contacts and dialer</string>
     <string name="contacts_disable_offline_info_manager">Disable business hall offline info</string>
+    <string name="contacts_business_hall_ad_block">Block business hall ads</string>
+    <string name="contacts_business_hall_ad_block_desc">Remove popup ads, recommended cards, dual-card banners and other promotions from business hall</string>
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
@@ -1634,10 +1677,22 @@
     <string name="various_nobrightness">Reject forced brightness</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
-    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
+    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for Enhance keyboard</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
-    <string name="various_unlock_ime">Unlock IME</string>
-    <string name="various_unlock_ime_desc">After turning it on, turn on the corresponding input method scope in the LSPosed.</string>
+    <string name="various_unlock_ime">Unlock Enhance keyboard limitation</string>
+    <string name="various_unlock_ime_desc">Enable Enhance keyboard for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
+    <string name="various_unlock_ime_apps">Target input methods</string>
+    <string name="various_unlock_ime_apps_desc">If a selected input method is not in scope, its scope will be requested as well.</string>
+    <string name="various_unlock_ime_ui_count">Unlock input methods counts in UI</string>
+    <string name="various_unlock_ime_show_all">Show all input methods</string>
+    <string name="various_unlock_ime_show_all_desc">Some input methods may appear incomplete in the switcher because they cannot query the installed app list.\nThis also requires System Framework scope and may affect performance. Enable with caution.</string>
+    <string name="various_unlock_ime_style_miui">MIUI style</string>
+    <string name="various_unlock_ime_style_aosp">AOSP style</string>
+    <string name="various_aosp_ime_nav_bar_layout_start">Left function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_end">Right function key</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">Hide input method</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">Switch input method</string>
+    <string name="various_input_method_apps_count">%1$d input methods selected</string>
     <string name="various_collapse_miui_title">System title style</string>
     <string name="various_collapse_miui_title_desc">Adjust top bar title in system apps</string>
     <string name="various_disable_folder_cantuse">Remove the unavailable folder limit</string>

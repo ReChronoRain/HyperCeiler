@@ -34,12 +34,17 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+
+import io.github.libxposed.api.XposedInterface;
 
 public class StatusBarActionBootstrap extends BaseHook {
     private static final String INTENT_CLEAR_MEMORY = "com.android.systemui.taskmanager.Clear";
     private static final String INTENT_SYSTEM_ACTION_RECENTS = "SYSTEM_ACTION_RECENTS";
     private static final String INTENT_SYSTEMUI_PACKAGE = "com.android.systemui";
     private static final String EXTRA_SHOW_TOAST = "show_toast";
+    private static final String EXTRA_CLEAN_TYPE = "clean_type";
+    private static final String EXTRA_PROTECTED_PACKAGES = "protected_pkgnames";
     private static final String EXTRA_EXPAND_ONLY = "expand_only";
     private static final String STATUS_BAR_SERVICE = "statusbar";
 
@@ -48,15 +53,20 @@ public class StatusBarActionBootstrap extends BaseHook {
 
     @Override
     public void init() {
-        findAndChainMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start", chain -> {
-            Object result = chain.proceed();
-            Object statusBar = chain.getThisObject();
-            sStatusBarRef = new WeakReference<>(statusBar);
+        findAndChainMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start",
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    Object statusBar = chain.getThisObject();
+                    sStatusBarRef = new WeakReference<>(statusBar);
 
-            Context context = (Context) getObjectField(statusBar, "mContext");
-            registerReceiver(context);
-            return result;
-        });
+                    Context context = (Context) getObjectField(statusBar, "mContext");
+                    registerReceiver(context);
+                    return result;
+                }
+            }
+        );
     }
 
     private void registerReceiver(Context context) {
@@ -82,6 +92,7 @@ public class StatusBarActionBootstrap extends BaseHook {
         // Only register actions with implemented receiver handling.
         // Add future actions here when UnifiedReceiver gains the matching logic.
         filter.addAction(StatusBarActionBridge.ACTION_OPEN_NOTIFICATION_CENTER);
+        filter.addAction(StatusBarActionBridge.ACTION_OPEN_CONTROL_CENTER);
         filter.addAction(StatusBarActionBridge.ACTION_OPEN_RECENTS);
         filter.addAction(StatusBarActionBridge.ACTION_OPEN_VOLUME_DIALOG);
         filter.addAction(StatusBarActionBridge.ACTION_CLEAR_MEMORY);
@@ -99,6 +110,8 @@ public class StatusBarActionBootstrap extends BaseHook {
 
             if (StatusBarActionBridge.ACTION_CLEAR_MEMORY.equals(action)) {
                 handleClearMemory(context);
+            } else if (StatusBarActionBridge.ACTION_OPEN_CONTROL_CENTER.equals(action)) {
+                handleOpenControlCenter(context);
             } else if (StatusBarActionBridge.ACTION_OPEN_RECENTS.equals(action)) {
                 handleOpenRecents(context);
             } else if (StatusBarActionBridge.ACTION_OPEN_VOLUME_DIALOG.equals(action)) {
@@ -114,7 +127,28 @@ public class StatusBarActionBootstrap extends BaseHook {
     private void handleClearMemory(Context context) {
         Intent intent = new Intent(INTENT_CLEAR_MEMORY);
         intent.putExtra(EXTRA_SHOW_TOAST, true);
+        intent.putExtra(EXTRA_CLEAN_TYPE, 1);
+        intent.putStringArrayListExtra(EXTRA_PROTECTED_PACKAGES, new ArrayList<>());
         context.sendBroadcast(intent);
+    }
+
+    private void handleOpenControlCenter(Context context) {
+        Object statusBar = sStatusBarRef.get();
+        if (statusBar == null) {
+            expandSettingsFallback(context);
+            return;
+        }
+
+        try {
+            Object commandQueue = getObjectField(statusBar, "mCommandQueue");
+            if (commandQueue != null) {
+                callMethod(commandQueue, "animateExpandSettingsPanel", (Object) null);
+                return;
+            }
+        } catch (Throwable ignored) {
+        }
+
+        expandSettingsFallback(context);
     }
 
     private void handleOpenRecents(Context context) {
@@ -174,6 +208,19 @@ public class StatusBarActionBootstrap extends BaseHook {
             Object statusBarService = context.getSystemService(STATUS_BAR_SERVICE);
             if (statusBarService != null) {
                 callMethod(statusBarService, "expandNotificationsPanel");
+            }
+        } finally {
+            Binder.restoreCallingIdentity(token);
+        }
+    }
+
+    @SuppressWarnings("WrongConstant")
+    private void expandSettingsFallback(Context context) {
+        long token = Binder.clearCallingIdentity();
+        try {
+            Object statusBarService = context.getSystemService(STATUS_BAR_SERVICE);
+            if (statusBarService != null) {
+                callMethod(statusBarService, "expandSettingsPanel", (Object) null);
             }
         } finally {
             Binder.restoreCallingIdentity(token);

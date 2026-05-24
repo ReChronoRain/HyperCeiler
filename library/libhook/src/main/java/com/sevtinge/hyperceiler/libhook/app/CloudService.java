@@ -19,17 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.cloudservice.CloudList;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 @HookBase(targetPackage = "com.miui.cloudservice")
 public class CloudService extends BaseLoad {
-
-    public CloudService() {
-        super(true);
-    }
-
     @Override
     public void onPackageLoaded() {
         initHook(new CloudList(), PrefsBridge.getBoolean("micloud_service_list"));

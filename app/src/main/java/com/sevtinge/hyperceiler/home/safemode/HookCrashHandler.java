@@ -43,7 +43,7 @@ public final class HookCrashHandler {
         String alias = record != null ? record.packageAlias : fallbackAlias;
         String pkgName = record != null && record.packageName != null
             ? record.packageName
-            : CrashScope.INSTANCE.getPackageName(alias);
+            : CrashScope.getPackageName(alias);
         String label = pkgName != null ? pkgName : alias;
         if (label != null && !label.isEmpty()) {
             Toast.makeText(context, "Crash detected: " + label, Toast.LENGTH_LONG).show();
@@ -53,7 +53,7 @@ public final class HookCrashHandler {
     public static void ensureSafeModeProp(@Nullable CrashRecordStore.CrashRecord record, @Nullable String fallbackAlias) {
         String alias = record != null ? record.packageAlias : fallbackAlias;
         if (alias != null && !alias.isEmpty()) {
-            SafeModeHandler.INSTANCE.updateCrashProp(alias);
+            SafeModeHandler.updateCrashProp(alias);
         }
     }
 

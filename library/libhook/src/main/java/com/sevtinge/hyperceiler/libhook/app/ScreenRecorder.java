@@ -28,9 +28,6 @@ import com.sevtinge.hyperceiler.libhook.rules.screenrecorder.UnlockMoreVolumeFro
 
 @HookBase(targetPackage = "com.miui.screenrecorder")
 public class ScreenRecorder extends BaseLoad {
-    public ScreenRecorder() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

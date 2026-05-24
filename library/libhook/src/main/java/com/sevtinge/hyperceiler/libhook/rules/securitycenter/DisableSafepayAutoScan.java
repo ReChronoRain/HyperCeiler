@@ -2,7 +2,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -16,9 +15,16 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class DisableSafepayAutoScan extends BaseHook {
+    private Method mGetKeySafepayAutoScanStateMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("GetKeySafepayAutoScanState", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mGetKeySafepayAutoScanStateMethod = requiredMember("GetKeySafepayAutoScanState", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -30,7 +36,12 @@ public class DisableSafepayAutoScan extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mGetKeySafepayAutoScanStateMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

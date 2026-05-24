@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -35,9 +34,16 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class UnlockLowTempExtEndurance extends BaseHook {
+    private Method mLowTempExtEnduranceSupportMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("LowTempExtEnduranceSupport", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mLowTempExtEnduranceSupportMethod = requiredMember("LowTempExtEnduranceSupport", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -47,7 +53,12 @@ public class UnlockLowTempExtEndurance extends BaseHook {
                 return methodData;
             }
         });
-        hookMethod(method, new IMethodHook() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        hookMethod(mLowTempExtEnduranceSupportMethod, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(true);

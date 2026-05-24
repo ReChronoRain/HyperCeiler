@@ -25,9 +25,10 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * 修复从快速分享查看下载的内容时跳转错误
@@ -36,54 +37,46 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
  */
 public class BypassForceDownloadui extends BaseHook {
 
+    private static final String ACTION_VIEW_DOWNLOADS = "android.intent.action.VIEW_DOWNLOADS";
+
     @Override
     public void init() {
 
         try {
-            Class<?> cls =
-                findClass("com.android.server.wm.ActivityStartController");
+            Class<?> ascClass = findClassIfExists("com.android.server.wm.ActivityStartController");
+            if (ascClass == null) {
+                XposedLog.w(TAG, getPackageName(), "Class not found: com.android.server.wm.ActivityStartController");
+                return;
+            }
 
-            for (Method method : cls.getDeclaredMethods()) {
-                if (!method.getName().equals("startActivityInPackage")) continue;
-                //if (!Modifier.isPublic(method.getModifiers())) continue;
+            List<XposedInterface.HookHandle> handles = hookAllMethods(ascClass, "startActivityInPackage", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    try {
+                        Object[] args = param.getArgs();
+                        int intentIndex = findIntentArgIndex(args);
+                        if (intentIndex < 0) return;
 
-                Class<?>[] paramTypes = method.getParameterTypes();
-                int intentIndex = -1;
-                for (int i = 0; i < paramTypes.length; i++) {
-                    if (Intent.class.equals(paramTypes[i])) {
-                        intentIndex = i;
-                        break;
+                        Intent intent = (Intent) args[intentIndex];
+                        if (intent == null) return;
+
+                        // 注意：该 hook 同样处于系统层 startActivity 拦截链路，范围较大，必须严格限制到 VIEW_DOWNLOADS 场景。
+                        // 这样可以降低与应用商店相关 hook 在同一调用链上互相影响的概率。
+                        if (Intent.ACTION_CHOOSER.equals(intent.getAction())) return;
+                        if (!ACTION_VIEW_DOWNLOADS.equals(intent.getAction())) return;
+
+                        intent.setPackage(null); // 移除指定包名，如果不移除 documentsui 也会强制跳到 downloads.ui
+                        args[intentIndex] = Intent.createChooser(intent, null);
+                        XposedLog.d(TAG, getPackageName(), "Forced chooser for android.intent.action.VIEW_DOWNLOADS");
+                    } catch (Throwable t) {
+                        XposedLog.w(TAG, getPackageName(), "Error - " + Log.getStackTraceString(t));
                     }
                 }
-
-                if (intentIndex == -1) continue;
-
-                final int index = intentIndex;
-                hookMethod(method, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        try {
-                            Intent intent = (Intent) param.getArgs()[index];
-                            if (intent == null) return;
-
-                            // Uri data = intent.getData();  // ?
-
-                            if (!"android.intent.action.VIEW_DOWNLOADS".equals(intent.getAction()))
-                                return;
-
-                            intent.setPackage(null); // 移除指定包名，如果不移除 documentsui 也会强制跳到 downloads.ui
-                            Intent chooser = Intent.createChooser(intent, null);
-                            param.getArgs()[index] = chooser;
-
-                            XposedLog.d(TAG, getPackageName(), "Forced chooser for android.intent.action.VIEW_DOWNLOADS");
-                        } catch (Throwable t) {
-                            XposedLog.w(TAG, getPackageName(), "Error - " + Log.getStackTraceString(t));
-
-                        }
-                    }
-                });
-                XposedLog.d(TAG, getPackageName(), "Hooked method: " + method);
-                break;
+            });
+            if (handles == null || handles.isEmpty()) {
+                XposedLog.w(TAG, getPackageName(), "No startActivityInPackage overload hooked");
+            } else {
+                XposedLog.d(TAG, getPackageName(), "Hooked startActivityInPackage overloads: " + handles.size());
             }
 
         } catch (Throwable t) {
@@ -91,5 +84,13 @@ public class BypassForceDownloadui extends BaseHook {
 
         }
 
+    }
+
+    private static int findIntentArgIndex(Object[] args) {
+        if (args == null) return -1;
+        for (int i = 0; i < args.length; i++) {
+            if (args[i] instanceof Intent) return i;
+        }
+        return -1;
     }
 }

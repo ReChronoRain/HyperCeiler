@@ -1,364 +1,543 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.FLAG_CURRENT_APP;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.findContext;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
-import android.os.Message;
 import android.provider.Settings;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
-
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.api.ToastHelper;
 
-import java.lang.reflect.Method;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.libxposed.api.XposedInterface;
 
 /**
  * @author 焕晨HChen
+ * @co-author LingQiqi & Codex(GPT-5.3-Codex)
  */
 public class UiLockApp extends BaseHook {
-    public Context mContext;
-    public static Handler mHandler = new LockAppHandler();
-    public final static int WILL_LOCK_APP = 0;
-    public final static int LOCK_APP = 1;
-    public final static int UNLOCK_APP = 2;
-    public final static int WILL_UNLOCK_APP = 3;
-    public final static int UNKNOWN_ERROR = 4;
-    public final static int RESTORE = 5;
-    boolean isListen = false;
-    public int taskId = -1;
+    private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
 
-    public int count = 0;
-    public int eCount = 0;
-    boolean isLock = false;
+    private static final String[] STATUS_BAR_WINDOW_CONTROLLER_CLASS_CANDIDATES = new String[] {
+        "com.android.systemui.statusbar.window.StatusBarWindowControllerImpl",
+        "com.android.systemui.statusbar.window.StatusBarWindowController"
+    };
+    private static final String[] GESTURE_HANDLE_CLASS_CANDIDATES = new String[] {
+        "com.android.systemui.navigationbar.gestural.NavigationHandle",
+        "com.android.systemui.navigationbar.gestural.QuickswitchOrientedNavHandle",
+        "com.android.systemui.navigationbar.views.NavigationHandle",
+        "com.android.systemui.navigationbar.gestural.GestureHandleView",
+        "com.android.systemui.navigationbar.gestural.HomeHandle"
+    };
+    private static final String[] NAVIGATION_BAR_CLASS_CANDIDATES = new String[] {
+        "com.android.systemui.navigationbar.views.NavigationBar",
+        "com.android.systemui.navigationbar.NavigationBar"
+    };
+    private static final String[] TASKBAR_DELEGATE_CLASS_CANDIDATES = new String[] {
+        "com.android.systemui.navigationbar.TaskbarDelegate"
+    };
 
-    boolean isObserver = false;
+    private boolean mObserverRegistered = false;
+    private View mStatusBarView;
+    private Boolean mLastLockedState = null;
+
+    private final List<WeakReference<View>> mGestureHandleViews = new ArrayList<>();
+    private final List<WeakReference<Object>> mNavigationBars = new ArrayList<>();
+    private final List<WeakReference<Object>> mTaskbarDelegates = new ArrayList<>();
+    private final Map<View, Integer> mHandleVisibilityBackup = new WeakHashMap<>();
+    private final Map<View, Float> mHandleAlphaBackup = new WeakHashMap<>();
 
     @Override
     public void init() {
-        hookAllConstructors("com.android.systemui.statusbar.phone.AutoHideController",
-            new IMethodHook() {
+        findAndChainMethod("com.android.systemui.SystemUIApplication",
+            "onCreate",
+            new XposedInterface.Hooker() {
                 @Override
-                public void after(HookParam param) {
-                    Context context = (Context) param.getArgs()[0];
-                    if (!isListen) {
-                        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
-                            @Override
-                            public void onChange(boolean selfChange) {
-                                isLock = getLockApp(context) != -1;
-                                if (getLockApp(context) != -1) {
-                                    try {
-                                        callMethod(param.getThisObject(), "scheduleAutoHide");
-                                    } catch (Throwable e) {
-
-                                    }
-                                }
-                            }
-                        };
-                        context.getContentResolver().registerContentObserver(
-                            Settings.Global.getUriFor("key_lock_app"),
-                            false, contentObserver);
-                        isListen = true;
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    Object result = chain.proceed();
+                    try {
+                        Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
+                        registerObserverIfNeeded(context);
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "SystemUIApplication onCreate hook E: " + e);
                     }
+                    return result;
                 }
             }
         );
 
-        if (PrefsBridge.getBoolean("system_framework_guided_access_status")) {
-            hookAllConstructors("com.android.systemui.statusbar.window.StatusBarWindowController",
-                new IMethodHook() {
-                    @Override
-                    public void after(HookParam param) {
-                        try {
-                            Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                            if (context == null) return;
+        for (String className : STATUS_BAR_WINDOW_CONTROLLER_CLASS_CANDIDATES) {
+            hookStatusBarWindowControllerClass(className);
+        }
+        for (String className : GESTURE_HANDLE_CLASS_CANDIDATES) {
+            hookGestureHandleClass(className);
+        }
+        for (String className : NAVIGATION_BAR_CLASS_CANDIDATES) {
+            hookNavigationBarClass(className);
+        }
+        for (String className : TASKBAR_DELEGATE_CLASS_CANDIDATES) {
+            hookTaskbarDelegateClass(className);
+        }
+        if (isPad()) {
+            hookLauncherProxyStopScreenPinning();
+        }
+    }
 
-                            View view = (FrameLayout) getObjectField(param.getThisObject(), "mStatusBarWindowView");
+    private void hookStatusBarWindowControllerClass(String className) {
+        Class<?> controllerClass = findClassIfExists(className);
+        if (controllerClass == null || controllerClass.isInterface()) return;
 
-                            if (!isObserver) {
-                                ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
-                                    @Override
-                                    public void onChange(boolean selfChange) {
-                                        isLock = getLockApp(context) != -1;
-                                        // XposedLog.w();(TAG, "hide SUCCESS");
-                                        view.setVisibility(isLock ? View.GONE : View.VISIBLE);
-                                    }
-                                };
-                                context.getContentResolver().registerContentObserver(
-                                    Settings.Global.getUriFor("key_lock_app"),
-                                    false, contentObserver);
-                                isObserver = true;
-                            }
-                        } catch (Throwable e) {
-                            XposedLog.w(TAG, "E: " + e);
-                        }
+        chainAllConstructors(controllerClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                try {
+                    Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
+                    if (context == null) return result;
+
+                    Object statusBarWindowView = getObjectField(chain.getThisObject(), "mStatusBarWindowView");
+                    if (statusBarWindowView instanceof FrameLayout) {
+                        mStatusBarView = (FrameLayout) statusBarWindowView;
+                    }
+                    registerObserverIfNeeded(context);
+                    updateStatusBarVisibility(context);
+                } catch (Throwable e) {
+                    XposedLog.w(TAG, "StatusBarWindowController hook E: " + e);
+                }
+                return result;
+            }
+        });
+    }
+
+    private void hookGestureHandleClass(String className) {
+        Class<?> gestureHandleClass = findClassIfExists(className);
+        if (gestureHandleClass == null) return;
+
+        chainAllConstructors(gestureHandleClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                if (chain.getThisObject() instanceof View handleView) {
+                    registerGestureHandleView(handleView);
+                }
+                return result;
+            }
+        });
+
+        chainAllMethods(gestureHandleClass, "setVisibility", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                Object[] args = chain.getArgs().toArray();
+                args[0] = View.GONE;
+                return chain.proceed(args);
+            }
+        });
+
+        chainAllMethods(gestureHandleClass, "setAlpha", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                Object[] args = chain.getArgs().toArray();
+                args[0] = 0f;
+                return chain.proceed(args);
+            }
+        });
+
+        chainAllMethods(gestureHandleClass, "onDraw", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
+                Context context = handleView.getContext();
+                if (context == null || getLockApp(context) == -1) return chain.proceed();
+                return null;
+            }
+        });
+    }
+
+    private void registerGestureHandleView(View view) {
+        for (WeakReference<View> reference : mGestureHandleViews) {
+            if (reference.get() == view) return;
+        }
+        mGestureHandleViews.add(new WeakReference<>(view));
+        Context context = view.getContext();
+        if (context == null) return;
+        registerObserverIfNeeded(context);
+        updateGestureHandleVisibility(getLockApp(context) != -1);
+    }
+
+    private void hookNavigationBarClass(String className) {
+        Class<?> navigationBarClass = findClassIfExists(className);
+        if (navigationBarClass == null) return;
+
+        chainAllConstructors(navigationBarClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                registerNavigationBar(chain.getThisObject());
+                return result;
+            }
+        });
+
+        chainAllMethods(navigationBarClass, "updateScreenPinningGestures", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                registerNavigationBar(chain.getThisObject());
+                return chain.proceed();
+            }
+        });
+    }
+
+    private void registerNavigationBar(Object navigationBar) {
+        if (navigationBar == null) return;
+        for (WeakReference<Object> reference : mNavigationBars) {
+            if (reference.get() == navigationBar) return;
+        }
+        mNavigationBars.add(new WeakReference<>(navigationBar));
+    }
+
+    private void hookTaskbarDelegateClass(String className) {
+        Class<?> taskbarDelegateClass = findClassIfExists(className);
+        if (taskbarDelegateClass == null) return;
+
+        chainAllConstructors(taskbarDelegateClass, new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object result = chain.proceed();
+                registerTaskbarDelegate(chain.getThisObject());
+                return result;
+            }
+        });
+    }
+
+    private void registerTaskbarDelegate(Object taskbarDelegate) {
+        if (taskbarDelegate == null) return;
+        for (WeakReference<Object> reference : mTaskbarDelegates) {
+            if (reference.get() == taskbarDelegate) return;
+        }
+        mTaskbarDelegates.add(new WeakReference<>(taskbarDelegate));
+        Context context = resolveContext(taskbarDelegate);
+        if (context != null) {
+            registerObserverIfNeeded(context);
+        }
+    }
+
+    private void hookLauncherProxyStopScreenPinning() {
+        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        if (launcherProxyClass == null) return;
+
+        chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
+            @Override
+            public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                Object[] args = chain.getArgs().toArray();
+                if (args.length > 0 && "stopScreenPinning".equals(args[0])) {
+                    Context context = resolveContext(chain.getThisObject());
+                    if (context != null && getLockApp(context) != -1) {
+                        XposedLog.d(TAG, "block LauncherProxyService.stopScreenPinning while locked");
+                        return null;
                     }
                 }
-            );
+                return chain.proceed();
+            }
+        });
+    }
+
+    private void updateStatusBarVisibility(Context context) {
+        boolean isLocked = getLockApp(context) != -1;
+        boolean stateChanged = mLastLockedState == null || mLastLockedState != isLocked;
+        if (stateChanged) {
+            mLastLockedState = isLocked;
+            XposedLog.d(TAG, "lockState locked=" + isLocked);
         }
 
-        findAndHookMethod("com.android.systemui.statusbar.phone.PhoneStatusBarView",
-            "onTouchEvent", MotionEvent.class, new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    MotionEvent motionEvent = (MotionEvent) param.getArgs()[0];
-                    View view = (View) param.getThisObject();
-                    // XposedLog.w();(TAG, "mo: " + motionEvent.getActionMasked());
-                    mContext = (Context) callMethod(param.getThisObject(), "getContext");
-                    int action = motionEvent.getActionMasked();
-                    int lockId = getLockApp(mContext);
-                    setSystemLockApp(mContext);
-                    setSystemLockScreen(mContext);
-                    switch (PrefsBridge.getStringAsInt("system_framework_guided_access_screen_int", 0)) {
-                        case 0 -> setMyLockScreen(mContext, 0);
-                        case 1 -> setMyLockScreen(mContext, 1);
-                        case 2 ->
-                            setMyLockScreen(mContext, motionEvent.getRawX() < ((float) view.getWidth() / 2) ? 1 : 0);
-                        case 3 ->
-                            setMyLockScreen(mContext, motionEvent.getRawX() < ((float) view.getWidth() / 2) ? 0 : 1);
-                    }
-                    if (action == 2) { // 移动手指判定失效
-                        count = count + 1;
-                        if (count > 6) {
-                            remoAllMes();
-                            count = 0;
-                            return;
-                        }
-                    }
-                    if (action == 0) {
-                        Class<?> ActivityManagerWrapper = findClassIfExists("com.android.systemui.shared.system.ActivityManagerWrapper");
-                        ActivityManager.RunningTaskInfo runningTaskInfo;
-                        if (ActivityManagerWrapper != null) {
-                            try {
-                                ActivityManagerWrapper.getDeclaredMethod("getInstance");
-                                Object getInstance = callStaticMethod(
-                                    ActivityManagerWrapper,
-                                    "getInstance");
-                                runningTaskInfo = (ActivityManager.RunningTaskInfo) callMethod(
-                                    getInstance, "getRunningTask");
-                            } catch (NoSuchMethodException e) {
-                                Object sInstance = getStaticObjectField(ActivityManagerWrapper, "sInstance");
-                                runningTaskInfo = (ActivityManager.RunningTaskInfo) callMethod(
-                                    sInstance, "getRunningTask");
-                            }
-                        } else {
-                            XposedLog.w(TAG, "ActivityManagerWrapper is null");
-                            return;
-                        }
-                        if (runningTaskInfo == null) {
-                            XposedLog.w(TAG, "runningTaskInfo is null");
-                            return;
-                        }
-                        // ActivityManager.RunningTaskInfo runningTaskInfo = (ActivityManager.RunningTaskInfo) callMethod(
-                        //     callStaticMethod(findClassIfExists("com.miui.home.recents.RecentsModel"), "getInstance",
-                        //         mContext), "getRunningTaskContainHome");
-                        taskId = runningTaskInfo.taskId;
-                        ComponentName topActivity = runningTaskInfo.topActivity;
-                        String pkg = topActivity.getPackageName();
-                        if ("com.miui.home".equals(pkg)) {
-                            return;
-                        }
-                        // XposedLog.w();(TAG, "task id: " + taskId + " a: " + pkg);
-                        remoAllMes();
-                        if (lockId == -1) {
-                            mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_LOCK_APP), 1000);
-                            mHandler.sendMessageDelayed(mHandler.obtainMessage(LOCK_APP, taskId), 1500);
-                            // callMethod(param.getThisObject(), "updateLayoutForCutout");
-                        } else {
-                            if (lockId == taskId) {
-                                mHandler.sendMessageDelayed(mHandler.obtainMessage(WILL_UNLOCK_APP), 1000);
-                                mHandler.sendMessageDelayed(mHandler.obtainMessage(UNLOCK_APP), 1500);
-                            } else {
-                                if (lockId != -1) {
-                                    if (eCount < 2) {
-                                        mHandler.sendMessage(mHandler.obtainMessage(UNKNOWN_ERROR));
-                                        eCount = eCount + 1;
-                                    } else {
-                                        mHandler.sendMessage(mHandler.obtainMessage(RESTORE));
-                                        eCount = 0;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if (action == 1) {
-                        remoAllMes();
-                    }
-                    if (getLockApp(mContext) == taskId && lockId != -1) {
-                        param.setResult(true);
-                    }
-                }
-            }
-        );
+        if (mStatusBarView != null) {
+            mStatusBarView.setVisibility(isLocked ? View.GONE : View.VISIBLE);
+        }
 
-        findAndHookMethod("com.android.wm.shell.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration",
-            "shouldHideCaption",
-            new IMethodHook() {
-                @Override
-                public void after(HookParam param) {
-                    Context context = (Context) getObjectField(param.getThisObject(), "mContext");
-                    if (getLockApp(context) != -1) {
-                        param.setResult(true);
-                    }
-                }
-            }
-        );
+        updateGestureHandleVisibility(isLocked);
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
-            "isLockTaskKioskModeActive", new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    param.setResult(false);
-                }
-            }
-        );
+        if (!isLocked) {
+            refreshNavigationBarPinningState();
+            refreshTaskbarPinningState();
+            refreshNavigationTransientState();
+            refreshTaskbarTransientState();
+        }
+        if (stateChanged && !isLocked) {
+            refreshStatusBarDisableFlags(context);
+        }
+    }
 
-        findAndHookMethod("com.android.systemui.shared.system.ActivityManagerWrapper",
-            "isScreenPinningActive", new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    param.setResult(false);
-                }
+    private void updateGestureHandleVisibility(boolean isLocked) {
+        Iterator<WeakReference<View>> iterator = mGestureHandleViews.iterator();
+        while (iterator.hasNext()) {
+            View handleView = iterator.next().get();
+            if (handleView == null) {
+                iterator.remove();
+                continue;
             }
-        );
-
-        Class<?> ScreenPinningNotify = findClassIfExists("com.android.systemui.navigationbar.ScreenPinningNotify");
-        if (ScreenPinningNotify != null) {
-            Method[] methods = ScreenPinningNotify.getDeclaredMethods();
-            for (Method method : methods) {
-                switch (method.getName()) {
-                    case "showPinningStartToast", "showPinningExitToast", "showEscapeToast" -> {
-                        if (method.getReturnType().equals(void.class)) hookToast(method);
-                    }
+            if (isLocked) {
+                if (!mHandleVisibilityBackup.containsKey(handleView)) {
+                    mHandleVisibilityBackup.put(handleView, handleView.getVisibility());
+                }
+                if (!mHandleAlphaBackup.containsKey(handleView)) {
+                    mHandleAlphaBackup.put(handleView, handleView.getAlpha());
+                }
+                if (handleView.getVisibility() != View.GONE) {
+                    handleView.setVisibility(View.GONE);
+                }
+                if (handleView.getAlpha() != 0f) {
+                    handleView.setAlpha(0f);
+                }
+            } else {
+                Float oldAlpha = mHandleAlphaBackup.remove(handleView);
+                if (oldAlpha != null && handleView.getAlpha() != oldAlpha) {
+                    handleView.setAlpha(oldAlpha);
+                }
+                Integer oldVisibility = mHandleVisibilityBackup.remove(handleView);
+                if (oldVisibility != null && handleView.getVisibility() != oldVisibility) {
+                    handleView.setVisibility(oldVisibility);
                 }
             }
         }
     }
 
-    public void hookToast(Method method) {
-        hookMethod(method,
-            new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    param.setResult(null);
-                }
+    private void refreshNavigationBarPinningState() {
+        Iterator<WeakReference<Object>> iterator = mNavigationBars.iterator();
+        while (iterator.hasNext()) {
+            Object navigationBar = iterator.next().get();
+            if (navigationBar == null) {
+                iterator.remove();
+                continue;
             }
-        );
+            try {
+                setObjectField(navigationBar, "mScreenPinningActive", false);
+                clearScreenPinningSysUiFlag(navigationBar);
+                Object navView = getObjectField(navigationBar, "mView");
+                if (navView != null) {
+                    callMethod(navView, "setInScreenPinning", false);
+                }
+                callMethod(navigationBar, "updateScreenPinningGestures");
+                callMethod(navigationBar, "updateSystemUiStateFlags");
+            } catch (Throwable ignored) {
+            }
+        }
     }
 
-    public void remoAllMes() {
-        mHandler.removeMessages(WILL_LOCK_APP);
-        mHandler.removeMessages(LOCK_APP);
-        mHandler.removeMessages(WILL_UNLOCK_APP);
-        mHandler.removeMessages(UNLOCK_APP);
+    private void clearScreenPinningSysUiFlag(Object navigationBar) {
+        if (navigationBar == null) return;
+        try {
+            Object sysUiState = getObjectField(navigationBar, "mSysUiFlagsContainer");
+            if (sysUiState == null) return;
+            Object chain = callMethod(sysUiState, "setFlag", 1L, false);
+            if (chain != null) {
+                callMethod(chain, "commitUpdate");
+            } else {
+                callMethod(sysUiState, "commitUpdate");
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private void refreshTaskbarPinningState() {
+        Iterator<WeakReference<Object>> iterator = mTaskbarDelegates.iterator();
+        while (iterator.hasNext()) {
+            Object taskbarDelegate = iterator.next().get();
+            if (taskbarDelegate == null) {
+                iterator.remove();
+                continue;
+            }
+            try {
+                Object sysUiState = getObjectField(taskbarDelegate, "mSysUiState");
+                if (sysUiState == null) continue;
+                Object chain = callMethod(sysUiState, "setFlag", 1L, false);
+                if (chain != null) {
+                    callMethod(chain, "commitUpdate");
+                } else {
+                    callMethod(sysUiState, "commitUpdate");
+                }
+            } catch (Throwable ignored) {
+            }
+        }
+    }
+
+    private void refreshNavigationTransientState() {
+        Iterator<WeakReference<Object>> iterator = mNavigationBars.iterator();
+        while (iterator.hasNext()) {
+            Object navigationBar = iterator.next().get();
+            if (navigationBar == null) {
+                iterator.remove();
+                continue;
+            }
+            try {
+                setObjectField(navigationBar, "mTransientShown", false);
+            } catch (Throwable ignored) {
+            }
+            try {
+                setObjectField(navigationBar, "mTransientShownFromGestureOnSystemBar", false);
+            } catch (Throwable ignored) {
+            }
+            try {
+                Object edgeBack = getObjectField(navigationBar, "mEdgeBackGestureHandler");
+                if (edgeBack != null) {
+                    setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
+                }
+            } catch (Throwable ignored) {
+            }
+            try {
+                callMethod(navigationBar, "updateSystemUiStateFlags");
+            } catch (Throwable ignored) {
+            }
+        }
+    }
+
+    private void refreshTaskbarTransientState() {
+        Iterator<WeakReference<Object>> iterator = mTaskbarDelegates.iterator();
+        while (iterator.hasNext()) {
+            Object taskbarDelegate = iterator.next().get();
+            if (taskbarDelegate == null) {
+                iterator.remove();
+                continue;
+            }
+            try {
+                setObjectField(taskbarDelegate, "mTaskbarTransientShowing", false);
+            } catch (Throwable ignored) {
+            }
+            try {
+                Object edgeBack = getObjectField(taskbarDelegate, "mEdgeBackGestureHandler");
+                if (edgeBack != null) {
+                    setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
+                }
+            } catch (Throwable ignored) {
+            }
+            try {
+                callMethod(taskbarDelegate, "updateSysuiFlags");
+            } catch (Throwable ignored) {
+            }
+        }
+    }
+
+    private void refreshStatusBarDisableFlags(Context context) {
+        if (context == null) return;
+        try {
+            Class<?> dependencyClass = findClassIfExists("com.android.systemui.Dependency");
+            Class<?> commandQueueClass = findClassIfExists("com.android.systemui.statusbar.CommandQueue");
+            if (dependencyClass == null || commandQueueClass == null) return;
+
+            Object commandQueue = null;
+            try {
+                Object dependency = getStaticObjectField(dependencyClass, "sDependency");
+                if (dependency != null) {
+                    commandQueue = callMethod(dependency, "getDependencyInner", commandQueueClass);
+                }
+            } catch (Throwable ignored) {
+            }
+            if (commandQueue == null) {
+                try {
+                    commandQueue = callStaticMethod(dependencyClass, "get", commandQueueClass);
+                } catch (Throwable ignored) {
+                }
+            }
+            if (commandQueue == null) return;
+
+            int displayId = resolveDisplayId(context);
+            callMethod(commandQueue, "recomputeDisableFlags", displayId, true);
+        } catch (Throwable ignored) {
+        }
+    }
+
+    private int resolveDisplayId(Context context) {
+        if (context == null) return 0;
+        try {
+            Object display = callMethod(context, "getDisplay");
+            if (display != null) {
+                Object displayId = callMethod(display, "getDisplayId");
+                if (displayId instanceof Integer) {
+                    return (Integer) displayId;
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return 0;
+    }
+
+    private Context resolveContext(Object target) {
+        if (target instanceof Context) return (Context) target;
+        if (target instanceof View) return ((View) target).getContext();
+        if (target == null) return null;
+        try {
+            Object context = getObjectField(target, "mContext");
+            if (context instanceof Context) return (Context) context;
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object context = getObjectField(target, "context");
+            if (context instanceof Context) return (Context) context;
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object outer = getObjectField(target, "this$0");
+            if (outer != null && outer != target) {
+                return resolveContext(outer);
+            }
+        } catch (Throwable ignored) {
+        }
+        return null;
     }
 
     public static int getLockApp(Context context) {
         try {
-            return Settings.Global.getInt(context.getContentResolver(), "key_lock_app");
+            return Settings.Global.getInt(context.getContentResolver(), SETTING_KEY_LOCK_APP);
         } catch (Settings.SettingNotFoundException e) {
             XposedLog.w("LockApp", "getInt hyceiler_lock_app e: " + e);
-            setLockApp(context, -1);
         }
         return -1;
     }
 
-    public static void setLockApp(Context context, int id) {
-        Settings.Global.putInt(context.getContentResolver(), "key_lock_app", id);
-    }
-
-    public static void setSystemLockApp(Context context) {
-        Settings.System.putInt(context.getContentResolver(), "lock_to_app_enabled", 0);
-    }
-
-    public static void setSystemLockScreen(Context context) {
-        Settings.Secure.putInt(context.getContentResolver(), "lock_to_app_exit_locked", 0);
-    }
-
-    public static void setMyLockScreen(Context context, int value) {
-        Settings.Global.putInt(context.getContentResolver(), "exit_lock_app_screen", value);
-    }
-
-    /**
-     * @noinspection deprecation
-     */
-    public static class LockAppHandler extends Handler {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
-            Context context = findContext(FLAG_CURRENT_APP);
-            if (context == null) {
-                mHandler.sendMessageDelayed(mHandler.obtainMessage(msg.what), 500);
-                return;
+    private void registerObserverIfNeeded(Context context) {
+        if (context == null || mObserverRegistered) return;
+        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                updateStatusBarVisibility(context);
             }
-            switch (msg.what) {
-                case WILL_LOCK_APP -> ToastHelper.makeText(context,
-                    context.getResources().getString(
-                        R.string.system_framework_guided_access_will_lock),
-                    false);
-                case LOCK_APP -> {
-                    int taskId = (int) msg.obj;
-                    setLockApp(context, taskId);
-                    ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_lock),
-                        false);
-                }
-                case WILL_UNLOCK_APP -> ToastHelper.makeText(context,
-                    context.getResources().getString(
-                        R.string.system_framework_guided_access_will_unlock),
-                    false);
-                case UNLOCK_APP -> {
-                    setLockApp(context, -1);
-                    ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_unlock),
-                        false);
-                }
-                case UNKNOWN_ERROR -> ToastHelper.makeText(context,
-                    context.getResources().getString(
-                        R.string.system_framework_guided_access_e),
-                    false);
-                case RESTORE -> {
-                    setLockApp(context, -1);
-                    ToastHelper.makeText(context,
-                        context.getResources().getString(
-                            R.string.system_framework_guided_access_r),
-                        false);
-                }
-            }
-        }
+        };
+        context.getContentResolver().registerContentObserver(
+            Settings.Global.getUriFor(SETTING_KEY_LOCK_APP),
+            false,
+            contentObserver
+        );
+        mObserverRegistered = true;
     }
 }

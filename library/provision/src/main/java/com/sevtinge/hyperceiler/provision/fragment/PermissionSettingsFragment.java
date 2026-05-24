@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
-import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isNetworkConnected;
 import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isInternetAvailable;
+import static com.sevtinge.hyperceiler.provision.utils.NetworkManager.isNetworkConnected;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -32,21 +32,25 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.utils.PermissionUtils;
 import com.sevtinge.hyperceiler.provision.R;
-import fan.provision.OobeUtils;
 import com.sevtinge.hyperceiler.provision.widget.PermissionItemView;
 
 import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import fan.provision.OobeUtils;
+
 public class PermissionSettingsFragment extends BaseFragment {
+    private static final int REQUEST_GET_INSTALLED_APPS = 1101;
 
     private View mNextView;
 
     PermissionItemView mRootPermissionItem;
     PermissionItemView mNetworkPermissionItem;
     PermissionItemView mLspPermissionItem;
+    PermissionItemView mInstalledAppsPermissionItem;
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -67,18 +71,22 @@ public class PermissionSettingsFragment extends BaseFragment {
         mRootPermissionItem = view.findViewById(R.id.root);
         mNetworkPermissionItem = view.findViewById(R.id.network);
         mLspPermissionItem = view.findViewById(R.id.lsp);
+        mInstalledAppsPermissionItem = view.findViewById(R.id.installed_apps);
 
         mRootPermissionItem.setItemTitle(R.string.provision_permission_root);
         mNetworkPermissionItem.setItemTitle(R.string.provision_permission_internet);
         mLspPermissionItem.setItemTitle(R.string.provision_permission_lsp);
+        mInstalledAppsPermissionItem.setItemTitle(R.string.provision_permission_installed_apps);
 
         mNetworkPermissionItem.setEnabled(false);
         mRootPermissionItem.setEnabled(false);
         mLspPermissionItem.setEnabled(false);
+        mInstalledAppsPermissionItem.setOnClickListener(v -> requestInstalledAppsPermission());
 
         checkNetwork();
         checkRooted();
         checkLsp();
+        checkInstalledAppsPermission();
         registerNetworkCallback();
     }
 
@@ -146,6 +154,7 @@ public class PermissionSettingsFragment extends BaseFragment {
         checkNetwork();
         checkRooted();
         checkLsp();
+        checkInstalledAppsPermission();
     }
 
     @Override
@@ -230,6 +239,44 @@ public class PermissionSettingsFragment extends BaseFragment {
         }
 
         return false;
+    }
+
+    private void checkInstalledAppsPermission() {
+        if (!isAdded() || mInstalledAppsPermissionItem == null) {
+            return;
+        }
+        mInstalledAppsPermissionItem.setChecked(
+            PermissionUtils.hasInstalledAppsPermission(requireContext())
+        );
+    }
+
+    private void requestInstalledAppsPermission() {
+        if (!isAdded()) {
+            return;
+        }
+        if (PermissionUtils.hasInstalledAppsPermission(requireContext())) {
+            checkInstalledAppsPermission();
+            return;
+        }
+        requestPermissions(
+            new String[]{PermissionUtils.PERMISSION_GET_INSTALLED_APPS},
+            REQUEST_GET_INSTALLED_APPS
+        );
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != REQUEST_GET_INSTALLED_APPS) {
+            return;
+        }
+
+        if (PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)
+            || PermissionUtils.hasInstalledAppsPermission(requireContext())) {
+            checkInstalledAppsPermission();
+            return;
+        }
+        checkInstalledAppsPermission();
     }
 
 }

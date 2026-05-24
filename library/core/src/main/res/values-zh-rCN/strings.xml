@@ -53,6 +53,9 @@
     <string name="headtip_notice_dead_logger">当前设备 Log 服务异常，HyperCeiler 功能将被限制。请恢复 Log 服务，使其可以正常运行。</string>
     <string name="unsupported_system_func">当前系统版本不支持此功能</string>
     <string name="supported_system_func">当前系统版本官方已支持此功能</string>
+    <string name="unsupported_app_version_func">当前应用版本不支持此功能</string>
+    <string name="supported_app_version_func">当前应用版本已支持此功能</string>
+    <string name="app_version_unavailable_warning_banner">当前无法获取此应用的版本号, 为确保 hook 安全, 已禁用本应用的全部功能</string>
     <string name="feature_doing_func">当前功能正在制作中，敬请期待</string>
     <string name="search_result_not_available">此功能可能不支持此设备或隐藏到部分选项下</string>
     <!--System UI-->

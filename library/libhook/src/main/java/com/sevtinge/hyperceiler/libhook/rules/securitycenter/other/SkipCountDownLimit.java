@@ -26,7 +26,6 @@ import android.view.ViewGroup;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -42,9 +41,16 @@ import java.lang.reflect.Method;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 public class SkipCountDownLimit extends BaseHook {
+    private Method mSkipCountDownLimitMethod;
+
     @Override
-    public void init() {
-        Method method = DexKit.findMember("SkipCountDownLimitFragment", new IDexKit() {
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mSkipCountDownLimitMethod = requiredMember("SkipCountDownLimitFragment", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findClass(FindClass.create()
@@ -55,11 +61,16 @@ public class SkipCountDownLimit extends BaseHook {
                 return methodData;
             }
         });
+        return true;
+    }
+
+    @Override
+    public void init() {
         if (PrefsBridge.getBoolean("security_center_skip_count_down_limit_direct")){
             findAndHookMethod("com.miui.permcenter.privacymanager.InterceptBaseFragment", "onInflateView", LayoutInflater.class, ViewGroup.class, Bundle.class, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                    callMethod(param.getThisObject(), method.getName(), true);
+                    callMethod(param.getThisObject(), mSkipCountDownLimitMethod.getName(), true);
                 }
             });
         } else {

@@ -59,6 +59,7 @@
     <string name="help_cant_see_apps_switch_desc">您仍可以在「關於-幫助」找到此幫助，返回首頁即可生效</string>
     <!-- Scope -->
     <string name="settings_scope">作用域</string>
+    <string name="settings_scope_extra">額外作用域</string>
     <string name="settings_scope_sync">作用域同步</string>
     <string name="settings_scope_sync_desc">首頁列表的勾選狀態會與作用域同步</string>
     <string name="scope_batch_no_changes">作用域沒有變化</string>
@@ -84,6 +85,16 @@
     <string name="kill_2">查找進程</string>
     <string name="kill_3">包名 kill</string>
     <string name="kill_4">軟體名 kill</string>
+    <string name="development_kill_loading_data">加載資料，請稍候</string>
+    <string name="development_kill_resource_not_ready">資源尚未加載完成，請稍候！</string>
+    <string name="development_kill_process_header">PID：       Process：\n</string>
+    <string name="development_kill_package_invalid_for_find">包名錯誤或不存在，無法查找！\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">包名錯誤或不存在，請查證後輸入！\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">成功 Kill：\n</string>
+    <string name="development_kill_failed_with_pkg">Kill: %1$s 失敗！</string>
+    <string name="development_kill_process_not_found">未找到當前包名有任何正在運行的進程！\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">加載完畢</string>
+    <string name="development_kill_permission_not_granted">未授予讀取應用列表權限，無法加載應用列表。</string>
     <string name="edit_out">獲取結果</string>
     <string name="edit_key">輸入 Key 值</string>
     <string name="prefs_1">不存在此 Key:</string>
@@ -129,6 +140,9 @@
     <string name="backup_failed">備份失敗</string>
     <string name="rest_title">還原</string>
     <string name="rest_success">還原成功</string>
+    <string name="rest_scope_authorize_title">作用域授權提示</string>
+    <string name="rest_scope_authorize_notice">檢測到還原配置包含新增作用域，請在接下來的 LSPosed 授權彈窗中允許：\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">以下作用域未在當前設備安裝，已自動跳過：\n%1$s</string>
     <string name="rest_failed">還原失敗</string>
     <string name="backup_ask">您是否要寫入備份？</string>
     <string name="backup_permission">\"現在您必須手動啟用此選項的權限。</string>
@@ -434,7 +448,7 @@
     <string name="system_framework_allow_disable_protected_package">允許冻結受保護的應用程式</string>
     <string name="system_framework_disable_miui_watermark">禁用全局水印</string>
     <string name="system_framework_bypass_unknown_sources_restrictions">預設允許全部應用程式安裝未知來源的應用程式</string>
-    <string name="system_framework_bypass_force_mi_appstore">跳轉到應用程式商店時允許選擇第三方應用商店</string>
+    <string name="system_framework_bypass_force_mi_appstore">跳轉到應用程式商店時強制顯示選擇器</string>
     <string name="system_framework_market_use_detailmini">跳轉到小米應用程式商店時始終使用小窗口打開</string>
     <string name="system_framework_market_use_detailmini_desc">解除應用程式在未使用 appClientId 的情况下跳轉到小米應用程式商店其他應用程式的詳情頁會被拒絕展示的限制</string>
     <string name="system_framework_bypass_force_downloadui">打開下載頁面時不強制使用小米下載管理器</string>
@@ -933,6 +947,10 @@
     <!--Cast-->
     <string name="milink_hyperos">互聯互通服務</string>
     <string name="milink_unlock_mishare">解鎖小米妙享</string>
+    <string name="milink_unlock_send_app">解鎖全部應用流轉</string>
+    <string name="milink_unlock_send_app_desc">需要額外勾選「跨屏協同服務」作用域</string>
+    <string name="milink_disable_pc_clipboard_region_check">關閉電腦管家剪貼簿地區校驗</string>
+    <string name="milink_disable_pc_clipboard_region_check_desc">修復電腦管家向手機或平板同步剪貼簿時，因地區不一致被互聯互通服務攔截</string>
     <string name="milink_allow_camera_devices">強制支持攝像頭流轉</string>
     <string name="milink_fuck_hpplay">阻止生成樂播投屏相關檔案</string>
     <!--Sound Recorder-->
@@ -1021,6 +1039,10 @@
     <string name="home_gesture_up_swipe2_desc">在任意主熒幕雙指上滑</string>
     <string name="home_gesture_down_swipe2">雙指下滑</string>
     <string name="home_gesture_down_swipe2_desc">在任意主熒幕雙指下滑</string>
+    <string name="home_gesture_line_long_press">手勢提示線長按</string>
+    <string name="home_gesture_line_long_press_desc">長按手勢提示線</string>
+    <string name="home_gesture_line_double_click">手勢提示線雙擊</string>
+    <string name="home_gesture_line_double_click_desc">雙擊手勢提示線</string>
     <string name="home_gesture_pinch">雙指捏合</string>
     <string name="home_gesture_spread">雙指擴展</string>
     <string name="home_gesture_swipe_and_stop">滑動並停止</string>
@@ -1281,8 +1303,6 @@
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">禁止恢復電池優化白名單</string>
     <string name="powerkeeper_disable_get_display_ctrl_code">禁止獲取顯示控制碼</string>
     <string name="powerkeeper_gms_doze_fix">允許 Google Play 服務在任何時間聯網</string>
-    <string name="powerkeeper_conservative_millet">使 Millet 更保守</string>
-    <string name="powerkeeper_conservative_millet_desc">使後台管理策略更加保守</string>
     <!--Screen Recorder-->
     <string name="screenrecorder">熒幕錄制</string>
     <string name="screen_recorder_force_support_playback_capture">強制啟用原生熒幕錄制支持</string>
@@ -1426,7 +1446,6 @@
     <!--AI Translate-->
     <string name="aiasst">小爱翻譯</string>
     <string name="aiasst_ai_captions">強制啟用實時字幕</string>
-    <string name="aiasst_all_captions">解鎖多語言在線字幕</string>
     <!--Barrage-->
     <string name="barrage">彈幕通知</string>
     <string name="barrage_any_barrage">允許所有應用程式使用彈幕通知</string>
@@ -1473,6 +1492,7 @@
     <!--Sogou input method-->
     <string name="sogou_xiaomi">搜狗輸入法小米版</string>
     <string name="sogou_xiaomi_clipboard">解除剪貼簿數量限制</string>
+    <string name="sogou_xiaomi_clipboard_desc">解除搜狗輸入法、百度輸入法及這兩個的小米定製版輸入法內自身的剪貼簿數量限制</string>
     <string name="add_clipboard_clear">添加清空剪貼簿按鈕</string>
     <!--Sim Activation Service-->
     <string name="sim_activation_service">小米SIM卡激活服務</string>
@@ -1510,7 +1530,18 @@
     <string name="various_phrase_clipboardlist">解除常用語剪貼簿條數和時間限制</string>
     <string name="various_phrase_clipboardlist_more">開啟後勾選輸入法作用域並重新啟動</string>
     <string name="various_unlock_ime">解鎖輸入法全面屏優化</string>
-    <string name="various_unlock_ime_desc">開啟後請在 Xposed 管理器中勾選對應輸入法作用域</string>
+    <string name="various_unlock_ime_desc">對目標輸入法啟用所選樣式的全面屏優化\n原生風格需要額外勾選系統框架作用域\n選擇原生風格後只對非小米定製版生效，小米定製版勾選後將加入鍵盤可切換列表</string>
+    <string name="various_unlock_ime_apps">目標輸入法</string>
+    <string name="various_unlock_ime_apps_desc">若所選輸入法未加入作用域，將同時申請作用域</string>
+    <string name="various_unlock_ime_show_all">顯示全部輸入法列表</string>
+    <string name="various_unlock_ime_show_all_desc">部分輸入法由於沒有檢視應用程式列表權限，可能會導致輸入法切換列表顯示不全\n此功能需要額外勾選系統框架，但可能會有性能影響，請謹慎開啟</string>
+    <string name="various_unlock_ime_style_miui">MIUI 風格</string>
+    <string name="various_unlock_ime_style_aosp">原生風格</string>
+    <string name="various_aosp_ime_nav_bar_layout_start">左側功能鍵</string>
+    <string name="various_aosp_ime_nav_bar_layout_end">右側功能鍵</string>
+    <string name="various_aosp_ime_nav_bar_layout_hide_ime">收起輸入法</string>
+    <string name="various_aosp_ime_nav_bar_layout_ime_switcher">切換輸入法</string>
+    <string name="various_input_method_apps_count">已選擇 %1$d 個輸入法</string>
     <string name="various_collapse_miui_title">系統標題樣式</string>
     <string name="various_collapse_miui_title_desc">調整系統應用程式中的頂欄標題</string>
     <string name="various_disable_folder_cantuse">移除部分檔案夹不可選擇限制</string>
@@ -1648,4 +1679,34 @@
     <string name="health_disable_splash_ad">停用開幕廣告</string>
     <string name="phrase">剪貼簿與常用語</string>
     <string name="ic_qs_title_nfc">NFC</string>
+    <string name="development_tools">除錯</string>
+    <string name="development_system">管理</string>
+    <string name="development_cache">緩存與日誌</string>
+    <string name="settings_float_nav">懸浮底欄</string>
+    <string name="health_unlock_foucs_app_sign_white_list_title">允許所有應用程式發送焦點通知到手錶/手環</string>
+    <string name="rest_success_message">請重新啟動應用程式以使配置生效。</string>
+    <string name="array_class">經典</string>
+    <string name="status_bar_mobile_mode_on_status_bar">僅在連接時顯示</string>
+    <string name="status_bar_mobile_mode_2_on_status_bar">僅顯示上網卡</string>
+    <string name="system_ui_status_bar_mobile_title">移動網絡</string>
+    <string name="system_ui_statusbar_focus_notif_title">焦點通知</string>
+    <string name="system_ui_statusbar_island_title">超級島</string>
+    <string name="system_ui_statusbar_island_media_card_title">媒體卡片</string>
+    <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">當前因隱藏訊號卡圖示，此功能將停用</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme">圖示主題</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_classic">經典</string>
+    <string name="system_ui_statusbar_iconmanage_mobile_network_icon_theme_oa">圓滑</string>
+    <string name="system_ui_status_bar_icon_mobile_network_signal_mode">移動訊號顯示邏輯</string>
+    <string name="system_ui_control_center_media_control_progress_comet">彗星進度條</string>
+    <string name="system_ui_control_center_media_control_progress_round">圓角進度條</string>
+    <string name="system_ui_control_center_media_control_ambient_light">氛圍光效</string>
+    <string name="system_ui_control_center_media_control_ambient_light_desc">同超級島一樣的音樂流光效果，使用始終深色模式體驗更佳\n此功能性能佔用較高，請謹慎使用</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt">優化取色</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt_desc">氛圍光效取色邏輯使用 Material 3 Monet 顏色系統進行優化</string>
+    <string name="system_ui_control_center_media_control_always_dark">始終深色模式</string>
+    <string name="system_ui_control_center_media_control_always_dark_desc">始終保持媒體卡片為深色模式</string>
+    <string name="home_recent_fix_card_title_padding">修復卡片標題底部間距</string>
+    <string name="miui_package_installer_disable_cloud_check">阻斷雲端配置下發</string>
+    <string name="miui_package_installer_disable_cloud_check_desc">攔截應用程式安裝時的雲端配置請求並偽造空響應，可提升載入速度並繞過離線環境下的安裝限制同彈窗</string>
+    <string name="system_framework_bypass_force_mi_appstore_desc">避免無詢問直接跳轉小米應用程式商店，同時允許選擇第三方應用程式商店</string>
 </resources>

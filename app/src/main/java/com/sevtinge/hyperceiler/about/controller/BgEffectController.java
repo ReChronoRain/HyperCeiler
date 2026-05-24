@@ -29,7 +29,7 @@ public class BgEffectController implements Runnable {
             mBgEffectPainter = new BgEffectPainter(mTarget.getContext());
             mLastGlobalTime = System.nanoTime();
             resetTime();
-            mTarget.post(this);
+            mTarget.postOnAnimation(this);
         }
     }
 
@@ -37,10 +37,13 @@ public class BgEffectController implements Runnable {
     public void run() {
         if (mBgEffectPainter != null) {
             tickPingPong();
-            mBgEffectPainter.setResolution(mTarget.getWidth(), mTarget.getHeight());
-            mBgEffectPainter.updateMaterials(mDeltaTime * mTimeDirection);
-            mTarget.setRenderEffect(mBgEffectPainter.getRenderEffect());
-            mTarget.postDelayed(this, 16L);
+            if (mTarget.getWidth() > 0 && mTarget.getHeight() > 0) {
+                mBgEffectPainter.setResolution(mTarget.getWidth(), mTarget.getHeight());
+                mBgEffectPainter.updateMaterials(mDeltaTime * mTimeDirection);
+                mTarget.setRenderEffect(mBgEffectPainter.getRenderEffect());
+                mTarget.invalidate();
+            }
+            mTarget.postOnAnimation(this);
         }
     }
 
@@ -70,6 +73,7 @@ public class BgEffectController implements Runnable {
             mBgEffectPainter.stop();
             mBgEffectPainter = null;
             mTarget.setRenderEffect(null);
+            mTarget.invalidate();
         }
     }
 

@@ -28,8 +28,6 @@ import java.util.ArrayList;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class BypassRiskCheck extends BaseHook {
     @Override
     public void init() {

@@ -196,7 +196,7 @@ public class XposedLogLoader {
         }
 
         File[] files = getSourceLogFiles(directory);
-        if (files == null || files.length == 0) {
+        if (files == null) {
             return;
         }
 

@@ -35,9 +35,6 @@ import com.sevtinge.hyperceiler.libhook.rules.camera.UnlockTrackEyes;
 @HookBase(targetPackage = "com.android.camera")
 public class Camera extends BaseLoad {
 
-    public Camera() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

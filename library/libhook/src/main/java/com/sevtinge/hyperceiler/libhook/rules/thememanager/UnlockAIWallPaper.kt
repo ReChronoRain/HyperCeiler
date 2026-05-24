@@ -19,14 +19,19 @@
 package com.sevtinge.hyperceiler.libhook.rules.thememanager
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 object UnlockAIWallPaper : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        unlock
+        return true
+    }
     private val unlock by lazy {
-        DexKit.findMember("wallpaper") { dexKitBridge ->
+        requiredMember("wallpaper") { dexKitBridge ->
             dexKitBridge.findClass {
                 matcher {
                     addUsingString("enable_video_depth", StringMatchType.Contains)
@@ -46,3 +51,4 @@ object UnlockAIWallPaper : BaseHook() {
         }
     }
 }
+

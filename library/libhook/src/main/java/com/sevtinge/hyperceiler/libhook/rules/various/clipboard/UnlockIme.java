@@ -21,9 +21,16 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp;
 
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+
 import com.sevtinge.hyperceiler.common.log.XposedLog;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodBottomManagerHelper;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.List;
@@ -31,8 +38,10 @@ import java.util.List;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
-;
-
+/**
+ * Source:
+ * <a href="https://github.com/RC1844/MIUI_IME_Unlock/blob/main/app/src/main/java/com/xposed/miuiime/MainHook.kt">RC1844/MIUI_IME_Unlock</a>
+ */
 public class UnlockIme extends BaseHook {
 
     private final String[] miuiImeList = new String[]{
@@ -46,20 +55,17 @@ public class UnlockIme extends BaseHook {
 
     @Override
     public void init() {
-        if (getProp("ro.miui.support_miui_ime_bottom", "0").equals("1")) {
+        // 检查是否支持全面屏优化
+        if (isMiuiImeBottomSupported()) {
             startHook(getLpparam());
         }
     }
 
     private void startHook(XposedModuleInterface.PackageReadyParam param) {
+        boolean showAllImeList = InputMethodConfig.shouldShowAllImeList();
+
         // 检查是否为小米定制输入法
-        boolean isNonCustomize = true;
-        for (String isMiui : miuiImeList) {
-            if (isMiui.equals(param.getPackageName())) {
-                isNonCustomize = false;
-                break;
-            }
-        }
+        boolean isNonCustomize = isNonCustomizeIme(param.getPackageName());
         if (isNonCustomize) {
             Class<?> sInputMethodServiceInjector = findClassIfExists("android.inputmethodservice.InputMethodServiceInjector");
             if (sInputMethodServiceInjector == null)
@@ -73,28 +79,46 @@ public class UnlockIme extends BaseHook {
             }
         }
 
-        hookDeleteNotSupportIme("android.inputmethodservice.InputMethodServiceInjector$MiuiSwitchInputMethodListener",
-            param.getClassLoader());
+        if (showAllImeList) {
+            hookDeleteNotSupportIme("android.inputmethodservice.InputMethodServiceInjector$MiuiSwitchInputMethodListener",
+                param.getClassLoader());
+        }
+    }
 
-        // 获取常用语的ClassLoader
-        boolean finalIsNonCustomize = isNonCustomize;
-        findAndHookMethod("android.inputmethodservice.InputMethodModuleManager", "loadDex", ClassLoader.class, String.class, new IMethodHook() {
-                @Override
-                public void after(HookParam param) {
-                    getSupportIme((ClassLoader) param.getArgs()[0]);
-                    hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", (ClassLoader) param.getArgs()[0]);
-                    if (finalIsNonCustomize) {
-                        Class<?> InputMethodBottomManager = findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", (ClassLoader) param.getArgs()[0]);
-                        if (InputMethodBottomManager != null) {
-                            hookSIsImeSupport(InputMethodBottomManager);
-                            hookIsXiaoAiEnable(InputMethodBottomManager);
-                        } else {
-                            XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
-                        }
-                    }
-                }
-            }
-        );
+    public void initLoader(ClassLoader classLoader) {
+        if (!isMiuiImeBottomSupported()) {
+            return;
+        }
+
+        boolean showAllImeList = InputMethodConfig.shouldShowAllImeList();
+        if (showAllImeList) {
+
+            // 阻止获取输入法列表时进行过滤。同时也 hook 了系统框架，否则 getEnabledInputMethodList() 获取到的输入法可能仍然不全
+            hookGetSupportIme(classLoader);
+
+            // 针对 A11 的修复切换输入法列表
+            hookDeleteNotSupportIme("com.miui.inputmethod.InputMethodBottomManager$MiuiSwitchInputMethodListener", classLoader);
+        }
+
+        boolean unlockImeListUiCount = InputMethodConfig.shouldUnlockImeListUiCount();
+        if (unlockImeListUiCount)
+        {
+
+            hookUnlockImeListUiCount(classLoader);
+        }
+
+        if (!isNonCustomizeIme(getPackageName())) {
+            return;
+        }
+
+        Class<?> inputMethodBottomManager =
+            InputMethodBottomManagerHelper.findBottomManagerClass(classLoader);
+        if (inputMethodBottomManager != null) {
+            hookSIsImeSupport(inputMethodBottomManager);
+            hookIsXiaoAiEnable(inputMethodBottomManager);
+        } else {
+            XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
+        }
     }
 
     /**
@@ -130,6 +154,7 @@ public class UnlockIme extends BaseHook {
      */
     private void setPhraseBgColor(Class<?> clazz) {
         try {
+            // 导航栏颜色被设置后, 将颜色存储起来并传递给常用语
             findAndHookMethod("com.android.internal.policy.PhoneWindow",
                 "setNavigationBarColor", int.class,
                 new IMethodHook() {
@@ -141,6 +166,7 @@ public class UnlockIme extends BaseHook {
                     }
                 }
             );
+            // 当常用语被创建后, 将背景颜色设置为存储的导航栏颜色
             hookAllMethods(clazz, "addMiuiBottomView",
                 new IMethodHook() {
                     @Override
@@ -191,28 +217,100 @@ public class UnlockIme extends BaseHook {
     }
 
     /**
-     * 使切换输入法界面显示第三方输入法
+     * 针对 A11 的修复切换输入法列表
      *
      * @param classLoader
      */
-    private void getSupportIme(ClassLoader classLoader) {
+    private void hookGetSupportIme(ClassLoader classLoader) {
         try {
             EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
                 classLoader, "getSupportIme",
                 new IMethodHook() {
                     @Override
-                    public void before(HookParam param) {
-                        List<?> getEnabledInputMethodList = (List<?>) callMethod(
-                            getObjectField(
-                                getStaticObjectField(
-                                    findClassIfExists("com.miui.inputmethod.InputMethodBottomManager", classLoader),
-                                    "sBottomViewHelper"), "mImm"), "getEnabledInputMethodList");
-                        param.setResult(getEnabledInputMethodList);
+                    public void before(HookParam param) throws Throwable {
+                        Object getEnabledInputMethodList =
+                            InputMethodBottomManagerHelper.getEnabledInputMethodList(classLoader);
+                        if (getEnabledInputMethodList instanceof List<?>) {
+                            param.setResult(getEnabledInputMethodList);
+                        }
                     }
                 }
             );
         } catch (Throwable e) {
             XposedLog.e(TAG, "Hook method getSupportIme: " + e);
         }
+    }
+
+    /**
+     * 解除切换输入法列表最多只显示四个的问题 (虽然本来可以滚动就是了)
+     *
+     * @author LuoYunXi0407
+     * @param classLoader
+     */
+    private void hookUnlockImeListUiCount(ClassLoader classLoader) {
+        try {
+            EzxHelpUtils.findAndHookMethodReplace("com.miui.inputmethod.InputMethodSwitchPopupView",
+                classLoader, "setListViewHeight",
+                new IReplaceHook() {
+                    @Override
+                    public Object replace(HookParam param) {
+
+                        Object thiz = param.getThisObject();
+
+                        Object adapter = getObjectField(thiz, "mInputMethodSwitchAdapter");
+                        ListView listView = (ListView) getObjectField(thiz, "mListView");
+
+                        if (adapter == null) return null;
+
+                        int count = (int) callMethod(adapter, "getCount");
+
+                        int MAX = 10;  // 不会吧不会吧，不会有人输入法超过 10 个吧
+
+                        if (count > MAX) {
+                            count = MAX;
+                        }
+
+                        int measuredHeight = 0;
+
+                        for (int i = 0; i < count; i++) {
+                            View view = (View) callMethod(
+                                adapter,
+                                "getView",
+                                i,
+                                null,
+                                listView
+                            );
+
+                            view.measure(0, 0);
+                            measuredHeight += view.getMeasuredHeight();
+                        }
+
+                        int dividerHeight = listView.getDividerHeight();
+                        measuredHeight += dividerHeight * (count - 1);
+
+                        ViewGroup.LayoutParams lp = listView.getLayoutParams();
+                        lp.height = measuredHeight;
+                        listView.setLayoutParams(lp);
+
+                        return null;
+                    }
+                }
+            );
+        } catch (Throwable e) {
+            XposedLog.e(TAG, "Hook method setListViewHeight: " + e);
+        }
+    }
+
+    private boolean isMiuiImeBottomSupported() {
+        return "1".equals(getProp("ro.miui.support_miui_ime_bottom", "0"));
+    }
+
+    private boolean isNonCustomizeIme(String packageName) {
+        for (String isMiui : miuiImeList) {
+            if (isMiui.equals(packageName)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

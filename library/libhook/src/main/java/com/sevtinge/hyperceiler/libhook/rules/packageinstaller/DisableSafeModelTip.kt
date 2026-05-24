@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceCallback
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
@@ -28,18 +27,19 @@ import java.lang.reflect.Field
 import java.lang.reflect.Method
 
 object DisableSafeModelTip : BaseHook() {
-    override fun init() {
-        DexKit.findMember<Method>("DisableSafeModelTip") {
+    override fun useDexKit() = true
+    private lateinit var disableSafeModelTipMethod: Method
+    private lateinit var recyclerViewField: Field
+
+    override fun initDexKit(): Boolean {
+        disableSafeModelTipMethod = requiredMember("DisableSafeModelTip") {
             it.findMethod {
                 matcher {
                     usingEqStrings($$"android.provider.MiuiSettings$Ad")
                 }
             }.singleOrNull()
-        }.replaceCallback {
-            false
         }
-
-        val field = DexKit.findMember("RecyclerView") {
+        recyclerViewField = requiredMember("RecyclerView") {
             it.findClass {
                 matcher {
                     className = "com.miui.packageInstaller.ui.listcomponets.SafeModeTipViewObject"
@@ -49,10 +49,17 @@ object DisableSafeModelTip : BaseHook() {
                     type = "boolean"
                 }
             }?.single()
-        } as Field
+        }
+        return true
+    }
 
-        field.declaringClass.methodFinder().filterByName("a").first().createAfterHook {
-            it.thisObject.setBooleanField(field.name, false)
+    override fun init() {
+        disableSafeModelTipMethod.replaceCallback {
+            false
+        }
+
+        recyclerViewField.declaringClass.methodFinder().filterByName("a").first().createAfterHook {
+            it.thisObject.setBooleanField(recyclerViewField.name, false)
         }
     }
 }

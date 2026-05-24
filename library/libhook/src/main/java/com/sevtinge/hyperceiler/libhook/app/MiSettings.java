@@ -27,9 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.misettings.ShowMoreFpsList;
 @HookBase(targetPackage = "com.xiaomi.misettings")
 public class MiSettings extends BaseLoad {
 
-    public MiSettings() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

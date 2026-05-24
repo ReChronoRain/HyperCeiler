@@ -189,14 +189,14 @@ public class AudioEffectControlForSystem extends BaseEffectControl implements IC
         if (cls == null) return null;
 
         Object currentInstance = instanceRef.get();
-        if (currentInstance != null && hasControl(currentInstance)) {
+        if (hasControl(currentInstance)) {
             return currentInstance;
         }
 
         mEffectLock.lock();
         try {
             currentInstance = instanceRef.get();
-            if (currentInstance != null && hasControl(currentInstance)) {
+            if (hasControl(currentInstance)) {
                 return currentInstance;
             }
 

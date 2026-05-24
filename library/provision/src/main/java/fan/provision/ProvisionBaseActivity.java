@@ -454,7 +454,7 @@ public abstract class ProvisionBaseActivity extends AppCompatActivity
     @Override
     public void onBackAnimStart() {
         onBackButtonClick();
-        onBackPressed();
+        getOnBackPressedDispatcher().onBackPressed();
     }
 
     @Override

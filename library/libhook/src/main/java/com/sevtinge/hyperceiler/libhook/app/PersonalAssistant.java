@@ -28,9 +28,6 @@ import com.sevtinge.hyperceiler.libhook.rules.personalassistant.WidgetBlurOpt;
 @HookBase(targetPackage = "com.miui.personalassistant")
 public class PersonalAssistant extends BaseLoad {
 
-    public PersonalAssistant() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

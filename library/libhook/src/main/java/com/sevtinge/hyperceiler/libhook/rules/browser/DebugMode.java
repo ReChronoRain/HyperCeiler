@@ -22,90 +22,74 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPa
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
-import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.MethodData;
-import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class DebugMode extends BaseHook {
+    private Method mEnvironmentFlagMethod;
+    private Method mDebugModeMethod1;
+    private Method mDebugModeMethod2;
+    private Method mDebugModeMethod3;
+
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mEnvironmentFlagMethod = requiredMember("EnvironmentFlag", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("environment_flag")
+                .returnType(String.class)
+            )).singleOrNull());
+        mDebugModeMethod1 = requiredMember("DebugMode1", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("pref_key_debug_mode_new")
+                .returnType(boolean.class)
+            )).singleOrNull());
+        mDebugModeMethod2 = requiredMember("DebugMode2", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("pref_key_debug_mode")
+                .returnType(boolean.class)
+            )).singleOrNull());
+        mDebugModeMethod3 = requiredMember("DebugMode3", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(getLpparam()))
+                .returnType(boolean.class)
+            )).singleOrNull());
+        return true;
+    }
+
     @Override
     public void init() {
-        Method method1 = DexKit.findMember("EnvironmentFlag", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("environment_flag")
-                                .returnType(String.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method1, new IMethodHook() {
+        hookMethod(mEnvironmentFlagMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult("1");
             }
         });
 
-        Method method2 = DexKit.findMember("DebugMode1", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("pref_key_debug_mode_new")
-                                .returnType(boolean.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method2, new IMethodHook() {
+        hookMethod(mDebugModeMethod1, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(true);
             }
         });
 
-        Method method3 = DexKit.findMember("DebugMode2", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("pref_key_debug_mode")
-                                .returnType(boolean.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method3, new IMethodHook() {
+        hookMethod(mDebugModeMethod2, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(true);
             }
         });
 
-        Method method4 = DexKit.findMember("DebugMode3", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("pref_key_debug_mode_" + getPackageVersionCode(getLpparam()))
-                                .returnType(boolean.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        hookMethod(method4, new IMethodHook() {
+        hookMethod(mDebugModeMethod3, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(true);

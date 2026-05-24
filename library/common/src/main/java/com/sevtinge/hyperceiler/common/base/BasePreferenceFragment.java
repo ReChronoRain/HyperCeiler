@@ -1,9 +1,13 @@
 package com.sevtinge.hyperceiler.common.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Looper;
 import android.text.TextUtils;
+import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
@@ -68,5 +72,55 @@ public abstract class BasePreferenceFragment extends PreferenceFragment {
 
     protected final Context getPrefContext() {
         return getPreferenceManager().getContext();
+    }
+
+    protected final boolean isActivityAlive() {
+        Activity activity = getActivity();
+        return activity != null && !activity.isFinishing() && !activity.isDestroyed();
+    }
+
+    protected final boolean isFragmentContextAvailable() {
+        return isAdded() && getContext() != null && isActivityAlive();
+    }
+
+    protected final boolean isFragmentUiAvailable() {
+        return isFragmentContextAvailable() && getView() != null;
+    }
+
+    @Nullable
+    protected final Context getSafeContext() {
+        return isFragmentContextAvailable() ? getContext() : null;
+    }
+
+    protected final void runOnUiThreadIfAlive(@NonNull Runnable action) {
+        if (!isFragmentContextAvailable()) {
+            return;
+        }
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
+        }
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            if (isFragmentContextAvailable()) {
+                action.run();
+            }
+            return;
+        }
+        activity.runOnUiThread(() -> {
+            if (isFragmentContextAvailable()) {
+                action.run();
+            }
+        });
+    }
+
+    protected final void postIfViewAlive(@Nullable View view, @NonNull Runnable action) {
+        if (view == null) {
+            return;
+        }
+        view.post(() -> {
+            if (isFragmentUiAvailable()) {
+                action.run();
+            }
+        });
     }
 }

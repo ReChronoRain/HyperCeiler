@@ -47,6 +47,12 @@
             android:layout_height="wrap_content" />
 
         <com.sevtinge.hyperceiler.provision.widget.PermissionItemView
+            android:id="@+id/installed_apps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <com.sevtinge.hyperceiler.provision.widget.PermissionItemView
             android:id="@+id/lsp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,4 +60,3 @@
 
     </LinearLayout>
 </ScrollView>
-

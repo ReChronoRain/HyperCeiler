@@ -42,18 +42,19 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.graphics.drawable.toBitmap
-import com.hchen.superlyricapi.ISuperLyric
+import com.hchen.superlyricapi.ISuperLyricReceiver
 import com.hchen.superlyricapi.SuperLyricData
-import com.hchen.superlyricapi.SuperLyricTool
+import com.hchen.superlyricapi.SuperLyricHelper
 import com.hyperfocus.api.FocusApi
 import com.hyperfocus.api.IslandApi
-import com.sevtinge.hyperceiler.libhook.R
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.libhook.R
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.kyuubiran.ezxhelper.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min
@@ -76,6 +77,7 @@ abstract class MusicBaseHook : BaseHook() {
         private const val SALT_MUSIC_PACKAGE = "com.salt.music"}
 
     val context: Context by lazy { EzXposed.appContext }
+    var songPackageName: String = "unknown"
 
     private val nSize: Float by lazy {
         PrefsBridge.getInt("system_ui_statusbar_music_size_n", DEFAULT_FONT_SIZE).toFloat()
@@ -100,12 +102,12 @@ abstract class MusicBaseHook : BaseHook() {
     private val resourceIds by lazy {
         val modRes = AppsTool.getModuleRes(context)
         ResourceIds(
-            focuslyricLayout = modRes.getIdentifier("focuslyric_layout", "layout", ProjectApi.mAppModulePkg),
-            focuslyricIslandLayout = modRes.getIdentifier("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg),
-            focusaodlyricLayout = modRes.getIdentifier("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg),
-            focuslyricId = modRes.getIdentifier("focuslyric", "id", ProjectApi.mAppModulePkg),
-            focusiconId = modRes.getIdentifier("focusicon", "id", ProjectApi.mAppModulePkg),
-            focustflyricId = modRes.getIdentifier("focustflyric", "id", ProjectApi.mAppModulePkg)
+            focuslyricLayout = modRes.getIdByName("focuslyric_layout", "layout", ProjectApi.mAppModulePkg),
+            focuslyricIslandLayout = modRes.getIdByName("focuslyricisland_layout", "layout", ProjectApi.mAppModulePkg),
+            focusaodlyricLayout = modRes.getIdByName("focusaodlyric_layout", "layout", ProjectApi.mAppModulePkg),
+            focuslyricId = modRes.getIdByName("focuslyric", "id", ProjectApi.mAppModulePkg),
+            focusiconId = modRes.getIdByName("focusicon", "id", ProjectApi.mAppModulePkg),
+            focustflyricId = modRes.getIdByName("focustflyric", "id", ProjectApi.mAppModulePkg)
         )
     }
 
@@ -122,14 +124,17 @@ abstract class MusicBaseHook : BaseHook() {
         true
     }
 
-    private val receiver = object : ISuperLyric.Stub() {
-        override fun onSuperLyric(data: SuperLyricData) {
-            runCatching { this@MusicBaseHook.onSuperLyric(data) }
-                .onFailure { XposedLog.e(TAG, lpparam.packageName, it) }
+    private val receiver = object : ISuperLyricReceiver.Stub() {
+        override fun onLyric(publisher: String, data: SuperLyricData) {
+            runCatching {
+                songPackageName = publisher
+                this@MusicBaseHook.onSuperLyric(publisher, data)
+            }.onFailure { XposedLog.e(TAG, lpparam.packageName, it) }
         }
 
-        override fun onStop(data: SuperLyricData) {
+        override fun onStop(publisher: String, data: SuperLyricData) {
             runCatching {
+                songPackageName = "unknown"
                 if (data.playbackState?.state == PlaybackState.STATE_BUFFERING) return
                 this@MusicBaseHook.onStop()
             }.onFailure { XposedLog.e(TAG, lpparam.packageName, it) }
@@ -137,16 +142,16 @@ abstract class MusicBaseHook : BaseHook() {
     }
 
     init {
-        EzxHelpUtils.runOnApplicationAttach { context ->
+        EzxHelpUtils.runOnApplicationAttach { _ ->
             runCatching {
-                SuperLyricTool.registerSuperLyric(context, receiver)
+                SuperLyricHelper.registerReceiver(receiver)
             }.onFailure {
                 XposedLog.e(TAG, lpparam.packageName, "registerLyricListener not found: ${it.message}")
             }
         }
     }
 
-    abstract fun onSuperLyric(data: SuperLyricData)
+    abstract fun onSuperLyric(packageName: String?, data: SuperLyricData)
     abstract fun onStop()
 
     /**
@@ -160,7 +165,7 @@ abstract class MusicBaseHook : BaseHook() {
         // 确保 Channel 已创建
         channelCreated
 
-        val (musicAppName, launchIntent) = resolveAppNameAndLaunchIntent(extraData.packageName)
+        val (musicAppName, launchIntent) = resolveAppNameAndLaunchIntent()
 
         // 准备图标
         val iconBundle = prepareIcons(extraData, launchIntent)
@@ -181,10 +186,10 @@ abstract class MusicBaseHook : BaseHook() {
         // Island template
         val islandTemplate = buildIslandTemplate(leftText, rightText, musicAppName, text)
 
-        val tf = extraData.translation
+        val tf = extraData.translation?.text
 
         // 发送通知
-        sendFocusNotification(builder, text, tf, iconBundle, islandTemplate, extraData.packageName)
+        sendFocusNotification(builder, text, tf, iconBundle, islandTemplate, packageName)
     }
 
     /**
@@ -204,18 +209,16 @@ abstract class MusicBaseHook : BaseHook() {
     /**
      * 解析应用名称和启动 Intent
      */
-    private fun resolveAppNameAndLaunchIntent(packageName: String?): Pair<String, Intent?> {
-        packageName ?: return "unknown" to null
-
+    private fun resolveAppNameAndLaunchIntent(): Pair<String, Intent?> {
         return runCatching {
             val pm = context.packageManager
-            val appInfo = pm.getApplicationInfo(packageName, 0)
+            val appInfo = pm.getApplicationInfo(songPackageName, 0)
             val label = pm.getApplicationLabel(appInfo).toString()
-            val launchIntent = pm.getLaunchIntentForPackage(packageName)
+            val launchIntent = pm.getLaunchIntentForPackage(songPackageName)
             label to launchIntent
         }.getOrElse { e ->
             XposedLog.e(TAG, e)
-            packageName to context.packageManager.getLaunchIntentForPackage(packageName)
+            lpparam.packageName to context.packageManager.getLaunchIntentForPackage(lpparam.packageName)
         }
     }
 
@@ -228,7 +231,7 @@ abstract class MusicBaseHook : BaseHook() {
             runCatching { context.packageManager.getActivityIcon(it).toBitmap() }.getOrNull()
         }
 
-        val isSaltMusic = extraData.packageName == SALT_MUSIC_PACKAGE
+        val isSaltMusic = songPackageName == SALT_MUSIC_PACKAGE
         val primaryBitmap = when {
             isSaltMusic -> activityIconBitmap
             else -> baseBitmap ?: activityIconBitmap
@@ -261,7 +264,8 @@ abstract class MusicBaseHook : BaseHook() {
      */
     private fun createIconsBundle(iconBundle: IconBundle): Bundle = Bundle().apply {
         putParcelable("miui.focus.icon", iconBundle.circularIcon)
-        putParcelable("miui.focus.share_icon", Icon.createWithBitmap(iconBundle.activityIcon))
+        val shareIconBitmap = iconBundle.activityIcon ?: iconBundle.primaryBitmap
+        putParcelable("miui.focus.share_icon", Icon.createWithBitmap(shareIconBitmap))
         if (!isShowApp) putParcelable("miui.appIcon", iconBundle.primaryBitmap)
     }
 

@@ -33,9 +33,6 @@ import java.util.Objects;
 @HookBase(targetPackage = "com.miui.mediaeditor")
 public class MediaEditor extends BaseLoad {
 
-    public MediaEditor() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

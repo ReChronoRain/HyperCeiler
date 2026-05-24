@@ -19,14 +19,19 @@
 package com.sevtinge.hyperceiler.libhook.rules.camera
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 object UnlockSuperHighQuality : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        unlockMethod
+        return true
+    }
     private val unlockMethod by lazy<Method> {
-        DexKit.findMember("SuperHighQuality") {
+        requiredMember("SuperHighQuality") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -52,3 +57,4 @@ object UnlockSuperHighQuality : BaseHook() {
         }
     }
 }
+

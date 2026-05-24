@@ -35,8 +35,10 @@ import androidx.annotation.XmlRes;
 import androidx.core.view.MenuProvider;
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.core.R;
+import com.sevtinge.hyperceiler.dashboard.DashboardFuncHintHelper.FuncHintRule;
+import com.sevtinge.hyperceiler.dashboard.DashboardFuncHintHelper.VersionRange;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
@@ -53,10 +55,19 @@ public class DashboardFragment extends SettingsPreferenceFragment {
 
     private static final String TAG = "DashboardFragment";
     private static final String APP_NS = "http://schemas.android.com/apk/res-auto";
+    private static final String WARNING_BANNER_KEY = "prefs_key_app_version_warning";
+    protected static final int APP_HINT_UNSUPPORTED = 1;
+    protected static final int APP_HINT_SUPPORTED = 2;
+    protected static final int APP_MATCH_OUT_OF_RANGE = 1;
+    protected static final int APP_MATCH_IN_RANGE = 2;
 
     // 静态缓存，避免每次进入子页面都重新解析 XML
     private static final Map<Integer, String> sQuickRestartCache = new ConcurrentHashMap<>();
 
+    private final DashboardPreferencePageLockHelper mPageLockHelper =
+        new DashboardPreferencePageLockHelper(this, WARNING_BANNER_KEY);
+    private final DashboardFuncHintHelper mFuncHintHelper =
+        new DashboardFuncHintHelper(this, mPageLockHelper);
     private String mQuickRestartPackageName;
 
     @Override
@@ -173,6 +184,54 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         }
     }
 
+    public boolean setFuncHint(Preference p, int value, String pkgName, long minVersionCode, long maxVersionCode) {
+        return mFuncHintHelper.setFuncHint(p, value, pkgName, minVersionCode, maxVersionCode);
+    }
+
+    public boolean setFuncHint(Preference p, int value, int matchMode, String pkgName, long minVersionCode, long maxVersionCode) {
+        return mFuncHintHelper.setFuncHint(p, value, matchMode, pkgName, minVersionCode, maxVersionCode);
+    }
+
+    public boolean setFuncHint(Preference p, int value, String pkgName, long... ranges) {
+        return mFuncHintHelper.setFuncHint(p, value, pkgName, ranges);
+    }
+
+    public boolean setFuncHint(Preference p, int value, int matchMode, String pkgName, long... ranges) {
+        return mFuncHintHelper.setFuncHint(p, value, matchMode, pkgName, ranges);
+    }
+
+    public boolean setFuncHint(Preference p, int value, String pkgName, @Nullable VersionRange... ranges) {
+        return mFuncHintHelper.setFuncHint(p, value, pkgName, ranges);
+    }
+
+    public boolean setFuncHint(Preference p, int value, int matchMode, String pkgName, @Nullable VersionRange... ranges) {
+        return mFuncHintHelper.setFuncHint(p, value, matchMode, pkgName, ranges);
+    }
+
+    public void setFuncHints(String pkgName, @NonNull FuncHintRule... rules) {
+        mFuncHintHelper.setFuncHints(pkgName, rules);
+    }
+
+    protected static FuncHintRule rule(@NonNull Preference preference, int value, @Nullable VersionRange... ranges) {
+        return DashboardFuncHintHelper.rule(preference, value, ranges);
+    }
+
+    protected static FuncHintRule rule(@NonNull Preference preference, int value, int matchMode, @Nullable VersionRange... ranges) {
+        return DashboardFuncHintHelper.rule(preference, value, matchMode, ranges);
+    }
+
+    protected static VersionRange range(long minVersionCode, long maxVersionCode) {
+        return DashboardFuncHintHelper.range(minVersionCode, maxVersionCode);
+    }
+
+    protected static VersionRange atLeast(long minVersionCode) {
+        return DashboardFuncHintHelper.atLeast(minVersionCode);
+    }
+
+    protected static VersionRange atMost(long maxVersionCode) {
+        return DashboardFuncHintHelper.atMost(maxVersionCode);
+    }
+
     public void setPreVisible(Preference p, boolean b) {
         if (!b) {
             cleanKey(p.getKey());
@@ -183,7 +242,15 @@ public class DashboardFragment extends SettingsPreferenceFragment {
     public void setAppModWarn(Preference p, String pkgName) {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), pkgName);
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
-        boolean isDebugVersion = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0) == 0;
-        p.setVisible(check && !isDebugMode && isDebugVersion);
+        int debugVersionCode = getSharedPreferences().getInt("debug_choose_" + pkgName, 0);
+        if (debugVersionCode <= 0) {
+            debugVersionCode = getSharedPreferences().getInt("prefs_key_debug_choose_" + pkgName, 0);
+        }
+        boolean isDebugVersion = debugVersionCode == 0;
+        boolean showWarning = check && !isDebugMode && isDebugVersion;
+        p.setVisible(showWarning);
+        if (showWarning) {
+            mPageLockHelper.lock(p, null);
+        }
     }
 }

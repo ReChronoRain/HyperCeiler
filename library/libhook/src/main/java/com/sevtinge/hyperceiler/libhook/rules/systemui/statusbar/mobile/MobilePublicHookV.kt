@@ -197,7 +197,7 @@ class MobilePublicHookV : BaseHook() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
                 refreshAllVisibility()
             }
-        }, filter)
+        }, filter, Context.RECEIVER_EXPORTED)
 
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         cm.registerDefaultNetworkCallback(

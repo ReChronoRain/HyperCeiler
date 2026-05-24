@@ -33,6 +33,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.BuildConfig;
 import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -44,6 +45,11 @@ public class ExceptionCrashActivity extends AppCompatActivity implements View.On
     private String buildMsg;
     private String fullMsg;
     private String stackMsg;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(LanguageHelper.wrapContext(newBase));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

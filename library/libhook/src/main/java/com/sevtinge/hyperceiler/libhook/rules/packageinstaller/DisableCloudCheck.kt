@@ -20,12 +20,44 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import android.content.Context
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.invokeOriginalMethod
+import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object DisableCloudCheck : BaseHook() {
+
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        method1
+        method2
+        return true
+    }
+
+    private val method1 by lazy<Method> {
+        requiredMember("NoNetworkInstallBtn") {
+            it.findMethod {
+                matcher {
+                    usingStrings("install_btn")
+                    usingNumbers(16)
+                }
+            }.single()
+        }
+    }
+
+    private val method2 by lazy<Method> {
+        requiredMember("NormalInstallBtn") {
+            it.findMethod {
+                matcher {
+                    usingStrings("getString(if (shouldUseU…e R.string.start_install)")
+                }
+            }.single()
+        }
+    }
+
     override fun init() {
         // 签名对应：public final java.lang.Object c(Context, g, int, ApkInfo, HashMap, Continuation)
         val methods = DexKit.findMemberList<Method>("DisableCloudCheck_Fetch") {
@@ -44,6 +76,13 @@ object DisableCloudCheck : BaseHook() {
                 }
             }
         }
+
+        hookMethod(method1, object : IMethodHook {
+            override fun before(param: HookParam?) {
+                callMethod(param?.thisObject, method2.name, param?.args?.get(0))
+                param?.result = null
+            }
+        })
 
         methods.forEach { method ->
             try {

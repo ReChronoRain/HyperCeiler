@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.provision.activity;
 
 import android.os.Bundle;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.Fragment;
 
 import com.sevtinge.hyperceiler.provision.fragment.CongratulationFragment;
@@ -32,6 +33,16 @@ public class CongratulationActivity extends ProvisionDetailActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mIsDisableBack = getIntent().getBooleanExtra("extra_disable_back", false);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (!mIsDisableBack) {
+                    setResult(0);
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                }
+            }
+        });
     }
 
     @Override
@@ -42,13 +53,5 @@ public class CongratulationActivity extends ProvisionDetailActivity {
     @Override
     protected String getFragmentTag() {
         return CongratulationFragment.class.getSimpleName();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (!mIsDisableBack) {
-            setResult(0);
-            super.onBackPressed();
-        }
     }
 }

@@ -27,9 +27,6 @@ import com.sevtinge.hyperceiler.libhook.rules.simactivate.RoamingActivateHelper;
 @HookBase(targetPackage = "com.xiaomi.simactivate.service")
 public class SimActivate extends BaseLoad {
 
-    public SimActivate() {
-        super(true);
-    }
 
     @Override
     public void onPackageLoaded() {

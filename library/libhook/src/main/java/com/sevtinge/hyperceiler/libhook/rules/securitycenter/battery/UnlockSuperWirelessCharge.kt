@@ -19,14 +19,20 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import java.lang.reflect.Method
 
 object UnlockSuperWirelessCharge : BaseHook() {
+    override fun useDexKit() = true
+
+    override fun initDexKit(): Boolean {
+        superWirelessCharge
+        superWirelessChargeTip
+        return true
+    }
 
     private val superWirelessCharge by lazy<Method> {
-        DexKit.findMember("superWirelessCharge") {
+        requiredMember("superWirelessCharge") {
             it.findMethod {
                 matcher {
                     usingEqStrings("persist.vendor.tx.speed.control")
@@ -37,7 +43,7 @@ object UnlockSuperWirelessCharge : BaseHook() {
     }
 
     private val superWirelessChargeTip by lazy<Method> {
-        DexKit.findMember("superWirelessChargeTip") {
+        requiredMember("superWirelessChargeTip") {
             it.findMethod {
                 matcher {
                     usingEqStrings("key_is_connected_super_wls_tx")
@@ -65,3 +71,4 @@ object UnlockSuperWirelessCharge : BaseHook() {
         }
     }
 }
+

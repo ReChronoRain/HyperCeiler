@@ -19,13 +19,20 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
 import java.lang.reflect.Method
 
 object FuckRiskPkg : BaseHook() {
+
+    override fun useDexKit(): Boolean = true
+
+    override fun initDexKit(): Boolean {
+        pkg
+        return true
+    }
+
     private val pkg by lazy<List<Method>> {
-        DexKit.findMemberList("FuckRiskPkg") {
+        requiredMemberList("FuckRiskPkg") {
             it.findMethod {
                 matcher {
                     usingEqStrings(

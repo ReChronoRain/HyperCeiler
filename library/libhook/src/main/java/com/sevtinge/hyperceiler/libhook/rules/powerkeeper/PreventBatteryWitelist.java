@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -35,16 +34,16 @@ import java.util.function.Consumer;
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory;
 
 public class PreventBatteryWitelist extends BaseHook {
-    @Override
-    public void init() {
-        // hookAllMethods("com.miui.powerkeeper.utils.CommonAdapter", lpparam.classLoader, "addPowerSaveWhitelistApps", new MethodHook(20000) {
-        //     @Override
-        //     protected void before(MethodHookParam param) throws Throwable {
-        //         param.setResult(null);
-        //     }
-        // });
+    private Method mFucSwitchMethod;
 
-        Method method = DexKit.findMember("FucSwitch", new IDexKit() {
+    @Override
+    protected boolean useDexKit() {
+        return true;
+    }
+
+    @Override
+    protected boolean initDexKit() {
+        mFucSwitchMethod = requiredMember("FucSwitch", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -56,7 +55,19 @@ public class PreventBatteryWitelist extends BaseHook {
                 return methodData;
             }
         });
-        HookFactory.createMethodHook(method, new Consumer<>() {
+        return true;
+    }
+
+    @Override
+    public void init() {
+        // hookAllMethods("com.miui.powerkeeper.utils.CommonAdapter", lpparam.classLoader, "addPowerSaveWhitelistApps", new MethodHook(20000) {
+        //     @Override
+        //     protected void before(MethodHookParam param) throws Throwable {
+        //         param.setResult(null);
+        //     }
+        // });
+
+        HookFactory.createMethodHook(mFucSwitchMethod, new Consumer<>() {
             @Override
             public void accept(HookFactory hookFactory) {
                 hookFactory.before(param -> {
