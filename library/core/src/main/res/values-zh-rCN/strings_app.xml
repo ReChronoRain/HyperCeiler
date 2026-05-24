@@ -979,10 +979,12 @@
     <string name="updater_fuck_vab_desc">仅支持 VAB 设备\n- 可绕过 ROM 权限校验\n- 不支持任何非官方 ROM 使用\n- 此功能有一定危险性，请在了解 Fastboot 操作后再评估是否开启</string>
     <string name="updater_version_mode">伪装类型</string>
     <string name="updater_big_version">伪装大版本</string>
-    <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目，默认为 V816</string>
+    <string name="updater_big_version_desc">伪装 Xiaomi HyperOS 版本时需要填写的项目</string>
     <string name="updater_miui_version">伪装版本</string>
     <string name="updater_android_version">伪装 Android 版本</string>
     <string name="updater_miui_version_desc">仅对系统更新修改，可在一定程度上屏蔽系统更新</string>
+    <string name="updater_xms_version">伪装热更新补丁版本 (XMS)</string>
+    <string name="updater_xms_version_desc">伪装 XMS 版本时需要填写的项目，以 \"C\" 开头</string>
     <string name="updater_device">伪装机型</string>
     <string name="updater_device_desc">输入目标设备的机型代号以指定机型，可用于获取其他机型的 ROM 包，该功能极度危险</string>
     <string name="updater_diable_dialog">移除 “开启自动更新” 弹窗</string>

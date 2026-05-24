@@ -20,12 +20,18 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import android.os.Build
 import android.text.TextUtils
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.findConstructor
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import org.json.JSONObject
 import java.lang.reflect.Method
 
 object VersionCodeNew : BaseHook() {
@@ -34,6 +40,7 @@ object VersionCodeNew : BaseHook() {
     override fun initDexKit(): Boolean {
         mBigMethod
         mOSCode
+        mOSMethod
         return true
     }
     private val mBigMethod by lazy<Method> {
@@ -70,6 +77,9 @@ object VersionCodeNew : BaseHook() {
     private val mVersionCode =
         PrefsBridge.getString("various_updater_miui_version", "OS2.0.200.0.VOCCNXM")
 
+    private val mXmsVersion =
+        PrefsBridge.getString("various_updater_xms_version", "")
+
 
     override fun init() {
         // 原始修改版本名
@@ -77,7 +87,7 @@ object VersionCodeNew : BaseHook() {
                 if (!TextUtils.isEmpty(mOldVersionCode)) {
                     Build.VERSION::class.java.setStaticObjectField(
                         "INCREMENTAL",
-                        "$mOldVersionCode.${mVersionCode.substringAfter(".")}"
+                        "$mVersionCode"
                     )
                 }
             }
@@ -85,7 +95,7 @@ object VersionCodeNew : BaseHook() {
         // 大版本名字修改
         mBigMethod.createBeforeHook {
             if (!TextUtils.isEmpty(mOldVersionCode)) {
-                it.result = mOldVersionCode.substringAfter("V")
+                it.result = mOldVersionCode
             }
         }
 
@@ -107,6 +117,26 @@ object VersionCodeNew : BaseHook() {
                     }"
             }
         }
+
+        loadClass("android.os.SystemProperties").findMethod {
+            name("get")
+            parameterTypes(String::class.java, String::class.java)
+        }.createBeforeHook {
+            val key = it.args[0] as String?
+            if ("persist.sys.xms.version" == key || "ro.mi.xms.version.incremental" == key) {
+                if (mXmsVersion != null) it.result = mXmsVersion
+            } else if ("ro.mi.os.version.incremental" == key) {
+                if (mVersionCode != null) it.result = mVersionCode
+            }
+        }
+
+        loadClass("com.android.updater.xms.bean.XmsVersionInfo").findConstructor {
+            parameterTypes(JSONObject::class.java)
+        }.createAfterHook {
+            XposedLog.d(TAG, lpparam.packageName, "111 ")
+            XposedLog.d(TAG, lpparam.packageName, "111 " + it.thisObject.getObjectField("curVerCode").toString())
+        }
+
     }
 }
 
