@@ -37,10 +37,10 @@ object NoAutoTurnOff : BaseHook() {
         return true
     }
     private val stopAdvertAllMethod by lazy {
-        optionalMember("NoAutoTurnOff9") {
+        optionalMember("NoAutoTurnOff9N") {
             it.findMethod {
                 matcher {
-                    usingStrings("stopAdvertAll timeout. try stop ")
+                    usingStrings("stopAdvertAllDelay")
                 }
             }.single()
         } as? Method
@@ -101,7 +101,7 @@ object NoAutoTurnOff : BaseHook() {
 
         showToastMethod?.createHook {
             before { param ->
-                if (param.args[1].toString() == "Modify by HyperCeiler") param.result =
+                if (param.args[1].toString() == "") param.result =
                     null
             }
         }
