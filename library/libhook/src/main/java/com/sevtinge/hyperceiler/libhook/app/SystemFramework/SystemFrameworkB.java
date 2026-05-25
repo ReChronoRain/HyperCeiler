@@ -72,6 +72,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.DisableVeri
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.EffectBinderProxy;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.GMSDozeFixFramework;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.HookEntry;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.KeepFocusOnSwipe;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.LinkTurboToast;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NativeFilePicker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.NoAccessDeviceLogsRequest;
@@ -146,6 +147,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new LinkTurboToast(), PrefsBridge.getBoolean("system_framework_disable_link_turbo_toast"));
         initHook(new AllowUntrustedTouchForU(), PrefsBridge.getBoolean("system_framework_allow_untrusted_touch"));
         initHook(DeleteOnPostNotification.INSTANCE, PrefsBridge.getBoolean("system_other_delete_on_post_notification"));
+        initHook(new KeepFocusOnSwipe(), PrefsBridge.getBoolean("system_framework_keep_focus_on_swipe"));
         initHook(new SystemLockApp(), PrefsBridge.getBoolean("system_framework_guided_access"));
         initHook(new AllowManageAllNotifications(), PrefsBridge.getBoolean("system_framework_allow_manage_all_notifications"));
 
