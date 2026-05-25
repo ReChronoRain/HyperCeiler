@@ -22,20 +22,19 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.view.Menu
 import android.view.MenuItem
 import androidx.core.view.get
 import androidx.core.view.size
-import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.initAppContext
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 @SuppressLint("DiscouragedApi")
 object AddAppManagerEntry : BaseHook() {
-    private const val RES_ENTRY_LABEL = "security_center_aosp_app_manager_label"
     private const val ACTIVITY_APP_MANAGER = "com.miui.appmanager.AppManagerMainActivity"
     private const val ACTIVITY_APPCOMPAT = "miuix.appcompat.app.AppCompatActivity"
 
@@ -52,7 +51,7 @@ object AddAppManagerEntry : BaseHook() {
             if (activity.javaClass.name != ACTIVITY_APP_MANAGER) return@createAfterHook
             val endMenu = it.args[1] as? Menu ?: return@createAfterHook
 
-            val label = getModuleString(activity, RES_ENTRY_LABEL)
+            val label = getModuleString(activity)
             val groupId = getActionEndMenuGroupId(activity)
 
             initAppContext(activity, false)
@@ -79,13 +78,8 @@ object AddAppManagerEntry : BaseHook() {
         }
     }
 
-    private fun getModuleString(context: Context, name: String): String {
-        val res = getModuleResources(context)
-        return res.getString(res.getIdentifier(name, "string", ProjectApi.mAppModulePkg))
-    }
-
-    private fun getModuleResources(context: Context): Resources =
-        context.packageManager.getResourcesForApplication(ProjectApi.mAppModulePkg)
+    private fun getModuleString(context: Context): String =
+        AppsTool.getModuleRes(context).getString(R.string.security_center_aosp_app_manager_label)
 
     private fun createAppManagerIntent(): Intent =
         Intent(Intent.ACTION_MAIN).setClassName(
