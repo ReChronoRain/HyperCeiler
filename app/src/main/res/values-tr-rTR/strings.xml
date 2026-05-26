@@ -164,4 +164,9 @@
     <string name="log_viewer">Gunluk goruntuleyici</string>
     <string name="safe_mode_banner_title">Güvenli mod etkin</string>
     <string name="safe_mode_banner_desc">%1$s, tekrar eden çökmelerin ardından Otomatik Güvenlik Modu tarafından HyperCeiler özellikleri geçici olarak devre dışı bırakıldı. Yönetmek için dokunun.</string>
+    <string name="load_failed">Yükleme başarısız oldu.</string>
+    <string name="log_level_general">Genel günlükler</string>
+    <string name="log_level_detailed">Detaylı günlükler</string>
+    <string name="help_framework_warning_title">Mevcut çerveve uyumluluğu</string>
+    <string name="help_framework_warning_unknown_framework">Mevcut çerçeve</string>
 </resources>
