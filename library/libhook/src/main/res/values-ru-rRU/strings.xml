@@ -113,4 +113,5 @@
     <string name="misound_bluetooth_type_none">Оригинал</string>
     <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
     <string name="misound_bluetooth_type_misound">Mi Sound</string>
+    <string name="security_center_battery_full_capacity">Полная емкость батареи</string>
 </resources>
