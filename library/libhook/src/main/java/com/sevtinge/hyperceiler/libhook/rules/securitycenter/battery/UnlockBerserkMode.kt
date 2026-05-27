@@ -1,0 +1,62 @@
+/*
+  * This file is part of HyperCeiler.
+
+  * HyperCeiler is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU Affero General Public License as
+  * published by the Free Software Foundation, either version 3 of the
+  * License.
+
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU Affero General Public License for more details.
+
+  * You should have received a copy of the GNU Affero General Public License
+  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+  * Copyright (C) 2023-2026 HyperCeiler Contributions
+*/
+package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
+
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import java.lang.reflect.Method
+
+class UnlockBerserkMode : BaseHook() {
+    override fun useDexKit() = true
+
+    private lateinit var supportMethod: Method
+    private var legacySupportMethod: Method? = null
+
+    override fun initDexKit(): Boolean {
+        supportMethod = requiredMember("BerserkModeSupport") {
+            it.findMethod {
+                matcher {
+                    usingEqStrings("isSupport wild model ")
+                    returnType = "boolean"
+                    paramCount = 0
+                }
+            }.single()
+        }
+
+        legacySupportMethod = optionalMember("BerserkModeLegacySupport") {
+            it.findMethod {
+                matcher {
+                    usingEqStrings("support_wild_boost_bat_perf")
+                    returnType = "boolean"
+                    paramCount = 0
+                }
+            }.single()
+        }
+        return true
+    }
+
+    override fun init() {
+        supportMethod.createHook {
+            returnConstant(true)
+        }
+        legacySupportMethod?.createHook {
+            returnConstant(true)
+        }
+    }
+}

@@ -1502,8 +1502,15 @@
     <string name="security_center_no_permission">Required permissions not granted</string>
     <string name="security_center_unlock_side_hide_freeform">Unlock side-hide freeform</string>
     <string name="security_center_unlock_side_hide_freeform_desc">Unlock side-hide in freeform mode for devices with limited support. This will also affect widget behavior when the device cuts to the background.</string>
+    <string name="security_center_battery_protection_title">Battery protection</string>
+    <string name="security_center_battery_main_page_title">Main screen</string>
+    <string name="security_center_battery_other_title">Other</string>
     <string name="security_center_unlock_smart_charge_title">Complete charging and battery functions</string>
+    <string name="security_center_unlock_berserk_mode">Unlock Berserk mode</string>
     <string name="security_center_super_wireless_charge">Unlock Quick wireless charging</string>
+    <string name="security_center_fast_charge_notification_mode">Fast charge notification handling</string>
+    <string name="security_center_fast_charge_notification_mode_auto_keep">Auto confirm without removing notification</string>
+    <string name="security_center_fast_charge_notification_mode_auto_remove">Auto confirm and remove notification</string>
     <string name="security_center_blur_model">Sidebar blur model</string>
     <string name="security_center_invert_color">Invert icon color</string>
     <string name="security_center_invert_color_summary">Invert the selected icon colors on some backgrounds for better visibility.\nThis function may have abnormal color inversions. Please enable it as appropriate.</string>

@@ -46,6 +46,9 @@
     <string name="security_center_battery_design_capacity">Battery design capacity</string>
     <string name="security_center_battery_full_capacity">Battery full capacity</string>
     <string name="security_center_battery_capacity_format">%1$d mAh</string>
+    <string name="security_center_fast_charge_high_power">High power fast charge</string>
+    <string name="security_center_fast_charge_tip_turn_on">Turn on high power fast charge</string>
+    <string name="security_center_fast_charge_tip_turn_off">Turn off high power fast charge</string>
     <string name="app_link_open_always">Allows the app to open supported links</string>
     <string name="app_link_open_never">Don\'t allow apps to open links</string>
     <string name="dashboard_5g">Use 5G</string>

@@ -140,11 +140,12 @@ internal object DexKitCacheManager {
         val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         var result: Any? = null
         currentBridge.withBridge { rawBridge ->
-            val baseData: BaseData = try {
+            val baseData = try {
                 iDexKit.dexkit(rawBridge)
             } catch (e: ReflectiveOperationException) {
                 throw RuntimeException(e)
             }
+            if (baseData == null) return@withBridge
             result = resolveAndCache(baseData, key, classLoader)
         }
 

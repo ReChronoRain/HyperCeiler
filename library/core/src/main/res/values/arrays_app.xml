@@ -787,6 +787,18 @@
         <item>2</item>
     </string-array>
 
+    <string-array name="security_center_fast_charge_notification_mode">
+        <item>@string/array_default</item>
+        <item>@string/security_center_fast_charge_notification_mode_auto_keep</item>
+        <item>@string/security_center_fast_charge_notification_mode_auto_remove</item>
+    </string-array>
+
+    <string-array name="security_center_fast_charge_notification_mode_value">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="network_speed_style">
         <item>@string/array_default</item>
         <item>@string/system_ui_statusbar_network_speed_style_1</item>

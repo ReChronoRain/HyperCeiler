@@ -42,10 +42,10 @@ object MoreBatteryInfoNew : BaseHook() {
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
-        manufacturingDateMethod.apply { isAccessible = true }
-        firstUsageDateMethod.apply { isAccessible = true }
-        fullCapacityMethod.apply { isAccessible = true }
-        designCapacityMethod.apply { isAccessible = true }
+        manufacturingDateMethod
+        firstUsageDateMethod
+        fullCapacityMethod
+        designCapacityMethod
 
         return true
     }

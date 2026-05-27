@@ -35,6 +35,9 @@
     <string name="security_center_battery_design_capacity">電池設計容量</string>
     <string name="security_center_battery_full_capacity">電池充滿容量</string>
     <string name="security_center_battery_capacity_format">%1$d mAh</string>
+    <string name="security_center_fast_charge_high_power">高功率快充</string>
+    <string name="security_center_fast_charge_tip_turn_on">開啟高功率快充</string>
+    <string name="security_center_fast_charge_tip_turn_off">關閉高功率快充</string>
     <string name="app_link_open_always">允許應用程式打開支持的連結</string>
     <string name="app_link_open_never">不允許應用程式打開連結</string>
     <string name="dashboard_5g">使用 5G 網絡</string>

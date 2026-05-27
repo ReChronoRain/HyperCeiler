@@ -1456,8 +1456,15 @@
     <string name="security_center_no_permission">未取得所需权限</string>
     <string name="security_center_unlock_side_hide_freeform">解锁贴边小窗</string>
     <string name="security_center_unlock_side_hide_freeform_desc">为底层支持但受限制的设备解锁贴边小窗，这将同时影响手机切后台时小窗的行为</string>
+    <string name="security_center_battery_protection_title">电池保护</string>
+    <string name="security_center_battery_main_page_title">主界面</string>
+    <string name="security_center_battery_other_title">其他</string>
     <string name="security_center_unlock_smart_charge_title">补全充电与电池功能</string>
+    <string name="security_center_unlock_berserk_mode">解锁狂暴模式</string>
     <string name="security_center_super_wireless_charge">解锁极速无线充电模式</string>
+    <string name="security_center_fast_charge_notification_mode">快充通知处理</string>
+    <string name="security_center_fast_charge_notification_mode_auto_keep">自动确认但不移除通知</string>
+    <string name="security_center_fast_charge_notification_mode_auto_remove">自动确认并移除通知</string>
     <string name="security_center_blur_model">全局侧边栏背景自定义</string>
     <string name="security_center_invert_color">图标反色</string>
     <string name="security_center_invert_color_summary">对某些背景下的图标选中颜色进行反色，以达到更好的可视效果\n该功能可能会有反色异常的情况，请酌情开启</string>

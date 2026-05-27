@@ -20,7 +20,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_battery_title"
     app:quick_restart="com.miui.securitycenter">
-    <PreferenceCategory>
+    <PreferenceCategory android:title="@string/security_center_battery_main_page_title">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_screen_time"
+            android:summary="@string/security_center_unlock_screen_time_desc"
+            android:title="@string/security_center_unlock_screen_time" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_power_consumption_ranking"
+            android:title="@string/security_center_power_consumption_ranking" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_unlock_berserk_mode"
+            android:title="@string/security_center_unlock_berserk_mode" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/security_center_battery_protection_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_show_battery_temperature"
@@ -37,16 +56,15 @@
             android:summary="@string/secutity_center_battery_show_more_info_desc"
             android:title="@string/secutity_center_battery_show_more_info" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_unlock_screen_time"
-            android:summary="@string/security_center_unlock_screen_time_desc"
-            android:title="@string/security_center_unlock_screen_time" />
+    </PreferenceCategory>
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_power_consumption_ranking"
-            android:title="@string/security_center_power_consumption_ranking" />
+    <PreferenceCategory android:title="@string/security_center_battery_other_title">
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_security_center_fast_charge_notification_mode"
+            android:title="@string/security_center_fast_charge_notification_mode"
+            app:entries="@array/security_center_fast_charge_notification_mode"
+            app:entryValues="@array/security_center_fast_charge_notification_mode_value" />
 
         <SwitchPreference
             android:defaultValue="false"
