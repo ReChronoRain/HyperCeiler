@@ -475,8 +475,8 @@
     <string name="system_other_flag_secure_desc">Allows screenshots and screen recordings of any app</string>
     <string name="system_other_delete_on_post_notification">Remove pop-up windows notification</string>
     <string name="system_other_delete_on_post_notification_desc">Remove \"This app is displaying over other apps\" notification</string>
-    <string name="system_framework_keep_focus_on_swipe">Keep Super Island after swiping the app away</string>
-    <string name="system_framework_keep_focus_on_swipe_desc">Stops MIUI from clearing in-progress Focus notifications (food delivery, ride-hailing, shared bikes, navigation, etc.) when you swipe the app from recents. Other notifications and manual Force Stop are not affected.</string>
+    <string name="system_framework_keep_focus_on_swipe">Keep Super Island alive</string>
+    <string name="system_framework_keep_focus_on_swipe_desc">Preserves in-progress Focus notifications (food delivery, ride, etc.) when swiping the app or its notification group away.</string>
     <string name="system_framework_share_menu_test">Share menu test</string>
     <string name="system_framework_open_with_menu_test">Open with menu test</string>
     <string name="system_framework_other_speed_install">Speed install</string>

@@ -435,8 +435,8 @@
     <string name="system_other_flag_secure_desc">允许对任意应用进行截屏和录屏</string>
     <string name="system_other_delete_on_post_notification">移除上层显示通知</string>
     <string name="system_other_delete_on_post_notification_desc">移除 \"此应用正显示在屏幕上其他应用的上层\" 通知</string>
-    <string name="system_framework_keep_focus_on_swipe">划掉应用后保留超级岛</string>
-    <string name="system_framework_keep_focus_on_swipe_desc">阻止 HyperOS 在从最近任务划掉应用时清除正在进行的 Focus 通知（外卖、打车、共享单车、导航等），让超级岛保留。普通通知、手动强行停止不受影响。</string>
+    <string name="system_framework_keep_focus_on_swipe">保留正在进行的超级岛</string>
+    <string name="system_framework_keep_focus_on_swipe_desc">划掉应用或其通知组时，保留正在进行的 Focus 通知（外卖、打车等）。</string>
     <string name="system_framework_share_menu_test">分享菜单测试</string>
     <string name="system_framework_open_with_menu_test">打开方式菜单测试</string>
     <string name="system_framework_other_speed_install">快速安装</string>

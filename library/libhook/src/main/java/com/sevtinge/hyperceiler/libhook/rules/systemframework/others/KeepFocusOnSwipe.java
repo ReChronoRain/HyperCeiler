@@ -40,28 +40,31 @@ import java.util.concurrent.ConcurrentHashMap;
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
 /**
- * 修复 HyperOS 3 超级岛：划掉外卖/打车/共享单车等 App 后，正在进行的 Focus 通知
- * 不应该被 PACKAGE_RESTARTED 广播触发的清理路径误清掉。
- * <p>
- * 双 Hook 设计：
+ * 阻止 HyperOS 3 在两条系统级路径上误清正在进行的 Focus 通知（让超级岛保留）：
  * <ol>
- *     <li><b>ProcessCleanerBase.tryToForceStopPackage</b>：MIUI 划掉最近任务最终
- *         会以 reason=&quot;SwipeUpClean&quot; 调到这里。命中时给目标 pkg 打一个 15s TTL
- *         的短期标记。</li>
- *     <li><b>NotificationManagerServiceImpl.skipClearAll</b>：当
- *         reason == {@link android.service.notification.NotificationListenerService#REASON_PACKAGE_CHANGED}
- *         (5，由 ACTION_PACKAGE_RESTARTED 广播触发) 且 pkg 命中刚才的标记，
- *         且通知是「可更新 Focus」（在 Settings.Secure[&quot;updatable_focus_notifs&quot;]
- *         里，或带 miui.focus.param 且 updatable=true / scene 是 foodDelivery/carHailing）
- *         时，强制返回 true，让通知保留，超级岛随之保留。</li>
+ *     <li><b>划掉最近任务</b> ── MIUI 走 ProcessCleanerBase.tryToForceStopPackage
+ *         (reason=&quot;SwipeUpClean&quot;) → forceStopPackage → PACKAGE_RESTARTED 广播 →
+ *         NotificationManagerService.cancelAllNotificationsInt(reason=5)。
+ *         我们在 tryToForceStopPackage 打 15s TTL 的 pkg 标记，再在
+ *         NotificationManagerServiceImpl.skipClearAll(reason=5) 命中标记 + 可更新
+ *         Focus 时强制返回 true。</li>
+ *     <li><b>划掉自动分组的通知组</b> ── 用户在通知栏整体划掉某 App 的非 Focus
+ *         通知组时，NotificationManagerService 走 cancelGroupChildrenByListLocked
+ *         → cancelNotificationLocked(reason=12) 循环取消。MIUI 的 skipClearAll
+ *         只覆盖批量入口，不覆盖这里。我们直接 hook
+ *         NotificationManagerService.cancelNotificationLocked，对可更新 Focus 通知
+ *         在 reason=12 时阻止取消。</li>
  * </ol>
- * 普通强停、通知栏手动滑掉、普通营销通知都不会被影响。
+ * 不影响：手动强停、通知栏手动单独划掉 Focus 通知本身、外卖 App 主动 cancel
+ * 订单通知、普通营销通知。
  */
 public class KeepFocusOnSwipe extends BaseHook {
 
     private static final String SWIPE_UP_CLEAN = "SwipeUpClean";
     /** Matches {@code NotificationListenerService.REASON_PACKAGE_CHANGED}. */
     private static final int REASON_PACKAGE_CHANGED = 5;
+    /** Matches {@code NotificationListenerService.REASON_GROUP_SUMMARY_CANCELED}. */
+    private static final int REASON_GROUP_SUMMARY_CANCELED = 12;
     private static final long MARK_TTL_MILLIS = 15_000L;
 
     private static final String EXTRA_FOCUS_PARAM = "miui.focus.param";
@@ -84,6 +87,7 @@ public class KeepFocusOnSwipe extends BaseHook {
     public void init() {
         hookSwipeMarker();
         hookSkipClearAll();
+        hookGroupChildCancel();
     }
 
     private void hookSwipeMarker() {
@@ -160,6 +164,58 @@ public class KeepFocusOnSwipe extends BaseHook {
                     if (!isUpdatableFocusNotification(sbn, key)) return;
 
                     param.setResult(true);
+                }
+            }
+        );
+    }
+
+    /**
+     * Hook NotificationManagerService.cancelNotificationLocked (8-arg overload, the real
+     * implementation; the 6-arg shim delegates to it). When a non-Focus notification group
+     * is dismissed, NMS calls cancelGroupChildrenByListLocked which removes each child from
+     * the in-memory maps and then invokes this method with reason=12 to broadcast the
+     * removal. If any of those children happens to be an updatable Focus (e.g. MIUI auto-
+     * grouped the delivery notif with the app's other notifs), the broadcast tears down
+     * the super-island. Returning early here suppresses the broadcast — SystemUI never
+     * sees the removal so the island stays. The next focus update from the App re-enqueues
+     * normally and restores NMS state.
+     * <p>
+     * Unlike the swipe-clean path, no SwipeMarker check: this is a per-record decision
+     * driven by reason + record content, not by who triggered the cancel.
+     */
+    private void hookGroupChildCancel() {
+        Class<?> recordCls = findClassIfExists("com.android.server.notification.NotificationRecord");
+        if (recordCls == null) return;
+
+        findAndHookMethod(
+            "com.android.server.notification.NotificationManagerService",
+            "cancelNotificationLocked",
+            recordCls, boolean.class, int.class, int.class, int.class,
+            boolean.class, String.class, long.class,
+            new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    Object reasonObj = param.getArgs()[2];
+                    if (!(reasonObj instanceof Integer)) return;
+                    if ((Integer) reasonObj != REASON_GROUP_SUMMARY_CANCELED) return;
+
+                    Object record = param.getArgs()[0];
+                    if (record == null) return;
+
+                    StatusBarNotification sbn;
+                    String key;
+                    try {
+                        sbn = (StatusBarNotification) callMethod(record, "getSbn");
+                        key = (String) callMethod(record, "getKey");
+                    } catch (Throwable ignored) {
+                        return;
+                    }
+                    if (sbn == null || key == null) return;
+
+                    if (!isUpdatableFocusNotification(sbn, key)) return;
+
+                    // void method — suppress the cancel by short-circuiting.
+                    param.setResult(null);
                 }
             }
         );
