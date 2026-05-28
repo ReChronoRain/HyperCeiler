@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  --><resources>
+    <string name="library_app_name" translatable="false"></string>
+    <!--Introduction to Xposed Modules-->
+    <string name="xposed_description"></string>
+    <string name="miui_quick_settings_tiles_stock" translatable="false"></string>
+    <string name="miui_quick_settings_tiles_stock_pad" translatable="false"></string>
+    <!--String reuse-->
+    <string name="floating_window"></string>
+    <!--Multi-list Array-->
+    <string name="tiles_gms"></string>
+    <string name="tiles_snow_leopard_mode"></string>
+    <string name="tiles_taplus"></string>
+    <string name="tiles_5g"></string>
+    <string name="system_ui_statusbar_music_share"></string>
+    <string name="system_ui_statusbar_music_send"></string>
+    <string name="system_ui_statusbar_music_send_share_text"></string>
+    <string name="system_ui_statusbar_music_notification"></string>
+    <string name="system_ui_statusbar_network_speed_Bs" translatable="false"></string>
+    <string name="system_ui_statusbar_network_speed_speedunits" translatable="false"></string>
+    <string name="open_by_default"></string>
+    <string name="security_center_aosp_app_info_label"></string>
+    <string name="security_center_aosp_app_info"></string>
+    <string name="security_center_aosp_app_manager_label"></string>
+    <string name="security_center_aosp_app_manager"></string>
+    <string name="security_center_battery_design_capacity"></string>
+    <string name="security_center_battery_full_capacity"></string>
+    <string name="security_center_battery_capacity_format"></string>
+    <string name="app_link_open_always"></string>
+    <string name="app_link_open_never"></string>
+    <string name="dashboard_5g"></string>
+    <string name="tiles_sunshine_mode"></string>
+    <string name="system_cc_showpct_style_1"></string>
+    <string name="system_cc_showpct_style_2"></string>
+    <string name="media_control_ground_mode_1"></string>
+    <string name="media_control_ground_mode_2"></string>
+    <string name="media_control_ground_mode_3"></string>
+    <string name="media_control_ground_mode_4"></string>
+    <string name="media_control_ground_mode_5"></string>
+    <string name="media_control_album_mode_1"></string>
+    <string name="media_control_album_mode_2"></string>
+    <string name="media_control_button_mode_1"></string>
+    <string name="media_control_button_mode_2"></string>
+    <string name="notes_unlock_ai_mode_1"></string>
+    <string name="notes_unlock_ai_mode_2"></string>
+    <string name="mode_phone"></string>
+    <string name="mode_pad"></string>
+    <string name="misound_bluetooth_type_none"></string>
+    <string name="misound_bluetooth_type_dolby"></string>
+    <string name="misound_bluetooth_type_misound"></string>
+    <string name="misound_bluetooth_type_keep"></string>
+    <!--System Framework-->
+    <string name="system_framework_phone_network_title"></string>
+    <string name="system_ui_hide_navigation_bar"></string>
+    <string name="system_ui_hide_navigation_bar_toast"></string>
+    <string name="system_ui_hide_navigation_bar_toast_2"></string>
+    <string name="system_ui_hide_navigation_bar_more"></string>
+    <string name="system_framework_guided_access_status"></string>
+    <string name="system_framework_guided_access_status_more"></string>
+    <string name="system_framework_guided_access_tile"></string>
+    <string name="system_framework_guided_access_tile_more"></string>
+    <string name="system_framework_guided_access_block_dialog"></string>
+    <string name="system_framework_guided_access_block_dialog_more"></string>
+    <string name="system_framework_guided_access_exit_lockscreen"></string>
+    <string name="system_framework_guided_access_exit_lockscreen_more"></string>
+    <string name="system_framework_guided_access"></string>
+    <string name="system_framework_guided_access_more"></string>
+    <!--System UI-->
+    <string name="quick_settings_state_change_message_on_my"></string>
+    <string name="quick_settings_state_change_message_off_my"></string>
+    <string name="system_control_center_reduce_bright_colors_tile"></string>
+    <string name="system_control_center_sunshine_mode"></string>
+    <string name="system_control_center_sunshine_mode_brightness"></string>
+    <string name="system_control_center_sunshine_mode_brightness_desc"></string>
+    <!--Settings-->
+    <string name="system_settings_wifipassword_btn_title"></string>
+    <string name="system_settings_wifi_password_label"></string>
+    <string name="system_settings_wifi_password_dlgtitle"></string>
+    <!--Mi Share-->
+    <string name="mishare"></string>
+    <string name="mishare_disable_mishare_auto_off"></string>
+    <string name="mishare_hook_switch_mode_all"></string>
+    <!--Smart cards-->
+    <string name="tsmclient"></string>
+    <string name="tsmclient_auto_nfc"></string>
+    <string name="tsmclient_auto_nfc_desc"></string>
+    <string name="tsmclient_nfc_turning_on"></string>
+    <string name="tsmclient_nfc_turn_on_manually"></string>
+    <string name="tsmclient_nfc_turn_on_failed"></string>
+    <!--AICR-->
+    <string name="aicr"></string>
+    <string name="aicr_modify_browser_copy"></string>
+    <!--XMSF-->
+    <string name="xmsf"></string>
+    <string name="xmsf_unlock_foucs_app_sign_white_list"></string>
+    <!--Other-->
+    <string name="share_center"></string>
+    <string name="new_task"></string>
+    <string name="custom_hook"></string>
+    <string name="various_install_app_info_version_name"></string>
+    <string name="various_install_app_info_version_code"></string>
+    <string name="various_install_app_info_sdk"></string>
+    <string name="various_install_app_size"></string>
+    <string name="app_details_playstore"></string>
+    <string name="app_details_launch"></string>
+    <string name="app_details_nolaunch"></string>
+    <string name="app_details_apk_file"></string>
+    <string name="app_details_apk_version_code"></string>
+    <string name="app_details_data_path"></string>
+    <string name="app_details_app_uid"></string>
+    <string name="app_details_sdk"></string>
+    <string name="app_details_min_sdk"></string>
+    <string name="disable_app_settings"></string>
+    <string name="disable_app_title"></string>
+    <string name="disable_app_text"></string>
+    <string name="disable_app_fail"></string>
+    <string name="system_notifrowmenu_appinfo"></string>
+    <string name="system_notifrowmenu_openinfw"></string>
+    <string name="system_notifrowmenu_forceclose"></string>
+    <!--Home-->
+    <string name="home_share_apk_preparing"></string>
+    <string name="home_share_apk_preparing_split"></string>
+    <string name="home_share_apk_failed"></string>
+    <string name="home_share_apk_prepare_failed"></string>
+</resources>
