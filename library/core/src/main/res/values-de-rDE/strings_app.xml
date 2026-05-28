@@ -1345,7 +1345,6 @@
     <string name="security_center_remove_simlock_success_dialog">SIM-Sicherheitsverifizierungs-Warnung entfernen</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Den Dialog nach dem Einschalten des Geräts entfernen, der anzeigt, dass die SIM-Sicherheitsverifizierung erfolgreich abgeschlossen wurde</string>
     <string name="security_center_power_consumption_ranking">Stromverbrauchsrangliste anzeigen</string>
-    <string name="security_center_hide_xopt_mode_tip">Hinweis für versteckte Berechtigungsnutzung ausblenden</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Kälte-Ausdauer-Modus freischalten</string>
     <string name="secutity_center_battery_show_more_info">Weitere Akku-Informationen anzeigen</string>
     <string name="secutity_center_battery_show_more_info_desc">Experimentelle Funktion. Die angezeigten zusätzlichen Akku-Informationen können je nach Gerät variieren.</string>

@@ -82,6 +82,4 @@
     <!--Other-->
     <string name="exit">Beenden</string>
     <string name="ignore">Ignorieren</string>
-    <string name="disable_suggest">Vorschlag deaktivieren</string>
-    <string name="enable_suggest">Vorschlag aktivieren</string>
 </resources>

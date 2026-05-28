@@ -86,8 +86,6 @@
     <!--Other-->
     <string name="exit">退出</string>
     <string name="ignore">忽略</string>
-    <string name="disable_suggest">禁用推薦</string>
-    <string name="enable_suggest">啟用推薦</string>
     <string name="unsupported_func_tips">當前目標作用域來源可能並不是 Xiaomi 官方，出於安全考量，已停止載入此作用域的所有功能，請嘗試更改為 Xiaomi 官方發布的應用包，或前往「HyperCeiler 設定-開發者選項-除錯模式」指定掛載版本後重試。</string>
     <string name="debug_mode_running">目前目標作用域正處於偵錯模式，若無必要開啟請前往關閉。\n目前應用版本：%1$s\n選擇目標版本：%2$s\n是否成功掛鉤：%3$s</string>
     <string name="debug_mode_switch">偵錯版本</string>

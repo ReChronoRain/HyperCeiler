@@ -83,8 +83,6 @@
     <!--Other-->
     <string name="exit">終了</string>
     <string name="ignore">無視</string>
-    <string name="disable_suggest">サジェストを無効にする</string>
-    <string name="enable_suggest">サジェストを有効にする</string>
     <string name="unsupported_func_tips">現在のターゲットスコープのソースは Xiaomi 公式ではない可能性があります。セキュリティ上の理由により、このスコープのすべての機能は無効になっています。Xiaomi がリリースしたアプリパッケージに切り替えるか、「HyperCeiler 設定 &gt; 開発者向けオプション &gt; デバッグモード」でマウントされているバージョンを指定して再度お試しください。</string>
     <string name="debug_mode_running">現在はデバッグモードで実行中です。必要でなければ、無効にしてください。\n現在のアプリバージョン: %1$s\n選択したターゲットバージョン: %2$s\nフック成否: %3$s</string>
     <string name="debug_mode_switch">デバッグバージョン</string>

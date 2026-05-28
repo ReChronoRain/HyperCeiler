@@ -18,510 +18,284 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.ColorMatrixColorFilter
-import android.graphics.RenderEffect
 import android.graphics.drawable.LayerDrawable
-import android.graphics.drawable.VectorDrawable
-import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.SeekBar
+import android.widget.Space
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.api.ColorUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.createBlurDrawable
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.isBlurDrawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.addMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearMiBackgroundBlendColor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlurRoundRect
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurMode
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
-import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setPassWindowBlurEnabled
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.children
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findDescendantByIdName
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.resourceEntryName
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
-import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
-import java.lang.reflect.Method
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 
 object BlurSecurity : BaseHook() {
-    override fun useDexKit() = true
+    private const val MATERIAL_MARK = "hyperceiler_sidebar_material"
+    private const val MATERIAL_LISTENER_MARK = "hyperceiler_sidebar_material_listener"
 
-    override fun initDexKit(): Boolean {
-        lottieAnimation
-        gameManagerMethod
-        return true
-    }
     private val blurRadius by lazy {
         PrefsBridge.getInt("security_center_blurradius", 60)
     }
-    private val blurSuper by lazy {
-        PrefsBridge.getBoolean("security_center_blur_model_super")
-    }
+
     private val backgroundColor by lazy {
         PrefsBridge.getInt("security_center_color", -1)
     }
-    private val isInvertColor by lazy {
-        PrefsBridge.getBoolean("security_center_invert_color")
-    }
-    private val shouldInvertColor = !ColorUtils.isDarkColor(backgroundColor)
-
-    // 反色 同时保持红蓝色变化不大
-    private val invertColorRenderEffect = RenderEffect.createColorFilterEffect(
-        ColorMatrixColorFilter(
-            floatArrayOf(
-                1f, 1f, -2f, 0f, 16f,
-                0f, 0f, 0f, 0f, 0f,
-                -3f, 1f, 2f, 0f, 16f,
-                0f, 0f, 0f, 0.85f, 0f
-            )
-        )
-    )
-
-    // 不反转颜色的名单ID或类名
-    // whiteList 不在列表内子元素也会反色
-    private val invertColorWhiteList = arrayOf("lv_main", "second_view")
-
-    // keepList 列表内元素及其子元素不会反色
-    private val keepColorList = arrayOf("rv_information")
-
-    private val lottieAnimation by lazy<Method> {
-        requiredMember("BlurSecurity1") {
-            it.findMethod {
-                matcher {
-                    addUsingString("game_turbo_box_mode_change")
-                }
-            }.single()
-        }
-    }
-
-    private val gameManagerMethod by lazy<Method> {
-        requiredMember("BlurSecurity2") {
-            it.findMethod {
-                searchPackages = listOf("com.miui.gamebooster.windowmanager.newbox")
-                matcher {
-                    usingStrings = listOf("addView error")
-                }
-            }.single()
-        }
-    }
 
     override fun init() {
-        val turboLayoutClass = findClassIfExists(
+        val turboLayoutClass = loadClassOrNull(
             "com.miui.gamebooster.windowmanager.newbox.TurboLayout"
         ) ?: return
 
-        var dockLayoutClass: Class<*>? = null
-        turboLayoutClass.methods.forEach {
-            if (it.name == "getDockLayout") {
-                dockLayoutClass = it.returnType
-            }
-        }
-        if (dockLayoutClass == null) {
-            return
-        }
+        hookDockLayout(turboLayoutClass)
+        hookToolboxContent(turboLayoutClass)
+        hookGameToolbox(turboLayoutClass)
+        hideTopLineImages()
+    }
 
-        // dock 应用栏
+    private fun hookDockLayout(turboLayoutClass: Class<*>) {
+        val dockLayoutClass = turboLayoutClass.methods
+            .firstOrNull { it.name == "getDockLayout" }
+            ?.returnType
+            ?: return
+
         dockLayoutClass.hookAllConstructors {
             after { param ->
-                val view = param.thisObject as View
-                view.addOnAttachStateChangeListener(
-                    object :
-                        View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            setBlurBg(view)
-                        }
-
-                        override fun onViewDetachedFromWindow(view: View) {
-                            clearBlurBg(view)
-                        }
-                    })
+                (param.thisObject as? View)?.applyMaterialOnAttach(clearBackground = true)
             }
         }
+    }
 
-        // 工具箱主体(这里只处理视频/会议/通话工具箱)
-        findAndHookMethod(turboLayoutClass, "getTargetBox", object : IMethodHook {
-            override fun after(param: HookParam) {
-                val targetBox: View? = param.result as View?
-                targetBox?.addOnAttachStateChangeListener(
-                    object : View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            val mainContent: View? = (view as ViewGroup).getChildAt(0)
-                            if (mainContent != null) {
-                                /**
-                                 * 视频/会议/通话工具箱 ID 为 main_content
-                                 * 游戏工具箱无 ID, 但不要在此操作游戏工具箱
-                                 * 因为会导致游戏工具箱主体扩展时本该透明的区域却设置了背景, 例如“亮度”
-                                 */
-                                if (mainContent.id != View.NO_ID) {
-                                    mainContent.background = null
-                                    setBlurBg(view)
+    private fun hookToolboxContent(turboLayoutClass: Class<*>) {
+        turboLayoutClass.findMethod {
+            name("getTargetBox")
+        }.createAfterHook { param ->
+            val targetBox = param.result as? ViewGroup ?: return@createAfterHook
+            targetBox.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(view: View) {
+                    val mainContent = targetBox.findDescendantByIdName("main_content") ?: return
+                    mainContent.background = null
+                    targetBox.applyMaterial()
+                }
 
-                                    if (shouldInvertColor && isInvertColor) {
-                                        invertViewColor(view)
-                                    }
-                                }
-                            }
-                        }
+                override fun onViewDetachedFromWindow(view: View) {
+                    setMaterialProtected(targetBox, false)
+                }
+            })
+        }
+    }
 
-                        override fun onViewDetachedFromWindow(view: View) {
-                            clearBlurBg(view)
-                        }
-                    }
-                )
-            }
-        })
+    private fun hookGameToolbox(turboLayoutClass: Class<*>) {
+        hookGameTurboChildren(turboLayoutClass)
 
-        val newToolBoxTopViewClass = findClassIfExists(
+        val newToolBoxTopViewClass = loadClassOrNull(
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
-        // 游戏工具箱
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
-            override fun after(param: HookParam) {
-                val view = param.thisObject as View
-                view.addOnAttachStateChangeListener(
-                    object : View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            val viewParent = view.parent as ViewGroup
-                            val gameContentLayout = viewParent.parent as ViewGroup
-                            setBlurBg(gameContentLayout)
-                            if (shouldInvertColor && isInvertColor) {
-                                invertViewColor(gameContentLayout)
 
-                                /**
-                                 * 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
-                                 * 暂时把整个动画(包括 lottie 动画和文字动画)去除, 仅去除文字动画可能因版本混淆而 hook 失败
-                                 * 在 40000727 版本号中去除文字动画：
-                                 * com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView
-                                 * ↳ getPerformanceTextView
-                                 *   ↳ e(boolean)
-                                 */
-                                lottieAnimation.createHook {
-                                    replace {
-                                        null
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onViewDetachedFromWindow(v: View) {
-                            val viewParent = view.parent as ViewGroup
-                            val gameContentLayout = viewParent.parent as ViewGroup
-                            clearBlurBg(gameContentLayout)
-                        }
+        newToolBoxTopViewClass.hookAllConstructors {
+            after { param ->
+                val topView = param.thisObject as? View ?: return@after
+                topView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(view: View) {
+                        val toolboxContent = ((view.parent as? ViewGroup)?.parent as? View) ?: return
+                        toolboxContent.applyMaterial()
                     }
-                )
+
+                    override fun onViewDetachedFromWindow(view: View) {
+                        val toolboxContent = ((view.parent as? ViewGroup)?.parent as? View) ?: return
+                        setMaterialProtected(toolboxContent, false)
+                    }
+                })
+            }
+        }
+    }
+
+    private fun hookGameTurboChildren(turboLayoutClass: Class<*>) {
+        val gameTurboLayoutClass = turboLayoutClass.methods
+            .firstOrNull { it.name == "getGameTurboLayout" }
+            ?.returnType
+            ?: return
+
+        gameTurboLayoutClass.hookAllConstructors {
+            after { param ->
+                (param.thisObject as? ViewGroup)?.applyMaterialToGameTurboChildrenOnAttach()
+            }
+        }
+
+        gameTurboLayoutClass.findMethod {
+            name("getMainView")
+        }.createAfterHook { param ->
+            val gameTurboLayout = param.thisObject as? ViewGroup ?: return@createAfterHook
+            gameTurboLayout.applyMaterialToGameTurboChildrenOnAttach()
+        }
+    }
+
+    private fun hideTopLineImages() {
+        ImageView::class.java.hookAllConstructors {
+            after { param ->
+                val imageView = param.thisObject as? ImageView ?: return@after
+                if (imageView.id == View.NO_ID) return@after
+
+                when (imageView.resourceEntryName()) {
+                    "video_box_top_line_bg", "game_turbo_top_line_bg" -> {
+                        imageView.setImageDrawable(null)
+                        imageView.visibility = View.GONE
+                    }
+                }
+            }
+        }
+    }
+
+    private fun View.applyMaterialOnAttach(clearBackground: Boolean = false) {
+        if (getAdditionalInstanceField(MATERIAL_LISTENER_MARK) == true) {
+            if (isAttachedToWindow) {
+                post { applyMaterial(clearBackground) }
+            }
+            return
+        }
+        setAdditionalInstanceField(MATERIAL_LISTENER_MARK, true)
+
+        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(view: View) {
+                view.applyMaterial(clearBackground)
+            }
+
+            override fun onViewDetachedFromWindow(view: View) {
+                setMaterialProtected(view, false)
             }
         })
 
-        // 隐藏视频/游戏工具箱顶部静态图
-        hookAllConstructors(
-            ImageView::class.java,
-            object : IMethodHook {
-                override fun after(param: HookParam) {
-                    (param.thisObject as? ImageView?)?.let {
-                        if (it.id != View.NO_ID) {
-                            val id = getId(it)
-                            if (id == "video_box_top_line_bg" || id == "game_turbo_top_line_bg") {
-                                it.setImageDrawable(null)
-                                it.visibility = View.GONE
-                            }
-                        }
-                    }
-                }
-            }
-        )
-
-        // ======================================
-        if (shouldInvertColor && isInvertColor) {
-            val detailSettingsLayoutClass = findClassIfExists(
-                "com.miui.gamebooster.videobox.view.DetailSettingsLayout"
-            ) ?: return
-            val srsLevelSeekBarProClass = findClassIfExists(
-                "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro"
-            ) ?: return
-            var srsLevelSeekBarInnerViewClass = findClassIfExists(
-                "com.miui.gamebooster.videobox.view.c"
-            )
-            if (srsLevelSeekBarInnerViewClass == null) {
-                srsLevelSeekBarInnerViewClass = findClassIfExists(
-                    "b8.c"
-                ) ?: return
-            }
-            val videoBoxWhiteList = arrayOf(
-                "miuix.slidingwidget.widget.SlidingButton",
-                "android.widget.ImageView",
-                "android.widget.CompoundButton",
-                "com.miui.common.widgets.gif.GifImageView",
-                "com.miui.gamebooster.videobox.view.SrsLevelSeekBar",
-                "com.miui.gamebooster.videobox.view.SrsLevelSeekBarPro",
-                "com.miui.gamebooster.videobox.view.VideoEffectImageView",
-                "com.miui.gamebooster.videobox.view.DisplayStyleImageView",
-                "com.miui.gamebooster.videobox.view.c",
-                "b8.c",
-                "com.miui.gamebooster.videobox.view.VBIndicatorView"
-            )
-
-            val gameBoxWhiteList = arrayOf(
-                "audition_view",
-                "miuix.slidingwidget.widget.SlidingButton"
-            )
-
-            val videoBoxKeepList = arrayOf("img_wrapper2")
-            val gameBoxKeepList = arrayOf(
-                "rl_header",
-                "tv_barrage_color_pick",
-                "seekbar_text_size",
-                "seekbar_text_speed"
-            )
-
-            gameManagerMethod.createAfterHook {
-                val view = it.args[0] as View
-                invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
-            }
-
-            val auditionViewClass =
-                findClassIfExists("com.miui.gamebooster.customview.AuditionView") ?: return
-
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
-                detailSettingsLayoutClass,
-                "setFunctionType",
-                object : IMethodHook {
-                    override fun after(param: HookParam) {
-                        val marqueeTextView = getObjectField(param.thisObject, "d")
-                        if (marqueeTextView != null) {
-                            marqueeTextView as TextView
-                            marqueeTextView.setTextColor(Color.GRAY)
-                        }
-                        val listView = getObjectField(param.thisObject, "c") as ListView
-                        val listViewAdapterClassName = listView.adapter.javaClass.name
-                        val listViewAdapterInnerClass =
-                            findClassIfExists($$"$$listViewAdapterClassName$a") ?: return
-                        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
-                            listViewAdapterInnerClass,
-                            "a",
-                            object : IMethodHook {
-                                override fun after(param: HookParam) {
-                                    val isSetupFunction =
-                                        param.args[0].toString().contains("BaseModel")
-                                    if (isSetupFunction) {
-                                        listViewAdapterInnerClass.declaredFields.forEach { field ->
-                                            val currentObject = field.get(param.thisObject)
-                                            if (currentObject is ImageView) {
-                                                if (getId(currentObject) == "img1" || getId(
-                                                        currentObject
-                                                    ) == "img2"
-                                                ) {
-                                                    currentObject.setRenderEffect(
-                                                        RenderEffect.createColorFilterEffect(
-                                                            ColorMatrixColorFilter(
-                                                                floatArrayOf(
-                                                                    1f, 0f, 0f, 0f, 0f,
-                                                                    0f, 1f, 0f, 0f, 0f,
-                                                                    0f, 0f, 1f, 0f, 0f,
-                                                                    0.5f, 0.5f, 0.5f, 0f, 0f
-                                                                )
-                                                            )
-                                                        )
-                                                    )
-                                                }
-                                            }
-                                            if (currentObject is View) {
-                                                invertViewColor(
-                                                    currentObject,
-                                                    videoBoxWhiteList,
-                                                    videoBoxKeepList
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            })
-                    }
-                })
-
-            findAndHookMethod(
-                srsLevelSeekBarProClass,
-                "b", Context::class.java,
-                AttributeSet::class.java, Int::class.java, object : IMethodHook {
-                    override fun after(param: HookParam) {
-                        val bgColorField = srsLevelSeekBarProClass.getDeclaredField("j")
-                        bgColorField.isAccessible = true
-                        bgColorField.setInt(
-                            param.thisObject,
-                            ColorUtils.addAlphaForColor(Color.GRAY, 150)
-                        )
-
-                        val selectTxtColorField =
-                            srsLevelSeekBarProClass.getDeclaredField("l")
-                        selectTxtColorField.isAccessible = true
-                        selectTxtColorField.setInt(
-                            param.thisObject,
-                            Color.WHITE
-                        )
-
-                        val normalTxtColorField =
-                            srsLevelSeekBarProClass.getDeclaredField("l")
-                        normalTxtColorField.isAccessible = true
-                        normalTxtColorField.setInt(
-                            param.thisObject,
-                            Color.WHITE
-                        )
-                    }
-                }
-            )
-
-            findAndHookMethod(srsLevelSeekBarInnerViewClass, "a", Context::class.java,
-                AttributeSet::class.java, Int::class.java, object : IMethodHook {
-                    override fun after(param: HookParam) {
-                        val bgColorField = srsLevelSeekBarInnerViewClass.getDeclaredField("h")
-                        bgColorField.isAccessible = true
-                        bgColorField.setInt(
-                            param.thisObject,
-                            ColorUtils.addAlphaForColor(Color.WHITE, 150)
-                        )
-                    }
-                }
-            )
-
-            // 让图标颜色更深一点
-            findAndHookMethod(
-                auditionViewClass,
-                "M",
-                Context::class.java,
-                object : IMethodHook {
-                    override fun after(param: HookParam) {
-                        val view = getObjectField(param.thisObject, "d") as View
-                        val parentView = view.parent
-                        if (parentView is ViewGroup) {
-                            val lastChild = parentView.getChildAt(parentView.childCount - 1)
-                            if (lastChild is ImageView && lastChild.drawable is VectorDrawable) {
-                                val oldDrawable = lastChild.drawable
-                                val newDrawable = LayerDrawable(
-                                    arrayOf(
-                                        oldDrawable,
-                                        oldDrawable,
-                                        oldDrawable,
-                                        oldDrawable,
-                                        oldDrawable
-                                    )
-                                )
-                                lastChild.setImageDrawable(newDrawable)
-                            }
-                        }
-                        invertViewColor(view, gameBoxWhiteList, gameBoxKeepList)
-                    }
-                })
-
+        if (isAttachedToWindow) {
+            post { applyMaterial(clearBackground) }
         }
     }
 
-    private fun setBlurBg(view: View) {
-        // 已有背景 避免重复添加
-        if (!blurSuper) {
-            if (view.background != null) {
-                if (isBlurDrawable(view.background)) {
-                    return
-                }
+    private fun ViewGroup.applyMaterialToGameTurboChildrenOnAttach() {
+        applyGameTurboMaterials()
+
+        if (getAdditionalInstanceField(MATERIAL_LISTENER_MARK) == true) {
+            if (isAttachedToWindow) {
+                post { applyGameTurboMaterials() }
+            }
+            return
+        }
+        setAdditionalInstanceField(MATERIAL_LISTENER_MARK, true)
+
+        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            override fun onViewAttachedToWindow(view: View) {
+                (view as? ViewGroup)?.applyGameTurboMaterials()
             }
 
-            view.background =
-                createBlurDrawable(view, blurRadius, 40, backgroundColor)
-        } else {
-            view.apply {
-                setBackgroundColor(backgroundColor)
-                clearMiBackgroundBlendColor()
-                setMiViewBlurMode(1)
-                setMiBackgroundBlurRadius(40)
-                setBlurRoundRect(40) // 给视频/通话/会议工具箱设置的圆角
-                addMiBackgroundBlendColor(Color.argb(255, 0, 0, 0), 103)
+            override fun onViewDetachedFromWindow(view: View) {
+                (view as? ViewGroup)?.children
+                    ?.flatMap { it.gameTurboMaterialTargets() }
+                    ?.forEach { setMaterialProtected(it, false) }
             }
+        })
+    }
+
+    private fun ViewGroup.applyGameTurboMaterials() {
+        children
+            .flatMap { it.gameTurboMaterialTargets() }
+            .forEach {
+                it.applyMaterialOnAttach()
+            }
+    }
+
+    private fun View.gameTurboMaterialTargets(): Sequence<View> {
+        if (!shouldApplyGameTurboChildMaterial()) return emptySequence()
+
+        val brightnessViews = findGameTurboBrightnessTargets()
+        return brightnessViews?.asSequence() ?: sequenceOf(this)
+    }
+
+    private fun View.findGameTurboBrightnessTargets(): List<View>? {
+        if (this !is ViewGroup) return null
+
+        val brightnessContainer = findDescendantByIdName("brightness_container") as? ViewGroup
+        val directTargets = brightnessContainer?.children
+            ?.filter { it.isGameTurboBrightnessTarget() && it.shouldApplyGameTurboChildMaterial() }
+            ?.toList()
+            .orEmpty()
+        if (directTargets.isNotEmpty()) return directTargets
+
+        val autoBrightness = findDescendantByIdName("auto_brightness")
+        val brightnessBar = findDescendantByIdName("qs_brightness")
+        if (autoBrightness == null && brightnessBar == null) return null
+
+        return listOfNotNull(autoBrightness, brightnessBar)
+            .filter { it.shouldApplyGameTurboChildMaterial() }
+    }
+
+    private fun View.isGameTurboBrightnessTarget(): Boolean {
+        return when (resourceEntryName()) {
+            "auto_brightness", "qs_brightness" -> true
+            else -> false
         }
     }
 
-    private fun clearBlurBg(view: View) {
-        if (!blurSuper) view.background = null
-    }
-
-    // 尽量给最外层加 RenderEffect 而不是 最内层
-    // whiteList 不在名单内的子视图依旧反转
-    // keepList 本身及子视图均不反转
-    fun invertViewColor(
-        view: View,
-        whiteList: Array<String> = invertColorWhiteList,
-        keepList: Array<String>? = keepColorList,
-    ) {
-        if (keepList != null) {
-            if (keepList.contains(getId(view))) {
-                return
-            }
-            if (keepList.contains(view.javaClass.name)) {
-                return
-            }
-        }
-        try {
-            if (isChildNeedInvertColor(view, whiteList, keepList)) {
-                view.setRenderEffect(invertColorRenderEffect)
-            } else {
-                if (view is ViewGroup) {
-                    for (index in 0 until view.childCount) {
-                        val childView = view.getChildAt(index)
-                        if (childView != null) {
-                            invertViewColor(childView, whiteList, keepList)
-                        }
-                    }
-                }
-            }
-        } catch (e: Throwable) {
-            XposedLog.w(TAG, this.lpparam.packageName, "invertViewColor err", e)
+    private fun View.prepareGameTurboMaterialTarget() {
+        when (resourceEntryName()) {
+            "auto_brightness" -> clearAutoBrightnessBackgroundImage()
+            "qs_brightness" -> clearBrightnessSliderBackgroundLayer()
         }
     }
 
-    private fun isChildNeedInvertColor(
-        view: View,
-        whiteList: Array<String>,
-        keepList: Array<String>?,
-    ): Boolean {
-        val viewId = getId(view)
-        if (whiteList.contains(viewId)) {
-            return false
-        }
-        if (whiteList.contains(view.javaClass.name)) {
-            return false
-        }
-        if (keepList != null) {
-            if (keepList.contains(getId(view))) {
-                return false
-            }
-            if (keepList.contains(view.javaClass.name)) {
-                return false
-            }
-        }
-        try {
-            if (view is ViewGroup) {
-                for (index in 0 until view.childCount) {
-                    val childView = view.getChildAt(index)
-                    if (childView != null) {
-                        if (!isChildNeedInvertColor(childView, whiteList, keepList)) {
-                            return false
-                        }
-                    }
-                }
-            }
-        } catch (e: Throwable) {
-            XposedLog.w(TAG, this.lpparam.packageName, "isChildNeedInvertColor err", e)
-        }
-        return true
+    private fun View.clearAutoBrightnessBackgroundImage() {
+        val backgroundImage = (this as? ViewGroup)
+            ?.findDescendantByIdName("auto_img_bg") as? ImageView
+        backgroundImage?.setImageDrawable(null)
+        backgroundImage?.visibility = View.GONE
     }
 
-    private fun getId(view: View): String {
-        return if (view.id == View.NO_ID) "no-id" else view.resources.getResourceName(view.id)
-            .replace("com.miui.securitycenter:id/", "")
+    private fun View.clearBrightnessSliderBackgroundLayer() {
+        val slider = (this as? ViewGroup)
+            ?.findDescendantByIdName("slider") as? SeekBar ?: return
+        (slider.progressDrawable as? LayerDrawable)
+            ?.findDrawableByLayerId(android.R.id.background)
+            ?.alpha = 0
+        slider.invalidate()
     }
 
+    private fun View.shouldApplyGameTurboChildMaterial(): Boolean {
+        return this !is Space && layoutParams?.width != 0 && layoutParams?.height != 0
+    }
+
+    private fun View.applyMaterial(clearBackground: Boolean = false) {
+        runCatching {
+            setMaterialProtected(this, false)
+            if (clearBackground) {
+                background = null
+            }
+            prepareGameTurboMaterialTarget()
+            clearMiBackgroundBlendColor()
+            setPassWindowBlurEnabled(true)
+            setMiBackgroundBlurMode(1)
+            setMiViewBlurMode(1)
+            setMiBackgroundBlurRadius(blurRadius)
+            setBlurRoundRect(40)
+            addMiBackgroundBlendColor(backgroundColor, 101)
+            setMaterialProtected(this, true)
+        }.onFailure {
+            XposedLog.w(TAG, lpparam.packageName, "apply sidebar material failed", it)
+        }
+    }
+
+    private fun setMaterialProtected(view: View, protected: Boolean) {
+        view.setAdditionalInstanceField(MATERIAL_MARK, protected)
+    }
 }
-

@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/security_center_newbox_title"
     app:quick_restart="com.miui.securitycenter">
-    <PreferenceCategory android:title="@string/various_location_simulation_all_title">
+    <PreferenceCategory android:title="@string/security_center_sidebar_function_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_security_center_hide_sidebar"
@@ -34,7 +34,6 @@
 
         <SwitchPreference
             android:defaultValue="false"
-            android:enabled="false"
             android:key="prefs_key_security_center_sidebar_line_color"
             android:title="@string/security_center_sidebar_line_color" />
 
@@ -61,23 +60,9 @@
             android:key="prefs_key_se_enable"
             android:title="@string/security_center_blur_model" />
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_security_center_blur_model_super"
-            android:dependency="prefs_key_se_enable"
-            android:disableDependentsState="true"
-            android:title="@string/use_hyper_blur" />
-
-        <SwitchPreference
-            android:defaultValue="false"
-            android:dependency="prefs_key_se_enable"
-            android:key="prefs_key_security_center_invert_color"
-            android:summary="@string/security_center_invert_color_summary"
-            android:title="@string/security_center_invert_color" />
-
         <SeekBarPreferenceCompat
             app:defaultValue="60"
-            android:dependency="prefs_key_security_center_blur_model_super"
+            android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_blurradius"
             android:title="@string/security_center_blurradius"
             app:defaultValueTitle="@string/array_default"
@@ -91,19 +76,30 @@
             android:dependency="prefs_key_se_enable"
             android:key="prefs_key_security_center_color"
             android:title="@string/security_center_color" />
+    </PreferenceCategory>
 
-        <fan.preference.DropDownPreference
-            android:defaultValue="0"
-            android:key="prefs_key_security_center_sidebar_show_suggest"
-            android:title="@string/security_center_sidebar_show_suggest"
-            app:entries="@array/security_center_suggest"
-            app:entryValues="@array/security_center_suggest_value"
-            app:isPreferenceVisible="false" />
-
+    <PreferenceCategory android:title="@string/security_center_sidebar_app_bar_title">
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_disable_security_center_sidebar_show_suggest"
             android:title="@string/security_center_sidebar_show_suggest" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_sidebar_common_app_limit_enable"
+            android:title="@string/security_center_sidebar_common_app_limit" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_security_center_sidebar_common_app_limit_enable"
+            android:key="prefs_key_security_center_sidebar_common_app_limit"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValue="10"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%d"
+            app:maxValue="100"
+            app:minValue="10"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -116,6 +112,12 @@
             android:defaultValue="false"
             android:key="prefs_key_security_center_unlock_new_vb"
             android:title="@string/security_center_unlock_new_vb" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_security_center_disable_video_toolbox_thermal_close"
+            android:summary="@string/security_center_disable_video_toolbox_thermal_close_desc"
+            android:title="@string/security_center_disable_video_toolbox_thermal_close" />
 
         <SwitchPreference
             android:defaultValue="false"

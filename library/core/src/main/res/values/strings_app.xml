@@ -1533,11 +1533,15 @@
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
     <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
+    <string name="security_center_sidebar_common_app_limit">Common small window app limit</string>
     <string name="security_center_unlock_new_vb">Unlock new Video toolbox</string>
+    <string name="security_center_disable_video_toolbox_thermal_close">Disable thermal auto close</string>
+    <string name="security_center_disable_video_toolbox_thermal_close_desc">Prevent \"Super resolution\" and \"Image quality enhancement\" from being closed automatically.</string>
     <string name="security_center_game_performance_wild_mode">Unlock Wild Boost</string>
     <string name="security_center_sidebar_videobox_title">Video toolbox</string>
     <string name="security_center_sidebar_gamebox_title">Gamebox</string>
-    <string name="security_center_sidebar_function_title">Sidebar function</string>
+    <string name="security_center_sidebar_function_title">Sidebar</string>
+    <string name="security_center_sidebar_app_bar_title">Functions</string>
     <string name="security_center_game_speed">Launch the game quickly</string>
     <string name="security_center_game_speed_desc">When launching the game, it passes the opening screen animation at 3x speed, which is only supported by some games.</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Bypass Xiaomi Account SIM security</string>
@@ -1545,7 +1549,6 @@
     <string name="security_center_remove_simlock_success_dialog">Remove SIM security verification warning</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Remove the dialog after turning on the device to indicate that the SIM security verification has been successfully completed</string>
     <string name="security_center_power_consumption_ranking">Show power consumption ranking</string>
-    <string name="security_center_hide_xopt_mode_tip">Hide tip for hidden permission usage</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
     <string name="secutity_center_battery_show_more_info">Show more battery info</string>
     <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>

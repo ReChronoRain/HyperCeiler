@@ -1394,7 +1394,6 @@
     <string name="security_center_remove_simlock_success_dialog">Xóa hộp thoại xác minh bảo mật thẻ SIM thành công</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Không còn hộp thoại nào nữa sau khi bật điện thoại để báo hiệu rằng bảo vệ bảo mật thẻ SIM đã được xác minh thành công.</string>
     <string name="security_center_power_consumption_ranking">Hiển thị mức tiêu thụ điện năng</string>
-    <string name="security_center_hide_xopt_mode_tip">Ẩn mẹo để sử dụng quyền ẩn</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Mở khóa chế độ kháng lạnh</string>
     <string name="secutity_center_battery_show_more_info">Hiện thêm thông tin về pin</string>
     <string name="secutity_center_battery_show_more_info_desc">Tính năng thử nghiệm. Thông tin bổ sung về pin hiển thị có thể khác nhau tùy theo thiết bị.</string>

@@ -49,7 +49,8 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 public class AddSideBarExpandReceiver extends BaseHook {
 
     private boolean isNewVersion;
-    private boolean enableSideBar;
+    private boolean hideSideBar;
+    private boolean keepSideBarOpen;
     private final boolean[] isHooked = {false, false};
     private int originDockLocation = -1;
 
@@ -87,8 +88,9 @@ public class AddSideBarExpandReceiver extends BaseHook {
      * 初始化侧边栏设置
      */
     private void initSideBarSettings() {
-        enableSideBar = PrefsBridge.getBoolean("security_center_leave_open");
-        if (!enableSideBar) {
+        hideSideBar = PrefsBridge.getBoolean("security_center_hide_sidebar");
+        keepSideBarOpen = PrefsBridge.getBoolean("security_center_leave_open");
+        if (hideSideBar && !keepSideBarOpen) {
             setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_default", 8);
             setDensityReplacement("com.miui.securitycenter", "dimen", "sidebar_height_vertical", 8);
         }
@@ -120,7 +122,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
         initOriginDockLocation(view);
         registerShowSideBarReceiver(view, regionSamplingHelper);
 
-        if (!isHooked[1]) {
+        if (hideSideBar && !isHooked[1]) {
             isHooked[1] = true;
             scheduleRemoveBackground(view);
         }
@@ -146,11 +148,12 @@ public class AddSideBarExpandReceiver extends BaseHook {
             public void onReceive(Context context, Intent intent) {
                 handleShowSideBarIntent(view, intent);
             }
-        };ContextCompat.registerReceiver(view.getContext(), showReceiver,
+        };
+        ContextCompat.registerReceiver(view.getContext(), showReceiver,
             new IntentFilter(ACTION_PREFIX + "ShowSideBar"),
             ContextCompat.RECEIVER_NOT_EXPORTED);
 
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(regionSamplingHelper, "showReceiver", showReceiver);
+        BaseHook.setAdditionalInstanceField(regionSamplingHelper, "showReceiver", showReceiver);
     }
 
     /**
@@ -184,7 +187,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
      * 移除背景
      */
     private void removeBackground(View view) {
-        if (!enableSideBar) {
+        if (!keepSideBarOpen) {
             removeOnTouchListener(view);
         }
 
@@ -213,7 +216,8 @@ public class AddSideBarExpandReceiver extends BaseHook {
             findAndHookMethod(onTouchListener.getClass(), "onTouch",
                 View.class, MotionEvent.class, new IMethodHook() {
                     @Override
-                    public void before(HookParam param) {MotionEvent motionEvent = (MotionEvent) param.getArgs()[1];
+                    public void before(HookParam param) {
+                        MotionEvent motionEvent = (MotionEvent) param.getArgs()[1];
                         if (motionEvent.getSource() != 9999) {
                             param.setResult(false);
                         }
@@ -283,12 +287,12 @@ public class AddSideBarExpandReceiver extends BaseHook {
                     isHooked[0] = false;
 
                     BroadcastReceiver showReceiver = (BroadcastReceiver)
-                        com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "showReceiver");
+                        BaseHook.getAdditionalInstanceField(param.getThisObject(), "showReceiver");
 
                     if (showReceiver != null) {
                         View view = (View) param.getArgs()[0];
                         view.getContext().unregisterReceiver(showReceiver);
-                        com.sevtinge.hyperceiler.libhook.base.BaseHook.removeAdditionalInstanceField(param.getThisObject(), "showReceiver");
+                        BaseHook.removeAdditionalInstanceField(param.getThisObject(), "showReceiver");
                     }
                 }
             });
@@ -298,6 +302,10 @@ public class AddSideBarExpandReceiver extends BaseHook {
      * Hook 启动方法
      */
     private void hookStartMethod(Class<?> regionSamplingHelper) {
+        if (!hideSideBar) {
+            return;
+        }
+
         Method[] methods = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodsByExactParameters(
             regionSamplingHelper, void.class, Rect.class);
 
@@ -321,7 +329,8 @@ public class AddSideBarExpandReceiver extends BaseHook {
         int[] location = new int[2];
         view.getLocationOnScreen(location);
         int y = location[1];
-        long uptimeMillis = SystemClock.uptimeMillis();MotionEvent downEvent, moveEvent, upEvent;
+        long uptimeMillis = SystemClock.uptimeMillis();
+        MotionEvent downEvent, moveEvent, upEvent;
 
         if (dockLocation == 0) { // 左侧
             downEvent = createMotionEvent(uptimeMillis, MotionEvent.ACTION_DOWN, 4, y + 15);
@@ -362,4 +371,3 @@ public class AddSideBarExpandReceiver extends BaseHook {
         }
     }
 }
-

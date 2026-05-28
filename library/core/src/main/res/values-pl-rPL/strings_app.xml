@@ -1293,7 +1293,6 @@
     <string name="security_center_remove_simlock_success_dialog">Usuń ostrzeżenie o weryfikacji bezpieczeństwa karty SIM</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Usuwa dialog po włączeniu urządzenia wskazującą, że weryfikacja bezpieczeństwa karty SIM została pomyślnie zakończona</string>
     <string name="security_center_power_consumption_ranking">Pokaż ranking zużycia energii</string>
-    <string name="security_center_hide_xopt_mode_tip">Ukryj radę dotyczącą ukrytego użycia uprawnień</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Odblokuj tryb wytrzymałości na zimno</string>
     <!--MiTrustService-->
     <string name="trustservice_disable_mrm">Wyłącz wykrywanie ryzyka</string>

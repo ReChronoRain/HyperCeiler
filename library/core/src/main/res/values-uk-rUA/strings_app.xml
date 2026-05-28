@@ -1339,7 +1339,6 @@
     <string name="security_center_remove_simlock_success_dialog">Видалити попередження про перевірку безпеки SIM</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Видалити діалогове вікно після увімкнення пристрою, що вказує на успішне завершення перевірки безпеки SIM</string>
     <string name="security_center_power_consumption_ranking">Показувати рейтинг споживання енергії</string>
-    <string name="security_center_hide_xopt_mode_tip">Приховати підказку про використання прихованих дозволів</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Розблокувати режим стійкості до холоду</string>
     <string name="secutity_center_battery_show_more_info">Показувати більше інформації про батарею</string>
     <string name="secutity_center_battery_show_more_info_desc">Експериментальна функція. Додаткова інформація про батарею, що відображається, може відрізнятися залежно від пристрою.</string>

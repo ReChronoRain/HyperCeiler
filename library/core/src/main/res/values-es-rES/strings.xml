@@ -69,6 +69,4 @@
     <!--Other-->
     <string name="exit">Salir</string>
     <string name="ignore">Ignorar</string>
-    <string name="disable_suggest">Desactivar sugerencias</string>
-    <string name="enable_suggest">Activar sugerencias</string>
 </resources>

@@ -83,6 +83,4 @@
     <!--Other-->
     <string name="exit">Çık</string>
     <string name="ignore">Yoksay</string>
-    <string name="disable_suggest">Tavsiyeleri devre dışı bırak</string>
-    <string name="enable_suggest">Tavsiyeleri etkinleştir</string>
 </resources>

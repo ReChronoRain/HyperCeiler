@@ -83,8 +83,6 @@
     <!--Other-->
     <string name="exit">خروج</string>
     <string name="ignore">تجاهل</string>
-    <string name="disable_suggest">تعطيل الاقتراحات</string>
-    <string name="enable_suggest">تمكين الاقتراحات</string>
     <string name="unsupported_func_tips">يبدو أن التطبيق المستهدف هو إصدار معدل. هذه الإضافة غير قادرة على توفير خدمات الربط له. حاول استخدام إصدار مختلف من التطبيق أو تمكين وضع التصحيح وحاول مرة أخرى.</string>
     <string name="debug_mode_running">التطبيق المستهدف قيد التصحيح!\nإصدار التطبيق الحالي: %1$s\nالإصدار المستهدف المحدد: %2$s\nتم تطبيق الرابط بنجاح: %3$s</string>
 </resources>

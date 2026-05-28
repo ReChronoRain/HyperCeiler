@@ -89,8 +89,6 @@
     <!--Other-->
     <string name="exit">Exit</string>
     <string name="ignore">Ignore</string>
-    <string name="disable_suggest">Disable suggest</string>
-    <string name="enable_suggest">Enable suggest</string>
     <string name="search_apps_hint">Search %d apps</string>
     <string name="load_apps_failed">Failed to load application list</string>
     <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions of this scope have been disabled. Please try switching to an app package released by official Xiaomi, or go to "HyperCeiler Settings - Developer options - Debug mode" to specify the mounted version and try again.</string>

@@ -1393,7 +1393,6 @@
     <string name="security_center_remove_simlock_success_dialog">SIM セキュリティ認証の警告を削除する</string>
     <string name="security_center_remove_simlock_success_dialog_desc">デバイスの電源を入れた後、SIM セキュリティ認証が正常に完了したことを示すダイアログを削除する</string>
     <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
-    <string name="security_center_hide_xopt_mode_tip">隠し権限の使用のためのヒントを隠す</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">低温耐久モードをアンロック</string>
     <string name="secutity_center_battery_show_more_info">バッテリー情報をさらに表示する</string>
     <string name="secutity_center_battery_show_more_info_desc">実験的な機能です。追加のバッテリー情報はデバイスによって異なる場合があります。</string>

@@ -69,8 +69,6 @@
     <!--Other-->
     <string name="exit">退出</string>
     <string name="ignore">忽略</string>
-    <string name="disable_suggest">禁用推荐</string>
-    <string name="enable_suggest">启用推荐</string>
     <string name="search_apps_hint">搜索 %d 个应用</string>
     <string name="load_apps_failed">加载应用列表失败</string>
     <string name="unsupported_func_tips">当前目标作用域来源可能并不是 Xiaomi 官方，出于安全考虑，已停止加载此作用域的所有功能，请尝试更改为 Xiaomi 官方发布的应用包，或前往 \"HyperCeiler 设置-开发者选项-调试模式\" 指定挂载版本后重试。</string>

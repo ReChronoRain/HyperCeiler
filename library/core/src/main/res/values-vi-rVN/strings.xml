@@ -83,8 +83,6 @@
     <!--Other-->
     <string name="exit">Thoát</string>
     <string name="ignore">Bỏ qua</string>
-    <string name="disable_suggest">Tắt đề xuất</string>
-    <string name="enable_suggest">Bật đề xuất</string>
     <string name="unsupported_func_tips">Ứng dụng đích có vẻ là một phiên bản đã được sửa đổi. Mô-đun này không thể cung cấp các dịch vụ hook cho nó. Hãy thử sử dụng một phiên bản khác của ứng dụng hoặc bật chế độ Gỡ lỗi và thử lại.</string>
     <string name="debug_mode_running">Ứng dụng đích đang được gỡ lỗi!\nPhiên bản ứng dụng hiện tại: %1$s\nPhiên bản đích đã chọn: %2$s\nHook áp dụng thành công: %3$s</string>
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>

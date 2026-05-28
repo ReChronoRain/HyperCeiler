@@ -59,8 +59,6 @@
     <!--Other-->
     <string name="exit">KELUAR</string>
     <string name="ignore">Mengabaikan</string>
-    <string name="disable_suggest">Nonaktifkan Saran</string>
-    <string name="enable_suggest">Aktifkan Saran</string>
     <string name="experimental_features">Fitur eksperimental</string>
     <string name="warn">Perhatian</string>
     <string name="module_title_1">Pesan dasar</string>

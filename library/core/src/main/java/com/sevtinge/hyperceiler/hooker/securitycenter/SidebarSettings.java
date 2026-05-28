@@ -18,12 +18,49 @@
 */
 package com.sevtinge.hyperceiler.hooker.securitycenter;
 
+import androidx.annotation.NonNull;
+import androidx.preference.Preference;
+import androidx.preference.SwitchPreference;
+
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
-public class SidebarSettings extends DashboardFragment {
+public class SidebarSettings extends DashboardFragment
+    implements Preference.OnPreferenceChangeListener {
+
+    SwitchPreference mHideSideBar;
+    SwitchPreference mSideBarColor;
+
     @Override
     public int getPreferenceScreenResId() {
         return R.xml.security_center_sidebar;
+    }
+
+    @Override
+    public void initPrefs() {
+        boolean isEnableHideLine = getSharedPreferences().getBoolean("prefs_key_security_center_hide_sidebar", false);
+        mHideSideBar = findPreference("prefs_key_security_center_hide_sidebar");
+        mSideBarColor = findPreference("prefs_key_security_center_sidebar_line_color");
+
+        setMode(isEnableHideLine);
+        mHideSideBar.setOnPreferenceChangeListener(this);
+    }
+
+
+    @Override
+    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+        if (preference == mHideSideBar) {
+            setMode((Boolean) newValue);
+        }
+        return true;
+    }
+
+    private void setMode(boolean mode) {
+        if (mode) {
+            mSideBarColor.setChecked(false);
+            mSideBarColor.setVisible(false);
+        } else {
+            mSideBarColor.setVisible(true);
+        }
     }
 }

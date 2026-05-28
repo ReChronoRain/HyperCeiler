@@ -35,11 +35,6 @@
             app:inflatedXml="@xml/security_center_battery"/>
 
         <Preference
-            android:fragment="com.sevtinge.hyperceiler.hooker.securitycenter.PrivacySafetySettings"
-            android:key="prefs_key_security_center_privacy_safety"
-            android:title="@string/security_center_privacy_title" />
-
-        <Preference
             android:fragment="com.sevtinge.hyperceiler.hooker.securitycenter.SidebarSettings"
             android:title="@string/security_center_newbox_title" />
 

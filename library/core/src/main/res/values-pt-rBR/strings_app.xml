@@ -1390,7 +1390,6 @@
     <string name="security_center_remove_simlock_success_dialog">Remover aviso de verificação de segurança do SIM</string>
     <string name="security_center_remove_simlock_success_dialog_desc">Remove a caixa de diálogo após ligar o dispositivo para indicar que a verificação de segurança do SIM foi concluída com sucesso</string>
     <string name="security_center_power_consumption_ranking">Exibir classificação do consumo de energia</string>
-    <string name="security_center_hide_xopt_mode_tip">Ocultar dica de uso de permissões ocultas</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Desbloquear Modo de resistência a frio</string>
     <string name="secutity_center_battery_show_more_info">Mostrar mais informações da bateria</string>
     <string name="secutity_center_battery_show_more_info_desc">Recurso experimental. As informações adicionais da bateria exibidas podem variar de acordo com o dispositivo.</string>

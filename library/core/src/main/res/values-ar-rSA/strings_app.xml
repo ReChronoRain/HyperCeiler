@@ -1382,7 +1382,6 @@
     <string name="security_center_remove_simlock_success_dialog">إزالة تحذير التحقق من أمان SIM</string>
     <string name="security_center_remove_simlock_success_dialog_desc">إزالة الحوار الذي يظهر عند تشغيل الجهاز للإشارة إلى أن التحقق من أمان SIM قد اكتمل بنجاح</string>
     <string name="security_center_power_consumption_ranking">عرض ترتيب استهلاك الطاقة</string>
-    <string name="security_center_hide_xopt_mode_tip">إخفاء النصائح لاستخدام الأذونات المخفية</string>
     <string name="security_center_battery_unlock_low_temp_ext_endurance">فتح وضع التحمل البارد</string>
     <string name="secutity_center_battery_show_more_info">عرض المزيد من معلومات البطارية</string>
     <string name="secutity_center_battery_show_more_info_desc">ميزة تجريبية. قد تختلف معلومات البطارية الإضافية المعروضة حسب الجهاز.</string>

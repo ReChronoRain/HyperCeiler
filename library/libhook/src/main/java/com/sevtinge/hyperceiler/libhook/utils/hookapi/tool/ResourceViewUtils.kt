@@ -24,6 +24,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.DimenRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -66,6 +67,27 @@ fun View.findViewByIdName(name: String): View? {
 fun Activity.findViewByIdName(name: String): View? {
     val viewId = getIdByName(name)
     return if (viewId != 0) findViewById(viewId) else null
+}
+
+val ViewGroup.children: Sequence<View>
+    get() = (0 until childCount).asSequence().map { getChildAt(it) }
+
+fun View.resourceEntryName(): String? {
+    if (id == View.NO_ID) return null
+
+    return runCatching {
+        resources.getResourceEntryName(id)
+    }.getOrNull()
+}
+
+fun ViewGroup.descendants(): Sequence<View> {
+    return children.flatMap { child ->
+        sequenceOf(child) + ((child as? ViewGroup)?.descendants() ?: emptySequence())
+    }
+}
+
+fun ViewGroup.findDescendantByIdName(name: String): View? {
+    return descendants().firstOrNull { it.resourceEntryName() == name }
 }
 
 // -------------------- View padding --------------------
