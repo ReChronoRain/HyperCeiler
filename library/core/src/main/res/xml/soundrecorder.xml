@@ -36,6 +36,12 @@
             android:key="prefs_key_sound_recorder_unlock_ai"
             android:title="@string/unlock_ai" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_sound_recorder_mark_transcribe_progress"
+            android:summary="@string/sound_recorder_mark_transcribe_progress_desc"
+            android:title="@string/sound_recorder_mark_transcribe_progress" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

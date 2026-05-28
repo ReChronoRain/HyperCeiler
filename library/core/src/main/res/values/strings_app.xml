@@ -1061,6 +1061,8 @@
     <string name="sound_recorder">Sound Recorder</string>
     <string name="sound_recorder_disable_ai_watermark">Disable AI watermark</string>
     <string name="sound_recorder_unlock_recording_scene">Unlock the recording scene</string>
+    <string name="sound_recorder_mark_transcribe_progress">Use standard progress notification for transcription</string>
+    <string name="sound_recorder_mark_transcribe_progress_desc">Adds standard progress + ongoing flags so listeners (Mi Fitness wearable sync, etc.) stop forwarding every 1% update to the watch as a brand-new alert.</string>
     <!--Notes-->
     <string name="notes">Notes</string>
     <string name="notes_disable_ai_watermark">Disable AI watermark</string>

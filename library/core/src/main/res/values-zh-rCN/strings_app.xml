@@ -1014,6 +1014,8 @@
     <string name="sound_recorder">录音机</string>
     <string name="sound_recorder_disable_ai_watermark">禁用水印</string>
     <string name="sound_recorder_unlock_recording_scene">解锁选择录音场景</string>
+    <string name="sound_recorder_mark_transcribe_progress">录音转写改为标准进度通知</string>
+    <string name="sound_recorder_mark_transcribe_progress_desc">补上标准进度条与持续状态标识，解决转写过程被小米运动健康等通知监听 App 每 1% 重复推送到手环/手表的问题。</string>
     <!--笔记-->
     <string name="notes">笔记</string>
     <string name="notes_disable_ai_watermark">禁用水印</string>

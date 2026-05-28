@@ -23,6 +23,7 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.DisableAiWatermark;
+import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.MarkTranscribeProgress;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.UnlockAIMode;
 import com.sevtinge.hyperceiler.libhook.rules.soundrecorder.UnlockRecordingScene;
 
@@ -33,5 +34,6 @@ public class SoundRecorder extends BaseLoad {
         initHook(new DisableAiWatermark(), PrefsBridge.getBoolean("sound_recorder_disable_ai_watermark"));
         initHook(UnlockRecordingScene.INSTANCE, PrefsBridge.getBoolean("sound_recorder_unlock_recording_scene"));
         initHook(UnlockAIMode.INSTANCE, PrefsBridge.getBoolean("sound_recorder_unlock_ai"));
+        initHook(new MarkTranscribeProgress(), PrefsBridge.getBoolean("sound_recorder_mark_transcribe_progress"));
     }
 }
