@@ -1434,6 +1434,7 @@
     <string name="security_center_disable_root_check">禁用 Root 检测</string>
     <string name="security_center_install_intercept">禁用 USB 安装拦截</string>
     <string name="security_center_adb_install_verify">绕过开启 USB 安装时的网络校验</string>
+    <string name="security_center_disable_auto_turn_accessibility_off">禁止自动静默关闭无障碍权限</string>
     <string name="security_center_remove_macro_black_list">移除自动连招黑名单</string>
     <string name="security_center_disable_send_malicious_app_notification">禁止发送 “发现恶意应用” 通知</string>
     <string name="security_center_newbox_custom_enable">启用自定义</string>
