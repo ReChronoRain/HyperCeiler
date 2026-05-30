@@ -246,7 +246,7 @@
     <string name="array_global_actions_none">Без действий</string>
     <string name="array_global_actions_notif">Открыть панель уведомлений</string>
     <string name="array_global_actions_eqs">Открыть панель Быстрых Настроек</string>
-    <string name="array_global_actions_lock">За​бло​ки​ро​вать устройство</string>
+    <string name="array_global_actions_lock">Заблокировать устройство</string>
     <string name="array_global_actions_sleep">Выключить экран</string>
     <string name="array_global_actions_screenshot">Сделать снимок экрана</string>
     <string name="array_global_actions_menu">Открыть меню</string>
@@ -264,7 +264,7 @@
     <string name="array_global_actions_powermenu">Открыть меню управления питанием</string>
     <string name="array_global_actions_powermenu_short">Управление питанием</string>
     <string name="array_global_actions_clear_memory">Очистить память</string>
-    <string name="array_global_actions_invert_colors">Ин​вер​ти​ро​вать цвета</string>
+    <string name="array_global_actions_invert_colors">Инвертировать цвета</string>
     <string name="array_global_actions_switchkeyboard">Выбор клавиатуры</string>
     <string name="array_global_actions_goback">Назад</string>
     <string name="array_global_actions_onehanded_left">Управление одной рукой (слева)</string>
@@ -669,7 +669,7 @@
     <string name="system_ui_statusbar_network_speed_hide_all">Скрывать при медленном подключении</string>
     <string name="system_ui_statusbar_network_speed_hide_desc">Индикатор не отображается при низкой скорости сети</string>
     <string name="system_ui_statusbar_network_speed_hide_slow">Низкий уровень скорости сети</string>
-    <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости сети ниже этого уровня считаются низкими, и на экране будет отображаться другой значок индикатора (только некоторые значки).</string>
+    <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости ниже этого порога считаются медленными и значок индикатора будет изменён (поддерживаются не все стили)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
     <string name="system_ui_statusbar_clock_double_mode_title">Выравнивание двойных строк</string>
@@ -1439,7 +1439,7 @@
     <string name="joyose_disable_cloud_control">Отключить управление облаком</string>
     <string name="joyose_game_title">Игровое пространство</string>
     <string name="joyose_enable_gpu_tuner">Планирование производительности</string>
-    <string name="joyose_enable_gpu_tuner_desc">Активирует тонкую настройку GPU, в нижней части главного меню в Ускорении игр</string>
+    <string name="joyose_enable_gpu_tuner_desc">Активирует тонкую настройку GPU в нижней части главного меню в Ускорении игр.</string>
     <!--GetApps-->
     <string name="market">Play Store</string>
     <string name="market_device_modify">Подмена модели</string>
@@ -1505,7 +1505,7 @@
     <string name="various_phrase_clipboardlist">Удалить буфер обмена и ограничения времени для фраз</string>
     <string name="various_phrase_clipboardlist_more">После включения, выберите область метода ввода и перезапустите его.</string>
     <string name="various_unlock_ime">Разблокировать IME</string>
-    <string name="various_unlock_ime_desc">После открытия, проверьте соответствующую область метода ввода в LSPosed.</string>
+    <string name="various_unlock_ime_desc">Полноэкранная оптимизация выбранного стиля для целевой клавиатуры\nНативный стиль требует включения System Framework в области применения\nНативный стиль работает только на стандартных клавиатурах. Для кастомных клавиатур Xiaomi этот выбор просто внесёт их в список переключения</string>
     <string name="various_collapse_miui_title">Стиль заголовка</string>
     <string name="various_collapse_miui_title_desc">Изменяет заголовок верхней панели в приложениях MIUI</string>
     <string name="various_disable_folder_cantuse">Снять ограничение на доступ к запретной папке</string>
