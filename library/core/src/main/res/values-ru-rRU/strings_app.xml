@@ -60,7 +60,7 @@
     <string name="help_cant_see_apps_switch_desc">Вы все еще можете найти эту страницу в разделе О программе &gt; Помощь. Перезагрузите приложение, чтобы применить его.</string>
     <string name="help_support_version_title">Список версий системы поддерживаемые текущей версией приложения</string>
     <string name="help_support_version_desc_3">Текущая версия системы полностью адаптирована.</string>
-    <string name="help_support_version_desc_4">Текущая версия системы не (полностью) адаптирована адаптировано.</string>
+    <string name="help_support_version_desc_4">Некоторые функции не адаптированы к используемой в данный момент версии системы.</string>
     <string name="location_add">Добавить</string>
     <string name="location_delete">Удалить</string>
     <string name="edit">Введите текст</string>
@@ -133,7 +133,7 @@
     <string name="about_github">Исходный код</string>
     <string name="about_github_desc">Этот проект с открытым исходным кодом основан на лицензии AGPL-3.0</string>
     <string name="about_offical">Официальный сайт</string>
-    <string name="about_crwd">Weblate</string>
+    <string name="about_crwd">Перевод</string>
     <string name="about_crwd_desc">Помогите нам перевести HyperCeiler на ваш язык</string>
     <string name="about_privacy">Политика конфиденциальности</string>
     <string name="about_protocol">Пользовательское соглашение</string>
@@ -1453,7 +1453,7 @@
     <string name="market_disable_start_push_dialog">Отключить диалог запуска push-уведомлений</string>
     <!--Mi sound-->
     <string name="misound">Наушники</string>
-    <string name="misound_bluetooth">Изменить состояние наушников на исходное звучание</string>
+    <string name="misound_bluetooth">Автопереключение на гарнитуру</string>
     <string name="misound_bluetooth_desc">Вам нужно включить области Системный фреймворк, Интерфейс системы и Наушники, а затем перезагрузить устройство.</string>
     <string name="misound_increase_sampling_rate">Увеличить частоту дискретизации</string>
     <!--Mi Settings-->
@@ -1606,7 +1606,7 @@
     <string name="system_ui_statusbar_music_dependency">Скачать SuperLyric</string>
     <string name="security_center_disable_offline_info_manager">Отключить автономную информацию о сетевом помощнике</string>
     <string name="contacts">Контакты и вызовы</string>
-    <string name="contacts_disable_offline_info_manager">Отключить автономную информацию о бизнес-зале</string>
+    <string name="contacts_disable_offline_info_manager">Отключить офлайн-информацию о центрах продаж</string>
     <string name="health">Mi Fitness</string>
     <string name="debug_info">Не удается получить отладочную информацию.</string>
     <string name="system_ui_lock_screen_keep_notification_title">Оставлять уведомления после разблокировки</string>

@@ -44,7 +44,7 @@
     <string name="soft_reboot">Перезагрузка</string>
     <string name="restart_app_desc">Вы точно хотите перезагрузить %1$s?</string>
     <string name="hyperceiler_restart_quick">Быстрый перезапуск приложений</string>
-    <string name="hook_failed">Модуль не активирован. Пожалуйста, убедитесь, что вы активировали модуль в LSPosed и перезапустите приложение.</string>
+    <string name="hook_failed">Модуль HyperCeiler не активирован. Проверьте, включен ли LSPosed и разрешен ли автозапуск HyperCeiler. При необходимости перезапустите или повторно оптимизируйте модуль.</string>
     <string name="kill_failed">Не удалось закончить процесс. Проверьте, предоставлены ли HyperCeiler разрешения Root/Su.</string>
     <string name="start_failed">Не удалось начать работу. Проверьте, предоставлен ли HyperCeiler Root доступ.</string>
     <string name="pid_failed">Целевое приложение не запущено и не требует перезапуска.</string>
@@ -93,7 +93,7 @@
     <string name="headtip_tip_long_press_to_copy">Вы можете выделить текст долгим или двойным нажатием, скопировать его и отправить разработчику.</string>
     <string name="happy_birthday_hyperceiler">Сегодня день рождения HyperCeiler!\nСпасибо за вашу поддержку в течение прошлого года, давайте продолжим работать вместе в этом году!</string>
     <string name="headtip_tip_fuck_coolapk">14 июля 2022 года Sevtinge выступил с важной речью.</string>
-    <string name="headtip_notice_dead_logger_errcode">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.\nКод ошибки: %1$s</string>
+    <string name="headtip_notice_dead_logger_errcode">Текущая служба логов устройства работает некорректно, поэтому функции HyperCeiler будут ограничены. Пожалуйста, восстановите работу службы логов для нормального функционирования.\nКод ошибки: %1$s</string>
     <string name="headtip_notice_dead_logger">Текущая служба журнала устройства ненормальна, и функции HyperCeiler будут ограничены. Пожалуйста, восстановите службу журнала, чтобы она могла работать нормально.</string>
     <string name="unsupported_system_func">Эта функция не поддерживается в текущей версии системы</string>
     <string name="supported_system_func">Эта функция официально поддерживается в текущей версии системы</string>
@@ -162,4 +162,22 @@
     <!-- Log Viewer -->
     <string name="log_loading">Загрузка журналов…</string>
     <string name="log_viewer">Просмотр журналов</string>
+    <string name="safe_mode_banner_title">Активирован безопасный режим</string>
+    <string name="safe_mode_banner_desc">Функции HyperCeiler для %1$s были временно отключены автоматическим безопасным режимом из-за повторных сбоев. Нажмите, чтобы продолжить.</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler не смог прочитать информацию о текущем фреймворке из XposedService. Функции модуля были отключены в целях безопасности. Нажмите, чтобы просмотреть подробности.</string>
+    <string name="load_failed">Не удалось загрузить.</string>
+    <string name="log_level_general">Общие логи</string>
+    <string name="log_level_detailed">Подробные логи</string>
+    <string name="help_framework_warning_title">Совместимость фреймворка</string>
+    <string name="help_framework_warning_unknown_framework">Текущий фреймворк</string>
+    <string name="help_framework_warning_card_compatible">Текущий фреймворк соответствует требованиям среды выполнения HyperCeiler. Некорректной загрузки хуков не обнаружено.</string>
+    <string name="help_framework_warning_card_incompatible">Текущий фреймворк не соответствует требованиям среды выполнения HyperCeiler. Загрузка хуков остановлена. Пожалуйста, переключитесь на другой совместимый фреймворк и повторите попытку.</string>
+    <string name="help_framework_warning_card_service_error">Не удалось прочитать информацию о текущем фреймворке из XposedService. В целях безопасности загрузка хуков остановлена. Пожалуйста, проверьте статус фреймворка и повторите попытку.</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler ещё не получил информацию о текущем фреймворке из XposedService, поэтому на данный момент совместимость не может быть подтверждена.</string>
+    <string name="help_framework_warning_section_framework_version">Текущая версия фреймворка:</string>
+    <string name="help_framework_warning_section_banner_reason">Почему на главной странице появляется предупреждение?</string>
+    <string name="help_framework_warning_banner_reason">Предупреждение на главной странице появляется только тогда, когда HyperCeiler обнаруживает, что текущий фреймворк не соответствует минимальным требованиям среды выполнения, либо когда XposedService не может нормально вернуть информацию о фреймворке. Чтобы избежать нестабильности, вызванной некорректной загрузкой хуков, HyperCeiler одновременно с этим останавливает их загрузку.</string>
+    <string name="help_framework_warning_version_unavailable">Не удалось получить информацию о версии текущего фреймворка из XposedService.</string>
+    <string name="log_menu_filter">Фильтр логов</string>
+    <string name="log_empty_no_logs">Нет логов</string>
 </resources>
