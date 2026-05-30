@@ -488,7 +488,7 @@
     <string name="calendar">Календарь</string>
     <string name="calendar_unlock_subscription">Разблокировать подписку</string>
     <!--Community-->
-    <string name="community">MI Community</string>
+    <string name="community">Xiaomi Community</string>
     <string name="community_device_modify">Подмена модели устройства</string>
     <string name="community_fuck_detection">Блокировать обнаружение</string>
     <string name="community_fuck_detection_desc">Предотвратите обнаружение HyperCeiler и загрузите его, оставив отзыв. Пожалуйста, убедитесь, что проблема возникла не по вашей вине, а является реальной проблемой системы, прежде чем оставлять отзыв, чтобы избежать лишних проблем.</string>
@@ -898,7 +898,7 @@
     <string name="system_settings_more_vpn_types">Больше типов VPN</string>
     <!--Themes-->
     <string name="theme_manager">Темы</string>
-    <string name="theme_manager_version_code_modify">Отключить определение версии MIUI</string>
+    <string name="theme_manager_version_code_modify">Изменить определяемую версию</string>
     <string name="theme_manager_version_code_modify_desc">Настройте обнаруженную версию, чтобы использовать некоторые темы, которые не адаптированы к новой версии</string>
     <string name="theme_manager_diable_ads">Отключить рекламу</string>
     <string name="theme_manager_diable_ads_desc">Заменит рекламные объявления пустыми карточками и полностью удалит остальную рекламу.</string>
@@ -937,8 +937,8 @@
     <string name="notes">Заметки</string>
     <string name="notes_disable_ai_watermark">Отключить водяной знак ИИ</string>
     <!--Always-on display-->
-    <string name="aod_hyperos">AOD</string>
-    <string name="aod_unlock_always_on_display">Разблокировать ограничение времени отображения AOD</string>
+    <string name="aod_hyperos">Активный экран и редактор экрана блокировки</string>
+    <string name="aod_unlock_always_on_display">Разблокировать ограничение времени работы активного экрана</string>
     <string name="aod_unlock_always_on_display_more">Перезапустите интерфейс системы, чтобы полностью включить функцию</string>
     <string name="aod_unlock_aon">Разблокировать AOD и AON</string>
     <!--Taplus-->
@@ -959,7 +959,7 @@
     <!--Backup-->
     <string name="backup">Резервная копия</string>
     <string name="backup_allow_all_apps">Разрешить резервировать все приложения</string>
-    <string name="backup_unlock_broken_screen_backup">Разблокировать РК с поврежденным экраном</string>
+    <string name="backup_unlock_broken_screen_backup">Разрешить бэкап при разбитом экране</string>
     <!--Mi Canvas-->
     <string name="creation">Mi Canvas</string>
     <string name="creation_unlock">Убрать ограничения на использование мобильных телефонов</string>
@@ -1162,7 +1162,7 @@
     <string name="home_recent_freeform_background_color">Цвет фона миниатюры приложения в малом окне</string>
     <string name="home_recent_show_real_memory">Показать фактическую память</string>
     <string name="home_recent_show_memory_info_sum">Только для планшета</string>
-    <string name="home_recent_show_memory_info">Показывать состояние ОЗУ</string>
+    <string name="home_recent_show_memory_info">Показывать сведения о памяти</string>
     <string name="home_recent_always_show_clean_up">Запретить скрывать иконку очистки при отсутствии карточки</string>
     <string name="home_recent_blur">Размытие фона</string>
     <string name="home_recent_show_launch">Показать панель запуска в качестве фона</string>
@@ -1172,7 +1172,7 @@
     <string name="home_recent_hide_card_desc">Скрыть карточку выбранного приложения в недавних</string>
     <string name="home_widget">Виджет</string>
     <string name="home_widget_all_widget_animation">Анимация виджета</string>
-    <string name="home_widget_show_miui_widget">Отображать виджеты HyperOS</string>
+    <string name="home_widget_show_miui_widget">Показывать системные виджеты</string>
     <string name="home_widget_show_miui_widget_desc">Отобразить виджеты HyperOS на странице виджетов Android</string>
     <string name="home_widget_corner_radius">Виджет с закругленными углами</string>
     <string name="home_widget_allow_moved_to_minus_one_screen">Разрешить перемещение классического виджета на Боковую панель</string>
@@ -1498,7 +1498,7 @@
     <string name="various_dialog_title">Всплывающее окно</string>
     <string name="various_mipad_title">Mi Pad</string>
     <string name="various_open_aosp_something_title">Скрытые свойства</string>
-    <string name="various_open_aosp_something_desc">Открыть скрытый интерфейс AOSP</string>
+    <string name="various_open_aosp_something_desc">Доступ к скрытым настройкам</string>
     <string name="various_nobrightness">Отклонить принудительную яркость</string>
     <string name="various_no_overscroll">Отключить отскок за пределы поля</string>
     <string name="various_disable_access_device_logs">Отключить диалог запроса журнала доступа устройства</string>
@@ -1507,7 +1507,7 @@
     <string name="various_unlock_ime">Разблокировать IME</string>
     <string name="various_unlock_ime_desc">Полноэкранная оптимизация выбранного стиля для целевой клавиатуры\nНативный стиль требует включения System Framework в области применения\nНативный стиль работает только на стандартных клавиатурах. Для кастомных клавиатур Xiaomi этот выбор просто внесёт их в список переключения</string>
     <string name="various_collapse_miui_title">Стиль заголовка</string>
-    <string name="various_collapse_miui_title_desc">Изменяет заголовок верхней панели в приложениях MIUI</string>
+    <string name="various_collapse_miui_title_desc">Изменение заголовка верхней панели</string>
     <string name="various_disable_folder_cantuse">Снять ограничение на доступ к запретной папке</string>
     <string name="various_open_aosp_battery_title">Оптимизация батареи</string>
     <string name="various_open_aosp_running_services">Работающие службы</string>
@@ -1615,7 +1615,7 @@
     <string name="gallery_longer_trashbin_time">Увеличить время автоматического удаления корзины до 365 дней</string>
     <string name="gallery_longer_trashbin_time_desc">Экспериментальная функция. Только для пользователей из материкового Китая.</string>
     <string name="health_disable_splash_ad">Отключить всплывающую рекламу</string>
-    <string name="help_full_support_desc">Данная версия приложения полностью совместима с текущей версией прошивки</string>
+    <string name="help_full_support_desc">Данная версия приложения полностью совместима со следующими версиями системы:</string>
     <string name="various_aosp_ime_nav_bar_layout_start">Функциональные клавиши слева</string>
     <string name="settings_scope">Область применения</string>
     <string name="settings_scope_extra">Дополнительная область применения</string>
