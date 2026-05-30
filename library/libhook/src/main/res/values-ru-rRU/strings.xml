@@ -56,7 +56,7 @@
     <string name="system_ui_hide_navigation_bar_toast">Не переключатся на кнопку навигации</string>
     <string name="system_ui_hide_navigation_bar_toast_2">Не скрывать полосу навигации</string>
     <string name="system_ui_hide_navigation_bar_more">Пожалуйста, перезапустите системный лаунчер и интерфейс системы</string>
-    <string name="system_framework_guided_access_status">Скрыть строку состояния, когда приложение закреплено</string>
+    <string name="system_framework_guided_access_status">Улучшенная защита</string>
     <string name="system_framework_guided_access_status_more">Способ выхода изменится на долгое нажатие кнопки питания, а строка состояния будет скрыта до тех пор, пока вы не выйдете из режима блокировки</string>
     <string name="system_framework_guided_access">Фиксированные приложения</string>
     <string name="system_framework_guided_access_more">При использовании необходимо одновременно включить области "System UI" и "System launcher"</string>
@@ -130,4 +130,5 @@
     <string name="home_share_apk_preparing_split">Упаковка split-APK (файлов: %1$d)…</string>
     <string name="home_share_apk_failed">Ошибка отправки</string>
     <string name="home_share_apk_prepare_failed">Не удалось подготовить файл</string>
+    <string name="aicr">Xiaomi AI Engine</string>
 </resources>

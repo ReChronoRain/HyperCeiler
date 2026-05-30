@@ -26,7 +26,7 @@
     <string name="miuix_appcompat_delete_description">Удалить</string>
     <string name="miuix_appcompat_search_action_mode_cancel">Отмена</string>
     <string name="miuix_appcompat_search_input_description">Поиск</string>
-    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Другое</string>
+    <string name="miuix_appcompat_actionbar_immersion_button_more_description">Еще</string>
     <string name="miuix_appcompat_action_mode_inverse">Отменить выбор</string>
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Совет</string>
@@ -85,7 +85,7 @@
     <string name="ignore">Игнорировать</string>
     <string name="disable_suggest">Отключить предложение</string>
     <string name="enable_suggest">Включить предложение</string>
-    <string name="unsupported_func_tips">Целевое приложение похоже на модификацию. Этот модуль не может обеспечить службы захвата для этого приложения. Пожалуйста, используйте другую версию или включите режим отладки и повторите попытку.</string>
+    <string name="unsupported_func_tips">Целевое приложение возможно модифицировано. В целях безопасности все функции для этого приложения были отключены. Попробуйте переключиться на официальный пакет приложения Xiaomi или включите режим отладки, чтобы указать смонтированную версию и повторите попытку.</string>
     <string name="debug_mode_running">В настоящее время приложение отлаживается!\nТекущая версия приложения: %1$s\nВыбранная версия: %2$s\nСостояние перехвата успешно: %3$s</string>
     <string name="debug_mode_switch">Версия отладки</string>
     <string name="load_apps_failed">Неудалось загрузить список приложений</string>
