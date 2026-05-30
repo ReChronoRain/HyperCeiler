@@ -180,4 +180,6 @@
     <string name="help_framework_warning_version_unavailable">Не удалось получить информацию о версии текущего фреймворка из XposedService.</string>
     <string name="log_menu_filter">Фильтр логов</string>
     <string name="log_empty_no_logs">Нет логов</string>
+    <string name="log_empty_no_results">Ничего не найдено</string>
+    <string name="log_empty_root_required">Предоставьте Root-права и перезапустите приложение для загрузки логов</string>
 </resources>

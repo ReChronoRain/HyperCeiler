@@ -90,4 +90,8 @@
     <string name="debug_mode_switch">Версия отладки</string>
     <string name="load_apps_failed">Неудалось загрузить список приложений</string>
     <string name="search_apps_hint">Поиск %d приложений</string>
+    <string name="unsupported_app_version_func">Не поддерживается в текущей версии</string>
+    <string name="supported_app_version_func">Функция доступна в этой версии</string>
+    <string name="app_version_unavailable_warning_banner">Не удалось прочитать версию приложения. В целях безопасности хуков все функции для этого приложения были отключены.</string>
+    <string name="search_result_not_available">Эта функция может не поддерживаться на данном устройстве или быть скрыта в некоторых настройках</string>
 </resources>
