@@ -22,11 +22,12 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.findMethodOrNull
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
 import org.json.JSONObject
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -36,7 +37,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
 
     override fun initDexKit(): Boolean {
         methodA
-        methodB
+        if (!is24012Version) methodB
         methodC
         cloudA
         return true
@@ -54,10 +55,14 @@ object UnlockCustomPhotoFrames : BaseHook() {
         PrefsBridge.getBoolean("mediaeditor_unlock_custom_photo_frames_poco")
     }
 
+    val is24012Version by lazy {
+        getPackageVersionCode(lpparam) >= 204990012
+    }
+
     private val methodA by lazy<List<Method>> {
         requiredMemberList("MA") { bridge ->
             // 改动日志:
-            // 现在这个查找方式直接兼容 1.5 - 2.3+
+            // 现在这个查找方式直接兼容 1.5 - 2.4+
             // 1.6.5.10.2 之后迪斯尼定制画框解锁的地方和现在的不一样
             // 1.7.5.0.4 之后，类名迁移，内部文件改动较大
             // 合并缓存，现在只需查询一次即可获取全部 6 个需要 Hook 的方法，且不会出现多余的方法 (2025.1.8)
@@ -65,14 +70,26 @@ object UnlockCustomPhotoFrames : BaseHook() {
             // 所以，它要是再把特征混淆完了的话，那 886 了
             // 这构思玩意都快接近 hook 安全服务了 (2025.3.19)
             // 使用二次查询，虽然慢，但是能找全
+            // 2.4.0.1.2 开始, 整体更改较大
+            // 使用了 exif 信息校验设备，移除了显式返回的类型，好在有马脚可以直接匹配，要不然真头疼 (2026.6.1)
             bridge.findMethod {
                 matcher {
                     addCaller {
-                        paramCount = 2
-                        returnType = "java.util.LinkedHashMap"
-                        modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
-                        addUsingField {
-                            name = "DEVICE"
+                        if (is24012Version) {
+                            paramCount = 4
+                            addInvoke("Lmiuix/core/util/SystemProperties;->getBoolean(Ljava/lang/String;Z)Z")
+                            modifiers = Modifier.STATIC
+                            // 2.4.0.1.2 移除了使用 DEVICE 信息校验设备，改用 exif 信息校验设备
+                            /*addUsingField {
+                                name = "DEVICE"
+                            }*/
+                        } else {
+                            paramCount = 2
+                            returnType = "java.util.LinkedHashMap"
+                            modifiers = Modifier.STATIC // or Modifier.FINAL 2.0.0.1.8 取消了 FINAL 设定
+                            addUsingField {
+                                name = "DEVICE"
+                            }
                         }
                     }
                     addUsingField {
@@ -92,8 +109,9 @@ object UnlockCustomPhotoFrames : BaseHook() {
         }
     }
 
+    @Deprecated("2.4.0.1.2 版本已弃用本地逻辑判断")
     private val methodB by lazy<Method?> {
-        requiredMember("MB") { bridge ->
+        optionalMember("MB") { bridge ->
             bridge.findMethod {
                 matcher {
                     paramCount = 2
@@ -112,7 +130,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val methodC by lazy<List<Method>> {
-        requiredMemberList("MC") { bridge ->
+        optionalMemberList("MC") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass = methodA.first().declaringClass.name
@@ -125,13 +143,16 @@ object UnlockCustomPhotoFrames : BaseHook() {
     }
 
     private val cloudA by lazy<Method?> {
-        requiredMember("CA") { bridge ->
+        optionalMember("CA") { bridge ->
             // 2.3.0.0.9 起 TAG 已混淆
             bridge.findMethod {
                 matcher {
                     addCaller {
                         addInvoke("Ljava/util/concurrent/locks/ReentrantLock;->lock()V")
                         addInvoke("Ljava/lang/Object;->equals(Ljava/lang/Object;)Z")
+                    }
+                    addUsingField {
+                        name = "DEVICE"
                     }
                     paramCount = 2
                 }
@@ -171,8 +192,9 @@ object UnlockCustomPhotoFrames : BaseHook() {
             }
         }
 
-        if (isLeica && methodB != null) {
+        if (isLeica && !is24012Version && methodB != null) {
             // 1.10.0.0.6 新增 Xiaomi 15 Ultra 独占定制画框
+            // 2.4.0.1.2 取消独占状态
             methodB?.createBeforeHook {
                 AndroidBuildCls.setStaticObjectField(
                     "DEVICE",
