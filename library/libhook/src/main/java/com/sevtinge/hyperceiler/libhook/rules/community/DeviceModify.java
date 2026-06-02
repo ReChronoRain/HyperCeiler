@@ -21,6 +21,8 @@ package com.sevtinge.hyperceiler.libhook.rules.community;
 
 import android.os.Build;
 
+import androidx.annotation.NonNull;
+
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
@@ -39,9 +41,6 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DeviceModify extends BaseHook {
     private Method mSystemPropertiesGetStringWithNullMethod;
-    private Method mGetDeviceMethod;
-    private Method mGetModelMethod;
-    private Method mGetManufacturerMethod;
 
     @Override
     protected boolean useDexKit() {
@@ -54,46 +53,15 @@ public class DeviceModify extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
+        // com.xiaomi.vipbase.utils.SystemProperties.b(String, String)
         mSystemPropertiesGetStringWithNullMethod = requiredMember("SystemPropertiesGetStringWithNull", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
                         .matcher(MethodMatcher.create()
                             .declaredClass("com.xiaomi.vipbase.utils.SystemProperties")
-                            .paramCount(1)
+                            .paramCount(2)
                             .returnType(String.class)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        mGetDeviceMethod = requiredMember("GetDevice", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("ro.product.mod_device")
-                            .returnType(String.class)
-                            .paramCount(0)
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        mGetModelMethod = requiredMember("GetModel", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                            .usingStrings("ro.product.model")
-                        )).singleOrNull();
-                return methodData;
-            }
-        });
-        mGetManufacturerMethod = requiredMember("GetManufacturer", new IDexKit() {
-            @Override
-            public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodData methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("ro.product.manufacturer")
                         )).singleOrNull();
                 return methodData;
             }
@@ -108,40 +76,30 @@ public class DeviceModify extends BaseHook {
         mModel = PrefsBridge.getString("community_device_modify_model", "");
         mManufacturer = PrefsBridge.getString("community_device_modify_manufacturer", "");
 
+        // 覆盖直接读取 android.os.Build 静态字段的 SDK (账号、推送、market sdk 等)
         setStaticObjectField(Build.class, "DEVICE", mDevice);
         setStaticObjectField(Build.class, "MODEL", mModel);
         setStaticObjectField(Build.class, "MANUFACTURER", mManufacturer);
 
+        // 拦截 App 自身的 SystemProperties 包装方法
         hookMethod(mSystemPropertiesGetStringWithNullMethod, new IMethodHook() {
             @Override
-            public void before(HookParam param) {
-                if (param.getArgs()[0] == "ro.product.model") {
-                    param.setResult(mModel);
-                } else if (param.getArgs()[0] == "ro.product.mod_device") {
-                    param.setResult(mDevice);
-                } else if (param.getArgs()[0] == "ro.product.device") {
-                    param.setResult(mDevice);
-                } else if (param.getArgs()[0] == "ro.product.manufacturer") {
-                    param.setResult(mManufacturer);
+            public void before(@NonNull HookParam param) {
+                Object arg0 = param.getArgs()[0];
+                if (!(arg0 instanceof String key)) return;
+                switch (key) {
+                    case "ro.product.model":
+                    case "ro.product.marketname":
+                        param.setResult(mModel);
+                        break;
+                    case "ro.product.mod_device":
+                    case "ro.product.device":
+                        param.setResult(mDevice);
+                        break;
+                    case "ro.product.manufacturer":
+                        param.setResult(mManufacturer);
+                        break;
                 }
-            }
-        });
-        hookMethod(mGetDeviceMethod, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(mDevice);
-            }
-        });
-        hookMethod(mGetModelMethod, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(mModel);
-            }
-        });
-        hookMethod(mGetManufacturerMethod, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                param.setResult(mManufacturer);
             }
         });
 

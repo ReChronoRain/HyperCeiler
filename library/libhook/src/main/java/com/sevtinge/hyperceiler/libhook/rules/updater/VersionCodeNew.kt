@@ -20,18 +20,12 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 
 import android.os.Build
 import android.text.TextUtils
-import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.lingqiqi5211.ezhooktool.core.findConstructor
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
-import org.json.JSONObject
 import java.lang.reflect.Method
 
 object VersionCodeNew : BaseHook() {
@@ -40,9 +34,9 @@ object VersionCodeNew : BaseHook() {
     override fun initDexKit(): Boolean {
         mBigMethod
         mOSCode
-        mOSMethod
         return true
     }
+
     private val mBigMethod by lazy<Method> {
         requiredMember("VersionCodeNew1") {
             it.findMethod {
@@ -52,15 +46,7 @@ object VersionCodeNew : BaseHook() {
             }.single()
         }
     }
-    private val mOSMethod by lazy<List<Method>> {
-        requiredMemberList("VersionCodeNew2") {
-            it.findMethod {
-                matcher {
-                    usingEqStrings("ro.mi.os.version.incremental")
-                }
-            }
-        }
-    }
+
     private val mOSCode by lazy<Method> {
         requiredMember("VersionCodeNew3") {
             it.findMethod {
@@ -82,61 +68,45 @@ object VersionCodeNew : BaseHook() {
 
 
     override fun init() {
-        // 原始修改版本名
-        findClassIfExists("com.android.updater.Application").findMethod { name("onCreate") }.createBeforeHook {
-                if (!TextUtils.isEmpty(mOldVersionCode)) {
-                    Build.VERSION::class.java.setStaticObjectField(
-                        "INCREMENTAL",
-                        "$mVersionCode"
-                    )
-                }
-            }
-
-        // 大版本名字修改
-        mBigMethod.createBeforeHook {
-            if (!TextUtils.isEmpty(mOldVersionCode)) {
-                it.result = mOldVersionCode
-            }
-        }
-
-        // OS 版本名修改
-        mOSMethod.createHooks {
-            before {
+        // 覆盖 Build.VERSION.INCREMENTAL
+        loadClass("com.android.updater.Application").findMethod { name("onCreate") }
+            .createBeforeHook {
                 if (!TextUtils.isEmpty(mVersionCode)) {
-                    it.result = mVersionCode
+                    Build.VERSION::class.java.setStaticObjectField("INCREMENTAL", mVersionCode)
                 }
+            }
+
+        // 大版本号
+        mBigMethod.createBeforeHook {
+            if (!TextUtils.isEmpty(mOldVersionCode) && mOldVersionCode.startsWith("V")) {
+                it.result = mOldVersionCode
             }
         }
 
         // OS 版本修改
         mOSCode.createBeforeHook {
-            if (!TextUtils.isEmpty(mVersionCode)) {
-                it.result =
-                    "${mVersionCode.split(".")[0]}.${mVersionCode.split(".")[1]}.${
-                        mVersionCode.split(".")[2]
-                    }"
+            if (TextUtils.isEmpty(mVersionCode)) return@createBeforeHook
+            val sets = mVersionCode.split(".")
+            if (sets.size >= 3) {
+                it.result = "${sets[0]}.${sets[1]}.${sets[2]}"
             }
         }
 
+        // SOTA 版本修改
         loadClass("android.os.SystemProperties").findMethod {
             name("get")
             parameterTypes(String::class.java, String::class.java)
         }.createBeforeHook {
-            val key = it.args[0] as String?
-            if ("persist.sys.xms.version" == key || "ro.mi.xms.version.incremental" == key) {
-                if (mXmsVersion != null) it.result = mXmsVersion
-            } else if ("ro.mi.os.version.incremental" == key) {
-                if (mVersionCode != null) it.result = mVersionCode
+            val key = it.args[0] as? String ?: return@createBeforeHook
+            when (key) {
+                "persist.sys.xms.version",
+                "ro.mi.xms.version.incremental" -> {
+                    if (!TextUtils.isEmpty(mXmsVersion)) it.result = mXmsVersion
+                }
+                "ro.mi.os.version.incremental" -> {
+                    if (!TextUtils.isEmpty(mVersionCode)) it.result = mVersionCode
+                }
             }
         }
-
-        loadClass("com.android.updater.xms.bean.XmsVersionInfo").findConstructor {
-            parameterTypes(JSONObject::class.java)
-        }.createAfterHook {
-            XposedLog.d(TAG, lpparam.packageName, "111 ")
-            XposedLog.d(TAG, lpparam.packageName, "111 " + it.thisObject.getObjectField("curVerCode").toString())
-        }
-
     }
 }
-

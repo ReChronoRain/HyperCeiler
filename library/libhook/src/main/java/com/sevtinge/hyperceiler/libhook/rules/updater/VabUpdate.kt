@@ -25,7 +25,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 class VabUpdate : BaseHook() {
     override fun init() {
         findClass("miui.util.FeatureParser").findAllMethods { name("hasFeature"); paramCount(2) }.single().createBeforeHook {
-                if (it.args[0] == "support_ota_validate") {
+                if ("support_ota_validate" == it.args[0]) {
                     it.result = false
                 }
             }

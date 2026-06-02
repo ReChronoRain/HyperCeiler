@@ -18,9 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.updater
 
-import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -32,8 +31,10 @@ object AutoUpdateDialog : BaseHook() {
         find2
         return true
     }
-    private val find1 by lazy<Method> {
-        requiredMember("AutoUpdateDialog1") {
+
+    // 弹自动检测对话框的函数
+    private val find1 by lazy<List<Method>> {
+        requiredMemberList("AutoUpdateDialog1") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -41,12 +42,13 @@ object AutoUpdateDialog : BaseHook() {
                     }
                     paramTypes("boolean", "boolean")
                 }
-            }.single()
+            }
         }
     }
 
-    private val find2 by lazy<Method> {
-        requiredMember("AutoUpdateDialog2") {
+    // 弹移动网络下载提示对话框
+    private val find2 by lazy<List<Method>> {
+        requiredMemberList("AutoUpdateDialog2") {
             it.findMethod {
                 matcher {
                     addCaller {
@@ -54,18 +56,13 @@ object AutoUpdateDialog : BaseHook() {
                     }
                     paramTypes("long", "int")
                 }
-            }.single()
+            }
         }
     }
 
     override fun init() {
-        XposedLog.d(TAG, lpparam.packageName, "get find1 is $find1")
-        XposedLog.d(TAG, lpparam.packageName, "get find2 is $find2")
-        setOf(find1, find2).forEach {
-            it.createHook {
-                replace { 0 }
-            }
+        (find1 + find2).createHooks {
+            replace { null }
         }
     }
 }
-
