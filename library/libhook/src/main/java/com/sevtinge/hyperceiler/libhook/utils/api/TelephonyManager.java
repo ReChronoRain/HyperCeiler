@@ -18,10 +18,10 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.api;
 
+import java.lang.reflect.Method;
+
 import io.github.lingqiqi5211.ezhooktool.core.java.Classes;
 import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
-
-import java.lang.reflect.Method;
 
 public class TelephonyManager {
     Object telephonyManager;
@@ -72,7 +72,7 @@ public class TelephonyManager {
     }
 
     private Method findTelephonyManagerMethod(String methodName, Class<?>[] parameterTypes) {
-        var search = Methods.find(Classes.findClass(name, ClassLoader.getSystemClassLoader()))
+        var search = Methods.find(Classes.loadClass(name, ClassLoader.getSystemClassLoader()))
             .filterByName(methodName);
         Method method = parameterTypes.length == 0
             ? search.filterEmptyParam().first()

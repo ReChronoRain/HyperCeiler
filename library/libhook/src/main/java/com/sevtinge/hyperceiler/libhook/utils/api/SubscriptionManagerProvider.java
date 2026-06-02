@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.libhook.utils.api;
 
 import android.content.Context;
 
+import java.lang.reflect.Method;
+
 import io.github.lingqiqi5211.ezhooktool.core.java.Classes;
 import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
-
-import java.lang.reflect.Method;
 
 public class SubscriptionManagerProvider {
     private static final String CLASS = "android.telephony.SubscriptionManager";
@@ -44,7 +44,7 @@ public class SubscriptionManagerProvider {
     }
 
     private Method findSubscriptionManagerMethod() {
-        Method method = Methods.find(Classes.findClass(CLASS, ClassLoader.getSystemClassLoader()))
+        Method method = Methods.find(Classes.loadClass(CLASS, ClassLoader.getSystemClassLoader()))
             .filterByName("getActiveSubscriptionIdList")
             .filterByParamTypes(boolean.class)
             .first();

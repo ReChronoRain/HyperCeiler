@@ -21,8 +21,7 @@ miuix = "1.0.12.5"
 xposed-api = "101.0.1"
 xposed-service = "101.0.0"
 dexkit = "2.2.0"
-ezhooktool = "1.0.4"
-ezxhelper = "3.1.1-rc1"
+ezhooktool = "1.1.0-rc01"
 hiddenapibypass = "6.1"
 
 # Third-party
