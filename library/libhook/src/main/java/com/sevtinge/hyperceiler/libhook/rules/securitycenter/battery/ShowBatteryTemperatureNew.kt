@@ -33,10 +33,11 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -79,24 +80,28 @@ object ShowBatteryTemperatureNew : BaseHook() {
 
     @SuppressLint("DiscouragedApi")
     private fun oldBatteryTemperature() {
+        // 优先使用新版 BatteryFragment；找不到时兜底到极老版本被混淆为 a 的实现。
         val batteryFragmentClass = findClassIfExists("com.miui.powercenter.BatteryFragment")
-        if (batteryFragmentClass != null) {findClass("com.miui.powercenter.BatteryFragment")} else {findClass("com.miui.powercenter.a")}.findMethod { paramCount(1); returnType(String::class.java); isStatic() }.createHook {
+            ?: findClass("com.miui.powercenter.a")
+        val batteryFragmentInnerClass = findClassIfExists($$"com.miui.powercenter.BatteryFragment$a")
+            ?: findClass($$"com.miui.powercenter.a$a")
+
+        batteryFragmentClass.findMethod {
+            paramCount(1)
+            returnType(String::class.java)
+            isStatic()
+        }.createHook {
             after {
                 it.result = getBatteryTemperature(it.args[0] as Context).toString()
             }
         }
 
-        if (batteryFragmentClass != null) {findClass($$"com.miui.powercenter.BatteryFragment$a")} else {findClass($$"com.miui.powercenter.a$a")}.findMethod { name("run") }.createHook {
+        batteryFragmentInnerClass.findMethod { name("run") }.createHook {
             after { hookParam ->
                 val context = EzXposed.appContext
                 val isDarkMode =
                     context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
-                val currentTemperatureState =
-                    context.resources.getIdentifier(
-                        "current_temperature_state",
-                        "id",
-                        "com.miui.securitycenter"
-                    )
+                val currentTemperatureState = context.getIdByName("current_temperature_state")
                 val view = hookParam.thisObject.getObjectFieldAs<View>("a")
 
                 val textView = view.findViewById<TextView>(currentTemperatureState)
@@ -114,12 +119,7 @@ object ShowBatteryTemperatureNew : BaseHook() {
                     textAlignment = View.TEXT_ALIGNMENT_VIEW_START
                 }
 
-                val temperatureContainer =
-                    context.resources.getIdentifier(
-                        "temperature_container",
-                        "id",
-                        "com.miui.securitycenter"
-                    )
+                val temperatureContainer = context.getIdByName("temperature_container")
                 when (val childView =
                     view.findViewById<LinearLayout>(temperatureContainer).getChildAt(1)) {
                     is LinearLayout -> {

@@ -18,9 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -46,8 +44,8 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
@@ -55,12 +53,17 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 @SuppressLint("DiscouragedApi")
 public class AppDisable extends BaseHook {
 
+    private static final String FRAGMENT_CLASS =
+        "com.miui.appmanager.fragment.ApplicationsDetailsFragment";
+    private static final String ACTIVITY_CLASS =
+        "com.miui.appmanager.ApplicationsDetailsActivity";
+
     @Override
     protected boolean useDexKit() {
         return true;
     }
 
-    private ArrayList<String> mMiuiCoreApps = new ArrayList<>();
+    private List<String> mMiuiCoreApps;
     private MenuItem menuItem = null;
     private boolean isNewSecurityCenter;
     private String clazzName;
@@ -90,15 +93,11 @@ public class AppDisable extends BaseHook {
     }
 
     /**
-     * 检查安全中心版本
+     * 检查安全中心是否拆出了独立的 fragment。
      */
     private void initVersionCheck() {
-        int versionCode = getPackageVersionCode(getLpparam());
-        boolean isPad = isPad();
-        isNewSecurityCenter = (versionCode >= 40001000 && !isPad) || (versionCode >= 40011000 && isPad);
-        clazzName = isNewSecurityCenter
-            ? "com.miui.appmanager.fragment.ApplicationsDetailsFragment"
-            : "com.miui.appmanager.ApplicationsDetailsActivity";
+        isNewSecurityCenter = findClassIfExists(FRAGMENT_CLASS) != null;
+        clazzName = isNewSecurityCenter ? FRAGMENT_CLASS : ACTIVITY_CLASS;
     }
 
     /**
@@ -158,11 +157,7 @@ public class AppDisable extends BaseHook {
                 "string", getPackageName()));
         }
 
-        getModuleRes(act);
-        mMiuiCoreApps = new ArrayList<>(Arrays.asList(
-            act.getResources().getStringArray(R.array.miui_core_app_package_name)));
-
-        if (mMiuiCoreApps.contains(packageInfo.packageName)) {
+        if (getMiuiCoreApps(act).contains(packageInfo.packageName)) {
             if (disableItem != null) {
                 disableItem.setEnabled(false);
             }
@@ -174,6 +169,17 @@ public class AppDisable extends BaseHook {
                 uninstallItem.setVisible(false);
             }
         }
+    }
+
+    /**
+     * MIUI 核心应用列表只在首次需要时读取一次，后续复用。
+     */
+    private List<String> getMiuiCoreApps(Activity act) {
+        if (mMiuiCoreApps == null) {
+            mMiuiCoreApps = Arrays.asList(
+                act.getResources().getStringArray(R.array.miui_core_app_package_name));
+        }
+        return mMiuiCoreApps;
     }
 
     /**
@@ -237,7 +243,7 @@ public class AppDisable extends BaseHook {
         }
 
         // 检查是否为核心应用
-        if (mMiuiCoreApps.contains(packageInfo.packageName)) {
+        if (getMiuiCoreApps(act).contains(packageInfo.packageName)) {
             Toast.makeText(act, modRes.getString(R.string.disable_app_settings), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -339,7 +345,8 @@ public class AppDisable extends BaseHook {
             } else {
                 Toast.makeText(act, getModuleRes(act).getString(R.string.disable_app_fail),
                     Toast.LENGTH_LONG).show();
-            }new Handler(act.getMainLooper()).postDelayed(act::invalidateOptionsMenu, 500);
+            }
+            new Handler(act.getMainLooper()).postDelayed(act::invalidateOptionsMenu, 500);
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "", t);
         }

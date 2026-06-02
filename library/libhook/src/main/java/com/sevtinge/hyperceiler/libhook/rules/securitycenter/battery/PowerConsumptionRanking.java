@@ -20,25 +20,15 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 
-import org.luckypray.dexkit.DexKitBridge;
-import org.luckypray.dexkit.query.FindClass;
 import org.luckypray.dexkit.query.FindMethod;
 import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.query.matchers.MethodMatcher;
-import org.luckypray.dexkit.result.BaseDataList;
-import org.luckypray.dexkit.result.ClassDataList;
-import org.luckypray.dexkit.result.MethodDataList;
 
 import java.lang.reflect.Method;
 import java.util.List;
 
-import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
-
 public class PowerConsumptionRanking extends BaseHook {
-    private List<Class<?>> mMatcher1ClazzList;
     private List<Method> mMiuiVersionCodeMethods;
 
     @Override
@@ -48,73 +38,31 @@ public class PowerConsumptionRanking extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mMatcher1ClazzList = requiredMemberList("Matcher1Clazz", new IDexKitList() {
-            @Override
-            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                ClassDataList clazzData = bridge.findClass(
-                        FindClass.create()
-                                .matcher(ClassMatcher.create()
-                                        .usingStrings("%d %s %d %s")
-                                )
-                );
-                return clazzData;
-            }
-        });
-        mMiuiVersionCodeMethods = requiredMemberList("MiuiVersionCode", new IDexKitList() {
-            @Override
-            public BaseDataList dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodDataList methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .declaredClass(ClassMatcher.create()
-                                        .usingStrings("ro.miui.ui.version.code"))
-                                .usingNumbers(9)
-                                .returnType(boolean.class)
-                        )
-                );
-                return methodData;
-            }
-        });
-        return true;
-    }
-
-    @Override
-    public void init() {
-        /*ClassDataList data = bridge.findClass(
-            FindClass.create()
-                .matcher(ClassMatcher.create()
-                    .usingStrings("%d %s %d %s")
-                )
-        );
-        MethodDataList methodDataList = bridge.findMethod(
-            FindMethod.create()
+        // 仅查找 ro.miui.ui.version.code 相关的版本判断方法即可，
+        // 历史实现还查找了一个 usingStrings("%d %s %d %s") 的容器类并 hookAllConstructors，
+        // 然后在 constructor 的 before 里嵌套 hook 每个 version-code 方法，
+        // 这种嵌套会让同一方法被反复 hook（每次构造一次目标类都新增一个 hook 实例）。
+        // 改为 init() 中一次性 hook，全局生效。
+        mMiuiVersionCodeMethods = requiredMemberList("MiuiVersionCode", bridge ->
+            bridge.findMethod(FindMethod.create()
                 .matcher(MethodMatcher.create()
                     .declaredClass(ClassMatcher.create()
                         .usingStrings("ro.miui.ui.version.code"))
                     .usingNumbers(9)
                     .returnType(boolean.class)
                 )
-        );*/
-        for (Class<?> clazz : mMatcher1ClazzList) {
-            XposedLog.d(TAG, getPackageName(), "Current hooking clazz is " + clazz);
+            )
+        );
+        return true;
+    }
+
+    @Override
+    public void init() {
+        for (Method method : mMiuiVersionCodeMethods) {
             try {
-                hookAllConstructors(clazz, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        for (Method method : mMiuiVersionCodeMethods) {
-                            XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
-                            try {
-                                hookMethod(method, new IMethodHook() {
-                                    @Override
-                                    public void before(HookParam param) {
-                                        param.setResult(false);
-                                    }
-                                });
-                            } catch (Exception ignore) {
-                            }
-                        }
-                    }
-                });
-            } catch (Exception ignored) {
+                hookMethod(method, returnConstant(false));
+            } catch (Throwable t) {
+                XposedLog.w(TAG, getPackageName(), "Failed to hook " + method, t);
             }
         }
     }

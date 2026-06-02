@@ -23,10 +23,13 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import org.luckypray.dexkit.query.enums.StringMatchType
+import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 
 
 object BatteryHealth : BaseHook() {
+    private const val PREF_KEY_BATTERY_HEALTH = "reference_battery_health"
+
     override fun useDexKit() = true
 
     override fun initDexKit(): Boolean {
@@ -35,6 +38,7 @@ object BatteryHealth : BaseHook() {
         findMethod
         return true
     }
+
     private val getSecurityBatteryHealth by lazy<Method> {
         requiredMember("getSecurityBatteryHealth") {
             it.findMethod {
@@ -45,6 +49,7 @@ object BatteryHealth : BaseHook() {
         }
     }
 
+    /** ChargeProtectFragment$d#handleMessage 的查找。 */
     private val cc by lazy<Method> {
         requiredMember("SecurityBatteryHealthMethod") {
             it.findMethod {
@@ -52,12 +57,13 @@ object BatteryHealth : BaseHook() {
                 findFirst = true
                 matcher {
                     name = "handleMessage"
-                    paramTypes = listOf(Message::class.java.name)
+                    paramTypes(Message::class.java.name)
                 }
             }.single()
         }
     }
 
+    /** ChargeProtectFragment#onCreatePreferences。 */
     private val findMethod by lazy<Method> {
         requiredMember("ChargeFragmentMethod") {
             it.findMethod {
@@ -71,24 +77,30 @@ object BatteryHealth : BaseHook() {
         }
     }
 
-    private lateinit var gff: Any
+    /** ChargeProtectFragment 实例的弱引用，避免随 Activity 销毁泄漏 fragment。 */
+    private var fragmentRef: WeakReference<Any>? = null
+
+    /** 最近一次读取到的电池健康度；尚未捕获时不刷新 UI，避免显示 "null %"。 */
     private var health: Int? = null
 
 
     override fun init() {
         getSecurityBatteryHealth.createAfterHook { param ->
-            health = param.args[0] as Int // 获取手机管家内部的健康度
+            health = param.args[0] as? Int
         }
 
         findMethod.createAfterHook { param ->
-            gff = param.thisObject
-                .callMethod("findPreference", "reference_battery_health")!!
+            fragmentRef = WeakReference(param.thisObject)
         }
 
         cc.createAfterHook {
-            gff.callMethod("setText", "$health %")
+            val fragment = fragmentRef?.get() ?: return@createAfterHook
+            val healthValue = health ?: return@createAfterHook
+            val pref = runCatching {
+                fragment.callMethod("findPreference", PREF_KEY_BATTERY_HEALTH)
+            }.getOrNull() ?: return@createAfterHook
+            pref.callMethod("setText", "$healthValue %")
         }
-
     }
 }
 

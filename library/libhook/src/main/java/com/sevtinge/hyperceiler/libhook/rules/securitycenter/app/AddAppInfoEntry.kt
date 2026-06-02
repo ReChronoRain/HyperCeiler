@@ -91,6 +91,7 @@ object AddAppInfoEntry : BaseHook() {
 
     private fun createAppInfoIntent(activity: Activity): Intent {
         val pkgName = activity.intent.getStringExtra("package_name")!!
+        // UserHandle.myUserId() 标记 @hide，不在 public SDK 中，需走反射。
         val myUserId = Methods.callStaticMethod(UserHandle::class.java, "myUserId") as Int
         val uid = activity.intent.getIntExtra("miui.intent.extra.USER_ID", myUserId)
         val bundle = Bundle().apply {

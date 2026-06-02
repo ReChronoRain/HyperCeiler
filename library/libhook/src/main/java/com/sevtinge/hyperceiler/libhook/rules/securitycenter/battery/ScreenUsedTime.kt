@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
-import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
@@ -57,15 +56,9 @@ object ScreenUsedTime : BaseHook() {
     }
 
     override fun init() {
-        XposedLog.d(TAG, lpparam.packageName, "methods2 :$method2")
-        method2.forEach {
-            it.createHook {
-                returnConstant(
-                    when (it) {
-                        method1 -> true
-                        else -> false
-                    }
-                )
+        method2.forEach { m ->
+            m.createHook {
+                returnConstant(m == method1)
             }
         }
     }

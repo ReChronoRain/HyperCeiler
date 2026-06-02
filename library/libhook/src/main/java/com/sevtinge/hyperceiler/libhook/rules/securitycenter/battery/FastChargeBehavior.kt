@@ -580,17 +580,29 @@ class FastChargeBehavior : BaseHook() {
     }
 
     companion object {
+        // ── 行为模式 ─────────────────────────────────────────────
+        /** 自动确认快充并移除原确认通知。 */
         private const val MODE_AUTO_CONFIRM_REMOVE = 2
+
+        // ── 通知 / 插拔类型 ───────────────────────────────────────
+        /** 管家原始快充通知 ID（与 DexKit usingNumbers 配套，不可改）。 */
         private const val NOTIFICATION_ID_FAST_CHARGE = 2021051618
+        /** BatteryManager.BATTERY_PLUGGED_WIRELESS 的实际取值。 */
         private const val PLUG_TYPE_WIRELESS = 4
+
+        // ── Settings.Secure / Intent keys ────────────────────────
         private const val FAST_CHARGE_ENABLED_KEY = "key_fast_charge_enabled"
         private const val EXTRA_QUICK_CHARGE_TYPE = "miui.intent.extra.quick_charge_type"
         private const val EXTRA_POWER_MAX = "miui.intent.extra.POWER_MAX"
+        private const val EXTRA_PLUG_TYPE = "plugType"
+
+        // ── Intent actions ──────────────────────────────────────
         private const val ACTION_TURN_ON_FAST_CHARGE =
             "com.miui.powercenter.action.TURN_ON_FAST_CHARGE"
         private const val ACTION_TURN_OFF_FAST_CHARGE =
             "com.miui.powercenter.action.TURN_OFF_FAST_CHARGE"
-        private const val EXTRA_PLUG_TYPE = "plugType"
+
+        // ── 视图类 ──────────────────────────────────────────────
         private const val MESSAGE_VIEW_CLASS_NAME =
             "miuix.miuixbasewidget.widget.MessageView"
     }

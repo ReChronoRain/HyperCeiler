@@ -94,6 +94,7 @@ object MoreBatteryInfoNew : BaseHook() {
         "com.miui.powercenter.nightcharge.ChargeProtectFragment"
     private const val CHARGE_PROTECT_HANDLER_CLASS =
         $$"com.miui.powercenter.nightcharge.ChargeProtectFragment$d"
+    private const val MSG_REFRESH_BATTERY_INFO = 1
     private const val BATTERY_HEALTH_KEY = "reference_battery_health"
     private const val CURRENT_TEMP_KEY = "reference_current_temp"
     private const val TODAY_CHARGE_KEY = "reference_toady_charge_time"
@@ -199,23 +200,28 @@ object MoreBatteryInfoNew : BaseHook() {
         runCatching {
             handlerClass.interceptHookMethod("handleMessage", Message::class.java) { chain ->
                 val result = chain.proceed()
-                val handler = chain.thisObject ?: return@interceptHookMethod result
-                runCatching {
-                    handler.callMethod("a")
-                }.onFailure {
-                    XposedLog.e(TAG, packageName, "Refresh callback failed: a()", it)
+                val message = chain.getArg(0) as? Message
+                if (message?.what == MSG_REFRESH_BATTERY_INFO) {
+                    val handler = chain.thisObject
+                    if (handler != null) {
+                        invokeHandlerMethodSilently(handler, "a")
+                        invokeHandlerMethodSilently(handler, "b")
+                    }
+                    refreshDynamicBatteryRows()
                 }
-                runCatching {
-                    handler.callMethod("b")
-                }.onFailure {
-                    XposedLog.e(TAG, packageName, "Refresh callback failed: b()", it)
-                }
-                refreshDynamicBatteryRows()
                 result
             }
         }.onFailure {
             XposedLog.e(TAG,
                 packageName, "Failed to hook $CHARGE_PROTECT_HANDLER_CLASS#handleMessage", it)
+        }
+    }
+
+    private fun invokeHandlerMethodSilently(handler: Any, methodName: String) {
+        runCatching {
+            handler.callMethod(methodName)
+        }.onFailure {
+            XposedLog.e(TAG, packageName, "Refresh callback failed: $methodName()", it)
         }
     }
 
@@ -227,21 +233,18 @@ object MoreBatteryInfoNew : BaseHook() {
 
         batteryContext = runCatching {
             fragment.callMethod("getContext") as? Context
-        }.getOrNull() ?: runCatching {
-            fragment.callMethod("requireContext") as? Context
         }.getOrNull()
-        val findPreferenceByKey: (String) -> Any? = { key ->
-            runCatching {
-                fragment.callMethod("findPreference", key)
-            }.getOrNull()
-        }
 
-        batteryInfoCategory = findPreferenceByKey("preference_key_category_battery_info")
-        productionDatePreference = findPreferenceByKey(PRODUCTION_DATE_KEY)
-        firstUseDatePreference = findPreferenceByKey(FIRST_USE_DATE_KEY)
-        designCapacityPreference = findPreferenceByKey(DESIGN_CAPACITY_KEY)
-        fullCapacityPreference = findPreferenceByKey(FULL_CAPACITY_KEY)
+        batteryInfoCategory = findPreferenceByKey(fragment, "preference_key_category_battery_info")
+        productionDatePreference = findPreferenceByKey(fragment, PRODUCTION_DATE_KEY)
+        firstUseDatePreference = findPreferenceByKey(fragment, FIRST_USE_DATE_KEY)
+        designCapacityPreference = findPreferenceByKey(fragment, DESIGN_CAPACITY_KEY)
+        fullCapacityPreference = findPreferenceByKey(fragment, FULL_CAPACITY_KEY)
     }
+
+    private fun findPreferenceByKey(fragment: Any, key: String): Any? = runCatching {
+        fragment.callMethod("findPreference", key)
+    }.getOrNull()
 
     private fun ensureDynamicBatteryPreferences(modRes: Resources) {
         val category = batteryInfoCategory ?: return
@@ -331,11 +334,11 @@ object MoreBatteryInfoNew : BaseHook() {
             findClassIfExists("miuix.preference.TextPreference") ?: return null
 
         val firstAttempt = runCatching {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context)
+            newInstance(textPreferenceClass, context)
         }
         val textPreference: Any? = firstAttempt.getOrNull() ?: run {
             runCatching {
-                com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context, null)
+                newInstance(textPreferenceClass, context, null)
             }.getOrNull()
         }
 

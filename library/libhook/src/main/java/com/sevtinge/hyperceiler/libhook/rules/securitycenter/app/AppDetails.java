@@ -29,7 +29,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.os.Bundle;
 import android.os.UserHandle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -41,11 +40,14 @@ import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -105,6 +107,12 @@ public class AppDetails extends BaseHook {
         "mips"
     );
 
+    /**
+     * 按 (packageName, lastUpdateTime) 缓存 ABI 解析结果，避免每次进入详情页都重新解压 APK。
+     * 在 split APK 较多的应用上可省下大量 ZipFile 打开开销。
+     */
+    private final Map<String, List<String>> mAbiCache = new HashMap<>();
+
     private Class<?> mInfoFragmentCls;
 
     @Override
@@ -114,18 +122,8 @@ public class AppDetails extends BaseHook {
             return;
         }
 
-        hookCreatePreferences();
         hookLoadFinished();
         hookPreferenceClick();
-    }
-
-    private void hookCreatePreferences() {
-        findAndHookMethod(mInfoFragmentCls, "onCreatePreferences", Bundle.class, String.class, new IMethodHook() {
-            @Override
-            public void after(@NonNull HookParam param) {
-                rebuildPreferenceGroups(param.getThisObject());
-            }
-        });
     }
 
     private void hookLoadFinished() {
@@ -186,12 +184,7 @@ public class AppDetails extends BaseHook {
     }
 
     private ApplicationInfo getApplicationInfo(PackageInfo packageInfo) {
-        if (packageInfo == null) {
-            return null;
-        }
-
-        Object value = getObjectFieldOrNull(packageInfo, "applicationInfo");
-        return value instanceof ApplicationInfo ? (ApplicationInfo) value : null;
+        return packageInfo != null ? packageInfo.applicationInfo : null;
     }
 
     private void configureBasicCategory(
@@ -222,7 +215,7 @@ public class AppDetails extends BaseHook {
             category,
             KEY_APP_UID,
             modRes.getString(R.string.app_details_app_uid),
-            String.valueOf(getIntFieldOrDefault(appInfo, "uid")),
+            String.valueOf(appInfo.uid),
             101,
             false
         );
@@ -246,7 +239,7 @@ public class AppDetails extends BaseHook {
             category,
             KEY_MIN_SDK,
             modRes.getString(R.string.app_details_min_sdk),
-            String.valueOf(getIntFieldOrDefault(appInfo, "minSdkVersion")),
+            String.valueOf(appInfo.minSdkVersion),
             0,
             false
         );
@@ -255,7 +248,7 @@ public class AppDetails extends BaseHook {
             category,
             KEY_TARGET_SDK,
             modRes.getString(R.string.app_details_sdk),
-            String.valueOf(getIntFieldOrDefault(appInfo, "targetSdkVersion")),
+            String.valueOf(appInfo.targetSdkVersion),
             1,
             false
         );
@@ -292,8 +285,8 @@ public class AppDetails extends BaseHook {
             0,
             false
         );
-        String dataDir = getStringFieldOrNull(appInfo, "dataDir");
-        String sourceDir = getStringFieldOrNull(appInfo, "sourceDir");
+        String dataDir = appInfo.dataDir;
+        String sourceDir = appInfo.sourceDir;
         addTextPreference(
             context,
             category,
@@ -481,25 +474,57 @@ public class AppDetails extends BaseHook {
     }
 
     private String getCompileSdkVersion(ApplicationInfo appInfo, Resources modRes) {
-        Object version = getObjectFieldOrNull(appInfo, "compileSdkVersion");
-        if (!(version instanceof Integer) || (Integer) version <= 0) {
+        int version = appInfo.compileSdkVersion;
+        if (version <= 0) {
             return modRes.getString(R.string.app_details_unavailable);
         }
-
         return String.valueOf(version);
     }
 
     private String getSupportedAbi(ApplicationInfo appInfo, Resources modRes) {
-        Set<String> abis = new LinkedHashSet<>();
-        addAbi(abis, getObjectFieldOrNull(appInfo, "primaryCpuAbi"));
-        addAbi(abis, getObjectFieldOrNull(appInfo, "secondaryCpuAbi"));
-        collectAbiFromApks(appInfo, abis);
-
+        Set<String> abis = getCachedAbis(appInfo);
         if (abis.isEmpty()) {
             return modRes.getString(R.string.app_details_no_native_libs);
         }
 
         return TextUtils.join(", ", sortAbis(abis));
+    }
+
+    /**
+     * 按 (packageName, sourceDir, lastUpdate) 缓存 ABI 解析结果。
+     * split APK 较多时，每次进入应用详情都重新解压会显著影响响应速度。
+     */
+    private Set<String> getCachedAbis(ApplicationInfo appInfo) {
+        String cacheKey = buildAbiCacheKey(appInfo);
+        if (cacheKey != null) {
+            List<String> cached = mAbiCache.get(cacheKey);
+            if (cached != null) {
+                return new LinkedHashSet<>(cached);
+            }
+        }
+
+        Set<String> abis = new LinkedHashSet<>();
+        // primaryCpuAbi / secondaryCpuAbi 是 @hide 字段，无 stub，仍走反射。
+        addAbi(abis, getObjectFieldOrNull(appInfo, "primaryCpuAbi"));
+        addAbi(abis, getObjectFieldOrNull(appInfo, "secondaryCpuAbi"));
+        collectAbiFromApks(appInfo, abis);
+
+        if (cacheKey != null) {
+            mAbiCache.put(cacheKey, new ArrayList<>(abis));
+        }
+        return abis;
+    }
+
+    private String buildAbiCacheKey(ApplicationInfo appInfo) {
+        String sourceDir = appInfo.sourceDir;
+        if (TextUtils.isEmpty(sourceDir)) return null;
+
+        long lastModified = 0L;
+        try {
+            lastModified = new File(sourceDir).lastModified();
+        } catch (Throwable ignored) {
+        }
+        return appInfo.packageName + "|" + sourceDir + "|" + lastModified;
     }
 
     private void addAbi(Set<String> abis, Object abi) {
@@ -509,8 +534,8 @@ public class AppDetails extends BaseHook {
     }
 
     private void collectAbiFromApks(ApplicationInfo appInfo, Set<String> abis) {
-        collectAbiFromApk(getStringFieldOrNull(appInfo, "sourceDir"), abis);
-        String[] splitSourceDirs = getStringArrayFieldOrNull(appInfo);
+        collectAbiFromApk(appInfo.sourceDir, abis);
+        String[] splitSourceDirs = appInfo.splitSourceDirs;
         if (splitSourceDirs == null) {
             return;
         }
@@ -565,22 +590,7 @@ public class AppDetails extends BaseHook {
     }
 
     private String getPackageName(PackageInfo packageInfo) {
-        return getStringFieldOrNull(packageInfo, "packageName");
-    }
-
-    private String getStringFieldOrNull(Object instance, String fieldName) {
-        Object value = getObjectFieldOrNull(instance, fieldName);
-        return value instanceof String ? (String) value : null;
-    }
-
-    private String[] getStringArrayFieldOrNull(Object instance) {
-        Object value = getObjectFieldOrNull(instance, "splitSourceDirs");
-        return value instanceof String[] ? (String[]) value : null;
-    }
-
-    private int getIntFieldOrDefault(Object instance, String fieldName) {
-        Object value = getObjectFieldOrNull(instance, fieldName);
-        return value instanceof Integer ? (Integer) value : 0;
+        return packageInfo != null ? packageInfo.packageName : null;
     }
 
     private String displayText(String value, Resources modRes) {

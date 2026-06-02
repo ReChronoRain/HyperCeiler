@@ -60,7 +60,6 @@ class SidebarCommonAppLimit : BaseHook() {
     private var editAllAdapterClass: Class<*>? = null
     private var editSelectedAdapterClass: Class<*>? = null
     private var editItemClass: Class<*>? = null
-    private var selectedListMethod: Method? = null
     private val wrappedSourceLists = WeakHashMap<Any, List<Pair<Field, Any?>>>()
     private val wrappedEditLists = WeakHashMap<Any, List<Pair<Field, Any?>>>()
 
@@ -86,9 +85,14 @@ class SidebarCommonAppLimit : BaseHook() {
                 matcher {
                     declaredClass = editClass.name
                     returnType = "void"
-                    paramTypes = listOf("", "int", "")
+                    paramCount = 3
+                    paramTypes(null, "int", null)
                     usingNumbers(DEFAULT_LIMIT)
                     addInvoke("Ljava/util/List;->size()I")
+                    addInvoke {
+                        name = "notifyItemRangeChanged"
+                        paramCount = 3
+                    }
                 }
                 findFirst = true
             }?.singleOrNull()
@@ -149,13 +153,28 @@ class SidebarCommonAppLimit : BaseHook() {
     }
 
     override fun initDexKit(): Boolean {
-        editActivityClassFromDex
-        addMethod
-        removeMethod
-        sourceCollectMethod
-        sourceListFields
-        changedField
-        return true
+        var ok = true
+        if (editActivityClassFromDex == null) {
+            XposedLog.w(TAG, packageName, "dexkit miss: editActivityClass")
+            ok = false
+        }
+        if (addMethod == null) {
+            XposedLog.w(TAG, packageName, "dexkit miss: addMethod")
+            ok = false
+        }
+        if (removeMethod == null) {
+            XposedLog.w(TAG, packageName, "dexkit miss: removeMethod")
+        }
+        if (changedField == null) {
+            XposedLog.w(TAG, packageName, "dexkit miss: changedField")
+        }
+        if (sourceCollectMethod == null) {
+            XposedLog.w(TAG, packageName, "dexkit miss: sourceCollectMethod")
+        }
+        if (sourceListFields.isEmpty()) {
+            XposedLog.w(TAG, packageName, "dexkit miss: sourceListFields")
+        }
+        return ok
     }
 
     override fun init() {
@@ -211,8 +230,11 @@ class SidebarCommonAppLimit : BaseHook() {
                 handleAddLimitBefore(it)
             }
             after {
-                restoreWrappedLists(it.thisObject, wrappedEditLists)
-                updateAllAdapterWhenFull(it)
+                try {
+                    restoreWrappedLists(it.thisObject, wrappedEditLists)
+                } finally {
+                    updateAllAdapterWhenFull(it)
+                }
             }
         }
 
@@ -251,7 +273,7 @@ class SidebarCommonAppLimit : BaseHook() {
         val activityClass = editActivityClass ?: return null
         val adapterClass = editAllAdapterClass?.findAdapterSuperclass() ?: return null
         return activityClass.findFieldOrNull {
-            currentClassOnly()
+            findOnlyClass()
             typeExtendsFrom(adapterClass)
         }?.type
     }
@@ -263,14 +285,14 @@ class SidebarCommonAppLimit : BaseHook() {
     }
 
     private fun Class<*>.firstSuperclass(predicate: Class<*>.() -> Boolean): Class<*>? {
-        return generateSequence(superclass) { it.superclass }
+        return generateSequence<Class<*>>(superclass) { it.superclass }
             .takeWhile { it != Any::class.java }
             .find { it.predicate() }
     }
 
     private fun Class<*>.hasDeclaredMethod(methodName: String, parameterCount: Int): Boolean {
         return findMethodOrNull {
-            currentClassOnly()
+            findOnlyClass()
             name(methodName)
             paramCount(parameterCount)
         } != null
@@ -378,14 +400,13 @@ class SidebarCommonAppLimit : BaseHook() {
 
     private fun Any.selectedListFromFields(): List<*>? {
         val activityClass = editActivityClass ?: return null
-        val fields = activityClass.findAllFields {
+        return activityClass.findAllFields {
+            findOnlyClass()
             type(List::class.java)
+        }.firstNotNullOfOrNull { field ->
+            field.isAccessible = true
+            field.get(this) as? List<*>
         }
-        for (field in fields) {
-            val list = field.get(this) as? List<*>
-            if (list != null) return list
-        }
-        return null
     }
 
     private fun Any.selectedAdapterCount(): Int {
@@ -394,9 +415,8 @@ class SidebarCommonAppLimit : BaseHook() {
     }
 
     private fun Any.selectedList(): List<*>? {
-        val method = selectedListMethod ?: findSelectedListMethod()?.also {
-            selectedListMethod = it
-        } ?: return null
+        // EzHookTool 1.1.0+ 会按结构化条件缓存结果，无需在此手动缓存 Method 引用
+        val method = findSelectedListMethod() ?: return null
         return method.invoke(this) as? List<*>
     }
 
@@ -420,41 +440,52 @@ class SidebarCommonAppLimit : BaseHook() {
     }
 
     private fun wrapSourceLists(owner: Any) {
-        val originals = ArrayList<Pair<Field, Any?>>()
-        for (field in sourceListFields) {
-            field.isAccessible = true
-            val value = field.get(owner)
-            val list = value as? MutableList<Any?> ?: continue
-            field.set(owner, LimitedSizeList(list, limit, DEFAULT_SOURCE_LIMIT))
-            originals.add(field to value)
-        }
-        rememberWrappedLists(owner, originals, wrappedSourceLists, "no source list field wrapped")
+        wrapListFields(
+            owner = owner,
+            fields = sourceListFields,
+            cache = wrappedSourceLists,
+            emptyMessage = "no source list field wrapped",
+        ) { list -> WrappedLimitList(list, limit, DEFAULT_SOURCE_LIMIT, WrappedLimitList.Mode.SOURCE) }
     }
 
     private fun wrapEditLists(owner: Any) {
+        // 进入扩展上限路径：用户已选数量已经达到 stock 上限 (10)，
+        // 但用户开启了更大的 limit。包装 list 的 size() 让宿主代码里
+        // `size() == 10` / `size() >= 10` 的临界判断仍保持原有行为，
+        // 避免提前触发 "已满" 分支。
         if (limit == DEFAULT_LIMIT) return
         val activityClass = editActivityClass ?: return
-        val originals = ArrayList<Pair<Field, Any?>>()
         val fields = activityClass.findAllFields {
-            currentClassOnly()
+            findOnlyClass()
             type(List::class.java)
         }
-        for (field in fields) {
-            val value = field.get(owner)
-            val list = value as? MutableList<Any?> ?: continue
-            if (list.size !in DEFAULT_LIMIT..<limit) continue
-            field.set(owner, EditLimitList(list, limit, DEFAULT_LIMIT))
-            originals.add(field to value)
-        }
-        rememberWrappedLists(owner, originals, wrappedEditLists, "no edit list field wrapped")
+        wrapListFields(
+            owner = owner,
+            fields = fields,
+            cache = wrappedEditLists,
+            emptyMessage = "no edit list field wrapped",
+            accept = { it.size in DEFAULT_LIMIT..<limit },
+        ) { list -> WrappedLimitList(list, limit, DEFAULT_LIMIT, WrappedLimitList.Mode.EDIT) }
     }
 
-    private fun rememberWrappedLists(
+    private inline fun wrapListFields(
         owner: Any,
-        originals: List<Pair<Field, Any?>>,
+        fields: Iterable<Field>,
         cache: WeakHashMap<Any, List<Pair<Field, Any?>>>,
-        emptyMessage: String
+        emptyMessage: String,
+        accept: (MutableList<Any?>) -> Boolean = { true },
+        wrap: (MutableList<Any?>) -> MutableList<Any?>,
     ) {
+        val originals = ArrayList<Pair<Field, Any?>>()
+        for (field in fields) {
+            field.isAccessible = true
+            val value = field.get(owner)
+            @Suppress("UNCHECKED_CAST")
+            val list = value as? MutableList<Any?> ?: continue
+            if (!accept(list)) continue
+            field.set(owner, wrap(list))
+            originals.add(field to value)
+        }
         if (originals.isNotEmpty()) {
             cache[owner] = originals
         } else {
@@ -475,35 +506,34 @@ class SidebarCommonAppLimit : BaseHook() {
         val actualSize: Int
     }
 
-    private class EditLimitList<T>(
+    /**
+     * 包装 list 让其 `size()` 在临界值时返回 `stockLimit - 1`，欺骗宿主代码的 `==` 或 `>=` 判定。
+     *
+     * - [EDIT] 用于 edit 页面已选 list：只要 delegate 已经达到 stockLimit，就持续报告 stockLimit-1，
+     *   避免在扩展上限路径中触发 "已满" 分支。
+     * - [SOURCE] 用于源推荐池：仅在 delegate 恰好等于 stockLimit 时报告 stockLimit-1，超过则
+     *   直接报告 stockLimit（贴近原行为，只阻断"即将装满"的那一帧）。
+     */
+    private class WrappedLimitList<T>(
         private val delegate: MutableList<T>,
         private val limit: Int,
-        private val stockLimit: Int
+        private val stockLimit: Int,
+        private val mode: Mode,
     ) : MutableList<T> by delegate, ActualSizeList {
+        enum class Mode { EDIT, SOURCE }
+
         override val actualSize: Int
             get() = delegate.size
 
         override val size: Int
-            get() = when {
-                delegate.size >= limit -> stockLimit
-                delegate.size >= stockLimit -> stockLimit - 1
-                else -> delegate.size
-            }
-    }
-
-    private class LimitedSizeList<T>(
-        private val delegate: MutableList<T>,
-        private val limit: Int,
-        private val stockLimit: Int
-    ) : MutableList<T> by delegate, ActualSizeList {
-        override val actualSize: Int
-            get() = delegate.size
-
-        override val size: Int
-            get() = when {
-                delegate.size >= limit -> stockLimit
-                delegate.size == stockLimit -> stockLimit - 1
-                else -> delegate.size
+            get() {
+                val real = delegate.size
+                return when {
+                    real >= limit -> stockLimit
+                    mode == Mode.EDIT && real >= stockLimit -> stockLimit - 1
+                    mode == Mode.SOURCE && real == stockLimit -> stockLimit - 1
+                    else -> real
+                }
             }
     }
 

@@ -126,15 +126,20 @@ object UnlockVideoSomeFunc : BaseHook() {
             } else if (counter == 3 && enhance) {
                 hook(methods)
 
-                val newChar = findTat.name.toCharArray()
-                for (i in newChar.indices) {
-                    newChar[i]++
-                }
-                val newName = String(newChar)
+                val newName = String(findTat.name.toCharArray().also { chars ->
+                    for (i in chars.indices) chars[i]++
+                })
                 XposedLog.d(TAG, lpparam.packageName, "find EnhanceContours Method(${methods.declaringClass}) is $newName")
-                findTat.declaringClass.findMethod { name("newName") }.createHook {
+                runCatching {
+                    findTat.declaringClass.findMethod { name(newName) }.createHook {
                         returnConstant(true)
                     }
+                }.onFailure {
+                    XposedLog.w(
+                        TAG, lpparam.packageName,
+                        "EnhanceContours method '$newName' not found in ${findTat.declaringClass.name}", it
+                    )
+                }
             }
         }
     }

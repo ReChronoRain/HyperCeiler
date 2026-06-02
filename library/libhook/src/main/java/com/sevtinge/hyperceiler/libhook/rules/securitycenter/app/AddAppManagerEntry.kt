@@ -29,6 +29,7 @@ import androidx.core.view.size
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.initAppContext
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
@@ -88,11 +89,7 @@ object AddAppManagerEntry : BaseHook() {
         )
 
     private fun getActionEndMenuGroupId(context: Context): Int =
-        context.resources.getIdentifier(
-            "miuix_action_end_menu_group",
-            "id",
-            context.packageName
-        )
+        context.getIdByName("miuix_action_end_menu_group")
 
     private fun Menu.hasAppManagerEntry(label: String): Boolean {
         val targetComponent = createAppManagerIntent().component

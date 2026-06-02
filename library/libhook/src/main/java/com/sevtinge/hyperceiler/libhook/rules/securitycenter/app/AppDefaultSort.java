@@ -33,40 +33,59 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AppDefaultSort extends BaseHook {
 
-    Class<?> mAppManagerCls;
-    String fragCls = null;
+    private Class<?> mAppManagerCls;
+    private Class<?> mFragCls;
+    private boolean mFragHooked;
 
     @Override
     public void init() {
-
         mAppManagerCls = findClassIfExists("com.miui.appmanager.AppManagerMainActivity");
+        if (mAppManagerCls == null) return;
 
         findAndHookMethod(mAppManagerCls, "onCreate", Bundle.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
-                Class<?> mFragXCls = findClassIfExists("androidx.fragment.app.Fragment");
-                Field[] fields = param.getThisObject().getClass().getDeclaredFields();
-                for (Field field : fields) {
-                    if (Fragment.class.isAssignableFrom(field.getType()) || (mFragXCls != null && mFragXCls.isAssignableFrom(field.getType()))) {
-                        fragCls = field.getType().getCanonicalName();
-                        break;
-                    }
-                }
-                if (fragCls != null) {
-                    hookAllMethods(fragCls, "onActivityCreated", new IMethodHook() {
-                        @Override
-                        public void before(final HookParam param) {
-                            try {
-                                param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
-                            } catch (Throwable t) {
-                                XposedLog.e(TAG, getPackageName(), "", t);
-                            }
-                        }
-                    });
+                hookFragmentOnce(param.getThisObject());
+            }
+        });
+    }
+
+    /**
+     * Fragment 类只解析一次、{@code onActivityCreated} 也只挂一次。
+     * 原实现每次 Activity onCreate 都重新 hookAllMethods，会让同一个 Fragment 方法被叠加 hook 多次。
+     */
+    private void hookFragmentOnce(Object activity) {
+        if (mFragHooked) return;
+
+        Class<?> fragCls = resolveFragmentClass(activity);
+        if (fragCls == null) return;
+
+        mFragCls = fragCls;
+        hookAllMethods(fragCls, "onActivityCreated", new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                try {
+                    param.getArgs()[0] = checkBundle((Bundle) param.getArgs()[0]);
+                } catch (Throwable t) {
+                    XposedLog.e(TAG, getPackageName(), "", t);
                 }
             }
         });
+        mFragHooked = true;
+    }
+
+    private Class<?> resolveFragmentClass(Object activity) {
+        Class<?> mFragXCls = findClassIfExists("androidx.fragment.app.Fragment");
+        Field[] fields = activity.getClass().getDeclaredFields();
+        for (Field field : fields) {
+            Class<?> type = field.getType();
+            if (Fragment.class.isAssignableFrom(type)
+                || (mFragXCls != null && mFragXCls.isAssignableFrom(type))) {
+                return type;
+            }
+        }
+        return null;
     }
 
     public static Bundle checkBundle(Bundle bundle) {

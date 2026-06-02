@@ -56,17 +56,15 @@ object UnlockSuperWirelessCharge : BaseHook() {
         superWirelessCharge.createHook {
             returnConstant(true)
         }
-        runCatching {
-            if (superWirelessChargeTip.returnType == Void::class.java) {
-                superWirelessChargeTip.createHook {
-                    before {
-                        it.args[0] = true
-                    }
+        if (superWirelessChargeTip.returnType == Void.TYPE) {
+            superWirelessChargeTip.createHook {
+                before {
+                    it.args[0] = true
                 }
-            } else {
-                superWirelessChargeTip.createHook {
-                    returnConstant(true)
-                }
+            }
+        } else {
+            superWirelessChargeTip.createHook {
+                returnConstant(true)
             }
         }
     }

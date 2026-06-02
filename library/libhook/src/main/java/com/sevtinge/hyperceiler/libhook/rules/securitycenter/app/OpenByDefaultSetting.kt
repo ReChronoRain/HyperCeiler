@@ -32,12 +32,11 @@ import androidx.core.net.toUri
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import io.github.lingqiqi5211.ezhooktool.core.newInstanceAuto
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Method
 
 
@@ -99,7 +98,8 @@ class OpenByDefaultSetting : BaseHook() {
                 matcher {
                     addEqString("enter_way")
                     returnType = "void"
-                    paramTypes = listOf("", "")
+                    paramCount = 2
+                    paramTypes(null, "java.lang.Boolean")
                 }
                 findFirst = true
             }.single()
