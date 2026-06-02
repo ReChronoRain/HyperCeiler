@@ -21,7 +21,7 @@
     <!--Introduction to Xposed Modules-->
     <string name="new_permission_wifi_state_desc">Добавление и удаление файлов во внутренней памяти</string>
     <string name="new_permission_location_desc">Используется для определения широты и долготы</string>
-    <string name="new_cta_agree_desc">Во время использования, чтобы предоставить вам больше функций, мы можем запросить у вас разрешение Root/Su. Вы можете в любое время перейти к управлению разрешениями, чтобы настроить статус авторизации всех разрешений, а также обратиться к своему менеджеру Root/Su за разрешениями Root/Su.</string>
+    <string name="new_cta_agree_desc">Для расширенных функций требуются Root-права. Вы можете изменить разрешения в любой момент. Пожалуйста, предоставьте Root-доступ в вашем Root-менеджере.</string>
     <string name="new_cta_app_main_purpose">Модификация системных приложений</string>
     <string name="new_cta_app_all_purpose_welcome">Пользовательское соглашение и Политика конфиденциальности</string>
     <string name="new_cta_app_all_purpose_title">Добро пожаловать в HyperCeiler! Это приложение создано для взлома и модификации разных поддерживаемых приложений для улучшения системы. Это приложение использует Фреймворк Xposed для работы. Чтобы предоставить вам больше функций может быть потребован root-доступ.\nПродолжая использовать HyperCeiler, вы соглашаетесь с нашим <annotation key="protocol">Пользовательским соглашением</annotation> и <annotation key="privacy">Политикой конфиденциальности</annotation>.</string>
@@ -81,7 +81,7 @@
     <string name="success">Успешно</string>
     <string name="failed">Не удалось</string>
     <string name="development">Параметры разработчика</string>
-    <string name="development_ui">UI</string>
+    <string name="development_ui">Интерфейс</string>
     <string name="development_debug_info">Отладочные сведения</string>
     <string name="development_prefs">Параметры совместного использования</string>
     <string name="development_cmd_r">CMD с правами root</string>
@@ -226,12 +226,12 @@
     <string name="system_ui_statusbar_indicator_default_title">По умолчанию</string>
     <string name="system_ui_statusbar_indicator_expand_title">Развернуть</string>
     <string name="system_ui_statusbar_indicator_fixedcontent_width">Исправить ширину содержимого</string>
-    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Предотвратить дрожание соседних элементов влево и вправо</string>
+    <string name="system_ui_statusbar_indicator_fixedcontent_width_desc">Устранить горизонтальное дрожание</string>
     <string name="system_ui_statusbar_indicator_bold">Жирный</string>
     <string name="unlock_ai">Разблокировать ИИ функции</string>
     <string name="unlock_ai_wallpaper">Разблокировать ИИ обои</string>
     <!--Multi-list Array-->
-    <string name="array_close">Отключить</string>
+    <string name="array_close">Закрыть</string>
     <string name="array_hide">Скрыть</string>
     <string name="array_default">Стандарт</string>
     <string name="array_align_left">Слева</string>
@@ -494,13 +494,13 @@
     <string name="community_fuck_detection_desc">Предотвратите обнаружение HyperCeiler и загрузите его, оставив отзыв. Пожалуйста, убедитесь, что проблема возникла не по вашей вине, а является реальной проблемой системы, прежде чем оставлять отзыв, чтобы избежать лишних проблем.</string>
     <!--File Manager-->
     <string name="fileexplorer">Проводник</string>
-    <string name="file_explorer_can_selectable">Название папки, при долгом нажатии, позволяет выбрать действие</string>
+    <string name="file_explorer_can_selectable">Действие по долгому нажатию на имя папки</string>
     <string name="file_explorer_is_single_line">Название папки в одну строку</string>
     <string name="file_explorer_unlock_file_parse">Разблокировать синтаксический анализ файла</string>
     <!--Phone-->
     <string name="incallui">Телефон</string>
-    <string name="incallui_hide_crbt">Скрыть мелодию вызова</string>
-    <string name="incallui_answer_in_head_up">Ответ подъемом головы</string>
+    <string name="incallui_hide_crbt">Скрыть видео персонализации вызова</string>
+    <string name="incallui_answer_in_head_up">Запретить полноэкранный режим при ответе</string>
     <!--Message-->
     <string name="mms">Сообщения</string>
     <string name="mms_disable_ad">Отключить рекламу</string>
@@ -543,7 +543,7 @@
     <string name="system_ui_lock_screen_bottom_left_button">Левая кнопка внизу</string>
     <string name="system_ui_lock_screen_current">Текущий</string>
     <string name="system_ui_lock_screen_blur_button">Размытие кнопок экрана блокировки</string>
-    <string name="system_ui_lock_screen_blur_button_desc">После включения фон камеры и кнопки отрицательного экрана на экране блокировки размыты, что может привести к высокому энергопотреблению. Поддерживается только тема по умолчанию.</string>
+    <string name="system_ui_lock_screen_blur_button_desc">При включении активируется размытие фона для камеры и кнопок быстрого доступа. Это может увеличить потребление энергии.\nПоддерживается только тема по умолчанию.</string>
     <string name="system_ui_lock_screen_blur_button_radius">Радиус фона</string>
     <string name="system_ui_lock_screen_blur_button_bg_color">Цвет фона</string>
     <string name="system_ui_lock_screen_double_lock">Двойное нажатие экрана блокировки</string>
@@ -672,11 +672,11 @@
     <string name="system_ui_statusbar_network_speed_hide_slow_desc">Значения скорости ниже этого порога считаются медленными и значок индикатора будет изменён (поддерживаются не все стили)</string>
     <string name="system_ui_statusbar_network_speed_sec_unit">Скрыть суффикс байт в секунду (*b/s)</string>
     <string name="system_ui_statusbar_network_speed_icon">Значок индикатора</string>
-    <string name="system_ui_statusbar_clock_double_mode_title">Выравнивание двойных строк</string>
+    <string name="system_ui_statusbar_clock_double_mode_title">Двухрядное выравнивание</string>
     <string name="system_ui_statusbar_clock_desc">Пример формата часов</string>
     <string name="system_ui_statusbar_clock_size">Размер часов</string>
-    <string name="system_ui_statusbar_clock_double_spacing_desc">Действителен только когда отображается две строки</string>
-    <string name="system_ui_statusbar_clock_pad_show">Планшет</string>
+    <string name="system_ui_statusbar_clock_double_spacing_desc">Доступно только при отображении в два ряда</string>
+    <string name="system_ui_statusbar_clock_pad_show">Для планшетов</string>
     <string name="system_ui_statusbar_clock_pad_hide">Скрыть дату и часы в строке состояния</string>
     <string name="system_ui_statusbar_clock_layout_p">Часы с датой в строке состояния</string>
     <string name="system_ui_statusbar_clock_editor_p">Формат даты и часов в строке состояния</string>
@@ -698,7 +698,7 @@
     <string name="system_ui_status_bar_strong_toast_test_long_text">Вывод длинного текста</string>
     <string name="system_ui_status_bar_strong_toast_test_short_text_0">Текст</string>
     <string name="system_ui_status_bar_strong_toast_test_long_text_1">Это длинный фрагмент текста, который будет выводиться в виде прокрутки</string>
-    <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс и соответствующую музыкальную область.\n• Эту функцию необходимо использовать с модулем \"SuperLyric\".\n• Убедитесь, что уведомление \"Сфокусировать уведомления на тексте\" включено в категории уведомлений соответствующего музыкального приложения и в настройках уведомлений фокуса приложения.</string>
+    <string name="system_ui_statusbar_music_tip">Примечания перед использованием:\n• После включения этой функции проверьте и перезапустите системный пользовательский интерфейс.\n• Эту функцию необходимо использовать с модулем \"SuperLyric\".</string>
     <string name="system_ui_statusbar_music_notification">Сфокусировать уведомления текста</string>
     <string name="system_ui_statusbar_music_show_app_title">Уведомления о регистрации в приложении</string>
     <string name="system_ui_statusbar_music_show_app_desc">После включения необходимо проверить область действия музыкального приложения.</string>
@@ -852,7 +852,7 @@
     <string name="system_settings_linkturbo">Снять ограничения на приложения для ускорения работы сети</string>
     <string name="system_settings_international_build">Глобальная версия настроек</string>
     <string name="system_settings_safe_wifi">Просмотр сохраненных паролей Wi-Fi</string>
-    <string name="system_settings_safe_wifi_desc">Разблокировать управление сохраненными сетями: Настройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
+    <string name="system_settings_safe_wifi_desc">Разблокировать управление сохраненными сетями\nНастройки - Wi-Fi - Расширенные настройки - Управление сохраненными сетями</string>
     <string name="system_settings_novelty_haptic_title">Разблокировать новый пункт настройки сенсорного управления</string>
     <string name="system_settings_novelty_haptic_desc">Только для устройств где есть \"Звуки и тактильные ощущения - Тактильные ощущения\"</string>
     <string name="system_settings_unlock_google_header">Разблокировать пункт Google</string>
@@ -911,7 +911,7 @@
     <string name="updater">Обновление</string>
     <string name="updater_enable_miui_version">Включить фальшивую версию для обновления</string>
     <string name="updater_fuck_vab">Удалить проверку OTA</string>
-    <string name="updater_fuck_vab_desc">Поддерживаются только устройства VAB.\nПожалуйста, не включайте на устройствах без VAB!\n• Вы можете выполнить перепрошивку в режиме восстановления без разрешений на внутреннюю проверку.\n• Рекомендуется очистить данные после перепрошивки на разных версиях.\n• Не поддерживает использование неофициальных ПЗУ.\n• Эта функция опасна. Пожалуйста, оцените, стоит ли включать её после ознакомления с работой Fastboot.</string>
+    <string name="updater_fuck_vab_desc">Поддерживаются только устройства VAB. Не включайте на других устройствах!\n• Позволяет устанавливать бета-версии прошивок без официального разрешения.\n• Рекомендуется очистить данные при смене типа прошивки.\n• Поддерживает только официальные прошивки.\n• Эта функция опасна. Пожалуйста, оцените, стоит ли включать её после ознакомления с работой Fastboot.</string>
     <string name="updater_version_mode">Тип маскировки</string>
     <string name="updater_big_version">Фальшивая большая версия</string>
     <string name="updater_big_version_desc">Пункты, которые необходимо заполнить при маскировке версии Xiaomi HyperOS, по умолчанию - V816.</string>
@@ -1642,7 +1642,7 @@
     <string name="development_kill_process_not_found">Процесс пакета не запущен.\n\"%1$s\"</string>
     <string name="development_kill_loading_done">Загрузка завершена</string>
     <string name="development_kill_permission_not_granted">Предоставьте доступ к списку установленных приложений для его загрузки.</string>
-    <string name="development_tools">Режим отладки</string>
+    <string name="development_tools">Отладка</string>
     <string name="development_system">Менеджер</string>
     <string name="development_cache">Кэш и логи</string>
     <string name="settings_float_nav">Плавающая нижняя панель</string>
