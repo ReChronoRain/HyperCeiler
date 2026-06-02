@@ -637,7 +637,7 @@
     <string name="system_ui_status_bar_icon_speakerphone">Скрыть значок громкоговорителя</string>
     <string name="system_ui_status_bar_icon_call_record">Скрыть значок записи</string>
     <string name="system_ui_status_bar_icon_car">Автомобиль</string>
-    <string name="system_ui_status_bar_icon_pad">Площадка</string>
+    <string name="system_ui_status_bar_icon_pad">Планшет</string>
     <string name="system_ui_status_bar_icon_pc">ПК</string>
     <string name="system_ui_status_bar_icon_phone">Телефон</string>
     <string name="system_ui_status_bar_icon_soundbox">Звуковой ящик</string>
@@ -648,7 +648,7 @@
     <string name="system_ui_status_bar_icon_wireless_headset">Беспроводная гарнитура</string>
     <string name="system_ui_status_bar_notification_icon_maximum">Максимальное количество значков уведомлений</string>
     <string name="system_ui_status_bar_battery_percent">Скрыть процент заряда</string>
-    <string name="system_ui_status_bar_battery_percent_mark">Скрыть процент заряда батареи</string>
+    <string name="system_ui_status_bar_battery_percent_mark">Скрывать символ процента батареи</string>
     <string name="system_ui_status_bar_battery_charging">Скрыть индикатор зарядки</string>
     <string name="system_ui_status_bar_battery_icon">Скрыть значок батареи</string>
     <string name="system_ui_status_bar_battery_style_title">Настройка значка батареи в строке состояния</string>
