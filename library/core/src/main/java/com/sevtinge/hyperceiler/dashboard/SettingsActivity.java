@@ -30,6 +30,7 @@ import com.sevtinge.hyperceiler.hooker.framework.OtherSettings;
 import com.sevtinge.hyperceiler.hooker.home.HomeDockSettings;
 import com.sevtinge.hyperceiler.hooker.home.HomeFolderSettings;
 import com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings;
+import com.sevtinge.hyperceiler.hooker.systemui.StatusBarSettings;
 import com.sevtinge.hyperceiler.hooker.various.AlertDialogSettings;
 import com.sevtinge.hyperceiler.sub.MultiActionSettings;
 import com.sevtinge.hyperceiler.utils.PersistConfig;
@@ -54,6 +55,7 @@ public abstract class SettingsActivity extends SettingsBaseActivity
             caller instanceof HomeDockSettings ||
             caller instanceof HomeFolderSettings ||
             caller instanceof AlertDialogSettings ||
+            caller instanceof StatusBarSettings ||
             caller instanceof HomeGestureSettings ||
             caller instanceof MultiActionSettings;
 

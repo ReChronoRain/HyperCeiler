@@ -18,22 +18,22 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar
 
-import android.content.Context
-import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.ViewGroup
+import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import kotlin.math.abs
 
-object DoubleTapToSleep : BaseHook() {
+object DoubleTapAction : BaseHook() {
 
     private const val DOUBLE_TAP_TIMEOUT = 250L
     private const val TOUCH_SLOP = 100f
+
+    private const val PREF_DOUBLE_TAP_ACTION = "system_ui_status_bar_double_tap"
 
     override fun init() {
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView")
@@ -64,7 +64,10 @@ object DoubleTapToSleep : BaseHook() {
                 && abs(currentY - lastY) < TOUCH_SLOP
 
             if (isDoubleTap) {
-                goToSleep(v.context)
+                GlobalActionBridge.handleAction(
+                    v.context,
+                    PREF_DOUBLE_TAP_ACTION
+                )
                 v.setAdditionalInstanceField("lastTouchTime", 0L)
                 v.setAdditionalInstanceField("lastTouchX", 0f)
                 v.setAdditionalInstanceField("lastTouchY", 0f)
@@ -78,12 +81,4 @@ object DoubleTapToSleep : BaseHook() {
             false
         }
     }
-
-    private fun goToSleep(context: Context) {
-        runCatching {
-            val powerManager = context.getSystemService(Context.POWER_SERVICE)
-            powerManager?.callMethod("goToSleep", SystemClock.uptimeMillis())
-        }
-    }
 }
-
