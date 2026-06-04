@@ -371,7 +371,7 @@
         android:id="@+id/aicr"
         android:summary="com.xiaomi.aicr"
         android:title="@string/aicr"
-        app:inflatedXml="@xml/aicr"/>
+        android:fragment="com.sevtinge.hyperceiler.hooker.AicrFragment" />
 
     <header
         android:icon="@drawable/ic_default"

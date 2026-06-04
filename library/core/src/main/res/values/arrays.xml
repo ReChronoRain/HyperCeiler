@@ -101,4 +101,13 @@
         <item>19</item>
         <item>13</item>
     </integer-array>
+
+    <!-- AICR 复制直达浏览器候选；运行时由 AicrFragment 重新填充。 -->
+    <string-array name="aicr_browser_entries">
+        <item>@string/aicr_default_browser</item>
+    </string-array>
+
+    <string-array name="aicr_browser_values">
+        <item></item>
+    </string-array>
 </resources>

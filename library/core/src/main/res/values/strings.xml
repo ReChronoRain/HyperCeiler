@@ -95,4 +95,9 @@
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>
     <string name="debug_mode_switch">Debug version</string>
 
+    <!--AICR-->
+    <string name="aicr_modify_browser_copy">Change the browser used for direct copy</string>
+    <string name="aicr_preferred_browser">Preferred browser</string>
+    <string name="aicr_default_browser">Default browser</string>
+
 </resources>
