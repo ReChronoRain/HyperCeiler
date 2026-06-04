@@ -19,670 +19,225 @@
 package com.sevtinge.hyperceiler.libhook.rules.aiengine
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
-import android.graphics.Canvas
-import android.graphics.ColorFilter
-import android.graphics.PixelFormat
-import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.graphics.drawable.Icon
 import android.os.Bundle
-import android.provider.Settings
-import androidx.core.graphics.drawable.toBitmap
 import androidx.core.net.toUri
-import androidx.preference.PreferenceManager
-import com.sevtinge.hyperceiler.libhook.R
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils
-import fan.core.utils.MiuixUIUtils.dp2px
-import io.github.lingqiqi5211.ezhooktool.core.callMethod
-import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
-import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import com.sevtinge.hyperceiler.libhook.utils.api.BitmapUtils
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
-import java.text.Collator
-import java.util.Locale
+import java.lang.reflect.Method
 
 object ChangeBrowserForAIEngine : BaseHook() {
 
     private const val COPY_WEBSITE_TYPE = 11
-    private const val COPY_WEBSITE_ENABLED_KEY = "copy_website_enabled"
+    private const val PREF_KEY_BROWSER = "aicr_browser"
     private const val NOTIFICATION_ID = 111
 
-    private const val SMART_PASSWORD_UTILS_CLASS =
-        "com.xiaomi.aicr.copydirect.util.SmartPasswordUtils"
-    private const val NOTIFICATION_UTILS_CLASS =
-        "com.xiaomi.aicr.copydirect.util.NotificationUtils"
-    private const val COPY_WEBSITE_SETTINGS_FRAGMENT_CLASS =
-        "com.xiaomi.aicr.copydirect.setting.CopyWebSiteSettingsFragment"
-    private const val TARGET_CONTEXT_UTIL_CLASS = "com.xiaomi.aicr.common.ContextUtil"
-    private const val TARGET_PACKAGE_UTILS_CLASS = "com.xiaomi.aireco.utils.PackageUtils"
-    private const val APP_INSTALLATION_PREFERENCE_CLASS =
-        "com.xiaomi.aicr.copydirect.setting.AppInstallationPreference"
+    private var isInstallForAppMethod: Method? = null
+    private lateinit var getStartAppPackageMethod: Method
+    private var startIntentToAppMethod: Method? = null
+    private lateinit var jumpToXiaoMiBrowserMethod: Method
+    private lateinit var showNotificationMethod: Method
 
-    private const val WEBSITE_SWITCH_KEY = "checkbox_copy_website"
-    private const val SUPPORT_CATEGORY_KEY = "copy_direct_button_support_app"
-    private const val ORIGINAL_BROWSER_PREF_KEY = "app_install_xiaomi_browser"
-    private const val CUSTOM_BROWSER_PREF_KEY = "hyperceiler_copy_website_browser"
-    private const val CUSTOM_BROWSER_PREF_PREFIX = "hyperceiler_copy_website_browser_"
-    private const val DEFAULT_BROWSER_VALUE = "__default_browser__"
-    private const val SUPPORT_APP_ICON_SIZE_DP = 40f
+    override fun useDexKit() = true
 
-    private const val EXTRA_USE_DEFAULT_BROWSER =
-        "hyperceiler_copy_website_use_default_browser"
-    private const val EXTRA_BROWSER_PACKAGE =
-        "hyperceiler_copy_website_browser_package"
+    override fun initDexKit(): Boolean {
+        // "clipboard_open" 全 dex 唯一，用来锁定 SmartPasswordUtils 所在类
+        jumpToXiaoMiBrowserMethod = requiredMember("jumpToXiaoMiBrowser") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    addUsingString("clipboard_open")
+                    returnType = "void"
+                }
+            }.single()
+        }
+        val ownerName = jumpToXiaoMiBrowserMethod.declaringClass.name
 
-    @Volatile
-    private var appContext: Context? = null
+        // 3.17.x 是 (Context, int)；4.0.x 已删除该重载只剩 (Context, String)
+        isInstallForAppMethod = optionalMember("isInstallForApp") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    declaredClass = ownerName
+                    returnType = "boolean"
+                    paramTypes("android.content.Context", "int")
+                    addUsingString("isInstallForApp: ///////////////////")
+                }
+            }.singleOrNull()
+        }
 
-    private val hasLegacySupportAppPreference by lazy(LazyThreadSafetyMode.NONE) {
-        runCatching { loadClass(APP_INSTALLATION_PREFERENCE_CLASS) }.isSuccess
+        getStartAppPackageMethod = requiredMember("getStartAppPackage") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    declaredClass = ownerName
+                    returnType = "java.lang.String"
+                    paramTypes("android.content.Context", "int")
+                    addUsingString("com.taobao.taobao")
+                    addUsingString("com.eg.android.AlipayGphone")
+                }
+            }.single()
+        }
+
+        startIntentToAppMethod = optionalMember("startIntentToApp") { bridge ->
+            bridge.findMethod {
+                matcher {
+                    declaredClass = ownerName
+                    returnType = "void"
+                    paramCount = 3
+                    paramTypes(null, "java.lang.String", "int")
+                    addUsingString("androidamap://route?")
+                }
+            }.singleOrNull()
+        }
+
+        showNotificationMethod = requiredMember("showNotification") { bridge ->
+            bridge.findMethod {
+                matcher { addUsingString("phrase_channel_id") }
+            }.single()
+        }
+        return true
     }
-
-    private data class BrowserApp(
-        val packageName: String,
-        val label: String,
-        val icon: Drawable?
-    )
-
-    private data class BrowserChoice(
-        val packageName: String?,
-        val useDefault: Boolean
-    )
 
     override fun init() {
-        runOnApplicationAttach {
-            appContext = it.applicationContext
-        }
-
-        hookCopyWebsiteSettings()
-        hookSmartPasswordUtils()
-        hookNotifications()
-    }
-
-    private fun hookCopyWebsiteSettings() {
-        loadClass(COPY_WEBSITE_SETTINGS_FRAGMENT_CLASS).apply {
-            findMethod {
-                name("onCreatePreferences")
-            }.createHook {
-                after {
-                    syncCopyWebsiteSettings(it.thisObject)
-                }
-            }
-
-            findMethod {
-                name("onResume")
-            }.createHook {
-                after {
-                    syncCopyWebsiteSettings(it.thisObject)
-                }
-            }
-
-            findMethod {
-                name("onPreferenceChange")
-            }.createHook {
-                after {
-                    val preference = it.args[0] ?: return@after
-                    val key = preference.callMethod("getKey") as? String ?: return@after
-                    if (key == WEBSITE_SWITCH_KEY) {
-                        syncCopyWebsiteSettings(it.thisObject)
-                    }
+        isInstallForAppMethod?.createHook {
+            before {
+                if ((it.args[1] as? Int) != COPY_WEBSITE_TYPE) return@before
+                val ctx = it.args[0] as? Context ?: return@before
+                val selected = resolveSelectedPackage(ctx)
+                it.result = if (selected != null) {
+                    canHandleBrowserIntent(ctx, selected)
+                } else {
+                    canOpenAnyBrowser(ctx)
                 }
             }
         }
-    }
 
-    private fun hookSmartPasswordUtils() {
-        loadClass(SMART_PASSWORD_UTILS_CLASS).apply {
-            findMethod {
-                name("isSupportPackageName")
-                parameterTypes(Int::class.javaPrimitiveType!!, String::class.java)
-            }.createHook {
-                before {
-                    if ((it.args[0] as Int) != COPY_WEBSITE_TYPE) return@before
-
-                    val context = getTargetAppContext() ?: return@before
-                    val packageName = it.args[1] as? String ?: ""
-                    it.result = findBrowserApp(context, packageName) != null
-                }
+        getStartAppPackageMethod.createHook {
+            before {
+                if ((it.args[1] as? Int) != COPY_WEBSITE_TYPE) return@before
+                val ctx = it.args[0] as? Context ?: return@before
+                // 用户没选 → 不接管，宿主继续按原值走
+                val selected = resolveSelectedPackage(ctx) ?: return@before
+                it.result = selected
             }
+        }
 
-            findMethod {
-                name("isInstallForApp")
-            }.createHook {
+        if (startIntentToAppMethod != null) {
+            // 3.17.x：拦截统一调度，type==11 走 openInSelectedBrowser
+            startIntentToAppMethod!!.createHook {
                 before {
-                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
-
-                    val context = it.args[0] as? Context ?: return@before
-                    it.result = canOpenSelectedBrowser(context)
-                }
-            }
-
-            findMethod {
-                name("getStartAppPackage")
-            }.createHook {
-                before {
-                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@before
-
-                    val context = it.args[0] as? Context ?: return@before
-                    it.result = getLaunchPackageName(
-                        context,
-                        resolveBrowserChoice(context, preferSnapshot = true)
-                    )
-                }
-            }
-
-            findMethod {
-                name("startIntentToApp")
-                paramCount(3)
-            }.createHook {
-                before {
-                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@before
-
-                    val context = it.args[0] as? Context ?: return@before
+                    if ((it.args[2] as? Int) != COPY_WEBSITE_TYPE) return@before
+                    val ctx = it.args[0] as? Context ?: return@before
                     val url = it.args[1] as? String ?: return@before
-                    openInSelectedBrowser(
-                        context,
-                        url,
-                        resolveBrowserChoice(context, preferSnapshot = true)
-                    )
+                    openInSelectedBrowser(ctx, url)
+                    it.result = null
+                }
+            }
+        } else {
+            // 4.0.x：宿主已经按 type 内联拆掉，直接接管 jumpToXiaoMiBrowser
+            jumpToXiaoMiBrowserMethod.createHook {
+                before {
+                    val ctx = it.args[0] as? Context ?: return@before
+                    val url = it.args[1] as? String ?: return@before
+                    openInSelectedBrowser(ctx, url)
                     it.result = null
                 }
             }
         }
-    }
 
-    private fun hookNotifications() {
-        loadClass(NOTIFICATION_UTILS_CLASS).apply {
-            findMethod {
-                name("getNotificationInfo")
-            }.createHook {
-                after {
-                    if ((it.args[1] as Int) != COPY_WEBSITE_TYPE) return@after
-
-                    val context = it.args[0] as? Context ?: return@after
-                    val choice = resolveBrowserChoice(context)
-                    if (choice.useDefault) return@after
-
-                    val title = resolveChosenBrowserApp(context, choice)?.label ?: return@after
-                    it.result?.setObjectField("title", title)
-                }
-            }
-
-            findMethod {
-                name("getNotificationStartIntent")
-            }.createHook {
-                after {
-                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
-
-                    val context = it.args[0] as? Context ?: return@after
-                    val intent = it.result as? Intent ?: return@after
-                    writeBrowserSnapshot(intent, resolveBrowserChoice(context))
-                }
-            }
-
-            findMethod {
-                name("showNotification")
-            }.createHook {
-                after {
-                    if ((it.args[2] as Int) != COPY_WEBSITE_TYPE) return@after
-
-                    val context = it.args[0] as? Context ?: return@after
-                    val choice = resolveBrowserChoice(context)
-                    refreshNotificationBrowserIcon(context, choice)
-                }
+        showNotificationMethod.createHook {
+            after {
+                if ((it.args[2] as? Int) != COPY_WEBSITE_TYPE) return@after
+                val ctx = it.args[0] as? Context ?: return@after
+                refreshNotificationBrowserIcon(ctx)
             }
         }
     }
 
-    private fun syncCopyWebsiteSettings(fragment: Any) {
-        val context = fragment.callMethod("getContext") as? Context ?: return
-        val screen = fragment.callMethod("getPreferenceScreen") ?: return
-        val browsers = getBrowserApps(context)
-        val enabled = isCopyWebsiteEnabled(context)
-        val supportCategory = findSupportCategory(fragment, screen)
+    // ==================== 浏览器选择 ====================
 
-        supportCategory?.let {
-            it.callMethod("setOrder", 20)
-            it.callMethod("setVisible", enabled && browsers.isNotEmpty())
+    /** 用户显式选定的浏览器包名；null 表示跟随系统默认。 */
+    private fun resolveSelectedPackage(context: Context): String? {
+        val raw = PrefsBridge.getString(PREF_KEY_BROWSER, "")?.takeIf { it.isNotBlank() } ?: return null
+        return raw.takeIf { canHandleBrowserIntent(context, it) }
+    }
+
+    /** 系统当前能否打开 http(s)。 */
+    private fun canOpenAnyBrowser(context: Context): Boolean {
+        return context.packageManager
+            .resolveActivity(createBrowserViewIntent(), PackageManager.MATCH_DEFAULT_ONLY) != null
+    }
+
+    /** PackageManager 解析的系统默认浏览器包名；不存在返回 null。 */
+    private fun resolveSystemDefaultBrowser(context: Context): String? {
+        val pkg = context.packageManager
+            .resolveActivity(createBrowserViewIntent(), PackageManager.MATCH_DEFAULT_ONLY)
+            ?.activityInfo?.packageName
+        return pkg?.takeUnless { it.isBlank() || it == "android" || it == context.packageName }
+    }
+
+    private fun openInSelectedBrowser(context: Context, url: String) {
+        val target = url.withHttpsIfMissing().toUri()
+        val targetPackage = resolveSelectedPackage(context)
+        val intent = Intent(Intent.ACTION_VIEW, target).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            targetPackage?.let { setPackage(it) }
         }
-
-        MiuixPreferenceUtils.findPreference(fragment, ORIGINAL_BROWSER_PREF_KEY)
-            ?.callMethod("setVisible", false)
-
-        val dropDownPreference = ensureBrowserDropDownPreference(fragment, screen, context)
-        configureBrowserDropDownPreference(dropDownPreference, context, browsers, enabled)
-        rebuildBrowserSupportPreferences(screen, supportCategory, context, browsers, enabled)
-    }
-
-    private fun ensureBrowserDropDownPreference(fragment: Any, screen: Any, context: Context): Any {
-        MiuixPreferenceUtils.findPreference(fragment, CUSTOM_BROWSER_PREF_KEY)?.let {
-            return it
-        }
-
-        return MiuixPreferenceUtils.createDropDownPreference(context).also {
-            it.callMethod("setKey", CUSTOM_BROWSER_PREF_KEY)
-            it.callMethod("setOnPreferenceChangeListener", fragment)
-            screen.callMethod("addPreference", it)
-        }
-    }
-
-    private fun configureBrowserDropDownPreference(
-        preference: Any,
-        context: Context,
-        browsers: List<BrowserApp>,
-        enabled: Boolean
-    ) {
-        val selectedValue = sanitizeSelectedBrowserValue(readSelectedBrowserValue(context), browsers)
-
-        MiuixPreferenceUtils.configureDropDownPreference(
-            preference = preference,
-            title = preferredBrowserTitle(context),
-            entries = buildBrowserEntries(context, browsers).toTypedArray(),
-            entryValues = buildBrowserValues(browsers).toTypedArray(),
-            value = selectedValue,
-            visible = enabled && browsers.isNotEmpty(),
-            order = 10
-        )
-    }
-
-    private fun buildBrowserEntries(context: Context, browsers: List<BrowserApp>): List<CharSequence> {
-        return buildList {
-            add(defaultBrowserText(context))
-            addAll(browsers.map { it.label })
-        }
-    }
-
-    private fun buildBrowserValues(browsers: List<BrowserApp>): List<CharSequence> {
-        return buildList {
-            add(DEFAULT_BROWSER_VALUE)
-            addAll(browsers.map { it.packageName })
-        }
-    }
-
-    private fun rebuildBrowserSupportPreferences(
-        screen: Any,
-        supportCategory: Any?,
-        context: Context,
-        browsers: List<BrowserApp>,
-        enabled: Boolean
-    ) {
-        val useSupportCategory = supportCategory != null && !hasLegacySupportAppPreference
-        val container = if (useSupportCategory) supportCategory else screen
-        val itemOrder = if (useSupportCategory) 0 else 21
-
-        removeBrowserSupportPreferences(screen)
-        supportCategory?.let { removeBrowserSupportPreferences(it) }
-
-        browsers.forEachIndexed { index, browser ->
-            createBrowserSupportPreference(context).also {
-                configureBrowserSupportPreference(
-                    preference = it,
-                    key = CUSTOM_BROWSER_PREF_PREFIX + browser.packageName,
-                    title = browser.label,
-                    icon = resolveBrowserDrawable(context, browser)?.toSupportAppIcon(context),
-                    packageName = browser.packageName,
-                    visible = enabled,
-                    order = itemOrder + index
-                )
-                container.callMethod("addPreference", it)
-            }
-        }
-    }
-
-    private fun configureBrowserSupportPreference(
-        preference: Any,
-        key: String,
-        title: CharSequence,
-        icon: Drawable?,
-        packageName: String,
-        visible: Boolean,
-        order: Int
-    ) {
-        preference.apply {
-            callMethod("setKey", key)
-            callMethod("setTitle", title)
-            icon?.let { callMethod("setIcon", it) }
-            callMethod("setClickable", false)
-            callMethod("setVisible", visible)
-            callMethod("setOrder", order)
-            runCatching { callMethod("setTouchAnimationEnable", false) }
-            runCatching { callMethod("setPackageName", packageName) }
-        }
-    }
-
-    private fun removeBrowserSupportPreferences(container: Any) {
-        MiuixPreferenceUtils.getPreferences(container)
-            .filter { MiuixPreferenceUtils.getPreferenceKey(it)?.startsWith(CUSTOM_BROWSER_PREF_PREFIX) == true }
-            .forEach { container.callMethod("removePreference", it) }
-    }
-
-    private fun createBrowserSupportPreference(context: Context): Any {
-        return if (hasLegacySupportAppPreference) {
-            loadClass(APP_INSTALLATION_PREFERENCE_CLASS)
-                .getConstructor()
-                .newInstance(context)
-        } else {
-            MiuixPreferenceUtils.createTextPreference(context)
-        }
-    }
-
-    private fun findSupportCategory(fragment: Any, screen: Any): Any? {
-        return MiuixPreferenceUtils.findPreference(fragment, SUPPORT_CATEGORY_KEY)
-            ?: MiuixPreferenceUtils.getPreferences(screen)
-                .firstOrNull { it.javaClass.name.endsWith("PreferenceCategory") }
-    }
-
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun getBrowserApps(context: Context): List<BrowserApp> {
-        val packageManager = context.packageManager
-        val browsers = LinkedHashMap<String, BrowserApp>()
-
-        queryBrowserCandidates(packageManager)
-            .forEach { resolveInfo ->
-                resolveInfo.toBrowserApp(packageManager)?.let { browser ->
-                    browsers.putIfAbsent(browser.packageName, browser)
-                }
-            }
-
-        resolveDefaultBrowser(context)?.let {
-            browsers.putIfAbsent(it.packageName, it)
-        }
-
-        val collator = Collator.getInstance(Locale.getDefault())
-        return browsers.values.sortedWith { left, right ->
-            collator.compare(left.label, right.label)
-        }
-    }
-
-    private fun resolveDefaultBrowser(context: Context): BrowserApp? {
-        val packageManager = context.packageManager
-        val resolveInfo = packageManager.resolveActivity(
-            createBrowserViewIntent(),
-            PackageManager.MATCH_DEFAULT_ONLY
-        ) ?: return null
-        return resolveInfo.toBrowserApp(packageManager, requireBrowserCapability = false)
-    }
-
-    @SuppressLint("QueryPermissionsNeeded")
-    private fun queryBrowserCandidates(packageManager: PackageManager): List<ResolveInfo> {
-        return packageManager.queryIntentActivities(
-            createBrowserViewIntent(),
-            PackageManager.MATCH_ALL
-        )
-    }
-
-    private fun resolveChosenBrowserApp(context: Context, choice: BrowserChoice): BrowserApp? {
-        if (choice.useDefault) {
-            return resolveDefaultBrowser(context)
-        }
-
-        return findBrowserApp(context, choice.packageName)
-    }
-
-    private fun findBrowserApp(context: Context, packageName: String?): BrowserApp? {
-        if (packageName.isNullOrBlank()) return null
-        val packageManager = context.packageManager
-        return queryBrowserCandidates(packageManager)
-            .firstOrNull { it.activityInfo?.packageName == packageName }
-            ?.toBrowserApp(packageManager)
-    }
-
-    private fun canOpenSelectedBrowser(context: Context): Boolean {
-        val choice = resolveBrowserChoice(context)
-        return if (choice.useDefault) {
-            getBrowserApps(context).isNotEmpty()
-        } else {
-            resolveChosenBrowserApp(context, choice) != null
-        }
-    }
-
-    private fun resolveBrowserChoice(context: Context, preferSnapshot: Boolean = false): BrowserChoice {
-        if (preferSnapshot) {
-            getBrowserChoiceSnapshot(context)?.let {
-                return sanitizeBrowserChoice(context, it)
-            }
-        }
-
-        val selectedValue = readSelectedBrowserValue(context)
-
-        return if (selectedValue == DEFAULT_BROWSER_VALUE) {
-            BrowserChoice(packageName = null, useDefault = true)
-        } else {
-            sanitizeBrowserChoice(context, BrowserChoice(packageName = selectedValue, useDefault = false))
-        }
-    }
-
-    private fun getBrowserChoiceSnapshot(context: Context): BrowserChoice? {
-        val intent = (context as? Activity)?.intent ?: return null
-        if (!intent.hasExtra(EXTRA_USE_DEFAULT_BROWSER) && !intent.hasExtra(EXTRA_BROWSER_PACKAGE)) {
-            return null
-        }
-
-        val useDefault = intent.getBooleanExtra(EXTRA_USE_DEFAULT_BROWSER, true)
-        return if (useDefault) {
-            BrowserChoice(packageName = null, useDefault = true)
-        } else {
-            intent.getStringExtra(EXTRA_BROWSER_PACKAGE)
-                ?.takeUnless { it.isBlank() }
-                ?.let { BrowserChoice(packageName = it, useDefault = false) }
-                ?: BrowserChoice(packageName = null, useDefault = true)
-        }
-    }
-
-    private fun sanitizeBrowserChoice(context: Context, choice: BrowserChoice): BrowserChoice {
-        if (choice.useDefault) return choice
-        val packageName = choice.packageName ?: return BrowserChoice(null, true)
-        return if (findBrowserApp(context, packageName) != null) choice else BrowserChoice(null, true)
-    }
-
-    private fun getLaunchPackageName(context: Context, choice: BrowserChoice): String {
-        return resolveChosenBrowserApp(context, choice)?.packageName.orEmpty()
-    }
-
-    private fun openInSelectedBrowser(context: Context, url: String, choice: BrowserChoice) {
-        val targetUrl = url.withHttpsIfMissing().toUri()
-
-        if (choice.useDefault) {
-            Intent(Intent.ACTION_VIEW, targetUrl).let {
-                context.startActivity(it)
-            }
-            return
-        }
-
-        Intent(Intent.ACTION_VIEW, targetUrl).apply {
-            setPackage(choice.packageName)
-        }.let { intent ->
+        runCatching { context.startActivity(intent) }.onFailure {
             runCatching {
-                context.startActivity(intent)
-            }.onFailure {
-                context.startActivity(Intent(Intent.ACTION_VIEW, targetUrl))
+                context.startActivity(Intent(Intent.ACTION_VIEW, target).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                })
             }
         }
     }
 
-    private fun refreshNotificationBrowserIcon(
-        context: Context,
-        choice: BrowserChoice
-    ) {
-        val icon = resolveChosenBrowserIcon(context, choice) ?: return
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
-        val notification = notificationManager.activeNotifications.firstOrNull {
-            it.id == NOTIFICATION_ID &&
-                it.packageName == context.packageName
+    @SuppressLint("QueryPermissionsNeeded")
+    private fun canHandleBrowserIntent(context: Context, packageName: String): Boolean {
+        val intent = createBrowserViewIntent().apply { setPackage(packageName) }
+        return context.packageManager.queryIntentActivities(intent, PackageManager.MATCH_ALL)
+            .isNotEmpty()
+    }
+
+    private fun createBrowserViewIntent(): Intent =
+        Intent(Intent.ACTION_VIEW, "http:".toUri()).addCategory(Intent.CATEGORY_BROWSABLE)
+
+    private fun String.withHttpsIfMissing(): String =
+        if (startsWith("http://", true) || startsWith("https://", true)) this else "https://$this"
+
+    // ==================== 通知图标替换 ====================
+
+    private fun refreshNotificationBrowserIcon(context: Context) {
+        // 用户选了具体浏览器 → 用它的图标；否则用系统默认浏览器的图标
+        val targetPackage = resolveSelectedPackage(context) ?: resolveSystemDefaultBrowser(context) ?: return
+        val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as? NotificationManager ?: return
+        val notification = nm.activeNotifications.firstOrNull {
+            it.id == NOTIFICATION_ID && it.packageName == context.packageName
         }?.notification ?: return
+
+        val pm = context.packageManager
+        val info = runCatching { pm.getApplicationInfo(targetPackage, 0) }.getOrNull() ?: return
+        val label = pm.getApplicationLabel(info)
+        val drawable = runCatching { pm.getApplicationIcon(info) }.getOrNull() ?: return
+        val bitmap = if (drawable is BitmapDrawable && drawable.bitmap != null) {
+            drawable.bitmap
+        } else {
+            runCatching { BitmapUtils.drawableToBitmap(drawable) }.getOrNull() ?: return
+        }
+        val icon = Icon.createWithBitmap(bitmap)
 
         val focusPics = notification.extras.getBundle("miui.focus.pics") ?: Bundle()
         focusPics.putParcelable("miui.focus.pic_image", icon)
         focusPics.putParcelable("miui.land.pic_image", icon)
         notification.extras.putBundle("miui.focus.pics", focusPics)
         notification.extras.putParcelable("miui.appIcon", icon)
-        notificationManager.notify(NOTIFICATION_ID, notification)
-    }
-
-    private fun writeBrowserSnapshot(intent: Intent, choice: BrowserChoice) {
-        intent.putExtra(EXTRA_USE_DEFAULT_BROWSER, choice.useDefault)
-        if (choice.useDefault) {
-            intent.removeExtra(EXTRA_BROWSER_PACKAGE)
-        } else {
-            intent.putExtra(EXTRA_BROWSER_PACKAGE, choice.packageName)
-        }
-    }
-
-    private fun createBrowserViewIntent(): Intent {
-        return Intent(Intent.ACTION_VIEW, "http:".toUri()).apply {
-            addCategory(Intent.CATEGORY_BROWSABLE)
-        }
-    }
-
-    private fun readSelectedBrowserValue(context: Context): String {
-        return PreferenceManager.getDefaultSharedPreferences(context)
-            .getString(CUSTOM_BROWSER_PREF_KEY, DEFAULT_BROWSER_VALUE)
-            ?: DEFAULT_BROWSER_VALUE
-    }
-
-    private fun sanitizeSelectedBrowserValue(value: String, browsers: List<BrowserApp>): String {
-        if (value == DEFAULT_BROWSER_VALUE) return value
-        return if (browsers.any { it.packageName == value }) value else DEFAULT_BROWSER_VALUE
-    }
-
-    private fun isCopyWebsiteEnabled(context: Context): Boolean {
-        return Settings.Secure.getInt(context.contentResolver, COPY_WEBSITE_ENABLED_KEY, 1) != 0
-    }
-
-    private fun preferredBrowserTitle(context: Context): String {
-        return AppsTool.getModuleRes(context).getString(R.string.aicr_preferred_browser)
-    }
-
-    private fun resolveBrowserDrawable(context: Context, browser: BrowserApp): Drawable? {
-        return runCatching {
-            loadClass(TARGET_PACKAGE_UTILS_CLASS).callStaticMethod(
-                "getDrawable",
-                context,
-                browser.packageName
-            ) as? Drawable
-        }.getOrNull() ?: browser.icon
-    }
-
-    private fun Drawable.toSupportAppIcon(context: Context): Drawable {
-        return FixedSizeDrawable(this, dp2px(context, SUPPORT_APP_ICON_SIZE_DP))
-    }
-
-    private fun defaultBrowserText(context: Context): String {
-        return AppsTool.getModuleRes(context).getString(R.string.aicr_default_browser)
-    }
-
-    private fun getTargetAppContext(): Context? {
-        appContext?.let { return it }
-
-        return runCatching {
-            loadClass(TARGET_CONTEXT_UTIL_CLASS).callStaticMethod("getApplicationContext") as? Context
-        }.getOrNull()?.also {
-            appContext = it.applicationContext
-        }
-    }
-
-    private fun resolveChosenBrowserIcon(context: Context, choice: BrowserChoice): Icon? {
-        val browser = resolveChosenBrowserApp(context, choice) ?: return null
-        val drawable = resolveBrowserDrawable(context, browser) ?: return null
-        return drawable.toNotificationIcon(context)
-    }
-
-    private fun Drawable.toNotificationIcon(context: Context): Icon {
-        if (this is BitmapDrawable && bitmap != null && !bitmap.isRecycled) {
-            return Icon.createWithBitmap(bitmap)
-        }
-
-        val notificationIconWidth = runCatching {
-            context.resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
-        }.getOrDefault(0)
-        val notificationIconHeight = runCatching {
-            context.resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
-        }.getOrDefault(notificationIconWidth)
-        val minimumSourceWidth = (notificationIconWidth.takeIf { it > 0 } ?: 1) * 2
-        val minimumSourceHeight = (notificationIconHeight.takeIf { it > 0 } ?: minimumSourceWidth) * 2
-        val width = maxOf(intrinsicWidth.takeIf { it > 0 } ?: 0, minimumSourceWidth)
-        val height = maxOf(intrinsicHeight.takeIf { it > 0 } ?: 0, minimumSourceHeight)
-
-        val bitmap = if (this is AdaptiveIconDrawable) {
-            val size = maxOf(width, height)
-            toBitmap(width = size, height = size)
-        } else {
-            toBitmap(width = width, height = height)
-        }
-        return Icon.createWithBitmap(bitmap)
-    }
-
-    private fun ResolveInfo.handlesAllWebDataUri(): Boolean {
-        return runCatching {
-            findField(javaClass, "handleAllWebDataURI")
-                .get(this) as? Boolean
-        }.getOrNull() == true
-    }
-
-    private fun ResolveInfo.toBrowserApp(
-        packageManager: PackageManager,
-        requireBrowserCapability: Boolean = true
-    ): BrowserApp? {
-        val packageName = activityInfo?.packageName ?: return null
-        if (packageName == getPackageName() || packageName == "android") return null
-        if (requireBrowserCapability && !handlesAllWebDataUri()) return null
-
-        val label = loadLabel(packageManager).toString().takeIf { it.isNotBlank() } ?: packageName
-        val icon = runCatching { loadIcon(packageManager) }.getOrNull()
-        return BrowserApp(packageName, label, icon)
-    }
-
-    private fun String.withHttpsIfMissing(): String {
-        return if (startsWith("http://", true) || startsWith("https://", true)) {
-            this
-        } else {
-            "https://$this"
-        }
-    }
-
-    private class FixedSizeDrawable(
-        drawable: Drawable,
-        private val size: Int
-    ) : Drawable() {
-        private val source = drawable.mutate()
-
-        override fun draw(canvas: Canvas) {
-            val oldBounds = source.copyBounds()
-            source.bounds = bounds
-            source.draw(canvas)
-            source.bounds = oldBounds
-        }
-
-        override fun setAlpha(alpha: Int) {
-            source.alpha = alpha
-        }
-
-        override fun setColorFilter(colorFilter: ColorFilter?) {
-            source.colorFilter = colorFilter
-        }
-
-        @Deprecated("Deprecated in Java")
-        override fun getOpacity(): Int {
-            return PixelFormat.TRANSLUCENT
-        }
-
-        override fun getIntrinsicWidth(): Int {
-            return size
-        }
-
-        override fun getIntrinsicHeight(): Int {
-            return size
-        }
+        notification.extras.putCharSequence("android.title", label)
+        notification.extras.putCharSequence("android.title.big", label)
+        nm.notify(NOTIFICATION_ID, notification)
     }
 }

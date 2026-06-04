@@ -127,6 +127,12 @@ public class MultiActionSettings extends SettingsPreferenceFragment
                 Intent data = result.getData();
                 String mAppPackageName = data.getStringExtra("appPackageName");
                 String mAppActivityName = data.getStringExtra("appActivityName");
+                if (mAppPackageName == null || mAppPackageName.isEmpty()) {
+                    return;
+                }
+                if (mAppActivityName == null) {
+                    mAppActivityName = "";
+                }
                 PrefsBridge.putByApp(mKey + "_app", mAppPackageName + "|" + mAppActivityName);
                 updateAppSelectorTitle();
             }

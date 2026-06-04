@@ -25,6 +25,14 @@
             android:title="@string/aicr_modify_browser_copy"
             android:key="prefs_key_aicr_modify_browser_copy"
             android:defaultValue="false" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue=""
+            android:dependency="prefs_key_aicr_modify_browser_copy"
+            android:key="prefs_key_aicr_browser"
+            android:title="@string/aicr_preferred_browser"
+            app:entries="@array/aicr_browser_entries"
+            app:entryValues="@array/aicr_browser_values" />
     </PreferenceCategory>
 
 </PreferenceScreen>

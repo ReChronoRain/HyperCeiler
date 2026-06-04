@@ -94,4 +94,9 @@
     <string name="search_apps_hint">搜尋 %d 個應用</string>
     <string name="load_apps_failed">加載應用程式列表失敗</string>
     <string name="search_result_not_available">此功能可能不支持此裝置或隱藏到部分選項下</string>
+
+    <!--AICR-->
+    <string name="aicr_modify_browser_copy">修改複製直達使用的瀏覽器</string>
+    <string name="aicr_preferred_browser">選訂打開的瀏覽器</string>
+    <string name="aicr_default_browser">默認瀏覽器</string>
 </resources>
