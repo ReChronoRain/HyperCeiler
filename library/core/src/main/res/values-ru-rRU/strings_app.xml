@@ -1297,7 +1297,7 @@
     <string name="screenshot_unlock_privacy_marking_title">Разблокировать маркировку приватности</string>
     <string name="screenshot_save_to_pictures_desc">Место сохранения скриншота в /Pictures/Screenshots</string>
     <string name="screenshot_device_customize_title">Снимок экрана с пользовательской рамкой устройства</string>
-    <string name="screenshot_device_customize_desc">Введите кодовое имя модели</string>
+    <string name="screenshot_device_customize_desc">Введите кодовое имя устройства. Для цветных версий необходимо добавить суффикс, например:\n• Xiaomi 13 — введите fuxi\n• Xiaomi 14 (розовая версия) — введите houji_PK</string>
     <!--System Service Plugin-->
     <string name="securityadd">Плагин системной службы</string>
     <string name="securityadd_disable_gb_ads">Отключить рекламу в \"Ускорение игр\"</string>
