@@ -1619,7 +1619,7 @@
     <string name="various_aosp_ime_nav_bar_layout_start">Функциональные клавиши слева</string>
     <string name="settings_scope">Область применения</string>
     <string name="settings_scope_extra">Дополнительная область применения</string>
-    <string name="settings_scope_sync">Синхронизация области</string>
+    <string name="settings_scope_sync">Синхронизация приложений</string>
     <string name="settings_scope_sync_desc">Синхронизировать выбор на главной с областью применения.</string>
     <string name="scope_batch_no_changes">Нет изменений в области применения.</string>
     <string name="scope_batch_service_unavailable">Сервис LSPosed недоступен.</string>
@@ -1694,11 +1694,11 @@
     <string name="weather_unlock_blur_desc">Доступно только на некоторых версиях и устройствах с HyperOS 3 и выше</string>
     <string name="misound_bluetooth_category">Звуковые эффекты</string>
     <string name="misound_bluetooth_lock_selection">Заблокировать выбор звукового эффекта</string>
-    <string name="misound_bluetooth_lock_selection_desc">Запретить переключение звуковых эффектов при подключенной гарнитуре</string>
+    <string name="misound_bluetooth_lock_selection_desc">Запретить смену звуковых эффектов при подключенных наушниках</string>
     <string name="misound_bluetooth_remember_device">Запоминать звуковой эффект для устройства</string>
     <string name="misound_bluetooth_remember_device_desc">Запоминать отдельные настройки звуковых эффектов для каждого устройства</string>
     <string name="misound_bluetooth_default_effect">Звуковой эффект по умолчанию</string>
-    <string name="sogou_xiaomi_clipboard_desc">Отключает лимит истории буфера обмена в клавиатурах Sogou, Baidu и их версиях для Xiaomi.</string>
+    <string name="sogou_xiaomi_clipboard_desc">Отключает лимит записей буфера обмена в клавиатурах Sogou, Baidu и их версиях для Xiaomi.</string>
     <string name="voiceassist_remove_screen_trans_watermark">Удалить водяной знак ИИ при переводе экрана</string>
     <string name="photopicker">Фото и видео</string>
     <string name="photopicker_disable_reroute">Использовать системный инструмент выбора файлов и фото</string>
@@ -1714,7 +1714,7 @@
     <string name="various_aosp_ime_nav_bar_layout_end">Правая софт-клавиша</string>
     <string name="various_aosp_ime_nav_bar_layout_hide_ime">Скрыть метод ввода</string>
     <string name="various_aosp_ime_nav_bar_layout_ime_switcher">Смена метода ввода</string>
-    <string name="various_input_method_apps_count">Выбрано методов ввода %1$d</string>
+    <string name="various_input_method_apps_count">Выбрано клавиатур: %1$d</string>
     <string name="system_ui_statusbar_island_title">Super Island</string>
     <string name="voiceassist">Xiaomi Hyper XiaoAi</string>
 </resources>
