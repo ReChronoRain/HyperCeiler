@@ -113,12 +113,12 @@
     <string name="log_level_none">Отключено</string>
     <string name="disable_suggest">Отключить предложение</string>
     <string name="enable_suggest">Включить предложение</string>
-    <string name="logo_egg_NotificationName">Уведомление о пасхальном яйце</string>
-    <string name="logo_egg_NotificationName_tips">Это уведомление пасхального яйца</string>
-    <string name="logo_egg_Notification_tips">Пожалуйста, включите уведомления в настройках, чтобы увидеть пасхальные яйца</string>
+    <string name="logo_egg_NotificationName">Уведомление о пасхалке</string>
+    <string name="logo_egg_NotificationName_tips">Это уведомление о пасхалке</string>
+    <string name="logo_egg_Notification_tips">Включите уведомления в настройках, чтобы увидеть пасхалки</string>
     <string name="logo_egg1">Вау, вы действительно нашли это место, это удивительно!</string>
     <string name="logo_egg2">Мда, меня найдут, даже если я скрываюсь здесь…</string>
-    <string name="logo_egg3">Здесь нет пасхальных яиц Android, но есть пасхальные яйца HyperCeiler!</string>
+    <string name="logo_egg3">Здесь нет пасхалок Android, зато есть пасхалки HyperCeiler!</string>
     <string name="uninstall_title">Удалить HyperCeiler</string>
     <string name="uninstall_summary">После удаления HyperCeiler конфигурация модуля остается в базе данных Xposed framework. Чтобы удалить его полностью, сначала перейдите в настройки модуля и сбросьте конфигурацию модуля, а затем удалите сам модуль.</string>
     <string name="unsupported_func_tips">Целевое приложение похоже на модификацию оффициального приложения. Этот модуль не может обеспечить службы захвата для этого приложения. Пожалуйста, используйте оригинальную версию или включите режим отладки и повторите попытку.</string>
