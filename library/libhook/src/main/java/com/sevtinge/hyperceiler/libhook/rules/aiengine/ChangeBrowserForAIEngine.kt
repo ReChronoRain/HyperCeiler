@@ -25,6 +25,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.PixelFormat
 import android.graphics.drawable.AdaptiveIconDrawable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
@@ -38,10 +41,12 @@ import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findField
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.newInstance
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import fan.core.utils.MiuixUIUtils.dp2px
 import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
 import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
@@ -60,17 +65,18 @@ object ChangeBrowserForAIEngine : BaseHook() {
         "com.xiaomi.aicr.copydirect.util.NotificationUtils"
     private const val COPY_WEBSITE_SETTINGS_FRAGMENT_CLASS =
         "com.xiaomi.aicr.copydirect.setting.CopyWebSiteSettingsFragment"
-    private const val DROP_DOWN_PREFERENCE_CLASS = "miuix.preference.DropDownPreference"
-    private const val APP_INSTALLATION_PREFERENCE_CLASS =
-        "com.xiaomi.aicr.copydirect.setting.AppInstallationPreference"
     private const val TARGET_CONTEXT_UTIL_CLASS = "com.xiaomi.aicr.common.ContextUtil"
     private const val TARGET_PACKAGE_UTILS_CLASS = "com.xiaomi.aireco.utils.PackageUtils"
+    private const val APP_INSTALLATION_PREFERENCE_CLASS =
+        "com.xiaomi.aicr.copydirect.setting.AppInstallationPreference"
 
     private const val WEBSITE_SWITCH_KEY = "checkbox_copy_website"
+    private const val SUPPORT_CATEGORY_KEY = "copy_direct_button_support_app"
     private const val ORIGINAL_BROWSER_PREF_KEY = "app_install_xiaomi_browser"
     private const val CUSTOM_BROWSER_PREF_KEY = "hyperceiler_copy_website_browser"
     private const val CUSTOM_BROWSER_PREF_PREFIX = "hyperceiler_copy_website_browser_"
     private const val DEFAULT_BROWSER_VALUE = "__default_browser__"
+    private const val SUPPORT_APP_ICON_SIZE_DP = 40f
 
     private const val EXTRA_USE_DEFAULT_BROWSER =
         "hyperceiler_copy_website_use_default_browser"
@@ -79,6 +85,10 @@ object ChangeBrowserForAIEngine : BaseHook() {
 
     @Volatile
     private var appContext: Context? = null
+
+    private val hasLegacySupportAppPreference by lazy(LazyThreadSafetyMode.NONE) {
+        runCatching { loadClass(APP_INSTALLATION_PREFERENCE_CLASS) }.isSuccess
+    }
 
     private data class BrowserApp(
         val packageName: String,
@@ -154,7 +164,6 @@ object ChangeBrowserForAIEngine : BaseHook() {
 
             methodFinder()
                 .filterByName("isInstallForApp")
-                .filterByParamCount(3)
                 .first()
                 .createHook {
                     before {
@@ -167,7 +176,6 @@ object ChangeBrowserForAIEngine : BaseHook() {
 
             methodFinder()
                 .filterByName("getStartAppPackage")
-                .filterByParamCount(2)
                 .first()
                 .createHook {
                     before {
@@ -253,27 +261,27 @@ object ChangeBrowserForAIEngine : BaseHook() {
         val screen = fragment.callMethod("getPreferenceScreen") ?: return
         val browsers = getBrowserApps(context)
         val enabled = isCopyWebsiteEnabled(context)
+        val supportCategory = findSupportCategory(fragment, screen)
 
-        findSupportCategory(screen)?.let {
+        supportCategory?.let {
             it.callMethod("setOrder", 20)
-            it.callMethod("setVisible", browsers.isNotEmpty())
+            it.callMethod("setVisible", enabled && browsers.isNotEmpty())
         }
 
-        fragment.callMethod("findPreference", ORIGINAL_BROWSER_PREF_KEY)?.let {
-            it.callMethod("setVisible", false)
-        }
+        MiuixPreferenceUtils.findPreference(fragment, ORIGINAL_BROWSER_PREF_KEY)
+            ?.callMethod("setVisible", false)
 
         val dropDownPreference = ensureBrowserDropDownPreference(fragment, screen, context)
         configureBrowserDropDownPreference(dropDownPreference, context, browsers, enabled)
-        rebuildBrowserSupportPreferences(screen, context, browsers)
+        rebuildBrowserSupportPreferences(screen, supportCategory, context, browsers, enabled)
     }
 
     private fun ensureBrowserDropDownPreference(fragment: Any, screen: Any, context: Context): Any {
-        fragment.callMethod("findPreference", CUSTOM_BROWSER_PREF_KEY)?.let {
+        MiuixPreferenceUtils.findPreference(fragment, CUSTOM_BROWSER_PREF_KEY)?.let {
             return it
         }
 
-        return loadClass(DROP_DOWN_PREFERENCE_CLASS).newInstance<Any>(context).also {
+        return MiuixPreferenceUtils.createDropDownPreference(context).also {
             it.callMethod("setKey", CUSTOM_BROWSER_PREF_KEY)
             it.callMethod("setOnPreferenceChangeListener", fragment)
             screen.callMethod("addPreference", it)
@@ -288,14 +296,15 @@ object ChangeBrowserForAIEngine : BaseHook() {
     ) {
         val selectedValue = sanitizeSelectedBrowserValue(readSelectedBrowserValue(context), browsers)
 
-        preference.apply {
-            callMethod("setTitle", preferredBrowserTitle(context))
-            callMethod("setEntries", buildBrowserEntries(context, browsers).toTypedArray())
-            callMethod("setEntryValues", buildBrowserValues(browsers).toTypedArray())
-            callMethod("setValue", selectedValue)
-            callMethod("setVisible", enabled && browsers.isNotEmpty())
-            callMethod("setOrder", 10)
-        }
+        MiuixPreferenceUtils.configureDropDownPreference(
+            preference = preference,
+            title = preferredBrowserTitle(context),
+            entries = buildBrowserEntries(context, browsers).toTypedArray(),
+            entryValues = buildBrowserValues(browsers).toTypedArray(),
+            value = selectedValue,
+            visible = enabled && browsers.isNotEmpty(),
+            order = 10
+        )
     }
 
     private fun buildBrowserEntries(context: Context, browsers: List<BrowserApp>): List<CharSequence> {
@@ -314,41 +323,74 @@ object ChangeBrowserForAIEngine : BaseHook() {
 
     private fun rebuildBrowserSupportPreferences(
         screen: Any,
+        supportCategory: Any?,
         context: Context,
-        browsers: List<BrowserApp>
+        browsers: List<BrowserApp>,
+        enabled: Boolean
     ) {
-        getScreenPreferences(screen)
-            .filter { getPreferenceKey(it)?.startsWith(CUSTOM_BROWSER_PREF_PREFIX) == true }
-            .forEach { screen.callMethod("removePreference", it) }
+        val useSupportCategory = supportCategory != null && !hasLegacySupportAppPreference
+        val container = if (useSupportCategory) supportCategory else screen
+        val itemOrder = if (useSupportCategory) 0 else 21
+
+        removeBrowserSupportPreferences(screen)
+        supportCategory?.let { removeBrowserSupportPreferences(it) }
 
         browsers.forEachIndexed { index, browser ->
-            loadClass(APP_INSTALLATION_PREFERENCE_CLASS).newInstance<Any>(context).also {
-                it.callMethod("setKey", CUSTOM_BROWSER_PREF_PREFIX + browser.packageName)
-                it.callMethod("setTitle", browser.label)
-                resolveBrowserDrawable(context, browser)?.let { icon ->
-                    it.callMethod("setIcon", icon)
-                }
-                it.callMethod("setClickable", false)
-                it.callMethod("setTouchAnimationEnable", false)
-                it.callMethod("setPackageName", browser.packageName)
-                it.callMethod("setOrder", 21 + index)
-                screen.callMethod("addPreference", it)
+            createBrowserSupportPreference(context).also {
+                configureBrowserSupportPreference(
+                    preference = it,
+                    key = CUSTOM_BROWSER_PREF_PREFIX + browser.packageName,
+                    title = browser.label,
+                    icon = resolveBrowserDrawable(context, browser)?.toSupportAppIcon(context),
+                    packageName = browser.packageName,
+                    visible = enabled,
+                    order = itemOrder + index
+                )
+                container.callMethod("addPreference", it)
             }
         }
     }
 
-    private fun getScreenPreferences(screen: Any): List<Any> {
-        val count = screen.callMethod("getPreferenceCount") as? Int ?: return emptyList()
-        return (0 until count).mapNotNull { index -> screen.callMethod("getPreference", index) }
+    private fun configureBrowserSupportPreference(
+        preference: Any,
+        key: String,
+        title: CharSequence,
+        icon: Drawable?,
+        packageName: String,
+        visible: Boolean,
+        order: Int
+    ) {
+        preference.apply {
+            callMethod("setKey", key)
+            callMethod("setTitle", title)
+            icon?.let { callMethod("setIcon", it) }
+            callMethod("setClickable", false)
+            callMethod("setVisible", visible)
+            callMethod("setOrder", order)
+            runCatching { callMethod("setTouchAnimationEnable", false) }
+            runCatching { callMethod("setPackageName", packageName) }
+        }
     }
 
-    private fun findSupportCategory(screen: Any): Any? {
-        return getScreenPreferences(screen)
-            .firstOrNull { it.javaClass.name == "androidx.preference.PreferenceCategory" }
+    private fun removeBrowserSupportPreferences(container: Any) {
+        MiuixPreferenceUtils.getPreferences(container)
+            .filter { MiuixPreferenceUtils.getPreferenceKey(it)?.startsWith(CUSTOM_BROWSER_PREF_PREFIX) == true }
+            .forEach { container.callMethod("removePreference", it) }
     }
 
-    private fun getPreferenceKey(preference: Any): String? {
-        return preference.callMethod("getKey") as? String
+    private fun createBrowserSupportPreference(context: Context): Any {
+        return if (hasLegacySupportAppPreference) {
+            loadClass(APP_INSTALLATION_PREFERENCE_CLASS)
+                .newInstance(context)
+        } else {
+            MiuixPreferenceUtils.createTextPreference(context)
+        }
+    }
+
+    private fun findSupportCategory(fragment: Any, screen: Any): Any? {
+        return MiuixPreferenceUtils.findPreference(fragment, SUPPORT_CATEGORY_KEY)
+            ?: MiuixPreferenceUtils.getPreferences(screen)
+                .firstOrNull { it.javaClass.name.endsWith("PreferenceCategory") }
     }
 
     @SuppressLint("QueryPermissionsNeeded")
@@ -543,6 +585,10 @@ object ChangeBrowserForAIEngine : BaseHook() {
         }.getOrNull() ?: browser.icon
     }
 
+    private fun Drawable.toSupportAppIcon(context: Context): Drawable {
+        return FixedSizeDrawable(this, dp2px(context, SUPPORT_APP_ICON_SIZE_DP))
+    }
+
     private fun defaultBrowserText(context: Context): String {
         return AppsTool.getModuleRes(context).getString(R.string.aicr_default_browser)
     }
@@ -613,6 +659,41 @@ object ChangeBrowserForAIEngine : BaseHook() {
             this
         } else {
             "https://$this"
+        }
+    }
+
+    private class FixedSizeDrawable(
+        drawable: Drawable,
+        private val size: Int
+    ) : Drawable() {
+        private val source = drawable.mutate()
+
+        override fun draw(canvas: Canvas) {
+            val oldBounds = source.copyBounds()
+            source.bounds = bounds
+            source.draw(canvas)
+            source.bounds = oldBounds
+        }
+
+        override fun setAlpha(alpha: Int) {
+            source.alpha = alpha
+        }
+
+        override fun setColorFilter(colorFilter: ColorFilter?) {
+            source.colorFilter = colorFilter
+        }
+
+        @Deprecated("Deprecated in Java")
+        override fun getOpacity(): Int {
+            return PixelFormat.TRANSLUCENT
+        }
+
+        override fun getIntrinsicWidth(): Int {
+            return size
+        }
+
+        override fun getIntrinsicHeight(): Int {
+            return size
         }
     }
 }

@@ -86,6 +86,7 @@ public class NoticeProcessor {
     private static String request(String urlStr) throws Exception {
         HttpURLConnection conn =
             (HttpURLConnection) new URL(urlStr).openConnection();
+        conn.setRequestProperty("User-Agent", buildUserAgent());
         conn.setConnectTimeout(5000);
         conn.setReadTimeout(5000);
 
@@ -98,6 +99,21 @@ public class NoticeProcessor {
         }
         reader.close();
         return sb.toString();
+    }
+
+    private static String buildUserAgent() {
+        return "HyperCeiler/"
+            + BuildConfig.VERSION_NAME
+            + " ("
+            + "AndroidSDK "
+            + getAndroidVersion()
+            + "; HyperOS "
+            + getHyperOSVersion() + ", " + getSmallVersion()
+            + "; "
+            + BuildConfig.BUILD_TYPE
+            + "; "
+            + BuildConfig.GIT_HASH
+            + ")";
     }
 
     /**

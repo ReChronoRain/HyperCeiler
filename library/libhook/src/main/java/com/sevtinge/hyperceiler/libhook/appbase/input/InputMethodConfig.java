@@ -22,6 +22,7 @@ package com.sevtinge.hyperceiler.libhook.appbase.input;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Collections;
@@ -31,6 +32,7 @@ public final class InputMethodConfig {
     public static final String PREF_IME_STYLE = "various_unlock_ime_style";
     public static final String PREF_IME_TARGET_APPS = "various_unlock_ime_apps";
     public static final String PREF_IME_SHOW_ALL = "various_unlock_ime_show_all";
+    public static final String PREF_IME_UI_COUNT = "various_unlock_ime_ui_count";
     public static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_START = "various_aosp_ime_nav_bar_layout_start";
     public static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_END = "various_aosp_ime_nav_bar_layout_end";
     public static final String PREF_AOSP_IME_NAV_BAR_LAYOUT_HANDLE = "various_aosp_ime_nav_bar_layout_handle";
@@ -113,6 +115,13 @@ public final class InputMethodConfig {
             return isFeatureEnabled(PREF_LEGACY_MIUI_IME_UNLOCK);
         }
         return isMiuiImeStyle() && PrefsBridge.getBoolean(PREF_IME_SHOW_ALL, false);
+    }
+
+    public static boolean shouldUnlockImeListUiCount() {
+        if (!hasImeStylePreference()) {
+            return isFeatureEnabled(PREF_LEGACY_MIUI_IME_UNLOCK);
+        }
+        return isMiuiImeStyle() && PrefsBridge.getBoolean(PREF_IME_UI_COUNT, false);
     }
 
     public static boolean shouldHookMiuiImeListInSystem() {
