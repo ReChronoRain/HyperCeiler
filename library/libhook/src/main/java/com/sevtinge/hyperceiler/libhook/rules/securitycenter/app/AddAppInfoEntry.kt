@@ -28,8 +28,8 @@ import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.MiuixPreferenceUtils
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.core.java.Methods
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 @SuppressLint("DiscouragedApi")
@@ -91,24 +91,18 @@ object AddAppInfoEntry : BaseHook() {
 
     private fun createAppInfoIntent(activity: Activity): Intent {
         val pkgName = activity.intent.getStringExtra("package_name")!!
-        // UserHandle.myUserId() 标记 @hide，不在 public SDK 中，需走反射。
-        val myUserId = Methods.callStaticMethod(UserHandle::class.java, "myUserId") as Int
+        // UserHandle.myUserId() / UserHandle.getUserId(uid) 标记 @hide，
+        // 不在 public SDK 中，需走反射。
+        val myUserId = UserHandle::class.java.callStaticMethod("myUserId") as Int
         val uid = activity.intent.getIntExtra("miui.intent.extra.USER_ID", myUserId)
-        val bundle = Bundle().apply {
-            putString("package", pkgName)
-            putInt("uid", uid)
-        }
+        val userId = UserHandle::class.java.callStaticMethod("getUserId", uid) as Int
+        // SPA 路由：AppInfoSettings/{packageName}/{userId}
+        // 对应 Provider：com.android.settings.spa.app.appinfo.AppInfoSettingsProvider
+        val destination = "AppInfoSettings/$pkgName/$userId"
         return Intent(Intent.ACTION_MAIN).apply {
-            setClassName("com.android.settings", "com.android.settings.SubSettings")
-            putExtra(
-                ":settings:show_fragment",
-                "com.android.settings.applications.appinfo.AppInfoDashboardFragment"
-            )
-            putExtra(
-                ":settings:show_fragment_title",
-                getModuleString(activity, R.string.security_center_aosp_app_info_label)
-            )
-            putExtra(":settings:show_fragment_args", bundle)
+            setClassName("com.android.settings", "com.android.settings.spa.SpaActivity")
+            putExtra("spaActivityDestination", destination)
+            putExtra("sessionSource", "browse")
         }
     }
 }

@@ -83,10 +83,15 @@ object AddAppManagerEntry : BaseHook() {
         AppsTool.getModuleRes(context).getString(R.string.security_center_aosp_app_manager_label)
 
     private fun createAppManagerIntent(): Intent =
-        Intent(Intent.ACTION_MAIN).setClassName(
-            "com.android.settings",
-            "com.android.settings.applications.ManageApplications"
-        )
+        // 跳转到 SPA 版本的「全部应用」列表
+        // 路由：AllAppList，对应 Provider：com.android.settings.spa.app.AllAppListPageProvider
+        Intent(Intent.ACTION_MAIN)
+            .setClassName(
+                "com.android.settings",
+                "com.android.settings.spa.SpaActivity"
+            )
+            .putExtra("spaActivityDestination", "AllAppList")
+            .putExtra("sessionSource", "browse")
 
     private fun getActionEndMenuGroupId(context: Context): Int =
         context.getIdByName("miuix_action_end_menu_group")
