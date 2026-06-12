@@ -44,9 +44,9 @@
     <string name="happy_birthday_hyperceiler">今日无事可做？\n 你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>
     <!--System UI-->
     <string name="system_ui">进程\"System UI\"</string>
-    <string name="search_history_description">翻阅银角记录</string>
-    <string name="search_history_clear_description">清除银角痕迹</string>
-    <string name="revert">滚回去</string>
-    <string name="custom_order_title">五颜六色的东西</string>
-    <string name="app_version_update">最新最热</string>
+    <string name="search_history_description">搜索历史记录</string>
+    <string name="search_history_clear_description">清除历史搜索记录</string>
+    <string name="revert">返回</string>
+    <string name="custom_order_title">用户</string>
+    <string name="app_version_update">新版本</string>
 </resources>
