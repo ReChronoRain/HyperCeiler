@@ -26,6 +26,7 @@
             android:defaultValue="0"
             android:key="prefs_key_system_framework_other_rotation_button_int"
             android:title="@string/system_framework_other_rotation_button"
+            android:summary="@string/system_framework_other_rotation_button_desc"
             app:entries="@array/system_framework_other_rotation_button_mode"
             app:entryValues="@array/status_bar_icon_mode_value" />
 
@@ -42,7 +43,7 @@
             app:dividerValue="10"
             app:format="%.1f dp"
             app:maxValue="1000"
-            app:minValue="1"
+            app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -52,9 +53,9 @@
             android:key="prefs_key_system_ui_navigation_custom_height_land"
             android:title="@string/system_ui_navigation_custom_height_land"
             app:dividerValue="10"
-            app:format=".1f dp"
+            app:format="%.1f dp"
             app:maxValue="1000"
-            app:minValue="1"
+            app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -66,7 +67,7 @@
             app:dividerValue="10"
             app:format="%.1f dp"
             app:maxValue="1000"
-            app:minValue="1"
+            app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 
@@ -78,7 +79,7 @@
             app:dividerValue="10"
             app:format="%.1f dp"
             app:maxValue="1000"
-            app:minValue="1"
+            app:minValue="0"
             app:showSeekBarValue="true"
             app:stepValue="1" />
 

@@ -480,6 +480,7 @@
     <string name="system_framework_other_speed_install">Speed install</string>
     <string name="system_framework_other_speed_install_desc">Install with RAM to speed up installation. System core support is required.</string>
     <string name="system_framework_other_rotation_button">Rotation recommendations</string>
+    <string name="system_framework_other_rotation_button_desc">If forcing it doesn\'t work, you need to ensure that hiding the gesture line is not enabled in the system or module. \nIf you need to hide it, you can set the height of the navigation and navigation frame to 0dp in the custom navigation, and adjust the thickness of the gesture line to 0.00dp in the custom gesture line.</string>
     <string name="system_framework_other_thermal_brightness">Disable automatic screen brightness reduction</string>
     <string name="system_framework_other_thermal_brightness_more">Only automatically reduce screen brightness that isn\'t caused by thermal control</string>
     <string name="system_framework_other_disable_cleaner">Disable kill background apps</string>
@@ -512,8 +513,10 @@
     <string name="system_framework_market_use_detailmini_desc">Remove the restriction that prevents an app from redirecting to another app\'s details page in GetApps without using the appClientId.</string>
     <string name="system_framework_bypass_force_downloadui">Fix download redirection</string>
     <string name="system_framework_bypass_force_downloadui_desc">Fixes the incorrect redirection issue when clicking \"View downloads\" in Quick Share</string>
-    <string name="system_framework_native_file_picker">Use Android file picker</string>
-    <string name="system_framework_native_file_picker_desc">No longer use HyperOS File Manager</string>
+    <string name="system_framework_bypass_wake_path_checker">Bypass wake path checker</string>
+    <string name="system_framework_bypass_wake_path_checker_desc">Always allow chained start requests</string>
+    <string name="system_framework_native_file_picker">Use Android photos and file picker</string>
+    <string name="system_framework_native_file_picker_desc">No longer use HyperOS Photos &amp; Videos and File Manager</string>
     <!--Package Manager Service-->
     <string name="system_framework_corepatch_tip">The features under this list should be enabled selectively only after you understand them; some options carry certain risks, please be aware.\nThe normal options take effect immediately except for the master switch; extended features require a restart to take effect regardless of their switch state.</string>
     <string name="system_framework_corepatch_title">Package manager service</string>
@@ -1024,16 +1027,27 @@
     <string name="updater_fuck_vab_desc">Only VAB devices are supported. Please don\'t enable on non-VAB devices!\n• You can flash into internal test recovery ROM without internal test permissions.\n• It\'s recommended to clear data after flashing across different version types.\n• Doesn\'t support any unofficial ROM usage.\n• This feature is dangerous. Please evaluate whether to enable it after understanding the operation of Fastboot.</string>
     <string name="updater_version_mode">Fake type</string>
     <string name="updater_big_version">Fake large version</string>
-    <string name="updater_big_version_desc">Items that need to be filled in when faking the Xiaomi HyperOS version, the default is V816.</string>
+    <string name="updater_big_version_desc">Items that need to be filled in when faking the Xiaomi HyperOS version.</string>
     <string name="updater_miui_version">Fake version for ROM</string>
     <string name="updater_android_version">Fake version for Android</string>
     <string name="updater_miui_version_desc">Only modify the Updater, which can block the system update.</string>
+    <string name="updater_xms_version">Fake version for hot update patch (XMS)</string>
+    <string name="updater_xms_version_desc">Items that need to be filled in when faking the XMS version, which starts with C.</string>
     <string name="updater_device">Fake device for Updater</string>
     <string name="updater_device_desc">Enter the model code of the target device to specify the model, which can be used to obtain ROM packages for other models, which is extremely dangerous.</string>
     <string name="updater_diable_dialog">Disable pop-up of \"Turn on automatic updates\" dialog</string>
     <!--Permissions-->
     <string name="lbe">Permissions</string>
     <string name="lbe_auto_start">Disable auto-shutdown of auto start</string>
+    <string name="lbe_paste_toast">Paste toast</string>
+    <string name="lbe_paste_toast_custom">Custom paste toast</string>
+    <string name="lbe_paste_toast_custom_close_button_to_close">Hook close button into close toast</string>
+    <string name="lbe_paste_toast_custom_close_button_text_custom">Custom close button text</string>
+    <string name="lbe_paste_toast_custom_close_button_text_tip">Text that is too small will affect clicking</string>
+    <string name="lbe_paste_toast_custom_toast_opacity">Toast opacity</string>
+
+
+
     <!--Cast-->
     <string name="milink_hyperos">Interconnectivity services</string>
     <string name="milink_unlock_mishare">Unlock Device interconnection</string>
@@ -1468,6 +1482,7 @@
     <string name="security_center_disable_root_check">Disable root detection</string>
     <string name="security_center_install_intercept">Disable USB installation interception</string>
     <string name="security_center_adb_install_verify">Disable network verify when open USB installation</string>
+    <string name="security_center_disable_auto_turn_accessibility_off">Prohibit the automatic disabling of accessibility permissions</string>
     <string name="security_center_remove_macro_black_list">Remove auto combo blacklist</string>
     <string name="security_center_disable_send_malicious_app_notification">Disable \"Malicious app found\" notifications</string>
     <string name="security_center_newbox_custom_enable">Enable customize</string>
@@ -1644,6 +1659,8 @@
     <!--Contacts-->
     <string name="contacts">Contacts and dialer</string>
     <string name="contacts_disable_offline_info_manager">Disable business hall offline info</string>
+    <string name="contacts_business_hall_ad_block">Block business hall ads</string>
+    <string name="contacts_business_hall_ad_block_desc">Remove popup ads, recommended cards, dual-card banners and other promotions from business hall</string>
     <!--Health-->
     <string name="health">Mi Fitness</string>
     <string name="health_disable_splash_ad">Disable splash ad</string>
@@ -1661,12 +1678,13 @@
     <string name="various_nobrightness">Reject forced brightness</string>
     <string name="various_no_overscroll">Disable out-of-bounds bounce</string>
     <string name="various_disable_access_device_logs">Dismiss access device logs request dialog</string>
-    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for phrases</string>
+    <string name="various_phrase_clipboardlist">Remove the clipboard and time limits for Enhance keyboard</string>
     <string name="various_phrase_clipboardlist_more">After it\'s enabled, select the input method scope and restart it.</string>
-    <string name="various_unlock_ime">Unlock IME fullscreen optimization</string>
-    <string name="various_unlock_ime_desc">Enable full-screen optimization for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
+    <string name="various_unlock_ime">Unlock Enhance keyboard limitation</string>
+    <string name="various_unlock_ime_desc">Enable Enhance keyboard for the selected style on the target input method\nThe "Native" style requires an additional check of the "System Framework" scope\nSelecting the "Native" style only applies to non-Xiaomi custom versions; checking it for Xiaomi custom versions will add the keyboard to the switchable list</string>
     <string name="various_unlock_ime_apps">Target input methods</string>
     <string name="various_unlock_ime_apps_desc">If a selected input method is not in scope, its scope will be requested as well.</string>
+    <string name="various_unlock_ime_ui_count">Unlock input methods counts in UI</string>
     <string name="various_unlock_ime_show_all">Show all input methods</string>
     <string name="various_unlock_ime_show_all_desc">Some input methods may appear incomplete in the switcher because they cannot query the installed app list.\nThis also requires System Framework scope and may affect performance. Enable with caution.</string>
     <string name="various_unlock_ime_style_miui">MIUI style</string>

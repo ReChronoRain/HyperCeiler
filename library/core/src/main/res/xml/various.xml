@@ -79,6 +79,12 @@
             android:summary="@string/various_unlock_ime_show_all_desc"
             android:title="@string/various_unlock_ime_show_all" />
 
+        <SwitchPreference
+            android:key="prefs_key_various_unlock_ime_ui_count"
+            android:title="@string/various_unlock_ime_ui_count"
+            android:defaultValue="false"
+            />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/various">

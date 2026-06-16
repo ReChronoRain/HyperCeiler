@@ -227,6 +227,10 @@
             android:summary="@string/system_framework_bypass_force_downloadui_desc"
             android:title="@string/system_framework_bypass_force_downloadui" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_framework_bypass_wake_path_checker"
+            android:title="@string/system_framework_bypass_wake_path_checker" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_framework_shortcut_title">

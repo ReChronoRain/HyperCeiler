@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.dashboard;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -84,12 +85,18 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             mQuickRestartPackageName = sQuickRestartCache.get(xmlResId);
         } else {
             // 缓存未命中，后台解析，不阻塞主线程
+            Context context = getContext();
+            if (context == null) return;
             ThreadUtils.postOnBackgroundThread(() -> {
-                String pkg = getQuickRestartPackageName(requireContext(), xmlResId);
+                String pkg = getQuickRestartPackageName(context, xmlResId);
                 sQuickRestartCache.put(xmlResId, pkg != null ? pkg : "");
                 ThreadUtils.postOnMainThread(() -> {
+                    if (!isAdded()) return;
                     mQuickRestartPackageName = pkg;
-                    requireActivity().invalidateOptionsMenu();
+                    Activity activity = getActivity();
+                    if (activity != null) {
+                        activity.invalidateOptionsMenu();
+                    }
                 });
             });
         }
@@ -115,8 +122,11 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             }
         }
 
-        if (unavailable) {
-            Toast.makeText(getContext(), getString(R.string.search_result_not_available), Toast.LENGTH_SHORT).show();
+        Context context = getContext();
+        if (context != null) {
+            if (unavailable) {
+                Toast.makeText(context, getString(R.string.search_result_not_available), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
