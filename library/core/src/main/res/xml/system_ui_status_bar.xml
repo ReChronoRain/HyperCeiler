@@ -45,10 +45,10 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_system_ui_status_bar_double_tap_to_sleep"
-            android:title="@string/system_ui_status_bar_double_tap_to_sleep" />
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.sub.MultiActionSettings"
+            android:key="prefs_key_system_ui_status_bar_double_tap"
+            android:title="@string/system_ui_status_bar_double_tap_action" />
 
         <SwitchPreference
             android:defaultValue="false"

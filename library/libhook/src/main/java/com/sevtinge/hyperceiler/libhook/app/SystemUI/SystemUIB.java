@@ -78,7 +78,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.other.UiLockApp;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.UnlockClipboard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.QSColor;
-import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.DoubleTapToSleep;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.DoubleTapAction;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.BatteryStyle;
@@ -213,8 +213,9 @@ public class SystemUIB extends BaseLoad {
         initHook(AmbientLight.INSTANCE, ncBgMode == 0 || diBgMode == 0);
         initHook(AlwaysDark.INSTANCE, ncBgMode == 0 && PrefsBridge.getBoolean("system_ui_control_center_media_control_always_dark"));
 
-        // Other
-        initHook(DoubleTapToSleep.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
+        // Other        //initHook(DoubleTapToSleep.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_double_tap_to_sleep"));
+        initHook(DoubleTapAction.INSTANCE, PrefsBridge.getInt("system_ui_status_bar_double_tap_action", 0) > 0);
+
         initHook(new HideStatusBarBeforeScreenshot(), PrefsBridge.getBoolean("system_ui_status_bar_hide_icon"));
 
         initHook(new GuidedAccessDialogBlock(),
