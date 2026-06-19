@@ -38,6 +38,10 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
 import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
 import kotlin.math.max
 
+private const val M_WORKSPACE_TOP_PADDING = "mWorkspaceTopPadding"
+
+private const val GET_VALUE = "getValue"
+
 object LayoutRules : HomeBaseHookNew() {
     private const val PHONE_RULES = "com.miui.home.launcher.compat.PhoneDeviceRules"
     private const val PHONE_RULES_NEW = "com.miui.home.common.gridconfig.PhoneDeviceRules"
@@ -64,6 +68,7 @@ object LayoutRules : HomeBaseHookNew() {
     private var currentCellWidth = 0
     private var currentCellHeight = 0
 
+    @Suppress("unused")
     @Version(isPad = false, min = 600000000)
     private fun isOS3Hook() {
         if (isUnlockGridsHook) {
@@ -166,7 +171,7 @@ object LayoutRules : HomeBaseHookNew() {
                 mMiuiHomeConfig?.callMethod("removePreference", mScreenCellsConfig)
                 XposedLog.d(
                     TAG, lpparam.packageName,
-                    "Remove preference($mScreenCellsConfig) form MIUIHomeSettings"
+                    "Remove preference($mScreenCellsConfig) from MIUIHomeSettings"
                 )
                 param.result = null
             }
@@ -217,22 +222,22 @@ object LayoutRules : HomeBaseHookNew() {
         override fun after(param: HookParam) {
             val rules = param.thisObject
 
-            val maxGridWidth = rules.getIntField("mScreenWidth")
+            val mScreenWidth = rules.getIntField("mScreenWidth")
+            val mScreenHeight = rules.getIntField("mScreenHeight")
             val mCellWidth = rules.getIntField("mCellWidth")
             val mCellHeight = rules.getIntField("mCellHeight")
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
+            val mWorkspaceTopPadding =
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
+                    .callMethodAs<Int>(GET_VALUE)
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethodAs<Int>("getValue")
+                    .callMethodAs<Int>(GET_VALUE)
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
-                    PrefsBridge.getInt(
-                        "home_layout_workspace_padding_top",
-                        0
-                    ).toFloat()
+                    PrefsBridge.getInt("home_layout_workspace_padding_top", 0)
                 )
             } else {
                 -1
@@ -240,10 +245,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
-                    PrefsBridge.getInt(
-                        "home_layout_workspace_padding_bottom",
-                        0
-                    ).toFloat()
+                    PrefsBridge.getInt("home_layout_workspace_padding_bottom", 0)
                 )
             } else {
                 -1
@@ -274,10 +276,10 @@ object LayoutRules : HomeBaseHookNew() {
             currentCellWidth = mCellWidth
             currentCellHeight = mCellHeight
 
-            val cellWorkspaceHeight = mCellWidth * mCellCountY
+            //val cellWorkspaceHeight = mCellHeight * mCellCountY
 
             if (isUnlockGridsHook || isSetWSPaddingSideHook) {
-                currentCellWidth = (maxGridWidth - if (isSetWSPaddingSideHook) {
+                currentCellWidth = (mScreenWidth - if (isSetWSPaddingSideHook) {
                     sWorkspaceCellSide
                 } else {
                     mWorkspaceCellSideDefault
@@ -285,23 +287,24 @@ object LayoutRules : HomeBaseHookNew() {
             }
 
             if (isUnlockGridsHook || isSetWSPaddingTopHook || isSetWSPaddingBottomHook) {
-                currentCellHeight = (cellWorkspaceHeight + if (isSetWSPaddingTopHook) {
-                    mWorkspaceTopPadding - sWorkspacePaddingTop
+                currentCellHeight = (mScreenHeight - if (isSetWSPaddingTopHook) {
+                    sWorkspacePaddingTop
                 } else {
                     0
-                } + if (isSetWSPaddingBottomHook) {
-                    mWorkspaceCellPaddingBottom - sWorkspacePaddingBottom
+                } - if (isSetWSPaddingBottomHook) {
+                    sWorkspacePaddingBottom
                 } else {
                     0
                 }) / currentCellCountY
             }
 
-            val cellSize = max(currentCellWidth, currentCellHeight)
-            rules.setIntField("mCellWidth", cellSize)
-            rules.setIntField("mCellHeight", cellSize)
+            //val cellSize = max(currentCellWidth, currentCellHeight)
+            rules.setIntField("mCellWidth", currentCellWidth)
+            rules.setIntField("mCellHeight", currentCellHeight)
 
             if (isSetWSPaddingTopHook) {
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                //rules.setIntField("mWorkspaceTopPadding", sWorkspacePaddingTop)
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
 
@@ -313,22 +316,23 @@ object LayoutRules : HomeBaseHookNew() {
             if (isSetWSPaddingSideHook) {
                 rules.setIntField(
                     "mWorkspaceCellSide",
-                    (mCellWidth - currentCellWidth * currentCellCountX) / 2
+                    (mScreenWidth - currentCellWidth * currentCellCountX) / 2
                 )
             }
 
             XposedLog.i(
                 TAG, lpparam.packageName,
                 """ |
-                    |Applied layout rules:
+                    |Applied layout rules (new Hook):
                     |  cellCountX    => $currentCellCountX
                     |  cellCountY    => $currentCellCountY
-                    |  paddingTop    => $sWorkspacePaddingTop
-                    |  paddingBottom => $sWorkspacePaddingBottom
+                    |  paddingTop    => $sWorkspacePaddingTop (was: $mWorkspaceTopPadding)
+                    |  paddingBottom => $sWorkspacePaddingBottom (was: $mWorkspaceCellPaddingBottom)
                     |  cellSide      => $sWorkspaceCellSide
                     |  cellSizeO     => $mCellWidth
                     |  cellWidth     => $currentCellWidth
                     |  cellHeight    => $currentCellHeight
+                    |  Screen HxW    => $mScreenHeight x $mScreenWidth
                 """.trimMargin()
             )
         }
@@ -342,40 +346,30 @@ object LayoutRules : HomeBaseHookNew() {
             val mWorkspaceCellSideDefault = rules.getIntField("mWorkspaceCellSideDefault")
             val mCellSize = rules.getIntField("mCellSize")
             val mCellCountY = rules.getIntField("mCellCountY")
-            val mWorkspaceTopPadding = rules.callMethodAs<Int>("getWorkspacePaddingTop")
+            val mWorkspaceTopPadding =
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
+                    .callMethodAs<Int>(GET_VALUE)
             val mWorkspaceCellPaddingBottom =
                 rules.getObjectFieldAs<Any>("mWorkspaceCellPaddingBottom")
-                    .callMethodAs<Int>("getValue")
+                    .callMethodAs<Int>(GET_VALUE)
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
-                    PrefsBridge.getInt(
-                        "home_layout_workspace_padding_top",
-                        0
-                    ).toFloat()
-                )
+                    PrefsBridge.getInt("home_layout_workspace_padding_top", 0))
             } else {
                 -1
             }
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
-                    PrefsBridge.getInt(
-                        "home_layout_workspace_padding_bottom",
-                        0
-                    ).toFloat()
-                )
+                    PrefsBridge.getInt("home_layout_workspace_padding_bottom", 0))
             } else {
                 -1
             }
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
-                    PrefsBridge.getInt(
-                        "home_layout_workspace_padding_horizontal",
-                        0
-                    ).toFloat()
-                )
+                    PrefsBridge.getInt("home_layout_workspace_padding_horizontal", 0))
             } else {
                 -1
             }
@@ -419,7 +413,7 @@ object LayoutRules : HomeBaseHookNew() {
             rules.setIntField("mCellSize", max(currentCellWidth, currentCellHeight))
 
             if (isSetWSPaddingTopHook) {
-                rules.getObjectFieldAs<Any>("mWorkspaceTopPadding")
+                rules.getObjectFieldAs<Any>(M_WORKSPACE_TOP_PADDING)
                     .callMethod("setValue", sWorkspacePaddingTop)
             }
 
@@ -441,7 +435,7 @@ object LayoutRules : HomeBaseHookNew() {
                     |Applied layout rules:
                     |  cellCountX    => $currentCellCountX
                     |  cellCountY    => $currentCellCountY
-                    |  paddingTop    => $sWorkspacePaddingTop
+                    |  paddingTop    => $sWorkspacePaddingTop (was: $mWorkspaceTopPadding)
                     |  paddingBottom => $sWorkspacePaddingBottom
                     |  cellSide      => $sWorkspaceCellSide
                     |  cellSizeO     => $mCellSize

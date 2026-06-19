@@ -21,21 +21,43 @@ package com.sevtinge.hyperceiler.libhook.rules.home.folder;
 import android.graphics.Rect;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
+import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-public class UnlockBlurSupported extends BaseHook {
+public class UnlockBlurSupported extends HomeBaseHookNew {
+
+    Class<?> mDeviceConfig;
+    String mBlurUtilitiesCls;
+    String mLauncherFolder2x2IconContainer;
+
+    @SuppressWarnings("unused")
+    @Version(isPad = false, min = 600000000)
+    private void initOS3Hook() {
+        mDeviceConfig = findClassIfExists(DEVICE_CONFIG_NEW);
+        mBlurUtilitiesCls = "com.miui.home.common.utils.BlurUtilities";
+        mLauncherFolder2x2IconContainer = "com.miui.home.folder.LauncherFolder2x2IconContainer";
+        initBaseCore();
+    }
+
     @Override
-    public void init() {
-        findAndHookMethod("com.miui.home.launcher.common.BlurUtilities",
+    public void initBase() {
+        mDeviceConfig = findClassIfExists(DEVICE_CONFIG_OLD);
+        mBlurUtilitiesCls = "com.miui.home.launcher.common.BlurUtilities";
+        mLauncherFolder2x2IconContainer = "com.miui.home.launcher.folder.LauncherFolder2x2IconContainer";
+        initBaseCore();
+    }
+
+    private void initBaseCore() {
+        findAndHookMethod(mBlurUtilitiesCls,
             "isBlurSupported",
             new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     boolean isDefaultIcon = (boolean) callStaticMethod(
-                        findClassIfExists("com.miui.home.launcher.DeviceConfig"),
+                        mDeviceConfig,
                         "isDefaultIcon");
                     if (!isDefaultIcon)
                         param.setResult(true);
@@ -44,7 +66,7 @@ public class UnlockBlurSupported extends BaseHook {
         );
 
         try {
-            findAndHookMethod("com.miui.home.launcher.folder.LauncherFolder2x2IconContainer",
+            findAndHookMethod(mLauncherFolder2x2IconContainer,
                 "resolveTopPadding", Rect.class, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
@@ -59,14 +81,14 @@ public class UnlockBlurSupported extends BaseHook {
                 }
             );
         } catch (Error | Exception ignore) {
-            findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolder1x1", new IMethodHook() {
+            findAndHookMethod(mDeviceConfig, "isUseDefaultIconFolder1x1", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(true);
                 }
             });
 
-            findAndHookMethod("com.miui.home.launcher.DeviceConfig", "isUseDefaultIconFolderLarge", new IMethodHook() {
+            findAndHookMethod(mDeviceConfig, "isUseDefaultIconFolderLarge", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(true);
