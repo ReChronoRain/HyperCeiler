@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.i
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ComponentName;
@@ -163,6 +164,9 @@ public class FreeformShortcutMenu extends BaseHook {
                 if (titleStr.contentEquals(modRes.getString(R.string.new_task))) {
                     return createFreeformClickListener(shortcut, true);
                 }
+                if (titleStr.contentEquals(modRes.getString(R.string.system_notifrowmenu_forceclose))) {
+                    return createForceStopClickListener(shortcut);
+                }
                 return chain.proceed();
             }
         });
@@ -223,6 +227,14 @@ public class FreeformShortcutMenu extends BaseHook {
             }
         }
 
+        if (PrefsBridge.getBoolean("home_other_force_stop_shortcut_menu")) {
+            Object forceStop = createShortcutItem(
+                R.string.system_notifrowmenu_forceclose, "ic_forceclose12");
+            if (forceStop != null) {
+                newItems.add(forceStop);
+            }
+        }
+
         if (existingItems != null) {
             newItems.addAll(existingItems);
         }
@@ -271,6 +283,29 @@ public class FreeformShortcutMenu extends BaseHook {
                 }
             } catch (Throwable t) {
                 XposedLog.e(TAG, getPackageName(), "startFreeform failed", t);
+            }
+        };
+    }
+
+    private View.OnClickListener createForceStopClickListener(Object shortcut) {
+        return view -> {
+            try {
+                ComponentName component = (ComponentName) callMethod(shortcut, "getComponentName");
+                if (component == null) {
+                    return;
+                }
+                String packageName = component.getPackageName();
+                if (packageName == null || packageName.isEmpty()) {
+                    return;
+                }
+                android.app.ActivityManager am = (android.app.ActivityManager)
+                    view.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                callMethod(am, "forceStopPackage", packageName);
+                if (view.getContext() instanceof Activity) {
+                    ((Activity) view.getContext()).onBackPressed();
+                }
+            } catch (Throwable t) {
+                XposedLog.e(TAG, getPackageName(), "forceStopApp failed", t);
             }
         };
     }
