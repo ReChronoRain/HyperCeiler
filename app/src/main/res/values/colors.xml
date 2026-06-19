@@ -55,4 +55,8 @@
     <color name="log_level_badge_text_debug">#1565C0</color>
     <color name="log_level_badge_text_default">#5F6368</color>
 
+    <color name="textview_black">#FF000000</color>
+    <color name="textview_white">#F1FFFFFF</color>
+    <color name="textview_blue">#0D84FF</color>
+
 </resources>

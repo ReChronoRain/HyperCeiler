@@ -19,18 +19,38 @@
 
 package com.sevtinge.hyperceiler.utils;
 
+import static android.os.Process.killProcess;
+import static android.os.Process.myPid;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getHyperOSVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.getSmallVersion;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.text.Annotation;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.BuildConfig;
+import com.sevtinge.hyperceiler.R;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.expansion.utils.SignUtils;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -50,17 +70,31 @@ public class NoticeProcessor {
     /**
      * Main entry point, used to check whether the display conditions are met and to package the display results
      */
-    public static NoticeResult process(Context context) {
+    public static NoticeResult process(android.content.Context context) {
         try {
             String json = request(NOTICE_URL);
             AndroidLog.i("NoticeProcessor", "Got notice.");
-            if (json == null || json.isEmpty()) return null;
+            if (json == null || json.isEmpty()) return new NoticeResult(
+                null,
+                null,
+                -100,
+                -100,
+                -100,
+                -100
+            );
 
             Notice notice = parseNotice(new JSONObject(json));
 
             // Display conditions
             if (!checkNoticeValid(notice, context)) {
-                return null;
+                return new NoticeResult(
+                    null,
+                    null,
+                    -100,
+                    -100,
+                    notice.protocolVersion,
+                    notice.privacyVersion
+                );
             }
 
             AndroidLog.i("NoticeProcessor", "Notice is valid. Show notice.");
@@ -70,7 +104,9 @@ public class NoticeProcessor {
                 notice.title,
                 notice.content,
                 notice.confirmDelaySeconds,
-                notice.id
+                notice.id,
+                notice.protocolVersion,
+                notice.privacyVersion
             );
 
         } catch (Throwable t) {
@@ -139,6 +175,9 @@ public class NoticeProcessor {
         n.miuiSmallVersion = toFloatList(obj.optJSONArray("miuiSmallVersion"));
         n.lang = toStringList(obj.optJSONArray("lang"));
 
+        n.protocolVersion = obj.optInt("protocolVersion", -1);
+        n.privacyVersion = obj.optInt("privacyVersion", -1);
+
         AndroidLog.i("NoticeProcessor", "NoticeId = " + n.id);
 
         return n;
@@ -153,8 +192,8 @@ public class NoticeProcessor {
         if (!n.alwaysShow && n.id == PrefsBridge.getInt("prefs_key_notice_id", 0)) return false;
 
         // Time window
-        if (n.startTime > 0 && now < n.startTime) return false;
-        if (n.endTime > 0 && now > n.endTime) return false;
+        if (n.startTime > 0 && now < n.startTime && n.startTime != -1L) return false;
+        if (n.endTime > 0 && now > n.endTime && n.endTime != -1L) return false;
 
         // App version
         int versionCode = BuildConfig.VERSION_CODE;
@@ -189,6 +228,13 @@ public class NoticeProcessor {
 
         // Is need sign check
         return !n.signCheckPassNeed || SignUtils.isSignCheckPass(context);
+    }
+
+    public static boolean isNeedShowTosDialog(NoticeProcessor.NoticeResult result){
+        if (result == null) return false;
+        if (result.protocolVersion == -1 || result.privacyVersion == -1) return false;
+        if (PrefsBridge.getInt("prefs_key_protocol_version", -1) >= result.protocolVersion && PrefsBridge.getInt("prefs_key_privacy_version", -1) >= result.privacyVersion) return false;
+        return true;
     }
 
     private static boolean matchStringList(List<String> list, String value) {
@@ -308,9 +354,84 @@ public class NoticeProcessor {
         public List<String> lang;
 
         public boolean signCheckPassNeed;
+
+        public int protocolVersion;
+        public int privacyVersion;
     }
 
-    public record NoticeResult(String title, String content, int confirmDelaySeconds, int id) {
+    public record NoticeResult(String title, String content, int confirmDelaySeconds, int id, int protocolVersion, int privacyVersion) {
+    }
+
+    public static void showTosDialog(Context context, NoticeProcessor.NoticeResult result) {
+        if (result == null) return;
+
+        int textColor = ContextCompat.getColor(context, R.color.textview_black);
+        int linkColor = ContextCompat.getColor(context, R.color.textview_blue);
+
+        CharSequence raw = context.getText(R.string.tos_update_desc);
+        SpannableString ss = new SpannableString(raw);
+
+        ss.setSpan(new ForegroundColorSpan(textColor), 0, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        Annotation[] anns = ss.getSpans(0, ss.length(), Annotation.class);
+        for (Annotation an : anns) {
+            int start = ss.getSpanStart(an);
+            int end = ss.getSpanEnd(an);
+            String key = an.getValue(); // "protocol" or "privacy"
+            ss.removeSpan(an);
+
+            ClickableSpan span;
+            if ("protocol".equals(key)) {
+                span = new ClickableSpan() {
+                    @Override
+                    public void onClick(@NonNull View widget) {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Protocol")));
+                    }
+                    @Override
+                    public void updateDrawState(@NonNull TextPaint ds) {
+                        ds.setColor(linkColor);
+                        ds.setUnderlineText(true);
+                    }
+                };
+            } else if ("privacy".equals(key)) {
+                span = new ClickableSpan() {
+                    @Override public void onClick(@NonNull View widget) {
+                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://hyperceiler.sevtinge.com/Privacy")));
+                    }
+                    @Override public void updateDrawState(@NonNull TextPaint ds) {
+                        ds.setColor(linkColor);
+                        ds.setUnderlineText(true);
+                    }
+                };
+            } else {
+                continue;
+            }
+            ss.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        TextView msgView = new TextView(context);
+        msgView.setText(ss);
+        msgView.setMovementMethod(LinkMovementMethod.getInstance());
+        msgView.setPadding(dp2px(context, 24), dp2px(context, 12), dp2px(context, 24), dp2px(context, 24));
+        msgView.setTextSize(16);
+
+        AlertDialog dialog = new AlertDialog.Builder(context)
+            .setCancelable(false)
+            .setTitle(R.string.tos_update_title)
+            .setView(msgView)
+            .setPositiveButton(com.sevtinge.hyperceiler.core.R.string.new_cta_app_all_purpose_agree, (d, which) -> {
+                PrefsBridge.putByApp("prefs_key_protocol_version", result.protocolVersion);
+                PrefsBridge.putByApp("prefs_key_privacy_version", result.privacyVersion);
+            })
+            .setNegativeButton(com.sevtinge.hyperceiler.core.R.string.new_cta_app_all_purpose_reject, (d, which) -> {
+                if (context instanceof Activity) {
+                    ((Activity) context).finishAffinity();
+                    killProcess(myPid());
+                }
+            })
+            .create();
+
+        dialog.show();
     }
 
     public static void showNoticeDialog(Context context, NoticeProcessor.NoticeResult result) {

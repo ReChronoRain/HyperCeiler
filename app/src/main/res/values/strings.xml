@@ -197,4 +197,7 @@
     <!-- Log Viewer -->
     <string name="log_loading">Log loading…</string>
     <string name="log_viewer">Log viewer</string>
+
+    <string name="tos_update_title">User Agreement and Privacy Policy</string>
+    <string name="tos_update_desc">We updated our User Agreement and/or Privacy Policy these days. Please check them.\nBy continuing to use HyperCeiler, you agree to our <annotation key="protocol">User Agreement</annotation> and <annotation key="privacy">Privacy Policy</annotation>.</string>
 </resources>

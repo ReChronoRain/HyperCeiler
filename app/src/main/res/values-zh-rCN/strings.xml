@@ -184,4 +184,7 @@
     <!-- Log Viewer -->
     <string name="log_loading">日志加载中…</string>
     <string name="log_viewer">查看日志</string>
+
+    <string name="tos_update_title">《用户协议》与《隐私政策》</string>
+    <string name="tos_update_desc">我们于近期更新了《用户协议》和/或《隐私政策》，请及时查看。\n继续使用 HyperCeiler 即代表您同意我们的<annotation key="protocol">《用户协议》</annotation> 及<annotation key="privacy">《隐私政策》</annotation>。</string>
 </resources>

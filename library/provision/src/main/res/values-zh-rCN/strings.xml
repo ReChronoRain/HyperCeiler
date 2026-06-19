@@ -29,6 +29,7 @@
     <string name="provision_terms_of_use_verification_code_dialog_title">请输入验证码</string>
     <string name="provision_terms_of_use_verification_code_dialog_desc">您可以在《用户协议》或《隐私政策》中找到</string>
     <string name="provision_terms_of_use_verification_code_dialog_continue">继续</string>
+    <string name="provision_terms_of_use_processing">正在同步内容…</string>
     <string name="provision_basic_settings_hide_app_icon">桌面图标</string>
     <string name="provision_basic_settings_category_app">应用</string>
     <string name="provision_basic_settings_category_scope">作用域</string>
