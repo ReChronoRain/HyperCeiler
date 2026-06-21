@@ -209,8 +209,9 @@ public class UiLockApp extends BaseHook {
     }
 
     private void registerGestureHandleView(View view) {
+        if (view == null) return;
         for (WeakReference<View> reference : mGestureHandleViews) {
-            if (reference.get() == view) return;
+            if (view.equals(reference.get())) return;
         }
         mGestureHandleViews.add(new WeakReference<>(view));
         Context context = view.getContext();
@@ -244,7 +245,7 @@ public class UiLockApp extends BaseHook {
     private void registerNavigationBar(Object navigationBar) {
         if (navigationBar == null) return;
         for (WeakReference<Object> reference : mNavigationBars) {
-            if (reference.get() == navigationBar) return;
+            if (navigationBar.equals(reference.get())) return;
         }
         mNavigationBars.add(new WeakReference<>(navigationBar));
     }
@@ -266,7 +267,7 @@ public class UiLockApp extends BaseHook {
     private void registerTaskbarDelegate(Object taskbarDelegate) {
         if (taskbarDelegate == null) return;
         for (WeakReference<Object> reference : mTaskbarDelegates) {
-            if (reference.get() == taskbarDelegate) return;
+            if (taskbarDelegate.equals(reference.get())) return;
         }
         mTaskbarDelegates.add(new WeakReference<>(taskbarDelegate));
         Context context = resolveContext(taskbarDelegate);
@@ -299,6 +300,14 @@ public class UiLockApp extends BaseHook {
         Class<?> decorClass = findClassIfExists(className);
         if (decorClass == null) return;
 
+        hookWindowDecorationConstructor(decorClass);
+        hookWindowDecorationShouldHideCaption(decorClass);
+        hookWindowDecorationRelayout(decorClass);
+        hookWindowDecorationUpdateVisibility(decorClass);
+        hookWindowDecorationPointInView(decorClass);
+    }
+
+    private void hookWindowDecorationConstructor(Class<?> decorClass) {
         chainAllConstructors(decorClass, new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
@@ -307,8 +316,9 @@ public class UiLockApp extends BaseHook {
                 return result;
             }
         });
+    }
 
-        // 强行修正 shouldHideCaption
+    private void hookWindowDecorationShouldHideCaption(Class<?> decorClass) {
         chainAllMethods(decorClass, "shouldHideCaption", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
@@ -319,25 +329,26 @@ public class UiLockApp extends BaseHook {
                 return chain.proceed();
             }
         });
+    }
 
-        // 核心：Hook relayout 确保每次布局刷新时强制应用隐藏状态
+    private void hookWindowDecorationRelayout(Class<?> decorClass) {
         chainAllMethods(decorClass, "relayout", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
                 if (context != null && getLockApp(context) != -1) {
-                    // 强行修改实例变量，确保内部判定一致
                     setObjectField(chain.getThisObject(), "mCaptionVisible", false);
                 }
                 return chain.proceed();
             }
         });
+    }
 
-        // 强制隐藏 Surface
+    private void hookWindowDecorationUpdateVisibility(Class<?> decorClass) {
         chainAllMethods(decorClass, "updateVisibility", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (chain.getArgs().size() >= 1 && chain.getArgs().get(0) instanceof Boolean) {
+                if (!chain.getArgs().isEmpty() && chain.getArgs().get(0) instanceof Boolean) {
                     Context context = (Context) getObjectField(chain.getThisObject(), "mContext");
                     if (context != null && getLockApp(context) != -1) {
                         Object[] args = chain.getArgs().toArray();
@@ -348,8 +359,9 @@ public class UiLockApp extends BaseHook {
                 return chain.proceed();
             }
         });
+    }
 
-        // 拦截点击判定，防止触发拖拽
+    private void hookWindowDecorationPointInView(Class<?> decorClass) {
         chainAllMethods(decorClass, "pointInView", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
@@ -365,7 +377,7 @@ public class UiLockApp extends BaseHook {
     private void registerWindowDecoration(Object decor) {
         if (decor == null) return;
         for (WeakReference<Object> reference : mWindowDecorations) {
-            if (reference.get() == decor) return;
+            if (decor.equals(reference.get())) return;
         }
         mWindowDecorations.add(new WeakReference<>(decor));
     }
@@ -374,21 +386,27 @@ public class UiLockApp extends BaseHook {
         Class<?> dotViewClass = findClassIfExists(className);
         if (dotViewClass == null) return;
 
-        // 核心：强制设置不可见状态，使其不参与触控分发（解决游戏死区问题）
+        hookDotViewVisibility(dotViewClass);
+        hookDotViewOnAttached(dotViewClass);
+        hookDotViewOnDraw(dotViewClass);
+    }
+
+    private void hookDotViewVisibility(Class<?> dotViewClass) {
         chainAllMethods(dotViewClass, "setVisibility", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 View view = (View) chain.getThisObject();
                 if (getLockApp(view.getContext()) != -1) {
                     Object[] args = chain.getArgs().toArray();
-                    args[0] = View.GONE; // 强制设为 GONE
+                    args[0] = View.GONE;
                     return chain.proceed(args);
                 }
                 return chain.proceed();
             }
         });
+    }
 
-        // 辅助：当 View 被添加到窗口时立即检查状态
+    private void hookDotViewOnAttached(Class<?> dotViewClass) {
         chainAllMethods(dotViewClass, "onAttachedToWindow", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
@@ -399,7 +417,9 @@ public class UiLockApp extends BaseHook {
                 return chain.proceed();
             }
         });
+    }
 
+    private void hookDotViewOnDraw(Class<?> dotViewClass) {
         chainAllMethods(dotViewClass, "onDraw", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
@@ -460,28 +480,36 @@ public class UiLockApp extends BaseHook {
                 continue;
             }
             if (isLocked) {
-                if (!mHandleVisibilityBackup.containsKey(handleView)) {
-                    mHandleVisibilityBackup.put(handleView, handleView.getVisibility());
-                }
-                if (!mHandleAlphaBackup.containsKey(handleView)) {
-                    mHandleAlphaBackup.put(handleView, handleView.getAlpha());
-                }
-                if (handleView.getVisibility() != View.GONE) {
-                    handleView.setVisibility(View.GONE);
-                }
-                if (handleView.getAlpha() != 0f) {
-                    handleView.setAlpha(0f);
-                }
+                applyLockedGestureHandle(handleView);
             } else {
-                Float oldAlpha = mHandleAlphaBackup.remove(handleView);
-                if (oldAlpha != null && handleView.getAlpha() != oldAlpha) {
-                    handleView.setAlpha(oldAlpha);
-                }
-                Integer oldVisibility = mHandleVisibilityBackup.remove(handleView);
-                if (oldVisibility != null && handleView.getVisibility() != oldVisibility) {
-                    handleView.setVisibility(oldVisibility);
-                }
+                restoreGestureHandle(handleView);
             }
+        }
+    }
+
+    private void applyLockedGestureHandle(View handleView) {
+        if (!mHandleVisibilityBackup.containsKey(handleView)) {
+            mHandleVisibilityBackup.put(handleView, handleView.getVisibility());
+        }
+        if (!mHandleAlphaBackup.containsKey(handleView)) {
+            mHandleAlphaBackup.put(handleView, handleView.getAlpha());
+        }
+        if (handleView.getVisibility() != View.GONE) {
+            handleView.setVisibility(View.GONE);
+        }
+        if (handleView.getAlpha() != 0f) {
+            handleView.setAlpha(0f);
+        }
+    }
+
+    private void restoreGestureHandle(View handleView) {
+        Float oldAlpha = mHandleAlphaBackup.remove(handleView);
+        if (oldAlpha != null && handleView.getAlpha() != oldAlpha) {
+            handleView.setAlpha(oldAlpha);
+        }
+        Integer oldVisibility = mHandleVisibilityBackup.remove(handleView);
+        if (oldVisibility != null && handleView.getVisibility() != oldVisibility) {
+            handleView.setVisibility(oldVisibility);
         }
     }
 
@@ -568,25 +596,29 @@ public class UiLockApp extends BaseHook {
                 iterator.remove();
                 continue;
             }
-            try {
-                setObjectField(navigationBar, "mTransientShown", false);
-            } catch (Throwable ignored) {
-            }
-            try {
-                setObjectField(navigationBar, "mTransientShownFromGestureOnSystemBar", false);
-            } catch (Throwable ignored) {
-            }
-            try {
-                Object edgeBack = getObjectField(navigationBar, "mEdgeBackGestureHandler");
-                if (edgeBack != null) {
-                    setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
-                }
-            } catch (Throwable ignored) {
-            }
+            resetNavigationFields(navigationBar);
             try {
                 callMethod(navigationBar, "updateSystemUiStateFlags");
             } catch (Throwable ignored) {
             }
+        }
+    }
+
+    private void resetNavigationFields(Object navigationBar) {
+        try {
+            setObjectField(navigationBar, "mTransientShown", false);
+        } catch (Throwable ignored) {
+        }
+        try {
+            setObjectField(navigationBar, "mTransientShownFromGestureOnSystemBar", false);
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object edgeBack = getObjectField(navigationBar, "mEdgeBackGestureHandler");
+            if (edgeBack != null) {
+                setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
+            }
+        } catch (Throwable ignored) {
         }
     }
 
@@ -598,21 +630,25 @@ public class UiLockApp extends BaseHook {
                 iterator.remove();
                 continue;
             }
-            try {
-                setObjectField(taskbarDelegate, "mTaskbarTransientShowing", false);
-            } catch (Throwable ignored) {
-            }
-            try {
-                Object edgeBack = getObjectField(taskbarDelegate, "mEdgeBackGestureHandler");
-                if (edgeBack != null) {
-                    setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
-                }
-            } catch (Throwable ignored) {
-            }
+            resetTaskbarFields(taskbarDelegate);
             try {
                 callMethod(taskbarDelegate, "updateSysuiFlags");
             } catch (Throwable ignored) {
             }
+        }
+    }
+
+    private void resetTaskbarFields(Object taskbarDelegate) {
+        try {
+            setObjectField(taskbarDelegate, "mTaskbarTransientShowing", false);
+        } catch (Throwable ignored) {
+        }
+        try {
+            Object edgeBack = getObjectField(taskbarDelegate, "mEdgeBackGestureHandler");
+            if (edgeBack != null) {
+                setObjectField(edgeBack, "mIsNavBarShownTransiently", false);
+            }
+        } catch (Throwable ignored) {
         }
     }
 
@@ -623,26 +659,31 @@ public class UiLockApp extends BaseHook {
             Class<?> commandQueueClass = findClassIfExists("com.android.systemui.statusbar.CommandQueue");
             if (dependencyClass == null || commandQueueClass == null) return;
 
-            Object commandQueue = null;
-            try {
-                Object dependency = getStaticObjectField(dependencyClass, "sDependency");
-                if (dependency != null) {
-                    commandQueue = callMethod(dependency, "getDependencyInner", commandQueueClass);
-                }
-            } catch (Throwable ignored) {
-            }
-            if (commandQueue == null) {
-                try {
-                    commandQueue = callStaticMethod(dependencyClass, "get", commandQueueClass);
-                } catch (Throwable ignored) {
-                }
-            }
+            Object commandQueue = getCommandQueue(dependencyClass, commandQueueClass);
             if (commandQueue == null) return;
 
             int displayId = resolveDisplayId(context);
             callMethod(commandQueue, "recomputeDisableFlags", displayId, true);
         } catch (Throwable ignored) {
         }
+    }
+
+    private Object getCommandQueue(Class<?> dependencyClass, Class<?> commandQueueClass) {
+        Object commandQueue = null;
+        try {
+            Object dependency = getStaticObjectField(dependencyClass, "sDependency");
+            if (dependency != null) {
+                commandQueue = callMethod(dependency, "getDependencyInner", commandQueueClass);
+            }
+        } catch (Throwable ignored) {
+        }
+        if (commandQueue == null) {
+            try {
+                commandQueue = callStaticMethod(dependencyClass, "get", commandQueueClass);
+            } catch (Throwable ignored) {
+            }
+        }
+        return commandQueue;
     }
 
     private int resolveDisplayId(Context context) {
@@ -664,16 +705,10 @@ public class UiLockApp extends BaseHook {
         if (target instanceof Context) return (Context) target;
         if (target instanceof View) return ((View) target).getContext();
         if (target == null) return null;
-        try {
-            Object context = getObjectField(target, "mContext");
-            if (context instanceof Context) return (Context) context;
-        } catch (Throwable ignored) {
-        }
-        try {
-            Object context = getObjectField(target, "context");
-            if (context instanceof Context) return (Context) context;
-        } catch (Throwable ignored) {
-        }
+        Context context = tryGetContextField(target, "mContext");
+        if (context != null) return context;
+        context = tryGetContextField(target, "context");
+        if (context != null) return context;
         try {
             Object outer = getObjectField(target, "this$0");
             if (outer != null && outer != target) {
@@ -684,10 +719,18 @@ public class UiLockApp extends BaseHook {
         return null;
     }
 
+    private Context tryGetContextField(Object target, String fieldName) {
+        try {
+            Object context = getObjectField(target, fieldName);
+            if (context instanceof Context) return (Context) context;
+        } catch (Throwable ignored) {
+        }
+        return null;
+    }
+
     public static int getLockApp(Context context) {
         try {
-            int value = Settings.Global.getInt(context.getContentResolver(), SETTING_KEY_LOCK_APP);
-            return value;
+            return Settings.Global.getInt(context.getContentResolver(), SETTING_KEY_LOCK_APP);
         } catch (Settings.SettingNotFoundException e) {
         }
         return -1;
