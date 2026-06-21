@@ -37,7 +37,7 @@ import io.github.libxposed.api.XposedInterface;
  * @author 焕晨HChen
  */
 public class SystemLockApp extends BaseHook {
-    private static final long POWER_HOLD_EXIT_MS = 3000L;
+    private static final long POWER_HOLD_EXIT_MS = 1000L;
     private static final long SUPPRESS_POWER_MENU_AFTER_EXIT_MS = 1500L;
     private static final long TRANSIENT_BLOCK_LOG_INTERVAL_MS = 1200L;
 
