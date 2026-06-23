@@ -64,6 +64,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.KeepNotificati
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.LockScreenDoubleTapToSleep;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.NotificationShowOnKeyguard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.ScramblePIN;
+import com.sevtinge.hyperceiler.libhook.rules.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.RotationButtonB;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.AutoSEffSwitchForSystemUi;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.BrightnessPct;
@@ -168,6 +169,7 @@ public class SystemUIB extends BaseLoad {
         initHook(HideStrongToast.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));
 
         // 导航栏
+        initHook(new HideNavigationBar(), PrefsBridge.getBoolean("system_ui_hide_navigation_bar"));
         initHook(RotationButtonB.INSTANCE, PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 0);
 
         // 控制与通知中心

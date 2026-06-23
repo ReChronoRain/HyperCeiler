@@ -44,4 +44,8 @@
     <string name="happy_birthday_hyperceiler">今日无事可做？\n 你可以选择为 HyperCeiler 点一支蜡烛并祝 HyperCeiler 生日快乐！</string>
     <!--System UI-->
     <string name="system_ui">进程\"System UI\"</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">重启</string>
+    <string name="navigation_restart_confirm_message">要立即重启%1$s和%2$s吗？</string>
+    <string name="navigation_restart_confirm_ok">立即重启</string>
 </resources>
