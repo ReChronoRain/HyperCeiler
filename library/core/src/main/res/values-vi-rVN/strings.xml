@@ -91,4 +91,8 @@
     <string name="search_apps_hint">Tìm kiếm %d ứng dụng</string>
     <string name="load_apps_failed">Không tải được danh sách ứng dụng</string>
     <string name="search_result_not_available">Tính năng này có thể không được hỗ trợ trên thiết bị này hoặc có thể bị ẩn trong một số tùy chọn</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Khởi động lại</string>
+    <string name="navigation_restart_confirm_message">Bạn có muốn khởi động lại %1$s và %2$s ngay bây giờ không?</string>
+    <string name="navigation_restart_confirm_ok">Khởi động lại ngay</string>
 </resources>

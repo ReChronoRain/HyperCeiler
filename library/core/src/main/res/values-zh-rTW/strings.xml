@@ -90,4 +90,8 @@
     <string name="unsupported_func_tips">當前目標作用域來源可能並不是 Xiaomi 官方，出於安全考量，已停止載入此作用域的所有功能，請嘗試更改為 Xiaomi 官方發布的應用包，或前往「HyperCeiler 設定-開發者選項-除錯模式」指定掛載版本後重試。</string>
     <string name="debug_mode_running">當前目標作用域正處於除錯模式，若無必要開啟請前往關閉。\n當前應用版本：%1$s\n選擇目標版本：%2$s\n是否成功掛鉤：%3$s</string>
     <string name="debug_mode_switch">調試版本</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">重啟</string>
+    <string name="navigation_restart_confirm_message">要立即重啟%1$s和%2$s嗎？</string>
+    <string name="navigation_restart_confirm_ok">立即重啟</string>
 </resources>

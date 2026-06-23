@@ -71,4 +71,8 @@
     <string name="ignore">Ignorar</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Reiniciar</string>
+    <string name="navigation_restart_confirm_message">¿Quieres reiniciar %1$s y %2$s ahora?</string>
+    <string name="navigation_restart_confirm_ok">Reiniciar ahora</string>
 </resources>
