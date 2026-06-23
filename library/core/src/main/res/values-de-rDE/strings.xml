@@ -84,4 +84,8 @@
     <string name="ignore">Ignorieren</string>
     <string name="disable_suggest">Vorschlag deaktivieren</string>
     <string name="enable_suggest">Vorschlag aktivieren</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Neustart</string>
+    <string name="navigation_restart_confirm_message">Möchten Sie %1$s und %2$s jetzt neu starten?</string>
+    <string name="navigation_restart_confirm_ok">Jetzt neu starten</string>
 </resources>

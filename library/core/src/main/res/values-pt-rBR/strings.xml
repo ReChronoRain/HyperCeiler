@@ -87,4 +87,8 @@
     <string name="enable_suggest">Ativar sugestão</string>
     <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Esse módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
     <string name="debug_mode_running">O app de destino está sendo depurado!\nVersão atual do app: %1$s\nVersão de destino selecionada: %2$s\nHook aplicado com sucesso: %3$s</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Reiniciar</string>
+    <string name="navigation_restart_confirm_message">Você quer reiniciar %1$s e %2$s agora?</string>
+    <string name="navigation_restart_confirm_ok">Reiniciar agora</string>
 </resources>

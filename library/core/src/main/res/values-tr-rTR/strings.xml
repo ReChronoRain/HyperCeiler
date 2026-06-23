@@ -85,4 +85,8 @@
     <string name="ignore">Yoksay</string>
     <string name="disable_suggest">Tavsiyeleri devre dışı bırak</string>
     <string name="enable_suggest">Tavsiyeleri etkinleştir</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Yeniden başlat</string>
+    <string name="navigation_restart_confirm_message">%1$s ve %2$s şimdi yeniden başlatmak istiyor musunuz?</string>
+    <string name="navigation_restart_confirm_ok">Şimdi yeniden başlat</string>
 </resources>
