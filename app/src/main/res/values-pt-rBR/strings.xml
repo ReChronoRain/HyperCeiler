@@ -22,7 +22,7 @@
     <string name="revert">Reverter</string>
     <string name="custom_order_title">Personalizado</string>
     <string name="app_version_update">Nova versao disponivel</string>
-    <string name="developer_build">Versao de desenvolvimento</string>
+    <string name="developer_build">DEV</string>
     <string name="device_name">Nome do dispositivo</string>
     <string name="app_device_version_parameters">Versao do SO</string>
     <string name="pull_to_enter_private">Puxe para baixo para entrar no espaço privado</string>
@@ -121,11 +121,11 @@
     <string name="logo_egg3">Não há Android eggs aqui, mas há HyperCeiler eggs!</string>
     <string name="uninstall_title">Desinstalar HyperCeiler</string>
     <string name="uninstall_summary">Apos desinstalar o HyperCeiler, a configuracao do modulo permanece no banco de dados do framework Xposed. Para remove-la completamente, primeiro va para as configuracoes do modulo e redefina a configuracao do modulo, depois desinstale-o.</string>
-    <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Esse módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
+    <string name="unsupported_func_tips">A fonte do escopo de destino atual pode não ser oficial da Xiaomi. Por motivos de segurança, todas as funções para este escopo foram desativadas. Tente usar um pacote de aplicativo fornecido pela Xiaomi ou acesse \"Configurações do HyperCeiler – Opções do desenvolvedor – Modo de depuração\" para especificar a versão instalada e tente novamente.</string>
     <string name="debug_mode">Modo de depuração</string>
     <string name="open_debug_mode_tips">Após ativar o Modo de depuração, você poderá escolher livremente qual versão do app de destino deseja montar. No entanto, caso os hooks dessa versão apresentem problemas, não os reporte aos desenvolvedores.</string>
     <string name="debug_mode_running">O app de destino está sendo depurado!\nVersão atual do app: %1$s\nVersão de destino selecionada: %2$s\nHook aplicado com sucesso: %3$s</string>
-    <string name="debug_mode_switch">Versao de depuracao</string>
+    <string name="debug_mode_switch">Versão de depuração</string>
     <string name="debug_mode_home_version">Definir codigo da versao da tela inicial</string>
     <string name="debug_mode_home_version_desc">Um numero de versao muito alto ainda sera bloqueado, portanto preencha com cuidado.</string>
     <!-- LogViewer -->
@@ -162,4 +162,24 @@
     <!-- Log Viewer -->
     <string name="log_loading">Carregando logs…</string>
     <string name="log_viewer">Visualizador de logs</string>
+    <string name="safe_mode_banner_title">O modo de segurança ativo está habilitado</string>
+    <string name="safe_mode_banner_desc">O recurso HyperCeiler do %1$s foi temporariamente desativado pelo Modo de Segurança Automático após repetidas falhas. Toque para gerenciar.</string>
+    <string name="headtip_warn_framework_service_error">O HyperCeiler não conseguiu ler as informações da estrutura atual do XposedService. Os recursos do módulo foram desativados por segurança. Toque para ver os detalhes.</string>
+    <string name="load_failed">Falha ao carregar.</string>
+    <string name="log_level_general">Registros gerais</string>
+    <string name="log_level_detailed">Registros detalhados</string>
+    <string name="help_framework_warning_title">Compatibilidade com a estrutura atual</string>
+    <string name="help_framework_warning_unknown_framework">Framework atual</string>
+    <string name="help_framework_warning_card_compatible">A estrutura atual atende aos requisitos de tempo de execução do HyperCeiler. Nenhum carregamento anormal de Hooks foi detectado.</string>
+    <string name="help_framework_warning_card_incompatible">A estrutura atual não atende aos requisitos de tempo de execução do HyperCeiler. O carregamento de hooks foi interrompido. Por favor, mude para outra estrutura compatível e tente novamente.</string>
+    <string name="help_framework_warning_card_service_error">Não foi possível ler as informações atuais do framework a partir do XposedService. O carregamento de hooks foi interrompido por segurança. Verifique o status do framework e tente novamente.</string>
+    <string name="help_framework_warning_card_pending">O HyperCeiler ainda não leu as informações atuais do framework do XposedService, portanto, a compatibilidade não pode ser confirmada por enquanto.</string>
+    <string name="help_framework_warning_section_framework_version">Versão atual do framework:</string>
+    <string name="help_framework_warning_section_banner_reason">Por que a página inicial exibe um aviso?</string>
+    <string name="help_framework_warning_banner_reason">O aviso na página inicial só aparece quando o HyperCeiler detecta que a estrutura atual não atende aos requisitos mínimos de tempo de execução ou que o XposedService não consegue retornar as informações da estrutura normalmente. Para evitar instabilidade causada pelo carregamento anormal de Hooks, o HyperCeiler interromperá o carregamento de Hooks imediatamente.</string>
+    <string name="help_framework_warning_version_unavailable">Não foi possível ler as informações da versão atual do framework a partir do XposedService.</string>
+    <string name="log_menu_filter">Filtrar registros</string>
+    <string name="log_empty_no_logs">Ainda não há registros</string>
+    <string name="log_empty_no_results">Nenhum registro correspondente encontrado</string>
+    <string name="log_empty_root_required">Conceda permissão de root e reinicie o aplicativo para carregar os registros</string>
 </resources>

@@ -61,7 +61,7 @@
     <string name="error_file_name">Nome do arquivo</string>
     <string name="error_time">Hora do registro</string>
     <string name="error_version_name">Nome da versão</string>
-    <string name="error_git_hash">Git hash</string>
+    <string name="error_git_hash">Hash do Git</string>
     <string name="error_build_time">Hora da compilação</string>
     <string name="tip_default">Dica: Aqui está a dica padrão. Se você puder me ver, significa que há um problema com o HyperCeiler. Por favor, informe o desenvolvedor de maneira oportuna e eficaz.</string>
     <string name="headtip_tip_auto_safe_mode">O Modo seguro pode desconectar alguns apps a tempo quando eles travam várias vezes para garantir a segurança. Esse recurso requer que o escopo Framework do Sistema seja executado. Recomendamos fortemente verificar o escopo Framework do Sistema para ativar o Modo seguro.</string>
@@ -87,4 +87,11 @@
     <string name="enable_suggest">Ativar sugestão</string>
     <string name="unsupported_func_tips">O app de destino parece ser uma versão modificada. Esse módulo não consegue fornecer serviços de hook para ele. Tente usar uma versão diferente do app ou ative o Modo de depuração e tente novamente.</string>
     <string name="debug_mode_running">O app de destino está sendo depurado!\nVersão atual do app: %1$s\nVersão de destino selecionada: %2$s\nHook aplicado com sucesso: %3$s</string>
+    <string name="unsupported_app_version_func">A versão atual do aplicativo não oferece suporte a esse recurso</string>
+    <string name="supported_app_version_func">A versão atual do aplicativo é compatível com esse recurso</string>
+    <string name="app_version_unavailable_warning_banner">Não foi possível ler a versão do aplicativo. Para garantir a segurança do Hook, todos os recursos deste aplicativo foram desativados.</string>
+    <string name="search_result_not_available">Este recurso pode não ser compatível com este dispositivo ou pode estar oculto em algumas opções</string>
+    <string name="search_apps_hint">Pesquisar %d aplicativos</string>
+    <string name="load_apps_failed">Falha ao carregar a lista de aplicativos</string>
+    <string name="debug_mode_switch">Versão de depuração</string>
 </resources>
