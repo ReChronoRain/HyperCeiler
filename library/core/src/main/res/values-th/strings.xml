@@ -81,9 +81,9 @@
     <string name="debug_mode_switch">เวอร์ชันดีบัก</string>
     <string name="unsupported_app_version_func">แอปเวอร์ชันปัจจุบันไม่รองรับฟีเจอร์นี้</string>
     <string name="supported_app_version_func">แอปเวอร์ชันปัจจุบันรองรับฟีเจอร์นี้แล้ว</string>
-    <string name="app_version_unavailable_warning_banner">ไม่สามารถอ่านเวอร์ชันของแอปได้ เพื่อความปลอดภัยของ Hook ฟีเจอร์ทั้งหมดของแอปนี้จึงถูกปิดใช้งานแล้ว</string>
+    <string name="app_version_unavailable_warning_banner">ไม่สามารถอ่านเวอร์ชันของแอปได้ เพื่อความปลอดภัยของ Hook ระบบจึงปิดใช้งานฟีเจอร์ทั้งหมดของแอปนี้แล้ว</string>
     <string name="search_result_not_available">ฟีเจอร์นี้อาจไม่รองรับบนอุปกรณ์นี้ หรือถูกซ่อนไว้ในตัวเลือกบางส่วน</string>
     <string name="search_apps_hint">ค้นหาแอป %d รายการ</string>
     <string name="load_apps_failed">ไม่สามารถโหลดรายการแอปได้</string>
-    <string name="unsupported_func_tips">แหล่งขอบเขตเป้าหมายปัจจุบันอาจไม่ใช่เวอร์ชันทางการของ Xiaomi เพื่อความปลอดภัย ระบบได้หยุดโหลดฟังก์ชันทั้งหมดของขอบเขตนี้แล้ว กรุณาเปลี่ยนไปใช้แพ็กเกจแอปที่เผยแพร่โดย Xiaomi หรือไปที่ \"การตั้งค่า HyperCeiler - ตัวเลือกนักพัฒนา - โหมดดีบัก\" เพื่อกำหนดเวอร์ชันที่เมานต์แล้วลองอีกครั้ง</string>
+    <string name="unsupported_func_tips">แหล่งขอบเขตเป้าหมายปัจจุบันอาจไม่ใช่เวอร์ชันทางการของ Xiaomi เพื่อความปลอดภัย ระบบได้ปิดใช้งานฟังก์ชันทั้งหมดของขอบเขตนี้แล้ว กรุณาเปลี่ยนไปใช้แพ็กเกจแอปจาก Xiaomi หรือไปที่ \"การตั้งค่า HyperCeiler - ตัวเลือกนักพัฒนา - โหมดดีบัก\" เพื่อระบุเวอร์ชันที่เมานต์แล้วลองอีกครั้ง</string>
 </resources>
