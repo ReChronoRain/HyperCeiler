@@ -18,4 +18,8 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
     <string name="system_ui_statusbar_music_notification">เนื้อเพลงแจ้งเตือนโฟกัส</string>
+    <string name="xposed_description">คืนความยิ่งใหญ่ให้ HyperOS!</string>
+    <string name="floating_window">หน้าต่างลอย</string>
+    <string name="tiles_gms">บริการ Google Play</string>
+    <string name="tiles_snow_leopard_mode">โหมด S-Leo</string>
 </resources>
