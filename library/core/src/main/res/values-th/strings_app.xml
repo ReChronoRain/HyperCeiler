@@ -17,4 +17,32 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    </resources>
+    <string name="new_permission_wifi_state_desc">ใช้สำหรับเพิ่มและลบไฟล์ในที่จัดเก็บข้อมูลภายในของอุปกรณ์</string>
+    <string name="new_permission_location_desc">ใช้เพื่อให้บริการต่าง ๆ เช่นพิกัดละติจูดและลองจิจูด</string>
+    <string name="new_cta_agree_desc">ในระหว่างการใช้งาน เพื่อให้สามารถมอบฟีเจอร์เพิ่มเติมแก่คุณ เราอาจขอสิทธิ์ Root/Su จากคุณได้ คุณสามารถไปที่การจัดการสิทธิ์ได้ตลอดเวลาเพื่อปรับสถานะการอนุญาตของสิทธิ์ทั้งหมด และสำหรับสิทธิ์ Root โปรดไปที่ตัวจัดการ Root ของคุณเพื่อจัดการ</string>
+    <string name="new_cta_app_main_purpose">แก้ไขแอประบบ</string>
+    <string name="new_cta_app_all_purpose_welcome">ข้อตกลงผู้ใช้และนโยบายความเป็นส่วนตัว</string>
+    <string name="new_cta_app_all_purpose_title">ยินดีต้อนรับสู่ HyperCeiler! แอปนี้อาศัยเฟรมเวิร์ก Xposed ในการทำงาน คุณสามารถใช้แอปนี้เพื่อดักจับและแก้ไขแอปอื่นที่รองรับ เพื่อเพิ่มความสามารถของระบบ ในระหว่างการใช้งาน เพื่อมอบฟีเจอร์เพิ่มเติมแก่คุณ เราอาจขอสิทธิ์ Root จากคุณได้ คุณสามารถจัดการได้ตลอดเวลาผ่านตัวจัดการ Root ของคุณการใช้งาน HyperCeiler ต่อไปถือว่าคุณยอมรับ<annotation key="protocol">ข้อตกลงผู้ใช้</annotation> และ<annotation key="privacy">นโยบายความเป็นส่วนตัว</annotation>ของเรา</string>
+    <string name="new_cta_app_all_purpose_agree">ยอมรับและดำเนินการต่อ</string>
+    <string name="new_cta_app_all_purpose_reject">ปฏิเสธและออก</string>
+    <string name="language">ภาษาไทย</string>
+    <string name="translator">HyperCeiler อย่างเป็นทางการ</string>
+    <string name="translator_url">https://github.com/ReChronoRain</string>
+    <string name="home">หน้าหลัก</string>
+    <string name="help">ช่วยเหลือ</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="about">เกี่ยวกับ</string>
+    <string name="about_use">อ้างอิง</string>
+    <string name="about_use_desc">HyperCeiler ใช้โปรเจกต์บางส่วนหรือทั้งหมดดังต่อไปนี้ ขอขอบคุณนักพัฒนาของโปรเจกต์เหล่านี้สำหรับการสนับสนุน (ไม่ได้เรียงลำดับ)</string>
+    <string name="about_contributer">ผู้มีส่วนร่วม</string>
+    <string name="about_contributer_desc">ขอขอบคุณผู้มีส่วนร่วมต่อไปนี้สำหรับความช่วยเหลือในการพัฒนา HyperCeiler (ไม่ได้เรียงลำดับ)</string>
+    <string name="about_donation">ผู้สนับสนุน</string>
+    <string name="about_donation_desc">คุณสามารถสนับสนุนเราได้โดยการบริจาคที่นี่</string>
+    <string name="about_device_info_device">อุปกรณ์</string>
+    <string name="about_device_info_android">เวอร์ชัน Android</string>
+    <string name="about_device_info_os">เวอร์ชันระบบปฏิบัติการ</string>
+    <string name="hyperceiler_notice">ลากแถบสถานะลงเพื่อแสดงสวิตช์ลัดและการแจ้งเตือนของระบบ</string>
+    <string name="debug_info">ไม่สามารถรับข้อมูลการดีบักได้</string>
+    <string name="delete_all_dexkit_cache_desc">คุณแน่ใจหรือไม่ว่าต้องการล้างแคช DexKit ทั้งหมด?</string>
+    <string name="delete_all_dexkit_cache_success">delete_all_dexkit_cache_success \n英语\nSuccessfully cleared all DexKit cache\n泰语</string>
+</resources>
