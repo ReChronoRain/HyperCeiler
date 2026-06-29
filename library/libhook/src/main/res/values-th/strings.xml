@@ -17,4 +17,5 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    </resources>
+    <string name="system_ui_statusbar_music_notification">เนื้อเพลงแจ้งเตือนโฟกัส</string>
+</resources>
