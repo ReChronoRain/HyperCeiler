@@ -1498,14 +1498,14 @@
     <string name="various_dialog_title">ダイアログ</string>
     <string name="various_mipad_title">MiPad</string>
     <string name="various_open_aosp_something_title">隠しオプション</string>
-    <string name="various_open_aosp_something_desc">隠された AOSP インターフェースを開きます</string>
+    <string name="various_open_aosp_something_desc">デフォルトでは非表示になっている機能にアクセスします</string>
     <string name="various_nobrightness">明るさの強制を拒否</string>
     <string name="various_no_overscroll">範囲外のバウンスを無効化</string>
     <string name="various_disable_access_device_logs">デバイスログへのアクセス要求ダイアログを無効化</string>
     <string name="various_phrase_clipboardlist">クリップボードの数と時間の制限を削除</string>
     <string name="various_phrase_clipboardlist_more">有効にした後、対応する入力方式のスコープを選択して再起動してください。</string>
-    <string name="various_unlock_ime">IME をアンロック</string>
-    <string name="various_unlock_ime_desc">オンにした後、LSPosed マネージャーでキーボードアプリをスコープに追加してください。</string>
+    <string name="various_unlock_ime">IME の全画面表示の最適化を有効化</string>
+    <string name="various_unlock_ime_desc">対象の入力方法で、選択したスタイルに対して全画面表示の最適化を有効にします\nネイティブスタイルでは、システムフレームワークのスコープを追加でチェックする必要があります\nネイティブスタイルの選択は、Xiaomi 以外のカスタムバージョンにのみ適用されます。Xiaomi カスタムバージョンで対象の入力方式をスコープに入れると、そのキーボードが切り替え可能なリストに追加されます</string>
     <string name="various_collapse_miui_title">システムタイトルのスタイル</string>
     <string name="various_collapse_miui_title_desc">システムアプリのトップバーのタイトルを調整します</string>
     <string name="various_disable_folder_cantuse">利用できないフォルダの制限を無効化</string>
@@ -1650,4 +1650,11 @@
     <string name="scope_batch_service_unavailable">LSPosed サービスが利用できません。</string>
     <string name="scope_batch_remove_failed">スコープを削除できませんでした。</string>
     <string name="scope_batch_updated">スコープが更新されました。</string>
+    <string name="various_unlock_ime_apps">対象の入力方式</string>
+    <string name="system_framework_native_file_picker">Android のファイルピッカーを使用</string>
+    <string name="system_framework_native_file_picker_desc">HyperOS のファイルマネージャーは使用されなくなります</string>
+    <string name="system_ui_status_bar_mobile_title">モバイルネットワーク</string>
+    <string name="system_ui_statusbar_focus_notif_title">フォーカス通知</string>
+    <string name="system_ui_statusbar_island_title">HyperIsland</string>
+    <string name="system_ui_statusbar_island_media_card_title">メディアカード</string>
 </resources>

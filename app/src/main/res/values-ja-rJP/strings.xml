@@ -23,7 +23,7 @@
     <string name="custom_order_title">カスタマイズ</string>
     <string name="app_version_update">新しいバージョンのアプリがあります</string>
     <string name="developer_build">開発版</string>
-    <string name="device_name">デバイス名</string>
+    <string name="device_name">端末名</string>
     <string name="app_device_version_parameters">OS バージョン</string>
     <string name="pull_to_enter_private">プルダウンでプライベートスペースに入る</string>
     <string name="release_enter_private">離すとプライベートスペースに入ります</string>
@@ -140,7 +140,7 @@
     <string name="log_menu_export">ログをエクスポート</string>
     <string name="log_menu_share">ログを共有</string>
     <string name="log_clear_title">ログを消去</string>
-    <string name="log_clear_all_message">アプリログと Xposed ログを含むすべてのログを消去してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="log_clear_all_message">アプリログ、同期された Xposed ログデータベース、クラッシュログを含むすべてのログを消去してもよろしいですか？Xposed のソースログは、次回アプリ起動時に再度同期されます。</string>
     <string name="log_clear_success">ログを消去しました</string>
     <string name="log_clear_failed">ログの消去に失敗しました</string>
     <string name="log_clear_in_progress">ログを消去中…</string>
@@ -163,4 +163,23 @@
     <string name="log_loading">ログを読み込み中…</string>
     <string name="log_viewer">ログビューア</string>
     <string name="safe_mode_banner_title">セーフモードが有効になっています</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler は XposedService から現在のフレームワーク情報を読み取ることができませんでした。安全のため、モジュールの機能が無効になっています。タップして詳細を確認してください。</string>
+    <string name="load_failed">ロードに失敗しました。</string>
+    <string name="log_level_general">一般ログ</string>
+    <string name="log_level_detailed">詳細ログ</string>
+    <string name="help_framework_warning_title">現在のフレームワークとの互換性</string>
+    <string name="help_framework_warning_unknown_framework">現在のフレームワーク</string>
+    <string name="help_framework_warning_card_compatible">現在のフレームワークは HyperCeiler の動作要件を満たしています。異常なフックの読み込みは検出されていません。</string>
+    <string name="help_framework_warning_card_incompatible">現在のフレームワークは HyperCeiler の動作要件を満たしていません。フックの読み込みが停止されました。互換性のある別のフレームワークに切り替えて、もう一度お試しください。</string>
+    <string name="help_framework_warning_card_service_error">XposedService から現在のフレームワーク情報を読み取ることができませんでした。安全のため、フックの読み込みが停止されました。フレームワークの状態を確認して、もう一度お試しください。</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler はまだ XposedService から最新のフレームワーク情報を読み取っていないため、現時点では互換性を確認できません。</string>
+    <string name="help_framework_warning_section_framework_version">現在のフレームワークバージョン:</string>
+    <string name="help_framework_warning_section_banner_reason">ホームページに警告が表示されるのはなぜですか？</string>
+    <string name="help_framework_warning_banner_reason">この警告は、HyperCeiler が現在のフレームワークが最小実行時要件を満たしていないことを検出した場合、または XposedService がフレームワーク情報を正常に返せないことを検出した場合にのみ、ホームページに表示されます。異常なフックの読み込みによる不安定性を回避するため、HyperCeiler は同時にフックの読み込みを停止します。</string>
+    <string name="help_framework_warning_version_unavailable">XposedService から現在のフレームワークのバージョン情報を読み取ることができませんでした。</string>
+    <string name="log_menu_filter">ログをフィルタリング</string>
+    <string name="log_empty_no_logs">ログはまだありません</string>
+    <string name="safe_mode_banner_desc">%1$s は、度重なるクラッシュのため、自動セーフモードによって HyperCeiler の機能が一時的に無効になりました。タップして管理してください。</string>
+    <string name="log_empty_no_results">一致するログは見つかりませんでした</string>
+    <string name="log_empty_root_required">Root 権限を付与してからアプリを再起動してログを読み込んでください</string>
 </resources>
