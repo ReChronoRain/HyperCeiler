@@ -89,6 +89,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.title.IconTitleCustomization;
 import com.sevtinge.hyperceiler.libhook.rules.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
+import com.sevtinge.hyperceiler.libhook.rules.home.widget.ResizableWidgets;
 
 import java.util.Objects;
 
@@ -198,6 +199,7 @@ public class HomePad extends BaseLoad {
         // 小部件
         initHook(new AllWidgetAnimation(), PrefsBridge.getBoolean("home_widget_all_widget_animation"));
         initHook(AlwaysShowMiuiWidget.INSTANCE, PrefsBridge.getBoolean("home_widget_show_miui_widget"));
+        initHook(ResizableWidgets.INSTANCE, PrefsBridge.getBoolean("home_widget_resizable"));
 
         // 其他
         initHook(new FreeformShortcutMenu(), PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"));
