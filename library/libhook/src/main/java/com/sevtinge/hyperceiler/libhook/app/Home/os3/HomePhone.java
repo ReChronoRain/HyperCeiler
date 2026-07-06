@@ -92,6 +92,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.title.TitleFontSize;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllWidgetAnimation;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AllowMoveAllWidgetToMinus;
 import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
+import com.sevtinge.hyperceiler.libhook.rules.home.widget.ResizableWidgets;
 
 import java.util.Objects;
 
@@ -209,6 +210,7 @@ public class HomePhone extends BaseLoad {
         initHook(new AllWidgetAnimation(), PrefsBridge.getBoolean("home_widget_all_widget_animation"));
         initHook(AlwaysShowMiuiWidget.INSTANCE, PrefsBridge.getBoolean("home_widget_show_miui_widget"));
         initHook(AllowMoveAllWidgetToMinus.INSTANCE, PrefsBridge.getBoolean("home_widget_allow_moved_to_minus_one_screen"));
+        initHook(ResizableWidgets.INSTANCE, PrefsBridge.getBoolean("home_widget_resizable"));
 
         // 其他
         initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"))));

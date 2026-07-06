@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.widget
 
 import android.appwidget.AppWidgetProviderInfo
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
 
 
@@ -28,7 +29,7 @@ object ResizableWidgets : BaseHook() {
         findClass("android.appwidget.AppWidgetHostView")
             .hookAllMethods("getAppWidgetInfo") {
                 after {
-                    val widgetInfo = it.result as AppWidgetProviderInfo
+                    val widgetInfo = it.result as? AppWidgetProviderInfo ?: return@after
                     widgetInfo.resizeMode =
                         AppWidgetProviderInfo.RESIZE_VERTICAL or AppWidgetProviderInfo.RESIZE_HORIZONTAL
                     widgetInfo.minHeight = 0
@@ -36,6 +37,17 @@ object ResizableWidgets : BaseHook() {
                     widgetInfo.minResizeHeight = 0
                     widgetInfo.minResizeWidth = 0
                     it.result = widgetInfo
+                }
+            }
+
+        findClassIfExists("com.miui.home.launcher.LauncherWidgetView")
+            ?.hookAllMethods("supportSizeAdapt") {
+                after {
+                    val widgetInfo = it.thisObject
+                        .callMethodOrNull("getAppWidgetInfo") as? AppWidgetProviderInfo
+                    if (widgetInfo != null && widgetInfo.resizeMode != 0) {
+                        it.result = true
+                    }
                 }
             }
     }
