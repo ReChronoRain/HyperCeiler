@@ -168,7 +168,9 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new BypassWakePathChecker(), PrefsBridge.getBoolean("system_framework_bypass_wake_path_checker"));
         initHook(new BypassForceDownloadui(), PrefsBridge.getBoolean("system_framework_bypass_force_downloadui"));
         initHook(GMSDozeFixFramework.INSTANCE, PrefsBridge.getBoolean("powerkeeper_gms_doze_fix"));
-        initHook(new NativeFilePicker(), PrefsBridge.getBoolean("system_framework_native_file_picker"));
+        boolean nativePhotoPicker = PrefsBridge.getBoolean("system_framework_native_photo_picker");
+        boolean nativeFilePicker = PrefsBridge.getBoolean("system_framework_native_file_picker_only");
+        initHook(new NativeFilePicker(), nativePhotoPicker || nativeFilePicker);
 
         // 清理菜单
         initHook(new CleanShareMenu(), PrefsBridge.getBoolean("system_framework_clean_share_menu"));
