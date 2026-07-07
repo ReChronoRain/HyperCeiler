@@ -170,7 +170,9 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new UseAndroidPackageInstaller(), PrefsBridge.getBoolean("system_framework_use_android_package_installer"));
         initHook(new QuickScreenshot(), PrefsBridge.getBoolean("system_framework_quick_screenshot"));
         initHook(new LinkTurboToast(), PrefsBridge.getBoolean("system_framework_disable_link_turbo_toast"));
-        initHook(new NativeFilePicker(), PrefsBridge.getBoolean("system_framework_native_file_picker"));
+        boolean nativePhotoPicker = PrefsBridge.getBoolean("system_framework_native_photo_picker");
+        boolean nativeFilePicker = PrefsBridge.getBoolean("system_framework_native_file_picker_only");
+        initHook(new NativeFilePicker(), nativePhotoPicker || nativeFilePicker);
 
         if (PrefsBridge.getBoolean("misound_bluetooth")) {
             initHook(new EffectBinderProxy());
