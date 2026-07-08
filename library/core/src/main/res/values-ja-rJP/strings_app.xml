@@ -60,7 +60,7 @@
     <string name="help_cant_see_apps_switch_desc">このページは「アプリについて &gt; ヘルプ」で確認できます。適用するにはホームページに戻ってください。</string>
     <string name="help_support_version_title">現在のアプリバージョンとサポートしているシステムバージョンの一覧</string>
     <string name="help_support_version_desc_3">現在のシステムバージョンは完全に適合しています。</string>
-    <string name="help_support_version_desc_4">現在のシステムバージョンは適合 (完全に) されていません。</string>
+    <string name="help_support_version_desc_4">一部の機能は、現在使用されているシステムバージョンに対応していません。</string>
     <string name="location_add">追加</string>
     <string name="location_delete">削除</string>
     <string name="edit">テキストを入力してください</string>
@@ -922,10 +922,10 @@
     <string name="updater_device_desc">対象デバイスのモデルコードを入力してモデルを指定すると、他のモデルの ROM パッケージを取得できます。この機能は非常に危険です。</string>
     <string name="updater_diable_dialog">「自動更新を有効にする」ダイアログのポップアップを無効化</string>
     <!--Permissions-->
-    <string name="lbe">権限</string>
+    <string name="lbe">アクセス許可</string>
     <string name="lbe_auto_start">自動起動の自動停止を禁止</string>
     <!--Cast-->
-    <string name="milink_hyperos">相互接続サービス</string>
+    <string name="milink_hyperos">相互接続性</string>
     <string name="milink_unlock_mishare">デバイスの相互接続をアンロック</string>
     <string name="milink_allow_camera_devices">カメラストリーミングの強制サポート</string>
     <string name="milink_fuck_hpplay">hpplay フォルダの作成をブロック</string>
@@ -1243,7 +1243,7 @@
     <string name="mediaeditor_unlock_leica_filter_desc">一部のバージョンにのみ対応しています</string>
     <string name="mediaeditor_unlock_aigc">AIGC をアンロック</string>
     <!--Wallpaper-->
-    <string name="miwallpaper">壁紙</string>
+    <string name="miwallpaper">MiWallpaper</string>
     <string name="miwallpaper_unlock_super_wallpaper">スーパー壁紙をアンロック</string>
     <!--Package installer-->
     <string name="package_installer">パッケージインストーラー</string>
@@ -1397,7 +1397,7 @@
     <string name="security_center_game_speed">すぐにゲームを起動</string>
     <string name="security_center_game_speed_desc">ゲーム起動時に開始画面のアニメーションを3倍速で表示します。一部のゲームにのみ対応しています。</string>
     <string name="security_center_bypass_simlock_miaccount_auth">Xiaomi アカウントの SIM セキュリティをバイパスする</string>
-    <string name="security_center_bypass_simlock_miaccount_auth_desc">一部の機能での SIM と Xiaomi アカウントの要求を回避します。Xiaomi アカウントにログインしなくても機能を使えるようにできます</string>
+    <string name="security_center_bypass_simlock_miaccount_auth_desc">この機能は Xiaomi アカウントにログインしていなくてもご利用いただけます</string>
     <string name="security_center_remove_simlock_success_dialog">SIM セキュリティ認証の警告を削除する</string>
     <string name="security_center_remove_simlock_success_dialog_desc">デバイスの電源を入れた後、SIM セキュリティ認証が正常に完了したことを示すダイアログを削除する</string>
     <string name="security_center_power_consumption_ranking">消費電力ランキングを表示</string>
@@ -1657,4 +1657,22 @@
     <string name="system_ui_statusbar_focus_notif_title">フォーカス通知</string>
     <string name="system_ui_statusbar_island_title">HyperIsland</string>
     <string name="system_ui_statusbar_island_media_card_title">メディアカード</string>
+    <string name="scope_batch_request_not_approved">一部のスコープの要求は承認されませんでした: %1$s</string>
+    <string name="scope_batch_update_failed">スコープの更新に失敗しました: %1$s</string>
+    <string name="scope_batch_request_failed">スコープの要求に失敗しました。</string>
+    <string name="development_kill_loading_data">アプリリストを読み込んでいます。しばらくお待ちください。</string>
+    <string name="development_kill_resource_not_ready">リソースの読み込み中です。しばらくしてからもう一度お試しください。</string>
+    <string name="development_kill_process_header">PID: Process:\n</string>
+    <string name="development_kill_package_invalid_for_find">パッケージ名が無効であるか、存在しません。見つかりませんでした。\n\"%1$s\"</string>
+    <string name="development_kill_package_invalid">パッケージ名が無効であるか、存在しません。確認してからもう一度お試しください。\n\"%1$s\"</string>
+    <string name="development_kill_success_prefix">Kill 成功:\n</string>
+    <string name="development_kill_failed_with_pkg">Kill 失敗: %1$s</string>
+    <string name="development_kill_process_not_found">このパッケージに関連する実行中のプロセスは見つかりませんでした。\n\"%1$s\"</string>
+    <string name="development_kill_loading_done">読み込みが完了しました</string>
+    <string name="development_kill_permission_not_granted">インストール済みアプリの一覧へのアクセス権限が付与されていないため、アプリリストを読み込むことができません。</string>
+    <string name="rest_success_message">設定を反映させるには、アプリを再起動してください。</string>
+    <string name="rest_scope_authorize_title">スコープの要求が必要です</string>
+    <string name="rest_scope_authorize_notice">復元された設定ファイルに新しいスコープが見つかりました。次に表示される LSPosed 認証プロンプトでこれらを承認してください:\n%1$s</string>
+    <string name="rest_scope_skip_uninstalled">このデバイスにはこれらのスコープがインストールされていないため、スキップされました:\n%1$s</string>
+    <string name="array_class">クラシック</string>
 </resources>
