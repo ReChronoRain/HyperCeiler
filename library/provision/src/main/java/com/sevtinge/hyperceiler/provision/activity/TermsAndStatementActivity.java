@@ -62,10 +62,4 @@ public class TermsAndStatementActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onBackAnimStart() {
-        super.onBackAnimStart();
-        setResult(0);
-        finish();
-    }
 }

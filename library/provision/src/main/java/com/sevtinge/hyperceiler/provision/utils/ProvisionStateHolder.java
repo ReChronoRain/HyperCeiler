@@ -18,6 +18,10 @@
  */
 package com.sevtinge.hyperceiler.provision.utils;
 
+import android.content.Intent;
+
+import androidx.annotation.Nullable;
+
 import com.sevtinge.hyperceiler.provision.state.StateMachine;
 
 public class ProvisionStateHolder {
@@ -38,6 +42,15 @@ public class ProvisionStateHolder {
 
     public void setStateMachine(StateMachine stateMachine) {
         mStateMachine = stateMachine;
+    }
+
+    @Nullable
+    public Intent moveToNextActivity() {
+        return mStateMachine == null ? null : mStateMachine.moveToNextActivity();
+    }
+
+    public boolean moveToPreviousActivity() {
+        return mStateMachine != null && mStateMachine.moveToPreviousActivity();
     }
 
 }

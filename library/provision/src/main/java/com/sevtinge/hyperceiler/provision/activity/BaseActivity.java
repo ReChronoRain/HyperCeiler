@@ -18,7 +18,9 @@
  */
 package com.sevtinge.hyperceiler.provision.activity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -33,7 +35,9 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.provision.R;
+import com.sevtinge.hyperceiler.provision.utils.OobeTransitionHelper;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
+import com.sevtinge.hyperceiler.provision.utils.ProvisionStateHolder;
 
 import fan.provision.OobeUtils;
 import fan.provision.ProvisionBaseActivity;
@@ -51,26 +55,27 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
 
     private boolean mCheckNewJump = true;
     private boolean mIsDisableBack = false;
+    private boolean mNavigationCommitted;
+    private boolean mWaitingForNextPage;
 
     private final View.OnClickListener mBackListener = v -> getOnBackPressedDispatcher().onBackPressed();
 
     private final OnBackPressedCallback mBackCallback = new OnBackPressedCallback(true) {
         @Override
         public void handleOnBackPressed() {
-            if (!mIsDisableBack) {
-                try {
-                    additionalProcess();
-                    if (!getSupportFragmentManager().isDestroyed()) {
-                        setEnabled(false);
-                        getOnBackPressedDispatcher().onBackPressed();
-                        setEnabled(true);
-                    }
-                    if (mFragment != null) {
-                        mFragment.getClass();
-                    }
-                } catch (Exception e) {
-                    Log.e("BaseActivity", "ex: " + e.getMessage());
+            if (mIsDisableBack || mNavigationCommitted) return;
+            try {
+                additionalProcess();
+                if (!(BaseActivity.this instanceof PermissionSettingsActivity)) {
+                    ProvisionStateHolder.getInstance().moveToPreviousActivity();
                 }
+                mNavigationCommitted = true;
+                updateButtonState(false);
+                finishAfterTransition();
+            } catch (Exception e) {
+                mNavigationCommitted = false;
+                updateButtonState(true);
+                Log.e("BaseActivity", "ex: " + e.getMessage());
             }
         }
     };
@@ -86,6 +91,13 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (!(this instanceof PermissionSettingsActivity)) {
+            overrideActivityTransition(
+                Activity.OVERRIDE_TRANSITION_CLOSE,
+                R.anim.provision_slide_in_left,
+                R.anim.provision_slide_out_right
+            );
+        }
         getOnBackPressedDispatcher().addCallback(this, mBackCallback);
         if (OobeUtils.isProvisioned(this) && !OobeUtils.isDebugOobeMode(this)) {
             setResult(-1);
@@ -128,6 +140,11 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (mWaitingForNextPage) {
+            mWaitingForNextPage = false;
+            mNavigationCommitted = false;
+            updateButtonState(true);
+        }
         if (mTitle != null) {
             mTitle.setTextDirection(OobeUtils.isRTL() ? 4 : 3);
             int titleStringId = getTitleStringId();
@@ -166,6 +183,28 @@ public abstract class BaseActivity extends ProvisionBaseActivity {
 
     protected void additionalProcess() {
         setResult(0);
+    }
+
+    public final void navigateForward() {
+        if (mNavigationCommitted) return;
+        Intent intent = ProvisionStateHolder.getInstance().moveToNextActivity();
+        if (intent == null) {
+            Log.e("BaseActivity", "next OOBE state is unavailable");
+            return;
+        }
+
+        mNavigationCommitted = true;
+        mWaitingForNextPage = true;
+        updateButtonState(false);
+        try {
+            startActivity(intent, OobeTransitionHelper.createPageOptions(this, true));
+        } catch (RuntimeException exception) {
+            ProvisionStateHolder.getInstance().moveToPreviousActivity();
+            mWaitingForNextPage = false;
+            mNavigationCommitted = false;
+            updateButtonState(true);
+            Log.e("BaseActivity", "failed to open next OOBE page", exception);
+        }
     }
 
     protected void setPreviewDrawable(int id) {

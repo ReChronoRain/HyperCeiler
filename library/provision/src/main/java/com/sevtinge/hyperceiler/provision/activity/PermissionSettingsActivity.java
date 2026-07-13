@@ -62,8 +62,7 @@ public class PermissionSettingsActivity extends BaseActivity {
     @Override
     public void onNextAminStart() {
         super.onNextAminStart();
-        setResult(-1);
-        finish();
+        navigateForward();
     }
 
     public void enableBtnClick() {
