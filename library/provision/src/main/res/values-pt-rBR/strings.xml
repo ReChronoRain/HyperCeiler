@@ -34,7 +34,7 @@
     <string name="provision_service_name_download">Downloads</string>
     <string name="provision_service_policy_download"><Data>Leia e aceite a <a href="%1$s">Política de Privacidade da Thunder</a> e o <a href="%2$s">Contrato de Uso de Serviço de Rede da Thunder Company</a></Data></string>
     <string name="provision_congratulation_title">Configuração concluída</string>
-    <string name="provision_congratulation_label">Bem-vindo ao HyperCeiler</string>
+    <string name="provision_congratulation_label">Experimente o emocionante HyperOS!</string>
     <string name="provision_complete_text">Entre no HyperCeiler</string>
     <string name="provision_back">Voltar</string>
     <string name="provision_set_permission_later">Você poderá definir essas permissões necessárias posteriormente</string>
