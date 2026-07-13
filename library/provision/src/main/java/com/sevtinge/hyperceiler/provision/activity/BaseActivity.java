@@ -44,19 +44,19 @@ import fan.provision.ProvisionBaseActivity;
 
 public abstract class BaseActivity extends ProvisionBaseActivity {
 
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        // 引导页面中的所有子页面 Activity 都应跨语言切换后同步语言，
-        // 否则仅 DefaultActivity 被包裹会造成子页面仍然显示旧语言。
-        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
-    }
-
     protected Fragment mFragment;
 
     private boolean mCheckNewJump = true;
     private boolean mIsDisableBack = false;
     private boolean mNavigationCommitted;
     private boolean mWaitingForNextPage;
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        // 引导页面中的所有子页面 Activity 都应跨语言切换后同步语言，
+        // 否则仅 DefaultActivity 被包裹会造成子页面仍然显示旧语言。
+        super.attachBaseContext(AppLanguageHelper.wrapContext(newBase));
+    }
 
     private final View.OnClickListener mBackListener = v -> getOnBackPressedDispatcher().onBackPressed();
 
