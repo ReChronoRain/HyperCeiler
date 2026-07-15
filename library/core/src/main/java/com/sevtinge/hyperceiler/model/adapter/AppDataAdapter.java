@@ -23,40 +23,41 @@ import com.sevtinge.hyperceiler.utils.AppIconCache;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import fan.recyclerview.card.CardGroupAdapter;
 
 public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
-    private final String TAG = "AppDataAdapter";
+    private static final int DEFAULT_ICON_SIZE_DP = 40;
 
     private final String mKey;
     private final int mMode;
     private final AppEditManager mEditManager;
-
-    private final List<AppData> mAppDataList; // 单一数据源
+    private final List<AppData> mAppDataList;
     private final Set<String> mSelectedPackages = new LinkedHashSet<>();
-    private boolean mDeferredSelectionMode = false;
+
+    private boolean mDeferredSelectionMode;
     private OnItemClickListener mOnItemClickListener;
 
     public AppDataAdapter(List<AppData> appInfoList, String key, int mode) {
         mKey = key;
         mMode = mode;
-        mEditManager = (key != null) ? new AppEditManager(key) : null;
-        mAppDataList = new ArrayList<>(appInfoList);
+        mEditManager = key != null ? new AppEditManager(key) : null;
+        mAppDataList = appInfoList != null ? new ArrayList<>(appInfoList) : new ArrayList<>();
     }
 
     @NonNull
     @Override
     public AppViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AppViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-            R.layout.item_app_list, parent, false));
+        View itemView = LayoutInflater.from(parent.getContext())
+            .inflate(R.layout.item_app_list, parent, false);
+        return new AppViewHolder(itemView);
     }
 
     @Override
     public void setHasStableIds() {
-
     }
 
     @Override
@@ -66,10 +67,9 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull AppViewHolder holder, int position) {
-        if (position < 0 || position >= mAppDataList.size()) return;
-
-        AppData appInfo = mAppDataList.get(position);
-        holder.bind(appInfo, position);
+        if (position >= 0 && position < mAppDataList.size()) {
+            holder.bind(mAppDataList.get(position));
+        }
     }
 
     @Override
@@ -77,20 +77,16 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         return mAppDataList.size();
     }
 
-    /**
-     * 使用 DiffUtil 进行差量更新，替代 notifyDataSetChanged()
-     */
     public void setData(List<AppData> data) {
-        List<AppData> newList = (data != null) ? data : new ArrayList<>();
-        DiffUtil.DiffResult result = DiffUtil.calculateDiff(new AppDiffCallback(mAppDataList, newList));
+        List<AppData> newList = data != null ? new ArrayList<>(data) : new ArrayList<>();
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(
+            new AppDiffCallback(mAppDataList, newList)
+        );
         mAppDataList.clear();
         mAppDataList.addAll(newList);
         result.dispatchUpdatesTo(this);
     }
 
-    /**
-     * 获取当前数据
-     */
     public List<AppData> getData() {
         return new ArrayList<>(mAppDataList);
     }
@@ -111,30 +107,14 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         return new LinkedHashSet<>(mSelectedPackages);
     }
 
-    /**
-     * 刷新选中状态
-     */
     public void refreshSelections() {
-        Set<String> selectedApps;
-        if (mDeferredSelectionMode) {
-            selectedApps = new LinkedHashSet<>(mSelectedPackages);
-        } else if (mKey != null) {
-            selectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
-        } else {
-            selectedApps = new LinkedHashSet<>();
-        }
-
-        // 更新所有项目的选中状态
+        Set<String> selectedApps = getCurrentSelectedPackages();
         for (AppData appData : mAppDataList) {
             appData.isSelected = selectedApps.contains(appData.packageName);
         }
-
         notifyDataSetChanged();
     }
 
-    /**
-     * 切换指定位置的选中状态
-     */
     public void toggleSelection(int position) {
         if (position < 0 || position >= mAppDataList.size()) {
             return;
@@ -142,33 +122,21 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
         AppData appData = mAppDataList.get(position);
         appData.isSelected = !appData.isSelected;
-
-        if (mDeferredSelectionMode) {
-            if (appData.isSelected) {
-                mSelectedPackages.add(appData.packageName);
-            } else {
-                mSelectedPackages.remove(appData.packageName);
-            }
-        } else if (mKey != null) {
-            // 更新 SharedPreferences
-            Set<String> selectedApps = new LinkedHashSet<>(
-                PrefsBridge.getStringSet(mKey));
-
-            if (appData.isSelected) {
-                selectedApps.add(appData.packageName);
-            } else {
-                selectedApps.remove(appData.packageName);
-            }
-
-            PrefsBridge.putByApp(mKey, selectedApps);
-        }
-
+        updateSelectedPackages(appData);
         notifyItemChanged(position);
     }
 
     public void editCallback(String label, String packageName, String edit) {
-        if (mEditManager != null) {
-            mEditManager.editCallback(label, packageName, edit);
+        if (mEditManager == null) {
+            return;
+        }
+
+        mEditManager.editCallback(label, packageName, edit);
+        for (int i = 0; i < mAppDataList.size(); i++) {
+            if (Objects.equals(packageName, mAppDataList.get(i).packageName)) {
+                notifyItemChanged(i);
+                return;
+            }
         }
     }
 
@@ -176,42 +144,91 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
         mOnItemClickListener = listener;
     }
 
+    private Set<String> getCurrentSelectedPackages() {
+        if (mDeferredSelectionMode) {
+            return new LinkedHashSet<>(mSelectedPackages);
+        }
+        if (mKey != null) {
+            return new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
+        }
+        return new LinkedHashSet<>();
+    }
+
+    private void updateSelectedPackages(AppData appData) {
+        if (mDeferredSelectionMode) {
+            updatePackageSet(mSelectedPackages, appData);
+            return;
+        }
+        if (mKey == null) {
+            return;
+        }
+
+        Set<String> selectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
+        updatePackageSet(selectedApps, appData);
+        PrefsBridge.putByApp(mKey, selectedApps);
+    }
+
+    private static void updatePackageSet(Set<String> packages, AppData appData) {
+        if (appData.isSelected) {
+            packages.add(appData.packageName);
+        } else {
+            packages.remove(appData.packageName);
+        }
+    }
+
+    private boolean isToggleSelectionMode() {
+        return switch (mMode) {
+            case SubPickerActivity.LAUNCHER_MODE,
+                 SubPickerActivity.APP_OPEN_MODE,
+                 SubPickerActivity.PROCESS_TEXT_MODE,
+                 SubPickerActivity.ALL_APPS_MODE,
+                 SubPickerActivity.IME_MODE,
+                 SubPickerActivity.SCOPE_MODE -> true;
+            default -> false;
+        };
+    }
+
+    private boolean shouldShowCheckbox() {
+        return isToggleSelectionMode() || mMode == SubPickerActivity.LAUNCHER_PICK_MODE;
+    }
+
     public interface OnItemClickListener {
         void onItemClick(View itemView, AppData appData, int position);
     }
 
-    /**
-     * DiffUtil.Callback 实现，基于 packageName 判断是否同一项
-     */
     private static class AppDiffCallback extends DiffUtil.Callback {
-        private final List<AppData> oldList;
-        private final List<AppData> newList;
+        private final List<AppData> mOldList;
+        private final List<AppData> mNewList;
 
         AppDiffCallback(List<AppData> oldList, List<AppData> newList) {
-            this.oldList = oldList;
-            this.newList = newList;
+            mOldList = oldList;
+            mNewList = newList;
         }
 
         @Override
-        public int getOldListSize() { return oldList.size(); }
-
-        @Override
-        public int getNewListSize() { return newList.size(); }
-
-        @Override
-        public boolean areItemsTheSame(int oldPos, int newPos) {
-            String oldPkg = oldList.get(oldPos).packageName;
-            String newPkg = newList.get(newPos).packageName;
-            if (oldPkg == null || newPkg == null) return oldPkg == newPkg;
-            return oldPkg.equals(newPkg);
+        public int getOldListSize() {
+            return mOldList.size();
         }
 
         @Override
-        public boolean areContentsTheSame(int oldPos, int newPos) {
-            AppData o = oldList.get(oldPos);
-            AppData n = newList.get(newPos);
-            return o.isSelected == n.isSelected
-                && String.valueOf(o.label).equals(String.valueOf(n.label));
+        public int getNewListSize() {
+            return mNewList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldPosition, int newPosition) {
+            return Objects.equals(
+                mOldList.get(oldPosition).packageName,
+                mNewList.get(newPosition).packageName
+            );
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldPosition, int newPosition) {
+            AppData oldItem = mOldList.get(oldPosition);
+            AppData newItem = mNewList.get(newPosition);
+            return oldItem.isSelected == newItem.isSelected
+                && Objects.equals(oldItem.label, newItem.label);
         }
     }
 
@@ -219,28 +236,24 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
 
         private final ImageView mAppIcon;
         private final TextView mAppName;
-        private final TextView mAppEdit;
         private final CheckBox mSelectCheckbox;
-        private final View mItemView;
 
         public AppViewHolder(@NonNull View itemView) {
             super(itemView);
-            mItemView = itemView;
             mAppIcon = itemView.findViewById(android.R.id.icon);
             mAppName = itemView.findViewById(android.R.id.title);
-            mAppEdit = itemView.findViewById(android.R.id.summary);
             mSelectCheckbox = itemView.findViewById(android.R.id.checkbox);
+            setupClickListeners();
         }
 
-        public void bind(AppData appInfo, int position) {
-            if (appInfo == null) return;
+        public void bind(AppData appInfo) {
+            if (appInfo == null) {
+                return;
+            }
 
             updateAppName(appInfo);
             updateAppIcon(appInfo);
-            updateCheckboxVisibility(appInfo);
-            setupEditMode(appInfo);
-
-            setupClickListeners();
+            updateCheckbox(appInfo);
         }
 
         private void updateAppName(AppData appInfo) {
@@ -252,37 +265,32 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             }
         }
 
-        /**
-         * 异步加载图标，使用 AppIconCache 缓存
-         */
         private void updateAppIcon(AppData appInfo) {
+            String packageName = appInfo.packageName;
+            mAppIcon.setTag(packageName);
+
             if (appInfo.icon != null) {
                 mAppIcon.setImageDrawable(appInfo.icon);
-                mAppIcon.setTag(appInfo.packageName);
+                return;
+            }
+            if (packageName == null || packageName.isEmpty()) {
+                mAppIcon.setImageResource(android.R.drawable.sym_def_app_icon);
                 return;
             }
 
             int iconSize = getTargetIconSize();
-            Drawable cached = AppIconCache.getCached(mItemView.getContext(), appInfo.packageName, iconSize);
+            Drawable cached = AppIconCache.getCached(itemView.getContext(), packageName, iconSize);
             if (cached != null) {
                 appInfo.icon = cached;
                 mAppIcon.setImageDrawable(cached);
                 return;
             }
 
-            // 设置占位图，避免闪烁
             mAppIcon.setImageResource(android.R.drawable.sym_def_app_icon);
-
-            // 记录当前 packageName 防止复用错位
-            mAppIcon.setTag(appInfo.packageName);
-
-            AppIconCache.loadIconAsync(mItemView.getContext(), appInfo.packageName, iconSize, icon -> {
-                // 检查 ViewHolder 是否已被复用
-                if (appInfo.packageName.equals(mAppIcon.getTag())) {
-                    if (icon != null) {
-                        appInfo.icon = icon;
-                        mAppIcon.setImageDrawable(icon);
-                    }
+            AppIconCache.loadIconAsync(itemView.getContext(), packageName, iconSize, icon -> {
+                if (icon != null && Objects.equals(packageName, mAppIcon.getTag())) {
+                    appInfo.icon = icon;
+                    mAppIcon.setImageDrawable(icon);
                 }
             });
         }
@@ -293,66 +301,50 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             if (size > 0) {
                 return size;
             }
-            return Math.round(mItemView.getResources().getDisplayMetrics().density * 40);
+            return Math.round(
+                itemView.getResources().getDisplayMetrics().density * DEFAULT_ICON_SIZE_DP
+            );
         }
 
-        private void updateCheckboxVisibility(AppData appInfo) {
-            boolean shouldShowCheckbox = (mMode == SubPickerActivity.LAUNCHER_MODE ||
-                mMode == SubPickerActivity.APP_OPEN_MODE ||
-                mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
-                mMode == SubPickerActivity.ALL_APPS_MODE ||
-                mMode == SubPickerActivity.IME_MODE ||
-                mMode == SubPickerActivity.SCOPE_MODE ||
-                mMode == SubPickerActivity.LAUNCHER_PICK_MODE);
-
-            mSelectCheckbox.setVisibility(shouldShowCheckbox ? View.VISIBLE : View.GONE);
-
-            if (shouldShowCheckbox) {
+        private void updateCheckbox(AppData appInfo) {
+            boolean showCheckbox = shouldShowCheckbox();
+            mSelectCheckbox.setVisibility(showCheckbox ? View.VISIBLE : View.GONE);
+            if (showCheckbox) {
                 mSelectCheckbox.setChecked(appInfo.isSelected);
             }
         }
 
-        private void setupEditMode(AppData appInfo) {
-            if (mMode == SubPickerActivity.INPUT_MODE && mEditManager != null) {
-                mEditManager.addOrUpdateApp(appInfo, mAppName);
-            }
-        }
-
         private void setupClickListeners() {
-            // Item 点击监听
-            mItemView.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION && position < mAppDataList.size()) {
-                    AppData appData = mAppDataList.get(position);
+            itemView.setOnClickListener(view -> {
+                int position = getBindingAdapterPosition();
+                if (position == RecyclerView.NO_POSITION || position >= mAppDataList.size()) {
+                    return;
+                }
 
-                    if (mMode == SubPickerActivity.LAUNCHER_MODE ||
-                        mMode == SubPickerActivity.APP_OPEN_MODE ||
-                        mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
-                        mMode == SubPickerActivity.ALL_APPS_MODE ||
-                        mMode == SubPickerActivity.IME_MODE ||
-                        mMode == SubPickerActivity.SCOPE_MODE) {
-                        // 对于选择模式，点击item也切换选中状态
-                        toggleSelection(position);
-                    } else {
-                        // 其他模式调用原来的点击逻辑
-                        if (mOnItemClickListener != null) {
-                            mOnItemClickListener.onItemClick(v, appData, position);
-                        }
-                    }
+                AppData appData = mAppDataList.get(position);
+                if (isToggleSelectionMode()) {
+                    toggleSelection(position);
+                } else if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onItemClick(view, appData, position);
                 }
             });
 
-            // Checkbox 点击监听 - 防止事件冒泡
-            mSelectCheckbox.setOnClickListener(v -> {
-                int position = getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION) {
-                    if (mMode == SubPickerActivity.LAUNCHER_PICK_MODE) {
-                        if (position < mAppDataList.size() && mOnItemClickListener != null) {
-                            mOnItemClickListener.onItemClick(v, mAppDataList.get(position), position);
-                        }
-                    } else {
-                        toggleSelection(position);
+            mSelectCheckbox.setOnClickListener(view -> {
+                int position = getBindingAdapterPosition();
+                if (position == RecyclerView.NO_POSITION || position >= mAppDataList.size()) {
+                    return;
+                }
+
+                if (mMode == SubPickerActivity.LAUNCHER_PICK_MODE) {
+                    if (mOnItemClickListener != null) {
+                        mOnItemClickListener.onItemClick(
+                            view,
+                            mAppDataList.get(position),
+                            position
+                        );
                     }
+                } else {
+                    toggleSelection(position);
                 }
             });
         }

@@ -40,6 +40,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.TelephonyManager;
@@ -139,12 +140,19 @@ public class FiveGTile extends TileUtils {
                     Settings.Global.getUriFor(SETTING_5G_USER_ENABLE), false, contentObserver);
                 context.getContentResolver().registerContentObserver(
                     Settings.Global.getUriFor(SETTING_DUAL_NR_ENABLED), false, contentObserver);
+                BaseHook.registerContentObserverHotReloadCleanup(
+                    context.getContentResolver(), contentObserver
+                );
 
                 ctx.setAdditionalField(FIELD_CONTENT_OBSERVER, contentObserver);
             }
         } else {
             if (contentObserver != null) {
-                context.getContentResolver().unregisterContentObserver(contentObserver);
+                try {
+                    context.getContentResolver().unregisterContentObserver(contentObserver);
+                } catch (IllegalArgumentException ignored) {
+                    // 已在热重载清理阶段注销。
+                }
                 contentObserver = null;
                 ctx.removeAdditionalField(FIELD_CONTENT_OBSERVER);
             }
@@ -264,7 +272,7 @@ public class FiveGTile extends TileUtils {
     }
 
     private void adjustDetailViewHeight(View content) {
-        content.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+        View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(@NonNull View v) {
                 View view = v;
@@ -284,7 +292,11 @@ public class FiveGTile extends TileUtils {
 
             @Override
             public void onViewDetachedFromWindow(@NonNull View v) {}
-        });
+        };
+        content.addOnAttachStateChangeListener(listener);
+        BaseHook.registerHotReloadCleanup(
+            () -> content.removeOnAttachStateChangeListener(listener)
+        );
     }
 
     private void handleSetItems(HookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {

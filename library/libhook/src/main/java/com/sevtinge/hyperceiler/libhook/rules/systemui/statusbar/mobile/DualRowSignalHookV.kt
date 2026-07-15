@@ -38,6 +38,7 @@ import androidx.core.util.size
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.mobileSignalController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.networkController
@@ -90,6 +91,7 @@ class DualRowSignalHookV : MobileSignalHook() {
     private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun init() {
+        BaseHook.registerHandlerHotReloadCleanup(mainHandler)
         listenMobileSignal()
 
         hookConstructAndBind { rootView, subId ->

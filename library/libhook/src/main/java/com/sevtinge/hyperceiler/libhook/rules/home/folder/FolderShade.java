@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
+import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
@@ -61,7 +62,7 @@ public class FolderShade extends HomeBaseHookNew {
             @Override
             public void after(HookParam param) {
                 View folder = (View) param.getThisObject();
-                new Thread(() -> {
+                ThreadPoolManager.execute(() -> {
                     try {
                         Context context = folder.getContext();
                         int opt = PrefsBridge.getStringAsInt("prefs_key_home_folder_shade", 0);
@@ -92,7 +93,7 @@ public class FolderShade extends HomeBaseHookNew {
                     } catch (Throwable t) {
                         XposedLog.w(TAG, getPackageName(), t);
                     }
-                }).start();
+                });
             }
         };
 

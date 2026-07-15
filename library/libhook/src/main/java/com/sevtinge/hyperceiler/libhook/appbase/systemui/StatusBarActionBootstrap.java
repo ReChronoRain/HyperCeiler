@@ -47,12 +47,20 @@ public class StatusBarActionBootstrap extends BaseHook {
     private static final String EXTRA_PROTECTED_PACKAGES = "protected_pkgnames";
     private static final String EXTRA_EXPAND_ONLY = "expand_only";
     private static final String STATUS_BAR_SERVICE = "statusbar";
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "StatusBarActionBootstrap.systemUiContext";
 
     private static WeakReference<Object> sStatusBarRef = new WeakReference<>(null);
     private static volatile boolean sReceiverRegistered;
 
     @Override
     public void init() {
+        // CentralSurfacesImpl.start 已在热重载前执行时不会再次回调，直接使用已保存的
+        // SystemUI Context 重建 receiver。
+        Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+        if (restoredContext != null) {
+            registerReceiver(restoredContext);
+        }
         findAndChainMethod("com.android.systemui.statusbar.phone.CentralSurfacesImpl", "start",
             new XposedInterface.Hooker() {
                 @Override
@@ -77,13 +85,27 @@ public class StatusBarActionBootstrap extends BaseHook {
             if (sReceiverRegistered) {
                 return;
             }
+            UnifiedReceiver receiver = new UnifiedReceiver();
             ContextCompat.registerReceiver(
                 context,
-                new UnifiedReceiver(),
+                receiver,
                 createIntentFilter(),
                 ContextCompat.RECEIVER_EXPORTED
             );
             sReceiverRegistered = true;
+            putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+            registerHotReloadCleanup(() -> {
+                synchronized (StatusBarActionBootstrap.class) {
+                    try {
+                        context.unregisterReceiver(receiver);
+                    } catch (IllegalArgumentException ignored) {
+                        // 已由宿主注销时无需将本次热重载判为失败。
+                    } finally {
+                        sReceiverRegistered = false;
+                        sStatusBarRef.clear();
+                    }
+                }
+            });
         }
     }
 

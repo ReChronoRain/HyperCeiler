@@ -29,28 +29,72 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.WeakHashMap;
+
 public class StickyFloatingWindowsForHome extends BaseHook {
+    private static final String STATE_RECENTS_CONTAINER =
+        "StickyFloatingWindowsForHome.recentsContainer";
+    private final Map<Object, BroadcastReceiver> mDismissReceivers =
+        Collections.synchronizedMap(new WeakHashMap<>());
 
     @Override
     public void init() {
+        Object restoredRecents = getHotReloadRuntimeState(
+            STATE_RECENTS_CONTAINER, Object.class
+        );
+        if (restoredRecents != null) {
+            try {
+                Context context = (Context) callMethod(restoredRecents, "getContext");
+                if (context != null) {
+                    registerDismissReceiver(restoredRecents, context);
+                }
+            } catch (Throwable t) {
+                XposedLog.w(TAG, getPackageName(), "Failed to restore recents receiver", t);
+            }
+        }
+
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "onAttachedToWindow", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                Context mContext = (Context) callMethod(param.getThisObject(), "getContext");
-                mContext.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        try {
-                            String pkgName = intent.getStringExtra("package");
-                            if (pkgName != null) {
-                                callMethod(param.getThisObject(), "dismissRecentsToLaunchTargetTaskOrHome", pkgName, true);
-                            }
-                        } catch (Throwable t) {
-                            XposedLog.w(TAG, getPackageName(), t);
-                        }
-                    }
-                }, new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"), Context.RECEIVER_EXPORTED);
+                Object recentsContainer = param.getThisObject();
+                Context context = (Context) callMethod(recentsContainer, "getContext");
+                registerDismissReceiver(recentsContainer, context);
             }
         });
+    }
+
+    private void registerDismissReceiver(Object recentsContainer, Context context) {
+        if (context == null) return;
+        synchronized (mDismissReceivers) {
+            if (mDismissReceivers.containsKey(recentsContainer)) return;
+            BroadcastReceiver receiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context receiverContext, Intent intent) {
+                    try {
+                        String pkgName = intent.getStringExtra("package");
+                        if (pkgName != null) {
+                            callMethod(
+                                recentsContainer,
+                                "dismissRecentsToLaunchTargetTaskOrHome",
+                                pkgName,
+                                true
+                            );
+                        }
+                    } catch (Throwable t) {
+                        XposedLog.w(TAG, getPackageName(), t);
+                    }
+                }
+            };
+            context.registerReceiver(
+                receiver,
+                new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"),
+                Context.RECEIVER_EXPORTED
+            );
+            mDismissReceivers.put(recentsContainer, receiver);
+            registerReceiverHotReloadCleanup(context, receiver);
+            putHotReloadRuntimeState(STATE_RECENTS_CONTAINER, recentsContainer);
+        }
     }
 }

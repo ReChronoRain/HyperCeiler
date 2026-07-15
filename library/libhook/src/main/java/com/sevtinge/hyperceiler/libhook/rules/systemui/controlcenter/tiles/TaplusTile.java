@@ -34,6 +34,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 public class TaplusTile extends TileUtils {
 
@@ -96,13 +97,20 @@ public class TaplusTile extends TileUtils {
                     false,
                     contentObserver
                 );
+                BaseHook.registerContentObserverHotReloadCleanup(
+                    context.getContentResolver(), contentObserver
+                );
 
                 ctx.setAdditionalField(FIELD_CONTENT_OBSERVER, contentObserver);
             }
         } else {
             ContentObserver contentObserver = ctx.getAdditionalField(FIELD_CONTENT_OBSERVER);
             if (contentObserver != null) {
-                context.getContentResolver().unregisterContentObserver(contentObserver);
+                try {
+                    context.getContentResolver().unregisterContentObserver(contentObserver);
+                } catch (IllegalArgumentException ignored) {
+                    // 已在热重载清理阶段注销。
+                }
                 ctx.removeAdditionalField(FIELD_CONTENT_OBSERVER);
             }
         }

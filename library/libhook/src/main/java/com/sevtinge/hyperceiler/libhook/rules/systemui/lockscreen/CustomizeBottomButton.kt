@@ -48,6 +48,8 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.replaceHookMethod as replaceMethod
 
 object CustomizeBottomButton : BaseHook() {
+    private const val HOT_RELOAD_LEFT_BUTTON_KEY = "CustomizeBottomButton.leftButton"
+
     override fun init() {
         when (leftButtonType) {
             // 隐藏左侧按钮
@@ -121,6 +123,15 @@ object CustomizeBottomButton : BaseHook() {
             }
         }
 
+        fun bindLeftButton(button: ImageView) {
+            leftButton = button
+            button.setOnTouchListener(touchListener)
+            putHotReloadRuntimeState(HOT_RELOAD_LEFT_BUTTON_KEY, button)
+            registerHotReloadCleanup {
+                button.setOnTouchListener(null)
+            }
+        }
+
         val flashlightListener = object : FlashlightController.FlashlightListener {
             override fun onFlashlightError() {
                 XposedLog.d(TAG, lpparam.packageName, "onFlashlightError")
@@ -137,6 +148,15 @@ object CustomizeBottomButton : BaseHook() {
                 if (!isEnabled) {
                     resetImageDrawable(false, true)
                 }
+            }
+        }
+
+        getHotReloadRuntimeState(HOT_RELOAD_LEFT_BUTTON_KEY, ImageView::class.java)?.let { button ->
+            runCatching {
+                flashlightController = MiuiStub.sysUIProvider.flashlightController
+                bindLeftButton(button)
+            }.onFailure {
+                XposedLog.w(TAG, lpparam.packageName, "Failed to restore flashlight button listener", it)
             }
         }
 
@@ -180,10 +200,9 @@ object CustomizeBottomButton : BaseHook() {
             }
 
             afterHookMethod("updateLeftIcon") { param ->
-                leftButton =
-                    param.thisObject.getObjectFieldAs<ImageView?>("mLeftButton")?.also {
+                param.thisObject.getObjectFieldAs<ImageView?>("mLeftButton")?.also {
                         resetImageDrawable(false, false)
-                        it.setOnTouchListener(touchListener)
+                        bindLeftButton(it)
                     }
                 val context = MiuiStub.baseProvider.context
                 chargeImage(param, context)

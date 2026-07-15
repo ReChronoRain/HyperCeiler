@@ -29,6 +29,7 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 
 import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
@@ -128,7 +129,7 @@ public class BlurUtils {
 
 
     private void setOnAttachStateChangeListener(View view) {
-        view.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+        View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(@NonNull View v) {
                 mViewRootImpl = Methods.callMethod(v, "getViewRootImpl");
@@ -140,7 +141,9 @@ public class BlurUtils {
             public void onViewDetachedFromWindow(@NonNull View v) {
                 v.setBackground(null);
             }
-        });
+        };
+        view.addOnAttachStateChangeListener(listener);
+        BaseHook.registerHotReloadCleanup(() -> view.removeOnAttachStateChangeListener(listener));
     }
 
     private Drawable createBackgroundDrawable(Object viewRootImpl, boolean isBlurEnable, int color, int cornerRadius, int blurRadius) {

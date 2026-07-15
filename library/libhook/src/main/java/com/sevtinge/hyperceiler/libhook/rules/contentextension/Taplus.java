@@ -35,27 +35,34 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class Taplus extends BaseHook {
+    private static final String STATE_FRAGMENT = "Taplus.settingsFragment";
+    private static final String STATE_FRAGMENT_CONTEXT = "Taplus.settingsFragmentContext";
+    private static final String STATE_LISTENING_CONTEXT = "Taplus.listeningContext";
+
     public boolean mListening = false;
 
     @Override
     public void init() {
+        Context restoredListeningContext = getHotReloadRuntimeState(
+            STATE_LISTENING_CONTEXT, Context.class
+        );
+        if (restoredListeningContext != null) {
+            setListening(restoredListeningContext);
+        }
+        Object restoredFragment = getHotReloadRuntimeState(STATE_FRAGMENT, Object.class);
+        Context restoredFragmentContext = getHotReloadRuntimeState(
+            STATE_FRAGMENT_CONTEXT, Context.class
+        );
+        if (restoredFragment != null && restoredFragmentContext != null) {
+            registerFragmentObserver(restoredFragment, restoredFragmentContext);
+        }
+
         findAndHookMethod("com.miui.contentextension.setting.fragment.MainSettingsFragment",
             "onCreate", Bundle.class, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
                     Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
-                    ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
-                        @Override
-                        public void onChange(boolean selfChange) {
-                            boolean z;
-                            z = getTaplus(mContext);
-                            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "enablePrefConfig", z);
-                        }
-                    };
-                    mContext.getContentResolver().registerContentObserver(
-                        Settings.System.getUriFor("key_enable_taplus"),
-                        false, contentObserver);
-                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
+                    registerFragmentObserver(param.getThisObject(), mContext);
                 }
             }
         );
@@ -66,7 +73,15 @@ public class Taplus extends BaseHook {
                 public void before(HookParam param) {
                     Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
                     ContentObserver contentObserver = (ContentObserver) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "taplusListener");
-                    mContext.getContentResolver().unregisterContentObserver(contentObserver);
+                    if (mContext != null && contentObserver != null) {
+                        try {
+                            mContext.getContentResolver().unregisterContentObserver(contentObserver);
+                        } catch (IllegalArgumentException ignored) {
+                            // 已在热重载清理阶段注销。
+                        }
+                    }
+                    putHotReloadRuntimeState(STATE_FRAGMENT, null);
+                    putHotReloadRuntimeState(STATE_FRAGMENT_CONTEXT, null);
                 }
             }
         );
@@ -131,8 +146,30 @@ public class Taplus extends BaseHook {
         );
     }
 
+    private void registerFragmentObserver(Object fragment, Context context) {
+        if (fragment == null || context == null) return;
+        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                boolean enabled = getTaplus(context);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(
+                    fragment, "enablePrefConfig", enabled
+                );
+            }
+        };
+        context.getContentResolver().registerContentObserver(
+            Settings.System.getUriFor("key_enable_taplus"), false, contentObserver
+        );
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), contentObserver);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(
+            fragment, "taplusListener", contentObserver
+        );
+        putHotReloadRuntimeState(STATE_FRAGMENT, fragment);
+        putHotReloadRuntimeState(STATE_FRAGMENT_CONTEXT, context);
+    }
+
     public void setListening(Context context) {
-        mListening = true;
+        if (mListening || context == null) return;
         ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange, @Nullable Uri uri) {
@@ -150,6 +187,9 @@ public class Taplus extends BaseHook {
         context.getContentResolver().registerContentObserver(
             Settings.System.getUriFor("key_enable_taplus"),
             false, contentObserver);
+        mListening = true;
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), contentObserver);
+        putHotReloadRuntimeState(STATE_LISTENING_CONTEXT, context);
         // com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
     }
 

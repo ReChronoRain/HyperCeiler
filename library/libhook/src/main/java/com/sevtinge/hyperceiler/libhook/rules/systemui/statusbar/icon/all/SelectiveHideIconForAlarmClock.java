@@ -44,10 +44,23 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class SelectiveHideIconForAlarmClock extends BaseHook {
 
+    private static final String STATE_POLICY = "SelectiveHideIconForAlarmClock.policy";
+    private static final String STATE_CONTEXT = "SelectiveHideIconForAlarmClock.context";
+    private static final String STATE_ALARM_STATE = "SelectiveHideIconForAlarmClock.alarmState";
     private boolean lastAlarmState = false;
 
     @Override
     public void init() {
+        Boolean restoredAlarmState = getHotReloadRuntimeState(STATE_ALARM_STATE, Boolean.class);
+        if (restoredAlarmState != null) {
+            lastAlarmState = restoredAlarmState;
+        }
+        Object restoredPolicy = getHotReloadRuntimeState(STATE_POLICY, Object.class);
+        Context restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context.class);
+        if (restoredPolicy != null && restoredContext != null) {
+            setupPolicy(restoredPolicy, restoredContext);
+        }
+
         Class<?> miuiPolicy = findClassIfExists("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarPolicy");
         Class<?> phonePolicy = findClassIfExists("com.android.systemui.statusbar.phone.PhoneStatusBarPolicy$4");
 
@@ -60,41 +73,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         public void after(HookParam param) {
             Context context = (Context) getObjectField(param.getThisObject(), "mContext");
             Object policy = param.getThisObject();
-
-            initAlarmTime(policy, context);
-            registerAlarmObserver(policy, context);
-            registerTimeReceiver(policy, context);
-        }
-
-        private void initAlarmTime(Object policy, Context context) {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
-        }
-
-        private void registerAlarmObserver(Object policy, Context context) {
-            ContentObserver observer = new ContentObserver(new Handler(context.getMainLooper())) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    if (selfChange) return;
-                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
-                    updateAlarmVisibility(policy, lastAlarmState);
-                }
-            };
-            context.getContentResolver().registerContentObserver(
-                Settings.System.getUriFor("next_alarm_clock_formatted"), false, observer);
-        }
-
-        private void registerTimeReceiver(Object policy, Context context) {
-            IntentFilter filter = new IntentFilter();
-            filter.addAction("android.intent.action.TIME_TICK");
-            filter.addAction("android.intent.action.TIME_SET");
-            filter.addAction("android.intent.action.TIMEZONE_CHANGED");
-            filter.addAction("android.intent.action.LOCALE_CHANGED");
-            context.registerReceiver(new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context ctx, Intent intent) {
-                    updateAlarmVisibility(policy, lastAlarmState);
-                }
-            }, filter, Context.RECEIVER_EXPORTED);
+            setupPolicy(policy, context);
         }
     }
 
@@ -103,9 +82,58 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         public void after(HookParam param) {
             Object policy = getObjectField(param.getThisObject(), "this$0");
             lastAlarmState = (boolean) getObjectField(policy, "mHasAlarm");
+            putHotReloadRuntimeState(STATE_ALARM_STATE, lastAlarmState);
             updateAlarmVisibility(policy, lastAlarmState);
             param.setResult(null);
         }
+    }
+
+    private void setupPolicy(Object policy, Context context) {
+        if (policy == null || context == null) return;
+        initAlarmTime(policy, context);
+        registerAlarmObserver(policy, context);
+        registerTimeReceiver(policy, context);
+        putHotReloadRuntimeState(STATE_POLICY, policy);
+        putHotReloadRuntimeState(STATE_CONTEXT, context);
+    }
+
+    private void initAlarmTime(Object policy, Context context) {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(
+            policy, "mNextAlarmTime", getNextMIUIAlarmTime(context)
+        );
+    }
+
+    private void registerAlarmObserver(Object policy, Context context) {
+        ContentObserver observer = new ContentObserver(new Handler(context.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                if (selfChange) return;
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(
+                    policy, "mNextAlarmTime", getNextMIUIAlarmTime(context)
+                );
+                updateAlarmVisibility(policy, lastAlarmState);
+            }
+        };
+        context.getContentResolver().registerContentObserver(
+            Settings.System.getUriFor("next_alarm_clock_formatted"), false, observer
+        );
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), observer);
+    }
+
+    private void registerTimeReceiver(Object policy, Context context) {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("android.intent.action.TIME_TICK");
+        filter.addAction("android.intent.action.TIME_SET");
+        filter.addAction("android.intent.action.TIMEZONE_CHANGED");
+        filter.addAction("android.intent.action.LOCALE_CHANGED");
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context receiverContext, Intent intent) {
+                updateAlarmVisibility(policy, lastAlarmState);
+            }
+        };
+        context.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+        registerReceiverHotReloadCleanup(context, receiver);
     }
 
     private void updateAlarmVisibility(Object policy, boolean hasAlarm) {
@@ -199,4 +227,3 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         return alarmInfo == null ? 0 : alarmInfo.getTriggerTime();
     }
 }
-

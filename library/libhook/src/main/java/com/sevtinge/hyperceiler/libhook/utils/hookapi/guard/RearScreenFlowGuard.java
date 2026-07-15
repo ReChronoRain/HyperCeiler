@@ -25,6 +25,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Bundle;
 
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +54,7 @@ public final class RearScreenFlowGuard {
         if (!sLifecycleRegistered.compareAndSet(false, true)) {
             return;
         }
-        application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
+        Application.ActivityLifecycleCallbacks callback = new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 // No-op.
@@ -86,6 +88,15 @@ public final class RearScreenFlowGuard {
             @Override
             public void onActivityDestroyed(Activity activity) {
                 sActiveActivityClassNames.remove(activity.getClass().getName());
+            }
+        };
+        application.registerActivityLifecycleCallbacks(callback);
+        BaseHook.registerHotReloadCleanup(() -> {
+            try {
+                application.unregisterActivityLifecycleCallbacks(callback);
+            } finally {
+                sLifecycleRegistered.set(false);
+                sActiveActivityClassNames.clear();
             }
         });
     }

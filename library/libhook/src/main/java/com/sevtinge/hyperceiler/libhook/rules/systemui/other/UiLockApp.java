@@ -45,6 +45,8 @@ import io.github.libxposed.api.XposedInterface;
  */
 public class UiLockApp extends BaseHook {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
+    private static final String STATE_CONTEXT = "UiLockApp.context";
+    private static final String STATE_STATUS_BAR_VIEW = "UiLockApp.statusBarView";
 
     private static final String[] STATUS_BAR_WINDOW_CONTROLLER_CLASS_CANDIDATES = new String[] {
         "com.android.systemui.statusbar.window.StatusBarWindowControllerImpl",
@@ -77,6 +79,16 @@ public class UiLockApp extends BaseHook {
 
     @Override
     public void init() {
+        Context restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context.class);
+        View restoredStatusBarView = getHotReloadRuntimeState(STATE_STATUS_BAR_VIEW, View.class);
+        if (restoredStatusBarView != null) {
+            mStatusBarView = restoredStatusBarView;
+        }
+        if (restoredContext != null) {
+            registerObserverIfNeeded(restoredContext);
+            updateStatusBarVisibility(restoredContext);
+        }
+
         findAndChainMethod("com.android.systemui.SystemUIApplication",
             "onCreate",
             new XposedInterface.Hooker() {
@@ -126,6 +138,7 @@ public class UiLockApp extends BaseHook {
                     Object statusBarWindowView = getObjectField(chain.getThisObject(), "mStatusBarWindowView");
                     if (statusBarWindowView instanceof FrameLayout) {
                         mStatusBarView = (FrameLayout) statusBarWindowView;
+                        putHotReloadRuntimeState(STATE_STATUS_BAR_VIEW, mStatusBarView);
                     }
                     registerObserverIfNeeded(context);
                     updateStatusBarVisibility(context);
@@ -539,5 +552,7 @@ public class UiLockApp extends BaseHook {
             contentObserver
         );
         mObserverRegistered = true;
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), contentObserver);
+        putHotReloadRuntimeState(STATE_CONTEXT, context);
     }
 }

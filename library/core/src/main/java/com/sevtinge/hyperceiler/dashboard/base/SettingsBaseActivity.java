@@ -22,10 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
@@ -44,16 +41,18 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //PageDecorator.applyGrayScaleFilter(this);
-        //registerObserver(getApplicationContext());
         createUiFromIntent(savedInstanceState, getIntent());
     }
 
     protected void createUiFromIntent(Bundle savedInstanceState, Intent intent) {
         setContentView(R.layout.settings_sub);
+        if (savedInstanceState != null) {
+            return;
+        }
+
         String initialFragmentName = getInitialFragmentName(intent);
         if (!TextUtils.isEmpty(initialFragmentName)) {
-            Fragment targetFragment = getTargetFragment(this, initialFragmentName, savedInstanceState);
+            Fragment targetFragment = getTargetFragment(this, initialFragmentName, null);
             if (targetFragment != null) {
                 targetFragment.setArguments(getArguments(intent));
                 setFragment(targetFragment);
@@ -61,22 +60,11 @@ public class SettingsBaseActivity extends AppCompatActivity implements ActivityC
         }
     }
 
-
     public void setFragment(Fragment fragment) {
         getSupportFragmentManager()
             .beginTransaction()
             .setReorderingAllowed(true)
             .replace(R.id.frame_content, fragment)
             .commitNow();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(@NonNull Menu menu) {
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 }

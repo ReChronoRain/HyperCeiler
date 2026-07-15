@@ -41,7 +41,7 @@ import me.zhanghai.android.appiconloader.AppIconLoader;
 /**
  * 按目标尺寸标准化加载应用图标，并基于 Bitmap 做 LRU 缓存。
  */
-public class AppIconCache {
+public final class AppIconCache {
 
     private static final int DEFAULT_ICON_SIZE_DP = 40;
     private static final float RELOADED_ICON_CONTENT_SCALE = 1.16f;
@@ -197,18 +197,6 @@ public class AppIconCache {
         void onIconLoaded(@Nullable Drawable icon);
     }
 
-    private record CacheKey(String packageName, int sizePx) {
-            private CacheKey(@NonNull String packageName, int sizePx) {
-                this.packageName = packageName;
-                this.sizePx = sizePx;
-            }
-
-            @Override
-            public boolean equals(Object obj) {
-                if (this == obj) return true;
-                if (!(obj instanceof CacheKey other)) return false;
-                return sizePx == other.sizePx && packageName.equals(other.packageName);
-            }
-
+    private record CacheKey(@NonNull String packageName, int sizePx) {
     }
 }

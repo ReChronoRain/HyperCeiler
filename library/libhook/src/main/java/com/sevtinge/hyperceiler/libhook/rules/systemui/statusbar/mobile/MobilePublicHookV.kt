@@ -54,6 +54,11 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import java.util.concurrent.ConcurrentHashMap
 
 class MobilePublicHookV : BaseHook() {
+    private companion object {
+        const val STATE_CONTEXT = "MobilePublicHookV.context"
+        const val STATE_SUB_IDS = "MobilePublicHookV.subIds"
+        const val STATE_FLOW_PREFIX = "MobilePublicHookV.flow."
+    }
 
     private val visibilityFlows = ConcurrentHashMap<Int, Any>()
 
@@ -65,6 +70,8 @@ class MobilePublicHookV : BaseHook() {
 
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
     override fun init() {
+        restoreVisibilityFlowsAfterHotReload()
+
         miuiCellularIconVM.hookAllConstructors {
             after { param ->
                 val cellularIcon = param.thisObject
@@ -76,14 +83,14 @@ class MobilePublicHookV : BaseHook() {
                     // 信号显示逻辑
                     signalShowMode >= 1 -> {
                         cellularIcon.setObjectField("isVisible", isVisible)
-                        visibilityFlows[subId] = isVisible
+                        trackVisibilityFlow(subId, isVisible)
                         refreshVisibility(subId, isVisible)
                         registerReceiver(EzXposed.appContext)
                     }
                     // 双排信号（signalShowMode == 0 且未隐藏卡）
                     isEnableDouble && !(card1 || card2) -> {
                         cellularIcon.setObjectField("isVisible", isVisible)
-                        visibilityFlows[subId] = isVisible
+                        trackVisibilityFlow(subId, isVisible)
                         val slotIndex = SubscriptionManager.getSlotIndex(subId)
                         val shouldShow = !MobileViewHelper.isAirplaneModeOn() &&
                             (MobileViewHelper.isSingleSimMode() || slotIndex == 0)
@@ -121,6 +128,44 @@ class MobilePublicHookV : BaseHook() {
     }
 
     // ==================== Flow 工具 ====================
+    private fun trackVisibilityFlow(subId: Int, flow: Any) {
+        visibilityFlows[subId] = flow
+        // ReadonlyStateFlow 由 SystemUI 的 kotlinx.coroutines classloader 创建；只有它不是
+        // 模块对象时才跨 generation 保存。这样既能让现有 ViewModel 继续接收更新，也不会把
+        // 模块 classloader / lambda 带进 SavedInstanceState。
+        if (flow.javaClass.classLoader === javaClass.classLoader) {
+            return
+        }
+        BaseHook.putHotReloadRuntimeState("$STATE_FLOW_PREFIX$subId", flow)
+        BaseHook.putHotReloadRuntimeState(
+            STATE_SUB_IDS,
+            visibilityFlows.keys.sorted().joinToString(",")
+        )
+    }
+
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+    private fun restoreVisibilityFlowsAfterHotReload() {
+        if (signalShowMode < 1 && !(isEnableDouble && !(card1 || card2))) {
+            return
+        }
+        val savedIds = BaseHook.getHotReloadRuntimeState(STATE_SUB_IDS, String::class.java)
+            ?.split(',')
+            ?.mapNotNull { it.toIntOrNull() }
+            .orEmpty()
+        savedIds.forEach { subId ->
+            val flow = BaseHook.getHotReloadRuntimeState("$STATE_FLOW_PREFIX$subId", Any::class.java)
+                ?: return@forEach
+            if (flow.javaClass.classLoader !== javaClass.classLoader) {
+                visibilityFlows[subId] = flow
+            }
+        }
+        if (visibilityFlows.isEmpty()) {
+            return
+        }
+        BaseHook.getHotReloadRuntimeState(STATE_CONTEXT, Context::class.java)?.let(::registerReceiver)
+        refreshAllVisibility()
+    }
+
     private fun needPairFlow(): Boolean {
         return isMoreAndroidVersion(36) || isMoreHyperOSVersion(3f)
     }
@@ -247,35 +292,38 @@ class MobilePublicHookV : BaseHook() {
     @Synchronized
     private fun registerReceiver(context: Context) {
         if (broadcastRegistered) return
-        broadcastRegistered = true
 
         val filter = IntentFilter().apply {
             addAction("android.intent.action.ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED")
             addAction("android.intent.action.SIM_STATE_CHANGED")
             addAction("android.intent.action.AIRPLANE_MODE")
         }
-        context.registerReceiver(object : BroadcastReceiver() {
+        val receiver = object : BroadcastReceiver() {
             @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
             override fun onReceive(ctx: Context?, intent: Intent?) {
                 refreshAllVisibility()
             }
-        }, filter, Context.RECEIVER_EXPORTED)
+        }
+        context.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        BaseHook.registerReceiverHotReloadCleanup(context, receiver)
 
         val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        cm.registerDefaultNetworkCallback(
-            object : ConnectivityManager.NetworkCallback() {
-                @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
-                override fun onAvailable(network: Network) = refreshAllVisibility()
+        val callback = object : ConnectivityManager.NetworkCallback() {
+            @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+            override fun onAvailable(network: Network) = refreshAllVisibility()
 
-                @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
-                override fun onLost(network: Network) = refreshAllVisibility()
+            @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+            override fun onLost(network: Network) = refreshAllVisibility()
 
-                @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
-                override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
-                    refreshAllVisibility()
-                }
+            @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+            override fun onCapabilitiesChanged(network: Network, networkCapabilities: NetworkCapabilities) {
+                refreshAllVisibility()
             }
-        )
+        }
+        cm.registerDefaultNetworkCallback(callback)
+        BaseHook.registerNetworkCallbackHotReloadCleanup(cm, callback)
+        broadcastRegistered = true
+        BaseHook.putHotReloadRuntimeState(STATE_CONTEXT, context)
     }
 
     private fun updateIconState(param: HookParam, fieldName: String, key: String) {

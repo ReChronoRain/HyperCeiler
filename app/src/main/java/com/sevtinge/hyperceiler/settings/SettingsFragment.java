@@ -50,11 +50,13 @@ import com.sevtinge.hyperceiler.sub.ScopePickerActivity;
 import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.HotReloadDialogHelper;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import fan.appcompat.app.AlertDialog;
@@ -74,6 +76,7 @@ public class SettingsFragment extends BasePreferenceFragment
     DropDownPreference mLanguage;
     SwitchPreference mScopeSyncPreference;
     Preference mScopePreference;
+    Preference mHotReloadPreference;
 
     // 记录当前操作类型：0-备份，1-恢复
     private final int currentAction = -1;
@@ -123,6 +126,7 @@ public class SettingsFragment extends BasePreferenceFragment
         mLogLevel = findPreference("prefs_key_log_level_v2");
         mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
         mScopePreference = findPreference("prefs_key_settings_scope");
+        mHotReloadPreference = findPreference("prefs_key_settings_hot_reload");
 
         if (mHideAppIcon != null) {
             mHideAppIcon.setPersistent(false);
@@ -236,6 +240,13 @@ public class SettingsFragment extends BasePreferenceFragment
             });
         }
 
+        if (mHotReloadPreference != null) {
+            mHotReloadPreference.setOnPreferenceClickListener(preference -> {
+                showHotReloadEntry();
+                return true;
+            });
+        }
+
         Preference backPreference = findPreference("prefs_key_back");
         Preference restPreference = findPreference("prefs_key_rest");
         Preference resetPreference = findPreference("prefs_key_reset");
@@ -267,6 +278,11 @@ public class SettingsFragment extends BasePreferenceFragment
             }
         }
         return true;
+    }
+
+    private void showHotReloadEntry() {
+        // 开发入口与功能页使用同一套 scope 应用多选逻辑，避免再按单个 PID 重载。
+        HotReloadDialogHelper.showScopedAppPicker(requireActivity(), null);
     }
 
     @Override

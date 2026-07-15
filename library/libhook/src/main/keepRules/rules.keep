@@ -4,26 +4,18 @@
 # For more details, see
 #   https://d.android.com/r/tools/r8/keep-rules
 
-# If your project uses WebView with JS, uncomment the following
-# and specify the fully qualified class name to the JavaScript interface
-# class:
-#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
-#   public *;
-#}
-# --- Xposed ---
+# === libxposed API 102 官方推荐规则 ===
+# 来源: https://github.com/libxposed/api#for-module-developers
+# 仅这三条 —— 其他生命周期方法的 keep 都是冗余的（framework 通过接口签名调用，不依赖方法名）。
+-dontwarn io.github.libxposed.annotation.**
 -adaptresourcefilecontents META-INF/xposed/java_init.list
+-keep,allowoptimization,allowobfuscation public class * extends io.github.libxposed.api.XposedModule {
+    public <init>();
+}
 
--keep,allowobfuscation,allowoptimization public class * extends io.github.libxposed.api.XposedModule {
-    public <init>(...);
-    public void onModuleLoaded(...);
-    public void onPackageLoaded(...);
-    public void onPackageReady(...);
-    public void onSystemServerStarting(...);
-}
+# Hooker 实现类：framework 通过 XposedInterface$Hooker 接口签名调用，类名/字段名可混淆，
+# 但接口实现关系本身要保留（R8 默认会保留 implements 关系，这里只是额外保险）。
 -keep,allowshrinking,allowoptimization,allowobfuscation class ** implements io.github.libxposed.api.XposedInterface$Hooker
--keepclassmembers,allowoptimization class ** implements io.github.libxposed.api.XposedInterface$Hooker {
-    public *** intercept(...);
-}
 
 # --- Other ---
 -keep class com.hchen.superlyricapi.** { *; }

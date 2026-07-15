@@ -231,6 +231,10 @@ class FastChargeBehavior : BaseHook() {
                 param.result = null
             }
         }
+
+        getHotReloadRuntimeState(HOT_RELOAD_TIP_HOST_KEY, Any::class.java)?.let {
+            installFastChargeTipClickListener(it)
+        }
     }
 
     private fun findFastChargeNotificationMethods(key: String, enter: Boolean): List<Method> {
@@ -365,6 +369,12 @@ class FastChargeBehavior : BaseHook() {
             if (!handleFastChargeTipClick(hostObject)) {
                 invokeOriginalFastChargeTipClick(hostObject)
             }
+        }
+        if (hostObject != null) {
+            putHotReloadRuntimeState(HOT_RELOAD_TIP_HOST_KEY, hostObject)
+        }
+        registerHotReloadCleanup {
+            tipView.setOnClickListener(null)
         }
     }
 
@@ -580,6 +590,8 @@ class FastChargeBehavior : BaseHook() {
     }
 
     companion object {
+        private const val HOT_RELOAD_TIP_HOST_KEY = "FastChargeBehavior.tipHost"
+
         // ── 行为模式 ─────────────────────────────────────────────
         /** 自动确认快充并移除原确认通知。 */
         private const val MODE_AUTO_CONFIRM_REMOVE = 2

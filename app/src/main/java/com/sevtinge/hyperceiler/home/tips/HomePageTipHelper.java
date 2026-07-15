@@ -35,13 +35,8 @@ public class HomePageTipHelper {
                 tipView.setText("Tip: Loading...");
                 updateTipTextWithView(context, tipView);
             }
+            tipView.setOnClickListener(view -> updateTipTextWithView(context, tipView));
         }
-
-        v.setOnClickListener(view -> {
-            if (tipView != null) {
-                updateTipTextWithView(context, tipView);
-            }
-        });
         return v;
     }
 

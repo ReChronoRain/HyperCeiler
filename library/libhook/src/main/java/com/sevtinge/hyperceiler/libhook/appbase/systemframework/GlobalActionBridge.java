@@ -33,6 +33,8 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemframework.actions.HomeNati
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
+
 public final class GlobalActionBridge {
     private static final int ACTION_ID_NONE = 0;
     private static final int ACTION_ID_NOTIFICATION_CENTER = 1;
@@ -160,7 +162,11 @@ public final class GlobalActionBridge {
     }
 
     public static boolean launchAppIntent(Context context, String key, boolean skipLock) {
-        return launchIntent(context, getIntent(key, IntentType.APP, skipLock));
+        Intent intent = getIntent(key, IntentType.APP, skipLock);
+        if (intent == null) {
+            AndroidLog.w("GlobalActionBridge", "system", "launchAppIntent: getIntent returned null for key=" + key + " (perhaps no app picked yet, or stale data)");
+        }
+        return launchIntent(context, intent);
     }
 
     public static boolean launchIntent(Context context, Intent intent) {
@@ -174,17 +180,19 @@ public final class GlobalActionBridge {
     }
 
     public static Intent getIntent(String prefs, IntentType intentType, boolean skipLock) {
+        String resolvedKey = prefs;
         try {
             if (intentType == IntentType.APP) {
-                prefs += "_app";
+                resolvedKey += "_app";
             } else if (intentType == IntentType.ACTIVITY) {
-                prefs += "_activity";
+                resolvedKey += "_activity";
             } else if (intentType == IntentType.SHORTCUT) {
-                prefs += "_shortcut_intent";
+                resolvedKey += "_shortcut_intent";
             }
 
-            String prefValue = PrefsBridge.getString(prefs, null);
-            if (prefValue == null) {
+            String prefValue = PrefsBridge.getString(resolvedKey, null);
+            AndroidLog.i("GlobalActionBridge", "system", "getIntent: " + resolvedKey + " = " + prefValue);
+            if (prefValue == null || prefValue.isEmpty()) {
                 return null;
             }
 
@@ -192,12 +200,27 @@ public final class GlobalActionBridge {
             if (intentType == IntentType.SHORTCUT) {
                 intent = Intent.parseUri(prefValue, 0);
             } else {
-                String[] pkgAppArray = prefValue.split("\\|");
-                if (pkgAppArray.length < 2) {
+                String[] pkgAppArray = prefValue.split("\\|", -1);
+                if (pkgAppArray.length < 1 || pkgAppArray[0] == null || pkgAppArray[0].isEmpty()) {
+                    AndroidLog.w("GlobalActionBridge", "system", "getIntent: invalid prefValue (empty pkg): " + prefValue);
                     return null;
                 }
-                intent.setComponent(new ComponentName(pkgAppArray[0], pkgAppArray[1]));
-                int user = PrefsBridge.getInt(prefs + "_user", 0);
+                String pkgName = pkgAppArray[0];
+                String actName = pkgAppArray.length >= 2 ? pkgAppArray[1] : null;
+                boolean activityValid = actName != null && !actName.isEmpty()
+                    && !"null".equalsIgnoreCase(actName);
+                if (activityValid) {
+                    intent.setComponent(new ComponentName(pkgName, actName));
+                } else {
+                    AndroidLog.w("GlobalActionBridge", "system", "getIntent: activity empty/null, fallback to launcher intent for pkg=" + pkgName);
+                    Intent launchIntent = context().getPackageManager().getLaunchIntentForPackage(pkgName);
+                    if (launchIntent == null) {
+                        AndroidLog.w("GlobalActionBridge", "system", "getIntent: no launcher activity for pkg=" + pkgName);
+                        return null;
+                    }
+                    intent = launchIntent;
+                }
+                int user = PrefsBridge.getInt(resolvedKey + "_user", 0);
                 if (user != 0) {
                     intent.putExtra("user", user);
                 }
@@ -205,7 +228,9 @@ public final class GlobalActionBridge {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
 
             if (intentType == IntentType.APP) {
-                intent.setAction(Intent.ACTION_MAIN);
+                if (intent.getAction() == null) {
+                    intent.setAction(Intent.ACTION_MAIN);
+                }
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
             }
 
@@ -217,9 +242,13 @@ public final class GlobalActionBridge {
 
             return intent;
         } catch (Throwable t) {
-            AndroidLog.w("GlobalActionBridge", "system", "getIntent", t);
+            AndroidLog.w("GlobalActionBridge", "system", "getIntent failed for " + resolvedKey, t);
             return null;
         }
+    }
+
+    private static Context context() {
+        return EzXposed.getAppContext();
     }
 
     public static boolean isMediaActionsAllowed(Context context) {

@@ -92,6 +92,7 @@ public abstract class TileUtils extends BaseHook {
 
     private static final String FIELD_CUSTOM_NAME = "hc_customTileName";
     private static final String METHOD_CREATE_TILE = "createTile";
+    private static final String HOT_RELOAD_STATE_PREFIX = "TileUtils.listening.";
 
     // ==================== 缓存字段 ====================
 
@@ -238,6 +239,7 @@ public abstract class TileUtils extends BaseHook {
 
         // Hook 磁贴方法
         hookTileMethods();
+        restoreListeningStateAfterHotReload();
 
         XposedLog.d(TAG, "Tile initialized: " + mConfig);
     }
@@ -433,6 +435,7 @@ public abstract class TileUtils extends BaseHook {
 
                 TileContext ctx = new TileContext(param);
                 boolean listening = (boolean) param.getArgs()[0];
+                rememberListeningState(param.getThisObject(), listening);
                 onListeningChanged(ctx, listening);
                 // 不设置 result，让原方法继续执行
             }
@@ -522,13 +525,17 @@ public abstract class TileUtils extends BaseHook {
                     if (mConfig.hasIcons() && !hasCustomClick) {
                         Object tile = chain.getThisObject();
                         Handler mainHandler = new Handler(Looper.getMainLooper());
-                        mainHandler.postDelayed(() -> {
+                        Runnable delayedRefresh = () -> {
                             try {
                                 com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tile, "refreshState");
                             } catch (Throwable t) {
                                 XposedLog.e(TAG, "Failed to delayed refresh state", t);
                             }
-                        }, 50);
+                        };
+                        mainHandler.postDelayed(delayedRefresh, 50);
+                        BaseHook.registerHotReloadCleanup(
+                            () -> mainHandler.removeCallbacks(delayedRefresh)
+                        );
                     }
 
                     if (needClickAfter()) {
@@ -682,6 +689,45 @@ public abstract class TileUtils extends BaseHook {
         String tileName = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(
             tileInstance, FIELD_CUSTOM_NAME);
         return mConfig.getTileName().equals(tileName);
+    }
+
+    private String hotReloadStateKey(String suffix) {
+        return HOT_RELOAD_STATE_PREFIX + getClass().getName() + '.' + suffix;
+    }
+
+    /**
+     * handleSetListening 不会在 API 102 热重载后由 SystemUI 重放；记录宿主 tile 后，
+     * 新 generation 可以立即为仍在监听的磁贴重新建立 Observer/Receiver。
+     */
+    private void rememberListeningState(@NonNull Object tileInstance, boolean listening) {
+        if (!listening) {
+            BaseHook.putHotReloadRuntimeState(hotReloadStateKey("tile"), null);
+            BaseHook.putHotReloadRuntimeState(hotReloadStateKey("active"), null);
+            return;
+        }
+        BaseHook.putHotReloadRuntimeState(hotReloadStateKey("tile"), tileInstance);
+        BaseHook.putHotReloadRuntimeState(hotReloadStateKey("active"), Boolean.TRUE);
+    }
+
+    private void restoreListeningStateAfterHotReload() {
+        if (!mConfig.isCustomTile()
+            && !isMethodOverridden("onListeningChanged", TileContext.class, boolean.class)) {
+            return;
+        }
+        Boolean active = BaseHook.getHotReloadRuntimeState(
+            hotReloadStateKey("active"), Boolean.class
+        );
+        Object tile = BaseHook.getHotReloadRuntimeState(hotReloadStateKey("tile"), Object.class);
+        if (!Boolean.TRUE.equals(active) || tile == null || !shouldHandle(tile)) {
+            return;
+        }
+        try {
+            TileContext ctx = new TileContext(tile, new Object[]{true}, null);
+            onListeningChanged(ctx, true);
+            ctx.refreshState();
+        } catch (Throwable t) {
+            XposedLog.e(TAG, "Failed to restore active tile listener after hot reload", t);
+        }
     }
 
     @NonNull

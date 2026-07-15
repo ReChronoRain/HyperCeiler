@@ -47,6 +47,9 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AddSideBarExpandReceiver extends BaseHook {
+    private static final String STATE_VIEW = "AddSideBarExpandReceiver.view";
+    private static final String STATE_REGION_SAMPLING_HELPER =
+        "AddSideBarExpandReceiver.regionSamplingHelper";
 
     private boolean isNewVersion;
     private boolean hideSideBar;
@@ -70,6 +73,14 @@ public class AddSideBarExpandReceiver extends BaseHook {
             }
 
             hookRegionSamplingHelper(regionSamplingHelper);
+            View restoredView = getHotReloadRuntimeState(STATE_VIEW, View.class);
+            Object restoredHelper = getHotReloadRuntimeState(
+                STATE_REGION_SAMPLING_HELPER, Object.class
+            );
+            if (restoredView != null && restoredHelper != null) {
+                isHooked[0] = true;
+                handleConstructorAfter(restoredView, restoredHelper);
+            }
         } catch (Throwable e) {
             XposedLog.e(TAG, getPackageName(), "init failed", e);
         }
@@ -154,6 +165,9 @@ public class AddSideBarExpandReceiver extends BaseHook {
             ContextCompat.RECEIVER_NOT_EXPORTED);
 
         BaseHook.setAdditionalInstanceField(regionSamplingHelper, "showReceiver", showReceiver);
+        registerReceiverHotReloadCleanup(view.getContext(), showReceiver);
+        putHotReloadRuntimeState(STATE_VIEW, view);
+        putHotReloadRuntimeState(STATE_REGION_SAMPLING_HELPER, regionSamplingHelper);
     }
 
     /**
@@ -181,6 +195,7 @@ public class AddSideBarExpandReceiver extends BaseHook {
     private void scheduleRemoveBackground(View view) {
         Handler handler = new Handler(Looper.myLooper());
         handler.postDelayed(() -> removeBackground(view), 150);
+        registerHotReloadCleanup(() -> handler.removeCallbacksAndMessages(null));
     }
 
     /**
@@ -291,9 +306,15 @@ public class AddSideBarExpandReceiver extends BaseHook {
 
                     if (showReceiver != null) {
                         View view = (View) param.getArgs()[0];
-                        view.getContext().unregisterReceiver(showReceiver);
+                        try {
+                            view.getContext().unregisterReceiver(showReceiver);
+                        } catch (IllegalArgumentException ignored) {
+                            // 已在热重载清理阶段注销。
+                        }
                         BaseHook.removeAdditionalInstanceField(param.getThisObject(), "showReceiver");
                     }
+                    putHotReloadRuntimeState(STATE_VIEW, null);
+                    putHotReloadRuntimeState(STATE_REGION_SAMPLING_HELPER, null);
                 }
             });
     }

@@ -18,13 +18,18 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import java.util.concurrent.CancellationException
 import java.util.function.Consumer
 
 class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
     fun <T> alwaysCollectFlow(flow: Any, consumer: Consumer<T>): KotlinJob {
-        return KotlinJob(instance.callMethod("alwaysCollectFlow", flow, consumer) as Any)
+        val job = KotlinJob(instance.callMethod("alwaysCollectFlow", flow, consumer) as Any)
+        // Flow collector 持有 Consumer，而 Consumer 往往捕获当前模块 generation。
+        // 不在热重载前取消会让旧 classloader 持续接收状态更新。
+        BaseHook.registerHotReloadCleanup { job.cancel() }
+        return job
     }
 }
 

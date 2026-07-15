@@ -12,14 +12,15 @@ import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.text.Collator;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.function.Function;
 
 public class AppDataManager {
 
     private static final String TAG = "AppDataManager";
-    private final HashMap<String, Integer> mPackageMap = new HashMap<>();
 
     public List<AppData> getAppInfo(int modeSelection) {
         try {
@@ -44,36 +45,19 @@ public class AppDataManager {
     private List<AppData> getLauncherApps() {
         return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
             @Override
-            public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-                List<ResolveInfo> resolveInfosHaveNoLauncher =
-                    pm.queryIntentActivities(intent, PackageManager.MATCH_ALL);
-
-                mPackageMap.clear();
-                List<ResolveInfo> resolveInfoList = new ArrayList<>();
-
-                for (ResolveInfo resolveInfo : resolveInfosHaveNoLauncher) {
-                    if (resolveInfo.activityInfo == null) continue;
-
-                    String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
-                    if (!mPackageMap.containsKey(packageName)) {
-                        mPackageMap.put(packageName, 1);
-                        resolveInfoList.add(resolveInfo);
-                    }
-                }
-
-                Collator collator = Collator.getInstance(Locale.getDefault());
-                resolveInfoList.sort((r1, r2) -> {
-                    CharSequence label1 = r1.loadLabel(pm);
-                    CharSequence label2 = r2.loadLabel(pm);
-                    return collator.compare(
-                        label1.toString(),
-                        label2.toString()
-                    );
-                });
-                return new ArrayList<>(resolveInfoList);
+            public List<Parcelable> getPackageCodeList(PackageManager packageManager) {
+                Intent intent = new Intent(Intent.ACTION_MAIN)
+                    .addCategory(Intent.CATEGORY_LAUNCHER);
+                List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(
+                    intent,
+                    PackageManager.MATCH_ALL
+                );
+                List<ResolveInfo> apps = distinctByPackage(
+                    resolveInfos,
+                    AppDataManager::getActivityPackageName
+                );
+                sortByLabel(apps, resolveInfo -> resolveInfo.loadLabel(packageManager));
+                return new ArrayList<>(apps);
             }
         });
     }
@@ -90,27 +74,18 @@ public class AppDataManager {
     private List<AppData> getProcessTextApps() {
         return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
             @Override
-            public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                Intent intent = new Intent()
-                    .setAction(Intent.ACTION_PROCESS_TEXT)
-                    .setType("text/plain");
-                intent.putExtra("HyperCeiler", true);
-
-                List<ResolveInfo> resolveInfos =
-                    pm.queryIntentActivities(intent, PackageManager.GET_ACTIVITIES | PackageManager.MATCH_DEFAULT_ONLY);
-                List<ResolveInfo> resolveInfoList = new ArrayList<>();
-
-                mPackageMap.clear();
-                for (ResolveInfo resolveInfo : resolveInfos) {
-                    if (resolveInfo.activityInfo == null) continue;
-
-                    String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
-                    if (!mPackageMap.containsKey(packageName)) {
-                        mPackageMap.put(packageName, 1);
-                        resolveInfoList.add(resolveInfo);
-                    }
-                }
-                return new ArrayList<>(resolveInfoList);
+            public List<Parcelable> getPackageCodeList(PackageManager packageManager) {
+                Intent intent = new Intent(Intent.ACTION_PROCESS_TEXT)
+                    .setType("text/plain")
+                    .putExtra("HyperCeiler", true);
+                List<ResolveInfo> resolveInfos = packageManager.queryIntentActivities(
+                    intent,
+                    PackageManager.GET_ACTIVITIES | PackageManager.MATCH_DEFAULT_ONLY
+                );
+                return new ArrayList<>(distinctByPackage(
+                    resolveInfos,
+                    AppDataManager::getActivityPackageName
+                ));
             }
         });
     }
@@ -118,33 +93,10 @@ public class AppDataManager {
     private List<AppData> getAllApps() {
         return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
             @Override
-            public List<Parcelable> getPackageCodeList(PackageManager pm) {
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-                List<ApplicationInfo> applicationInfos = pm.getInstalledApplications(0);
-
-                mPackageMap.clear();
-                List<ApplicationInfo> resolveInfoList = new ArrayList<>();
-
-                for (ApplicationInfo appInfo : applicationInfos) {
-                    String packageName = appInfo.packageName;
-                    if (!mPackageMap.containsKey(packageName)) {
-                        mPackageMap.put(packageName, 1);
-                        resolveInfoList.add(appInfo);
-                    }
-                }
-
-                Collator collator = Collator.getInstance(Locale.getDefault());
-                resolveInfoList.sort((r1, r2) -> {
-                    CharSequence label1 = r1.loadLabel(pm);
-                    CharSequence label2 = r2.loadLabel(pm);
-                    return collator.compare(
-                        label1.toString(),
-                        label2.toString()
-                    );
-                });
-                return new ArrayList<>(resolveInfoList);
+            public List<Parcelable> getPackageCodeList(PackageManager packageManager) {
+                List<ApplicationInfo> apps = new ArrayList<>(packageManager.getInstalledApplications(0));
+                sortByLabel(apps, appInfo -> appInfo.loadLabel(packageManager));
+                return new ArrayList<>(apps);
             }
         });
     }
@@ -152,34 +104,57 @@ public class AppDataManager {
     private List<AppData> getInputMethodApps() {
         return PackagesUtils.getPackagesByCode(new PackagesUtils.IPackageCode() {
             @Override
-            public List<Parcelable> getPackageCodeList(PackageManager pm) {
+            public List<Parcelable> getPackageCodeList(PackageManager packageManager) {
                 Intent intent = new Intent("android.view.InputMethod");
-                List<ResolveInfo> resolveInfos = pm.queryIntentServices(
-                    intent, PackageManager.MATCH_ALL | PackageManager.MATCH_DISABLED_COMPONENTS);
+                List<ResolveInfo> resolveInfos = packageManager.queryIntentServices(
+                    intent,
+                    PackageManager.MATCH_ALL | PackageManager.MATCH_DISABLED_COMPONENTS
+                );
 
-                mPackageMap.clear();
-                List<Parcelable> appInfoList = new ArrayList<>();
+                List<ApplicationInfo> applicationInfos = new ArrayList<>();
                 for (ResolveInfo resolveInfo : resolveInfos) {
-                    if (resolveInfo.serviceInfo == null || resolveInfo.serviceInfo.applicationInfo == null) {
-                        continue;
-                    }
-
-                    ApplicationInfo appInfo = resolveInfo.serviceInfo.applicationInfo;
-                    String packageName = appInfo.packageName;
-                    if (!mPackageMap.containsKey(packageName)) {
-                        mPackageMap.put(packageName, 1);
-                        appInfoList.add(appInfo);
+                    if (resolveInfo.serviceInfo != null && resolveInfo.serviceInfo.applicationInfo != null) {
+                        applicationInfos.add(resolveInfo.serviceInfo.applicationInfo);
                     }
                 }
 
-                Collator collator = Collator.getInstance(Locale.getDefault());
-                appInfoList.sort((left, right) -> {
-                    CharSequence label1 = ((ApplicationInfo) left).loadLabel(pm);
-                    CharSequence label2 = ((ApplicationInfo) right).loadLabel(pm);
-                    return collator.compare(label1.toString(), label2.toString());
-                });
-                return appInfoList;
+                List<ApplicationInfo> apps = distinctByPackage(
+                    applicationInfos,
+                    appInfo -> appInfo.packageName
+                );
+                sortByLabel(apps, appInfo -> appInfo.loadLabel(packageManager));
+                return new ArrayList<>(apps);
             }
         });
+    }
+
+    private static String getActivityPackageName(ResolveInfo resolveInfo) {
+        if (resolveInfo.activityInfo == null || resolveInfo.activityInfo.applicationInfo == null) {
+            return null;
+        }
+        return resolveInfo.activityInfo.applicationInfo.packageName;
+    }
+
+    private static <T> List<T> distinctByPackage(
+        List<T> items,
+        Function<T, String> packageNameProvider
+    ) {
+        Set<String> packageNames = new HashSet<>();
+        List<T> distinctItems = new ArrayList<>();
+        for (T item : items) {
+            String packageName = packageNameProvider.apply(item);
+            if (packageName != null && packageNames.add(packageName)) {
+                distinctItems.add(item);
+            }
+        }
+        return distinctItems;
+    }
+
+    private static <T> void sortByLabel(List<T> items, Function<T, CharSequence> labelProvider) {
+        Collator collator = Collator.getInstance(Locale.getDefault());
+        items.sort((left, right) -> collator.compare(
+            labelProvider.apply(left).toString(),
+            labelProvider.apply(right).toString()
+        ));
     }
 }

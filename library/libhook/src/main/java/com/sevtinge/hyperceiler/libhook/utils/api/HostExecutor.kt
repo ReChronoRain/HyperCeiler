@@ -20,15 +20,19 @@ package com.sevtinge.hyperceiler.libhook.utils.api
 
 import android.os.Handler
 import android.os.Looper
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
 
 object HostExecutor {
     private val executor: ExecutorService = Executors.newFixedThreadPool(4)
     private val mainHandler = Handler(Looper.getMainLooper())
     private val taskMap = ConcurrentHashMap<Any, TaskToken>()
+    @Volatile
+    private var hotReloadCleanupRegistered = false
 
     private class TaskToken {
         @Volatile var future: Future<*>? = null
@@ -40,6 +44,7 @@ object HostExecutor {
         runOnMain: Boolean = true,
         onResult: ((T) -> Unit)? = null
     ) {
+        ensureHotReloadCleanup()
         val oldToken = taskMap[tag]
         oldToken?.future?.cancel(true)
 
@@ -78,5 +83,28 @@ object HostExecutor {
             }
         }
         newToken.future = future
+    }
+
+    private fun ensureHotReloadCleanup() {
+        if (hotReloadCleanupRegistered) return
+        synchronized(this) {
+            if (hotReloadCleanupRegistered) return
+            BaseHook.registerHotReloadCleanup {
+                taskMap.values.forEach { token -> token.future?.cancel(true) }
+                taskMap.clear()
+                mainHandler.removeCallbacksAndMessages(null)
+                executor.shutdownNow()
+                try {
+                    if (!executor.awaitTermination(500, TimeUnit.MILLISECONDS)) {
+                        throw IllegalStateException("HostExecutor did not stop before hot reload")
+                    }
+                } catch (e: InterruptedException) {
+                    Thread.currentThread().interrupt()
+                    throw IllegalStateException("Interrupted while stopping HostExecutor", e)
+                }
+                hotReloadCleanupRegistered = false
+            }
+            hotReloadCleanupRegistered = true
+        }
     }
 }

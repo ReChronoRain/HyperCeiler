@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFloatField
@@ -52,6 +53,10 @@ object StartCollpasedColumnPress {
 
         var longClick = false
         var longPressJob: Job? = null
+        BaseHook.registerHotReloadCleanup {
+            longPressJob?.cancel()
+            longPressJob = null
+        }
 
         fun View.startScaleAnimation() {
             longClick = true

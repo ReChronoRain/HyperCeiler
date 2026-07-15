@@ -77,7 +77,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                         meter.layoutParams = lp
                     }
 
-                    meter.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    val layoutListener = object : View.OnLayoutChangeListener {
                         override fun onLayoutChange(
                             v: View, left: Int, top: Int, right: Int, bottom: Int,
                             oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
@@ -113,7 +113,11 @@ object NewNetworkSpeedStyle : BaseHook() {
                                 }
                             }
                         }
-                    })
+                    }
+                    meter.addOnLayoutChangeListener(layoutListener)
+                    BaseHook.registerHotReloadCleanup {
+                        meter.removeOnLayoutChangeListener(layoutListener)
+                    }
             }
 
     }

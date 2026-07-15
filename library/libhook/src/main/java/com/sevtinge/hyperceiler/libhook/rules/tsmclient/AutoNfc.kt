@@ -33,6 +33,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -40,9 +41,14 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 object AutoNfc : BaseHook() {
     private var isNeed: String = ""
+    private var enableJob: Job? = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
+        registerHotReloadCleanup {
+            enableJob?.cancel()
+            enableJob = null
+        }
 
         Activity::class.java.afterHookMethod("onCreate", Bundle::class.java) { param ->
             if (isNeed.endsWith("+onDestroy") || isNeed == "") {
@@ -101,7 +107,8 @@ object AutoNfc : BaseHook() {
             HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
             val activity = param.thisObject as Activity
             if (activity.javaClass.name != "com.miui.tsmclient.ui.quick.DoubleClickActivity") return
-            MainScope().launch {
+            enableJob?.cancel()
+            enableJob = MainScope().launch {
                 waitNFCEnable(EzXposed.appContext, nfcAdapter)
                 val targetClass = param.thisObject.javaClass
                 Fields.find(targetClass).filterByType(Boolean::class.java).toList().last()

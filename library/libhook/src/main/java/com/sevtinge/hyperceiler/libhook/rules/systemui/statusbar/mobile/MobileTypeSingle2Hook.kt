@@ -88,6 +88,7 @@ import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
     private const val LAST_BOUND_VIEW_MODEL_KEY = "mobile_type_single2_last_bound_vm"
+    private const val DATA_SIM_CONTEXT_KEY = "MobileTypeSingle2Hook.dataSimContext"
 
     private val showNameFlowProxy = DataSimFlowProxy("")
     private val inOutVisibleProxy = DataSimFlowProxy(false)
@@ -134,6 +135,11 @@ object MobileTypeSingle2Hook : BaseHook() {
     private val refreshBoundViewsRunnable = Runnable { refreshBoundViewsNow() }
 
     override fun init() {
+        BaseHook.registerHandlerHotReloadCleanup(mainHandler)
+        if (isEnableDouble) {
+            getHotReloadRuntimeState(DATA_SIM_CONTEXT_KEY, Context::class.java)
+                ?.let(::registerDataSimBroadcast)
+        }
         hookMobileViewAndVM()
     }
 
@@ -484,20 +490,23 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     /** 监听上网卡切换 + SIM 变化，刷新已绑定的官方 mobile 布局 */
     @Synchronized
-    private fun registerDataSimBroadcast() {
+    private fun registerDataSimBroadcast(context: Context = EzXposed.appContext) {
         if (broadcastRegistered) return
-        broadcastRegistered = true
 
         val filter = IntentFilter().apply {
             addAction("android.intent.action.ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED")
             addAction("android.intent.action.SIM_STATE_CHANGED")
         }
-        EzXposed.appContext.registerReceiver(object : BroadcastReceiver() {
+        val receiver = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
                 syncDataSimProxiesNow()
                 scheduleRefreshBoundViews()
             }
-        }, filter, Context.RECEIVER_EXPORTED)
+        }
+        context.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        broadcastRegistered = true
+        BaseHook.registerReceiverHotReloadCleanup(context, receiver)
+        BaseHook.putHotReloadRuntimeState(DATA_SIM_CONTEXT_KEY, context)
     }
 
     private fun syncDataSimProxiesNow() {

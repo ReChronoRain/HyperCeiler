@@ -8,7 +8,7 @@ autoService = "1.1.1"
 annotation = "1.10.0"
 constraintlayout = "2.2.1"
 coordinatorlayout = "1.3.0"
-core = "1.18.0"
+core = "1.19.0"
 fragment = "1.8.9"
 recyclerview = "1.4.0"
 roomCompiler = "2.8.4"
@@ -18,10 +18,10 @@ viewpager2 = "1.1.0"
 miuix = "1.0.12.5"
 
 # Xposed & Hooks
-xposed-api = "101.0.1"
-xposed-service = "101.0.0"
+xposed-api = "102.0.0"
+xposed-service = "102.0.0"
 dexkit = "2.2.0"
-ezhooktool = "1.1.0-rc01"
+ezhooktool = "1.1.0-rc10"
 hiddenapibypass = "6.1"
 
 # Third-party
@@ -67,7 +67,7 @@ miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 # Xposed & Hooks
 dexkit = { module = "org.luckypray:dexkit", version.ref = "dexkit" }
 ezhooktool-core = { module = "io.github.lingqiqi5211.ezhooktool:core", version.ref = "ezhooktool" }
-ezhooktool-xposed101 = { module = "io.github.lingqiqi5211.ezhooktool:hook-xposed-101", version.ref = "ezhooktool" }
+ezhooktool-xposed102 = { module = "io.github.lingqiqi5211.ezhooktool:hook-xposed-102", version.ref = "ezhooktool" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 libxposed-api = { module = "io.github.libxposed:api", version.ref = "xposed-api" }
 libxposed-service = { module = "io.github.libxposed:service", version.ref = "xposed-service" }

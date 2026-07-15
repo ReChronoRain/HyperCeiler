@@ -45,6 +45,7 @@ import io.github.libxposed.api.XposedInterface;
  * <a href="https://github.com/Howard20181/Mi_AOSP_IME/blob/main/MiAOSPIME/src/main/java/io/github/howard20181/ime/ImeHook.java">Howard20181/Mi_AOSP_IME</a>
  */
 public class MiAospIme extends BaseHook {
+    private static final String HOT_RELOAD_INSETS_VIEW_KEY = "MiAospIme.insetsView";
     private static final WeakHashMap<View, int[]> BASE_PADDINGS = new WeakHashMap<>();
 
     @Override
@@ -54,6 +55,12 @@ public class MiAospIme extends BaseHook {
         hookNavigationBarInflaterView();
         hookNavigationBarView();
         hookDeadZone();
+
+        View restoredView = getHotReloadRuntimeState(HOT_RELOAD_INSETS_VIEW_KEY, View.class);
+        if (restoredView != null) {
+            installRoundedCornerInsetsListener(restoredView);
+            restoredView.requestApplyInsets();
+        }
     }
 
     public void initLoader(ClassLoader classLoader) {
@@ -175,9 +182,7 @@ public class MiAospIme extends BaseHook {
                             return result;
                         }
 
-                        int shadow = dpToPx(4, view.getResources());
-                        view.setOnApplyWindowInsetsListener((target, insets) ->
-                            applyRoundedCornerPadding(target, insets, shadow));
+                        installRoundedCornerInsetsListener(view);
                     } catch (Throwable t) {
                         XposedLog.w(TAG, "Hook updateOrientationViews failed: " + t);
                     }
@@ -311,6 +316,17 @@ public class MiAospIme extends BaseHook {
             basePadding[3]
         );
         return insets;
+    }
+
+    private void installRoundedCornerInsetsListener(View view) {
+        int shadow = dpToPx(4, view.getResources());
+        view.setOnApplyWindowInsetsListener((target, insets) ->
+            applyRoundedCornerPadding(target, insets, shadow));
+        putHotReloadRuntimeState(HOT_RELOAD_INSETS_VIEW_KEY, view);
+        registerHotReloadCleanup(() -> {
+            view.setOnApplyWindowInsetsListener(null);
+            BASE_PADDINGS.remove(view);
+        });
     }
 
     private int dpToPx(int data, Resources resources) {

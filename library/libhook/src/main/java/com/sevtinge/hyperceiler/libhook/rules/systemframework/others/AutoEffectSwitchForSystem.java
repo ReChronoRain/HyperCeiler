@@ -79,6 +79,8 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 public class AutoEffectSwitchForSystem extends BaseHook {
 
     private static final String TAG = "AutoEffectSwitchForSystem";
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "AutoEffectSwitchForSystem.audioContext";
     private static final String PROP_FW_EFFECT = "ro.vendor.audio.fweffect";
     private static final String SETTINGS_KEY_LOCK_SELECTION = "misound_bluetooth_effect_lock_selection";
     private static final String SETTINGS_KEY_REMEMBER_DEVICE = "misound_bluetooth_effect_remember_device";
@@ -106,6 +108,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     private Context mContext;
     private IControlForSystem mEffectController;
     private DeviceEffectMemory mDeviceEffectMemory;
+    private boolean mAudioSystemInitialized;
     public static EffectInfoService mEffectInfoService;
 
     // 配置项 - 使用 volatile 保证可见性
@@ -117,6 +120,11 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     public void init() {
         loadConfigFromPrefs();
         initEffectController();
+        Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+        if (restoredContext != null) {
+            mContext = restoredContext;
+            onAudioSystemReady();
+        }
         hookAudioServiceOnSystemReady();
     }
 
@@ -206,7 +214,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
                         XposedLog.e(TAG, "Failed to get context from AudioService");
                         return;
                     }
-
+                    putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, mContext);
                     onAudioSystemReady();
                 }
             }
@@ -217,6 +225,9 @@ public class AutoEffectSwitchForSystem extends BaseHook {
      * 音频系统就绪后的初始化
      */
     private void onAudioSystemReady() {
+        if (mContext == null || mAudioSystemInitialized) {
+            return;
+        }
         mEffectController.setContext(mContext);
 
         AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
@@ -236,6 +247,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         registerDebugObserver();
         registerConfigObserver();
         reportEarphoneState();
+        mAudioSystemInitialized = true;
 
         XposedLog.d(TAG, "Audio system ready, initialization completed");
     }
@@ -246,6 +258,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
     private void registerConfigObserver() {
         if (mContext == null) return;
 
+        android.content.ContentResolver resolver = mContext.getContentResolver();
         ContentObserver configObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange) {
@@ -259,12 +272,13 @@ public class AutoEffectSwitchForSystem extends BaseHook {
                 }
             }
         };
-        mContext.getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
             Settings.Global.getUriFor(SETTINGS_KEY_LOCK_SELECTION), false, configObserver);
-        mContext.getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
             Settings.Global.getUriFor(SETTINGS_KEY_REMEMBER_DEVICE), false, configObserver);
-        mContext.getContentResolver().registerContentObserver(
+        resolver.registerContentObserver(
             Settings.Global.getUriFor(SETTINGS_KEY_DEFAULT_EFFECT), false, configObserver);
+        registerContentObserverHotReloadCleanup(resolver, configObserver);
         XposedLog.d(TAG, "Config observer registered");
     }
 
@@ -343,6 +357,10 @@ public class AutoEffectSwitchForSystem extends BaseHook {
             }
         };
         sHandlerRef.set(handler);
+        registerHotReloadCleanup(() -> {
+            handler.removeCallbacksAndMessages(null);
+            sHandlerRef.compareAndSet(handler, null);
+        });
     }
 
     /**
@@ -353,23 +371,24 @@ public class AutoEffectSwitchForSystem extends BaseHook {
 
         Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
 
-        mContext.getContentResolver().registerContentObserver(
-            Settings.Global.getUriFor(SETTINGS_KEY_RESTORE_STATE), false,
-            new ContentObserver(new Handler(mContext.getMainLooper())) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    if (selfChange) return;
-                    int value = Settings.Global.getInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
-                    if (value == 1) {
-                        sIsEarphoneConnection.set(false);
-                        sIsA2dpConnected.set(false);
-                        sIsLeAudioConnected.set(false);
-                        Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
-                        XposedLog.d(TAG, "Earphone state manually restored to false");
-                    }
+        android.content.ContentResolver resolver = mContext.getContentResolver();
+        ContentObserver debugObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                if (selfChange) return;
+                int value = Settings.Global.getInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
+                if (value == 1) {
+                    sIsEarphoneConnection.set(false);
+                    sIsA2dpConnected.set(false);
+                    sIsLeAudioConnected.set(false);
+                    Settings.Global.putInt(mContext.getContentResolver(), SETTINGS_KEY_RESTORE_STATE, 0);
+                    XposedLog.d(TAG, "Earphone state manually restored to false");
                 }
             }
-        );
+        };
+        resolver.registerContentObserver(
+            Settings.Global.getUriFor(SETTINGS_KEY_RESTORE_STATE), false, debugObserver);
+        registerContentObserverHotReloadCleanup(resolver, debugObserver);
     }
 
     /**
@@ -396,7 +415,9 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         intentFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(BluetoothLeAudio.ACTION_LE_AUDIO_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-        mContext.registerReceiver(new EarphoneBroadcastReceiver(this), intentFilter, Context.RECEIVER_EXPORTED);
+        EarphoneBroadcastReceiver receiver = new EarphoneBroadcastReceiver(this);
+        mContext.registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED);
+        registerReceiverHotReloadCleanup(mContext, receiver);
         XposedLog.d(TAG, "Earphone broadcast receiver registered");
     }
 

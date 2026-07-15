@@ -25,10 +25,15 @@ import android.provider.Settings;
 import com.sevtinge.hyperceiler.core.R;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-public class MainActivityContextHelper {
+public final class MainActivityContextHelper {
+
+    private static final String DEX_ENTRY_NAME = "classes.dex";
+
+    private MainActivityContextHelper() {}
 
     @SuppressLint("HardwareIds")
     public static String getAndroidId(Context context) {
@@ -36,53 +41,41 @@ public class MainActivityContextHelper {
     }
 
     public static boolean verifyDexCRC(Context context) {
-        String dexCrcStr = context.getResources().getString(R.string.crc_value);
-        if(dexCrcStr.startsWith("Error")) return false;
-        //long dexCrc = Long.parseLong("613BD799");
+        String expectedDexCrc = context.getString(R.string.crc_value);
+        if (expectedDexCrc.startsWith("Error")) {
+            return false;
+        }
 
-        //String orginalCrc = getString(R.string.str_code);
-        ZipFile zf;
         try {
-            zf = new ZipFile(context.getApplicationContext().getPackageCodePath());
-            ZipEntry ze = zf.getEntry("classes.dex");
-            long decCrc = ze.getCrc();
-            String strCrc = Long.toHexString(decCrc);
-            strCrc = strCrc.toUpperCase();
-            //String MD5Crc = MD5Util.GetMD5Code(strCrc);
-            //Log.e("checkcrc", MD5Crc);
-            /*
-            if (dexCrcStr.equals(strCrc)) {
-                ActivityManagerUtil.getScreenManager().removeAllActivity();
-                return true;
-            } else return false;
-             */
-            return dexCrcStr.equals(strCrc);
+            return expectedDexCrc.equals(readDexCrc(context));
         } catch (IOException e) {
             return false;
         }
     }
 
     public static String getDexCRC(Context context) {
-        String dexCrcStr = context.getResources().getString(R.string.crc_value);
-        if(dexCrcStr.startsWith("Error")) return dexCrcStr;
-        //long dexCrc = Long.parseLong("613BD799");
+        String expectedDexCrc = context.getString(R.string.crc_value);
+        if (expectedDexCrc.startsWith("Error")) {
+            return expectedDexCrc;
+        }
 
-        //String orginalCrc = getString(R.string.str_code);
-        ZipFile zf;
         try {
-            zf = new ZipFile(context.getApplicationContext().getPackageCodePath());
-            ZipEntry ze = zf.getEntry("classes.dex");
-            long decCrc = ze.getCrc();
-            String strCrc = Long.toHexString(decCrc);
-            strCrc = strCrc.toUpperCase();
-            //String MD5Crc = MD5Util.GetMD5Code(strCrc);
-            //Log.e("checkcrc", MD5Crc);
-            if (dexCrcStr.equals(strCrc)) {
-                //ActivityManagerUtil.getScreenManager().removeAllActivity();
-                return dexCrcStr + " = " + strCrc;
-            } else return dexCrcStr + " != " + strCrc;
+            String actualDexCrc = readDexCrc(context);
+            String comparison = expectedDexCrc.equals(actualDexCrc) ? " = " : " != ";
+            return expectedDexCrc + comparison + actualDexCrc;
         } catch (IOException e) {
             return e.toString();
+        }
+    }
+
+    private static String readDexCrc(Context context) throws IOException {
+        String packageCodePath = context.getApplicationContext().getPackageCodePath();
+        try (ZipFile zipFile = new ZipFile(packageCodePath)) {
+            ZipEntry dexEntry = zipFile.getEntry(DEX_ENTRY_NAME);
+            if (dexEntry == null) {
+                throw new IOException(DEX_ENTRY_NAME + " not found");
+            }
+            return Long.toHexString(dexEntry.getCrc()).toUpperCase(Locale.ROOT);
         }
     }
 }

@@ -35,13 +35,26 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class NotificationIconColumns extends BaseHook {
 
+    private static final String STATE_CONTEXT = "NotificationIconColumns.context";
+    private static final String STATE_USER_ID = "NotificationIconColumns.userId";
     private Context mContext;
     private int mCurrentUserId;
+    private boolean mObserverRegistered;
 
     @Override
     public void init() {
         int maxIconsNum = PrefsBridge.getInt("system_ui_status_bar_notification_icon_maximum", 1);
         initHooks(maxIconsNum);
+
+        mContext = getHotReloadRuntimeState(STATE_CONTEXT, Context.class);
+        Integer restoredUserId = getHotReloadRuntimeState(STATE_USER_ID, Integer.class);
+        if (restoredUserId != null) {
+            mCurrentUserId = restoredUserId;
+        }
+        if (mContext != null) {
+            registerObserver(mContext);
+            updateSettingsState();
+        }
     }
 
     private void initHooks(int maxIconsNum) {
@@ -54,6 +67,8 @@ public class NotificationIconColumns extends BaseHook {
             public void after(HookParam param) {
                 mContext = (Context) getObjectField(param.getThisObject(), "mContext");
                 mCurrentUserId = (int) getObjectField(param.getThisObject(), "mCurrentUserId");
+                putHotReloadRuntimeState(STATE_CONTEXT, mContext);
+                putHotReloadRuntimeState(STATE_USER_ID, mCurrentUserId);
                 registerObserver(mContext);
             }
         });
@@ -62,6 +77,7 @@ public class NotificationIconColumns extends BaseHook {
             @Override
             public void before(HookParam param) {
                 mCurrentUserId = (int) param.getArgs()[0];
+                putHotReloadRuntimeState(STATE_USER_ID, mCurrentUserId);
                 updateSettingsState();
             }
         });
@@ -79,6 +95,7 @@ public class NotificationIconColumns extends BaseHook {
     }
 
     private void registerObserver(Context context) {
+        if (context == null || mObserverRegistered) return;
         ContentObserver observer = new ContentObserver(new Handler(context.getMainLooper())) {
             @Override
             public void onChange(boolean selfChange, Uri uri) {
@@ -90,10 +107,13 @@ public class NotificationIconColumns extends BaseHook {
             Settings.System.getUriFor("status_bar_show_notification_icon"),
             false, observer
         );
+        mObserverRegistered = true;
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), observer);
         updateSettingsState();
     }
 
     private void updateSettingsState() {
+        if (mContext == null) return;
         getSettingsInt(mContext, mCurrentUserId);
     }
 
@@ -105,4 +125,3 @@ public class NotificationIconColumns extends BaseHook {
         }
     }
 }
-

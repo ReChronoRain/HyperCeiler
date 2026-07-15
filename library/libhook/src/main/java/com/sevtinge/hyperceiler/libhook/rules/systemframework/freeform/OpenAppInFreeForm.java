@@ -38,35 +38,28 @@ import miui.app.MiuiFreeFormManager;
 
 public class OpenAppInFreeForm extends BaseHook {
 
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "OpenAppInFreeForm.systemContext";
     Class<?> mActivityStarter;
     Class<?> mActivityTaskManagerService;
+    private volatile boolean mReceiverRegistered;
 
     @Override
     public void init() {
         if (PrefsBridge.getBoolean("system_framework_freeform_jump")) {
             mActivityStarter = findClassIfExists("com.android.server.wm.ActivityStarter");
             mActivityTaskManagerService = findClassIfExists("com.android.server.wm.ActivityTaskManagerService");
+            Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+            if (restoredContext != null) {
+                registerFreeFormReceiver(restoredContext);
+            }
 
 
             findAndHookMethod(mActivityTaskManagerService, "onSystemReady", new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
                     Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
-                    IntentFilter intentFilter = new IntentFilter();
-                    intentFilter.addAction(ACTION_PREFIX + "SetFreeFormPackage");
-                    BroadcastReceiver mReceiver = new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            String action = intent.getAction();
-                            if (action == null) return;
-
-                            if (action.equals(ACTION_PREFIX + "SetFreeFormPackage")) {
-                                String pkg = intent.getStringExtra("package");
-                                com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage", pkg);
-                            }
-                        }
-                    };
-                    ContextCompat.registerReceiver(mContext, mReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+                    registerFreeFormReceiver(mContext);
                 }
             });
 
@@ -106,6 +99,32 @@ public class OpenAppInFreeForm extends BaseHook {
                 }
             });
         }
+    }
+
+    private void registerFreeFormReceiver(Context context) {
+        if (context == null || mReceiverRegistered) {
+            return;
+        }
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_PREFIX + "SetFreeFormPackage");
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context receiverContext, Intent intent) {
+                String action = intent.getAction();
+                if (action == null) return;
+
+                if (action.equals(ACTION_PREFIX + "SetFreeFormPackage")) {
+                    String pkg = intent.getStringExtra("package");
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(
+                        MiuiFreeFormManager.class, "nextFreeformPackage", pkg);
+                }
+            }
+        };
+        ContextCompat.registerReceiver(context, receiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+        mReceiverRegistered = true;
+        putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+        registerReceiverHotReloadCleanup(context, receiver);
+        registerHotReloadCleanup(() -> mReceiverRegistered = false);
     }
 
     private boolean shouldOpenInFreeForm(Intent intent, String callingPackage) {

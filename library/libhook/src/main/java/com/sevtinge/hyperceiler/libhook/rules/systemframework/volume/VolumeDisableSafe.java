@@ -32,14 +32,30 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class VolumeDisableSafe extends BaseHook {
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "VolumeDisableSafe.audioContext";
+    private static final String HOT_RELOAD_HEADSET_STATE_KEY =
+        "VolumeDisableSafe.headsetOn";
     private static boolean isHeadsetOn = false;
 
     private static final int mode = PrefsBridge.getStringAsInt("system_framework_volume_disable_safe_new", 0);
+    private volatile boolean mReceiverRegistered;
 
     @Override
     public void init() {
         Class<?> SoundDoseHelperStub = findClass("com.android.server.audio.SoundDoseHelperStubImpl");
         Class<?> SoundDoseHelper = findClass("com.android.server.audio.SoundDoseHelper");
+        Boolean restoredHeadsetOn = getHotReloadRuntimeState(
+            HOT_RELOAD_HEADSET_STATE_KEY, Boolean.class);
+        if (restoredHeadsetOn != null) {
+            isHeadsetOn = restoredHeadsetOn;
+        }
+        if (mode != 1) {
+            Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+            if (restoredContext != null) {
+                registerHeadsetReceiver(restoredContext);
+            }
+        }
 
         findAndHookMethod(SoundDoseHelperStub, "updateSafeMediaVolumeIndex", int.class, new IMethodHook() {
             @Override
@@ -70,14 +86,27 @@ public class VolumeDisableSafe extends BaseHook {
                     return;
                 }
                 Context context = (Context) param.getArgs()[1];
-                IntentFilter intentFilter = new IntentFilter();
-                intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
-                intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
-                intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-                context.registerReceiver(new Listener(), intentFilter, Context.RECEIVER_EXPORTED);
+                registerHeadsetReceiver(context);
             }
         });
 
+    }
+
+    private void registerHeadsetReceiver(Context context) {
+        if (context == null || mReceiverRegistered) {
+            return;
+        }
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BluetoothDevice.ACTION_ACL_CONNECTED);
+        intentFilter.addAction(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
+        Listener receiver = new Listener();
+        context.registerReceiver(receiver, intentFilter, Context.RECEIVER_EXPORTED);
+        mReceiverRegistered = true;
+        putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+        putHotReloadRuntimeState(HOT_RELOAD_HEADSET_STATE_KEY, isHeadsetOn);
+        registerReceiverHotReloadCleanup(context, receiver);
+        registerHotReloadCleanup(() -> mReceiverRegistered = false);
     }
 
     private static class Listener extends BroadcastReceiver {
@@ -87,20 +116,25 @@ public class VolumeDisableSafe extends BaseHook {
             String action = intent.getAction();
             if (action != null) {
                 switch (action) {
-                    case BluetoothDevice.ACTION_ACL_CONNECTED -> isHeadsetOn = true;
-                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> isHeadsetOn = false;
+                    case BluetoothDevice.ACTION_ACL_CONNECTED -> setHeadsetOn(true);
+                    case BluetoothDevice.ACTION_ACL_DISCONNECTED -> setHeadsetOn(false);
                     case AudioManager.ACTION_HEADSET_PLUG -> {
                         if (intent.hasExtra("state")) {
                             int state = intent.getIntExtra("state", 0);
                             if (state == 1) {
-                                isHeadsetOn = true;
+                                setHeadsetOn(true);
                             } else if (state == 0) {
-                                isHeadsetOn = false;
+                                setHeadsetOn(false);
                             }
                         }
                     }
                 }
             }
         }
+    }
+
+    private static void setHeadsetOn(boolean value) {
+        isHeadsetOn = value;
+        putHotReloadRuntimeState(HOT_RELOAD_HEADSET_STATE_KEY, value);
     }
 }

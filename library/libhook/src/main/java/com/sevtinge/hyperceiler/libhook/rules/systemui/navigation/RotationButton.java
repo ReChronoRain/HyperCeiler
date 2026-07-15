@@ -43,34 +43,30 @@ import io.github.libxposed.api.XposedInterface;
 
 public class RotationButton extends BaseHook {
     private static final ThreadLocal<Boolean> sForceAttachedToWindow = new ThreadLocal<>();
+    private static final String STATE_NAVIGATION_BAR = "RotationButton.navigationBar";
+    private static final String STATE_CONTEXT = "RotationButton.context";
     boolean isListen = false;
     boolean enable = PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1;
 
     @Override
     public void init() {
+        if (enable) {
+            Object restoredNavigationBar = getHotReloadRuntimeState(
+                STATE_NAVIGATION_BAR, Object.class
+            );
+            Context restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context.class);
+            if (restoredNavigationBar != null && restoredContext != null) {
+                ensureRotationObserver(restoredNavigationBar, restoredContext);
+            }
+        }
+
         hookAllConstructors("com.android.systemui.navigationbar.NavigationBar",
             new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
                     if (!enable) return;
                     Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
-                    if (!isListen) {
-                        if (mContext == null) {
-                            XposedLog.e(TAG, "context can't is null!");
-                            return;
-                        }
-                        ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
-                            @Override
-                            public void onChange(boolean selfChange, @Nullable Uri uri) {
-                                boolean isShow = getBoolean(mContext);
-                                int rotation = getInt(mContext);
-                                callMethod(param.getThisObject(), "onRotationProposal", rotation, isShow);
-                            }
-                        };
-                        mContext.getContentResolver().registerContentObserver(Settings.System.getUriFor("rotation_button_data"),
-                            false, contentObserver);
-                        isListen = true;
-                    }
+                    ensureRotationObserver(param.getThisObject(), mContext);
                 }
             }
         );
@@ -212,6 +208,29 @@ public class RotationButton extends BaseHook {
                 }
             );
         }
+    }
+
+    private void ensureRotationObserver(Object navigationBar, Context context) {
+        if (isListen) return;
+        if (context == null) {
+            XposedLog.e(TAG, "context can't is null!");
+            return;
+        }
+        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange, @Nullable Uri uri) {
+                boolean isShow = getBoolean(context);
+                int rotation = getInt(context);
+                callMethod(navigationBar, "onRotationProposal", rotation, isShow);
+            }
+        };
+        context.getContentResolver().registerContentObserver(
+            Settings.System.getUriFor("rotation_button_data"), false, contentObserver
+        );
+        isListen = true;
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), contentObserver);
+        putHotReloadRuntimeState(STATE_NAVIGATION_BAR, navigationBar);
+        putHotReloadRuntimeState(STATE_CONTEXT, context);
     }
 
     public int getScreenOrientation(Context context) {

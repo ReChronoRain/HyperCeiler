@@ -26,23 +26,17 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ThreadUtils {
-    private static volatile ExecutorService sExecutorService;
-    private static volatile Thread sMainThread;
-    private static volatile Handler sMainThreadHandler;
+public final class ThreadUtils {
+
+    private ThreadUtils() {
+    }
 
     public static boolean isMainThread() {
-        if (sMainThread == null) {
-            sMainThread = Looper.getMainLooper().getThread();
-        }
-        return Thread.currentThread() == sMainThread;
+        return Thread.currentThread() == MainThreadHolder.THREAD;
     }
 
     public static Handler getUiThreadHandler() {
-        if (sMainThreadHandler == null) {
-            sMainThreadHandler = new Handler(Looper.getMainLooper());
-        }
-        return sMainThreadHandler;
+        return MainThreadHolder.HANDLER;
     }
 
     public static void ensureMainThread() {
@@ -51,12 +45,10 @@ public class ThreadUtils {
         }
     }
 
-    // 使用 CompletableFuture
     public static CompletableFuture<Void> postOnBackgroundThread(Runnable runnable) {
         return CompletableFuture.runAsync(runnable, getBackgroundExecutor());
     }
 
-    // 支持有返回值的异步调用
     public static <T> CompletableFuture<T> postOnBackgroundThread(Callable<T> callable) {
         return CompletableFuture.supplyAsync(() -> {
             try {
@@ -68,21 +60,26 @@ public class ThreadUtils {
     }
 
     public static void postOnMainThread(Runnable runnable) {
-        getUiThreadHandler().post(runnable);
+        MainThreadHolder.HANDLER.post(runnable);
     }
 
     public static ExecutorService getBackgroundExecutor() {
-        if (sExecutorService == null) {
-            synchronized (ThreadUtils.class) {
-                if (sExecutorService == null) {
-                    sExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
-                }
-            }
-        }
-        return sExecutorService;
+        return BackgroundExecutorHolder.INSTANCE;
     }
 
     public static void postOnMainThreadDelayed(Runnable runnable, long delayMillis) {
-        getUiThreadHandler().postDelayed(runnable, delayMillis);
+        MainThreadHolder.HANDLER.postDelayed(runnable, delayMillis);
+    }
+
+    private static final class MainThreadHolder {
+        private static final Looper LOOPER = Looper.getMainLooper();
+        private static final Thread THREAD = LOOPER.getThread();
+        private static final Handler HANDLER = new Handler(LOOPER);
+    }
+
+    private static final class BackgroundExecutorHolder {
+        private static final ExecutorService INSTANCE = Executors.newFixedThreadPool(
+            Runtime.getRuntime().availableProcessors()
+        );
     }
 }

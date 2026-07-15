@@ -26,6 +26,7 @@ import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
@@ -48,6 +49,7 @@ import kotlinx.coroutines.launch
 // author git@wuyou-123
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
+    private const val STATE_SCROLLING_TEXT_VIEW = "FocusNotifLyric.scrollingTextView"
     private var speed = -0.1f
     private var lastLyric: String? = ""
     private val runnablePool = mutableMapOf<Int, Runnable>()
@@ -70,6 +72,16 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun init() {
+        BaseHook.getHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, TextView::class.java)
+            ?.let(::installNoopRestartCallback)
+        registerHotReloadCleanup {
+            focusTextViewList.forEach { textView ->
+                runnablePool.remove(textView.hashCode())?.let(textView::removeCallbacks)
+            }
+            runnablePool.clear()
+            focusTextViewList.clear()
+        }
+
         // 拦截构建通知的函数
         if (!isShowNotific) {
             loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").findMethod { name("requestPipelineRun") }.createBeforeHook {
@@ -206,13 +218,17 @@ object FocusNotifLyric : MusicBaseHook() {
                 m.setFloatField("mMaxScroll", lineWidth - width)
                 // 重设速度
                 m.setFloatField("mPixelsPerMs", speed)
-                // 移除回调,防止滚动结束之后重置滚动位置
-                m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
+                // 移除回调,防止滚动结束之后重置滚动位置。
+                // 重载时会用新 generation 的 callback 覆盖它，避免宿主 Marquee 持有旧 classloader。
+                installNoopRestartCallback(textView)
+                BaseHook.putHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, textView)
                 // 滚动完成后清理状态
-                textView.postDelayed({
+                val finishScroll = Runnable {
                     com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(textView, "is_scrolling", 1)
                     runnablePool.remove(key) //移除任务引用
-                }, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
+                }
+                textView.postDelayed(finishScroll, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
+                BaseHook.registerHotReloadCleanup { textView.removeCallbacks(finishScroll) }
             }
         }.onFailure {
             XposedLog.e(TAG, lpparam.packageName, "error: ${it.message}")
@@ -223,6 +239,12 @@ object FocusNotifLyric : MusicBaseHook() {
         val maxScroll = (lineWidth - width).coerceAtLeast(0f) // 与 mMaxScroll 一致
         val pixelsPerMs = speed // 与 mPixelsPerMs 一致
         return if (pixelsPerMs > 0) (maxScroll / pixelsPerMs).toLong() else 0L
+    }
+
+    private fun installNoopRestartCallback(textView: TextView) {
+        textView.getObjectFieldOrNull("mMarquee")?.setObjectField(
+            "mRestartCallback", Choreographer.FrameCallback {}
+        )
     }
 
 

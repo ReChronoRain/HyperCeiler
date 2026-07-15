@@ -32,17 +32,6 @@ public class CardTileAdapter extends CardTileBaseAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull CardTileViewHolder holder, int position) {
-        if (!mData.isEmpty()) {
-            String tile = mData.get(position);
-            holder.mIcon.setBackgroundResource(getCardIcon(holder.itemView.getContext(), tile));
-            holder.mTitle.setText(getCardTitle(holder.itemView.getContext(), tile));
-            holder.mTileMark.setChecked(true);
-            holder.mTileMark.setOnCheckedChangeListener((compoundButton, isChecked) -> {
-                if (!isChecked) {
-                    onDataChangeListener.onDataSetChanged(isChecked, tile);
-                    notifyDataSetChanged();
-                }
-            });
-        }
+        bindTile(holder, position, true);
     }
 }

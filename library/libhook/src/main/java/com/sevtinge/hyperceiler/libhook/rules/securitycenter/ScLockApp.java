@@ -49,6 +49,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
  * @author 焕晨HChen
  */
 public class ScLockApp extends BaseHook {
+    private static final String STATE_CONTEXT = "ScLockApp.context";
     private Method mTouchMethod;
     private Class<?> mTouchClazz;
 
@@ -129,6 +130,11 @@ public class ScLockApp extends BaseHook {
 
     @Override
     public void init() {
+        Context restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context.class);
+        if (restoredContext != null) {
+            registerObserverIfNeeded(restoredContext);
+        }
+
         Field field = null;
         // XposedLog.e(TAG, "dispatchTouchEvent: " + methodData + " Constructor: " + data + " class: " + data.getInstance(lpparam.classLoader) + " f: " + fieldData.getFieldInstance(lpparam.classLoader));
         if (mTouchClazz == null) {
@@ -162,19 +168,7 @@ public class ScLockApp extends BaseHook {
                     XposedLog.e(TAG, "Context is null");
                     return;
                 }
-                if (!isListen) {
-                    Context finalContext = context;
-                    ContentObserver contentObserver = new ContentObserver(new Handler(finalContext.getMainLooper())) {
-                        @Override
-                        public void onChange(boolean selfChange) {
-                            isLock = getLockApp(finalContext) != -1;
-                        }
-                    };
-                    context.getContentResolver().registerContentObserver(
-                            Settings.Global.getUriFor("key_lock_app"),
-                            false, contentObserver);
-                    isListen = true;
-                }
+                registerObserverIfNeeded(context);
             }
         });
 
@@ -192,6 +186,23 @@ public class ScLockApp extends BaseHook {
                     }
                 }
         );
+    }
+
+    private void registerObserverIfNeeded(Context context) {
+        if (context == null || isListen) return;
+        ContentObserver contentObserver = new ContentObserver(new Handler(context.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                isLock = getLockApp(context) != -1;
+            }
+        };
+        context.getContentResolver().registerContentObserver(
+            Settings.Global.getUriFor("key_lock_app"), false, contentObserver
+        );
+        isLock = getLockApp(context) != -1;
+        isListen = true;
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), contentObserver);
+        putHotReloadRuntimeState(STATE_CONTEXT, context);
     }
 
     public static int getLockApp(Context context) {

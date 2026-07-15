@@ -45,6 +45,7 @@ import java.math.RoundingMode
 import kotlin.math.abs
 
 object ChargingCVP : BaseHook() {
+    private const val STATE_TEXT_VIEW = "ChargingCVP.textView"
     private val showSpacingValue by lazy {
         PrefsBridge.getBoolean("system_ui_lock_screen_show_spacing_value")
     }
@@ -62,6 +63,11 @@ object ChargingCVP : BaseHook() {
         val clazzKeyguardIndicationController =
             findClass("com.android.systemui.statusbar.KeyguardIndicationController")
 
+        if (showSpacingValue) {
+            BaseHook.getHotReloadRuntimeState(STATE_TEXT_VIEW, TextView::class.java)
+                ?.let { setShowSpacing(clazzDependency, clazzKeyguardIndicationController, it) }
+        }
+
         findClassIfExists("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.toList()?.createHooks {
             after { param ->
                 (param.thisObject as TextView).apply {
@@ -70,7 +76,11 @@ object ChargingCVP : BaseHook() {
                 }
                 if (showSpacingValue) {
                     // 是否更改刷新频率
-                    setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
+                    setShowSpacing(
+                        clazzDependency,
+                        clazzKeyguardIndicationController,
+                        param.thisObject as TextView
+                    )
                 }
             }
         }
@@ -91,7 +101,7 @@ object ChargingCVP : BaseHook() {
     private fun setShowSpacing(
         clazzDependency: Class<*>,
         clazzKeyguardIndicationController: Class<*>,
-        param: HookParam
+        textView: TextView
     ) {
         val screenOnOffReceiver = object : BroadcastReceiver() {
             val keyguardIndicationController = runCatching {
@@ -106,7 +116,7 @@ object ChargingCVP : BaseHook() {
                     mSysUIProvider.getObjectFieldOrNull("mKeyguardIndicationController")!!
                 mKeyguardIndicationController.callMethod("get")!!
             }
-            val handler = Handler((param.thisObject as TextView).context.mainLooper)
+            val handler = Handler(textView.context.mainLooper)
             val runnable = object : Runnable {
                 val clazzMiuiDependency =
                     findClass("com.miui.systemui.MiuiDependency")
@@ -158,7 +168,7 @@ object ChargingCVP : BaseHook() {
             }
 
             init {
-                if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
+                if ((textView.context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
                     handler.post(runnable)
                 }
             }
@@ -180,9 +190,15 @@ object ChargingCVP : BaseHook() {
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(Intent.ACTION_SCREEN_OFF)
         }
-        (param.thisObject as TextView).context.registerReceiver(
+        val context = textView.context
+        context.registerReceiver(
             screenOnOffReceiver, filter, Context.RECEIVER_EXPORTED
         )
+        BaseHook.registerReceiverHotReloadCleanup(context, screenOnOffReceiver)
+        BaseHook.registerHotReloadCleanup {
+            screenOnOffReceiver.handler.removeCallbacks(screenOnOffReceiver.runnable)
+        }
+        BaseHook.putHotReloadRuntimeState(STATE_TEXT_VIEW, textView)
     }
 
     private fun getTemp(): String {

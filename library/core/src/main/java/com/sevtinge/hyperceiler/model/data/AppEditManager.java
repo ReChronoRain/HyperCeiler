@@ -1,28 +1,22 @@
 package com.sevtinge.hyperceiler.model.data;
 
-import android.widget.TextView;
-
 import com.sevtinge.hyperceiler.callback.IEditCallback;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class AppEditManager implements IEditCallback {
-    private static final String RANDOM_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    private static final String TAG = "AppEditManager";
+    private static final String RANDOM_CHARS =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     private static final String SEPARATOR = "฿";
-    private static final Pattern EDIT_PATTERN = Pattern.compile(".*" + SEPARATOR + "(.*)" + SEPARATOR + ".*");
 
     private final String mKey;
-    private Set<String> mSelectedApps;
-    private final List<AppArrayList> mAppLists = new ArrayList<>();
+    private final Set<String> mSelectedApps = new LinkedHashSet<>();
     private final Random mRandom = new Random();
 
     public AppEditManager(String key) {
@@ -31,105 +25,58 @@ public class AppEditManager implements IEditCallback {
     }
 
     public String getEdit(String packageName) {
-        if (packageName == null) return "";
+        if (packageName == null) {
+            return "";
+        }
 
-        for (String edit : mSelectedApps) {
-            if (edit != null && edit.contains(packageName + SEPARATOR)) {
-                Matcher matcher = EDIT_PATTERN.matcher(edit);
-                if (matcher.find()) {
-                    String editText = matcher.group(1);
-                    updateAppListEdit(packageName, editText);
-                    return editText;
-                }
+        for (String record : mSelectedApps) {
+            if (packageName.equals(getPackageName(record))) {
+                return getEditText(record);
             }
         }
         return "";
     }
 
-    public void addOrUpdateApp(AppData appData, TextView appNameView) {
-        if (appData == null || appNameView == null) return;
-
-        for (AppArrayList appList : mAppLists) {
-            if (appList.mPackageName.equals(appData.packageName)) {
-                if (appList.mAppName != appNameView) {
-                    appList.mAppName = appNameView;
-                }
-                return;
-            }
-        }
-        mAppLists.add(new AppArrayList(appData.packageName, null, appNameView));
-    }
-
     @Override
     public void editCallback(String label, String packageName, String newEdit) {
-        if (packageName == null || newEdit == null) return;
-
-        AppArrayList targetApp = findAppByPackageName(packageName);
-        if (targetApp != null) {
-            String lastEdit = targetApp.mEdit;
-
-            if (newEdit.equals(label)) {
-                targetApp.mEdit = null;
-                if (targetApp.mAppName != null) {
-                    targetApp.mAppName.setText(label);
-                }
-                removeEditFromStorage(packageName, packageName);
-            } else {
-                targetApp.mEdit = newEdit;
-                if (targetApp.mAppName != null) {
-                    targetApp.mAppName.setText(newEdit);
-                }
-                updateEditInStorage(packageName, lastEdit, newEdit);
-            }
-        }
-    }
-
-    private AppArrayList findAppByPackageName(String packageName) {
-        for (AppArrayList app : mAppLists) {
-            if (app.mPackageName.equals(packageName)) {
-                return app;
-            }
-        }
-        return null;
-    }
-
-    private void updateAppListEdit(String packageName, String editText) {
-        for (AppArrayList app : mAppLists) {
-            if (app.mPackageName.equals(packageName)) {
-                app.mEdit = editText;
-                break;
-            }
-        }
-    }
-
-    private void updateEditInStorage(String packageName, String lastEdit, String newEdit) {
-        if (lastEdit != null) {
-            removeEditFromStorage(packageName, lastEdit);
+        if (packageName == null || newEdit == null) {
+            return;
         }
 
-        String randomSuffix = generateRandomString(5);
-        String newRecord = packageName + SEPARATOR + newEdit + SEPARATOR + randomSuffix;
-        mSelectedApps.add(newRecord);
+        removeEditFromStorage(packageName);
+        if (!newEdit.equals(label)) {
+            String randomSuffix = generateRandomString(5);
+            mSelectedApps.add(packageName + SEPARATOR + newEdit + SEPARATOR + randomSuffix);
+        }
         saveToSharedPreferences();
     }
 
-    private void removeEditFromStorage(String packageName, String editToRemove) {
-        Set<String> toRemove = new HashSet<>();
-        for (String item : mSelectedApps) {
-            if (item != null && item.contains(packageName) && item.contains(editToRemove)) {
-                toRemove.add(item);
-            }
+    private void removeEditFromStorage(String packageName) {
+        mSelectedApps.removeIf(record -> packageName.equals(getPackageName(record)));
+    }
+
+    private static String getPackageName(String record) {
+        if (record == null) {
+            return null;
         }
-        mSelectedApps.removeAll(toRemove);
-        saveToSharedPreferences();
+        int separatorIndex = record.indexOf(SEPARATOR);
+        return separatorIndex > 0 ? record.substring(0, separatorIndex) : null;
+    }
+
+    private static String getEditText(String record) {
+        int firstSeparator = record.indexOf(SEPARATOR);
+        int lastSeparator = record.lastIndexOf(SEPARATOR);
+        if (firstSeparator < 0 || lastSeparator <= firstSeparator) {
+            return "";
+        }
+        return record.substring(firstSeparator + SEPARATOR.length(), lastSeparator);
     }
 
     private void loadFromSharedPreferences() {
         try {
-            mSelectedApps = new LinkedHashSet<>(PrefsBridge.getStringSet(mKey));
+            mSelectedApps.addAll(PrefsBridge.getStringSet(mKey));
         } catch (Exception e) {
-            AndroidLog.e("AppEditManager", "loadFromSharedPreferences failed", e);
-            mSelectedApps = new LinkedHashSet<>();
+            AndroidLog.e(TAG, "loadFromSharedPreferences failed", e);
         }
     }
 
@@ -137,27 +84,15 @@ public class AppEditManager implements IEditCallback {
         try {
             PrefsBridge.putByApp(mKey, new LinkedHashSet<>(mSelectedApps));
         } catch (Exception e) {
-            AndroidLog.e("AppEditManager", "saveToSharedPreferences failed", e);
+            AndroidLog.e(TAG, "saveToSharedPreferences failed", e);
         }
     }
 
     private String generateRandomString(int length) {
-        StringBuilder sb = new StringBuilder(length);
+        StringBuilder builder = new StringBuilder(length);
         for (int i = 0; i < length; i++) {
-            sb.append(RANDOM_CHARS.charAt(mRandom.nextInt(RANDOM_CHARS.length())));
+            builder.append(RANDOM_CHARS.charAt(mRandom.nextInt(RANDOM_CHARS.length())));
         }
-        return sb.toString();
-    }
-
-    public static class AppArrayList {
-        public String mPackageName;
-        public String mEdit;
-        public TextView mAppName;
-
-        public AppArrayList(String packageName, String edit, TextView appName) {
-            mPackageName = packageName;
-            mEdit = edit;
-            mAppName = appName;
-        }
+        return builder.toString();
     }
 }

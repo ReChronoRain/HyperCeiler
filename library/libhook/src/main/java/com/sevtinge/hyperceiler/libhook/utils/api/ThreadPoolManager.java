@@ -56,14 +56,33 @@ public class ThreadPoolManager {
         }
     }
 
-    public static synchronized void shutdownAndAwait(long timeout, TimeUnit unit) {
-        if (executor != null && !executor.isShutdown()) {
-            executor.shutdown();
-            try {
-                executor.awaitTermination(timeout, unit);
-            } catch (InterruptedException ignored) {
+    /**
+     * 结束模块线程池，并明确返回线程是否真的已经退出。
+     *
+     * <p>热重载不能把仍可能持有旧 module classloader 的线程当作已清理；调用方必须在
+     * 返回 {@code false} 时拒绝本次重载，而不是继续切换 generation。</p>
+     */
+    public static synchronized boolean shutdownAndAwait(long timeout, TimeUnit unit) {
+        ExecutorService current = executor;
+        if (current == null) {
+            return true;
+        }
+        boolean terminated = false;
+        if (!current.isShutdown()) {
+            current.shutdown();
+        }
+        try {
+            terminated = current.awaitTermination(timeout, unit);
+            if (!terminated) {
+                current.shutdownNow();
+                terminated = current.awaitTermination(timeout, unit);
             }
+        } catch (InterruptedException e) {
+            current.shutdownNow();
+            Thread.currentThread().interrupt();
+        } finally {
             executor = null;
         }
+        return terminated;
     }
 }

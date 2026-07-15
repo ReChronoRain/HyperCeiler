@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.hooker.systemui.prefs;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -43,16 +42,19 @@ import java.util.List;
 
 public class CardTileEditPreference extends Preference {
 
-    GridLayoutManager mCradLayoutManager;
-    View mItemView;
-    RecyclerView mCardTiles;
-    RecyclerView mAddCardTiles;
-    CardTileAdapter mCardTileAdapter;
-    CardTileAddAdapter mAddCardTileAdapter;
-    List<String> mCardList = new ArrayList<>();
-    List<String> mCardData = new ArrayList<>();
-    List<String> mAddCardData = new ArrayList<>();
-    List<String> mDefaultCardData = new ArrayList<>(Arrays.asList("wifi", "cell"));
+    private static final String CARD_TILES_ENABLED_KEY =
+        "prefs_key_systemui_plugin_card_tiles_enabled";
+    private static final String CARD_TILES_KEY = "prefs_key_systemui_plugin_card_tiles";
+
+    private final List<String> mCardList = new ArrayList<>();
+    private final List<String> mCardData = new ArrayList<>();
+    private final List<String> mAddCardData = new ArrayList<>();
+    private final List<String> mDefaultCardData = Arrays.asList("wifi", "cell");
+    private final ItemTouchHelper mItemTouchHelper =
+        new ItemTouchHelper(new ItemTouchHelperCallback());
+
+    private CardTileAdapter mCardTileAdapter;
+    private CardTileAddAdapter mAddCardTileAdapter;
 
     public CardTileEditPreference(@NonNull Context context) {
         this(context, null);
@@ -62,78 +64,75 @@ public class CardTileEditPreference extends Preference {
         this(context, attrs, 0);
     }
 
-    public CardTileEditPreference(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public CardTileEditPreference(
+        @NonNull Context context,
+        @Nullable AttributeSet attrs,
+        int defStyleAttr
+    ) {
         super(context, attrs, defStyleAttr);
         setLayoutResource(R.layout.preference_card_tile);
+        setVisible(PrefsBridge.getBoolean(CARD_TILES_ENABLED_KEY, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull PreferenceViewHolder holder) {
         super.onBindViewHolder(holder);
-        mItemView = holder.itemView;
-        mCardTiles = mItemView.findViewById(android.R.id.list);
-        mAddCardTiles = mItemView.findViewById(R.id.card_tile_add_list);
-        initView();
+        RecyclerView cardTiles = holder.itemView.findViewById(android.R.id.list);
+        RecyclerView addCardTiles = holder.itemView.findViewById(R.id.card_tile_add_list);
+        initView(cardTiles, addCardTiles);
     }
 
-    private void initView() {
+    private void initView(RecyclerView cardTiles, RecyclerView addCardTiles) {
         initCardData();
         mCardTileAdapter = new CardTileAdapter(mCardData);
         mAddCardTileAdapter = new CardTileAddAdapter(mAddCardData);
 
-        createCardView(mCardTiles, mCardTileAdapter);
-        createCardView(mAddCardTiles, mAddCardTileAdapter);
+        createCardView(cardTiles, mCardTileAdapter);
+        createCardView(addCardTiles, mAddCardTileAdapter);
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelperCallback());
-        itemTouchHelper.attachToRecyclerView(mCardTiles);
+        mItemTouchHelper.attachToRecyclerView(cardTiles);
 
         mCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, true));
-
         mAddCardTileAdapter.setOnDataChangeListener((changed, tile) -> onDataSetChanged(tile, false));
-        setVisibility(PrefsBridge.getBoolean("prefs_key_systemui_plugin_card_tiles_enabled", false));
     }
 
     @Override
     public void onDependencyChanged(@NonNull Preference dependency, boolean disableDependent) {
-        setVisibility(!disableDependent);
+        setVisible(!disableDependent);
     }
 
-    private void createCardView(RecyclerView cardView, RecyclerView.Adapter adapter) {
-        mCradLayoutManager = new GridLayoutManager(getContext(), 2);
-        cardView.setLayoutManager(mCradLayoutManager);
+    private void createCardView(RecyclerView cardView, RecyclerView.Adapter<?> adapter) {
+        cardView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         cardView.setAdapter(adapter);
         cardView.setNestedScrollingEnabled(false);
     }
 
-    public void setVisibility(boolean visibility) {
-        if (mItemView != null) {
-            mItemView.setVisibility(visibility ? View.VISIBLE : View.GONE);
-        }
-    }
-
-    private List<String> getTileList() {
-        String str = PrefsBridge.getString("prefs_key_systemui_plugin_card_tiles", "").replace("List_", "");
-        return TextUtils.isEmpty(str) ? new ArrayList<>() : Arrays.asList(str.split("\\|"));
+    private List<String> getTileList(String storedTiles) {
+        String tiles = storedTiles.replace("List_", "");
+        return TextUtils.isEmpty(tiles) ? new ArrayList<>() : Arrays.asList(tiles.split("\\|"));
     }
 
     private void initCardData() {
-        String[] cardTileList = getContext().getResources().getStringArray(R.array.card_tile_list);
-        mCardList = Arrays.asList(cardTileList);
-        List<String> tiles = getTileList();
-        if (!PrefsBridge.getString("prefs_key_systemui_plugin_card_tiles", "").isEmpty()) {
-            mCardData.clear();
-            mCardData.addAll(tiles);
-        } else {
+        mCardList.clear();
+        mCardList.addAll(Arrays.asList(
+            getContext().getResources().getStringArray(R.array.card_tile_list)
+        ));
+
+        String storedTiles = PrefsBridge.getString(CARD_TILES_KEY, "");
+        mCardData.clear();
+        if (storedTiles.isEmpty()) {
             mCardData.addAll(mDefaultCardData);
+        } else {
+            mCardData.addAll(getTileList(storedTiles));
         }
-        if (mAddCardData.isEmpty()) {
-            mAddCardData.addAll(mCardList);
-        }
+
+        mAddCardData.clear();
+        mAddCardData.addAll(mCardList);
         mAddCardData.removeAll(mCardData);
     }
 
-    private void onDataSetChanged(String tile, boolean isAdd) {
-        if (isAdd) {
+    private void onDataSetChanged(String tile, boolean removeFromCardList) {
+        if (removeFromCardList) {
             mCardData.remove(tile);
             mAddCardData.add(tile);
         } else {
@@ -150,25 +149,36 @@ public class CardTileEditPreference extends Preference {
         for (String tile : mCardData) {
             builder.append(tile).append("|");
         }
-        String mCardStyleTiles = "List_" + builder;
-        PrefsBridge.putByApp("prefs_key_systemui_plugin_card_tiles", mCardStyleTiles);
+        PrefsBridge.putByApp(CARD_TILES_KEY, "List_" + builder);
     }
 
-    public class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
+    private final class ItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
         @Override
-        public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP|ItemTouchHelper.DOWN|ItemTouchHelper.START|ItemTouchHelper.END;
-            int swipeFlags = 0;
-            return makeMovementFlags(dragFlags, swipeFlags);
+        public int getMovementFlags(
+            @NonNull RecyclerView recyclerView,
+            @NonNull RecyclerView.ViewHolder viewHolder
+        ) {
+            int dragFlags = ItemTouchHelper.UP
+                | ItemTouchHelper.DOWN
+                | ItemTouchHelper.START
+                | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, 0);
         }
 
         @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder source, @NonNull RecyclerView.ViewHolder target) {
+        public boolean onMove(
+            @NonNull RecyclerView recyclerView,
+            @NonNull RecyclerView.ViewHolder source,
+            @NonNull RecyclerView.ViewHolder target
+        ) {
             int fromPosition = source.getBindingAdapterPosition();
             int toPosition = target.getBindingAdapterPosition();
+            if (fromPosition == RecyclerView.NO_POSITION || toPosition == RecyclerView.NO_POSITION) {
+                return false;
+            }
+
             if (fromPosition < toPosition) {
-                //分别把中间所有的item的位置重新交换
                 for (int i = fromPosition; i < toPosition; i++) {
                     Collections.swap(mCardData, i, i + 1);
                 }
@@ -177,15 +187,16 @@ public class CardTileEditPreference extends Preference {
                     Collections.swap(mCardData, i, i - 1);
                 }
             }
-            recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
+
+            RecyclerView.Adapter<?> adapter = recyclerView.getAdapter();
+            if (adapter != null) {
+                adapter.notifyItemMoved(fromPosition, toPosition);
+            }
             saveList();
-            //返回true表示执行拖动
             return true;
         }
 
         @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {}
     }
 }

@@ -85,7 +85,7 @@ object BlurSecurity : BaseHook() {
             name("getTargetBox")
         }.createAfterHook { param ->
             val targetBox = param.result as? ViewGroup ?: return@createAfterHook
-            targetBox.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+            val listener = object : View.OnAttachStateChangeListener {
                 override fun onViewAttachedToWindow(view: View) {
                     val mainContent = targetBox.findDescendantByIdName("main_content") ?: return
                     mainContent.background = null
@@ -95,7 +95,11 @@ object BlurSecurity : BaseHook() {
                 override fun onViewDetachedFromWindow(view: View) {
                     setMaterialProtected(targetBox, false)
                 }
-            })
+            }
+            targetBox.addOnAttachStateChangeListener(listener)
+            registerHotReloadCleanup {
+                targetBox.removeOnAttachStateChangeListener(listener)
+            }
         }
     }
 
@@ -109,7 +113,7 @@ object BlurSecurity : BaseHook() {
         newToolBoxTopViewClass.hookAllConstructors {
             after { param ->
                 val topView = param.thisObject as? View ?: return@after
-                topView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                val listener = object : View.OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(view: View) {
                         val toolboxContent = ((view.parent as? ViewGroup)?.parent as? View) ?: return
                         toolboxContent.applyMaterial()
@@ -119,7 +123,11 @@ object BlurSecurity : BaseHook() {
                         val toolboxContent = ((view.parent as? ViewGroup)?.parent as? View) ?: return
                         setMaterialProtected(toolboxContent, false)
                     }
-                })
+                }
+                topView.addOnAttachStateChangeListener(listener)
+                registerHotReloadCleanup {
+                    topView.removeOnAttachStateChangeListener(listener)
+                }
             }
         }
     }
@@ -169,7 +177,7 @@ object BlurSecurity : BaseHook() {
         }
         setAdditionalInstanceField(MATERIAL_LISTENER_MARK, true)
 
-        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+        val listener = object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(view: View) {
                 view.applyMaterial(clearBackground)
             }
@@ -177,7 +185,12 @@ object BlurSecurity : BaseHook() {
             override fun onViewDetachedFromWindow(view: View) {
                 setMaterialProtected(view, false)
             }
-        })
+        }
+        addOnAttachStateChangeListener(listener)
+        registerHotReloadCleanup {
+            removeOnAttachStateChangeListener(listener)
+            this@applyMaterialOnAttach.setAdditionalInstanceField(MATERIAL_LISTENER_MARK, false)
+        }
 
         if (isAttachedToWindow) {
             post { applyMaterial(clearBackground) }
@@ -195,7 +208,7 @@ object BlurSecurity : BaseHook() {
         }
         setAdditionalInstanceField(MATERIAL_LISTENER_MARK, true)
 
-        addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+        val listener = object : View.OnAttachStateChangeListener {
             override fun onViewAttachedToWindow(view: View) {
                 (view as? ViewGroup)?.applyGameTurboMaterials()
             }
@@ -205,7 +218,13 @@ object BlurSecurity : BaseHook() {
                     ?.flatMap { it.gameTurboMaterialTargets() }
                     ?.forEach { setMaterialProtected(it, false) }
             }
-        })
+        }
+        addOnAttachStateChangeListener(listener)
+        registerHotReloadCleanup {
+            removeOnAttachStateChangeListener(listener)
+            this@applyMaterialToGameTurboChildrenOnAttach
+                .setAdditionalInstanceField(MATERIAL_LISTENER_MARK, false)
+        }
     }
 
     private fun ViewGroup.applyGameTurboMaterials() {

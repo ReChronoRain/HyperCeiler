@@ -21,6 +21,9 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object RotationButtonB : BaseHook() {
 
+    private const val STATE_NAVIGATION_BAR = "RotationButtonB.navigationBar"
+    private const val STATE_CONTEXT = "RotationButtonB.context"
+
     var isListen: Boolean = false
     private val enable by lazy {
         PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1
@@ -30,37 +33,24 @@ object RotationButtonB : BaseHook() {
     }
 
     override fun init() {
+        if (enable) {
+            val restoredNavigationBar = getHotReloadRuntimeState(
+                STATE_NAVIGATION_BAR,
+                Any::class.java
+            )
+            val restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context::class.java)
+            if (restoredNavigationBar != null && restoredContext != null) {
+                ensureRotationObserver(restoredNavigationBar, restoredContext)
+            }
+        }
+
         Constructors.find(navigationBar)
             .toList().createAfterHooks {
                 if (!enable) return@createAfterHooks
 
                 val mContext =
                     it.thisObject.getObjectFieldAs("mContext") as Context?
-                if (!isListen) {
-                    if (mContext == null) {
-                        XposedLog.e(TAG, lpparam.packageName, "context can't is null!")
-                        return@createAfterHooks
-                    }
-
-                    val contentObserver: ContentObserver =
-                        object : ContentObserver(Handler(mContext.mainLooper)) {
-                            override fun onChange(selfChange: Boolean, uri: Uri?) {
-                                val isShow: Boolean = getBoolean(mContext)
-                                val rotation: Int = getInt(mContext)
-                                it.thisObject.callMethod(
-                                    "onRotationProposal",
-                                    rotation,
-                                    isShow
-                                )
-                            }
-                        }
-
-                    mContext.contentResolver.registerContentObserver(
-                        Settings.System.getUriFor("rotation_button_data"),
-                        false, contentObserver
-                    )
-                    isListen = true
-                }
+                ensureRotationObserver(it.thisObject, mContext)
             }
 
         loadClass($$$"com.android.systemui.navigationbar.views.NavigationBarView$$ExternalSyntheticLambda1").findMethod { name("get") }.createBeforeHook {
@@ -98,7 +88,31 @@ object RotationButtonB : BaseHook() {
                         false
                     )
                 }
+        }
+    }
+
+    private fun ensureRotationObserver(navigationBar: Any, context: Context?) {
+        if (isListen) return
+        if (context == null) {
+            XposedLog.e(TAG, lpparam.packageName, "context can't is null!")
+            return
+        }
+        val contentObserver: ContentObserver =
+            object : ContentObserver(Handler(context.mainLooper)) {
+                override fun onChange(selfChange: Boolean, uri: Uri?) {
+                    val isShow = getBoolean(context)
+                    val rotation = getInt(context)
+                    navigationBar.callMethod("onRotationProposal", rotation, isShow)
+                }
             }
+
+        context.contentResolver.registerContentObserver(
+            Settings.System.getUriFor("rotation_button_data"), false, contentObserver
+        )
+        isListen = true
+        BaseHook.registerContentObserverHotReloadCleanup(context.contentResolver, contentObserver)
+        BaseHook.putHotReloadRuntimeState(STATE_NAVIGATION_BAR, navigationBar)
+        BaseHook.putHotReloadRuntimeState(STATE_CONTEXT, context)
     }
 
     fun getScreenOrientation(context: Context): Int {

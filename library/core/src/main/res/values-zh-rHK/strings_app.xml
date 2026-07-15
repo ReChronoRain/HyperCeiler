@@ -115,6 +115,7 @@
     <string name="development_close_log_alert_dialog">禁用 Logger Live 彈窗</string>
     <string name="development_fix_lsposed_log">嘗試修復 LSPosed Log 服務</string>
     <string name="settings_show_title">顯示</string>
+    <string name="settings_module_title">模組</string>
     <string name="settings_data_title">備份與還原</string>
     <string name="settings_bug_title">故障排查</string>
     <string name="settings_debug_title">偵錯模式</string>
@@ -1633,6 +1634,27 @@
     <string name="clear_app_properties_desc">確定重置 HyperCeiler 相關服務的 Prop 嗎？</string>
     <string name="clear_app_properties_success">已重設 HyperCeiler 相關服務的 Prop</string>
     <string name="development_clear_app_properties">重置 HyperCeiler 相關服務的 Prop</string>
+
+    <string name="settings_hot_reload">熱重載進程</string>
+    <string name="settings_hot_reload_desc">選擇框架作用域中的應用程式，並重載其目前全部已注入的進程。需要 Xposed 框架 API 102 或更高版本。</string>
+    <string name="settings_hot_reload_unsupported">當前 Xposed 框架不支持熱重載，需要 libxposed API 102 或更高版本。</string>
+    <string name="settings_hot_reload_no_targets">當前沒有正在運行的已注入進程可供熱重載。</string>
+    <string name="settings_hot_reload_pick">選擇要熱重載的進程</string>
+    <string name="settings_hot_reload_pick_subtitle">點擊下方進程，對其執行一次本模組的進程內熱重載。</string>
+    <string name="settings_hot_reload_target_meta">PID %1$d  ·  UID %2$d  ·  v%3$d</string>
+    <string name="settings_hot_reload_in_progress">正在熱重載 %1$s ...</string>
+    <string name="settings_hot_reload_result">進程：%1$s\n狀態：%2$s\n詳情：%3$s</string>
+    <string name="settings_hot_reload_pick_apps">選擇要熱重載的應用程式</string>
+    <string name="settings_hot_reload_pick_apps_subtitle">僅顯示已在框架作用域中勾選的應用程式。將重載所選應用程式目前全部已注入的進程。</string>
+    <string name="settings_hot_reload_system_scope">系統框架</string>
+    <string name="settings_hot_reload_action">熱重載</string>
+    <string name="settings_hot_reload_no_scoped_apps">框架作用域中沒有仍已安裝的應用程式。</string>
+    <string name="settings_hot_reload_no_apps_selected">請至少選擇一個應用程式。</string>
+    <string name="settings_hot_reload_batch_in_progress">正在重載 %1$d 個應用程式 ...</string>
+    <string name="settings_hot_reload_batch_no_running_targets">所選的 %1$d 個應用程式均沒有運行中的已注入進程。</string>
+    <string name="settings_hot_reload_batch_result">熱重載完成：%1$d/%2$d 個進程成功，%3$d 個失敗；%4$d 個所選應用程式沒有運行中的進程。</string>
+    <string name="settings_hot_reload_batch_result_timeout">熱重載等待逾時：%1$d/%2$d 個進程成功，%3$d 個失敗或逾時；%4$d 個所選應用程式沒有運行中的進程。</string>
+    <string name="settings_hot_reload_batch_failure_detail">首個失敗進程（%1$s）：%2$s</string>
     <string name="vertical">豎屏</string>
     <string name="horizontal">横屏</string>
     <string name="unlock_ai">解鎖 AI 功能</string>

@@ -138,13 +138,27 @@ abstract class MusicBaseHook : BaseHook() {
         }
     }
 
+    private var lyricReceiverRegistered = false
+
     init {
         com.sevtinge.hyperceiler.libhook.base.BaseHook.runOnApplicationAttach {
-            runCatching {
-                SuperLyricHelper.registerReceiver(receiver)
-            }.onFailure {
-                XposedLog.e(TAG, lpparam.packageName, "registerLyricListener not found: ${it.message}")
+            registerLyricReceiver()
+        }
+    }
+
+    private fun registerLyricReceiver() {
+        if (lyricReceiverRegistered) return
+        runCatching {
+            SuperLyricHelper.registerReceiver(receiver)
+            lyricReceiverRegistered = true
+            BaseHook.registerHotReloadCleanup {
+                if (lyricReceiverRegistered) {
+                    SuperLyricHelper.unregisterReceiver(receiver)
+                    lyricReceiverRegistered = false
+                }
             }
+        }.onFailure {
+            XposedLog.e(TAG, lpparam.packageName, "registerLyricListener not found: ${it.message}")
         }
     }
 

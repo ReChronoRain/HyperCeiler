@@ -21,7 +21,6 @@ package com.sevtinge.hyperceiler.libhook.rules.home;
 import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField;
 import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
@@ -38,10 +37,19 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class SeekPoints extends BaseHook {
 
+    private static final String STATE_WORKSPACE = "SeekPoints.workspace";
+    private static final String HANDLER_KEY = "mHandlerEx";
+    private static final String HANDLER_OWNER_KEY = "mHandlerExOwner";
     public int points = PrefsBridge.getStringAsInt("home_other_seek_points", 0);
+    private final Object mHandlerGeneration = new Object();
 
     @Override
     public void init() {
+        View restoredWorkspace = getHotReloadRuntimeState(STATE_WORKSPACE, View.class);
+        if (restoredWorkspace != null) {
+            ensureCurrentGenerationHandler(restoredWorkspace);
+        }
+
         findAndHookMethod("com.miui.home.launcher.ScreenView",
             "setSeekBarPosition",
             "android.widget.FrameLayout$LayoutParams",
@@ -112,19 +120,7 @@ public class SeekPoints extends BaseHook {
             XposedLog.w(TAG, getPackageName(), "showSeekBar HideSeekPointsHook Cannot find seekbar");
             return;
         }
-        Context mContext = workspace.getContext();
-        Handler mHandler = (Handler) getAdditionalInstanceField(workspace, "mHandlerEx");
-        if (mHandler == null) {
-            mHandler = new Handler(mContext.getMainLooper()) {
-                @Override
-                public void handleMessage(@NonNull Message msg) {
-                    View seekBar = (View) msg.obj;
-                    if (seekBar != null)
-                        seekBar.animate().alpha(0.0f).setDuration(600).withEndAction(() -> seekBar.setVisibility(View.GONE));
-                }
-            };
-            setAdditionalInstanceField(workspace, "mHandlerEx", mHandler);
-        }
+        Handler mHandler = ensureCurrentGenerationHandler(workspace);
         if (mHandler == null) {
             XposedLog.w(TAG, getPackageName(), "showSeekBar HideSeekPointsHook Cannot create handler");
             return;
@@ -143,5 +139,37 @@ public class SeekPoints extends BaseHook {
             msg.obj = mScreenSeekBar;
             mHandler.sendMessageDelayed(msg, 1500);
         }
+    }
+
+    private Handler ensureCurrentGenerationHandler(View workspace) {
+        Object owner = getAdditionalInstanceField(workspace, HANDLER_OWNER_KEY);
+        Handler existing = (Handler) getAdditionalInstanceField(workspace, HANDLER_KEY);
+        if (owner == mHandlerGeneration && existing != null) {
+            return existing;
+        }
+        if (existing != null) {
+            existing.removeCallbacksAndMessages(null);
+        }
+        Handler handler = new Handler(workspace.getContext().getMainLooper()) {
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                View seekBar = (View) msg.obj;
+                if (seekBar != null) {
+                    seekBar.animate().alpha(0.0f).setDuration(600)
+                        .withEndAction(() -> seekBar.setVisibility(View.GONE));
+                }
+            }
+        };
+        setAdditionalInstanceField(workspace, HANDLER_KEY, handler);
+        setAdditionalInstanceField(workspace, HANDLER_OWNER_KEY, mHandlerGeneration);
+        registerHandlerHotReloadCleanup(handler);
+        registerHotReloadCleanup(() -> {
+            if (getAdditionalInstanceField(workspace, HANDLER_OWNER_KEY) == mHandlerGeneration) {
+                removeAdditionalInstanceField(workspace, HANDLER_KEY);
+                removeAdditionalInstanceField(workspace, HANDLER_OWNER_KEY);
+            }
+        });
+        putHotReloadRuntimeState(STATE_WORKSPACE, workspace);
+        return handler;
     }
 }

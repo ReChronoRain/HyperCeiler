@@ -31,6 +31,7 @@ import android.widget.TextView
 import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.miuiConfigs
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
@@ -68,6 +69,7 @@ object HideFakeStatusBar : MusicBaseHook() {
 
     // 正在显示焦点通知歌词(有歌词并且正在 UI 上显示)
     private var isShowingFocusedLyric: Boolean = false
+    private var clockReceiverRegistered = false
 
     private val miuiNotificationClass by lazy {
         loadClass("com.android.systemui.qs.MiuiNotificationHeaderView")
@@ -93,6 +95,23 @@ object HideFakeStatusBar : MusicBaseHook() {
 
     }
 
+    private fun registerClockReceiver(receiverContext: Context) {
+        if (clockReceiverRegistered) return
+        val receiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                showCLock = !showCLock
+                updateLayout()
+            }
+        }
+        receiverContext.registerReceiver(
+            receiver,
+            IntentFilter("$CHANNEL_ID.actions.switchClockStatus"),
+            Context.RECEIVER_EXPORTED
+        )
+        clockReceiverRegistered = true
+        BaseHook.registerReceiverHotReloadCleanup(receiverContext, receiver)
+    }
+
     override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
     }
 
@@ -100,16 +119,11 @@ object HideFakeStatusBar : MusicBaseHook() {
     }
 
     override fun init() {
+        runCatching { context }.getOrNull()?.let(::registerClockReceiver)
+
         // 点击显示时间
         loadClass("android.app.Application").findMethod { name("onCreate") }.createAfterHook {
-                val mFilter = IntentFilter()
-                mFilter.addAction("$CHANNEL_ID.actions.switchClockStatus")
-                context.registerReceiver(object : BroadcastReceiver() {
-                    override fun onReceive(context: Context?, intent: Intent?) {
-                        showCLock = !showCLock
-                        updateLayout()
-                    }
-                }, mFilter, Context.RECEIVER_EXPORTED)
+                runCatching { context }.getOrNull()?.let(::registerClockReceiver)
             }
 
         loadClass("com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView").findMethod {

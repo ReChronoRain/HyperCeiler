@@ -63,6 +63,8 @@
     <attr name="myLocationPad" format="string" />
 
     <attr name="quick_restart" format="string" />
+    <!-- API 102 多选热重载中置顶的 scope 应用；未设置时沿用 quick_restart。 -->
+    <attr name="hot_reload_preferred" format="string" />
 
     <declare-styleable name="SeekBarPreferenceCompat">
         <attr name="note" format="string" />

@@ -45,13 +45,23 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class StickyFloatingWindows extends BaseHook {
 
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "StickyFloatingWindows.systemContext";
+    private static final String HOT_RELOAD_ATMS_KEY =
+        "StickyFloatingWindows.activityTaskManagerService";
     public static ConcurrentHashMap<String, Pair<Float, Rect>> fwApps = new ConcurrentHashMap<>();
+    private boolean mSystemReadyInitialized;
 
     @Override
     public void init() {
         final List<String> fwBlackList = new ArrayList<>();
         fwBlackList.add("com.miui.securitycenter");
         fwBlackList.add("com.miui.home");
+        Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+        Object restoredAtms = getHotReloadRuntimeState(HOT_RELOAD_ATMS_KEY, Object.class);
+        if (restoredContext != null && restoredAtms != null) {
+            initializeSystemReady(restoredAtms, restoredContext);
+        }
         Class<?> MiuiMultiWindowUtils = findClass("android.util.MiuiMultiWindowUtils");
         hookAllMethods("com.android.server.wm.ActivityStarterInjector", "modifyLaunchActivityOptionIfNeed", new IMethodHook() {
             @Override
@@ -164,55 +174,7 @@ public class StickyFloatingWindows extends BaseHook {
             @Override
             public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
-                restoreFwAppsInSetting(mContext);
-                Class<?> MiuiMultiWindowAdapter = findClass("android.util.MiuiMultiWindowAdapter");
-                List<String> blackList = (List<String>) getStaticObjectField(MiuiMultiWindowAdapter, "FREEFORM_BLACK_LIST");
-                blackList.clear();
-                mContext.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String action = intent.getAction();
-                        if (action.equals("miui.intent.action_launch_fullscreen_from_freeform")) {
-                            setAdditionalInstanceField(param.getThisObject(), "skipFreeFormStateClear", true);
-                        }
-                    }
-                }, new IntentFilter("miui.intent.action_launch_fullscreen_from_freeform"), Context.RECEIVER_EXPORTED);
-
-                IntentFilter mFilter = new IntentFilter();
-                mFilter.addAction(ACTION_PREFIX + "updateFwApps");
-                mFilter.addAction(ACTION_PREFIX + "getFwApps");
-                mFilter.addAction(ACTION_PREFIX + "removeFwApps");
-                mContext.registerReceiver(new BroadcastReceiver() {
-                    @Override
-                    public void onReceive(Context context, Intent intent) {
-                        String pkgName = intent.getStringExtra("package");
-                        String action = intent.getAction();
-                        if ((ACTION_PREFIX + "updateFwApps").equals(action)) {
-                            float scale = intent.getFloatExtra("scale", 0f);
-                            Rect rect = intent.getParcelableExtra("rect");
-                            if (!fwApps.containsKey(pkgName)) {
-                                fwApps.put(pkgName, new Pair<>(scale, rect));
-                                storeFwAppsInSetting(context);
-                                return;
-                            }
-                            Pair<Float, Rect> oldPair = fwApps.get(pkgName);
-                            if (scale == 0f) {
-                                scale = oldPair.first;
-                            }
-                            if (rect == null) {
-                                rect = oldPair.second;
-                            }
-                            fwApps.put(pkgName, new Pair<>(scale, rect));
-                            storeFwAppsInSetting(context);
-                        } else if ((ACTION_PREFIX + "getFwApps").equals(action)) {
-                            syncFwApps(context);
-                        } else if ((ACTION_PREFIX + "removeFwApps").equals(action)) {
-                            if (pkgName != null && fwApps.remove(pkgName) != null) {
-                                storeFwAppsInSetting(context);
-                            }
-                        }
-                    }
-                }, mFilter, Context.RECEIVER_EXPORTED);
+                initializeSystemReady(param.getThisObject(), mContext);
             }
         });
 
@@ -303,6 +265,74 @@ public class StickyFloatingWindows extends BaseHook {
 
     public static void restoreFwAppsInSetting(Context context) {
         unserializeFwApps(Settings.Global.getString(context.getContentResolver(), ProjectApi.mAppModulePkg + ".fw.apps"));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initializeSystemReady(Object activityTaskManagerService, Context context) {
+        if (context == null || activityTaskManagerService == null || mSystemReadyInitialized) {
+            return;
+        }
+        restoreFwAppsInSetting(context);
+        Class<?> miuiMultiWindowAdapter = findClass("android.util.MiuiMultiWindowAdapter");
+        List<String> blackList = (List<String>) getStaticObjectField(
+            miuiMultiWindowAdapter, "FREEFORM_BLACK_LIST");
+        blackList.clear();
+
+        BroadcastReceiver fullscreenReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context receiverContext, Intent intent) {
+                String action = intent.getAction();
+                if ("miui.intent.action_launch_fullscreen_from_freeform".equals(action)) {
+                    setAdditionalInstanceField(activityTaskManagerService, "skipFreeFormStateClear", true);
+                }
+            }
+        };
+        context.registerReceiver(fullscreenReceiver,
+            new IntentFilter("miui.intent.action_launch_fullscreen_from_freeform"),
+            Context.RECEIVER_EXPORTED);
+        registerReceiverHotReloadCleanup(context, fullscreenReceiver);
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_PREFIX + "updateFwApps");
+        filter.addAction(ACTION_PREFIX + "getFwApps");
+        filter.addAction(ACTION_PREFIX + "removeFwApps");
+        BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context receiverContext, Intent intent) {
+                String pkgName = intent.getStringExtra("package");
+                String action = intent.getAction();
+                if ((ACTION_PREFIX + "updateFwApps").equals(action)) {
+                    float scale = intent.getFloatExtra("scale", 0f);
+                    Rect rect = intent.getParcelableExtra("rect");
+                    if (!fwApps.containsKey(pkgName)) {
+                        fwApps.put(pkgName, new Pair<>(scale, rect));
+                        storeFwAppsInSetting(receiverContext);
+                        return;
+                    }
+                    Pair<Float, Rect> oldPair = fwApps.get(pkgName);
+                    if (scale == 0f) {
+                        scale = oldPair.first;
+                    }
+                    if (rect == null) {
+                        rect = oldPair.second;
+                    }
+                    fwApps.put(pkgName, new Pair<>(scale, rect));
+                    storeFwAppsInSetting(receiverContext);
+                } else if ((ACTION_PREFIX + "getFwApps").equals(action)) {
+                    syncFwApps(receiverContext);
+                } else if ((ACTION_PREFIX + "removeFwApps").equals(action)
+                    && pkgName != null && fwApps.remove(pkgName) != null) {
+                    storeFwAppsInSetting(receiverContext);
+                }
+            }
+        };
+        context.registerReceiver(updateReceiver, filter, Context.RECEIVER_EXPORTED);
+        registerReceiverHotReloadCleanup(context, updateReceiver);
+
+        mSystemReadyInitialized = true;
+        putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+        putHotReloadRuntimeState(HOT_RELOAD_ATMS_KEY, activityTaskManagerService);
+        registerHotReloadCleanup(() -> mSystemReadyInitialized = false);
     }
 
     static ActivityOptions patchActivityOptions(Context mContext, ActivityOptions options, String pkgName, Class<?> MiuiMultiWindowUtils) {

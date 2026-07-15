@@ -1,19 +1,19 @@
 /*
  * This file is part of HyperCeiler.
-
+ *
  * HyperCeiler is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
  * License.
-
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Affero General Public License for more details.
-
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+ *
  * Copyright (C) 2023-2026 HyperCeiler Contributions
  */
 package com.sevtinge.hyperceiler.view;
@@ -34,9 +34,6 @@ import fan.appcompat.app.AlertDialog;
 
 public class RestartAlertDialog extends AlertDialog {
 
-    private List<String> mAppNameList;
-    private List<String> mAppPackageNameList;
-
     public RestartAlertDialog(Context context) {
         super(context);
         setTitle(R.string.hyperceiler_restart_quick);
@@ -44,40 +41,27 @@ public class RestartAlertDialog extends AlertDialog {
     }
 
     private MultipleChoiceView createMultipleChoiceView(Context context) {
-        Resources mRes = context.getResources();
+        Resources resources = context.getResources();
+        List<String> appNames = Arrays.asList(resources.getStringArray(R.array.restart_apps_name_hyperos));
+        List<String> packageNames = Arrays.asList(resources.getStringArray(R.array.restart_apps_packagename));
+
         MultipleChoiceView view = new MultipleChoiceView(context);
-        mAppNameList = Arrays.asList(mRes.getStringArray(R.array.restart_apps_name_hyperos));
-        mAppPackageNameList = Arrays.asList(mRes.getStringArray(R.array.restart_apps_packagename));
-        view.setData(mAppNameList, null);
+        view.setData(appNames, null);
         view.deselectAll();
-        view.setOnCheckedListener(sparseBooleanArray -> {
+        view.setOnCheckedListener(checkedItems -> {
             dismiss();
-            int size = sparseBooleanArray.size();
             if (checkRootPermission() != 0) {
                 DialogHelper.showAlertDialog(context, false, true);
                 return;
             }
-            for (int i = 0; i < size; i++) {
-                if (sparseBooleanArray.get(i)) {
-                    // ShellUtils.execCommand("pkill -l 9 -f " + mAppPackageNameList.get(i), true, false);
-                    // String test = "XX";
-                    String packageGet = mAppPackageNameList.get(i);
-                    AppsTool.killApps(packageGet);
+
+            for (int i = 0; i < checkedItems.size(); i++) {
+                int appIndex = checkedItems.keyAt(i);
+                if (checkedItems.valueAt(i) && appIndex < packageNames.size()) {
+                    AppsTool.killApps(packageNames.get(appIndex));
                 }
             }
         });
         return view;
     }
-
-    /*public void restartApp(Context context, String packageName) {
-        Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartApps");
-        intent.putExtra("packageName", packageName);
-        context.sendBroadcast(intent);
-    }
-
-    public void restartSystemUI(Context context) {
-        Intent intent = new Intent(GlobalActions.ACTION_PREFIX + "RestartSystemUI");
-        intent.setPackage("com.android.systemui");
-        context.sendBroadcast(intent);
-    }*/
 }

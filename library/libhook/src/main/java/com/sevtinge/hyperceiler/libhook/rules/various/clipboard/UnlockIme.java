@@ -25,6 +25,7 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodBottomManagerHelper;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.List;
@@ -100,6 +101,7 @@ public class UnlockIme extends BaseHook {
         if (inputMethodBottomManager != null) {
             hookSIsImeSupport(inputMethodBottomManager);
             hookIsXiaoAiEnable(inputMethodBottomManager);
+            setPhraseBgColor(inputMethodBottomManager);
         } else {
             XposedLog.e(TAG, "Class not found: com.miui.inputmethod.InputMethodBottomManager");
         }
@@ -112,7 +114,7 @@ public class UnlockIme extends BaseHook {
      */
     private void hookSIsImeSupport(Class<?> clazz) {
         try {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(clazz, "sIsImeSupport", 1);
+            BaseHook.setStaticObjectField(clazz, "sIsImeSupport", 1);
         } catch (Throwable throwable) {
             XposedLog.e(TAG, "Hook field sIsImeSupport: " + throwable);
         }
@@ -189,7 +191,7 @@ public class UnlockIme extends BaseHook {
     private void hookDeleteNotSupportIme(String className, ClassLoader classLoader) {
         if (isMoreAndroidVersion(36)) return;
         try {
-            Class<?> clazz = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(className, classLoader);
+            Class<?> clazz = BaseHook.findClassIfExists(className, classLoader);
             if (clazz == null) {
                 XposedLog.w(TAG, "Class not found: " + className);
                 return;
@@ -207,7 +209,7 @@ public class UnlockIme extends BaseHook {
      */
     private void getSupportIme(ClassLoader classLoader) {
         try {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
+            BaseHook.findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
                 classLoader, "getSupportIme",
                 new IMethodHook() {
                     @Override

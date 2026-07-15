@@ -22,6 +22,7 @@ import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.provider.Settings;
 
 import androidx.annotation.NonNull;
@@ -34,6 +35,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 public class GuidedAccessTile extends TileUtils {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
@@ -81,7 +83,8 @@ public class GuidedAccessTile extends TileUtils {
 
         final int targetTaskId = runningTask.taskId;
         collapsePanelsSafely(ctx);
-        ctx.getMainHandler().postDelayed(() -> {
+        Handler handler = ctx.getMainHandler();
+        Runnable enterLockTask = () -> {
             if (getLockApp(context) != -1) {
                 ctx.refreshState();
                 return;
@@ -92,7 +95,9 @@ public class GuidedAccessTile extends TileUtils {
                 showScreenPinningRequest(context, targetTaskId);
             }
             ctx.refreshState();
-        }, ENTER_DELAY_MS);
+        };
+        handler.postDelayed(enterLockTask, ENTER_DELAY_MS);
+        BaseHook.registerHotReloadCleanup(() -> handler.removeCallbacks(enterLockTask));
     }
 
     @Nullable
