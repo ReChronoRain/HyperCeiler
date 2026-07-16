@@ -162,4 +162,5 @@
     <!-- Log Viewer -->
     <string name="log_loading">Memuat log…</string>
     <string name="log_viewer">Penampil log</string>
+    <string name="help_framework_warning_unknown_framework">Framework saat ini</string>
 </resources>
