@@ -63,7 +63,7 @@
     <string name="safe_mode_history">Lihat catatan pengecualian</string>
     <string name="safe_mode_cancel">Nonaktifkan mode aman</string>
     <string name="safe_mode_ok">Batal</string>
-    <string name="safe_mode_later_title">Tip</string>
+    <string name="safe_mode_later_title">Tips</string>
     <string name="safe_mode_later_desc">%1$s masih berada dalam Mode aman dan fitur HyperCeiler telah dinonaktifkan. Nonaktifkan Mode aman?</string>
     <string name="safe_mode_recorder_title">Catatan pengecualian</string>
     <string name="safe_mode_recorder_file">Mengajukan</string>
@@ -71,13 +71,13 @@
     <string name="safe_mode_recorder_method">metode</string>
     <string name="safe_mode_recorder_line">Garis</string>
     <string name="safe_mode_recorder_msg">Pesan pengecualian</string>
-    <string name="safe_mode_recorder_st">Stack trace</string>
+    <string name="safe_mode_recorder_st">Jejak stack</string>
     <string name="error_message">Pesan pengecualian</string>
-    <string name="error_type">Jenis pengecualian</string>
+    <string name="error_type">Tipe pengecualian</string>
     <string name="error_file_name">Nama file</string>
-    <string name="error_time">Waktu pencatatan</string>
+    <string name="error_time">Pencatatan waktu</string>
     <string name="error_version_name">Nama versi</string>
-    <string name="error_git_hash">Hash Git</string>
+    <string name="error_git_hash">Git hash</string>
     <string name="error_build_time">Waktu build</string>
     <string name="copy_ok">Disalin ke papan klip</string>
     <string name="notification_channel_app_crash_name">Aplikasi berjalan tidak normal</string>
@@ -89,15 +89,15 @@
     <string name="headtip_warn_unsupport_xposed">Framework Xposed yang sedang Anda gunakan dapat menyebabkan beberapa fitur tidak berfungsi dengan baik. Jika Anda mengalami masalah ini, coba gunakan versi framework Xposed yang lain dan periksa apakah masalahnya masih terjadi.</string>
     <string name="headtip_warn_unsupport_sysver">Perangkat saat ini berjalan pada versi sistem yang belum sepenuhnya didukung, sehingga dapat menyebabkan anomali pada fungsi HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
-    <string name="headtip_tip_auto_safe_mode">Mode aman dapat melepas hook beberapa aplikasi ketika aplikasi tersebut beberapa kali crash demi menjaga keamanan. Fitur ini memerlukan cakupan hook System Framework untuk berjalan. Kami sangat menyarankan Anda mencentang cakupan System Framework untuk menyalakan Mode aman.</string>
+    <string name="headtip_tip_auto_safe_mode">Mode aman dapat melepaskan beberapa aplikasi tepat waktu ketika aplikasi tersebut mengalami crash berulang kali untuk memastikan keamanan. Fitur ini memerlukan cakupan hook Framework Sistem untuk dijalankan. Kami sangat menyarankan untuk memeriksa Framework Sistem.</string>
     <string name="headtip_tip_long_press_to_copy">Anda dapat memilih teks dengan tekan lama atau ketuk dua kali, atau menyalinnya dan mengirimkannya kembali ke pengembang.</string>
     <string name="happy_birthday_hyperceiler">Hari ini adalah hari ulang tahun HyperCeiler!\nTerima kasih atas dukungan Anda selama setahun terakhir, dan mari terus bekerja sama tahun ini!</string>
-    <string name="headtip_tip_fuck_coolapk">Hari ini dalam sejarah: Sevtinge menyampaikan pidato penting pada 14 Juli 2022.</string>
-    <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan dibatasi. Pulihkan layanan log agar dapat berjalan dengan benar.\nKode kesalahan: %1$s</string>
-    <string name="headtip_notice_dead_logger">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan dibatasi. Pulihkan layanan log agar dapat berjalan dengan benar.</string>
-    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
-    <string name="supported_system_func">Fitur ini didukung secara resmi pada versi sistem saat ini</string>
-    <string name="feature_doing_func">Fitur ini sedang dalam pengembangan, nantikan.</string>
+    <string name="headtip_tip_fuck_coolapk">Hari ini dalam sejarah: Sevtinge menyampaikan pidato penting pada 14 Juli, 2022.</string>
+    <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan terbatas. Harap pulihkan layanan log agar dapat berjalan normal.\nKode kesalahan: %1$s</string>
+    <string name="headtip_notice_dead_logger">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan terbatas. Harap pulihkan layanan log agar dapat berjalan normal.</string>
+    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini.</string>
+    <string name="supported_system_func">Fitur ini secara resmi didukung dalam versi sistem saat ini</string>
+    <string name="feature_doing_func">Fitur ini masih dalam pengembangan, pantau terus perkembangannya.</string>
     <!--System UI-->
     <string name="system_ui">UI Sistem</string>
     <!--System launcher-->
@@ -124,7 +124,7 @@
     <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka "Setelan HyperCeiler - Opsi pengembang - Mode debug" untuk menentukan versi yang dipasang lalu coba lagi.</string>
     <string name="debug_mode">Mode debug</string>
     <string name="open_debug_mode_tips">Opsi ini hanya digunakan untuk menangani versi aplikasi target yang dipasang dengan benar dan sebaiknya digunakan hanya bila perlu.\nUntuk aplikasi yang sedang di-debug, fungsinya tidak dapat dijamin. Jika Anda mengaktifkan opsi ini, **jangan laporkan** masalah yang terjadi pada aplikasi target tersebut kepada pengembang.</string>
-    <string name="debug_mode_running">Cakupan target saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil di-hook: %3$s</string>
+    <string name="debug_mode_running">Target scope saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil dihubungkan: %3$s</string>
     <string name="debug_mode_switch">Versi debug</string>
     <string name="debug_mode_home_version">Setel kode versi launcher</string>
     <string name="debug_mode_home_version_desc">Nomor versi yang terlalu tinggi tetap akan diblokir, jadi isi dengan hati-hati.</string>
@@ -163,4 +163,23 @@
     <string name="log_loading">Memuat log…</string>
     <string name="log_viewer">Penampil log</string>
     <string name="help_framework_warning_unknown_framework">Framework saat ini</string>
+    <string name="safe_mode_banner_title">Mode aman diaktifkan</string>
+    <string name="safe_mode_banner_desc">%1$s fitur HyperCeiler telah dinonaktifkan sementara oleh Mode Aman secara otomatis, setelah berulang kali mengalami kegagalan. Tekan untuk mengelola</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler tidak dapat membaca informasi framework dari LayananXposed. Modul mungkin di nonaktifkan karena alasan keamanan. Tekan untuk melihat detail.</string>
+    <string name="load_failed">Gagal memuat.</string>
+    <string name="log_level_general">Log umum</string>
+    <string name="log_level_detailed">Detail log</string>
+    <string name="help_framework_warning_title">Kompatibilitas framework saat ini</string>
+    <string name="help_framework_warning_card_compatible">Framework saat ini memenuhi persyaratan runtime HyperCeiler. Tidak ada pemuatan Hook abnormal yang terdeteksi.</string>
+    <string name="help_framework_warning_card_incompatible">Framework saat ini tidak memenuhi persyaratan runtime HyperCeiler. Pemuatan hook telah dihentikan. Silakan beralih ke framework lain yang kompatibel dan coba lagi.</string>
+    <string name="help_framework_warning_card_service_error">Informasi framework saat ini tidak dapat dibaca dari LayananXposed. Pemuatan hook dihentikan karena alasan keamanan. Cek kembali status framework dan coba lagi.</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler belum membaca informasi framework terbaru dari LayananXposed, sehingga kompatibilitas belum dapat dipastikan untuk saat ini.</string>
+    <string name="help_framework_warning_section_framework_version">Versi framework saat ini:</string>
+    <string name="help_framework_warning_section_banner_reason">Kenapa halaman beranda menampilkan peringatan?</string>
+    <string name="help_framework_warning_banner_reason">Peringatan di halaman beranda hanya akan muncul ketika HyperCeiler mendeteksi bahwa ada framework saat ini yang tidak memenuhi standar minimum runtime, atau LayananXposed tidak bisa membaca kembali informasi framework secara normal. Untuk mengatasi masalah yang disebabkan oleh pemuatan Hook yang abnormal, maka HyperCeiler akan berhenti memuat Hook pada waktu yang sama.</string>
+    <string name="help_framework_warning_version_unavailable">Informasi versi framework saat ini tidak dapat dibaca dari LayananXposed.</string>
+    <string name="log_menu_filter">Filter log</string>
+    <string name="log_empty_no_logs">Belum ada log</string>
+    <string name="log_empty_no_results">Tidak ditemukan log yang sesuai</string>
+    <string name="log_empty_root_required">Berikan izin Root dan mulai ulang aplikasi untuk memuat log</string>
 </resources>
