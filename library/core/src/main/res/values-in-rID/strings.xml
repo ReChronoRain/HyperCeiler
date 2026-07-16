@@ -34,11 +34,11 @@
     <string name="soft_reboot">Memulai Ulang</string>
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
-    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
-    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
+    <string name="hook_failed">HyperCeiler belum diaktifkan. Silakan periksa apakah LSPosed diaktifkan dan apakah izinkan HyperCeiler untuk memulai secara otomatis. Jika ya, silakan mulai ulang atau optimalkan kembali modul tersebut.</string>
+    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan hak izin Root/Su?</string>
+    <string name="start_failed">Aktivitas gagal dimulai. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
-    <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
+    <string name="reboot_failed">Reboot gagal. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <!--HyperCeiler Tips-->
     <string name="safe_mode_history">Lihat catatan pengecualian</string>
     <string name="safe_mode_recorder_title">Catatan pengecualian</string>

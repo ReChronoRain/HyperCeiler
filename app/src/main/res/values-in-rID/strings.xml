@@ -44,11 +44,11 @@
     <string name="soft_reboot">Memulai Ulang</string>
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
-    <string name="hook_failed">Modul belum diaktifkan.\nSilakan periksa apakah manajer Xposed telah diaktifkan. Jika sudah, silakan mulai ulang atau optimalkan kembali modul.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan izin Root/Su?</string>
-    <string name="start_failed">Gagal memulai aktivitas, periksa apakah HyperCeiler telah diberikan izin Root/SU.</string>
+    <string name="hook_failed">HyperCeiler belum diaktifkan. Silakan periksa apakah LSPosed diaktifkan dan apakah izinkan HyperCeiler untuk memulai secara otomatis. Jika ya, silakan mulai ulang atau optimalkan kembali modul tersebut.</string>
+    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan hak izin Root/Su?</string>
+    <string name="start_failed">Aktivitas gagal dimulai. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
-    <string name="reboot_failed">Reboot gagal, periksa apakah HyperCeiler diberikan izin Root/Su?</string>
+    <string name="reboot_failed">Reboot gagal. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="experimental_features">Fitur eksperimental</string>
     <!--HyperCeiler Tips-->
     <string name="error">Kesalahan</string>
@@ -86,7 +86,7 @@
     <string name="notification_view">Lihat</string>
     <string name="tip_default">Tip: Ini tip default. Jika Anda dapat melihat saya, berarti ada masalah dengan HyperCeiler, harap laporkan kepada pengembang secara tepat waktu dan sopan.</string>
     <string name="headtip_warn_not_offical_rom">Sumber ROM yang Anda gunakan mungkin tidak resmi dari Xiaomi, dan beberapa fungsi mungkin tidak berfungsi, silakan hubungi penyedia yang Anda gunakan untuk detailnya.</string>
-    <string name="headtip_warn_unsupport_xposed">Framework Xposed yang sedang Anda gunakan dapat menyebabkan beberapa fitur tidak berfungsi dengan baik. Jika Anda mengalami masalah ini, coba gunakan versi framework Xposed yang lain dan periksa apakah masalahnya masih terjadi.</string>
+    <string name="headtip_warn_unsupport_xposed">%1$s menggunakan Xposed API %2$d, tetapi HyperCeiler membutuhkan API %3$d atau yang lebih baru. Fitur modul telah dinonaktifkan. Ketuk untuk melihat detailnya.</string>
     <string name="headtip_warn_unsupport_sysver">Perangkat saat ini berjalan pada versi sistem yang belum sepenuhnya didukung, sehingga dapat menyebabkan anomali pada fungsi HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">Verifikasi tanda tangan gagal, dan versi yang Anda gunakan saat ini mungkin bukan dari versi resmi HyperCeiler, dan mungkin berisi kode berbahaya.</string>
     <string name="headtip_tip_auto_safe_mode">Mode aman dapat melepaskan beberapa aplikasi tepat waktu ketika aplikasi tersebut mengalami crash berulang kali untuk memastikan keamanan. Fitur ini memerlukan cakupan hook Framework Sistem untuk dijalankan. Kami sangat menyarankan untuk memeriksa Framework Sistem.</string>

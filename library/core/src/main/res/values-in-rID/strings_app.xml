@@ -1485,4 +1485,26 @@
     <string name="system_ui_statusbar_island_title">Super Island</string>
     <string name="system_ui_statusbar_music_title">Focus lyrics</string>
     <string name="system_ui_statusbar_iconmanage_nosupport_mobile_network">Fitur ini dinonaktifkan karena ikon kartu sinyal jaringan seluler saat ini disembunyikan.</string>
+    <string name="miuix_sbl_tracking_progress_labe_refreshed">Menyegarkan berhasil</string>
+    <string name="system_ui_control_center_media_control_unlock_custom_actions">Hapus pembatasan tindakan kustom dari beberapa aplikasi musik</string>
+    <string name="system_ui_control_center_media_control_progress_thumb">Media kemajuan bar gaya thumb</string>
+    <string name="system_ui_control_center_media_control_ambient_light_opt_desc">Logika picking warna cahaya Ambient dioptimalkan menggunakan sistem warna 3 Monet</string>
+    <string name="system_ui_control_center_media_control_always_dark_desc">Simpan kartu media dalam mode gelap setiap kali</string>
+    <string name="system_ui_control_center_media_control_media_button_title">Kontrol media</string>
+    <string name="system_ui_control_center_media_control_media_button_layout_switch">Modifikasi tata letak yang dapat diaktifkan</string>
+    <string name="system_ui_control_center_media_control_media_button_size_switch">Modifikasi font yang dapat diaktifkan</string>
+    <string name="system_ui_control_center_media_control_media_button_actions_left_aligned">Tombol aksi menyelaraskan ke kiri</string>
+    <string name="system_ui_control_center_media_control_media_button_hide_seamless">Sembunyikan tombol saklar perangkat</string>
+    <string name="system_ui_control_center_media_control_title_margin">Margin atas judul</string>
+    <string name="system_ui_control_center_media_control_title_size">Judul ukuran font</string>
+    <string name="system_ui_control_center_media_control_artist_size">Artist ukuran font</string>
+    <string name="miuix_sbl_tracking_progress_labe_pull_to_refresh">Geser ke bawah untuk menyegarkan</string>
+    <string name="miuix_sbl_tracking_progress_labe_refreshing">Menyegarkan…</string>
+    <string name="system_ui_control_center_media_control_always_dark">Mode gelap tetap</string>
+    <string name="system_ui_control_center_media_control_media_album_mode">Pembungkus media</string>
+    <string name="system_ui_control_center_media_control_media_button_mode">Urutan tombol media</string>
+    <string name="system_ui_control_center_media_control_title_padding">Penambahan judul</string>
+    <string name="system_ui_control_center_media_control_media_seekbar_title">Bilah pencari media</string>
+    <string name="system_ui_control_center_hide_edit_botton">Sembunyikan tombol Edit</string>
+    <string name="system_ui_control_center_tile_super_blur">Tekstur lanjutan pada ubin QS</string>
 </resources>
