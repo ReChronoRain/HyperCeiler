@@ -51,6 +51,7 @@ import com.sevtinge.hyperceiler.ui.LauncherActivity;
 import com.sevtinge.hyperceiler.ui.SplashActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
 import com.sevtinge.hyperceiler.utils.HotReloadDialogHelper;
+import com.sevtinge.hyperceiler.utils.HotReloadManager;
 import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 
@@ -77,6 +78,8 @@ public class SettingsFragment extends BasePreferenceFragment
     SwitchPreference mScopeSyncPreference;
     Preference mScopePreference;
     Preference mHotReloadPreference;
+    private final ScopeManager.ServiceStateListener mServiceStateListener =
+        service -> updateHotReloadPreferenceVisibility();
 
     // 记录当前操作类型：0-备份，1-恢复
     private final int currentAction = -1;
@@ -127,6 +130,7 @@ public class SettingsFragment extends BasePreferenceFragment
         mScopeSyncPreference = findPreference("prefs_key_settings_scope_sync");
         mScopePreference = findPreference("prefs_key_settings_scope");
         mHotReloadPreference = findPreference("prefs_key_settings_hot_reload");
+        updateHotReloadPreferenceVisibility();
 
         if (mHideAppIcon != null) {
             mHideAppIcon.setPersistent(false);
@@ -257,6 +261,18 @@ public class SettingsFragment extends BasePreferenceFragment
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        ScopeManager.addServiceStateListener(mServiceStateListener, true);
+    }
+
+    @Override
+    public void onStop() {
+        ScopeManager.removeServiceStateListener(mServiceStateListener);
+        super.onStop();
+    }
+
+    @Override
     public boolean onPreferenceClick(@NonNull Preference preference) {
         switch (preference.getKey()) {
             case "prefs_key_back" -> mBackupLauncher.launch(BackupUtils.getCreateDocumentIntent());
@@ -278,6 +294,12 @@ public class SettingsFragment extends BasePreferenceFragment
             }
         }
         return true;
+    }
+
+    private void updateHotReloadPreferenceVisibility() {
+        if (mHotReloadPreference != null) {
+            mHotReloadPreference.setVisible(HotReloadManager.isHotReloadAvailable());
+        }
     }
 
     private void showHotReloadEntry() {
