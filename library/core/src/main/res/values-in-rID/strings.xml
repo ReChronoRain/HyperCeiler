@@ -42,7 +42,7 @@
     <!--HyperCeiler Tips-->
     <string name="safe_mode_history">Lihat catatan pengecualian</string>
     <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Kelas</string>
     <string name="safe_mode_recorder_method">metode</string>
     <string name="safe_mode_recorder_line">Garis</string>

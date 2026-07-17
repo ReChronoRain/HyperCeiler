@@ -66,7 +66,7 @@
     <string name="safe_mode_later_title">Tips</string>
     <string name="safe_mode_later_desc">%1$s masih berada dalam Mode aman dan fitur HyperCeiler telah dinonaktifkan. Nonaktifkan Mode aman?</string>
     <string name="safe_mode_recorder_title">Catatan pengecualian</string>
-    <string name="safe_mode_recorder_file">Mengajukan</string>
+    <string name="safe_mode_recorder_file">File</string>
     <string name="safe_mode_recorder_class">Kelas</string>
     <string name="safe_mode_recorder_method">metode</string>
     <string name="safe_mode_recorder_line">Garis</string>
