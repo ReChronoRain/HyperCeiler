@@ -35,7 +35,7 @@
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
     <string name="hook_failed">HyperCeiler belum diaktifkan. Silakan periksa apakah LSPosed diaktifkan dan apakah izinkan HyperCeiler untuk memulai secara otomatis. Jika ya, silakan mulai ulang atau optimalkan kembali modul tersebut.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan hak izin Root/Su?</string>
+    <string name="kill_failed">Proses gagal diakhiri. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="start_failed">Aktivitas gagal dimulai. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
     <string name="reboot_failed">Reboot gagal. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
@@ -57,7 +57,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Alat Keamanan</string>
     <!--Other-->
-    <string name="exit">KELUAR</string>
+    <string name="exit">Keluar</string>
     <string name="ignore">Mengabaikan</string>
     <string name="disable_suggest">Nonaktifkan Saran</string>
     <string name="enable_suggest">Aktifkan Saran</string>
@@ -86,12 +86,12 @@
     <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan terbatas. Harap pulihkan layanan log agar dapat berjalan normal.\nKode kesalahan: %1$s</string>
     <string name="feature_doing_func">Fitur ini masih dalam pengembangan, pantau terus perkembangannya.</string>
     <string name="load_apps_failed">Gagal memuat daftar aplikasi</string>
-    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi alasan keamanan, semua fungsi cakupan ini telah dinonaktifkan. Silakan coba beralih ke paket aplikasi yang dirilis oleh Xiaomi resmi, atau pergi ke setelan HyperCeiler - Opsi developer - Mode debug untuk menentukan versi yang terpasang dan coba lagi.</string>
+    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi alasan keamanan, semua fungsi cakupan ini telah dinonaktifkan. Silakan coba beralih ke paket aplikasi yang dirilis oleh Xiaomi resmi, atau pergi ke Pengaturan HyperCeiler - Opsi developer - Mode debug untuk menentukan versi yang terpasang dan coba lagi.</string>
     <string name="debug_mode_running">Target scope saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil dihubungkan: %3$s</string>
     <string name="debug_mode_switch">Versi debug</string>
-    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini.</string>
+    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
     <string name="supported_system_func">Fitur ini secara resmi didukung dalam versi sistem saat ini</string>
-    <string name="supported_app_version_func">Versi aplikasi saat ini mendukung fitur ini.</string>
-    <string name="unsupported_app_version_func">Versi aplikasi saat ini tidak mendukung fitur ini.</string>
-    <string name="search_result_not_available">Fitur ini mungkin tidak didukung pada perangkat ini atau tersembunyi di balik beberapa opsi.</string>
+    <string name="supported_app_version_func">Versi aplikasi saat ini mendukung fitur ini</string>
+    <string name="unsupported_app_version_func">Versi aplikasi saat ini tidak mendukung fitur ini</string>
+    <string name="search_result_not_available">Fitur ini mungkin tidak didukung pada perangkat ini atau tersembunyi di balik beberapa opsi</string>
 </resources>

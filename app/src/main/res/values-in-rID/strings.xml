@@ -22,7 +22,7 @@
     <string name="revert">Pulihkan</string>
     <string name="custom_order_title">Kustom</string>
     <string name="app_version_update">Versi baru tersedia</string>
-    <string name="developer_build">Build pengembang</string>
+    <string name="developer_build">PENGEMBANG</string>
     <string name="device_name">Nama perangkat</string>
     <string name="app_device_version_parameters">Versi OS</string>
     <string name="pull_to_enter_private">Tarik ke bawah untuk memasuki ruang pribadi</string>
@@ -45,7 +45,7 @@
     <string name="restart_app_desc">Apakah Anda yakin untuk memulai ulang sekarang %1$s?</string>
     <string name="hyperceiler_restart_quick">Mulai ulang aplikasi dengan cepat</string>
     <string name="hook_failed">HyperCeiler belum diaktifkan. Silakan periksa apakah LSPosed diaktifkan dan apakah izinkan HyperCeiler untuk memulai secara otomatis. Jika ya, silakan mulai ulang atau optimalkan kembali modul tersebut.</string>
-    <string name="kill_failed">Gagal mengakhiri proses, periksa apakah HyperCeiler telah diberikan hak izin Root/Su?</string>
+    <string name="kill_failed">Proses gagal diakhiri. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="start_failed">Aktivitas gagal dimulai. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
     <string name="pid_failed">Aplikasi target tidak berjalan dan tidak perlu di-restart.</string>
     <string name="reboot_failed">Reboot gagal. Harap periksa apakah HyperCeiler telah diberikan izin Root/Su.</string>
@@ -53,8 +53,8 @@
     <!--HyperCeiler Tips-->
     <string name="error">Kesalahan</string>
     <string name="warn">Perhatian</string>
-    <string name="module_app_failed">Terjadi kesalahan fatal pada modul tersebut.</string>
-    <string name="module_app_copy_desc">Tekan dan tahan konten untuk menyalin.</string>
+    <string name="module_app_failed">Terjadi kesalahan fatal pada modul tersebut</string>
+    <string name="module_app_copy_desc">Tekan dan tahan konten untuk menyalin</string>
     <string name="module_title_1">Pesan dasar</string>
     <string name="module_title_2">Tumpukan pesan</string>
     <string name="app_error_desc">HyperCeiler tiba-tiba tertutup. Untuk membantu kami memperbaiki masalah ini, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin semuanya.</string>
@@ -95,7 +95,7 @@
     <string name="headtip_tip_fuck_coolapk">Hari ini dalam sejarah: Sevtinge menyampaikan pidato penting pada 14 Juli, 2022.</string>
     <string name="headtip_notice_dead_logger_errcode">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan terbatas. Harap pulihkan layanan log agar dapat berjalan normal.\nKode kesalahan: %1$s</string>
     <string name="headtip_notice_dead_logger">Layanan log perangkat saat ini tidak normal dan fitur HyperCeiler akan terbatas. Harap pulihkan layanan log agar dapat berjalan normal.</string>
-    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini.</string>
+    <string name="unsupported_system_func">Fitur ini tidak didukung pada versi sistem saat ini</string>
     <string name="supported_system_func">Fitur ini secara resmi didukung dalam versi sistem saat ini</string>
     <string name="feature_doing_func">Fitur ini masih dalam pengembangan, pantau terus perkembangannya.</string>
     <!--System UI-->
@@ -107,7 +107,7 @@
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Alat Keamanan</string>
     <!--Other-->
-    <string name="exit">KELUAR</string>
+    <string name="exit">Keluar</string>
     <string name="ignore">Mengabaikan</string>
     <string name="log_level">tingkat log</string>
     <string name="log_level_none">Nonaktifkan catatan</string>
@@ -121,7 +121,7 @@
     <string name="logo_egg3">Tidak ada Android eggs di sini, tetapi ada HyperCeiler eggs!</string>
     <string name="uninstall_title">Hapus instalasi HyperCeiler</string>
     <string name="uninstall_summary">Setelah menghapus instalasi HyperCeiler, konfigurasi modul tetap ada di basis data framework Xposed. Untuk menghapusnya sepenuhnya, buka pengaturan modul dan setel ulang konfigurasi modul terlebih dahulu, lalu hapus instalasinya.</string>
-    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka "Setelan HyperCeiler - Opsi pengembang - Mode debug" untuk menentukan versi yang dipasang lalu coba lagi.</string>
+    <string name="unsupported_func_tips">Sumber cakupan target saat ini mungkin bukan resmi dari Xiaomi. Demi keamanan, semua fungsi untuk cakupan ini telah dinonaktifkan. Coba beralih ke paket aplikasi yang dirilis oleh Xiaomi, atau buka \"Pengaturan HyperCeiler - Opsi pengembang - Mode debug \"untuk menentukan versi yang dipasang lalu coba lagi.</string>
     <string name="debug_mode">Mode debug</string>
     <string name="open_debug_mode_tips">Opsi ini hanya digunakan untuk menangani versi aplikasi target yang dipasang dengan benar dan sebaiknya digunakan hanya bila perlu.\nUntuk aplikasi yang sedang di-debug, fungsinya tidak dapat dijamin. Jika Anda mengaktifkan opsi ini, **jangan laporkan** masalah yang terjadi pada aplikasi target tersebut kepada pengembang.</string>
     <string name="debug_mode_running">Target scope saat ini berada dalam mode debug. Jika tidak diperlukan, silakan matikan.\nVersi aplikasi saat ini: %1$s\nVersi target yang dipilih: %2$s\nBerhasil dihubungkan: %3$s</string>
@@ -164,7 +164,7 @@
     <string name="log_viewer">Penampil log</string>
     <string name="help_framework_warning_unknown_framework">Framework saat ini</string>
     <string name="safe_mode_banner_title">Mode aman diaktifkan</string>
-    <string name="safe_mode_banner_desc">%1$s fitur HyperCeiler telah dinonaktifkan sementara oleh Mode Aman secara otomatis, setelah berulang kali mengalami kegagalan. Tekan untuk mengelola</string>
+    <string name="safe_mode_banner_desc">%1$s fitur HyperCeiler telah dinonaktifkan sementara oleh Mode Aman secara otomatis, setelah berulang kali mengalami kegagalan. Tekan untuk mengelola.</string>
     <string name="headtip_warn_framework_service_error">HyperCeiler tidak dapat membaca informasi framework dari LayananXposed. Modul mungkin di nonaktifkan karena alasan keamanan. Tekan untuk melihat detail.</string>
     <string name="load_failed">Gagal memuat.</string>
     <string name="log_level_general">Log umum</string>

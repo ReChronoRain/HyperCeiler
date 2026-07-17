@@ -17,4 +17,54 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    </resources>
+    <string name="provision_back_description">Kembali</string>
+    <string name="provision_start_content_description">Mulai</string>
+    <string name="provision_back">Kembali</string>
+    <string name="provision_next">Berikutnya</string>
+    <string name="provision_skip_underline">Lewati</string>
+    <string name="provision_permission_settings_title">Pengaturan izin</string>
+    <string name="provision_terms_and_statement_title">Syarat dan Ketentuan</string>
+    <string name="provision_basic_settings_title">Pengaturan dasar</string>
+    <string name="provision_agree_and_next">Setuju</string>
+    <string name="provision_agree_terms">Saya telah membaca dan menyetujui Perjanjian Pengguna dan Kebijakan Privasi.</string>
+    <string name="provision_terms_of_use">Syarat dan Ketentuan</string>
+    <string name="provision_protect_persoanl_info_statement">Kami akan melindungi informasi pribadi Anda sesuai dengan hukum, peraturan, dan kebijakan privasi yang berlaku.</string>
+    <string name="provision_service_agreement">Saya telah membaca dan menyetujui syarat dan ketentuan.</string>
+    <string name="provision_service_name_download">Unduhan</string>
+    <string name="provision_service_policy_download">­<Data>Baca dan setujui <a href="%1$s">Kebijakan Privasi Thunder</a> dan <a href="%2$s">Perjanjian Penggunaan Layanan Jaringan Perusahaan Thunder</a></Data></string>
+    <string name="provision_congratulation_title">Penyiapan selesai</string>
+    <string name="provision_congratulation_label">Selamat datang di HyperCeiler</string>
+    <string name="provision_complete_text">Masuk ke HyperCeiler</string>
+    <string name="provision_set_permission_later">Anda dapat mengatur izin yang diperlukan ini nanti</string>
+    <string name="provision_permission_internet">Izinkan koneksi ke Internet</string>
+    <string name="provision_permission_root">Izinkan operasi sebagai Root</string>
+    <string name="provision_permission_installed_apps">Izinkan membaca daftar aplikasi yang terpasang</string>
+    <string name="provision_permission_lsp">Aktifkan di Xposed Manager</string>
+    <string name="provision_terms_of_use_loading">Memuat…</string>
+    <string name="provision_terms_of_use_verification_code_tip">Kode verifikasi Anda adalah %1$s.</string>
+    <string name="provision_terms_of_use_verification_code_dialog_title">Masukkan kode verifikasi Anda</string>
+    <string name="provision_terms_of_use_verification_code_dialog_desc">Anda dapat menemukannya di Perjanjian Pengguna atau Kebijakan Privasi kami</string>
+    <string name="provision_system_complete">Penyiapan selesai</string>
+    <string name="provision_terms_of_use_verification_code_dialog_continue">Lanjutkan</string>
+    <string name="provision_basic_settings_hide_app_icon">Ikon di layar Beranda</string>
+    <string name="provision_basic_settings_category_app">Aplikasi</string>
+    <string name="provision_basic_settings_category_scope">Cakupan</string>
+    <string name="provision_basic_settings_language">Bahasa</string>
+    <string name="provision_basic_settings_scope_sync">Sinkronisasi cakupan</string>
+    <string name="provision_basic_settings_scope_sync_desc">Menjaga pilihan halaman beranda selalu sinkron dengan cakupan</string>
+    <string name="provision_basic_settings_scope">Cakupan</string>
+    <string name="provision_basic_settings_icon">Ikon di Pengaturan</string>
+    <string name="provision_basic_settings_icon_desc">Tentukan di mana ikon modul akan muncul di Pengaturan</string>
+    <string name="provision_basic_settings_icon_mode">Gaya ikon</string>
+    <string name="provision_basic_settings_icon_disable">Dimatikan</string>
+    <string name="provision_basic_settings_icon_top">Atas</string>
+    <string name="provision_basic_settings_icon_medium">Tengah</string>
+    <string name="provision_basic_settings_icon_down">Bawah</string>
+    <string name="provision_basic_settings_icon_miui_14">Gaya persegi panjang membulat</string>
+    <string name="provision_basic_settings_icon_miui_13">Gaya potongan latar belakang</string>
+    <string name="provision_system_preparing">Mempersiapkan sistem…</string>
+    <string name="provision_scope_open_failed">Tidak dapat membuka halaman cakupan</string>
+    <string name="provision_get_md_failed">## Gagal mendapatkan konten.\n- Anda dapat mengunjungi [di sini](%URL%) untuk melihat konten aslinya.\n- Atau coba [segarkan](hyperceiler://refresh) halaman ini.</string>
+    <string name="provision_terms_of_use_label_use_network_china">Untuk memberikan layanan yang lebih baik kepada Anda, Anda harus membaca dan menyetujui <annotation key="user_agreement">Perjanjian Pengguna</annotation> dan <annotation key="privacy_policy">Kebijakan Privasi</annotation> sebelum Anda dapat melanjutkan menggunakan HyperCeiler. Kami akan melindungi informasi pribadi Anda sesuai dengan hukum, peraturan, dan kebijakan privasi yang berlaku.</string>
+    <string name="provision_terms_of_label_period">‎</string>
+</resources>
