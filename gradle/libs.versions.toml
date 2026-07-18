@@ -1,6 +1,6 @@
 [versions]
 # Build tools
-agp = "9.2.1"
+agp = "9.3.0"
 lsparanoid = "0.6.0"
 autoService = "1.1.1"
 
@@ -21,7 +21,7 @@ miuix = "1.0.12.5"
 xposed-api = "102.0.0"
 xposed-service = "102.0.0"
 dexkit = "2.2.0"
-ezhooktool = "1.1.0-rc10"
+ezhooktool = "1.1.0"
 hiddenapibypass = "6.1"
 
 # Third-party
