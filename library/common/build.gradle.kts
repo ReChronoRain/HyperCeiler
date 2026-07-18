@@ -25,9 +25,11 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
+
+kotlin.jvmToolchain(25)
 
 dependencies {
     api(libs.bundles.miuix)
