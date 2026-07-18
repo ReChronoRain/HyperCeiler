@@ -34,11 +34,11 @@
     <string name="soft_reboot">Reiniciar</string>
     <string name="restart_app_desc">¿Está seguro de reiniciar ahora %1$s?</string>
     <string name="hyperceiler_restart_quick">Reiniciar las aplicaciones marcadas fácilmente</string>
-    <string name="hook_failed">El módulo aún no está activado.\nCompruebe si el administrador de Xposed está habilitado. Si es así, reinicie o vuelva a optimizar el módulo.</string>
-    <string name="kill_failed">No puede finalizarse el proceso, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
-    <string name="start_failed">No puede iniciarse la actividad, comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <string name="hook_failed">HyperCeiler aún no está activado. Compruebe si LSPosed está habilitado y si concede HyperCeiler para iniciar automáticamente. Si es así, reinicie o vuelva a optimizar el módulo.</string>
+    <string name="kill_failed">No puede finalizarse el proceso. Comprueba si HyperCeiler ha sido concedido los permisos de Root/Su.</string>
+    <string name="start_failed">No puede iniciarse la actividad. Compruebe si HyperCeiler ha sido concedido los permisos de Root/Su.</string>
     <string name="pid_failed">La aplicación de destino no se está ejecutando y no necesita ser reiniciada.</string>
-    <string name="reboot_failed">No puede reiniciarse, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
+    <string name="reboot_failed">No puede reiniciarse. Compruebe si HyperCeiler ha sido concedido el permiso de Root/Su.</string>
     <!--HyperCeiler Tips-->
     <string name="warn">Atención</string>
     <string name="safe_mode_history">Ver registros de excepciones</string>
@@ -71,4 +71,27 @@
     <string name="ignore">Ignorar</string>
     <string name="disable_suggest">Desactivar sugerencias</string>
     <string name="enable_suggest">Activar sugerencias</string>
+    <string name="debug_mode_running">El alcance de destino actual esta en modo de depuración. Si no es necesario, apágalo.\nVersion actual de la aplicación: %1$s\nVersion de destino seleccionada: %2$s\nGancho aplicado correctamente: %3$s</string>
+    <string name="debug_mode_switch">Version de depuración</string>
+    <string name="experimental_features">Capacidades experimentales</string>
+    <string name="module_title_1">Mensaje básico</string>
+    <string name="app_error_desc">HyperCeiler se cerro inesperadamente. Para ayudarnos a solucionarlo, proporciona la información siguiente:\n\nMantén pulsado cualquier mensaje para copiarlo todo.</string>
+    <string name="error_message">Mensaje de excepción</string>
+    <string name="error_type">Tipo de excepción</string>
+    <string name="error_build_time">Hora de compilación</string>
+    <string name="unsupported_system_func">Esta función no es compatible con la version actual del sistema</string>
+    <string name="supported_system_func">Esta función es compatible oficialmente con la version actual del sistema</string>
+    <string name="feature_doing_func">Esta función esta en desarrollo, mantente atento.</string>
+    <string name="module_title_2">Mensaje de pila</string>
+    <string name="error_file_name">Nombre del archivo</string>
+    <string name="error_time">Hora del registro</string>
+    <string name="error_version_name">Nombre de versión</string>
+    <string name="error_git_hash">Hash de Git</string>
+    <string name="unsupported_app_version_func">La versión actual de la aplicación no admite esta característica</string>
+    <string name="supported_app_version_func">La versión actual de la aplicación admite esta característica</string>
+    <string name="app_version_unavailable_warning_banner">La versión de la aplicación no pudo ser leída. Para garantizar la seguridad de Gancho, todas las características de esta app han sido deshabilitadas.</string>
+    <string name="search_result_not_available">Esta característica puede no ser soportada en este dispositivo o está oculta bajo algunas opciones</string>
+    <string name="search_apps_hint">Busca %d apps</string>
+    <string name="load_apps_failed">ha fallado al cargar listado de apps</string>
+    <string name="unsupported_func_tips">Es posible que la fuente del alcance actual no sea oficial de Xiaomi. Por motivos de seguridad, todas las funciones de este alcance se han desactivado. Prueba a cambiar a un paquete de aplicación publicado por Xiaomi, o ve a Ajustes de HyperCeiler - Opciones de desarrollador - Modo de depuración para indicar la version montada y volver a intentarlo.</string>
 </resources>
