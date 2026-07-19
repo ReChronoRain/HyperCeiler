@@ -22,12 +22,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class UnlockCustomActions extends BaseHook {
 
@@ -39,11 +38,11 @@ public class UnlockCustomActions extends BaseHook {
                 "run", new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        Object INSTANCE = EzxHelpUtils.getStaticObjectField(
+                        Object instance = getStaticObjectField(
                             findClassIfExists("com.miui.systemui.notification.NotificationSettingsManager"),
                             "sINSTANCE");
-                        EzxHelpUtils.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
-                        EzxHelpUtils.setObjectField(INSTANCE, "mHiddenCustomActionsListLocal", new ArrayList<>());
+                        setObjectField(instance, "mHiddenCustomActionsList", new ArrayList<>());
+                        setObjectField(instance, "mHiddenCustomActionsListLocal", new ArrayList<>());
                     }
 
                 }
@@ -61,10 +60,10 @@ public class UnlockCustomActions extends BaseHook {
                             NotificationSettingsManager = findClassIfExists("com.android.systemui.statusbar.notification.NotificationSettingsManager");
                         }
 
-                        Object INSTANCE = EzxHelpUtils.getStaticObjectField(
+                        Object instance = getStaticObjectField(
                             NotificationSettingsManager, "sINSTANCE"
                         );
-                        EzxHelpUtils.setObjectField(INSTANCE, "mHiddenCustomActionsList", new ArrayList<>());
+                        setObjectField(instance, "mHiddenCustomActionsList", new ArrayList<>());
                     }
 
                 }

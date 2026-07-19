@@ -19,10 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.tiles;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AutoCollapse extends BaseHook {
     @Override
@@ -32,7 +31,7 @@ public class AutoCollapse extends BaseHook {
             @Override
             public void after(HookParam param) {
                 Object mState = callMethod(param.getThisObject(), "getState");
-                int state = EzxHelpUtils.getIntField(mState, "state");
+                int state = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(mState, "state");
                 if (state != 0) {
                     String tileSpec = (String) callMethod(param.getThisObject(), "getTileSpec");
                     if (!"edit".equals(tileSpec)) {

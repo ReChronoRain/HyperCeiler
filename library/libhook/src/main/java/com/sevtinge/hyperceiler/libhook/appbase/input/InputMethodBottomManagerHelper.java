@@ -22,7 +22,6 @@ package com.sevtinge.hyperceiler.libhook.appbase.input;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 public final class InputMethodBottomManagerHelper {
     private static final String INPUT_METHOD_BOTTOM_MANAGER =
@@ -33,7 +32,7 @@ public final class InputMethodBottomManagerHelper {
 
     @Nullable
     public static Class<?> findBottomManagerClass(ClassLoader classLoader) {
-        return EzxHelpUtils.findClassIfExists(INPUT_METHOD_BOTTOM_MANAGER, classLoader);
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(INPUT_METHOD_BOTTOM_MANAGER, classLoader);
     }
 
     @Nullable

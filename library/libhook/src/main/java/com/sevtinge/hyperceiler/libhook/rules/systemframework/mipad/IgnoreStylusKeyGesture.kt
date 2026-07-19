@@ -20,9 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object IgnoreStylusKeyGesture : BaseHook() {
     override fun init() {
@@ -32,22 +31,17 @@ object IgnoreStylusKeyGesture : BaseHook() {
             val methodNames =
                 setOf("needInterceptBeforeDispatching", "shouldInterceptKey")
 
-            clazzMiuiStylusPageKeyListener.methodFinder().filter {
-                name in methodNames
-            }.toList().createHooks {
+            clazzMiuiStylusPageKeyListener.findAllMethods { filter { name in methodNames } }.createHooks {
                 returnConstant(false)
             }
         } else {
-            val clazzMiuiStylusPageKeyListener = loadFirstClass(
-                "com.miui.server.input.stylus.MiuiStylusPageKeyListener",
-                "com.miui.server.stylus.MiuiStylusPageKeyListener"
-            )
+            val clazzMiuiStylusPageKeyListener =
+                findClassIfExists("com.miui.server.input.stylus.MiuiStylusPageKeyListener")
+                    ?: findClass("com.miui.server.stylus.MiuiStylusPageKeyListener")
             val methodNames =
                 setOf("isPageKeyEnable", "needInterceptBeforeDispatching", "shouldInterceptKey")
 
-            clazzMiuiStylusPageKeyListener.methodFinder().filter {
-                name in methodNames
-            }.toList().createHooks {
+            clazzMiuiStylusPageKeyListener.findAllMethods { filter { name in methodNames } }.createHooks {
                 returnConstant(false)
             }
         }

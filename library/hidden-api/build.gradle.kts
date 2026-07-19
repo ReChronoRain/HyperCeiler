@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.android.internal"
-    compileSdk = 36
+    compileSdk = 37
 
     buildTypes {
         release {
@@ -24,11 +24,11 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
-kotlin.jvmToolchain(21)
+kotlin.jvmToolchain(25)
 
 dependencies {
     implementation(libs.annotation)

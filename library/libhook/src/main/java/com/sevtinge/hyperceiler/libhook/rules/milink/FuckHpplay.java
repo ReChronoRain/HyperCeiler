@@ -22,12 +22,12 @@ import android.os.Environment;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class FuckHpplay extends BaseHook {
     private static final String TARGET_PACKAGE = "com.milink.service";

@@ -19,25 +19,20 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import java.util.Objects
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 
 class ForceSupportPlaybackCapture : BaseHook() {
     override fun init() {
         // if (!xPrefs.getBoolean("force_support_playbackcapture", true)) return
 
-        findAndHookMethod(
-            "android.os.SystemProperties",
+        "android.os.SystemProperties".beforeHookMethod(
             "getBoolean",
             String::class.java,
-            Boolean::class.javaPrimitiveType,
-            object : IMethodHook {
-                override fun before(param: HookParam) {
-                    val param0 = param.args[0] as String
-                    if (Objects.equals(param0, "ro.vendor.audio.playbackcapture.screen"))
-                        param.result = true
-                }
-            })
+            Boolean::class.java
+        ) { param ->
+            val param0 = param.args[0] as String
+            if (param0 == "ro.vendor.audio.playbackcapture.screen")
+                param.result = true
+        }
     }
 }

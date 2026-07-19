@@ -18,6 +18,15 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.control;
 
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodBestMatch;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.returnConstant;
 import static com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectSwitchForSystem.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.DOLBY_PARAM_DAP_ON;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.DOLBY_SET_PARAM_ID;
@@ -31,20 +40,10 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.E
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.MISOUND_PARAM_3D_SURROUND;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.MISOUND_PARAM_ENABLE;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.RESULT_SUCCESS;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.callStaticMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodBestMatch;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.hookMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.returnConstant;
 
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.DeviceEffectMemory.EffectState;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.callback.IControlForSystem;
 
@@ -54,7 +53,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 /**
  * 非 FW 模式下控制音效

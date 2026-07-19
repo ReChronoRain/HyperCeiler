@@ -22,22 +22,20 @@ import android.view.View
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 object HideFreeform : BaseHook() {
     override fun init() {
 
         val recentsContainerClass = findClass("com.miui.home.recents.views.RecentsContainer")
         if (PrefsBridge.getBoolean("home_recent_hide_freeform")) {
-            recentsContainerClass.hookAllMethods(
-                "onFinishInflate"
-            ) {
-                after {
+            recentsContainerClass.findAllMethods { name("onFinishInflate") }
+                .createAfterHooks {
                     val mTitle = it.thisObject.getObjectField("mTxtSmallWindow") as TextView
                     mTitle.visibility = View.GONE
                 }
-            }
         }
     }
 }

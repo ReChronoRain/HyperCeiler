@@ -28,14 +28,13 @@ import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BigFolderIconBlur extends BaseHook {
 
@@ -71,10 +70,10 @@ public class BigFolderIconBlur extends BaseHook {
             @Override
             public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
-                Object mDockBlur = EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
+                Object mDockBlur = com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
                 if (mDockBlur != null) return;
                 mDockBlur = new FrameLayout(mContext);
-                EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), "mDockBlur", mDockBlur);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "mDockBlur", mDockBlur);
             }
         });
 
@@ -83,9 +82,9 @@ public class BigFolderIconBlur extends BaseHook {
             public void after(HookParam param) {
                 int mFolderWidth = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_width", 145));
                 int mFolderHeight = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_height", 145));
-                ImageView mIconImageView = (ImageView) EzxHelpUtils.getObjectField(param.getThisObject(), "mIconImageView");
+                ImageView mIconImageView = (ImageView) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mIconImageView");
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
-                FrameLayout mDockBlur = (FrameLayout) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
+                FrameLayout mDockBlur = (FrameLayout) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
                 FrameLayout view = new FrameLayout(mIconImageView.getContext());
 
                 mIconImageView.setVisibility(View.GONE);
@@ -150,8 +149,8 @@ public class BigFolderIconBlur extends BaseHook {
         };
 
 
-        Method FolderIcon2x2_4_OnFinishInflate = EzxHelpUtils.findMethodExactIfExists(mFolderIcon2x2_4, "onFinishInflate", Void.TYPE);
-        Method FolderIcon2x2_9_OnFinishInflate = EzxHelpUtils.findMethodExactIfExists(mFolderIcon2x2_9, "onFinishInflate", Void.TYPE);
+        Method FolderIcon2x2_4_OnFinishInflate = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodExactIfExists(mFolderIcon2x2_4, "onFinishInflate", Void.TYPE);
+        Method FolderIcon2x2_9_OnFinishInflate = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodExactIfExists(mFolderIcon2x2_9, "onFinishInflate", Void.TYPE);
 
         if (FolderIcon2x2_4_OnFinishInflate != null && FolderIcon2x2_9_OnFinishInflate != null) {
             findAndHookMethod(mFolderIcon2x2_4, "onFinishInflate", mBigFolderIconBlur);
@@ -166,10 +165,10 @@ public class BigFolderIconBlur extends BaseHook {
                 View mDragView = (View) param.getThisObject();
                 mDragView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-                Object mDragInfo = EzxHelpUtils.getObjectField(param.getThisObject(), "mDragInfo");
-                int itemType = (int) EzxHelpUtils.getObjectField(mDragInfo, "itemType");
-                Object mLauncher = EzxHelpUtils.getObjectField(param.getThisObject(), "mLauncher");
-                boolean isFolderShowing = (boolean) EzxHelpUtils.callMethod(mLauncher, "isFolderShowing");
+                Object mDragInfo = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mDragInfo");
+                int itemType = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(mDragInfo, "itemType");
+                Object mLauncher = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mLauncher");
+                boolean isFolderShowing = (boolean) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(mLauncher, "isFolderShowing");
 
                 if (!isFolderShowing && itemType == 21) {
                     new BlurUtils(mDragView, "home_big_folder_icon_bg_custom");

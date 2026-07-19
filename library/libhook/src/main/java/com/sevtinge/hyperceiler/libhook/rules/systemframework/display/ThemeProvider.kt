@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
 import io.github.libxposed.api.XposedInterface
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
 import miui.drm.DrmManager
 import miui.drm.ThemeReceiver
 
@@ -41,10 +41,10 @@ class ThemeProvider : BaseHook() {
                 }
             )
 
-            ThemeReceiver::class.java.chainMethod("validateTheme") {
+            ThemeReceiver::class.java.interceptHookMethod("validateTheme") { chain ->
                 sBypassDrmCheck.set(true)
                 try {
-                    proceed()
+                    chain.proceed()
                 } finally {
                     sBypassDrmCheck.remove()
                 }

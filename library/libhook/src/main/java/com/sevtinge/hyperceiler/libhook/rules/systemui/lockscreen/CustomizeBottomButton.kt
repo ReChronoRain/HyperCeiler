@@ -35,17 +35,17 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.keyguard
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.leftButtonType
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.replaceHookMethod as replaceMethod
 
 object CustomizeBottomButton : BaseHook() {
     override fun init() {
@@ -58,9 +58,7 @@ object CustomizeBottomButton : BaseHook() {
     }
 
     fun hideLeftButton() {
-        keyguardBottomAreaInjector.methodFinder()
-            .filterByName("updateIcons")
-            .single().createAfterHook {
+        keyguardBottomAreaInjector.findMethod { name("updateIcons") }.createAfterHook {
                 val left =
                     it.thisObject.getObjectFieldOrNullAs<LinearLayout>("mLeftAffordanceViewLayout") ?: return@createAfterHook
                 left.visibility = View.GONE

@@ -19,10 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.other;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class InfiniteScroll extends BaseHook {
 
@@ -45,7 +44,7 @@ public class InfiniteScroll extends BaseHook {
             @Override
             public void after(HookParam param) {
                 int index = (int) param.getResult();
-                int mCurrentScreenIndex = EzxHelpUtils.getIntField(param.getThisObject(), getPackageName().equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
+                int mCurrentScreenIndex = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), getPackageName().equals("com.miui.home") ? "mCurrentScreenIndex" : "mCurrentScreen");
                 if (mCurrentScreenIndex != index) return;
                 int screenCount = (int) callMethod(param.getThisObject(), "getScreenCount");
                 if (index == 0) {

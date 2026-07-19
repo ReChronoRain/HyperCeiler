@@ -21,9 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.notes
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object UnlockAI : BaseHook() {
 
@@ -33,9 +33,7 @@ object UnlockAI : BaseHook() {
 
     override fun init() {
         runCatching {
-            loadClass("com.miui.common.tool.RomUtils").methodFinder()
-                .filterByName("isSupportAi")
-                .first()
+            loadClass("com.miui.common.tool.RomUtils").findMethod { name("isSupportAi") }
                 .createHook {
                     // 老的 AI 功能
                     returnConstant(mode == 1)
@@ -44,9 +42,7 @@ object UnlockAI : BaseHook() {
             XposedLog.e(TAG, lpparam.packageName, "is not support old ai")
         }
 
-        loadClass("com.miui.notes.ai.utils.RomUtils").methodFinder()
-            .filterByName("isSupportAiText")
-            .first()
+        loadClass("com.miui.notes.ai.utils.RomUtils").findMethod { name("isSupportAiText") }
             .createHook {
                 // 新的 AI 功能
                 returnConstant(mode == 2)

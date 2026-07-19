@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object ShortcutItemCount : BaseHook() {
     private val mAppShortcutMenuClass by lazy {
@@ -30,21 +30,15 @@ object ShortcutItemCount : BaseHook() {
     }
 
     override fun init() {
-        mAppShortcutMenuClass.methodFinder()
-            .filterByName("getMaxCountInCurrentOrientation")
-            .single().createAfterHook {
+        mAppShortcutMenuClass.findMethod { name("getMaxCountInCurrentOrientation") }.createAfterHook {
                 it.result = 20
             }
 
-        mAppShortcutMenuClass.methodFinder()
-            .filterByName("getMaxShortcutItemCount")
-            .single().createAfterHook {
+        mAppShortcutMenuClass.findMethod { name("getMaxShortcutItemCount") }.createAfterHook {
                 it.result = 20
             }
 
-        mAppShortcutMenuClass.methodFinder()
-            .filterByName("getMaxVisualHeight")
-            .single().createAfterHook {
+        mAppShortcutMenuClass.findMethod { name("getMaxVisualHeight") }.createAfterHook {
                 it.result = it.thisObject.callMethod("getItemHeight")
             }
 

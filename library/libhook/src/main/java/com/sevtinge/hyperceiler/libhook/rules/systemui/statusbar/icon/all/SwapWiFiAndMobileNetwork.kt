@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookConstructor
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookConstructor
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
 
 object SwapWiFiAndMobileNetwork : BaseHook() {
     val mSignalIcons by lazy {

@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getAdditionalInstanceField;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setAdditionalInstanceField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField;
 
 import android.content.Context;
 import android.os.Handler;
@@ -32,9 +32,9 @@ import androidx.annotation.NonNull;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class SeekPoints extends BaseHook {
 

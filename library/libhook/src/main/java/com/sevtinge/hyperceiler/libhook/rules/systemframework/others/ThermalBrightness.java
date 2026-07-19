@@ -19,14 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setBooleanField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookConstructor;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ThermalBrightness extends BaseHook {
     public final String displayPowerControllerImpl = "com.android.server.display.DisplayPowerControllerImpl";

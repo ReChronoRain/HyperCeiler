@@ -23,12 +23,13 @@ import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object RemoveCardAnim : HomeBaseHookNew() {
 
@@ -42,7 +43,10 @@ object RemoveCardAnim : HomeBaseHookNew() {
     }
 
     private fun hook(clazz: Class<*>) {
-        findClass("com.miui.home.recents.views.SwipeHelperForRecents").afterHookMethod("onTouchEvent", MotionEvent::class.java) {
+        findClass("com.miui.home.recents.views.SwipeHelperForRecents").findMethod {
+            name("onTouchEvent")
+            parameterTypes(MotionEvent::class.java)
+        }.createAfterHook {
             if (it.thisObject.getObjectField("mCurrView") != null) {
                 val taskView2 = it.thisObject.getObjectField("mCurrView") as View
                 taskView2.alpha = 1f
@@ -51,19 +55,23 @@ object RemoveCardAnim : HomeBaseHookNew() {
             }
         }
 
-        findClass("com.miui.home.recents.TaskStackViewLayoutStyleHorizontal").replaceMethod(
-            "createScaleDismissAnimation", View::class.java, Float::class.java
-        ) {
-            val view = it.args[0] as View
-            val getScreenHeight =
-                clazz.callStaticMethod("getScreenHeight") as Int
-            val ofFloat =
-                ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.translationY, -getScreenHeight * 1.1484375f)
-            ofFloat.duration = 200
-            return@replaceMethod ofFloat
+        findClass("com.miui.home.recents.TaskStackViewLayoutStyleHorizontal").findMethod {
+            name("createScaleDismissAnimation")
+            parameterTypes(View::class.java, Float::class.javaPrimitiveType!!)
+        }.createHook {
+            replace {
+                val view = it.args[0] as View
+                val getScreenHeight = clazz.callStaticMethod("getScreenHeight") as Int
+                ObjectAnimator.ofFloat(view, View.TRANSLATION_Y, view.translationY, -getScreenHeight * 1.1484375f).apply {
+                    duration = 200
+                }
+            }
         }
 
-        findClass("com.miui.home.recents.views.VerticalSwipe").afterHookMethod("calculate", Float::class.java) {
+        findClass("com.miui.home.recents.views.VerticalSwipe").findMethod {
+            name("calculate")
+            parameterTypes(Float::class.javaPrimitiveType!!)
+        }.createAfterHook {
             val f = it.args[0] as Float
             val asScreenHeightWhenDismiss =
                 findClass("com.miui.home.recents.views.VerticalSwipe")

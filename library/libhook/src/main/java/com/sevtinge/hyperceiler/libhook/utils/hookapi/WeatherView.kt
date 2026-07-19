@@ -10,6 +10,7 @@ import android.os.Message
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.core.net.toUri
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
 
 @SuppressLint("ViewConstructor")
@@ -69,7 +70,7 @@ class WeatherView(context: Context?, private val showCity: Boolean) : TextView(c
 
     public override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        mContext.contentResolver.unregisterContentObserver(mWeatherObserver)
+        runCatching { mContext.contentResolver.unregisterContentObserver(mWeatherObserver) }
     }
 
     fun startWeatherApp() {

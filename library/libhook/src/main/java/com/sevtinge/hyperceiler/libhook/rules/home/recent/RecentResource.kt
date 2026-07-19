@@ -27,12 +27,14 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesHookData
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesHookMap
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setIntField
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object RecentResource : HomeBaseHookNew() {
     private val hookMap = ResourcesHookMap<String, ResourcesHookData>()
@@ -55,10 +57,9 @@ object RecentResource : HomeBaseHookNew() {
     private fun isNewHomeHook() {
         // thank nakixii
         findClass("com.miui.home.recents.util.WindowCornerRadiusUtil")
-            .hookAllMethods("setWindowRadius") {
-                after {
-                    it.thisObject.setIntField("sTaskViewCornerRadius", sRoundedCorner)
-                }
+            .findAllMethods { name("setWindowRadius") }
+            .createAfterHooks {
+                it.thisObject.setIntField("sTaskViewCornerRadius", sRoundedCorner)
             }
 
         publicHook()
@@ -68,10 +69,9 @@ object RecentResource : HomeBaseHookNew() {
     private fun isNewHomeHookPad() {
         // thank nakixii
         findClass("com.miui.home.recents.util.WindowCornerRadiusUtil")
-            .hookAllMethods("setWindowRadius") {
-                after {
-                    it.thisObject.setIntField("sTaskViewCornerRadius", sRoundedCorner)
-                }
+            .findAllMethods { name("setWindowRadius") }
+            .createAfterHooks {
+                it.thisObject.setIntField("sTaskViewCornerRadius", sRoundedCorner)
             }
 
         publicHook()
@@ -79,7 +79,9 @@ object RecentResource : HomeBaseHookNew() {
 
     override fun initBase() {
         findClass("com.miui.home.recents.util.WindowCornerRadiusUtil")
-            .beforeHookMethod("getTaskViewCornerRadius") {
+            .findMethod {
+                name("getTaskViewCornerRadius")
+            }.createBeforeHook {
                 it.result = sRoundedCorner
             }
 
@@ -87,15 +89,18 @@ object RecentResource : HomeBaseHookNew() {
     }
 
     private fun publicHook() {
-        Application::class.java.beforeHookMethod("attach", Context::class.java) { it ->
+        Application::class.java.findMethod {
+            name("attach")
+            parameterTypes(Context::class.java)
+        }.createBeforeHook { it ->
             EzXposed.initAppContext(it.args[0] as Context)
 
-            Resources::class.java.beforeHookMethod("getBoolean", Int::class.java) { hook(it) }
-            Resources::class.java.beforeHookMethod("getDimension", Int::class.java) { hook(it) }
-            Resources::class.java.beforeHookMethod("getDimensionPixelOffset", Int::class.java) { hook(it) }
-            Resources::class.java.beforeHookMethod("getDimensionPixelSize", Int::class.java) { hook(it) }
-            Resources::class.java.beforeHookMethod("getInteger", Int::class.java) { hook(it) }
-            Resources::class.java.beforeHookMethod("getText", Int::class.java) { hook(it) }
+            Resources::class.java.findMethod { name("getBoolean"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
+            Resources::class.java.findMethod { name("getDimension"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
+            Resources::class.java.findMethod { name("getDimensionPixelOffset"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
+            Resources::class.java.findMethod { name("getDimensionPixelSize"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
+            Resources::class.java.findMethod { name("getInteger"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
+            Resources::class.java.findMethod { name("getText"); parameterTypes(Int::class.javaPrimitiveType!!) }.createBeforeHook { hook(it) }
 
             val value = sRoundedCorner.toFloat()
             val value1 = PrefsBridge.getInt("task_view_header_height", -1).toFloat()

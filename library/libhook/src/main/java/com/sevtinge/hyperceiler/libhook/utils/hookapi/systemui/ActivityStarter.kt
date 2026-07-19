@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
 import android.content.Intent
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
 
 @Suppress("unused")
 class ActivityStarter(instance: Any) : BaseReflectObject(instance) {

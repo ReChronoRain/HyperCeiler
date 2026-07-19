@@ -19,85 +19,75 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableCleaner : BaseHook() {
     override fun init() {
         findClass("com.android.server.am.ActivityManagerService")
-            .hookAllMethods("checkExcessivePowerUsage") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("checkExcessivePowerUsage") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.ActivityManagerShellCommand")
-            .hookAllMethods("runKillAll") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("runKillAll") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.CameraBooster")
-            .hookAllMethods("boostCameraIfNeeded") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("boostCameraIfNeeded") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.OomAdjuster")
-            .hookAllMethods("shouldKillExcessiveProcesses") {
-                before {
-                    it.result = false
-                }
+            .findAllMethods { name("shouldKillExcessiveProcesses") }
+            .createBeforeHooks {
+                it.result = false
             }
 
         findClass("com.android.server.am.OomAdjuster")
-            .hookAllMethods("updateAndTrimProcessLSP") {
-                before {
-                    it.args[2] = 0
-                }
+            .findAllMethods { name("updateAndTrimProcessLSP") }
+            .createBeforeHooks {
+                it.args[2] = 0
             }
 
         findClass("com.android.server.am.PhantomProcessList")
-            .hookAllMethods("trimPhantomProcessesIfNecessary") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("trimPhantomProcessesIfNecessary") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.ProcessMemoryCleaner")
-            .hookAllMethods("checkBackgroundProcCompact") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("checkBackgroundProcCompact") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.ProcessPowerCleaner")
-            .hookAllMethods("handleAutoLockOff") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("handleAutoLockOff") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.am.SystemPressureController")
-            .hookAllMethods("nStartPressureMonitor") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("nStartPressureMonitor") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.android.server.wm.RecentTasks")
-            .hookAllMethods("trimInactiveRecentTasks") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("trimInactiveRecentTasks") }
+            .createBeforeHooks {
+                it.result = null
             }
 
         findClass("com.miui.cameraopt.adapter.ProcessManagerAdapter")
-            .hookAllMethods("killApplication") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("killApplication") }
+            .createBeforeHooks {
+                it.result = null
             }
 
     }

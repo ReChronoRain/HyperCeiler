@@ -21,23 +21,20 @@ package com.sevtinge.hyperceiler.libhook.rules.home.widget
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setBooleanField
 
 object AllowMoveAllWidgetToMinus : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
         runCatching {
-            loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
-                .filterByName("canDragToPa")
-                .filterByParamCount(2)
-                .single().createHook {
+            loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").findMethod { name("canDragToPa"); paramCount(2) }.createHook {
                     before {
                         val dragInfo = it.args[1]!!.callMethod("getDragInfo")
                         dragInfo?.setBooleanField("isMIUIWidget", true)
@@ -50,10 +47,7 @@ object AllowMoveAllWidgetToMinus : HomeBaseHookNew() {
 
     override fun initBase() {
         try {
-            loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").methodFinder()
-                .filterByName("canDragToPa")
-                .filterByParamCount(2)
-                .single().createHook {
+            loadClass("com.miui.home.launcher.widget.MIUIWidgetHelper").findMethod { name("canDragToPa"); paramCount(2) }.createHook {
                     before {
                         val dragInfo = it.args[1]?.callMethod("getDragInfo")
                         val i = dragInfo?.getObjectField("spanX")
@@ -68,9 +62,7 @@ object AllowMoveAllWidgetToMinus : HomeBaseHookNew() {
                     }
                 }
         } catch (_: Exception) {
-            loadClass("com.miui.home.launcher.Workspace").methodFinder()
-                .filterByName("canDragToPa")
-                .single().createHook {
+            loadClass("com.miui.home.launcher.Workspace").findMethod { name("canDragToPa") }.createHook {
                     before {
                         val currentDragObject =
                             it.thisObject.getObjectFieldOrNull("mDragController")

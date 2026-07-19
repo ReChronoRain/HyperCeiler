@@ -3,8 +3,8 @@ plugins {
 }
 
 android {
-    namespace = "io.github.kyuubiran.ezxhelper.xposed"
-    compileSdk = 36
+    namespace = "io.github.lingqiqi5211.ezhooktool.xposed"
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -19,18 +19,18 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 dependencies {
     compileOnlyApi(libs.libxposed.api)
     implementation(libs.annotation)
-    implementation(libs.ezxhelper.core)
+    api(libs.ezhooktool.core)
 }

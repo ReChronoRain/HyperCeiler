@@ -24,11 +24,11 @@ import android.widget.ImageView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media2.u.MediaPicture.optPicture
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 
 object MediaPicture : BaseHook() {
     private val albumPictureCorners by lazy {
@@ -39,8 +39,12 @@ object MediaPicture : BaseHook() {
     }
 
     override fun init() {
-        miuiMediaViewControllerImpl!!.methodFinder().filterByName("bindMediaData")
-            .first().createAfterHook {
+        miuiMediaViewControllerImpl!!
+            .findMethod {
+                findOnlyClass()
+                name("bindMediaData")
+            }
+            .createAfterHook {
                 val context =
                     it.thisObject.getObjectFieldOrNullAs<Context>("context")
                         ?: return@createAfterHook

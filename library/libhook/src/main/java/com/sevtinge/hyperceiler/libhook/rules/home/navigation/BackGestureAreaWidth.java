@@ -20,10 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.home.navigation;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BackGestureAreaWidth extends BaseHook {
     @Override
@@ -33,12 +32,12 @@ public class BackGestureAreaWidth extends BaseHook {
             public void after(final HookParam param) {
                 int pct = PrefsBridge.getInt("home_navigation_back_area_width", 100);
                 if (pct == 100) return;
-                int mGestureStubDefaultSize = EzxHelpUtils.getIntField(param.getThisObject(), "mGestureStubDefaultSize");
-                int mGestureStubSize  = EzxHelpUtils.getIntField(param.getThisObject(), "mGestureStubSize");
+                int mGestureStubDefaultSize = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), "mGestureStubDefaultSize");
+                int mGestureStubSize  = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), "mGestureStubSize");
                 mGestureStubDefaultSize = Math.round(mGestureStubDefaultSize * pct / 100f);
                 mGestureStubSize = Math.round(mGestureStubSize * pct / 100f);
-                EzxHelpUtils.setIntField(param.getThisObject(), "mGestureStubDefaultSize", mGestureStubDefaultSize);
-                EzxHelpUtils.setIntField(param.getThisObject(), "mGestureStubSize", mGestureStubSize);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), "mGestureStubDefaultSize", mGestureStubDefaultSize);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), "mGestureStubSize", mGestureStubSize);
             }
         });
 
@@ -47,7 +46,7 @@ public class BackGestureAreaWidth extends BaseHook {
             public void before(final HookParam param) {
                 int pct = PrefsBridge.getInt("home_navigation_back_area_width", 100);
                 if (pct == 100) return;
-                int mGestureStubDefaultSize = EzxHelpUtils.getIntField(param.getThisObject(), "mGestureStubDefaultSize");
+                int mGestureStubDefaultSize = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(param.getThisObject(), "mGestureStubDefaultSize");
                 if ((int)param.getArgs()[0] == mGestureStubDefaultSize) return;
                 param.getArgs()[0] = Math.round((int)param.getArgs()[0] * pct / 100f);
             }

@@ -27,12 +27,11 @@ import android.widget.ImageView;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BigFolderIconBlur1x2 extends BaseHook {
 
@@ -66,7 +65,7 @@ public class BigFolderIconBlur1x2 extends BaseHook {
                 int mFolderHeight = DisplayUtils.dp2px(PrefsBridge.getInt("home_big_folder_icon_bg_height_1x2", 145));
                 ImageView mIconImageView = (ImageView) getObjectField(param.getThisObject(), "mIconImageView");
                 FrameLayout mIconContainer = (FrameLayout) mIconImageView.getParent();
-                FrameLayout mDockBlur = (FrameLayout) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
+                FrameLayout mDockBlur = (FrameLayout) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "mDockBlur");
                 FrameLayout view = new FrameLayout(mIconImageView.getContext());
 
                 mIconImageView.setVisibility(View.GONE);

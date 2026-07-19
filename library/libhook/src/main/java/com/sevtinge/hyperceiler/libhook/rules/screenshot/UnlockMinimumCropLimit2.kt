@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenshot
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 

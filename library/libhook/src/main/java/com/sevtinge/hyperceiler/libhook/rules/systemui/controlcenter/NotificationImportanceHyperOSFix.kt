@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
 
 object NotificationImportanceHyperOSFix : BaseHook() {
     override fun init() {

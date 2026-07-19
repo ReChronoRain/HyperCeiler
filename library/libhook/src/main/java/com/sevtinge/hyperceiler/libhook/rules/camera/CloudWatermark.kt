@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.libhook.rules.camera
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.json.JSONObject
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
@@ -117,19 +117,18 @@ object CloudWatermark : BaseHook() {
             XposedLog.w(TAG, packageName, "hook deleteCloud failed, maybe not support this version")
         }
 
-        JSONObject::class.java.methodFinder()
-            .filterByName("optJSONObject")
-            .first()
-            .createHook {
-                before {
-                    // 忽略时间和机型限制
-                    val limitation = it.args[0] as String
-                    if (limitation.contains("limitation")) {
-                        XposedLog.d(TAG, packageName, "block limitation optJSONObject")
-                        it.result = null
-                    }
+        JSONObject::class.java.findMethod {
+            name("optJSONObject")
+        }.createHook {
+            before {
+                // 忽略时间和机型限制
+                val limitation = it.args[0] as String
+                if (limitation.contains("limitation")) {
+                    XposedLog.d(TAG, packageName, "block limitation optJSONObject")
+                    it.result = null
                 }
             }
+        }
     }
 }
 

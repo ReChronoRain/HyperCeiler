@@ -19,16 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.phone
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object N1BandPhone : BaseHook() {
     override fun init() {
         runCatching {
-            loadClass("miui.telephony.TelephonyManagerEx").methodFinder()
-                .filterByName("isN1Supported")
-                .single().createHook {
+            loadClass("miui.telephony.TelephonyManagerEx").findMethod { name("isN1Supported") }.createHook {
                     returnConstant(true)
                 }
         }

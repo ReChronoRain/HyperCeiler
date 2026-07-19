@@ -36,11 +36,11 @@ import androidx.core.graphics.scale
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaControlPanel
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 
 object MediaPicture : BaseHook() {
     private val albumPictureCorners by lazy {
@@ -52,7 +52,10 @@ object MediaPicture : BaseHook() {
 
     override fun init() {
 
-        miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
+        miuiMediaControlPanel?.findMethod {
+            findOnlyClass()
+            name("bindPlayer")
+        }
             ?.createAfterHook {
                 val context =
                     it.thisObject.getObjectFieldOrNullAs<Context>("mContext")

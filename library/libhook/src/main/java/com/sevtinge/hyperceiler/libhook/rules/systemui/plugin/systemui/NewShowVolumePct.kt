@@ -28,14 +28,14 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.mSupportSV
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.initPct
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.mPct
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.removePct
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import java.util.WeakHashMap
 
 object NewShowVolumePct {
@@ -54,8 +54,7 @@ object NewShowVolumePct {
             }
         }
 
-        volumePanelViewControllerClazz.methodFinder().filterByName("showVolumePanelH")
-            .first().createAfterHook {
+        volumePanelViewControllerClazz.findMethod { name("showVolumePanelH") }.createAfterHook {
                 val mVolumeView =
                     it.thisObject.getObjectField("mVolumeView") as View
                 val windowView = mVolumeView.parent as FrameLayout
@@ -67,8 +66,7 @@ object NewShowVolumePct {
     }
 
     private fun mVolumeDisable(clazz: Class<*>) {
-        clazz.methodFinder().filterByName("dismissH")
-            .first().createAfterHook {
+        clazz.findMethod { name("dismissH") }.createAfterHook {
                 removePct(mPct)
             }
     }
@@ -88,8 +86,7 @@ object NewShowVolumePct {
 
     @SuppressLint("SetTextI18n")
     private fun onProgressChanged(clazz: Class<*>, mSupportSV: Boolean) {
-        clazz.methodFinder().filterByName("onProgressChanged")
-            .first().createAfterHook {
+        clazz.findMethod { name("onProgressChanged") }.createAfterHook {
                 var nowLevel = -233
                 var mTag = 0
                 var currentLevel: Int

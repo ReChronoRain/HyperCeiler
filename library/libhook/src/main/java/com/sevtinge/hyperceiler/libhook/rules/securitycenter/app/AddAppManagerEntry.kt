@@ -25,26 +25,26 @@ import android.view.Menu
 import android.view.MenuItem
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.initAppContext
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.initAppContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 @SuppressLint("DiscouragedApi")
 object AddAppManagerEntry : BaseHook() {
     //override val key = "add_aosp_app_manager_entry"
     private val idIdMiuixActionEndMenuGroup by lazy {
-        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.hookedPackageName)
+        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.packageName)
     }
     private val idDrawableIconSettings by lazy {
-        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.hookedPackageName)
+        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.packageName)
     }
 
     override fun init() {
         val clazzAppManagerMainActivity = loadClass("com.miui.appmanager.AppManagerMainActivity")
-        clazzAppManagerMainActivity.methodFinder().filterByName("onCreateOptionsMenu").first()
+        clazzAppManagerMainActivity.findMethod { name("onCreateOptionsMenu") }
             .createHook {
                 after {
                     initAppContext(it.thisObject as Activity, true)

@@ -21,16 +21,18 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object RecentText : BaseHook() {
     override fun init() {
         val emptyViewText = PrefsBridge.getString("home_recent_text", "")
         if (emptyViewText != "") {
-            findClass("com.miui.home.recents.views.RecentsView").afterHookMethod(
-                "showEmptyView", Int::class.java
-            ) {
+            findClass("com.miui.home.recents.views.RecentsView").findMethod {
+                name("showEmptyView")
+                parameterTypes(Int::class.javaPrimitiveType!!)
+            }.createAfterHook {
                 (it.thisObject.getObjectField("mEmptyView") as TextView).apply {
                     this.text = emptyViewText
                 }

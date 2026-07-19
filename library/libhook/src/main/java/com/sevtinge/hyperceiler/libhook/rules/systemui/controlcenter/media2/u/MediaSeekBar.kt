@@ -39,13 +39,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.seekBarObserver
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.drawable.SquigglyProgress
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 // Android 15 调用 Lcom/android/systemui/media/controls/ui/view/MediaViewHolder;
 // Android 14 调用 Lcom/android/systemui/media/controls/models/player/MediaViewHolder;
@@ -127,46 +127,47 @@ object MediaSeekBar : BaseHook() {
         }
 
         seekBarObserver!!.apply {
-            methodFinder().filterByName("onChanged")
-                .first().createAfterHook {
-                    val mediaViewHolder = it.thisObject.getObjectFieldOrNull("holder")
-                        ?: it.thisObject.getObjectFieldOrNull("this$0")!!
-                            .getObjectFieldOrNull("holder") ?: return@createAfterHook
-                    val seekBar = mediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar")
-                        ?: return@createAfterHook
+            findMethod {
+                findOnlyClass()
+                name("onChanged")
+            }.createAfterHook {
+                val mediaViewHolder = it.thisObject.getObjectFieldOrNull("holder")
+                    ?: it.thisObject.getObjectFieldOrNull("this$0")!!
+                        .getObjectFieldOrNull("holder") ?: return@createAfterHook
+                val seekBar = mediaViewHolder.getObjectFieldOrNullAs<SeekBar>("seekBar")
+                    ?: return@createAfterHook
 
 
-                    if (progressColor != -1)
-                        seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(progressColor, PorterDuff.Mode.SRC_IN)
-                    if (thumbColor != -1  && mode != 2)
-                        seekBar.thumb.colorFilter = PorterDuffColorFilter(thumbColor, PorterDuff.Mode.SRC_IN)
+                if (progressColor != -1)
+                    seekBar.progressDrawable.colorFilter = PorterDuffColorFilter(progressColor, PorterDuff.Mode.SRC_IN)
+                if (thumbColor != -1  && mode != 2)
+                    seekBar.thumb.colorFilter = PorterDuffColorFilter(thumbColor, PorterDuff.Mode.SRC_IN)
 
-                    if (mode == 1) {
-                        val drawable = seekBar.progressDrawable
-                        if (drawable !is SquigglyProgress) return@createAfterHook
-                        val progress = it.args[0] ?: return@createAfterHook
-                        val seekAvailable = progress.getBooleanField("seekAvailable")
-                        val playing = progress.getBooleanField("playing")
-                        val scrubbing = progress.getBooleanField("scrubbing")
-                        val enabled = progress.getBooleanField("enabled")
+                if (mode == 1) {
+                    val drawable = seekBar.progressDrawable
+                    if (drawable !is SquigglyProgress) return@createAfterHook
+                    val progress = it.args[0] ?: return@createAfterHook
+                    val seekAvailable = progress.getBooleanField("seekAvailable")
+                    val playing = progress.getBooleanField("playing")
+                    val scrubbing = progress.getBooleanField("scrubbing")
+                    val enabled = progress.getBooleanField("enabled")
 
-                        if (!enabled) {
-                            drawable.animate = false
-                        } else {
-                            drawable.animate = playing && !scrubbing
-                            drawable.transitionEnabled = !seekAvailable
-                        }
-                    } else if (mode == 2) {
-                        if (modeB != 5 || isMoreSmallVersion(200, 2f)) {
-                            seekBar.thumb.colorFilter = colorFilter(Color.TRANSPARENT)
-                        }
+                    if (!enabled) {
+                        drawable.animate = false
+                    } else {
+                        drawable.animate = playing && !scrubbing
+                        drawable.transitionEnabled = !seekAvailable
+                    }
+                } else if (mode == 2) {
+                    if (modeB != 5 || isMoreSmallVersion(200, 2f)) {
+                        seekBar.thumb.colorFilter = colorFilter(Color.TRANSPARENT)
                     }
                 }
+            }
 
             if (mode == 2) {
                 constructors.first().createAfterHook {
-                    it.thisObject.objectHelper()
-                        .setObject("seekBarEnabledMaxHeight", progressThickness.dp)
+                    it.thisObject.setObjectField("seekBarEnabledMaxHeight", progressThickness.dp)
                 }
             }
         }

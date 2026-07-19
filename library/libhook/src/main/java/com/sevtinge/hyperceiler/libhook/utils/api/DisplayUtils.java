@@ -18,7 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.api;
 
-import static io.github.kyuubiran.ezxhelper.xposed.EzXposed.getAppContext;
+import static io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.getAppContext;
 
 import android.content.Context;
 import android.util.DisplayMetrics;

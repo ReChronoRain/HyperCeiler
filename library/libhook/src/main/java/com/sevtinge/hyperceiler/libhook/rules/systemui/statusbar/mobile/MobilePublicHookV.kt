@@ -34,13 +34,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.card2
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.hideRoaming
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.isEnableDouble
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.util.function.Consumer
 
 class MobilePublicHookV : BaseHook() {
@@ -101,8 +101,13 @@ class MobilePublicHookV : BaseHook() {
                     cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
                 }
                 if (hideRoaming) {
-                    cellularIcon.setObjectField("smallRoamVisible", newReadonlyStateFlow(false))
-                    cellularIcon.setObjectField("mobileRoamVisible", newReadonlyStateFlow(false))
+                    // 新版 MiuiCellularIconVM 中 *RoamVisible 字段类型为
+                    // FlowKt__ZipKt$combine$$inlined$combineUnsafe$FlowKt__ZipKt$1
+                    // （combine 产生的匿名 Flow），直接 setObjectField 会抛
+                    // IllegalArgumentException。先尝试旧版直接替换 StateFlow，
+                    // 失败则改为劫持其内部 $transform$inlined$1 lambda 让合并结果恒为 false。
+                    forceRoamHidden(cellularIcon, "smallRoamVisible")
+                    forceRoamHidden(cellularIcon, "mobileRoamVisible")
                 }
                 // 隐藏 hd
                 if (!isMoreSmallVersion(200, 2f)) {
@@ -110,6 +115,43 @@ class MobilePublicHookV : BaseHook() {
                     updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
                     updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
                 }
+            }
+        }
+    }
+
+    private fun forceRoamHidden(cellularIcon: Any, fieldName: String) {
+        if (runCatching {
+                cellularIcon.setObjectField(fieldName, newReadonlyStateFlow(false))
+            }.isSuccess
+        ) {
+            return
+        }
+
+        runCatching {
+            val flow = cellularIcon.getObjectFieldAs<Any>(fieldName)
+            val transform = createAlwaysFalseTransform(flow) ?: return
+            flow.setObjectField($$"$transform$inlined$1", transform)
+        }
+    }
+
+    private fun createAlwaysFalseTransform(flow: Any): Any? {
+        val originalTransform = runCatching {
+            flow.getObjectFieldAs<Any>($$"$transform$inlined$1")
+        }.getOrNull() ?: return null
+
+        val interfaces = originalTransform.javaClass.interfaces
+            .filter { it.name.startsWith("kotlin.jvm.functions.Function") }
+            .toTypedArray()
+        if (interfaces.isEmpty()) return null
+
+        val classLoader = originalTransform.javaClass.classLoader ?: javaClass.classLoader
+        return java.lang.reflect.Proxy.newProxyInstance(classLoader, interfaces) { _, method, _ ->
+            when (method.name) {
+                "invoke" -> false
+                "toString" -> "AlwaysFalseTransform"
+                "hashCode" -> 0
+                "equals" -> false
+                else -> null
             }
         }
     }

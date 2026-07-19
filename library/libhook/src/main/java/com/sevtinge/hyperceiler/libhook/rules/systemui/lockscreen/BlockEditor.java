@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 public class BlockEditor extends BaseHook {
     Class<?> mKeyguardEditorHelperCls;

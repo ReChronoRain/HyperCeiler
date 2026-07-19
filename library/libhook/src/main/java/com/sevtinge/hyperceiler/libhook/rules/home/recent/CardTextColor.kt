@@ -21,16 +21,17 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 object CardTextColor : BaseHook() {
     override fun init() {
         val recentTextColor = PrefsBridge.getInt("home_recent_text_color", -1)
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
-        taskViewHeaderClass.afterHookMethod(
-            "onFinishInflate"
-        ) {
+        taskViewHeaderClass.findMethod {
+            name("onFinishInflate")
+        }.createAfterHook {
             val mTitle = it.thisObject.getObjectField("mTitleView") as TextView
             mTitle.setTextColor(recentTextColor)
         }

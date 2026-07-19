@@ -1,12 +1,11 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.deoptimizeMethods;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.deoptimizeMethods;
 
 import android.hardware.display.DisplayManager;
 import android.os.Build;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -256,7 +255,7 @@ public class FlagSecure {
     }
 
     private void hook(Method method, ChainHooker hooker) {
-        EzxHelpUtils.chain(method, new XposedInterface.Hooker() {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.chain(method, new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 return hooker.intercept(chain);

@@ -18,14 +18,13 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import java.util.concurrent.CancellationException
 import java.util.function.Consumer
 
 class JavaAdapter(instance: Any) : BaseReflectObject(instance) {
     fun <T> alwaysCollectFlow(flow: Any, consumer: Consumer<T>): KotlinJob {
-        return KotlinJob(instance.callMethodAs("alwaysCollectFlow", flow, consumer))
+        return KotlinJob(instance.callMethod("alwaysCollectFlow", flow, consumer) as Any)
     }
 }
 

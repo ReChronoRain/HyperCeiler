@@ -22,9 +22,11 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object GestureLine : HomeBaseHookNew() {
 
@@ -32,18 +34,15 @@ object GestureLine : HomeBaseHookNew() {
     private fun initPadBase() {
         val navBarEventHelperClass =
             findClass("com.miui.home.recents.cts.NavBarEventHelper")
-        navBarEventHelperClass.hookAllConstructors {
-            after {
+        Constructors.find(navBarEventHelperClass).toList().createAfterHooks {
                 if (PrefsBridge.getInt("home_gesture_line_long_press_action", 0) <= 0) {
-                    return@after
+                    return@createAfterHooks
                 }
-                val gestureDetector = getObjectField(it.thisObject, "mGestureDetector") ?: return@after
+                val gestureDetector = getObjectField(it.thisObject, "mGestureDetector") ?: return@createAfterHooks
                 callMethod(gestureDetector, "setLongPressTimeOut", 650)
                 callMethod(gestureDetector, "setLongPressTouchSlop", 12)
-            }
         }
-        navBarEventHelperClass.hookAllMethods("onLongPress") {
-            before {
+        navBarEventHelperClass.findAllMethods { name("onLongPress") }.createBeforeHooks {
                 if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_long_press"
@@ -51,10 +50,8 @@ object GestureLine : HomeBaseHookNew() {
                 ) {
                     it.result = null
                 }
-            }
         }
-        navBarEventHelperClass.hookAllMethods("onDoubleTap") {
-            before {
+        navBarEventHelperClass.findAllMethods { name("onDoubleTap") }.createBeforeHooks {
                 if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_double_click"
@@ -62,15 +59,13 @@ object GestureLine : HomeBaseHookNew() {
                 ) {
                     it.result = true
                 }
-            }
         }
     }
 
     override fun initBase() {
         val navStubGestureEventManagerClass =
             findClass("com.miui.home.recents.gesture.NavStubGestureEventManager")
-        navStubGestureEventManagerClass.hookAllMethods("handleLongPressEvent") {
-            before {
+        navStubGestureEventManagerClass.findAllMethods { name("handleLongPressEvent") }.createBeforeHooks {
                 if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_long_press"
@@ -78,10 +73,8 @@ object GestureLine : HomeBaseHookNew() {
                 ) {
                     it.result = null
                 }
-            }
         }
-        navStubGestureEventManagerClass.hookAllMethods("handleDoubleClickEvent") {
-            before {
+        navStubGestureEventManagerClass.findAllMethods { name("handleDoubleClickEvent") }.createBeforeHooks {
                 if (GlobalActionBridge.handleAction(
                         appContext,
                         "home_gesture_line_double_click"
@@ -89,7 +82,6 @@ object GestureLine : HomeBaseHookNew() {
                 ) {
                     it.result = null
                 }
-            }
         }
     }
 }

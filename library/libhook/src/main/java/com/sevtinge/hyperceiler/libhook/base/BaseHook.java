@@ -18,36 +18,49 @@
  */
 package com.sevtinge.hyperceiler.libhook.base;
 
+import android.app.Application;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam;
 import io.github.libxposed.api.XposedModuleInterface.SystemServerStartingParam;
+import io.github.lingqiqi5211.ezhooktool.core.BestMatchUtils;
+import io.github.lingqiqi5211.ezhooktool.core.ClassUtils;
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors;
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields;
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.Deoptimizers;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.ExtraFields;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.Hooks;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 /**
  * Hook 基类
  * <p>
  * 提供 Java 常用的 Hook 工具方法
- * Kotlin 建议直接使用 ezxhelper API
+ * Kotlin 建议直接使用 EzHookTool DSL
  *
  * @author HyperCeiler
  */
@@ -64,6 +77,91 @@ public abstract class BaseHook {
     @FunctionalInterface
     protected interface ThrowableSupplier<T> {
         T get() throws Throwable;
+    }
+
+    @FunctionalInterface
+    public interface ContextConsumer {
+        void accept(@NonNull Context context);
+    }
+
+    private interface ApplicationHook {
+        void onApplicationAttachBefore(@NonNull Context context);
+
+        void onApplicationAttachAfter(@NonNull Context context);
+    }
+
+    private static final CopyOnWriteArrayList<ApplicationHook> APPLICATION_HOOKS = new CopyOnWriteArrayList<>();
+    private static volatile boolean sApplicationHookInstalled = false;
+
+    private static void runApplicationAttachBefore(ApplicationHook hook, Context context) {
+        try {
+            hook.onApplicationAttachBefore(context);
+        } catch (Throwable t) {
+            XposedLog.w(
+                BaseLoad.getTag(),
+                BaseLoad.getPackageName(),
+                "Application.attach before callback failed: " + hook.getClass().getName(),
+                t
+            );
+        }
+    }
+
+    private static void runApplicationAttachAfter(ApplicationHook hook, Context context) {
+        try {
+            hook.onApplicationAttachAfter(context);
+        } catch (Throwable t) {
+            XposedLog.w(
+                BaseLoad.getTag(),
+                BaseLoad.getPackageName(),
+                "Application.attach after callback failed: " + hook.getClass().getName(),
+                t
+            );
+        }
+    }
+
+    private static void ensureApplicationHookInstalled() {
+        if (sApplicationHookInstalled) return;
+
+        synchronized (BaseHook.class) {
+            if (sApplicationHookInstalled) return;
+            try {
+                Hooks.findAndHookMethod(Application.class, "attach", Context.class, new IMethodHook() {
+                    @Override
+                    public void before(HookParam param) {
+                        Context context = (Context) param.getArgs()[0];
+                        for (ApplicationHook hook : APPLICATION_HOOKS) {
+                            runApplicationAttachBefore(hook, context);
+                        }
+                    }
+
+                    @Override
+                    public void after(HookParam param) {
+                        Context context = (Context) param.getArgs()[0];
+                        try {
+                            EzXposed.initAppContext(context, false);
+                        } catch (Throwable t) {
+                            XposedLog.w(
+                                BaseLoad.getTag(),
+                                BaseLoad.getPackageName(),
+                                "Failed to initialize Application context",
+                                t
+                            );
+                        }
+                        for (ApplicationHook hook : APPLICATION_HOOKS) {
+                            runApplicationAttachAfter(hook, context);
+                        }
+                    }
+                });
+                sApplicationHookInstalled = true;
+            } catch (Throwable t) {
+                XposedLog.e(
+                    BaseLoad.getTag(),
+                    BaseLoad.getPackageName(),
+                    "Failed to hook Application.attach",
+                    t
+                );
+            }
+        }
     }
 
     /**
@@ -162,7 +260,7 @@ public abstract class BaseHook {
         try {
             return DexKit.findMember(namespacedDexKitKey(key), finder);
         } catch (Throwable t) {
-            XposedLog.w(TAG, getPackageName(), "Optional DexKit member failed: " + key, t);
+            XposedLog.w(BaseLoad.getTag(), getPackageName(), "Optional DexKit member failed: " + key, t);
             return null;
         }
     }
@@ -174,7 +272,7 @@ public abstract class BaseHook {
             List<T> members = DexKit.findMemberList(namespacedDexKitKey(key), finder);
             return members != null ? members : Collections.emptyList();
         } catch (Throwable t) {
-            XposedLog.w(TAG, getPackageName(), "Optional DexKit member list failed: " + key, t);
+            XposedLog.w(BaseLoad.getTag(), getPackageName(), "Optional DexKit member list failed: " + key, t);
             return Collections.emptyList();
         }
     }
@@ -219,20 +317,20 @@ public abstract class BaseHook {
 
     // ==================== 类查找 ====================
 
-    public Class<?> findClass(String className) {
-        return EzxHelpUtils.findClass(className, getClassLoader());
+    public static Class<?> findClass(String className) {
+        return ClassUtils.loadClass(className, EzXposed.getSafeClassLoader());
     }
 
-    public Class<?> findClass(String className, ClassLoader classLoader) {
-        return EzxHelpUtils.findClass(className, classLoader);
+    public static Class<?> findClass(String className, ClassLoader classLoader) {
+        return ClassUtils.loadClass(className, classLoader != null ? classLoader : EzXposed.getSafeClassLoader());
     }
 
-    public Class<?> findClassIfExists(String className) {
-        return EzxHelpUtils.findClassIfExists(className, getClassLoader());
+    public static Class<?> findClassIfExists(String className) {
+        return ClassUtils.loadClassOrNull(className, EzXposed.getSafeClassLoader());
     }
 
-    public Class<?> findClassIfExists(String className, ClassLoader classLoader) {
-        return EzxHelpUtils.findClassIfExists(className, classLoader);
+    public static Class<?> findClassIfExists(String className, ClassLoader classLoader) {
+        return ClassUtils.loadClassOrNull(className, classLoader != null ? classLoader : EzXposed.getSafeClassLoader());
     }
 
     // ==================== 字段操作 ====================
@@ -241,28 +339,109 @@ public abstract class BaseHook {
      * 获取对象字段值
      */
     public static Object getObjectField(Object obj, String fieldName) {
-        return EzxHelpUtils.getObjectField(obj, fieldName);
+        return Fields.getObjectField(obj, fieldName);
     }
 
     /**
      * 设置对象字段值
      */
     public static void setObjectField(Object obj, String fieldName, Object value) {
-        EzxHelpUtils.setObjectField(obj, fieldName, value);
+        Fields.setObjectField(obj, fieldName, value);
     }
 
     /**
      * 获取静态字段值
      */
     public static Object getStaticObjectField(Class<?> clazz, String fieldName) {
-        return EzxHelpUtils.getStaticObjectField(clazz, fieldName);
+        return Fields.getStaticObjectField(clazz, fieldName);
     }
 
     /**
      * 设置静态字段值
      */
     public static void setStaticObjectField(Class<?> clazz, String fieldName, Object value) {
-        EzxHelpUtils.setStaticObjectField(clazz, fieldName, value);
+        Fields.setStaticObjectField(clazz, fieldName, value);
+    }
+
+    public static boolean getBooleanField(Object obj, String fieldName) {
+        return Fields.getBooleanField(obj, fieldName);
+    }
+
+    public static void setBooleanField(Object obj, String fieldName, boolean value) {
+        Fields.setBooleanField(obj, fieldName, value);
+    }
+
+    public static int getIntField(Object obj, String fieldName) {
+        return Fields.getIntField(obj, fieldName);
+    }
+
+    public static void setIntField(Object obj, String fieldName, int value) {
+        Fields.setIntField(obj, fieldName, value);
+    }
+
+    public static long getLongField(Object obj, String fieldName) {
+        return Fields.getLongField(obj, fieldName);
+    }
+
+    public static void setLongField(Object obj, String fieldName, long value) {
+        Fields.setLongField(obj, fieldName, value);
+    }
+
+    public static float getFloatField(Object obj, String fieldName) {
+        return Fields.getFloatField(obj, fieldName);
+    }
+
+    public static void setFloatField(Object obj, String fieldName, float value) {
+        Fields.setFloatField(obj, fieldName, value);
+    }
+
+    public static boolean getStaticBooleanField(Class<?> clazz, String fieldName) {
+        return Fields.getStaticBooleanField(clazz, fieldName);
+    }
+
+    public static void setStaticBooleanField(Class<?> clazz, String fieldName, boolean value) {
+        Fields.setStaticBooleanField(clazz, fieldName, value);
+    }
+
+    public static int getStaticIntField(Class<?> clazz, String fieldName) {
+        return Fields.getStaticIntField(clazz, fieldName);
+    }
+
+    public static void setStaticIntField(Class<?> clazz, String fieldName, int value) {
+        Fields.setStaticIntField(clazz, fieldName, value);
+    }
+
+    public static float getStaticFloatField(Class<?> clazz, String fieldName) {
+        return Fields.getStaticFloatField(clazz, fieldName);
+    }
+
+    public static Field findField(Class<?> clazz, String fieldName) {
+        return Fields.find(clazz).filterByName(fieldName).first();
+    }
+
+    @Nullable
+    public static Field findFieldIfExists(Class<?> clazz, String fieldName) {
+        return Fields.find(clazz).filterByName(fieldName).firstOrNull();
+    }
+
+    public static Field findFirstFieldByExactType(Class<?> clazz, Class<?> type) {
+        return Fields.find(clazz).filterByType(type).first();
+    }
+
+    public static Object setAdditionalInstanceField(Object obj, String key, Object value) {
+        return ExtraFields.setInstanceField(obj, key, value);
+    }
+
+    public static Object getAdditionalInstanceField(Object obj, String key) {
+        return ExtraFields.getInstanceField(obj, key);
+    }
+
+    public static Object removeAdditionalInstanceField(Object obj, String key) {
+        return ExtraFields.removeInstanceField(obj, key);
+    }
+
+    public static Object getSurroundingThis(Object obj) {
+        return getObjectField(obj, "this$0");
     }
 
     // ==================== 方法调用 ====================
@@ -271,14 +450,124 @@ public abstract class BaseHook {
      * 调用对象方法
      */
     public static Object callMethod(Object obj, String methodName, Object... args) {
-        return EzxHelpUtils.callMethod(obj, methodName, args);
+        return Methods.callMethod(obj, methodName, args);
     }
 
     /**
      * 调用静态方法
      */
     public static Object callStaticMethod(Class<?> clazz, String methodName, Object... args) {
-        return EzxHelpUtils.callStaticMethod(clazz, methodName, args);
+        return Methods.callStaticMethod(clazz, methodName, args);
+    }
+
+    public static Object newInstance(Class<?> clazz, Object... args) {
+        return Constructors.newInstance(clazz, args);
+    }
+
+    public static Method findMethodBestMatch(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        return BestMatchUtils.findMethodBestMatch(clazz, methodName, parameterTypes);
+    }
+
+    public static Method findMethodBestMatch(Class<?> clazz, String methodName, Object... args) {
+        return BestMatchUtils.findMethodBestMatch(clazz, methodName, args);
+    }
+
+    @Nullable
+    public static Method findMethodExactIfExists(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        return Methods.find(clazz).filterByName(methodName).filterByParamTypes(parameterTypes).firstOrNull();
+    }
+
+    @Nullable
+    public static Method findMethodExactIfExists(Class<?> clazz, String methodName, Object... parameterTypes) {
+        return findMethodExactIfExists(clazz, methodName, resolveTypes(clazz, parameterTypes));
+    }
+
+    @Nullable
+    public static Method findMethodExactIfExists(
+        String className,
+        ClassLoader classLoader,
+        String methodName,
+        Object... parameterTypes
+    ) {
+        Class<?> clazz = ClassUtils.loadClassOrNull(className, classLoader);
+        if (clazz == null) return null;
+        return findMethodExactIfExists(clazz, methodName, resolveTypes(clazz, parameterTypes));
+    }
+
+    public static Method[] findMethodsByExactParameters(
+        Class<?> clazz,
+        @Nullable Class<?> returnType,
+        Class<?>... parameterTypes
+    ) {
+        List<Method> methods = Methods.find(clazz)
+            .filterByParamTypes(parameterTypes)
+            .filter(method -> returnType == null || method.getReturnType() == returnType)
+            .toList();
+        return methods.toArray(new Method[0]);
+    }
+
+    public static Constructor<?> findConstructorExact(Class<?> clazz, Class<?>... parameterTypes) {
+        try {
+            Constructor<?> constructor = clazz.getDeclaredConstructor(parameterTypes);
+            constructor.setAccessible(true);
+            return constructor;
+        } catch (NoSuchMethodException e) {
+            throw new NoSuchMethodError(e.getMessage());
+        }
+    }
+
+    public static Object invokeOriginalMethod(Method method, Object thisObject, Object... args) {
+        try {
+            return EzXposed.getBase()
+                .getInvoker(method)
+                .setType(XposedInterface.Invoker.Type.ORIGIN)
+                .invoke(thisObject, args);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static Object invokeSuperMethod(String methodName, Object thisObject, Object... args) {
+        Class<?> superClass = thisObject.getClass().getSuperclass();
+        if (superClass == null) {
+            throw new NoSuchMethodError(methodName);
+        }
+        try {
+            Method method = BestMatchUtils.findMethodBestMatch(superClass, methodName, args);
+            return EzXposed.getBase()
+                .getInvoker(method)
+                .setType(XposedInterface.Invoker.Type.ORIGIN)
+                .invokeSpecial(thisObject, args);
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
+    public static boolean deoptimize(Method method) {
+        return Deoptimizers.deoptimize(method);
+    }
+
+    public static void deoptimizeMethods(Class<?> clazz, String... names) {
+        var list = Arrays.asList(names);
+        Arrays.stream(clazz.getDeclaredMethods())
+            .filter(method -> list.contains(method.getName()))
+            .forEach(BaseHook::deoptimize);
+    }
+
+    private static Class<?>[] resolveTypes(Class<?> owner, Object[] types) {
+        Class<?>[] resolved = new Class<?>[types.length];
+        ClassLoader classLoader = owner.getClassLoader() != null ? owner.getClassLoader() : EzXposed.getSafeClassLoader();
+        for (int i = 0; i < types.length; i++) {
+            Object type = types[i];
+            if (type instanceof Class<?> clazz) {
+                resolved[i] = clazz;
+            } else if (type instanceof String className) {
+                resolved[i] = ClassUtils.loadClass(className, classLoader);
+            } else {
+                throw new IllegalArgumentException("Parameter type must be Class or class name String: " + type);
+            }
+        }
+        return resolved;
     }
 
     // ==================== Application 生命周期 ====================
@@ -301,14 +590,14 @@ public abstract class BaseHook {
      * 注册当前 Hook 的 Application 生命周期回调
      */
     protected void registerApplicationHook() {
-        EzxHelpUtils.registerApplicationHook(new EzxHelpUtils.IApplicationHook() {
+        registerApplicationHook(new ContextConsumer() {
             @Override
-            public void onApplicationAttachBefore(@NonNull Context context) {
+            public void accept(@NonNull Context context) {
                 BaseHook.this.onApplicationAttachBefore(context);
             }
-
+        }, new ContextConsumer() {
             @Override
-            public void onApplicationAttachAfter(@NonNull Context context) {
+            public void accept(@NonNull Context context) {
                 BaseHook.this.onApplicationAttachAfter(context);
             }
         });
@@ -317,18 +606,35 @@ public abstract class BaseHook {
     /**
      * 注册 Application attach 之后的回调
      */
-    protected void runOnApplicationAttach(EzxHelpUtils.ContextConsumer callback) {
-        EzxHelpUtils.runOnApplicationAttach(callback);
+    public static void runOnApplicationAttach(ContextConsumer callback) {
+        registerApplicationHook(null, callback);
     }
 
     /**
      * 注册 Application 生命周期回调
      */
-    protected void registerApplicationHook(
-        @Nullable EzxHelpUtils.ContextConsumer before,
-        @Nullable EzxHelpUtils.ContextConsumer after
+    public static void registerApplicationHook(
+        @Nullable ContextConsumer before,
+        @Nullable ContextConsumer after
     ) {
-        EzxHelpUtils.registerApplicationHook(before, after);
+        ApplicationHook hook = new ApplicationHook() {
+            @Override
+            public void onApplicationAttachBefore(@NonNull Context context) {
+                if (before != null) before.accept(context);
+            }
+
+            @Override
+            public void onApplicationAttachAfter(@NonNull Context context) {
+                if (after != null) after.accept(context);
+            }
+        };
+        APPLICATION_HOOKS.add(hook);
+        ensureApplicationHookInstalled();
+
+        Context context = EzXposed.getAppContextOrNull();
+        if (context != null && after != null) {
+            runApplicationAttachAfter(hook, context);
+        }
     }
 
     // ==================== Hook 方法 ====================
@@ -340,34 +646,38 @@ public abstract class BaseHook {
      * @param callback Hook 回调
      * @return HookHandle 对象
      */
-    public XposedInterface.HookHandle hookMethod(Method method, IMethodHook callback) {
-        return EzxHelpUtils.hookMethod(method, callback);
+    public static XposedInterface.HookHandle hookMethod(Method method, IMethodHook callback) {
+        return Hooks.createHook(method, callback);
     }
 
-    public XposedInterface.HookHandle chain(Method method, XposedInterface.Hooker hooker) {
-        return EzxHelpUtils.chain(method, hooker);
+    public static XposedInterface.HookHandle hookMethod(Method method, IReplaceHook callback) {
+        return Hooks.createHook(method, callback);
     }
 
-    public XposedInterface.HookHandle chain(
+    public static XposedInterface.HookHandle chain(Method method, XposedInterface.Hooker hooker) {
+        return Hooks.intercept(method, hooker);
+    }
+
+    public static XposedInterface.HookHandle chain(
         Method method,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
         XposedInterface.Hooker hooker
     ) {
-        return EzxHelpUtils.chain(method, priority, exceptionMode, hooker);
+        return HookBridge.intercept(method, priority, exceptionMode, hooker);
     }
 
-    public XposedInterface.HookHandle chain(Constructor<?> constructor, XposedInterface.Hooker hooker) {
-        return EzxHelpUtils.chain(constructor, hooker);
+    public static XposedInterface.HookHandle chain(Constructor<?> constructor, XposedInterface.Hooker hooker) {
+        return Hooks.intercept(constructor, hooker);
     }
 
-    public XposedInterface.HookHandle chain(
+    public static XposedInterface.HookHandle chain(
         Constructor<?> constructor,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
         XposedInterface.Hooker hooker
     ) {
-        return EzxHelpUtils.chain(constructor, priority, exceptionMode, hooker);
+        return HookBridge.intercept(constructor, priority, exceptionMode, hooker);
     }
 
     /**
@@ -375,21 +685,21 @@ public abstract class BaseHook {
      * <p>
      * 最后一个参数必须是 {@link XposedInterface.Hooker}，前面的参数是参数类型
      */
-    public XposedInterface.HookHandle findAndChainMethod(Class<?> clazz, String methodName, Object... args) {
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, args);
+    public static XposedInterface.HookHandle findAndChainMethod(Class<?> clazz, String methodName, Object... args) {
+        return Hooks.findAndHookMethod(clazz, methodName, args);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         Class<?> clazz,
         String methodName,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
         Object... args
     ) {
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, args);
+        return HookBridge.findAndInterceptMethod(clazz, methodName, priority, exceptionMode, args);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         Class<?> clazz,
         String methodName,
         XposedInterface.Hooker hooker,
@@ -397,10 +707,10 @@ public abstract class BaseHook {
     ) {
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, argsAndHook);
+        return Hooks.findAndHookMethod(clazz, methodName, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         Class<?> clazz,
         String methodName,
         int priority,
@@ -410,19 +720,19 @@ public abstract class BaseHook {
     ) {
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
+        return HookBridge.findAndInterceptMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(String className, String methodName, Object... args) {
+    public static XposedInterface.HookHandle findAndChainMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, args);
+        return Hooks.findAndHookMethod(clazz, methodName, args);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         String className,
         String methodName,
         int priority,
@@ -431,13 +741,13 @@ public abstract class BaseHook {
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, args);
+        return HookBridge.findAndInterceptMethod(clazz, methodName, priority, exceptionMode, args);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         String className,
         String methodName,
         XposedInterface.Hooker hooker,
@@ -445,15 +755,15 @@ public abstract class BaseHook {
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainMethod: class not found: " + className);
             return null;
         }
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, argsAndHook);
+        return Hooks.findAndHookMethod(clazz, methodName, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainMethod(
+    public static XposedInterface.HookHandle findAndChainMethod(
         String className,
         String methodName,
         int priority,
@@ -463,12 +773,12 @@ public abstract class BaseHook {
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainMethod: class not found: " + className);
             return null;
         }
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
+        return HookBridge.findAndInterceptMethod(clazz, methodName, priority, exceptionMode, argsAndHook);
     }
 
     /**
@@ -476,30 +786,30 @@ public abstract class BaseHook {
      * <p>
      * 最后一个参数必须是 {@link XposedInterface.Hooker}，前面的参数是参数类型
      */
-    public XposedInterface.HookHandle findAndChainConstructor(Class<?> clazz, Object... args) {
-        return EzxHelpUtils.findAndChainConstructor(clazz, args);
+    public static XposedInterface.HookHandle findAndChainConstructor(Class<?> clazz, Object... args) {
+        return Hooks.findAndHookConstructor(clazz, args);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         Class<?> clazz,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
         Object... args
     ) {
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, args);
+        return HookBridge.findAndInterceptConstructor(clazz, priority, exceptionMode, args);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         Class<?> clazz,
         XposedInterface.Hooker hooker,
         Object... args
     ) {
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainConstructor(clazz, argsAndHook);
+        return Hooks.findAndHookConstructor(clazz, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         Class<?> clazz,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
@@ -508,19 +818,19 @@ public abstract class BaseHook {
     ) {
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, argsAndHook);
+        return HookBridge.findAndInterceptConstructor(clazz, priority, exceptionMode, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(String className, Object... args) {
+    public static XposedInterface.HookHandle findAndChainConstructor(String className, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainConstructor: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainConstructor(clazz, args);
+        return Hooks.findAndHookConstructor(clazz, args);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         String className,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
@@ -528,28 +838,28 @@ public abstract class BaseHook {
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainConstructor: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, args);
+        return HookBridge.findAndInterceptConstructor(clazz, priority, exceptionMode, args);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         String className,
         XposedInterface.Hooker hooker,
         Object... args
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainConstructor: class not found: " + className);
             return null;
         }
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainConstructor(clazz, argsAndHook);
+        return Hooks.findAndHookConstructor(clazz, argsAndHook);
     }
 
-    public XposedInterface.HookHandle findAndChainConstructor(
+    public static XposedInterface.HookHandle findAndChainConstructor(
         String className,
         int priority,
         XposedInterface.ExceptionMode exceptionMode,
@@ -558,104 +868,174 @@ public abstract class BaseHook {
     ) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndChainConstructor: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndChainConstructor: class not found: " + className);
             return null;
         }
         Object[] argsAndHook = Arrays.copyOf(args, args.length + 1);
         argsAndHook[args.length] = hooker;
-        return EzxHelpUtils.findAndChainConstructor(clazz, priority, exceptionMode, argsAndHook);
+        return HookBridge.findAndInterceptConstructor(clazz, priority, exceptionMode, argsAndHook);
     }
 
-    public Set<XposedInterface.HookHandle> chainAllMethods(Class<?> clazz, String methodName, XposedInterface.Hooker hooker) {
-        return EzxHelpUtils.chainAllMethods(clazz, methodName, hooker);
+    public static Set<XposedInterface.HookHandle> chainAllMethods(Class<?> clazz, String methodName, XposedInterface.Hooker hooker) {
+        Set<XposedInterface.HookHandle> handles = new LinkedHashSet<>();
+        for (Method method : Methods.find(clazz).filterByName(methodName).toList()) {
+            handles.add(Hooks.intercept(method, hooker));
+        }
+        return handles;
     }
 
-    public Set<XposedInterface.HookHandle> chainAllMethods(String className, String methodName, XposedInterface.Hooker hooker) {
+    public static Set<XposedInterface.HookHandle> chainAllMethods(String className, String methodName, XposedInterface.Hooker hooker) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "chainAllMethods: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "chainAllMethods: class not found: " + className);
             return java.util.Collections.emptySet();
         }
-        return EzxHelpUtils.chainAllMethods(clazz, methodName, hooker);
+        return chainAllMethods(clazz, methodName, hooker);
     }
 
-    public Set<XposedInterface.HookHandle> chainAllConstructors(Class<?> clazz, XposedInterface.Hooker hooker) {
-        return EzxHelpUtils.chainAllConstructors(clazz, hooker);
+    public static Set<XposedInterface.HookHandle> chainAllConstructors(Class<?> clazz, XposedInterface.Hooker hooker) {
+        Set<XposedInterface.HookHandle> handles = new LinkedHashSet<>();
+        for (Constructor<?> constructor : Constructors.find(clazz).toList()) {
+            handles.add(Hooks.intercept(constructor, hooker));
+        }
+        return handles;
     }
 
-    public Set<XposedInterface.HookHandle> chainAllConstructors(String className, XposedInterface.Hooker hooker) {
+    public static Set<XposedInterface.HookHandle> chainAllConstructors(String className, XposedInterface.Hooker hooker) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "chainAllConstructors: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "chainAllConstructors: class not found: " + className);
             return java.util.Collections.emptySet();
         }
-        return EzxHelpUtils.chainAllConstructors(clazz, hooker);
+        return chainAllConstructors(clazz, hooker);
     }
 
     /**
      * 查找并 Hook 方法
      * <p>
-     * 最后一个参数必须是 IMethodHook，前面的参数是参数类型
+     * 最后一个参数必须是 MethodHook，前面的参数是参数类型
      *
      * @param clazz      目标类
      * @param methodName 方法名
-     * @param args       参数类型 + IMethodHook 回调
+     * @param args       参数类型 + MethodHook 回调
      * @return HookHandle 对象
      */
-    public XposedInterface.HookHandle findAndHookMethod(Class<?> clazz, String methodName, Object... args) {
-        return EzxHelpUtils.findAndHookMethod(clazz, methodName, args);
+    public static XposedInterface.HookHandle findAndHookMethod(Class<?> clazz, String methodName, Object... args) {
+        return Hooks.findAndHookMethod(clazz, methodName, args);
     }
 
     /**
      * 查找并 Hook 方法
      * <p>
-     * 最后一个参数必须是 IMethodHook，前面的参数是参数类型
+     * 最后一个参数必须是 MethodHook，前面的参数是参数类型
      *
      * @param className  类名
      * @param methodName 方法名
-     * @param args       参数类型 + IMethodHook 回调
+     * @param args       参数类型 + MethodHook 回调
      * @return HookHandle 对象
      */
-    public XposedInterface.HookHandle findAndHookMethod(String className, String methodName, Object... args) {
+    public static XposedInterface.HookHandle findAndHookMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndHookMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndHookMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndHookMethod(clazz, methodName, args);
+        return Hooks.findAndHookMethod(clazz, methodName, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookMethod(
+        String className,
+        ClassLoader classLoader,
+        String methodName,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className, classLoader);
+        if (clazz == null) {
+            XposedLog.w(BaseLoad.getTag(), "findAndHookMethod: class not found: " + className);
+            return null;
+        }
+        return Hooks.findAndHookMethod(clazz, methodName, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookConstructor(Class<?> clazz, Object... args) {
+        return Hooks.findAndHookConstructor(clazz, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookConstructor(String className, Object... args) {
+        Class<?> clazz = findClassIfExists(className);
+        if (clazz == null) {
+            XposedLog.w(BaseLoad.getTag(), "findAndHookConstructor: class not found: " + className);
+            return null;
+        }
+        return Hooks.findAndHookConstructor(clazz, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookConstructor(
+        String className,
+        ClassLoader classLoader,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className, classLoader);
+        if (clazz == null) {
+            XposedLog.w(BaseLoad.getTag(), "findAndHookConstructor: class not found: " + className);
+            return null;
+        }
+        return Hooks.findAndHookConstructor(clazz, args);
     }
 
     /**
      * 查找并 Hook 方法
      * <p>
-     * 最后一个参数必须是 IMethodHook，前面的参数是参数类型
+     * 最后一个参数必须是 MethodHook，前面的参数是参数类型
      *
      * @param clazz      目标类
      * @param methodName 方法名
-     * @param args       参数类型 + IMethodHook 回调
+     * @param args       参数类型 + MethodHook 回调
      * @return HookHandle 对象
      */
-    public XposedInterface.HookHandle findAndReplaceMethod(Class<?> clazz, String methodName, Object... args) {
-        return EzxHelpUtils.findAndHookMethodReplace(clazz, methodName, args);
+    public static XposedInterface.HookHandle findAndReplaceMethod(Class<?> clazz, String methodName, Object... args) {
+        return Hooks.findAndHookMethod(clazz, methodName, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookMethodReplace(Class<?> clazz, String methodName, Object... args) {
+        return findAndReplaceMethod(clazz, methodName, args);
     }
 
     /**
      * 查找并 Hook 方法
      * <p>
-     * 最后一个参数必须是 IMethodHook，前面的参数是参数类型
+     * 最后一个参数必须是 MethodHook，前面的参数是参数类型
      *
      * @param className  类名
      * @param methodName 方法名
-     * @param args       参数类型 + IMethodHook 回调
+     * @param args       参数类型 + MethodHook 回调
      * @return HookHandle 对象
      */
-    public XposedInterface.HookHandle findAndReplaceMethod(String className, String methodName, Object... args) {
+    public static XposedInterface.HookHandle findAndReplaceMethod(String className, String methodName, Object... args) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "findAndReplaceMethod: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "findAndReplaceMethod: class not found: " + className);
             return null;
         }
-        return EzxHelpUtils.findAndHookMethodReplace(clazz, methodName, args);
+        return Hooks.findAndHookMethod(clazz, methodName, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookMethodReplace(String className, String methodName, Object... args) {
+        return findAndReplaceMethod(className, methodName, args);
+    }
+
+    public static XposedInterface.HookHandle findAndHookMethodReplace(
+        String className,
+        ClassLoader classLoader,
+        String methodName,
+        Object... args
+    ) {
+        Class<?> clazz = findClassIfExists(className, classLoader);
+        if (clazz == null) {
+            XposedLog.w(BaseLoad.getTag(), "findAndReplaceMethod: class not found: " + className);
+            return null;
+        }
+        return Hooks.findAndHookMethod(clazz, methodName, args);
     }
 
     /**
@@ -666,8 +1046,8 @@ public abstract class BaseHook {
      * @param callback   Hook 回调
      * @return HookHandle 对象列表
      */
-    public List<XposedInterface.HookHandle> hookAllMethods(Class<?> clazz, String methodName, IMethodHook callback) {
-        return EzxHelpUtils.hookAllMethods(clazz, methodName, callback);
+    public static List<XposedInterface.HookHandle> hookAllMethods(Class<?> clazz, String methodName, IMethodHook callback) {
+        return Hooks.createHooks(Methods.find(clazz).filterByName(methodName).toList(), callback);
     }
 
     /**
@@ -678,13 +1058,27 @@ public abstract class BaseHook {
      * @param callback   Hook 回调
      * @return HookHandle 对象列表
      */
-    public List<XposedInterface.HookHandle> hookAllMethods(String className, String methodName, IMethodHook callback) {
+    public static List<XposedInterface.HookHandle> hookAllMethods(String className, String methodName, IMethodHook callback) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "hookAllMethods: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "hookAllMethods: class not found: " + className);
             return java.util.Collections.emptyList();
         }
-        return EzxHelpUtils.hookAllMethods(clazz, methodName, callback);
+        return hookAllMethods(clazz, methodName, callback);
+    }
+
+    public static List<XposedInterface.HookHandle> hookAllMethods(
+        String className,
+        @Nullable ClassLoader classLoader,
+        String methodName,
+        IMethodHook callback
+    ) {
+        Class<?> clazz = classLoader == null ? findClassIfExists(className) : findClassIfExists(className, classLoader);
+        if (clazz == null) {
+            XposedLog.w(BaseLoad.getTag(), "hookAllMethods: class not found: " + className);
+            return java.util.Collections.emptyList();
+        }
+        return hookAllMethods(clazz, methodName, callback);
     }
 
     /**
@@ -694,8 +1088,8 @@ public abstract class BaseHook {
      * @param callback Hook 回调
      * @return HookHandle 对象列表
      */
-    public List<XposedInterface.HookHandle> hookAllConstructors(Class<?> clazz, IMethodHook callback) {
-        return EzxHelpUtils.hookAllConstructors(clazz, callback);
+    public static List<XposedInterface.HookHandle> hookAllConstructors(Class<?> clazz, IMethodHook callback) {
+        return Hooks.createConstructorHooks(Constructors.find(clazz).toList(), callback);
     }
 
     /**
@@ -705,13 +1099,13 @@ public abstract class BaseHook {
      * @param callback Hook 回调
      * @return HookHandle 对象列表
      */
-    public List<XposedInterface.HookHandle> hookAllConstructors(String className, IMethodHook callback) {
+    public static List<XposedInterface.HookHandle> hookAllConstructors(String className, IMethodHook callback) {
         Class<?> clazz = findClassIfExists(className);
         if (clazz == null) {
-            XposedLog.w(TAG, "hookAllConstructors: class not found: " + className);
+            XposedLog.w(BaseLoad.getTag(), "hookAllConstructors: class not found: " + className);
             return java.util.Collections.emptyList();
         }
-        return EzxHelpUtils.hookAllConstructors(clazz, callback);
+        return hookAllConstructors(clazz, callback);
     }
 
     // ==================== 便捷 Hook 工具 ====================
@@ -719,15 +1113,20 @@ public abstract class BaseHook {
     /**
      * 创建一个返回常量值的 Hook 回调
      */
-    public IMethodHook returnConstant(Object result) {
-        return EzxHelpUtils.returnConstant(result);
+    public static IMethodHook returnConstant(Object result) {
+        return new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                param.setResult(result);
+            }
+        };
     }
 
     /**
      * 获取阻止原方法执行的 Hook（返回 null）
      */
-    public IMethodHook doNothing() {
-        return EzxHelpUtils.DO_NOTHING;
+    public static IMethodHook doNothing() {
+        return returnConstant(null);
     }
 
     public Object proxySystemProperties(String method, String prop, int val, ClassLoader classLoader) {
@@ -749,7 +1148,7 @@ public abstract class BaseHook {
         String message = (where == null || where.isEmpty())
             ? "Debug callback error"
             : "Debug callback error at " + where;
-        XposedLog.w(TAG, getPackageName(), message, t);
+        XposedLog.w(BaseLoad.getTag(), getPackageName(), message, t);
     }
 
     /**

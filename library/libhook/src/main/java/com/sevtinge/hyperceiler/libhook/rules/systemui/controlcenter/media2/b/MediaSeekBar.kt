@@ -20,13 +20,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.seekBarObserverNew
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.drawable.SquigglyProgress
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 
 // Android 16
 // HyperOS 2.0.230.12.WOCCNXM
@@ -55,7 +55,7 @@ object MediaSeekBar : BaseHook() {
 
     override fun init() {
         // 1 -> SquigglyProgress, 2 -> GradientDrawable
-        mediaViewHolderNew!!.constructorFinder()
+        Constructors.find(mediaViewHolderNew!!)
             .first().createAfterHook {
                 val seekBar = it.thisObject.getObjectFieldOrNullAs<SeekBar>("seekBar") ?: return@createAfterHook
                 val context = seekBar.context
@@ -113,8 +113,12 @@ object MediaSeekBar : BaseHook() {
 
             }
 
-        seekBarObserverNew!!.methodFinder().filterByName("onChanged")
-            .first().createAfterHook {
+        seekBarObserverNew!!
+            .findMethod {
+                findOnlyClass()
+                name("onChanged")
+            }
+            .createAfterHook {
                 val mediaHolder = it.thisObject.getObjectFieldOrNull("this$0")!!
                     .getObjectFieldOrNull("holder") ?: return@createAfterHook
                 val seekBar =

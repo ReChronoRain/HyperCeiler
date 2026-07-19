@@ -25,16 +25,10 @@ class SearchBarMarginWidth : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findAndHookMethod(
-            DEVICE_CONFIG_NEW, "getSearchBarWidth",
-            setDimensionPixelSizeFormPrefs("home_layout_searchbar_width")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_NEW, "getSearchBarWidth", "home_layout_searchbar_width")
     }
 
     override fun initBase() {
-        findAndHookMethod(
-            DEVICE_CONFIG_OLD, "getSearchBarWidth",
-            setDimensionPixelSizeFormPrefs("home_layout_searchbar_width")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_OLD, "getSearchBarWidth", "home_layout_searchbar_width")
     }
 }

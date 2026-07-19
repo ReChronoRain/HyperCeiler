@@ -20,17 +20,15 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object MobileTypeTextCustom : BaseHook() {
     override fun init() {
-        loadClass("com.android.systemui.statusbar.pipeline.mobile.domain.interactor.MiuiMobileIconInteractorImpl").methodFinder()
-            .filterByName("getMobileTypeName")
-            .filterByParamTypes {
-                it[0] == Int::class.java
-            }.single().createHook {
+        loadClass("com.android.systemui.statusbar.pipeline.mobile.domain.interactor.MiuiMobileIconInteractorImpl")
+            .findMethod { name("getMobileTypeName"); parameterTypes(Int::class.javaPrimitiveType!!) }
+            .createHook {
                 after {
                     it.result =
                         PrefsBridge.getString("system_ui_status_bar_mobile_type_custom", "ERR")

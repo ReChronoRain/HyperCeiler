@@ -27,38 +27,38 @@ import android.view.Menu
 import android.view.MenuItem
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.initAppContext
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.initAppContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 @SuppressLint("DiscouragedApi")
 object AddAppInfoEntry : BaseHook() {
     //override val key = "add_aosp_app_info_entry"
     private val idIdMiuixActionEndMenuGroup by lazy {
-        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.hookedPackageName)
+        appContext.resources.getIdentifier("miuix_action_end_menu_group", "id", EzXposed.packageName)
     }
     private val idDrawableIconSettings by lazy {
-        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.hookedPackageName)
+        appContext.resources.getIdentifier("icon_settings", "drawable", EzXposed.packageName)
     }
     private val idStringAppManagerAppInfoLabel by lazy {
-        appContext.resources.getIdentifier("app_manager_app_info_label", "string", EzXposed.hookedPackageName)
+        appContext.resources.getIdentifier("app_manager_app_info_label", "string", EzXposed.packageName)
     }
 
     override fun init() {
         val clazzApplicationsDetailsActivity =
             loadClass("com.miui.appmanager.ApplicationsDetailsActivity")
-        clazzApplicationsDetailsActivity.methodFinder().filterByName("onCreateOptionsMenu").first()
+        clazzApplicationsDetailsActivity.findMethod { name("onCreateOptionsMenu") }
             .createHook {
                 after {
                     val activity = it.thisObject as Activity
                     initAppContext(activity, true)
                     val pkgName = activity.intent.getStringExtra("package_name")!!
                     val myUserId =
-                        invokeStaticMethodBestMatch(UserHandle::class.java, "myUserId") as Int
+                        Methods.callStaticMethod(UserHandle::class.java, "myUserId") as Int
                     val uid = activity.intent.getIntExtra("miui.intent.extra.USER_ID", myUserId)
                     val menuItem = (it.args[0] as Menu).add(
                         idIdMiuixActionEndMenuGroup, 0, 0, R.string.security_center_aosp_app_info_label

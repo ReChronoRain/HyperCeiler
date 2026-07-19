@@ -32,8 +32,7 @@ import android.text.format.DateFormat;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,7 +40,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.TimeZone;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class SelectiveHideIconForAlarmClock extends BaseHook {
 
@@ -68,7 +67,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         }
 
         private void initAlarmTime(Object policy, Context context) {
-            EzxHelpUtils.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
         }
 
         private void registerAlarmObserver(Object policy, Context context) {
@@ -76,7 +75,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
                 @Override
                 public void onChange(boolean selfChange) {
                     if (selfChange) return;
-                    EzxHelpUtils.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(policy, "mNextAlarmTime", getNextMIUIAlarmTime(context));
                     updateAlarmVisibility(policy, lastAlarmState);
                 }
             };
@@ -130,7 +129,7 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
 
     private long getNextAlarmTime(Object policy, Context context) {
         try {
-            return (long) EzxHelpUtils.getAdditionalInstanceField(policy, "mNextAlarmTime");
+            return (long) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(policy, "mNextAlarmTime");
         } catch (Throwable t) {
             long miuiTime = getNextMIUIAlarmTime(context);
             return miuiTime != 0 ? miuiTime : getNextStockAlarmTime(context);
@@ -200,4 +199,3 @@ public class SelectiveHideIconForAlarmClock extends BaseHook {
         return alarmInfo == null ? 0 : alarmInfo.getTriggerTime();
     }
 }
-

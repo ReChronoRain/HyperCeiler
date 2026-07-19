@@ -20,10 +20,10 @@ package com.sevtinge.hyperceiler.libhook.rules.creation
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields
 
 object UnlockCreation : BaseHook() {
     override fun init() {
-        setStaticObject(clazzMiuiBuild, "IS_TABLET", true)
+        setStaticObjectField(clazzMiuiBuild, "IS_TABLET", true)
     }
 }

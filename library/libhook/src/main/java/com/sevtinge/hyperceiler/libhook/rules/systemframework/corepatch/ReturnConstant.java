@@ -18,9 +18,9 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ReturnConstant implements IMethodHook {
     private final String prefsKey;

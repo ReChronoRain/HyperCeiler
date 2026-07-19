@@ -19,9 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
-
-;
 
 public class ConservativeMillet extends BaseHook {
     @Override
@@ -29,6 +26,6 @@ public class ConservativeMillet extends BaseHook {
         // from https://github.com/kooritea/fcmfix/blob/master/app/src/main/java/com/kooritea/fcmfix/xposed/PowerkeeperFix.java
         Class<?> MilletConfig = findClassIfExists("com.miui.powerkeeper.millet.MilletConfig");
         if (MilletConfig == null) return;
-        EzxHelpUtils.setStaticBooleanField(MilletConfig, "isGlobal", true);
+        setStaticBooleanField(MilletConfig, "isGlobal", true);
     }
 }

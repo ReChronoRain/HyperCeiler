@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 
 // by StarVoyager
 object LazyClass {

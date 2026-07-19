@@ -19,14 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.nfc
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 class AllowInformationScreen : BaseHook() {
     override fun init() {
-        loadClass("com.android.nfc.NfcService").methodFinder()
-            .filterByName("sendMessage").first().createBeforeHook {
+        findClass("com.android.nfc.NfcService").findMethod { name("sendMessage") }.createBeforeHook {
                 if (it.args[1] == 2 || it.args[1] == 4) {
                     it.args[1] = 8
                 }

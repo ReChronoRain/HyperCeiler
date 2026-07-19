@@ -4,7 +4,7 @@ plugins {
 android {
 
     namespace = "com.sevtinge.hyperceiler.provision"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -23,7 +23,7 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 

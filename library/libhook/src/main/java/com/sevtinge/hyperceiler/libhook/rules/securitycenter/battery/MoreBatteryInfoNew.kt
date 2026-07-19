@@ -30,9 +30,8 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
 import java.io.File
 import java.lang.reflect.Method
 import java.text.SimpleDateFormat
@@ -158,19 +157,19 @@ object MoreBatteryInfoNew : BaseHook() {
         if (preferenceGroupClass == null || preferenceClass == null) return
 
         runCatching {
-            preferenceGroupClass.chainMethod(
+            preferenceGroupClass.interceptHookMethod(
                 "removePreference",
                 preferenceClass
-            ) {
-                val preference = getArg(0)
+            ) { chain ->
+                val preference = chain.getArg(0)
                 val key = runCatching {
                     preference?.callMethod("getKey") as? String
                 }.getOrNull()
                 if (key != null && key in keepPreferenceKeys) {
-                    return@chainMethod false
+                    return@interceptHookMethod false
                 }
 
-                proceed()
+                chain.proceed()
             }
         }.onFailure {
             XposedLog.e(TAG, packageName, "Failed to hook PreferenceGroup.removePreference(Preference)", it)
@@ -181,10 +180,10 @@ object MoreBatteryInfoNew : BaseHook() {
         val fragmentClass = findClassIfExists(CHARGE_PROTECT_FRAGMENT_CLASS) ?: return
 
         runCatching {
-            fragmentClass.chainMethod("onCreatePreferences", Bundle::class.java, String::class.java) {
+            fragmentClass.interceptHookMethod("onCreatePreferences", Bundle::class.java, String::class.java) { chain ->
                 clearCapturedPreferences()
-                val result = proceed()
-                captureBatteryPreferences(thisObject)
+                val result = chain.proceed()
+                captureBatteryPreferences(chain.thisObject)
                 refreshDynamicBatteryRows()
                 result
             }
@@ -198,9 +197,9 @@ object MoreBatteryInfoNew : BaseHook() {
         val handlerClass = findClassIfExists(CHARGE_PROTECT_HANDLER_CLASS) ?: return
 
         runCatching {
-            handlerClass.chainMethod("handleMessage", Message::class.java) {
-                val result = proceed()
-                val handler = thisObject
+            handlerClass.interceptHookMethod("handleMessage", Message::class.java) { chain ->
+                val result = chain.proceed()
+                val handler = chain.thisObject ?: return@interceptHookMethod result
                 runCatching {
                     handler.callMethod("a")
                 }.onFailure {
@@ -332,11 +331,11 @@ object MoreBatteryInfoNew : BaseHook() {
             findClassIfExists("miuix.preference.TextPreference") ?: return null
 
         val firstAttempt = runCatching {
-            EzxHelpUtils.newInstance(textPreferenceClass, context)
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context)
         }
         val textPreference: Any? = firstAttempt.getOrNull() ?: run {
             runCatching {
-                EzxHelpUtils.newInstance(textPreferenceClass, context, null)
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPreferenceClass, context, null)
             }.getOrNull()
         }
 

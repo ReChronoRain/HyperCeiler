@@ -23,9 +23,9 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isM
 import android.util.ArraySet;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class PstedClipboard extends BaseHook {
     @Override

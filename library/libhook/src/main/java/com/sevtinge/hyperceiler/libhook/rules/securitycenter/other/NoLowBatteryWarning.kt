@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import android.provider.Settings
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 
 object NoLowBatteryWarning : BaseHook() {
     override fun init() {
@@ -32,15 +32,7 @@ object NoLowBatteryWarning : BaseHook() {
                 else if ("low_battery_sound" == key) param.result = null
             }
         }
-        hookAllMethods(
-            Settings.System::class.java,
-            "getInt",
-            settingHook
-        )
-        hookAllMethods(
-            Settings.Global::class.java,
-            "getString",
-            settingHook
-        )
+        hookAllMethods(Settings.System::class.java, "getInt", settingHook)
+        hookAllMethods(Settings.System::class.java, "getString", settingHook)
     }
 }

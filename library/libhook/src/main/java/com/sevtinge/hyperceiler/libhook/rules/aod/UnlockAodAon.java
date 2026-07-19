@@ -19,12 +19,11 @@
 package com.sevtinge.hyperceiler.libhook.rules.aod;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 public class UnlockAodAon extends BaseHook {
     @Override
     public void init() {
         Class<?> mAodUtils = findClassIfExists("com.miui.aod.Utils");
-        EzxHelpUtils.setStaticBooleanField(mAodUtils, "SUPPORT_AOD_AON", true);
+        setStaticBooleanField(mAodUtils, "SUPPORT_AOD_AON", true);
     }
 }

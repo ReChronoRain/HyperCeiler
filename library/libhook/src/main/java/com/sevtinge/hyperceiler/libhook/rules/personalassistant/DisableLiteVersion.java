@@ -20,9 +20,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.personalassistant;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
@@ -40,7 +38,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DisableLiteVersion extends BaseHook {
     private Method mGetDeviceLevelMethod;
@@ -93,11 +92,11 @@ public class DisableLiteVersion extends BaseHook {
 
     @Override
     public void init() {
-        EzxHelpUtils.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
         findAndHookMethod("com.miui.personalassistant.PAApplication", "onCreate", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                EzxHelpUtils.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), false);
             }
         });
     }

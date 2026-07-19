@@ -21,10 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.miwallpaper;
 import android.content.Context;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockSuperWallpaper extends BaseHook {
     @Override
@@ -35,6 +34,6 @@ public class UnlockSuperWallpaper extends BaseHook {
                 param.setResult(true);
             }
         });
-        EzxHelpUtils.setStaticBooleanField(findClassIfExists("com.miui.superwallpaper.SuperWallpaperUtils"), "sEnableSuperWallpaper", true);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(findClassIfExists("com.miui.superwallpaper.SuperWallpaperUtils"), "sEnableSuperWallpaper", true);
     }
 }

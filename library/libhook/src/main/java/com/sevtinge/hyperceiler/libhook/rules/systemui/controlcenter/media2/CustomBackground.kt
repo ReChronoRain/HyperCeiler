@@ -56,16 +56,15 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.med
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabackground.LinearGradientProcessor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabackground.MediaViewColorConfig
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabackground.RadialGradientProcessor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createReplaceHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -111,26 +110,24 @@ object CustomBackground : BaseHook() {
         }
 
         if (!isAndroidB) {
-            loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaViewController")!!
-                .replaceMethod("resetLayoutResource") {
-                    null
-                }
+            findClassIfExists("com.android.systemui.media.controls.ui.controller.MediaViewController")!!
+                .replaceNoArgMethodWithNull("resetLayoutResource")
 
             playerTwoCircleView?.apply {
-                constructorFinder().filterByParamCount(4).first().createAfterHook { param ->
+                Constructors.find(this).filterByParamCount(4).first().createAfterHook { param ->
                     param.thisObject.getObjectFieldOrNullAs<Paint>("mPaint1")?.alpha = 0
                     param.thisObject.getObjectFieldOrNullAs<Paint>("mPaint2")?.alpha = 0
                     param.thisObject.setObjectField("mRadius", 0.0f)
 
                 }
 
-                methodFinder().filterByName("setBackground")
+                Methods.find(this).findOnlyClass().filterByName("setBackground")
                     .first()
                     .createHook {
                         returnConstant(null)
                     }
 
-                methodFinder().filterByName("setPaintColor")
+                Methods.find(this).findOnlyClass().filterByName("setPaintColor")
                     .first()
                     .createHook {
                         returnConstant(null)
@@ -139,7 +136,7 @@ object CustomBackground : BaseHook() {
 
             miuiMediaControlPanel!!.apply {
                 // com.android.systemui.media.controls.ui.MediaControlPanel
-                /*superclass!!.methodFinder().filterByName("attachPlayer")
+                /*Methods.find(superclass!!).findOnlyClass().filterByName("attachPlayer")
                     .first()
                     .createAfterHook { param ->
                         val mMediaViewHolder =
@@ -152,21 +149,17 @@ object CustomBackground : BaseHook() {
 
                 // Android 16 在其 com.android.systemui.media.controls.ui.controller.MediaControlPanel 类可见
                 // Android 15 在其超类中抽象了此方法，并在继承中重写了此方法
-                methodFinder().filterByName("onDestroy")
+                Methods.find(this).findOnlyClass().filterByName("onDestroy")
                     .first()
                     .createAfterHook {
                         finiMediaViewHolder()
                     }
 
-                replaceMethod("setPlayerBg") {
-                    null
-                }
+                replaceNoArgMethodWithNull("setPlayerBg")
 
-                replaceMethod("setForegroundColors") {
-                    null
-                }
+                replaceNoArgMethodWithNull("setForegroundColors")
 
-                methodFinder().filterByName("bindPlayer")
+                Methods.find(this).findOnlyClass().filterByName("bindPlayer")
                     .first()
                     .createAfterHook { param ->
                         val context = param.thisObject.getObjectFieldOrNullAs<Context>("mContext")
@@ -188,21 +181,17 @@ object CustomBackground : BaseHook() {
             }
         } else {
             miuiMediaViewControllerImpl?.apply {
-                replaceMethod("updateMediaBackground") {
-                    null
-                }
+                replaceNoArgMethodWithNull("updateMediaBackground")
 
-                methodFinder().filterByName("detach")
+                Methods.find(this).findOnlyClass().filterByName("detach")
                     .first()
                     .createBeforeHook {
                         finiMediaViewHolder()
                     }
 
-                replaceMethod("updateForegroundColors") {
-                    null
-                }
+                replaceNoArgMethodWithNull("updateForegroundColors")
 
-                methodFinder().filterByName("bindMediaData")
+                Methods.find(this).findOnlyClass().filterByName("bindMediaData")
                     .first()
                     .createAfterHook { param ->
                         val context = param.thisObject.getObjectFieldOrNullAs<Context>("context")
@@ -224,6 +213,14 @@ object CustomBackground : BaseHook() {
             }
         }
 
+    }
+
+    private fun Class<*>.replaceNoArgMethodWithNull(methodName: String) {
+        Methods.find(this)
+            .filterByName(methodName)
+            .filterEmptyParam()
+            .first()
+            .createReplaceHook { null }
     }
 
     private fun initMediaViewHolder(mMediaViewHolder: Any): MiuiMediaViewHolder? {

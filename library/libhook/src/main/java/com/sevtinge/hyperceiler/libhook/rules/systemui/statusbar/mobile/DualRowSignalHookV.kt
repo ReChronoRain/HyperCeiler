@@ -41,21 +41,22 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.moder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.networkController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.util.function.Consumer
@@ -138,8 +139,7 @@ class DualRowSignalHookV : BaseHook() {
 
     private fun loadDualSignalRes() {
         loadClass("com.android.systemui.SystemUIApplication")
-            .methodFinder()
-            .filterByName("onCreate")
+            .findAllMethods { name("onCreate") }
             .single()
             .createHook {
                 var isHooked = false
@@ -171,8 +171,7 @@ class DualRowSignalHookV : BaseHook() {
     }
 
    private fun setDualRowStyle() {
-        modernStatusBarMobileView.methodFinder()
-            .filterByName("constructAndBind")
+        modernStatusBarMobileView.findAllMethods { name("constructAndBind") }
             .single()
             .createHook {
                 after { param ->
@@ -240,7 +239,7 @@ class DualRowSignalHookV : BaseHook() {
                         mobileSignal2.layoutParams = lp
                     }
 
-                    EzxHelpUtils.setAdditionalInstanceField(mobileSignal, "subId", subId)
+                    mobileSignal.setAdditionalInstanceField("subId", subId)
                 }
             }
     }
@@ -251,8 +250,7 @@ class DualRowSignalHookV : BaseHook() {
 
         val miuiIconManagerFactory =
             loadClassOrNull("com.android.systemui.statusbar.phone.MiuiIconManagerFactory")
-        mobileSignalController.methodFinder()
-            .filterByName("notifyListeners")
+        mobileSignalController.findAllMethods { name("notifyListeners") }
             .single()
             .createHook {
                 after { param ->
@@ -312,8 +310,7 @@ class DualRowSignalHookV : BaseHook() {
                 }
             }
 
-        networkController.methodFinder()
-            .filterByName("setCurrentSubscriptionsLocked")
+        networkController.findAllMethods { name("setCurrentSubscriptionsLocked") }
             .single()
             .createHook {
                 before { param ->
@@ -368,9 +365,9 @@ class DualRowSignalHookV : BaseHook() {
             }
         }
 
-        val resetImageWithTintLight = miuiMobileIconBinder.methodFinder()
-            .filterByName($$"access$resetImageWithTintLight")
-            .singleOrNull()
+        val resetImageWithTintLight = miuiMobileIconBinder.findAllMethods {
+            name($$"access$resetImageWithTintLight")
+        }.singleOrNull()
         if (resetImageWithTintLight != null) {
             resetImageWithTintLight.createHook {
                 before { param ->
@@ -389,8 +386,7 @@ class DualRowSignalHookV : BaseHook() {
             }
         } else {
             val javaAdapterKt = loadClass("com.android.systemui.util.kotlin.JavaAdapterKt")
-            miuiMobileIconBinder.methodFinder()
-                .filterByName("bind")
+            miuiMobileIconBinder.findAllMethods { name("bind") }
                 .single()
                 .createHook {
                     after { param ->
@@ -428,7 +424,7 @@ class DualRowSignalHookV : BaseHook() {
         mobileSignal: ImageView,
         tintLightColor: Triple<Boolean, Boolean, Int?>
     ) {
-        val subId = EzxHelpUtils.getAdditionalInstanceField(mobileSignal, "subId")
+        val subId = mobileSignal.getAdditionalInstanceField("subId")
         if (subId == null || subId != mobileInfo.subId) {
             return
         }

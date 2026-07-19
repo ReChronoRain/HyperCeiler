@@ -20,17 +20,16 @@ package com.sevtinge.hyperceiler.libhook.rules.misound
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 //from SetoHook by SetoSkins
 object IncreaseSamplingRate : BaseHook() {
     override fun init() {
         try {
-            loadClass("com.miui.misound.EqualizerView").methodFinder()
-                .first().createHook {
+            loadClass("com.miui.misound.EqualizerView").methods.first().createHook {
                     before {
                         it.thisObject.setObjectField("l", "0x2ee00")
                     }
@@ -44,8 +43,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("com.miui.misound.mihearingassist.h").methodFinder()
-                .first().createHook {
+            loadClass("com.miui.misound.mihearingassist.h").methods.first().createHook {
                     before {
                         it.thisObject.setObjectField("a", "0x2ee00")
                     }
@@ -59,9 +57,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("com.miui.misound.mihearingassist.h").methodFinder()
-                .filterByName("b")
-                .first().createHook {
+            loadClass("com.miui.misound.mihearingassist.h").findMethod { name("b") }.createHook {
                     before {
                         it.args[1] = "0x2ee00"
                     }
@@ -75,9 +71,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("com.miui.misound.soundid.controller.AudioTrackController").methodFinder()
-                .filterByParamCount(2)
-                .first().createHook {
+            loadClass("com.miui.misound.soundid.controller.AudioTrackController").findMethod { paramCount(2) }.createHook {
                     before {
                         it.args[0] = "0x2ee00"
                     }
@@ -91,9 +85,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("com.miui.misound.soundid.controller.AudioTrackController").methodFinder()
-                .filterByParamCount(3)
-                .first().createHook {
+            loadClass("com.miui.misound.soundid.controller.AudioTrackController").findMethod { paramCount(3) }.createHook {
                     before {
                         it.args[0] = "0x2ee00"
                     }
@@ -107,8 +99,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("miuix.media.Mp3Encoder").methodFinder()
-                .first().createHook {
+            loadClass("miuix.media.Mp3Encoder").methods.first().createHook {
                     before {
                         it.thisObject.setObjectField("DEFAULT_SAMPLE_RATE", "0x2ee00")
                     }
@@ -122,9 +113,7 @@ object IncreaseSamplingRate : BaseHook() {
             )
         }
         try {
-            loadClass("com.miui.misound.mihearingassist.h").methodFinder()
-                .filterByName("b")
-                .first().createHook {
+            loadClass("com.miui.misound.mihearingassist.h").findMethod { name("b") }.createHook {
                     before {
                         it.args[6] = "0x2ee00"
                     }

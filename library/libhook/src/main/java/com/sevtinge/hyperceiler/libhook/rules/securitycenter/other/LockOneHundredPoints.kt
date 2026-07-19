@@ -21,9 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 import android.view.View
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -106,10 +106,7 @@ object LockOneHundredPoints : BaseHook() {
     }
 
     override fun init() {
-        loadClass("com.miui.securityscan.ui.main.MainContentFrame").methodFinder()
-            .filterByName("onClick")
-            .filterByParamTypes(View::class.java)
-            .first().createHook {
+        loadClass("com.miui.securityscan.ui.main.MainContentFrame").findMethod { name("onClick"); parameterTypes(View::class.java) }.createHook {
                 returnConstant(null)
             }
 

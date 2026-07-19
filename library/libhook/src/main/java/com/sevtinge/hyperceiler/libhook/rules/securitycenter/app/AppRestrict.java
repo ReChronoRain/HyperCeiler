@@ -23,12 +23,11 @@ import android.content.pm.PackageManager;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AppRestrict extends BaseHook {
 
@@ -38,7 +37,7 @@ public class AppRestrict extends BaseHook {
     public void init() {
         mAppManageUtils = findClassIfExists("com.miui.appmanager.AppManageUtils");
 
-        Method[] mGetAppInfo = EzxHelpUtils.findMethodsByExactParameters(mAppManageUtils, ApplicationInfo.class, Object.class, PackageManager.class, String.class, int.class, int.class);
+        Method[] mGetAppInfo = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodsByExactParameters(mAppManageUtils, ApplicationInfo.class, Object.class, PackageManager.class, String.class, int.class, int.class);
 
         if (mGetAppInfo.length == 0) {
             XposedLog.e(TAG, getPackageName(), "Cannot find getAppInfo method!");
@@ -58,8 +57,8 @@ public class AppRestrict extends BaseHook {
         findAndHookMethod("com.miui.networkassistant.ui.fragment.ShowAppDetailFragment", "initFirewallData", new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                Object mAppInfo = EzxHelpUtils.getObjectField(param.getThisObject(), "mAppInfo");
-                if (mAppInfo != null) EzxHelpUtils.setBooleanField(mAppInfo, "isSystemApp", false);
+                Object mAppInfo = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mAppInfo");
+                if (mAppInfo != null) com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(mAppInfo, "isSystemApp", false);
             }
         });
 

@@ -19,16 +19,50 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object DisplayCutout : BaseHook() {
     override fun init() {
-        findClass("android.view.DisplayCutout")
-            .hookAllMethods("pathAndDisplayCutoutFromSpec") {
-                before {
-                    it.args[0] = "M 0,0 H 0 V 0 Z"
-                    it.args[1] = ""
-                }
+        val displayCutoutClass = findClass("android.view.DisplayCutout")
+        val noCutout = displayCutoutClass.getStaticObjectField("NO_CUTOUT")
+
+        displayCutoutClass.findAllMethods { name("pathAndDisplayCutoutFromSpec") }
+            .createBeforeHooks {
+                it.args[0] = "M 0,0 H 0 V 0 Z"
+                // Android 16 prioritizes rectSpec when it is present.
+                // An empty string causes the framework to return NULL_PAIR,
+                // which propagates a null DisplayCutout to secondary displays.
+                // Use null so the synthetic empty pathSpec remains effective.
+                it.args[1] = null
             }
+
+        listOf("fromResourcesRectApproximation", "fromSpec").forEach { methodName ->
+            displayCutoutClass.findAllMethods { name(methodName) }
+                .createAfterHooks {
+                    if (it.result == null) {
+                        it.result = noCutout
+                    }
+                }
+        }
+
+        findClass("com.android.server.display.LogicalDisplay").findMethod {
+            name("getDisplayInfoLocked")
+        }.createAfterHook {
+            ensureNonNullDisplayCutout(it.result, noCutout)
+        }
+    }
+
+    private fun ensureNonNullDisplayCutout(displayInfo: Any?, noCutout: Any?) {
+        if (displayInfo == null || noCutout == null) return
+        if (displayInfo.getObjectField("displayCutout") == null) {
+            displayInfo.setObjectField("displayCutout", noCutout)
+        }
     }
 }

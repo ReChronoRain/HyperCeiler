@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
-import static com.sevtinge.hyperceiler.libhook.utils.api.InvokeUtils.getStaticField;
-
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.content.ComponentName;
@@ -28,14 +26,14 @@ import android.content.Intent;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /**
  * 启用桌面快捷返回功能
@@ -86,7 +84,7 @@ public class QuickBack extends BaseHook {
     }
 
     private int getEnumOrdinal(Class<?> enumClass, String name) {
-        Enum<?> enumValue = getStaticField(enumClass, name);
+        Enum<?> enumValue = (Enum<?>) getStaticObjectField(enumClass, name);
         return enumValue.ordinal();
     }
 
@@ -149,7 +147,7 @@ public class QuickBack extends BaseHook {
         // Fallback:从 switch map 获取
         Class<?> switchMapClass = findSwitchMapClass();
         if (switchMapClass != null) {
-            int[] switchMap = getStaticField(switchMapClass,
+            int[] switchMap = (int[]) getStaticObjectField(switchMapClass,
                 "$SwitchMap$com$miui$home$recents$GestureBackArrowView$ReadyState");
             if (ordinal >= 0 && ordinal < switchMap.length) {
                 return switchMap[ordinal];

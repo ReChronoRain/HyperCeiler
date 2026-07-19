@@ -19,16 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance;
 
 import android.content.Context;
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class SwipeAndStop extends BaseHook {

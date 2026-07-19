@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.libhook.rules.updater
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.lang.reflect.Method
 
 
@@ -44,10 +44,7 @@ object DeviceModify : BaseHook() {
 
     override fun init() {
         try {
-            findClass("android.os.SystemProperties").methodFinder()
-                .filterByName("get")
-                .filterByParamTypes(String::class.java, String::class.java)
-                .first()
+            findClass("android.os.SystemProperties").findMethod { name("get"); parameterTypes(String::class.java, String::class.java) }
                 .createBeforeHook {
                     if (it.args[0] == "ro.product.mod_device") it.result = deviceName
                 }
@@ -55,10 +52,7 @@ object DeviceModify : BaseHook() {
             XposedLog.e(TAG, "[DeviceModify(Updater)]: android.os.SystemProperties hook failed", e)
         }
         try {
-            findClass("miuix.core.util.SystemProperties").methodFinder()
-                .filterByName("get")
-                .filterByParamTypes(String::class.java, String::class.java)
-                .first()
+            findClass("miuix.core.util.SystemProperties").findMethod { name("get"); parameterTypes(String::class.java, String::class.java) }
                 .createBeforeHook {
                     if (it.args[0] == "ro.product.mod_device") it.result = deviceName
                 }

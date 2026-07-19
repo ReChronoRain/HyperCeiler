@@ -18,10 +18,11 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object TaskViewHeight : BaseHook() {
     override fun init() {
@@ -31,7 +32,9 @@ object TaskViewHeight : BaseHook() {
 
 
         loadClass("com.miui.home.recents.layoutconfig.TaskHorizonalLayoutConfig")
-            .beforeHookMethod("getTaskViewCenterYInWindowFraction") {
+            .findMethod {
+                name("getTaskViewCenterYInWindowFraction")
+            }.createBeforeHook {
                 it.result = taskViewHeightValue
             }
     }

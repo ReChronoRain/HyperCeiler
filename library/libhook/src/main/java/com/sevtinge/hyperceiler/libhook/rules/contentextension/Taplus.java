@@ -30,10 +30,9 @@ import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class Taplus extends BaseHook {
     public boolean mListening = false;
@@ -44,19 +43,19 @@ public class Taplus extends BaseHook {
             "onCreate", Bundle.class, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                    Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
+                    Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
                     ContentObserver contentObserver = new ContentObserver(new Handler(mContext.getMainLooper())) {
                         @Override
                         public void onChange(boolean selfChange) {
                             boolean z;
                             z = getTaplus(mContext);
-                            EzxHelpUtils.callMethod(param.getThisObject(), "enablePrefConfig", z);
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "enablePrefConfig", z);
                         }
                     };
                     mContext.getContentResolver().registerContentObserver(
                         Settings.System.getUriFor("key_enable_taplus"),
                         false, contentObserver);
-                    EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
                 }
             }
         );
@@ -65,8 +64,8 @@ public class Taplus extends BaseHook {
             "onDestroy", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
-                    Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
-                    ContentObserver contentObserver = (ContentObserver) EzxHelpUtils.getAdditionalInstanceField(param.getThisObject(), "taplusListener");
+                    Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
+                    ContentObserver contentObserver = (ContentObserver) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(param.getThisObject(), "taplusListener");
                     mContext.getContentResolver().unregisterContentObserver(contentObserver);
                 }
             }
@@ -139,10 +138,10 @@ public class Taplus extends BaseHook {
             public void onChange(boolean selfChange, @Nullable Uri uri) {
                 boolean z;
                 z = getTaplus(context);
-                EzxHelpUtils.callStaticMethod(
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
                     findClassIfExists("com.miui.contentextension.utils.TaplusSettingUtils"),
                     "setTaplusEnableStatus", context, z);
-                /*EzxHelpUtils.callStaticMethod(
+                /*com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
                     findClassIfExists(
                         "com.miui.contentextension.utils.ContentCatcherUtil"),
                     "switchCatcherConfig", context, z);*/
@@ -151,7 +150,7 @@ public class Taplus extends BaseHook {
         context.getContentResolver().registerContentObserver(
             Settings.System.getUriFor("key_enable_taplus"),
             false, contentObserver);
-        // EzxHelpUtils.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
+        // com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(param.getThisObject(), "taplusListener", contentObserver);
     }
 
     public boolean getTaplus(Context context) {

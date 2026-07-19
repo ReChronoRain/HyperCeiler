@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookConstructor;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -27,12 +27,11 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CustomCardTiles {
     private static final String TAG = "CustomCardTiles";
@@ -67,7 +66,7 @@ public class CustomCardTiles {
     }
 
     private static void hookUpdateBackground(ClassLoader classLoader) {
-        EzxHelpUtils.hookAllMethods("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods("miui.systemui.controlcenter.qs.tileview.QSCardItemView", classLoader,
             "updateBackground",
             new UpdateBackgroundHook());
     }
@@ -113,13 +112,13 @@ public class CustomCardTiles {
         @Override
         public void after(HookParam param) {
             try {
-                Object state = EzxHelpUtils.getObjectField(param.getThisObject(), "state");
+                Object state = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "state");
                 if (state == null) {
                     return;
                 }
 
-                String spec = (String) EzxHelpUtils.getObjectField(state, "spec");
-                int stateValue = EzxHelpUtils.getIntField(state, "state");
+                String spec = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(state, "spec");
+                int stateValue = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(state, "state");
 
                 if (isSystemDefaultTile(spec)) {
                     return;
@@ -156,7 +155,7 @@ public class CustomCardTiles {
 
                 linearLayout.setBackground(drawable);
                 if (cornerRadiusF > 0) {
-                    EzxHelpUtils.callMethod(linearLayout, "setCornerRadius", cornerRadiusF);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(linearLayout, "setCornerRadius", cornerRadiusF);
                 }
             } catch (Throwable t) {
                 XposedLog.w(TAG, "Failed to set background for state: " + stateValue, t);

@@ -175,9 +175,7 @@ public class MiAospIme extends BaseHook {
                             return result;
                         }
 
-                        int shadow = dpToPx(4, view.getResources());
-                        view.setOnApplyWindowInsetsListener((target, insets) ->
-                            applyRoundedCornerPadding(target, insets, shadow));
+                        installRoundedCornerInsetsListener(view);
                     } catch (Throwable t) {
                         XposedLog.w(TAG, "Hook updateOrientationViews failed: " + t);
                     }
@@ -283,6 +281,12 @@ public class MiAospIme extends BaseHook {
             }
         }
         return null;
+    }
+
+    private void installRoundedCornerInsetsListener(View view) {
+        int shadow = dpToPx(4, view.getResources());
+        view.setOnApplyWindowInsetsListener((target, insets) ->
+            applyRoundedCornerPadding(target, insets, shadow));
     }
 
     private WindowInsets applyRoundedCornerPadding(View view, WindowInsets insets, int shadow) {

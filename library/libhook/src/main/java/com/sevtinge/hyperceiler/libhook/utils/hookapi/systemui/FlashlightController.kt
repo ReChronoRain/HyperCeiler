@@ -18,21 +18,20 @@
  */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 @Suppress("unused")
 class FlashlightController(instance: Any) : BaseReflectObject(instance) {
-    fun isEnabled(): Boolean = instance.callMethodAs("isEnabled")
+    fun isEnabled(): Boolean = instance.callMethod("isEnabled") as Boolean
 
-    fun isAvailable(): Boolean = instance.callMethodAs("isAvailable")
+    fun isAvailable(): Boolean = instance.callMethod("isAvailable") as Boolean
 
     // 是否支持官方 UI 调节亮度
     fun supportFlashlightUIDisplay(): Boolean = runCatching {
-        instance.callMethodAs<Boolean>("supportFlashlightUIDisplay")
+        instance.callMethod("supportFlashlightUIDisplay") as Boolean
     }.getOrDefault(false)
 
     fun setFlashlight(enabled: Boolean) {
@@ -64,10 +63,8 @@ class FlashlightController(instance: Any) : BaseReflectObject(instance) {
             }
             isHooked = true
 
-            miuiFlashlightControllerImpl.methodFinder()
-                .filterByName("dispatchListeners")
-                .filterByParamTypes(Int::class.java, Boolean::class.java)
-                .single().createAfterHook { param ->
+            miuiFlashlightControllerImpl.findMethod { name("dispatchListeners"); parameterTypes(Int::class.java, Boolean::class.java) }
+                .createAfterHook { param ->
                     synchronized(listeners) {
                         val event = param.args[0] as Int
                         val isEnabled = param.args[1] as Boolean

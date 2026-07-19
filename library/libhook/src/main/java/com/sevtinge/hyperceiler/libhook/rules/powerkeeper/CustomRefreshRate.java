@@ -19,9 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.powerkeeper;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindMethod;
@@ -31,7 +29,8 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CustomRefreshRate extends BaseHook {
     private Method mFucSwitchMethod;
@@ -62,7 +61,7 @@ public class CustomRefreshRate extends BaseHook {
         hookMethod(mFucSwitchMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                EzxHelpUtils.setObjectField(param.getThisObject(), "mIsCustomFpsSwitch", "true");
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(param.getThisObject(), "mIsCustomFpsSwitch", "true");
             }
         });
     }

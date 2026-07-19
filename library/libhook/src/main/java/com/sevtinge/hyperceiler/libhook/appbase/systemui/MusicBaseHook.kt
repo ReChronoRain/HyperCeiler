@@ -53,9 +53,9 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 import org.json.JSONObject
 import kotlin.math.min
 
@@ -135,14 +135,14 @@ abstract class MusicBaseHook : BaseHook() {
         override fun onStop(publisher: String, data: SuperLyricData) {
             runCatching {
                 songPackageName = "unknown"
-                if (data.playbackState?.state == PlaybackState.STATE_BUFFERING) return
+                if (data.getObjectFieldOrNullAs<PlaybackState>("playbackState")?.state == PlaybackState.STATE_BUFFERING) return
                 this@MusicBaseHook.onStop()
             }.onFailure { XposedLog.e(TAG, lpparam.packageName, it) }
         }
     }
 
     init {
-        EzxHelpUtils.runOnApplicationAttach { _ ->
+        BaseHook.runOnApplicationAttach {
             runCatching {
                 SuperLyricHelper.registerReceiver(receiver)
             }.onFailure {

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.res.Resources.getSystem
 import android.view.Window
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isStatic
+import io.github.lingqiqi5211.ezhooktool.core.isStatic
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
@@ -110,7 +110,7 @@ fun Any.field(
 }
 
 /**
- * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
+ * 兼容旧版反射辅助函数
  *
  * 判断类是否相同(用于判断参数)
  * eg: fun foo(a: Boolean, b: Int) { }
@@ -144,7 +144,7 @@ fun Array<Class<*>>.sameAs(vararg other: Any): Boolean {
 
 
 /**
- * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
+ * 兼容旧版反射辅助函数
  *
  * 扩展函数 通过类或者对象获取单个方法
  * @param methodName 方法名
@@ -175,7 +175,7 @@ fun Any.method(
 }
 
 /**
- * 源自 EzXHelper 1.x 版本所附赠的扩展函数，2.0 丢失，暂时先复用
+ * 兼容旧版反射辅助函数
  * 扩展函数 调用对象的方法
  *
  * @param methodName 方法名

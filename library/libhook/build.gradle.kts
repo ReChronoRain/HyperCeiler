@@ -14,7 +14,7 @@ lsparanoid {
 
 android {
     namespace = "com.sevtinge.hyperceiler.libhook"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -36,13 +36,13 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
 kotlin {
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 
     compilerOptions {
@@ -69,7 +69,7 @@ dependencies {
     api(libs.libxposed.service)
 
     api(libs.dexkit)
-    api(libs.ezxhelper.core)
+    api(libs.ezhooktool.core)
     api(libs.hiddenapibypass)
     api(libs.gson)
     api(libs.hyperfocusapi)

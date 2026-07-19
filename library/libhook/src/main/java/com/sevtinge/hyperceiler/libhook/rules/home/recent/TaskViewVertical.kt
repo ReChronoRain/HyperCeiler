@@ -19,26 +19,31 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
 import android.graphics.RectF
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object TaskViewVertical : BaseHook() {
     override fun init() {
 
         val value = PrefsBridge.getInt("home_recent_vertical_task_view_card_size", 100).toFloat() / 100
         if (value == -1f || value == 1f) return
-        findClass("com.miui.home.recents.views.TaskStackViewsAlgorithmVertical").replaceMethod(
-            "scaleTaskView", RectF::class.java
-        ) {
-            findClass("com.miui.home.recents.util.Utilities").callStaticMethod(
-                "scaleRectAboutCenter",
-                it.args[0],
-                value * findClass("com.miui.home.recents.util.Utilities")
-                    .callStaticMethod("getTaskViewScale", appContext) as Float
-            )
+        findClass("com.miui.home.recents.views.TaskStackViewsAlgorithmVertical").findMethod {
+            name("scaleTaskView")
+            parameterTypes(RectF::class.java)
+        }.createHook {
+            replace {
+                findClass("com.miui.home.recents.util.Utilities").callStaticMethod(
+                    "scaleRectAboutCenter",
+                    it.args[0],
+                    value * (findClass("com.miui.home.recents.util.Utilities")
+                        .callStaticMethod("getTaskViewScale", appContext) as Float)
+                )
+                null
+            }
         }
 
     }

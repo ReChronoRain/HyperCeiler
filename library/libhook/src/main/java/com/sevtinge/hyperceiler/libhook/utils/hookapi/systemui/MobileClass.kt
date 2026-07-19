@@ -18,7 +18,7 @@
 */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
 
 object MobileClass {
     val statusBarMobileClass by lazy {

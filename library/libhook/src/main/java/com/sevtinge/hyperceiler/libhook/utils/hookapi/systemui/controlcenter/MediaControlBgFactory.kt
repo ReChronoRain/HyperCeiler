@@ -42,11 +42,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.playerTwoCircleView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabackground.MediaViewColorConfig
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findFieldOrNull
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findFieldOrNull
 import kotlin.math.max
 import kotlin.math.min
 
@@ -65,10 +65,10 @@ object MediaControlBgFactory : BaseHook() {
     )
 
     val conColorScheme2 by lazy {
-        ColorSchemeClass!!.constructorFinder().filterByParamCount(2).single()
+        Constructors.find(ColorSchemeClass!!).filterByParamCount(2).toList().single()
     }
     val conColorScheme3 by lazy {
-        ColorSchemeClass!!.constructorFinder().filterByParamCount(3).single()
+        Constructors.find(ColorSchemeClass!!).filterByParamCount(3).toList().single()
     }
     val fldTonalPaletteAllShades by lazy {
         loadClass("com.android.systemui.monet.TonalPalette")
@@ -91,15 +91,11 @@ object MediaControlBgFactory : BaseHook() {
         ColorSchemeClass!!.findFieldOrNull("accent2")
     }
     val enumStyleContent: Any? by lazy {
-        loadClass("com.android.systemui.monet.Style", lpparam.classLoader).methodFinder()
-            .filterByName("valueOf")
-            .first().invoke(null, "CONTENT")
+        loadClass("com.android.systemui.monet.Style", lpparam.classLoader).findMethod { name("valueOf") }.invoke(null, "CONTENT")
     }
 
     private val metIconGetBitmap by lazy {
-        Icon::class.java.methodFinder()
-            .filterByName("getBitmap")
-            .first()
+        Icon::class.java.findMethod { name("getBitmap") }
     }
 
 

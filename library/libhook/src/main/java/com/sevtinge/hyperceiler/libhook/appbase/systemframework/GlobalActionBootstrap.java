@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.appbase.systemframework;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
-import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance;
+import static io.github.lingqiqi5211.ezhooktool.core.ClassUtils.loadClass;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -37,7 +37,7 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -267,13 +267,13 @@ public class GlobalActionBootstrap extends BaseHook {
             Method getContextualSearchPackageName = csmsClass.getDeclaredMethod("getContextualSearchPackageName");
             hooks.add(hookMethod(enforcePermission, new IMethodHook() {
                 @Override
-                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                public void before(io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam param) {
                     param.setResult(null);
                 }
             }));
             hooks.add(hookMethod(getContextualSearchPackageName, new IMethodHook() {
                 @Override
-                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                public void before(io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam param) {
                     param.setResult("com.google.android.googlequicksearchbox");
                 }
             }));

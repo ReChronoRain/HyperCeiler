@@ -20,49 +20,42 @@ package com.sevtinge.hyperceiler.libhook.rules.home
 
 import android.util.ArraySet
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 class MaxFreeForm : BaseHook() {
     override fun init() {
         // CanTaskEnterSmallWindow
         val clazzRecentsAndFSGestureUtils =
-            loadClass("com.miui.home.launcher.RecentsAndFSGestureUtils")
-        clazzRecentsAndFSGestureUtils.methodFinder().filter {
-            name == "canTaskEnterSmallWindow"
-        }.toList().createHooks {
+            findClass("com.miui.home.launcher.RecentsAndFSGestureUtils")
+        val clazzSmallWindowStateHelper =
+            findClass("com.miui.home.smallwindow.SmallWindowStateHelper")
+        clazzRecentsAndFSGestureUtils.findAllMethods { name("canTaskEnterSmallWindow") }.createHooks {
             returnConstant(true)
         }
 
         // CanTaskEnterMiniSmallWindow
-        clazzRecentsAndFSGestureUtils.methodFinder().filter {
-            name == "canTaskEnterMiniSmallWindow"
-        }.toList().createHooks {
+        clazzRecentsAndFSGestureUtils.findAllMethods { name("canTaskEnterMiniSmallWindow") }.createHooks {
             before {
-                it.result = invokeStaticMethodBestMatch(
-                    loadClass("com.miui.home.smallwindow.SmallWindowStateHelper"),
-                    "getInstance"
-                )!!.objectHelper()
-                    .invokeMethodBestMatch("canEnterMiniSmallWindow") as Boolean
+                it.result = Methods.callMethod(
+                    Methods.callStaticMethod(clazzSmallWindowStateHelper, "getInstance")!!,
+                    "canEnterMiniSmallWindow"
+                ) as Boolean
             }
         }
 
         // StartSmallWindow
-        loadClass("com.miui.home.smallwindow.SmallWindowStateHelperUseManager").methodFinder()
-            .filterByName("canEnterMiniSmallWindow").first().createHook {
+        findClass("com.miui.home.smallwindow.SmallWindowStateHelperUseManager").findMethod { name("canEnterMiniSmallWindow") }.createHook {
                 before {
                     it.result =
                         it.thisObject.getObjectFieldOrNullAs<ArraySet<*>>("mMiniSmallWindowInfoSet")!!.isEmpty()
                 }
             }
-        loadClass("miui.app.MiuiFreeFormManager").methodFinder()
-            .filterByName("getAllFreeFormStackInfosOnDisplay")
-            .toList().createHooks {
+        findClass("miui.app.MiuiFreeFormManager").findAllMethods { name("getAllFreeFormStackInfosOnDisplay") }.createHooks {
                 before { param ->
                     if (Throwable().stackTrace.any {
                             it.className == "android.util.MiuiMultiWindowUtils" && it.methodName == "startSmallFreeform"
@@ -71,8 +64,7 @@ class MaxFreeForm : BaseHook() {
                     }
                 }
             }
-        loadClass("android.util.MiuiMultiWindowUtils").methodFinder()
-            .filterByName("hasSmallFreeform").toList().createHooks {
+        findClass("android.util.MiuiMultiWindowUtils").findAllMethods { name("hasSmallFreeform") }.createHooks {
                 before { param ->
                     if (Throwable().stackTrace.any {
                             it.className == "android.util.MiuiMultiWindowUtils" && it.methodName == "startSmallFreeform"

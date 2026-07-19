@@ -25,12 +25,12 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.mediaViewHolder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.mediaViewHolderNew
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaNotificationControllerImpl
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
 
 object MediaViewSize : BaseHook() {
 
@@ -50,8 +50,12 @@ object MediaViewSize : BaseHook() {
 
     override fun init() {
         if (isAndroidB) {
-            miuiMediaNotificationControllerImpl!!.methodFinder().filterByName("updateLayout$6")
-                .first().createAfterHook {
+            miuiMediaNotificationControllerImpl!!
+                .findMethod {
+                    findOnlyClass()
+                    name("updateLayout$6")
+                }
+                .createAfterHook {
                     val mediaViewHolder = it.thisObject.getObjectFieldOrNull("mediaViewHolder")
                         ?: return@createAfterHook
                     val titleText = mediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
@@ -62,11 +66,12 @@ object MediaViewSize : BaseHook() {
                 }
         }
 
-        if (isAndroidB) {
+        val holderClass = if (isAndroidB) {
             mediaViewHolderNew!!
         } else {
             mediaViewHolder!!
-        }.constructorFinder().first().createAfterHook {
+        }
+        Constructors.find(holderClass).first().createAfterHook {
             val mediaViewHolder = it.thisObject
             val titleText = mediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
             val artistText = mediaViewHolder.getObjectFieldOrNullAs<TextView>("artistText")

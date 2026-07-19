@@ -22,12 +22,11 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.AndroidBuildCls
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethodOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.json.JSONObject
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
@@ -162,7 +161,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
         val actions = listOf<(Method) -> Unit>(::xiaomi, ::poco, ::redmi)
 
         methodA.forEach { method ->
-            if (method.paramCount == 1) {
+            if (method.parameterCount == 1) {
                 // 公共解锁特定机型定制画框使用限制
                 other(method)
             } else {
@@ -186,13 +185,11 @@ object UnlockCustomPhotoFrames : BaseHook() {
             // Redmi Note 13 Pro+ 定制版画框
             val base = methodA.first().declaringClass.name
             // 优先尝试常见的内部类名，找到即挂钩，避免不必要地回退计算
-            val target = runCatching { loadClass($$"$${base}$a") }.getOrNull()
-                ?: runCatching { loadClass($$"$${base}$2") }.getOrNull()
+            val target = runCatching { findClass($$"$${base}$a") }.getOrNull()
+                ?: runCatching { findClass($$"$${base}$2") }.getOrNull()
 
             if (target != null) {
-                target.methodFinder()
-                    .filterByName("invoke")
-                    .firstOrNull()
+                target.findMethodOrNull { name("invoke") }
                     ?.createHook { returnConstant(true) }
                     ?: XposedLog.e(
                         TAG,
@@ -233,9 +230,7 @@ object UnlockCustomPhotoFrames : BaseHook() {
                     it.result = getConfig
                 }
 
-                JSONObject::class.java.methodFinder()
-                    .filterByName("optJSONObject")
-                    .first()
+                JSONObject::class.java.findMethod { name("optJSONObject") }
                     .createHook {
                         before {
                             // 忽略时间和机型限制

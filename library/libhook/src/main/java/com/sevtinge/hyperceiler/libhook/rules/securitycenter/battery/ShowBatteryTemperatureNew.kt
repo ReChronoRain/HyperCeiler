@@ -33,13 +33,10 @@ import android.widget.TextView
 import androidx.core.graphics.toColorInt
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.isStatic
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.paramCount
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
@@ -83,29 +80,13 @@ object ShowBatteryTemperatureNew : BaseHook() {
     @SuppressLint("DiscouragedApi")
     private fun oldBatteryTemperature() {
         val batteryFragmentClass = findClassIfExists("com.miui.powercenter.BatteryFragment")
-        if (batteryFragmentClass != null) {
-            loadClass("com.miui.powercenter.BatteryFragment").methodFinder().first {
-                paramCount == 1 && returnType == String::class.java && isStatic
-            }
-        } else {
-            loadClass("com.miui.powercenter.a").methodFinder().first {
-                paramCount == 1 && returnType == String::class.java && isStatic
-            }
-        }.createHook {
+        if (batteryFragmentClass != null) {findClass("com.miui.powercenter.BatteryFragment")} else {findClass("com.miui.powercenter.a")}.findMethod { paramCount(1); returnType(String::class.java); isStatic() }.createHook {
             after {
                 it.result = getBatteryTemperature(it.args[0] as Context).toString()
             }
         }
 
-        if (batteryFragmentClass != null) {
-            loadClass($$"com.miui.powercenter.BatteryFragment$a").methodFinder().first {
-                name == "run"
-            }
-        } else {
-            loadClass($$"com.miui.powercenter.a$a").methodFinder().first {
-                name == "run"
-            }
-        }.createHook {
+        if (batteryFragmentClass != null) {findClass($$"com.miui.powercenter.BatteryFragment$a")} else {findClass($$"com.miui.powercenter.a$a")}.findMethod { name("run") }.createHook {
             after { hookParam ->
                 val context = EzXposed.appContext
                 val isDarkMode =

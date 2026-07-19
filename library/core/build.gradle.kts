@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.sevtinge.hyperceiler.core"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -25,9 +25,11 @@ android {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
+
+kotlin.jvmToolchain(25)
 
 dependencies {
     // api(projects.library.hook)

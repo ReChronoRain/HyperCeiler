@@ -23,10 +23,10 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.IS_INTERNATIONAL_BUILD
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 @Suppress("unchecked_cast")
 object DisableHideApp : HomeBaseHookNew() {
@@ -43,7 +43,7 @@ object DisableHideApp : HomeBaseHookNew() {
     private fun initOS3Hook() {
         if (IS_INTERNATIONAL_BUILD) return
 
-        loadClass("com.miui.home.model.core.AppFilter").constructorFinder()
+        Constructors.find(loadClass("com.miui.home.model.core.AppFilter"))
             .first().createHook {
                 after { param ->
                     val skippedItem =
@@ -62,7 +62,7 @@ object DisableHideApp : HomeBaseHookNew() {
     override fun initBase() {
         if (IS_INTERNATIONAL_BUILD) return
 
-        loadClass("com.miui.home.launcher.AppFilter").constructorFinder()
+        Constructors.find(loadClass("com.miui.home.launcher.AppFilter"))
             .first().createHook {
                 after { param ->
                     val skippedItem =

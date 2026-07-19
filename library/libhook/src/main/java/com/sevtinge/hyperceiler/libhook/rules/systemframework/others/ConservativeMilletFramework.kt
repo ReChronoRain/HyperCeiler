@@ -20,7 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object ConservativeMilletFramework : BaseHook() {
 
@@ -31,75 +32,36 @@ object ConservativeMilletFramework : BaseHook() {
         val domesticPolicyManagerClass =
             findClassIfExists("com.miui.server.greeze.DomesticPolicyManager")
 
-        try {
-            aurogonImmobulusModeClass
-                .beforeHookMethod(
-                    "isNeedRestictNetworkPolicy",
-                    Int::class.java
-                ) {
-                    it.result = false
-                }
-        } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in isNeedRestictNetworkPolicy: ", e)
-        }
+        hookBefore(
+            aurogonImmobulusModeClass,
+            "isNeedRestictNetworkPolicy",
+            false,
+            Int::class.java
+        )
+        hookBefore(domesticPolicyManagerClass, "isAllowBroadcast", true)
+        hookBefore(domesticPolicyManagerClass, "isRestrictBroadcast", true, Int::class.java)
+        hookBefore(domesticPolicyManagerClass, "isJobRestrict", true, Int::class.java)
+        hookBefore(domesticPolicyManagerClass, "deferBroadcast", false, String::class.java)
+        hookBefore(domesticPolicyManagerClass, "isRestrictNet", false, Int::class.java)
+    }
+
+    private fun hookBefore(
+        clazz: Class<*>?,
+        methodName: String,
+        result: Any,
+        vararg parameterTypes: Class<*>
+    ) {
+        if (clazz == null) return
 
         try {
-            domesticPolicyManagerClass
-                .beforeHookMethod(
-                    "isAllowBroadcast"
-                ) {
-                    it.result = true
-                }
+            clazz.findMethod {
+                name(methodName)
+                parameterTypes(*parameterTypes)
+            }.createBeforeHook {
+                it.result = result
+            }
         } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in isAllowBroadcast: ", e)
-        }
-
-        try {
-            domesticPolicyManagerClass
-                .beforeHookMethod(
-                    "isRestrictBroadcast",
-                    Int::class.java
-                ) {
-                    it.result = true
-                }
-        } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in isRestrictBroadcast: ", e)
-        }
-
-        try {
-            domesticPolicyManagerClass
-                .beforeHookMethod(
-                    "isJobRestrict",
-                    Int::class.java
-                ) {
-                    it.result = true
-                }
-        } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in isJobRestrict: ", e)
-        }
-
-        try {
-            domesticPolicyManagerClass
-                .beforeHookMethod(
-                    "deferBroadcast",
-                    String::class.java
-                ) {
-                    it.result = false
-                }
-        } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in deferBroadcast: ", e)
-        }
-
-        try {
-            domesticPolicyManagerClass
-                .beforeHookMethod(
-                    "isRestrictNet",
-                    Int::class.java
-                ) {
-                    it.result = false
-                }
-        } catch (e: Exception) {
-            XposedLog.w(TAG, packageName, "Hook Failed in isRestrictNet: ", e)
+            XposedLog.w(TAG, packageName, "Hook Failed in $methodName: ", e)
         }
     }
 }

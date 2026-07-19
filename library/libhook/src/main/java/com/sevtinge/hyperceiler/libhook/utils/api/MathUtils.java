@@ -22,6 +22,8 @@ import android.graphics.Rect;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
+
 public class MathUtils {
     private static final float DEG_TO_RAD = 0.017453292f;
     private static final float RAD_TO_DEG = 57.295784f;
@@ -258,7 +260,7 @@ public class MathUtils {
         float maxSize = Math.max(outToResize.width(), outToResize.height());
         try {
             Rect rectInstance = new Rect(outToResize);
-            InvokeUtils.callMethod("android.graphics.Rect", rectInstance,
+            Methods.callMethod(rectInstance,
                 "scale", new Class[]{float.class}, largestSide / maxSize);
         } catch (Exception e) {
             AndroidLog.e("Call Method scale error: ", e);

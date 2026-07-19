@@ -33,62 +33,60 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.mediaControlPanel
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaNotificationControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 // https://github.com/HowieHChen/XiaomiHelper/blob/77196977a7d55000973188b2c20faafcb36ad15e/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/systemui/media/CustomLayout.kt
 object MediaViewLayout : BaseHook() {
 
     private val mediaButtonClass by lazy {
-        loadClassOrNull("com.android.systemui.media.controls.shared.model.MediaButton")
-            ?: loadClassOrNull("com.android.systemui.media.controls.models.player.MediaButton")
+        findClassIfExists("com.android.systemui.media.controls.shared.model.MediaButton")
+            ?: findClassIfExists("com.android.systemui.media.controls.models.player.MediaButton")
     }
     private val constraintSetClass by lazy {
-        loadClass("androidx.constraintlayout.widget.ConstraintSet")
+        findClass("androidx.constraintlayout.widget.ConstraintSet")
     }
     private val mediaViewControllerClass by lazy {
-        loadClassOrNull("com.android.systemui.media.controls.ui.controller.MediaViewController")
-            ?: loadClassOrNull("com.android.systemui.media.controls.ui.MediaViewController")
+        findClassIfExists("com.android.systemui.media.controls.ui.controller.MediaViewController")
+            ?: findClassIfExists("com.android.systemui.media.controls.ui.MediaViewController")
     }
     private val clear by lazy {
-        constraintSetClass.methodFinder()
+        Methods.find(constraintSetClass).findOnlyClass()
             .filterByName("clear")
             .filterByParamTypes(Int::class.java, Int::class.java)
             .filterByParamCount(2)
             .first()
     }
     private val setVisibility by lazy {
-        constraintSetClass.methodFinder()
+        Methods.find(constraintSetClass).findOnlyClass()
             .filterByName("setVisibility")
             .filterByParamTypes(Int::class.java, Int::class.java)
             .filterByParamCount(2)
             .first()
     }
     private val connect by lazy {
-        constraintSetClass.methodFinder()
+        Methods.find(constraintSetClass).findOnlyClass()
             .filterByName("connect")
             .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java, Int::class.java)
             .filterByParamCount(4)
             .first()
     }
     private val setMargin by lazy {
-        constraintSetClass.methodFinder()
+        Methods.find(constraintSetClass).findOnlyClass()
             .filterByName("setMargin")
             .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java)
             .filterByParamCount(3)
             .first()
     }
     private val setGoneMargin by lazy {
-        constraintSetClass.methodFinder()
+        Methods.find(constraintSetClass).findOnlyClass()
             .filterByName("setGoneMargin")
             .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java)
             .filterByParamCount(3)
@@ -165,13 +163,13 @@ object MediaViewLayout : BaseHook() {
             miuiMediaViewControllerImpl!!.apply {
                 var isHook = false
 
-                methodFinder().filterByName("bindButtonCommon")
+                Methods.find(this).findOnlyClass().filterByName("bindButtonCommon")
                     .first()
                     .createBeforeHook {
                         if (!isHook) it.result = null
                     }
 
-                methodFinder().filterByName("bindMediaData")
+                Methods.find(this).findOnlyClass().filterByName("bindMediaData")
                     .first()
                     .createAfterHook {
                         val media =
@@ -206,7 +204,7 @@ object MediaViewLayout : BaseHook() {
 
         if (actionsOrder != 0) {
             if (isAndroidB) {
-                mediaButtonClass!!.constructorFinder().first()
+                Constructors.find(mediaButtonClass!!).first()
                     .createAfterHook {
                         val media = it.thisObject
                         val custom0 = media.getObjectField("custom0")
@@ -234,7 +232,7 @@ object MediaViewLayout : BaseHook() {
                         }
                     }
             } else {
-                mediaButtonClass!!.methodFinder()
+                Methods.find(mediaButtonClass!!).findOnlyClass()
                     .filterByName("getActionById")
                     .first()
                     .createBeforeHook {
@@ -263,7 +261,7 @@ object MediaViewLayout : BaseHook() {
         if (album == 2 || headerMargin != 21.0f || headerPadding != 2.0f || actionsLeftAligned || hideSeamless) {
             if (isAndroidB) {
                 // 暂不生效
-                miuiMediaNotificationControllerImpl!!.constructorFinder()
+                Constructors.find(miuiMediaNotificationControllerImpl!!)
                     .first().createAfterHook {
                         val normalLayout =
                             it.thisObject.getObjectFieldOrNull("normalLayout")
@@ -271,7 +269,7 @@ object MediaViewLayout : BaseHook() {
                         updateConstraintSet(normalLayout)
                     }
             } else {
-                mediaViewControllerClass!!.methodFinder()
+                Methods.find(mediaViewControllerClass!!).findOnlyClass()
                     .filterByName("loadLayoutForType")
                     .first().createAfterHook {
                         val expandedLayout = it.thisObject.getObjectFieldOrNull("expandedLayout")
@@ -282,12 +280,14 @@ object MediaViewLayout : BaseHook() {
         }
 
         if (type != 140 || typeCustom != 140) {
-            val drawableUtils = loadClass("com.miui.utils.DrawableUtils", lpparam.classLoader)
-            if (isAndroidB) {
+            val drawableUtils = findClass("com.miui.utils.DrawableUtils", lpparam.classLoader)
+            val controllerClass = if (isAndroidB) {
                 miuiMediaViewControllerImpl!!
             } else {
                 mediaControlPanel!!
-            }.methodFinder().filterByName("bindButtonCommon")
+            }
+            Methods.find(controllerClass).findOnlyClass()
+                .filterByName("bindButtonCommon")
                 .first().createBeforeHook {
                     val mediaAction = it.args[1] ?: return@createBeforeHook
                     val button = it.args[0] as ImageButton

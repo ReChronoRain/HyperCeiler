@@ -22,10 +22,9 @@ import android.content.Context;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ScreenRotation extends BaseHook {
 
@@ -36,7 +35,7 @@ public class ScreenRotation extends BaseHook {
         hookAllConstructors("com.android.server.wm.DisplayRotation", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                EzxHelpUtils.setIntField(param.getThisObject(), "mAllowAllRotations", PrefsBridge.getBoolean("system_framework_screen_all_rotations") ? 1 : 0);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), "mAllowAllRotations", PrefsBridge.getBoolean("system_framework_screen_all_rotations") ? 1 : 0);
             }
         });
 

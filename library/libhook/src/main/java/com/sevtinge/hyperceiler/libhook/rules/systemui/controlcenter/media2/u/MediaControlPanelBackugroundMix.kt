@@ -43,13 +43,13 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.playerTwoCircleView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.seekBarObserver
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.statusBarStateControllerImpl
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 
 // from https://github.com/YuKongA/MediaControl-BlurBg/blob/752de17a31d940683648cee7b957d4ff48d381a3/app/src/main/kotlin/top/yukonga/mediaControlBlur/MainHook.kt
@@ -65,13 +65,16 @@ class MediaControlPanelBackgroundMix : BaseHook() {
             var darkModeStatus: Boolean? = null
 
             // 导致拖动 SeekBar 改变歌曲标题/艺术家名字颜色的实际位置不在这里，目前暂时作为代替解决方案。
-            seekBarObserver?.methodFinder()?.filterByName("onChanged")?.first()
+            seekBarObserver?.findMethod {
+                findOnlyClass()
+                name("onChanged")
+            }
                 ?.createBeforeHook {
                     val context = EzXposed.appContext
                     val isBackgroundBlurOpened =
                         callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                     val mMediaViewHolder =
-                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("holder")
+                        it.thisObject.getObjectFieldOrNull("holder")
                             ?: return@createBeforeHook
                     val titleText =
                         mMediaViewHolder.getObjectFieldOrNullAs<TextView>("titleText")
@@ -86,11 +89,14 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                 }
 
             var mediaControlPanelInstance: Any? = null
-            miuiMediaControlPanel?.methodFinder()?.filterByName("bindPlayer")?.first()
+            miuiMediaControlPanel?.findMethod {
+                findOnlyClass()
+                name("bindPlayer")
+            }
                 ?.createAfterHook {
                     mediaControlPanelInstance = it.thisObject
                     val context =
-                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mContext") as? Context
+                        it.thisObject.getObjectFieldOrNullAs<Context>("mContext")
                             ?: return@createAfterHook
 
                     val isBackgroundBlurOpened =
@@ -98,7 +104,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                             as Boolean
 
                     val mMediaViewHolder =
-                        it.thisObject.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
+                        it.thisObject.getObjectFieldOrNull("mMediaViewHolder")
                             ?: return@createAfterHook
 
                     val action0 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action0")
@@ -150,7 +156,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                     }
                 }
 
-            playerTwoCircleView?.methodFinder()?.filterByName("onDraw")?.first()
+            playerTwoCircleView?.findMethod {
+                findOnlyClass()
+                name("onDraw")
+            }
                 ?.createBeforeHook {
                     val context = EzXposed.appContext
 
@@ -164,14 +173,14 @@ class MediaControlPanelBackgroundMix : BaseHook() {
 
                     mPaint1?.alpha = 0
                     mPaint2?.alpha = 0
-                    it.thisObject.objectHelper().setObject("mRadius", 0f)
+                    it.thisObject.setObjectField("mRadius", 0f)
 
                     (it.thisObject as ImageView).setMiViewBlurMode(1)
                     (it.thisObject as ImageView).setBlurRoundRect(
                         getNotificationElementRoundRect(context)
                     )
 
-                    val miuiStubClass = loadClassOrNull("miui.stub.MiuiStub")
+                    val miuiStubClass = findClassIfExists("miui.stub.MiuiStub")
                     val miuiStubInstance = getStaticObjectField(miuiStubClass, "INSTANCE")
                     val mSysUIProvider = getObjectField(miuiStubInstance, "mSysUIProvider")
                     val mStatusBarStateController = getObjectField(mSysUIProvider, "mStatusBarStateController")
@@ -186,8 +195,11 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         }
                     }
 
-                    statusBarStateControllerImpl?.methodFinder()?.filterByName("getState")
-                        ?.first()?.createAfterHook { hookParam1 ->
+                    statusBarStateControllerImpl?.findMethod {
+                        findOnlyClass()
+                        name("getState")
+                    }
+                        ?.createAfterHook { hookParam1 ->
                             val getStatusBarState = hookParam1.result as Int
                             val isInLockScreen = getStatusBarState == 1
                             val isDarkMode = isDarkMode()
@@ -204,7 +216,7 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                                 if (mediaControlPanelInstance != null) {
                                     val isBackgroundBlurOpened = callStaticMethod(notificationUtil, "isBackgroundBlurOpened", context) as Boolean
                                     if (isBackgroundBlurOpened) {
-                                        val mMediaViewHolder = mediaControlPanelInstance.objectHelper().getObjectOrNullUntilSuperclass("mMediaViewHolder")
+                                        val mMediaViewHolder = mediaControlPanelInstance?.getObjectFieldOrNull("mMediaViewHolder")
                                         if (mMediaViewHolder != null) {
                                             val action0 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action0")
                                             val action1 = mMediaViewHolder.getObjectFieldOrNullAs<ImageButton>("action1")
@@ -240,7 +252,10 @@ class MediaControlPanelBackgroundMix : BaseHook() {
                         }
                 }
 
-            playerTwoCircleView?.methodFinder()?.filterByName("setBackground")?.first()
+            playerTwoCircleView?.findMethod {
+                findOnlyClass()
+                name("setBackground")
+            }
                 ?.createBeforeHook {
                     val context = EzXposed.appContext
                     val isBackgroundBlurOpened =

@@ -20,11 +20,10 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 
 import android.content.Context
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.invokeOriginalMethod
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
 
 object DisableCloudCheck : BaseHook() {
@@ -78,9 +77,9 @@ object DisableCloudCheck : BaseHook() {
         }
 
         hookMethod(method1, object : IMethodHook {
-            override fun before(param: HookParam?) {
-                callMethod(param?.thisObject, method2.name, param?.args?.get(0))
-                param?.result = null
+            override fun before(param: HookParam) {
+                callMethod(param.thisObject, method2.name, param.args[0])
+                param.result = null
             }
         })
 
@@ -97,7 +96,7 @@ object DisableCloudCheck : BaseHook() {
 
                             successConstructor.newInstance(cloudParamsInstance)
                         } catch (e: Exception) {
-                            invokeOriginalMethod(
+                            BaseHook.invokeOriginalMethod(
                                 param.executable as Method,
                                 param.thisObject,
                                 param.args

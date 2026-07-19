@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.mirror
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -62,15 +62,9 @@ object UnlockSendAppM : BaseHook() {
         ) ?: return
 
         relayAppClass.apply {
-            beforeHookMethod("getIsHideIcon") {
-                returnConstant(false)
-            }
-            beforeHookMethod("getSupportHandOff") {
-                returnConstant(true)
-            }
-            beforeHookMethod("getSupportSubScreen") {
-                returnConstant(true)
-            }
+            findMethod { name("getIsHideIcon") }.createHook { returnConstant(false) }
+            findMethod { name("getSupportHandOff") }.createHook { returnConstant(true) }
+            findMethod { name("getSupportSubScreen") }.createHook { returnConstant(true) }
         }
 
         method1?.createHook {

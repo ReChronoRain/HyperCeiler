@@ -22,7 +22,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.io.PrintWriter;
@@ -62,7 +61,6 @@ public abstract class BaseLoad {
     public static void init(XposedModule xposedModule) {
         sXposed = xposedModule;
         XposedLog.init(xposedModule);
-        EzxHelpUtils.setXposedModule(xposedModule);
     }
 
     public static XposedInterface getXposed() {

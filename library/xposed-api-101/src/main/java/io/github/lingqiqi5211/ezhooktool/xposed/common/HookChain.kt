@@ -1,13 +1,16 @@
-package io.github.kyuubiran.ezxhelper.xposed.common
+package io.github.lingqiqi5211.ezhooktool.xposed.common
 
 import io.github.libxposed.api.XposedInterface
 import java.lang.reflect.Executable
 import java.util.Collections
 
 internal class InvocationContext(private val chain: XposedInterface.Chain) {
+    private val originalThisObject: Any? = chain.thisObject
+    private val originalArgs: Array<Any?> = chain.args.toTypedArray()
+
     val executable: Executable = chain.executable
-    var thisObject: Any? = chain.thisObject
-    var args: Array<Any?> = chain.args.toTypedArray()
+    var thisObject: Any? = originalThisObject
+    var args: Array<Any?> = originalArgs.copyOf()
     var isAfterStage: Boolean = false
     var skipped: Boolean = false
     var result: Any? = null
@@ -28,6 +31,34 @@ internal class InvocationContext(private val chain: XposedInterface.Chain) {
             throwable = t
         }
     }
+
+    fun fallbackToOriginal(): Any? {
+        thisObject = originalThisObject
+        args = originalArgs.copyOf()
+        skipped = false
+        result = null
+        throwable = null
+        proceedOriginal()
+        return resultOrThrow()
+    }
+}
+
+/**
+ * 由 [HookChain] 在 stage callback 抛错时包装抛出，让 hooker 层能拿到 phase 信息打日志。
+ *
+ * 不会逃逸到使用者代码——`buildHooker` 会捕获并解包 [cause]。
+ */
+internal class HookStageException(
+    val phase: String,
+    cause: Throwable,
+    private val fallback: () -> Any?,
+) : RuntimeException(cause) {
+    fun fallback(): Any? = fallback.invoke()
+}
+
+private fun InvocationContext.resultOrThrow(): Any? {
+    throwable?.let { throw it }
+    return result
 }
 
 internal fun interface ChainStage {
@@ -38,9 +69,7 @@ internal class HookChain(private val stages: List<ChainStage>) {
     fun invoke(chain: XposedInterface.Chain): Any? {
         val context = InvocationContext(chain)
         val beforeStages = stages.filterIsInstance<BeforeChainStage>()
-        // Keep replace/intercept stages in declaration order so replacement hooks
-        // participate in the execution chain instead of falling through.
-        val coreStages = stages.filterNot { it is BeforeChainStage || it is AfterChainStage }
+        val aroundStages = stages.filter { it !is BeforeChainStage && it !is AfterChainStage }
         val afterStages = stages.filterIsInstance<AfterChainStage>()
 
         for (stage in beforeStages) {
@@ -51,11 +80,11 @@ internal class HookChain(private val stages: List<ChainStage>) {
         }
 
         fun proceed(index: Int) {
-            if (index >= coreStages.size) {
+            if (index >= aroundStages.size) {
                 context.proceedOriginal()
                 return
             }
-            coreStages[index].intercept(context) { proceed(index + 1) }
+            aroundStages[index].intercept(context) { proceed(index + 1) }
         }
 
         if (!context.skipped) {
@@ -76,7 +105,11 @@ internal class BeforeChainStage(
 ) : ChainStage {
     override fun intercept(context: InvocationContext, proceed: () -> Unit) {
         context.isAfterStage = false
-        callback(HookParam(context))
+        try {
+            callback(HookParam(context))
+        } catch (t: Throwable) {
+            throw HookStageException("before", t, context::fallbackToOriginal)
+        }
         if (!context.skipped) proceed()
     }
 }
@@ -86,9 +119,16 @@ internal class AfterChainStage(
 ) : ChainStage {
     override fun intercept(context: InvocationContext, proceed: () -> Unit) {
         proceed()
+        val savedResult = context.result
+        val savedThrowable = context.throwable
         context.isAfterStage = true
         try {
             callback(HookParam(context))
+        } catch (t: Throwable) {
+            throw HookStageException("after", t) {
+                savedThrowable?.let { throw it }
+                savedResult
+            }
         } finally {
             context.isAfterStage = false
         }
@@ -101,7 +141,11 @@ internal class ReplaceChainStage(
     override fun intercept(context: InvocationContext, proceed: () -> Unit) {
         context.isAfterStage = false
         context.skipped = true
-        context.result = callback(HookParam(context))
+        context.result = try {
+            callback(HookParam(context))
+        } catch (t: Throwable) {
+            throw HookStageException("replace", t, context::fallbackToOriginal)
+        }
         context.throwable = null
     }
 }
@@ -177,7 +221,14 @@ internal class InterceptChainStage(
         }
 
         try {
-            val result = callback(chain)
+            val result = try {
+                callback(chain)
+            } catch (t: Throwable) {
+                if (t is HookStageException || context.throwable === t) throw t
+                throw HookStageException("intercept", t) {
+                    if (proceedCount == 0) context.fallbackToOriginal() else context.resultOrThrow()
+                }
+            }
             if (proceedCount == 0) {
                 context.skipped = true
             }

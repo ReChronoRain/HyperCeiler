@@ -18,10 +18,10 @@
  */
 package com.sevtinge.hyperceiler.libhook.appbase.systemframework.actions;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findField;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodExactIfExists;
-import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
-import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodExactIfExists;
+import static io.github.lingqiqi5211.ezhooktool.core.ClassUtils.loadClass;
+import static io.github.lingqiqi5211.ezhooktool.core.ClassUtils.loadClassOrNull;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
@@ -128,14 +128,17 @@ public final class HomeNativeGestureActions {
             bundle.putLong("invocation_time_ms", SystemClock.elapsedRealtime());
             bundle.putInt("omni.entry_point", CTS_ENTRY_POINT_GESTURE);
 
-            Class<?> serviceManagerClass = loadClass("android.os.ServiceManager", null);
+            Class<?> serviceManagerClass = loadClass("android.os.ServiceManager", ClassLoader.getSystemClassLoader());
             IBinder binder = (IBinder) findMethodExactIfExists(serviceManagerClass, "getService", String.class)
                 .invoke(null, "voiceinteraction");
             if (binder == null) {
                 return false;
             }
 
-            Class<?> stubClass = loadClass("com.android.internal.app.IVoiceInteractionManagerService$Stub", null);
+            Class<?> stubClass = loadClass(
+                "com.android.internal.app.IVoiceInteractionManagerService$Stub",
+                ClassLoader.getSystemClassLoader()
+            );
             Object service = findMethodExactIfExists(stubClass, "asInterface", IBinder.class).invoke(null, binder);
             if (service == null) {
                 return false;

@@ -21,12 +21,15 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.view.View
 import android.widget.ImageView
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object RemoveIcon : BaseHook() {
     override fun init() {
-        findClass("com.miui.home.recents.views.TaskViewHeader").afterHookMethod("onFinishInflate") {
+        findClass("com.miui.home.recents.views.TaskViewHeader").findMethod {
+            name("onFinishInflate")
+        }.createAfterHook {
             val mImage = it.thisObject.getObjectField("mIconView") as ImageView
             mImage.visibility = View.GONE
         }

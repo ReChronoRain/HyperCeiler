@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.home
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object AnimDurationRatio : BaseHook() {
     override fun init() {
@@ -30,9 +30,7 @@ object AnimDurationRatio : BaseHook() {
         var value2 = PrefsBridge.getInt("home_recent_animation_speed", 100).toFloat()
         if (value1 != 100f) {
             value1 /= 100f
-            loadClass("com.miui.home.recents.util.RectFSpringAnim").methodFinder()
-                .filterByName("getModifyResponse")
-                .single().createHook {
+            loadClass("com.miui.home.recents.util.RectFSpringAnim").findMethod { name("getModifyResponse") }.createHook {
                     before {
                         it.result = it.args[0] as Float * value1
                     }
@@ -40,9 +38,7 @@ object AnimDurationRatio : BaseHook() {
         }
         if (value2 != 100f) {
             value2 /= 100f
-            loadClass("com.miui.home.launcher.common.DeviceLevelUtils").methodFinder()
-                .filterByName("getDeviceLevelTransitionAnimRatio")
-                .single().createHook {
+            loadClass("com.miui.home.launcher.common.DeviceLevelUtils").findMethod { name("getDeviceLevelTransitionAnimRatio") }.createHook {
                     before {
                         it.result = value2
                     }

@@ -1,18 +1,17 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.deoptimizeMethods;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.deoptimizeMethods;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists;
 
 import android.content.pm.ApplicationInfo;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 public class SharedUserPatch extends CorePatchHelper {
@@ -64,7 +63,7 @@ public class SharedUserPatch extends CorePatchHelper {
                     public void before(HookParam param) {
                         if (!CorePatchHelper.isSharedUserEnabled())
                             return;
-                        var flags = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "uidFlags");
+                        var flags = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "uidFlags");
                         if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0)
                             return; // do not modify system's signature
                         var toRemove = param.getArgs()[0]; // PackageSetting
@@ -73,9 +72,9 @@ public class SharedUserPatch extends CorePatchHelper {
                         var sharedUserSig = Setting_getSigningDetails(param.getThisObject());
                         Object newSig = null;
                         var packages = /*Watchable?ArraySet<PackageSetting>*/ SharedUserSetting_packages(param.getThisObject());
-                        var size = (int) EzxHelpUtils.callMethod(packages, "size");
+                        var size = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(packages, "size");
                         for (var i = 0; i < size; i++) {
-                            var p = EzxHelpUtils.callMethod(packages, "valueAt", i);
+                            var p = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(packages, "valueAt", i);
                             // skip the removed package
                             if (toRemove.equals(p)) {
                                 removed = true;
@@ -104,7 +103,7 @@ public class SharedUserPatch extends CorePatchHelper {
                     public void before(HookParam param) {
                         if (!CorePatchHelper.isSharedUserEnabled())
                             return;
-                        var flags = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "uidFlags");
+                        var flags = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "uidFlags");
                         if ((flags & ApplicationInfo.FLAG_SYSTEM) != 0)
                             return; // do not modify system's signature
                         var toAdd = param.getArgs()[0]; // PackageSetting
@@ -113,9 +112,9 @@ public class SharedUserPatch extends CorePatchHelper {
                         var sharedUserSig = Setting_getSigningDetails(param.getThisObject());
                         Object newSig = null;
                         var packages = /*Watchable?ArraySet<PackageSetting>*/ SharedUserSetting_packages(param.getThisObject());
-                        var size = (int) EzxHelpUtils.callMethod(packages, "size");
+                        var size = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(packages, "size");
                         for (var i = 0; i < size; i++) {
-                            var p = EzxHelpUtils.callMethod(packages, "valueAt", i);
+                            var p = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(packages, "valueAt", i);
                             if (toAdd.equals(p)) {
                                 // must be an existing package
                                 added = true;
@@ -152,8 +151,8 @@ public class SharedUserPatch extends CorePatchHelper {
 
     static Object callOriginMethod(Object obj, String methodName, Object... args) {
         try {
-            var method = EzxHelpUtils.findMethodBestMatch(obj.getClass(), methodName, args);
-            return EzxHelpUtils.invokeOriginalMethod(method, obj, args);
+            var method = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodBestMatch(obj.getClass(), methodName, args);
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.invokeOriginalMethod(method, obj, args);
         } catch (IllegalArgumentException e) {
             throw e;
         }
@@ -164,27 +163,27 @@ public class SharedUserPatch extends CorePatchHelper {
      */
     Object Setting_getSigningDetails(Object pkgOrSharedUser) {
         // PackageSettingBase(A11)|PackageSetting(A13)|SharedUserSetting.<PackageSignatures>signatures.<PackageParser.SigningDetails>mSigningDetails
-        return EzxHelpUtils.getObjectField(EzxHelpUtils.getObjectField(pkgOrSharedUser, "signatures"), "mSigningDetails");
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(pkgOrSharedUser, "signatures"), "mSigningDetails");
     }
 
     /**
      * Set signing details for PackageSetting or SharedUserSetting
      */
     void Setting_setSigningDetails(Object pkgOrSharedUser, Object signingDetails) {
-        EzxHelpUtils.setObjectField(EzxHelpUtils.getObjectField(pkgOrSharedUser, "signatures"), "mSigningDetails", signingDetails);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(pkgOrSharedUser, "signatures"), "mSigningDetails", signingDetails);
     }
 
     protected Object SharedUserSetting_packages(Object /*SharedUserSetting*/ sharedUser) {
         if (isMoreAndroidVersion(33)) {
-            return EzxHelpUtils.getObjectField(sharedUser, "mPackages");
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(sharedUser, "mPackages");
         }
-        return EzxHelpUtils.getObjectField(sharedUser, "packages");
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(sharedUser, "packages");
     }
 
     protected Object SigningDetails_mergeLineageWith(Object self, Object other) {
         if (isMoreAndroidVersion(33)) {
-            return EzxHelpUtils.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
         }
-        return EzxHelpUtils.callMethod(self, "mergeLineageWith", other);
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(self, "mergeLineageWith", other);
     }
 }

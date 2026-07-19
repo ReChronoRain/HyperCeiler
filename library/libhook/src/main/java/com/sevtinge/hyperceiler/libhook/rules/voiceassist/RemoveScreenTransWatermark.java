@@ -1,7 +1,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.voiceassist;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -10,7 +10,7 @@ import org.luckypray.dexkit.query.matchers.ClassMatcher;
 import org.luckypray.dexkit.result.ClassData;
 import org.luckypray.dexkit.result.base.BaseData;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class RemoveScreenTransWatermark extends BaseHook {
 
@@ -40,7 +40,7 @@ public class RemoveScreenTransWatermark extends BaseHook {
     public void init() {
         hookAllConstructors(mClazz, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 param.getArgs()[0] = " ";
             }
         });

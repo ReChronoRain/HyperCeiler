@@ -19,11 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.title
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 object BigIconCorner : BaseHook() {
     private val maMlHostViewClass by lazy {
@@ -31,36 +32,26 @@ object BigIconCorner : BaseHook() {
     }
 
     override fun init() {
-        loadClass("com.miui.home.launcher.bigicon.BigIconUtil").methodFinder().filter {
-            name == "getCroppedFromCorner" && parameterCount == 4
-        }.toList().createHooks {
+        loadClass("com.miui.home.launcher.bigicon.BigIconUtil").findAllMethods { filter { name == "getCroppedFromCorner" && parameterCount == 4 } }.createHooks {
             before {
                 it.args[0] = 2
                 it.args[1] = 2
             }
         }
 
-        maMlHostViewClass.methodFinder()
-            .filterByName("getCornerRadius")
-            .single().createHook {
+        maMlHostViewClass.findMethod { name("getCornerRadius") }.createHook {
                 before {
                     it.result = it.thisObject.getObjectField("mEnforcedCornerRadius") as Float
                 }
             }
 
-        maMlHostViewClass.methodFinder()
-            .filterByName("computeRoundedCornerRadius")
-            .filterByParamCount(1)
-            .single().createHook {
+        maMlHostViewClass.findMethod { name("computeRoundedCornerRadius"); paramCount(1) }.createHook {
                 before {
                     it.result = it.thisObject.getObjectField("mEnforcedCornerRadius") as Float
                 }
             }
 
-        loadClass("com.miui.home.launcher.LauncherAppWidgetHostView").methodFinder()
-            .filterByName("computeRoundedCornerRadius")
-            .filterByParamCount(1)
-            .single().createHook {
+        loadClass("com.miui.home.launcher.LauncherAppWidgetHostView").findMethod { name("computeRoundedCornerRadius"); paramCount(1) }.createHook {
                 before {
                     it.result = it.thisObject.getObjectField("mEnforcedCornerRadius") as Float
                 }

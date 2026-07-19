@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.home.title;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findFieldIfExists;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setAdditionalInstanceField;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findFieldIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField;
 
 import android.app.Activity;
 import android.content.Context;
@@ -34,14 +34,14 @@ import com.sevtinge.hyperceiler.common.utils.prefs.PrefType;
 import com.sevtinge.hyperceiler.common.utils.prefs.PrefsChangeObserver;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class IconTitleCustomization extends HomeBaseHookNew {
 

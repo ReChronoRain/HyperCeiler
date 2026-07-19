@@ -19,19 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.soundrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object UnlockAIMode : BaseHook() {
     override fun init() {
-        loadFirstClass(
-            "com.android.soundrecorder.ai.airecorder.util.AiDeviceUtil",
-            "com.android.soundrecorder.ai.airecorder.util.AIDeviceUtil"
-        ).methodFinder()
-            .filter {
-                name == "isAISupportedDevice" || name == "isAiSupportedDevice"
-            }.first()
+        (findClassIfExists("com.android.soundrecorder.ai.airecorder.util.AiDeviceUtil")
+            ?: findClass("com.android.soundrecorder.ai.airecorder.util.AIDeviceUtil"))
+            .findMethod { filter { name == "isAISupportedDevice" || name == "isAiSupportedDevice" } }
             .createHook {
                 returnConstant(true)
             }

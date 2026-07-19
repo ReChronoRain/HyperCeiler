@@ -21,8 +21,8 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.luckypray.dexkit.query.enums.*
 import java.lang.reflect.*
 
@@ -132,9 +132,7 @@ object UnlockVideoSomeFunc : BaseHook() {
                 }
                 val newName = String(newChar)
                 XposedLog.d(TAG, lpparam.packageName, "find EnhanceContours Method(${methods.declaringClass}) is $newName")
-                findTat.declaringClass.methodFinder()
-                    .filterByName(newName)
-                    .first().createHook {
+                findTat.declaringClass.findMethod { name("newName") }.createHook {
                         returnConstant(true)
                     }
             }

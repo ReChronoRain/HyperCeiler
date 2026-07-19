@@ -55,24 +55,25 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.mobil
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.rightMargin
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.verticalOffset
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodOrNull
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethodOrNull
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.lang.reflect.Method
 import java.util.function.Consumer
 
@@ -165,21 +166,21 @@ object MobileTypeSingle2Hook : BaseHook() {
                 loadClass("com.miui.systemui.statusbar.views.MobileTypeDrawable")
             } else {
                 loadClass("com.android.systemui.statusbar.views.MobileTypeDrawable")
-            }.methodFinder().filterByName("measure").first().createHook {
+            }.findMethod { name("measure") }.createHook {
                 returnConstant(null)
             }
         }
 
-        miuiCellularIconVM.constructorFinder().first().createAfterHook { param ->
+        Constructors.find(miuiCellularIconVM).first().createAfterHook { param ->
             val viewModel = param.thisObject
             viewModel.setAdditionalInstanceField("interactor", param.args[1])
             viewModel.setObjectField("wifiAvailable", param.args[2]?.getObjectField("wifiAvailable"))
         }
 
-        modernStatusBarMobileView.methodFinder()
-            .filterByName("constructAndBind")
-            .filterByParamCount(5)
-            .single().createAfterHook { param ->
+        modernStatusBarMobileView.findAllMethods {
+            name("constructAndBind")
+            paramCount(5)
+        }.single().createAfterHook { param ->
                 var viewModel = param.args.last() ?: return@createAfterHook
                 if (viewModel.javaClass.simpleName == "MiuiMobileIconVMImpl") {
                     viewModel = viewModel.callMethodAs("getCellProvider")
@@ -299,7 +300,7 @@ object MobileTypeSingle2Hook : BaseHook() {
             }
 
         if (showMobileType || mobileNetworkType == 4) {
-            mobileUiAdapter.constructorFinder().first().createAfterHook {
+            Constructors.find(mobileUiAdapter).first().createAfterHook {
                 setOnDataChangedListener(it.thisObject)
             }
         }
@@ -418,7 +419,7 @@ object MobileTypeSingle2Hook : BaseHook() {
     }
 
     private fun getMobileViewBySubId36(subId: Int, callback: (View) -> Unit) {
-        statusBarIconControllerImpl.methodFinder().filterByName("addIconGroup").first()
+        statusBarIconControllerImpl.findMethod { name("addIconGroup") }
             .createAfterHook {
                 val iconGroups = it.thisObject.getObjectFieldAs<ArrayList<*>>("mIconGroups")
                 val iconList = it.thisObject.getObjectFieldAs<Any>("mStatusBarIconList")

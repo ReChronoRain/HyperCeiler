@@ -20,16 +20,13 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object SimplifyMainFragment : BaseHook() {
     override fun init() {
-        loadClass("com.miui.common.card.CardViewRvAdapter").methodFinder()
-            .filterByName("addAll")
-            .filterByParamTypes(List::class.java)
-            .single()
+        loadClass("com.miui.common.card.CardViewRvAdapter").findMethod { name("addAll"); parameterTypes(List::class.java) }
             .createBeforeHook { param ->
                 val oldModelList = param.args[0] as List<*>
                 val removedModel = listOf(
