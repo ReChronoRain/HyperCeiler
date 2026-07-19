@@ -19,11 +19,11 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
 import android.graphics.drawable.Drawable
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 class ShortcutEntity(instance: Any) : BaseReflectObject(instance) {
     val uniqueTag get() = instance.getObjectField("uniqueTag")

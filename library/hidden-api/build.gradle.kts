@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace = "com.android.internal"
-    compileSdk = 36
+    compileSdk = 37
 
     buildTypes {
         release {

@@ -29,19 +29,15 @@ import android.util.ArrayMap
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.invokeStaticMethodBestMatch
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadFirstClass
-import io.github.kyuubiran.ezxhelper.core.util.ObjectUtil.invokeMethodBestMatch
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.io.BufferedReader
 import java.io.FileReader
 import java.math.BigDecimal
@@ -49,6 +45,7 @@ import java.math.RoundingMode
 import kotlin.math.abs
 
 object ChargingCVP : BaseHook() {
+    private const val STATE_TEXT_VIEW = "ChargingCVP.textView"
     private val showSpacingValue by lazy {
         PrefsBridge.getBoolean("system_ui_lock_screen_show_spacing_value")
     }
@@ -62,11 +59,16 @@ object ChargingCVP : BaseHook() {
     @SuppressLint("SetTextI18n")
     override fun init() {
         // 去除单行限制
-        val clazzDependency = loadClass("com.android.systemui.Dependency")
+        val clazzDependency = findClass("com.android.systemui.Dependency")
         val clazzKeyguardIndicationController =
-            loadClass("com.android.systemui.statusbar.KeyguardIndicationController")
+            findClass("com.android.systemui.statusbar.KeyguardIndicationController")
 
-        loadClassOrNull("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.createHooks {
+        if (showSpacingValue) {
+            BaseHook.getHotReloadRuntimeState(STATE_TEXT_VIEW, TextView::class.java)
+                ?.let { setShowSpacing(clazzDependency, clazzKeyguardIndicationController, it) }
+        }
+
+        findClassIfExists("com.android.systemui.statusbar.phone.KeyguardIndicationTextView")?.constructors?.toList()?.createHooks {
             after { param ->
                 (param.thisObject as TextView).apply {
                     isSingleLine = false
@@ -74,16 +76,18 @@ object ChargingCVP : BaseHook() {
                 }
                 if (showSpacingValue) {
                     // 是否更改刷新频率
-                    setShowSpacing(clazzDependency, clazzKeyguardIndicationController, param)
+                    setShowSpacing(
+                        clazzDependency,
+                        clazzKeyguardIndicationController,
+                        param.thisObject as TextView
+                    )
                 }
             }
         }
 
 
         // 修改底部文本信息
-        loadFirstClass(
-            "com.miui.charge.ChargeUtils", "com.android.keyguard.charge.ChargeUtils"
-        ).methodFinder().filterByName("getChargingHintText").filterByParamCount(3).first()
+        findClassIfExists("com.miui.charge.ChargeUtils")?: findClass("com.android.keyguard.charge.ChargeUtils").findMethod { name("getChargingHintText"); paramCount(3) }
             .createHook {
                 after { param ->
                     param.result = param.result?.let {
@@ -97,27 +101,27 @@ object ChargingCVP : BaseHook() {
     private fun setShowSpacing(
         clazzDependency: Class<*>,
         clazzKeyguardIndicationController: Class<*>,
-        param: HookParam
+        textView: TextView
     ) {
         val screenOnOffReceiver = object : BroadcastReceiver() {
             val keyguardIndicationController = runCatching {
-                invokeStaticMethodBestMatch(clazzDependency, "get", null, clazzKeyguardIndicationController)!!
+                clazzDependency.callStaticMethod("get", clazzKeyguardIndicationController)!!
             }.getOrElse {
-                val clazzMiuiStub = loadClass("miui.stub.MiuiStub")
+                val clazzMiuiStub = findClass("miui.stub.MiuiStub")
                 val instanceMiuiStub =
                     clazzMiuiStub.getStaticObjectFieldOrNull("INSTANCE")!!
                 val mSysUIProvider =
                     instanceMiuiStub.getObjectFieldOrNull("mSysUIProvider")!!
                 val mKeyguardIndicationController =
                     mSysUIProvider.getObjectFieldOrNull("mKeyguardIndicationController")!!
-                invokeMethodBestMatch(mKeyguardIndicationController, "get")!!
+                mKeyguardIndicationController.callMethod("get")!!
             }
-            val handler = Handler((param.thisObject as TextView).context.mainLooper)
+            val handler = Handler(textView.context.mainLooper)
             val runnable = object : Runnable {
                 val clazzMiuiDependency =
-                    loadClass("com.miui.systemui.MiuiDependency")
+                    findClass("com.miui.systemui.MiuiDependency")
                 val clazzMiuiChargeController =
-                    loadClass("com.miui.charge.MiuiChargeController")
+                    findClass("com.miui.charge.MiuiChargeController")
                 val sDependency =
                     clazzMiuiDependency.getStaticObjectFieldOrNull("sDependency")!!
                 val mProviders =
@@ -145,7 +149,7 @@ object ChargingCVP : BaseHook() {
                     val mContext =
                         instanceMiuiChargeController.getObjectFieldOrNull("mContext")
                     val clazzChargeUtils =
-                        loadClass("com.miui.charge.ChargeUtils", lpparam.classLoader)
+                        findClass("com.miui.charge.ChargeUtils", lpparam.classLoader)
                     val chargingHintText =
                         callStaticMethod(
                             clazzChargeUtils,
@@ -155,8 +159,7 @@ object ChargingCVP : BaseHook() {
                             mContext
                         )
                     keyguardIndicationController.setObjectField("mComputePowerIndication", chargingHintText)
-                    invokeMethodBestMatch(
-                        keyguardIndicationController,
+                    keyguardIndicationController.callMethod(
                         "updateDeviceEntryIndication",
                         null,
                         false
@@ -165,7 +168,7 @@ object ChargingCVP : BaseHook() {
             }
 
             init {
-                if (((param.thisObject as TextView).context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
+                if ((textView.context.getSystemService(Context.POWER_SERVICE) as PowerManager).isInteractive) {
                     handler.post(runnable)
                 }
             }
@@ -187,9 +190,15 @@ object ChargingCVP : BaseHook() {
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(Intent.ACTION_SCREEN_OFF)
         }
-        (param.thisObject as TextView).context.registerReceiver(
+        val context = textView.context
+        context.registerReceiver(
             screenOnOffReceiver, filter, Context.RECEIVER_EXPORTED
         )
+        BaseHook.registerReceiverHotReloadCleanup(context, screenOnOffReceiver)
+        BaseHook.registerHotReloadCleanup {
+            screenOnOffReceiver.handler.removeCallbacks(screenOnOffReceiver.runnable)
+        }
+        BaseHook.putHotReloadRuntimeState(STATE_TEXT_VIEW, textView)
     }
 
     private fun getTemp(): String {

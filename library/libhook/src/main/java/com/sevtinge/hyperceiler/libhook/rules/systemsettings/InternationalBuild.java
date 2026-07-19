@@ -19,11 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 public class InternationalBuild extends BaseHook {
     @Override
     public void init() {
-        EzxHelpUtils.setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(findClassIfExists("miui.os.Build"), "IS_INTERNATIONAL_BUILD", true);
     }
 }

@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.other;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isDarkMode;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -41,12 +41,12 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class FreeformShortcutMenu extends BaseHook {

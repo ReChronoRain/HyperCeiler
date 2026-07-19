@@ -26,10 +26,8 @@ import android.os.Bundle
 import android.os.PowerExemptionManager
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.deoptimizeConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.deoptimizeMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.java.Deoptimizers
 
 /**
  * Source:
@@ -94,20 +92,20 @@ object GMSDozeFixFramework : BaseHook() {
                 "getPackageNameFromUid", Int::class.java
             )
             getPackageNameFromUidMethod.isAccessible = true
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "isAllowBroadcast",
                 Int::class.java,
                 String::class.java,
                 Int::class.java,
                 String::class.java,
                 String::class.java
-            ) {
-                var calleePkgName = getArg(3) as? String
+            ) { chain ->
+                var calleePkgName = chain.getArg(3) as? String
                 try {
-                    val calleeUid = getArg(2) as? Int
+                    val calleeUid = chain.getArg(2) as? Int
                     if (calleeUid != null) {
-                        val resolved = EzxHelpUtils.invokeOriginalMethod(
-                            getPackageNameFromUidMethod, thisObject, calleeUid
+                        val resolved = com.sevtinge.hyperceiler.libhook.base.BaseHook.invokeOriginalMethod(
+                            getPackageNameFromUidMethod, chain.thisObject, calleeUid
                         ) as? String
                         if (resolved != null) {
                             calleePkgName = resolved
@@ -116,17 +114,17 @@ object GMSDozeFixFramework : BaseHook() {
                 } catch (e: Exception) {
                     XposedLog.e(TAG, packageName, "Failed to get callee package name", e)
                 }
-                val action = getArg(4) as? String
+                val action = chain.getArg(4) as? String
                 if (action != null) {
-                    val callerPkgName = getArg(1) as? String
+                    val callerPkgName = chain.getArg(1) as? String
                     if ((callerPkgName == GMS_PACKAGE_NAME && action == ACTION_REMOTE_INTENT) ||
                         ((calleePkgName == GMS_PACKAGE_NAME || calleePkgName == GMS_PERSISTENT_PROCESS_NAME) &&
                             action in cnDeferBroadcast)
                     ) {
-                        return@chainMethod true
+                        return@interceptHookMethod true
                     }
                 }
-                proceed()
+                chain.proceed()
             }
             clazz.getDeclaredMethod(
                 "isAllowBroadcast",
@@ -135,45 +133,45 @@ object GMSDozeFixFramework : BaseHook() {
                 Int::class.java,
                 String::class.java,
                 String::class.java
-            ).deoptimizeMethod()
+            ).let(Deoptimizers::deoptimize)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in isAllowBroadcast: ", e)
         }
 
         try {
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "deferBroadcastForMiui",
                 String::class.java
-            ) {
-                val action = getArg(0) as? String ?: return@chainMethod proceed()
+            ) { chain ->
+                val action = chain.getArg(0) as? String ?: return@interceptHookMethod chain.proceed()
                 if (action in cnDeferBroadcast) {
-                    return@chainMethod false
+                    return@interceptHookMethod false
                 }
-                proceed()
+                chain.proceed()
             }
             clazz.getDeclaredMethod(
                 "deferBroadcastForMiui",
                 String::class.java
-            ).deoptimizeMethod()
+            ).let(Deoptimizers::deoptimize)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in deferBroadcastForMiui: ", e)
         }
 
         try {
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "triggerGMSLimitAction",
                 Boolean::class.java
-            ) {
-                val methodArgs = args.toMutableList()
+            ) { chain ->
+                val methodArgs = chain.args.toMutableList()
                 if (methodArgs.isNotEmpty()) {
                     methodArgs[0] = false
                 }
-                proceed(methodArgs.toTypedArray())
+                chain.proceed(methodArgs.toTypedArray())
             }
             clazz.getDeclaredMethod(
                 "triggerGMSLimitAction",
                 Boolean::class.java
-            ).deoptimizeMethod()
+            ).let(Deoptimizers::deoptimize)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in triggerGMSLimitAction: ", e)
         }
@@ -182,7 +180,7 @@ object GMSDozeFixFramework : BaseHook() {
     private fun hookDomesticPolicyManager(clazz: Class<*>?) {
         clazz ?: return
         try {
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "deferBroadcast",
                 String::class.java
             ) {
@@ -191,7 +189,7 @@ object GMSDozeFixFramework : BaseHook() {
             clazz.getDeclaredMethod(
                 "deferBroadcast",
                 String::class.java
-            ).deoptimizeMethod()
+            ).let(Deoptimizers::deoptimize)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in deferBroadcast: ", e)
         }
@@ -214,7 +212,7 @@ object GMSDozeFixFramework : BaseHook() {
                 result
             }
             clazz.declaredConstructors.forEach { constructor ->
-                constructor.deoptimizeConstructor()
+                Deoptimizers.deoptimize(constructor)
             }
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in ListAppsManager constructor", e)
@@ -228,32 +226,32 @@ object GMSDozeFixFramework : BaseHook() {
     ) {
         if (clazz == null || broadcastQueueClass == null || broadcastRecordClass == null) return
         try {
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "checkApplicationAutoStart",
                 broadcastQueueClass,
                 broadcastRecordClass,
                 ResolveInfo::class.java
-            ) {
+            ) { chain ->
                 try {
-                    val broadcastRecord = getArg(1) ?: return@chainMethod proceed()
+                    val broadcastRecord = chain.getArg(1) ?: return@interceptHookMethod chain.proceed()
                     val callerPackage = getObjectField(broadcastRecord, "callerPackage") as? String
-                        ?: return@chainMethod proceed()
+                        ?: return@interceptHookMethod chain.proceed()
                     val intent = getObjectField(broadcastRecord, "intent") as? Intent
-                        ?: return@chainMethod proceed()
+                        ?: return@interceptHookMethod chain.proceed()
                     if (callerPackage == GMS_PACKAGE_NAME && intent.action == ACTION_REMOTE_INTENT) {
-                        return@chainMethod true
+                        return@interceptHookMethod true
                     }
                 } catch (e: Exception) {
                     XposedLog.e(TAG, packageName, "Failed to modify checkApplicationAutoStart", e)
                 }
-                proceed()
+                chain.proceed()
             }
             clazz.getDeclaredMethod(
                 "checkApplicationAutoStart",
                 broadcastQueueClass,
                 broadcastRecordClass,
                 ResolveInfo::class.java
-            ).deoptimizeMethod()
+            ).let(Deoptimizers::deoptimize)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in checkApplicationAutoStart", e)
         }
@@ -262,19 +260,19 @@ object GMSDozeFixFramework : BaseHook() {
     private fun hookProcessPolicy(clazz: Class<*>?) {
         clazz ?: return
         try {
-            clazz.chainMethod(
+            clazz.interceptHookMethod(
                 "getWhiteList",
                 Int::class.java
-            ) {
-                val result = proceed()
+            ) { chain ->
+                val result = chain.proceed()
                 try {
-                    val flags = getArg(0) as? Int ?: return@chainMethod result
-                    if ((flags and 1) == 0) return@chainMethod result
+                    val flags = chain.getArg(0) as? Int ?: return@interceptHookMethod result
+                    if ((flags and 1) == 0) return@interceptHookMethod result
 
                     val list = when (result) {
                         is MutableList<*> -> result as MutableList<Any?>
                         is List<*> -> result.toMutableList()
-                        else -> return@chainMethod result
+                        else -> return@interceptHookMethod result
                     }
 
                     if (!list.contains(GMS_PACKAGE_NAME)) list.add(GMS_PACKAGE_NAME)
@@ -309,7 +307,7 @@ object GMSDozeFixFramework : BaseHook() {
                 result
             }
             clazz.declaredConstructors.forEach { constructor ->
-                constructor.deoptimizeConstructor()
+                Deoptimizers.deoptimize(constructor)
             }
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in AwareResourceControl constructor", e)
@@ -350,7 +348,7 @@ object GMSDozeFixFramework : BaseHook() {
             chain(broadcastMethod) { chain ->
                 val intent = chain.getArg(intentArgIndex) as? Intent
                 if (intent != null && ACTION_REMOTE_INTENT == intent.action) {
-                    val app = EzxHelpUtils.invokeOriginalMethod(
+                    val app = com.sevtinge.hyperceiler.libhook.base.BaseHook.invokeOriginalMethod(
                         getRecordMethod, chain.thisObject, chain.getArg(0)
                     )
                     if (app != null) {
@@ -374,7 +372,7 @@ object GMSDozeFixFramework : BaseHook() {
                 }
                 chain.proceed()
             }
-            broadcastMethod.deoptimizeMethod()
+            Deoptimizers.deoptimize(broadcastMethod)
         } catch (e: Exception) {
             XposedLog.e(TAG, packageName, "Hook Failed in ActivityManagerService", e)
         }

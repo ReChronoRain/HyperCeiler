@@ -21,18 +21,20 @@ package com.sevtinge.hyperceiler.libhook.rules.home.folder
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object FolderAutoClose : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findClass("com.miui.home.launcher.BaseLauncher").afterHookMethod(
-            "launch", "com.miui.home.launcher.ShortcutInfo", View::class.java
-        ) {
+        findClass("com.miui.home.launcher.BaseLauncher").findMethod {
+            name("launch")
+            parameterTypes(findClass("com.miui.home.launcher.ShortcutInfo"), View::class.java)
+        }.createAfterHook {
             val mHasLaunchedAppFromFolder = it.thisObject.getBooleanField("mHasLaunchedAppFromFolder")
             if (mHasLaunchedAppFromFolder)
                 it.thisObject.getObjectField("mFolderManager")
@@ -41,9 +43,10 @@ object FolderAutoClose : HomeBaseHookNew() {
     }
 
     override fun initBase() {
-        findClass("com.miui.home.launcher.Launcher").afterHookMethod(
-            "launch", "com.miui.home.launcher.ShortcutInfo", View::class.java
-        ) {
+        findClass("com.miui.home.launcher.Launcher").findMethod {
+            name("launch")
+            parameterTypes(findClass("com.miui.home.launcher.ShortcutInfo"), View::class.java)
+        }.createAfterHook {
             val mHasLaunchedAppFromFolder = it.thisObject.getBooleanField("mHasLaunchedAppFromFolder")
             if (mHasLaunchedAppFromFolder) it.thisObject.callMethod("closeFolder")
         }

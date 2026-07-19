@@ -28,13 +28,14 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmallVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull as findClassIfExists
 
 class ClearClipboard {
 
@@ -44,9 +45,7 @@ class ClearClipboard {
     }
 
     private fun createHook(classLoader: ClassLoader) {
-        MethodFinder.fromClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader)
-            .filterByName("initPopupWindow")
-            .first()
+        loadClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader).findMethod { name("initPopupWindow") }
             .createAfterHook {
                 val onClickAddButton: OnClickListener
                 val addButton: ImageView
@@ -90,10 +89,7 @@ class ClearClipboard {
                     setImageDrawable(removeIcon)
                 }
 
-                MethodFinder.fromClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader)
-                    .filterByName("onClick")
-                    .filterByParamTypes(View::class.java)
-                    .first().createAfterHook {
+                loadClass("com.miui.inputmethod.InputMethodClipboardPhrasePopupView", classLoader).findMethod { name("onClick"); parameterTypes(View::class.java) }.createAfterHook {
                         if (mClipboardText.isSelected) {
                             addButton.setImageDrawable(removeIcon)
                         } else {

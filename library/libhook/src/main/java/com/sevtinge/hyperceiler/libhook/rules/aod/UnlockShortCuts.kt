@@ -19,19 +19,18 @@
 package com.sevtinge.hyperceiler.libhook.rules.aod
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object UnlockShortCuts : BaseHook() {
     var list: MutableList<String> = mutableListOf()
 
     override fun init() {
         loadClass("com.miui.keyguard.shortcuts.utils.DataUtils")
-            .methodFinder()
-            .filterByName("loadWhiteItems")
-            .first()
-            .createAfterHook {
+            .findMethod {
+                name("loadWhiteItems")
+            }.createAfterHook {
                 val originalResult = it.result as? List<*> ?: return@createAfterHook
                 list.clear()
 

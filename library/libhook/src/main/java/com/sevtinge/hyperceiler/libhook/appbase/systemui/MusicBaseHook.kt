@@ -32,7 +32,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Shader
 import android.graphics.drawable.Icon
-import android.media.session.PlaybackState
 import android.os.Bundle
 import android.util.Base64
 import android.util.TypedValue
@@ -53,9 +52,8 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
 import org.json.JSONObject
 import kotlin.math.min
 
@@ -135,19 +133,32 @@ abstract class MusicBaseHook : BaseHook() {
         override fun onStop(publisher: String, data: SuperLyricData) {
             runCatching {
                 songPackageName = "unknown"
-                if (data.playbackState?.state == PlaybackState.STATE_BUFFERING) return
                 this@MusicBaseHook.onStop()
             }.onFailure { XposedLog.e(TAG, lpparam.packageName, it) }
         }
     }
 
+    private var lyricReceiverRegistered = false
+
     init {
-        EzxHelpUtils.runOnApplicationAttach { _ ->
-            runCatching {
-                SuperLyricHelper.registerReceiver(receiver)
-            }.onFailure {
-                XposedLog.e(TAG, lpparam.packageName, "registerLyricListener not found: ${it.message}")
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.runOnApplicationAttach {
+            registerLyricReceiver()
+        }
+    }
+
+    private fun registerLyricReceiver() {
+        if (lyricReceiverRegistered) return
+        runCatching {
+            SuperLyricHelper.registerReceiver(receiver)
+            lyricReceiverRegistered = true
+            BaseHook.registerHotReloadCleanup {
+                if (lyricReceiverRegistered) {
+                    SuperLyricHelper.unregisterReceiver(receiver)
+                    lyricReceiverRegistered = false
+                }
             }
+        }.onFailure {
+            XposedLog.e(TAG, lpparam.packageName, "registerLyricListener not found: ${it.message}")
         }
     }
 

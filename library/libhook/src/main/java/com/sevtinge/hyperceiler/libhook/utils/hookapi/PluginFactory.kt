@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.ComponentName
 import android.content.Context
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
 import java.lang.ref.WeakReference
 
 // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
@@ -32,7 +31,7 @@ internal class PluginFactory(obj: Any) {
     }
 
     lateinit var pluginCtxRef: WeakReference<Context>
-    val mComponentName: Any? = EzxHelpUtils.getObjectField(obj , "mComponentName")
+    val mComponentName: Any? = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj , "mComponentName")
 
     fun componentNames(type: Int, str: String): ComponentName {
         return when (type) {

@@ -36,13 +36,12 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlur
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlendColors
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 import java.util.function.Consumer
@@ -54,6 +53,7 @@ object DockCustomNew : BaseHook() {
         showAnimationLambda
         return true
     }
+
     private val launcherClass by lazy {
         loadClassOrNull("com.miui.home.launcher.BaseLauncher")
             ?: loadClass("com.miui.home.launcher.Launcher")
@@ -72,7 +72,10 @@ object DockCustomNew : BaseHook() {
         requiredMember("ShowAnimationLambda") { bridge ->
             bridge.findMethod {
                 matcher {
-                    declaredClass("com.miui.home.launcher.compat.UserPresentAnimationCompat", StringMatchType.StartsWith)
+                    declaredClass(
+                        "com.miui.home.launcher.compat.UserPresentAnimationCompat",
+                        StringMatchType.StartsWith
+                    )
                     addInvoke {
                         name = "conversionValueFrom3DTo2D"
                     }
@@ -91,7 +94,9 @@ object DockCustomNew : BaseHook() {
         val dockBgStyle = PrefsBridge.getStringAsInt("home_dock_add_blur", 0)
         var dockBlurView: View? = null
 
-        launcherClass.afterHookMethod("setupViews") {
+        launcherClass.findMethod {
+            name("setupViews")
+        }.createAfterHook {
             val isAllApp = PrefsBridge.getBoolean("home_dock_bg_all_app")
             val dockBgColor = PrefsBridge.getInt("home_dock_bg_color", 0)
             val dockRadius = dp2px(PrefsBridge.getInt("home_dock_bg_radius", 30))
@@ -108,7 +113,7 @@ object DockCustomNew : BaseHook() {
             val hotSeats = it.thisObject.getObjectFieldAs<FrameLayout>("mHotSeats")
             dockBlurView = View(hotSeats.context).apply {
                 if (dockBgStyle == 0) {
-                   setBackgroundColor(dockBgColor)
+                    setBackgroundColor(dockBgColor)
                 } else if (dockBgStyle == 1) {
                     doOnAttach {
                         addBlur()
@@ -141,7 +146,9 @@ object DockCustomNew : BaseHook() {
         }
 
         if (dockBgStyle == 1) {
-            launcherClass.afterHookMethod("onDarkModeChanged") {
+            launcherClass.findMethod {
+                name("onDarkModeChanged")
+            }.createAfterHook {
 
                 isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
                     folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
@@ -154,15 +161,14 @@ object DockCustomNew : BaseHook() {
         }
 
         // 添加动画
-        animationCompatComplexClass.methodFinder()
-            .filterByName("operateAllPresentAnimationRelatedViews")
-            .single()
-            .createAfterHook {
-                dockBlurView?.run {
-                    val consumer = it.args[0] as Consumer<View>
-                    consumer.accept(this)
-                }
+        animationCompatComplexClass.findMethod {
+            name("operateAllPresentAnimationRelatedViews")
+        }.createAfterHook {
+            dockBlurView?.run {
+                val consumer = it.args[0] as Consumer<View>
+                consumer.accept(this)
             }
+        }
 
         showAnimationLambda?.createAfterHook {
             val view = it.args[2] as View

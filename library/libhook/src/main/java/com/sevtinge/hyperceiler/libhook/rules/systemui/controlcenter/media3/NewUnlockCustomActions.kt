@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object NewUnlockCustomActions : BaseHook() {
 

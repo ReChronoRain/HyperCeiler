@@ -27,9 +27,9 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.Pub
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiIslandMediaViewHolder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaNotificationControllerImpl
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.getMediaViewHolderFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookConstructor
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
 
 object MediaViewSize : BaseHook() {
 

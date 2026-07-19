@@ -19,15 +19,15 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableGestureMonitor : BaseHook() {
     override fun init() {
         findClass("com.miui.server.input.gesture.MiuiGestureMonitor")
-            .hookAllMethods("registerPointerEventListener") {
-                before {
-                    it.result = null
-                }
+            .findAllMethods { name("registerPointerEventListener") }
+            .createBeforeHooks {
+                it.result = null
             }
 
     }

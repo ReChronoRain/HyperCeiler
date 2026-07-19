@@ -21,13 +21,13 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island
 import android.widget.FrameLayout
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.NewStrongToast
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 
 object HideStrongToast : BaseHook() {
     override fun init() {
-        NewStrongToast!!.methodFinder().filterByName("onAttachedToWindow").single().createAfterHook {
+        NewStrongToast!!.findMethod { name("onAttachedToWindow") }.createAfterHook {
             val strongToastLayout = it.thisObject as FrameLayout
             strongToastLayout.viewTreeObserver.addOnPreDrawListener {
                 return@addOnPreDrawListener false

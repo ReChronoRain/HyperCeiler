@@ -33,7 +33,6 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.api.ColorUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.createBlurDrawable
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils.isBlurDrawable
@@ -42,10 +41,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.clearMi
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setBlurRoundRect
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiBackgroundBlurRadius
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.MiBlurUtilsKt.setMiViewBlurMode
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
 import java.lang.reflect.Method
 
 object BlurSecurity : BaseHook() {
@@ -126,53 +126,57 @@ object BlurSecurity : BaseHook() {
         }
 
         // dock 应用栏
-        EzxHelpUtils.hookAllConstructors(dockLayoutClass, object : IMethodHook {
-            override fun after(param: HookParam) {
+        dockLayoutClass.hookAllConstructors {
+            after { param ->
                 val view = param.thisObject as View
-                view.addOnAttachStateChangeListener(
-                    object :
-                        View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            setBlurBg(view)
-                        }
+                val listener = object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(view: View) {
+                        setBlurBg(view)
+                    }
 
-                        override fun onViewDetachedFromWindow(view: View) {
-                            clearBlurBg(view)
-                        }
-                    })
+                    override fun onViewDetachedFromWindow(view: View) {
+                        clearBlurBg(view)
+                    }
+                }
+                view.addOnAttachStateChangeListener(listener)
+                registerHotReloadCleanup {
+                    view.removeOnAttachStateChangeListener(listener)
+                }
             }
-        })
+        }
 
         // 工具箱主体(这里只处理视频/会议/通话工具箱)
         findAndHookMethod(turboLayoutClass, "getTargetBox", object : IMethodHook {
             override fun after(param: HookParam) {
-                val targetBox: View? = param.result as View?
-                targetBox?.addOnAttachStateChangeListener(
-                    object : View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            val mainContent: View? = (view as ViewGroup).getChildAt(0)
-                            if (mainContent != null) {
-                                /**
-                                 * 视频/会议/通话工具箱 ID 为 main_content
-                                 * 游戏工具箱无 ID, 但不要在此操作游戏工具箱
-                                 * 因为会导致游戏工具箱主体扩展时本该透明的区域却设置了背景, 例如“亮度”
-                                 */
-                                if (mainContent.id != View.NO_ID) {
-                                    mainContent.background = null
-                                    setBlurBg(view)
+                val targetBox = param.result as? View ?: return
+                val listener = object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(view: View) {
+                        val mainContent: View? = (view as ViewGroup).getChildAt(0)
+                        if (mainContent != null) {
+                            /**
+                             * 视频/会议/通话工具箱 ID 为 main_content
+                             * 游戏工具箱无 ID, 但不要在此操作游戏工具箱
+                             * 因为会导致游戏工具箱主体扩展时本该透明的区域却设置了背景, 例如“亮度”
+                             */
+                            if (mainContent.id != View.NO_ID) {
+                                mainContent.background = null
+                                setBlurBg(view)
 
-                                    if (shouldInvertColor && isInvertColor) {
-                                        invertViewColor(view)
-                                    }
+                                if (shouldInvertColor && isInvertColor) {
+                                    invertViewColor(view)
                                 }
                             }
                         }
-
-                        override fun onViewDetachedFromWindow(view: View) {
-                            clearBlurBg(view)
-                        }
                     }
-                )
+
+                    override fun onViewDetachedFromWindow(view: View) {
+                        clearBlurBg(view)
+                    }
+                }
+                targetBox.addOnAttachStateChangeListener(listener)
+                registerHotReloadCleanup {
+                    targetBox.removeOnAttachStateChangeListener(listener)
+                }
             }
         })
 
@@ -180,46 +184,48 @@ object BlurSecurity : BaseHook() {
             "com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView"
         ) ?: return
         // 游戏工具箱
-        EzxHelpUtils.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllConstructors(newToolBoxTopViewClass, object : IMethodHook {
             override fun after(param: HookParam) {
                 val view = param.thisObject as View
-                view.addOnAttachStateChangeListener(
-                    object : View.OnAttachStateChangeListener {
-                        override fun onViewAttachedToWindow(view: View) {
-                            val viewParent = view.parent as ViewGroup
-                            val gameContentLayout = viewParent.parent as ViewGroup
-                            setBlurBg(gameContentLayout)
-                            if (shouldInvertColor && isInvertColor) {
-                                invertViewColor(gameContentLayout)
+                val listener = object : View.OnAttachStateChangeListener {
+                    override fun onViewAttachedToWindow(view: View) {
+                        val viewParent = view.parent as ViewGroup
+                        val gameContentLayout = viewParent.parent as ViewGroup
+                        setBlurBg(gameContentLayout)
+                        if (shouldInvertColor && isInvertColor) {
+                            invertViewColor(gameContentLayout)
 
-                                /**
-                                 * 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
-                                 * 暂时把整个动画(包括 lottie 动画和文字动画)去除, 仅去除文字动画可能因版本混淆而 hook 失败
-                                 * 在 40000727 版本号中去除文字动画：
-                                 * com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView
-                                 * ↳ getPerformanceTextView
-                                 *   ↳ e(boolean)
-                                 */
-                                lottieAnimation.createHook {
-                                    replace {
-                                        null
-                                    }
+                            /**
+                             * 设置 RenderEffect 后会导致文字动画出现问题，故去除动画
+                             * 暂时把整个动画(包括 lottie 动画和文字动画)去除, 仅去除文字动画可能因版本混淆而 hook 失败
+                             * 在 40000727 版本号中去除文字动画：
+                             * com.miui.gamebooster.windowmanager.newbox.NewToolBoxTopView
+                             * ↳ getPerformanceTextView
+                             *   ↳ e(boolean)
+                             */
+                            lottieAnimation.createHook {
+                                replace {
+                                    null
                                 }
                             }
                         }
-
-                        override fun onViewDetachedFromWindow(v: View) {
-                            val viewParent = view.parent as ViewGroup
-                            val gameContentLayout = viewParent.parent as ViewGroup
-                            clearBlurBg(gameContentLayout)
-                        }
                     }
-                )
+
+                    override fun onViewDetachedFromWindow(v: View) {
+                        val viewParent = view.parent as ViewGroup
+                        val gameContentLayout = viewParent.parent as ViewGroup
+                        clearBlurBg(gameContentLayout)
+                    }
+                }
+                view.addOnAttachStateChangeListener(listener)
+                registerHotReloadCleanup {
+                    view.removeOnAttachStateChangeListener(listener)
+                }
             }
         })
 
         // 隐藏视频/游戏工具箱顶部静态图
-        EzxHelpUtils.hookAllConstructors(
+        hookAllConstructors(
             ImageView::class.java,
             object : IMethodHook {
                 override fun after(param: HookParam) {
@@ -287,7 +293,7 @@ object BlurSecurity : BaseHook() {
             val auditionViewClass =
                 findClassIfExists("com.miui.gamebooster.customview.AuditionView") ?: return
 
-            EzxHelpUtils.hookAllMethods(
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
                 detailSettingsLayoutClass,
                 "setFunctionType",
                 object : IMethodHook {
@@ -301,7 +307,7 @@ object BlurSecurity : BaseHook() {
                         val listViewAdapterClassName = listView.adapter.javaClass.name
                         val listViewAdapterInnerClass =
                             findClassIfExists($$"$$listViewAdapterClassName$a") ?: return
-                        EzxHelpUtils.hookAllMethods(
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(
                             listViewAdapterInnerClass,
                             "a",
                             object : IMethodHook {

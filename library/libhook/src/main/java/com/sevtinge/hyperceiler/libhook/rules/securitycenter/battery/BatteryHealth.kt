@@ -20,8 +20,8 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery
 
 import android.os.Message
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 

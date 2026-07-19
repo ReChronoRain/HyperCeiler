@@ -21,11 +21,11 @@ package com.sevtinge.hyperceiler.libhook.rules.home.recent
 import android.view.ViewGroup
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object RemoveLeftShare : BaseHook() {
     override fun init() {
@@ -33,8 +33,7 @@ object RemoveLeftShare : BaseHook() {
             loadClass("com.miui.home.recents.views.RecentsTopWindowDropTargetWorldCirculate")
         } else {
             loadClass("com.miui.home.recents.views.RecentsWorldCirculateAndSmallWindowCrop")
-        }.methodFinder().filterByName("initViewDisplayInDrag")
-            .first().createHook {
+        }.findMethod { name("initViewDisplayInDrag") }.createHook {
                 before {
                     it.thisObject.setObjectField("mIsSupportWorldcirculate", false)
                 }

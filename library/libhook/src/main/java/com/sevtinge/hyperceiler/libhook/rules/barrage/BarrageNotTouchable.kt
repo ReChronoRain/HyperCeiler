@@ -22,19 +22,22 @@ import android.view.View
 import android.view.WindowManager
 import android.view.WindowManager.LayoutParams
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import java.lang.reflect.Method
 
 // https://github.com/YifePlayte/WOMMO/blob/main/app/src/main/java/com/yifeplayte/wommo/hook/hooks/singlepackage/barrage/BarrageNotTouchable.kt
 object BarrageNotTouchable : BaseHook() {
 
     override fun init() {
-        loadClass($$"com.xiaomi.barrage.utils.BarrageWindowUtils$ComputeInternalInsetsHandler").methodFinder()
-            .filterByName("invoke").filterNonAbstract().single().createBeforeHook { param ->
+        loadClass($$"com.xiaomi.barrage.utils.BarrageWindowUtils$ComputeInternalInsetsHandler")
+            .findMethod {
+                name("invoke")
+                notAbstract()
+            }.createBeforeHook { param ->
                 val method = param.args[1] as Method
                 if (!method.name.equals("onComputeInternalInsets")) return@createBeforeHook
 

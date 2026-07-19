@@ -20,20 +20,19 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock
 
 import android.view.MotionEvent
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setBooleanField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setBooleanField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 
 object SlideUpOnlyShowDock : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.recents.DockGestureHelper").methodFinder()
-            .filterByName("dispatchTouchEvent").single().createHook {
+        loadClass("com.miui.home.recents.DockGestureHelper").findMethod { name("dispatchTouchEvent") }.createHook {
                 replace {
                     // ================
                     // DockController dockController = getDockController();
@@ -173,8 +172,7 @@ object SlideUpOnlyShowDock : BaseHook() {
             }
 
         // 拦截通过dock快速上滑进入桌面的方法
-        loadClass("com.miui.home.recents.DockGestureHelper").methodFinder()
-            .filterByName("startGestureModeGesture").single().createHook {
+        loadClass("com.miui.home.recents.DockGestureHelper").findMethod { name("startGestureModeGesture") }.createHook {
                 replace { }
             }
     }

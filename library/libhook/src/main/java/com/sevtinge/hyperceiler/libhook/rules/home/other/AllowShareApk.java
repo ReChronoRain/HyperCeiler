@@ -36,7 +36,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -51,8 +50,9 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AllowShareApk extends HomeBaseHookNew {
 
@@ -63,6 +63,7 @@ public class AllowShareApk extends HomeBaseHookNew {
     private static final ExecutorService IO_EXECUTOR = Executors.newSingleThreadExecutor();
     private static final AtomicBoolean sPreparing = new AtomicBoolean(false);
     private static final ThreadLocal<Boolean> sBypassSystemPackageCheck = new ThreadLocal<>();
+    private boolean mExecutorCleanupRegistered;
 
     private static boolean isSystemApkPath(String path) {
         for (String prefix : SYSTEM_APK_PREFIXES) {
@@ -400,6 +401,7 @@ public class AllowShareApk extends HomeBaseHookNew {
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
+        registerExecutorHotReloadCleanup();
         hookIsValidAndShareApk(
             "com.miui.home.common.utils.Utils",
             "com.miui.home.model.api.ItemInfo",
@@ -409,10 +411,22 @@ public class AllowShareApk extends HomeBaseHookNew {
 
     @Override
     public void initBase() {
+        registerExecutorHotReloadCleanup();
         hookIsValidAndShareApk(
             "com.miui.home.launcher.common.Utilities",
             "com.miui.home.launcher.ItemInfo",
             "com.miui.home.launcher.Launcher"
         );
+    }
+
+    private void registerExecutorHotReloadCleanup() {
+        if (mExecutorCleanupRegistered) {
+            return;
+        }
+        mExecutorCleanupRegistered = true;
+        registerHotReloadCleanup(() -> {
+            IO_EXECUTOR.shutdownNow();
+            mExecutorCleanupRegistered = false;
+        });
     }
 }

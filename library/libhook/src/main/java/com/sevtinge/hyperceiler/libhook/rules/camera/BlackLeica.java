@@ -25,9 +25,7 @@ import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -44,7 +42,8 @@ import org.luckypray.dexkit.result.base.BaseData;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BlackLeica extends BaseHook {
     private Class<?> mTextColorMakerClazz;
@@ -179,8 +178,8 @@ public class BlackLeica extends BaseHook {
 
     @Override
     public void init() {
-        EzxHelpUtils.setStaticIntField(mDescStringColorField.getDeclaringClass(), mDescStringColorField.getName(), Color.parseColor("#8CFFFFFF"));
-        EzxHelpUtils.setStaticIntField(mLeicaPendantColorField.getDeclaringClass(), mLeicaPendantColorField.getName(), Color.parseColor("#33FFFFFF"));
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mDescStringColorField.getDeclaringClass(), mDescStringColorField.getName(), Color.parseColor("#8CFFFFFF"));
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mLeicaPendantColorField.getDeclaringClass(), mLeicaPendantColorField.getName(), Color.parseColor("#33FFFFFF"));
         hookMethod(mWaterMakerLeicaMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {

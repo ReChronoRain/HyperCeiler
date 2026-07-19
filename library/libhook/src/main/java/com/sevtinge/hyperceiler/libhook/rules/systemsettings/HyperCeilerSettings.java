@@ -32,14 +32,13 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class HyperCeilerSettings extends BaseHook {
 
@@ -87,25 +86,25 @@ public class HyperCeilerSettings extends BaseHook {
         if (mPreferenceHeader == null) return null;
 
         Resources modRes = getModuleRes(context);
-        Object header = EzxHelpUtils.newInstance(mPreferenceHeader);
+        Object header = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(mPreferenceHeader);
 
         // 设置基本属性
-        EzxHelpUtils.setLongField(header, "id", 666);
-        EzxHelpUtils.setIntField(header, "iconRes", settingsIconResId);
-        EzxHelpUtils.setObjectField(header, "title", modRes.getString(R.string.library_app_name));
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setLongField(header, "id", 666);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(header, "iconRes", settingsIconResId);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "title", modRes.getString(R.string.library_app_name));
 
         // 设置 Intent
         Intent intent = new Intent();
         intent.putExtra("isDisplayHomeAsUpEnabled", true);
         intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.SplashActivity");
-        EzxHelpUtils.setObjectField(header, "intent", intent);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "intent", intent);
 
         // 设置用户信息
         Bundle bundle = new Bundle();
         ArrayList<UserHandle> users = new ArrayList<>();
-        users.add((UserHandle) EzxHelpUtils.newInstance(UserHandle.class, 0));
+        users.add((UserHandle) com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(UserHandle.class, 0));
         bundle.putParcelableArrayList("header_user", users);
-        EzxHelpUtils.setObjectField(header, "extras", bundle);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "extras", bundle);
 
         return header;
     }
@@ -130,7 +129,7 @@ public class HyperCeilerSettings extends BaseHook {
 
         for (int position = 0; position < headers.size(); position++) {
             Object head = headers.get(position);
-            long id = EzxHelpUtils.getLongField(head, "id");
+            long id = com.sevtinge.hyperceiler.libhook.base.BaseHook.getLongField(head, "id");
 
             if (shouldInsertAfter(id, device, themes, special, timer)) {
                 return position + 1;

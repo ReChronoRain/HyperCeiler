@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.recent;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class BackgroundBlur extends BaseHook {
     @Override

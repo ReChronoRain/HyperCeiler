@@ -28,46 +28,38 @@ import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import miui.app.MiuiFreeFormManager;
 
 public class OpenAppInFreeForm extends BaseHook {
 
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "OpenAppInFreeForm.systemContext";
     Class<?> mActivityStarter;
     Class<?> mActivityTaskManagerService;
+    private volatile boolean mReceiverRegistered;
 
     @Override
     public void init() {
         if (PrefsBridge.getBoolean("system_framework_freeform_jump")) {
             mActivityStarter = findClassIfExists("com.android.server.wm.ActivityStarter");
             mActivityTaskManagerService = findClassIfExists("com.android.server.wm.ActivityTaskManagerService");
+            Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+            if (restoredContext != null) {
+                registerFreeFormReceiver(restoredContext);
+            }
 
 
             findAndHookMethod(mActivityTaskManagerService, "onSystemReady", new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                    Context mContext = (Context) EzxHelpUtils.getObjectField(param.getThisObject(), "mContext");
-                    IntentFilter intentFilter = new IntentFilter();
-                    intentFilter.addAction(ACTION_PREFIX + "SetFreeFormPackage");
-                    BroadcastReceiver mReceiver = new BroadcastReceiver() {
-                        @Override
-                        public void onReceive(Context context, Intent intent) {
-                            String action = intent.getAction();
-                            if (action == null) return;
-
-                            if (action.equals(ACTION_PREFIX + "SetFreeFormPackage")) {
-                                String pkg = intent.getStringExtra("package");
-                                EzxHelpUtils.setAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage", pkg);
-                            }
-                        }
-                    };
-                    ContextCompat.registerReceiver(mContext, mReceiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+                    Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mContext");
+                    registerFreeFormReceiver(mContext);
                 }
             });
 
@@ -75,19 +67,19 @@ public class OpenAppInFreeForm extends BaseHook {
                 @Override
                 public void before(HookParam param) {
                     Object request = param.getArgs()[0];
-                    Intent intent = (Intent) EzxHelpUtils.getObjectField(request, "intent");
-                    Object safeOptions = EzxHelpUtils.getObjectField(request, "activityOptions");
+                    Intent intent = (Intent) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(request, "intent");
+                    Object safeOptions = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(request, "activityOptions");
                     if (safeOptions != null) {
-                        ActivityOptions ao = (ActivityOptions) EzxHelpUtils.getObjectField(safeOptions, "mOriginalOptions");
-                        if (ao != null && EzxHelpUtils.getIntField(ao, "mLaunchWindowingMode") == 5) {
+                        ActivityOptions ao = (ActivityOptions) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(safeOptions, "mOriginalOptions");
+                        if (ao != null && com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(ao, "mLaunchWindowingMode") == 5) {
                             return;
                         }
                     }
-                    String callingPackage = (String) EzxHelpUtils.getObjectField(request, "callingPackage");
+                    String callingPackage = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(request, "callingPackage");
                     boolean openInFw = shouldOpenInFreeForm(intent, callingPackage);
 
-//                Bundle ao = safeOptions != null ? (Bundle) EzxHelpUtils.callMethod(safeOptions, "getActivityOptionsBundle") : null;
-//                String reason = (String) EzxHelpUtils.getObjectField(request, "reason");
+//                Bundle ao = safeOptions != null ? (Bundle) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(safeOptions, "getActivityOptionsBundle") : null;
+//                String reason = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(request, "reason");
 //                Helpers.log("startAct: " + callingPackage
 //                    + " reason| " + reason
 //                    + " intent| " + intent
@@ -97,16 +89,42 @@ public class OpenAppInFreeForm extends BaseHook {
 //                );
 
                     if (openInFw) {
-                        Context mContext = (Context) EzxHelpUtils.getObjectField(EzxHelpUtils.getObjectField(param.getThisObject(), "mService"), "mContext");
+                        Context mContext = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mService"), "mContext");
                         // ActivityOptions options = MiuiMultiWindowUtils.getActivityOptions(mContext, intent.getComponent().getPackageName(), true, false);
-                        ActivityOptions options = (ActivityOptions) EzxHelpUtils.callStaticMethod(
+                        ActivityOptions options = (ActivityOptions) com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
                             findClassIfExists("android.util.MiuiMultiWindowUtils"),
                             "getActivityOptions", mContext, intent.getComponent().getPackageName(), true, false);
-                        EzxHelpUtils.callMethod(param.getThisObject(), "setActivityOptions", options.toBundle());
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getThisObject(), "setActivityOptions", options.toBundle());
                     }
                 }
             });
         }
+    }
+
+    private void registerFreeFormReceiver(Context context) {
+        if (context == null || mReceiverRegistered) {
+            return;
+        }
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_PREFIX + "SetFreeFormPackage");
+        BroadcastReceiver receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context receiverContext, Intent intent) {
+                String action = intent.getAction();
+                if (action == null) return;
+
+                if (action.equals(ACTION_PREFIX + "SetFreeFormPackage")) {
+                    String pkg = intent.getStringExtra("package");
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(
+                        MiuiFreeFormManager.class, "nextFreeformPackage", pkg);
+                }
+            }
+        };
+        ContextCompat.registerReceiver(context, receiver, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+        mReceiverRegistered = true;
+        putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+        registerReceiverHotReloadCleanup(context, receiver);
+        registerHotReloadCleanup(() -> mReceiverRegistered = false);
     }
 
     private boolean shouldOpenInFreeForm(Intent intent, String callingPackage) {
@@ -138,10 +156,10 @@ public class OpenAppInFreeForm extends BaseHook {
             }
         }
         if (!openInFw) {
-            Object pkg = EzxHelpUtils.getAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage");
+            Object pkg = com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage");
             openInFw = pkgName.equals(pkg);
             if (openInFw) {
-                EzxHelpUtils.removeAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage");
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.removeAdditionalInstanceField(MiuiFreeFormManager.class, "nextFreeformPackage");
             }
         }
         return openInFw;

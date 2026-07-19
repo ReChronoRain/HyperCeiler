@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.sevtinge.hyperceiler.common"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -33,6 +33,6 @@ java {
 
 dependencies {
     api(libs.bundles.miuix)
-    // libxposed API 100
+    // libxposed API 102
     compileOnlyApi(libs.libxposed.api)
 }

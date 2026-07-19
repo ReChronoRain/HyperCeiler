@@ -74,20 +74,19 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.med
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabg.CoverArtProcessor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabg.LinearGradientProcessor
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.mediabg.RadialGradientProcessor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getDimenByName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getValueByField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getValueByField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.replaceHookMethod as replaceMethod
 
 object CustomBackground : BaseHook() {
     private const val KEY_VIEW_HOLDER_WRAPPER = "KEY_VIEW_HOLDER_WRAPPER"
@@ -311,7 +310,7 @@ object CustomBackground : BaseHook() {
                 }
                 parent.addView(it, index)
                 parent.removeView(mediaBgView)
-                val constraintSet = EzxHelpUtils.newInstance(clzConstraintSetClass!!)
+                val constraintSet = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(clzConstraintSetClass!!)
                 clone.invoke(constraintSet, parent)
                 connect.invoke(constraintSet, mediaBgId, ConstraintSet.LEFT, ConstraintSet.PARENT_ID, ConstraintSet.LEFT)
                 connect.invoke(constraintSet, mediaBgId, ConstraintSet.TOP, ConstraintSet.PARENT_ID, ConstraintSet.TOP)

@@ -25,14 +25,13 @@ import android.view.ViewGroup;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /**
  * 去除营业厅广告与推广模块
@@ -226,7 +225,7 @@ public class BusinessHallAdBlock extends BaseHook {
 
     /**
      * 查找 ContainerAdapter 内部的 viewType 列表字段。
-     * 使用 EzxHelpUtils.findFirstFieldByExactType 缓存 Field 引用，避免每次反射扫描。
+     * 使用 BaseHook.findFirstFieldByExactType 缓存 Field 引用，避免每次反射扫描。
      */
     @SuppressWarnings("unchecked")
     private ArrayList<Integer> findTypeList(Object adapter) {
@@ -239,17 +238,15 @@ public class BusinessHallAdBlock extends BaseHook {
             }
         }
 
-        // 通过类型查找（EzxHelpUtils 内部有缓存）
+        // 通过类型查找（BaseHook 内部有缓存）
         try {
-            Field f = EzxHelpUtils.findFirstFieldByExactTypeIfExists(adapter.getClass(), ArrayList.class);
-            if (f != null) {
-                f.setAccessible(true);
-                Object value = f.get(adapter);
-                if (value instanceof ArrayList) {
-                    ArrayList<?> list = (ArrayList<?>) value;
-                    if (!list.isEmpty() && list.get(0) instanceof Integer) {
-                        return (ArrayList<Integer>) list;
-                    }
+            Field f = findFirstFieldByExactType(adapter.getClass(), ArrayList.class);
+            f.setAccessible(true);
+            Object value = f.get(adapter);
+            if (value instanceof ArrayList) {
+                ArrayList<?> list = (ArrayList<?>) value;
+                if (!list.isEmpty() && list.get(0) instanceof Integer) {
+                    return (ArrayList<Integer>) list;
                 }
             }
         } catch (Throwable ignored) {

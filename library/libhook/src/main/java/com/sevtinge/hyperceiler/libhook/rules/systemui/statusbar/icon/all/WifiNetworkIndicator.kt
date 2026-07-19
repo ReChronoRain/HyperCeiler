@@ -20,9 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object WifiNetworkIndicator : BaseHook() {
     private val mStatusBarWifiViewNew by lazy {

@@ -21,22 +21,22 @@ package com.sevtinge.hyperceiler.libhook.rules.remotecontroller;
 import android.view.View;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 public class DisableAd extends BaseHook {
     @Override
     public void init() {
         findAndReplaceMethod("com.xiaomi.mitv.phone.remotecontroller.common.activity.BaseActivity", "setActionMark", "com.duokan.phone.remotecontroller.operation.Operation", View.OnClickListener.class, new IReplaceHook() {
             @Override
-            public Object replace(HookParam param) throws Throwable {
+            public Object replace(HookParam param) {
                 return null;
             }
         });
         findAndReplaceMethod("com.duokan.phone.remotecontroller.operation.SHBusinessManager", "isUserClosedBanner", new IReplaceHook() {
             @Override
-            public Object replace(HookParam param) throws Throwable {
+            public Object replace(HookParam param) {
                 return true;
             }
         });

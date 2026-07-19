@@ -26,10 +26,10 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.modernStatusBarMobileView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 /**
  * 移动信号 Hook 扩展基类
@@ -43,9 +43,7 @@ abstract class MobileSignalHook : StatusBarHook() {
      * @param callback 回调 (rootView, subId)
      */
     protected fun hookConstructAndBind(callback: (ViewGroup, Int) -> Unit) {
-        modernStatusBarMobileView.methodFinder()
-            .filterByName("constructAndBind")
-            .single()
+        modernStatusBarMobileView.findMethod { name("constructAndBind") }
             .createAfterHook { param ->
                 val rootView = param.result as? ViewGroup ?: return@createAfterHook
                 val subId = rootView.getIntField("subId")
@@ -63,9 +61,7 @@ abstract class MobileSignalHook : StatusBarHook() {
      * @param callback 回调 (rootView, darkInfo)
      */
     protected fun hookDarkMode(callback: (ViewGroup, DarkInfo) -> Unit) {
-        miuiMobileIconBinder.methodFinder()
-            .filterByName("bind")
-            .single()
+        miuiMobileIconBinder.findMethod { name("bind") }
             .createAfterHook { param ->
                 val container = param.args[0] as? ViewGroup ?: return@createAfterHook
                 val binding = param.result ?: return@createAfterHook
@@ -118,9 +114,7 @@ abstract class MobileSignalHook : StatusBarHook() {
      * 可用于修改已有控件属性/布局，或注入新组件。
      */
     protected fun hookBind(callback: (ViewGroup, Any) -> Unit) {
-        miuiMobileIconBinder.methodFinder()
-            .filterByName("bind")
-            .single()
+        miuiMobileIconBinder.findMethod { name("bind") }
             .createAfterHook { param ->
                 val container = param.args[0] as? ViewGroup ?: return@createAfterHook
                 val binding = param.result ?: return@createAfterHook

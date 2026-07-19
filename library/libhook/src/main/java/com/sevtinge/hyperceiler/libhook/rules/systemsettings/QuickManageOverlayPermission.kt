@@ -22,24 +22,19 @@ import android.app.Activity
 import android.os.Bundle
 import android.provider.Settings
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import io.github.kyuubiran.ezxhelper.core.helper.ObjectHelper.`-Static`.objectHelper
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 
 class QuickManageOverlayPermission : BaseHook() {
     override fun init() {
-        findAndHookMethod("com.android.settings.SettingsActivity",
-            "redirectTabletActivity",
-            Bundle::class.java,
-            object : IMethodHook {
-                override fun before(param: HookParam) {
-                    val intent = (param.thisObject as Activity).intent
-                    if (intent.action != Settings.ACTION_MANAGE_OVERLAY_PERMISSION || intent.data == null || intent.data!!.scheme != "package") return
-                    param.thisObject.objectHelper().setObjectUntilSuperclass(
-                        "initialFragmentName",
-                        "com.android.settings.applications.appinfo.DrawOverlayDetails"
-                    )
-                }
-            })
+        "com.android.settings.SettingsActivity".beforeHookMethod("redirectTabletActivity", Bundle::class.java) { param ->
+            val intent = (param.thisObject as Activity).intent
+            if (intent.action != Settings.ACTION_MANAGE_OVERLAY_PERMISSION || intent.data == null || intent.data!!.scheme != "package") return@beforeHookMethod
+            Fields.setObjectField(
+                param.thisObject,
+                "initialFragmentName",
+                "com.android.settings.applications.appinfo.DrawOverlayDetails"
+            )
+        }
     }
 }

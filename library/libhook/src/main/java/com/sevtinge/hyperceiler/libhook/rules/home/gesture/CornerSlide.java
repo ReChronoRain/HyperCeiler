@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
 
 import android.content.Context;
 import android.graphics.RectF;
@@ -28,11 +27,10 @@ import android.view.MotionEvent;
 
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed;
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CornerSlide extends BaseHook {
     public int inDirection = 0;
@@ -54,10 +52,10 @@ public class CornerSlide extends BaseHook {
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                        boolean isDisabled = (boolean) com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(FsGestureAssistHelper,
                             "isAssistantGestureDisabled", param.getArgs()[2]);
                         if (!isDisabled) {
-                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            int mAssistantWidth = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mAssistantWidth");
                             float f = (float) param.getArgs()[0];
                             float f2 = (float) param.getArgs()[1];
                             if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
@@ -75,10 +73,10 @@ public class CornerSlide extends BaseHook {
                 new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
-                        boolean isDisabled = (boolean) EzxHelpUtils.callStaticMethod(FsGestureAssistHelper,
+                        boolean isDisabled = (boolean) com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(FsGestureAssistHelper,
                             "isAssistantGestureDisabled", param.getArgs()[2]);
                         if (!isDisabled) {
-                            int mAssistantWidth = (int) EzxHelpUtils.getObjectField(param.getThisObject(), "mAssistantWidth");
+                            int mAssistantWidth = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.getThisObject(), "mAssistantWidth");
                             float f = (float) param.getArgs()[0];
                             float f2 = (float) param.getArgs()[1];
                             if (f < mAssistantWidth || f > f2 - mAssistantWidth) {
@@ -112,8 +110,8 @@ public class CornerSlide extends BaseHook {
                     public void after(HookParam param) {
                         updateDirectionFromDownPoint(
                             param.getThisObject(),
-                            EzxHelpUtils.getFloatField(param.getThisObject(), "mDownX"),
-                            EzxHelpUtils.getFloatField(param.getThisObject(), "mDownY")
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.getFloatField(param.getThisObject(), "mDownX"),
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.getFloatField(param.getThisObject(), "mDownY")
                         );
                     }
                 }
@@ -158,7 +156,7 @@ public class CornerSlide extends BaseHook {
         if (isPad() && updateDirectionWithGestureRegions(downX, downY)) {
             return;
         }
-        int assistantWidth = EzxHelpUtils.getIntField(helper, "mAssistantWidth");
+        int assistantWidth = com.sevtinge.hyperceiler.libhook.base.BaseHook.getIntField(helper, "mAssistantWidth");
         inDirection = downX < assistantWidth ? 0 : 1;
     }
 
@@ -167,8 +165,8 @@ public class CornerSlide extends BaseHook {
             return false;
         }
         try {
-            RectF leftRegion = (RectF) EzxHelpUtils.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_LEFT_CORNER");
-            RectF rightRegion = (RectF) EzxHelpUtils.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_RIGHT_CORNER");
+            RectF leftRegion = (RectF) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_LEFT_CORNER");
+            RectF rightRegion = (RectF) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(mGestureOperationHelperClass, "REGION_BOTTOM_RIGHT_CORNER");
             if (leftRegion != null && leftRegion.contains(downX, downY)) {
                 inDirection = 0;
                 return true;

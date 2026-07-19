@@ -22,10 +22,9 @@ package com.sevtinge.hyperceiler.libhook.rules.various.clipboard;
 import android.content.ClipData;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 /**
  * 解除输入法剪贴板限制（运行在输入法进程中）。
@@ -61,9 +60,9 @@ public class ClipboardUnlock {
      */
     private void hookMaxClipContentSize(ClassLoader classLoader) {
         try {
-            Class<?> mgrCls = EzxHelpUtils.findClass(
+            Class<?> mgrCls = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(
                 "com.miui.inputmethod.MiuiClipboardManager", classLoader);
-            EzxHelpUtils.setStaticIntField(mgrCls, "MAX_CLIP_CONTENT_SIZE",
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mgrCls, "MAX_CLIP_CONTENT_SIZE",
                 UNLOCKED_CLIP_CONTENT_SIZE);
         } catch (Throwable t) {
             XposedLog.e(TAG, "Failed to set MAX_CLIP_CONTENT_SIZE: " + t.getMessage());
@@ -82,7 +81,7 @@ public class ClipboardUnlock {
      */
     private void hookProcessSingleItem(ClassLoader classLoader) {
         try {
-            EzxHelpUtils.findAndHookMethod(
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod(
                 "com.miui.inputmethod.MiuiClipboardManager", classLoader,
                 "processSingleItemOfClipData",
                 ClipData.class, String.class,
@@ -91,7 +90,7 @@ public class ClipboardUnlock {
                     public void before(HookParam param) {
                         try {
                             Class<?> mgrCls = param.getThisObject().getClass();
-                            EzxHelpUtils.setStaticIntField(mgrCls,
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mgrCls,
                                 "MAX_CLIP_CONTENT_SIZE", Integer.MAX_VALUE);
                         } catch (Throwable t) {
                             XposedLog.e(TAG, "processSingleItem before: " + t.getMessage());
@@ -102,7 +101,7 @@ public class ClipboardUnlock {
                     public void after(HookParam param) {
                         try {
                             Class<?> mgrCls = param.getThisObject().getClass();
-                            EzxHelpUtils.setStaticIntField(mgrCls,
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mgrCls,
                                 "MAX_CLIP_CONTENT_SIZE", UNLOCKED_CLIP_CONTENT_SIZE);
                         } catch (Throwable t) {
                             XposedLog.e(TAG, "processSingleItem after: " + t.getMessage());

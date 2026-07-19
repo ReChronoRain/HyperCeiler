@@ -25,16 +25,10 @@ class HotSeatsHeight : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findAndHookMethod(
-            DEVICE_CONFIG_NEW, "getHotSeatsHeight",
-            setDimensionPixelSizeFormPrefs("home_layout_hotseats_height", 60)
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_NEW, "getHotSeatsHeight", "home_layout_hotseats_height", 60)
     }
 
     override fun initBase() {
-        findAndHookMethod(
-            DEVICE_CONFIG_OLD, "getHotSeatsHeight",
-            setDimensionPixelSizeFormPrefs("home_layout_hotseats_height", 60)
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_OLD, "getHotSeatsHeight", "home_layout_hotseats_height", 60)
     }
 }

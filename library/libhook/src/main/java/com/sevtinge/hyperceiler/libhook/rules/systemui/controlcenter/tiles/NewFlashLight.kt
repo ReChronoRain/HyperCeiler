@@ -23,19 +23,20 @@ import android.database.ContentObserver
 import android.net.Uri
 import android.os.Handler
 import android.provider.Settings
+import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.common.utils.ShellUtils
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.MathUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticFloatField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getStaticIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
-import com.sevtinge.hyperceiler.common.log.XposedLog
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import com.sevtinge.hyperceiler.common.utils.ShellUtils
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticFloatField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticIntField
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -59,6 +60,8 @@ object NewFlashLight : TileUtils() {
     // Settings keys
     private const val SETTING_FLASH_ENABLED = "flash_light_enabled"
     private const val SETTING_FLASH_BRIGHTNESS = "flash_light_brightness"
+    private const val STATE_CONTEXT = "NewFlashLight.context"
+    private const val STATE_CONTROLLER = "NewFlashLight.controller"
 
     private var mode: Int = 0
     private var lastFlash: Int = -1
@@ -86,6 +89,12 @@ object NewFlashLight : TileUtils() {
         initBrightnessControllerHook()
         hookBrightnessControl()
         hookBrightnessUtils()
+
+        val restoredContext = BaseHook.getHotReloadRuntimeState(STATE_CONTEXT, Context::class.java)
+        val restoredController = BaseHook.getHotReloadRuntimeState(STATE_CONTROLLER, Any::class.java)
+        if (restoredContext != null && restoredController != null) {
+            setupBrightnessListener(restoredContext, restoredController)
+        }
     }
 
     override fun onUpdateState(ctx: TileContext): TileState? {
@@ -161,6 +170,9 @@ object NewFlashLight : TileUtils() {
             brightnessObserver!!
         )
         isListening = true
+        BaseHook.registerContentObserverHotReloadCleanup(context.contentResolver, brightnessObserver!!)
+        BaseHook.putHotReloadRuntimeState(STATE_CONTEXT, context)
+        BaseHook.putHotReloadRuntimeState(STATE_CONTROLLER, controller)
         XposedLog.i(TAG, "Brightness listener set up successfully")
     }
 

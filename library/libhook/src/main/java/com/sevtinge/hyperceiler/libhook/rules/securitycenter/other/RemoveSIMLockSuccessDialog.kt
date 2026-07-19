@@ -23,22 +23,13 @@ import android.app.Activity
 import android.os.Bundle
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 
 object RemoveSIMLockSuccessDialog : BaseHook() {
     @Throws(NoSuchMethodException::class)
     override fun init() {
-        findAndHookMethod(
-            "com.miui.simlock.activity.SuccessDialogActivity",
-            "onCreate",
-            Bundle::class.java,
-            object : IMethodHook {
-                override fun before(param: HookParam) {
-                    (param.thisObject as Activity).finish()
-                }
-            }
-        )
+        "com.miui.simlock.activity.SuccessDialogActivity".beforeHookMethod("onCreate", Bundle::class.java) { param ->
+            (param.thisObject as Activity).finish()
+        }
     }
 }

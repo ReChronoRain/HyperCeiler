@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.various
 
 import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,7 +35,7 @@ object MusicHooks : MusicBaseHook() {
                     if ((hookParam.thisObject.objectHelper().getObjectOrNullAs<Int>("API_VERSION")
                             ?: 0) >= 6
                     ) {
-                        clazz.methodFinder().first { name == "sendLyric" }.createHook {
+                        clazz.findMethod { name("sendLyric") }.createHook {
                             before { hookParam ->
                                 val extra = (hookParam.args[1]).objectHelper()
                                     .getObjectOrNullAs<HashMap<String, Any>>("extra")

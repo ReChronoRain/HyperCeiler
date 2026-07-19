@@ -18,15 +18,14 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui
 
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 
 object DefaultPluginTheme {
     fun initDefaultPluginTheme(mClassLoader: ClassLoader) {
-        loadClass("miui.systemui.util.ThemeUtils", mClassLoader).methodFinder()
-            .filterByName("getDefaultPluginTheme").first()
+        loadClass("miui.systemui.util.ThemeUtils", mClassLoader).findMethod { name("getDefaultPluginTheme") }
             .createAfterHook {
                 it.result = true
             }

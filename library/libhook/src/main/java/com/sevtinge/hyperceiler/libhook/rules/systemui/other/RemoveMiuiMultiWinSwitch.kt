@@ -20,26 +20,20 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 // by ljlvink
 object RemoveMiuiMultiWinSwitch : BaseHook() {
     override fun init() {
         if (isMoreAndroidVersion(36)) {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDot")
-                .methodFinder()
-                .filterByName("createHandleMenu")
-                .single().createHook {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.decoration.MiuiDecorationDot").findMethod { name("createHandleMenu") }.createHook {
                     returnConstant(null)
                 }
 
         } else {
-            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration")
-                .methodFinder()
-                .filterByName("shouldHideCaption")
-                .single().createHook {
+            loadClass("com.android.wm.shell.multitasking.miuimultiwinswitch.miuiwindowdecor.MiuiBaseWindowDecoration").findMethod { name("shouldHideCaption") }.createHook {
                     returnConstant(true)
                 }
         }

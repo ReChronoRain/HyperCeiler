@@ -19,16 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.other
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 class OverlapMode : BaseHook() {
     override fun init() {
         // Fold2 样式负一屏
-        loadClass("com.miui.home.launcher.overlay.assistant.AssistantDeviceAdapter").methodFinder()
-            .filterByName("inOverlapMode")
-            .single().createHook {
+        loadClass("com.miui.home.launcher.overlay.assistant.AssistantDeviceAdapter").findMethod { name("inOverlapMode") }.createHook {
                 returnConstant(true)
             }
     }

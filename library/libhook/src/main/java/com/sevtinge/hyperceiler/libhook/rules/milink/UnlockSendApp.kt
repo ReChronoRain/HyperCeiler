@@ -1,4 +1,4 @@
-/*
+ /*
  * This file is part of HyperCeiler.
 
  * HyperCeiler is free software: you can redistribute it and/or modify
@@ -19,17 +19,15 @@
 package com.sevtinge.hyperceiler.libhook.rules.milink
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object UnlockSendApp : BaseHook() {
 
     override fun init() {
-        findClass("com.xiaomi.mirror.synergy.MiuiSynergySdk")
-            .methodFinder()
-            .filter {
-                name in setOf("isSupportSendApp", "isSupportSendAppToPhone")
-            }.toList()
+        findClass("com.xiaomi.mirror.synergy.MiuiSynergySdk").findAllMethods {  }.filter {
+                it.name in setOf("isSupportSendApp", "isSupportSendAppToPhone")
+            }
             .createHooks {
                 returnConstant(true)
             }

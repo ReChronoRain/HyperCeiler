@@ -19,12 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui
 
 import android.app.admin.DevicePolicyManager
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 
 object DisableDeviceManagedNew {
     @JvmStatic
@@ -33,33 +33,25 @@ object DisableDeviceManagedNew {
             loadClass("miui.systemui.controlcenter.policy.SecurityController", classLoader)
         }
 
-        securityController.constructorFinder()
+        Constructors.find(securityController)
             .filterByParamCount(5)
             .first().createBeforeHook {
                 it.thisObject.setObjectField("hasCACerts", null)
             }
 
-        DevicePolicyManager::class.java.methodFinder()
-            .filterByName("isDeviceManaged")
-            .first().createHook {
+        DevicePolicyManager::class.java.findMethod { name("isDeviceManaged") }.createHook {
                 returnConstant(false)
             }
 
-        securityController.methodFinder()
-            .filterByName("isDeviceManaged")
-            .first().createHook {
+        securityController.findMethod { name("isDeviceManaged") }.createHook {
                 returnConstant(false)
             }
 
-        securityController.methodFinder()
-            .filterByName("hasCACertInCurrentUser")
-            .first().createHook {
+        securityController.findMethod { name("hasCACertInCurrentUser") }.createHook {
                 returnConstant(false)
             }
 
-        securityController.methodFinder()
-            .filterByName("hasCACertInWorkProfile")
-            .first().createHook {
+        securityController.findMethod { name("hasCACertInWorkProfile") }.createHook {
                 returnConstant(false)
             }
     }

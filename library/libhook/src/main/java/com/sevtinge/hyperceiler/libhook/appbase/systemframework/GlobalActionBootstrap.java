@@ -18,8 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.appbase.systemframework;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.newInstance;
-import static io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass;
+import static io.github.lingqiqi5211.ezhooktool.core.ClassUtils.loadClass;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
@@ -37,7 +36,6 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -45,9 +43,12 @@ import java.util.List;
 
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedInterface.HookHandle;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 @SuppressLint("UnspecifiedRegisterReceiverFlag")
 public class GlobalActionBootstrap extends BaseHook {
+    private static final String HOT_RELOAD_CONTEXT_KEY =
+        "GlobalActionBootstrap.systemContext";
     private static volatile boolean sGlobalReceiverRegistered;
     private static volatile boolean sRestartReceiverRegistered;
     private static volatile int sContextualSearchPackageNameResId;
@@ -109,6 +110,13 @@ public class GlobalActionBootstrap extends BaseHook {
 
     @Override
     public void init() {
+        // onSystemReady 不会在热重载后重放；用旧 generation 保存的 system Context
+        // 立即重建 receiver，避免清理旧 receiver 后功能永久失效。
+        Context restoredContext = getHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, Context.class);
+        if (restoredContext != null) {
+            registerGlobalReceiver(restoredContext);
+            registerRestartReceiver(restoredContext);
+        }
         try {
             Class<?> rString = findClass("com.android.internal.R$string", null);
             sContextualSearchPackageNameResId = rString.getField("config_defaultContextualSearchPackageName").getInt(null);
@@ -172,6 +180,19 @@ public class GlobalActionBootstrap extends BaseHook {
             filter.addAction(BaseHook.ACTION_PREFIX + "StartGoogleCircleToSearch");
             context.registerReceiver(mGlobalReceiver, filter, Context.RECEIVER_EXPORTED);
             sGlobalReceiverRegistered = true;
+            putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+            registerHotReloadCleanup(() -> {
+                synchronized (GlobalActionBootstrap.class) {
+                    if (!sGlobalReceiverRegistered) {
+                        return;
+                    }
+                    try {
+                        context.unregisterReceiver(mGlobalReceiver);
+                    } finally {
+                        sGlobalReceiverRegistered = false;
+                    }
+                }
+            });
         }
     }
 
@@ -187,6 +208,19 @@ public class GlobalActionBootstrap extends BaseHook {
             filter.addAction(GlobalActionBridge.ACTION_RESTART_APPS);
             context.registerReceiver(mRestartReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
             sRestartReceiverRegistered = true;
+            putHotReloadRuntimeState(HOT_RELOAD_CONTEXT_KEY, context);
+            registerHotReloadCleanup(() -> {
+                synchronized (GlobalActionBootstrap.class) {
+                    if (!sRestartReceiverRegistered) {
+                        return;
+                    }
+                    try {
+                        context.unregisterReceiver(mRestartReceiver);
+                    } finally {
+                        sRestartReceiverRegistered = false;
+                    }
+                }
+            });
         }
     }
 
@@ -267,13 +301,13 @@ public class GlobalActionBootstrap extends BaseHook {
             Method getContextualSearchPackageName = csmsClass.getDeclaredMethod("getContextualSearchPackageName");
             hooks.add(hookMethod(enforcePermission, new IMethodHook() {
                 @Override
-                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                public void before(io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam param) {
                     param.setResult(null);
                 }
             }));
             hooks.add(hookMethod(getContextualSearchPackageName, new IMethodHook() {
                 @Override
-                public void before(io.github.kyuubiran.ezxhelper.xposed.common.HookParam param) {
+                public void before(io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam param) {
                     param.setResult("com.google.android.googlequicksearchbox");
                 }
             }));

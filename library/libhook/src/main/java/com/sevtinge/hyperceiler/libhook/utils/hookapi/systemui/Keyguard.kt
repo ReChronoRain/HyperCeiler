@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
 
 object Keyguard {
     // 锁屏底部左侧按钮

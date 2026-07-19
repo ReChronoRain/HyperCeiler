@@ -19,17 +19,16 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.display
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object EnhanceRecentsVisibility : BaseHook() {
     override fun init() {
-        findClass("android.content.Intent")
-            .hookAllMethods("setFlags") {
-                before {
-                    var flags = it.args[0] as Int
-                    flags = flags and 0xFF7FFFFF.toInt()
-                    it.args[0] = flags
-                }
+        findClass("android.content.Intent").findAllMethods { name("setFlags") }
+            .createBeforeHooks {
+                var flags = it.args[0] as Int
+                flags = flags and 0xFF7FFFFF.toInt()
+                it.args[0] = flags
             }
     }
 }

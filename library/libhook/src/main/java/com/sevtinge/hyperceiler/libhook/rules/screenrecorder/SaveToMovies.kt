@@ -19,10 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.util.Objects
 
 object SaveToMovies : BaseHook() {
@@ -34,10 +34,8 @@ object SaveToMovies : BaseHook() {
         clazz.setStaticObjectField("DIRECTORY_DCIM", "Movies")
 
         loadClass("android.content.ContentValues", lpparam.classLoader)
-            .methodFinder().filterByName("put")
-            .filterByParamTypes {
-                it[0] == String::class.java && it[1] == String::class.java
-            }.single().createBeforeHook { param ->
+            .findMethod { name("put"); parameterTypes(String::class.java, String::class.java) }
+            .createBeforeHook { param ->
                 val param0 = param.args[0] as String
 
                 if (Objects.equals(param0, "relative_path")) {

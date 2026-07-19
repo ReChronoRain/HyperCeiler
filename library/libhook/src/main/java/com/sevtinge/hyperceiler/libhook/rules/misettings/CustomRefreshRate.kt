@@ -19,11 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.misettings
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isFinal
-import io.github.kyuubiran.ezxhelper.core.extension.MemberExtension.isStatic
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.lang.reflect.Method
+import java.lang.reflect.Modifier
 
 object CustomRefreshRate : BaseHook() {
     override fun useDexKit() = true
@@ -42,7 +40,7 @@ object CustomRefreshRate : BaseHook() {
         }
     }
     override fun init() {
-        val resultClass = loadClass("com.xiaomi.misettings.display.RefreshRate.RefreshRateActivity")
+        val resultClass = findClass("com.xiaomi.misettings.display.RefreshRate.RefreshRateActivity")
 
         resultMethod.createHook {
             before {
@@ -51,7 +49,7 @@ object CustomRefreshRate : BaseHook() {
         }
 
         resultClass.declaredFields.first { field ->
-            field.isFinal && field.isStatic
+            Modifier.isFinal(field.modifiers) && Modifier.isStatic(field.modifiers)
         }.apply { isAccessible = true }.set(null, true)
     }
 }

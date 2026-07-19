@@ -5,16 +5,16 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class DisableReroute extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.photopicker.hyper.HyperMainActivity", "getHyperFilePickerName", new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 Intent intent = new Intent("android.intent.action.OPEN_DOCUMENT");
                 intent.addCategory("android.intent.category.OPENABLE");
                 intent.setType("*/*");

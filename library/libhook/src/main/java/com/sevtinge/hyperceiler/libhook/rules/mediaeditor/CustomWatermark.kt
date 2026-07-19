@@ -20,7 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -78,10 +78,7 @@ object CustomWatermark : BaseHook() {
             }
         }
 
-        /*SystemProperties.methodFinder()
-            .filterByParamCount(2)
-            .filterByParamTypes(String::class.java, String::class.java)
-            .toList().createHooks {
+        /*SystemProperties.findAllMethods { paramCount(2); parameterTypes(String::class.java, String::class.java); }.createHooks {
                 before {
                     if (it.args[0] == "ro.product.marketname") {
                         it.args[1] = name
@@ -89,10 +86,7 @@ object CustomWatermark : BaseHook() {
                 }
             }
 
-        SystemProperties.methodFinder()
-            .filterByName("get")
-            .filterByParamTypes(String::class.java)
-            .toList().createHooks {
+        SystemProperties.findAllMethods { name("get"); parameterTypes(String::class.java) }.createHooks {
                 before {
                     if (it.args[0] == "ro.product.marketname") {
                         it.result = name

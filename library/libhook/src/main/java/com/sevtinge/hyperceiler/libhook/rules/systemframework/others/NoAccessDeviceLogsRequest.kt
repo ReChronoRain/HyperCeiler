@@ -18,25 +18,26 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
 import com.sevtinge.hyperceiler.common.log.XposedLog
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import com.sevtinge.hyperceiler.common.utils.api.ProjectApi.isDebug
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object NoAccessDeviceLogsRequest : BaseHook() {
     private lateinit var mActivityManagerInternal: Any
     private lateinit var mLogcatManagerService: Any
-    override fun init() {
 
-        findClass("com.android.server.logcat.LogcatManagerService", systemParam.classLoader).methodFinder().apply {
-            filterByName("onStart")
-            .first()
-            .createAfterHook {
+    override fun init() {
+        loadClass("com.android.server.logcat.LogcatManagerService", systemParam.classLoader).apply {
+            findMethod {
+                name("onStart")
+            }.createAfterHook {
                 try {
                     mLogcatManagerService = it.thisObject
                     mActivityManagerInternal =
@@ -46,12 +47,12 @@ object NoAccessDeviceLogsRequest : BaseHook() {
                 }
             }
 
-            filterByName("processNewLogAccessRequest")
-            .first()
-            .createBeforeHook {
+            findMethod {
+                name("processNewLogAccessRequest")
+            }.createBeforeHook {
                 try {
                     val client = it.args[0]
-                    if (client == null || mActivityManagerInternal == null) return@createBeforeHook
+                    if (client == null || !::mActivityManagerInternal.isInitialized) return@createBeforeHook
                     val uid = client.getIntField("mUid")
                     val packageName =
                         client.getObjectField("mPackageName") as String
@@ -75,9 +76,7 @@ object NoAccessDeviceLogsRequest : BaseHook() {
 
         // 米客原来的取消方法，未知情况封堵失败
         /*try {
-            findClass("com.android.server.logcat.LogcatManagerService").methodFinder().filter {
-                name == "onLogAccessRequested"
-            }.toList().createHooks {
+            findClass("com.android.server.logcat.LogcatManagerService").findAllMethods { filter { name == "onLogAccessRequested" } }.createHooks {
                 before { param ->
                     XposedHelpers.callMethod(param.thisObject, "declineRequest", param.args[0])
                     param.result = null

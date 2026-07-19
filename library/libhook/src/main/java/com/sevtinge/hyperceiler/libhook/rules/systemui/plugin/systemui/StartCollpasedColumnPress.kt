@@ -21,17 +21,18 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui
 import android.view.HapticFeedbackConstants
 import android.view.MotionEvent
 import android.view.View
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getFloatField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setLongField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFloatField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setLongField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -52,6 +53,10 @@ object StartCollpasedColumnPress {
 
         var longClick = false
         var longPressJob: Job? = null
+        BaseHook.registerHotReloadCleanup {
+            longPressJob?.cancel()
+            longPressJob = null
+        }
 
         fun View.startScaleAnimation() {
             longClick = true
@@ -71,9 +76,7 @@ object StartCollpasedColumnPress {
                 .start()
         }
 
-        miuiVolumeDialogView.methodFinder().apply {
-            filterByName("onFinishInflate")
-                .first().createAfterHook {
+        miuiVolumeDialogView.findMethod { name("onFinishInflate") }.createAfterHook {
                     it.thisObject.getObjectFieldAs<View>("mExpandButton").apply {
                         alpha = 0f
                         isClickable = false
@@ -82,29 +85,18 @@ object StartCollpasedColumnPress {
                     }
 
                 }
-            filterByName("notifyAccessibilityChanged")
-                .filterByParamTypes {
-                    it[0] == Boolean::class.java
-                }.first().createAfterHook {
+        miuiVolumeDialogView.findMethod { name("notifyAccessibilityChanged"); parameterTypes(Boolean::class.javaPrimitiveType!!) }.createAfterHook {
                     it.thisObject.getObjectFieldAs<View>("mExpandButton").apply {
                         isClickable = false
                         visibility = View.GONE
                         setOnClickListener(null)
                     }
                 }
-        }
 
-        miuiVolumeDialogMotion.methodFinder().apply {
-            filterByName($$"lambda$processExpandTouch$1")
-                .first().createBeforeHook {
+        miuiVolumeDialogMotion.findMethod { name($$"lambda$processExpandTouch$1") }.createBeforeHook {
                     it.thisObject.setObjectField("mIsExpandButton",true)
                 }
-        }
-        miuiVolumeSeekBar.methodFinder()
-            .filterByName("onTouchEvent")
-            .filterByParamTypes {
-                it[0] == MotionEvent::class.java
-            }.first().createAfterHook {
+        miuiVolumeSeekBar.findMethod { name("onTouchEvent"); parameterTypes(MotionEvent::class.java) }.createAfterHook {
                 val mSeekBarOnclickListener = it.thisObject.getObjectField("mSeekBarOnclickListener")
                 val mSeekBarAnimListener = it.thisObject.getObjectField("mSeekBarAnimListener")!!
                 val volumePanelViewController = mSeekBarAnimListener.getObjectField($$"this$0")!!

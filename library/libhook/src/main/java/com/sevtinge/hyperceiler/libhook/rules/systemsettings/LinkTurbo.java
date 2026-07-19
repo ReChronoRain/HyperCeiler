@@ -28,13 +28,13 @@ import android.provider.Settings;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class LinkTurbo extends BaseHook {
     List<String> mPackage = new ArrayList<>();

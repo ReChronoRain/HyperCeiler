@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class RemoveNotifNumLimit extends BaseHook {
     @Override

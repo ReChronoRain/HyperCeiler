@@ -64,29 +64,31 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.right
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.showMobileType
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.verticalOffset
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethodOrNull
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
 object MobileTypeSingle2Hook : BaseHook() {
     private const val LAST_BOUND_VIEW_MODEL_KEY = "mobile_type_single2_last_bound_vm"
+    private const val DATA_SIM_CONTEXT_KEY = "MobileTypeSingle2Hook.dataSimContext"
 
     private val showNameFlowProxy = DataSimFlowProxy("")
     private val inOutVisibleProxy = DataSimFlowProxy(false)
@@ -133,6 +135,11 @@ object MobileTypeSingle2Hook : BaseHook() {
     private val refreshBoundViewsRunnable = Runnable { refreshBoundViewsNow() }
 
     override fun init() {
+        BaseHook.registerHandlerHotReloadCleanup(mainHandler)
+        if (isEnableDouble) {
+            getHotReloadRuntimeState(DATA_SIM_CONTEXT_KEY, Context::class.java)
+                ?.let(::registerDataSimBroadcast)
+        }
         hookMobileViewAndVM()
     }
 
@@ -143,12 +150,12 @@ object MobileTypeSingle2Hook : BaseHook() {
                 loadClass("com.miui.systemui.statusbar.views.MobileTypeDrawable")
             } else {
                 loadClass("com.android.systemui.statusbar.views.MobileTypeDrawable")
-            }.methodFinder().filterByName("measure").first().createHook {
+            }.findMethod { name("measure") }.createHook {
                 returnConstant(null)
             }
         }
 
-        miuiCellularIconVM.constructorFinder().first().createAfterHook { param ->
+        Constructors.find(miuiCellularIconVM).first().createAfterHook { param ->
             val viewModel = param.thisObject
             val interactor = param.args[1]
             val miuiInteractor = param.args[2]
@@ -214,27 +221,25 @@ object MobileTypeSingle2Hook : BaseHook() {
             scheduleRefreshBoundViews()
         }
 
-        modernStatusBarMobileView.methodFinder()
-            .filterByName("constructAndBind")
-            .toList()
+        modernStatusBarMobileView.findAllMethods { name("constructAndBind") }
             .forEach { method ->
-                method.hook {
-                    val result = proceed()
-                    val rootView = result as? ViewGroup ?: return@hook result
-                    val viewModel = resolveConstructAndBindViewModel(args) ?: return@hook result
+                method.createInterceptHook { chain ->
+                    val result = chain.proceed()
+                    val rootView = result as? ViewGroup ?: return@createInterceptHook result
+                    val viewModel = resolveConstructAndBindViewModel(chain.args.toList()) ?: return@createInterceptHook result
                     bindConstructedMobileViewIfNeeded(rootView, viewModel)
                     result
                 }
             }
 
         if (!showMobileType && mobileNetworkType == 4) {
-            mobileUiAdapter.constructorFinder().first().createAfterHook {
+                Constructors.find(mobileUiAdapter).first().createAfterHook {
                 setOnDataChangedListener(it.thisObject)
             }
         }
 
         if (showMobileType && isEnableDouble && (mobileNetworkType == 0 || mobileNetworkType == 2)) {
-            mobileUiAdapter.constructorFinder().first().createAfterHook {
+                Constructors.find(mobileUiAdapter).first().createAfterHook {
                 setOnDefaultConnectionsListener(it.thisObject)
             }
         }
@@ -485,20 +490,23 @@ object MobileTypeSingle2Hook : BaseHook() {
 
     /** 监听上网卡切换 + SIM 变化，刷新已绑定的官方 mobile 布局 */
     @Synchronized
-    private fun registerDataSimBroadcast() {
+    private fun registerDataSimBroadcast(context: Context = EzXposed.appContext) {
         if (broadcastRegistered) return
-        broadcastRegistered = true
 
         val filter = IntentFilter().apply {
             addAction("android.intent.action.ACTION_DEFAULT_DATA_SUBSCRIPTION_CHANGED")
             addAction("android.intent.action.SIM_STATE_CHANGED")
         }
-        EzXposed.appContext.registerReceiver(object : BroadcastReceiver() {
+        val receiver = object : BroadcastReceiver() {
             override fun onReceive(ctx: Context?, intent: Intent?) {
                 syncDataSimProxiesNow()
                 scheduleRefreshBoundViews()
             }
-        }, filter, Context.RECEIVER_EXPORTED)
+        }
+        context.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED)
+        broadcastRegistered = true
+        BaseHook.registerReceiverHotReloadCleanup(context, receiver)
+        BaseHook.putHotReloadRuntimeState(DATA_SIM_CONTEXT_KEY, context)
     }
 
     private fun syncDataSimProxiesNow() {

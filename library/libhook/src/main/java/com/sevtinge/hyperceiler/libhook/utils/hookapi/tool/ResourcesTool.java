@@ -33,16 +33,18 @@ import android.util.TypedValue;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 /**
@@ -81,9 +83,15 @@ public class ResourcesTool {
     private final CopyOnWriteArrayList<Resources> resourcesArrayList = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<XposedInterface.HookHandle> unhooks = new CopyOnWriteArrayList<>();
     private final ConcurrentHashMap<ResKey, Pair<ReplacementType, Object>> replacements = new ConcurrentHashMap<>();
-    private final ConcurrentHashMap<Integer, ResKey> resIdCache = new ConcurrentHashMap<>();
+    /*
+     * 资源 ID 只在同一个 Resources 范围内有意义。SystemUI 与其插件会在同一进程中使用
+     * 不同的 Resources，若只以 int 作为 key，二者恰好复用 ID 时会命中错误的替换规则。
+     */
+    private final ConcurrentHashMap<ResIdCacheKey, ResKey> resIdCache = new ConcurrentHashMap<>();
 
     private record ResKey(String pkg, String type, String name) {}
+
+    private record ResIdCacheKey(Resources resources, int resId) {}
 
     /**
      * 资源替换类型
@@ -123,6 +131,45 @@ public class ResourcesTool {
         return sInstance;
     }
 
+    public static synchronized void releaseInstance() {
+        if (sInstance == null) {
+            return;
+        }
+        try {
+            sInstance.unHookRes();
+        } catch (Throwable t) {
+            XposedLog.w(TAG, "Failed to release ResourcesTool", t);
+        } finally {
+            sInstance = null;
+        }
+    }
+
+    /**
+     * 为 API 102 热重载释放旧 generation 注入的 {@link ResourcesLoader}，但不提前 unhook
+     * Resources 方法。后者会由同 ID 的新 hook 原子替换；提前 unhook 会留下无替换逻辑的窗口。
+     */
+    public static synchronized void prepareHotReload() {
+        if (sInstance == null) {
+            return;
+        }
+        sInstance.detachModuleResources();
+        // 旧 HookHandle 不再由模块保留；未被新 generation 替换的句柄会由入口统一 unhook。
+        sInstance.unhooks.clear();
+        sInstance = null;
+    }
+
+    /**
+     * 资源替换不能作为无重启热重载的成功条件。
+     *
+     * <p>即使新的 Resources hook 已安装，已经 inflate 的 View、缓存的 drawable / color 以及
+     * framework 持有的 ResourcesLoader 都不能由 libxposed 自动回放。因此当前进程一旦实际
+     * 注册过资源替换，就必须拒绝热重载并改用完整进程重启。</p>
+     */
+    public static boolean requiresProcessRestartForHotReload() {
+        ResourcesTool instance = sInstance;
+        return instance != null && (!instance.replacements.isEmpty() || instance.appliedMask != 0);
+    }
+
     /**
      * 检查是否已初始化
      */
@@ -150,6 +197,11 @@ public class ResourcesTool {
         if (resources == null) {
             XposedLog.w(TAG, "Resources can't be null!");
             return null;
+        }
+        // 旧 generation 在 onHotReloading 中已完成 loader 拆除；其晚到的 Context 回调不得把
+        // 上一版 APK 再挂回宿主 Resources。
+        if (!isInit) {
+            return resources;
         }
 
         boolean loaded = loadResAboveApi30(resources, doOnMainLooper);
@@ -265,6 +317,7 @@ public class ResourcesTool {
      * 按需确保指定类型的 hook 已应用
      */
     private void ensureHooksForType(String type) {
+        if (!isInit) return;
         int needMask = mapTypeToMask(type);
         if (needMask == 0) return;
         if ((appliedMask & needMask) == needMask) return;
@@ -308,7 +361,7 @@ public class ResourcesTool {
             if (!shouldHookResourcesMethod(name, paramTypes, mask)) continue;
 
             try {
-                XposedInterface.HookHandle unhook = EzxHelpUtils.hookMethod(method, ResHooker);
+                XposedInterface.HookHandle unhook = com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(method, ResHooker);
                 unhooks.add(unhook);
             } catch (Throwable t) {
                 XposedLog.e(TAG, "Failed to hook Resources." + name, t);
@@ -357,7 +410,7 @@ public class ResourcesTool {
             if (!isNeedHook(method, name, mask)) continue;
 
             try {
-                XposedInterface.HookHandle unhook = EzxHelpUtils.hookMethod(method, TypedArrayHooker);
+                XposedInterface.HookHandle unhook = com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(method, TypedArrayHooker);
                 unhooks.add(unhook);
             } catch (Throwable t) {
                 XposedLog.e(TAG, "Failed to hook TypedArray." + name, t);
@@ -387,7 +440,53 @@ public class ResourcesTool {
             unhook.unhook();
         }
         unhooks.clear();
+        detachModuleResources();
+    }
+
+    /** 从所有曾注入过的 Resources 中移除当前模块专属的 loader。 */
+    private synchronized void detachModuleResources() {
+        Handler handler = mHandler;
+        if (handler != null) {
+            // 该 Handler 只由本工具创建，移除的不会是宿主自己的消息。
+            handler.removeCallbacksAndMessages(null);
+        }
+
+        ResourcesLoader loader = resourcesLoader;
+        if (loader != null) {
+            Throwable firstFailure = null;
+            List<Resources> detached = new ArrayList<>();
+            for (Resources resources : resourcesArrayList) {
+                if (resources == null) continue;
+                try {
+                    resources.removeLoaders(loader);
+                    detached.add(resources);
+                } catch (Throwable t) {
+                    if (firstFailure == null) {
+                        firstFailure = t;
+                    }
+                    XposedLog.w(TAG, "Failed to remove module ResourcesLoader", t);
+                }
+            }
+            if (firstFailure != null) {
+                // 热重载会被拒绝；尽量把已经移除的 loader 加回，维持旧 generation 可继续运行。
+                for (Resources resources : detached) {
+                    try {
+                        resources.addLoaders(loader);
+                    } catch (Throwable restoreError) {
+                        XposedLog.w(TAG, "Failed to restore ResourcesLoader after detach failure", restoreError);
+                    }
+                }
+                throw new IllegalStateException(
+                    "Unable to detach the old module ResourcesLoader before hot reload",
+                    firstFailure
+                );
+            }
+        }
+        resourcesArrayList.clear();
+        replacements.clear();
         resIdCache.clear();
+        resourcesLoader = null;
+        mHandler = null;
         inReplacement.remove();
         appliedMask = 0;
         isInit = false;
@@ -401,6 +500,7 @@ public class ResourcesTool {
     private final IMethodHook TypedArrayHooker = new IMethodHook() {
         @Override
         public void before(HookParam callback) {
+            if (!isInit) return;
             if (Boolean.TRUE.equals(inReplacement.get())) return;
 
             Object[] args = callback.getArgs();
@@ -409,7 +509,7 @@ public class ResourcesTool {
             int index = (int) args[0];
             Object thisObject = callback.getThisObject();
 
-            int[] mData = (int[]) EzxHelpUtils.getObjectField(thisObject, "mData");
+            int[] mData = (int[]) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(thisObject, "mData");
             if (mData == null || index < 0) return;
 
             int base = index * TA_STYLE_NUM_ENTRIES;
@@ -420,7 +520,7 @@ public class ResourcesTool {
 
             if (id == 0 || type == TypedValue.TYPE_NULL) return;
 
-            Resources mResources = (Resources) EzxHelpUtils.getObjectField(thisObject, "mResources");
+            Resources mResources = (Resources) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(thisObject, "mResources");
             if (mResources == null) return;
 
             String methodName = callback.getExecutable().getName();
@@ -440,6 +540,7 @@ public class ResourcesTool {
     private final IMethodHook ResHooker = new IMethodHook() {
         @Override
         public void before(HookParam callback) {
+            if (!isInit) return;
             if (Boolean.TRUE.equals(inReplacement.get())) return;
 
             // 模块资源未加载时，尝试同步加载作为 fallback
@@ -625,11 +726,11 @@ public class ResourcesTool {
      * 解析 resId 到 ResKey
      */
     private ResKey resolveResKey(Resources res, int resId) {
-        ResKey cached = resIdCache.computeIfAbsent(resId, id -> {
+        ResKey cached = resIdCache.computeIfAbsent(new ResIdCacheKey(res, resId), key -> {
             try {
-                String pkgName = res.getResourcePackageName(id);
-                String resType = res.getResourceTypeName(id);
-                String resName = res.getResourceEntryName(id);
+                String pkgName = res.getResourcePackageName(key.resId());
+                String resType = res.getResourceTypeName(key.resId());
+                String resName = res.getResourceEntryName(key.resId());
                 if (pkgName == null || resType == null || resName == null) return EMPTY_KEY;
                 return new ResKey(pkgName, resType, resName);
             } catch (Throwable ignore) {
@@ -726,11 +827,11 @@ public class ResourcesTool {
      */
     private Object callResourceMethod(Resources resources, String method, int modResId, Object[] args) {
         if (("getDrawable".equals(method) || "getColorStateList".equals(method)) && args.length >= 2) {
-            return EzxHelpUtils.callMethod(resources, method, modResId, args[1]);
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(resources, method, modResId, args[1]);
         } else if (("getDrawableForDensity".equals(method) || "getFraction".equals(method)) && args.length >= 3) {
-            return EzxHelpUtils.callMethod(resources, method, modResId, args[1], args[2]);
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(resources, method, modResId, args[1], args[2]);
         } else {
-            return EzxHelpUtils.callMethod(resources, method, modResId);
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(resources, method, modResId);
         }
     }
 

@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.List;
@@ -30,8 +29,8 @@ public class StatusBarIcon extends BaseHook {
     public void init() {
         // from XiaomiHelper with GPL3
         Class<?> mMiuiIconManagerUtils = findClassIfExists("com.android.systemui.statusbar.phone.MiuiIconManagerUtils");
-        List<String> statusBarList = (List<String>) EzxHelpUtils.getStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST");
-        List<String> ctrlCenterList = (List<String>) EzxHelpUtils.getStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST");
+        List<String> statusBarList = (List<String>) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST");
+        List<String> ctrlCenterList = (List<String>) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST");
 
         hyperIconShowManager(statusBarList, ctrlCenterList, mMiuiIconManagerUtils);
     }
@@ -65,8 +64,8 @@ public class StatusBarIcon extends BaseHook {
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_tv", 0), "tv", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wireless_headset", 0), "wireless_headset", statusBarList, ctrlCenterList);
 
-        EzxHelpUtils.setStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST", statusBarList);
-        EzxHelpUtils.setStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST", ctrlCenterList);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST", statusBarList);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST", ctrlCenterList);
     }
 
     private void setIcon(int value, String name, List<String> statusBarList, List<String> controlList){

@@ -21,12 +21,11 @@ package com.sevtinge.hyperceiler.libhook.appbase.mihome
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode
 import com.sevtinge.hyperceiler.libhook.utils.pkg.DebugModeUtils
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllMethods
 
 abstract class HomeBaseHookNew : BaseHook() {
 
@@ -135,11 +134,10 @@ abstract class HomeBaseHookNew : BaseHook() {
         }
     }
 
-    @JvmOverloads
-    protected fun setDimensionPixelSizeFormPrefs(key: String, defaultValue: Int = 0): IMethodHook {
-        return object : IMethodHook {
-            override fun before(param: HookParam) {
-                param.result = DisplayUtils.dp2px(
+    protected fun setDimensionPixelSizeFormPrefs(className: String, methodName: String, key: String, defaultValue: Int = 0) {
+        className.hookAllMethods(methodName) {
+            before {
+                it.result = DisplayUtils.dp2px(
                     PrefsBridge.getInt(key, defaultValue).toFloat()
                 )
             }

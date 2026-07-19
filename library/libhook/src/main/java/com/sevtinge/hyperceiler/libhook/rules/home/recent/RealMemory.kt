@@ -22,14 +22,14 @@ import android.app.ActivityManager
 import android.content.Context
 import android.text.format.Formatter
 import android.widget.TextView
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.common.log.XposedLog
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethodOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import java.text.DecimalFormat
 
 object RealMemory : HomeBaseHookNew() {
@@ -54,7 +54,7 @@ object RealMemory : HomeBaseHookNew() {
         fun Any.formatSize(): String = Formatter.formatFileSize(context, this as Long)
 
         clazz.apply {
-            declaredConstructors.constructorFinder()
+            Constructors.find(this)
                 .filterByParamCount(2)
                 .firstOrNull()?.createHook {
                     after {
@@ -72,9 +72,7 @@ object RealMemory : HomeBaseHookNew() {
                     }
                 } ?: XposedLog.e(TAG, lpparam.packageName, "Constructor not found")
 
-            methodFinder()
-                .filterByName("refreshMemoryInfo")
-                .firstOrNull()?.createHook {
+            this.findMethodOrNull { name("refreshMemoryInfo") }?.createHook {
                     before {
                         it.result = null
                         val memoryInfo = ActivityManager.MemoryInfo()

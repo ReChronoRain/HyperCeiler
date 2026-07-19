@@ -32,17 +32,17 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.miuiConfigs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.WeatherView
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodExactIfExists
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getDimenByName
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethodOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 @SuppressLint("DiscouragedApi", "ServiceCast", "StaticFieldLeak")
 object NotificationWeather : BaseHook() {
@@ -84,9 +84,10 @@ object NotificationWeather : BaseHook() {
     }
 
     private fun updateResources() {
-        var method = findMethodExactIfExists(miuiNotificationHeaderView, "updateHeaderResources", *emptyArray())
-        if (method == null) {
-            method = findMethodExactIfExists(miuiNotificationHeaderView, "updateResources", *emptyArray())
+        val method = miuiNotificationHeaderView.findMethodOrNull {
+            name("updateHeaderResources")
+        } ?: miuiNotificationHeaderView.findMethod {
+            name("updateResources")
         }
 
         method.createAfterHook { param ->
@@ -108,9 +109,8 @@ object NotificationWeather : BaseHook() {
     }
 
     private fun updateLayout() {
-        miuiNotificationHeaderView.methodFinder()
-            .filterByName("updateLayout")
-            .single().createBeforeHook {
+        miuiNotificationHeaderView.findMethod { name("updateLayout") }
+            .createBeforeHook {
                 val viewGroup = it.thisObject as ViewGroup
                 val context = viewGroup.context
                 val configuration = context.resources.configuration
@@ -154,10 +154,8 @@ object NotificationWeather : BaseHook() {
             }
         }
 
-        combinedHeaderController.methodFinder()
-            .filterByName("onSwitchProgressChanged")
-            .filterByParamTypes(Float::class.java)
-            .first().createAfterHook { param ->
+        combinedHeaderController.findMethod { name("onSwitchProgressChanged"); parameterTypes(Float::class.java) }
+            .createAfterHook { param ->
                 val controller = param.thisObject
                 val dateView = controller.getObjectFieldAs<View>("notificationDateTime")
                 val landClock = controller.getObjectFieldAs<View>("notificationHorizontalTime")
@@ -178,7 +176,7 @@ object NotificationWeather : BaseHook() {
     }
 
     private fun hookNotificationCallback(expandController: Any, clazz: Class<*>) {
-        clazz.methodFinder().filterByName("onAppearanceChanged").first().createAfterHook {
+        clazz.findMethod { name("onAppearanceChanged") }.createAfterHook {
             val newAppearance = it.args[0] as Boolean
             val animate = it.args[1] as Boolean
 
@@ -197,7 +195,7 @@ object NotificationWeather : BaseHook() {
             startFolmeAnimationAlpha(vWeatherView, vWeatherViewFolme)
         }
 
-        clazz.methodFinder().filterByName("onExpansionChanged").first().createAfterHook {
+        clazz.findMethod { name("onExpansionChanged") }.createAfterHook {
             val headerController = expandController.getObjectFieldAs<Any>("headerController")
                 .callMethodAs<Any>("get")
 

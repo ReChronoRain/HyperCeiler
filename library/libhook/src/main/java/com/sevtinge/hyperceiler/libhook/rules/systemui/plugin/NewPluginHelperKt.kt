@@ -42,9 +42,9 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmal
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PluginFactory
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import java.lang.ref.WeakReference
 
 object NewPluginHelperKt : BaseHook() {
@@ -66,9 +66,7 @@ object NewPluginHelperKt : BaseHook() {
             }*/
 
         // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
-        loadClass($$"com.android.systemui.shared.plugins.PluginInstance$PluginFactory")
-            .methodFinder().filterByName("createPluginContext")
-            .first().createAfterHook { it ->
+        loadClass($$"com.android.systemui.shared.plugins.PluginInstance$PluginFactory").findMethod { name("createPluginContext") }.createAfterHook { it ->
                 runCatching {
                     val wrapper = it.result as ContextWrapper
                     onPluginLoaded(PluginFactory(it.thisObject).also { isLoad ->

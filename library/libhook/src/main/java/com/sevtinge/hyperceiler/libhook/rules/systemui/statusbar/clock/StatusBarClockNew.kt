@@ -29,13 +29,13 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.mNewClockClass
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import java.lang.ref.WeakReference
 import java.lang.reflect.Method
 import java.util.Collections
@@ -45,6 +45,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 object StatusBarClockNew : BaseHook() {
+    private const val STATE_CLOCK_VIEW = "StatusBarClockNew.clockView"
     private val statusBarClass by lazy {
         loadClass("com.android.systemui.statusbar.views.MiuiClock")
     }
@@ -55,7 +56,10 @@ object StatusBarClockNew : BaseHook() {
 
     private val updateTimeMethodCache = ConcurrentHashMap<Class<*>, Method>()
 
-    private val formatExecutor: ExecutorService by lazy { Executors.newSingleThreadExecutor() }
+    private val formatExecutorHolder = lazy { Executors.newSingleThreadExecutor() }
+
+    private val formatExecutor: ExecutorService
+        get() = formatExecutorHolder.value
 
     private data class CachedClockData(
         val controllerRef: WeakReference<Any>,
@@ -204,10 +208,24 @@ object StatusBarClockNew : BaseHook() {
     }
 
     override fun init() {
-        statusBarClass.constructorFinder()
+        registerHotReloadCleanup { secondsFrameCallback.dispose() }
+        registerHotReloadCleanup {
+            if (formatExecutorHolder.isInitialized()) {
+                formatExecutorHolder.value.shutdownNow()
+            }
+        }
+
+        BaseHook.getHotReloadRuntimeState(STATE_CLOCK_VIEW, TextView::class.java)
+            ?.let { clock ->
+                runCatching { findMethodInHierarchy(clock.javaClass, "updateTime") }
+                    .getOrNull()
+                    ?.let { secondsFrameCallback.registerClock(clock, it) }
+            }
+
+        Constructors.find(statusBarClass)
             .filterByParamCount(3)
-            .filterByParamTypes {
-                it[0] == Context::class.java
+            .filter { constructor ->
+                constructor.parameterTypes.firstOrNull() == Context::class.java
             }.first().createAfterHook { param ->
                 runCatching {
                     val miuiClock = param.thisObject as TextView
@@ -477,6 +495,11 @@ object StatusBarClockNew : BaseHook() {
             return this
         }
 
+        fun dispose() {
+            choreographer.removeFrameCallback(this)
+            clockMap.clear()
+        }
+
         override fun doFrame(frameTimeNanos: Long) {
             if (clockMap.isEmpty()) {
                 choreographer.postFrameCallbackDelayed(
@@ -507,14 +530,22 @@ object StatusBarClockNew : BaseHook() {
             if (!clockMap.contains(textView)) {
                 updateTimeMethod.isAccessible = true
                 clockMap[textView] = updateTimeMethod
-                textView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                BaseHook.putHotReloadRuntimeState(STATE_CLOCK_VIEW, textView)
+                val listener = object : View.OnAttachStateChangeListener {
                     override fun onViewAttachedToWindow(v: View) {}
 
                     override fun onViewDetachedFromWindow(v: View) {
                         clockMap.remove(v)
                         v.removeOnAttachStateChangeListener(this)
+                        if (BaseHook.getHotReloadRuntimeState(STATE_CLOCK_VIEW, TextView::class.java) === v) {
+                            BaseHook.putHotReloadRuntimeState(STATE_CLOCK_VIEW, null)
+                        }
                     }
-                })
+                }
+                textView.addOnAttachStateChangeListener(listener)
+                BaseHook.registerHotReloadCleanup {
+                    textView.removeOnAttachStateChangeListener(listener)
+                }
             }
         }
     }

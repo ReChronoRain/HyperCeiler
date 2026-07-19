@@ -23,12 +23,12 @@ import android.view.View;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew;
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 // thanks: https://github.com/HowieHChen/XiaomiHelper/blob/67c3459acd1b9b27b230f991a0cd72bfffd5aa92/app/src/main/kotlin/dev/lackluster/mihelper/hook/rules/miuihome/gesture/PredictiveBackProgress.kt
@@ -114,7 +114,7 @@ public class PredictiveBackProgress extends HomeBaseHookNew {
             }
             XposedInterface.HookHandle handle = findAndHookMethod(callbackClass, "onSwipeProcess", float.class, new IMethodHook() {
                 @Override
-                public void before(HookParam param) throws Throwable {
+                public void before(HookParam param) {
                     Object gestureStubView = getObjectField(param.getThisObject(), "this$0");
                     if (!(gestureStubView instanceof View)) {
                         return;
@@ -163,12 +163,12 @@ public class PredictiveBackProgress extends HomeBaseHookNew {
             }
             return factory.invoke(
                 null,
-                getFloatField(gestureStubView, "mCurrX"),
-                getFloatField(gestureStubView, "mCurrY"),
+                readFloatField(gestureStubView, "mCurrX"),
+                readFloatField(gestureStubView, "mCurrY"),
                 progress,
                 0.0f,
                 0.0f,
-                getIntField(gestureStubView, "mGestureStubPos") == 0 ? 0 : 1,
+                readIntField(gestureStubView, "mGestureStubPos") == 0 ? 0 : 1,
                 null
             );
         } catch (Throwable throwable) {
@@ -197,14 +197,14 @@ public class PredictiveBackProgress extends HomeBaseHookNew {
     }
 
     private float computeProgress(Object gestureStubView) {
-        float distance = Math.abs(getFloatField(gestureStubView, "mCurrX") - getFloatField(gestureStubView, "mDownX"));
+        float distance = Math.abs(readFloatField(gestureStubView, "mCurrX") - readFloatField(gestureStubView, "mDownX"));
         float threshold = resolveFullyStretchedThreshold(gestureStubView);
         return clamp(distance / threshold);
     }
 
     private float resolveFullyStretchedThreshold(Object gestureStubView) {
-        float density = getFloatField(gestureStubView, "mDensity");
-        int screenWidth = getIntField(gestureStubView, "mScreenWidth");
+        float density = readFloatField(gestureStubView, "mDensity");
+        int screenWidth = readIntField(gestureStubView, "mScreenWidth");
         if (gestureStubView instanceof View view) {
             if (density <= 0.0f) {
                 density = view.getResources().getDisplayMetrics().density;
@@ -227,12 +227,12 @@ public class PredictiveBackProgress extends HomeBaseHookNew {
         return Math.min(value, 1.0f);
     }
 
-    private float getFloatField(Object target, String fieldName) {
+    private float readFloatField(Object target, String fieldName) {
         Object value = getObjectField(target, fieldName);
         return value instanceof Number ? ((Number) value).floatValue() : 0.0f;
     }
 
-    private int getIntField(Object target, String fieldName) {
+    private int readIntField(Object target, String fieldName) {
         Object value = getObjectField(target, fieldName);
         return value instanceof Number ? ((Number) value).intValue() : 0;
     }

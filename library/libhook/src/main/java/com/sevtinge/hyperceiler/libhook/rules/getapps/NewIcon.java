@@ -41,7 +41,7 @@ public class NewIcon extends BaseHook {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        hookAllMethods("com.xiaomi.market.util.FileUtils", "ensureExternalIconDir", new IMethodHook() {
+        hookAllMethods("com.xiaomi.market.util.FileUtils", "ensureExternalIconDir", new MethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(false);

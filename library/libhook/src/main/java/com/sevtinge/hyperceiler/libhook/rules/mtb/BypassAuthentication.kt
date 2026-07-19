@@ -20,25 +20,21 @@ package com.sevtinge.hyperceiler.libhook.rules.mtb
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object BypassAuthentication : BaseHook() {
     override fun init() {
         if (isMoreHyperOSVersion(3f)) {
             runCatching {
-                loadClass("com.xiaomi.mtb.MtbAppBase").methodFinder()
-                    .filterByName("getMiServerPermissionClass")
-                    .single().createAfterHook {
+                loadClass("com.xiaomi.mtb.MtbAppBase").findMethod { name("getMiServerPermissionClass") }.createAfterHook {
                         it.result = 0L
                     }
             }
         } else {
             runCatching {
-                loadClass("com.xiaomi.mtb.MtbApp").methodFinder()
-                    .filterByName("getMiServerPermissionClass")
-                    .single().createAfterHook {
+                loadClass("com.xiaomi.mtb.MtbApp").findMethod { name("getMiServerPermissionClass") }.createAfterHook {
                         it.result = 0L
                     }
             }

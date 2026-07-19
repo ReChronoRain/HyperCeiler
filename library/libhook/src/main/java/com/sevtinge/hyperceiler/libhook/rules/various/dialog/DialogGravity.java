@@ -18,8 +18,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.various.dialog;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findFirstFieldByExactType;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.view.Gravity;
@@ -29,7 +27,6 @@ import android.widget.FrameLayout;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.blur.BlurUtils;
 
@@ -39,7 +36,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 
 public class DialogGravity extends BaseHook {
@@ -104,25 +102,29 @@ public class DialogGravity extends BaseHook {
                 if (Arrays.equals(method.getParameterTypes(), new Class[]{Configuration.class}) && method.getReturnType() == Void.TYPE && method.getModifiers() == 2 && method.getParameterCount() == 1) {
                     findAndHookMethod(mDialogCls, method.getName(), new IMethodHook() {
                         @Override
-                        public void after(HookParam param) throws IllegalAccessException {
-                            Field field = findFirstFieldByExactType(mDialogCls, mDialogParentPanelCls);
-                            mParentPanel = (View) field.get(param.getThisObject());
+                        public void after(HookParam param) {
+                            try {
+                                Field field = findFirstFieldByExactType(mDialogCls, mDialogParentPanelCls);
+                                mParentPanel = (View) field.get(param.getThisObject());
 
-                            mContext = mParentPanel.getContext();
+                                mContext = mParentPanel.getContext();
 
-                            FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
+                                FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) mParentPanel.getLayoutParams();
 
-                            if (mDialogGravity != 0) {
-                                layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
+                                if (mDialogGravity != 0) {
+                                    layoutParams.width = FrameLayout.LayoutParams.MATCH_PARENT;
 
-                                layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
+                                    layoutParams.gravity = mDialogGravity == 1 ? Gravity.CENTER : Gravity.BOTTOM | Gravity.CENTER;
 
-                                layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
-                                layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
-                                layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
+                                    layoutParams.setMarginStart(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                                    layoutParams.setMarginEnd(mDialogHorizontalMargin == 0 ? 0 : DisplayUtils.dp2px(mDialogHorizontalMargin));
+                                    layoutParams.bottomMargin = mDialogGravity == 1 ? 0 : DisplayUtils.dp2px(mDialogBottomMargin);
+                                }
+
+                                mParentPanel.setLayoutParams(layoutParams);
+                            } catch (IllegalAccessException e) {
+                                throw new IllegalStateException(e);
                             }
-
-                            mParentPanel.setLayoutParams(layoutParams);
 
                             /*new BlurUtils(mParentPanel);*/
                             new BlurUtils(mParentPanel, "default");

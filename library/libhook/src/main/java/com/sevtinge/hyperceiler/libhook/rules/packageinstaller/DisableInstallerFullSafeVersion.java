@@ -19,9 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.packageinstaller;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -38,7 +36,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DisableInstallerFullSafeVersion extends BaseHook {
     private Method mIsFullSafeVersionMethod;
@@ -90,7 +89,7 @@ public class DisableInstallerFullSafeVersion extends BaseHook {
             }
         });
         if (mFullSecurityProtectVersionField != null) {
-            EzxHelpUtils.setStaticBooleanField(mFullSecurityProtectVersionField.getDeclaringClass(), mFullSecurityProtectVersionField.getName(), false);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(mFullSecurityProtectVersionField.getDeclaringClass(), mFullSecurityProtectVersionField.getName(), false);
         }
     }
 }

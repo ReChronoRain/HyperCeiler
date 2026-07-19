@@ -19,9 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.video;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindClass;
@@ -33,7 +32,7 @@ import org.luckypray.dexkit.result.base.BaseData;
 
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class VideoDolbyOpen extends BaseHook {
     private Method mDolbyMethod;
@@ -64,7 +63,7 @@ public class VideoDolbyOpen extends BaseHook {
     public void init() {
         // try {
         //     findClassIfExists("com.miui.gamebooster.service.DockWindowManagerService").getDeclaredMethod("N");
-        //     findAndHookMethod("com.miui.gamebooster.service.DockWindowManagerService", "N", new MethodHook() {
+        //     findAndHookMethod("com.miui.gamebooster.service.DockWindowManagerService", "N", new IMethodHook() {
         //         @Override
         //         protected void before(MethodHookParam param) {
         //             logI("Hook N");
@@ -85,7 +84,7 @@ public class VideoDolbyOpen extends BaseHook {
         // // 类加入列表
         // List<ClassData> list = Collections.singletonList(data);
 
-        EzxHelpUtils.hookMethod(mDolbyMethod, new IMethodHook() {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(mDolbyMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(null);

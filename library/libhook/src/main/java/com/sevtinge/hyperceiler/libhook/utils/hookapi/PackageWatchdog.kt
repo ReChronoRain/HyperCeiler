@@ -20,13 +20,13 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.Context
 import android.util.ArrayMap
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.BaseReflectObject
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClass
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
 import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.BaseReflectObject
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass as findClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 
 object PackageWatchdog {
     private lateinit var classLoader: ClassLoader
@@ -37,7 +37,7 @@ object PackageWatchdog {
     }
 
     fun getInstance(context: Context): Stub = Stub(
-        PACKAGE_WATCHDOG.callStaticMethodAs("getInstance", context)
+        PACKAGE_WATCHDOG.callStaticMethod("getInstance", context) as Any
     )
 
     fun clearRecord(context: Context, packageName: String) {

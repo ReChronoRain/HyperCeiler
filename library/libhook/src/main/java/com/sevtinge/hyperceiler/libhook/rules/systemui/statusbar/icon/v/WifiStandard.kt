@@ -25,15 +25,15 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createAfterHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -73,8 +73,7 @@ object WifiStandard : BaseHook() {
     }
 
     override fun init() {
-        loadClass("com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.WifiViewModel")
-            .constructorFinder()
+        Constructors.find(loadClass("com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.WifiViewModel"))
             .first()
             .createAfterHook {
                 if (showWifi == 1) {

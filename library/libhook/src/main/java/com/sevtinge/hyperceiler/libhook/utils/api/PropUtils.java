@@ -25,7 +25,6 @@ import android.os.SystemProperties;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.ShellUtils;
 import com.sevtinge.hyperceiler.common.utils.shell.ShellInit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 /**
  * 系统属性工具类
@@ -37,8 +36,8 @@ public class PropUtils {
     public static String getProp(Context context, String name) {
         try {
             ClassLoader classLoader = context.getClassLoader();
-            return EzxHelpUtils.callStaticMethod(
-                    EzxHelpUtils.findClass("android.os.SystemProperties", classLoader),
+            return com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("android.os.SystemProperties", classLoader),
                     "get",
                     name
             ).toString();

@@ -20,25 +20,22 @@ package com.sevtinge.hyperceiler.libhook.rules.home.mipad
 
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object EnableMoreSetting : BaseHook() {
     override fun init() {
-        loadClass("com.miui.home.settings.MiuiHomeSettings").methodFinder()
-            .filterByName("checkDevice").first().createHook {
+        loadClass("com.miui.home.settings.MiuiHomeSettings").findMethod { name("checkDevice") }.createHook {
                 returnConstant(true)
             }
 
-        loadClass("com.miui.home.launcher.DeviceConfig").methodFinder()
-            .filterByName("needShowCellsEntry").first().createHook {
+        loadClass("com.miui.home.launcher.DeviceConfig").findMethod { name("needShowCellsEntry") }.createHook {
                 returnConstant(true)
             }
 
-        loadClass("com.miui.home.launcher.LauncherMenu").methodFinder()
-            .filterByName("onShow").first().createHook {
+        loadClass("com.miui.home.launcher.LauncherMenu").findMethod { name("onShow") }.createHook {
                 after {
                     val mDefaultScreenPreview =
                         it.thisObject.getObjectField("mDefaultScreenPreview") as View

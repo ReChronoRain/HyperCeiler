@@ -26,22 +26,22 @@ import com.hchen.superlyricapi.SuperLyricData
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getFloatField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setFloatField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setLongField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFloatField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookConstructor
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setFloatField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setLongField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -49,6 +49,7 @@ import kotlinx.coroutines.launch
 // author git@wuyou-123
 // co-author git@lingqiqi5211
 object FocusNotifLyric : MusicBaseHook() {
+    private const val STATE_SCROLLING_TEXT_VIEW = "FocusNotifLyric.scrollingTextView"
     private var speed = -0.1f
     private var lastLyric: String? = ""
     private val runnablePool = mutableMapOf<Int, Runnable>()
@@ -71,10 +72,19 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun init() {
+        BaseHook.getHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, TextView::class.java)
+            ?.let(::installNoopRestartCallback)
+        registerHotReloadCleanup {
+            focusTextViewList.forEach { textView ->
+                runnablePool.remove(textView.hashCode())?.let(textView::removeCallbacks)
+            }
+            runnablePool.clear()
+            focusTextViewList.clear()
+        }
+
         // 拦截构建通知的函数
         if (!isShowNotific) {
-            loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").methodFinder()
-                .filterByName("requestPipelineRun").first().createBeforeHook {
+            loadClass("com.android.systemui.statusbar.notification.row.NotifBindPipeline").findMethod { name("requestPipelineRun") }.createBeforeHook {
                     val statusBarNotification =
                         it.args[0]?.getObjectFieldOrNullAs<StatusBarNotification>("mSbn")
                     if (statusBarNotification!!.notification.channelId == CHANNEL_ID) {
@@ -83,36 +93,33 @@ object FocusNotifLyric : MusicBaseHook() {
                 }
         }
 
-        loadClass("com.android.systemui.statusbar.widget.FocusedTextView").chainConstructor(
+        loadClass("com.android.systemui.statusbar.widget.FocusedTextView").interceptHookConstructor(
             android.content.Context::class.java,
             android.util.AttributeSet::class.java,
             Int::class.java
-        ) {
-            val result = proceed()
+        ) { chain ->
+            val result = chain.proceed()
             if (sCollectFocusedTextViews.get() == true) {
-                focusTextViewList += thisObject as TextView
+                focusTextViewList += chain.thisObject as TextView
             }
             result
         }
 
-        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").chainMethod(
+        loadClass("com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment").interceptHookMethod(
             "onCreateView"
-        ) {
+        ) { chain ->
             sCollectFocusedTextViews.set(true)
             try {
-                proceed()
+                chain.proceed()
             } finally {
                 sCollectFocusedTextViews.remove()
             }
         }
 
         // 构建通知栏通知函数
-        // loadClass("com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector").methodFinder()
-        //     .filterByName("createRemoteViews").first())
+        // loadClass("com.android.systemui.statusbar.notification.row.NotificationContentInflaterInjector").findMethod { name("createRemoteViews") }
         // 重设 mLastAnimationTime，取消闪烁动画(让代码以为刚播放过动画，所以这次不播放)
-        loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptView").methodFinder()
-            .filterByName("setData")
-            .first().createBeforeHook {
+        loadClass("com.android.systemui.statusbar.phone.FocusedNotifPromptView").findMethod { name("setData") }.createBeforeHook {
                 it.thisObject.setLongField("mLastAnimationTime", System.currentTimeMillis())
             }
 
@@ -120,9 +127,7 @@ object FocusNotifLyric : MusicBaseHook() {
 
     fun initLoader(classLoader: ClassLoader) {
         runCatching {
-            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
-                .methodFinder().filterByName("canShowFocus")
-                .first().createHook {
+            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader).findMethod { name("canShowFocus") }.createHook {
                     // 允许全部应用发送焦点通知
                     returnConstant(true)
                 }
@@ -131,9 +136,7 @@ object FocusNotifLyric : MusicBaseHook() {
             XposedLog.e(TAG, "canShowFocus failed, ${it.message}")
         }
         runCatching {
-            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader)
-                .methodFinder().filterByName("canCustomFocus")
-                .first().createHook {
+            loadClass("miui.systemui.notification.NotificationSettingsManager", classLoader).findMethod { name("canCustomFocus") }.createHook {
                     // 允许全部应用发送自定义焦点通知
                     returnConstant(true)
                 }
@@ -144,9 +147,7 @@ object FocusNotifLyric : MusicBaseHook() {
 
         if (!isMoreHyperOSVersion(3f)) return
         runCatching {
-            loadClass($$"miui.systemui.notification.auth.AuthManager$AuthServiceCallback$onAuthResult$1",classLoader)
-                .methodFinder().filterByName("invokeSuspend")
-                .first().createHook {
+            loadClass($$"miui.systemui.notification.auth.AuthManager$AuthServiceCallback$onAuthResult$1",classLoader).findMethod { name("invokeSuspend") }.createHook {
                     before { param ->
                         val obj = param.thisObject
                         // 访问字段 "$authBundle"
@@ -167,7 +168,7 @@ object FocusNotifLyric : MusicBaseHook() {
         focusTextViewList.forEach { textView ->
             textView.post {
                 if (lastLyric == textView.text) {
-                    if (EzxHelpUtils.getAdditionalInstanceField(textView, "is_scrolling") == 1) {
+                    if (com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(textView, "is_scrolling") == 1) {
                         val m0 = textView.getObjectFieldOrNull("mMarquee")
                         m0?.apply {
                             // 设置速度并且调用停止函数,重置歌词位置
@@ -217,13 +218,17 @@ object FocusNotifLyric : MusicBaseHook() {
                 m.setFloatField("mMaxScroll", lineWidth - width)
                 // 重设速度
                 m.setFloatField("mPixelsPerMs", speed)
-                // 移除回调,防止滚动结束之后重置滚动位置
-                m.setObjectField("mRestartCallback", Choreographer.FrameCallback {})
+                // 移除回调,防止滚动结束之后重置滚动位置。
+                // 重载时会用新 generation 的 callback 覆盖它，避免宿主 Marquee 持有旧 classloader。
+                installNoopRestartCallback(textView)
+                BaseHook.putHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, textView)
                 // 滚动完成后清理状态
-                textView.postDelayed({
-                    EzxHelpUtils.setAdditionalInstanceField(textView, "is_scrolling", 1)
+                val finishScroll = Runnable {
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(textView, "is_scrolling", 1)
                     runnablePool.remove(key) //移除任务引用
-                }, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
+                }
+                textView.postDelayed(finishScroll, computeScrollDuration(lineWidth, width, speed)) // 根据速度和距离计算时长
+                BaseHook.registerHotReloadCleanup { textView.removeCallbacks(finishScroll) }
             }
         }.onFailure {
             XposedLog.e(TAG, lpparam.packageName, "error: ${it.message}")
@@ -234,6 +239,12 @@ object FocusNotifLyric : MusicBaseHook() {
         val maxScroll = (lineWidth - width).coerceAtLeast(0f) // 与 mMaxScroll 一致
         val pixelsPerMs = speed // 与 mPixelsPerMs 一致
         return if (pixelsPerMs > 0) (maxScroll / pixelsPerMs).toLong() else 0L
+    }
+
+    private fun installNoopRestartCallback(textView: TextView) {
+        textView.getObjectFieldOrNull("mMarquee")?.setObjectField(
+            "mRestartCallback", Choreographer.FrameCallback {}
+        )
     }
 
 

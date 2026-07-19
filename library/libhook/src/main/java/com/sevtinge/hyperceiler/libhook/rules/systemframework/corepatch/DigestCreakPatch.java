@@ -1,25 +1,23 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.hookMethod;
 
 import android.content.pm.ApplicationInfo;
 import android.content.pm.Signature;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class DigestCreakPatch extends CorePatchHelper {
 
@@ -36,7 +34,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                         if (CorePatchHelper.isUsePreSignatureEnabled()) {
                             //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                             if (param.getResult().equals(false)) {
-                                String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
+                                String pPname = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getArgs()[1], "getPackageName");
                                 if (pPname.contentEquals((String) param.getArgs()[0])) {
                                     param.setResult(true);
                                 }
@@ -77,7 +75,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                         if (CorePatchHelper.isUsePreSignatureEnabled()) {
                             //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                             if (param.getResult().equals(false)) {
-                                String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
+                                String pPname = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getArgs()[1], "getPackageName");
                                 if (pPname.contentEquals((String) param.getArgs()[0])) {
                                     param.setResult(true);
                                 }
@@ -95,7 +93,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                 var pmService = findClassIfExists("com.android.server.pm.PackageManagerService",
                     lpparam.getClassLoader());
                 if (pmService != null) {
-                    var doesSignatureMatchForPermissions = EzxHelpUtils.findMethodExactIfExists(pmService, "doesSignatureMatchForPermissions",
+                    var doesSignatureMatchForPermissions = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodExactIfExists(pmService, "doesSignatureMatchForPermissions",
                         String.class, "com.android.server.pm.parsing.pkg.ParsedPackage", int.class);
                     if (doesSignatureMatchForPermissions != null) {
                         hookMethod(doesSignatureMatchForPermissions, new IMethodHook() {
@@ -104,7 +102,7 @@ public class DigestCreakPatch extends CorePatchHelper {
                                 if (CorePatchHelper.isUsePreSignatureEnabled()) {
                                     //If we decide to crack this then at least make sure they are same apks, avoid another one that tries to impersonate.
                                     if (param.getResult().equals(false)) {
-                                        String pPname = (String) EzxHelpUtils.callMethod(param.getArgs()[1], "getPackageName");
+                                        String pPname = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getArgs()[1], "getPackageName");
                                         if (pPname.contentEquals((String) param.getArgs()[0])) {
                                             param.setResult(true);
                                         }
@@ -124,28 +122,32 @@ public class DigestCreakPatch extends CorePatchHelper {
             // 当 verifyV1Signature 抛出转换异常时，替换一个签名作为返回值
             // 如果用户已安装 apk，并且其定义了私有权限，则安装时会因签名与模块内硬编码的不一致而被拒绝。尝试从待安装apk中获取签名。如果其中apk的签名和已安装的一致（只动了内容）就没有问题。此策略可能有潜在的安全隐患。
             Class<?> pkc = findClass("sun.security.pkcs.PKCS7", lpparam.getClassLoader());
-            Constructor<?> constructor = EzxHelpUtils.findConstructorExact(pkc, byte[].class);
+            Constructor<?> constructor = com.sevtinge.hyperceiler.libhook.base.BaseHook.findConstructorExact(pkc, byte[].class);
             constructor.setAccessible(true);
             Class<?> sJarClass = findClass("android.util.jar.StrictJarFile", lpparam.getClassLoader());
-            Constructor<?> constructorExact = EzxHelpUtils.findConstructorExact(sJarClass, String.class, boolean.class, boolean.class);
+            Constructor<?> constructorExact = com.sevtinge.hyperceiler.libhook.base.BaseHook.findConstructorExact(sJarClass, String.class, boolean.class, boolean.class);
             constructorExact.setAccessible(true);
             Class<?> signingDetails = getSigningDetails(lpparam.getClassLoader());
-            Constructor<?> findConstructorExact = EzxHelpUtils.findConstructorExact(signingDetails, Signature[].class, Integer.TYPE);
+            Constructor<?> findConstructorExact = com.sevtinge.hyperceiler.libhook.base.BaseHook.findConstructorExact(signingDetails, Signature[].class, Integer.TYPE);
             findConstructorExact.setAccessible(true);
             Object[] signingDetailsArgs = new Object[2];
             signingDetailsArgs[1] = 1;
             hookAllMethods("android.util.jar.StrictJarVerifier", lpparam.getClassLoader(), "verifyBytes", new IMethodHook() {
-                public void after(HookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {
-                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
-                        if (!CorePatchHelper.isUsePreSignatureEnabled()) {
-                            final Object block = constructor.newInstance(param.getArgs()[0]);
-                            Object[] infos = (Object[]) EzxHelpUtils.callMethod(block, "getSignerInfos");
-                            Object info = infos[0];
-                            @SuppressWarnings("unchecked")
-                            List<X509Certificate> verifiedSignerCertChain = (List<X509Certificate>) EzxHelpUtils.callMethod(info, "getCertificateChain", block);
-                            param.setResult(verifiedSignerCertChain.toArray(
-                                new X509Certificate[0]));
+                public void after(HookParam param) {
+                    try {
+                        if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_DIGEST_CREAK, true)) {
+                            if (!CorePatchHelper.isUsePreSignatureEnabled()) {
+                                final Object block = constructor.newInstance(param.getArgs()[0]);
+                                Object[] infos = (Object[]) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(block, "getSignerInfos");
+                                Object info = infos[0];
+                                @SuppressWarnings("unchecked")
+                                List<X509Certificate> verifiedSignerCertChain = (List<X509Certificate>) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(info, "getCertificateChain", block);
+                                param.setResult(verifiedSignerCertChain.toArray(
+                                    new X509Certificate[0]));
+                            }
                         }
+                    } catch (ReflectiveOperationException e) {
+                        throw new IllegalStateException(e);
                     }
                 }
             });

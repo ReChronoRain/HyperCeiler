@@ -38,20 +38,20 @@ import androidx.core.util.size
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.mobileSignalController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.networkController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIntField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
@@ -91,6 +91,7 @@ class DualRowSignalHookV : MobileSignalHook() {
     private val mainHandler by lazy { Handler(Looper.getMainLooper()) }
 
     override fun init() {
+        BaseHook.registerHandlerHotReloadCleanup(mainHandler)
         listenMobileSignal()
 
         hookConstructAndBind { rootView, subId ->
@@ -292,12 +293,10 @@ class DualRowSignalHookV : MobileSignalHook() {
     }
 
     private fun listenMobileSignal() {
-        mobileSignalController.methodFinder()
-            .filterByName("notifyListeners")
-            .single()
-            .hook {
-                val result = proceed()
-                val signalController = thisObject
+        mobileSignalController.findMethod { name("notifyListeners") }
+            .createInterceptHook { chain ->
+                val result = chain.proceed()
+                val signalController = chain.thisObject ?: return@createInterceptHook result
 
                 if (networkControllerInstance == null) {
                     runCatching {
@@ -342,20 +341,19 @@ class DualRowSignalHookV : MobileSignalHook() {
                 val oldSlotIndex = simSlotIndices.put(subscriptionId, slotIndex)
 
                 if (oldLevel == level && oldDataSim == dataSim && oldSlotIndex == slotIndex) {
-                    return@hook result
+                    return@createInterceptHook result
                 }
                 refreshAllCachedViews()
                 result
             }
 
-        networkController.methodFinder()
-            .filterByName("setCurrentSubscriptionsLocked")
-            .single()
-            .hook {
-                val networkCtrl = thisObject
+        networkController.findMethod { name("setCurrentSubscriptionsLocked") }
+            .createInterceptHook { chain ->
+                val result = chain.proceed()
+                val networkCtrl = chain.thisObject ?: return@createInterceptHook result
                 networkControllerInstance = networkCtrl
 
-                val subList = args[0] as List<*>
+                val subList = chain.args[0] as List<*>
                 val currentSubscriptions = networkCtrl.getObjectFieldAs<List<*>>("mCurrentSubscriptions")
                 val newSubIds = subList.filterNotNull().mapNotNull { subInfo ->
                     runCatching { subInfo.callMethodAs<Int>("getSubscriptionId") }.getOrNull()
@@ -397,9 +395,6 @@ class DualRowSignalHookV : MobileSignalHook() {
                         simSlotIndices.remove(key)
                     }
                 }
-
-                val result = proceed()
-                refreshAllCachedViews()
                 result
             }
     }

@@ -42,6 +42,8 @@ import com.sevtinge.hyperceiler.dashboard.DashboardFuncHintHelper.FuncHintRule;
 import com.sevtinge.hyperceiler.dashboard.DashboardFuncHintHelper.VersionRange;
 import com.sevtinge.hyperceiler.libhook.utils.pkg.CheckModifyUtils;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.HotReloadDialogHelper;
+import com.sevtinge.hyperceiler.utils.HotReloadManager;
 import com.sevtinge.hyperceiler.utils.ThreadUtils;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -64,12 +66,14 @@ public class DashboardFragment extends SettingsPreferenceFragment {
 
     // 静态缓存，避免每次进入子页面都重新解析 XML
     private static final Map<Integer, String> sQuickRestartCache = new ConcurrentHashMap<>();
+    private static final Map<Integer, String> sHotReloadPreferredCache = new ConcurrentHashMap<>();
 
     private final DashboardPreferencePageLockHelper mPageLockHelper =
         new DashboardPreferencePageLockHelper(this, WARNING_BANNER_KEY);
     private final DashboardFuncHintHelper mFuncHintHelper =
         new DashboardFuncHintHelper(this, mPageLockHelper);
     private String mQuickRestartPackageName;
+    private String mHotReloadPreferredPackageName;
 
     @Override
     public int getPreferenceScreenResId() {
@@ -83,16 +87,24 @@ public class DashboardFragment extends SettingsPreferenceFragment {
         // 先查缓存
         if (sQuickRestartCache.containsKey(xmlResId)) {
             mQuickRestartPackageName = sQuickRestartCache.get(xmlResId);
+            String preferred = sHotReloadPreferredCache.get(xmlResId);
+            mHotReloadPreferredPackageName = TextUtils.isEmpty(preferred)
+                ? mQuickRestartPackageName : preferred;
         } else {
             // 缓存未命中，后台解析，不阻塞主线程
             Context context = getContext();
             if (context == null) return;
             ThreadUtils.postOnBackgroundThread(() -> {
                 String pkg = getQuickRestartPackageName(context, xmlResId);
+                String hotReloadPreferred = getHotReloadPreferredPackageName(context, xmlResId);
                 sQuickRestartCache.put(xmlResId, pkg != null ? pkg : "");
+                sHotReloadPreferredCache.put(xmlResId,
+                    hotReloadPreferred != null ? hotReloadPreferred : "");
                 ThreadUtils.postOnMainThread(() -> {
                     if (!isAdded()) return;
                     mQuickRestartPackageName = pkg;
+                    mHotReloadPreferredPackageName = TextUtils.isEmpty(hotReloadPreferred)
+                        ? pkg : hotReloadPreferred;
                     Activity activity = getActivity();
                     if (activity != null) {
                         activity.invalidateOptionsMenu();
@@ -144,10 +156,19 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             @Override
             public boolean onMenuItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.quick_restart && !TextUtils.isEmpty(mQuickRestartPackageName)) {
-                    if ("system".equals(mQuickRestartPackageName)) {
-                        DialogHelper.showRestartSystemDialog(getContext());
+                    Activity activity = getActivity();
+                    if (activity == null) return true;
+                    if (HotReloadManager.isHotReloadAvailable()) {
+                        // API 102：只展示 framework scope 内应用，当前页面对应应用置顶并默认选中。
+                        HotReloadDialogHelper.showScopedAppPicker(activity,
+                            TextUtils.isEmpty(mHotReloadPreferredPackageName)
+                                ? mQuickRestartPackageName : mHotReloadPreferredPackageName);
+                    } else if ("system".equals(mQuickRestartPackageName)) {
+                        // API 101 / 无 service：保留原本的重启设备降级路径。
+                        DialogHelper.showRestartSystemDialog(activity);
                     } else {
-                        DialogHelper.showRestartDialog(getContext(), mQuickRestartPackageName);
+                        // API 101 / 无 service：AppsTool 会按包前缀结束该应用的全部进程。
+                        DialogHelper.showRestartDialog(activity, mQuickRestartPackageName);
                     }
                     return true;
                 }
@@ -169,6 +190,24 @@ public class DashboardFragment extends SettingsPreferenceFragment {
             }
         } catch (Exception e) {
             AndroidLog.e(TAG, "Failed to access XML resource!", e);
+        }
+        return null;
+    }
+
+    @Nullable
+    private String getHotReloadPreferredPackageName(Context context, @XmlRes int xmlResId) {
+        if (xmlResId == 0) return null;
+        Resources res = context.getResources();
+        try (XmlResourceParser xml = res.getXml(xmlResId)) {
+            int eventType = xml.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG && "PreferenceScreen".equals(xml.getName())) {
+                    return xml.getAttributeValue(APP_NS, "hot_reload_preferred");
+                }
+                eventType = xml.next();
+            }
+        } catch (Exception e) {
+            AndroidLog.e(TAG, "Failed to access XML resource for hot reload target!", e);
         }
         return null;
     }

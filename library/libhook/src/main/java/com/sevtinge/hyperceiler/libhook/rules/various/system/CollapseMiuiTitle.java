@@ -20,10 +20,9 @@ package com.sevtinge.hyperceiler.libhook.rules.various.system;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CollapseMiuiTitle extends BaseHook {
 
@@ -37,14 +36,14 @@ public class CollapseMiuiTitle extends BaseHook {
             hookAllConstructors(abvCls, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {
-                    EzxHelpUtils.setIntField(param.getThisObject(), "mExpandState", (int) EzxHelpUtils.getStaticObjectField(
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), "mExpandState", (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(
                             findClassIfExists("miui.app.ActionBar"),
                             "STATE_EXPAND"));
-                    EzxHelpUtils.setIntField(param.getThisObject(), "mInnerExpandState", (int) EzxHelpUtils.getStaticObjectField(
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(param.getThisObject(), "mInnerExpandState", (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(
                             findClassIfExists("miui.app.ActionBar"),
                             "STATE_COLLAPSE"));
                     if (opt == 2)
-                        EzxHelpUtils.setBooleanField(param.getThisObject(), "mResizable", false);
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "mResizable", false);
                 }
             });
 
@@ -64,11 +63,11 @@ public class CollapseMiuiTitle extends BaseHook {
 
     private void setExpandState(Object obj, boolean state) {
         if (state) {
-            EzxHelpUtils.callMethod(obj, "setExpandState", EzxHelpUtils.getObjectField(
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(obj, "setExpandState", com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(
                     findClassIfExists("miui.app.ActionBar"),
                     "STATE_COLLAPSE"));
         } else {
-            EzxHelpUtils.callMethod(obj, "setExpandState", EzxHelpUtils.getObjectField(
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(obj, "setExpandState", com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(
                     findClassIfExists("miui.app.ActionBar"),
                     "STATE_EXPAND"));
         }
@@ -76,9 +75,9 @@ public class CollapseMiuiTitle extends BaseHook {
 
     private void setResizable(Object obj, boolean state) {
         if (state) {
-            EzxHelpUtils.callMethod(obj, "setResizable", false);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(obj, "setResizable", false);
         } else {
-            EzxHelpUtils.callMethod(obj, "setResizable", true);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(obj, "setResizable", true);
         }
     }
 }

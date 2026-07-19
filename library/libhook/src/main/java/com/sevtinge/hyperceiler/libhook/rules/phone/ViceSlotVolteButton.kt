@@ -22,9 +22,9 @@ import android.provider.Settings
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.FlAG_ONLY_ANDROID
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.findContext
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object ViceSlotVolteButton : BaseHook() {
     override fun init() {
@@ -35,16 +35,12 @@ object ViceSlotVolteButton : BaseHook() {
                 "vice_slot_volte_data_enabled",
                 1
             )
-            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
-                .filterByName("shouldHideViceSlotVolteDataButton")
-                .single().createHook {
+            loadClass("com.android.phone.MiuiPhoneUtils").findMethod { name("shouldHideViceSlotVolteDataButton") }.createHook {
                     returnConstant(false)
                 }
         }
         runCatching {
-            loadClass("com.android.phone.MiuiPhoneUtils").methodFinder()
-                .filterByName("shouldHideSmartDualSimButton")
-                .single().createHook {
+            loadClass("com.android.phone.MiuiPhoneUtils").findMethod { name("shouldHideSmartDualSimButton") }.createHook {
                     returnConstant(false)
                 }
         }

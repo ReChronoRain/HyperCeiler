@@ -32,13 +32,12 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 /**
  * 自动切换音效 - SystemUI 端
@@ -169,7 +168,7 @@ public class AutoSEffSwitchForSystemUi extends BaseHook {
      * Hook 非 FW 模式下的音效切换（供外部调用）
      */
     public static void hookNonFWEffectSwitch(ClassLoader classLoader) {
-        EzxHelpUtils.findAndHookMethod(
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod(
             "miui.systemui.quicksettings.soundeffect.DolbyAtomsSoundEffectTile",
             classLoader,
             "handleClick",

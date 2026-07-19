@@ -19,15 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.title
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableHideTheme: BaseHook() {
     override fun init() {
-        findClass("com.miui.home.launcher.DeviceConfig")
-            .hookAllMethods("needHideThemeManager") {
-                before {
-                    it.result = false
-                }
+        findClass("com.miui.home.launcher.DeviceConfig").findAllMethods { name("needHideThemeManager") }
+            .createBeforeHooks {
+                it.result = false
             }
     }
 }

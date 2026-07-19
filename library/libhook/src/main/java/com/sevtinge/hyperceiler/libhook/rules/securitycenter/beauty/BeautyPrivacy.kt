@@ -19,8 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.beauty
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.lang.reflect.Method
 
 object BeautyPrivacy : BaseHook() {

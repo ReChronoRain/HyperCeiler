@@ -521,6 +521,7 @@ public class SunlightModeTile extends TileUtils {
         ScreenOffReceiver receiver = new ScreenOffReceiver(context, this);
         IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
         context.registerReceiver(receiver, filter, Context.RECEIVER_EXPORTED);
+        registerReceiverHotReloadCleanup(context, receiver);
 
         ctx.setAdditionalField(FIELD_BROADCAST_RECEIVER, receiver);
         mIsListeningBroadcast = true;
@@ -641,6 +642,7 @@ public class SunlightModeTile extends TileUtils {
                 Settings.System.getUriFor(SETTING_SUNLIGHT_MODE), false, observer);
         }
 
+        registerContentObserverHotReloadCleanup(context.getContentResolver(), observer);
         ctx.setAdditionalField(FIELD_CONTENT_OBSERVER, observer);
     }
 
@@ -650,7 +652,12 @@ public class SunlightModeTile extends TileUtils {
     private void unregisterContentObserver(TileContext ctx, Context context) {
         ContentObserver observer = ctx.getAdditionalField(FIELD_CONTENT_OBSERVER);
         if (observer != null) {
-            context.getContentResolver().unregisterContentObserver(observer);ctx.removeAdditionalField(FIELD_CONTENT_OBSERVER);
+            try {
+                context.getContentResolver().unregisterContentObserver(observer);
+            } catch (IllegalArgumentException ignored) {
+                // 已在热重载清理阶段注销。
+            }
+            ctx.removeAdditionalField(FIELD_CONTENT_OBSERVER);
         }
     }
 

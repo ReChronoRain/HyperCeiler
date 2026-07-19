@@ -19,15 +19,14 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.others
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableThermal : BaseHook() {
     override fun init() {
-        findClass("com.android.server.power.ThermalManagerService")
-            .hookAllMethods("postEventListener") {
-                before {
-                    it.result = null
-                }
+        findClass("com.android.server.power.ThermalManagerService").findAllMethods { name("postEventListener") }
+            .createBeforeHooks {
+                it.result = null
             }
 
     }

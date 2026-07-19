@@ -21,16 +21,17 @@ package com.sevtinge.hyperceiler.libhook.rules.fileexplorer
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object SelectName : BaseHook() {
     override fun init() {
-        loadClass("com.android.fileexplorer.view.FileListItem").methodFinder()
-            .filterByName("onFinishInflate")
-            .single().createHook {
+        loadClass("com.android.fileexplorer.view.FileListItem")
+            .findMethod {
+                name("onFinishInflate")
+            }.createHook {
                 after {
                     (it.thisObject.getObjectField("mFileNameTextView") as TextView).apply {
                         setTextIsSelectable(PrefsBridge.getBoolean("file_explorer_can_selectable"))

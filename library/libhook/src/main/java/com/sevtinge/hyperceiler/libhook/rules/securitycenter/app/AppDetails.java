@@ -19,7 +19,6 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app;
 
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -39,14 +38,13 @@ import android.widget.Toast;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AppDetails extends BaseHook {
 
@@ -99,7 +97,7 @@ public class AppDetails extends BaseHook {
         findAndHookConstructor(mFragmentCls, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                Field piField = EzxHelpUtils.findFirstFieldByExactType(
+                Field piField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(
                     param.getThisObject().getClass(), PackageInfo.class);
                 if (piField != null) {
                     mSupportFragment = param.getThisObject();
@@ -163,7 +161,7 @@ public class AppDetails extends BaseHook {
      * 初始化 PackageInfo
      */
     private boolean initPackageInfo(Object fragment) throws IllegalAccessException {
-        Field piField = EzxHelpUtils.findFirstFieldByExactType(
+        Field piField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(
             fragment.getClass(), PackageInfo.class);
         if (piField == null) {
             return false;
@@ -176,7 +174,7 @@ public class AppDetails extends BaseHook {
      * 获取添加偏好设置的方法
      */
     private Method getAddPreferenceMethod(Object fragment) {
-        Method[] addPrefMethods = EzxHelpUtils.findMethodsByExactParameters(
+        Method[] addPrefMethods = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodsByExactParameters(
             fragment.getClass(), void.class, String.class, String.class, String.class);
 
         if (addPrefMethods.length == 0) {
@@ -191,7 +189,7 @@ public class AppDetails extends BaseHook {
      * Hook 添加偏好设置方法 - 替换 noClickTextPreference 为 TextPreference
      */
     private void hookAddPreferenceMethod(Method addPrefMethod) {
-        EzxHelpUtils.hookMethod(addPrefMethod, new IMethodHook() {
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(addPrefMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(null);
@@ -224,27 +222,27 @@ public class AppDetails extends BaseHook {
      * 从 PreferenceManager 获取 Context
      */
     private Context getContextFromPreferenceManager(Object thiz) {
-        Object prefManager = EzxHelpUtils.callMethod(thiz, "getPreferenceManager");
-        Method[] ctxMethods = EzxHelpUtils.findMethodsByExactParameters(
+        Object prefManager = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(thiz, "getPreferenceManager");
+        Method[] ctxMethods = com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodsByExactParameters(
             prefManager.getClass(), Context.class);
 
         if (ctxMethods.length == 0) {
             return null;
         }
 
-        return (Context) EzxHelpUtils.callMethod(prefManager, ctxMethods[0].getName());
+        return (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(prefManager, ctxMethods[0].getName());
     }
 
     /**
      * 创建 TextPreference
      */
     private Object createTextPreference(Context ctx, ClassLoader cl, Object[] args) {
-        Class<?> textPrefCls = EzxHelpUtils.findClass("miuix.preference.TextPreference", cl);
-        Object textPref = EzxHelpUtils.newInstance(textPrefCls, ctx);
+        Class<?> textPrefCls = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("miuix.preference.TextPreference", cl);
+        Object textPref = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(textPrefCls, ctx);
 
-        EzxHelpUtils.callMethod(textPref, "setKey", args[0]);
-        EzxHelpUtils.callMethod(textPref, "setTitle", args[1]);
-        EzxHelpUtils.callMethod(textPref, "setText", args[2]);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(textPref, "setKey", args[0]);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(textPref, "setTitle", args[1]);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(textPref, "setText", args[2]);
 
         return textPref;
     }
@@ -253,9 +251,9 @@ public class AppDetails extends BaseHook {
      * 添加 Preference 到 Category
      */
     private void addPreferenceToCategory(Object thiz, ClassLoader cl, Object textPref) throws Exception {
-        Field prefField = EzxHelpUtils.findFirstFieldByExactType(
+        Field prefField = com.sevtinge.hyperceiler.libhook.base.BaseHook.findFirstFieldByExactType(
             thiz.getClass(),
-            EzxHelpUtils.findClass("androidx.preference.PreferenceCategory", cl)
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("androidx.preference.PreferenceCategory", cl)
         );
 
         if (prefField == null) {
@@ -265,7 +263,7 @@ public class AppDetails extends BaseHook {
 
         prefField.setAccessible(true);
         Object prefGroup = prefField.get(thiz);
-        EzxHelpUtils.callMethod(prefGroup, "addPreference", textPref);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(prefGroup, "addPreference", textPref);
     }
 
     /**
@@ -320,8 +318,8 @@ public class AppDetails extends BaseHook {
             @SuppressLint("DiscouragedApi")
             @Override
             public void before(HookParam param) {
-                String key = (String) EzxHelpUtils.callMethod(param.getArgs()[0], "getKey");
-                String title = (String) EzxHelpUtils.callMethod(param.getArgs()[0], "getTitle");
+                String key = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getArgs()[0], "getKey");
+                String title = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(param.getArgs()[0], "getTitle");
 
                 handlePreferenceClick(key, title, act, modRes, param);
             }
@@ -403,7 +401,7 @@ public class AppDetails extends BaseHook {
     private int getUserIdFromIntent(Activity act) {
         try {
             int uid = act.getIntent().getIntExtra("am_app_uid", -1);
-            return (int) EzxHelpUtils.callStaticMethod(UserHandle.class, "getUserId", uid);
+            return (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(UserHandle.class, "getUserId", uid);
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "getUserIdFromIntent error", t);
             return 0;
@@ -415,8 +413,8 @@ public class AppDetails extends BaseHook {
      */
     private void startActivityAsUser(Activity act, Intent intent, int user) {
         try {
-            EzxHelpUtils.callMethod(act, "startActivityAsUser", intent,
-                EzxHelpUtils.newInstance(UserHandle.class, user));
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(act, "startActivityAsUser", intent,
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(UserHandle.class, user));
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "startActivityAsUser error", t);
         }

@@ -21,51 +21,31 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.me
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.clzConstraintSetClass
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.mediaViewHolderNew
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiIslandMediaViewHolder
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 
 object ConstraintSetHelper {
     val clear by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("clear")
-            .filterByParamTypes(Int::class.java, Int::class.java)
-            .first()
+        clzConstraintSetClass!!.findMethod { name("clear"); parameterTypes(Int::class.java, Int::class.java) }
     }
     val setVisibility by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("setVisibility")
-            .filterByParamTypes(Int::class.java, Int::class.java)
-            .first()
+        clzConstraintSetClass!!.findMethod { name("setVisibility"); parameterTypes(Int::class.java, Int::class.java) }
     }
     val connect by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("connect")
-            .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java, Int::class.java)
-            .first()
+        clzConstraintSetClass!!.findMethod { name("connect"); parameterTypes(Int::class.java, Int::class.java, Int::class.java, Int::class.java) }
     }
     val setMargin by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("setMargin")
-            .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java)
-            .first()
+        clzConstraintSetClass!!.findMethod { name("setMargin"); parameterTypes(Int::class.java, Int::class.java, Int::class.java) }
     }
     val setGoneMargin by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("setGoneMargin")
-            .filterByParamTypes(Int::class.java, Int::class.java, Int::class.java)
-            .first()
+        clzConstraintSetClass!!.findMethod { name("setGoneMargin"); parameterTypes(Int::class.java, Int::class.java, Int::class.java) }
     }
     val applyTo by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("applyTo")
-            .first()
+        clzConstraintSetClass!!.findMethod { name("applyTo") }
     }
     val clone by lazy {
-        clzConstraintSetClass!!.methodFinder()
-            .filterByName("clone")
-            .first()
+        clzConstraintSetClass!!.findMethod { name("clone") }
     }
 }
 
@@ -86,7 +66,13 @@ fun <T> Any.getMediaViewHolderFieldAs(fieldName: String, isDynamicIsland: Boolea
     val cache = if (isDynamicIsland) diMediaVHFieldCache else ncMediaVHFieldCache
     val holderClass = if (isDynamicIsland) miuiIslandMediaViewHolder else mediaViewHolderNew
     val field = cache.getOrPut(fieldName) {
-        holderClass?.let { findField(it, fieldName) }
+        generateSequence(holderClass) { it.superclass }
+            .mapNotNull { currentClass ->
+                runCatching {
+                    currentClass.getDeclaredField(fieldName).apply { isAccessible = true }
+                }.getOrNull()
+            }
+            .firstOrNull() ?: error("Field $fieldName not found in ${holderClass?.name}")
     }
     return field?.get(this) as? T
 }

@@ -166,6 +166,19 @@ public class LogStatusManager {
         }
     }
 
+    public static void detachHookLogLevelObserver() {
+        synchronized (logLevelLock) {
+            if (hookLogLevelObserver != null && hookLogLevelObserverContext != null) {
+                try {
+                    hookLogLevelObserverContext.getContentResolver().unregisterContentObserver(hookLogLevelObserver);
+                } catch (Throwable ignored) {
+                }
+            }
+            hookLogLevelObserverContext = null;
+            hookLogLevelObserver = null;
+        }
+    }
+
     private static void registerLocalLogLevelListener() {
         SharedPreferences localPrefs = getLocalLogLevelPrefs();
         if (localPrefs == null || localPrefs == localLogLevelPrefs) {

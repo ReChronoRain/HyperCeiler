@@ -1,3 +1,4 @@
+
 /*
   * This file is part of HyperCeiler.
 
@@ -19,10 +20,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenrecorder
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.lang.reflect.Field
 import java.lang.reflect.Method
 
@@ -67,18 +68,15 @@ object UnlockMoreVolumeFromNew : BaseHook() {
     }
 
     override fun init() {
-        findAndHookConstructor(getClass, object : IMethodHook {
-            override fun after(param: HookParam) {
-                for (i in fieldData) {
-                    param.thisObject.setObjectField(i.name, true)
-                }
-            } })
-
-        hookMethod(bothRecordMethod, object : IMethodHook {
-            override fun before(param: HookParam?) {
-                param?.result = 1
+        Constructors.find(getClass).toList().createAfterHooks { param ->
+            for (i in fieldData) {
+                param.thisObject.setObjectField(i.name, true)
             }
-        })
+        }
+
+        bothRecordMethod.createBeforeHook {
+            it.result = 1
+        }
     }
 }
 

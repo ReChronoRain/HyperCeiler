@@ -20,18 +20,18 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object RemoveStylusBluetoothRestriction : BaseHook() {
     override fun init() {
         val clazzMiuiStylusDeviceListener =
             findClass("com.miui.server.input.stylus.MiuiStylusDeviceListener")
-        clazzMiuiStylusDeviceListener.declaredConstructors.createHooks {
+        clazzMiuiStylusDeviceListener.declaredConstructors.toList().createHooks {
             after {
                 setTouchModeStylusEnable()
             }
         }
-        clazzMiuiStylusDeviceListener.declaredMethods.createHooks {
+        clazzMiuiStylusDeviceListener.declaredMethods.toList().createHooks {
             replace {
                 setTouchModeStylusEnable()
             }

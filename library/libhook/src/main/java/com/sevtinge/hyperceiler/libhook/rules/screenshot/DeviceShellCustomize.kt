@@ -21,10 +21,9 @@ package com.sevtinge.hyperceiler.libhook.rules.screenshot
 import android.os.Build
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.setStaticObject
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object DeviceShellCustomize : BaseHook() {
      private lateinit var device: String
@@ -33,18 +32,16 @@ object DeviceShellCustomize : BaseHook() {
      }
 
      override fun init() {
-         loadClass("com.miui.gallery.editor.photo.screen.shell.res.ShellResourceFetcher").methodFinder()
-             .filterByName("getResId")
-             .first().createHook {
+         findClass("com.miui.gallery.editor.photo.screen.shell.res.ShellResourceFetcher").findMethod { name("getResId") }.createHook {
                  before {
                      if (!this@DeviceShellCustomize::device.isInitialized) {
                          device = Build.DEVICE
                      }
-                     setStaticObject(loadClass("android.os.Build"), "DEVICE", deviceS)
+                     Fields.setStaticObjectField(findClass("android.os.Build"), "DEVICE", deviceS)
                  }
 
                  after {
-                     setStaticObject(loadClass("android.os.Build"), "DEVICE", device)
+                     Fields.setStaticObjectField(findClass("android.os.Build"), "DEVICE", device)
                  }
              }
      }

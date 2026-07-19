@@ -33,8 +33,8 @@ import com.sevtinge.hyperceiler.expansion.utils.TokenUtils.getDeviceToken
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Hardware.isPadDevice
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils.getProp
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.clazzMiuiBuild
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAsOrNull
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticBooleanField
 import java.io.File
 import java.nio.charset.Charset
 import java.util.Locale
@@ -147,20 +147,19 @@ object DeviceHelper {
      */
     object Miui {
         val IS_TABLET by lazy {
-            clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_TABLET") ?: false
+            runCatching { clazzMiuiBuild.getStaticBooleanField("IS_TABLET") }.getOrDefault(false)
         }
 
         val IS_INTERNATIONAL_BUILD by lazy {
-            clazzMiuiBuild.getStaticObjectFieldAsOrNull<Boolean>("IS_INTERNATIONAL_BUILD") ?: false
+            runCatching { clazzMiuiBuild.getStaticBooleanField("IS_INTERNATIONAL_BUILD") }.getOrDefault(false)
         }
-        private const val CLASS_MIUI_BUILD: String = "miui.os.Build"
 
         private val isTablet: Boolean by lazy {
-            InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_TABLET") as Boolean
+            clazzMiuiBuild.getStaticBooleanField("IS_TABLET")
         }
 
         private val isInternationalBuild: Boolean by lazy {
-            InvokeUtils.getStaticField(CLASS_MIUI_BUILD, "IS_INTERNATIONAL_BUILD") as Boolean
+            clazzMiuiBuild.getStaticBooleanField("IS_INTERNATIONAL_BUILD")
         }
 
         /**

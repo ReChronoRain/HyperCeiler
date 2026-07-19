@@ -24,71 +24,81 @@ import android.os.SystemClock
 import android.view.MotionEvent
 import android.view.View
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlin.math.abs
 
 object LockScreenDoubleTapToSleep : BaseHook() {
+    private const val HOT_RELOAD_VIEW_KEY = "LockScreenDoubleTapToSleep.view"
+
     private val className by lazy {
         loadClass("com.android.systemui.shade.NotificationsQuickSettingsContainer")
     }
 
     override fun init() {
-        className.methodFinder()
-            .filterByName("onFinishInflate")
-            .single().createHook {
+        getHotReloadRuntimeState(HOT_RELOAD_VIEW_KEY, View::class.java)?.let(::installTouchListener)
+
+        className.findMethod { name("onFinishInflate") }.createHook {
                 before {
                     val view = it.thisObject as View
-                    view.setAdditionalInstanceField("currentTouchTime", 0L)
-                    view.setAdditionalInstanceField("currentTouchX", 0f)
-                    view.setAdditionalInstanceField("currentTouchY", 0f)
-                    view.setOnTouchListener(View.OnTouchListener { v, event ->
-                        if (event.action != MotionEvent.ACTION_DOWN) return@OnTouchListener false
-
-                        var currentTouchTime =
-                            v.getAdditionalInstanceField("currentTouchTime") as? Long ?: 0L
-                        var currentTouchX =
-                            v.getAdditionalInstanceField("currentTouchX") as? Float ?: 0f
-                        var currentTouchY =
-                            v.getAdditionalInstanceField("currentTouchY") as? Float ?: 0f
-                        val lastTouchTime = currentTouchTime
-                        val lastTouchX = currentTouchX
-                        val lastTouchY = currentTouchY
-
-                        currentTouchTime = System.currentTimeMillis()
-                        currentTouchX = event.x
-                        currentTouchY = event.y
-
-                        if (currentTouchTime - lastTouchTime < 250L
-                            && abs(currentTouchX - lastTouchX) < 100f
-                            && abs(currentTouchY - lastTouchY) < 100f
-                        ) {
-                            val keyguardMgr =
-                                v.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
-
-                            if (keyguardMgr.isKeyguardLocked) {
-                                callMethod(
-                                    v.context.getSystemService(Context.POWER_SERVICE),
-                                    "goToSleep",
-                                    SystemClock.uptimeMillis()
-                                )
-                            }
-                            currentTouchTime = 0L
-                            currentTouchX = 0f
-                            currentTouchY = 0f
-                        }
-
-                        setAdditionalInstanceField("currentTouchTime", currentTouchTime)
-                        setAdditionalInstanceField("currentTouchX", currentTouchX)
-                        setAdditionalInstanceField("currentTouchY", currentTouchY)
-                        v.performClick()
-                        false
-                    })
+                    installTouchListener(view)
                 }
             }
+    }
+
+    private fun installTouchListener(view: View) {
+        view.setAdditionalInstanceField("currentTouchTime", 0L)
+        view.setAdditionalInstanceField("currentTouchX", 0f)
+        view.setAdditionalInstanceField("currentTouchY", 0f)
+        view.setOnTouchListener(View.OnTouchListener { v, event ->
+            if (event.action != MotionEvent.ACTION_DOWN) return@OnTouchListener false
+
+            var currentTouchTime =
+                v.getAdditionalInstanceField("currentTouchTime") as? Long ?: 0L
+            var currentTouchX =
+                v.getAdditionalInstanceField("currentTouchX") as? Float ?: 0f
+            var currentTouchY =
+                v.getAdditionalInstanceField("currentTouchY") as? Float ?: 0f
+            val lastTouchTime = currentTouchTime
+            val lastTouchX = currentTouchX
+            val lastTouchY = currentTouchY
+
+            currentTouchTime = System.currentTimeMillis()
+            currentTouchX = event.x
+            currentTouchY = event.y
+
+            if (currentTouchTime - lastTouchTime < 250L
+                && abs(currentTouchX - lastTouchX) < 100f
+                && abs(currentTouchY - lastTouchY) < 100f
+            ) {
+                val keyguardMgr =
+                    v.context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
+                if (keyguardMgr.isKeyguardLocked) {
+                    callMethod(
+                        v.context.getSystemService(Context.POWER_SERVICE),
+                        "goToSleep",
+                        SystemClock.uptimeMillis()
+                    )
+                }
+                currentTouchTime = 0L
+                currentTouchX = 0f
+                currentTouchY = 0f
+            }
+
+            setAdditionalInstanceField("currentTouchTime", currentTouchTime)
+            setAdditionalInstanceField("currentTouchX", currentTouchX)
+            setAdditionalInstanceField("currentTouchY", currentTouchY)
+            v.performClick()
+            false
+        })
+        putHotReloadRuntimeState(HOT_RELOAD_VIEW_KEY, view)
+        registerHotReloadCleanup {
+            view.setOnTouchListener(null)
+        }
     }
 
 }

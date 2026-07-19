@@ -5,18 +5,18 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class NativeFilePicker extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.android.server.wm.ActivityTaskManagerServiceImpl", "mayReferToFileExplore", Intent.class, String.class, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws Throwable {
+            public void before(HookParam param) {
                 param.setResult(param.getArgs()[0]);
             }
         });

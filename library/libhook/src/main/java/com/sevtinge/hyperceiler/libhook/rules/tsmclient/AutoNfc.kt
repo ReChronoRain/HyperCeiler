@@ -26,12 +26,14 @@ import android.os.Bundle
 import android.widget.Toast
 import com.sevtinge.hyperceiler.libhook.R
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import io.github.kyuubiran.ezxhelper.core.finder.FieldFinder.`-Static`.fieldFinder
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Fields
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -39,35 +41,34 @@ import org.lsposed.hiddenapibypass.HiddenApiBypass
 
 object AutoNfc : BaseHook() {
     private var isNeed: String = ""
+    private var enableJob: Job? = null
 
     @SuppressLint("SuspiciousIndentation")
     override fun init() {
+        registerHotReloadCleanup {
+            enableJob?.cancel()
+            enableJob = null
+        }
 
-        findAndHookMethod(Activity::class.java, "onCreate", Bundle::class.java, object : IMethodHook {
-            override fun after(param: HookParam) {
-                if (isNeed.endsWith("+onDestroy") || isNeed == "") {
-                    createHook(param)
-                }
-                isNeed += "+onCreate"
+        Activity::class.java.afterHookMethod("onCreate", Bundle::class.java) { param ->
+            if (isNeed.endsWith("+onDestroy") || isNeed == "") {
+                createHook(param)
             }
-        })
+            isNeed += "+onCreate"
+        }
 
-        findAndHookMethod(Activity::class.java, "onPause", object : IMethodHook {
-            override fun before(param: HookParam) {
-                isNeed += "+onPause"
-                if (isNeed.endsWith("+onPause+onPause")) {
-                    destroyHook()
-                    isNeed += "+onDestroy"
-                }
-            }
-        })
-
-        findAndHookMethod(Activity::class.java, "onDestroy", object : IMethodHook {
-            override fun before(param: HookParam) {
-                if (isNeed.endsWith("+onPause")) destroyHook()
+        Activity::class.java.beforeHookMethod("onPause") { param ->
+            isNeed += "+onPause"
+            if (isNeed.endsWith("+onPause+onPause")) {
+                destroyHook()
                 isNeed += "+onDestroy"
             }
-        })
+        }
+
+        Activity::class.java.beforeHookMethod("onDestroy") { param ->
+            if (isNeed.endsWith("+onPause")) destroyHook()
+            isNeed += "+onDestroy"
+        }
 
         setResReplacement(
             "com.miui.tsmclient",
@@ -106,14 +107,15 @@ object AutoNfc : BaseHook() {
             HiddenApiBypass.invoke(NfcAdapter::class.java, nfcAdapter, "enable")
             val activity = param.thisObject as Activity
             if (activity.javaClass.name != "com.miui.tsmclient.ui.quick.DoubleClickActivity") return
-            MainScope().launch {
+            enableJob?.cancel()
+            enableJob = MainScope().launch {
                 waitNFCEnable(EzXposed.appContext, nfcAdapter)
-                param.thisObject.javaClass.fieldFinder().filter {
-                    type == Boolean::class.java
-                }.last().setBoolean(param.thisObject, false)
+                val targetClass = param.thisObject.javaClass
+                Fields.find(targetClass).filterByType(Boolean::class.java).toList().last()
+                    .setBoolean(param.thisObject, false)
                 val ctaHelperClazz = findClass("com.miui.tsmclient.entity.CTAHelper")
-                param.thisObject.javaClass.fieldFinder().filterByType(ctaHelperClazz)
-                    .first()[param.thisObject]!!.callMethod("check")
+                Fields.find(targetClass).filterByType(ctaHelperClazz).first()
+                    .get(param.thisObject)!!.callMethod("check")
             }
         }
     }

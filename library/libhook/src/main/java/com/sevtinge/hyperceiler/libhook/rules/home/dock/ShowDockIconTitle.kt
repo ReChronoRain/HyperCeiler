@@ -20,19 +20,24 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock
 
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object ShowDockIconTitle : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findClass(DEVICE_CONFIG_NEW).beforeHookMethod("isHotseatsAppTitleHided") {
+        findClass(DEVICE_CONFIG_NEW).findMethod {
+            name("isHotseatsAppTitleHided")
+        }.createBeforeHook {
             it.result = false
         }
     }
 
     override fun initBase() {
-        findClass(DEVICE_CONFIG_OLD).beforeHookMethod("isHotseatsAppTitleHided") {
+        findClass(DEVICE_CONFIG_OLD).findMethod {
+            name("isHotseatsAppTitleHided")
+        }.createBeforeHook {
             it.result = false
         }
     }

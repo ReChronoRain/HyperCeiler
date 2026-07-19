@@ -25,16 +25,10 @@ class IndicatorMarginBottom : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        findAndHookMethod(
-            DEVICE_CONFIG_NEW, "getWorkspaceIndicatorMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_indicator_margin_bottom")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_NEW, "getWorkspaceIndicatorMarginBottom", "home_layout_indicator_margin_bottom")
     }
 
     override fun initBase() {
-        findAndHookMethod(
-            DEVICE_CONFIG_OLD, "getWorkspaceIndicatorMarginBottom",
-            setDimensionPixelSizeFormPrefs("home_layout_indicator_margin_bottom")
-        )
+        setDimensionPixelSizeFormPrefs(DEVICE_CONFIG_OLD, "getWorkspaceIndicatorMarginBottom", "home_layout_indicator_margin_bottom")
     }
 }

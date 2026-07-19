@@ -21,21 +21,21 @@ package com.sevtinge.hyperceiler.libhook.rules.misound;
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.getEarPhoneStateFinal;
 import static com.sevtinge.hyperceiler.libhook.rules.misound.NewAutoSEffSwitch.isLockSelectionEnabled;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.effect.EffectItem.EFFECT_ARRAY;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.KtHelpUtilsKt.hookCallback;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod;
 
 import android.os.Bundle;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.IEffectInfo;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Map;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 /**
  * FW 模式下的音效控制 UI
@@ -105,7 +105,7 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
             Method onCreate = mAVDolbyActivityClass.getDeclaredMethod("onCreatePreferences", Bundle.class, String.class);
             Method onResume = mAVDolbyActivityClass.getDeclaredMethod("onResume");
 
-            hookCallback(onCreate, createOnCreatePreferencesHook(mPreferenceField));
+            hookMethod(onCreate, createOnCreatePreferencesHook(mPreferenceField));
 
             // 创建通用的刷新 Hook
             IMethodHook refreshHook = new IMethodHook() {
@@ -118,8 +118,8 @@ public class NewFWAudioEffectControl extends BaseEffectControlUI {
                 }
             };
 
-            hookCallback(mAVDolbyRefreshMethod, refreshHook);
-            hookCallback(onResume, refreshHook);
+            hookMethod(mAVDolbyRefreshMethod, refreshHook);
+            hookMethod(onResume, refreshHook);
 
         } catch (Exception e) {
             XposedLog.e(TAG, "Failed to hook AVDolby activity", e);

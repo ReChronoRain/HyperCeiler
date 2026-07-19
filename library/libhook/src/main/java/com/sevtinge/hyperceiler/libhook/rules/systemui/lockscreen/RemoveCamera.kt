@@ -22,21 +22,20 @@ import android.view.View
 import android.widget.LinearLayout
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.Keyguard.keyguardBottomAreaInjector
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object RemoveCamera : BaseHook() {
     override fun init() {
         // 屏蔽右下角组件显示
-        keyguardBottomAreaInjector.methodFinder().filter {
-            name in setOf(
+        keyguardBottomAreaInjector.findAllMethods { filter { name in setOf(
                 "updateRightAffordanceViewLayoutVisibility",
                 "startButtonLayoutAnimate"
-            )
-        }.toList().createHooks {
+            ) } }.createHooks {
             after {
                 val right =
                     it.thisObject.getObjectFieldOrNullAs<LinearLayout>("mRightAffordanceViewLayout") ?: return@after
@@ -45,15 +44,10 @@ object RemoveCamera : BaseHook() {
         }
 
         // 屏蔽滑动撞墙动画
-        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder()
-            .filterByName("onTouchMove")
-            .filterByParamCount(2)
-            .single().createHook {
+        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.findMethod { name("onTouchMove"); paramCount(2) }.createHook {
                 returnConstant(false)
             }
-        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.methodFinder()
-            .filterByName("reset")
-            .single().createHook {
+        loadClassOrNull("com.android.keyguard.KeyguardMoveRightController")!!.findMethod { name("reset") }.createHook {
                 returnConstant(null)
             }
     }

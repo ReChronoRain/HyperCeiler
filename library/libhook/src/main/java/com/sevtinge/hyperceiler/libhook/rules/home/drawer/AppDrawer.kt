@@ -21,26 +21,22 @@ package com.sevtinge.hyperceiler.libhook.rules.home.drawer
 import android.view.View
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 
 object AppDrawer : BaseHook() {
     override fun init() {
         if (PrefsBridge.getBoolean("home_drawer_all")) {
             try {
                 loadClassOrNull("com.miui.home.launcher.allapps.category.BaseAllAppsCategoryListContainer")!!
-                    .methodFinder()
-                    .filterByName("buildSortCategoryList")
-                    .single()
+                    .findMethod { name("buildSortCategoryList") }
             } catch (_: Exception) {
                 loadClassOrNull("com.miui.home.launcher.allapps.category.AllAppsCategoryListContainer")!!
-                    .methodFinder()
-                    .filterByName("buildSortCategoryList")
-                    .single()
+                    .findMethod { name("buildSortCategoryList") }
             }.createHook {
                 after {
                     val list = it.result as ArrayList<*>
@@ -53,12 +49,10 @@ object AppDrawer : BaseHook() {
         }
 
         if (PrefsBridge.getBoolean("home_drawer_editor")) {
-            findClass("com.miui.home.launcher.allapps.AllAppsGridAdapter").afterHookMethod(
-                "onBindViewHolder",
-                "com.miui.home.launcher.allapps.AllAppsGridAdapter.ViewHolder",
-                Int::class.java
-            ) {
-                if (it.args[0]?.callMethodAs<Int>("getItemViewType") == 64) {
+            findClass("com.miui.home.launcher.allapps.AllAppsGridAdapter").findMethod {
+                name("onBindViewHolder")
+            }.createAfterHook {
+                if ((it.args[0]?.callMethod("getItemViewType") as? Int) == 64) {
                     it.args[0]?.getObjectFieldAs<View>("itemView")?.visibility = View.INVISIBLE
                 }
             }

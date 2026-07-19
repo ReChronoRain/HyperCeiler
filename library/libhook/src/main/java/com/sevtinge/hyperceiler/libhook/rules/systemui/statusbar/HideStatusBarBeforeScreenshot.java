@@ -27,9 +27,9 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class HideStatusBarBeforeScreenshot extends BaseHook {
 
@@ -37,9 +37,16 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
         "com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment";
     private static final String ACTION_TAKE_SCREENSHOT = "miui.intent.TAKE_SCREENSHOT";
     private static final String EXTRA_IS_FINISHED = "IsFinished";
+    private static final String HOT_RELOAD_VIEW_KEY =
+        "HideStatusBarBeforeScreenshot.statusBarView";
+    private View mReceiverView;
 
     @Override
     public void init() {
+        View restoredView = getHotReloadRuntimeState(HOT_RELOAD_VIEW_KEY, View.class);
+        if (restoredView != null) {
+            registerScreenshotReceiver(restoredView);
+        }
         hookAllMethods(COLLAPSED_STATUS_BAR_CLASS, "onViewCreated", new IMethodHook() {
             @Override
             public void after(HookParam param) {
@@ -50,6 +57,7 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
     }
 
     private void registerScreenshotReceiver(View view) {
+        if (view == null || mReceiverView == view) return;
         Context context = view.getContext();
         if (context == null) return;
 
@@ -65,6 +73,9 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
 
         IntentFilter filter = new IntentFilter(ACTION_TAKE_SCREENSHOT);
         ContextCompat.registerReceiver(context, receiver, filter,ContextCompat.RECEIVER_EXPORTED);
+        mReceiverView = view;
+        putHotReloadRuntimeState(HOT_RELOAD_VIEW_KEY, view);
+        registerReceiverHotReloadCleanup(context, receiver);
+        registerHotReloadCleanup(() -> mReceiverView = null);
     }
 }
-

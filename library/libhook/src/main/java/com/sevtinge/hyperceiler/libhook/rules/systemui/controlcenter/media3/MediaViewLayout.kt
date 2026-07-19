@@ -42,15 +42,15 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.med
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.setGoneMargin
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.setMargin
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.media.setVisibility
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookConstructor
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookConstructor
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.findField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNull
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.xposed.EzXposed.appContext
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed.appContext
 
 object MediaViewLayout : BaseHook() {
 

@@ -19,14 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object SetGestureNeedFingerNum : BaseHook() {
     override fun init() {
-        findClass("com.miui.server.input.gesture.multifingergesture.gesture.BaseMiuiMultiFingerGesture").methodFinder()
-            .filterByName("getFunctionNeedFingerNum")
-            .single().createHook {
+        findClass("com.miui.server.input.gesture.multifingergesture.gesture.BaseMiuiMultiFingerGesture").findMethod { name("getFunctionNeedFingerNum") }.createHook {
                 returnConstant(4)
             }
     }

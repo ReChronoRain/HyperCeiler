@@ -292,25 +292,28 @@ public class NewAutoSEffSwitch extends BaseHook {
      * 注册耳机状态监听
      */
     private void registerStateObserver() {
-        mContext.getContentResolver().registerContentObserver(
+        android.content.ContentResolver resolver = mContext.getContentResolver();
+        ContentObserver observer = new ContentObserver(new Handler(mContext.getMainLooper())) {
+            @Override
+            public void onChange(boolean selfChange) {
+                if (selfChange) return;
+
+                int state = Settings.Global.getInt(
+                    mContext.getContentResolver(),
+                    SETTINGS_KEY_EARPHONE_STATE,
+                    0
+                );
+                XposedLog.d(TAG, "Earphone state changed: " + state);
+
+                mEffectControlUI.onEarphoneStateChanged();
+            }
+        };
+        resolver.registerContentObserver(
             Settings.Global.getUriFor(SETTINGS_KEY_EARPHONE_STATE),
             false,
-            new ContentObserver(new Handler(mContext.getMainLooper())) {
-                @Override
-                public void onChange(boolean selfChange) {
-                    if (selfChange) return;
-
-                    int state = Settings.Global.getInt(
-                        mContext.getContentResolver(),
-                        SETTINGS_KEY_EARPHONE_STATE,
-                        0
-                    );
-                    XposedLog.d(TAG, "Earphone state changed: " + state);
-
-                    mEffectControlUI.onEarphoneStateChanged();
-                }
-            }
+            observer
         );
+        registerContentObserverHotReloadCleanup(resolver, observer);
     }
 
     /**

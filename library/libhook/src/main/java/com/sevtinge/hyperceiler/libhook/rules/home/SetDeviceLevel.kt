@@ -22,12 +22,12 @@ import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.LazyClass.SystemProperties
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.beforeHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.replaceMethod
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 
 object SetDeviceLevel : HomeBaseHookNew() {
     private val mDeviceLevelUtilsClass by lazy {
@@ -45,168 +45,196 @@ object SetDeviceLevel : HomeBaseHookNew() {
 
     @Version(isPad = false, min = 600000000)
     private fun initOS3Hook() {
-        loadClass("miuix.device.DeviceUtils").methodFinder()
-            .filterByName("getQualcommCpuLevel")
-            .single().createHook {
+        loadClass("miuix.device.DeviceUtils").findMethod { name("getQualcommCpuLevel") }
+            .createHook {
                 returnConstant(2)
             }
 
-        mDeviceConfigClass.methodFinder()
-            .filterByName("isSupportCompleteAnimation")
-            .single().createHook {
+        mDeviceConfigClass.findMethod { name("isSupportCompleteAnimation") }.createHook {
+            returnConstant(true)
+        }
+
+        mDeviceConfigNewClass.apply {
+            findMethod {
+                name("isLowLevelDevice")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isMiuiLiteVersion")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isMiuiLiteOrMiddleVersion")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isSupportSuperXiaoai")
+            }.createHook {
                 returnConstant(true)
             }
-
-        mDeviceConfigNewClass.methodFinder().apply {
-            filterByName("isLowLevelDevice")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isMiuiLiteVersion")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isMiuiLiteOrMiddleVersion")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isSupportSuperXiaoai")
-                .single().createHook {
-                    returnConstant(true)
-                }
         }
 
-        mDeviceLevelUtilsNewClass.methodFinder().apply {
-            filterByName("isUseSimpleAnim")
-                .single().createHook {
-                    returnConstant(false)
-                }
+        mDeviceLevelUtilsNewClass.apply {
+            findMethod {
+                name("isUseSimpleAnim")
+            }.createHook {
+                returnConstant(false)
+            }
 
-            filterByName("getDeviceLevel")
-                .single().createHook {
-                    returnConstant(2)
-                }
+            findMethod {
+                name("getDeviceLevel")
+            }.createHook {
+                returnConstant(2)
+            }
 
-            filterByName("isLowLevelOrLiteDevice")
-                .single().createHook {
-                    returnConstant(false)
-                }
-        }
-
-        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").beforeHookMethod(
-            "isNoWordAvailable"
-        ) { it.result = true }
-
-        SystemProperties.methodFinder().filter {
-            name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java
-        }.toList().createHooks {
-            before {
-                if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
-                if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+            findMethod {
+                name("isLowLevelOrLiteDevice")
+            }.createHook {
+                returnConstant(false)
             }
         }
 
-        findClass("com.miui.home.launcher.common.Utilities").beforeHookMethod(
-            "canLockTaskView"
-        ) { it.result = true }
-
-        findClass("com.miui.home.common.MiuiHomeLog").replaceMethod(
-            "log", String::class.java, String::class.java
-        ) {
-            return@replaceMethod null
+        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").findMethod {
+            name("isNoWordAvailable")
+        }.createBeforeHook {
+            it.result = true
         }
 
-        findClass("com.xiaomi.onetrack.OneTrack").beforeHookMethod("isDisable") {
+        SystemProperties.findAllMethods { filter { name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java } }
+            .createHooks {
+                before {
+                    if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
+                    if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+                }
+            }
+
+        findClass("com.miui.home.launcher.common.Utilities").findMethod {
+            name("canLockTaskView")
+        }.createBeforeHook {
+            it.result = true
+        }
+
+        findClass("com.miui.home.common.MiuiHomeLog").findMethod {
+            name("log"); parameterTypes(
+            String::class.java,
+            String::class.java
+        )
+        }.createHook {
+            replace { null }
+        }
+
+        findClass("com.xiaomi.onetrack.OneTrack").findMethod {
+            name("isDisable")
+        }.createBeforeHook {
             it.result = true
         }
     }
 
     @Version(isPad = true, min = 450000000)
     private fun initPadHook() {
-        loadClass("com.miui.home.launcher.common.CpuLevelUtils").methodFinder()
-            .filterByName("getQualcommCpuLevel")
-            .filterByParamCount(1)
-            .single().createHook {
+        loadClass("com.miui.home.launcher.common.CpuLevelUtils").findMethod {
+            name("getQualcommCpuLevel"); paramCount(
+            1
+        )
+        }.createHook {
+            returnConstant(2)
+        }
+
+        loadClass("miuix.device.DeviceUtils").findMethod { name("getQualcommCpuLevel") }
+            .createHook {
                 returnConstant(2)
             }
 
-        loadClass("miuix.device.DeviceUtils").methodFinder()
-            .filterByName("getQualcommCpuLevel")
-            .single().createHook {
+        mDeviceConfigClass.apply {
+            findMethod {
+                name("isMiuiLiteVersion")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isSupportCompleteAnimation")
+            }.createHook {
+                returnConstant(true)
+            }
+
+            findMethod {
+                name("isMiuiLiteOrMiddleVersion")
+            }.createHook {
+                returnConstant(false)
+            }
+        }
+
+        mDeviceLevelUtilsClass.apply {
+            findMethod {
+                name("isLowLevelDevice")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isLowLevelDeviceFromFolme")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("isUseSimpleAnim")
+            }.createHook {
+                returnConstant(false)
+            }
+
+            findMethod {
+                name("getDeviceLevel")
+            }.createHook {
                 returnConstant(2)
             }
 
-        mDeviceConfigClass.methodFinder().apply {
-            filterByName("isMiuiLiteVersion")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isSupportCompleteAnimation")
-                .single().createHook {
-                    returnConstant(true)
-                }
-
-            filterByName("isMiuiLiteOrMiddleVersion")
-                .single().createHook {
-                    returnConstant(false)
-                }
-        }
-
-        mDeviceLevelUtilsClass.methodFinder().apply {
-            filterByName("isLowLevelDevice")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isLowLevelDeviceFromFolme")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("isUseSimpleAnim")
-                .single().createHook {
-                    returnConstant(false)
-                }
-
-            filterByName("getDeviceLevel")
-                .single().createHook {
-                    returnConstant(2)
-                }
-
-            filterByName("isLowLevelOrLiteDevice")
-                .single().createHook {
-                    returnConstant(false)
-                }
-        }
-
-        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").beforeHookMethod(
-            "isNoWordAvailable"
-        ) { it.result = true }
-
-        SystemProperties.methodFinder().filter {
-            name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java
-        }.toList().createHooks {
-            before {
-                if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
-                if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+            findMethod {
+                name("isLowLevelOrLiteDevice")
+            }.createHook {
+                returnConstant(false)
             }
         }
 
-        findClass("com.miui.home.launcher.common.Utilities").beforeHookMethod(
-            "canLockTaskView"
-        ) { it.result = true }
-
-        findClass("com.miui.home.launcher.MiuiHomeLog").replaceMethod(
-            "log", String::class.java, String::class.java
-        ) {
-            return@replaceMethod null
+        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").findMethod {
+            name("isNoWordAvailable")
+        }.createBeforeHook {
+            it.result = true
         }
 
-        findClass("com.xiaomi.onetrack.OneTrack").beforeHookMethod("isDisable") {
+        SystemProperties.findAllMethods { filter { name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java } }
+            .createHooks {
+                before {
+                    if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
+                    if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+                }
+            }
+
+        findClass("com.miui.home.launcher.common.Utilities").findMethod {
+            name("canLockTaskView")
+        }.createBeforeHook {
+            it.result = true
+        }
+
+        findClass("com.miui.home.launcher.MiuiHomeLog").findMethod {
+            name("log"); parameterTypes(
+            String::class.java,
+            String::class.java
+        )
+        }.createHook {
+            replace { null }
+        }
+
+        findClass("com.xiaomi.onetrack.OneTrack").findMethod {
+            name("isDisable")
+        }.createBeforeHook {
             it.result = true
         }
     }
@@ -218,83 +246,99 @@ object SetDeviceLevel : HomeBaseHookNew() {
         }
 
         runCatching {
-            loadClass("com.miui.home.launcher.common.CpuLevelUtils").methodFinder()
-                .filterByName("getQualcommCpuLevel")
-                .filterByParamCount(1)
-                .single()
+            loadClass("com.miui.home.launcher.common.CpuLevelUtils").findMethod {
+                name("getQualcommCpuLevel"); paramCount(
+                1
+            )
+            }
         }.recoverCatching {
-            loadClass("miuix.animation.utils.DeviceUtils").methodFinder()
-                .filterByName("getQualcommCpuLevel")
-                .filterByParamCount(1)
-                .single()
+            loadClass("miuix.animation.utils.DeviceUtils").findMethod {
+                name("getQualcommCpuLevel"); paramCount(
+                1
+            )
+            }
         }.getOrElse {
-            loadClass("miuix.device.DeviceUtils").methodFinder()
-                .filterByName("getQualcommCpuLevel")
-                .filterByParamCount(1)
-                .single()
+            loadClass("miuix.device.DeviceUtils").findMethod {
+                name("getQualcommCpuLevel"); paramCount(
+                1
+            )
+            }
         }.createHook {
             returnConstant(2)
         }
 
-        mDeviceConfigClass.methodFinder().apply {
-            filterByName("isUseSimpleAnim")
-                .single().createHook {
-                    returnConstant(false)
-                }
+        mDeviceConfigClass.apply {
+            findMethod {
+                name("isUseSimpleAnim")
+            }.createHook {
+                returnConstant(false)
+            }
 
-            filterByName("isSupportCompleteAnimation")
-                .single().createHook {
-                    returnConstant(true)
-                }
+            findMethod {
+                name("isSupportCompleteAnimation")
+            }.createHook {
+                returnConstant(true)
+            }
 
-            filterByName("isMiuiLiteVersion")
-                .single().createHook {
-                    returnConstant(false)
-                }
-        }
-
-        mDeviceLevelUtilsClass.methodFinder().apply {
-            filterByName("getDeviceLevel")
-                .single().createHook {
-                    returnConstant(2)
-                }
-
-            filterByName("isLowLevelOrLiteDevice")
-                .single().createHook {
-                    returnConstant(false)
-                }
-        }
-
-        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").beforeHookMethod(
-            "isNoWordAvailable"
-        ) { it.result = true }
-
-        SystemProperties.methodFinder().filter {
-            name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java
-        }.toList().createHooks {
-            before {
-                if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
-                if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+            findMethod {
+                name("isMiuiLiteVersion")
+            }.createHook {
+                returnConstant(false)
             }
         }
 
-        findClass("com.miui.home.launcher.common.Utilities").beforeHookMethod(
-            "canLockTaskView"
-        ) { it.result = true }
+        mDeviceLevelUtilsClass.apply {
+            findMethod {
+                name("getDeviceLevel")
+            }.createHook {
+                returnConstant(2)
+            }
 
-        findClass("com.miui.home.launcher.MIUIWidgetUtil").beforeHookMethod(
-            "isMIUIWidgetSupport"
-        ) {
+            findMethod {
+                name("isLowLevelOrLiteDevice")
+            }.createHook {
+                returnConstant(false)
+            }
+        }
+
+        findClass("com.miui.home.launcher.util.noword.NoWordSettingHelperKt").findMethod {
+            name("isNoWordAvailable")
+        }.createBeforeHook {
             it.result = true
         }
 
-        findClass("com.miui.home.launcher.MiuiHomeLog").replaceMethod(
-            "log", String::class.java, String::class.java
-        ) {
-            return@replaceMethod null
+        SystemProperties.findAllMethods { filter { name == "getBoolean" && parameterTypes[0] == String::class.java && parameterTypes[1] == Boolean::class.java } }
+            .createHooks {
+                before {
+                    if (it.args[0] == "ro.config.low_ram.threshold_gb") it.result = false
+                    if (it.args[0] == "ro.miui.backdrop_sampling_enabled") it.result = true
+                }
+            }
+
+        findClass("com.miui.home.launcher.common.Utilities").findMethod {
+            name("canLockTaskView")
+        }.createBeforeHook {
+            it.result = true
         }
 
-        findClass("com.xiaomi.onetrack.OneTrack").beforeHookMethod("isDisable") {
+        findClass("com.miui.home.launcher.MIUIWidgetUtil").findMethod {
+            name("isMIUIWidgetSupport")
+        }.createBeforeHook {
+            it.result = true
+        }
+
+        findClass("com.miui.home.launcher.MiuiHomeLog").findMethod {
+            name("log"); parameterTypes(
+            String::class.java,
+            String::class.java
+        )
+        }.createHook {
+            replace { null }
+        }
+
+        findClass("com.xiaomi.onetrack.OneTrack").findMethod {
+            name("isDisable")
+        }.createBeforeHook {
             it.result = true
         }
     }

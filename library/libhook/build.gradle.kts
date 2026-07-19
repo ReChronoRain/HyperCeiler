@@ -14,7 +14,7 @@ lsparanoid {
 
 android {
     namespace = "com.sevtinge.hyperceiler.libhook"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 35
@@ -63,13 +63,13 @@ dependencies {
     api(libs.expansion)
     compileOnlyApi(projects.library.hiddenApi)
 
-    // libxposed API 101
-    api(projects.library.xposedApi101)
+    // libxposed API 102 (compileOnly, runs against framework on device)
     compileOnlyApi(libs.libxposed.api)
     api(libs.libxposed.service)
 
     api(libs.dexkit)
-    api(libs.ezxhelper.core)
+    api(libs.ezhooktool.core)
+    api(libs.ezhooktool.xposed102)
     api(libs.hiddenapibypass)
     api(libs.gson)
     api(libs.hyperfocusapi)

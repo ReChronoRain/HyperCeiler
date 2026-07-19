@@ -40,16 +40,17 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileContext;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileState;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.TileUtils;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.TelephonyManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class FiveGTile extends TileUtils {
 
@@ -139,12 +140,19 @@ public class FiveGTile extends TileUtils {
                     Settings.Global.getUriFor(SETTING_5G_USER_ENABLE), false, contentObserver);
                 context.getContentResolver().registerContentObserver(
                     Settings.Global.getUriFor(SETTING_DUAL_NR_ENABLED), false, contentObserver);
+                BaseHook.registerContentObserverHotReloadCleanup(
+                    context.getContentResolver(), contentObserver
+                );
 
                 ctx.setAdditionalField(FIELD_CONTENT_OBSERVER, contentObserver);
             }
         } else {
             if (contentObserver != null) {
-                context.getContentResolver().unregisterContentObserver(contentObserver);
+                try {
+                    context.getContentResolver().unregisterContentObserver(contentObserver);
+                } catch (IllegalArgumentException ignored) {
+                    // 已在热重载清理阶段注销。
+                }
                 contentObserver = null;
                 ctx.removeAdditionalField(FIELD_CONTENT_OBSERVER);
             }
@@ -244,8 +252,13 @@ public class FiveGTile extends TileUtils {
                 itemArrayClass,
                 new IMethodHook() {
                     @Override
-                    public void before(HookParam param) throws Throwable {
-                        handleSetItems(param);
+                    public void before(HookParam param) {
+                        try {
+                            handleSetItems(param);
+                        } catch (InvocationTargetException | IllegalAccessException |
+                                 InstantiationException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             );
@@ -259,7 +272,7 @@ public class FiveGTile extends TileUtils {
     }
 
     private void adjustDetailViewHeight(View content) {
-        content.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+        View.OnAttachStateChangeListener listener = new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(@NonNull View v) {
                 View view = v;
@@ -268,8 +281,8 @@ public class FiveGTile extends TileUtils {
                     if (view.getId() != View.NO_ID) {
                         String idName = view.getResources().getResourceName(view.getId());
                         if (idName.endsWith("detail_container")) {
-                            int maxHeight = (int) EzxHelpUtils.callMethod(view, "getMaxHeight");
-                            EzxHelpUtils.callMethod(view, "setMaxHeight", maxHeight + DisplayUtils.dp2px(45f));
+                            int maxHeight = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "getMaxHeight");
+                            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(view, "setMaxHeight", maxHeight + DisplayUtils.dp2px(45f));
                             break;
                         }
                     }
@@ -279,12 +292,16 @@ public class FiveGTile extends TileUtils {
 
             @Override
             public void onViewDetachedFromWindow(@NonNull View v) {}
-        });
+        };
+        content.addOnAttachStateChangeListener(listener);
+        BaseHook.registerHotReloadCleanup(
+            () -> content.removeOnAttachStateChangeListener(listener)
+        );
     }
 
-    private void handleSetItems(HookParam param) throws Throwable {
+    private void handleSetItems(HookParam param) throws InvocationTargetException, IllegalAccessException, InstantiationException {
         ViewGroup content = (ViewGroup) param.getThisObject();
-        Object suffix = EzxHelpUtils.getObjectField(content, "suffix");
+        Object suffix = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(content, "suffix");
 
         if (!"Cellular".equals(suffix)) return;
 
@@ -328,7 +345,7 @@ public class FiveGTile extends TileUtils {
         Object toggleItem = createToggleItem(fiveGLabel);
         if (toggleItem != null) {
             // 因为会被 GC 回收导致第一次调用会 null, 设置强引用或者字符串判断为佳
-            // EzxHelpUtils.setAdditionalInstanceField(toggleItem, FIELD_IS_CUSTOM_5G, true);
+            // com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(toggleItem, FIELD_IS_CUSTOM_5G, true);
             newItems[insertIndex + 1] = toggleItem;
         } else {
             XposedLog.e(TAG, "Failed to create toggle item");
@@ -348,7 +365,7 @@ public class FiveGTile extends TileUtils {
 
         for (String fieldName : possibleFields) {
             try {
-                Object value = EzxHelpUtils.getObjectField(item, fieldName);
+                Object value = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(item, fieldName);
                 if (value instanceof CharSequence) {
                     return (CharSequence) value;
                 }

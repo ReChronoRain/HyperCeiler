@@ -23,16 +23,17 @@ import android.view.View
 import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 object CardTextSize : BaseHook() {
     override fun init() {
         val recentTextSize = PrefsBridge.getInt("home_recent_text_size", -1)
         val taskViewHeaderClass = findClass("com.miui.home.recents.views.TaskViewHeader")
-        taskViewHeaderClass.afterHookMethod(
-            "onFinishInflate"
-        ) {
+        taskViewHeaderClass.findMethod {
+            name("onFinishInflate")
+        }.createAfterHook {
             val mTitle = it.thisObject.getObjectField("mTitleView") as TextView
             mTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, recentTextSize.toFloat())
             if (recentTextSize == 0) mTitle.visibility = View.GONE

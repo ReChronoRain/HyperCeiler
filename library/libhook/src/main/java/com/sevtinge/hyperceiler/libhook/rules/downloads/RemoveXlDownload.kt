@@ -19,24 +19,28 @@
 package com.sevtinge.hyperceiler.libhook.rules.downloads
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.io.IOException
+import java.lang.reflect.Modifier
 
 // https://github.com/YifePlayte/WOMMO/blob/6069e7d/app/src/main/java/com/yifeplayte/wommo/hook/hooks/singlepackage/downloadprovider/RemoveXlDownload.kt
 object RemoveXlDownload : BaseHook() {
     override fun init() {
-        loadClass("com.android.providers.downloads.config.XLConfig").methodFinder()
-            .filter { name in setOf("setDebug", "setSoDebug") }
-            .filterNonAbstract().toList()
-            .createHooks {
-                returnConstant(null)
+        loadClass("com.android.providers.downloads.config.XLConfig").findAllMethods {
+            filter {
+                name in setOf("setDebug", "setSoDebug") && !Modifier.isAbstract(modifiers)
             }
+        }.createHooks {
+            returnConstant(null)
+        }
 
-        loadClass("com.android.providers.downloads.util.FileUtil").methodFinder()
-            .filterByName("createFile").single().createHook {
+        loadClass("com.android.providers.downloads.util.FileUtil").findMethod {
+            name("createFile")
+        }.createHook {
                 before {
                     if ((it.args[0] as String).contains(".xlDownload")) {
                         it.throwable = IOException(".xlDownload is blocked")

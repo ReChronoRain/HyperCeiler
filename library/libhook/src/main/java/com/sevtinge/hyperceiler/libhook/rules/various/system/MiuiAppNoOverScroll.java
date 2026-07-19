@@ -22,10 +22,9 @@ import android.view.View;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class MiuiAppNoOverScroll extends BaseHook {
 
@@ -40,7 +39,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
             IMethodHook hookParam = new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
-                    EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     param.getArgs()[0] = false;
                 }
             };
@@ -50,7 +49,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
                 hookAllConstructors(mSpringBackCls, new IMethodHook() {
                     @Override
                     public void after(HookParam param) {
-                        EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     }
                 });
 
@@ -63,7 +62,7 @@ public class MiuiAppNoOverScroll extends BaseHook {
                     @Override
                     public void after(HookParam param) {
                         ((View) param.getThisObject()).setOverScrollMode(View.OVER_SCROLL_NEVER);
-                        EzxHelpUtils.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
+                        com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField(param.getThisObject(), "mSpringBackEnable", false);
                     }
                 });
                 findAndHookMethod(mRemixRvCls, "setSpringEnabled", boolean.class, hookParam);

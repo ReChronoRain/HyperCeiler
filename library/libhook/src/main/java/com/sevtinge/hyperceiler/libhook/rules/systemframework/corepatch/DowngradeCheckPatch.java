@@ -1,9 +1,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isAndroidVersion;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findMethodExactIfExists;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.hookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findMethodExactIfExists;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 

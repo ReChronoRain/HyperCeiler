@@ -19,9 +19,10 @@
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.game
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import java.lang.reflect.Method
 
 class RemoveMacroBlackList : BaseHook() {
@@ -71,12 +72,10 @@ class RemoveMacroBlackList : BaseHook() {
         }
 
         removeMacroBlackListClass3.apply {
-            methodFinder().filterByParamCount(2)
-                .toList().createHooks {
+            this.findAllMethods { paramCount(2) }.createHooks {
                     returnConstant(true)
                 }
-            methodFinder().filterByParamCount(3)
-                .toList().createHooks {
+            this.findAllMethods { paramCount(3) }.createHooks {
                     returnConstant(true)
                 }
         }

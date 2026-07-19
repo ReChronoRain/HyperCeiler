@@ -18,8 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui;
 
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findAndHookMethod;
-import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.returnConstant;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod;
+import static com.sevtinge.hyperceiler.libhook.base.BaseHook.returnConstant;
 
 public class EnableVolumeBlur {
     public static void initEnableVolumeBlur(ClassLoader classLoader) {

@@ -25,7 +25,7 @@ import android.net.Uri;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 public class UseThirdPartyBrowser extends BaseHook {
 

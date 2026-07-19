@@ -19,7 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.screenrecorder;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 
 import org.luckypray.dexkit.DexKitBridge;
@@ -33,7 +33,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ScreenRecorderConfig extends BaseHook {
     private Method mFrameMethod;
@@ -73,44 +73,52 @@ public class ScreenRecorderConfig extends BaseHook {
     public void init() {
         hookMethod(mFrameMethod, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws IllegalAccessException {
-                param.getArgs()[0] = 1200;
-                param.getArgs()[1] = 1;
+            public void before(HookParam param) {
+                try {
+                    param.getArgs()[0] = 1200;
+                    param.getArgs()[1] = 1;
 
-                Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    if (Modifier.isFinal(field.getModifiers())) {
-                        Object value = field.get(null);
-                        if (value instanceof int[] intArray) {
-                            if (Arrays.equals(intArray, new int[]{15, 24, 30, 48, 60, 90})) {
-                                field.set(null, new int[]{15, 24, 30, 48, 60, 90, 120, 144});
-                                break;
+                    Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        field.setAccessible(true);
+                        if (Modifier.isFinal(field.getModifiers())) {
+                            Object value = field.get(null);
+                            if (value instanceof int[] intArray) {
+                                if (Arrays.equals(intArray, new int[]{15, 24, 30, 48, 60, 90})) {
+                                    field.set(null, new int[]{15, 24, 30, 48, 60, 90, 120, 144});
+                                    break;
+                                }
                             }
                         }
                     }
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e);
                 }
             }
         });
 
         hookMethod(mBitRateMethod, new IMethodHook() {
             @Override
-            public void before(HookParam param) throws IllegalAccessException {
-                param.getArgs()[0] = 1200;
-                param.getArgs()[1] = 1;
+            public void before(HookParam param) {
+                try {
+                    param.getArgs()[0] = 1200;
+                    param.getArgs()[1] = 1;
 
-                Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
-                for (Field field : fields) {
-                    field.setAccessible(true);
-                    if (Modifier.isFinal(field.getModifiers())) {
-                        Object value = field.get(null);
-                        if (value instanceof int[] intArray) {
-                            if (Arrays.equals(intArray, new int[]{200, 100, 50, 32, 24, 16, 8, 6, 4, 1})) {
-                                field.set(null, new int[]{1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1});
-                                break;
+                    Field[] fields = param.getExecutable().getDeclaringClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        field.setAccessible(true);
+                        if (Modifier.isFinal(field.getModifiers())) {
+                            Object value = field.get(null);
+                            if (value instanceof int[] intArray) {
+                                if (Arrays.equals(intArray, new int[]{200, 100, 50, 32, 24, 16, 8, 6, 4, 1})) {
+                                    field.set(null, new int[]{1200, 800, 400, 200, 100, 50, 32, 24, 16, 8, 6, 4, 1});
+                                    break;
+                                }
                             }
                         }
                     }
+                } catch (IllegalAccessException e) {
+                    throw new IllegalStateException(e);
                 }
             }
         });

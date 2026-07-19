@@ -28,18 +28,18 @@ import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi
 import com.sevtinge.hyperceiler.libhook.callback.ICrashHandler
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.PackageWatchdog
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.chainMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getAdditionalInstanceFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.removeAdditionalInstanceField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setAdditionalInstanceField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHooks
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
 import io.github.libxposed.api.XposedModuleInterface
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getAdditionalInstanceFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.removeAdditionalInstanceField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setAdditionalInstanceField
 import java.lang.reflect.Constructor
 
 class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
@@ -71,8 +71,8 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         val balStateClassName = $$"$$bgControllerClassName$BalState"
         val balVerdictClassName = $$"$$bgControllerClassName$BalVerdict"
 
-        val bgControllerClass = EzxHelpUtils.findClassIfExists(bgControllerClassName, classLoader)
-        val balStateClass = EzxHelpUtils.findClassIfExists(balStateClassName, classLoader)
+        val bgControllerClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(bgControllerClassName, classLoader)
+        val balStateClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(balStateClassName, classLoader)
         val allowVerdictFactory = resolveAllowByDefaultVerdictFactory(classLoader, balVerdictClassName)
 
         if (bgControllerClass == null) {
@@ -98,12 +98,12 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         allowVerdictFactory: () -> Any
     ): Boolean {
         return runCatching {
-            bgControllerClass.chainMethod("abortLaunch", balStateClass) {
-                val state = getArg(0)
+            bgControllerClass.interceptHookMethod("abortLaunch", balStateClass) { chain ->
+                val state = chain.getArg(0)
                 if (shouldAllowBackgroundActivityStart(state)) {
-                    return@chainMethod allowVerdictFactory()
+                    return@interceptHookMethod allowVerdictFactory()
                 }
-                proceed()
+                chain.proceed()
             }
             XposedLog.i(TAG, "Installed BAL chain hook: abortLaunch")
             true
@@ -122,16 +122,13 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         }
 
         runCatching {
-            bgControllerClass.methodFinder()
-                .filterByName("checkBackgroundActivityStart")
-                .filterByParamCount(11)
-                .first()
-                .hook {
-                    val pkg = getArg(2) as? String
+            bgControllerClass.findMethod { name("checkBackgroundActivityStart"); paramCount(11) }
+                .createInterceptHook { chain ->
+                    val pkg = chain.getArg(2) as? String
                     if (isModulePackage(pkg)) {
-                        return@hook allowVerdictFactory()
+                        return@createInterceptHook allowVerdictFactory()
                     }
-                    proceed()
+                    chain.proceed()
                 }
         }.onSuccess {
             XposedLog.i(TAG, "Installed BAS fallback hook on checkBackgroundActivityStart")
@@ -142,24 +139,24 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
 
     private fun hookActivityStarterImpl(classLoader: ClassLoader) {
         val stubClassName = "com.android.server.wm.ActivityStarterStub"
-        val stubClass = EzxHelpUtils.findClassIfExists(stubClassName, classLoader)
+        val stubClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(stubClassName, classLoader)
         if (stubClass == null) {
             XposedLog.w(TAG, "ActivityStarterStub not found, skip MIUI allow hook")
             return
         }
 
         runCatching {
-            stubClass.chainMethod(
+            stubClass.interceptHookMethod(
                 "isAllowedStartActivity",
                 Int::class.javaPrimitiveType!!,
                 Int::class.javaPrimitiveType!!,
                 String::class.java
-            ) {
-                val pkg = getArg(2) as? String
+            ) { chain ->
+                val pkg = chain.getArg(2) as? String
                 if (isModulePackage(pkg)) {
-                    return@chainMethod true
+                    return@interceptHookMethod true
                 }
-                proceed()
+                chain.proceed()
             }
             XposedLog.i(TAG, "Installed ActivityStarter allow hook: $stubClassName#isAllowedStartActivity(int,int,String)")
         }.onFailure { throwable ->
@@ -171,7 +168,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         classLoader: ClassLoader,
         balVerdictClassName: String
     ): (() -> Any)? {
-        val balVerdictClass = EzxHelpUtils.findClassIfExists(balVerdictClassName, classLoader)
+        val balVerdictClass = com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(balVerdictClassName, classLoader)
             ?: run {
                 XposedLog.w(TAG, "BalVerdict class not found: $balVerdictClassName")
                 return null
@@ -190,7 +187,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         val sharedVerdict = listOf("ALLOW_BY_DEFAULT", "BAL_ALLOW_DEFAULT")
             .firstNotNullOfOrNull { fieldName ->
                 runCatching {
-                    EzxHelpUtils.getStaticObjectField(balVerdictClass, fieldName)
+                    com.sevtinge.hyperceiler.libhook.base.BaseHook.getStaticObjectField(balVerdictClass, fieldName)
                 }.getOrNull()
             }
 
@@ -231,14 +228,14 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
         if (state == null) return false
 
         val callingPackage = runCatching {
-            EzxHelpUtils.getObjectField(state, "mCallingPackage") as? String
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(state, "mCallingPackage") as? String
         }.getOrNull()
         if (isModulePackage(callingPackage)) {
             return true
         }
 
         val realCallingPackage = runCatching {
-            EzxHelpUtils.getObjectField(state, "mRealCallingPackage") as? String
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(state, "mRealCallingPackage") as? String
         }.getOrNull()
         return isModulePackage(realCallingPackage)
     }
@@ -252,16 +249,13 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
      */
     private fun hookAppErrors(classLoader: ClassLoader) {
         val appErrorsClass =
-            EzxHelpUtils.findClassIfExists("com.android.server.am.AppErrors", classLoader)
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists("com.android.server.am.AppErrors", classLoader)
                 ?: throw ClassNotFoundException("com.android.server.am.AppErrors not found")
 
-        appErrorsClass.methodFinder()
-            .filterByName("handleAppCrashInActivityController")
-            .filterByReturnType(Boolean::class.java)
-            .first()
+        appErrorsClass.findMethod { name("handleAppCrashInActivityController"); returnType(Boolean::class.java) }
             .createHook {
                 after { param ->
-                    val mContext = EzxHelpUtils.getObjectField(param.thisObject, "mContext") as Context
+                    val mContext = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(param.thisObject, "mContext") as Context
                     val proc = param.args[0] ?: run {
                         XposedLog.w(TAG, "Crash callback received null process record, skip crash handling")
                         return@after
@@ -275,7 +269,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
                     // val callingUid = param.args[7] as Int
 
                     // 获取包名
-                    val info = EzxHelpUtils.getObjectField(proc, "info") as? ApplicationInfo
+                    val info = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(proc, "info") as? ApplicationInfo
                     val pkgName = info?.packageName ?: return@after
 
                     if (CrashScope.isScopeApp(pkgName)) {
@@ -294,13 +288,10 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
     private fun hookRescueParty(classLoader: ClassLoader) {
         PackageWatchdog.setClassLoader(classLoader)
         val watchdogClass =
-            EzxHelpUtils.findClass("com.android.server.PackageWatchdogImpl", classLoader)
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("com.android.server.PackageWatchdogImpl", classLoader)
 
         // 拦截 setCrashApplicationLevel
-        watchdogClass.methodFinder()
-            .filterByName("setCrashApplicationLevel")
-            .filterByParamTypes(Int::class.java, VersionedPackage::class.java, Context::class.java)
-            .first()
+        watchdogClass.findMethod { name("setCrashApplicationLevel"); parameterTypes(Int::class.java, VersionedPackage::class.java, Context::class.java) }
             .createBeforeHook { param ->
                 val mitigationCount = param.args[0] as Int
                 val versionedPackage = param.args[1] as? VersionedPackage ?: return@createBeforeHook
@@ -330,10 +321,7 @@ class CrashMonitor(lpparam: XposedModuleInterface.SystemServerStartingParam) {
             }
 
         // 拦截具体的 RescueParty 步骤
-        watchdogClass.methodFinder()
-            .filter { name == "doRescuePartyPlusStepNew" || name == "doRescuePartyPlusStep" }
-            .filterByParamTypes(Int::class.java, VersionedPackage::class.java, Context::class.java)
-            .toList()
+        watchdogClass.findAllMethods { parameterTypes(Int::class.java, VersionedPackage::class.java, Context::class.java); filter { name == "doRescuePartyPlusStepNew" || name == "doRescuePartyPlusStep" } }
             .createBeforeHooks { param ->
                 val watchdog = param.thisObject
                 val flagPkg = watchdog.getAdditionalInstanceFieldAs<String?>("flag_pkg")

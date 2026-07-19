@@ -19,11 +19,12 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.recent
 
 import android.graphics.RectF
-import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.afterHookMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 
 object TaskViewHorizontal : BaseHook() {
     override fun init() {
@@ -31,9 +32,10 @@ object TaskViewHorizontal : BaseHook() {
         val value1 = PrefsBridge.getInt("task_view_horizontal1", 100).toFloat() / 100
         val value2 = PrefsBridge.getInt("task_view_horizontal2", 100).toFloat() / 100
         if (value1 == 1f && value2 == 1f) return
-        findClass("com.miui.home.recents.views.TaskStackViewsAlgorithmHorizontal").afterHookMethod(
-            "scaleTaskView", RectF::class.java,
-        ) {
+        findClass("com.miui.home.recents.views.TaskStackViewsAlgorithmHorizontal").findMethod {
+            name("scaleTaskView")
+            parameterTypes(RectF::class.java)
+        }.createAfterHook {
             findClass("com.miui.home.recents.util.Utilities").callStaticMethod(
                 "scaleRectAboutCenter",
                 it.args[0],

@@ -29,13 +29,12 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodBottomManagerHelper;
 import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.callback.IReplaceHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IReplaceHook;
 
 import java.util.List;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedModuleInterface;
 
 /**
@@ -128,7 +127,7 @@ public class UnlockIme extends BaseHook {
      */
     private void hookSIsImeSupport(Class<?> clazz) {
         try {
-            EzxHelpUtils.setStaticObjectField(clazz, "sIsImeSupport", 1);
+            setStaticObjectField(clazz, "sIsImeSupport", 1);
         } catch (Throwable throwable) {
             XposedLog.e(TAG, "Hook field sIsImeSupport: " + throwable);
         }
@@ -205,7 +204,7 @@ public class UnlockIme extends BaseHook {
     private void hookDeleteNotSupportIme(String className, ClassLoader classLoader) {
         if (isMoreAndroidVersion(36)) return;
         try {
-            Class<?> clazz = EzxHelpUtils.findClassIfExists(className, classLoader);
+            Class<?> clazz = findClassIfExists(className, classLoader);
             if (clazz == null) {
                 XposedLog.w(TAG, "Class not found: " + className);
                 return;
@@ -223,11 +222,11 @@ public class UnlockIme extends BaseHook {
      */
     private void hookGetSupportIme(ClassLoader classLoader) {
         try {
-            EzxHelpUtils.findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
+            findAndHookMethod("com.miui.inputmethod.InputMethodBottomManager",
                 classLoader, "getSupportIme",
                 new IMethodHook() {
                     @Override
-                    public void before(HookParam param) throws Throwable {
+                    public void before(HookParam param) {
                         Object getEnabledInputMethodList =
                             InputMethodBottomManagerHelper.getEnabledInputMethodList(classLoader);
                         if (getEnabledInputMethodList instanceof List<?>) {
@@ -249,7 +248,7 @@ public class UnlockIme extends BaseHook {
      */
     private void hookUnlockImeListUiCount(ClassLoader classLoader) {
         try {
-            EzxHelpUtils.findAndHookMethodReplace("com.miui.inputmethod.InputMethodSwitchPopupView",
+            findAndHookMethodReplace("com.miui.inputmethod.InputMethodSwitchPopupView",
                 classLoader, "setListViewHeight",
                 new IReplaceHook() {
                     @Override

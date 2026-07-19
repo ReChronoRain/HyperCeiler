@@ -23,17 +23,15 @@ import android.text.TextUtils
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setStaticObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.ConstructorFinder.`-Static`.constructorFinder
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHooks
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setStaticObjectField
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHooks
 import org.json.JSONObject
 import java.lang.reflect.Method
 
@@ -86,9 +84,7 @@ object VersionCodeNew : BaseHook() {
 
     override fun init() {
         // 原始修改版本名
-        findClassIfExists("com.android.updater.Application").methodFinder()
-            .filterByName("onCreate")
-            .first().createBeforeHook {
+        findClassIfExists("com.android.updater.Application").findMethod { name("onCreate") }.createBeforeHook {
                 if (!TextUtils.isEmpty(mOldVersionCode)) {
                     Build.VERSION::class.java.setStaticObjectField(
                         "INCREMENTAL",
@@ -134,12 +130,12 @@ object VersionCodeNew : BaseHook() {
                 }
             })
 
-        loadClass("com.android.updater.xms.bean.XmsVersionInfo").constructorFinder()
+        Constructors.find(findClass("com.android.updater.xms.bean.XmsVersionInfo"))
             .filterByParamTypes(JSONObject::class.java)
             .first().createHook {
                 after { param ->
-                    XposedLog.d(TAG, lpparam.packageName, "111 ")
-                    XposedLog.d(TAG, lpparam.packageName, "111 " + param.thisObject.getObjectField("curVerCode").toString())
+                    XposedLog.d(TAG, getPackageName(), "111 ")
+                    XposedLog.d(TAG, getPackageName(), "111 " + param.thisObject.getObjectField("curVerCode").toString())
                 }
             }
 

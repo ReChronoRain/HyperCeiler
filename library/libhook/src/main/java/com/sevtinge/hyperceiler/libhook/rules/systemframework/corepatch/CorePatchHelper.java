@@ -1,8 +1,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class CorePatchHelper {
     public static final String PREF_DOWNGRADE = "prefs_key_system_framework_core_patch_downgr";
@@ -32,39 +31,39 @@ public class CorePatchHelper {
 
     public static void findAndHookMethod(String className, ClassLoader classLoader, String methodName, Object... parameterTypesAndCallback) {
         if (findClass(className, classLoader) != null) {
-            EzxHelpUtils.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod(className, classLoader, methodName, parameterTypesAndCallback);
         }
     }
 
     public static void findAndHookMethod(Class<?> clazz, String methodName, Object... parameterTypesAndCallback) {
         if (clazz != null) {
-            EzxHelpUtils.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookMethod(clazz, methodName, parameterTypesAndCallback);
         }
     }
 
     public static void hookAllMethods(String className, ClassLoader classLoader, String methodName, IMethodHook callback) {
         Class<?> packageParser = findClass(className, classLoader);
-        EzxHelpUtils.hookAllMethods(packageParser, methodName, callback);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(packageParser, methodName, callback);
     }
 
     public void hookAllMethods(Class<?> hookClass, String methodName, IMethodHook callback) {
-        EzxHelpUtils.hookAllMethods(hookClass, methodName, callback);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllMethods(hookClass, methodName, callback);
     }
 
     public static void setStaticBooleanField(Class<?> hookClass, String fieldName, boolean value) {
-        EzxHelpUtils.setStaticBooleanField(hookClass, fieldName, value);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticBooleanField(hookClass, fieldName, value);
     }
 
     public static Class<?> findClass(String className, ClassLoader classLoader) {
-        return EzxHelpUtils.findClassIfExists(className, classLoader);
+        return com.sevtinge.hyperceiler.libhook.base.BaseHook.findClassIfExists(className, classLoader);
     }
 
     public static void hookAllConstructors(String className, IMethodHook callback) {
         Class<?> packageParser = findClass(className, null);
-        EzxHelpUtils.hookAllConstructors(packageParser, callback);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllConstructors(packageParser, callback);
     }
 
     public static void hookAllConstructors(Class<?> clazz, IMethodHook callback) {
-        EzxHelpUtils.hookAllConstructors(clazz, callback);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.hookAllConstructors(clazz, callback);
     }
 }

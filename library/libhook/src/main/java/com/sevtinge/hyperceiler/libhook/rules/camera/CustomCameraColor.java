@@ -22,7 +22,6 @@ package com.sevtinge.hyperceiler.libhook.rules.camera;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import org.luckypray.dexkit.DexKitBridge;
 import org.luckypray.dexkit.query.FindField;
@@ -81,6 +80,6 @@ public class CustomCameraColor extends BaseHook {
 
     @Override
     public void init() {
-        EzxHelpUtils.setStaticIntField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), PrefsBridge.getInt("camera_custom_theme_color_picker", -2025677));
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticIntField(mCameraColorField.getDeclaringClass(), mCameraColorField.getName(), PrefsBridge.getInt("camera_custom_theme_color_picker", -2025677));
     }
 }

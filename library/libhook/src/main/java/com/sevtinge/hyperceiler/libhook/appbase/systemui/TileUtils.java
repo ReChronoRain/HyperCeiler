@@ -35,11 +35,10 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.R;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
-import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
-import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 /**
@@ -93,6 +92,7 @@ public abstract class TileUtils extends BaseHook {
 
     private static final String FIELD_CUSTOM_NAME = "hc_customTileName";
     private static final String METHOD_CREATE_TILE = "createTile";
+    private static final String HOT_RELOAD_STATE_PREFIX = "TileUtils.listening.";
 
     // ==================== 缓存字段 ====================
 
@@ -239,6 +239,7 @@ public abstract class TileUtils extends BaseHook {
 
         // Hook 磁贴方法
         hookTileMethods();
+        restoreListeningStateAfterHotReload();
 
         XposedLog.d(TAG, "Tile initialized: " + mConfig);
     }
@@ -255,7 +256,7 @@ public abstract class TileUtils extends BaseHook {
                 if (mIsRegistered) return;
                 mIsRegistered = true;
 
-                Context context = (Context) EzxHelpUtils.callMethod(
+                Context context = (Context) com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(
                     param.getThisObject(), "getApplicationContext");
                 registerTileToStock(context);
             }
@@ -327,20 +328,20 @@ public abstract class TileUtils extends BaseHook {
             return null;
         }
 
-        Object providerObj = EzxHelpUtils.getObjectField(factory, provider);
+        Object providerObj = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(factory, provider);
         if (providerObj == null) {
             XposedLog.e(TAG, "Provider not found: " + provider);
             return null;
         }
 
-        Object tile = EzxHelpUtils.callMethod(providerObj, "get");
+        Object tile = com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(providerObj, "get");
         if (tile == null) {
             XposedLog.e(TAG, "Failed to get tile from provider: " + provider);
             return null;
         }
 
         // 标记为自定义磁贴
-        EzxHelpUtils.setAdditionalInstanceField(tile, FIELD_CUSTOM_NAME, mConfig.getTileName());
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setAdditionalInstanceField(tile, FIELD_CUSTOM_NAME, mConfig.getTileName());
 
         // 初始化磁贴
         initializeTile(tile);
@@ -352,12 +353,12 @@ public abstract class TileUtils extends BaseHook {
      * 初始化磁贴
      */
     private void initializeTile(Object tile) {
-        Object handler = EzxHelpUtils.getObjectField(tile, "mHandler");
+        Object handler = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(tile, "mHandler");
         if (handler != null) {
-            EzxHelpUtils.callMethod(handler, "sendEmptyMessage", 12);
-            EzxHelpUtils.callMethod(handler, "sendEmptyMessage", 11);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(handler, "sendEmptyMessage", 12);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(handler, "sendEmptyMessage", 11);
         }
-        EzxHelpUtils.callMethod(tile, "setTileSpec", mConfig.getTileName());
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tile, "setTileSpec", mConfig.getTileName());
     }
 
     //==================== Hook 磁贴方法 ====================
@@ -434,6 +435,7 @@ public abstract class TileUtils extends BaseHook {
 
                 TileContext ctx = new TileContext(param);
                 boolean listening = (boolean) param.getArgs()[0];
+                rememberListeningState(param.getThisObject(), listening);
                 onListeningChanged(ctx, listening);
                 // 不设置 result，让原方法继续执行
             }
@@ -523,13 +525,17 @@ public abstract class TileUtils extends BaseHook {
                     if (mConfig.hasIcons() && !hasCustomClick) {
                         Object tile = chain.getThisObject();
                         Handler mainHandler = new Handler(Looper.getMainLooper());
-                        mainHandler.postDelayed(() -> {
+                        Runnable delayedRefresh = () -> {
                             try {
-                                EzxHelpUtils.callMethod(tile, "refreshState");
+                                com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(tile, "refreshState");
                             } catch (Throwable t) {
                                 XposedLog.e(TAG, "Failed to delayed refresh state", t);
                             }
-                        }, 50);
+                        };
+                        mainHandler.postDelayed(delayedRefresh, 50);
+                        BaseHook.registerHotReloadCleanup(
+                            () -> mainHandler.removeCallbacks(delayedRefresh)
+                        );
                     }
 
                     if (needClickAfter()) {
@@ -620,14 +626,14 @@ public abstract class TileUtils extends BaseHook {
 
         try {
             // state: 0=UNAVAILABLE, 1=INACTIVE, 2=ACTIVE
-            int state = (int) EzxHelpUtils.getObjectField(booleanState, "state");
+            int state = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(booleanState, "state");
             boolean enabled = (state == TileState.STATE_ACTIVE);
 
             int iconResId = mConfig.getIconByState(enabled);
 
             if (mResourceIconClass != null && iconResId != -1) {
-                Object icon = EzxHelpUtils.callStaticMethod(mResourceIconClass, "get", iconResId);
-                EzxHelpUtils.setObjectField(booleanState, "icon", icon);
+                Object icon = com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(mResourceIconClass, "get", iconResId);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "icon", icon);
             }
         } catch (Throwable t) {
             XposedLog.e(TAG, "applyConfigIcons error", t);
@@ -638,14 +644,14 @@ public abstract class TileUtils extends BaseHook {
         if (booleanState == null) return;
 
         try {
-            int stateValue = (int) EzxHelpUtils.getObjectField(booleanState, "state");
+            int stateValue = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(booleanState, "state");
             boolean enabled = (stateValue == TileState.STATE_ACTIVE);
 
             // 覆盖标签
             String label = state.label();
             if (label != null) {
-                EzxHelpUtils.setObjectField(booleanState, "label", label);
-                EzxHelpUtils.setObjectField(booleanState, "contentDescription", label);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "label", label);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "contentDescription", label);
             }
 
             // 覆盖图标
@@ -654,8 +660,8 @@ public abstract class TileUtils extends BaseHook {
                 iconResId = mConfig.getIconByState(enabled);
             }
             if (iconResId != -1 && mResourceIconClass != null) {
-                Object icon = EzxHelpUtils.callStaticMethod(mResourceIconClass, "get", iconResId);
-                EzxHelpUtils.setObjectField(booleanState, "icon", icon);
+                Object icon = com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(mResourceIconClass, "get", iconResId);
+                com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "icon", icon);
             }
         } catch (Throwable t) {
             XposedLog.e(TAG, "applyTileStateOverlay error", t);
@@ -680,9 +686,48 @@ public abstract class TileUtils extends BaseHook {
             return false;
         }
 
-        String tileName = (String) EzxHelpUtils.getAdditionalInstanceField(
+        String tileName = (String) com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(
             tileInstance, FIELD_CUSTOM_NAME);
         return mConfig.getTileName().equals(tileName);
+    }
+
+    private String hotReloadStateKey(String suffix) {
+        return HOT_RELOAD_STATE_PREFIX + getClass().getName() + '.' + suffix;
+    }
+
+    /**
+     * handleSetListening 不会在 API 102 热重载后由 SystemUI 重放；记录宿主 tile 后，
+     * 新 generation 可以立即为仍在监听的磁贴重新建立 Observer/Receiver。
+     */
+    private void rememberListeningState(@NonNull Object tileInstance, boolean listening) {
+        if (!listening) {
+            BaseHook.putHotReloadRuntimeState(hotReloadStateKey("tile"), null);
+            BaseHook.putHotReloadRuntimeState(hotReloadStateKey("active"), null);
+            return;
+        }
+        BaseHook.putHotReloadRuntimeState(hotReloadStateKey("tile"), tileInstance);
+        BaseHook.putHotReloadRuntimeState(hotReloadStateKey("active"), Boolean.TRUE);
+    }
+
+    private void restoreListeningStateAfterHotReload() {
+        if (!mConfig.isCustomTile()
+            && !isMethodOverridden("onListeningChanged", TileContext.class, boolean.class)) {
+            return;
+        }
+        Boolean active = BaseHook.getHotReloadRuntimeState(
+            hotReloadStateKey("active"), Boolean.class
+        );
+        Object tile = BaseHook.getHotReloadRuntimeState(hotReloadStateKey("tile"), Object.class);
+        if (!Boolean.TRUE.equals(active) || tile == null || !shouldHandle(tile)) {
+            return;
+        }
+        try {
+            TileContext ctx = new TileContext(tile, new Object[]{true}, null);
+            onListeningChanged(ctx, true);
+            ctx.refreshState();
+        } catch (Throwable t) {
+            XposedLog.e(TAG, "Failed to restore active tile listener after hot reload", t);
+        }
     }
 
     @NonNull
@@ -698,17 +743,17 @@ public abstract class TileUtils extends BaseHook {
         if (booleanState == null) return;
 
         // 设置基础状态
-        EzxHelpUtils.setObjectField(booleanState, "value", state.enabled());
-        EzxHelpUtils.setObjectField(booleanState, "state", state.stateValue());
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "value", state.enabled());
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "state", state.stateValue());
 
         // 设置标签
         String label = state.label();
         if (label == null) {
             label = ctx.getTileLabel();
         }
-        EzxHelpUtils.setObjectField(booleanState, "label", label);
-        EzxHelpUtils.setObjectField(booleanState, "contentDescription", label);
-        EzxHelpUtils.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "label", label);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "contentDescription", label);
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "expandedAccessibilityClassName", Switch.class.getName());
 
         // 设置图标
         int iconResId = state.iconResId();
@@ -716,8 +761,8 @@ public abstract class TileUtils extends BaseHook {
             iconResId = mConfig.getIconByState(state.enabled());
         }
         if (iconResId != -1 && mResourceIconClass != null) {
-            Object icon = EzxHelpUtils.callStaticMethod(mResourceIconClass, "get", iconResId);
-            EzxHelpUtils.setObjectField(booleanState, "icon", icon);
+            Object icon = com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(mResourceIconClass, "get", iconResId);
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(booleanState, "icon", icon);
         }
     }
 
@@ -732,11 +777,11 @@ public abstract class TileUtils extends BaseHook {
                 return;
             }
 
-            Object splitIntent = EzxHelpUtils.callStaticMethod(
+            Object splitIntent = com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
                 utilsClass, "getSettingsSplitIntent", ctx.getContext(), intent);
 
             Object activityStarter = ctx.getField("mActivityStarter");
-            EzxHelpUtils.callMethod(activityStarter,
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.callMethod(activityStarter,
                 "postStartActivityDismissingKeyguard", splitIntent,0, null);
         } catch (Throwable t) {
             XposedLog.e(TAG, "Failed to launch intent", t);
@@ -761,7 +806,7 @@ public abstract class TileUtils extends BaseHook {
             Object state = ctx.getField("mState");
             if (state == null) return;
 
-            int stateValue = (int) EzxHelpUtils.getObjectField(state, "state");
+            int stateValue = (int) com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(state, "state");
             String message = getMessage(ctx, stateValue);
 
             ctx.callMethod("showStateMessage", message);

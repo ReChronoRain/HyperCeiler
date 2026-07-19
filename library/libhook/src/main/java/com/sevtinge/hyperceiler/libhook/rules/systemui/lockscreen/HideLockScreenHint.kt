@@ -19,9 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClassOrNull
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object HideLockScreenHint : BaseHook() {
     private val keyguardIndicationController by lazy {
@@ -29,12 +29,14 @@ object HideLockScreenHint : BaseHook() {
     }
 
     override fun init() {
-        keyguardIndicationController!!.methodFinder()
-            .filterByParamCount(1)
-            .filterByParamTypes(keyguardIndicationController)
-            .filterStatic().single().createHook {
-                returnConstant(null)
-            }
+        val controllerClass = keyguardIndicationController ?: return
+        controllerClass.findMethod {
+            paramCount(1)
+            parameterTypes(controllerClass)
+            filter { java.lang.reflect.Modifier.isStatic(modifiers) }
+        }.createHook {
+            returnConstant(null)
+        }
 
     }
 }

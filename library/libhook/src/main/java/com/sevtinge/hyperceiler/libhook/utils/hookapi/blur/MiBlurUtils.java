@@ -21,8 +21,9 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.blur;
 import android.graphics.Color;
 import android.view.View;
 
-import com.sevtinge.hyperceiler.libhook.utils.api.InvokeUtils;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
+
+import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
 
 public class MiBlurUtils {
 
@@ -43,15 +44,15 @@ public class MiBlurUtils {
     }
 
     public static boolean setPassWindowBlurEnabled(View view, boolean z) {
-        return InvokeUtils.callMethod(View.class, view, "setPassWindowBlurEnabled", new Class[]{boolean.class}, z);
+        return (Boolean) Methods.callMethod(view, "setPassWindowBlurEnabled", z);
     }
 
     public static void setMiBackgroundBlurMode(View view, int i) {
-        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurMode", new Class[]{int.class}, i);
+        Methods.callMethod(view, "setMiBackgroundBlurMode", i);
     }
 
     public static void setMiBackgroundBlurRadius(View view, int i /* max 500 */) {
-        InvokeUtils.callMethod(View.class, view, "setMiBackgroundBlurRadius", new Class[]{int.class}, i);
+        Methods.callMethod(view, "setMiBackgroundBlurRadius", i);
     }
 
     public static void addMiBackgroundBlendColor(View view, int i, int i2) {
@@ -61,19 +62,19 @@ public class MiBlurUtils {
         103 当前view模糊
         105 当前view和子view都模糊
        */
-        InvokeUtils.callMethod(View.class, view, "addMiBackgroundBlendColor", new Class[]{int.class, int.class}, i, i2);
+        Methods.callMethod(view, "addMiBackgroundBlendColor", i, i2);
     }
 
     public static void clearMiBackgroundBlendColor(View view) {
-        InvokeUtils.callMethod(View.class, view, "clearMiBackgroundBlendColor", new Class[]{});
+        Methods.callMethod(view, "clearMiBackgroundBlendColor");
     }
 
     public static void setMiViewBlurMode(View view, int i) {
-        InvokeUtils.callMethod(View.class, view, "setMiViewBlurMode", new Class[]{int.class}, i);
+        Methods.callMethod(view, "setMiViewBlurMode", i);
     }
 
     public static void disableMiBackgroundContainBelow(View view, boolean z) {
-        InvokeUtils.callMethod(View.class, view, "disableMiBackgroundContainBelow", new Class[]{boolean.class}, z);
+        Methods.callMethod(view, "disableMiBackgroundContainBelow", z);
     }
 
     public static void clearContainerPassBlur(View view) {

@@ -18,19 +18,16 @@
 */
 package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callMethodAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.callStaticMethod
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getStaticObjectFieldAs
-import io.github.kyuubiran.ezxhelper.core.ClassLoaderProvider.classLoader
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectFieldAs
 
 @Suppress("unused")
 object Dependency {
     private val CLASS by lazy {
-        loadClass("com.android.systemui.Dependency", classLoader)
+        com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass("com.android.systemui.Dependency")
     }
 
     val INSTANCE by lazy {
@@ -50,12 +47,12 @@ object Dependency {
     fun getDependencyInner(clazz: Class<*>): Any? = INSTANCE.callMethod("getDependencyInner", clazz)
 
     @JvmStatic
-    fun getDependencyInner(className: String): Any? = getDependencyInner(loadClass(className))
+    fun getDependencyInner(className: String): Any? = getDependencyInner(com.sevtinge.hyperceiler.libhook.base.BaseHook.findClass(className))
 
     /* ========================== only for HyperOS1 ========================== */
     val activityStarter by lazy {
         ActivityStarter(
-            INSTANCE.getObjectFieldAs<Any>("mActivityStarter").callMethodAs("get")
+            INSTANCE.getObjectFieldAs<Any>("mActivityStarter").callMethod("get") as Any
         )
     }
 

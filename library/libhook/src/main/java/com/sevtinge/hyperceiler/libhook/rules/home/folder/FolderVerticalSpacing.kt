@@ -23,7 +23,8 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.HomeBaseHookNew
 import com.sevtinge.hyperceiler.libhook.appbase.mihome.Version
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllMethods
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 object FolderVerticalSpacing : HomeBaseHookNew() {
 
@@ -35,24 +36,21 @@ object FolderVerticalSpacing : HomeBaseHookNew() {
     @Version(isPad = false, min = 600000000)
     private fun initForNewHome() {
         if (verticalSpacing <= 0) return
-        findClass("com.miui.home.folder.FolderView")
-            .hookAllMethods("bind") {
-                after {
-                    val mContent = getObjectField(it.thisObject, "mContent") as GridView
-                    mContent.verticalSpacing = dp2px(verticalSpacing.toFloat())
-                }
+        findClass("com.miui.home.folder.FolderView").findAllMethods { name("bind") }
+            .createAfterHooks {
+                val mContent = getObjectField(it.thisObject, "mContent") as GridView
+                mContent.verticalSpacing = dp2px(verticalSpacing.toFloat())
             }
     }
 
 
     override fun initBase() {
         if (verticalSpacing <= 0) return
-        findClass("com.miui.home.launcher.Folder").hookAllMethods("bind") {
-            after {
+        findClass("com.miui.home.launcher.Folder").findAllMethods { name("bind") }
+            .createAfterHooks {
                 val mContent = getObjectField(it.thisObject, "mContent") as GridView
                 mContent.verticalSpacing = dp2px(verticalSpacing.toFloat())
             }
-        }
 
     }
 }

@@ -2,11 +2,11 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other
 
 import android.content.ClipboardManager
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectFieldOrNullAs
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.setObjectField
-import io.github.kyuubiran.ezxhelper.core.finder.MethodFinder.`-Static`.methodFinder
-import io.github.kyuubiran.ezxhelper.core.util.ClassUtil
-import io.github.kyuubiran.ezxhelper.xposed.dsl.HookFactory.`-Static`.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNullAs
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object UnlockClipboard : BaseHook() {
     override fun init() {
@@ -14,10 +14,9 @@ object UnlockClipboard : BaseHook() {
         // 解锁原生剪切板编辑框
         // 新方法来自 WOMMO
         val clazzClipboardListener =
-            ClassUtil.loadClass("com.android.systemui.clipboardoverlay.ClipboardListener")
+            loadClass("com.android.systemui.clipboardoverlay.ClipboardListener")
         if (clazzClipboardListener.declaredFields.any { it.name == "sCtsTestPkgList" })
-            clazzClipboardListener.methodFinder().filterByName("onPrimaryClipChanged")
-                .filterNonAbstract().single().createBeforeHook { param ->
+            clazzClipboardListener.findMethod { name("onPrimaryClipChanged"); notAbstract() }.createBeforeHook { param ->
                     val mClipboardManager =
                         // Android 16 changed mClipboardManager to mClipboardManagerForUser
                         param.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManagerForUser")
@@ -33,8 +32,7 @@ object UnlockClipboard : BaseHook() {
                     }
                     param.thisObject.setObjectField("sCtsTestPkgList", newList)
                 }
-        else clazzClipboardListener.methodFinder().filterByName("start").filterNonAbstract()
-            .single().createBeforeHook {
+        else clazzClipboardListener.findMethod { name("start"); notAbstract() }.createBeforeHook {
                 val mClipboardManager =
                     it.thisObject.getObjectFieldOrNullAs<ClipboardManager>("mClipboardManager")!!
                 mClipboardManager.addPrimaryClipChangedListener(it.thisObject as ClipboardManager.OnPrimaryClipChangedListener?)

@@ -27,8 +27,9 @@ import android.widget.TextView
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getObjectField
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.hookAllConstructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 object NewNetworkSpeedStyle : BaseHook() {
     private val viewInitedTag = getFakeResId("view_inited_tag")
@@ -57,12 +58,11 @@ object NewNetworkSpeedStyle : BaseHook() {
     }
 
     override fun init() {
-        findClass("com.android.systemui.statusbar.views.NetworkSpeedView")
-            .hookAllConstructors {
-                after { param ->
+        Constructors.find(findClass("com.android.systemui.statusbar.views.NetworkSpeedView"))
+            .toList().createAfterHooks { param ->
                     val meter = param.thisObject as View
                     if (meter.getTag(viewInitedTag) != null || "slot_text_icon" == meter.tag) {
-                        return@after
+                        return@createAfterHooks
                     }
                     meter.setTag(viewInitedTag, true)
 
@@ -77,7 +77,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                         meter.layoutParams = lp
                     }
 
-                    meter.addOnLayoutChangeListener(object : View.OnLayoutChangeListener {
+                    val layoutListener = object : View.OnLayoutChangeListener {
                         override fun onLayoutChange(
                             v: View, left: Int, top: Int, right: Int, bottom: Int,
                             oldLeft: Int, oldTop: Int, oldRight: Int, oldBottom: Int
@@ -113,8 +113,11 @@ object NewNetworkSpeedStyle : BaseHook() {
                                 }
                             }
                         }
-                    })
-                }
+                    }
+                    meter.addOnLayoutChangeListener(layoutListener)
+                    BaseHook.registerHotReloadCleanup {
+                        meter.removeOnLayoutChangeListener(layoutListener)
+                    }
             }
 
     }
