@@ -38,19 +38,27 @@ public class MoreNotificationSettings extends BaseHook {
 
     @Override
     public void init() {
+        if ("com.android.systemui".equals(getPackageName())) {
+            hookOnClickInfoItem();
+            return;
+        }
+
         Class<?> baseNotificationSettings = findClassIfExists(
             "com.android.settings.notification.BaseNotificationSettings", getClassLoader());
         Class<?> channelNotificationSettings = findClassIfExists(
             "com.android.settings.notification.ChannelNotificationSettings", getClassLoader());
 
-        if (baseNotificationSettings == null || channelNotificationSettings == null) {
-            XposedLog.e(TAG, getPackageName(), "Required classes not found");
-            return;
+        if (baseNotificationSettings != null) {
+            hookSetPrefVisible(baseNotificationSettings);
+        } else {
+            XposedLog.w(TAG, getPackageName(), "BaseNotificationSettings not found");
         }
 
-        hookSetPrefVisible(baseNotificationSettings);
-        hookOnClickInfoItem();
-        hookAllMethods(channelNotificationSettings, "setupChannelDefaultPrefs", new SetupChannelDefaultPrefsHook());
+        if (channelNotificationSettings != null) {
+            hookAllMethods(channelNotificationSettings, "setupChannelDefaultPrefs", new SetupChannelDefaultPrefsHook());
+        } else {
+            XposedLog.w(TAG, getPackageName(), "ChannelNotificationSettings not found");
+        }
     }
 
     private void hookSetPrefVisible(Class<?> clazz) {
@@ -155,6 +163,16 @@ public class MoreNotificationSettings extends BaseHook {
             if (listenerClass == null) return null;
 
             InvocationHandler handler = (proxy, method, args) -> {
+                if (method.getDeclaringClass() == Object.class) {
+                    return switch (method.getName()) {
+                        case "equals" -> proxy == args[0];
+                        case "hashCode" -> System.identityHashCode(proxy);
+                        case "toString" -> listenerClass.getName() + "@"
+                            + Integer.toHexString(System.identityHashCode(proxy));
+                        default -> null;
+                    };
+                }
+
                 if (!"onPreferenceChange".equals(method.getName())) {
                     return true;
                 }

@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 
-import static com.sevtinge.hyperceiler.libhook.base.BaseHook.findAndHookConstructor;
-
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -29,20 +27,31 @@ import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class UnlockNeverSleepScreen extends BaseHook {
+    private final ThreadLocal<Boolean> creatingPreference = ThreadLocal.withInitial(() -> false);
+
     @Override
     public void init() {
+        findAndHookMethod("android.os.SystemProperties", "get", String.class, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                if (!creatingPreference.get()) return;
+
+                String key = (String) param.getArgs()[0];
+                if ("ro.vendor.display.type".equals(key) || "ro.display.type".equals(key)) {
+                    param.setResult("lcd");
+                }
+            }
+        });
+
         findAndHookConstructor("com.android.settings.KeyguardTimeoutListPreference", Context.class, AttributeSet.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                findAndHookMethod("android.os.SystemProperties", "get", String.class, new IMethodHook() {
-                    @Override
-                    public void before(HookParam param) {
-                        String key = (String) param.getArgs()[0];
-                        if ("ro.vendor.display.type".equals(key) || "ro.display.type".equals(key)) {
-                            param.setResult("lcd");
-                        }
-                    }
-                });
+                creatingPreference.set(true);
+            }
+
+            @Override
+            public void after(HookParam param) {
+                creatingPreference.remove();
             }
         });
     }

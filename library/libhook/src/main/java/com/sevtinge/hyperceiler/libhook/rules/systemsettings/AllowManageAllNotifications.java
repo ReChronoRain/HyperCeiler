@@ -18,8 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.systemsettings;
 
-import android.content.Context;
-
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import java.util.HashSet;
@@ -28,56 +26,29 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 
 public class AllowManageAllNotifications extends BaseHook {
+    private static final String[] SETTINGS_CLASSES = {
+        "com.android.settings.notification.AppNotificationSettings",
+        "com.android.settings.notification.ChannelNotificationSettings",
+        "com.android.settings.notification.app.AppNotificationSettings",
+        "com.android.settings.notification.app.ChannelNotificationSettings"
+    };
+
     @Override
     public void init() {
+        for (String className : SETTINGS_CLASSES) {
+            Class<?> clazz = findClassIfExists(className);
+            if (clazz == null) continue;
 
-        findAndHookMethod("com.android.settings.notification.AppNotificationSettings", "setupBlock", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                        param.setResult(true);
+            hookAllMethods(clazz, "setupBlock", new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    Object blockPreference = callMethod(param.getThisObject(), "findPreference", "block");
+                    if (blockPreference != null) {
+                        callMethod(blockPreference, "setEnabled", true);
                     }
-                });
-            }
-        });
-
-        findAndHookMethod("com.android.settings.notification.ChannelNotificationSettings", "setupBlock", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                        param.setResult(true);
-                    }
-                });
-            }
-        });
-
-        findAndHookMethod("com.android.settings.notification.app.AppNotificationSettings", "setupBlock", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                        param.setResult(true);
-                    }
-                });
-            }
-        });
-
-        findAndHookMethod("com.android.settings.notification.app.ChannelNotificationSettings", "setupBlock", new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                findAndHookMethod("androidx.preference.Preference", "setEnabled", boolean.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                        param.setResult(true);
-                    }
-                });
-            }
-        });
+                }
+            });
+        }
 
         findAndHookMethod("android.app.NotificationChannel", "isBlockable", returnConstant(true));
 
@@ -88,16 +59,18 @@ public class AllowManageAllNotifications extends BaseHook {
             }
         });
 
-        hookAllMethods("miui.util.NotificationFilterHelper", "isNotificationForcedEnabled", returnConstant(false));
-        findAndHookMethod("miui.util.NotificationFilterHelper", "isNotificationForcedFor", Context.class, String.class, returnConstant(false));
-        findAndHookMethod("miui.util.NotificationFilterHelper", "canSystemNotificationBeBlocked", String.class, returnConstant(true));
-        findAndHookMethod("miui.util.NotificationFilterHelper", "containNonBlockableChannel", String.class, returnConstant(false));
-        findAndHookMethod("miui.util.NotificationFilterHelper", "getNotificationForcedEnabledList", new IMethodHook() {
+        Class<?> filterHelper = findClassIfExists("miui.util.NotificationFilterHelper");
+        if (filterHelper == null) return;
+
+        hookAllMethods(filterHelper, "isNotificationForcedEnabled", returnConstant(false));
+        hookAllMethods(filterHelper, "isNotificationForcedFor", returnConstant(false));
+        hookAllMethods(filterHelper, "canSystemNotificationBeBlocked", returnConstant(true));
+        hookAllMethods(filterHelper, "containNonBlockableChannel", returnConstant(false));
+        hookAllMethods(filterHelper, "getNotificationForcedEnabledList", new IMethodHook() {
             @Override
             public void before(HookParam param) {
                 param.setResult(new HashSet<String>());
             }
         });
-
     }
 }

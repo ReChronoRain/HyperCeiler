@@ -26,6 +26,7 @@ import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBootstra
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.libhook.rules.systemsettings.MoreNotificationSettings;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ControlCenterStyle;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.CustomCarrierText;
@@ -137,6 +138,7 @@ public class SystemUIB extends BaseLoad {
         initHook(new SelectiveHideIconForAlarmClock(), PrefsBridge.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && PrefsBridge.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), PrefsBridge.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, PrefsBridge.getBoolean("system_settings_more_notification_settings"));
+        initHook(new MoreNotificationSettings(), PrefsBridge.getBoolean("system_settings_more_notification_settings"));
 
         // 电池相关
         boolean isHideBatteryIcon = PrefsBridge.getBoolean("system_ui_status_bar_battery_icon") ||
