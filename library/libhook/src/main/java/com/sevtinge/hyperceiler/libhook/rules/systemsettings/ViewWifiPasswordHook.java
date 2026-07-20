@@ -47,9 +47,16 @@ public class ViewWifiPasswordHook extends BaseHook {
 
             public void after(HookParam param) {
                 View view = (View) getObjectField(param.getThisObject(), "mView");
+                if (view == null) return;
+
                 int btnId = view.getResources().getIdentifier("btn_delete", "id", "com.android.settings");
+                if (btnId == 0) return;
+
                 Button button = view.findViewById(btnId);
-                Resources modRes = getModuleRes((Context) callMethod(param.getThisObject(), "getContext"));
+                Context context = (Context) callMethod(param.getThisObject(), "getContext");
+                if (button == null || context == null) return;
+
+                Resources modRes = getModuleRes(context);
                 button.setText(modRes.getString(titleId));
             }
         });
@@ -59,7 +66,12 @@ public class ViewWifiPasswordHook extends BaseHook {
             @Override
             public void before(HookParam param) {
                 if (wifiSharedKey[0] != null) {
-                    param.getArgs()[0] = dlgTitleId;
+                    Context context = (Context) getObjectField(param.getThisObject(), "mContext");
+                    if (context == null) return;
+
+                    Resources modRes = getModuleRes(context);
+                    callMethod(param.getThisObject(), "setTitle", modRes.getString(dlgTitleId));
+                    param.setResult(param.getThisObject());
                 }
             }
         });
@@ -79,13 +91,16 @@ public class ViewWifiPasswordHook extends BaseHook {
             public void after(HookParam param) {
                 if (wifiSharedKey[0] != null) {
                     TextView messageView = (TextView) callMethod(param.getThisObject(), "getMessageView");
-                    messageView.setTextIsSelectable(true);
+                    if (messageView != null) {
+                        messageView.setTextIsSelectable(true);
+                    }
                 }
             }
         });
         hookAllMethods("com.android.settings.wifi.MiuiSavedAccessPointsWifiSettings", "showDeleteDialog", new IMethodHook() {
             @Override
             public void before(HookParam param) {
+                if (param.getArgs().length == 0 || param.getArgs()[0] == null) return;
                 Object wifiEntry = param.getArgs()[0];
                 boolean canShare = (boolean) callMethod(wifiEntry, "canShare");
                 if (canShare) {
@@ -100,11 +115,7 @@ public class ViewWifiPasswordHook extends BaseHook {
 
             @Override
             public void after(HookParam param) {
-                Object wifiEntry = param.getArgs()[0];
-                boolean canShare = (boolean) callMethod(wifiEntry, "canShare");
-                if (canShare) {
-                    wifiSharedKey[0] = null;
-                }
+                wifiSharedKey[0] = null;
             }
         });
     }
@@ -112,8 +123,13 @@ public class ViewWifiPasswordHook extends BaseHook {
     private String getSharedKey(HookParam param, Object wifiEntry) {
         Object mWifiManager = getObjectField(param.getThisObject(), "mWifiManager");
         Object wifiConfiguration = callMethod(wifiEntry, "getWifiConfiguration");
-        Class<?> WifiDppUtilsClass = findClass("com.android.settings.wifi.dpp.WifiDppUtils");
+        if (mWifiManager == null || wifiConfiguration == null) return null;
+
+        Class<?> WifiDppUtilsClass = findClassIfExists("com.android.settings.wifi.dpp.WifiDppUtils");
+        if (WifiDppUtilsClass == null) return null;
         String sharedKey = (String) callStaticMethod(WifiDppUtilsClass, "getPresharedKey", mWifiManager, wifiConfiguration);
+        if (sharedKey == null) return null;
+
         sharedKey = (String) callStaticMethod(WifiDppUtilsClass, "removeFirstAndLastDoubleQuotes", sharedKey);
         return sharedKey;
     }

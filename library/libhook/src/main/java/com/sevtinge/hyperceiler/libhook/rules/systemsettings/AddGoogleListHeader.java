@@ -29,9 +29,12 @@ public class AddGoogleListHeader extends BaseHook {
     @Override
     public void init() {
         Class<?> mMiuiSettings = findClassIfExists("com.android.settings.MiuiSettings");
+        if (mMiuiSettings == null) return;
+
         findAndHookMethod(mMiuiSettings, "updateHeaderList", List.class, new IMethodHook() {
             @Override
             public void after(HookParam param) {
+                if (param.getArgs()[0] == null) return;
                 List<?> list = (List<?>) param.getArgs()[0];
                 callMethod(param.getThisObject(), "AddGoogleSettingsHeaders", list);
             }

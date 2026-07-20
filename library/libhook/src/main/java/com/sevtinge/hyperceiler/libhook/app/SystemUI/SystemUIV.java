@@ -31,6 +31,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
+import com.sevtinge.hyperceiler.libhook.rules.systemsettings.MoreNotificationSettings;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.AutoDismissExpandedPopupsHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.BlurEnable;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ControlCenterStyle;
@@ -240,6 +241,7 @@ public class SystemUIV extends BaseLoad {
         initHook(RedirectToNotificationChannelSetting.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_redirect_notice"));
         initHook(ControlCenterStyle.INSTANCE, PrefsBridge.getBoolean("system_control_center_unlock_old"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, PrefsBridge.getBoolean("system_settings_more_notification_settings"));
+        initHook(new MoreNotificationSettings(), PrefsBridge.getBoolean("system_settings_more_notification_settings"));
         initHook(new FixTilesList(), PrefsBridge.getBoolean("system_ui_control_center_fix_tiles_list"));
         initHook(new DisableTransparent(), PrefsBridge.getBoolean("system_ui_control_center_notification_disable_transparent"));
         initHook(new DisableDeviceManaged(), PrefsBridge.getBoolean("system_ui_control_center_disable_device_managed"));

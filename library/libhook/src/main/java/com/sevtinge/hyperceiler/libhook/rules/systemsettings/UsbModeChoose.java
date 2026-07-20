@@ -58,58 +58,68 @@ public class UsbModeChoose extends BaseHook {
 
     @Override
     public void init() {
-        if (mChoose != 0) {
-            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
+        Class<?> usbModeChooser = findClassIfExists(
+            "com.android.settings.connecteddevice.usb.UsbModeChooserActivity");
+        if (usbModeChooser == null) return;
+        if (mChoose != 0
+            && findMethodExactIfExists(usbModeChooser, "getTitleMiui12", long.class) == null) return;
+
+        if (mChoose != 0 || modes) {
+            findAndHookMethod(usbModeChooser,
                 "onCreate", Bundle.class, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
+                    @Override
+                    public void before(HookParam param) {
                         activity = (Activity) param.getThisObject();
-                        // XposedLog.e(TAG, "before: " + activity);
                     }
                 }
             );
+        }
 
-            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
+        if (mChoose != 0) {
+            findAndHookMethod(usbModeChooser,
                 "initModesList", long[].class, new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
                         // XposedLog.e(TAG, "long: " + param.args[0]);
                         long[] jArr = {0, 8, 4, 16, 128};
-                        if (addAll) return;
+                        if (addAll || activity == null) return;
                         setLanguage(activity);
-                        for (long l : jArr) {
-                            int getTitle = (int) callStaticMethod(
-                                findClassIfExists("com.android.settings.connecteddevice.usb.UsbModeChooserActivity"),
-                                "getTitleMiui12", l);
-                            if (getTitle != 0) {
-                                String get = (String) callMethod(
-                                    param.getThisObject(), "getString", getTitle
-                                );
-                                mode.put(get,
-                                    (int) l);
-                                // XposedLog.e(TAG, "get: " + get);
+                        try {
+                            for (long l : jArr) {
+                                int getTitle = (int) callStaticMethod(
+                                    usbModeChooser, "getTitleMiui12", l);
+                                if (getTitle != 0) {
+                                    String get = (String) callMethod(
+                                        param.getThisObject(), "getString", getTitle
+                                    );
+                                    mode.put(get, (int) l);
+                                    // XposedLog.e(TAG, "get: " + get);
+                                }
                             }
+                            if (mode.size() == jArr.length) {
+                                mode.put("USB 网络共享", -1);
+                                addAll = true;
+                            }
+                        } finally {
+                            revertLanguage();
                         }
-                        if (mode.size() == jArr.length) {
-                            mode.put("USB 网络共享", -1);
-                            addAll = true;
-                        }
-                        revertLanguage();
                     }
                 }
             );
 
-            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
+            findAndHookMethod(usbModeChooser,
                 "initDialog", new IMethodHook() {
                     @SuppressLint("WrongConstant")
                     @Override
                     public void before(HookParam param) {
+                        if (activity == null) return;
                         String action = activity.getIntent().getAction();
                         // XposedLog.e(TAG, "ac: " + action);
                         if (getMode.isEmpty())
                             setAllMode();
                         if (action == null) {
-                            int choose = mode.get(getMode.get(mChoose));
+                            Integer choose = mode.get(getMode.get(mChoose));
+                            if (choose == null) return;
                             // XposedLog.e(TAG, "choose: " + choose);
                             if (choose != -1) {
                                 Object mBackend = getObjectField(param.getThisObject(), "mBackend");
@@ -139,10 +149,11 @@ public class UsbModeChoose extends BaseHook {
                 }
             );
         } else if (modes) {
-            findAndHookMethod("com.android.settings.connecteddevice.usb.UsbModeChooserActivity",
+            findAndHookMethod(usbModeChooser,
                 "initDialog", new IMethodHook() {
                     @Override
                     public void before(HookParam param) {
+                        if (activity == null) return;
                         String action = activity.getIntent().getAction();
                         if (action == null) {
                             param.setResult(null);

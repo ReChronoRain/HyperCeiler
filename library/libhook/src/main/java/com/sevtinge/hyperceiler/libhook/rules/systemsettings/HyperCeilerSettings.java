@@ -42,6 +42,8 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class HyperCeilerSettings extends BaseHook {
 
+    private static final long HEADER_ID = 666;
+
     private int settingsIconResId;
     private Class<?> mPreferenceHeader;
     private final int opt = PrefsBridge.getStringAsInt("prefs_key_settings_icon", 0);
@@ -72,6 +74,7 @@ public class HyperCeilerSettings extends BaseHook {
                 Activity activity = (Activity) param.getThisObject();
                 Context context = activity.getBaseContext();
                 List<Object> headers = (List<Object>) param.getArgs()[0];
+                if (containsHyperCeilerHeader(headers)) return;
 
                 Object header = createHyperCeilerHeader(context);
                 if (header == null) return;
@@ -86,42 +89,56 @@ public class HyperCeilerSettings extends BaseHook {
         if (mPreferenceHeader == null) return null;
 
         Resources modRes = getModuleRes(context);
-        Object header = com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(mPreferenceHeader);
+        Object header = newInstance(mPreferenceHeader);
 
         // 设置基本属性
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setLongField(header, "id", 666);
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField(header, "iconRes", settingsIconResId);
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "title", modRes.getString(R.string.library_app_name));
+        setLongField(header, "id", HEADER_ID);
+        setIntField(header, "iconRes", settingsIconResId);
+        setObjectField(header, "title", modRes.getString(R.string.library_app_name));
 
         // 设置 Intent
         Intent intent = new Intent();
         intent.putExtra("isDisplayHomeAsUpEnabled", true);
         intent.setClassName(ProjectApi.mAppModulePkg, "com.sevtinge.hyperceiler.ui.SplashActivity");
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "intent", intent);
+        setObjectField(header, "intent", intent);
 
         // 设置用户信息
         Bundle bundle = new Bundle();
         ArrayList<UserHandle> users = new ArrayList<>();
-        users.add((UserHandle) com.sevtinge.hyperceiler.libhook.base.BaseHook.newInstance(UserHandle.class, 0));
+        users.add((UserHandle) newInstance(UserHandle.class, 0));
         bundle.putParcelableArrayList("header_user", users);
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setObjectField(header, "extras", bundle);
+        setObjectField(header, "extras", bundle);
 
         return header;
     }
 
     private void insertHeaderAtPosition(List<Object> headers, Context context, Object header) {
-        int insertPosition = findInsertPosition(headers, context);
+        int insertPosition = findInsertPosition(headers, context, header);
 
-        if (insertPosition != -1) {
-            headers.add(insertPosition, header);
-        } else if (headers.size() > 25) {
-            headers.add(25, header);
-        } else {
-            headers.add(header);
+        if (insertPosition == -1) {
+            insertPosition = Math.min(25, headers.size());
+            inheritAdjacentGroupId(headers, header, insertPosition);
         }
+
+        headers.add(insertPosition, header);
     }
 
-    private int findInsertPosition(List<Object> headers, Context context) {
+    private boolean containsHyperCeilerHeader(List<Object> headers) {
+        for (Object header : headers) {
+            if (getLongField(header, "id") == HEADER_ID) return true;
+        }
+        return false;
+    }
+
+    private void inheritAdjacentGroupId(List<Object> headers, Object header, int insertPosition) {
+        if (headers.isEmpty()) return;
+
+        int adjacentPosition = insertPosition > 0 ? insertPosition - 1 : 0;
+        int groupId = getIntField(headers.get(adjacentPosition), "groupId");
+        setIntField(header, "groupId", groupId);
+    }
+
+    private int findInsertPosition(List<Object> headers, Context context, Object header) {
         int device = context.getResources().getIdentifier("my_device", "id", context.getPackageName());
         int themes = context.getResources().getIdentifier("launcher_settings", "id", context.getPackageName());
         int special = context.getResources().getIdentifier("other_special_feature_settings", "id", context.getPackageName());
@@ -129,9 +146,11 @@ public class HyperCeilerSettings extends BaseHook {
 
         for (int position = 0; position < headers.size(); position++) {
             Object head = headers.get(position);
-            long id = com.sevtinge.hyperceiler.libhook.base.BaseHook.getLongField(head, "id");
+            long id = getLongField(head, "id");
 
             if (shouldInsertAfter(id, device, themes, special, timer)) {
+                int groupId = getIntField(head, "groupId");
+                setIntField(header, "groupId", groupId);
                 return position + 1;
             }
         }

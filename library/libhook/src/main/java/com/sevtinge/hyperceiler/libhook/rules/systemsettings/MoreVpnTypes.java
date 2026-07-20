@@ -33,12 +33,30 @@ public class MoreVpnTypes extends BaseHook {
         findAndHookMethod("com.android.internal.net.VpnProfile", "isLegacyType", int.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                param.setResult(true);
+                int type = (int) param.getArgs()[0];
+                if (type >= 0 && type <= 5) {
+                    param.setResult(true);
+                }
             }
         });
 
-        setStaticObjectField(findClassIfExists("com.android.settings.vpn2.MiuiVpnEditFragment"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
-        setStaticObjectField(findClassIfExists("com.android.settings.vpn2.ConfigDialog"), "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+        Class<?> editFragment = findClassIfExists("com.android.settings.vpn2.MiuiVpnEditFragment");
+        Class<?> configDialog = findClassIfExists("com.android.settings.vpn2.ConfigDialog");
+        if (!canSetVpnTypes(editFragment) || !canSetVpnTypes(configDialog)) return;
+        if (editFragment == null && configDialog == null) return;
+
+        setVpnTypes(editFragment);
+        setVpnTypes(configDialog);
         setResReplacement("com.android.settings", "array", "vpn_types", R.array.hook_system_settings_vpn_types);
+    }
+
+    private boolean canSetVpnTypes(Class<?> clazz) {
+        return clazz == null || findFieldIfExists(clazz, "VPN_TYPES") != null;
+    }
+
+    private void setVpnTypes(Class<?> clazz) {
+        if (clazz != null) {
+            setStaticObjectField(clazz, "VPN_TYPES", List.of(0, 1, 2, 3, 4, 5, 6, 7, 8));
+        }
     }
 }
