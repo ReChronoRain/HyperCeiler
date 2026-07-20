@@ -30,6 +30,9 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFloatField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
@@ -39,9 +42,6 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.interceptHookMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setFloatField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setLongField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -72,7 +72,7 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun init() {
-        BaseHook.getHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, TextView::class.java)
+        getHotReloadRuntimeState(STATE_SCROLLING_TEXT_VIEW, TextView::class.java)
             ?.let(::installNoopRestartCallback)
         registerHotReloadCleanup {
             focusTextViewList.forEach { textView ->
@@ -164,11 +164,12 @@ object FocusNotifLyric : MusicBaseHook() {
     }
 
     override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
+        if (PrefsBridge.getBoolean("system_ui_statusbar_music_switch") || isShowApp) return
         val lyric = data.lyric
         focusTextViewList.forEach { textView ->
             textView.post {
                 if (lastLyric == textView.text) {
-                    if (com.sevtinge.hyperceiler.libhook.base.BaseHook.getAdditionalInstanceField(textView, "is_scrolling") == 1) {
+                    if (getAdditionalInstanceField(textView, "is_scrolling") == 1) {
                         val m0 = textView.getObjectFieldOrNull("mMarquee")
                         m0?.apply {
                             // 设置速度并且调用停止函数,重置歌词位置
