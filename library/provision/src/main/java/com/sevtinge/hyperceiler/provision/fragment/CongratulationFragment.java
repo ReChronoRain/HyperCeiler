@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.renderengine.GlowController;
 import com.sevtinge.hyperceiler.provision.renderengine.RenderViewLayout;
 import com.sevtinge.hyperceiler.provision.utils.IOnFocusListener;
+import com.sevtinge.hyperceiler.provision.utils.OobeTransitionHelper;
 import com.sevtinge.hyperceiler.provision.utils.Utils;
 
 import fan.animation.Folme;
@@ -62,6 +63,8 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
 
     private boolean isFirstBoot = true;
     private boolean isComplete;
+    private boolean mHomeLaunchStarted;
+    private boolean mCompletionButtonAnimationReady;
 
     private View mGlowEffectView;
     private View mContentView;
@@ -76,6 +79,8 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     private GlowController mGlowController;
 
     private final Handler mHandler = new Handler();
+    private final OobeTransitionHelper.HomeReadyListener mHomeReadyListener = ready ->
+        updateCompletionButtonEnabled();
 
     @Override
     protected int getLayoutId() {
@@ -90,6 +95,7 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         initView(view);
         initBackGround();
         setupBlurBackground();
+        OobeTransitionHelper.registerHomeReadyListener(mHomeReadyListener);
         displayOSLogoDelay();
     }
 
@@ -113,8 +119,8 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         mNextView.setEnabled(false);
         Folme.use(mNextView).touch().setScale(1.0f).handleTouchOf(this.mNextView);
         mNextView.setOnClickListener(v -> {
+            if (mHomeLaunchStarted || !OobeTransitionHelper.isHomeReady()) return;
             startHome();
-            startPageAnim();
         });
     }
 
@@ -247,7 +253,8 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
         if (view == null) return;
 
         view.postDelayed(() -> {
-            view.setEnabled(true);
+            mCompletionButtonAnimationReady = true;
+            updateCompletionButtonEnabled();
             Log.d("ProvisionCongratulationActivity", "startBtnAnim: mNextView setEnabled");
         }, 2000L);
         if (view.getVisibility() == View.VISIBLE) return;
@@ -257,34 +264,14 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
             @Override
             public void onComplete(Object toTag) {
                 super.onComplete(toTag);
-                view.setEnabled(true);
+                mCompletionButtonAnimationReady = true;
+                updateCompletionButtonEnabled();
                 Log.d("ProvisionCongratulationActivity", "onComplete: mNextView setEnabled");
             }
         });
         IStateStyle state = Folme.use(view).state();
         ViewProperty viewProperty = ViewProperty.ALPHA;
         state.setTo(viewProperty, Float.valueOf(0.0f)).to(viewProperty, Float.valueOf(1.0f), delay);
-    }
-
-    private void startPageAnim() {
-        AnimState animState = new AnimState("start");
-        ViewProperty viewProperty = ViewProperty.ALPHA;
-        AnimState add = animState.add(viewProperty, 1.0d);
-        ViewProperty viewProperty2 = ViewProperty.SCALE_X;
-        AnimState add2 = add.add(viewProperty2, 1.0d);
-        ViewProperty viewProperty3 = ViewProperty.SCALE_Y;
-        AnimState add3 = add2.add(viewProperty3, 1.0d);
-        AnimState add4 = new AnimState("end").add(viewProperty, 0.0d).add(viewProperty2, 0.8d).add(viewProperty3, 0.8d);
-        AnimConfig animConfig = new AnimConfig();
-        animConfig.setSpecial(viewProperty2, FolmeEase.spring(1.0f, 0.36f));
-        animConfig.setSpecial(viewProperty3, FolmeEase.spring(1.0f, 0.36f));
-        animConfig.setSpecial(viewProperty, FolmeEase.sinOut(360L));
-        if (mLogoImageWrapper != null) {
-            Folme.use(mLogoImageWrapper).state().setTo(add3).to(add4, animConfig);
-        }
-        if (mNextView != null) {
-            Folme.use(mNextView).state().setTo(add3).to(add4, animConfig);
-        }
     }
 
     @Override
@@ -334,33 +321,62 @@ public class CongratulationFragment extends BaseFragment implements IOnFocusList
     }
 
     private void startHome() {
+        if (mHomeLaunchStarted || !OobeTransitionHelper.isHomeReady()) return;
+        mHomeLaunchStarted = true;
+        if (mNextView != null) mNextView.setEnabled(false);
+
         boolean isDebugOobe = OobeUtils.isDebugOobeMode(requireActivity());
+        boolean wasProvisioned = OobeUtils.isProvisioned(requireContext());
         if (!isDebugOobe) {
             AppLanguageHelper.freezeCurrentLocaleIfUnset(requireContext());
             OobeUtils.setProvisioned(requireContext(), true);
         }
         try {
-            ActivityOptions customTaskAnimation = ActivityOptions.makeCustomAnimation(requireContext(), R.anim.enter_home_anim, R.anim.provision_out_anim);
+            ActivityOptions customTaskAnimation = ActivityOptions.makeCustomAnimation(
+                requireContext(),
+                R.anim.enter_home_anim,
+                R.anim.provision_out_anim
+            );
             startActivity(getHomeIntent(), customTaskAnimation.toBundle());
+            requireActivity().overridePendingTransition(
+                R.anim.enter_home_anim,
+                R.anim.provision_out_anim,
+                requireContext().getColor(R.color.provision_home_transition_background)
+            );
             Log.d(TAG, "startHome success " + customTaskAnimation);
-        } catch (Exception ex) {}
-        Log.e(TAG, "getActivityOptions fail");
-        finish();
+            finish();
+        } catch (RuntimeException exception) {
+            Log.e(TAG, "startHome failed", exception);
+            if (!isDebugOobe) {
+                OobeUtils.setProvisioned(requireContext(), wasProvisioned);
+            }
+            mHomeLaunchStarted = false;
+            updateCompletionButtonEnabled();
+        }
+    }
+
+    private void updateCompletionButtonEnabled() {
+        if (mNextView == null) return;
+        mNextView.setEnabled(
+            mCompletionButtonAnimationReady &&
+                OobeTransitionHelper.isHomeReady() &&
+                !mHomeLaunchStarted
+        );
     }
 
 
     private Intent getHomeIntent() {
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.setPackage(requireContext().getPackageName());
-        if (OobeUtils.isDebugOobeMode(requireActivity())) {
-            intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.HomePageActivity");
-            intent.putExtra(OobeUtils.EXTRA_DEBUG_OOBE, true);
-        } else {
-            intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.SplashActivity");
-        }
-        // 清除掉引导页所在的整个任务栈
-        // 这样跳转后，栈内只有主页，按返回键会直接回到手机桌面
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.setClassName(requireContext(), "com.sevtinge.hyperceiler.ui.HomePageActivity");
+        intent.putExtra(OobeTransitionHelper.EXTRA_HOME_REVEAL, true);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         return intent;
+    }
+
+    @Override
+    public void onDestroyView() {
+        OobeTransitionHelper.unregisterHomeReadyListener(mHomeReadyListener);
+        super.onDestroyView();
     }
 }

@@ -27,6 +27,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -53,6 +54,18 @@ public class DefaultActivity extends ProvisionBaseActivity {
 
     private StateMachine mStateMachine;
 
+    private final OnBackPressedCallback mBackCallback = new OnBackPressedCallback(true) {
+        @Override
+        public void handleOnBackPressed() {
+            if (OobeUtils.isDebugOobeMode(DefaultActivity.this)) {
+                setEnabled(false);
+                finishAfterTransition();
+            } else {
+                moveTaskToBack(true);
+            }
+        }
+    };
+
     private final Handler mHandler = new Handler(Looper.getMainLooper());
     private int mPendingRequestCode = -1;
     private final ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
@@ -72,6 +85,7 @@ public class DefaultActivity extends ProvisionBaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getOnBackPressedDispatcher().addCallback(this, mBackCallback);
         if (isDeviceIsProvisioned() && !OobeUtils.isDebugOobeMode(this)) {
             finishSetup();
             return;

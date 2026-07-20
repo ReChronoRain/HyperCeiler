@@ -33,6 +33,10 @@ public class StartupState extends State implements IKeyEvent, IOnFocusListener {
         Fragment fragment = fragmentManager.findFragmentByTag(StartupFragment.class.getSimpleName());
         if (fragment instanceof StartupFragment startupFragment) {
             mStartupFragment = startupFragment;
+            if (mHasBooted) {
+                mHasBooted = false;
+                mStartupFragment.onReturnToStartup();
+            }
             return;
         }
         mStartupFragment = new StartupFragment();
