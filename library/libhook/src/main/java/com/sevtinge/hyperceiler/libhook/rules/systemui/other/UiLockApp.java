@@ -119,7 +119,7 @@ public class UiLockApp extends BaseHook {
             hookTaskbarDelegateClass(className);
         }
         if (isPad()) {
-            hookLauncherProxyStopScreenPinning();
+            hookISystemUiProxyStopScreenPinning();
         }
     }
 
@@ -267,20 +267,23 @@ public class UiLockApp extends BaseHook {
         }
     }
 
-    private void hookLauncherProxyStopScreenPinning() {
-        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
-        if (launcherProxyClass == null) return;
+    private void hookISystemUiProxyStopScreenPinning() {
+        // 动态定位 ISystemUiProxy 接口的实现类，这比硬编码 LauncherProxyService$1 更健壮
+        Class<?> proxyClass = findClassIfExists("com.android.systemui.recents.OverviewProxyService$1");
+        if (proxyClass == null) {
+            proxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        }
 
-        chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
+        if (proxyClass == null) return;
+
+        chainAllMethods(proxyClass, "stopScreenPinning", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                Object[] args = chain.getArgs().toArray();
-                if (args.length > 0 && "stopScreenPinning".equals(args[0])) {
-                    Context context = resolveContext(chain.getThisObject());
-                    if (context != null && getLockApp(context) != -1) {
-                        XposedLog.d(TAG, "block LauncherProxyService.stopScreenPinning while locked");
-                        return null;
-                    }
+                Context context = resolveContext(chain.getThisObject());
+                int lockApp = getLockApp(context);
+                if (context != null && lockApp != -1) {
+                    XposedLog.d(TAG, "GuidedAccess: Blocked ISystemUiProxy.stopScreenPinning in SystemUI");
+                    return null; // 拦截桌面发来的解锁指令
                 }
                 return chain.proceed();
             }
