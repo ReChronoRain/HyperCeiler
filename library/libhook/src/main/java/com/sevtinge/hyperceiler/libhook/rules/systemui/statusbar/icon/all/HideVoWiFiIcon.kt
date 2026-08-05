@@ -55,13 +55,12 @@ object HideVoWiFiIcon : BaseHook() {
         // which has the same effect as the old constructor hook.
         loadClass("com.android.systemui.MiuiOperatorCustomizedPolicy")
             .findMethod { name("getMiuiOperatorConfig") }
-            .createAfterHook { param ->
-                applyOperatorConfig(param.result ?: return@createAfterHook)
-            }
+            .createAfterHook { param -> applyOperatorConfig(param.result) }
     }
 
-    private fun applyOperatorConfig(config: Any) {
-        config.setBooleanField("hideVowifi", hideVoWifi)
-        config.setBooleanField("hideVolte", hideVolte)
+    private fun applyOperatorConfig(config: Any?) {
+        val target = config ?: return
+        target.setBooleanField("hideVowifi", hideVoWifi)
+        target.setBooleanField("hideVolte", hideVolte)
     }
 }

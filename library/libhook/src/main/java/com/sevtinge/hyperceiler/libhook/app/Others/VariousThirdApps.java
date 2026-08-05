@@ -94,9 +94,13 @@ public class VariousThirdApps extends BaseLoad {
         initMusicHooks();
     }
 
+    /** How many causes to walk before giving up, so a self-referential chain cannot loop. */
+    private static final int MAX_CAUSE_DEPTH = 16;
+
     /** True when a throwable (or one of its causes) is the runtime refusing a final write. */
     private static boolean isFinalFieldRejection(Throwable t) {
-        for (Throwable current = t; current != null; current = current.getCause()) {
+        Throwable current = t;
+        for (int depth = 0; current != null && depth < MAX_CAUSE_DEPTH; depth++) {
             if (current instanceof IllegalAccessException) {
                 return true;
             }
@@ -104,9 +108,7 @@ public class VariousThirdApps extends BaseLoad {
             if (message != null && message.contains("static final")) {
                 return true;
             }
-            if (current.getCause() == current) {
-                break;
-            }
+            current = current.getCause();
         }
         return false;
     }
