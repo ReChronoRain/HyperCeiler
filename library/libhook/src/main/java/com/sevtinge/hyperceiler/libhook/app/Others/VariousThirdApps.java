@@ -50,6 +50,9 @@ public class VariousThirdApps extends BaseLoad {
     private static final String XIAOMI_BAIDU_PACKAGE = "com.baidu.input_mi";
     private static final String BAIDU_PACKAGE = "com.baidu.input";
 
+    /** How many causes to walk before giving up, so a self-referential chain cannot loop. */
+    private static final int MAX_CAUSE_DEPTH = 16;
+
     private static Set<String> sEnabledInputMethodPackages = Collections.emptySet();
 
     private String mPackageName;
@@ -93,9 +96,6 @@ public class VariousThirdApps extends BaseLoad {
 
         initMusicHooks();
     }
-
-    /** How many causes to walk before giving up, so a self-referential chain cannot loop. */
-    private static final int MAX_CAUSE_DEPTH = 16;
 
     /** True when a throwable (or one of its causes) is the runtime refusing a final write. */
     private static boolean isFinalFieldRejection(Throwable t) {
