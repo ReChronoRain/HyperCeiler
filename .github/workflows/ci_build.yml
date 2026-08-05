@@ -40,6 +40,10 @@ jobs:
       )
     runs-on: macos-latest
     name: Build App
+    permissions:
+      contents: read
+      # Needed so GITHUB_TOKEN may read this repository's own Maven packages.
+      packages: read
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v6
@@ -76,6 +80,19 @@ jobs:
         run: |
           ./gradlew assembleCanary
           echo "IS_DEBUG=false" >> $GITHUB_ENV
+
+      # settings.gradle.kts needs credentials for the GitHub Packages repository on every
+      # build, but "Create Sign File" only exports GIT_ACTOR / GIT_TOKEN for pushes to
+      # main, so pull request builds always failed with "Missing GitHub credentials".
+      # The package lives in this same repository, so the automatic GITHUB_TOKEN can read
+      # it with the packages: read permission declared above. That token is also handed to
+      # pull requests from forks, where the GIT_TOKEN secret is unavailable by design.
+      - name: Provide GitHub Packages credentials
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          echo "GIT_ACTOR=${{ github.actor }}" >> $GITHUB_ENV
+          echo "GIT_TOKEN=${{ secrets.GITHUB_TOKEN }}" >> $GITHUB_ENV
 
       - name: Build with Gradle (Debug)
         if: github.event_name == 'pull_request'
