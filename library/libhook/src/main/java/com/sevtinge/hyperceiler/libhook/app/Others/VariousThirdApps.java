@@ -76,12 +76,39 @@ public class VariousThirdApps extends BaseLoad {
                 setStaticObjectField(mBuild, "DEVICE", "caiman");
                 XposedLog.d("GoogleQuickSearchBox", "Spoofed device info to Pixel 9 Pro success");
             } catch (Throwable e) {
-                XposedLog.e("GoogleQuickSearchBox", "Failed to spoof device info: " + e.getMessage());
+                // android.os.Build's fields are public static final. ART used to allow a
+                // reflective write, but Android 17 rejects it, and clearing the FINAL bit
+                // in Field.accessFlags does not help either because finality is enforced
+                // below that mirror. There is no pure-Java way to spoof these fields on
+                // this release, so report it as a warning rather than an error.
+                if (isFinalFieldRejection(e)) {
+                    XposedLog.w("GoogleQuickSearchBox",
+                        "Build field spoofing is not supported on this Android version: " + e.getMessage());
+                } else {
+                    XposedLog.e("GoogleQuickSearchBox", "Failed to spoof device info: " + e.getMessage());
+                }
             }
             return;
         }
 
         initMusicHooks();
+    }
+
+    /** True when a throwable (or one of its causes) is the runtime refusing a final write. */
+    private static boolean isFinalFieldRejection(Throwable t) {
+        for (Throwable current = t; current != null; current = current.getCause()) {
+            if (current instanceof IllegalAccessException) {
+                return true;
+            }
+            String message = current.getMessage();
+            if (message != null && message.contains("static final")) {
+                return true;
+            }
+            if (current.getCause() == current) {
+                break;
+            }
+        }
+        return false;
     }
 
     private void initInputMethodHooks() {

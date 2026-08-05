@@ -20,7 +20,6 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.ComponentName
 import android.content.Context
-import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion
 import java.lang.ref.WeakReference
 
 // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
@@ -32,11 +31,26 @@ internal class PluginFactory(obj: Any) {
     }
 
     lateinit var pluginCtxRef: WeakReference<Context>
+
+    /**
+     * The field in PluginInstance$PluginFactory that holds the plugin's component name.
+     *
+     * It is called mComponentName on OS 2.x / OS 3.0. HyperOS 3.3 (Android 17) followed
+     * AOSP in dropping the m prefix and renamed it to componentName, and HyperOS 4.0
+     * keeps the new name. Reading only the old name throws MemberNotFoundException --
+     * which the caller's runCatching swallows into a bare "Failed to create plugin
+     * context.". The result is that every miui.systemui.plugin feature (volume/brightness
+     * percentage, QS colors, control center media card, ...) silently stops working.
+     *
+     * Both names are probed instead of keying off the release, because 3.3 and 4.0 share
+     * the new name while 3.0 -- which reports a lower version than either -- does not.
+     * The old name is tried first so behaviour on older versions is unchanged.
+     */
     val mComponentName: Any? =
-        if (isHyperOSVersion(4f)) {
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "componentName")
-        } else {
+        runCatching {
             com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "mComponentName")
+        }.getOrElse {
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "componentName")
         }
 
     fun componentNames(type: Int, str: String): ComponentName {

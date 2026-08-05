@@ -46,17 +46,41 @@ class DisableThemeAdNew : BaseHook() {
         }.onFailure {
             XposedLog.e(TAG, it)
         }
-        runCatching {
-            loadClass("com.android.thememanager.basemodule.ad.model.AdInfoResponse").findMethod { name("isAdValid"); paramCount(1) }
-                .createHook {
-                    returnConstant(false)
-                }
-        }.onFailure {
-            XposedLog.e(TAG, it)
+        // AdInfoResponse no longer exists in the global theme store on HyperOS 3.3 (the
+        // built-in ad model was replaced wholesale by third-party SDKs). A missing class
+        // is expected here and should not be logged as an error with a full stack trace.
+        val adInfoResponse = findClassIfExists("com.android.thememanager.basemodule.ad.model.AdInfoResponse")
+        if (adInfoResponse == null) {
+            XposedLog.d(TAG, packageName, "AdInfoResponse not present, skip")
+        } else {
+            runCatching {
+                adInfoResponse.findMethod { name("isAdValid"); paramCount(1) }
+                    .createHook {
+                        returnConstant(false)
+                    }
+            }.onFailure {
+                XposedLog.e(TAG, it)
+            }
         }
 
-        removeAds(loadClass("com.android.thememanager.recommend.view.listview.viewholder.SelfFontItemAdViewHolder"))
-        removeAds(loadClass("com.android.thememanager.recommend.view.listview.viewholder.SelfRingtoneItemAdViewHolder"))
+        // These two built-in ad ViewHolders (like AdInfoResponse above) are gone on some
+        // versions -- the global theme store on HyperOS 3.3 uses third-party ad SDKs and
+        // no longer ships com.android.thememanager.basemodule.ad or
+        // Self*ItemAdViewHolder.
+        // The loadClass calls here had no fallback, so they threw ClassNotFoundError and
+        // aborted init(), discarding everything after the DrmManager hooks that had
+        // already succeeded.
+        removeAdsIfPresent("com.android.thememanager.recommend.view.listview.viewholder.SelfFontItemAdViewHolder")
+        removeAdsIfPresent("com.android.thememanager.recommend.view.listview.viewholder.SelfRingtoneItemAdViewHolder")
+    }
+
+    private fun removeAdsIfPresent(className: String) {
+        val clazz = findClassIfExists(className)
+        if (clazz == null) {
+            XposedLog.d(TAG, packageName, "$className not present, skip")
+            return
+        }
+        removeAds(clazz)
     }
 
     private fun removeAds(clazz: Class<*>) {
