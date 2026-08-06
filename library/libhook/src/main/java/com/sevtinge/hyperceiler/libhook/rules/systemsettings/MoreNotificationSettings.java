@@ -108,8 +108,13 @@ public class MoreNotificationSettings extends BaseHook {
                         param.setResult(null);// 关闭面板
                         ClassLoader cl = context.getClassLoader();
                         Class<?> dependencyClass = findClass("com.android.systemui.Dependency", cl);
-                        Class<?> modalControllerClass = findClass(
-                            "com.android.systemui.statusbar.notification.modal.ModalController", cl);
+                        // HyperOS 3 exposes the controller through its interface instead.
+                        Class<?> modalControllerClass = findClassIfExists(
+                            "com.android.systemui.statusbar.notification.modal.IModalController", cl);
+                        if (modalControllerClass == null) {
+                            modalControllerClass = findClass(
+                                "com.android.systemui.statusbar.notification.modal.ModalController", cl);
+                        }
                         Object modalController = callStaticMethod(dependencyClass, "get", modalControllerClass);
                         callMethod(modalController, "animExitModelCollapsePanels");
 
