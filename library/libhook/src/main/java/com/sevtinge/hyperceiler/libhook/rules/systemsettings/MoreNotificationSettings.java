@@ -34,7 +34,10 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class MoreNotificationSettings extends BaseHook {
 
-    private static final String[] VISIBLE_PREF_KEYS = {"importance", "badge", "allow_keyguard"};
+    // "setting_badge" is what miui_channel_notification_settings.xml calls the badge checkbox on
+    // HyperOS 3; "badge" is kept for the builds that still use the AOSP key.
+    private static final String[] VISIBLE_PREF_KEYS =
+        {"importance", "badge", "setting_badge", "allow_keyguard"};
 
     @Override
     public void init() {
@@ -108,13 +111,8 @@ public class MoreNotificationSettings extends BaseHook {
                         param.setResult(null);// 关闭面板
                         ClassLoader cl = context.getClassLoader();
                         Class<?> dependencyClass = findClass("com.android.systemui.Dependency", cl);
-                        // HyperOS 3 exposes the controller through its interface instead.
-                        Class<?> modalControllerClass = findClassIfExists(
-                            "com.android.systemui.statusbar.notification.modal.IModalController", cl);
-                        if (modalControllerClass == null) {
-                            modalControllerClass = findClass(
-                                "com.android.systemui.statusbar.notification.modal.ModalController", cl);
-                        }
+                        Class<?> modalControllerClass = findClass(
+                            "com.android.systemui.statusbar.notification.modal.ModalController", cl);
                         Object modalController = callStaticMethod(dependencyClass, "get", modalControllerClass);
                         callMethod(modalController, "animExitModelCollapsePanels");
 
