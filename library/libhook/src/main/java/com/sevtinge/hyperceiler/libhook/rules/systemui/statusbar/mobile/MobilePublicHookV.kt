@@ -36,6 +36,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreSmal
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.setStateFlowValue
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiCellularIconVM
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.miuiMobileIconBinder
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.card1
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.card2
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.hideIndicator
@@ -48,9 +49,11 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileViewHelper.
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.hookAllConstructors
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
+import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
-import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.util.concurrent.ConcurrentHashMap
 
 class MobilePublicHookV : BaseHook() {
@@ -58,9 +61,14 @@ class MobilePublicHookV : BaseHook() {
         const val STATE_CONTEXT = "MobilePublicHookV.context"
         const val STATE_SUB_IDS = "MobilePublicHookV.subIds"
         const val STATE_FLOW_PREFIX = "MobilePublicHookV.flow."
+        const val FIELD_IS_VISIBLE = "isVisible"
     }
 
     private val visibilityFlows = ConcurrentHashMap<Int, Any>()
+
+    // MiuiCellularIconVM instances (by identityHashCode) already handled on the bind
+    // path, so the flows are not replaced again for every location.
+    private val appliedViewModels = ConcurrentHashMap.newKeySet<Int>()
 
     @Volatile
     private var broadcastRegistered = false
@@ -72,58 +80,105 @@ class MobilePublicHookV : BaseHook() {
     override fun init() {
         restoreVisibilityFlowsAfterHotReload()
 
-        miuiCellularIconVM.hookAllConstructors {
-            after { param ->
-                val cellularIcon = param.thisObject
-                val mobileIconInteractor = param.args[2] ?: return@after
-                val subId = mobileIconInteractor.getObjectFieldAs<Int>("subId")
-                val isVisible = createVisibilityFlow()
+        // OS 2.x / OS 3.0: MiuiCellularIconVM still has an <init>, so keep the original
+        // constructor hook.
+        if (miuiCellularIconVM.declaredConstructors.isNotEmpty()) {
+            miuiCellularIconVM.hookAllConstructors {
+                after { param -> applyToViewModel(param.thisObject, param.args[2]) }
+            }
+            return
+        }
 
-                when {
-                    // 信号显示逻辑
-                    signalShowMode >= 1 -> {
-                        cellularIcon.setObjectField("isVisible", isVisible)
-                        trackVisibilityFlow(subId, isVisible)
-                        refreshVisibility(subId, isVisible)
-                        registerReceiver(EzXposed.appContext)
-                    }
-                    // 双排信号（signalShowMode == 0 且未隐藏卡）
-                    isEnableDouble && !(card1 || card2) -> {
-                        cellularIcon.setObjectField("isVisible", isVisible)
-                        trackVisibilityFlow(subId, isVisible)
-                        val slotIndex = SubscriptionManager.getSlotIndex(subId)
-                        val shouldShow = !MobileViewHelper.isAirplaneModeOn() &&
-                            (MobileViewHelper.isSingleSimMode() || slotIndex == 0)
-                        updateVisibility(isVisible, shouldShow)
-                        registerReceiver(EzXposed.appContext)
-                    }
-                    // 隐藏指定卡
-                    else -> {
-                        val slotIndex = SubscriptionManager.getSlotIndex(subId)
-                        if ((card1 && slotIndex == 0) || (card2 && slotIndex == 1)) {
-                            cellularIcon.setObjectField("isVisible", isVisible)
-                        }
-                    }
-                }
+        // HyperOS 3.3 (Android 17): R8 inlined MiuiCellularIconVM's constructor away, so
+        // the dex has no <init> left (all 22 members are getters and the fields became
+        // public). hookAllConstructors then silently matches zero targets -- no
+        // exception, nothing in the log -- so the second SIM's isVisible is never set to
+        // false and the dual-row signal gets drawn once per mobile view, which shows up
+        // as "the dual row is rendered twice".
+        // Handle it in MiuiMobileIconBinder#bind instead: its args[2] is declared as the
+        // MiuiMobileIconViewModel interface but is a MiuiCellularIconVM at runtime, and a
+        // before-hook runs prior to the official bind collecting these flows, so the
+        // replacement happens at the same point in time as the constructor hook did.
+        miuiMobileIconBinder.findMethod { name("bind") }
+            .createBeforeHook { param -> applyOnBind(param.args[2]) }
+    }
 
-                if (hideIndicator) {
-                    cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
-                }
-                if (hideRoaming) {
-                    // 新版 MiuiCellularIconVM 中 *RoamVisible 字段类型为
-                    // FlowKt__ZipKt$combine$$inlined$combineUnsafe$FlowKt__ZipKt$1
-                    // （combine 产生的匿名 Flow），直接 setObjectField 会抛
-                    // IllegalArgumentException。先尝试旧版直接替换 StateFlow，
-                    // 失败则改为劫持其内部 $transform$inlined$1 lambda 让合并结果恒为 false。
-                    forceRoamHidden(cellularIcon, "smallRoamVisible")
-                    forceRoamHidden(cellularIcon, "mobileRoamVisible")
-                }
-                if (!isMoreSmallVersion(200, 2f)) {
-                    updateIconState(param, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
-                    updateIconState(param, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
-                    updateIconState(param, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
+    // bind is called once per location (status bar / keyguard / control center) for the
+    // same VM, so only the first call is handled. The VM is registered only after it
+    // succeeded, otherwise a single failure would make this VM be skipped forever.
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+    private fun applyOnBind(boundViewModel: Any?) {
+        val cellularIcon = boundViewModel ?: return
+        val viewModelKey = System.identityHashCode(cellularIcon)
+        if (viewModelKey in appliedViewModels) return
+        val mobileIconInteractor = runCatching {
+            cellularIcon.callMethodAs<Any>("getOriginIconInteractor")
+        }.getOrNull() ?: return
+        applyToViewModel(cellularIcon, mobileIconInteractor)
+        appliedViewModels.add(viewModelKey)
+    }
+
+    // Resolves the subId.
+    //
+    // On the old constructor-hook path args[2] is the MIUI-side interactor, which has a
+    // plain subId field. On HyperOS 3.3 (Android 17) the object reached through bind is a
+    // MobileIconInteractorImpl, where the field was renamed to subscriptionId (with a
+    // matching getSubscriptionId()), so reading subId throws MemberNotFoundException.
+    // The old name is tried first so behaviour on older versions is unchanged.
+    private fun resolveSubId(interactor: Any): Int? =
+        runCatching { interactor.getObjectFieldAs<Int>("subId") }.getOrNull()
+            ?: runCatching { interactor.getObjectFieldAs<Int>("subscriptionId") }.getOrNull()
+            ?: runCatching { interactor.callMethodAs<Int>("getSubscriptionId") }.getOrNull()
+
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE])
+    private fun applyToViewModel(cellularIcon: Any, mobileIconInteractor: Any?) {
+        val interactor = mobileIconInteractor ?: return
+        val subId = resolveSubId(interactor) ?: return
+        val isVisible = createVisibilityFlow()
+
+        when {
+            // 信号显示逻辑
+            signalShowMode >= 1 -> {
+                cellularIcon.setObjectField(FIELD_IS_VISIBLE, isVisible)
+                trackVisibilityFlow(subId, isVisible)
+                refreshVisibility(subId, isVisible)
+                registerReceiver(EzXposed.appContext)
+            }
+            // 双排信号（signalShowMode == 0 且未隐藏卡）
+            isEnableDouble && !(card1 || card2) -> {
+                cellularIcon.setObjectField(FIELD_IS_VISIBLE, isVisible)
+                trackVisibilityFlow(subId, isVisible)
+                val slotIndex = SubscriptionManager.getSlotIndex(subId)
+                val shouldShow = !MobileViewHelper.isAirplaneModeOn() &&
+                    (MobileViewHelper.isSingleSimMode() || slotIndex == 0)
+                updateVisibility(isVisible, shouldShow)
+                registerReceiver(EzXposed.appContext)
+            }
+            // 隐藏指定卡
+            else -> {
+                val slotIndex = SubscriptionManager.getSlotIndex(subId)
+                if ((card1 && slotIndex == 0) || (card2 && slotIndex == 1)) {
+                    cellularIcon.setObjectField(FIELD_IS_VISIBLE, isVisible)
                 }
             }
+        }
+
+        if (hideIndicator) {
+            cellularIcon.setObjectField("inOutVisible", newReadonlyStateFlow(false))
+        }
+        if (hideRoaming) {
+            // 新版 MiuiCellularIconVM 中 *RoamVisible 字段类型为
+            // FlowKt__ZipKt$combine$$inlined$combineUnsafe$FlowKt__ZipKt$1
+            // （combine 产生的匿名 Flow），直接 setObjectField 会抛
+            // IllegalArgumentException。先尝试旧版直接替换 StateFlow，
+            // 失败则改为劫持其内部 $transform$inlined$1 lambda 让合并结果恒为 false。
+            forceRoamHidden(cellularIcon, "smallRoamVisible")
+            forceRoamHidden(cellularIcon, "mobileRoamVisible")
+        }
+        if (!isMoreSmallVersion(200, 2f)) {
+            updateIconState(cellularIcon, "smallHdVisible", "system_ui_status_bar_icon_small_hd")
+            updateIconState(cellularIcon, "volteVisibleCn", "system_ui_status_bar_icon_big_hd")
+            updateIconState(cellularIcon, "volteVisibleGlobal", "system_ui_status_bar_icon_big_hd")
         }
     }
 
@@ -152,9 +207,9 @@ class MobilePublicHookV : BaseHook() {
             ?.split(',')
             ?.mapNotNull { it.toIntOrNull() }
             .orEmpty()
-        savedIds.forEach { subId ->
+        for (subId in savedIds) {
             val flow = BaseHook.getHotReloadRuntimeState("$STATE_FLOW_PREFIX$subId", Any::class.java)
-                ?: return@forEach
+                ?: continue
             if (flow.javaClass.classLoader !== javaClass.classLoader) {
                 visibilityFlows[subId] = flow
             }
@@ -326,10 +381,10 @@ class MobilePublicHookV : BaseHook() {
         BaseHook.putHotReloadRuntimeState(STATE_CONTEXT, context)
     }
 
-    private fun updateIconState(param: HookParam, fieldName: String, key: String) {
+    private fun updateIconState(cellularIcon: Any, fieldName: String, key: String) {
         val opt = PrefsBridge.getStringAsInt(key, 0)
         if (opt != 0) {
-            param.thisObject.setObjectField(fieldName, newReadonlyStateFlow(opt == 1))
+            cellularIcon.setObjectField(fieldName, newReadonlyStateFlow(opt == 1))
         }
     }
 }

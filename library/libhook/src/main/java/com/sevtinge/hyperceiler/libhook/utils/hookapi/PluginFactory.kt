@@ -31,7 +31,24 @@ internal class PluginFactory(obj: Any) {
     }
 
     lateinit var pluginCtxRef: WeakReference<Context>
-    val mComponentName: Any? = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj , "mComponentName")
+
+    /**
+     * The field in PluginInstance$PluginFactory that holds the plugin's component name.
+     *
+     * It is called mComponentName on OS 2.x / OS 3.0. HyperOS 3.3 (Android 17) followed
+     * AOSP in dropping the m prefix and renamed it to componentName, so reading only the
+     * old name throws MemberNotFoundException -- which the caller's runCatching swallows
+     * into a bare "Failed to create plugin context.". The result is that every
+     * miui.systemui.plugin feature (volume/brightness percentage, QS colors, control
+     * center media card, ...) silently stops working. The old name is tried first so
+     * behaviour on older versions is unchanged.
+     */
+    val mComponentName: Any? =
+        runCatching {
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "mComponentName")
+        }.getOrElse {
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "componentName")
+        }
 
     fun componentNames(type: Int, str: String): ComponentName {
         return when (type) {

@@ -35,6 +35,8 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
 
     private static final String COLLAPSED_STATUS_BAR_CLASS =
         "com.android.systemui.statusbar.phone.MiuiCollapsedStatusBarFragment";
+    private static final String PHONE_STATUS_BAR_VIEW_CLASS =
+        "com.android.systemui.statusbar.phone.MiuiPhoneStatusBarView";
     private static final String ACTION_TAKE_SCREENSHOT = "miui.intent.TAKE_SCREENSHOT";
     private static final String EXTRA_IS_FINISHED = "IsFinished";
     private static final String HOT_RELOAD_VIEW_KEY =
@@ -47,11 +49,25 @@ public class HideStatusBarBeforeScreenshot extends BaseHook {
         if (restoredView != null) {
             registerScreenshotReceiver(restoredView);
         }
-        hookAllMethods(COLLAPSED_STATUS_BAR_CLASS, "onViewCreated", new IMethodHook() {
+        if (findClassIfExists(COLLAPSED_STATUS_BAR_CLASS) != null) {
+            hookAllMethods(COLLAPSED_STATUS_BAR_CLASS, "onViewCreated", new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    View view = (View) param.getArgs()[0];
+                    registerScreenshotReceiver(view);
+                }
+            });
+            return;
+        }
+
+        // HyperOS 3 replaced the fragment based status bar with the HomeStatusBar view binder
+        // pipeline, so MiuiCollapsedStatusBarFragment no longer exists and the hook above never
+        // fired. The fragment root was always the inflated R.layout.status_bar, which is the same
+        // MiuiPhoneStatusBarView instance obtained here, so hiding it keeps the old behaviour.
+        hookAllMethods(PHONE_STATUS_BAR_VIEW_CLASS, "onFinishInflate", new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                View view = (View) param.getArgs()[0];
-                registerScreenshotReceiver(view);
+                registerScreenshotReceiver((View) param.getThisObject());
             }
         });
     }

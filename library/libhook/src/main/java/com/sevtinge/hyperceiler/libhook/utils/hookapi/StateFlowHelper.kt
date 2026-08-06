@@ -63,16 +63,34 @@ object StateFlowHelper {
         stateFlow ?: return
 
         when (stateFlow::class.java.simpleName) {
-            "ReadonlyStateFlow" -> {
-                if (isMoreAndroidVersion(36)) {
-                    stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
-                } else {
-                    stateFlow.getFirstFieldByExactType(STATE_FLOW)
-                }
-            }
+            "ReadonlyStateFlow" -> resolveDelegateFlow(stateFlow)
             "StateFlowImpl" -> stateFlow
             else -> null
         }?.callMethod("setValue", value)
+    }
+
+    // Returns the mutable flow that a ReadonlyStateFlow delegates to.
+    //
+    // getFirstFieldByExactType matches a field's *declared* type, and ReadonlyStateFlow
+    // has exactly one field, $delegate_0:
+    //  - on Android 16 it is declared as MutableStateFlow;
+    //  - the kotlinx.coroutines bundled with HyperOS 3.3 (Android 17) declares it as
+    //    StateFlow again (the constructor parameter is still MutableStateFlow, so
+    //    newReadonlyStateFlow is unaffected), and matching MutableStateFlow exactly then
+    //    throws MemberNotFoundException.
+    //
+    // The instance actually stored in the field is always a StateFlowImpl, so setValue
+    // works either way. The old lookup is attempted first so older versions keep hitting
+    // exactly the same branch as before.
+    private fun resolveDelegateFlow(stateFlow: Any): Any? {
+        if (isMoreAndroidVersion(36)) {
+            runCatching {
+                stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
+            }.getOrNull()?.let { return it }
+        }
+        return runCatching {
+            stateFlow.getFirstFieldByExactType(STATE_FLOW)
+        }.getOrNull()
     }
 
     @JvmStatic

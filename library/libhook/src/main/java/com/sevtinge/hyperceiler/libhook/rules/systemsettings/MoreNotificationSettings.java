@@ -34,7 +34,10 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class MoreNotificationSettings extends BaseHook {
 
-    private static final String[] VISIBLE_PREF_KEYS = {"importance", "badge", "allow_keyguard"};
+    // "setting_badge" is what miui_channel_notification_settings.xml calls the badge checkbox on
+    // HyperOS 3; "badge" is kept for the builds that still use the AOSP key.
+    private static final String[] VISIBLE_PREF_KEYS =
+        {"importance", "badge", "setting_badge", "allow_keyguard"};
 
     @Override
     public void init() {

@@ -22,13 +22,25 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other
 import android.app.Activity
 import android.os.Bundle
 
+import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.beforeHookMethod
 
 object RemoveSIMLockSuccessDialog : BaseHook() {
+    private const val SUCCESS_DIALOG = "com.miui.simlock.activity.SuccessDialogActivity"
+
     @Throws(NoSuchMethodException::class)
     override fun init() {
-        "com.miui.simlock.activity.SuccessDialogActivity".beforeHookMethod("onCreate", Bundle::class.java) { param ->
+        // SIM lock only exists in the Chinese Security Center build; the whole
+        // com.miui.simlock package is absent from the global one
+        // (MIUISecurityCenterGlobal). Hooking it directly throws ClassNotFoundError and
+        // leaves a meaningless "Hook Failed" in the log, so check the class first.
+        if (findClassIfExists(SUCCESS_DIALOG) == null) {
+            XposedLog.d(TAG, packageName, "$SUCCESS_DIALOG not present, skip (non-CN SecurityCenter)")
+            return
+        }
+
+        SUCCESS_DIALOG.beforeHookMethod("onCreate", Bundle::class.java) { param ->
             (param.thisObject as Activity).finish()
         }
     }

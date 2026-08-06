@@ -18,6 +18,7 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
+import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
@@ -64,8 +65,25 @@ public class StatusBarIcon extends BaseHook {
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_tv", 0), "tv", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wireless_headset", 0), "wireless_headset", statusBarList, ctrlCenterList);
 
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST", statusBarList);
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST", ctrlCenterList);
+        // setIcon() already mutated these two ArrayList instances in place, and consumers
+        // read the static field directly (sget), so writing the field back is only kept
+        // for compatibility with the old "the field may be swapped for a new list"
+        // behaviour -- it is not required.
+        // On HyperOS 3.3 (Android 17) RIGHT_BLOCK_LIST / CONTROL_CENTER_BLOCK_LIST are
+        // public static final, so a reflective write throws IllegalAccessException. Left
+        // unguarded that exception aborts init() and also drops the
+        // CONTROL_CENTER_BLOCK_LIST write below it.
+        trySetBlockList(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST", statusBarList);
+        trySetBlockList(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST", ctrlCenterList);
+    }
+
+    private void trySetBlockList(Class<?> clazz, String fieldName, List<String> value) {
+        try {
+            BaseHook.setStaticObjectField(clazz, fieldName, value);
+        } catch (Throwable t) {
+            XposedLog.w(TAG, getPackageName(),
+                "skip writing back " + fieldName + " (already mutated in place): " + t.getMessage());
+        }
     }
 
     private void setIcon(int value, String name, List<String> statusBarList, List<String> controlList){

@@ -45,7 +45,11 @@ public class AllowThirdTheme extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mCheckRightsIsLegalMethod = requiredMember("CheckRightsIsLegal", new IDexKit() {
+        // The anchor strings "ThemeManagerTag" / "check rights isLegal: " no longer exist
+        // in the HyperOS 3.3 theme store, so DexKit cannot locate the target method.
+        // Use optionalMember: skip when it is not found instead of throwing and leaving
+        // "Skip hook because initDexKit failed" behind.
+        mCheckRightsIsLegalMethod = optionalMember("CheckRightsIsLegal", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -62,6 +66,9 @@ public class AllowThirdTheme extends BaseHook {
     public void init() {
         runOnApplicationAttach(RearScreenFlowGuard::ensureActivityTrackerRegistered);
 
+        if (mCheckRightsIsLegalMethod == null) {
+            return;
+        }
         hookMethod(mCheckRightsIsLegalMethod, new IMethodHook() {
             @Override
             public void before(HookParam param) {

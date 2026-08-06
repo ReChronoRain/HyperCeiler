@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.securitycenter.app
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.provider.Settings
 import android.view.Menu
 import android.view.MenuItem
 import com.sevtinge.hyperceiler.libhook.R
@@ -51,10 +52,11 @@ object AddAppManagerEntry : BaseHook() {
                     val menuItem = (it.args[0] as Menu).add(
                         idIdMiuixActionEndMenuGroup, 0, 0, R.string.security_center_aosp_app_manager
                     )
-                    menuItem.intent = Intent(Intent.ACTION_MAIN).setClassName(
-                        "com.android.settings",
-                        "com.android.settings.applications.ManageApplications"
-                    )
+                    // HyperOS 3 moved com.android.settings.applications.ManageApplications into
+                    // the manageapplications subpackage, so target the public intent action
+                    // instead of a class name that keeps moving between releases.
+                    menuItem.intent = Intent(Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS)
+                        .setPackage("com.android.settings")
                     menuItem.setIcon(idDrawableIconSettings)
                     menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
                 }

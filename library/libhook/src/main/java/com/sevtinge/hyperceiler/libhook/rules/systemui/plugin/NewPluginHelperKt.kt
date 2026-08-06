@@ -72,8 +72,10 @@ object NewPluginHelperKt : BaseHook() {
                     onPluginLoaded(PluginFactory(it.thisObject).also { isLoad ->
                         isLoad.pluginCtxRef = WeakReference(wrapper)
                     })
-                }.onFailure {
-                    XposedLog.e(TAG, lpparam.packageName, "Failed to create plugin context.")
+                }.onFailure { throwable ->
+                    // Include the throwable itself, otherwise this only leaves behind a
+                    // log line with no clue about what actually failed
+                    XposedLog.e(TAG, lpparam.packageName, "Failed to create plugin context.", throwable)
                     return@createAfterHook
                 }
             }
