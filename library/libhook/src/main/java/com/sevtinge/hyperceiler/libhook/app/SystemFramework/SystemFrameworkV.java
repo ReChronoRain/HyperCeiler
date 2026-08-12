@@ -51,6 +51,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylus
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BrightnessBarMaxSystemServer;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AppLinkVerify;
@@ -152,6 +153,7 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new MiuiImeUnlockSystem(), InputMethodConfig.shouldHookMiuiImeListInSystem());
         initHook(new MiAospImeSystem(), InputMethodConfig.shouldHookAospImeInSystem());
         initHook(new AllowDisableProtectedPackage(), PrefsBridge.getBoolean("system_framework_allow_disable_protected_package"));
+        initHook(new BrightnessBarMaxSystemServer(), PrefsBridge.getBoolean("system_framework_screen_brightness_unlock"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), PrefsBridge.getBoolean("system_framework_clipboard_whitelist"));
         initHook(new AllowManageAllNotifications(), PrefsBridge.getBoolean("system_framework_allow_manage_all_notifications"));
