@@ -21,6 +21,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -53,7 +54,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import fan.animation.Folme;
-import fan.animation.base.AnimConfig;
 import fan.appcompat.app.ActionBar;
 import fan.device.DeviceUtils;
 import fan.internal.utils.ViewUtils;
@@ -73,7 +73,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     private boolean isFirst = true;
     private boolean isReboot = false;
-    private boolean isRunning = false;
+    private final boolean isRunning = false;
 
     private FrameLayout mContentView;
 
@@ -96,8 +96,8 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     private Preference mAuthor;
 
 
-    private List<View> mCards = new ArrayList<>();
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    private final List<View> mCards = new ArrayList<>();
+    private final Handler mHandler = new Handler(Looper.getMainLooper());
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private ConnectivityManager connectivityManager;
@@ -268,6 +268,12 @@ public class AboutSettingsFragment extends BasePreferenceFragment
     }
 
     @Override
+    public void onStop() {
+        stopRuntimeShader();
+        super.onStop();
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
 
@@ -385,7 +391,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
             .setTintMode(3)
             .setScale(1.0f)
             .setTouchRadius(leftTopRadius, rightTopRadius, leftBottomRadius, rightBottomRadius)
-            .handleTouchOf(view, new AnimConfig[0]);
+            .handleTouchOf(view);
     }
 
     private void initCardView() {
@@ -427,7 +433,7 @@ public class AboutSettingsFragment extends BasePreferenceFragment
         );
         setContentViewPadding();
         if (mBgEffectView == null && mContentView != null) {
-            mBgEffectView = LayoutInflater.from(context).inflate(R.layout.app_about_bg, (ViewGroup) mContentView, false);
+            mBgEffectView = LayoutInflater.from(context).inflate(R.layout.app_about_bg, mContentView, false);
             mContentView.addView(mBgEffectView, 0);
             mBgEffectView = mContentView.findViewById(R.id.bgEffectView);
             mBgEffectController = new BgEffectController(mBgEffectView);
@@ -466,6 +472,12 @@ public class AboutSettingsFragment extends BasePreferenceFragment
                     mBgEffectController.setType(context.getApplicationContext(), mBgEffectView, actionBar);
                 });
             }
+        }
+    }
+
+    private void stopRuntimeShader() {
+        if (mBgEffectController != null) {
+            mBgEffectController.stop();
         }
     }
 
@@ -547,11 +559,21 @@ public class AboutSettingsFragment extends BasePreferenceFragment
 
     @Override
     public void onDestroyView() {
+        stopRuntimeShader();
         super.onDestroyView();
         mHandler.removeCallbacksAndMessages(null);
         if (mRootView != null) {
             unregisterCoordinateScrollView(mRootView);
         }
+        if (mBgEffectView != null) {
+            ViewParent parent = mBgEffectView.getParent();
+            if (parent instanceof ViewGroup viewGroup) {
+                viewGroup.removeView(mBgEffectView);
+            }
+        }
+        mBgEffectView = null;
+        mBgEffectController = null;
+        mContentView = null;
         mRootView = null;
         unregisterNetworkCallback();
         executor.shutdownNow();

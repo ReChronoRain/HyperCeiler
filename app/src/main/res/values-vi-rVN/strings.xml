@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Lịch sử tìm kiếm</string>
     <string name="search_history_clear_description">Xóa lịch sử tìm kiếm</string>
     <string name="revert">Khôi phục</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Phiên bản OS</string>
     <string name="pull_to_enter_private">Kéo xuống để vào không gian riêng tư</string>
     <string name="release_enter_private">Thả ra để vào không gian riêng tư</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Chọn tất cả</string>
     <string name="miuix_appcompat_cancel_description">Hủy</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Tìm kiếm</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Xem thêm</string>
     <string name="miuix_appcompat_action_mode_inverse">Đảo ngược</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Mẹo</string>
     <string name="root">Một số tính năng không khả dụng nếu không có quyền Root/Su</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">Ứng dụng mục tiêu không chạy và không cần phải khởi động lại.</string>
     <string name="reboot_failed">Khởi động lại không thành công. Vui lòng kiểm tra xem HyperCeiler đã được cấp quyền Root/Su chưa.</string>
     <string name="experimental_features">Tính năng thử nghiệm</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Lỗi</string>
     <string name="warn">Cảnh báo</string>
@@ -90,7 +86,7 @@
     <string name="notification_view">Xem</string>
     <string name="tip_default">Mẹo: Đây là mẹo mặc định. Nếu bạn có thể nhìn thấy tôi, điều đó có nghĩa là có vấn đề với HyperCeiler. Vui lòng báo cáo cho nhà phát triển kịp thời và hiệu quả.</string>
     <string name="headtip_warn_not_offical_rom">Nguồn ROM bạn đang sử dụng có thể không phải là ROM chính thức của Xiaomi và một số tính năng có thể không hoạt động. Vui lòng liên hệ với nhà cung cấp của bạn để biết thêm chi tiết.</string>
-    <string name="headtip_warn_unsupport_xposed">Khung Xposed bạn đang sử dụng có thể khiến một số tính năng bị trục trặc. Nếu bạn gặp phải những sự cố này, hãy thử sử dụng phiên bản khác của khung Xposed và kiểm tra xem sự cố có còn tiếp diễn không.</string>
+    <string name="headtip_warn_unsupport_xposed">1$s đang sử dụng API Xposed %2$d, nhưng HyperCeiler yêu cầu API %3$d trở lên. Các tính năng của mô-đun đã bị tắt. Nhấn để xem chi tiết.</string>
     <string name="headtip_warn_unsupport_sysver">Thiết bị hiện tại đang chạy trên phiên bản hệ thống chưa được điều chỉnh (hoàn toàn), điều này có thể dẫn đến những bất thường trong chức năng của HyperCeiler.</string>
     <string name="headtip_warn_sign_verification_failed">Xác minh chữ ký không thành công và phiên bản hiện tại bạn đang sử dụng có thể không phải là phiên bản chính thức của HyperCeiler và có thể chứa mã độc hại.</string>
     <string name="headtip_tip_auto_safe_mode">Chế độ an toàn có thể gỡ bỏ một số ứng dụng kịp thời khi chúng bị sập nhiều lần để đảm bảo an toàn. Tính năng này yêu cầu phạm vi hook của System Framework để chạy. Chúng tôi đặc biệt khuyên bạn nên kiểm tra phạm vi System Framework để bật Chế độ an toàn.</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Tính năng này không được hỗ trợ trong phiên bản hệ thống hiện tại</string>
     <string name="supported_system_func">Chức năng này được hỗ trợ chính thức bởi phiên bản hệ thống hiện tại</string>
     <string name="feature_doing_func">Chức năng hiện tại đang được tạo ra, vui lòng chờ</string>
-
     <!--System UI-->
     <string name="system_ui">Giao diện hệ thống</string>
-
     <!--System launcher-->
     <string name="mihome">Trình khởi chạy hệ thống</string>
-
     <!--Settings-->
     <string name="system_settings">Cài đặt</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Bảo mật</string>
-
     <!--Other-->
     <string name="exit">Thoát</string>
     <string name="ignore">Bỏ qua</string>
@@ -137,7 +128,6 @@
     <string name="debug_mode_switch">Phiên bản gỡ lỗi</string>
     <string name="debug_mode_home_version">Đặt mã phiên bản gốc</string>
     <string name="debug_mode_home_version_desc">Số phiên bản quá cao vẫn sẽ bị chặn, vì vậy hãy điền cẩn thận.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Tìm kiếm log</string>
     <string name="log_level_label">Mức độ</string>
@@ -150,7 +140,7 @@
     <string name="log_menu_export">Xuất log</string>
     <string name="log_menu_share">Chia sẻ log</string>
     <string name="log_clear_title">Xoá log</string>
-    <string name="log_clear_all_message">Bạn có chắc chắn muốn xóa tất cả nhật ký, bao gồm cả nhật ký ứng dụng và nhật ký Xposed không? Thao tác này không thể đảo ngược.</string>
+    <string name="log_clear_all_message">Bạn có chắc chắn muốn xóa tất cả nhật ký không? Thao tác này sẽ xóa nhật ký ứng dụng, cơ sở dữ liệu nhật ký Xposed đã đồng bộ hóa và nhật ký sự cố. Nhật ký nguồn Xposed sẽ được đồng bộ hóa lại vào lần khởi chạy ứng dụng tiếp theo.</string>
     <string name="log_clear_success">Log đã xoá</string>
     <string name="log_clear_failed">Xoá log thất bại</string>
     <string name="log_clear_in_progress">Đang xoá log…</string>
@@ -163,15 +153,32 @@
     <string name="log_share_text">Tệp log HyperCeiler</string>
     <string name="log_copy">Sao chép</string>
     <string name="log_copy_success">Log đã được sao chép vào clipboard</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Log chi tiết</string>
     <string name="log_detail_time">Thời gian</string>
     <string name="log_detail_level">Mức độ</string>
     <string name="log_detail_tag">Nhãn</string>
     <string name="log_detail_message">Chi tiết</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Đang tải log…</string>
     <string name="log_viewer">Xem log</string>
+    <string name="safe_mode_banner_title">Chế độ an toàn đang hoạt động</string>
+    <string name="safe_mode_banner_desc">Do nhiều sự cố xảy ra, các chức năng liên quan của %1$s đã tạm thời bị vô hiệu hóa khi Chế độ an toàn hoạt động. Nhấp vào đây để tiếp tục.</string>
+    <string name="headtip_warn_framework_service_error">HyperCeiler không thể đọc thông tin khung hiện tại từ XposedService. Các tính năng của mô-đun đã bị vô hiệu hóa vì lý do an toàn. Nhấn để xem chi tiết.</string>
+    <string name="log_level_general">Nhật ký chung</string>
+    <string name="log_level_detailed">Nhật ký chi tiết</string>
+    <string name="help_framework_warning_title">Khả năng tương thích khung hiện tại</string>
+    <string name="help_framework_warning_unknown_framework">Khung hiện tại</string>
+    <string name="help_framework_warning_card_compatible">Khung phần mềm hiện tại đáp ứng các yêu cầu thời gian chạy của HyperCeiler. Không phát hiện thấy lỗi tải Hook bất thường nào.</string>
+    <string name="help_framework_warning_card_incompatible">Khung phần mềm hiện tại không đáp ứng các yêu cầu thời gian chạy của HyperCeiler. Quá trình tải hook đã bị dừng. Vui lòng chuyển sang một khung phần mềm tương thích khác và thử lại.</string>
+    <string name="help_framework_warning_card_service_error">Không thể đọc thông tin khung hiện tại từ XposedService. Quá trình tải hook đã bị dừng vì lý do an toàn. Vui lòng kiểm tra trạng thái khung và thử lại.</string>
+    <string name="help_framework_warning_card_pending">HyperCeiler chưa đọc được thông tin khung phần mềm hiện tại từ XposedService, do đó, hiện tại chưa thể xác nhận khả năng tương thích.</string>
+    <string name="help_framework_warning_section_framework_version">Phiên bản khung hiện tại:</string>
+    <string name="help_framework_warning_section_banner_reason">Tại sao trang chủ lại hiển thị cảnh báo?</string>
+    <string name="help_framework_warning_banner_reason">Cảnh báo trên trang chủ chỉ xuất hiện khi HyperCeiler phát hiện ra rằng framework hiện tại không đáp ứng các yêu cầu tối thiểu về thời gian chạy, hoặc XposedService không thể trả về thông tin framework một cách bình thường. Để tránh sự không ổn định do việc tải Hook bất thường gây ra, HyperCeiler sẽ dừng tải Hook cùng lúc đó.</string>
+    <string name="help_framework_warning_version_unavailable">Không thể đọc thông tin phiên bản framework hiện tại từ XposedService.</string>
+    <string name="log_menu_filter">Lọc nhật ký</string>
+    <string name="log_empty_no_logs">Chưa có nhật ký nào</string>
+    <string name="log_empty_no_results">Không tìm thấy nhật ký phù hợp</string>
+    <string name="log_empty_root_required">Cấp quyền Root và khởi động lại ứng dụng để tải nhật ký</string>
 </resources>

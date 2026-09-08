@@ -94,4 +94,25 @@
     <string name="system_notifrowmenu_appinfo">Uygulama bilgisi</string>
     <string name="system_notifrowmenu_openinfw">Kayan pencere</string>
     <string name="system_notifrowmenu_forceclose">Kapatmaya zorla</string>
+    <string name="system_ui_statusbar_music_share">Şarkı sözlerini paylaş</string>
+    <string name="system_ui_statusbar_music_send">Göndermeye hazır</string>
+    <string name="system_ui_statusbar_music_send_share_text">%1$s den şu şarkı sözlerini paylaştım:\n%2$s</string>
+    <string name="media_control_ground_mode_1">Kapak resmi</string>
+    <string name="media_control_ground_mode_2">Bulanık kapak</string>
+    <string name="media_control_ground_mode_3">Radyal gradyan</string>
+    <string name="media_control_ground_mode_4">Doğtusal gradyan</string>
+    <string name="media_control_album_mode_1">Kaynak tanımlayıcısını gizle</string>
+    <string name="media_control_album_mode_2">Görünmez</string>
+    <string name="media_control_button_mode_1">Özel düğme en sağda yer alıyor</string>
+    <string name="media_control_button_mode_2">Oynat düğmesi en solda</string>
+    <string name="notes_unlock_ai_mode_1">Eski sürüm</string>
+    <string name="notes_unlock_ai_mode_2">Yeni sürüm</string>
+    <string name="mode_phone">Telefon</string>
+    <string name="mode_pad">Pad</string>
+    <string name="misound_bluetooth_type_none">Orijinal</string>
+    <string name="misound_bluetooth_type_dolby">Dolby Atmos</string>
+    <string name="misound_bluetooth_type_misound">Mi Sound</string>
+    <string name="misound_bluetooth_type_keep">Mevcut durumu koru</string>
+    <string name="media_control_ground_mode_5">Material bulanıklık</string>
+    <string name="system_framework_guided_access_tile">QS karo girişi</string>
 </resources>

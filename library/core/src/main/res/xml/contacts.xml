@@ -27,6 +27,11 @@
             android:key="prefs_key_contacts_disable_offline_info_manager"
             android:title="@string/contacts_disable_offline_info_manager" />
 
+        <SwitchPreference
+            android:key="prefs_key_contacts_business_hall_ad_block"
+            android:title="@string/contacts_business_hall_ad_block"
+            android:summary="@string/contacts_business_hall_ad_block_desc" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

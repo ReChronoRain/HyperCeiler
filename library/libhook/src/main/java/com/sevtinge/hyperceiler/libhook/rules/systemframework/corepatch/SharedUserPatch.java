@@ -3,13 +3,19 @@ package com.sevtinge.hyperceiler.libhook.rules.systemframework.corepatch;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.deoptimizeMethods;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findClassIfExists;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.findField;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getIntField;
+import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setIntField;
 
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.callback.IMethodHook;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
@@ -29,7 +35,15 @@ public class SharedUserPatch extends CorePatchHelper {
 
             // https://cs.android.com/android/platform/superproject/+/android-14.0.0_r60:frameworks/base/services/core/java/com/android/server/pm/ReconcilePackageUtils.java;l=61;bpv=1;bpt=0
             if (CorePatchHelper.isSharedUserEnabled()) {
-                setStaticBooleanField(utilClass, "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS", true);
+                try {
+                    var field = findField(utilClass, "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS");
+                    int accessFlags = (int) getIntField(field, "accessFlags");
+
+                    setIntField(field, "accessFlags", accessFlags & ~Modifier.FINAL);
+                    field.set(null, true);
+                } catch (Throwable e) {
+                    XposedLog.e(TAG, "system", "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS failed" + Log.getStackTraceString(e));
+                }
             }
         } catch (Throwable t) {
             XposedLog.e(TAG, "system", "Android 14+ hook failed, crash: " + t);
@@ -55,6 +69,7 @@ public class SharedUserPatch extends CorePatchHelper {
             var utilClass = findClass("com.android.server.pm.PackageManagerServiceUtils", lpparam.getClassLoader());
             if (utilClass != null) {
                 deoptimizeMethods(utilClass, "verifySignatures");
+                hookVerifySignatures(utilClass);
             }
 
             // choose a signature after all old signed packages are removed
@@ -186,5 +201,21 @@ public class SharedUserPatch extends CorePatchHelper {
             return EzxHelpUtils.callMethod(self, "mergeLineageWith", other, 2 /*MERGE_RESTRICTED_CAPABILITY*/);
         }
         return EzxHelpUtils.callMethod(self, "mergeLineageWith", other);
+    }
+
+    private void hookVerifySignatures(Class<?> utilClass) {
+        for (Method method : utilClass.getDeclaredMethods()) {
+            if (!"verifySignatures".equals(method.getName()) || method.getReturnType() != Boolean.TYPE) {
+                continue;
+            }
+            EzxHelpUtils.hookMethod(method, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    if (CorePatchHelper.isFeatureEnabled(CorePatchHelper.PREF_AUTH_CREAK, false)) {
+                        param.setResult(false);
+                    }
+                }
+            });
+        }
     }
 }

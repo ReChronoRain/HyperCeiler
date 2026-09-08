@@ -37,8 +37,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class AllowDownloadMore extends BaseHook {
     private Class<?> mDownloadCounterClass;
     private Method mDownloadListMethod;

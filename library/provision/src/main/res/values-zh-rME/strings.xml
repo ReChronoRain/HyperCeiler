@@ -17,4 +17,10 @@
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   --><resources>
-    </resources>
+    <string name="provision_back_description">回去</string>
+    <string name="provision_start_content_description">启动</string>
+    <string name="provision_back">回去</string>
+    <string name="provision_next">看看后面有什么</string>
+    <string name="provision_skip_underline">我不喜欢这个</string>
+    <string name="provision_agree_and_next">👴准许了</string>
+</resources>

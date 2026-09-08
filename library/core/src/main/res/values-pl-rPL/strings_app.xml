@@ -1321,7 +1321,6 @@
     <!--AI Translate-->
     <string name="aiasst">Tłumacz SI</string>
     <string name="aiasst_ai_captions">Wymuś włączone napisy SI</string>
-    <string name="aiasst_all_captions">Odblokuj wielojęzyczne napisy online</string>
     <!--Barrage-->
     <string name="barrage">Zapora</string>
     <string name="barrage_any_barrage">Zezwalaj na korzystanie z zapory we wszystkich aplikacjach</string>

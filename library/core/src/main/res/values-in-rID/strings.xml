@@ -68,4 +68,8 @@
     <string name="app_error_desc">HyperCeiler tiba-tiba tertutup. Untuk membantu kami memperbaiki masalah ini, berikan informasi berikut:\n\nTekan dan tahan pesan apa pun untuk menyalin semuanya.</string>
     <string name="safe_mode_cancel">Nonaktifkan mode aman</string>
     <string name="safe_mode_ok">Batal</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Mulai ulang</string>
+    <string name="navigation_restart_confirm_message">Apakah Anda ingin memulai ulang %1$s dan %2$s sekarang?</string>
+    <string name="navigation_restart_confirm_ok">Mulai ulang sekarang</string>
 </resources>

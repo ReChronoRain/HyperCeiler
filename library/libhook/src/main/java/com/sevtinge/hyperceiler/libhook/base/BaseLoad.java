@@ -21,13 +21,18 @@ package com.sevtinge.hyperceiler.libhook.base;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
+import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.function.BooleanSupplier;
 
 import io.github.libxposed.api.XposedInterface;
@@ -54,6 +59,10 @@ public abstract class BaseLoad {
     private static volatile String sCurrentHookTag = "BaseLoad";
     public static ResourcesTool mResHook;
     private boolean mDexKitSessionPrepared = false;
+    private final List<BaseHook> mPendingDexKitHooks = new ArrayList<>();
+
+    private record DexKitInitResult(BaseHook hook, boolean shouldInit, Throwable error) {
+    }
 
     /**
      * 初始化 Xposed 运行时入口。
@@ -121,6 +130,7 @@ public abstract class BaseLoad {
             sCurrentHookTag = this.getClass().getSimpleName();
             mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
             mDexKitSessionPrepared = false;
+            mPendingDexKitHooks.clear();
         }
 
         loadModuleResources();
@@ -141,6 +151,7 @@ public abstract class BaseLoad {
             sCurrentHookTag = this.getClass().getSimpleName();
             mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
             mDexKitSessionPrepared = false;
+            mPendingDexKitHooks.clear();
         }
 
         loadModuleResources();
@@ -167,7 +178,11 @@ public abstract class BaseLoad {
         try {
             onPackageLoaded();
         } finally {
-            closeDexKitSession();
+            try {
+                flushPendingDexKitHooks();
+            } finally {
+                closeDexKitSession();
+            }
         }
     }
 
@@ -187,40 +202,106 @@ public abstract class BaseLoad {
     }
 
     protected void initHook(BaseHook hook) {
-        initHook(hook, () -> true);
+        try {
+            initHookInternal(hook, true);
+        } catch (Throwable t) {
+            logHookFailure(hook, t);
+        }
     }
 
     protected void initHook(BaseHook hook, boolean isInit) {
-        initHook(hook, () -> isInit);
+        try {
+            initHookInternal(hook, isInit);
+        } catch (Throwable t) {
+            logHookFailure(hook, t);
+        }
     }
 
     protected void initHook(BaseHook hook, BooleanSupplier condition) {
         if (hook == null) return;
 
         try {
-            if (condition.getAsBoolean()) {
-                if (hook.useDexKit() && !isSystemServer()) {
-                    prepareDexKitSession(hook.TAG);
-                    hook.setDexKitInitInProgress(true);
-                    try {
-                        if (!hook.initDexKit()) {
-                            XposedLog.w(hook.TAG, getPackageName(), "Skip hook because initDexKit returned false");
-                            return;
-                        }
-                    } catch (Throwable t) {
-                        XposedLog.e(hook.TAG, getPackageName(), "Skip hook because initDexKit failed", t);
-                        return;
-                    } finally {
-                        hook.setDexKitInitInProgress(false);
-                    }
-                }
-                hook.init();
-                XposedLog.i(hook.TAG, getPackageName(), "Hook Success");
+            if (!mPendingDexKitHooks.isEmpty()) {
+                flushPendingDexKitHooks();
             }
+            initHookInternal(hook, condition.getAsBoolean());
         } catch (Throwable t) {
-            StringWriter sw = new StringWriter();
-            t.printStackTrace(new PrintWriter(sw));
-            XposedLog.e(hook.TAG, getPackageName(), "Hook Failed: " + sw);
+            logHookFailure(hook, t);
         }
+    }
+
+    private void initHookInternal(BaseHook hook, boolean shouldInit) {
+        if (hook == null || !shouldInit) return;
+        if (hook.useDexKit() && !isSystemServer()) {
+            prepareDexKitSession(hook.TAG);
+            mPendingDexKitHooks.add(hook);
+            return;
+        }
+        flushPendingDexKitHooks();
+        runHookInit(hook);
+    }
+
+    private void flushPendingDexKitHooks() {
+        if (mPendingDexKitHooks.isEmpty()) return;
+
+        List<BaseHook> pendingHooks = new ArrayList<>(mPendingDexKitHooks);
+        mPendingDexKitHooks.clear();
+
+        List<Future<DexKitInitResult>> futures = new ArrayList<>(pendingHooks.size());
+        for (BaseHook hook : pendingHooks) {
+            futures.add(ThreadPoolManager.getInstance().submit(() -> runDexKitInit(hook)));
+        }
+
+        List<DexKitInitResult> results = new ArrayList<>(pendingHooks.size());
+        for (int i = 0; i < futures.size(); i++) {
+            BaseHook hook = pendingHooks.get(i);
+            try {
+                results.add(futures.get(i).get());
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                results.add(new DexKitInitResult(hook, false, e));
+            } catch (ExecutionException e) {
+                Throwable cause = e.getCause() != null ? e.getCause() : e;
+                results.add(new DexKitInitResult(hook, false, cause));
+            }
+        }
+
+        for (DexKitInitResult result : results) {
+            if (result.error != null) {
+                XposedLog.e(result.hook.TAG, getPackageName(), "Skip hook because initDexKit failed", result.error);
+                continue;
+            }
+            if (!result.shouldInit) {
+                XposedLog.w(result.hook.TAG, getPackageName(), "Skip hook because initDexKit returned false");
+                continue;
+            }
+            try {
+                runHookInit(result.hook);
+            } catch (Throwable t) {
+                logHookFailure(result.hook, t);
+            }
+        }
+    }
+
+    private DexKitInitResult runDexKitInit(BaseHook hook) {
+        hook.setDexKitInitInProgress(true);
+        try {
+            return new DexKitInitResult(hook, hook.initDexKit(), null);
+        } catch (Throwable t) {
+            return new DexKitInitResult(hook, false, t);
+        } finally {
+            hook.setDexKitInitInProgress(false);
+        }
+    }
+
+    private void runHookInit(BaseHook hook) {
+        hook.init();
+        XposedLog.i(hook.TAG, getPackageName(), "Hook Success");
+    }
+
+    private void logHookFailure(BaseHook hook, Throwable t) {
+        StringWriter sw = new StringWriter();
+        t.printStackTrace(new PrintWriter(sw));
+        XposedLog.e(hook.TAG, getPackageName(), "Hook Failed: " + sw);
     }
 }

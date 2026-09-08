@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.SpinnerAdapter;
@@ -87,13 +86,13 @@ public class SpinnerItemView extends ItemView {
             spinner.setClickable(false);
             spinner.setLongClickable(false);
             spinner.setContextClickable(false);
-            spinner.setOnSpinnerDismissListener(() -> Folme.useAt(new View[]{parent}).touch().touchUp());
+            spinner.setOnSpinnerDismissListener(() -> Folme.useAt(parent).touch().touchUp());
             parent.setOnTouchListener((v, event) -> {
                 if (spinner.isEnabled()) {
                     switch (event.getAction()) {
-                        case MotionEvent.ACTION_DOWN -> Folme.useAt(new View[]{v}).touch().setScale(1.0f).touchDown();
+                        case MotionEvent.ACTION_DOWN -> Folme.useAt(v).touch().setScale(1.0f).touchDown();
                         case MotionEvent.ACTION_UP -> spinner.performClick(event.getX(), event.getY());
-                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(new View[]{v}).touch().touchUp();
+                        case MotionEvent.ACTION_CANCEL -> Folme.useAt(v).touch().touchUp();
                     }
                     return true;
                 } else {

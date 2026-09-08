@@ -33,7 +33,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.sevtinge.hyperceiler.common.utils.AppLanguageHelper;
 import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
-import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.common.utils.PrefsConfigurator;
 import com.sevtinge.hyperceiler.provision.R;
 
@@ -46,7 +45,6 @@ public class BasicSettingsFragment extends PreferenceFragment {
     private static final String SCOPE_PICKER_EXTRA_INITIALIZATION_MODE = "initialization_mode";
     private static final String LAUNCHER_ACTIVITY_CLASS_NAME = "com.sevtinge.hyperceiler.ui.LauncherActivity";
     private static final String PREF_APP_LANGUAGE = "prefs_key_settings_app_language";
-    private static final String PREF_OOBE_LANGUAGE_SYNCED = "prefs_key_oobe_language_synced";
 
     private boolean mIsScrolledBottom = false;
 
@@ -79,6 +77,8 @@ public class BasicSettingsFragment extends PreferenceFragment {
         }
         if (mLanguagePreference != null) {
             mLanguagePreference.setPersistent(false);
+            mLanguagePreference.setEntries(AppLanguageHelper.getLanguageEntries(requireContext()));
+            mLanguagePreference.setEntryValues(AppLanguageHelper.getLanguageEntryValues());
         }
         if (mIconModePreference != null) {
             mIconModePreference.setPersistent(false);
@@ -103,10 +103,8 @@ public class BasicSettingsFragment extends PreferenceFragment {
             }
         });
 
-        ensureOobeLanguageInitialized();
-
         int mIconMode = AppSettingsStore.getIconIndex(requireContext());
-        int languageIndex = AppSettingsStore.getAppLanguageIndex(requireContext());
+        int languageIndex = AppLanguageHelper.getCurrentLanguageIndex(requireContext());
         int iconModeValue = AppSettingsStore.getIconModeIndex(requireContext());
         boolean hideAppIconEnabled = AppSettingsStore.isHideAppIconEnabled(requireContext());
         boolean scopeSyncEnabled = AppSettingsStore.isScopeSyncEnabled(requireContext());
@@ -162,7 +160,6 @@ public class BasicSettingsFragment extends PreferenceFragment {
         });
         mLanguagePreference.setOnPreferenceChangeListener((preference, newValue) -> {
             int index = Integer.parseInt((String) newValue);
-            AppSettingsStore.setAppLanguageIndex(requireContext(), index);
             AppLanguageHelper.setIndexLanguage(requireActivity(), index, true);
             return true;
         });
@@ -221,35 +218,6 @@ public class BasicSettingsFragment extends PreferenceFragment {
                 .invoke(null, requireContext());
         } catch (Exception ignored) {
         }
-    }
-
-    private void ensureOobeLanguageInitialized() {
-        if (PrefsBridge.getBoolean(PREF_OOBE_LANGUAGE_SYNCED, false)) {
-            return;
-        }
-
-        int deviceLanguageIndex = resolveDeviceLanguageIndex();
-        AppSettingsStore.setAppLanguageIndex(requireContext(), deviceLanguageIndex);
-        PrefsBridge.putByApp(PREF_OOBE_LANGUAGE_SYNCED, true);
-        AppLanguageHelper.setIndexLanguage(requireActivity(), deviceLanguageIndex, false);
-    }
-
-    private int resolveDeviceLanguageIndex() {
-        String deviceLanguage = AppLanguageHelper.getLanguage(requireContext());
-        int exactIndex = AppLanguageHelper.resultIndex(AppLanguageHelper.APP_LANGUAGES, deviceLanguage);
-        if (deviceLanguage.equals(AppLanguageHelper.APP_LANGUAGES[exactIndex])) {
-            return exactIndex;
-        }
-
-        int splitIndex = deviceLanguage.indexOf('_');
-        String languagePart = splitIndex > 0 ? deviceLanguage.substring(0, splitIndex) : deviceLanguage;
-        for (int i = 0; i < AppLanguageHelper.APP_LANGUAGES.length; i++) {
-            String candidate = AppLanguageHelper.APP_LANGUAGES[i];
-            if (candidate.equals(languagePart) || candidate.startsWith(languagePart + "_")) {
-                return i;
-            }
-        }
-        return 0;
     }
 
 }

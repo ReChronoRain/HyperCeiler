@@ -54,4 +54,8 @@
     <string name="ignore">Ignora</string>
     <string name="disable_suggest">Disabilita suggerimento</string>
     <string name="enable_suggest">Abilita suggerimento</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Riavvia</string>
+    <string name="navigation_restart_confirm_message">Vuoi riavviare %1$s e %2$s ora?</string>
+    <string name="navigation_restart_confirm_ok">Riavvia ora</string>
 </resources>

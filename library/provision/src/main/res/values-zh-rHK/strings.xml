@@ -65,5 +65,6 @@
     <string name="provision_basic_settings_icon_miui_13">背景鏤空樣式</string>
     <string name="provision_system_preparing">系統準備中</string>
     <string name="provision_system_complete">設定完畢</string>
+    <string name="provision_get_md_failed">## 獲取内容失敗。 \n - 您可前往[此處](%URL%)查看原始内容。 \n - 或嘗試[刷新](hyperceiler://refresh)此頁。</string>
     <string name="provision_scope_open_failed">無法打開作用域頁面</string>
 </resources>

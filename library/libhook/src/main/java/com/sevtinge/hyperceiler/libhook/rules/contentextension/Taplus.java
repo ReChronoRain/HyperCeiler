@@ -35,8 +35,6 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class Taplus extends BaseHook {
     public boolean mListening = false;
 

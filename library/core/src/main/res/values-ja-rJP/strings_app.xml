@@ -1426,7 +1426,6 @@
     <!--AI Translate-->
     <string name="aiasst">AI 翻訳</string>
     <string name="aiasst_ai_captions">AI キャプションを強制的に有効化</string>
-    <string name="aiasst_all_captions">多言語オンライン字幕をアンロック</string>
     <string name="aiasst_unlock_split_screen_translation">分割画面翻訳のロックを解除</string>
     <!--Barrage-->
     <string name="barrage">Barrage</string>

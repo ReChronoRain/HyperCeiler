@@ -42,6 +42,7 @@ import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 import io.github.libxposed.api.XposedInterface;
 
 public class RotationButton extends BaseHook {
+    private static final ThreadLocal<Boolean> sForceAttachedToWindow = new ThreadLocal<>();
     boolean isListen = false;
     boolean enable = PrefsBridge.getStringAsInt("system_framework_other_rotation_button_int", 0) != 1;
 
@@ -138,24 +139,26 @@ public class RotationButton extends BaseHook {
                 }
             );
 
-            findAndHookMethod("com.android.systemui.navigationbar.NavigationBar",
-                "onRotationProposal", int.class, boolean.class,
-                new IMethodHook() {
-                    XposedInterface.HookHandle unhook;
-
-                    @Override
-                    public void before(HookParam param) {
-                        if (!enable) {
-                            param.setResult(null);
-                            return;
-                        }
-                        unhook = findAndHookMethod(View.class, "isAttachedToWindow",
-                            returnConstant(true));
+            findAndChainMethod(View.class, "isAttachedToWindow",
+                chain -> {
+                    if (Boolean.TRUE.equals(sForceAttachedToWindow.get())) {
+                        return true;
                     }
+                    return chain.proceed();
+                }
+            );
 
-                    @Override
-                    public void after(HookParam param) {
-                        if (unhook != null) unhook.unhook();
+            findAndChainMethod("com.android.systemui.navigationbar.NavigationBar",
+                "onRotationProposal", int.class, boolean.class,
+                (XposedInterface.Hooker) chain -> {
+                    if (!enable) {
+                        return null;
+                    }
+                    sForceAttachedToWindow.set(true);
+                    try {
+                        return chain.proceed();
+                    } finally {
+                        sForceAttachedToWindow.remove();
                     }
                 }
             );

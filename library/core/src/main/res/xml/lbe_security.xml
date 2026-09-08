@@ -27,4 +27,34 @@
             android:title="@string/lbe_auto_start" />
 
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/lbe_paste_toast">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_lbe_paste_toast_custom"
+            android:title="@string/lbe_paste_toast_custom" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="prefs_key_lbe_paste_toast_custom"
+            android:key="prefs_key_lbe_paste_toast_custom_toast_opacity"
+            android:title="@string/lbe_paste_toast_custom_toast_opacity"
+            app:format="%%%"
+            app:maxValue="100"
+            app:minValue="0"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="prefs_key_lbe_paste_toast_custom"
+            android:key="prefs_key_lbe_paste_toast_custom_close_button_to_close"
+            android:title="@string/lbe_paste_toast_custom_close_button_to_close" />
+
+        <EditTextPreference
+            android:dependency="prefs_key_lbe_paste_toast_custom"
+            android:summary="@string/lbe_paste_toast_custom_close_button_text_tip"
+            android:defaultValue=""
+            android:key="prefs_key_lbe_paste_toast_custom_close_button_text_custom"
+            android:title="@string/lbe_paste_toast_custom_close_button_text_custom" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

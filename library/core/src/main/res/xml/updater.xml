@@ -54,6 +54,12 @@
 
         <EditTextPreference
             android:dependency="prefs_key_updater_enable_miui_version"
+            android:key="prefs_key_various_updater_xms_version"
+            android:summary="@string/updater_xms_version_desc"
+            android:title="@string/updater_xms_version" />
+
+        <EditTextPreference
+            android:dependency="prefs_key_updater_enable_miui_version"
             android:key="prefs_key_various_updater_miui_version"
             android:summary="@string/updater_miui_version_desc"
             android:title="@string/updater_miui_version" />

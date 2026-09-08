@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Historico de pesquisa</string>
     <string name="search_history_clear_description">Limpar historico de pesquisa</string>
     <string name="revert">Reverter</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Versao do SO</string>
     <string name="pull_to_enter_private">Puxe para baixo para entrar no espaço privado</string>
     <string name="release_enter_private">Solte para entrar no espaço privado</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Selecionar todos</string>
     <string name="miuix_appcompat_cancel_description">Cancelar</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Pesquisar</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Mais</string>
     <string name="miuix_appcompat_action_mode_inverse">Desmarcar todos</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Dica</string>
     <string name="root">Alguns recursos não estão disponíveis sem permissão Root/Su</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">O app de destino não está em execução e não precisa ser reiniciado.</string>
     <string name="reboot_failed">Falha ao reiniciar. Por favor, verifique se o HyperCeiler recebeu permissões Root/Su.</string>
     <string name="experimental_features">Recursos experimentais</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Erro</string>
     <string name="warn">Atenção!</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Este recurso não é suportado na versão atual do sistema</string>
     <string name="supported_system_func">Este recurso é oficialmente suportado na versão atual do sistema</string>
     <string name="feature_doing_func">O recurso atual está em desenvolvimento, fique ligado.</string>
-
     <!--System UI-->
     <string name="system_ui">UI do Sistema</string>
-
     <!--System launcher-->
     <string name="mihome">Launcher do sistema</string>
-
     <!--Settings-->
     <string name="system_settings">Configurações</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Segurança</string>
-
     <!--Other-->
     <string name="exit">Sair</string>
     <string name="ignore">Ignorar</string>
@@ -137,7 +128,6 @@
     <string name="debug_mode_switch">Versao de depuracao</string>
     <string name="debug_mode_home_version">Definir codigo da versao da tela inicial</string>
     <string name="debug_mode_home_version_desc">Um numero de versao muito alto ainda sera bloqueado, portanto preencha com cuidado.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Pesquisar logs</string>
     <string name="log_level_label">Nivel</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">Arquivo de log do HyperCeiler</string>
     <string name="log_copy">Copiar</string>
     <string name="log_copy_success">Logs copiados para a area de transferencia</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Detalhes do log</string>
     <string name="log_detail_time">Horario</string>
     <string name="log_detail_level">Nivel</string>
     <string name="log_detail_tag">Tag</string>
     <string name="log_detail_message">Detalhes</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Carregando logs…</string>
     <string name="log_viewer">Visualizador de logs</string>

@@ -35,8 +35,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class FuckDetection extends BaseHook {
     private Method mGetPackageVersionName;
 

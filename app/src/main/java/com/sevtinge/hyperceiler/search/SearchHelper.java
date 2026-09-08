@@ -1,8 +1,5 @@
 package com.sevtinge.hyperceiler.search;
 
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.APP_LANGUAGES;
-import static com.sevtinge.hyperceiler.utils.LanguageHelper.localeFromAppLanguage;
-
 import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -15,7 +12,6 @@ import androidx.preference.PreferenceGroup;
 import androidx.preference.PreferenceScreen;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.common.utils.AppSettingsStore;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
@@ -24,6 +20,7 @@ import com.sevtinge.hyperceiler.prefs.PreferenceHeader;
 import com.sevtinge.hyperceiler.search.data.AppDatabase;
 import com.sevtinge.hyperceiler.search.data.ModDao;
 import com.sevtinge.hyperceiler.search.data.ModEntity;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -33,7 +30,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -226,13 +222,10 @@ public class SearchHelper {
         GROUP_PACKAGE_MAP.clear();
         GROUP_ICON_MAP.clear();
     }
-    private static Resources getLocaleResources(Context context) {
-        int selectedLang = AppSettingsStore.getAppLanguageIndex(context);
-        if (selectedLang < 0 || selectedLang >= APP_LANGUAGES.length) selectedLang = 0;
-        Locale locale = localeFromAppLanguage(APP_LANGUAGES[selectedLang]);
 
+    private static Resources getLocaleResources(Context context) {
         Configuration config = new Configuration(context.getResources().getConfiguration());
-        config.setLocale(locale);
+        config.setLocale(LanguageHelper.getCurrentLocale(context));
         return context.createConfigurationContext(config).getResources();
     }
 

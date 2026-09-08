@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Historial de busqueda</string>
     <string name="search_history_clear_description">Borrar historial de busqueda</string>
     <string name="revert">Restaurar</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Version del SO</string>
     <string name="pull_to_enter_private">Desliza hacia abajo para entrar al espacio privado</string>
     <string name="release_enter_private">Suelta para entrar al espacio privado</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Seleccionar todo</string>
     <string name="miuix_appcompat_cancel_description">Cancelar</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Buscar</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Más</string>
     <string name="miuix_appcompat_action_mode_inverse">Inverso</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Sugerencia</string>
     <string name="root">Algunas características no están disponibles sin permiso de Root/Su</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">La aplicación de destino no se está ejecutando y no necesita ser reiniciada.</string>
     <string name="reboot_failed">No puede reiniciarse, por favor comprueba si HyperCeiler ha obtenido permisos de Root/Su?</string>
     <string name="experimental_features">Funciones experimentales</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Error</string>
     <string name="warn">Atención</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Esta funcion no es compatible con la version actual del sistema</string>
     <string name="supported_system_func">Esta funcion es compatible oficialmente con la version actual del sistema</string>
     <string name="feature_doing_func">Esta funcion esta en desarrollo, mantente atento.</string>
-
     <!--System UI-->
     <string name="system_ui">Interfaz del sistema</string>
-
     <!--System launcher-->
     <string name="mihome">Lanzador del sistema</string>
-
     <!--Settings-->
     <string name="system_settings">Ajustes</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Herramientas de seguridad</string>
-
     <!--Other-->
     <string name="exit">Salir</string>
     <string name="ignore">Ignorar</string>
@@ -130,14 +121,13 @@
     <string name="logo_egg3">Aqui no hay Android eggs, pero si hay HyperCeiler eggs.</string>
     <string name="uninstall_title">Desinstalar HyperCeiler</string>
     <string name="uninstall_summary">Despues de desinstalar HyperCeiler, la configuracion del modulo permanece en la base de datos del framework Xposed. Para eliminarla por completo, ve primero a la configuracion del modulo y restablecela, y luego desinstala la aplicacion.</string>
-    <string name="unsupported_func_tips">Es posible que la fuente del alcance actual no sea oficial de Xiaomi. Por motivos de seguridad, todas las funciones de este alcance se han desactivado. Prueba a cambiar a un paquete de aplicacion publicado por Xiaomi, o ve a &quot;Ajustes de HyperCeiler - Opciones de desarrollador - Modo de depuracion&quot; para indicar la version montada y volver a intentarlo.</string>
+    <string name="unsupported_func_tips">Es posible que la fuente del alcance actual no sea oficial de Xiaomi. Por motivos de seguridad, todas las funciones de este alcance se han desactivado. Prueba a cambiar a un paquete de aplicacion publicado por Xiaomi, o ve a "Ajustes de HyperCeiler - Opciones de desarrollador - Modo de depuracion" para indicar la version montada y volver a intentarlo.</string>
     <string name="debug_mode">Modo de depuracion</string>
     <string name="open_debug_mode_tips">Esta opcion solo se usa para gestionar correctamente la version montada de la aplicacion de destino y debe utilizarse solo cuando sea necesario.\nPara la aplicacion que se esta depurando no se puede garantizar el funcionamiento. Si habilitas esta opcion, **no informes** al desarrollador de los problemas de esa aplicacion de destino.</string>
     <string name="debug_mode_running">El alcance de destino actual esta en modo de depuracion. Si no es necesario, desactivalo.\nVersion actual de la aplicacion: %1$s\nVersion de destino seleccionada: %2$s\nHook aplicado correctamente: %3$s</string>
     <string name="debug_mode_switch">Version de depuracion</string>
     <string name="debug_mode_home_version">Establecer codigo de version del launcher</string>
     <string name="debug_mode_home_version_desc">Un numero de version demasiado alto seguira siendo bloqueado, asi que rellenalo con cuidado.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Buscar en los logs</string>
     <string name="log_level_label">Nivel</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">Archivo de log de HyperCeiler</string>
     <string name="log_copy">Copiar</string>
     <string name="log_copy_success">Logs copiados al portapapeles</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Detalles del log</string>
     <string name="log_detail_time">Hora</string>
     <string name="log_detail_level">Nivel</string>
     <string name="log_detail_tag">Etiqueta</string>
     <string name="log_detail_message">Detalles</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Cargando logs…</string>
     <string name="log_viewer">Visor de logs</string>

@@ -85,4 +85,8 @@
     <string name="ignore">Ігнорувати</string>
     <string name="disable_suggest">Вимкнути пропозиції</string>
     <string name="enable_suggest">Увімкнути пропозиції</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Перезавантажити</string>
+    <string name="navigation_restart_confirm_message">Ви хочете перезапустити %1$s та %2$s зараз?</string>
+    <string name="navigation_restart_confirm_ok">Перезапустити зараз</string>
 </resources>

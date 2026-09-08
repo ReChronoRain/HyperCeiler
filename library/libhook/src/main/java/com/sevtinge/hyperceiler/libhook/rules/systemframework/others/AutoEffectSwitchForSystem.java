@@ -396,7 +396,7 @@ public class AutoEffectSwitchForSystem extends BaseHook {
         intentFilter.addAction(BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(BluetoothLeAudio.ACTION_LE_AUDIO_CONNECTION_STATE_CHANGED);
         intentFilter.addAction(AudioManager.ACTION_HEADSET_PLUG);
-        mContext.registerReceiver(new EarphoneBroadcastReceiver(this), intentFilter);
+        mContext.registerReceiver(new EarphoneBroadcastReceiver(this), intentFilter, Context.RECEIVER_EXPORTED);
         XposedLog.d(TAG, "Earphone broadcast receiver registered");
     }
 

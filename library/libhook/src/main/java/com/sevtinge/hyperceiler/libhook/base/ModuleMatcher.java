@@ -171,15 +171,13 @@ public class ModuleMatcher {
     private boolean matchSdkVersion(DataBase data) {
         int currentSdk = getAndroidVersion();
         if (data.minSdk != -1 && currentSdk < data.minSdk) return false;
-        if (data.maxSdk != -1 && currentSdk > data.maxSdk) return false;
-        return true;
+        return data.maxSdk == -1 || currentSdk <= data.maxSdk;
     }
 
     private boolean matchOSVersion(DataBase data) {
         float currentOS = getHyperOSVersion();
         if (data.minOSVersion != -1F && currentOS < data.minOSVersion) return false;
-        if (data.maxOSVersion != -1F && currentOS > data.maxOSVersion) return false;
-        return true;
+        return data.maxOSVersion == -1F || !(currentOS > data.maxOSVersion);
     }
 
     private boolean matchDeviceType(DataBase data) {

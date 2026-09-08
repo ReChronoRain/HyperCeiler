@@ -35,6 +35,7 @@ import com.sevtinge.hyperceiler.dashboard.SettingsPreferenceFragment;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.utils.DialogHelper;
+import com.sevtinge.hyperceiler.utils.ScopeManager;
 
 import fan.appcompat.app.AlertDialog;
 import fan.provision.OobeUtils;
@@ -74,7 +75,7 @@ public class DevelopmentFragment extends SettingsPreferenceFragment implements P
                     showInDialog(command -> showOutDialog(rootExecCmd(command)));
             case "prefs_key_development_delete_all_dexkit_cache" ->
                     DialogHelper.showDialog(getActivity(), com.sevtinge.hyperceiler.core.R.string.warn, R.string.delete_all_dexkit_cache_desc, (dialog, which) -> {
-                        DexKit.deleteAllCache(requireActivity());
+                        DexKit.deleteAllCache(requireActivity(), ScopeManager.getScopeSync());
                         Toast.makeText(getActivity(), R.string.delete_all_dexkit_cache_success, Toast.LENGTH_LONG).show();
                     });
             case "prefs_key_development_fix_lsposed_log" -> {

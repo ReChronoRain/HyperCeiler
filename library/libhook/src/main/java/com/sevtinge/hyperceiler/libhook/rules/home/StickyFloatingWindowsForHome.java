@@ -18,7 +18,6 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home;
 
-import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,7 +34,6 @@ public class StickyFloatingWindowsForHome extends BaseHook {
     @Override
     public void init() {
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "onAttachedToWindow", new IMethodHook() {
-            @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
             public void after(HookParam param) {
                 Context mContext = (Context) callMethod(param.getThisObject(), "getContext");
@@ -51,7 +49,7 @@ public class StickyFloatingWindowsForHome extends BaseHook {
                             XposedLog.w(TAG, getPackageName(), t);
                         }
                     }
-                }, new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"));
+                }, new IntentFilter(ACTION_PREFIX + "dismissRecentsWhenFreeWindowOpen"), Context.RECEIVER_EXPORTED);
             }
         });
     }

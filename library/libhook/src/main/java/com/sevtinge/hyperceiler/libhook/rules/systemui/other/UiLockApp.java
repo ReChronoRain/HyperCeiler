@@ -145,8 +145,7 @@ public class UiLockApp extends BaseHook {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
                 Object result = chain.proceed();
-                if (chain.getThisObject() instanceof View) {
-                    View handleView = (View) chain.getThisObject();
+                if (chain.getThisObject() instanceof View handleView) {
                     registerGestureHandleView(handleView);
                 }
                 return result;
@@ -156,8 +155,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "setVisibility", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
@@ -169,8 +167,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "setAlpha", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 Object[] args = chain.getArgs().toArray();
@@ -182,8 +179,7 @@ public class UiLockApp extends BaseHook {
         chainAllMethods(gestureHandleClass, "onDraw", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                if (!(chain.getThisObject() instanceof View)) return chain.proceed();
-                View handleView = (View) chain.getThisObject();
+                if (!(chain.getThisObject() instanceof View handleView)) return chain.proceed();
                 Context context = handleView.getContext();
                 if (context == null || getLockApp(context) == -1) return chain.proceed();
                 return null;

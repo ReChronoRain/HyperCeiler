@@ -96,5 +96,9 @@
     <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions of this scope have been disabled. Please try switching to an app package released by official Xiaomi, or go to "HyperCeiler Settings - Developer options - Debug mode" to specify the mounted version and try again.</string>
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>
     <string name="debug_mode_switch">Debug version</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Restart</string>
+    <string name="navigation_restart_confirm_message">Do you want to restart %1$s and %2$s now?</string>
+    <string name="navigation_restart_confirm_ok">Restart now</string>
 
 </resources>

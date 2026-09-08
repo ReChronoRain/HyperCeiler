@@ -75,7 +75,7 @@ public class ScreenSwipe extends BaseHook {
                     Context context = ((ViewGroup) param.getThisObject()).getContext();
 
                     String key = getGestureKey(gestureType, fingerCount);
-                    if (key != null && GlobalActionBridge.handleAction(context, key)) {
+                    if (GlobalActionBridge.handleAction(context, key)) {
                         param.setResult(true);
                     }
                 }

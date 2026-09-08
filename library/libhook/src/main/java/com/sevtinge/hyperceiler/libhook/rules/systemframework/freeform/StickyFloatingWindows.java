@@ -22,7 +22,6 @@ import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.g
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.getSurroundingThis;
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.EzxHelpUtils.setAdditionalInstanceField;
 
-import android.annotation.SuppressLint;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -162,7 +161,6 @@ public class StickyFloatingWindows extends BaseHook {
         });
 
         findAndHookMethod("com.android.server.wm.ActivityTaskManagerService", "onSystemReady", new IMethodHook() {
-            @SuppressLint("UnspecifiedRegisterReceiverFlag")
             @Override
             public void after(HookParam param) {
                 Context mContext = (Context) getObjectField(param.getThisObject(), "mContext");
@@ -178,7 +176,7 @@ public class StickyFloatingWindows extends BaseHook {
                             setAdditionalInstanceField(param.getThisObject(), "skipFreeFormStateClear", true);
                         }
                     }
-                }, new IntentFilter("miui.intent.action_launch_fullscreen_from_freeform"));
+                }, new IntentFilter("miui.intent.action_launch_fullscreen_from_freeform"), Context.RECEIVER_EXPORTED);
 
                 IntentFilter mFilter = new IntentFilter();
                 mFilter.addAction(ACTION_PREFIX + "updateFwApps");
@@ -214,7 +212,7 @@ public class StickyFloatingWindows extends BaseHook {
                             }
                         }
                     }
-                }, mFilter);
+                }, mFilter, Context.RECEIVER_EXPORTED);
             }
         });
 

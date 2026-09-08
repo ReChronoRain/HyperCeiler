@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.home.Header;
 import com.sevtinge.hyperceiler.home.HomePageFragment;
+import com.sevtinge.hyperceiler.utils.LanguageHelper;
 import com.sevtinge.hyperceiler.utils.PackagesUtils;
 import com.sevtinge.hyperceiler.utils.ScopeManager;
 
@@ -308,6 +309,9 @@ public class HeaderManager {
 
         signature.append("scopeSync=").append(isScopeSyncEnabled()).append(';');
         signature.append("showGuide=").append(shouldShowCantSeeAppsGuide(context)).append(';');
+        if (context != null) {
+            signature.append("locale=").append(LanguageHelper.getCurrentLocale(context).toLanguageTag()).append(';');
+        }
 
         for (Header header : displayHeaders) {
             signature.append(getPackageName(header)).append(';');

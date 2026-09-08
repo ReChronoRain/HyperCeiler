@@ -154,6 +154,7 @@ jobs:
           commits = event.get("commits", [])
           compare_url = event.get("compare", "")
           caption_limit = 1024
+          branch_text = "Branch:\nHyperOS 3"
 
           def escape_code_block(text):
               return text.replace("\\", "\\\\").replace("`", "\\`")
@@ -161,12 +162,22 @@ jobs:
           def parse_commit(commit):
               msg = commit.get("message", "").strip() or "(empty commit message)"
 
-              authors = {commit.get("author", {}).get("name", "Unknown")}
+              authors = []
+              seen_authors = set()
+
+              def add_author(name):
+                  author = (name or "").strip() or "Unknown"
+                  if author not in seen_authors:
+                      seen_authors.add(author)
+                      authors.append(author)
+
+              add_author(commit.get("author", {}).get("name"))
+
               body_lines = []
               for line in msg.splitlines():
                   m = re.match(r"Co-authored-by:\s*(.+?)\s*<", line)
                   if m:
-                      authors.add(m.group(1))
+                      add_author(m.group(1))
                       continue
                   body_lines.append(line)
 
@@ -175,49 +186,116 @@ jobs:
                   (line.strip() for line in clean_msg.splitlines() if line.strip()),
                   "(empty commit message)",
               )
-              return clean_msg, title, ", ".join(sorted(authors))
+              return {
+                  "message": clean_msg,
+                  "title": title,
+                  "authors": authors,
+              }
 
           parsed_commits = [parse_commit(commit) for commit in commits]
 
-          def build_full_caption():
-              lines = ["New push to GitHub", "Branch: OS3"]
-              for clean_msg, _, authors in parsed_commits:
-                  block = escape_code_block(f"{clean_msg}\nby {authors}")
-                  lines.extend(["```", block, "```"])
+          def merge_contributors(commits):
+              contributors = []
+              seen = set()
+              for commit in commits:
+                  for author in commit["authors"]:
+                      if author in seen:
+                          continue
+                      seen.add(author)
+                      contributors.append(author)
+              return contributors
+
+          def build_commit_text(entries):
+              cleaned = [entry.strip() or "(empty commit message)" for entry in entries]
+              return "\n\n".join(cleaned) if cleaned else "No commit details available"
+
+          def build_code_block(text):
+              return f"```{escape_code_block(text)}```"
+
+          def build_multiline_code_block(text):
+              return f"```\n{escape_code_block(text)}```"
+
+          def build_caption(commit_entries, contributors_text):
+              lines = [
+                  "New push to GitHub",
+                  build_code_block(branch_text),
+                  "",
+                  "Commits:",
+                  build_multiline_code_block(build_commit_text(commit_entries)),
+                  "",
+                  f"Contributors: {build_code_block(contributors_text)}",
+              ]
               if compare_url:
                   lines.append(f"Details: [compare]({compare_url})")
               return "\n".join(lines).strip()
 
-          def build_title_only_caption():
-              footer = f"\nDetails: [compare]({compare_url})" if compare_url else ""
-              lines = ["New push to GitHub", "Branch: OS3"]
-
-              for index, (_, title, _) in enumerate(parsed_commits):
-                  candidate_lines = lines + ["```", escape_code_block(title), "```"]
-                  candidate = "\n".join(candidate_lines) + footer
-                  if len(candidate) <= caption_limit:
-                      lines = candidate_lines
+          def fit_commit_entries(entries, contributors_text):
+              included = []
+              for index, entry in enumerate(entries):
+                  candidate = included + [entry]
+                  if len(build_caption(candidate, contributors_text)) <= caption_limit:
+                      included = candidate
                       continue
 
-                  remaining = len(parsed_commits) - index
+                  remaining = len(entries) - index
                   summary = f"And {remaining} more commits"
-                  if len("\n".join(lines + [summary]) + footer) <= caption_limit:
-                      lines.append(summary)
+                  if len(build_caption(included + [summary], contributors_text)) <= caption_limit:
+                      return included + [summary]
+                  if len(build_caption([summary], contributors_text)) <= caption_limit:
+                      return [summary]
                   break
 
-              return ("\n".join(lines) + footer).strip()
+              return included or ["No commit details available"]
 
-          caption = build_full_caption()
+          def fit_contributors(contributors, commit_entries):
+              if not contributors:
+                  return "Unknown"
+
+              included = []
+              for index, contributor in enumerate(contributors):
+                  candidate = ", ".join(included + [contributor])
+                  if len(build_caption(commit_entries, candidate)) <= caption_limit:
+                      included.append(contributor)
+                      continue
+
+                  remaining = len(contributors) - index
+                  if included:
+                      summary = f"{', '.join(included)} and {remaining} more contributors"
+                  else:
+                      summary = f"{remaining} contributors"
+                  if len(build_caption(commit_entries, summary)) <= caption_limit:
+                      return summary
+                  break
+
+              return ", ".join(included) or "Unknown"
+
+          contributors = merge_contributors(parsed_commits)
+          contributors_text = ", ".join(contributors) or "Unknown"
+          full_commit_entries = [commit["message"] for commit in parsed_commits] or ["No commit details available"]
+
+          caption = build_caption(full_commit_entries, contributors_text)
           if len(caption) > caption_limit:
-              caption = build_title_only_caption()
+              title_entries = [commit["title"] for commit in parsed_commits] or ["No commit details available"]
+              title_entries = fit_commit_entries(title_entries, contributors_text)
+              caption = build_caption(title_entries, contributors_text)
+
+          if len(caption) > caption_limit:
+              title_entries = [commit["title"] for commit in parsed_commits] or ["No commit details available"]
+              title_entries = fit_commit_entries(title_entries, "Unknown")
+              contributors_text = fit_contributors(contributors, title_entries)
+              caption = build_caption(title_entries, contributors_text)
+
+          if len(caption) > caption_limit:
+              summary_entries = [f"And {len(parsed_commits)} commits pushed"] if parsed_commits else ["No commit details available"]
+              contributors_text = fit_contributors(contributors, summary_entries)
+              caption = build_caption(summary_entries, contributors_text)
 
           if len(caption) > caption_limit:
               caption = "\n".join(
                   line
                   for line in [
                       "New push to GitHub",
-                      "Branch: OS3",
-                      "",
+                      build_code_block(branch_text),
                       f"Details: [compare]({compare_url})" if compare_url else "",
                   ]
                   if line

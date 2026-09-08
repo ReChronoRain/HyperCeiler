@@ -8,7 +8,8 @@ build/
 .externalNativeBuild
 .cxx
 local.properties
-/app/release
+/app/release/*
+!/app/release/keepRules
 /app/beta
 /app/canary
 /app/debug

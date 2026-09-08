@@ -2,6 +2,7 @@ package com.sevtinge.hyperceiler.common.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -89,7 +90,7 @@ public final class AppSettingsStore {
             }
         }
 
-        int fallback = PrefsBridge.getStringAsInt(PREF_APP_LANGUAGE, defValue);
+        int fallback = getAppLanguageIndexFromPrefs(context, defValue);
         if (fallback != defValue) {
             putGlobalString(context, KEY_APP_LANGUAGE, Integer.toString(fallback));
         }
@@ -98,6 +99,11 @@ public final class AppSettingsStore {
 
     public static void setAppLanguageIndex(@Nullable Context context, int index) {
         putInt(context, KEY_APP_LANGUAGE, PREF_APP_LANGUAGE, index);
+    }
+
+    public static void clearAppLanguageIndex(@Nullable Context context) {
+        putGlobalString(context, KEY_APP_LANGUAGE, "");
+        PrefsBridge.removeByApp(PREF_APP_LANGUAGE);
     }
 
     public static void syncGlobalFromPrefs(@Nullable Context context) {
@@ -120,7 +126,7 @@ public final class AppSettingsStore {
         putGlobalString(context, KEY_SCOPE_SYNC, Boolean.toString(false));
         putGlobalString(context, KEY_ICON, Integer.toString(0));
         putGlobalString(context, KEY_ICON_MODE, Integer.toString(0));
-        putGlobalString(context, KEY_APP_LANGUAGE, Integer.toString(0));
+        putGlobalString(context, KEY_APP_LANGUAGE, "");
     }
 
     private static boolean getBoolean(
@@ -259,6 +265,27 @@ public final class AppSettingsStore {
             context.getContentResolver().insert(GLOBAL_URI, values);
         } catch (Throwable t) {
             AndroidLog.w(TAG, "Failed to write global setting: " + name, t);
+        }
+    }
+
+    private static int getAppLanguageIndexFromPrefs(@Nullable Context context, int defValue) {
+        try {
+            return PrefsBridge.getStringAsInt(PREF_APP_LANGUAGE, defValue);
+        } catch (IllegalStateException ignored) {
+            if (context == null) {
+                return defValue;
+            }
+            SharedPreferences prefs = context.createDeviceProtectedStorageContext()
+                .getSharedPreferences(PrefsBridge.PREFS_NAME, Context.MODE_PRIVATE);
+            String raw = prefs.getString(PREF_APP_LANGUAGE, String.valueOf(defValue));
+            if (TextUtils.isEmpty(raw)) {
+                return defValue;
+            }
+            try {
+                return Integer.parseInt(raw);
+            } catch (NumberFormatException ignored2) {
+                return defValue;
+            }
         }
     }
 }

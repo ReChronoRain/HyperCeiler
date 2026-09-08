@@ -117,6 +117,8 @@ public abstract class BaseHook {
      *     return true;
      * }
      * }</pre>
+     * <p>
+     * 框架会在 {@link BaseLoad} 中自动把一批 Hook 的 {@link #initDexKit()} 并行执行。
      *
      * @return true 表示继续执行 {@link #init()}；false 表示跳过当前 Hook。
      */
@@ -134,9 +136,13 @@ public abstract class BaseHook {
         }
     }
 
+    private String namespacedDexKitKey(@NonNull String key) {
+        return getClass().getSimpleName() + "#" + key;
+    }
+
     protected final <T> T requiredMember(@NonNull String key, @NonNull IDexKit finder) {
         ensureDexKitInitPhase("requiredMember");
-        T member = DexKit.findMember(key, finder);
+        T member = DexKit.findMember(namespacedDexKitKey(key), finder);
         if (member == null) {
             throw new IllegalStateException(TAG + ": required DexKit member not found: " + key);
         }
@@ -145,7 +151,7 @@ public abstract class BaseHook {
 
     protected final <T> List<T> requiredMemberList(@NonNull String key, @NonNull IDexKitList finder) {
         ensureDexKitInitPhase("requiredMemberList");
-        List<T> members = DexKit.findMemberList(key, finder);
+        List<T> members = DexKit.findMemberList(namespacedDexKitKey(key), finder);
         if (members == null || members.isEmpty()) {
             throw new IllegalStateException(TAG + ": required DexKit member list not found: " + key);
         }
@@ -156,7 +162,7 @@ public abstract class BaseHook {
     protected final <T> T optionalMember(@NonNull String key, @NonNull IDexKit finder) {
         ensureDexKitInitPhase("optionalMember");
         try {
-            return DexKit.findMember(key, finder);
+            return DexKit.findMember(namespacedDexKitKey(key), finder);
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "Optional DexKit member failed: " + key, t);
             return null;
@@ -167,7 +173,7 @@ public abstract class BaseHook {
     protected final <T> List<T> optionalMemberList(@NonNull String key, @NonNull IDexKitList finder) {
         ensureDexKitInitPhase("optionalMemberList");
         try {
-            List<T> members = DexKit.findMemberList(key, finder);
+            List<T> members = DexKit.findMemberList(namespacedDexKitKey(key), finder);
             return members != null ? members : Collections.emptyList();
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), "Optional DexKit member list failed: " + key, t);

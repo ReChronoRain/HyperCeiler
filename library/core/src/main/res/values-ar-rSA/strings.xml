@@ -87,4 +87,8 @@
     <string name="enable_suggest">تمكين الاقتراحات</string>
     <string name="unsupported_func_tips">يبدو أن التطبيق المستهدف هو إصدار معدل. هذه الإضافة غير قادرة على توفير خدمات الربط له. حاول استخدام إصدار مختلف من التطبيق أو تمكين وضع التصحيح وحاول مرة أخرى.</string>
     <string name="debug_mode_running">التطبيق المستهدف قيد التصحيح!\nإصدار التطبيق الحالي: %1$s\nالإصدار المستهدف المحدد: %2$s\nتم تطبيق الرابط بنجاح: %3$s</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">إعادة التشغيل</string>
+    <string name="navigation_restart_confirm_message">هل تريد إعادة تشغيل %1$s و%2$s الآن؟</string>
+    <string name="navigation_restart_confirm_ok">إعادة التشغيل الآن</string>
 </resources>

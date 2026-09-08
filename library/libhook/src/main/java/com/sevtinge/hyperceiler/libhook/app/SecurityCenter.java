@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.AppLockPinScramble;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.BypassAdbInstallVerify;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.DisableAutoTurnAccessibilityOff;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.DisableNetworkAssistantOfflineInfoManager;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.DisableReport;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.DisableRootedCheck;
@@ -125,6 +126,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(new BypassAdbInstallVerify(), PrefsBridge.getBoolean("security_center_adb_install_verify"));
         initHook(new UnlockCarSicknessRelief(), PrefsBridge.getBoolean("security_center_unlock_car_sickness"));
         initHook(new DisableNetworkAssistantOfflineInfoManager(), PrefsBridge.getBoolean("security_center_disable_offline_info_manager"));
+        initHook(new DisableAutoTurnAccessibilityOff(), PrefsBridge.getBoolean("security_center_disable_auto_turn_accessibility_off"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), PrefsBridge.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));

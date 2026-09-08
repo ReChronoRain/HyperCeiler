@@ -91,4 +91,8 @@
     <string name="search_apps_hint">%d 個のアプリを検索</string>
     <string name="load_apps_failed">アプリリストの読み込みに失敗しました</string>
     <string name="search_result_not_available">この機能は、お使いのデバイスではサポートされていないか、一部の設定の下に隠れている可能性があります</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">再起動</string>
+    <string name="navigation_restart_confirm_message">%1$sと%2$sを今すぐ再起動しますか？</string>
+    <string name="navigation_restart_confirm_ok">今すぐ再起動</string>
 </resources>

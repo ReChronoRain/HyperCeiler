@@ -18,7 +18,10 @@
  */
 package com.sevtinge.hyperceiler.provision.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Annotation;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -35,9 +38,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
+import com.sevtinge.hyperceiler.provision.utils.NoticeProvider;
+import com.sevtinge.hyperceiler.provision.utils.ProvisionManager;
 import com.sevtinge.hyperceiler.provision.widget.SimpleTextWatcher;
+
+import java.util.List;
 
 import fan.appcompat.app.AlertDialog;
 import fan.provision.OobeUtils;
@@ -51,6 +60,14 @@ public class TermsAndStatementFragment extends BaseFragment {
     private View mNextView;
     private TextView mPrivacyView;
     private CheckBox mAgreeCheckBox;
+
+    private AlertDialog mLoadingDialog;
+
+    private volatile boolean mNoticeLoaded = false;
+    private volatile boolean mWaitingAfterClick = false;
+
+    private int protocolVersion = -1;
+    private int privacyVersion = -1;
 
     @Override
     protected int getLayoutId() {
@@ -83,6 +100,7 @@ public class TermsAndStatementFragment extends BaseFragment {
                     mAgreeCheckBox.setChecked(false);
                     showVerificationDialog(success -> {
                         if (success) {
+                            handleNextClick();
                             mAgreeCheckBox.setChecked(true);
                         }
                     });
@@ -94,6 +112,77 @@ public class TermsAndStatementFragment extends BaseFragment {
                 OobeUtils.saveOperatorState(requireContext(), "cm_pick_status", isChecked);
             });
         }
+
+        startSyncNotice();
+    }
+
+    private void startSyncNotice() {
+        new Thread(() -> {
+            try {
+                NoticeProvider provider = ProvisionManager.getProvider();
+                if (provider != null) {
+                    final List<Integer>[] holder = new List[1];
+
+                    Thread worker = new Thread(() -> {
+                        holder[0] = provider.getNoticeResult(requireContext());
+                    });
+
+                    worker.start();
+                    worker.join();
+
+                    List<Integer> result = holder[0];
+
+                    if (result != null && result.size() >= 2) {
+                        protocolVersion = result.get(0);
+                        privacyVersion = result.get(1);
+                    }
+                }
+
+                mNoticeLoaded = true;
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+
+                    if (mLoadingDialog != null && mLoadingDialog.isShowing()) {
+                        mLoadingDialog.dismiss();
+                    }
+
+                    if (mWaitingAfterClick) {
+                        mWaitingAfterClick = false;
+                        writeNoticeToPrefs();
+                    }
+                });
+
+            } catch (Exception e) {
+                AndroidLog.d("TermsAndStatementFragment", e.toString());
+            }
+        }).start();
+    }
+
+    private void handleNextClick() {
+
+        if (!mNoticeLoaded) {
+            mWaitingAfterClick = true;
+            showLoadingDialog();
+            return;
+        }
+
+        writeNoticeToPrefs();
+    }
+
+    private void writeNoticeToPrefs() {
+        PrefsBridge.putByApp("prefs_key_protocol_version", protocolVersion);
+        PrefsBridge.putByApp("prefs_key_privacy_version", privacyVersion);
+    }
+
+    private void showLoadingDialog() {
+        if (mLoadingDialog != null && mLoadingDialog.isShowing()) return;
+
+        mLoadingDialog = new AlertDialog.Builder(requireActivity())
+            .setMessage(R.string.provision_terms_of_use_processing)
+            .setCancelable(false)
+            .create();
+
+        mLoadingDialog.show();
     }
 
     private void showVerificationDialog(VerificationCallback callback) {
@@ -119,7 +208,7 @@ public class TermsAndStatementFragment extends BaseFragment {
                     String inputStr = (s == null) ? "" : s.toString();
                     String targetStr = OobeUtils.getSecureSixDigit();
                     // 调试打印（可选）：如果还是不亮，看一眼 Logcat
-                    Log.d("Verify", "Input: [" + inputStr + "] Target: [" + targetStr + "]");
+                    //Log.d("Verify", "Input: [" + inputStr + "] Target: [" + targetStr + "]");
 
 
                     okButton.setEnabled(inputStr.equals(targetStr));

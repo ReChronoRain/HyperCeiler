@@ -90,4 +90,8 @@
     <string name="debug_mode_switch">Версия отладки</string>
     <string name="load_apps_failed">Неудалось загрузить список приложений</string>
     <string name="search_apps_hint">Поиск %d приложений</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Перезагрузка</string>
+    <string name="navigation_restart_confirm_message">Вы хотите перезагрузить %1$s и %2$s сейчас?</string>
+    <string name="navigation_restart_confirm_ok">Перезагрузить сейчас</string>
 </resources>

@@ -74,4 +74,8 @@
     <string name="experimental_features">Eksperymentalne funkcje</string>
     <string name="module_title_1">Podstawowe wiadomości</string>
     <string name="app_error_desc">Aplikacja HyperCeiler została nieoczekiwanie zamknięta. Aby pomóc nam to naprawić, podaj poniższe informacje:\n\nNaciśnij i przytrzymaj dowolną wiadomość, aby skopiować całą jej treść.</string>
+    <!--Dialog-->
+    <string name="navigation_restart_confirm_title">Zrestartuj</string>
+    <string name="navigation_restart_confirm_message">Czy chcesz teraz zrestartować %1$s i %2$s?</string>
+    <string name="navigation_restart_confirm_ok">Zrestartuj teraz</string>
 </resources>

@@ -1415,7 +1415,6 @@
     <!--AI Translate-->
     <string name="aiasst">ترجمة MI AI</string>
     <string name="aiasst_ai_captions">تفعيل الترجمة التلقائية بواسطة الذكاء الاصطناعي</string>
-    <string name="aiasst_all_captions">فتح الترجمة متعددة اللغات عبر الإنترنت</string>
     <!--Barrage-->
     <string name="barrage">المقذوفات</string>
     <string name="barrage_any_barrage">السماح لجميع التطبيقات باستخدام المقذوفات</string>

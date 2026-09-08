@@ -1426,7 +1426,6 @@
     <!--AI Translate-->
     <string name="aiasst">Переводчик AI</string>
     <string name="aiasst_ai_captions">Принудительно включить субтитры AI</string>
-    <string name="aiasst_all_captions">Разблокировать многоязычные онлайн-субтитры</string>
     <string name="aiasst_unlock_split_screen_translation">Разблокировать перевод на разделенном экране</string>
     <!--Barrage-->
     <string name="barrage">Защита</string>

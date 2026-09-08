@@ -32,7 +32,7 @@ import java.lang.reflect.Modifier
 object CloudWatermark : BaseHook() {
 
     val is63Camera by lazy {
-        getPackageVersionCode(lpparam) >= 630000000
+        getPackageVersionCode(lpparam) >= 630040000
     }
 
     override fun useDexKit() = true

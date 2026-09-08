@@ -40,8 +40,8 @@ public class LogRepository {
     private static final String DATABASE_NAME = "hyperceiler_logs.db";
     private static volatile LogRepository sInstance;
 
-    private LogDao mLogDao;
-    private Context mAppContext;
+    private final LogDao mLogDao;
+    private final Context mAppContext;
     // 专用线程池，处理数据库的写入和删除，避免阻塞主线程
     private final ExecutorService mIoExecutor;
 

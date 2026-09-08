@@ -31,6 +31,7 @@
     <string name="provision_terms_of_use_verification_code_dialog_title">Enter your verification code</string>
     <string name="provision_terms_of_use_verification_code_dialog_desc">You can found it in our User Agreement or Privacy Policy</string>
     <string name="provision_terms_of_use_verification_code_dialog_continue">Continue</string>
+    <string name="provision_terms_of_use_processing">Syncing data…</string>
     <string name="provision_basic_settings_hide_app_icon">Icon in Home screen</string>
     <string name="provision_basic_settings_category_app">App</string>
     <string name="provision_basic_settings_category_scope">Scope</string>

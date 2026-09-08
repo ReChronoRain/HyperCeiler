@@ -28,12 +28,12 @@ import java.util.List;
 
 public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderViewHolder> {
 
-    private Context mContext;
-    private BasePreferenceFragment mFragment;
+    private final Context mContext;
+    private final BasePreferenceFragment mFragment;
 
-    private List<Header> mHeaders;
+    private final List<Header> mHeaders;
 
-    private LayoutInflater mInflater;
+    private final LayoutInflater mInflater;
 
     // 滚动状态：快速滚动时跳过异步图标加载
     private boolean mIsScrolling = false;
@@ -278,13 +278,14 @@ public class HeaderAdapter extends RecyclerView.Adapter<HeaderAdapter.HeaderView
         // 快速滚动时跳过异步图标加载，停止后会通过 notifyDataSetChanged 重新 bind
         if (mIsScrolling) return;
         String packageName = header.summary.toString();
+        int headerIconSize = mContext.getResources().getDimensionPixelSize(R.dimen.header_icon_size);
         // 精准更新 UI
-        IconTitleLoader.load(mContext, packageName, (info) -> {
+        IconTitleLoader.load(mContext, packageName, headerIconSize, (info) -> {
             // 检查 ViewHolder 是否已被复用
-            if (holder.getAdapterPosition() != RecyclerView.NO_POSITION) {
-                holder.icon.setImageDrawable(info.icon);
+            if (holder.getBindingAdapterPosition() != RecyclerView.NO_POSITION) {
+                holder.icon.setImageDrawable(info.icon());
                 if (id != R.id.system_framework) {
-                    holder.title.setText(info.label);
+                    holder.title.setText(info.label());
                 }
             }
         });

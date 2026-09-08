@@ -64,7 +64,7 @@ public class FiveGTile extends TileUtils {
     private Constructor<?> mToggleConstructor3;
     private Constructor<?> mToggleConstructor4;
 
-    private final int mode = PrefsBridge.getStringAsInt("system_control_center_5g_new_tile", 0);;
+    private final int mode = PrefsBridge.getStringAsInt("system_control_center_5g_new_tile", 0);
     private ContentObserver contentObserver;
     private boolean isDetailHooked = false;
     private String fiveGLabel = null;

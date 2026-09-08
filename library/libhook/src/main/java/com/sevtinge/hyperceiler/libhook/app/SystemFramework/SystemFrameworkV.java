@@ -22,6 +22,7 @@ import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.GlobalActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.appbase.systemframework.ModulePackageTrust;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
@@ -43,6 +44,8 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeformB
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.OpenAppInFreeForm;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.StickyFloatingWindows;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.UnForegroundPin;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiAospImeSystem;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiuiImeUnlockSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
@@ -55,6 +58,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AutoEffectS
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceDownloadui;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassForceMiAppStore;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassUnknownSourcesRestrictions;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BypassWakePathChecker;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanOpenMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanProcessTextMenu;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.CleanShareMenu;
@@ -90,8 +94,8 @@ public class SystemFrameworkV extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
-        initHook(new ModulePackageTrust(), true);
-        initHook(new GlobalActionBootstrap(), true);
+        initHook(new ModulePackageTrust(), PrefsBridge.getBoolean("home_gesture_enable"));
+        initHook(new GlobalActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
         // initHook(new DisableMiuiWatermark(), PrefsBridge.getBoolean("system_framework_disable_miui_watermark"));
 
         // 核心破解
@@ -144,6 +148,8 @@ public class SystemFrameworkV extends BaseLoad {
         initHook(new DisableMiuiLite(), PrefsBridge.getBoolean("system_framework_disablt_miuilite_check"));
         initHook(new HookEntry(), PrefsBridge.getBoolean("system_framework_hook_entry"));
         initHook(new PstedClipboard(), PrefsBridge.getBoolean("system_framework_posted_clipboard"));
+        initHook(new MiuiImeUnlockSystem(), InputMethodConfig.shouldHookMiuiImeListInSystem());
+        initHook(new MiAospImeSystem(), InputMethodConfig.shouldHookAospImeInSystem());
         initHook(new AllowDisableProtectedPackage(), PrefsBridge.getBoolean("system_framework_allow_disable_protected_package"));
         // 允许应用后台读取剪切板
         initHook(new ClipboardWhitelist(), PrefsBridge.getBoolean("system_framework_clipboard_whitelist"));
@@ -152,6 +158,8 @@ public class SystemFrameworkV extends BaseLoad {
 
         initHook(new BypassForceMiAppStore(), PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore") || PrefsBridge.getBoolean("system_framework_market_use_detailmini"));
         initHook(new BypassForceDownloadui(), PrefsBridge.getBoolean("system_framework_bypass_force_downloadui"));
+
+        initHook(new BypassWakePathChecker(), PrefsBridge.getBoolean("system_framework_bypass_wake_path_checker"));
 
         initHook(new ThermalBrightness(), PrefsBridge.getBoolean("system_framework_other_thermal_brightness"));
         initHook(DisableCleaner.INSTANCE, PrefsBridge.getBoolean("system_framework_other_disable_cleaner"));

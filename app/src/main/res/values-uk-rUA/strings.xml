@@ -16,8 +16,7 @@
   ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
   ~
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
-  -->
-<resources>
+  --><resources>
     <string name="search_history_description">Історія пошуку</string>
     <string name="search_history_clear_description">Очистити історію пошуку</string>
     <string name="revert">Відновити</string>
@@ -28,7 +27,6 @@
     <string name="app_device_version_parameters">Версія ОС</string>
     <string name="pull_to_enter_private">Потягніть вниз, щоб увійти в приватний простір</string>
     <string name="release_enter_private">Відпустіть, щоб увійти в приватний простір</string>
-
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Вибрати все</string>
     <string name="miuix_appcompat_cancel_description">Скасувати</string>
@@ -40,7 +38,6 @@
     <string name="miuix_appcompat_search_input_description">Пошук</string>
     <string name="miuix_appcompat_actionbar_immersion_button_more_description">Більше</string>
     <string name="miuix_appcompat_action_mode_inverse">Зняти виділення</string>
-
     <!--HyperCeiler Settings/About Page-->
     <string name="tip">Порада</string>
     <string name="root">Деякі функції недоступні без Root/Su дозволів</string>
@@ -53,7 +50,6 @@
     <string name="pid_failed">Цільовий додаток не запущено і не потребує перезапуску.</string>
     <string name="reboot_failed">Перезавантаження не вдалося. Перевірте, чи надано HyperCeiler Root/Su дозволи.</string>
     <string name="experimental_features">Експериментальні функції</string>
-
     <!--HyperCeiler Tips-->
     <string name="error">Помилка</string>
     <string name="warn">Увага</string>
@@ -102,19 +98,14 @@
     <string name="unsupported_system_func">Ця функція не підтримується у поточній версії системи</string>
     <string name="supported_system_func">Ця функція офіційно підтримується у поточній версії системи</string>
     <string name="feature_doing_func">Ця функція наразі в розробці, слідкуйте за оновленнями.</string>
-
     <!--System UI-->
     <string name="system_ui">Інтерфейс системи</string>
-
     <!--System launcher-->
     <string name="mihome">Системний лаунчер</string>
-
     <!--Settings-->
     <string name="system_settings">Налаштування</string>
-
     <!--Security/Tablet security center-->
     <string name="security_center_hyperos">Безпека</string>
-
     <!--Other-->
     <string name="exit">Вихід</string>
     <string name="ignore">Ігнорувати</string>
@@ -130,14 +121,13 @@
     <string name="logo_egg3">Тут немає Android eggs, зате є HyperCeiler eggs!</string>
     <string name="uninstall_title">Видалити HyperCeiler</string>
     <string name="uninstall_summary">Після видалення HyperCeiler конфігурація модуля залишиться в базі даних фреймворку Xposed. Щоб повністю її прибрати, спочатку перейдіть у налаштування модуля та скиньте конфігурацію, а вже потім видаліть його.</string>
-    <string name="unsupported_func_tips">Поточне джерело цільового скоупа може бути неофіційним Xiaomi. З міркувань безпеки всі функції для цього скоупа вимкнені. Спробуйте переключитися на пакет застосунку, випущений Xiaomi, або перейдіть до &quot;Налаштування HyperCeiler - Параметри розробника - Режим налагодження&quot;, щоб вказати змонтовану версію, і спробуйте знову.</string>
+    <string name="unsupported_func_tips">Поточне джерело цільового скоупа може бути неофіційним Xiaomi. З міркувань безпеки всі функції для цього скоупа вимкнені. Спробуйте переключитися на пакет застосунку, випущений Xiaomi, або перейдіть до "Налаштування HyperCeiler - Параметри розробника - Режим налагодження", щоб вказати змонтовану версію, і спробуйте знову.</string>
     <string name="debug_mode">Режим налагодження</string>
     <string name="open_debug_mode_tips">Цей параметр використовується лише для коректної обробки змонтованої версії цільового застосунку й має застосовуватися лише за потреби.\nДля застосунку, який налагоджується, працездатність не гарантується. Якщо ви вмикаєте цей режим, **не повідомляйте** розробнику про проблеми саме цього цільового застосунку.</string>
     <string name="debug_mode_running">Поточний цільовий скоуп працює в режимі налагодження. Якщо в цьому немає потреби, вимкніть його.\nПоточна версія застосунку: %1$s\nВибрана цільова версія: %2$s\nУспішно перехоплено: %3$s</string>
     <string name="debug_mode_switch">Версія налагодження</string>
     <string name="debug_mode_home_version">Встановити код версії лаунчера</string>
     <string name="debug_mode_home_version_desc">Надто високий номер версії все одно буде заблоковано, тому заповнюйте уважно.</string>
-
     <!-- LogViewer -->
     <string name="log_search_hint">Пошук у журналах</string>
     <string name="log_level_label">Рівень</string>
@@ -163,14 +153,12 @@
     <string name="log_share_text">Файл журналу HyperCeiler</string>
     <string name="log_copy">Копіювати</string>
     <string name="log_copy_success">Журнали скопійовано до буфера обміну</string>
-
     <!-- Log detail dialog -->
     <string name="log_detail_title">Деталі журналу</string>
     <string name="log_detail_time">Час</string>
     <string name="log_detail_level">Рівень</string>
     <string name="log_detail_tag">Тег</string>
     <string name="log_detail_message">Подробиці</string>
-
     <!-- Log Viewer -->
     <string name="log_loading">Завантаження журналів…</string>
     <string name="log_viewer">Перегляд журналів</string>

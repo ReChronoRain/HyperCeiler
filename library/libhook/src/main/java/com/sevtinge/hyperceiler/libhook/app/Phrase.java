@@ -21,8 +21,10 @@ package com.sevtinge.hyperceiler.libhook.app;
 
 import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.appbase.input.InputMethodConfig;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.phrase.NewUnPhraseLimit;
+import com.sevtinge.hyperceiler.libhook.rules.phrase.UnlockImeClipboardFix;
 
 @HookBase(targetPackage = "com.miui.phrase")
 public class Phrase extends BaseLoad {
@@ -31,5 +33,6 @@ public class Phrase extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         initHook(new NewUnPhraseLimit(), PrefsBridge.getBoolean("various_phrase_clipboardlist"));
+        initHook(new UnlockImeClipboardFix(), !InputMethodConfig.getSelectedInputMethodPackages().isEmpty());
     }
 }

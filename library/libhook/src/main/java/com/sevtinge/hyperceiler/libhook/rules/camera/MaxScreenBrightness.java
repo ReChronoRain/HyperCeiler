@@ -38,8 +38,6 @@ import java.lang.reflect.Method;
 
 import io.github.kyuubiran.ezxhelper.xposed.common.HookParam;
 
-;
-
 public class MaxScreenBrightness extends BaseHook {
     private Method mGetHaloBrightnessMethod;
 

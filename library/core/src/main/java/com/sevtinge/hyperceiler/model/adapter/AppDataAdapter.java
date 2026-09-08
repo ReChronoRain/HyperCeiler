@@ -1,5 +1,6 @@
 package com.sevtinge.hyperceiler.model.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -261,8 +262,8 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                 return;
             }
 
-            // 先尝试从缓存获取
-            android.graphics.drawable.Drawable cached = AppIconCache.getCached(appInfo.packageName);
+            int iconSize = getTargetIconSize();
+            Drawable cached = AppIconCache.getCached(mItemView.getContext(), appInfo.packageName, iconSize);
             if (cached != null) {
                 appInfo.icon = cached;
                 mAppIcon.setImageDrawable(cached);
@@ -275,7 +276,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             // 记录当前 packageName 防止复用错位
             mAppIcon.setTag(appInfo.packageName);
 
-            AppIconCache.loadIconAsync(mItemView.getContext(), appInfo.packageName, icon -> {
+            AppIconCache.loadIconAsync(mItemView.getContext(), appInfo.packageName, iconSize, icon -> {
                 // 检查 ViewHolder 是否已被复用
                 if (appInfo.packageName.equals(mAppIcon.getTag())) {
                     if (icon != null) {
@@ -286,11 +287,21 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
             });
         }
 
+        private int getTargetIconSize() {
+            ViewGroup.LayoutParams params = mAppIcon.getLayoutParams();
+            int size = params != null ? Math.max(params.width, params.height) : 0;
+            if (size > 0) {
+                return size;
+            }
+            return Math.round(mItemView.getResources().getDisplayMetrics().density * 40);
+        }
+
         private void updateCheckboxVisibility(AppData appInfo) {
             boolean shouldShowCheckbox = (mMode == SubPickerActivity.LAUNCHER_MODE ||
                 mMode == SubPickerActivity.APP_OPEN_MODE ||
                 mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
                 mMode == SubPickerActivity.ALL_APPS_MODE ||
+                mMode == SubPickerActivity.IME_MODE ||
                 mMode == SubPickerActivity.SCOPE_MODE ||
                 mMode == SubPickerActivity.LAUNCHER_PICK_MODE);
 
@@ -318,6 +329,7 @@ public class AppDataAdapter extends CardGroupAdapter<AppViewHolder> {
                         mMode == SubPickerActivity.APP_OPEN_MODE ||
                         mMode == SubPickerActivity.PROCESS_TEXT_MODE ||
                         mMode == SubPickerActivity.ALL_APPS_MODE ||
+                        mMode == SubPickerActivity.IME_MODE ||
                         mMode == SubPickerActivity.SCOPE_MODE) {
                         // 对于选择模式，点击item也切换选中状态
                         toggleSelection(position);

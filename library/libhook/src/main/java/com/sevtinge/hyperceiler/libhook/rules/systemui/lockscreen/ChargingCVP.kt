@@ -188,7 +188,7 @@ object ChargingCVP : BaseHook() {
             addAction(Intent.ACTION_SCREEN_OFF)
         }
         (param.thisObject as TextView).context.registerReceiver(
-            screenOnOffReceiver, filter
+            screenOnOffReceiver, filter, Context.RECEIVER_EXPORTED
         )
     }
 
