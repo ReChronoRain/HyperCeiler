@@ -73,7 +73,10 @@ class DualRowSignalHookV : MobileSignalHook() {
     }
 
     private val selectedIconStyle by lazy {
-        PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")
+        when (val style = PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")) {
+            "classic", "thick", "theme" -> style
+            else -> ""
+        }
     }
 
     private val dualSignalResMap = HashMap<String, Bitmap>(64)
@@ -128,7 +131,7 @@ class DualRowSignalHookV : MobileSignalHook() {
 
         mobileGroup.setPadding(
             DisplayUtils.dp2px(leftMargin * 0.5f), 0,
-            DisplayUtils.dp2px(rightMargin * 0.5f), 0
+            DisplayUtils.dp2px(rightMargin * 0.5f) + getHorizontalIconSpacing(rootView.context), 0
         )
 
         // 检查是否已有双排容器
@@ -524,5 +527,18 @@ class DualRowSignalHookV : MobileSignalHook() {
             "_tint"
         }
         return "statusbar_signal_${slot}_$level$colorMode$iconStyle"
+    }
+
+    private fun getHorizontalIconSpacing(context: Context): Int {
+        val resId = context.resources.getIdentifier(
+            "status_bar_horizontal_padding",
+            "dimen",
+            "com.android.systemui"
+        )
+        return if (resId != 0) {
+            context.resources.getDimensionPixelSize(resId)
+        } else {
+            DisplayUtils.dp2px(2.5f)
+        }
     }
 }
