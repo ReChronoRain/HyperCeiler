@@ -55,6 +55,10 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
+    private companion object {
+        const val ICON_STYLE_THEME = "theme"
+    }
+
     private val ID_DUAL_CONTAINER by lazy { getOrCreateViewId("dual_signal_container") }
     private val ID_SIGNAL_SLOT1 by lazy { getOrCreateViewId("dual_signal_slot1") }
     private val ID_SIGNAL_SLOT2 by lazy { getOrCreateViewId("dual_signal_slot2") }
@@ -74,7 +78,7 @@ class DualRowSignalHookV : MobileSignalHook() {
 
     private val selectedIconStyle by lazy {
         when (val style = PrefsBridge.getString("system_ui_status_mobile_network_icon_style", "")) {
-            "classic", "thick", "theme" -> style
+            "classic", "thick", ICON_STYLE_THEME -> style
             else -> ""
         }
     }
@@ -273,7 +277,7 @@ class DualRowSignalHookV : MobileSignalHook() {
             val modRes = getModuleRes(context.applicationContext ?: context)
             dualSignalResMap.clear()
 
-            val colorModes = if (selectedIconStyle == "theme") {
+            val colorModes = if (selectedIconStyle == ICON_STYLE_THEME) {
                 arrayOf(
                     Triple("", false, true),
                     Triple("dark", false, false)
@@ -468,7 +472,7 @@ class DualRowSignalHookV : MobileSignalHook() {
             return
         }
 
-        val needsTint = isUseTint && selectedIconStyle != "theme"
+        val needsTint = isUseTint && selectedIconStyle != ICON_STYLE_THEME
         slot1.setImageBitmap(slot1Bitmap)
         slot2.setImageBitmap(slot2Bitmap)
 
@@ -521,7 +525,7 @@ class DualRowSignalHookV : MobileSignalHook() {
 
     private fun getSignalIconResName(slot: Int, level: Int, isUseTint: Boolean, isLight: Boolean): String {
         val iconStyle = if (selectedIconStyle.isNotEmpty()) "_$selectedIconStyle" else ""
-        val colorMode = if (!isUseTint || selectedIconStyle == "theme") {
+        val colorMode = if (!isUseTint || selectedIconStyle == ICON_STYLE_THEME) {
             if (!isLight) "_dark" else ""
         } else {
             "_tint"

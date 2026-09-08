@@ -55,7 +55,7 @@ object MiuiStub {
     private val fallbackJavaAdapter by lazy {
         val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
         val clazz = requireNotNull(javaAdapterClass) { "$JAVA_ADAPTER is unavailable" }
-        val constructor = clazz.declaredConstructors.first { it.parameterCount == 1 }
+        val constructor = clazz.getDeclaredConstructor(CoroutineScope::class.java)
         constructor.isAccessible = true
         JavaAdapter(constructor.newInstance(scope))
     }
@@ -97,6 +97,9 @@ object MiuiStub {
     fun createHook() {
         val clazz = javaAdapterClass ?: return
         Constructors.find(clazz)
+            .filter {
+                it.parameterTypes.contentEquals(arrayOf(CoroutineScope::class.java))
+            }
             .firstOrNull()
             ?.createAfterHook {
                 systemJavaAdapter = JavaAdapter(it.thisObject)
