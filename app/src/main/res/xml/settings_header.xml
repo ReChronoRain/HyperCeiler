@@ -346,6 +346,13 @@
         android:title="@string/security_center_hyperos" />
 
     <header
+        android:fragment="com.sevtinge.hyperceiler.hooker.SecurityCoreFragment"
+        android:icon="@drawable/ic_default"
+        android:id="@+id/security_core"
+        android:summary="com.miui.securitycore"
+        android:title="@string/rear_alipay_component_title" />
+
+    <header
         android:icon="@drawable/ic_default"
         android:id="@+id/tsmclient"
         android:summary="com.miui.tsmclient"

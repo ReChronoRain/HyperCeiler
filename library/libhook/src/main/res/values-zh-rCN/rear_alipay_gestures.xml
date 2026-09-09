@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rear_alipay_back_native_entry">支付宝付款码(背屏)</string>
+    <string name="rear_alipay_back_native_transit_entry">支付宝乘车码(背屏)</string>
+</resources>

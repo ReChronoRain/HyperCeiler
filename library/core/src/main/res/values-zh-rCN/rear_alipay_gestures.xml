@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rear_alipay_component_title">系统功能组件</string>
+    <string name="rear_alipay_gestures_summary">适用于 Android 17 独立背屏设备。两个功能默认关闭。需要勾选“系统框架”和“系统功能组件”作用域，更改功能开关后重启以应用更改。右上角可重启系统（整个设备）。</string>
+    <string name="rear_alipay_power_category">双击电源键</string>
+    <string name="rear_alipay_power_title">同时在背屏展示支付宝码</string>
+    <string name="rear_alipay_power_summary">系统“双击电源键”需设为“公交/Mi Pay/门卡”。启用后选择背屏显示内容，卡包仍在主屏打开；需要解锁时会等待解锁。</string>
+    <string name="rear_alipay_power_code_title">背屏显示内容</string>
+    <string name="rear_alipay_payment_code">支付宝付款码</string>
+    <string name="rear_alipay_transit_code">支付宝乘车码</string>
+    <string name="rear_alipay_power_settings">打开系统双击电源键设置</string>
+    <string name="rear_alipay_back_title">背部轻敲</string>
+    <string name="rear_alipay_back_enable_title">添加背屏支付宝码选项</string>
+    <string name="rear_alipay_back_summary">启用后，在系统“轻敲两下”或“轻敲三下”列表中添加“支付宝付款码(背屏)”和“支付宝乘车码(背屏)”。普通付款码仍在主屏展示。关闭此功能前，请先在系统列表中改选其他动作。</string>
+    <string name="rear_alipay_back_settings">打开系统背部轻敲设置</string>
+</resources>
