@@ -55,6 +55,10 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.mobil
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.modernStatusBarMobileView
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.bold
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.fontSize
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.fontWeight
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.gaRightMargin
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.subscriptDrop
+import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.subscriptSize
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.getLocation
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.hideIndicator
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobilePrefs.isEnableDouble
@@ -127,6 +131,10 @@ object MobileTypeSingle2Hook : BaseHook() {
         hideIndicator = hideIndicator,
         mobileNetworkType = mobileNetworkType,
         visibilityResolver = visibilityResolver,
+        subscriptSizeRatio = resolveSubscriptSizeRatio(),
+        subscriptDropDp = resolveSubscriptDropDp(),
+        baseRightMarginDp = rightMargin * 0.5f,
+        gaRightMarginOffsetDp = resolveGaRightMarginOffsetDp(),
         updateMobileTypeDrawable = ::updateMobileTypeDrawable
     )
 
@@ -362,6 +370,55 @@ object MobileTypeSingle2Hook : BaseHook() {
         }
     }
 
+    /**
+     * 应用"移动网络类型图标"的字重。
+     *
+     * 旧版本只有"加粗"开关，这里保留向后兼容：没有单独设置过字重时，
+     * 加粗 = 700，否则 400（常规）。
+     */
+    private fun applyMobileTypeFontWeight(textView: TextView) {
+        val weight = when {
+            fontWeight in 100..1000 -> fontWeight
+            bold -> 700
+            else -> 400
+        }
+        // Typeface.create(family, weight, italic) 需要 API 28+；项目 minSdk 为 35，安全。
+        // 但它的 weight 合法范围只有 1..1000，超出会抛 IllegalArgumentException 把
+        // SystemUI 打崩，所以必须先钳住。标准字重最粗是 900（Black），
+        // 因此 1001..1500 实际等同于 1000。
+        textView.typeface = Typeface.create(Typeface.DEFAULT, weight.coerceIn(1, 1000), false)
+    }
+
+    /**
+     * 下标 A 的缩放比例。
+     *
+     * 尺寸设置和字号设置用的是同一套「存储值 = 实际值 × 2」的约定，
+     * 所以比例可以直接写成 下标存储值 / 字号存储值，两边的 ×2 相互抵消。
+     */
+    private fun resolveSubscriptSizeRatio(): Float {
+        val sub = subscriptSize
+        if (sub <= 0 || fontSize <= 0) return 0.8f
+        return (sub.toFloat() / fontSize).coerceIn(0.3f, 1.2f)
+    }
+
+    /**
+     * 下标 A 的下沉量（dp）。存储值同样是实际 dp 的两倍。
+     */
+    private fun resolveSubscriptDropDp(): Float {
+        val drop = subscriptDrop
+        return if (drop >= 0) drop / 2f else 3.5f
+    }
+
+    /**
+     * 5GA 专用右间距修正量（dp）。
+     *
+     * 与「上下偏移量」同一约定：存储值 10 是中性点，实际值 = (存储值 - 10) / 2。
+     * 默认返回 0，即在原有「右侧间距」上不做任何改变。
+     */
+    private fun resolveGaRightMarginOffsetDp(): Float {
+        return (gaRightMargin - 10) / 2f
+    }
+
     @RequiresPermission(Manifest.permission.READ_PHONE_STATE)
     private fun bindConstructedMobileViewIfNeeded(rootView: ViewGroup, viewModel: Any) {
         val lastBoundViewModel = runCatching {
@@ -392,7 +449,7 @@ object MobileTypeSingle2Hook : BaseHook() {
                 mobileGroup.addView(textView)
             }
             if (fontSize != 27) textView.textSize = fontSize * 0.5f
-            if (bold) textView.typeface = Typeface.DEFAULT_BOLD
+            applyMobileTypeFontWeight(textView)
             textView.setPadding(
                 dp2px(leftMargin * 0.5f),
                 if (verticalOffset != 40) dp2px((verticalOffset - 40) * 0.1f) else 0,
