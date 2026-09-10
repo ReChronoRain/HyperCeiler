@@ -1475,6 +1475,7 @@
     <string name="powerkeeper">Battery and performance</string>
     <string name="powerkeeper_custom_refresh_rate">Custom high refresh rate apps</string>
     <string name="powerkeeper_lock_max_fps">Lock max FPS</string>
+    <string name="powerkeeper_lock_thermal_max_fps">Lock thermal max FPS</string>
     <string name="powerkeeper_do_not_kill_apps">Try don\'t kill apps</string>
     <string name="powerkeeper_do_not_kill_apps_desc">May increase power consumption</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">Prevent recovery of battery optimization whitelist</string>
