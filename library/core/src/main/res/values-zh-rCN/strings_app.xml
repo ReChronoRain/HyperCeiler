@@ -1472,6 +1472,12 @@
     <string name="security_center_reduce_bright_colors_tile">极暗磁贴图标替换</string>
     <string name="security_center_flash_light">手电筒亮度控制</string>
     <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
+    <string name="security_center_disable_ads">停用手机管家广告</string>
+    <string name="security_center_disable_ads_desc">跳过广告卡片和国际版广告 SDK 加载</string>
+    <string name="security_center_disable_telemetry">停用手机管家使用统计</string>
+    <string name="security_center_disable_telemetry_desc">跳过使用事件采集与统计上报</string>
+    <string name="security_center_skip_home_scan">跳过首页自动体检</string>
+    <string name="security_center_skip_home_scan_desc">保持 100 分，打开首页时不启动体检；需开启锁定 100 分</string>
     <string name="security_center_simplify_home">精简手机管家首页</string>
     <string name="security_center_simplify_home_desc">移除以下卡片:\n - 功能推荐\n - 大家都在用</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
