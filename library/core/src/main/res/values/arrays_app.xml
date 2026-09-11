@@ -361,6 +361,26 @@
         <item>4</item>
     </string-array>
 
+    <string-array name="security_uninstaller">
+        <item>@string/security_uninstaller_system_default</item>
+    </string-array>
+
+    <string-array name="security_uninstaller_value">
+        <item></item>
+    </string-array>
+
+    <string-array name="security_uninstall_hook_point">
+        <item>@string/security_uninstall_hook_point_menu</item>
+        <item>@string/security_uninstall_hook_point_core</item>
+        <item>@string/security_uninstall_hook_point_both</item>
+    </string-array>
+
+    <string-array name="security_uninstall_hook_point_value">
+        <item>menu</item>
+        <item>core</item>
+        <item>both</item>
+    </string-array>
+
     <string-array name="skip_count_down_limit_type">
         <item>自动勾选和跳过读秒</item>
         <item>直接授权</item>
