@@ -7,17 +7,22 @@ import android.net.Uri
 import android.os.Handler
 import android.provider.Settings
 import android.view.Surface
+import android.view.View
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
+import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
+import java.lang.reflect.Method
+import java.util.Collections
+import java.util.WeakHashMap
 
 object RotationButtonB : BaseHook() {
 
@@ -31,51 +36,41 @@ object RotationButtonB : BaseHook() {
     private val navigationBar by lazy {
         loadClass("com.android.systemui.navigationbar.views.NavigationBar")
     }
+    private val providerContexts = Collections.synchronizedMap(WeakHashMap<Any, Context>())
+    private val hookedProviderMethods = Collections.synchronizedSet(mutableSetOf<Method>())
 
     override fun init() {
-        if (enable) {
-            val restoredNavigationBar = getHotReloadRuntimeState(
-                STATE_NAVIGATION_BAR,
-                Any::class.java
-            )
-            val restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context::class.java)
-            if (restoredNavigationBar != null && restoredContext != null) {
-                ensureRotationObserver(restoredNavigationBar, restoredContext)
-            }
+        navigationBar.findMethod { name("onRotationProposal") }.createBeforeHook {
+            if (!enable) it.result = null
+        }
+        // Disabling suggestions does not need any of the forced-mode view hooks.
+        if (!enable) return
+
+        val restoredNavigationBar = getHotReloadRuntimeState(
+            STATE_NAVIGATION_BAR,
+            Any::class.java
+        )
+        val restoredContext = getHotReloadRuntimeState(STATE_CONTEXT, Context::class.java)
+        if (restoredNavigationBar != null && restoredContext != null) {
+            ensureRotationObserver(restoredNavigationBar, restoredContext)
+            (restoredNavigationBar.getObjectField("mView") as? View)?.let(::bindRotationProvider)
         }
 
         Constructors.find(navigationBar)
             .toList().createAfterHooks {
-                if (!enable) return@createAfterHooks
-
                 val mContext =
                     it.thisObject.getObjectFieldAs("mContext") as Context?
                 ensureRotationObserver(it.thisObject, mContext)
             }
 
-        loadClass($$$"com.android.systemui.navigationbar.views.NavigationBarView$$ExternalSyntheticLambda1").findMethod { name("get") }.createBeforeHook {
-                if (!enable) return@createBeforeHook
-
-                val navigationBarView = it.thisObject.getObjectField("f$0") ?: return@createBeforeHook
-                val mLightContext =
-                    navigationBarView.getObjectField("mLightContext") as Context
-                val intValue = when (getScreenOrientation(mLightContext)) {
-                    0 -> 1
-                    1 -> 0
-                    else -> -1
-                }
-                if (intValue == -1) {
-                    XposedLog.e(TAG, lpparam.packageName, "Unknown parameters, unable to continue execution, execute the original method!")
-                    return@createBeforeHook
-                }
-                it.result = intValue
-            }
-
-        navigationBar.findMethod { name("onRotationProposal") }.createBeforeHook {
-                if (!enable) {
-                    it.result = null
-                }
-            }
+        val navigationBarView = loadClass("com.android.systemui.navigationbar.views.NavigationBarView")
+        Constructors.find(navigationBarView).toList().createAfterHooks {
+            bindRotationProvider(it.thisObject as View)
+        }
+        // Newer SystemUI creates the controller here instead of in the view constructor.
+        navigationBarView.findAllMethods { name("setRotationPolicyWrapper") }.createAfterHooks {
+            bindRotationProvider(it.thisObject as View)
+        }
 
         loadClass($$$"com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5").findMethod { name("onClick") }.createBeforeHook {
                 if (enable) {
@@ -89,6 +84,24 @@ object RotationButtonB : BaseHook() {
                     )
                 }
         }
+    }
+
+    private fun bindRotationProvider(view: View) {
+        val controller = view.getObjectField("mRotationButtonController") ?: return
+        val provider = controller.getObjectField("mWindowRotationProvider") ?: return
+        providerContexts[provider] = view.context
+        val getter = provider.javaClass.findMethod { name("get"); paramCount(0) }
+        if (!hookedProviderMethods.add(getter)) return
+        // R8 renumbers synthetic lambdas (Lambda1 became Lambda0 on Android 17).
+        // Resolve the actual supplier and limit the override to registered instances.
+        getter.createBeforeHook {
+            val context = providerContexts[it.thisObject] ?: return@createBeforeHook
+            when (getScreenOrientation(context)) {
+                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> it.result = Surface.ROTATION_0
+                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> it.result = Surface.ROTATION_90
+            }
+        }
+        XposedLog.i(TAG, lpparam.packageName, "Rotation provider hook: ${provider.javaClass.name}")
     }
 
     private fun ensureRotationObserver(navigationBar: Any, context: Context?) {
