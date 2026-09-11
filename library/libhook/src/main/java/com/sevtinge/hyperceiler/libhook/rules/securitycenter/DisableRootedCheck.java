@@ -63,7 +63,14 @@ public class DisableRootedCheck extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mReturnEnvironmentMethod = requiredMember("ReturnEnvironment", new IDexKit() {
+        // Basic root checks exist on both CN and Global. Do not make them depend
+        // on the separate CN-only risk reporting service.
+        mCheckRootMethods = requiredMemberList("CheckRoot", bridge -> bridge.findMethod(FindMethod.create()
+            .matcher(MethodMatcher.create()
+                .usingStrings("/system/bin/")
+                .returnType(boolean.class)
+            )));
+        mReturnEnvironmentMethod = optionalMember("ReturnEnvironment", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
                 MethodData methodData = bridge.findMethod(FindMethod.create()
@@ -73,6 +80,10 @@ public class DisableRootedCheck extends BaseHook {
                 return methodData;
             }
         });
+        if (mReturnEnvironmentMethod == null) {
+            XposedLog.i(TAG, getPackageName(), "Risk reporting service unavailable; using shared basic root checks");
+            return true;
+        }
         mClientApiRequestClass = requiredMember("ClientApiRequest", new IDexKit() {
             @Override
             public BaseData dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
@@ -138,39 +149,29 @@ public class DisableRootedCheck extends BaseHook {
                 return methodData;
             }
         });
-        mCheckRootMethods = requiredMemberList("CheckRoot", new IDexKitList() {
-            @Override
-            public BaseDataList<MethodData> dexkit(DexKitBridge bridge) throws ReflectiveOperationException {
-                MethodDataList methodData = bridge.findMethod(FindMethod.create()
-                        .matcher(MethodMatcher.create()
-                                .usingStrings("/system/bin/")
-                                .returnType(boolean.class)
-                        )
-                );
-                return methodData;
-            }
-        });
         return true;
     }
 
     @Override
     public void init() {
-        hookMethod(mReturnEnvironmentMethod, new IMethodHook() {
-            @Override
-            public void before(HookParam param) {
-                Object obj = param.getArgs()[0];
-                if (mClientApiRequestClass.isInstance(obj)) {
-                    callMethod(obj, mEnvironmentPutMethod.getName());
-                    Object thisObj = param.getThisObject();
-                    Object cField = getObjectField(thisObj, mRiskAppField.getName());
-                    for (Method method : mSetEnvironmentMethods) {
-                        if (method != mUnsetEnvironmentMethod) {
-                            callMethod(cField, method.getName(), obj);
+        if (mReturnEnvironmentMethod != null) {
+            hookMethod(mReturnEnvironmentMethod, new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    Object obj = param.getArgs()[0];
+                    if (mClientApiRequestClass.isInstance(obj)) {
+                        callMethod(obj, mEnvironmentPutMethod.getName());
+                        Object thisObj = param.getThisObject();
+                        Object cField = getObjectField(thisObj, mRiskAppField.getName());
+                        for (Method method : mSetEnvironmentMethods) {
+                            if (method != mUnsetEnvironmentMethod) {
+                                callMethod(cField, method.getName(), obj);
+                            }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
         for (Method method : mCheckRootMethods) {
             // Method method = methodData.getMethodInstance(lpparam.classLoader);
             XposedLog.d(TAG, getPackageName(), "Current hooking method is " + method);
@@ -178,6 +179,7 @@ public class DisableRootedCheck extends BaseHook {
                 @Override
                 public void before(HookParam param) {
                     param.setResult(false);
+                    XposedLog.d(TAG, getPackageName(), "Suppressed basic root check: " + method);
                 }
             });
         }
