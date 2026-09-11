@@ -26,6 +26,10 @@ import java.lang.reflect.Field
 import java.util.concurrent.ConcurrentHashMap
 
 object ConstraintSetHelper {
+    private val constraintLayoutClass by lazy {
+        Class.forName("androidx.constraintlayout.widget.ConstraintLayout", false,
+            clzConstraintSetClass!!.classLoader)
+    }
     val clear by lazy {
         clzConstraintSetClass!!.findMethod { name("clear"); parameterTypes(Int::class.java, Int::class.java) }
     }
@@ -42,10 +46,11 @@ object ConstraintSetHelper {
         clzConstraintSetClass!!.findMethod { name("setGoneMargin"); parameterTypes(Int::class.java, Int::class.java, Int::class.java) }
     }
     val applyTo by lazy {
-        clzConstraintSetClass!!.findMethod { name("applyTo") }
+        clzConstraintSetClass!!.findMethod { name("applyTo"); parameterTypes(constraintLayoutClass) }
     }
     val clone by lazy {
-        clzConstraintSetClass!!.findMethod { name("clone") }
+        // clone also accepts (Context, int), ConstraintSet and Constraints.
+        clzConstraintSetClass!!.findMethod { name("clone"); parameterTypes(constraintLayoutClass) }
     }
 }
 
