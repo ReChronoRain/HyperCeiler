@@ -3,7 +3,6 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.securitycenter.other;
 
-import android.view.View;
 import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
@@ -17,7 +16,7 @@ import java.lang.reflect.Modifier;
 public class SkipHomeScan extends BaseHook {
     private Method startScan;
     private Field contentFrame;
-    private Method setScore, setStatus, hideBottom;
+    private Method setScore, setStatus;
 
     @Override protected boolean useDexKit() { return true; }
 
@@ -32,12 +31,10 @@ public class SkipHomeScan extends BaseHook {
             try {
                 Method score = field.getType().getMethod("setScoreText", int.class);
                 Method status = field.getType().getMethod("setStatusTopText", String.class);
-                Method bottom = field.getType().getMethod("setStatusBottomVisible", int.class);
                 if (contentFrame != null) throw new IllegalStateException("Ambiguous Security home content frame");
                 contentFrame = field;
                 setScore = score;
                 setStatus = status;
-                hideBottom = bottom;
             } catch (NoSuchMethodException ignored) { }
         }
         if (contentFrame == null) throw new IllegalStateException("Security home content frame not found");
@@ -55,7 +52,6 @@ public class SkipHomeScan extends BaseHook {
                     if (frame != null) {
                         setScore.invoke(frame, 100);
                         setStatus.invoke(frame, "");
-                        hideBottom.invoke(frame, View.GONE);
                     }
                 } catch (ReflectiveOperationException e) {
                     XposedLog.e(TAG, getPackageName(), e);
