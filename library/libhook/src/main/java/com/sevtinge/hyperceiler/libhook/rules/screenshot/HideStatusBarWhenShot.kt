@@ -21,13 +21,16 @@ package com.sevtinge.hyperceiler.libhook.rules.screenshot
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Rect
 import android.os.Build
 import android.os.SystemClock
+import android.view.SurfaceControl
 import com.sevtinge.hyperceiler.common.log.XposedLog
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
@@ -48,8 +51,9 @@ object HideStatusBarWhenShot : BaseHook() {
             }
 
         if (Build.VERSION.SDK_INT >= 37) {
-            val captureDisplay = loadClass("com.miui.screenshot.core.util.DisplayCapture")
-                .findMethod {
+            val displayCapture = loadClassOrNull("com.miui.screenshot.core.util.DisplayCapture")
+            val captureDisplay = if (displayCapture != null) {
+                displayCapture.findMethod {
                     name("captureDisplay")
                     parameterTypes(
                         Context::class.java,
@@ -58,6 +62,22 @@ object HideStatusBarWhenShot : BaseHook() {
                         Array<String>::class.java
                     )
                 }
+            } else {
+                // Global firmware can ship the older, obfuscated screenshot app
+                // alongside Android 17. Match its capture boundary by signature.
+                val display = loadClass("com.miui.screenshot.GlobalScreenshotDisplay")
+                val capture = display.declaredMethods.single {
+                    it.returnType == Bitmap::class.java && it.parameterTypes.contentEquals(
+                        arrayOf(Context::class.java, Boolean::class.javaPrimitiveType, SurfaceControl::class.java)
+                    )
+                }.apply { isAccessible = true }
+                display.declaredMethods.filter {
+                    it.returnType == Bitmap::class.java && it.parameterTypes.contentEquals(
+                        arrayOf(Context::class.java, Boolean::class.javaPrimitiveType)
+                    )
+                }.forEach { deoptimizeMethods(display, it.name) }
+                capture
+            }
 
             captureDisplay.createBeforeHook {
                 val context = it.args[0] as Context
