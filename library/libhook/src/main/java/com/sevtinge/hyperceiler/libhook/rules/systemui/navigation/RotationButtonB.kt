@@ -62,6 +62,13 @@ object RotationButtonB : BaseHook() {
                     it.thisObject.getObjectFieldAs("mContext") as Context?
                 ensureRotationObserver(it.thisObject, mContext)
             }
+        // R8/AOT can inline NavigationBar construction as well. The view lifecycle
+        // still provides a fully initialized controller and Context.
+        navigationBar.findAllMethods { name("onViewAttached") }.createAfterHooks {
+            val context = it.thisObject.getObjectField("mContext") as? Context
+            ensureRotationObserver(it.thisObject, context)
+            (it.thisObject.getObjectField("mView") as? View)?.let(::bindRotationProvider)
+        }
 
         val navigationBarView = loadClass("com.android.systemui.navigationbar.views.NavigationBarView")
         Constructors.find(navigationBarView).toList().createAfterHooks {
@@ -123,6 +130,7 @@ object RotationButtonB : BaseHook() {
             Settings.System.getUriFor("rotation_button_data"), false, contentObserver
         )
         isListen = true
+        XposedLog.i(TAG, lpparam.packageName, "Rotation suggestion observer registered")
         BaseHook.registerContentObserverHotReloadCleanup(context.contentResolver, contentObserver)
         BaseHook.putHotReloadRuntimeState(STATE_NAVIGATION_BAR, navigationBar)
         BaseHook.putHotReloadRuntimeState(STATE_CONTEXT, context)
