@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="various_system_ad_calls">系统应用广告调用</string>
+    <string name="various_disable_system_ads">阻止系统应用加载广告</string>
+    <string name="various_disable_system_ads_desc">支持国际版文件管理、下载管理、GetApps 推荐、安装器、主题和小米视频。需将这些应用加入模块作用域并重启应用。</string>
+    <string name="various_disable_system_telemetry">阻止系统应用统计事件</string>
+    <string name="various_disable_system_telemetry_desc">在上述应用及天气中，阻止 OneTrack 统计和广告上报进入任务队列。</string>
     <!--弹窗/miuix 部分-->
     <string name="miuix_appcompat_action_mode_select_all">全选</string>
     <string name="miuix_appcompat_action_mode_inverse">反选</string>

@@ -18,6 +18,11 @@
   ~ Copyright (C) 2023-2026 HyperCeiler Contributions
   -->
 <resources>
+    <string name="various_system_ad_calls">System app advertising</string>
+    <string name="various_disable_system_ads">Stop system app ad loading</string>
+    <string name="various_disable_system_ads_desc">Global File Manager, Downloads, GetApps recommendations, Package Installer, Themes and Mi Video. Add these apps to the module scope and restart them.</string>
+    <string name="various_disable_system_telemetry">Stop system app tracking events</string>
+    <string name="various_disable_system_telemetry_desc">Block OneTrack event and ad reporting in the apps above and Weather before events are queued.</string>
 
     <!--Pop-up window/miuix part-->
     <string name="miuix_appcompat_action_mode_select_all">Select all</string>

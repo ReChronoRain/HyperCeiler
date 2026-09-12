@@ -19,6 +19,18 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:myLocation="@string/various">
+    <PreferenceCategory android:title="@string/various_system_ad_calls">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_various_disable_system_ads"
+            android:title="@string/various_disable_system_ads"
+            android:summary="@string/various_disable_system_ads_desc" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_various_disable_system_telemetry"
+            android:title="@string/various_disable_system_telemetry"
+            android:summary="@string/various_disable_system_telemetry_desc" />
+    </PreferenceCategory>
     <PreferenceCategory>
         <Preference
             android:fragment="com.sevtinge.hyperceiler.hooker.various.AlertDialogSettings"
