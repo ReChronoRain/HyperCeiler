@@ -48,42 +48,56 @@ public class HidePersistentNotificationIcons extends BaseHook {
         putHotReloadRuntimeState(STATUS_KEYS, lsposedKeys);
 
         if (hideLsposed) {
-            // Track only LSPosed's channel. Its notification is posted as Android,
-            // so filtering the whole package would also hide unrelated system alerts.
-            findAndHookMethod(entryClass, "setSbn", StatusBarNotification.class, new IMethodHook() {
-                @Override
-                public void before(HookParam param) {
-                    if (!(param.getArgs()[0] instanceof StatusBarNotification sbn)) return;
-                    String pkg = sbn.getPackageName();
-                    if (("android".equals(pkg) || "org.lsposed.manager".equals(pkg))
-                        && "lsposed_status".equals(sbn.getNotification().getChannelId())) {
-                        lsposedKeys.add(sbn.getKey());
-                    } else {
-                        lsposedKeys.remove(sbn.getKey());
-                    }
-                }
-            });
+            trackLsposedNotifications(entryClass, lsposedKeys);
         }
 
         findAndHookMethod(iconMapper, "invoke", Object.class, Object.class, Object.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                if (!(param.getArgs()[0] instanceof Set<?> icons)) return;
-                Set<Object> filtered = null;
-                for (Object icon : icons) {
-                    if (icon == null) continue;
-                    String pkg = (String) getObjectField(icon, "packageName");
-                    String key = (String) getObjectField(icon, "notifKey");
-                    if ((hideGarmin && "com.garmin.android.apps.connectmobile".equals(pkg))
-                        || (hideLsposed && lsposedKeys.contains(key))) {
-                        if (filtered == null) filtered = new LinkedHashSet<>(icons);
-                        filtered.remove(icon);
-                    }
-                }
-                // Filter before package deduplication and the icon limit. Keep the
-                // shared notification set, shade, shelf and foreground service intact.
-                if (filtered != null) param.getArgs()[0] = filtered;
+                filterIcons(param, hideGarmin, hideLsposed, lsposedKeys);
             }
         });
+    }
+
+    private void trackLsposedNotifications(Class<?> entryClass, Set<String> lsposedKeys) {
+        // Track only LSPosed's channel. Its notification is posted as Android,
+        // so filtering the whole package would also hide unrelated system alerts.
+        findAndHookMethod(entryClass, "setSbn", StatusBarNotification.class, new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                if (!(param.getArgs()[0] instanceof StatusBarNotification sbn)) return;
+                String pkg = sbn.getPackageName();
+                if (("android".equals(pkg) || "org.lsposed.manager".equals(pkg))
+                    && "lsposed_status".equals(sbn.getNotification().getChannelId())) {
+                    lsposedKeys.add(sbn.getKey());
+                } else {
+                    lsposedKeys.remove(sbn.getKey());
+                }
+            }
+        });
+    }
+
+    private void filterIcons(HookParam param, boolean hideGarmin, boolean hideLsposed,
+                             Set<String> lsposedKeys) {
+        if (!(param.getArgs()[0] instanceof Set<?> icons)) return;
+        Set<Object> filtered = null;
+        for (Object icon : icons) {
+            if (icon == null) continue;
+            if (shouldHideIcon(icon, hideGarmin, hideLsposed, lsposedKeys)) {
+                if (filtered == null) filtered = new LinkedHashSet<>(icons);
+                filtered.remove(icon);
+            }
+        }
+        // Filter before package deduplication and the icon limit. Keep the
+        // shared notification set, shade, shelf and foreground service intact.
+        if (filtered != null) param.getArgs()[0] = filtered;
+    }
+
+    private boolean shouldHideIcon(Object icon, boolean hideGarmin, boolean hideLsposed,
+                                   Set<String> lsposedKeys) {
+        String pkg = (String) getObjectField(icon, "packageName");
+        String key = (String) getObjectField(icon, "notifKey");
+        return (hideGarmin && "com.garmin.android.apps.connectmobile".equals(pkg))
+            || (hideLsposed && lsposedKeys.contains(key));
     }
 }

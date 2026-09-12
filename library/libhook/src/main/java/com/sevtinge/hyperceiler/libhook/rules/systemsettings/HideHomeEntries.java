@@ -41,27 +41,34 @@ public class HideHomeEntries extends BaseHook {
         findAndHookMethod(settings, "updateHeaderList", List.class, new IMethodHook() {
             @Override
             public void after(HookParam param) {
-                if (!(param.getArgs()[0] instanceof List<?> headers)
-                    || !(param.getThisObject() instanceof Activity activity)) return;
-
-                Resources resources = activity.getResources();
-                int updaterId = hideUpdater ? resources.getIdentifier(
-                    "system_apps_updater", "id", "com.android.settings") : 0;
-                int zoomRingId = hideZoomRing ? resources.getIdentifier(
-                    "camera_mr_settings", "id", "com.android.settings") : 0;
-                if (updaterId == 0 && zoomRingId == 0) return;
-
-                // Match stable header IDs, not translated labels or whole packages.
-                for (Iterator<?> iterator = headers.iterator(); iterator.hasNext();) {
-                    Object header = iterator.next();
-                    if (header == null) continue;
-                    long id = getLongField(header, "id");
-                    if ((updaterId != 0 && id == updaterId)
-                        || (zoomRingId != 0 && id == zoomRingId)) {
-                        iterator.remove();
-                    }
-                }
+                hideEntries(param, hideUpdater, hideZoomRing);
             }
         });
+    }
+
+    private void hideEntries(HookParam param, boolean hideUpdater, boolean hideZoomRing) {
+        if (!(param.getArgs()[0] instanceof List<?> headers)
+            || !(param.getThisObject() instanceof Activity activity)) return;
+
+        Resources resources = activity.getResources();
+        int updaterId = hideUpdater ? resources.getIdentifier(
+            "system_apps_updater", "id", "com.android.settings") : 0;
+        int zoomRingId = hideZoomRing ? resources.getIdentifier(
+            "camera_mr_settings", "id", "com.android.settings") : 0;
+        if (updaterId == 0 && zoomRingId == 0) return;
+        removeMatchingHeaders(headers, updaterId, zoomRingId);
+    }
+
+    private void removeMatchingHeaders(List<?> headers, int updaterId, int zoomRingId) {
+        // Match stable header IDs, not translated labels or whole packages.
+        for (Iterator<?> iterator = headers.iterator(); iterator.hasNext();) {
+            Object header = iterator.next();
+            if (header == null) continue;
+            long id = getLongField(header, "id");
+            if ((updaterId != 0 && id == updaterId)
+                || (zoomRingId != 0 && id == zoomRingId)) {
+                iterator.remove();
+            }
+        }
     }
 }
