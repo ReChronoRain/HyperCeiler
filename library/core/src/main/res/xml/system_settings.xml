@@ -43,6 +43,18 @@
     <PreferenceCategory android:title="@string/home">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_settings_hide_system_apps_updater"
+            android:summary="@string/system_settings_hide_home_entry_desc"
+            android:title="@string/system_settings_hide_system_apps_updater" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_settings_hide_camera_mr"
+            android:summary="@string/system_settings_hide_home_entry_desc"
+            android:title="@string/system_settings_hide_camera_mr" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_settings_international_build"
             android:title="@string/system_settings_international_build" />
 

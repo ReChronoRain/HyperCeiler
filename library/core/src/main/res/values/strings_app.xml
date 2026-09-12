@@ -1846,4 +1846,7 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open source projects</string>
     <string name="close_source">Close source projects</string>
+    <string name="system_settings_hide_system_apps_updater">Hide System apps updater</string>
+    <string name="system_settings_hide_camera_mr">Hide Master zoom ring</string>
+    <string name="system_settings_hide_home_entry_desc">Hide only the entry on the Settings home page. The feature stays available. Restart Settings to apply.</string>
 </resources>

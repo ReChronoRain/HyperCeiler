@@ -1806,4 +1806,7 @@
     <string name="custom_hook_mode">选择模式</string>
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
+    <string name="system_settings_hide_system_apps_updater">隐藏系统升级器</string>
+    <string name="system_settings_hide_camera_mr">隐藏大师变焦环</string>
+    <string name="system_settings_hide_home_entry_desc">仅隐藏系统设置首页入口，保留功能本身。重启设置应用后生效。</string>
 </resources>
