@@ -33,15 +33,17 @@ object SimplifyMainFragment : BaseHook() {
     override fun init() {
         loadClass("com.miui.common.card.CardViewRvAdapter").findMethod { name("addAll"); parameterTypes(List::class.java) }
             .createBeforeHook { param ->
-                val oldModelList = param.args[0] as? List<*> ?: return@createBeforeHook
-                val first = oldModelList.indexOfFirst { it?.javaClass?.name in removedModels }
-                if (first >= 0) {
-                    val filtered = ArrayList<Any?>(oldModelList.size - 1)
-                    for (index in oldModelList.indices) {
-                        val model = oldModelList[index]
-                        if (index < first || model?.javaClass?.name !in removedModels) filtered.add(model)
+                val oldModelList = param.args[0] as? List<*>
+                if (oldModelList != null) {
+                    val first = oldModelList.indexOfFirst { it?.javaClass?.name in removedModels }
+                    if (first >= 0) {
+                        val filtered = ArrayList<Any?>(oldModelList.size - 1)
+                        for (index in oldModelList.indices) {
+                            val model = oldModelList[index]
+                            if (index < first || model?.javaClass?.name !in removedModels) filtered.add(model)
+                        }
+                        param.args[0] = filtered
                     }
-                    param.args[0] = filtered
                 }
             }
     }

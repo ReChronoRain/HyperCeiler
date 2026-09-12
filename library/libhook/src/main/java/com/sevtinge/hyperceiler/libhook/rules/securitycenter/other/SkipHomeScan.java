@@ -16,7 +16,8 @@ import java.lang.reflect.Modifier;
 public class SkipHomeScan extends BaseHook {
     private Method startScan;
     private Field contentFrame;
-    private Method setScore, setStatus;
+    private Method setScore;
+    private Method setStatus;
 
     @Override protected boolean useDexKit() { return true; }
 
@@ -38,7 +39,6 @@ public class SkipHomeScan extends BaseHook {
             } catch (NoSuchMethodException ignored) { }
         }
         if (contentFrame == null) throw new IllegalStateException("Security home content frame not found");
-        contentFrame.setAccessible(true);
         return true;
     }
 
@@ -48,7 +48,7 @@ public class SkipHomeScan extends BaseHook {
                 // Do not schedule scan workers or pretend that a scan completed.
                 param.setResult(null);
                 try {
-                    Object frame = contentFrame.get(param.getThisObject());
+                    Object frame = getObjectField(param.getThisObject(), contentFrame.getName());
                     if (frame != null) {
                         setScore.invoke(frame, 100);
                         setStatus.invoke(frame, "");

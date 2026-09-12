@@ -47,6 +47,7 @@ public class DisableSystemAds extends BaseHook {
                 bridge -> bridge.findMethod(FindMethod.create().matcher(MethodMatcher.create()
                     .usingStrings("VideoMediationConfig", "block ad init")
                     .paramCount(0).returnType("void"))).singleOrNull());
+            default -> { return true; }
         }
         return true;
     }
@@ -130,6 +131,7 @@ public class DisableSystemAds extends BaseHook {
                 named(pool, boolean.class, disabled, "getSwitch");
                 named(pool, void.class, stop, "loadAd");
             }
+            default -> { return; }
         }
     }
 }

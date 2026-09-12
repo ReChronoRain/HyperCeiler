@@ -80,10 +80,8 @@ object RotationButtonB : BaseHook() {
         }
 
         loadClass($$$"com.android.systemui.shared.rotation.RotationButtonController$$ExternalSyntheticLambda5").findMethod { name("onClick") }.createBeforeHook {
-                if (enable) {
-                    val rotationButtonController =
-                        it.thisObject.getObjectField("f$0") ?: return@createBeforeHook
-
+                val rotationButtonController = it.thisObject.getObjectField("f$0")
+                if (enable && rotationButtonController != null) {
                     rotationButtonController.callMethod(
                         "setRotateSuggestionButtonState",
                         true,
@@ -102,10 +100,12 @@ object RotationButtonB : BaseHook() {
         // R8 renumbers synthetic lambdas (Lambda1 became Lambda0 on Android 17).
         // Resolve the actual supplier and limit the override to registered instances.
         getter.createBeforeHook {
-            val context = providerContexts[it.thisObject] ?: return@createBeforeHook
-            when (getScreenOrientation(context)) {
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> it.result = Surface.ROTATION_0
-                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> it.result = Surface.ROTATION_90
+            val context = providerContexts[it.thisObject]
+            if (context != null) {
+                when (getScreenOrientation(context)) {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT -> it.result = Surface.ROTATION_0
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE -> it.result = Surface.ROTATION_90
+                }
             }
         }
         XposedLog.i(TAG, lpparam.packageName, "Rotation provider hook: ${provider.javaClass.name}")
