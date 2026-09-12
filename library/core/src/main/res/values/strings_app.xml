@@ -1849,4 +1849,7 @@
     <string name="system_settings_hide_system_apps_updater">Hide System apps updater</string>
     <string name="system_settings_hide_camera_mr">Hide Master zoom ring</string>
     <string name="system_settings_hide_home_entry_desc">Hide only the entry on the Settings home page. The feature stays available. Restart Settings to apply.</string>
+    <string name="system_ui_status_bar_hide_garmin_icon">Hide Garmin notification icons</string>
+    <string name="system_ui_status_bar_hide_lsposed_icon">Hide LSPosed status icon</string>
+    <string name="system_ui_status_bar_hide_persistent_icon_desc">For the Android 17 status bar. Keep notifications and background services running. Restart System UI to apply.</string>
 </resources>

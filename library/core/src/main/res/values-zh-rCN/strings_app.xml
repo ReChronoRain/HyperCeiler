@@ -1809,4 +1809,7 @@
     <string name="system_settings_hide_system_apps_updater">隐藏系统升级器</string>
     <string name="system_settings_hide_camera_mr">隐藏大师变焦环</string>
     <string name="system_settings_hide_home_entry_desc">仅隐藏系统设置首页入口，保留功能本身。重启设置应用后生效。</string>
+    <string name="system_ui_status_bar_hide_garmin_icon">隐藏 Garmin 通知图标</string>
+    <string name="system_ui_status_bar_hide_lsposed_icon">隐藏 LSPosed 状态图标</string>
+    <string name="system_ui_status_bar_hide_persistent_icon_desc">适用于 Android 17 状态栏，保留通知和后台服务。重启系统界面后生效。</string>
 </resources>
