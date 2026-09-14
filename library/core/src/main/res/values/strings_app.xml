@@ -1564,6 +1564,8 @@
     <string name="security_uninstall_hook_point_menu">Uninstall button in app details</string>
     <string name="security_uninstall_hook_point_core">When the uninstall call is made</string>
     <string name="security_uninstall_hook_point_both">Both (recommended)</string>
+    <string name="home_other_uninstall_title">Take over uninstalls from the launcher</string>
+    <string name="home_other_uninstall_summary">Hand uninstall requests from the launcher long-press menu to the chosen uninstaller app</string>
     <string name="security_score">Disable health check optimization</string>
     <string name="security_score_summary">Lock 100 points and disable optimization</string>
     <string name="security_center_skip_waiting_time">Skip countdown limit</string>
