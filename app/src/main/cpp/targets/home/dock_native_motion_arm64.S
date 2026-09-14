@@ -120,20 +120,26 @@ dock_motion_scale_entry_\bank:
 dock_motion_unlock_scale_entry_\bank:
     save_state
     increment_counter dock_motion_active_callbacks
-    increment_counter dock_motion_entry_hits
-    tbz x1, #0, .Lunlock_done_\bank
+    increment_counter dock_auto_aim_entry_hits
+    // The hooked setter is a generic double setter, so the receiver-chain heuristic alone can
+    // miss the real per-frame icon projection. The exact projection call site is unique: accept
+    // it by return address (LR) first, and keep the chain as the fallback for other call sites.
+    resolved64 16, dock_unlock_call_return_\bank
+    cmp x30, x16
+    b.eq .Lunlock_publish_\bank
+    tbz x1, #0, .Lunlock_bad_receiver_\bank
     resolved 16, dock_unlock_state_widget_offset_\bank
     ldr w16, [x1, x16]
-    tbz w16, #0, .Lunlock_done_\bank
+    tbz w16, #0, .Lunlock_bad_widget_\bank
     add x16, x16, x28, lsl #32
     cmp x16, x22
-    b.eq .Lunlock_done_\bank
+    b.eq .Lunlock_bad_widget_\bank
     resolved 17, dock_unlock_widget_cell_offset_\bank
     ldr w17, [x16, x17]
-    tbz w17, #0, .Lunlock_done_\bank
+    tbz w17, #0, .Lunlock_bad_cell_\bank
     add x17, x17, x28, lsl #32
     cmp x17, x22
-    b.eq .Lunlock_done_\bank
+    b.eq .Lunlock_bad_cell_\bank
     resolved 16, dock_unlock_cell_container_offset_\bank
     ldr x10, [x17, x16]
     resolved64 9, dock_unlock_hotseat_container_0_\bank
@@ -150,20 +156,35 @@ dock_motion_unlock_scale_entry_\bank:
     b.eq .Lunlock_publish_\bank
     resolved64 9, dock_unlock_hotseat_container_4_\bank
     cmp x10, x9
-    b.ne .Lunlock_done_\bank
+    b.ne .Lunlock_bad_container_\bank
+    b .Lunlock_publish_\bank
+// Stage counters: a rejected projection must say which hop of the decoded state ->
+// widget -> cell -> container chain failed, instead of silently never publishing.
+.Lunlock_bad_receiver_\bank:
+    increment_counter dock_auto_aim_receiver_bad
+    b .Lunlock_done_\bank
+.Lunlock_bad_widget_\bank:
+    increment_counter dock_auto_aim_widget_bad
+    b .Lunlock_done_\bank
+.Lunlock_bad_cell_\bank:
+    increment_counter dock_auto_aim_cell_bad
+    b .Lunlock_done_\bank
+.Lunlock_bad_container_\bank:
+    increment_counter dock_auto_aim_container_miss
+    b .Lunlock_done_\bank
 .Lunlock_publish_\bank:
     fmov x10, d0
     and x10, x10, #-4
     orr x10, x10, #3
-    adrp x17, dock_motion_value
-    add x17, x17, :lo12:dock_motion_value
+    adrp x17, dock_auto_aim_value
+    add x17, x17, :lo12:dock_auto_aim_value
 .Lunlock_retry_\bank:
     ldaxr x11, [x17]
     cmp x10, x11
     b.eq .Lunlock_done_\bank
     stlxr w16, x10, [x17]
     cbnz w16, .Lunlock_retry_\bank
-    increment_counter dock_motion_publish_hits
+    increment_counter dock_auto_aim_publish_hits
     notify
 .Lunlock_done_\bank:
     clrex

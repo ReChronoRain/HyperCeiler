@@ -27,6 +27,17 @@ public class DockNativeMotionTest {
         // Scenes are packed in two bits, so 0..3 are the whole representable range and scene 3
         // (auto-aim projection) is a valid sample rather than a rejected one.
         check(sample(1, now, 3, .99, 0, now) != null);
+        long aimTimestamp = 1_234_567_890L;
+        DockNativeMotion.Sample aim = sample(13, aimTimestamp, 3, .413, 0, aimTimestamp);
+        Double projected = DockNativeMotion.autoAimScale(aim, 1_234L, aimTimestamp + 1);
+        check(projected != null && Double.doubleToRawLongBits(projected)
+                == Double.doubleToRawLongBits(aim.scale()));
+        check(DockNativeMotion.autoAimScale(aim, 1_235L, aimTimestamp + 1) == null);
+        check(DockNativeMotion.autoAimScale(aim, 1_234L,
+                aimTimestamp + DockNativeMotion.AUTO_AIM_MAX_AGE_NS + 1) == null);
+        check(DockNativeMotion.autoAimScale(sample(14, aimTimestamp, 1, .413, 0,
+                aimTimestamp), 1_234L, aimTimestamp + 1) == null);
+        check(DockNativeMotion.autoAimScale(null, 1_234L, aimTimestamp + 1) == null);
         check(DockNativeMotion.validate(1, now,
             packed(1, .99), -1, 0, 0, now) == null);
         check(DockNativeMotion.validate(1, now,
@@ -93,6 +104,9 @@ public class DockNativeMotionTest {
         near(motion.progress(), .8f); // Transient scene 0 during a drag preserves the position.
         motion.accept(sample(12, now, 0, 1, 0, now));
         near(motion.progress(), 0);
+        float beforeAim = motion.progress();
+        check(!motion.accept(sample(13, now, 3, .413, 0, now)));
+        near(motion.progress(), beforeAim); // Unlock size never mutates the recents state machine.
         motion.reset();
         motion.accept(sample(1, now, 1, .98, 0, now));
         near(motion.progress(), .4f);

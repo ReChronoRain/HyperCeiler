@@ -74,6 +74,14 @@ struct UnlockLayout {
 };
 struct UnlockResolution {
     uintptr_t scale;
+    /**
+     * Return address (LR) of the exact call that feeds the projected scale into the setter.
+     *
+     * <p>The setter itself is a generic double setter shared by unrelated widgets, so the older
+     * receiver-chain filter could not reliably separate the per-frame icon projection from other
+     * calls. The call site inside the animation routine can: exactly one call is the projection.
+     */
+    uintptr_t call_return;
     UnlockLayout layout;
 };
 struct Resolution {
@@ -94,6 +102,7 @@ inline bool same_unlock(const std::optional<UnlockResolution> &left,
     const std::optional<UnlockResolution> &right) {
     if (left.has_value() != right.has_value()) return false;
     return !left || (left->scale == right->scale
+        && left->call_return == right->call_return
         && same_unlock_layout(left->layout, right->layout));
 }
 
@@ -783,12 +792,16 @@ inline std::optional<UnlockResolution> resolve_unlock(
                         if (setter_calls[first].setter->body.address
                             == setter_calls[second].setter->body.address) continue;
                         UnlockResolution candidate{setter_calls[second].setter->body.address,
+                            // LR observed by the setter: the instruction after its BL.
+                            nested->address
+                                + (setter_calls[second].index + 1) * sizeof(uint32_t),
                             {static_cast<uint32_t>(cell.state_widget_offset),
                              static_cast<uint32_t>(cell.widget_cell_offset),
                              static_cast<uint32_t>(cell.center.container_offset),
                              cell.center.containers}};
                         if (result) {
                             if (result->scale == candidate.scale
+                                && result->call_return == candidate.call_return
                                 && same_unlock_layout(result->layout, candidate.layout)) continue;
                             return {};
                         }

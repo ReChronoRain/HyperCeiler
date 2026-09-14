@@ -136,6 +136,59 @@ public class DockNativeMotionEndpointTest {
         wrongUid.bindIdentity(UID + 1, PID + 30);
         check(wrongUid.latest(UID + 1, PID + 30) == null);
 
+        // AUTO_AIM owns an independent transaction/latest lane. A scene-2 write in the same
+        // Flutter frame must not erase the live projected scale before WMS consumes it.
+        AtomicInteger aimChanged = new AtomicInteger();
+        AtomicInteger aimKeepalive = new AtomicInteger();
+        DockNativeMotionEndpoint aimEndpoint = new DockNativeMotionEndpoint(
+                aimChanged::incrementAndGet, aimKeepalive::incrementAndGet, ignored -> { });
+        aimEndpoint.bindIdentity(UID, PID);
+        Binder.setCallingIdentityForTest(UID, PID);
+        long aimTime = System.nanoTime();
+        check(aimEndpoint.receive(DockNativeMotionEndpoint.AUTO_AIM_TRANSACTION_CODE,
+                packet(1, aimTime, DockNativeMotion.SCENE_AUTO_AIM, .413, 1, 1), 0)
+                == DockNativeMotionEndpoint.ACK);
+        DockNativeMotion.Sample aimSample = aimEndpoint.latestAutoAim(UID, PID);
+        check(aimSample != null && aimSample.scene() == DockNativeMotion.SCENE_AUTO_AIM
+                && Double.doubleToRawLongBits(aimSample.scale())
+                    == (Double.doubleToRawLongBits(.413) & ~3L));
+        check(aimChanged.get() == 1);
+        check(aimEndpoint.receive(DockNativeMotionEndpoint.TRANSACTION_CODE,
+                packet(1, System.nanoTime(), 2, 1, 100, 50), 0)
+                == DockNativeMotionEndpoint.ACK);
+        check(aimEndpoint.latest(UID, PID).scene() == 2
+                && aimEndpoint.latestAutoAim(UID, PID) == aimSample);
+        check(aimEndpoint.receive(DockNativeMotionEndpoint.AUTO_AIM_TRANSACTION_CODE,
+                packet(2, System.nanoTime(), DockNativeMotion.SCENE_AUTO_AIM, .413, 2, 1), 0)
+                == DockNativeMotionEndpoint.ACK);
+        check(aimEndpoint.latestAutoAim(UID, PID) == aimSample && aimChanged.get() == 2
+                && aimKeepalive.get() == 1);
+
+        // Accept scene 3 on the legacy code during a live module/native hot-reload, but still
+        // route it into the independent lane instead of replacing recents state.
+        check(aimEndpoint.receive(DockNativeMotionEndpoint.TRANSACTION_CODE,
+                packet(3, System.nanoTime(), DockNativeMotion.SCENE_AUTO_AIM, .72, 3, 2), 0)
+                == DockNativeMotionEndpoint.ACK);
+        check(aimEndpoint.latest(UID, PID).scene() == 2
+                && Math.abs(aimEndpoint.latestAutoAim(UID, PID).scale() - .72) < 1e-12);
+
+        AtomicInteger earlyAimChanged = new AtomicInteger();
+        DockNativeMotionEndpoint earlyAim = new DockNativeMotionEndpoint(
+                earlyAimChanged::incrementAndGet, ignored -> { });
+        check(earlyAim.receive(DockNativeMotionEndpoint.AUTO_AIM_TRANSACTION_CODE,
+                packet(1, System.nanoTime(), DockNativeMotion.SCENE_AUTO_AIM, .38, 7, 4), 0)
+                == DockNativeMotionEndpoint.ACK);
+        check(earlyAim.latestAutoAim(UID, PID) == null);
+        earlyAim.bindIdentity(UID, PID);
+        check(Math.abs(earlyAim.latestAutoAim(UID, PID).scale() - .38) < 1e-12
+                && earlyAim.latest(UID, PID) == null && earlyAimChanged.get() == 1);
+
+        // The dedicated transaction is fail-closed for every non-scene-3 payload.
+        check(earlyAim.receive(DockNativeMotionEndpoint.AUTO_AIM_TRANSACTION_CODE,
+                packet(2, System.nanoTime(), 2, .91, 8, 5), 0)
+                == DockNativeMotionEndpoint.ACK);
+        check(Math.abs(earlyAim.latestAutoAim(UID, PID).scale() - .38) < 1e-12);
+
         System.out.println("DockNativeMotionEndpoint tests passed");
     }
 }

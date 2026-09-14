@@ -1,4 +1,4 @@
-# OS4 Dock v31: semantic dynamic resolution and concurrent runtime recovery
+# OS4 Dock: semantic dynamic resolution, concurrent recovery and live unlock projection
 
 The permanent nonblocking eventfd coalesces the newest sample while Binder reconnects.
 The transport reconnects after either a transaction failure or a real suspend gap found
@@ -14,6 +14,15 @@ trampoline bank. Old and new generations stay hooked concurrently; a newly mappe
 runtime can no longer steal the only trampoline from the active UI runtime. Banks are
 never reused in the same process, so a delayed callback can never observe another
 generation's layout or original trampoline.
+AUTO_AIM adds one optional hook to each immutable bank. The resolver identifies a raw-double
+`scaleValue=` setter through its ABI, records the return address of the `bl` that feeds it from
+`conversionValueFrom3DTo2D`, and then derives the state → widget → CellLocationInfo field chain and
+the Hotseat container set from current ARM64 code. The hook accepts only that exact call site and
+publishes its `d0` as scene 3; it never authors a keyframe, interpolator or spring. On the current
+launcher artifact that call site is a per-icon setup call that carries a constant, so the reveal
+replays the launcher's own logged projection instead (see README); the channel stays wired because a
+launcher build that does publish a real per-frame value is then picked up with no code change.
+Failure to resolve or repair this optional hook leaves the established recents triple unchanged.
 The system-side frame channel uses an owned Choreographer when OS4 exposes it. A real
 motion sample detects a frame request stranded across suspend using elapsed realtime and
 immediately replaces it. Transient SurfaceControl or Choreographer failures rebuild the
@@ -100,6 +109,10 @@ premature scan therefore cannot remain stuck until another overview gesture.
   `scale=e25740`, `animate=deecd4`, `set=e24488` and parameter CID 1777 from semantic
   relationships. Multiple unrelated constructor and scale candidates are rejected
   by their setter/continuation data flow.
+- The current launcher artifact also resolves the unlock projection setter and, independently,
+  the return address of the `bl` that feeds it (`scale=12d3e3c`, `call_return=12d37d8`); the
+  required-artifact test verifies the dynamically derived pointer offsets, the call-site filter,
+  five distinct Hotseat containers, relocation and four-word hook contract.
 - Resolver/runtime tests relocate complete executable ranges, group independently
   loaded generations, reject duplicate matches and malformed mapping inventories,
   and pass AddressSanitizer plus UndefinedBehaviorSanitizer.
@@ -108,7 +121,8 @@ premature scan therefore cannot remain stuck until another overview gesture.
   continuity, background-mode migration and glass presets.
 - The production assembly was cross-compiled and executed on the connected
   phone using HyperCeiler-only synthetic fixtures. Registers x0-x15, NZCV,
-  Dart stack, unchanged fixtures, scene guards and eventfd notifications passed.
+  Dart stack, unchanged fixtures, all five Hotseat classifications, raw `d0` preservation,
+  scene guards and eventfd notifications passed.
   A second fixture changed the class-ID bit shift, mask, tagged-header offset,
   bool-singleton displacement, class IDs and every payload field without changing
   assembly. It uses a second immutable runtime bank and verifies the first bank still

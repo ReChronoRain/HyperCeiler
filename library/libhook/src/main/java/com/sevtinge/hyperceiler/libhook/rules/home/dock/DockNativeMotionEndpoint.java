@@ -28,21 +28,26 @@ import java.util.function.Consumer;
 
 /** Authenticated custom transaction carried by MiuiHome's existing IWindowManager Binder. */
 public final class DockNativeMotionEndpoint {
-    // Versioned so a hot-reloaded v30 endpoint cannot consume or overwrite the
-    // persistent v31 revalidation acknowledgment.
+    // The established recents transaction remains stable across hot reloads.
     public static final int TRANSACTION_CODE = 0x0048434A;
+    /** Independent latest-value lane: recents writes can never erase the Hotseat projection. */
+    public static final int AUTO_AIM_TRANSACTION_CODE = 0x0048434B;
     public static final int ACK = 0x48434B32;
     public static final int ACK_REVALIDATE = 0x48434B33;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
 
     private record Identity(int uid, int pid) { }
     private record State(Identity identity, DockNativeMotion.Sample sample, long sequence) { }
+    private record AutoAimState(Identity identity, DockNativeMotion.Sample sample, long sequence) { }
     private record Pending(Identity identity, DockNativeMotion.Sample sample, long sequence) { }
     private record OverviewHit(Identity identity, long timestamp) { }
     private record Revalidation(Identity identity, long publishHits) { }
     private enum AcceptResult { REJECTED, IDENTITY_CHANGED, KEEPALIVE, PROGRESSED }
     private final AtomicReference<State> state = new AtomicReference<>(new State(null, null, 0));
     private final AtomicReference<Pending> pending = new AtomicReference<>();
+    private final AtomicReference<AutoAimState> autoAimState =
+            new AtomicReference<>(new AutoAimState(null, null, 0));
+    private final AtomicReference<Pending> autoAimPending = new AtomicReference<>();
     private final AtomicReference<OverviewHit> overviewHit = new AtomicReference<>();
     private final AtomicReference<Revalidation> revalidation = new AtomicReference<>();
     private final AtomicInteger reported = new AtomicInteger();
@@ -93,12 +98,38 @@ public final class DockNativeMotionEndpoint {
         if (promoted) recordOverview(replacement, early.sample());
         // Covers a packet racing between pending.getAndSet() and the state update.
         if (promotePending(replacement)) promoted = true;
-        if (promoted) notifyChanged();
+
+        Pending earlyAim = autoAimPending.getAndSet(null);
+        AutoAimState aimRebound = autoAimState.updateAndGet(current -> {
+            boolean sameIdentity = replacement.equals(current.identity());
+            DockNativeMotion.Sample sample = sameIdentity ? current.sample() : null;
+            long sequence = sameIdentity ? current.sequence() : 0;
+            if (earlyAim != null && replacement.equals(earlyAim.identity())
+                    && earlyAim.sequence() > sequence) {
+                if (earlyAim.sample() != null
+                        && DockNativeMotion.hasPublishedProgress(sample, earlyAim.sample())) {
+                    sample = earlyAim.sample();
+                }
+                sequence = earlyAim.sequence();
+            }
+            if (sameIdentity && sample == current.sample() && sequence == current.sequence()) {
+                return current;
+            }
+            return new AutoAimState(replacement, sample, sequence);
+        });
+        boolean aimPromoted = earlyAim != null && earlyAim.sample() != null
+                && aimRebound.sample() == earlyAim.sample();
+        if (promoteAutoAimPending(replacement)) aimPromoted = true;
+        if (promoted || aimPromoted) notifyChanged();
+    }
+
+    public static boolean handles(int code) {
+        return code == TRANSACTION_CODE || code == AUTO_AIM_TRANSACTION_CODE;
     }
 
     /** Must be called only from IWindowManager.Stub.onTransact while Binder identity is intact. */
     public int receive(int code, Parcel data, int flags) {
-        if (code != TRANSACTION_CODE) return 0;
+        if (!handles(code)) return 0;
         data.enforceInterface(DESCRIPTOR);
         State current = state.get();
         Identity expected = current.identity();
@@ -126,13 +157,27 @@ public final class DockNativeMotionEndpoint {
             return ACK;
         }
         boolean identityMatches = expected != null && expected.equals(caller);
-        Pending early = pending.get();
-        long previousSequence = identityMatches ? current.sequence()
-                : early != null && caller.equals(early.identity()) ? early.sequence() : 0;
+        long sequence = data.readLong();
+        long timestamp = data.readLong();
+        long packed = data.readLong();
+        long entryHits = data.readLong();
+        long publishHits = data.readLong();
+        boolean autoAim = (packed & 3L) == DockNativeMotion.SCENE_AUTO_AIM;
+        if (code == AUTO_AIM_TRANSACTION_CODE && !autoAim) {
+            report(512, "auto aim Binder rejected: non-scene-3 payload");
+            return ACK;
+        }
+        AutoAimState aimCurrent = autoAimState.get();
+        Pending early = autoAim ? autoAimPending.get() : pending.get();
+        long previousSequence = autoAim
+                ? identityMatches ? aimCurrent.sequence()
+                    : early != null && caller.equals(early.identity()) ? early.sequence() : 0
+                : identityMatches ? current.sequence()
+                    : early != null && caller.equals(early.identity()) ? early.sequence() : 0;
         DockNativeMotion.Sample sample = DockNativeMotion.validate(
-            data.readLong(), data.readLong(), data.readLong(), data.readLong(), data.readLong(),
-            previousSequence,
+            sequence, timestamp, packed, entryHits, publishHits, previousSequence,
             System.nanoTime());
+        if (autoAim) return receiveAutoAim(caller, expected, sample);
         if (sample != null && !identityMatches) {
             boolean pendingProgressed = retainPending(caller, sample);
             if (pendingProgressed && sample.scene() == 1) {
@@ -173,6 +218,33 @@ public final class DockNativeMotionEndpoint {
         }
         if (sample == null) report(64, "native motion Binder rejected: invalid or stale sample");
         return acknowledgment(caller);
+    }
+
+    private int receiveAutoAim(Identity caller, Identity expected,
+                               DockNativeMotion.Sample sample) {
+        boolean identityMatches = expected != null && expected.equals(caller);
+        if (sample != null && !identityMatches) {
+            retainAutoAimPending(caller, sample);
+            report(1024, "auto aim Binder retained sample until exact launcher PID binds");
+            if (promoteAutoAimPending(caller)) notifyChanged();
+            return ACK;
+        }
+        AcceptResult accepted = sample == null
+                ? AcceptResult.REJECTED : acceptBoundAutoAim(caller, sample);
+        if (sample != null && accepted == AcceptResult.IDENTITY_CHANGED) {
+            retainAutoAimPending(caller, sample);
+            if (promoteAutoAimPending(caller)) notifyChanged();
+            report(1024, "auto aim Binder retained sample across launcher PID rebind");
+            return ACK;
+        }
+        if (accepted == AcceptResult.PROGRESSED) {
+            report(2048, "auto aim Binder sample accepted on independent lane");
+            notifyChanged();
+        } else if (accepted == AcceptResult.KEEPALIVE) {
+            notifyKeepalive();
+        }
+        if (sample == null) report(4096, "auto aim Binder rejected: invalid or stale sample");
+        return ACK;
     }
 
     public void requestHookRevalidation(int uid, int pid) {
@@ -227,6 +299,20 @@ public final class DockNativeMotionEndpoint {
         }
     }
 
+    private boolean retainAutoAimPending(Identity identity, DockNativeMotion.Sample sample) {
+        for (;;) {
+            Pending current = autoAimPending.get();
+            if (current != null && identity.equals(current.identity())
+                    && current.sequence() >= sample.sequence()) return false;
+            DockNativeMotion.Sample previous = current != null
+                    && identity.equals(current.identity()) ? current.sample() : null;
+            boolean progressed = DockNativeMotion.hasPublishedProgress(previous, sample);
+            DockNativeMotion.Sample effective = progressed ? sample : previous;
+            if (autoAimPending.compareAndSet(current,
+                    new Pending(identity, effective, sample.sequence()))) return progressed;
+        }
+    }
+
     private AcceptResult acceptBoundSample(Identity identity, DockNativeMotion.Sample sample) {
         for (;;) {
             State current = state.get();
@@ -236,6 +322,20 @@ public final class DockNativeMotionEndpoint {
             DockNativeMotion.Sample effective = progressed ? sample : current.sample();
             if (state.compareAndSet(current,
                     new State(identity, effective, sample.sequence()))) {
+                return progressed ? AcceptResult.PROGRESSED : AcceptResult.KEEPALIVE;
+            }
+        }
+    }
+
+    private AcceptResult acceptBoundAutoAim(Identity identity, DockNativeMotion.Sample sample) {
+        for (;;) {
+            AutoAimState current = autoAimState.get();
+            if (!identity.equals(current.identity())) return AcceptResult.IDENTITY_CHANGED;
+            if (sample.sequence() <= current.sequence()) return AcceptResult.REJECTED;
+            boolean progressed = DockNativeMotion.hasPublishedProgress(current.sample(), sample);
+            DockNativeMotion.Sample effective = progressed ? sample : current.sample();
+            if (autoAimState.compareAndSet(current,
+                    new AutoAimState(identity, effective, sample.sequence()))) {
                 return progressed ? AcceptResult.PROGRESSED : AcceptResult.KEEPALIVE;
             }
         }
@@ -259,6 +359,27 @@ public final class DockNativeMotionEndpoint {
                     new State(identity, effective, early.sequence()))) {
                 pending.compareAndSet(early, null);
                 if (progressed) recordOverview(identity, early.sample());
+                return progressed;
+            }
+        }
+    }
+
+    private boolean promoteAutoAimPending(Identity identity) {
+        for (;;) {
+            Pending early = autoAimPending.get();
+            AutoAimState current = autoAimState.get();
+            if (early == null || !identity.equals(early.identity())
+                    || !identity.equals(current.identity())) return false;
+            if (early.sequence() <= current.sequence()) {
+                autoAimPending.compareAndSet(early, null);
+                return false;
+            }
+            boolean progressed = early.sample() != null && DockNativeMotion.hasPublishedProgress(
+                    current.sample(), early.sample());
+            DockNativeMotion.Sample effective = progressed ? early.sample() : current.sample();
+            if (autoAimState.compareAndSet(current,
+                    new AutoAimState(identity, effective, early.sequence()))) {
+                autoAimPending.compareAndSet(early, null);
                 return progressed;
             }
         }
@@ -301,6 +422,17 @@ public final class DockNativeMotionEndpoint {
         return expected != null && expected.equals(new Identity(uid, pid))
                 && sample != null && sample.uptimeNanos() <= now
                 && now - sample.uptimeNanos() <= DockNativeMotion.MAX_AGE_NS ? sample : null;
+    }
+
+    public DockNativeMotion.Sample latestAutoAim(int uid, int pid) {
+        AutoAimState current = autoAimState.get();
+        Identity expected = current.identity();
+        DockNativeMotion.Sample sample = current.sample();
+        long now = System.nanoTime();
+        return expected != null && expected.equals(new Identity(uid, pid))
+                && sample != null && sample.uptimeNanos() <= now
+                && now - sample.uptimeNanos() <= DockNativeMotion.AUTO_AIM_MAX_AGE_NS
+                ? sample : null;
     }
 
     public boolean sawOverviewSince(int uid, int pid, long timestamp) {

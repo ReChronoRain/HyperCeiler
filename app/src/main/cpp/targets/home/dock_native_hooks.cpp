@@ -51,6 +51,7 @@ extern "C" {
     uint32_t dock_unlock_state_widget_offset_##bank = 0; \
     uint32_t dock_unlock_widget_cell_offset_##bank = 0; \
     uint32_t dock_unlock_cell_container_offset_##bank = 0; \
+    uintptr_t dock_unlock_call_return_##bank = 0; \
     int64_t dock_unlock_hotseat_container_0_##bank = 0; \
     int64_t dock_unlock_hotseat_container_1_##bank = 0; \
     int64_t dock_unlock_hotseat_container_2_##bank = 0; \
@@ -68,6 +69,12 @@ DOCK_MOTION_BANKS(DEFINE_DOCK_MOTION_BANK)
 // exactly like an idle desktop.
 extern std::atomic<uint64_t> dock_motion_entry_hits;
 extern std::atomic<uint64_t> dock_motion_publish_hits;
+extern std::atomic<uint64_t> dock_auto_aim_entry_hits;
+extern std::atomic<uint64_t> dock_auto_aim_publish_hits;
+extern std::atomic<uint64_t> dock_auto_aim_receiver_bad;
+extern std::atomic<uint64_t> dock_auto_aim_widget_bad;
+extern std::atomic<uint64_t> dock_auto_aim_cell_bad;
+extern std::atomic<uint64_t> dock_auto_aim_container_miss;
 extern std::atomic<uint64_t> dock_motion_active_callbacks;
 extern std::atomic<uint32_t> dock_motion_subscribed;
 }
@@ -155,6 +162,7 @@ struct BankSymbols {
     uint32_t *unlock_state_widget_offset;
     uint32_t *unlock_widget_cell_offset;
     uint32_t *unlock_cell_container_offset;
+    uintptr_t *unlock_call_return;
     std::array<int64_t *, 5> unlock_hotseat_containers;
     std::array<void *, kTargetCount> replacements;
     std::array<void **, kTargetCount> originals;
@@ -171,6 +179,7 @@ struct BankSymbols {
     &dock_false_from_null_##bank, \
     &dock_unlock_state_widget_offset_##bank, &dock_unlock_widget_cell_offset_##bank, \
     &dock_unlock_cell_container_offset_##bank, \
+    &dock_unlock_call_return_##bank, \
     {&dock_unlock_hotseat_container_0_##bank, &dock_unlock_hotseat_container_1_##bank, \
      &dock_unlock_hotseat_container_2_##bank, &dock_unlock_hotseat_container_3_##bank, \
      &dock_unlock_hotseat_container_4_##bank}, \
@@ -749,11 +758,13 @@ void publish_layout(size_t index, const dock_motion::Layout &layout) {
     *symbols.false_from_null = layout.false_from_null;
 }
 
-void publish_unlock_layout(size_t index, const dock_motion::UnlockLayout &layout) {
+void publish_unlock_layout(size_t index, const dock_motion::UnlockResolution &unlock) {
     const auto &symbols = kBankSymbols[index];
+    const auto &layout = unlock.layout;
     *symbols.unlock_state_widget_offset = layout.state_widget_offset;
     *symbols.unlock_widget_cell_offset = layout.widget_cell_offset;
     *symbols.unlock_cell_container_offset = layout.cell_container_offset;
+    *symbols.unlock_call_return = unlock.call_return;
     for (size_t item = 0; item < layout.hotseat_containers.size(); ++item) {
         *symbols.unlock_hotseat_containers[item] = layout.hotseat_containers[item];
     }
@@ -871,6 +882,12 @@ void report_pipeline(bool healthy) {
     static uint64_t publish = 0;
     static uint64_t callbacks = 0;
     static uint64_t guard = 0;
+    static uint64_t auto_aim_entry = 0;
+    static uint64_t auto_aim_publish = 0;
+    static uint64_t aim_receiver_bad = 0;
+    static uint64_t aim_widget_bad = 0;
+    static uint64_t aim_cell_bad = 0;
+    static uint64_t aim_container_miss = 0;
     uint64_t now = 0;
     if (!monotonic_ns(now)) return;
     if (next_ns == 0) next_ns = now + kPipelineReportNs;
@@ -880,20 +897,50 @@ void report_pipeline(bool healthy) {
     const uint64_t current_publish = dock_motion_publish_hits.load(std::memory_order_relaxed);
     const uint64_t current_callbacks = dock_motion_active_callbacks.load(std::memory_order_relaxed);
     const uint64_t current_guard = dock_motion_guard_events.load(std::memory_order_relaxed);
+    const uint64_t current_auto_aim_entry =
+        dock_auto_aim_entry_hits.load(std::memory_order_relaxed);
+    const uint64_t current_auto_aim_publish =
+        dock_auto_aim_publish_hits.load(std::memory_order_relaxed);
+    const uint64_t current_aim_receiver_bad =
+        dock_auto_aim_receiver_bad.load(std::memory_order_relaxed);
+    const uint64_t current_aim_widget_bad =
+        dock_auto_aim_widget_bad.load(std::memory_order_relaxed);
+    const uint64_t current_aim_cell_bad =
+        dock_auto_aim_cell_bad.load(std::memory_order_relaxed);
+    const uint64_t current_aim_container_miss =
+        dock_auto_aim_container_miss.load(std::memory_order_relaxed);
     const uint32_t current_subscribed = dock_motion_subscribed.load(std::memory_order_relaxed);
     __android_log_print(ANDROID_LOG_INFO, kTag,
-        "motion pipeline subscribed=%u healthy=%d banks=%zu entry=%llu(+%llu) publish=%llu(+%llu) callbacks=%llu(+%llu) guard=%llu(+%llu)",
+        "motion pipeline subscribed=%u healthy=%d banks=%zu entry=%llu(+%llu) publish=%llu(+%llu) aimEntry=%llu(+%llu) aimPublish=%llu(+%llu) aimReject rx=%llu(+%llu) widget=%llu(+%llu) cell=%llu(+%llu) container=%llu(+%llu) callbacks=%llu(+%llu) guard=%llu(+%llu)",
         current_subscribed, healthy ? 1 : 0, hook_banks.size(),
         static_cast<unsigned long long>(current_entry),
         static_cast<unsigned long long>(current_entry - entry),
         static_cast<unsigned long long>(current_publish),
         static_cast<unsigned long long>(current_publish - publish),
+        static_cast<unsigned long long>(current_auto_aim_entry),
+        static_cast<unsigned long long>(current_auto_aim_entry - auto_aim_entry),
+        static_cast<unsigned long long>(current_auto_aim_publish),
+        static_cast<unsigned long long>(current_auto_aim_publish - auto_aim_publish),
+        static_cast<unsigned long long>(current_aim_receiver_bad),
+        static_cast<unsigned long long>(current_aim_receiver_bad - aim_receiver_bad),
+        static_cast<unsigned long long>(current_aim_widget_bad),
+        static_cast<unsigned long long>(current_aim_widget_bad - aim_widget_bad),
+        static_cast<unsigned long long>(current_aim_cell_bad),
+        static_cast<unsigned long long>(current_aim_cell_bad - aim_cell_bad),
+        static_cast<unsigned long long>(current_aim_container_miss),
+        static_cast<unsigned long long>(current_aim_container_miss - aim_container_miss),
         static_cast<unsigned long long>(current_callbacks),
         static_cast<unsigned long long>(current_callbacks - callbacks),
         static_cast<unsigned long long>(current_guard),
         static_cast<unsigned long long>(current_guard - guard));
     entry = current_entry;
     publish = current_publish;
+    auto_aim_entry = current_auto_aim_entry;
+    auto_aim_publish = current_auto_aim_publish;
+    aim_receiver_bad = current_aim_receiver_bad;
+    aim_widget_bad = current_aim_widget_bad;
+    aim_cell_bad = current_aim_cell_bad;
+    aim_container_miss = current_aim_container_miss;
     callbacks = current_callbacks;
     guard = current_guard;
 }
@@ -949,7 +996,7 @@ bool add_instance(const ResolvedInstance &instance) {
     // Publish the layout before installing: the replacement reads these symbols.
     publish_layout(index, instance.resolution.layout);
     if (instance.resolution.unlock) {
-        publish_unlock_layout(index, instance.resolution.unlock->layout);
+        publish_unlock_layout(index, *instance.resolution.unlock);
     }
     HookBank replacement = make_bank(index, instance);
     hook_banks.push_back(std::move(replacement));
@@ -1708,7 +1755,7 @@ void *motion_worker_impl() {
         return nullptr;
     }
     __android_log_print(ANDROID_LOG_INFO, kTag,
-        "dynamic motion v34 transport starting independently of runtime discovery");
+        "dynamic motion v35 transport starting independently of runtime discovery");
     // run_dock_motion() is a permanent service loop. If it ever returns, the launcher
     // would silently lose real-time motion for the rest of its life, because the only
     // remaining re-arm paths fire on rare one-shot events. Restart the transport

@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "../../app/src/main/cpp/targets/home/dock_native_resolver.h"
 #include <cassert>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <iostream>
@@ -78,6 +79,7 @@ void test_decoder_rejects_unsafe_abi() {
 
 int main(int argc, char **argv) {
     using namespace dock_motion;
+    const bool require_unlock = std::getenv("DOCK_REQUIRE_UNLOCK") != nullptr;
     test_decoder_rejects_unsafe_abi();
     assert(!resolve({}));
     assert(!call_target({0, {}}, 0));
@@ -107,14 +109,50 @@ int main(int argc, char **argv) {
         assert(original);
         std::cout << argv[arg] << " scale=" << std::hex << original->scale
             << " animate=" << original->animate << " set=" << original->set
-            << std::dec << " CID=" << original->layout.params_class_id << '\n';
+            << std::dec << " CID=" << original->layout.params_class_id;
+        if (original->unlock) {
+            std::cout << " unlockScale=" << std::hex << original->unlock->scale << std::dec;
+        }
+        std::cout << '\n';
         assert(original->layout.tagged_header_offset < 0);
         assert(original->layout.class_id_mask != 0);
+        if (require_unlock) assert(original->unlock);
+        if (original->unlock) {
+            const auto &unlock = *original->unlock;
+            assert(unlock.scale != original->scale && unlock.scale != original->animate
+                && unlock.scale != original->set);
+            assert(plausible_pointer_field(unlock.layout.state_widget_offset,
+                original->layout.tagged_header_offset, 4));
+            assert(plausible_pointer_field(unlock.layout.widget_cell_offset,
+                original->layout.tagged_header_offset, 4));
+            assert(plausible_pointer_field(unlock.layout.cell_container_offset,
+                original->layout.tagged_header_offset, 8));
+            // The setter is generic; only the exact call site proves the projection. Its LR must
+            // be a real code address distinct from the setter entry.
+            assert(unlock.call_return != 0 && unlock.call_return != unlock.scale);
+            auto containers = unlock.layout.hotseat_containers;
+            assert(std::ranges::all_of(containers, [](int64_t value) { return value < 0; }));
+            std::ranges::sort(containers);
+            assert(std::adjacent_find(containers.begin(), containers.end()) == containers.end());
+            const auto contract = resolve_hook_targets(ranges, 0);
+            assert(contract && contract->unlock_target);
+            assert(contract->unlock_target->rva == unlock.scale);
+            assert(contract->unlock_target->original_words.size() == kPatchTargetWords);
+        }
         for (auto &range : ranges) range.address += 0x7123450000ULL;
         const auto relocated = resolve(ranges);
         assert(relocated && relocated->scale == original->scale + 0x7123450000ULL);
         assert(relocated->animate == original->animate + 0x7123450000ULL);
         assert(relocated->set == original->set + 0x7123450000ULL);
+        assert(relocated->unlock.has_value() == original->unlock.has_value());
+        if (original->unlock) {
+            assert(relocated->unlock->scale
+                == original->unlock->scale + 0x7123450000ULL);
+            assert(relocated->unlock->call_return
+                == original->unlock->call_return + 0x7123450000ULL);
+            assert(same_unlock_layout(
+                relocated->unlock->layout, original->unlock->layout));
+        }
         // Duplicate identities must fail closed, never select the first match.
         auto duplicate = ranges;
         duplicate.push_back(ranges.front());
@@ -142,6 +180,18 @@ int main(int argc, char **argv) {
         assert(switched && switched->scale == relocated->scale + runtime_relocation);
         assert(switched->animate == relocated->animate + runtime_relocation);
         assert(switched->set == relocated->set + runtime_relocation);
+        // This synthetic input deliberately keeps the unpatched optional unlock setter in the
+        // retired copy while patching only its required recents triple. The optional resolver may
+        // therefore fail closed on the two indistinguishable setters. Production resolves each
+        // mapping generation independently; if this combined-image test does select one, it must
+        // be the setter in the same (new) copy as the selected recents graph, never the retired one.
+        if (switched->unlock) {
+            assert(relocated->unlock);
+            assert(switched->unlock->scale
+                == relocated->unlock->scale + runtime_relocation);
+            assert(same_unlock_layout(
+                switched->unlock->layout, relocated->unlock->layout));
+        }
         const auto scale = at(ranges, relocated->scale, 1);
         auto *instruction = const_cast<uint32_t *>(scale.data());
         const auto saved = *instruction;

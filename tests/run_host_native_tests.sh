@@ -92,6 +92,7 @@ HOST_ARCH="$(uname -m)"
 if [[ "$HOST_OS" == "Linux" && "$HOST_ARCH" == "aarch64" ]]; then
   build DockNativeArm64Test "$ROOT/tests/home-dock-window/DockNativeArm64Test.cpp" \
     "$ROOT/tests/home-dock-window/DockNativeArm64Harness.S" \
+    "$ROOT/app/src/main/cpp/targets/home/dock_native_motion_arm64.S" \
     && run DockNativeArm64Test
 else
   printf 'SKIP DockNativeArm64Test (needs Linux + aarch64; host is %s/%s)\n' \

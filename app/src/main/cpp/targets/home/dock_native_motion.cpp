@@ -18,6 +18,18 @@ extern "C" {
 alignas(8) std::atomic<uint64_t> dock_motion_value{0x3ff0000000000000ULL};
 alignas(8) std::atomic<uint64_t> dock_motion_entry_hits{0};
 alignas(8) std::atomic<uint64_t> dock_motion_publish_hits{0};
+// AUTO_AIM deliberately owns a second coalescing slot. The unlock setter and the established
+// recents setters execute in the same Flutter frame; sharing dock_motion_value let a trailing
+// scene-0/2 write erase scene 3 before either the transport thread or WMS's 8 ms tick observed it.
+alignas(8) std::atomic<uint64_t> dock_auto_aim_value{0x3ff0000000000003ULL};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_entry_hits{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_publish_hits{0};
+// Filter-stage counters. Each names one hop of the decoded state -> widget -> cell -> container
+// chain, so a rejected projection is diagnosable from the periodic pipeline log.
+alignas(8) std::atomic<uint64_t> dock_auto_aim_receiver_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_widget_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_cell_bad{0};
+alignas(8) std::atomic<uint64_t> dock_auto_aim_container_miss{0};
 alignas(8) std::atomic<uint64_t> dock_motion_active_callbacks{0};
 alignas(4) std::atomic<uint32_t> dock_motion_subscribed{0};
 int dock_motion_event = -1;
@@ -29,10 +41,12 @@ static_assert(std::atomic<uint32_t>::is_always_lock_free && sizeof(std::atomic<u
 namespace {
 constexpr char kTag[] = "HyperCeiler.DockNative";
 constexpr transaction_code_t kMotionTransaction = 0x0048434A;
+constexpr transaction_code_t kAutoAimTransaction = 0x0048434B;
 constexpr int32_t kMotionAck = 0x48434B32;
 constexpr int32_t kMotionAckRevalidate = 0x48434B33;
 constexpr char kWindowDescriptor[] = "android.view.IWindowManager";
 std::atomic<uint64_t> motion_sequence{0};
+std::atomic<uint64_t> auto_aim_sequence{0};
 
 void retry_delay() {
     timespec delay{0, 500000000};
@@ -70,6 +84,33 @@ bool current_sample(Sample &sample) {
     } while (before != sample.publish_hits);
     sample.entry_hits = dock_motion_entry_hits.load(std::memory_order_acquire);
     return true;
+}
+
+bool current_auto_aim_sample(Sample &sample) {
+    uint64_t now = 0;
+    if (!clock_ns(CLOCK_MONOTONIC, now)) return false;
+    sample.sequence = auto_aim_sequence.fetch_add(1, std::memory_order_relaxed) + 1;
+    sample.uptime_ns = now;
+    uint64_t before;
+    do {
+        before = dock_auto_aim_publish_hits.load(std::memory_order_acquire);
+        sample.value = dock_auto_aim_value.load(std::memory_order_acquire);
+        sample.publish_hits = dock_auto_aim_publish_hits.load(std::memory_order_acquire);
+    } while (before != sample.publish_hits);
+    sample.entry_hits = dock_auto_aim_entry_hits.load(std::memory_order_acquire);
+    return true;
+}
+
+void report_auto_aim_sample(const Sample &sample, unsigned &reported) {
+    if (reported >= 12) return;
+    const uint64_t scalar_bits = sample.value & ~3ULL;
+    double scale = 1.0;
+    std::memcpy(&scale, &scalar_bits, sizeof(scale));
+    __android_log_print(ANDROID_LOG_INFO, kTag,
+        "auto aim projection scale=%.6f publish=%llu entry=%llu",
+        scale, static_cast<unsigned long long>(sample.publish_hits),
+        static_cast<unsigned long long>(sample.entry_hits));
+    ++reported;
 }
 
 void *binder_on_create(void *) {
@@ -117,7 +158,8 @@ public:
 
     enum class SendResult { failed, acknowledged, revalidate };
 
-    SendResult send(const Sample &sample) {
+    SendResult send(const Sample &sample,
+                    transaction_code_t code = kMotionTransaction) {
         AParcel *input = nullptr;
         if (AIBinder_prepareTransaction(window_, &input) != STATUS_OK || input == nullptr) {
             return SendResult::failed;
@@ -131,7 +173,7 @@ public:
             return SendResult::failed;
         }
         AParcel *output = nullptr;
-        const binder_status_t status = AIBinder_transact(window_, kMotionTransaction,
+        const binder_status_t status = AIBinder_transact(window_, code,
             &input, &output, 0);
         int32_t acknowledgment = 0;
         const bool replied = status == STATUS_OK && output != nullptr
@@ -150,8 +192,8 @@ private:
 bool prepare_dock_motion() {
     dock_motion_event = eventfd(0, EFD_CLOEXEC | EFD_NONBLOCK);
     if (dock_motion_event < 0) return false;
-    // Hook installation is transactional. Do not let a partial installation
-    // publish until the native hook manager has verified all three patches.
+    // The established recents bank is installed transactionally. AUTO_AIM is
+    // an independent optional fourth hook and cannot take that channel down.
     dock_motion_subscribed.store(0, std::memory_order_release);
     return true;
 }
@@ -185,6 +227,11 @@ void run_dock_motion() {
     constexpr uint64_t kSuspendGapNs = 5000000000ULL;
     unsigned reconnects = 0;
     bool unavailable_reported = false;
+    // Persist across Binder reconnects. An old projection must never be re-timestamped as a new
+    // unlock sample merely because system_server replaced the endpoint.
+    uint64_t last_auto_aim_value = dock_auto_aim_value.load(std::memory_order_acquire);
+    uint64_t last_auto_aim_publish_hits = 0;
+    unsigned auto_aim_reports = 0;
     for (;;) {
         WindowBinderTransport transport;
         Sample sample{};
@@ -199,6 +246,19 @@ void run_dock_motion() {
             retry_delay();
             continue;
         }
+        Sample auto_aim{};
+        if (current_auto_aim_sample(auto_aim)
+            && auto_aim.publish_hits != last_auto_aim_publish_hits) {
+            const auto sent = transport.send(auto_aim, kAutoAimTransaction);
+            if (sent == WindowBinderTransport::SendResult::failed) {
+                ++reconnects;
+                retry_delay();
+                continue;
+            }
+            last_auto_aim_value = auto_aim.value;
+            last_auto_aim_publish_hits = auto_aim.publish_hits;
+            report_auto_aim_sample(auto_aim, auto_aim_reports);
+        }
         bool revalidation_pending = initial == WindowBinderTransport::SendResult::revalidate;
         uint64_t last_revalidation_ns = 0;
         if (revalidation_pending) {
@@ -208,7 +268,7 @@ void run_dock_motion() {
 
         unavailable_reported = false;
         __android_log_print(ANDROID_LOG_INFO, kTag,
-            "motion v31 ready: semantic native scale with multi-runtime tracking reconnect=%u",
+            "motion v33 ready: semantic native scale + independent Hotseat projection reconnect=%u",
             reconnects);
 
         bool disconnected = false;
@@ -274,12 +334,18 @@ void run_dock_motion() {
                 disconnected = true;
                 continue;
             }
+            if (!current_auto_aim_sample(auto_aim)) {
+                disconnected = true;
+                continue;
+            }
             if (suspended) {
                 __android_log_print(ANDROID_LOG_INFO, kTag,
                     "device resume detected; reusing motion Binder transport");
             }
             const bool changed = suspended || sample.value != last_value
                 || sample.publish_hits != last_publish_hits;
+            const bool auto_aim_changed = auto_aim.publish_hits != last_auto_aim_publish_hits
+                || (auto_aim.publish_hits != 0 && auto_aim.value != last_auto_aim_value);
             const bool keep_alive = !changed
                 && (sample.uptime_ns - last_sent_ns) >= kKeepAliveNs;
             const bool revalidation_probe = revalidation_pending
@@ -302,6 +368,16 @@ void run_dock_motion() {
                 last_value = sample.value;
                 last_publish_hits = sample.publish_hits;
                 last_sent_ns = sample.uptime_ns;
+            }
+            if (!disconnected && auto_aim_changed) {
+                const auto sent = transport.send(auto_aim, kAutoAimTransaction);
+                if (sent == WindowBinderTransport::SendResult::failed) {
+                    disconnected = true;
+                    continue;
+                }
+                last_auto_aim_value = auto_aim.value;
+                last_auto_aim_publish_hits = auto_aim.publish_hits;
+                report_auto_aim_sample(auto_aim, auto_aim_reports);
             }
         }
 
