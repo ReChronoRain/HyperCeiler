@@ -67,6 +67,17 @@ public final class DockRecentsMotion {
         return false;
     }
 
+    /** App-launch/home-hide zoom, before the launcher becomes invisible or rotates. */
+    public static boolean leavingHomeTarget(String command, String action, double scale) {
+        if (!WALLPAPER_ACTION.equals(command) || !("startAnim".equals(action) || "setTo".equals(action))
+                || !Double.isFinite(scale)) return false;
+        for (double base : BASE_SCALES) {
+            double scene = scale / base;
+            if (Math.abs(scene - 1.14) < 0.0001 || Math.abs(scene - 1.18) < 0.0001) return true;
+        }
+        return false;
+    }
+
     public boolean setOverview(boolean overview, long now) {
         double next = overview ? 1 : 0;
         if (target == next) return false; // Repeated commands must not restart the animation.

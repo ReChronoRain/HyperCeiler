@@ -86,6 +86,9 @@ final class DockGlassHost {
         // Absolute unlock epoch from system_server; -1 when no reveal is in flight.
         long revealStartedAt = -1L;
         boolean revealActive;
+        /** Sampling is paused without unregistering the texture or clearing its last frame. */
+        boolean capturePaused;
+        int captureEpoch;
         DockUnlockReveal.Style revealStyle = DockUnlockReveal.Style.DAYBREAK;
         int height;
         SurfaceControlViewHost.SurfacePackage parcel;
@@ -157,6 +160,8 @@ final class DockGlassHost {
                 case "dock_glass_create" -> create(context, id, args, result);
                 case "dock_glass_status" -> result.complete(status(id));
                 case "dock_glass_probe" -> result.complete(probe(id));
+                case "dock_glass_pause_capture" -> result.complete(pauseCapture(id));
+                case "dock_glass_resume_capture" -> result.complete(resumeCapture(id));
                 case "dock_glass_refresh" -> result.complete(refresh(id));
                 case "dock_glass_release" -> { release(id); result.complete(Bundle.EMPTY); }
                 case "dock_glass_unlock" -> { startReveal(id, args); result.complete(Bundle.EMPTY); }
@@ -366,11 +371,14 @@ final class DockGlassHost {
         Entry entry = entries.get(id);
         long timestamp = backgroundTimestamp(entry);
         boolean active = producerActive(entry);
-        boolean ready = active && timestamp > 0;
+        boolean paused = entry != null && entry.capturePaused;
+        boolean ready = (active || paused) && timestamp > 0;
         result.putBoolean("backgroundReady", ready);
         result.putBoolean("producerActive", active);
+        result.putBoolean("capturePaused", paused);
         result.putLong("textureTimestamp", timestamp);
-        record(id, "backgroundReady=" + ready + ", producerActive=" + active
+        result.putString("captureGeometry", captureGeometry(entry));
+        record(id, "backgroundReady=" + ready + ", producerActive=" + active + ", capturePaused=" + paused
                 + ", textureTimestamp=" + timestamp);
         return result;
     }
@@ -393,7 +401,26 @@ final class DockGlassHost {
         result.putBoolean("backgroundReady", active && timestamp > 0 && !brightnessChanged);
         result.putBoolean("producerActive", active);
         result.putLong("textureTimestamp", timestamp);
+        result.putString("captureGeometry", captureGeometry(entry));
         return result;
+    }
+
+    /** Metadata only: distinguish a region/rotation change from a material restart. */
+    private static String captureGeometry(Entry entry) {
+        if (entry == null) return "detached";
+        try {
+            Object root = invoke(entry.backdrop, "getViewRootImpl");
+            if (root == null) return "no-root";
+            StringBuilder value = new StringBuilder("displayRot=")
+                    .append(entry.backdrop.getDisplay().getRotation());
+            for (String name : new String[]{"mConfigRot", "mDispRect", "mSurfaceSize", "mTexScale"}) {
+                Field field = ownField(root.getClass(), name);
+                value.append(' ').append(name).append('=').append(field == null ? "unknown" : field.get(root));
+            }
+            return value.toString();
+        } catch (Exception unavailable) {
+            return "unavailable:" + unavailable.getClass().getSimpleName();
+        }
     }
 
     private static long backgroundTimestamp(Entry entry) throws Exception {
@@ -440,6 +467,58 @@ final class DockGlassHost {
         return result;
     }
 
+    private Bundle pauseCapture(String id) throws Exception {
+        Entry entry = entries.get(id);
+        Bundle result = new Bundle();
+        if (entry == null || !entry.view.isAttachedToWindow()) return result;
+        // updateTextureState(false) selects SF's "undraw" state (2), leaving mSurTex and
+        // the HWUI native consumer intact. setPassWindowBlurEnabled(false) unregisters the
+        // view and releases both; it must not be used to preserve a ready glass frame.
+        try {
+            setCapturePaused(entry, true);
+            boolean retained = backgroundTimestamp(entry) > 0;
+            result.putBoolean("capturePaused", true);
+            result.putBoolean("retained", retained);
+            result.putString("captureGeometry", captureGeometry(entry));
+            record(id, "capture paused; retained=" + retained);
+        } catch (Exception unsupported) {
+            // An optional pause API must not destroy a working host. Rotation will rebuild
+            // normally if the client cannot confirm that a ready texture was retained.
+            result.putString("pauseError", unsupported.getClass().getSimpleName());
+        }
+        return result;
+    }
+
+    private Bundle resumeCapture(String id) throws Exception {
+        Entry entry = entries.get(id);
+        if (entry == null || !entry.view.isAttachedToWindow()) {
+            throw new IllegalStateException("Dock glass host is not attached");
+        }
+        setCapturePaused(entry, false);
+        invalidateMaterial(entry);
+        int epoch = entry.captureEpoch;
+        // Bounded metadata observations after the first returning frames. A hide or another
+        // resume invalidates them; there is no background polling or pixel capture.
+        for (long delay : new long[]{80L, 240L}) main.postDelayed(() -> {
+            if (entries.get(id) != entry || entry.capturePaused || entry.captureEpoch != epoch) return;
+            try {
+                Log.i(TAG, "glass capture sample id=" + id + " afterMs=" + delay
+                        + " timestamp=" + backgroundTimestamp(entry) + " " + captureGeometry(entry));
+            } catch (Exception unavailable) {
+                Log.i(TAG, "glass capture sample metadata unavailable=" + unavailable.getClass().getSimpleName());
+            }
+        }, delay);
+        return probe(id);
+    }
+
+    private static void setCapturePaused(Entry entry, boolean paused) throws Exception {
+        Object root = invoke(entry.backdrop, "getViewRootImpl");
+        if (root == null) throw new IllegalStateException("No glass ViewRoot");
+        HiddenApiBypass.invoke(root.getClass(), root, "updateTextureState", entry.backdrop, !paused);
+        entry.capturePaused = paused;
+        entry.captureEpoch++;
+    }
+
     private void applyMaterial(Entry entry) throws Exception {
         View view = entry.view;
         View backdrop = entry.backdrop;
@@ -467,6 +546,8 @@ final class DockGlassHost {
         boolean light = lightWallpaper(view.getContext());
         appliedBrightnessBit = light ? 1 : 0;
         invoke(view, "setMiGlass", (Object) DockGlassPreset.parameters(light));
+        entry.capturePaused = false;
+        entry.captureEpoch++;
     }
 
     /**

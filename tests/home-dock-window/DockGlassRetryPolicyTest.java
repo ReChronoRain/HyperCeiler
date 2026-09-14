@@ -36,6 +36,24 @@ public final class DockGlassRetryPolicyTest {
                 "an unsupported host does not gain an unbounded retry budget");
         check(DockGlassRetryPolicy.BACKGROUND_CHECKS * 500 == 10000,
                 "allow ten seconds for initial texture per attempt");
+        for (int checks = 0; checks < DockGlassRetryPolicy.BACKGROUND_CHECKS; checks++) {
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(checks, true, false) == 500,
+                    "allow the vendor producer time to initialize");
+        }
+        for (int checks = 20; checks < 30; checks++) {
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(checks, true, true) == 3000,
+                    "a live silent source retains its host at a slower cadence");
+        }
+        for (int checks : new int[]{30, 100, Integer.MAX_VALUE}) {
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(checks, true, true) == 15000,
+                    "a long static background never triggers a rebuild");
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(checks, true, false) == -1,
+                    "a producer dying during idle wait still recovers");
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(checks, false, true) == -1,
+                    "an unattached host cannot enter indefinite idle wait");
+        }
+        check(DockGlassRetryPolicy.delayAfterBackgroundCheck(20, true, false) == -1,
+                "inactive producer still uses the bounded failure ladder after warmup");
         System.out.println("DockGlassRetryPolicy tests passed");
     }
 }

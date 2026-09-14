@@ -26,8 +26,8 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
  * (SurfacePackage, process lease, provider client, death recipient) stay in the ticket,
  * so the host test suite can drive every transition here without an Android runtime.
  *
- * <p>Threading: every method except the refresh trio runs on the serial IPC worker.
- * The refresh trio is {@code synchronized} because the launcher/WMS thread also calls it.
+ * <p>Generation/recovery bookkeeping runs on the serial IPC worker. Refresh and readiness
+ * epochs share a lock because the launcher/WMS thread can pause or retire them immediately.
  */
 public final class DockGlassRecoveryGate {
 
@@ -76,6 +76,7 @@ public final class DockGlassRecoveryGate {
     private final Object refreshLock = new Object();
     private int refreshRequestEpoch;
     private long lastRefreshRequest;
+    private boolean departureHeld;
     private boolean refreshAllowed = true;
 
     // --- generation -------------------------------------------------------------
@@ -104,17 +105,24 @@ public final class DockGlassRecoveryGate {
 
     /** Open a fresh readiness loop, invalidating every earlier one. */
     public int openReadinessEpoch() {
-        return ++readinessEpoch;
+        synchronized (refreshLock) {
+            return ++readinessEpoch;
+        }
     }
 
     /** True while both the generation and its readiness loop are still live. */
     public boolean isReadinessCurrent(int generation, int epoch) {
-        return !retired && !cancelled && generation == attempts && epoch == readinessEpoch;
+        synchronized (refreshLock) {
+            return !retired && !cancelled && refreshAllowed
+                    && generation == attempts && epoch == readinessEpoch;
+        }
     }
 
     /** Invalidate pending readiness loops without opening a new one. */
     public void invalidateReadiness() {
-        readinessEpoch++;
+        synchronized (refreshLock) {
+            readinessEpoch++;
+        }
     }
 
     // --- recovery ---------------------------------------------------------------
@@ -223,13 +231,28 @@ public final class DockGlassRecoveryGate {
      *         recent request already covers this return
      */
     public int requestRefresh(long nowUptimeMillis) {
+        return requestRefresh(nowUptimeMillis, false);
+    }
+
+    /** Blocked sampling must neither consume the deduplication window nor cancel a pause. */
+    public int requestRefresh(long nowUptimeMillis, boolean captureBlocked) {
         synchronized (refreshLock) {
+            if (captureBlocked || departureHeld) return REFRESH_DEDUPLICATED;
             refreshAllowed = true;
             if (nowUptimeMillis - lastRefreshRequest < REFRESH_DEDUPLICATION_MS) {
                 return REFRESH_DEDUPLICATED;
             }
             lastRefreshRequest = nowUptimeMillis;
             return ++refreshRequestEpoch;
+        }
+    }
+
+    /** Abandon only this queued probe, allowing the next portrait return to retry immediately. */
+    public void cancelRefresh(int epoch) {
+        synchronized (refreshLock) {
+            if (epoch != refreshRequestEpoch) return;
+            refreshRequestEpoch++;
+            lastRefreshRequest = 0;
         }
     }
 
@@ -241,11 +264,36 @@ public final class DockGlassRecoveryGate {
     }
 
     /** Cancel delayed refresh/readiness work while the launcher parent is hidden. */
-    public void pauseRefresh() {
+    public int pauseRefresh() {
         synchronized (refreshLock) {
             refreshAllowed = false;
             refreshRequestEpoch++;
+            readinessEpoch++;
             lastRefreshRequest = 0;
+            return refreshRequestEpoch;
+        }
+    }
+
+    /** Preserve the home sample before the app-launch wallpaper zoom changes its region. */
+    public int holdForDeparture() {
+        synchronized (refreshLock) {
+            if (retired || cancelled || departureHeld) return REFRESH_DEDUPLICATED;
+            departureHeld = true;
+            return pauseRefresh();
+        }
+    }
+
+    /** A home/overview command or a real visibility return can end the departure hold. */
+    public void releaseDepartureHold() {
+        synchronized (refreshLock) {
+            departureHeld = false;
+        }
+    }
+
+    /** A delayed sampling pause must not freeze a host after a newer return to the launcher. */
+    public boolean isPauseCurrent(int epoch) {
+        synchronized (refreshLock) {
+            return !retired && !cancelled && !refreshAllowed && epoch == refreshRequestEpoch;
         }
     }
 

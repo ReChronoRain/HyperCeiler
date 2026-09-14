@@ -21,12 +21,26 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 /** Bounded per-ticket recovery; never driven by the window's frame rate. */
 public final class DockGlassRetryPolicy {
     public static final int BACKGROUND_CHECKS = 20;
+    public static final long BACKGROUND_CHECK_MS = 500L;
+    /** Saturating check count: subsequent checks all use the idle cadence. */
+    public static final int BACKGROUND_IDLE_CHECK = BACKGROUND_CHECKS + 10;
     private static final long[] DELAYS_MS = {2000, 4000, 8000, 16000, 30000};
 
     /** Faster than the compatibility ladder: a package swap is expected to heal in seconds. */
     private static final long[] DEPENDENCY_DELAYS_MS = {1000, 2000, 4000, 8000, 16000, 30000};
 
     private DockGlassRetryPolicy() {}
+
+    /**
+     * Delay after an unready status, or -1 when a missing/inactive producer needs recovery.
+     * A live attached producer can wait for background damage without losing its generation
+     * or consuming compatibility attempts. Readiness checks stop when ready or hidden.
+     */
+    public static long delayAfterBackgroundCheck(int checks, boolean attached, boolean producerActive) {
+        if (checks < BACKGROUND_CHECKS) return BACKGROUND_CHECK_MS;
+        if (!attached || !producerActive) return -1L;
+        return checks < BACKGROUND_IDLE_CHECK ? 3000L : 15000L;
+    }
 
     public static long delayAfterFailure(int failedAttempts) {
         if (failedAttempts < 1 || failedAttempts > DELAYS_MS.length) return -1;

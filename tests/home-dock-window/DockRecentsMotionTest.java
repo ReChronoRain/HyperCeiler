@@ -31,6 +31,15 @@ public class DockRecentsMotionTest {
             check(!DockRecentsMotion.homeTarget(command, "startAnim", scale), "non-home does not refresh " + scale);
         }
         check(!DockRecentsMotion.homeTarget("other", "startAnim", 1.05), "foreign command does not refresh");
+        for (double scale : new double[]{1.14, 1.18, 1.197f, 1.239f}) {
+            check(DockRecentsMotion.leavingHomeTarget(command, "startAnim", scale), "pause on app zoom " + scale);
+            check(DockRecentsMotion.leavingHomeTarget(command, "setTo", scale), "pause on immediate app zoom " + scale);
+        }
+        for (double scale : new double[]{1.0, 1.05, 1.06, 1.113, Double.NaN, 1.196, 1.2}) {
+            check(!DockRecentsMotion.leavingHomeTarget(command, "startAnim", scale), "do not freeze home/recents/unknown " + scale);
+        }
+        check(!DockRecentsMotion.leavingHomeTarget("other", "startAnim", 1.197), "foreign command cannot pause");
+        check(!DockRecentsMotion.leavingHomeTarget(command, "cancelAnim", 1.197), "unknown action cannot pause");
         check(Boolean.TRUE.equals(DockRecentsMotion.overviewTarget(command, "setTo", 1.113f)), "instant recents endpoint");
         for (double scale : new double[]{1.0, 1.14, 1.18}) {
             check(Boolean.FALSE.equals(DockRecentsMotion.overviewTarget(command, "startAnim", scale)), "exit scene " + scale);

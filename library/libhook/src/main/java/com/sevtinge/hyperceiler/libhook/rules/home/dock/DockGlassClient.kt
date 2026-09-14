@@ -42,7 +42,11 @@ import java.util.UUID
  * "FATAL EXCEPTION IN SYSTEM PROCESS". Every asynchronous entry point therefore goes through
  * [guard], and recoverable failures are turned into a bounded retry instead of an escape.
  */
-internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, private val changed: () -> Unit) {
+internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, private val changed: () -> Unit,
+    /** True while the display is rotated or has only just returned to natural rotation. */
+    private val rotationSettling: () -> Boolean = { false },
+    /** A retained texture needs only a portrait display, not the new-host settle delay. */
+    private val rotationActive: () -> Boolean = { false }) {
     class Ticket(val key: String, val context: Context,
         val bounds: DockWindowPolicy.Bounds, val dark: Boolean) {
         val id: String = UUID.randomUUID().toString()
@@ -57,6 +61,10 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         @Volatile var lease: DockGlassSurfaceLease? = null
         @Volatile var ready = false
         @Volatile var dead = false
+        /** The renderer acknowledged that a ready texture survived a sampling pause. */
+        @Volatile var retainedCapture = false
+        // Worker only: even a pause without a retained frame must be resumed.
+        var capturePaused = false
 
         /** Retired by [DockGlassClient.release]; also permanently blocks later retries. */
         val cancelled: Boolean get() = gate.isCancelled()
@@ -90,6 +98,21 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
 
         /** Two seconds is imperceptible when picking a style and cheap while the dock is up. */
         const val STYLE_QUERY_INTERVAL_MS = 2_000L
+
+        /**
+         * How long the retained frame keeps being presented after the return pose commits.
+         *
+         * <p>Sized from the on-device trace of 2026-09-14 09:57: the pose commits 830 ms after the
+         * launcher starts its wallpaper zoom and the return motion only goes idle 475 ms after
+         * that commit. A capture started inside that window samples the wallpaper mid-zoom, which
+         * is the one visible change reported *after* the desktop looks settled - so this is set
+         * well past the measured end, because holding a frame that already carries the settled
+         * portrait sample costs nothing, while switching to a transitional one is visible.
+         */
+        const val WALLPAPER_RETURN_SETTLE_MS = 800L
+
+        /** Slack added to that window for the timed fallback when the commit listener is unusable. */
+        const val CAPTURE_RESUME_FALLBACK_MS = 1_200L
     }
     @Volatile private var closed = false
     @Volatile private var styleContext: Context? = null
@@ -272,14 +295,25 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             val surface = parcel.callMethod("getSurfaceControl") as? SurfaceControl
                 ?: error("Renderer returned no SurfaceControl")
             ticket.lease = DockGlassSurfaceLease(object : DockGlassSurfaceLease.Operations {
-                override fun attach(parent: Any) {
+                override fun attach(parent: Any, alpha: Float) {
                     SurfaceControl.Transaction().use { transaction ->
                         transaction.reparent(surface, parent as SurfaceControl)
                         transaction.setLayer(surface, 2)
                         transaction.setPosition(surface, 0f, 0f)
                         transaction.callMethod("setWindowCrop", surface, bounds.width(), bounds.height())
+                        // Keep the capture source composited before readiness, with only a
+                        // 1/255 contribution over the fallback. Hiding it can starve the source.
+                        transaction.setAlpha(surface, alpha)
                         transaction.callMethod("show", surface)
                         transaction.apply()
+                    }
+                }
+
+                override fun setAlpha(alpha: Float) {
+                    check(surface.isValid) { "Glass surface is no longer valid" }
+                    SurfaceControl.Transaction().use {
+                        it.setAlpha(surface, alpha)
+                        it.apply()
                     }
                 }
 
@@ -304,7 +338,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         }
     }
 
-    private fun checkBackground(ticket: Ticket, attempt: Int, generation: Int, readinessEpoch: Int) {
+    private fun checkBackground(ticket: Ticket, attempt: Int, generation: Int, readinessEpoch: Int,
+        delayMs: Long = DockGlassRetryPolicy.BACKGROUND_CHECK_MS) {
         worker.postDelayed({
             guard("readiness") {
                 if (ticket.cancelled || ticket.dead || closed) return@guard
@@ -319,24 +354,51 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                     val status = ticket.request("dock_glass_status")
                     status.getString("error")?.let { error(it) }
                     val wasReady = ticket.ready
-                    ticket.ready = ticket.lease?.isAttached == true && status.getBoolean("backgroundReady")
+                    val attached = ticket.lease?.isAttached == true
+                    val producerActive = status.getBoolean("producerActive")
+                    // A host whose background was captured while the display was still rotating
+                    // must not be shown as ready: the settle window is what keeps that sample off
+                    // screen until the wallpaper has landed in portrait.
+                    ticket.ready = attached && status.getBoolean("backgroundReady")
+                        && !rotationSettling()
                     if (wasReady != ticket.ready) changed()
                     if (ticket.ready) {
                         ticket.gate.markReady()
                         record("glass ready id=${ticket.id} attempt=${ticket.gate.getAttempts()} check=${attempt + 1}")
-                    } else if (attempt + 1 < DockGlassRetryPolicy.BACKGROUND_CHECKS) {
-                        checkBackground(ticket, attempt + 1, generation, readinessEpoch)
+                        return@guard
+                    }
+                    val next = minOf(attempt + 1, DockGlassRetryPolicy.BACKGROUND_IDLE_CHECK)
+                    val nextDelay = DockGlassRetryPolicy.delayAfterBackgroundCheck(
+                        next, attached, producerActive)
+                    if (nextDelay < 0) {
+                        recover(ticket, "background producer unavailable after $next checks " +
+                            "attached=$attached active=$producerActive")
                     } else {
-                        recover(ticket, "background texture timeout after ${attempt + 1} checks")
+                        if (next == DockGlassRetryPolicy.BACKGROUND_CHECKS ||
+                            (next == DockGlassRetryPolicy.BACKGROUND_IDLE_CHECK && next != attempt)) {
+                            record("glass awaiting first texture id=${ticket.id} " +
+                                "generation=$generation pollMs=$nextDelay; retaining live host")
+                        }
+                        // A live producer with no frame is not a compatibility failure. Retain
+                        // its texture and wait at a capped cadence instead of repeatedly resetting
+                        // it (refresh also destroys mSurTex) and exhausting the create budget.
+                        checkBackground(ticket, next, generation, readinessEpoch, nextDelay)
                     }
                 } catch (error: Exception) {
                     recover(ticket, "status ${error.javaClass.simpleName}: ${error.message?.take(160)}")
                 }
             }
-        }, 500)
+        }, delayMs)
     }
 
-    fun attach(ticket: Ticket, parent: Any) {
+    /**
+     * Reparent the host root into `parent` and write its initial readiness opacity.
+     *
+     * <p>`ready` is passed in rather than re-read from the ticket so the value matches the
+     * appearance transition that requested the attach; a later readiness flip always drives
+     * another traversal and an idempotent [setReady].
+     */
+    fun attach(ticket: Ticket, parent: Any, ready: Boolean) {
         val lease = ticket.lease ?: return
         // Never queue remote reparent operations in WMS's deferred sync transaction:
         // it could commit AFTER worker cleanup and resurrect a retired surface.
@@ -350,21 +412,56 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                     }
                     return@guard
                 }
-                catchingRecoverable({ lease.attach(parent) }) {
+                catchingRecoverable({ lease.attach(parent, ready) }) {
                     recover(ticket, "surface attachment failed: ${it.javaClass.simpleName}")
                 }
             }
         }
     }
 
+    /**
+     * Promote or dim the host material without moving or hiding its capture source.
+     *
+     * <p>[attach] can only run once per generation and therefore cannot be the only place that
+     * decides whether the material is ready: the renderer reports a background texture
+     * hundreds of milliseconds later, at which point the Dock writes a transparent tint and no
+     * blur. Every appearance change (the key includes readiness) re-issues this call, and
+     * the lease drops writes that repeat the value already on screen.
+     */
+    fun setReady(ticket: Ticket, ready: Boolean) {
+        val lease = ticket.lease ?: return
+        worker.post {
+            guard("readiness opacity") {
+                val stale = closed || ticket.cancelled || ticket.dead || ticket.lease !== lease
+                if (stale) {
+                    if (ticket.gate.noteStaleCallback()) {
+                        record("glass stale opacity ignored id=${ticket.id} ready=$ready")
+                    }
+                    return@guard
+                }
+                catchingRecoverable({ lease.setReady(ready) }) {
+                    recover(ticket, "opacity failed: ${it.javaClass.simpleName}")
+                }
+            }
+        }
+    }
+
     /** Verify HyperCeiler's own texture after its parent becomes visible again. */
-    fun resume(ticket: Ticket, allowFallback: Boolean = true) {
+    fun resume(ticket: Ticket, allowFallback: Boolean = true,
+        afterCommit: SurfaceControl.Transaction? = null) {
         // Visibility and wallpaper-home callbacks can describe the same return.
-        val requestEpoch = ticket.gate.requestRefresh(SystemClock.uptimeMillis())
+        val retained = ticket.retainedCapture
+        // Wallpaper commands do not own a SurfaceControl transaction. Let the traversal
+        // couple retained sampling to the transaction that actually restores the Dock pose.
+        if (retained && afterCommit == null) {
+            changed()
+            return
+        }
+        val requestEpoch = ticket.gate.requestRefresh(SystemClock.uptimeMillis(),
+            retained && rotationActive())
         if (requestEpoch == DockGlassRecoveryGate.REFRESH_DEDUPLICATED) return
-        // The parent's show is part of WMS's sync transaction. Probe after that
-        // transaction commits; a healthy producer is never toggled or recreated.
-        worker.postDelayed({
+        val requestedAt = SystemClock.uptimeMillis()
+        val resumeProbe = Runnable {
             guard("resume probe") {
                 if (closed || ticket.cancelled || ticket.dead || ticket.lease == null) return@guard
                 if (!ticket.gate.isRefreshCurrent(requestEpoch)) {
@@ -373,19 +470,40 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                     }
                     return@guard
                 }
-                // Initial creation already owns its readiness loop. A resume probe is
-                // meaningful only after this generation has displayed native glass.
-                if (!ticket.gate.isPreviouslyReady()) return@guard
+                // Rotation can reverse while this request is queued. Do not sample landscape,
+                // and do not let this abandoned request throttle the next portrait return.
+                if (ticket.retainedCapture && rotationActive()) {
+                    ticket.gate.cancelRefresh(requestEpoch)
+                    return@guard
+                }
+                // Initial creation owns its readiness loop - unless pauseRefresh() retired that
+                // loop while the parent was hidden. A retired loop does not reschedule itself, and
+                // nothing else ever opens a new one, so a layer that was briefly not visible before
+                // it first rendered (a launcher start, a rotation) would keep the compositor
+                // fallback - blur plus tint - for the rest of the window's life. Re-open the loop
+                // here instead of waiting for a probe that can never see a ready generation.
+                if (!ticket.gate.isPreviouslyReady()) {
+                    checkBackground(ticket, 0, ticket.gate.getAttempts(),
+                        ticket.gate.openReadinessEpoch())
+                    return@guard
+                }
                 catchingRecoverable({
-                    val response = ticket.request("dock_glass_probe")
+                    val response = ticket.request(
+                        if (ticket.capturePaused) "dock_glass_resume_capture" else "dock_glass_probe")
                     response.getString("error")?.let { error(it) }
+                    val resumedRetained = ticket.retainedCapture
+                    ticket.capturePaused = false
+                    ticket.retainedCapture = false
                     val healthy = ticket.lease?.isAttached == true
-                        && response.getBoolean("backgroundReady")
+                        && response.getBoolean("backgroundReady") && (ticket.ready || !rotationSettling())
                     if (healthy) {
                         val wasReady = ticket.ready
                         ticket.ready = true
                         ticket.gate.markReady()
                         if (!wasReady) changed()
+                        if (resumedRetained) record("glass capture resumed with retained texture id=${ticket.id} " +
+                            "timing=pose-committed waitMs=${SystemClock.uptimeMillis() - requestedAt} " +
+                            "geometry=${response.getString("captureGeometry")}")
                     } else if (!allowFallback) {
                         // Settle window: the wallpaper swap keeps the producer busy, so an unhealthy
                         // probe here is expected and transient. Keep the current material on screen
@@ -406,7 +524,32 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
                     recover(ticket, "resume probe ${it.javaClass.simpleName}: ${it.message?.take(160)}")
                 }
             }
-        }, 50)
+        }
+        if (retained) {
+            // Register after the caller has written position/crop/visibility. A Java rotation
+            // callback can precede this transaction: sampling there captures the old region.
+            val commitRegistered = catchingRecoverableOr(false, {
+                afterCommit!!.addTransactionCommittedListener(
+                    { command -> worker.post { guard("capture commit callback") { command.run() } } },
+                    // The pose commit is not the end of the return. Measured on-device
+                    // (2026-09-14 09:53): the launcher starts its wallpaper zoom at T, the pose
+                    // commits at T+832ms, and its return motion only goes idle at T+1303ms. A
+                    // capture started at the commit therefore samples the wallpaper mid-zoom,
+                    // which is the one visible change reported *after* the desktop looks settled.
+                    // Keep presenting the retained frame through that window: it already carries
+                    // the settled portrait sample, so holding it one animation longer is
+                    // invisible, while switching to a transitional capture is not.
+                    { worker.postDelayed({ resumeProbe.run() }, WALLPAPER_RETURN_SETTLE_MS) })
+                true
+            })
+            if (!commitRegistered) {
+                // Never strand the capture in its paused state: without the listener the retained
+                // frame would be the last thing this host ever shows.
+                record("glass capture commit listener unavailable; timing the return instead")
+                worker.postDelayed({ resumeProbe.run() },
+                    WALLPAPER_RETURN_SETTLE_MS + CAPTURE_RESUME_FALLBACK_MS)
+            }
+        } else worker.postDelayed(resumeProbe, 50)
     }
 
     private fun hardRefresh(ticket: Ticket, requestEpoch: Int) {
@@ -459,8 +602,39 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     }
 
     fun pauseRefresh(ticket: Ticket) {
-        ticket.gate.pauseRefresh()
-        worker.post { guard("pause refresh") { ticket.gate.invalidateReadiness() } }
+        // Cancel both loops immediately, including one opened by an in-flight create after
+        // the parent became hidden. Resume explicitly reopens them when the Dock returns.
+        pauseCapture(ticket, ticket.gate.pauseRefresh(), "hidden")
+    }
+
+    fun holdForDeparture(ticket: Ticket) {
+        val epoch = ticket.gate.holdForDeparture()
+        if (epoch != DockGlassRecoveryGate.REFRESH_DEDUPLICATED) {
+            pauseCapture(ticket, epoch, "before-wallpaper-zoom")
+        }
+    }
+
+    fun releaseDepartureHold(ticket: Ticket) = ticket.gate.releaseDepartureHold()
+
+    private fun pauseCapture(ticket: Ticket, pauseEpoch: Int, reason: String) {
+        val lease = ticket.lease
+        worker.post {
+            guard("pause capture") {
+                if (closed || ticket.cancelled || ticket.dead || !ticket.ready || ticket.capturePaused
+                    || lease == null || ticket.lease !== lease || !ticket.gate.isPauseCurrent(pauseEpoch)) return@guard
+                catchingRecoverable({
+                    val response = ticket.request("dock_glass_pause_capture")
+                    response.getString("error")?.let { error(it) }
+                    ticket.capturePaused = response.getBoolean("capturePaused")
+                    ticket.retainedCapture = ticket.capturePaused && response.getBoolean("retained")
+                    record("glass capture paused id=${ticket.id} retained=${ticket.retainedCapture} " +
+                        "reason=$reason geometry=${response.getString("captureGeometry")}")
+                    changed()
+                }) {
+                    record("glass capture pause unavailable=${it.javaClass.simpleName}")
+                }
+            }
+        }
     }
 
     private fun recover(ticket: Ticket, reason: String) {
@@ -538,6 +712,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
 
     private fun dispose(ticket: Ticket): Boolean {
         ticket.ready = false
+        ticket.capturePaused = false
+        ticket.retainedCapture = false
         ticket.death?.let { catchingRecoverable({ ticket.lifetime?.unlinkToDeath(it, 0) }) }
         ticket.death = null
         ticket.lifetime = null

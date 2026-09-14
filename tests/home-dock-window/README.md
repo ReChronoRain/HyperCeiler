@@ -11,6 +11,13 @@ failed detach retains the handle and prevents creation until bounded recovery
 can clean it up. Parent visibility and recents motion remain WMS-controlled.
 `DockGlassSurfaceLeaseTest` covers repeated renderer generations, late attaches,
 partial attachment, failed-detach retry, cancellation and idempotent release.
+The lease separately controls readiness opacity with `setReady`: attachment always
+shows the host at alpha `1/255` during warmup, then readiness raises it to `1`.
+The common WMS parent still owns actual launcher/rotation visibility. Hiding the
+capture root while waiting for its first texture can starve the capture; alpha zero
+can also exclude buffered layers from composition. The compositor fallback remains
+active throughout warmup. Tests cover late readiness without reattachment, repeated
+writes, failed-alpha retry and rejection of retired/unattached leases.
 Device verification must additionally check that repeated renderer recovery does
 not accumulate old SurfaceControlViewHost / Dock glass layers in SurfaceFlinger.
 An unstable provider reference and a system-server service binding both allow
@@ -67,6 +74,7 @@ javac -d "$dock_test_dir" \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockNativeMotion.java \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockNativeMotionEndpoint.java \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockGlassRecoveryGate.java \
+  library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockRotationPolicy.java \
   tests/home-dock-window/stubs/android/os/IBinder.java \
   tests/home-dock-window/stubs/android/os/Binder.java \
   tests/home-dock-window/stubs/android/os/Parcel.java \
@@ -80,8 +88,9 @@ javac -d "$dock_test_dir" \
   tests/home-dock-window/DockWallpaperEndpointTest.java \
   tests/home-dock-window/DockNativeMotionTest.java \
   tests/home-dock-window/DockNativeMotionEndpointTest.java \
-  tests/home-dock-window/DockGlassRecoveryGateTest.java
-for test in DockWindowPolicy DockGlassPreset DockRecentsMotion DockUnlockReveal DockGlassRetryPolicy DockGlassSurfaceLease DockGlassProcessPolicy DockWallpaperEndpoint DockNativeMotion DockNativeMotionEndpoint DockGlassRecoveryGate; do
+  tests/home-dock-window/DockGlassRecoveryGateTest.java \
+  tests/home-dock-window/DockRotationPolicyTest.java
+for test in DockWindowPolicy DockGlassPreset DockRecentsMotion DockUnlockReveal DockGlassRetryPolicy DockGlassSurfaceLease DockGlassProcessPolicy DockWallpaperEndpoint DockNativeMotion DockNativeMotionEndpoint DockGlassRecoveryGate DockRotationPolicy; do
   java -cp "$dock_test_dir" "com.sevtinge.hyperceiler.tests.dock.${test}Test"
 done
 ```
@@ -153,8 +162,13 @@ rejected pass-window background, missing textures, and renderer death fall back
 to compositor blur. An unsupported ticket uses delayed retries of 2, 4, 8, 16
 and 30 seconds. Once a ticket has successfully rendered native glass, the first
 loss of its live renderer is recreated immediately; only a failed recreation
-resumes the bounded backoff, capped at 30 seconds. Each attempt checks the vendor texture up to
-twenty times at 500ms intervals. Successful readiness stops polling. Disabling
+resumes the bounded backoff, capped at 30 seconds. Each attempt checks the vendor texture
+twenty times at 500ms intervals. An attached host whose producer is still active then
+keeps waiting on the same generation: ten checks at 3s, then checks at 15s. Missing or
+inactive producers still enter bounded recovery. A live silent source no longer burns
+the compatibility budget or undergoes speculative refreshes that discard its texture.
+Successful readiness stops polling. Hiding the parent cancels readiness immediately,
+including a create completing after the hide; returning opens a new loop. Disabling
 or removal cancels the ticket, stale
 generation callbacks cannot affect a newer attempt, and hot reload stops the
 worker. Retries never run on the WMS thread or at frame rate.
@@ -163,10 +177,53 @@ checks its own vendor ViewRoot producer state (`mLastSfState`, `mTextureVis` and
 the live `SurfaceTexture`). A healthy producer is left untouched; static wallpaper
 timestamps are valid and need not advance. Only a stale producer activates compositor
 fallback, restarts its own pass-window background, reapplies the native material,
-and rechecks readiness; the native layer is not exposed while that restart draws.
+and rechecks readiness; the native output is limited to the warmup opacity during restart.
 
 `DockGlassRetryPolicyTest` verifies the backoff/readiness limits on the host JDK.
 Actual boot-time recovery and cancellation still require device verification.
+
+### Rotation return verification
+
+The new build logs `glass capture warmup=positive-alpha-v1 idleWait=retain-producer-v1`.
+These changes have host coverage; capture recovery on the vendor compositor still needs
+a device run. After a genuinely landscape app returns to the portrait launcher, verify:
+
+1. Rotation suspend/resume advances the epoch and creates a new host.
+2. The remote glass root is shown at positive warmup alpha beneath the fallback; it
+   reaches a nonzero `textureTimestamp` and `glass ready` without another gesture.
+3. If the source is still silent, `glass awaiting first texture ... retaining live host`
+   appears at the 3s/15s cadence changes. Host id/count stays stable across several minutes;
+   no `background texture timeout` creation loop or exhausted budget occurs.
+4. Leaving the launcher stops checks, returning resumes them, and renderer death still
+   recovers. Repeat rotations and check that SurfaceFlinger layers do not accumulate.
+
+The positive-alpha rationale follows AOSP's
+[LayerSnapshot visibility predicate](https://android.googlesource.com/platform/frameworks/native/+/refs/heads/main/services/surfaceflinger/FrontEnd/LayerSnapshot.cpp).
+It is supporting evidence, not proof that Xiaomi's background producer uses the same gate.
+
+### Preserve ready glass through rotation
+
+`retained-capture-v2` pauses only the own ViewRoot producer with
+`updateTextureState(backdrop, false)` when the launcher hides. The inspected ROM keeps
+its SurfaceTexture/native consumer in state 2 (undraw); unregistering pass-window blur
+would instead release them. A successful pause with a nonzero texture timestamp lets
+the existing glass follow the visible launcher through its rotated return. Its rotation
+epoch is acknowledged without destroying the host or selecting the compositor fallback.
+Sampling resumes immediately when the display returns to portrait, with the same material
+and source, so it follows the wallpaper return animation. The new-host 800ms settle guard
+does not apply to this already-ready source. Missing,
+unready, unsupported or dead sources retain the guarded rebuild path above.
+
+Verify `glass rotation return=retained-capture-v2 resume=portrait-immediate`, then `glass capture paused ... retained=true`,
+`glass rotation reused retained texture` and `glass capture resumed with retained texture`.
+The host id/create count should not change on a normal rotation, and there should be no
+intervening `native=false` material switch. The resumed event (`timing=portrait-return`)
+should follow the portrait return without the former ~940ms delay. Blocked landscape
+requests do not consume the refresh deduplication window; a queued request aborted by
+rotation reversal cannot throttle the next portrait return. Visually check colour correctness throughout
+return, including fast reversals and a long game where the launcher window may be removed.
+The current retained path does not transfer a host across a removed WMS Layer.
+Host policy tests cover eligibility and stale pause rejection, not vendor texture contents.
 
 Every asynchronous glass entry point runs behind one boundary that catches
 `Exception` only; `Error` and other VM-fatal throwables are never swallowed, so

@@ -3,6 +3,7 @@ package com.sevtinge.hyperceiler.tests.dock;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRecoveryGate;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRecoveryGate.Outcome;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassRetryPolicy;
+import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockRotationPolicy;
 
 /**
  * Lifecycle regressions for the glass recovery state machine.
@@ -209,11 +210,18 @@ public final class DockGlassRecoveryGateTest {
         check(!gate.isRefreshCurrent(first), "the newer probe supersedes the older one");
         check(gate.isRefreshCurrent(second), "the newest probe is current");
 
-        gate.pauseRefresh();
+        int paused = gate.pauseRefresh();
+        check(gate.isPauseCurrent(paused), "a hidden parent admits its capture pause");
         check(!gate.isRefreshCurrent(second), "a hidden parent cancels pending probes");
         int resumed = gate.requestRefresh(9000L);
+        check(!gate.isPauseCurrent(paused), "a delayed pause cannot freeze the resumed host");
         check(resumed != DockGlassRecoveryGate.REFRESH_DEDUPLICATED, "resuming admits a probe");
         check(gate.isRefreshCurrent(resumed), "the resumed probe is current");
+        int secondPause = gate.pauseRefresh();
+        check(!gate.isPauseCurrent(paused), "a newer hide keeps the older pause stale");
+        check(gate.isPauseCurrent(secondPause), "the newest pause is admitted");
+        gate.markRetired();
+        check(!gate.isPauseCurrent(secondPause), "retirement cancels capture pauses");
     }
 
     private static void closedClientAdmitsNothing() {
@@ -230,6 +238,100 @@ public final class DockGlassRecoveryGateTest {
                 "an open client still recovers");
     }
 
+    private static void idleReadinessPausesUntilResume() {
+        DockGlassRecoveryGate gate = new DockGlassRecoveryGate();
+        check(gate.beginAttempt(false), "rotation host created");
+        int generation = gate.getAttempts();
+        int waiting = gate.openReadinessEpoch();
+        for (int i = 20; i <= 100; i++) {
+            check(DockGlassRetryPolicy.delayAfterBackgroundCheck(i, true, true) > 0,
+                    "silent producer remains in its readiness loop");
+            check(gate.isReadinessCurrent(generation, waiting), "same host keeps waiting");
+        }
+        check(gate.getAttempts() == 1 && gate.getConsecutiveFailures() == 0,
+                "idle waiting consumes no creation attempts or failure budget");
+        gate.pauseRefresh();
+        check(!gate.isReadinessCurrent(generation, waiting),
+                "hiding the launcher cancels a delayed idle poll immediately");
+        int lateCreate = gate.openReadinessEpoch();
+        check(!gate.isReadinessCurrent(generation, lateCreate),
+                "a create completing after hide cannot start polling behind another app");
+        gate.requestRefresh(10000L);
+        check(!gate.isReadinessCurrent(generation, waiting),
+                "resume never resurrects the old idle callback");
+        int resumed = gate.openReadinessEpoch();
+        check(gate.isReadinessCurrent(generation, resumed), "return resumes the same host");
+        check(!gate.isReadinessCurrent(generation, lateCreate), "only the resumed loop is live");
+        gate.markReady();
+        check(gate.isPreviouslyReady(), "a late first texture can still promote the host");
+        gate.markRetired();
+        check(!gate.isReadinessCurrent(generation, resumed), "retirement cancels the idle loop");
+    }
+
+    private static void retainedCaptureResumesOnPortraitWithoutLateRefresh() {
+        DockGlassRecoveryGate gate = new DockGlassRecoveryGate();
+        DockRotationPolicy rotation = new DockRotationPolicy();
+        gate.beginAttempt(false);
+        gate.markReady();
+        int pause = gate.pauseRefresh();
+        rotation.update(true, 1000L);
+        check(gate.requestRefresh(1010L, rotation.isRotated()) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "a still-rotated launcher does not request sampling");
+        check(gate.isPauseCurrent(pause), "a blocked resume does not cancel the pending pause");
+        rotation.update(false, 1020L);
+        check(rotation.isSettling(1020L), "new-host settling is still active");
+        int returning = gate.requestRefresh(1020L, rotation.isRotated());
+        check(returning != DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "the first portrait frame resumes despite a blocked request just 10ms ago");
+        check(!gate.isPauseCurrent(pause), "return cancels a late sampling pause");
+
+        // Reverse while the IPC request is queued, then return again within the old 250ms guard.
+        rotation.update(true, 1030L);
+        gate.cancelRefresh(returning);
+        check(!gate.isRefreshCurrent(returning), "the abandoned request is stale");
+        rotation.update(false, 1040L);
+        int secondReturn = gate.requestRefresh(1040L, rotation.isRotated());
+        check(secondReturn != DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "rapid reversal cannot defer sampling until the 800ms settle traversal");
+        gate.cancelRefresh(returning);
+        check(gate.isRefreshCurrent(secondReturn), "an old cancellation cannot cancel the newer return");
+        check(gate.requestRefresh(1050L, false) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "ordinary duplicate callbacks still share the admitted return");
+    }
+
+    private static void departureHoldPreservesThePreZoomSample() {
+        DockGlassRecoveryGate gate = new DockGlassRecoveryGate();
+        gate.beginAttempt(false);
+        gate.markReady();
+        int leaving = gate.holdForDeparture();
+        check(gate.isPauseCurrent(leaving), "app launch pauses before visibility/rotation changes");
+        check(gate.holdForDeparture() == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "duplicate wallpaper commands do not invalidate the queued pause");
+        // WMS still traverses the visible launcher for hundreds of milliseconds during zoom.
+        for (long now : new long[]{1000, 1250, 1600}) {
+            check(gate.requestRefresh(now, false) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                    "a visible traversal cannot resume the departure hold");
+        }
+        check(gate.isPauseCurrent(leaving), "pre-zoom pause survives all those traversals");
+        gate.pauseRefresh(); // The actual hidden/rotated window arrives later.
+        gate.releaseDepartureHold(); // Home command/visibility return, before its pose commits.
+        int returning = gate.requestRefresh(1610, false);
+        check(returning != DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "the home pose transaction admits a return without a timed delay");
+        check(gate.isRefreshCurrent(returning), "commit callback may resume the current return");
+
+        // Open another app before SurfaceFlinger commits that return transaction.
+        int nextDeparture = gate.holdForDeparture();
+        check(!gate.isRefreshCurrent(returning), "a late committed callback cannot sample during the new launch");
+        check(gate.isPauseCurrent(nextDeparture), "late callback does not invalidate the new pause");
+        gate.releaseDepartureHold(); // Also covers a cancelled launch returning straight home.
+        int nextReturn = gate.requestRefresh(1620, false);
+        gate.cancelRefresh(returning);
+        check(gate.isRefreshCurrent(nextReturn), "old commit cancellation cannot cancel the newer return");
+        gate.markRetired();
+        check(!gate.isRefreshCurrent(nextReturn), "released surfaces reject pending commit callbacks");
+    }
+
     public static void main(String[] args) {
         dependencyOutageIsRetryableAndBounded();
         dependencyOutageDoesNotFloodTheLog();
@@ -240,6 +342,9 @@ public final class DockGlassRecoveryGateTest {
         retirementIsFinalAndIdempotent();
         refreshProbesAreDeduplicated();
         closedClientAdmitsNothing();
+        idleReadinessPausesUntilResume();
+        retainedCaptureResumesOnPortraitWithoutLateRefresh();
+        departureHoldPreservesThePreZoomSample();
         System.out.println("DockGlassRecoveryGate tests passed");
     }
 }
