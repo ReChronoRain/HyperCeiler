@@ -221,7 +221,6 @@ object BatteryDetailIndicator : BaseHook() {
                     val visible = state != 2
                     val number = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT) ?: (nsView as? TextView)
                     number?.visibility = if (visible) View.VISIBLE else View.GONE
-                    param.result = null
                 }
             }
         }.onFailure {
