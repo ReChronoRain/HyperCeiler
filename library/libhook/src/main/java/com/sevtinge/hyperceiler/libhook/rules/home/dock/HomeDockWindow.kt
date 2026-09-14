@@ -84,6 +84,17 @@ class HomeDockWindow : BaseHook() {
         /** Consecutive failures inside that window before the Dock gives up for this process. */
         const val PREPARE_FAILURE_LIMIT = 3
         const val NATIVE_BIND_SWEEP_MS = 1_000L
+        /**
+         * Ceiling for the sweep's idle backoff.
+         *
+         * <p>The sweep's job is to re-assert what the framework does not guarantee on an idle
+         * window: the native motion identity and the dock preferences. Neither needs a timer while
+         * nothing changes - every traversal, layer change and preference event resets the cadence
+         * (see [resetSweepCadence]). The ceiling is deliberately low (8 s, not minutes): if any
+         * state is ever wrong, this is also how long the Dock can stay wrong, and 2026-09-14 showed
+         * a mis-evaluated overlay flag can hold the Dock hidden until the next traversal.
+         */
+        const val SWEEP_BACKOFF_MAX_MS = 8_000L
         /** Reveal (821ms) plus a margin for the keyguard/home wallpaper swap to settle. */
         const val MATERIAL_SETTLE_MS = 1_600L
         /** Slack added to the rotation settle window before asking for the resuming traversal. */
@@ -138,8 +149,13 @@ class HomeDockWindow : BaseHook() {
     private data class Appearance(val config: Settings, val bounds: DockWindowPolicy.Bounds,
         val dark: Boolean, val visible: Boolean, val glass: DockGlassClient.Ticket?) {
         val surface = glass?.lease
-        val ready = glass?.ready == true && !glass.dead && surface != null
-        val key = "$config/$bounds/$dark/$visible/$surface/$ready/${glass?.dead}"
+        // A capture frozen with the drawable freeze still composites its last home frame, so the
+        // panel stays native glass. Only the vendor's undraw fallback has no visible source and
+        // needs the compositor fallback to carry it. Readiness is part of the key, so this flip
+        // re-runs applyAppearance.
+        val ready = glass?.ready == true && !glass.dead && surface != null && !glass.captureUndrawn
+        val key = "$config/$bounds/$dark/$visible/$surface/$ready/${glass?.dead}/" +
+            "${glass?.capturePaused}/${glass?.captureUndrawn}"
     }
 
     private data class Layer(val parent: Any, val effect: Any, val tint: Any,
@@ -160,10 +176,15 @@ class HomeDockWindow : BaseHook() {
         var motionSamples: Int = 0, var motionEndPending: Boolean = false,
         var baseY: Int = 0, var density: Float = 0f, var motionTime: Long = 0,
         var nativeSampleDeadlineNs: Long = 0,
+        var autoAimSequence: Long = 0, var autoAimDeadlineNs: Long = 0,
+        var autoAimLive: Boolean = false, var autoAimSamples: Int = 0,
         var x: Float = Float.NaN, var y: Float = Float.NaN,
         val reveal: DockUnlockReveal = DockUnlockReveal(),
-        var width: Int = 0, var height: Int = 0,
-        var revealScale: Float = 1f, var revealAlpha: Float = 1f, var revealSlide: Float = 0f,
+        var width: Int = 0, var height: Int = 0, var radius: Float = 0f,
+        var revealScaleX: Float = 1f, var revealScaleY: Float = 1f,
+        var revealCropWidth: Float = 1f, var revealCropHeight: Float = 1f,
+        var revealCornerProgress: Float = 1f,
+        var revealAlpha: Float = 1f, var revealSlide: Float = 0f,
         /** When the current glass host died, so its replacement is rate limited. */
         var glassDroppedAt: Long = 0L) {
         /** Drop every cached native identity/sample after the launcher Session changed. */
@@ -176,6 +197,15 @@ class HomeDockWindow : BaseHook() {
             motionEndPending = false
             nativeUid = -1
             nativePid = -1
+            resetAutoAim()
+        }
+
+        /** Drop the live unlock footprint without disturbing the independent recents state. */
+        fun resetAutoAim() {
+            autoAimSequence = 0
+            autoAimDeadlineNs = 0
+            autoAimLive = false
+            autoAimSamples = 0
         }
     }
     private val layers = IdentityHashMap<Any, Layer>()
@@ -185,6 +215,7 @@ class HomeDockWindow : BaseHook() {
     @Volatile private var service: Any? = null
     private var blurAvailable = true
     private var revealScalingAvailable = true
+    private var revealCropAvailable = true
     // Protected by WM_LOCK, then layers. Covers a Dock created by the unlock traversal itself.
     private var pendingRevealAt = -1L
 
@@ -230,9 +261,10 @@ class HomeDockWindow : BaseHook() {
         glassClient::record)
     private val nativeMotionReply = ThreadLocal<Int>()
     private data class ScheduledFrame(val epoch: Long, val tick: Runnable)
-    /** One background transform for one frame. Scale and alpha are 1 unless the reveal is live. */
-    private data class FrameUpdate(val layer: Layer, val y: Float, val scale: Float, val alpha: Float,
-        val slide: Float)
+    /** One background transform for one frame. The pose is identity unless the reveal is live. */
+    private data class FrameUpdate(val layer: Layer, val y: Float,
+        val pose: DockUnlockReveal.ContainerPose, val alpha: Float, val slide: Float,
+        var appliedScaleX: Float = 1f, var appliedScaleY: Float = 1f)
     private val frameEpoch = AtomicLong(0)
     private val scheduledFrameEpoch = AtomicLong(0)
     private val scheduledFrameStartedNs = AtomicLong(0)
@@ -262,6 +294,19 @@ class HomeDockWindow : BaseHook() {
     private var prepareFailureWindowAt = 0L
     /** Minimum gap between replacing a dead glass host, so a crash loop cannot spin. */
     private val GLASS_REBUILD_BACKOFF_MS = 2_000L
+    /** Current sweep cadence; backs off while idle, resets to the fast interval on any activity. */
+    @Volatile private var sweepIntervalMs = NATIVE_BIND_SWEEP_MS
+
+    /**
+     * Return the sweep to its fast cadence.
+     *
+     * <p>Called from every path that means "something about the launcher may have changed": a
+     * traversal, a layer appearing or disappearing, a preference event, a launcher window being
+     * (re)added. Backing off is only correct while none of those happen.
+     */
+    private fun resetSweepCadence() {
+        sweepIntervalMs = NATIVE_BIND_SWEEP_MS
+    }
 
     override fun init() {
         refreshSettings()
@@ -277,6 +322,7 @@ class HomeDockWindow : BaseHook() {
                 // longer what makes a value visible: the sweep and every traversal read the
                 // preferences themselves. Refresh first so the requested traversal cannot see the
                 // previous value, and never fail the hook closed over a read.
+                resetSweepCadence()
                 refreshSettings()
                 requestTraversal()
             }
@@ -330,9 +376,15 @@ class HomeDockWindow : BaseHook() {
         val resolved = if (live == null) latest
             else latest.copy(revealStyle = DockUnlockReveal.Style.of(live))
         if (resolved == settings) return false
+        val previousStyle = settings.revealStyle
         settings = resolved
         // A style change must reach already-built layers; new layers read it at creation.
-        synchronized(layers) { layers.values.forEach { it.reveal.setStyle(resolved.revealStyle) } }
+        synchronized(layers) {
+            layers.values.forEach {
+                it.reveal.setStyle(resolved.revealStyle)
+                if (previousStyle != resolved.revealStyle) it.resetAutoAim()
+            }
+        }
         glassClient.record("prefs applied enabled=${resolved.enabled} mode=${resolved.mode} " +
             "height=${resolved.height} margin=${resolved.margin} bottom=${resolved.bottom} " +
             "radius=${resolved.radius} reveal=${resolved.revealStyle.name.lowercase()}")
@@ -476,12 +528,26 @@ class HomeDockWindow : BaseHook() {
                     val overview = DockRecentsMotion.overviewTarget(command, sceneAction, scale) ?: return
                     if (captureOnly) {
                         val glass = layers[window]?.glass ?: return
-                        if (DockRecentsMotion.leavingHomeTarget(command, sceneAction, scale)) {
-                            glassClient.holdForDeparture(glass)
-                        } else if (overview || DockRecentsMotion.homeTarget(command, sceneAction, scale)) {
+                        if (overview || DockRecentsMotion.homeTarget(command, sceneAction, scale)) {
                             glassClient.releaseDepartureHold(glass)
+                            // A plain app switch never rotates the display, so thaw the frozen home
+                            // sample here. During a rotation the display is still landscape at this
+                            // command and the rotation return owns the thaw instead.
+                            if (!layerUpdate.isDisplayRotated()) {
+                                glassClient.resumeFrozenCapture(glass, "home-command")
+                            }
                             requestTraversal()
+                        } else if (DockRecentsMotion.leavingHomeTarget(command, sceneAction, scale)) {
+                            // The app-launch zoom fires while the home wallpaper is still the blur
+                            // source. Freeze here so the retained frame carries the home sample; the
+                            // freeze keeps the panel drawn, so unlike the old undraw pause this costs
+                            // nothing on the visible Dock and removes the app's colours from the
+                            // returning frame.
+                            glassClient.holdForDeparture(glass)
                         }
+                        // No departure hold on the generic path: pausing there put the still-visible
+                        // Dock into the vendor's undraw state for every app switch. The drawable
+                        // freeze above is safe because it keeps compositing the last home sample.
                         return
                     }
                     if (DockRecentsMotion.homeTarget(command, sceneAction, scale)) {
@@ -501,6 +567,7 @@ class HomeDockWindow : BaseHook() {
                             val layer = layers[window] ?: return@postDelayed
                             if (stopped) return@postDelayed
                             val nativeLatest = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+                                ?.takeUnless { it.scene() == DockNativeMotion.SCENE_AUTO_AIM }
                             if (layer.overview || nativeLatest != null) return@postDelayed
                             if (!layer.nativeApplied && window.callMethod("isVisible") == true) {
                                 layer.glass?.let { glassClient.resume(it) }
@@ -534,6 +601,7 @@ class HomeDockWindow : BaseHook() {
             val targetChanged = layer.motion.setOverview(overview, now)
             if (immediate) layer.motion.finish()
             val nativeLatest = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+                ?.takeUnless { it.scene() == DockNativeMotion.SCENE_AUTO_AIM }
             val validationNow = System.nanoTime()
             if (overview && validationNow - layer.lastOverviewValidationNs > 80_000_000L) {
                 layer.lastOverviewValidationNs = validationNow
@@ -635,6 +703,7 @@ class HomeDockWindow : BaseHook() {
             // The reveal scales about the layer's own centre, so the bounds have to be current.
             layer.width = bounds.width()
             layer.height = bounds.height()
+            layer.radius = bounds.radius()
             val dark = when (config.nightMode) {
                 1 -> false
                 2 -> true
@@ -657,10 +726,15 @@ class HomeDockWindow : BaseHook() {
             // Keep sampling paused until the portrait pose commits; an unpreserved source remains gated.
             // The launcher frame stays portrait, so only display rotation is authoritative here.
             refreshRotationGate()
-            val retainedGlass = layer.glass
-            val visible = windowVisible && !overlayShowing && rotation.mayPresent(
-                retainedGlass?.ready == true && !retainedGlass.dead,
-                retainedGlass?.retainedCapture == true)
+            // The rotation no longer gates visibility or rebuilds the host. Both were stopgaps
+            // from before the host could report its own sampling geometry: hiding the panel here
+            // left the launcher's dock icons without any background for the whole rotated return,
+            // and the epoch rebuild added a warm-up fallback after it. The host now refuses
+            // samples whose blur geometry still carries the rotated transform (geometryValid), so
+            // the compositor fallback covers exactly those frames and the glass returns the
+            // moment the geometry catches up - no hide, no rebuild, no timer.
+            refreshRotationGate()
+            val visible = windowVisible && !overlayShowing
             val wasVisible = layer.lastVisible == true
             bindNativeMotion(window, layer)
             if (!visible) {
@@ -669,13 +743,22 @@ class HomeDockWindow : BaseHook() {
                 layer.nativeApplied = false
                 layer.nativeScene = -1
                 layer.nativeSampleDeadlineNs = 0
+                layer.resetAutoAim()
             } else if (!animationAvailable && !layer.nativeApplied) {
                 layer.motion.finish()
             }
             val glass = updateGlass(layer, config, bounds, dark, visible)
             val resumeGlass = visible && glass != null && (layer.lastVisible == false || glass.retainedCapture)
             if (visible && layer.lastVisible == false && glass != null) glassClient.releaseDepartureHold(glass)
-            if (!visible && layer.lastVisible == true && glass != null) glassClient.pauseRefresh(glass)
+            if (!visible && layer.lastVisible == true && glass != null) {
+                // A display rotation hides the launcher behind the foreground app. Freeze the
+                // capture while the Dock is invisible so the returning frame keeps the last home
+                // sample; otherwise the pass-blur texture is updated with the app's content and the
+                // first returning frame paints the wrong colours. Pausing is safe here precisely
+                // because the panel is not on screen (a paused capture is not drawn at all).
+                if (layerUpdate.isDisplayRotated()) glassClient.holdForDeparture(glass)
+                else glassClient.pauseRefresh(glass)
+            }
             layer.lastVisible = visible
             val appearance = Appearance(config, bounds, dark, visible, glass)
             val now = SystemClock.uptimeMillis()
@@ -692,7 +775,7 @@ class HomeDockWindow : BaseHook() {
             // WMS still initializes/repositions our layer when the actual layout changes.
             val movingDirectly = directMotionAvailable && visible && (running ||
                 layer.reveal.isRunning() || layer.reveal.hasPendingPose() ||
-                layer.revealAlpha != 1f || layer.revealScale != 1f)
+                layer.revealAlpha != 1f || !hasRestingContainer(layer))
             val keepDirectPosition = movingDirectly && wasVisible && !geometryChanged
             // A WMS sync transaction can be applied after a newer direct vsync transaction.
             // Even the same curve sampled at different times then moves the surface backwards.
@@ -709,18 +792,20 @@ class HomeDockWindow : BaseHook() {
                 // remains unchanged, so a frame of motion never recreates the glass host or texture.
                 // The reveal's pivot compensation rides along, otherwise a traversal landing
                 // mid-reveal would drop it and visibly shift the dock.
-                val shift = pivotOffset(layer.revealScale)
+                val shiftX = pivotOffset(layer.revealScaleX)
+                val shiftY = pivotOffset(layer.revealScaleY)
                 // The slide is added at write time and never cached, so layer.x stays the
                 // resting position and the frame loop below cannot apply it twice.
                 transaction.callMethod(SET_POSITION, layer.effect,
-                    x + layer.width * shift + layer.reveal.slidePx(layer.width.toFloat(), now),
-                    y + layer.height * shift)
+                    x + layer.width * shiftX + layer.reveal.slidePx(layer.width.toFloat(), now),
+                    y + layer.height * shiftY)
                 layer.x = x
                 layer.y = y
                 // TODO(twitch-diag): trace traversal writes right after an unlock.
                 if (revealDebugActive()) {
                     glassClient.record("reveal dbg layout yOff=${y - layer.baseY} " +
-                        "rise=${layer.reveal.risePx(layer.density, now)} revealScale=${layer.revealScale}")
+                        "rise=${layer.reveal.risePx(layer.density, now)} " +
+                        "revealScale=${layer.revealScaleX}x${layer.revealScaleY}")
                 }
                 recordMotion(layer, y, now, visible, "layout")
             }
@@ -753,10 +838,32 @@ class HomeDockWindow : BaseHook() {
                 else "dock glass returning after rotation epoch=${rotation.getEpoch()} " +
                     "settleMs=${rotation.settleRemainingMs(now)}")
             if (!rotated) {
+                // Immediately resync glass on rotation return, don't wait for the next traversal.
+                // The traversal-based resume (via resumeGlass) only fires when lastVisible flips,
+                // which doesn't happen when the dock stays visible through the rotation. The host
+                // recomputes its blur geometry inside this resume, so the first returning frame is
+                // mapped through the portrait transform instead of the rotated one.
+                synchronized(layers) {
+                    for ((_, layer) in layers) {
+                        val glass = layer.glass ?: continue
+                        glassClient.resumeAfterRotation(glass)
+                    }
+                }
                 // Start capture now, then revisit presentation once portrait has settled.
                 service?.getObjectFieldAs<Handler>(WM_HANDLER)?.postDelayed(
                     { requestTraversal() },
                     rotation.settleRemainingMs(SystemClock.uptimeMillis()) + ROTATION_RESUME_MARGIN_MS)
+            } else {
+                // Freeze the capture as soon as the display rotates, while the launcher is still the
+                // visible window. Waiting for the Dock to hide means the compositor has already
+                // captured the foreground app, and that stale frame is exactly what the returning
+                // panel would paint. The freeze keeps the panel drawn, so this has no visual cost.
+                synchronized(layers) {
+                    for ((_, layer) in layers) {
+                        val glass = layer.glass ?: continue
+                        glassClient.holdForDeparture(glass)
+                    }
+                }
             }
             return true
         }
@@ -804,9 +911,12 @@ class HomeDockWindow : BaseHook() {
             // "samples two different wallpapers" flash. One rebuild happens after the window.
             val settledDark = if (materialSettleActive() && layer.glass != null) layer.glass!!.dark else dark
             val glassKey = "${bounds.width()}/${bounds.height()}/${bounds.radius()}/$settledDark"
-            val previous = layer.glass
-            val rotationRebuild = rotation.requiresNewCapture(layer.glassRotationEpoch,
-                previous?.ready == true && !previous.dead, previous?.retainedCapture == true)
+            // A rotation no longer forces a rebuild: the launcher frame stays portrait through the
+            // whole transition, so the host, its bounds and its material token are unchanged, and
+            // the vendor's stale blur geometry is covered by the host's geometryValid gate (the
+            // compositor fallback carries exactly the mis-mapped frames). Rebuilding here instead
+            // traded one wrong-looking state for two: a hidden panel during the rotated return and
+            // a warm-up fallback after it.
             // A dead host has to be replaced by us: nothing else clears the reference, so without
             // this the dock stays on the compositor fallback for the rest of the window's life
             // after the renderer process dies (it is the module's own process, so a swipe-away or
@@ -817,14 +927,13 @@ class HomeDockWindow : BaseHook() {
             if (dead && SystemClock.uptimeMillis() - layer.glassDroppedAt < GLASS_REBUILD_BACKOFF_MS) {
                 return layer.glass
             }
-            if (!config.glass || dead || rotationRebuild || layer.glass?.key?.let { it != glassKey } == true) {
+            if (!config.glass || dead || layer.glass?.key?.let { it != glassKey } == true) {
                 layer.glass?.let { glassClient.release(it) }
                 layer.glass = null
                 layer.glassDroppedAt = 0L
             }
             if (layer.glass != null && layer.glassRotationEpoch != rotation.getEpoch()) {
-                glassClient.record("glass rotation reused retained texture id=${layer.glass!!.id} " +
-                    "epoch=${rotation.getEpoch()}")
+                // The host survives the rotation; its sampling geometry is validated per probe.
                 layer.glassRotationEpoch = rotation.getEpoch()
             }
             // Cold starts and invalid sources still use the guarded warmup path. A paused,
@@ -932,9 +1041,11 @@ class HomeDockWindow : BaseHook() {
             // Material changes must not enqueue an old animation pose behind a newer frame.
             if (!keepDirectPosition) {
                 if (layer.reveal.isRunning()) {
-                    applyRevealPose(transaction, layer, SystemClock.uptimeMillis())
+                    // The base crop/radius above were just rewritten, so re-submit the current
+                    // morph even when its normalized values match the cached previous frame.
+                    applyRevealPose(transaction, layer, SystemClock.uptimeMillis(), true)
                 } else if (layer.reveal.hasPendingPose() ||
-                    layer.revealAlpha != 1f || layer.revealScale != 1f) {
+                    layer.revealAlpha != 1f || !hasRestingContainer(layer)) {
                     restoreRestingTransform(transaction, layer)
                 }
             }
@@ -948,7 +1059,11 @@ class HomeDockWindow : BaseHook() {
     }
 
     private val layerUpdate = LayerUpdate()
-    private fun updateLayer(window: Any) { layerUpdate.update(window) }
+    private fun updateLayer(window: Any) {
+        // A traversal means the launcher is being laid out, so the sweep's idle backoff is over.
+        resetSweepCadence()
+        layerUpdate.update(window)
+    }
 
     /**
      * Carry the rotation gate on the commit point of every rotation this ROM performs.
@@ -1015,6 +1130,7 @@ class HomeDockWindow : BaseHook() {
 
     private fun removeLayer(window: Any) {
         val layer = layers.remove(window) ?: return
+        resetSweepCadence()
         layer.glass?.let { glassClient.release(it) }
         // Only release surfaces created by this hook. Never release the host's parent handle.
         runCatching { Surfaces.destroySurface(layer.tint) }
@@ -1103,6 +1219,10 @@ class HomeDockWindow : BaseHook() {
                     if (!DockUnlockReveal.acceptsNewEvent(pendingRevealAt, now)) return
                     pendingRevealAt = now
                     layers.values.forEach {
+                        // A previous launcher's final scene-3 packet may still be retained by the
+                        // endpoint. The epoch check below rejects it; clearing local bookkeeping
+                        // also guarantees this unlock cannot inherit a scaled container cache.
+                        it.resetAutoAim()
                         if (it.reveal.arm(now)) {
                             // Keep the clock aligned with transition start even if WMS still
                             // reports the launcher hidden for the first few animation frames.
@@ -1122,7 +1242,13 @@ class HomeDockWindow : BaseHook() {
             // it has to happen inside our own process, so it needs the absolute start time.
             synchronized(layers) {
                 layers.values.forEach { layer ->
-                    layer.glass?.let { glassClient.notifyUnlock(it, pendingRevealAt, settings.revealStyle) }
+                    layer.glass?.let {
+                        // A paused capture is not drawn at all, and the keyguard keeps it paused
+                        // through the unlock. Bring it back before the first animation frame, or
+                        // the fly-in animates an empty slot.
+                        glassClient.resumeForReveal(it)
+                        glassClient.notifyUnlock(it, pendingRevealAt, settings.revealStyle)
+                    }
                 }
             }
             // Pose the layers now, so the frame where the dock first becomes visible is already
@@ -1147,32 +1273,97 @@ class HomeDockWindow : BaseHook() {
     }
 
     /**
-     * Scale our layer about its own origin.
+     * Apply the visual container morph without changing the Dock's measured or laid-out bounds.
      *
-     * Only the four-float `setMatrix` exists on this ROM - there is no translation overload, and
-     * an earlier attempt to pass a pivot translation silently failed. The pivot is therefore
-     * handled by the caller, which offsets the position by half the layer times `1 - scale`.
+     * Perspective fold and capsule fission use a centred SurfaceControl crop, so the underlying
+     * glass texture keeps its full-size sampling geometry while only the visible shape opens.
+     * Corner radius is interpolated against that crop. The small terminal overshoot and the
+     * elastic-burst squash use the existing four-float matrix, with pivot compensation returned
+     * to the caller. A ROM without the Rect crop overload falls back to folding the crop fraction
+     * into the matrix; layout is never requested from an animation frame.
      */
-    private fun applyRevealScale(transaction: Any, layer: Layer, scale: Float) {
-        if (!revealScalingAvailable) return
-        runCatching {
-            transaction.callMethod("setMatrix", layer.effect, scale, 0f, 0f, scale)
-        }.onFailure {
-            revealScalingAvailable = false
-            glassClient.record("unlock reveal scaling unavailable ${it.javaClass.simpleName}" +
-                " msg=${it.message?.take(120)}; keeping the fade only")
+    private data class AppliedContainer(val scaleX: Float, val scaleY: Float)
+
+    private fun applyRevealContainer(transaction: Any, layer: Layer,
+        pose: DockUnlockReveal.ContainerPose, force: Boolean = false): AppliedContainer {
+        var cropApplied = revealCropAvailable
+        if (cropApplied && (force || pose.cropWidth != layer.revealCropWidth ||
+                pose.cropHeight != layer.revealCropHeight)) {
+            runCatching {
+                val cropWidth = (layer.width * pose.cropWidth).toInt().coerceIn(1, layer.width)
+                val cropHeight = (layer.height * pose.cropHeight).toInt().coerceIn(1, layer.height)
+                val left = (layer.width - cropWidth) / 2
+                val top = (layer.height - cropHeight) / 2
+                (transaction as SurfaceControl.Transaction).setCrop(
+                    layer.effect as SurfaceControl,
+                    Rect(left, top, left + cropWidth, top + cropHeight))
+            }.onFailure {
+                revealCropAvailable = false
+                cropApplied = false
+                // Rect cropping may have succeeded on an earlier frame before a transient API
+                // failure. Clear it through the long-established width/height overload before
+                // switching to the matrix fallback, so no centred sliver can be stranded.
+                transaction.callMethod(SET_CROP, layer.effect, layer.width, layer.height)
+                glassClient.record("unlock reveal centred crop unavailable ${it.javaClass.simpleName}" +
+                    " msg=${it.message?.take(120)}; using matrix fallback")
+            }
         }
+        val scaleX = pose.scaleX * if (cropApplied) 1f else pose.cropWidth
+        val scaleY = pose.scaleY * if (cropApplied) 1f else pose.cropHeight
+        if (revealScalingAvailable && (force || scaleX != layer.revealScaleX ||
+                scaleY != layer.revealScaleY)) {
+            runCatching {
+                transaction.callMethod("setMatrix", layer.effect, scaleX, 0f, 0f, scaleY)
+            }.onFailure {
+                revealScalingAvailable = false
+                glassClient.record("unlock reveal scaling unavailable ${it.javaClass.simpleName}" +
+                    " msg=${it.message?.take(120)}; keeping crop and fade only")
+            }
+        }
+        if (force || pose.cornerProgress != layer.revealCornerProgress ||
+            pose.cropHeight != layer.revealCropHeight) {
+            transaction.callMethod(SET_RADIUS, layer.effect,
+                pose.cornerRadius(layer.radius, layer.height.toFloat()))
+        }
+        return AppliedContainer(
+            if (revealScalingAvailable) scaleX else 1f,
+            if (revealScalingAvailable) scaleY else 1f)
     }
+
+    private fun rememberContainer(layer: Layer, pose: DockUnlockReveal.ContainerPose,
+        applied: AppliedContainer) {
+        layer.revealScaleX = applied.scaleX
+        layer.revealScaleY = applied.scaleY
+        layer.revealCropWidth = pose.cropWidth
+        layer.revealCropHeight = pose.cropHeight
+        layer.revealCornerProgress = pose.cornerProgress
+    }
+
+    private fun hasRestingContainer(layer: Layer): Boolean =
+        layer.revealScaleX == 1f && layer.revealScaleY == 1f &&
+            layer.revealCropWidth == 1f && layer.revealCropHeight == 1f &&
+            layer.revealCornerProgress == 1f
+
+    private fun containerChanged(layer: Layer, pose: DockUnlockReveal.ContainerPose): Boolean =
+        pose.scaleX * (if (revealCropAvailable) 1f else pose.cropWidth) != layer.revealScaleX ||
+            pose.scaleY * (if (revealCropAvailable) 1f else pose.cropHeight) != layer.revealScaleY ||
+            pose.cropWidth != layer.revealCropWidth || pose.cropHeight != layer.revealCropHeight ||
+            pose.cornerProgress != layer.revealCornerProgress
 
     /** Half of `1 - scale`, which is what a centre-anchored scale shifts the layer origin by. */
     private fun pivotOffset(scale: Float): Float = (1f - scale) / 2f
 
     /** Undo every trace of a reveal so a cancelled or superseded one cannot leave a residue. */
     private fun restoreRestingTransform(transaction: Any, layer: Layer) {
-        applyRevealScale(transaction, layer, 1f)
+        // setWindowCrop is the established full-bounds path and also clears any prior Rect crop.
+        transaction.callMethod(SET_CROP, layer.effect, layer.width, layer.height)
+        val identity = DockUnlockReveal.ContainerPose.identity()
+        val applied = applyRevealContainer(transaction, layer, identity, true)
+        rememberContainer(layer, identity, applied)
         transaction.callMethod("setAlpha", layer.effect, 1f)
-        layer.revealScale = 1f
         layer.revealAlpha = 1f
+        layer.revealSlide = 0f
+        layer.resetAutoAim()
         if (layer.baseY > 0 && layer.x.isFinite()) {
             val restY = layer.baseY + motionOffset(layer, SystemClock.uptimeMillis())
             transaction.callMethod(SET_POSITION, layer.effect, layer.x, restY)
@@ -1183,6 +1374,42 @@ class HomeDockWindow : BaseHook() {
     }
 
     /**
+     * Resolve the container pose from its sole owner.
+     *
+     * AUTO_AIM consumes the latest authenticated Hotseat projection setter sample. The mapping is
+     * one-to-one: an icon scale of 0.43 produces a 0.43 x 0.43 Dock surface matrix. A missing,
+     * pre-unlock or stale sample resolves to identity rather than a guessed keyframe.
+     */
+    private fun revealContainerPose(layer: Layer, now: Long,
+        nowNs: Long = System.nanoTime()): DockUnlockReveal.ContainerPose {
+        if (layer.reveal.getStyle() != DockUnlockReveal.Style.AUTO_AIM ||
+            !layer.reveal.isRunning()) {
+            if (layer.autoAimLive || layer.autoAimDeadlineNs != 0L) layer.resetAutoAim()
+            return layer.reveal.containerPose(now)
+        }
+        val sample = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+        val projected = DockNativeMotion.autoAimScale(
+            sample, layer.reveal.eventEpochMillis(), nowNs)
+        if (projected == null) {
+            if (layer.autoAimLive) {
+                layer.autoAimLive = false
+                layer.autoAimDeadlineNs = 0L
+                glassClient.record("auto aim native projection lost; restoring identity")
+            }
+            return DockUnlockReveal.ContainerPose.identity()
+        }
+        layer.autoAimDeadlineNs = sample!!.uptimeNanos() + DockNativeMotion.AUTO_AIM_MAX_AGE_NS
+        if (sample.sequence() != layer.autoAimSequence) {
+            layer.autoAimSequence = sample.sequence()
+            if (layer.autoAimSamples++ < 8 || kotlin.math.abs(projected - 1.0) < 0.000001) {
+                glassClient.record("auto aim live scale=$projected sequence=${sample.sequence()}")
+            }
+        }
+        layer.autoAimLive = true
+        return DockUnlockReveal.ContainerPose.fromProjectedScale(projected)
+    }
+
+    /**
      * Write the reveal pose for [now] and remember it, so the frame loop does not repeat a write
      * that is already on the surface.
      *
@@ -1190,19 +1417,20 @@ class HomeDockWindow : BaseHook() {
      * guarantees the dock is never drawn at its resting size: the pose travels in the same
      * transaction that shows the layer.
      */
-    private fun applyRevealPose(transaction: Any, layer: Layer, now: Long) {
-        val scale = layer.reveal.scale(now)
+    private fun applyRevealPose(transaction: Any, layer: Layer, now: Long, force: Boolean = false) {
+        val pose = revealContainerPose(layer, now)
         val alpha = layer.reveal.alpha(now)
-        applyRevealScale(transaction, layer, scale)
+        val applied = applyRevealContainer(transaction, layer, pose, force)
         transaction.callMethod("setAlpha", layer.effect, alpha)
         if (layer.baseY > 0 && layer.x.isFinite()) {
             val restY = layer.baseY + motionOffset(layer, now) + layer.reveal.risePx(layer.density, now)
-            val shift = pivotOffset(scale)
+            val shiftX = pivotOffset(applied.scaleX)
+            val shiftY = pivotOffset(applied.scaleY)
             transaction.callMethod(SET_POSITION, layer.effect,
-                layer.x + layer.width * shift, restY + layer.height * shift)
+                layer.x + layer.width * shiftX, restY + layer.height * shiftY)
             layer.y = restY
         }
-        layer.revealScale = scale
+        rememberContainer(layer, pose, applied)
         layer.revealAlpha = alpha
         // TODO(twitch-diag): called by prime and by applyAppearance (visibility flips) - rare.
         glassClient.record("reveal dbg pose alpha=$alpha risePx=${layer.reveal.risePx(layer.density, now)}")
@@ -1254,7 +1482,7 @@ class HomeDockWindow : BaseHook() {
                     val now = SystemClock.uptimeMillis()
                     val stale = layers.values.filter {
                         it.reveal.isStalled(now) && (it.reveal.hasPendingPose() ||
-                            it.revealScale != 1f || it.revealAlpha != 1f)
+                            !hasRestingContainer(it) || it.revealAlpha != 1f || it.revealSlide != 0f)
                     }
                     if (stale.isEmpty()) return
                     val transaction = motionTransaction ?: loadClass(TRANSACTION)
@@ -1305,6 +1533,7 @@ class HomeDockWindow : BaseHook() {
                     if (stopped || !settings.enabled) return
                     var needsFrame = false
                     val frames = ArrayList<FrameUpdate>()
+                    val monotonicNow = System.nanoTime()
                     for ((window, layer) in layers) {
                         // Read the clock before the visibility test: an armed reveal still has to
                         // expire while the launcher is briefly hidden behind a going-away keyguard.
@@ -1316,6 +1545,7 @@ class HomeDockWindow : BaseHook() {
                             layer.nativeApplied = false
                             layer.nativeScene = -1
                             layer.nativeSampleDeadlineNs = 0
+                            layer.resetAutoAim()
                             if (layer.reveal.needsFrame(now)) needsFrame = true
                             continue
                         }
@@ -1325,33 +1555,40 @@ class HomeDockWindow : BaseHook() {
                         if (layer.reveal.needsFrame(now)) needsFrame = true
                         val y = layer.baseY + motionOffset(layer, now) +
                             layer.reveal.risePx(layer.density, now)
-                        if (layer.nativeSampleDeadlineNs > System.nanoTime()
+                        if (layer.nativeSampleDeadlineNs > monotonicNow
+                            || layer.autoAimDeadlineNs > monotonicNow
                             || (!layer.nativeApplied && layer.motion.isRunning(now))) needsFrame = true
-                        val scale = layer.reveal.scale(now)
+                        val pose = revealContainerPose(layer, now, monotonicNow)
                         val alpha = layer.reveal.alpha(now)
                         // The horizontal slide is part of the same gesture as the lift, so it
                         // must keep the frame loop dirty even once opacity and scale settle.
                         val slide = layer.reveal.slidePx(layer.width.toFloat(), now)
                         if (layer.x.isFinite() && layer.baseY > 0 &&
-                            (y != layer.y || scale != layer.revealScale ||
+                            (y != layer.y || containerChanged(layer, pose) ||
                                 alpha != layer.revealAlpha || slide != layer.revealSlide ||
                                 (layer.reveal.hasPendingPose() && !layer.reveal.isRunning()))) {
-                            frames.add(FrameUpdate(layer, y, scale, alpha, slide))
+                            frames.add(FrameUpdate(layer, y, pose, alpha, slide))
                         }
                     }
                     if (frames.isNotEmpty()) {
                         val transaction = motionTransaction ?: loadClass(TRANSACTION)
                             .getConstructor().newInstance().also { motionTransaction = it }
-                        for ((layer, y, scale, alpha, slide) in frames) {
+                        for (frame in frames) {
+                            val (layer, y, pose, alpha, slide) = frame
                             // Scale and alpha are written only when they change, so the reveal can
                             // share one transaction with the real-time follow. The position always
                             // carries the pivot compensation, which is zero once scale reaches 1.
-                            if (scale != layer.revealScale) applyRevealScale(transaction, layer, scale)
+                            val applied = if (containerChanged(layer, pose)) {
+                                applyRevealContainer(transaction, layer, pose)
+                            } else AppliedContainer(layer.revealScaleX, layer.revealScaleY)
+                            frame.appliedScaleX = applied.scaleX
+                            frame.appliedScaleY = applied.scaleY
                             if (alpha != layer.revealAlpha) transaction.callMethod("setAlpha", layer.effect, alpha)
-                            val shift = pivotOffset(scale)
+                            val shiftX = pivotOffset(applied.scaleX)
+                            val shiftY = pivotOffset(applied.scaleY)
                             transaction.callMethod(SET_POSITION, layer.effect,
-                                layer.x + layer.width * shift + slide,
-                                y + layer.height * shift)
+                                layer.x + layer.width * shiftX + slide,
+                                y + layer.height * shiftY)
                             // TODO(twitch-diag): trace frame-loop writes right after an unlock.
                             if (revealDebugActive() && (alpha != layer.revealAlpha ||
                                 SystemClock.uptimeMillis() - lastFrameDbgUptime > 40L)) {
@@ -1367,9 +1604,11 @@ class HomeDockWindow : BaseHook() {
                         // as correct.
                         transaction.callMethod("apply")
                         // Publish cached positions only after a successful submission.
-                        for ((layer, y, scale, alpha, slide) in frames) {
+                        for (frame in frames) {
+                            val (layer, y, pose, alpha, slide) = frame
                             layer.y = y
-                            layer.revealScale = scale
+                            rememberContainer(layer, pose,
+                                AppliedContainer(frame.appliedScaleX, frame.appliedScaleY))
                             layer.revealAlpha = alpha
                             layer.revealSlide = slide
                             layer.reveal.onPoseCommitted(layer.motionTime)
@@ -1417,6 +1656,7 @@ class HomeDockWindow : BaseHook() {
                 layer.nativeApplied = false
                 layer.nativeScene = -1
                 layer.nativeSampleDeadlineNs = 0
+                layer.resetAutoAim()
                 layer.nativeUid = uid
                 layer.nativePid = pid
                 glassClient.record("native motion Binder identity uid=$uid pid=$pid")
@@ -1468,6 +1708,16 @@ class HomeDockWindow : BaseHook() {
                 // The rotation gate has to be polled here: a rotated app hides the launcher window,
                 // WMS stops traversing it, and nothing else observes the display while that lasts.
                 val rotationChanged = layerUpdate.refreshRotationGate()
+                // Back off while nothing changes: an idle home screen must not wake the display
+                // thread every second. Any traversal, layer change or preference event calls
+                // resetSweepCadence(), so the fast cadence only survives while things move.
+                if (changed || rotationChanged) {
+                    sweepIntervalMs = NATIVE_BIND_SWEEP_MS
+                } else if (sweepIntervalMs < SWEEP_BACKOFF_MAX_MS) {
+                    val previous = sweepIntervalMs
+                    sweepIntervalMs = (previous * 2).coerceAtMost(SWEEP_BACKOFF_MAX_MS)
+                    glassClient.record("sweep cadence backoff ${previous}→$sweepIntervalMs ms")
+                }
                 // Preserve the WM -> layer lock order used by the wallpaper command path.
                 synchronized(wm.getObjectFieldAs<Any>(WM_LOCK)) {
                     synchronized(layers) {
@@ -1495,13 +1745,25 @@ class HomeDockWindow : BaseHook() {
                 }
             }
             if (keepGoing) scheduleNativeBindSweep()
-        }, NATIVE_BIND_SWEEP_MS)
+        }, sweepIntervalMs)
     }
 
     // Called only under the layer lock. The authenticated Binder receiver publishes an
     // immutable latest sample; intermediate queued values never become a second animation.
     private fun motionOffset(layer: Layer, now: Long): Float {
         val sample = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+        if (sample?.scene() == DockNativeMotion.SCENE_AUTO_AIM) {
+            // Scene 3 is a size truth signal, not the recents hotseat scale. Keeping it out of
+            // DockNativeMotion is what prevents unlock from inheriting or resuming a vertical lift.
+            if (layer.nativeApplied) {
+                layer.nativeMotion.reset()
+                layer.nativeApplied = false
+                layer.nativeScene = -1
+                layer.nativeSampleDeadlineNs = 0
+                layer.motion.finish()
+            }
+            return layer.motion.offsetY(layer.density, layer.baseY, now)
+        }
         if (sample != null) {
             layer.nativeMotion.accept(sample, layer.overview)
             layer.nativeApplied = true
@@ -1584,15 +1846,23 @@ class HomeDockWindow : BaseHook() {
 
     private fun hasPendingMotionFrame(): Boolean {
         val now = SystemClock.uptimeMillis()
+        val nowNs = System.nanoTime()
         return synchronized(layers) {
             layers.values.any { layer ->
                 // Clock expiry does not submit the resting pose. Keep the terminal frame
                 // pending across repeated lost callbacks, including a rise-only residue.
                 val revealNeedsFrame = layer.reveal.needsFrame(now)
+                val latest = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+                val nativeNeedsFrame = latest != null &&
+                    (latest.scene() != DockNativeMotion.SCENE_AUTO_AIM ||
+                        (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM &&
+                            DockNativeMotion.autoAimScale(
+                                latest, layer.reveal.eventEpochMillis(), nowNs) != null))
                 revealNeedsFrame || (layer.lastVisible == true &&
                     (layer.reveal.hasPendingPose() ||
-                        layer.revealAlpha != 1f || layer.revealScale != 1f))
-                    || nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid) != null
+                        layer.revealAlpha != 1f || !hasRestingContainer(layer) ||
+                        layer.revealSlide != 0f))
+                    || nativeNeedsFrame
                     || (layer.nativeApplied && !layer.overview)
                     || (!layer.nativeApplied && layer.motion.isRunning(now))
             }

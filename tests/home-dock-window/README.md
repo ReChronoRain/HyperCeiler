@@ -75,6 +75,7 @@ javac -d "$dock_test_dir" \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockNativeMotionEndpoint.java \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockGlassRecoveryGate.java \
   library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockRotationPolicy.java \
+  library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/DockGlassGeometry.java \
   tests/home-dock-window/stubs/android/os/IBinder.java \
   tests/home-dock-window/stubs/android/os/Binder.java \
   tests/home-dock-window/stubs/android/os/Parcel.java \
@@ -89,8 +90,9 @@ javac -d "$dock_test_dir" \
   tests/home-dock-window/DockNativeMotionTest.java \
   tests/home-dock-window/DockNativeMotionEndpointTest.java \
   tests/home-dock-window/DockGlassRecoveryGateTest.java \
-  tests/home-dock-window/DockRotationPolicyTest.java
-for test in DockWindowPolicy DockGlassPreset DockRecentsMotion DockUnlockReveal DockGlassRetryPolicy DockGlassSurfaceLease DockGlassProcessPolicy DockWallpaperEndpoint DockNativeMotion DockNativeMotionEndpoint DockGlassRecoveryGate DockRotationPolicy; do
+  tests/home-dock-window/DockRotationPolicyTest.java \
+  tests/home-dock-window/DockGlassGeometryTest.java
+for test in DockWindowPolicy DockGlassPreset DockRecentsMotion DockUnlockReveal DockGlassRetryPolicy DockGlassSurfaceLease DockGlassProcessPolicy DockWallpaperEndpoint DockNativeMotion DockNativeMotionEndpoint DockGlassRecoveryGate DockRotationPolicy DockGlassGeometry; do
   java -cp "$dock_test_dir" "com.sevtinge.hyperceiler.tests.dock.${test}Test"
 done
 ```

@@ -20,6 +20,10 @@ public final class DockUnlockRevealTest {
         liftSettlesOnceWithoutMaterialPulsing();
         tiltIsARealPerspectiveSweep();
         stylesFollowTheirReferenceCurves();
+        shapeStylesMapAndKeepLegacyFallback();
+        perspectiveFoldSynchronizesContainer();
+        capsuleFissionMorphsTheActualContainer();
+        cancellationRestoresEveryShapeProperty();
         lateLayerJoinsLandingAfterSkippedFrames();
         System.out.println("DockUnlockReveal tests passed");
     }
@@ -438,5 +442,151 @@ public final class DockUnlockRevealTest {
         check(late.alpha(30530) == smooth.alpha(30530), "late material keeps the same opacity");
         check(late.risePx(Float.NaN, 30530) == 0f && late.risePx(0f, 30530) == 0f,
                 "invalid density cannot put a non-finite position into a surface transaction");
+    }
+
+    private static void shapeStylesMapAndKeepLegacyFallback() {
+        check(DockUnlockReveal.Style.of("perspective_fold") == DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                "perspective-fold preference maps to its enum");
+        check(DockUnlockReveal.Style.of("CAPSULE_FISSION") == DockUnlockReveal.Style.CAPSULE_FISSION,
+                "capsule preference mapping is case insensitive");
+        check(DockUnlockReveal.Style.of("elastic_burst") == DockUnlockReveal.Style.AUTO_AIM,
+                "the removed elastic-burst preference migrates to the live-projection style");
+        check(DockUnlockReveal.Style.of("future_style") == DockUnlockReveal.Style.DAYBREAK,
+                "unknown preference values preserve the existing daybreak fallback");
+        long start = 61000;
+        for (DockUnlockReveal.Style legacy : new DockUnlockReveal.Style[] {
+                DockUnlockReveal.Style.DAYBREAK, DockUnlockReveal.Style.DEPTH_FLIP,
+                DockUnlockReveal.Style.GALE, DockUnlockReveal.Style.ORBIT_SWEEP,
+                DockUnlockReveal.Style.RIPPLE }) {
+            DockUnlockReveal.ContainerPose pose = DockUnlockReveal.containerPose(legacy, start, start + 300);
+            check(!pose.active && pose.scaleX == 1f && pose.scaleY == 1f
+                            && pose.cropWidth == 1f && pose.cropHeight == 1f
+                            && pose.cornerProgress == 1f,
+                    "legacy styles never inherit a new container morph: " + legacy);
+        }
+    }
+
+    private static void perspectiveFoldSynchronizesContainer() {
+        long start = 70000;
+        DockUnlockReveal.Pose3D icon = DockUnlockReveal.pose3D(
+                DockUnlockReveal.Style.PERSPECTIVE_FOLD, start, start);
+        DockUnlockReveal.ContainerPose dock = DockUnlockReveal.containerPose(
+                DockUnlockReveal.Style.PERSPECTIVE_FOLD, start, start);
+        check(icon.active && icon.rotationX == DockUnlockReveal.FOLD_ROT_X_DEG
+                        && icon.rotationY == DockUnlockReveal.FOLD_ROT_Y_DEG
+                        && icon.scaleX == DockUnlockReveal.FOLD_SCALE_X
+                        && icon.scaleY == DockUnlockReveal.FOLD_SCALE_Y
+                        && icon.depthHeights == DockUnlockReveal.FOLD_DEPTH_HEIGHTS,
+                "fold starts in a strong asymmetric 3D pose with real Z depth");
+        check(dock.active && dock.cropWidth == DockUnlockReveal.FOLD_CROP_WIDTH
+                        && dock.cropHeight == DockUnlockReveal.FOLD_CROP_HEIGHT
+                        && dock.cornerProgress == 0f,
+                "fold starts with the Dock visibly narrow, short and rounder");
+        check(DockUnlockReveal.cameraHeights(DockUnlockReveal.Style.PERSPECTIVE_FOLD)
+                        < DockUnlockReveal.CAMERA_HEIGHTS,
+                "fold uses a shorter camera distance than the old depth flip");
+
+        boolean flippedPastFlat = false;
+        boolean dockOvershot = false;
+        for (long elapsed = 1; elapsed < DockUnlockReveal.TOTAL_MS; elapsed++) {
+            icon = DockUnlockReveal.pose3D(DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                    start, start + elapsed);
+            dock = DockUnlockReveal.containerPose(DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                    start, start + elapsed);
+            check(Float.isFinite(icon.rotationX) && Float.isFinite(icon.rotationY)
+                            && Float.isFinite(icon.scaleX) && Float.isFinite(icon.scaleY)
+                            && Float.isFinite(dock.scaleX) && Float.isFinite(dock.scaleY),
+                    "fold never emits a non-finite RenderNode or SurfaceControl property");
+            check(dock.cropWidth >= DockUnlockReveal.FOLD_CROP_WIDTH && dock.cropWidth <= 1f
+                            && dock.cropHeight >= DockUnlockReveal.FOLD_CROP_HEIGHT
+                            && dock.cropHeight <= 1f,
+                    "fold changes visual bounds only inside the real Dock buffer");
+            if (dock.cropWidth < 0.999f) {
+                float iconProgress = (icon.scaleX - DockUnlockReveal.FOLD_SCALE_X)
+                        / (1f - DockUnlockReveal.FOLD_SCALE_X);
+                float dockProgress = (dock.cropWidth - DockUnlockReveal.FOLD_CROP_WIDTH)
+                        / (1f - DockUnlockReveal.FOLD_CROP_WIDTH);
+                check(Math.abs(iconProgress - dockProgress) < 0.0002f,
+                        "icons/material and Dock bounds use one fold progress");
+            }
+            if (icon.rotationX < 0f) flippedPastFlat = true;
+            if (dock.scaleX > 1f) dockOvershot = true;
+            check(dock.scaleX < 1.07f && dock.scaleY < 1.05f,
+                    "fold overshoot remains a polished settle rather than a size jump");
+        }
+        check(flippedPastFlat && dockOvershot,
+                "fold flips and expands slightly past rest before springing home");
+        icon = DockUnlockReveal.pose3D(DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                start, start + DockUnlockReveal.TOTAL_MS);
+        dock = DockUnlockReveal.containerPose(DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                start, start + DockUnlockReveal.TOTAL_MS);
+        check(!icon.active && !dock.active && icon.scaleX == 1f && icon.scaleY == 1f
+                        && icon.depthHeights == 0f && dock.cropWidth == 1f
+                        && dock.cropHeight == 1f && dock.cornerProgress == 1f,
+                "fold deadline is an exact identity on both sides of the process boundary");
+    }
+
+    private static void capsuleFissionMorphsTheActualContainer() {
+        long start = 80000;
+        DockUnlockReveal reveal = new DockUnlockReveal();
+        reveal.setStyle(DockUnlockReveal.Style.CAPSULE_FISSION);
+        reveal.arm(start);
+        reveal.startIfArmed(start);
+        DockUnlockReveal.ContainerPose first = reveal.containerPose(start);
+        DockUnlockReveal.Pose3D content = DockUnlockReveal.pose3D(
+                DockUnlockReveal.Style.CAPSULE_FISSION, start, start);
+        check(first.cropWidth == DockUnlockReveal.CAPSULE_CROP_WIDTH
+                        && first.cropHeight == DockUnlockReveal.CAPSULE_CROP_HEIGHT
+                        && first.cornerProgress == 0f,
+                "capsule fission begins as a short centred capsule crop");
+        check(Math.abs(first.cornerRadius(24f, 120f) - 32.4f) < 0.001f,
+                "the start radius is half the cropped height, not a scaled old radius");
+        check(content.scaleX == DockUnlockReveal.CAPSULE_CONTENT_SCALE_X
+                        && content.scaleY == DockUnlockReveal.CAPSULE_CONTENT_SCALE_Y,
+                "content starts compressed inside the capsule seed");
+        check(reveal.alpha(start + 20) == 0f,
+                "capsule content remains hidden while the centre seed forms");
+
+        DockUnlockReveal.ContainerPose early = reveal.containerPose(start + 90);
+        check(early.cropWidth > first.cropWidth && early.cropWidth < 1f
+                        && early.cornerProgress > 0f && early.cornerProgress < 1f,
+                "capsule continuously morphs width and radius instead of only scaling X");
+        boolean overshot = false;
+        float previousCrop = first.cropWidth;
+        for (long elapsed = 1; elapsed < DockUnlockReveal.TOTAL_MS; elapsed++) {
+            DockUnlockReveal.ContainerPose pose = reveal.containerPose(start + elapsed);
+            check(pose.cropWidth >= previousCrop && pose.cropWidth <= 1f,
+                    "centred capsule crop only opens outward");
+            check(pose.cornerProgress >= 0f && pose.cornerProgress <= 1f,
+                    "capsule-to-Dock radius morph remains bounded");
+            if (pose.scaleX > 1.03f) overshot = true;
+            previousCrop = pose.cropWidth;
+        }
+        check(overshot, "the completed capsule briefly exceeds the Dock width before settling");
+        DockUnlockReveal.ContainerPose end = reveal.containerPose(start + DockUnlockReveal.TOTAL_MS);
+        check(!end.active && end.cornerRadius(24f, 120f) == 24f,
+                "capsule morph restores the configured radius exactly");
+    }
+
+    private static void cancellationRestoresEveryShapeProperty() {
+        long start = 100000;
+        for (DockUnlockReveal.Style style : new DockUnlockReveal.Style[] {
+                DockUnlockReveal.Style.PERSPECTIVE_FOLD,
+                DockUnlockReveal.Style.CAPSULE_FISSION }) {
+            DockUnlockReveal reveal = new DockUnlockReveal();
+            reveal.setStyle(style);
+            reveal.arm(start);
+            reveal.startIfArmed(start);
+            check(reveal.containerPose(start + 120).active, style + " reaches a non-resting pose");
+            reveal.cancel();
+            DockUnlockReveal.ContainerPose restored = reveal.containerPose(start + 121);
+            check(!restored.active && restored.scaleX == 1f && restored.scaleY == 1f
+                            && restored.cropWidth == 1f && restored.cropHeight == 1f
+                            && restored.cornerProgress == 1f && reveal.alpha(start + 121) == 1f,
+                    style + " cancellation exposes a complete resting transaction");
+            check(reveal.hasPendingPose(), style + " still requires that resting pose to commit");
+            reveal.onPoseCommitted(start + 121);
+            check(!reveal.hasPendingPose(), style + " clears pose debt only after restore commits");
+        }
     }
 }

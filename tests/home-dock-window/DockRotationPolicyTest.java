@@ -37,13 +37,14 @@ public final class DockRotationPolicyTest {
         check("0".equals(policy.keyFragment()), "rotating away must not bump the key on its own");
         check(!policy.update(true, 11_000L), "a repeated reading is not a transition");
 
-        // Returning arms the settle window and bumps the key exactly once.
+        // Returning bumps the key exactly once. There is no settle window: the host is reused and
+        // its blur geometry is recomputed by the client's forced resume, so the panel can present
+        // native glass as soon as the portrait sample is verified.
         check(policy.update(false, 12_000L), "returning to portrait is a transition");
         check(!policy.isRotated(), "portrait resumes sampling");
-        check(policy.isSettling(12_000L), "the settle window starts on return");
-        check(policy.isSettling(12_799L), "the settle window covers its whole span");
-        check(!policy.isSettling(12_800L), "the settle window ends at its span");
-        check(policy.settleRemainingMs(12_300L) == 500L, "the caller can schedule the resume");
+        check(!policy.isSettling(12_000L), "no settle window delays the resumed glass");
+        check(!policy.isSettling(12_799L), "no settle window covers later frames");
+        check(policy.settleRemainingMs(12_300L) == 0L, "the caller can resume immediately");
         check(policy.settleRemainingMs(20_000L) == 0L, "an elapsed window leaves nothing to wait for");
         check("1".equals(policy.keyFragment()), "one cycle must produce a new host key");
         check(!policy.requiresNewCapture(0, true, true),
@@ -66,7 +67,7 @@ public final class DockRotationPolicyTest {
         policy.update(true, 40_000L);
         check(policy.isRotated() && !policy.isSettling(40_000L), "still suspended while unreadable");
         policy.update(false, 41_000L);
-        check(!policy.isRotated() && policy.isSettling(41_000L), "recovery resumes with a settle");
+        check(!policy.isRotated() && !policy.isSettling(41_000L), "recovery resumes without a delay");
 
         System.out.println("DockRotationPolicy tests passed");
     }

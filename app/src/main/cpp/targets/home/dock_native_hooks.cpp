@@ -48,9 +48,18 @@ extern "C" {
     uint32_t dock_recents_offset_##bank = 0; \
     uint32_t dock_double_value_offset_##bank = 0; \
     uint32_t dock_false_from_null_##bank = 0; \
+    uint32_t dock_unlock_state_widget_offset_##bank = 0; \
+    uint32_t dock_unlock_widget_cell_offset_##bank = 0; \
+    uint32_t dock_unlock_cell_container_offset_##bank = 0; \
+    int64_t dock_unlock_hotseat_container_0_##bank = 0; \
+    int64_t dock_unlock_hotseat_container_1_##bank = 0; \
+    int64_t dock_unlock_hotseat_container_2_##bank = 0; \
+    int64_t dock_unlock_hotseat_container_3_##bank = 0; \
+    int64_t dock_unlock_hotseat_container_4_##bank = 0; \
     void *dock_motion_scale_original_##bank = nullptr; \
     void *dock_motion_anim_original_##bank = nullptr; \
-    void *dock_motion_set_original_##bank = nullptr;
+    void *dock_motion_set_original_##bank = nullptr; \
+    void *dock_motion_unlock_scale_original_##bank = nullptr;
 DOCK_MOTION_BANKS(DEFINE_DOCK_MOTION_BANK)
 #undef DEFINE_DOCK_MOTION_BANK
 
@@ -105,11 +114,14 @@ struct ResolvedInstance {
     std::vector<dock_motion::ExecutableMapping> mappings;
     TargetSources sources;
     std::array<PatchWords, kTargetCount> original_words;
-    // Contract-shaped resolver output (nativehook/resolver.h): the same three
-    // inline points plus the evidence that justified them. `targets[i].address`
+    // Contract-shaped resolver output (nativehook/resolver.h): the recents points and optional
+    // unlock projection point plus their evidence. `targets[i].address`
     // is verified against `original_words` before the bank is built, so the
     // contract cannot drift from the runtime's view.
     std::array<nhk::ResolvedTarget, kTargetCount> targets;
+    std::optional<dock_motion::CodeSource> unlock_source;
+    std::optional<PatchWords> unlock_original_words;
+    std::optional<nhk::ResolvedTarget> unlock_target;
     nhk::ResolverEvidence evidence;
 };
 
@@ -122,6 +134,8 @@ struct HookBank {
     dock_motion::Resolution resolution;
     std::vector<dock_motion::ExecutableMapping> mappings;
     std::array<HookSlot, kTargetCount> slots;
+    std::array<HookSlot, 1> unlock_slots;
+    bool unlock_available = false;
 };
 
 std::vector<HookBank> hook_banks;
@@ -138,8 +152,14 @@ struct BankSymbols {
     uint32_t *recents_offset;
     uint32_t *double_value_offset;
     uint32_t *false_from_null;
+    uint32_t *unlock_state_widget_offset;
+    uint32_t *unlock_widget_cell_offset;
+    uint32_t *unlock_cell_container_offset;
+    std::array<int64_t *, 5> unlock_hotseat_containers;
     std::array<void *, kTargetCount> replacements;
     std::array<void **, kTargetCount> originals;
+    void *unlock_replacement;
+    void **unlock_original;
 };
 
 #define DOCK_BANK_SYMBOLS(bank) BankSymbols{ \
@@ -149,11 +169,18 @@ struct BankSymbols {
     &dock_scale_offset_##bank, &dock_surface_offset_##bank, \
     &dock_recents_offset_##bank, &dock_double_value_offset_##bank, \
     &dock_false_from_null_##bank, \
+    &dock_unlock_state_widget_offset_##bank, &dock_unlock_widget_cell_offset_##bank, \
+    &dock_unlock_cell_container_offset_##bank, \
+    {&dock_unlock_hotseat_container_0_##bank, &dock_unlock_hotseat_container_1_##bank, \
+     &dock_unlock_hotseat_container_2_##bank, &dock_unlock_hotseat_container_3_##bank, \
+     &dock_unlock_hotseat_container_4_##bank}, \
     {reinterpret_cast<void *>(dock_motion_scale_entry_##bank), \
      reinterpret_cast<void *>(dock_motion_anim_entry_##bank), \
      reinterpret_cast<void *>(dock_motion_set_entry_##bank)}, \
     {&dock_motion_scale_original_##bank, &dock_motion_anim_original_##bank, \
-     &dock_motion_set_original_##bank}}
+     &dock_motion_set_original_##bank}, \
+    reinterpret_cast<void *>(dock_motion_unlock_scale_entry_##bank), \
+    &dock_motion_unlock_scale_original_##bank}
 
 const std::array<BankSymbols, 16> kBankSymbols{{
     DOCK_BANK_SYMBOLS(0), DOCK_BANK_SYMBOLS(1), DOCK_BANK_SYMBOLS(2),
@@ -653,8 +680,54 @@ std::optional<ResolvedInstance> resolve_generation(
                 return {};
             }
         }
+        std::optional<dock_motion::CodeSource> unlock_source;
+        std::optional<PatchWords> unlock_original;
+        if (resolution.unlock) {
+            if (!targets->unlock_target
+                || std::ranges::find(locations, resolution.unlock->scale) != locations.end()
+                || resolution.unlock->scale == 0
+                || resolution.unlock->scale % alignof(uint32_t) != 0) {
+                report_resolution(mappings, "unlock-distinct");
+                return {};
+            }
+            const std::array<uintptr_t, 1> unlock_location{resolution.unlock->scale};
+            std::array<dock_motion::CodeSource, 1> unlock_sources{};
+            if (!dock_motion::sources_for(
+                    mappings, unlock_location, kPatchBytes, unlock_sources)) {
+                report_resolution(mappings, "unlock-source");
+                return {};
+            }
+            std::array<PatchWords, 1> unlock_words{};
+            const auto before = current_mappings();
+            if (!before || dock_motion::mapping_state(*before, unlock_location,
+                    unlock_sources, kPatchBytes) != dock_motion::MappingState::same
+                || !safe_read(unlock_location[0],
+                    std::as_writable_bytes(std::span(&unlock_words[0], 1)))) {
+                report_resolution(mappings, "unlock-stable");
+                return {};
+            }
+            const auto after = current_mappings();
+            if (!after || dock_motion::mapping_state(*after, unlock_location,
+                    unlock_sources, kPatchBytes) != dock_motion::MappingState::same) {
+                report_resolution(mappings, "unlock-stable");
+                return {};
+            }
+            const auto copied = dock_motion::at(
+                owned->ranges, unlock_location[0], unlock_words[0].size());
+            if (copied.size() != unlock_words[0].size()
+                || !std::equal(copied.begin(), copied.end(), unlock_words[0].begin())
+                || targets->unlock_target->original_words.size() != unlock_words[0].size()
+                || !std::equal(targets->unlock_target->original_words.begin(),
+                    targets->unlock_target->original_words.end(), unlock_words[0].begin())) {
+                report_resolution(mappings, "unlock-words");
+                return {};
+            }
+            unlock_source = unlock_sources[0];
+            unlock_original = unlock_words[0];
+        }
         return ResolvedInstance{resolution, mappings, target_sources, originals,
-            targets->targets, targets->evidence};
+            targets->targets, unlock_source, unlock_original, targets->unlock_target,
+            targets->evidence};
     } catch (...) {
         report_resolution(mappings, "exception");
         return {};
@@ -676,24 +749,45 @@ void publish_layout(size_t index, const dock_motion::Layout &layout) {
     *symbols.false_from_null = layout.false_from_null;
 }
 
+void publish_unlock_layout(size_t index, const dock_motion::UnlockLayout &layout) {
+    const auto &symbols = kBankSymbols[index];
+    *symbols.unlock_state_widget_offset = layout.state_widget_offset;
+    *symbols.unlock_widget_cell_offset = layout.widget_cell_offset;
+    *symbols.unlock_cell_container_offset = layout.cell_container_offset;
+    for (size_t item = 0; item < layout.hotseat_containers.size(); ++item) {
+        *symbols.unlock_hotseat_containers[item] = layout.hotseat_containers[item];
+    }
+}
+
 bool same_instance(const HookBank &bank, const ResolvedInstance &instance) {
     if (!dock_motion::same_resolution(bank.resolution, instance.resolution)) return false;
     for (size_t i = 0; i < bank.slots.size(); ++i) {
         if (!(bank.slots[i].source == instance.sources[i])) return false;
+    }
+    if (bank.unlock_available) {
+        if (!instance.unlock_source
+            || !(bank.unlock_slots[0].source == *instance.unlock_source)) return false;
     }
     return true;
 }
 
 HookBank make_bank(size_t index, const ResolvedInstance &instance) {
     const auto &symbols = kBankSymbols[index];
-    return {index, instance.resolution, instance.mappings, {{
+    HookBank bank{index, instance.resolution, instance.mappings, {{
         {instance.resolution.scale, symbols.replacements[0], symbols.originals[0],
             instance.sources[0], instance.original_words[0]},
         {instance.resolution.animate, symbols.replacements[1], symbols.originals[1],
             instance.sources[1], instance.original_words[1]},
         {instance.resolution.set, symbols.replacements[2], symbols.originals[2],
             instance.sources[2], instance.original_words[2]},
-    }}};
+    }}, {}, false};
+    if (instance.resolution.unlock && instance.unlock_source && instance.unlock_original_words) {
+        bank.unlock_slots[0] = {instance.resolution.unlock->scale,
+            symbols.unlock_replacement, symbols.unlock_original, *instance.unlock_source,
+            *instance.unlock_original_words};
+        bank.unlock_available = true;
+    }
+    return bank;
 }
 
 /** Write raw bytes back into a code page, restoring its original protection afterwards. */
@@ -753,6 +847,7 @@ nhk::InlineHookHost<kPatchBytes / sizeof(uint32_t)> &slot_host() {
 }
 
 constexpr std::array<size_t, kTargetCount> kInstallOrder{1, 2, 0};
+constexpr std::array<size_t, 1> kUnlockInstallOrder{0};
 
 constexpr uint64_t kPipelineReportNs = 10000000000ULL;
 
@@ -815,6 +910,17 @@ bool bank_healthy(HookBank &bank) {
         });
 }
 
+bool unlock_healthy(HookBank &bank) {
+    if (!bank.unlock_available) return true;
+    return nhk::slots_healthy<1, kPatchBytes / sizeof(uint32_t)>(
+        bank.unlock_slots,
+        [](const std::array<uintptr_t, 1> &locations,
+            const std::array<dock_motion::CodeSource, 1> &expected,
+            std::array<PatchWords, 1> &observed) {
+            return stable_read(locations[0], expected[0], observed[0]);
+        });
+}
+
 bool add_instance(const ResolvedInstance &instance) {
     if (std::ranges::any_of(hook_banks,
             [&](const auto &bank) { return same_instance(bank, instance); })) return false;
@@ -842,15 +948,23 @@ bool add_instance(const ResolvedInstance &instance) {
     }
     // Publish the layout before installing: the replacement reads these symbols.
     publish_layout(index, instance.resolution.layout);
+    if (instance.resolution.unlock) {
+        publish_unlock_layout(index, instance.resolution.unlock->layout);
+    }
     HookBank replacement = make_bank(index, instance);
     hook_banks.push_back(std::move(replacement));
     auto &bank = hook_banks[index];
     const bool installed = ensure_slots_live(bank.slots, slot_host(), kInstallOrder)
         && bank_healthy(bank);
+    const bool unlock_installed = !bank.unlock_available
+        || (ensure_slots_live(bank.unlock_slots, slot_host(), kUnlockInstallOrder)
+            && unlock_healthy(bank));
     __android_log_print(installed ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kTag,
-        "motion runtime bank=%zu paramsCID=%u doubleCID=%u install=%s",
+        "motion runtime bank=%zu paramsCID=%u doubleCID=%u install=%s unlock=%s",
         index, instance.resolution.layout.params_class_id,
-        instance.resolution.layout.double_class_id, installed ? "complete" : "partial");
+        instance.resolution.layout.double_class_id, installed ? "complete" : "partial",
+        !bank.unlock_available ? "unresolved"
+            : unlock_installed ? "live-projection" : "partial");
     return installed;
 }
 
@@ -882,8 +996,18 @@ bool maintain_dock_motion_hooks_impl(bool force) {
         // bank_healthy() is the only per-tick cost while the generation is intact. The
         // repair probe (a per-slot stable read) runs only after that verification fails,
         // so a lost patch is healed without taxing the healthy steady state.
-        if (bank_healthy(bank)) healthy = true;
-        else if (ensure_slots_live(bank.slots, slot_host(), kInstallOrder) && bank_healthy(bank)) healthy = true;
+        bool recents_healthy = bank_healthy(bank);
+        if (!recents_healthy
+            && ensure_slots_live(bank.slots, slot_host(), kInstallOrder)) {
+            recents_healthy = bank_healthy(bank);
+        }
+        if (recents_healthy) healthy = true;
+        // AUTO_AIM is optional and never takes the established recents channel down. Repair its
+        // exact-scale setter independently whenever this generation still owns the code mapping.
+        if (bank.unlock_available && !unlock_healthy(bank)) {
+            (void)ensure_slots_live(
+                bank.unlock_slots, slot_host(), kUnlockInstallOrder);
+        }
     }
 
     bool scan = force || inventory_changed || !healthy;

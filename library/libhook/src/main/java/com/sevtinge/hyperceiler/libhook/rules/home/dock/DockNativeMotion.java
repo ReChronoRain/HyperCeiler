@@ -21,6 +21,10 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 /** Pure Binder-sample/scene policy. No Android dependencies and no log-derived animation. */
 public final class DockNativeMotion {
     public static final long MAX_AGE_NS = 500_000_000L;
+    /** Native scene carrying an actual Hotseat icon's 3D-to-2D projected scale. */
+    public static final int SCENE_AUTO_AIM = 3;
+    /** Six 60 Hz frames: lose truth quickly, then restore identity instead of freezing a pose. */
+    public static final long AUTO_AIM_MAX_AGE_NS = 100_000_000L;
     private long sequence;
     private boolean recents;
     private float progress;
@@ -35,10 +39,25 @@ public final class DockNativeMotion {
         int scene = (int) (packed & 3);
         double scale = Double.longBitsToDouble(packed & ~3L);
         if (sequence <= previousSequence || timestamp < 0 || timestamp > nowNanos
-                || nowNanos - timestamp > MAX_AGE_NS || scene > 2
+                || nowNanos - timestamp > MAX_AGE_NS || scene > SCENE_AUTO_AIM
                 || entryHits < 0 || publishHits < 0 || publishHits > entryHits
                 || !Double.isFinite(scale) || scale < 0 || scale > 2) return null;
         return new Sample(sequence, timestamp, scene, scale, entryHits, publishHits);
+    }
+
+    /**
+     * Return the live projected icon scale only when it belongs to this unlock epoch.
+     * There is intentionally no interpolation or fallback value in this policy.
+     */
+    public static Double autoAimScale(Sample sample, long unlockEpochMillis, long nowNanos) {
+        if (sample == null || sample.scene() != SCENE_AUTO_AIM || unlockEpochMillis < 0L
+                || nowNanos < sample.uptimeNanos()
+                || nowNanos - sample.uptimeNanos() > AUTO_AIM_MAX_AGE_NS
+                || unlockEpochMillis > Long.MAX_VALUE / 1_000_000L
+                || sample.uptimeNanos() < unlockEpochMillis * 1_000_000L
+                || !Double.isFinite(sample.scale()) || sample.scale() < 0d
+                || sample.scale() > 2d) return null;
+        return sample.scale();
     }
 
     /** Keepalive/entry-only packets advance transport replay state, never motion freshness. */
@@ -55,6 +74,9 @@ public final class DockNativeMotion {
 
     public boolean accept(Sample sample, boolean overviewHint) {
         if (sample == null || sample.sequence() < sequence) return false;
+        // Scene 3 belongs to the independent unlock-size follower. Never let it mutate the
+        // recents latch or turn a Hotseat projection into vertical background motion.
+        if (sample.scene() == SCENE_AUTO_AIM) return false;
         if (sample.sequence() == sequence) {
             // Native scale can arrive just before the authenticated wallpaper
             // overview command. Replay protection must not prevent that same

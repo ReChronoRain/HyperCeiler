@@ -21,7 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 /** Bounded per-ticket recovery; never driven by the window's frame rate. */
 public final class DockGlassRetryPolicy {
     public static final int BACKGROUND_CHECKS = 20;
-    public static final long BACKGROUND_CHECK_MS = 500L;
+    public static final long BACKGROUND_CHECK_MS = 100L;
     /** Saturating check count: subsequent checks all use the idle cadence. */
     public static final int BACKGROUND_IDLE_CHECK = BACKGROUND_CHECKS + 10;
     private static final long[] DELAYS_MS = {2000, 4000, 8000, 16000, 30000};

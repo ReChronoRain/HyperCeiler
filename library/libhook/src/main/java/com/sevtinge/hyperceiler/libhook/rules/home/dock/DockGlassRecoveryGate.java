@@ -247,6 +247,20 @@ public final class DockGlassRecoveryGate {
         }
     }
 
+    /**
+     * A rotation return must always probe, even when a visibility resume already described the
+     * same return within the deduplication window. The host recomputes its blur geometry inside
+     * that probe, so swallowing it would leave the panel on the rotated sample.
+     */
+    public int forceRefresh(long nowUptimeMillis) {
+        synchronized (refreshLock) {
+            if (retired || cancelled) return REFRESH_DEDUPLICATED;
+            refreshAllowed = true;
+            lastRefreshRequest = nowUptimeMillis;
+            return ++refreshRequestEpoch;
+        }
+    }
+
     /** Abandon only this queued probe, allowing the next portrait return to retry immediately. */
     public void cancelRefresh(int epoch) {
         synchronized (refreshLock) {

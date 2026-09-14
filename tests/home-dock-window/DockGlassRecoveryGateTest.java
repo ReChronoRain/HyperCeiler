@@ -224,6 +224,31 @@ public final class DockGlassRecoveryGateTest {
         check(!gate.isPauseCurrent(secondPause), "retirement cancels capture pauses");
     }
 
+    /**
+     * A rotation return has to recompute the host's blur geometry, so its probe must survive the
+     * deduplication that collapses a visibility callback describing the same return.
+     */
+    private static void forcedRotationResumeBypassesDeduplication() {
+        DockGlassRecoveryGate gate = new DockGlassRecoveryGate();
+        check(gate.beginAttempt(false), "attempt admitted");
+        int visibility = gate.requestRefresh(1000L);
+        check(visibility != DockGlassRecoveryGate.REFRESH_DEDUPLICATED, "visibility probe admitted");
+        check(gate.requestRefresh(1100L) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "an unforced probe inside the window is collapsed");
+
+        int forced = gate.forceRefresh(1101L);
+        check(forced != DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "a rotation return always admits its geometry probe");
+        check(gate.isRefreshCurrent(forced), "the forced probe supersedes the visibility probe");
+        check(!gate.isRefreshCurrent(visibility), "the older probe is no longer current");
+        check(gate.requestRefresh(1150L) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "the forced probe still opens the deduplication window");
+
+        gate.markRetired();
+        check(gate.forceRefresh(2000L) == DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
+                "a retired ticket admits nothing");
+    }
+
     private static void closedClientAdmitsNothing() {
         DockGlassRecoveryGate gate = new DockGlassRecoveryGate();
         check(!gate.beginAttempt(true), "a closing client rejects a new attempt");
@@ -279,7 +304,7 @@ public final class DockGlassRecoveryGateTest {
                 "a still-rotated launcher does not request sampling");
         check(gate.isPauseCurrent(pause), "a blocked resume does not cancel the pending pause");
         rotation.update(false, 1020L);
-        check(rotation.isSettling(1020L), "new-host settling is still active");
+        check(!rotation.isSettling(1020L), "the return resumes without a settle delay");
         int returning = gate.requestRefresh(1020L, rotation.isRotated());
         check(returning != DockGlassRecoveryGate.REFRESH_DEDUPLICATED,
                 "the first portrait frame resumes despite a blocked request just 10ms ago");
@@ -341,6 +366,7 @@ public final class DockGlassRecoveryGateTest {
         staleGenerationsAreRejected();
         retirementIsFinalAndIdempotent();
         refreshProbesAreDeduplicated();
+        forcedRotationResumeBypassesDeduplication();
         closedClientAdmitsNothing();
         idleReadinessPausesUntilResume();
         retainedCaptureResumesOnPortraitWithoutLateRefresh();

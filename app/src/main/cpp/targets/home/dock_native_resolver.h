@@ -50,6 +50,7 @@ using nhk::arm64::at;
 using nhk::arm64::materialized_u32;
 using nhk::arm64::ubfx;
 using nhk::arm64::lsl_amount;
+using nhk::arm64::decode_conditional_branch_target;
 using nhk::arm64::kMaxFunctionWords;
 
 struct Layout {
@@ -65,12 +66,36 @@ struct Layout {
     uint32_t double_value_offset;
     uint32_t false_from_null;
 };
+struct UnlockLayout {
+    uint32_t state_widget_offset;
+    uint32_t widget_cell_offset;
+    uint32_t cell_container_offset;
+    std::array<int64_t, 5> hotseat_containers;
+};
+struct UnlockResolution {
+    uintptr_t scale;
+    UnlockLayout layout;
+};
 struct Resolution {
     uintptr_t scale;
     uintptr_t animate;
     uintptr_t set;
     Layout layout;
+    std::optional<UnlockResolution> unlock;
 };
+
+inline bool same_unlock_layout(const UnlockLayout &left, const UnlockLayout &right) {
+    return left.state_widget_offset == right.state_widget_offset
+        && left.widget_cell_offset == right.widget_cell_offset
+        && left.cell_container_offset == right.cell_container_offset
+        && left.hotseat_containers == right.hotseat_containers;
+}
+inline bool same_unlock(const std::optional<UnlockResolution> &left,
+    const std::optional<UnlockResolution> &right) {
+    if (left.has_value() != right.has_value()) return false;
+    return !left || (left->scale == right->scale
+        && same_unlock_layout(left->layout, right->layout));
+}
 
 inline bool same_layout(const Layout &left, const Layout &right) {
     return left.params_class_id == right.params_class_id
@@ -87,7 +112,8 @@ inline bool same_layout(const Layout &left, const Layout &right) {
 }
 inline bool same_resolution(const Resolution &left, const Resolution &right) {
     return left.scale == right.scale && left.animate == right.animate
-        && left.set == right.set && same_layout(left.layout, right.layout);
+        && left.set == right.set && same_layout(left.layout, right.layout)
+        && same_unlock(left.unlock, right.unlock);
 }
 
 inline bool is_dart_prologue(std::span<const uint32_t> words) {
@@ -507,6 +533,274 @@ inline std::optional<Match> animate_function(std::span<const CodeRange> ranges,
     return result;
 }
 
+// ---------------------------------------------------------------------------
+// Unlock Hotseat projection
+//
+// The launcher does not expose its unlock transform through Java. Dart computes each
+// _UnlockWidgetState's visual scale with conversionValueFrom3DTo2D and passes the result in d0 to
+// a tiny ValueNotifier setter. The routines below recover that setter and the state -> widget ->
+// CellLocationInfo.container chain by relationships, not addresses or fixed payload offsets.
+// ---------------------------------------------------------------------------
+
+inline bool is_mov_x(uint32_t word, uint32_t destination, uint32_t source) {
+    // MOV Xd, Xm is the ORR Xd, XZR, Xm alias with no shift.
+    return (word & 0xffe0ffe0) == 0xaa0003e0
+        && rd(word) == destination && rm(word) == source;
+}
+
+inline std::optional<uint32_t> cmn_x_immediate(uint32_t word, uint32_t source) {
+    // CMN Xn, #imm is ADDS XZR, Xn, #imm. Reject the 32-bit and register forms.
+    if ((word & 0xffc003ff) != 0xb100001f || rn(word) != source) return {};
+    uint32_t value = (word >> 10) & 0xfff;
+    if (((word >> 22) & 1) != 0) value <<= 12;
+    return value;
+}
+
+struct RawDoubleSetter {
+    Match body;
+    uintptr_t notifier_setter;
+    uint32_t boxed_tag;
+    int boxed_header_offset;
+    int boxed_value_offset;
+    int receiver_field_offset;
+};
+
+inline std::vector<RawDoubleSetter> raw_double_setters(
+    const std::vector<Match> &all_functions) {
+    std::vector<RawDoubleSetter> result;
+    for (const auto &function : all_functions) {
+        if (function.words.size() < 16 || function.words.size() > 40) continue;
+        std::vector<uintptr_t> targets;
+        for (size_t index = 0; index < function.words.size(); ++index) {
+            if (const auto target = call_target(function, index)) targets.push_back(*target);
+        }
+        if (targets.size() != 1) continue;
+
+        std::optional<int> receiver_field;
+        std::optional<uint32_t> receiver_object;
+        for (size_t index = 0; index + 1 < function.words.size(); ++index) {
+            const uint32_t load = function.words[index];
+            if (!is_ldur_w(load) || rn(load) != 1
+                || !is_compressed_pointer_add(function.words[index + 1])
+                || rd(load) != rd(function.words[index + 1])) continue;
+            if (receiver_field) { receiver_field.reset(); break; }
+            receiver_field = memory_offset(load);
+            receiver_object = rd(load);
+        }
+        if (!receiver_field || !receiver_object || *receiver_field < 0) continue;
+
+        std::optional<RawDoubleSetter> candidate;
+        for (size_t value_index = 1; value_index < function.words.size(); ++value_index) {
+            const uint32_t value_store = function.words[value_index];
+            if (!is_stur_d(value_store) || rd(value_store) != 0
+                || memory_offset(value_store) < 0 || rn(value_store) == 29) continue;
+            const uint32_t object = rn(value_store);
+            const size_t begin = value_index > 12 ? value_index - 12 : 0;
+            for (size_t header_index = begin; header_index < value_index; ++header_index) {
+                const uint32_t header_store = function.words[header_index];
+                if (!is_stur_x(header_store) || rn(header_store) != object) continue;
+                const uint32_t tag_register = rd(header_store);
+                std::optional<uint32_t> tag;
+                for (size_t materialize = begin; materialize + 1 < header_index; ++materialize) {
+                    if (const auto value = materialized_u32(
+                            function.words.subspan(materialize), tag_register)) tag = value;
+                }
+                if (!tag) continue;
+                bool passes_receiver = false;
+                for (size_t move = value_index + 1; move < function.words.size(); ++move) {
+                    if (is_bl(function.words[move])) break;
+                    passes_receiver |= is_mov_x(function.words[move], 1, *receiver_object);
+                }
+                if (!passes_receiver) continue;
+                RawDoubleSetter found{function, targets[0], *tag,
+                    memory_offset(header_store), memory_offset(value_store), *receiver_field};
+                if (candidate) { candidate.reset(); break; }
+                candidate = found;
+            }
+            if (candidate) break;
+        }
+        if (candidate) result.push_back(*candidate);
+    }
+    return result;
+}
+
+struct HotseatCenter {
+    Match body;
+    int container_offset;
+    std::array<int64_t, 5> containers;
+};
+
+inline std::vector<HotseatCenter> hotseat_centers(
+    const std::vector<Match> &all_functions) {
+    std::vector<HotseatCenter> result;
+    for (const auto &function : all_functions) {
+        for (size_t index = 0; index + 10 < function.words.size(); ++index) {
+            const uint32_t load = function.words[index];
+            if (!is_ldur_x(load) || rn(load) != 1 || memory_offset(load) < 0) continue;
+            const uint32_t value_register = rd(load);
+            std::array<int64_t, 5> containers{};
+            std::optional<uintptr_t> equal_target;
+            bool valid = true;
+            for (size_t item = 0; item < containers.size(); ++item) {
+                const size_t compare_index = index + 1 + item * 2;
+                const size_t branch_index = compare_index + 1;
+                const auto immediate = cmn_x_immediate(
+                    function.words[compare_index], value_register);
+                const uint32_t branch = function.words[branch_index];
+                const auto target = decode_conditional_branch_target(
+                    function.address + branch_index * sizeof(uint32_t), branch);
+                const uint32_t condition = branch & 0xf;
+                if (!immediate || *immediate == 0 || !target
+                    || (item < containers.size() - 1 ? condition != 0 : condition != 1)) {
+                    valid = false;
+                    break;
+                }
+                if (item < containers.size() - 1) {
+                    if (!equal_target) equal_target = target;
+                    else if (*equal_target != *target) { valid = false; break; }
+                } else if (equal_target && *target == *equal_target) {
+                    valid = false;
+                    break;
+                }
+                containers[item] = -static_cast<int64_t>(*immediate);
+            }
+            if (!valid || !equal_target) continue;
+            auto sorted = containers;
+            std::ranges::sort(sorted);
+            if (std::adjacent_find(sorted.begin(), sorted.end()) != sorted.end()) continue;
+            result.push_back({function, memory_offset(load), containers});
+        }
+    }
+    return result;
+}
+
+struct CellResolver {
+    Match body;
+    HotseatCenter center;
+    int state_widget_offset;
+    int widget_cell_offset;
+};
+
+inline std::vector<CellResolver> cell_resolvers(const std::vector<Match> &all_functions,
+    const std::vector<HotseatCenter> &centers) {
+    std::vector<CellResolver> result;
+    for (const auto &center : centers) {
+        for (const auto &function : all_functions) {
+            for (size_t call = 0; call < function.words.size(); ++call) {
+                const auto target = call_target(function, call);
+                if (!target || *target != center.body.address) continue;
+                std::optional<CellResolver> candidate;
+                for (size_t first = 0; first + 3 < call; ++first) {
+                    const uint32_t state_load = function.words[first];
+                    if (!is_ldur_w(state_load) || rn(state_load) != 0
+                        || !is_compressed_pointer_add(function.words[first + 1])
+                        || rd(state_load) != rd(function.words[first + 1])) continue;
+                    const uint32_t widget_register = rd(state_load);
+                    for (size_t second = first + 2; second + 1 < call; ++second) {
+                        const uint32_t cell_load = function.words[second];
+                        if (!is_ldur_w(cell_load) || rn(cell_load) != widget_register
+                            || !is_compressed_pointer_add(function.words[second + 1])
+                            || rd(cell_load) != rd(function.words[second + 1])) continue;
+                        const uint32_t cell_register = rd(cell_load);
+                        bool passed_to_center = false;
+                        for (size_t move = second + 2; move < call; ++move) {
+                            passed_to_center |= is_mov_x(function.words[move], 1, cell_register);
+                        }
+                        if (!passed_to_center) continue;
+                        CellResolver found{function, center, memory_offset(state_load),
+                            memory_offset(cell_load)};
+                        if (candidate) { candidate.reset(); break; }
+                        candidate = found;
+                    }
+                }
+                if (candidate) result.push_back(*candidate);
+            }
+        }
+    }
+    return result;
+}
+
+inline const Match *function_at(const std::vector<Match> &functions, uintptr_t address) {
+    const auto found = std::ranges::find_if(functions,
+        [&](const Match &function) { return function.address == address; });
+    return found == functions.end() ? nullptr : &*found;
+}
+
+inline bool call_preceded_by_zero_d0(const Match &function, size_t call) {
+    const size_t begin = call > 3 ? call - 3 : 0;
+    for (size_t index = begin; index < call; ++index) {
+        // EOR V0.16B, V0.16B, V0.16B: Dart's canonical raw-double zero.
+        if (function.words[index] == 0x6e201c00) return true;
+    }
+    return false;
+}
+
+inline bool plausible_pointer_field(int offset, int32_t header, unsigned alignment) {
+    if (offset < 0 || header >= 0 || alignment == 0) return false;
+    const int64_t physical = static_cast<int64_t>(offset) - header;
+    return physical >= static_cast<int64_t>(sizeof(uint64_t))
+        && physical <= 4096 && physical % alignment == 0;
+}
+
+inline std::optional<UnlockResolution> resolve_unlock(
+    const std::vector<Match> &all_functions, const Layout &dart_layout) {
+    auto setters = raw_double_setters(all_functions);
+    setters.erase(std::remove_if(setters.begin(), setters.end(), [&](const auto &setter) {
+        const uint32_t cid = (setter.boxed_tag >> dart_layout.class_id_shift)
+            & dart_layout.class_id_mask;
+        return cid != dart_layout.double_class_id
+            || setter.boxed_header_offset != dart_layout.tagged_header_offset
+            || setter.boxed_value_offset != static_cast<int>(dart_layout.double_value_offset);
+    }), setters.end());
+    const auto centers = hotseat_centers(all_functions);
+    const auto resolvers = cell_resolvers(all_functions, centers);
+    std::optional<UnlockResolution> result;
+    for (const auto &cell : resolvers) {
+        if (!plausible_pointer_field(cell.state_widget_offset,
+                dart_layout.tagged_header_offset, 4)
+            || !plausible_pointer_field(cell.widget_cell_offset,
+                dart_layout.tagged_header_offset, 4)
+            || !plausible_pointer_field(cell.center.container_offset,
+                dart_layout.tagged_header_offset, 8)) continue;
+        for (const auto &owner : all_functions) {
+            const auto owner_calls = calls(owner);
+            if (std::ranges::find(owner_calls, cell.body.address) == owner_calls.end()) continue;
+            for (const uintptr_t nested_address : owner_calls) {
+                const Match *nested = function_at(all_functions, nested_address);
+                if (nested == nullptr) continue;
+                struct SetterCall { size_t index; const RawDoubleSetter *setter; };
+                std::vector<SetterCall> setter_calls;
+                for (size_t index = 0; index < nested->words.size(); ++index) {
+                    const auto target = call_target(*nested, index);
+                    if (!target) continue;
+                    for (const auto &setter : setters) {
+                        if (*target == setter.body.address) setter_calls.push_back({index, &setter});
+                    }
+                }
+                for (size_t first = 0; first < setter_calls.size(); ++first) {
+                    if (!call_preceded_by_zero_d0(*nested, setter_calls[first].index)) continue;
+                    for (size_t second = first + 1; second < setter_calls.size(); ++second) {
+                        if (setter_calls[first].setter->body.address
+                            == setter_calls[second].setter->body.address) continue;
+                        UnlockResolution candidate{setter_calls[second].setter->body.address,
+                            {static_cast<uint32_t>(cell.state_widget_offset),
+                             static_cast<uint32_t>(cell.widget_cell_offset),
+                             static_cast<uint32_t>(cell.center.container_offset),
+                             cell.center.containers}};
+                        if (result) {
+                            if (result->scale == candidate.scale
+                                && same_unlock_layout(result->layout, candidate.layout)) continue;
+                            return {};
+                        }
+                        result = candidate;
+                    }
+                }
+            }
+        }
+    }
+    return result;
+}
+
 /**
  * Resolve the dock's scale/animate/set triple.
  *
@@ -552,7 +846,7 @@ inline std::optional<Resolution> resolve(std::span<const CodeRange> ranges,
                         field_mask(abi.class_bits), static_cast<uint32_t>(factory.alpha),
                         static_cast<uint32_t>(factory.scale), static_cast<uint32_t>(factory.surface),
                         static_cast<uint32_t>(factory.recents), set->boxed_value_offset,
-                        factory.false_from_null}};
+                        factory.false_from_null}, std::nullopt};
                 if (result) {
                     if (same_resolution(*result, candidate)) continue;
                     // Two distinct resolutions: refuse, and tell the runtime how many
@@ -564,13 +858,15 @@ inline std::optional<Resolution> resolve(std::span<const CodeRange> ranges,
             }
         }
     }
+    if (result) result->unlock = resolve_unlock(all_functions, result->layout);
     if (candidate_count != nullptr && result) *candidate_count = 1;
     return result;
 }
 
 /**
  * Contract-shaped output for the NativeHookRuntime: the same resolution plus
- * the three inline hook points as `nhk::ResolvedTarget`s (original words
+ * the three recents hook points plus the optional unlock projection point as
+ * `nhk::ResolvedTarget`s (original words
  * attached) and the resolver evidence. Addresses are absolute runtime
  * addresses of the snapshotted generation; `rva` is filled by the caller,
  * which knows the generation's load bias.
@@ -578,6 +874,7 @@ inline std::optional<Resolution> resolve(std::span<const CodeRange> ranges,
 struct DartHookTargets {
     Resolution resolution;
     std::array<nhk::ResolvedTarget, 3> targets;
+    std::optional<nhk::ResolvedTarget> unlock_target;
     nhk::ResolverEvidence evidence;
 };
 
@@ -603,6 +900,17 @@ inline std::optional<DartHookTargets> resolve_hook_targets(
         // be handed over safely.
         if (target.original_words.size() != kPatchTargetWords) return {};
         result.evidence.call_sites.push_back(target.rva);
+    }
+    if (resolution->unlock) {
+        nhk::ResolvedTarget target;
+        target.kind = nhk::TargetKind::kInline;
+        target.rva = resolution->unlock->scale >= load_bias
+            ? resolution->unlock->scale - load_bias : 0;
+        const auto words = at(ranges, resolution->unlock->scale, kPatchTargetWords);
+        target.original_words.assign(words.begin(), words.end());
+        if (target.original_words.size() != kPatchTargetWords) return {};
+        result.evidence.call_sites.push_back(target.rva);
+        result.unlock_target = std::move(target);
     }
     result.resolution = *resolution;
     return result;

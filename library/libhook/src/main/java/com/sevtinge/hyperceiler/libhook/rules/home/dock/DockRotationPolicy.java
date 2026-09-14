@@ -46,7 +46,7 @@ public final class DockRotationPolicy {
      * <p>The new host starts capturing during the return animation. Keep the compositor
      * fallback visible until the wallpaper and launcher have had time to settle.
      */
-    private static final long SETTLE_MS = 800L;
+    private static final long SETTLE_MS = 0L;
 
     private boolean rotated;
     private int epoch;

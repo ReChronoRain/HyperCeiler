@@ -22,17 +22,15 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
  * Unlock reveal for our background, timed to the launcher's own "user present" animation.
  *
  * <p>The launcher plays its unlock fly-in entirely inside its Flutter scene. On HyperOS 4 the whole
- * workspace is projected in 3D and every item - the dock row included - travels forward by the same
- * depth step (70.49 at a camera distance of 346.41 on the reference device, read from
- * {@code _UnlockWidgetState.showUserPresentAnimation}). None of that crosses a process boundary:
- * the native motion channel stays at {@code entry=0} for the whole animation, and the launcher's
- * 2D diagnostics ({@code hotSeatScale}/{@code hotSeatTranslateY}/{@code hotSeatAlpha}) are constant
- * identity on this ROM, so they cannot be mirrored either.
+ * workspace is projected in 3D and every item - the dock row included - travels forward through
+ * {@code conversionValueFrom3DTo2D}. The {@link Style#AUTO_AIM} mode is deliberately not sampled
+ * from this class's clock: the native motion channel publishes the real projected scale passed to
+ * each Hotseat icon's {@code _UnlockWidgetState.scaleValue=} setter, and WMS applies that value to
+ * the Dock container on the same display-frame path.
  *
- * <p>A child SurfaceControl cannot join a transform that is rasterised inside the launcher's own
- * buffer, so the reveal is approximated here instead: the background rises and fades in over
- * the same measured window (821 ms, {@code _showPresent} -&gt; {@code endAnimation}) starting from
- * the platform's early {@code keyguardGoingAway} transition, not its later visibility callback.
+ * <p>The other styles remain clock-authored because a child SurfaceControl cannot join a transform
+ * rasterised inside the launcher's buffer. They use the measured 821 ms window starting from the
+ * platform's early {@code keyguardGoingAway} transition, not its later visibility callback.
  *
  * <p>This type is deliberately free of framework references so the timing stays testable.
  */
@@ -41,7 +39,7 @@ public final class DockUnlockReveal {
     public static final long DURATION_MS = 821L;
 
     /**
-     * The five fly-in looks a user can pick in the Dock settings. They differ in which axis
+     * The fly-in looks a user can pick in the Dock settings. They differ in which axis
      * carries the motion and how the easing reads, so no two feel like variations of one idea:
      * <ul>
      *   <li>{@link #DAYBREAK} — a 96dp rise from below with one restrained settle.</li>
@@ -51,13 +49,19 @@ public final class DockUnlockReveal {
      *       single underdamped spring snaps everything onto the resting pose.</li>
      *   <li>{@link #RIPPLE} — the glass arrives small and gathers into place, scale plus fade
      *       only, with no sway and no overshoot.</li>
+     *   <li>{@link #PERSPECTIVE_FOLD} — a strong 3D fold whose container opens with it.</li>
+     *   <li>{@link #CAPSULE_FISSION} — a centre capsule morphs into the full Dock.</li>
+     *   <li>{@link #AUTO_AIM} — no authored curve; follows the Dock icons' live 3D projection.</li>
      * </ul>
      */
     public enum Style {
-        DAYBREAK, DEPTH_FLIP, GALE, ORBIT_SWEEP, RIPPLE;
+        DAYBREAK, DEPTH_FLIP, GALE, ORBIT_SWEEP, RIPPLE,
+        PERSPECTIVE_FOLD, CAPSULE_FISSION, AUTO_AIM;
 
         public static Style of(String name) {
             if (name != null) {
+                // One-way preference migration from the removed keyframe animation.
+                if ("elastic_burst".equalsIgnoreCase(name)) return AUTO_AIM;
                 for (Style style : values()) {
                     if (style.name().equalsIgnoreCase(name)) return style;
                 }
@@ -100,6 +104,9 @@ public final class DockUnlockReveal {
     private static final float LIFT_TENSION = 1.25f;
     /** Reach full opacity early with smooth endpoints, independently of the lift's overshoot. */
     private static final long FADE_DURATION_MS = 180L;
+    /** The capsule is deliberately visible a little later, after its centre seed has formed. */
+    private static final long CAPSULE_FADE_DELAY_MS = 28L;
+    private static final long CAPSULE_FADE_DURATION_MS = 265L;
     /** Give up waiting for a visible frame, and never leave the background mid-transform. */
     private static final long EXPIRY_MS = 1500L;
     /** By this point a reveal must be over: the arm wait, the animation, and a small margin. */
@@ -121,6 +128,11 @@ public final class DockUnlockReveal {
 
     public Style getStyle() {
         return style;
+    }
+
+    /** Absolute keyguard-going-away epoch used to authenticate live native unlock samples. */
+    public long eventEpochMillis() {
+        return armed ? armedAt : startedAt;
     }
 
     /** A late-created surface may join this unlock, but not an old or future event. */
@@ -245,7 +257,16 @@ public final class DockUnlockReveal {
     }
 
     public float alpha(long nowMillis) {
-        float t = Math.min(1f, elapsedFraction(nowMillis) * DURATION_MS / FADE_DURATION_MS);
+        // AUTO_AIM has no local entrance animation at all. Its only changing property is the
+        // real projection scale supplied by the launcher; opacity must never invent a second cue.
+        if (style == Style.AUTO_AIM) return 1f;
+        float elapsed = elapsedFraction(nowMillis) * DURATION_MS;
+        float t;
+        if (style == Style.CAPSULE_FISSION) {
+            t = clamp01((elapsed - CAPSULE_FADE_DELAY_MS) / CAPSULE_FADE_DURATION_MS);
+        } else {
+            t = Math.min(1f, elapsed / FADE_DURATION_MS);
+        }
         return t * t * (3f - 2f * t);
     }
 
@@ -253,7 +274,7 @@ public final class DockUnlockReveal {
     public float risePx(float density, long nowMillis) {
         if (!Float.isFinite(density) || density <= 0f) return 0f;
         float t = elapsedFraction(nowMillis);
-        if (style == Style.GALE || style == Style.RIPPLE) return 0f;
+        if (style == Style.GALE || style == Style.RIPPLE || isShapeReveal(style)) return 0f;
         if (style == Style.ORBIT_SWEEP) {
             return ORBIT_RISE_DP * density * (1f - spring(t, ORBIT_OMEGA_Y));
         }
@@ -311,6 +332,21 @@ public final class DockUnlockReveal {
     /** Material 3 "emphasized decelerate": starts at peak velocity and comes to rest. */
     private static float emphasizedDecelerate(float t) {
         return cubicBezier(EMPHASIZED_DECELERATE, t);
+    }
+
+    private static boolean isShapeReveal(Style style) {
+        return style == Style.PERSPECTIVE_FOLD || style == Style.CAPSULE_FISSION
+                || style == Style.AUTO_AIM;
+    }
+
+    private static float clamp01(float value) {
+        return Math.max(0f, Math.min(1f, value));
+    }
+
+    /** Ease-out-back: one deliberate overshoot followed by a zero-velocity settle. */
+    private static float backProgress(float t, float tension) {
+        float x = clamp01(t) - 1f;
+        return 1f + (tension + 1f) * x * x * x + tension * x * x;
     }
 
     /**
@@ -393,19 +429,149 @@ public final class DockUnlockReveal {
     /** Entry velocity of the spring: the panel arrives already moving, then snaps onto rest. */
     private static final float ORBIT_ENTRY_VELOCITY = 3.4f;
 
+    /** Perspective-fold content pose: deliberately stronger than the existing depth flip. */
+    public static final float FOLD_ROT_X_DEG = 72f;
+    public static final float FOLD_ROT_Y_DEG = -26f;
+    public static final float FOLD_ROT_Z_DEG = 4.2f;
+    public static final float FOLD_SCALE_X = 0.48f;
+    public static final float FOLD_SCALE_Y = 0.56f;
+    /** Negative fraction of the Dock height; translated through the same RenderNode camera. */
+    public static final float FOLD_DEPTH_HEIGHTS = -0.18f;
+    public static final float FOLD_CAMERA_HEIGHTS = 1.72f;
+    public static final float FOLD_CROP_WIDTH = 0.56f;
+    public static final float FOLD_CROP_HEIGHT = 0.50f;
+    private static final float FOLD_BACK_TENSION = 1.42f;
+
+    /** Capsule-fission container starts as a short, low centre seed. */
+    public static final float CAPSULE_CROP_WIDTH = 0.16f;
+    public static final float CAPSULE_CROP_HEIGHT = 0.54f;
+    public static final float CAPSULE_CONTENT_SCALE_X = 0.24f;
+    public static final float CAPSULE_CONTENT_SCALE_Y = 0.50f;
+    private static final float CAPSULE_MORPH_FRACTION = 0.78f;
+    private static final float CAPSULE_BACK_TENSION = 1.78f;
+
+    /**
+     * Visual container pose for the WMS-owned parent layer.
+     *
+     * <p>Crop fractions describe a centred visual crop, not a layout size. {@code cornerProgress}
+     * is 0 for a capsule radius (half the current visual height) and 1 for the configured Dock
+     * radius. The values are all derived from the same absolute clock as {@link #pose3D}, so the
+     * material and its container cannot drift even when either process skips frames.
+     */
+    public static final class ContainerPose {
+        public final float scaleX;
+        public final float scaleY;
+        public final float cropWidth;
+        public final float cropHeight;
+        public final float cornerProgress;
+        public final boolean active;
+
+        ContainerPose(float scaleX, float scaleY, float cropWidth, float cropHeight,
+                      float cornerProgress, boolean active) {
+            this.scaleX = scaleX;
+            this.scaleY = scaleY;
+            this.cropWidth = cropWidth;
+            this.cropHeight = cropHeight;
+            this.cornerProgress = cornerProgress;
+            this.active = active;
+        }
+
+        public static ContainerPose identity() {
+            return new ContainerPose(1f, 1f, 1f, 1f, 1f, false);
+        }
+
+        /**
+         * Exact uniform visual footprint of a Hotseat icon after the launcher's 3D projection.
+         * This is intentionally a direct mapping: no easing, spring, floor or timeline fallback.
+         */
+        public static ContainerPose fromProjectedScale(double projectedScale) {
+            if (!Double.isFinite(projectedScale) || projectedScale < 0d || projectedScale > 2d) {
+                return identity();
+            }
+            float scale = (float) projectedScale;
+            if (Math.abs(scale - 1f) < 0.000001f) return identity();
+            return new ContainerPose(scale, scale, 1f, 1f, 1f, true);
+        }
+
+        /** Radius before the SurfaceControl matrix; the crop changes without measure/layout. */
+        public float cornerRadius(float restingRadius, float fullHeight) {
+            if (!Float.isFinite(restingRadius) || !Float.isFinite(fullHeight) || fullHeight <= 0f) {
+                return Math.max(0f, restingRadius);
+            }
+            float capsuleRadius = fullHeight * cropHeight * 0.5f;
+            return capsuleRadius + (restingRadius - capsuleRadius) * clamp01(cornerProgress);
+        }
+    }
+
+    /** Container pose for this reveal's lifecycle state. */
+    public ContainerPose containerPose(long nowMillis) {
+        return containerPose(style, elapsedFraction(nowMillis));
+    }
+
+    /** Pure sampler used by tests and by any late-created surface joining the shared epoch. */
+    public static ContainerPose containerPose(Style style, long startedAtMillis, long nowMillis) {
+        return containerPose(style, timelineFraction(startedAtMillis, nowMillis));
+    }
+
+    public static float cameraHeights(Style style) {
+        return style == Style.PERSPECTIVE_FOLD ? FOLD_CAMERA_HEIGHTS : CAMERA_HEIGHTS;
+    }
+
+    private static ContainerPose containerPose(Style style, float t) {
+        if (t >= 1f) return ContainerPose.identity();
+        switch (style) {
+            case PERSPECTIVE_FOLD: {
+                float p = backProgress(t, FOLD_BACK_TENSION);
+                float open = clamp01(p);
+                float overshoot = Math.max(0f, p - 1f);
+                return new ContainerPose(1f + overshoot * 0.46f, 1f + overshoot * 0.28f,
+                        FOLD_CROP_WIDTH + (1f - FOLD_CROP_WIDTH) * open,
+                        FOLD_CROP_HEIGHT + (1f - FOLD_CROP_HEIGHT) * open,
+                        open, true);
+            }
+            case CAPSULE_FISSION: {
+                float local = clamp01(t / CAPSULE_MORPH_FRACTION);
+                float p = backProgress(local, CAPSULE_BACK_TENSION);
+                float open = clamp01(p);
+                float overshoot = Math.max(0f, p - 1f);
+                return new ContainerPose(1f + overshoot * 0.40f, 1f + overshoot * 0.16f,
+                        CAPSULE_CROP_WIDTH + (1f - CAPSULE_CROP_WIDTH) * open,
+                        CAPSULE_CROP_HEIGHT + (1f - CAPSULE_CROP_HEIGHT) * open,
+                        open, true);
+            }
+            case AUTO_AIM:
+                // Supplied by HomeDockWindow from the native sample; never synthesize it here.
+                return ContainerPose.identity();
+            default:
+                return ContainerPose.identity();
+        }
+    }
+
     /** Immutable 3D pose sampled at one instant. {@code active=false} means resting. */
     public static final class Pose3D {
         public final float rotationX;
         public final float rotationY;
         public final float rotationZ;
         public final float scale;
+        public final float scaleX;
+        public final float scaleY;
+        /** Translation Z as a fraction of the current Dock height. */
+        public final float depthHeights;
         public final boolean active;
 
         Pose3D(float rotationX, float rotationY, float rotationZ, float scale, boolean active) {
+            this(rotationX, rotationY, rotationZ, scale, scale, 0f, active);
+        }
+
+        Pose3D(float rotationX, float rotationY, float rotationZ, float scaleX, float scaleY,
+               float depthHeights, boolean active) {
             this.rotationX = rotationX;
             this.rotationY = rotationY;
             this.rotationZ = rotationZ;
-            this.scale = scale;
+            this.scale = scaleX;
+            this.scaleX = scaleX;
+            this.scaleY = scaleY;
+            this.depthHeights = depthHeights;
             this.active = active;
         }
 
@@ -421,16 +587,15 @@ public final class DockUnlockReveal {
      * actually performs the projection lives in the module's own process, where it
      * re-derives the same phase from {@code SystemClock.uptimeMillis}. Only an absolute
      * clock crosses the boundary, so no per-frame IPC is needed and the two sides cannot
-     * drift. Only {@link Style#DEPTH_FLIP}, {@link Style#GALE} and {@link Style#RIPPLE}
-     * carry a view transform; the position-only looks report identity.
+     * drift. Daybreak and Gale are the two position-only looks; every style that changes depth,
+     * scale or shape reports a view transform for the glass host.
      */
     public static Pose3D pose3D(Style style, long startedAtMillis, long nowMillis) {
-        long elapsed = nowMillis - startedAtMillis - ICON_LEAD_MS;
-        if (elapsed <= 0L) {
+        float t = timelineFraction(startedAtMillis, nowMillis);
+        if (t <= 0f) {
             return startPose(style);
         }
-        if (elapsed >= DURATION_MS) return Pose3D.identity();
-        float t = elapsed / (float) DURATION_MS;
+        if (t >= 1f) return Pose3D.identity();
         float inverse = 1f - t;
         float quint = 1f - inverse * inverse * inverse * inverse * inverse;
         float remain = 1f - quint;
@@ -464,6 +629,28 @@ public final class DockUnlockReveal {
                 return new Pose3D(0f, 0f, ORBIT_ROT_DEG * (1f - lateral),
                         ORBIT_SCALE + (1f - ORBIT_SCALE) * lift, true);
             }
+            case PERSPECTIVE_FOLD: {
+                float p = backProgress(t, FOLD_BACK_TENSION);
+                float remainFold = 1f - p;
+                return new Pose3D(FOLD_ROT_X_DEG * remainFold,
+                        FOLD_ROT_Y_DEG * remainFold,
+                        FOLD_ROT_Z_DEG * remainFold,
+                        FOLD_SCALE_X + (1f - FOLD_SCALE_X) * p,
+                        FOLD_SCALE_Y + (1f - FOLD_SCALE_Y) * p,
+                        FOLD_DEPTH_HEIGHTS * remainFold, true);
+            }
+            case CAPSULE_FISSION: {
+                float local = clamp01(t / CAPSULE_MORPH_FRACTION);
+                float p = backProgress(local, CAPSULE_BACK_TENSION);
+                return new Pose3D(0f, 0f, 0f,
+                        CAPSULE_CONTENT_SCALE_X + (1f - CAPSULE_CONTENT_SCALE_X) * p,
+                        CAPSULE_CONTENT_SCALE_Y + (1f - CAPSULE_CONTENT_SCALE_Y) * p,
+                        0f, true);
+            }
+            case AUTO_AIM:
+                // The WMS-owned parent follows the real icon footprint. Applying a second
+                // RenderNode transform here would square the native scale.
+                return Pose3D.identity();
             default:
                 // Daybreak is position-only, and so is Gale: its motion is the horizontal slide
                 // served by slidePx(), not a rotation.
@@ -479,8 +666,23 @@ public final class DockUnlockReveal {
                 return new Pose3D(0f, 0f, 0f, SETTLE_SCALE, true);
             case ORBIT_SWEEP:
                 return new Pose3D(0f, 0f, ORBIT_ROT_DEG, ORBIT_SCALE, true);
+            case PERSPECTIVE_FOLD:
+                return new Pose3D(FOLD_ROT_X_DEG, FOLD_ROT_Y_DEG, FOLD_ROT_Z_DEG,
+                        FOLD_SCALE_X, FOLD_SCALE_Y, FOLD_DEPTH_HEIGHTS, true);
+            case CAPSULE_FISSION:
+                return new Pose3D(0f, 0f, 0f, CAPSULE_CONTENT_SCALE_X,
+                        CAPSULE_CONTENT_SCALE_Y, 0f, true);
+            case AUTO_AIM:
+                return Pose3D.identity();
             default:
                 return Pose3D.identity();
         }
+    }
+
+    private static float timelineFraction(long startedAtMillis, long nowMillis) {
+        long elapsed = nowMillis - startedAtMillis - ICON_LEAD_MS;
+        if (elapsed <= 0L) return 0f;
+        if (elapsed >= DURATION_MS) return 1f;
+        return elapsed / (float) DURATION_MS;
     }
 }

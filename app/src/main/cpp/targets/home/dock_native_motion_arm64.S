@@ -12,6 +12,10 @@
     adrp x\reg, \symbol
     ldr w\reg, [x\reg, :lo12:\symbol]
 .endm
+.macro resolved64 reg, symbol
+    adrp x\reg, \symbol
+    ldr x\reg, [x\reg, :lo12:\symbol]
+.endm
 .macro object_cid object, out, tmp, bank
     adrp x\tmp, dock_tagged_header_offset_\bank
     ldrsw x\tmp, [x\tmp, :lo12:dock_tagged_header_offset_\bank]
@@ -106,6 +110,71 @@ dock_motion_scale_entry_\bank:
 .size dock_motion_scale_entry_\bank, .-dock_motion_scale_entry_\bank
 .endm
 
+// Exact Hotseat unlock projection. Unlike scale_entry, Dart passes the scalar raw in d0 and
+// the _UnlockWidgetState receiver in x1. Follow only the resolver-published object-field chain;
+// never retain a Dart heap pointer across this callback or introduce a runtime safepoint.
+.macro unlock_scale_entry bank
+.global dock_motion_unlock_scale_entry_\bank
+.hidden dock_motion_unlock_scale_entry_\bank
+.type dock_motion_unlock_scale_entry_\bank, %function
+dock_motion_unlock_scale_entry_\bank:
+    save_state
+    increment_counter dock_motion_active_callbacks
+    increment_counter dock_motion_entry_hits
+    tbz x1, #0, .Lunlock_done_\bank
+    resolved 16, dock_unlock_state_widget_offset_\bank
+    ldr w16, [x1, x16]
+    tbz w16, #0, .Lunlock_done_\bank
+    add x16, x16, x28, lsl #32
+    cmp x16, x22
+    b.eq .Lunlock_done_\bank
+    resolved 17, dock_unlock_widget_cell_offset_\bank
+    ldr w17, [x16, x17]
+    tbz w17, #0, .Lunlock_done_\bank
+    add x17, x17, x28, lsl #32
+    cmp x17, x22
+    b.eq .Lunlock_done_\bank
+    resolved 16, dock_unlock_cell_container_offset_\bank
+    ldr x10, [x17, x16]
+    resolved64 9, dock_unlock_hotseat_container_0_\bank
+    cmp x10, x9
+    b.eq .Lunlock_publish_\bank
+    resolved64 9, dock_unlock_hotseat_container_1_\bank
+    cmp x10, x9
+    b.eq .Lunlock_publish_\bank
+    resolved64 9, dock_unlock_hotseat_container_2_\bank
+    cmp x10, x9
+    b.eq .Lunlock_publish_\bank
+    resolved64 9, dock_unlock_hotseat_container_3_\bank
+    cmp x10, x9
+    b.eq .Lunlock_publish_\bank
+    resolved64 9, dock_unlock_hotseat_container_4_\bank
+    cmp x10, x9
+    b.ne .Lunlock_done_\bank
+.Lunlock_publish_\bank:
+    fmov x10, d0
+    and x10, x10, #-4
+    orr x10, x10, #3
+    adrp x17, dock_motion_value
+    add x17, x17, :lo12:dock_motion_value
+.Lunlock_retry_\bank:
+    ldaxr x11, [x17]
+    cmp x10, x11
+    b.eq .Lunlock_done_\bank
+    stlxr w16, x10, [x17]
+    cbnz w16, .Lunlock_retry_\bank
+    increment_counter dock_motion_publish_hits
+    notify
+.Lunlock_done_\bank:
+    clrex
+    adrp x16, dock_motion_unlock_scale_original_\bank
+    ldr x16, [x16, :lo12:dock_motion_unlock_scale_original_\bank]
+    decrement_counter dock_motion_active_callbacks
+    restore_state
+    br x16
+.size dock_motion_unlock_scale_entry_\bank, .-dock_motion_unlock_scale_entry_\bank
+.endm
+
 .macro scene_entry name, original, immediate, bank
 .global \name
 .hidden \name
@@ -192,6 +261,7 @@ dock_motion_scale_entry_\bank:
 scale_entry \bank
 scene_entry dock_motion_anim_entry_\bank, dock_motion_anim_original_\bank, 0, \bank
 scene_entry dock_motion_set_entry_\bank, dock_motion_set_original_\bank, 1, \bank
+unlock_scale_entry \bank
 .endm
 
 motion_bank 0

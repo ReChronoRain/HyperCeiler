@@ -24,7 +24,9 @@ public class DockNativeMotionTest {
         for (double invalid : new double[]{Double.NaN, Double.POSITIVE_INFINITY, -1, 2.1}) {
             check(sample(1, now, 1, invalid, 0, now) == null);
         }
-        check(sample(1, now, 3, .99, 0, now) == null);
+        // Scenes are packed in two bits, so 0..3 are the whole representable range and scene 3
+        // (auto-aim projection) is a valid sample rather than a rejected one.
+        check(sample(1, now, 3, .99, 0, now) != null);
         check(DockNativeMotion.validate(1, now,
             packed(1, .99), -1, 0, 0, now) == null);
         check(DockNativeMotion.validate(1, now,

@@ -24,6 +24,8 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Outline;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.SurfaceTexture;
 import android.graphics.drawable.GradientDrawable;
 import android.hardware.display.DisplayManager;
@@ -43,6 +45,7 @@ import android.view.ViewOutlineProvider;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
+import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassGeometry;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockGlassPreset;
 import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockUnlockReveal;
 
@@ -58,6 +61,10 @@ import java.util.concurrent.TimeoutException;
 /** Own-process HWUI only. Never execute vendor RenderThread code in system_server. */
 final class DockGlassHost {
     private static final String TAG = "HyperCeiler.DockGlass";
+    /** Bounds how long a returning Dock may wait for a post-return capture frame. */
+    private static final long FRESH_TIMEOUT_NS = 300_000_000L;
+    /** One 60 Hz frame of slack between the mark and the next producer timestamp. */
+    private static final long FRESH_TOLERANCE_NS = 16_000_000L;
     private final Handler main = new Handler(Looper.getMainLooper());
     // Accessed on the app main thread only. Two slots allow resize handover.
     private final HashMap<String, Entry> entries = new HashMap<>();
@@ -88,6 +95,12 @@ final class DockGlassHost {
         boolean revealActive;
         /** Sampling is paused without unregistering the texture or clearing its last frame. */
         boolean capturePaused;
+        /**
+         * Nano-time before which every captured frame belongs to the previous foreground. A
+         * returning Dock must not present the launcher's pass-blur texture while it still holds
+         * the closed app's content, which is exactly one frame of visibly wrong colour.
+         */
+        long freshAfterNanos;
         int captureEpoch;
         DockUnlockReveal.Style revealStyle = DockUnlockReveal.Style.DAYBREAK;
         int height;
@@ -162,6 +175,8 @@ final class DockGlassHost {
                 case "dock_glass_probe" -> result.complete(probe(id));
                 case "dock_glass_pause_capture" -> result.complete(pauseCapture(id));
                 case "dock_glass_resume_capture" -> result.complete(resumeCapture(id));
+                case "dock_glass_sync_geometry" -> result.complete(syncGeometry(id));
+                case "dock_glass_fresh_capture" -> { markFresh(id); result.complete(Bundle.EMPTY); }
                 case "dock_glass_refresh" -> result.complete(refresh(id));
                 case "dock_glass_release" -> { release(id); result.complete(Bundle.EMPTY); }
                 case "dock_glass_unlock" -> { startReveal(id, args); result.complete(Bundle.EMPTY); }
@@ -319,27 +334,39 @@ final class DockGlassHost {
         if (pose.active) {
             // A finite camera distance is what turns the rotation into a perspective:
             // the near edge grows and the far edge shrinks, like the icon row's depth step.
-            view.setCameraDistance(entry.height > 0 ? entry.height * DockUnlockReveal.CAMERA_HEIGHTS
+            view.setCameraDistance(entry.height > 0
+                    ? entry.height * DockUnlockReveal.cameraHeights(entry.revealStyle)
                     : view.getResources().getDisplayMetrics().density * 1280f);
             view.setRotationX(pose.rotationX);
             view.setRotationY(pose.rotationY);
             view.setRotation(pose.rotationZ);
-            view.setScaleX(pose.scale);
-            view.setScaleY(pose.scale);
+            view.setScaleX(pose.scaleX);
+            view.setScaleY(pose.scaleY);
+            view.setTranslationZ(entry.height * pose.depthHeights);
         } else {
-            view.setRotationX(0f);
-            view.setRotationY(0f);
-            view.setRotation(0f);
-            view.setScaleX(1f);
-            view.setScaleY(1f);
-            view.setCameraDistance(view.getResources().getDisplayMetrics().density * 1280f);
+            restoreRevealPose(view);
         }
         entry.revealActive = pose.active;
+    }
+
+    /** Reset every RenderNode property touched by a reveal before re-use or teardown. */
+    private static void restoreRevealPose(View view) {
+        view.setRotationX(0f);
+        view.setRotationY(0f);
+        view.setRotation(0f);
+        view.setScaleX(1f);
+        view.setScaleY(1f);
+        view.setTranslationX(0f);
+        view.setTranslationY(0f);
+        view.setTranslationZ(0f);
+        view.setAlpha(1f);
+        view.setCameraDistance(view.getResources().getDisplayMetrics().density * 1280f);
     }
 
     private void stopReveal(Entry entry) {
         entry.revealActive = false;
         entry.revealStartedAt = -1L;
+        restoreRevealPose(entry.view);
     }
 
     private Choreographer choreographer() {
@@ -372,10 +399,22 @@ final class DockGlassHost {
         long timestamp = backgroundTimestamp(entry);
         boolean active = producerActive(entry);
         boolean paused = entry != null && entry.capturePaused;
-        boolean ready = (active || paused) && timestamp > 0;
+        // A windowless host never receives a relayout, so a display rotation leaves its blur
+        // geometry behind. Recompute it here instead of only reporting it: the caller then
+        // gets a usable answer on the same round trip.
+        healGeometry(id, entry);
+        boolean geometryValid = captureGeometryValid(entry);
+        boolean fresh = captureFresh(entry);
+        // A captured frame mapped through the rotated transform, or one that still shows the
+        // previous foreground, is not a visible source either: it paints the wrong wallpaper.
+        // Require matching geometry and a post-return frame, exactly like producer liveness and
+        // the texture timestamp.
+        boolean ready = (active || paused) && timestamp > 0 && geometryValid && fresh;
         result.putBoolean("backgroundReady", ready);
         result.putBoolean("producerActive", active);
         result.putBoolean("capturePaused", paused);
+        result.putBoolean("geometryValid", entry != null && geometryValid);
+        result.putBoolean("captureFresh", entry != null && fresh);
         result.putLong("textureTimestamp", timestamp);
         result.putString("captureGeometry", captureGeometry(entry));
         record(id, "backgroundReady=" + ready + ", producerActive=" + active + ", capturePaused=" + paused
@@ -397,12 +436,190 @@ final class DockGlassHost {
         // refresh(), which re-resolves the material; otherwise the Dock keeps the old glass.
         boolean brightnessChanged =
                 (lightWallpaper(entry.view.getContext()) ? 1 : 0) != appliedBrightnessBit;
+        // Self-heal before reporting. The client may already be showing a ready panel, so this
+        // probe is the last chance to replace a rotated-transform sample with a correct one
+        // before the next frame is composited.
+        healGeometry(id, entry);
+        boolean geometryValid = captureGeometryValid(entry);
+        boolean fresh = captureFresh(entry);
         Bundle result = new Bundle();
-        result.putBoolean("backgroundReady", active && timestamp > 0 && !brightnessChanged);
+        result.putBoolean("backgroundReady",
+                active && timestamp > 0 && !brightnessChanged && geometryValid && fresh);
         result.putBoolean("producerActive", active);
+        result.putBoolean("geometryValid", geometryValid);
+        result.putBoolean("captureFresh", fresh);
         result.putLong("textureTimestamp", timestamp);
         result.putString("captureGeometry", captureGeometry(entry));
         return result;
+    }
+
+    /**
+     * True when the vendor's blur geometry matches the display it is sampling.
+     *
+     * <p>Right after the display rotates back, {@code displayRot} is already portrait while
+     * {@code mConfigRot} still carries the rotated geometry, so every frame sampled in that window
+     * is mapped through the wrong transform - the "sampling position changed" artefact. Reporting
+     * it lets the client fall back for exactly those frames instead of a fixed timer, and show the
+     * native glass again the moment the geometry catches up.
+     *
+     * <p>Fails open: an unknown geometry must not block a working glass.
+     */
+    private static boolean captureGeometryValid(Entry entry) {
+        if (entry == null) return false;
+        try {
+            Object root = invoke(entry.backdrop, "getViewRootImpl");
+            if (root == null) return true;
+            Field configRotation = ownField(root.getClass(), "mConfigRot");
+            if (configRotation == null) return true;
+            return DockGlassGeometry.matches(
+                    expectedConfigRotation(entry), configRotation.getInt(root));
+        } catch (Exception unavailable) {
+            return true;
+        }
+    }
+
+    /**
+     * The {@code mConfigRot} the Dock's blur capture needs.
+     *
+     * <p>The Dock layer is a fixed-size windowless surface under the launcher window: its content
+     * is always drawn in the host's natural orientation, no matter how the display is rotated. The
+     * vendor's own {@code checkConfigRot()} agrees ({@code wmRot: 0}), but a host that was created
+     * while the display was rotated inherits {@code wmRot: 1} and - because a windowless root never
+     * receives a relayout - keeps it forever, transposing the wallpaper sample even after the
+     * launcher is portrait again. This returns the natural rotation so the host can correct that.
+     */
+    private static int expectedConfigRotation(Entry entry) {
+        try {
+            android.view.Display display = entry.backdrop.getDisplay();
+            if (display == null) return -1;
+            int installOrientation = 0;
+            try {
+                Object install = HiddenApiBypass.invoke(Display.class, display, "getInstallOrientation");
+                if (install instanceof Number) installOrientation = ((Number) install).intValue();
+            } catch (Throwable unavailable) {
+                // Optional on non-Xiaomi builds: natural orientation is the safe assumption.
+                installOrientation = 0;
+            }
+            return DockGlassGeometry.expectedConfigRotation(0, installOrientation);
+        } catch (Exception unavailable) {
+            return -1;
+        }
+    }
+
+    /**
+     * Make the vendor blur geometry match the Dock window's natural orientation, from inside the
+     * host.
+     *
+     * <p>A windowless {@code SurfaceControlViewHost} receives no relayout, so the vendor keeps
+     * whatever {@code mConfigRot} its merged configuration produced at creation time. On-device
+     * logging shows a host created during a rotation starts at {@code current blurRot: 1} with
+     * {@code wmRot: 1} and - for a hidden launcher - never returns to portrait on its own, so the
+     * sample stays mapped through the rotated transform: the "the colour moved" artefact. The field
+     * is pinned to the natural rotation and the capture buffer is sized the same way the vendor's
+     * {@code checkSurTexSize()} would for it.
+     *
+     * <p>The vendor's own {@code checkConfigRot()} must NOT be invoked here: it recomputes the same
+     * stale {@code wmRot} and would undo the correction on every probe.
+     */
+    private boolean healGeometry(String id, Entry entry) {
+        if (entry == null || !entry.view.isAttachedToWindow()) return captureGeometryValid(entry);
+        try {
+            Object root = invoke(entry.backdrop, "getViewRootImpl");
+            if (root == null) return true;
+            Field configRotation = ownField(root.getClass(), "mConfigRot");
+            if (configRotation == null) return true;
+            int expected = expectedConfigRotation(entry);
+            if (DockGlassGeometry.matches(expected, configRotation.getInt(root))) return true;
+
+            int before = configRotation.getInt(root);
+            configRotation.setInt(root, expected);
+            resizeCapture(entry, root, expected);
+            // Tell the renderer immediately; waiting for the next texture frame would present one
+            // more frame mapped through the rotated transform.
+            HiddenApiBypass.invoke(View.class, entry.backdrop, "setTextureAvailable",
+                    true, expected, readFloatField(root, "mTexScale", 1f));
+            entry.backdrop.postInvalidateOnAnimation();
+            boolean valid = captureGeometryValid(entry);
+            Log.i(TAG, "glass geometry pinned naturalRot=" + expected + " before=" + before
+                    + " valid=" + valid + " " + captureGeometry(entry));
+            record(id, "glass geometry pinned naturalRot=" + expected + " before=" + before
+                    + " valid=" + valid + " " + captureGeometry(entry));
+            return valid;
+        } catch (Exception unavailable) {
+            record(id, "glass geometry pin unavailable=" + unavailable.getClass().getSimpleName());
+            return captureGeometryValid(entry);
+        }
+    }
+
+    /**
+     * Require the next presented frame to have been captured after this call.
+     *
+     * <p>The pass-blur texture keeps the foreground app's content until the compositor produces a
+     * new one, so the very first returning frame shows the closed app's colours. The launcher asks
+     * for this at a rotation return and keeps the compositor fallback until the producer timestamp
+     * passes the mark (bounded by {@link #FRESH_TIMEOUT_NS}, so a static background can never strand
+     * the panel on the fallback).
+     */
+    private void markFresh(String id) {
+        Entry entry = entries.get(id);
+        if (entry == null) return;
+        entry.freshAfterNanos = System.nanoTime() - FRESH_TOLERANCE_NS;
+        Log.i(TAG, "glass capture freshness required id=" + id);
+        record(id, "glass capture freshness required");
+    }
+
+    /** True when no post-return frame is outstanding, or one has already arrived. */
+    private static boolean captureFresh(Entry entry) {
+        if (entry == null || entry.freshAfterNanos <= 0L) return true;
+        long now = System.nanoTime();
+        if (now - entry.freshAfterNanos > FRESH_TIMEOUT_NS) return true;
+        try {
+            return backgroundTimestamp(entry) >= entry.freshAfterNanos;
+        } catch (Exception unavailable) {
+            return true;
+        }
+    }
+
+    /**
+     * Re-derive the capture buffer geometry for a rotation, mirroring {@code checkSurTexSize()}
+     * without letting it run {@code checkConfigRot()} again.
+     */
+    private static void resizeCapture(Entry entry, Object root, int configRotation) {
+        try {
+            Field dispRectField = ownField(root.getClass(), "mDispRect");
+            Field surfaceSizeField = ownField(root.getClass(), "mSurfaceSize");
+            Field textureField = ownField(root.getClass(), "mSurTex");
+            if (dispRectField == null || surfaceSizeField == null || textureField == null) return;
+            Object surfaceSize = surfaceSizeField.get(root);
+            if (!(surfaceSize instanceof Point)) return;
+            Point size = (Point) surfaceSize;
+            int width = size.x;
+            int height = size.y;
+            if (configRotation == 1 || configRotation == 3) {
+                width = size.y;
+                height = size.x;
+            }
+            float scale = readFloatField(root, "mTexScale", 1f);
+            int bufferWidth = (int) Math.ceil(width * scale);
+            int bufferHeight = (int) Math.ceil(height * scale);
+            Object dispRect = dispRectField.get(root);
+            if (dispRect instanceof Rect) ((Rect) dispRect).set(0, 0, bufferWidth, bufferHeight);
+            Object texture = textureField.get(root);
+            if (texture instanceof SurfaceTexture) {
+                ((SurfaceTexture) texture).setDefaultBufferSize(bufferWidth, bufferHeight);
+            }
+        } catch (Exception unavailable) {
+            // Metadata-only correction: the pinned rotation still applies to the next frame.
+        }
+    }
+
+    private static float readFloatField(Object target, String name, float fallback) {
+        try {
+            Field field = ownField(target.getClass(), name);
+            return field == null ? fallback : field.getFloat(target);
+        } catch (Exception unavailable) {
+            return fallback;
+        }
     }
 
     /** Metadata only: distinguish a region/rotation change from a material restart. */
@@ -471,16 +688,19 @@ final class DockGlassHost {
         Entry entry = entries.get(id);
         Bundle result = new Bundle();
         if (entry == null || !entry.view.isAttachedToWindow()) return result;
-        // updateTextureState(false) selects SF's "undraw" state (2), leaving mSurTex and
-        // the HWUI native consumer intact. setPassWindowBlurEnabled(false) unregisters the
-        // view and releases both; it must not be used to preserve a ready glass frame.
+        // Freeze the capture while KEEPING the host drawable: the vendor's updateTextureState(false)
+        // selects SF's "undraw" state, which leaves the panel with nothing to composite and forces
+        // the compositor fallback for the whole frozen window. setPassWindowBlurEnabled(false) is
+        // worse still - it releases mSurTex (and the retained frame with it).
         try {
-            setCapturePaused(entry, true);
+            boolean drawn = setCapturePaused(entry, true);
             boolean retained = backgroundTimestamp(entry) > 0;
             result.putBoolean("capturePaused", true);
+            result.putBoolean("frozenDrawn", drawn);
             result.putBoolean("retained", retained);
             result.putString("captureGeometry", captureGeometry(entry));
-            record(id, "capture paused; retained=" + retained);
+            Log.i(TAG, "glass capture frozen id=" + id + " drawn=" + drawn + " retained=" + retained);
+            record(id, "capture frozen; drawn=" + drawn + " retained=" + retained);
         } catch (Exception unsupported) {
             // An optional pause API must not destroy a working host. Rotation will rebuild
             // normally if the client cannot confirm that a ready texture was retained.
@@ -511,12 +731,51 @@ final class DockGlassHost {
         return probe(id);
     }
 
-    private static void setCapturePaused(Entry entry, boolean paused) throws Exception {
+    /**
+     * Explicit geometry sync requested by the launcher side.
+     *
+     * <p>Same work as the self-heal that {@link #status} and {@link #probe} already perform, kept
+     * as its own operation so the client can drive the recompute for the exact frame it is about to
+     * present instead of waiting for its next readiness poll.
+     */
+    private Bundle syncGeometry(String id) throws Exception {
+        Entry entry = entries.get(id);
+        Bundle result = new Bundle();
+        if (entry == null || !entry.view.isAttachedToWindow()) return result;
+        result.putBoolean("geometryValid", healGeometry(id, entry));
+        result.putString("captureGeometry", captureGeometry(entry));
+        return result;
+    }
+
+    /**
+     * Freeze or thaw the pass-blur capture without selecting the vendor's undraw state.
+     *
+     * <p>{@code updateTextureState(view, false)} sets the host to SF's "undraw" state (2): the whole
+     * window stops being composited, so a frozen Dock would have to fall back to the compositor
+     * blur. The vendor's own state machine separates the two concerns - the draw/undraw state is
+     * {@code mLastSfState} and "keep feeding the pass-blur surface" is the {@code mTextureVis} flag
+     * passed to {@code setUpdateTextureFlag}. This stops the feeding while leaving the last home
+     * sample composited, which is what a returning Dock needs.
+     *
+     * @return true when the drawable freeze was applied, false when the vendor pause was used
+     */
+    private static boolean setCapturePaused(Entry entry, boolean paused) throws Exception {
         Object root = invoke(entry.backdrop, "getViewRootImpl");
         if (root == null) throw new IllegalStateException("No glass ViewRoot");
-        HiddenApiBypass.invoke(root.getClass(), root, "updateTextureState", entry.backdrop, !paused);
+        Field visibleField = ownField(root.getClass(), "mTextureVis");
+        Field stateField = ownField(root.getClass(), "mLastSfState");
+        boolean drawn = visibleField != null && stateField != null;
+        if (drawn) {
+            visibleField.setBoolean(root, !paused);
+            // Force sendSfState to write the flag even though the draw state does not change.
+            stateField.setInt(root, 2);
+            HiddenApiBypass.invoke(root.getClass(), root, "sendSfState", 1);
+        } else {
+            HiddenApiBypass.invoke(root.getClass(), root, "updateTextureState", entry.backdrop, !paused);
+        }
         entry.capturePaused = paused;
         entry.captureEpoch++;
+        return drawn;
     }
 
     private void applyMaterial(Entry entry) throws Exception {
@@ -546,8 +805,10 @@ final class DockGlassHost {
         boolean light = lightWallpaper(view.getContext());
         appliedBrightnessBit = light ? 1 : 0;
         invoke(view, "setMiGlass", (Object) DockGlassPreset.parameters(light));
-        entry.capturePaused = false;
-        entry.captureEpoch++;
+        // Reapplying the material must not leave a frozen capture behind: thaw it through the same
+        // primitive so the vendor's update flag and this entry stay in sync.
+        if (entry.capturePaused) setCapturePaused(entry, false);
+        else entry.captureEpoch++;
     }
 
     /**

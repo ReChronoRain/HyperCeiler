@@ -1250,6 +1250,9 @@
     <string name="home_dock_unlock_style_gale">側向擺入</string>
     <string name="home_dock_unlock_style_orbit_sweep">軌道掠入</string>
     <string name="home_dock_unlock_style_ripple">收攏歸位</string>
+    <string name="home_dock_unlock_style_perspective_fold">透視摺疊</string>
+    <string name="home_dock_unlock_style_capsule_fission">膠囊裂變</string>
+    <string name="home_dock_unlock_style_auto_aim">自瞄</string>
     <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>

@@ -775,6 +775,9 @@
         <item>@string/home_dock_unlock_style_gale</item>
         <item>@string/home_dock_unlock_style_orbit_sweep</item>
         <item>@string/home_dock_unlock_style_ripple</item>
+        <item>@string/home_dock_unlock_style_perspective_fold</item>
+        <item>@string/home_dock_unlock_style_capsule_fission</item>
+        <item>@string/home_dock_unlock_style_auto_aim</item>
     </string-array>
 
     <string-array name="home_dock_unlock_style_value">
@@ -783,6 +786,9 @@
         <item>gale</item>
         <item>orbit_sweep</item>
         <item>ripple</item>
+        <item>perspective_fold</item>
+        <item>capsule_fission</item>
+        <item>auto_aim</item>
     </string-array>
 
     <string-array name="blur_switch_value_new">

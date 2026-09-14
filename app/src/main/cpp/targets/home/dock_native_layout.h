@@ -27,12 +27,22 @@ extern "C" {
     extern uint32_t dock_recents_offset_##bank; \
     extern uint32_t dock_double_value_offset_##bank; \
     extern uint32_t dock_false_from_null_##bank; \
+    extern uint32_t dock_unlock_state_widget_offset_##bank; \
+    extern uint32_t dock_unlock_widget_cell_offset_##bank; \
+    extern uint32_t dock_unlock_cell_container_offset_##bank; \
+    extern int64_t dock_unlock_hotseat_container_0_##bank; \
+    extern int64_t dock_unlock_hotseat_container_1_##bank; \
+    extern int64_t dock_unlock_hotseat_container_2_##bank; \
+    extern int64_t dock_unlock_hotseat_container_3_##bank; \
+    extern int64_t dock_unlock_hotseat_container_4_##bank; \
     extern void *dock_motion_scale_original_##bank; \
     extern void *dock_motion_anim_original_##bank; \
     extern void *dock_motion_set_original_##bank; \
+    extern void *dock_motion_unlock_scale_original_##bank; \
     void dock_motion_scale_entry_##bank(); \
     void dock_motion_anim_entry_##bank(); \
-    void dock_motion_set_entry_##bank();
+    void dock_motion_set_entry_##bank(); \
+    void dock_motion_unlock_scale_entry_##bank();
 DOCK_MOTION_BANKS(DECLARE_DOCK_MOTION_BANK)
 #undef DECLARE_DOCK_MOTION_BANK
 }
