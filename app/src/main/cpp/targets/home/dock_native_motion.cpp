@@ -212,6 +212,24 @@ void deactivate_dock_motion() {
     dock_motion_subscribed.store(0, std::memory_order_release);
 }
 
+// The Dock preference, pushed from the launcher-side Java. Fail-open: it starts true, so a missing
+// or stale push keeps the previous behaviour instead of silently disabling real-time following.
+std::atomic<bool> dock_motion_feature_enabled{true};
+
+void set_dock_motion_feature_enabled(bool enabled) {
+    const bool previous = dock_motion_feature_enabled.exchange(enabled, std::memory_order_acq_rel);
+    if (previous != enabled) {
+        __android_log_print(ANDROID_LOG_INFO, kTag, "motion feature %s by preference",
+            enabled ? "enabled" : "disabled");
+        // Wake the sender so a re-enable resumes on the next frame instead of the next poll.
+        if (enabled && dock_motion_event >= 0) (void)eventfd_write(dock_motion_event, 1);
+    }
+}
+
+bool dock_motion_feature_active() {
+    return dock_motion_feature_enabled.load(std::memory_order_acquire);
+}
+
 uint64_t active_dock_motion_callbacks() {
     return dock_motion_active_callbacks.load(std::memory_order_acquire);
 }
@@ -341,6 +359,12 @@ void run_dock_motion() {
             if (suspended) {
                 __android_log_print(ANDROID_LOG_INFO, kTag,
                     "device resume detected; reusing motion Binder transport");
+            }
+            if (!dock_motion_feature_enabled.load(std::memory_order_acquire)) {
+                // Preference off: publish nothing and leave the baselines untouched, so the first
+                // sample after re-enabling looks changed and following resumes immediately. The
+                // transport and the suspend handling above keep running either way.
+                continue;
             }
             const bool changed = suspended || sample.value != last_value
                 || sample.publish_hits != last_publish_hits;

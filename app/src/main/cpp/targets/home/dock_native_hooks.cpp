@@ -33,6 +33,7 @@
 bool prepare_dock_motion();
 void activate_dock_motion();
 void deactivate_dock_motion();
+bool dock_motion_feature_active();
 void run_dock_motion();
 
 extern "C" {
@@ -105,6 +106,16 @@ std::atomic_bool worker_alive{false};
 std::atomic_bool runtime_ready{false};
 std::mutex hook_mutex;
 std::vector<dock_motion::ExecutableMapping> last_inventory;
+// Backstop for the inventory scan: a replaced image also fails the per-slot word check, so this
+// only covers a generation change that happens to leave identical bytes at the slots.
+constexpr uint64_t kInventoryScanIntervalNs = 30000000000ULL;
+uint64_t last_inventory_scan_ns = 0;
+
+uint64_t monotonic_now_ns() {
+    timespec now{};
+    if (clock_gettime(CLOCK_MONOTONIC, &now) != 0) return 0;
+    return static_cast<uint64_t>(now.tv_sec) * 1000000000ULL + static_cast<uint64_t>(now.tv_nsec);
+}
 unsigned settling_scans = 0;
 unsigned scan_cooldown = 0;
 bool capacity_reported = false;
@@ -591,6 +602,26 @@ bool stable_read(const TargetAddresses &locations, const TargetSources &expected
             == dock_motion::MappingState::same;
 }
 
+// Steady-state reader: read the live words at the recorded slot addresses and nothing else.
+//
+// The validated variant above rebuilds the whole /proc/self/maps inventory (twice per call) so it
+// can prove that the same image generation is still mapped at those offsets. That proof is what
+// the health pass was paying for: at the health cadence every pass rebuilt the inventory once at
+// the top and twice per bank, which measured 22% of a core inside the launcher. A slot whose live
+// words still equal the recorded patch is a working patch; if the image was replaced the words no
+// longer match, which fails this check and drops straight into the validated repair path.
+template <size_t kTargets>
+bool read_patch_words(const std::array<uintptr_t, kTargets> &locations,
+    const std::array<dock_motion::CodeSource, kTargets> &,
+    std::array<PatchWords, kTargets> &observed) {
+    for (size_t i = 0; i < locations.size(); ++i) {
+        if (!safe_read(locations[i], std::as_writable_bytes(std::span(&observed[i], 1)))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool stable_read(uintptr_t address, const dock_motion::CodeSource &source,
     PatchWords &words) {
     const std::array<uintptr_t, 1> location{address};
@@ -946,14 +977,14 @@ void report_pipeline(bool healthy) {
 }
 
 bool bank_healthy(HookBank &bank) {
-    // Delegates to the shared runtime; the batched stable read keeps the healthy
-    // steady state at one inventory round trip instead of one per slot.
+    // Steady state reads the slot words only: no /proc/self/maps inventory is built here. The
+    // generation proof runs in the periodic scan and in the validated repair path below it.
     return nhk::slots_healthy<kTargetCount, kPatchBytes / sizeof(uint32_t)>(
         bank.slots,
         [](const std::array<uintptr_t, kTargetCount> &locations,
             const TargetSources &expected,
             std::array<PatchWords, kTargetCount> &observed) {
-            return stable_read(locations, expected, observed);
+            return read_patch_words(locations, expected, observed);
         });
 }
 
@@ -964,7 +995,7 @@ bool unlock_healthy(HookBank &bank) {
         [](const std::array<uintptr_t, 1> &locations,
             const std::array<dock_motion::CodeSource, 1> &expected,
             std::array<PatchWords, 1> &observed) {
-            return stable_read(locations[0], expected[0], observed[0]);
+            return read_patch_words(locations, expected, observed);
         });
 }
 
@@ -1017,17 +1048,38 @@ bool add_instance(const ResolvedInstance &instance) {
 
 bool maintain_dock_motion_hooks_impl(bool force) {
     std::lock_guard lock(hook_mutex);
-    const auto inventory = current_mappings();
-    if (!inventory) {
-        report_pipeline(false);
-        deactivate_dock_motion();
-        return false;
-    }
-    const bool inventory_changed = *inventory != last_inventory;
-    if (inventory_changed) {
-        last_inventory = *inventory;
-        settling_scans = kInventorySettlingScans;
-        scan_cooldown = 0;
+    // The inventory is a full /proc/self/maps parse, and it only exists to prove that the image
+    // generation is unchanged. It is therefore rebuilt when a scan is already due (or every
+    // kInventoryScanIntervalNs as a backstop), while the steady state verifies each slot by its
+    // recorded words. Before this split the per-pass inventory rebuild cost 22% of a core in the
+    // launcher, permanently and regardless of whether the Dock feature was even enabled.
+    const uint64_t now_ns = monotonic_now_ns();
+    const bool periodic_scan = last_inventory_scan_ns == 0 ||
+        (now_ns != 0 && now_ns - last_inventory_scan_ns >= kInventoryScanIntervalNs);
+    std::optional<std::vector<dock_motion::ExecutableMapping>> inventory;
+    bool inventory_changed = false;
+    // Builds the inventory at most once per pass, and only when the pass actually needs it. Every
+    // reader below must go through this: dereferencing an empty optional here is what crashed the
+    // health worker (a heap fault in the launcher, SIGSEGV in hc-dock-health).
+    const auto acquire_inventory = [&]() -> bool {
+        if (inventory) return true;
+        inventory = current_mappings();
+        if (!inventory) {
+            report_pipeline(false);
+            deactivate_dock_motion();
+            return false;
+        }
+        inventory_changed = *inventory != last_inventory;
+        if (inventory_changed) {
+            last_inventory = *inventory;
+            settling_scans = kInventorySettlingScans;
+            scan_cooldown = 0;
+        }
+        if (now_ns != 0) last_inventory_scan_ns = now_ns;
+        return true;
+    };
+    if (force || periodic_scan) {
+        if (!acquire_inventory()) return false;
     }
 
     // Page-lifetime policy first: the guard must already be installed before a
@@ -1037,12 +1089,13 @@ bool maintain_dock_motion_hooks_impl(bool force) {
 
     bool healthy = false;
     for (auto &bank : hook_banks) {
-        const auto state = dock_motion::mapping_state(*inventory, addresses(bank),
-            sources(bank), kPatchBytes);
-        if (state != dock_motion::MappingState::same) continue;
-        // bank_healthy() is the only per-tick cost while the generation is intact. The
-        // repair probe (a per-slot stable read) runs only after that verification fails,
-        // so a lost patch is healed without taxing the healthy steady state.
+        if (inventory) {
+            const auto state = dock_motion::mapping_state(*inventory, addresses(bank),
+                sources(bank), kPatchBytes);
+            if (state != dock_motion::MappingState::same) continue;
+        }
+        // Steady state cost: one word read per slot, no inventory. The validated repair probe
+        // runs only after this verification fails, so a lost patch is still healed immediately.
         bool recents_healthy = bank_healthy(bank);
         if (!recents_healthy
             && ensure_slots_live(bank.slots, slot_host(), kInstallOrder)) {
@@ -1063,6 +1116,9 @@ bool maintain_dock_motion_hooks_impl(bool force) {
         else --scan_cooldown;
     }
     if (scan) {
+        // A cheap pass can turn out unhealthy, which makes this branch run without the entry block
+        // having built anything: acquire first, use second.
+        if (!acquire_inventory()) return false;
         const auto generations = dock_motion::runtime_generations(*inventory);
         for (const auto &generation : generations) {
             const auto instance = resolve_generation(generation);
@@ -1490,10 +1546,10 @@ void report_guard_pending(const std::string &key, const std::string &detail) {
 }
 
 void maybe_install_madvise_guard() {
-    // The generation check walks /proc/self/maps, which is not free: run it on
-    // every fourth maintenance pass (~1 s) instead of four times a second.
+    // The generation check walks /proc/self/maps, which is not free. The guard settles once and
+    // is re-checked every ~40 passes (tens of seconds) instead of every fourth pass.
     static std::atomic<uint32_t> maintain_tick{0};
-    if (maintain_tick.fetch_add(1, std::memory_order_relaxed) % 4U == 0U) {
+    if (maintain_tick.fetch_add(1, std::memory_order_relaxed) % 40U == 0U) {
         maintain_madvise_guard();
     }
     const uint32_t state = madvise_guard_state.load(std::memory_order_acquire);
@@ -1737,13 +1793,26 @@ void pause_for(long nanoseconds) {
 }
 
 void *health_worker(void *) {
+    // Named for field triage: this thread was identified by TID archaeology once, which cost far
+    // more than the one line it takes to label it.
+    (void)pthread_setname_np(pthread_self(), "hc-dock-health");
     for (;;) {
+        // With the Dock switched off there is nothing to maintain: skip the pass entirely, which
+        // is what makes a disabled Dock cost the launcher nothing at all.
+        if (!dock_motion_feature_active()) {
+            pause_for(5000000000L);
+            continue;
+        }
         const bool healthy = maintain_dock_motion_hooks(false);
-        pause_for(healthy ? 250000000L : 2000000000L);
+        // 1 s in the steady state, 2 s while repairing. The pass itself is a handful of word
+        // reads now (A1/A3), so the cadence is no longer what the loop costs - it only bounds how
+        // long a kernel-restored patch can stay missing.
+        pause_for(healthy ? 1000000000L : 2000000000L);
     }
 }
 
 void *motion_worker_impl() {
+    (void)pthread_setname_np(pthread_self(), "hc-dock-motion");
     if (!prepare_dock_motion()) {
         __android_log_print(ANDROID_LOG_WARN, kTag, "motion event channel unavailable");
         return nullptr;

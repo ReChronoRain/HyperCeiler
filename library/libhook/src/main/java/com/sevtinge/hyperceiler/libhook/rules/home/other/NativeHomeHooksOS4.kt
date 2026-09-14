@@ -52,14 +52,27 @@ object NativeHomeHooksOS4 {
     ): Int
     private external fun nativeStatus(): Int
 
+    /**
+     * Push the Dock switch into the native pipeline.
+     *
+     * <p>The native chain is started by process name and has no other gate, so without this a
+     * launcher inside the module's scope keeps its hook health worker and its Binder publisher
+     * running whether or not the user ever enabled the Dock. Fail-open on the native side: a failed
+     * or missing push leaves the pipeline enabled.
+     */
+    private external fun nativeSetDockEnabled(enabled: Boolean): Int
+
     /** Unconditional logcat tag: these stages must be readable even when prefs/log level are broken. */
     private const val LOG_TAG = "HyperCeiler.NativeHome"
     private const val LIBRARY = "HyperCeilerNative"
+    /** The Dock feature switch; see `HomeDockWindow`'s settings read. */
+    private const val DOCK_ENABLED_KEY = "home_dock_bg_custom_enable"
     private const val LIBRARY_FILE = "libHyperCeilerNative.so"
     private const val PACKAGE = "com.sevtinge.hyperceiler"
 
     private val loadStarted = AtomicBoolean()
     private val diagnosticsStarted = AtomicBoolean()
+    private val dockWatchStarted = AtomicBoolean()
     private val diagnosticsUri = Uri.parse("content://com.sevtinge.hyperceiler.provider.sharedprefs")
 
     /**
@@ -106,6 +119,11 @@ object NativeHomeHooksOS4 {
                     prefBoolean("home_dock_bg_custom_enable") && prefStringInt("home_dock_add_blur") == 1
                 )
                 stage("configure done status=${hex(initialStatus)}${describeStatus(initialStatus)}")
+                // The Dock preference is what decides whether the launcher pays for the native
+                // motion pipeline at all; push it before anything else can start following.
+                val dockStatus = syncDockEnabled()
+                stage("dock switch status=${hex(dockStatus)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
+                watchDockEnabled()
             } catch (t: Throwable) {
                 failure = t
                 stage("configure failed detail=${t.javaClass.simpleName}: ${describe(t)}")
@@ -199,6 +217,27 @@ object NativeHomeHooksOS4 {
     private fun stage(message: String) {
         runCatching { Log.i(LOG_TAG, "stage=$message") }
     }
+
+    /** Re-push the switch when the preference changes; LSPosed pushes updates to hooked processes. */
+    private fun watchDockEnabled() {
+        if (!dockWatchStarted.compareAndSet(false, true)) return
+        runCatching {
+            PrefsBridge.getSharedPreferences()?.registerOnSharedPreferenceChangeListener { _, key ->
+                if (key == DOCK_ENABLED_KEY) {
+                    val status = syncDockEnabled()
+                    stage("dock switch refreshed status=${hex(status)} enabled=${prefBoolean(DOCK_ENABLED_KEY)}")
+                }
+            }
+        }.onFailure {
+            stage("dock switch listener unavailable detail=${describe(it)}")
+        }
+    }
+
+    private fun syncDockEnabled(): Int = runCatching {
+        nativeSetDockEnabled(prefBoolean(DOCK_ENABLED_KEY))
+    }.onFailure {
+        stage("dock switch push failed detail=${describe(it)}")
+    }.getOrDefault(0)
 
     private fun prefBoolean(key: String): Boolean =
         runCatching { PrefsBridge.getBoolean(key) }.getOrDefault(false)

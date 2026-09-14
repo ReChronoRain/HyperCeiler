@@ -17,6 +17,7 @@
 
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
 void start_dock_native_motion(int (*hook)(void *, void *, void **), int (*unhook)(void *));
+void set_dock_motion_feature_enabled(bool enabled);
 uint32_t dock_native_motion_state();
 #endif
 
@@ -259,6 +260,18 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
 extern "C" JNIEXPORT jint JNICALL
 Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeStatus(
     JNIEnv *, jobject) {
+    return native_status();
+}
+
+// The launcher-native motion chain is started by process name, so the Dock preference has to be
+// pushed in explicitly: without this a launcher inside the module's scope keeps its health worker
+// (measured at 22% of a core before the A-group fixes) running for a Dock nobody enabled.
+extern "C" JNIEXPORT jint JNICALL
+Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_nativeSetDockEnabled(
+    JNIEnv *, jobject, jboolean enabled) {
+#ifdef HYPERCEILER_DOCK_NATIVE_MOTION
+    set_dock_motion_feature_enabled(enabled == JNI_TRUE);
+#endif
     return native_status();
 }
 
