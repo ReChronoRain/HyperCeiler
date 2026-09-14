@@ -1,8 +1,8 @@
 # HyperOS 4 Dock window regression checks
 
-Current native implementation: [v31 semantic dynamic motion resolution,
-concurrent runtime banks, persistent acknowledged recovery, and suspend/frame-channel
-recovery](NATIVE_DYNAMIC_RESOLUTION.md). Java hook diagnostic version 31 also fixes
+Current native implementation: [semantic dynamic motion resolution,
+concurrent runtime banks, persistent acknowledged recovery, live Hotseat unlock projection,
+and suspend/frame-channel recovery](NATIVE_DYNAMIC_RESOLUTION.md). The Java hook also fixes
 remote glass surface lifetime and immediate recovery after a live renderer is force-stopped:
 attach and detach are serialized on the IPC worker, never deferred in WMS's sync
 transaction. Each generation is explicitly reparented to null before releasing
@@ -107,7 +107,11 @@ on the frame clock; ordinary WMS material traversals must not queue an older pos
 First-show and actual geometry changes still carry their pose in WMS's transaction.
 `DockUnlockRevealTest` checks epoch alignment, duplicate events, expiry while hidden,
 rapid successive unlocks, and uptime-zero boundaries. It does not validate SurfaceFlinger
-transaction order or the actual Flutter icon trajectory.
+transaction order or the actual Flutter icon trajectory. The AUTO_AIM tests do verify that only a
+fresh scene-3 sample from the current unlock epoch is accepted, that its projected scale maps
+one-to-one to the Dock matrix, and that the replay reproduces the launcher's logged
+`prepareUserPresentAnimation` and `UserPresentAnimation[prepare]` numbers for the settings row and
+all four Hotseat icons; visual phase/order still requires a device.
 Clock expiry is separate from final-pose submission: a persistent pending-pose flag
 survives repeated lost callbacks and is cleared only after submitting the resting pose.
 The tests also cover rise-only residue after opacity reaches one, cancelled reveals,
@@ -134,8 +138,14 @@ keyguard-triggered animation still runs.
 Test fingerprint unlock from doze and unlock from the lit lock screen, including
 repeated unlocks and a launcher-surface recreation. Record whether the Dock flashes at
 rest before moving or abruptly jumps during the intended gentle landing. Host tests and an APK install alone
-do not prove these visual results. The 821ms rise/fade remains a local approximation,
-not per-frame sampling of Flutter's staggered 3D unlock animation.
+do not prove these visual results. The legacy styles' 821ms rise/fade remains a local
+approximation. AUTO_AIM has no spring and no authored 3D tilt: it replays the launcher's own
+projection, scaling the Dock about the `pivotPoint` its `prepareUserPresentAnimation` log prints,
+from the footprint `camDis / (camDis - 1.71882 * radius)` gives for the Dock's own radius. Its
+opacity is held at zero until that footprint passes `AUTO_AIM_VISIBLE_FROM`, because the launcher's
+items are transparent and mirrored through zero at their pivot-side pose and so contribute nothing
+there. The per-frame time curve is still this class's own. A live scene-3 sample within 100ms of
+the unlock epoch always wins over the replay.
 
 1. Install the APK, enable the System Framework scope, and reboot the device.
 2. Enable Dock background; select system material. Confirm `HomeDockWindow` logs contain

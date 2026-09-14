@@ -179,6 +179,8 @@ class HomeDockWindow : BaseHook() {
         var autoAimSequence: Long = 0, var autoAimDeadlineNs: Long = 0,
         var autoAimLive: Boolean = false, var autoAimSamples: Int = 0,
         var x: Float = Float.NaN, var y: Float = Float.NaN,
+        /** Launcher frame size, the coordinate space [x]/[baseY] live in. Drives the AUTO_AIM pivot. */
+        var parentWidth: Int = 0, var parentHeight: Int = 0,
         val reveal: DockUnlockReveal = DockUnlockReveal(),
         var width: Int = 0, var height: Int = 0, var radius: Float = 0f,
         var revealScaleX: Float = 1f, var revealScaleY: Float = 1f,
@@ -310,7 +312,7 @@ class HomeDockWindow : BaseHook() {
 
     override fun init() {
         refreshSettings()
-        glassClient.record("hook init diagnosticVersion=33 enabled=${settings.enabled} mode=${settings.mode}")
+        glassClient.record("hook init diagnosticVersion=34 enabled=${settings.enabled} mode=${settings.mode}")
         glassClient.record("glass capture warmup=positive-alpha-v1 idleWait=retain-producer-v1")
         glassClient.record("glass rotation return=retained-capture-v3 pause=before-wallpaper-zoom resume=pose-committed")
         runCatching { processGuard.install() }
@@ -415,7 +417,7 @@ class HomeDockWindow : BaseHook() {
                         // endpoint can observe the same frame, including the newest hook.
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
-                        if (code != DockNativeMotionEndpoint.TRANSACTION_CODE) return@createBeforeHook
+                        if (!DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
                         val data = param.args[1] as Parcel
                         val position = data.dataPosition()
                         nativeMotionReply.remove()
@@ -431,7 +433,7 @@ class HomeDockWindow : BaseHook() {
                         }
                     }
                 transact.createAfterHook { param ->
-                    if (stopped || param.args[0] as Int != DockNativeMotionEndpoint.TRANSACTION_CODE) {
+                    if (stopped || !DockNativeMotionEndpoint.handles(param.args[0] as Int)) {
                         return@createAfterHook
                     }
                     // The original Stub sees an unknown private code. Confirm it only after all
@@ -704,6 +706,10 @@ class HomeDockWindow : BaseHook() {
             layer.width = bounds.width()
             layer.height = bounds.height()
             layer.radius = bounds.radius()
+            // AUTO_AIM scales about the launcher's unlock pivot, which is expressed as a fraction
+            // of the launcher frame; the layer bounds share that space.
+            layer.parentWidth = frame.width()
+            layer.parentHeight = frame.height()
             val dark = when (config.nightMode) {
                 1 -> false
                 2 -> true
@@ -792,13 +798,13 @@ class HomeDockWindow : BaseHook() {
                 // remains unchanged, so a frame of motion never recreates the glass host or texture.
                 // The reveal's pivot compensation rides along, otherwise a traversal landing
                 // mid-reveal would drop it and visibly shift the dock.
-                val shiftX = pivotOffset(layer.revealScaleX)
-                val shiftY = pivotOffset(layer.revealScaleY)
+                val shiftX = revealShiftX(layer, layer.revealScaleX, x)
+                val shiftY = revealShiftY(layer, layer.revealScaleY, y)
                 // The slide is added at write time and never cached, so layer.x stays the
                 // resting position and the frame loop below cannot apply it twice.
                 transaction.callMethod(SET_POSITION, layer.effect,
-                    x + layer.width * shiftX + layer.reveal.slidePx(layer.width.toFloat(), now),
-                    y + layer.height * shiftY)
+                    x + shiftX + layer.reveal.slidePx(layer.width.toFloat(), now),
+                    y + shiftY)
                 layer.x = x
                 layer.y = y
                 // TODO(twitch-diag): trace traversal writes right after an unlock.
@@ -1278,7 +1284,7 @@ class HomeDockWindow : BaseHook() {
      * Perspective fold and capsule fission use a centred SurfaceControl crop, so the underlying
      * glass texture keeps its full-size sampling geometry while only the visible shape opens.
      * Corner radius is interpolated against that crop. The small terminal overshoot and the
-     * elastic-burst squash use the existing four-float matrix, with pivot compensation returned
+     * live AUTO_AIM footprint use the existing four-float matrix, with pivot compensation returned
      * to the caller. A ROM without the Rect crop overload falls back to folding the crop fraction
      * into the matrix; layout is never requested from an animation frame.
      */
@@ -1353,6 +1359,53 @@ class HomeDockWindow : BaseHook() {
     /** Half of `1 - scale`, which is what a centre-anchored scale shifts the layer origin by. */
     private fun pivotOffset(scale: Float): Float = (1f - scale) / 2f
 
+    /**
+     * Absolute position shift for one axis of the reveal.
+     *
+     * Most styles scale about the layer's own centre, which is what the width/height compensation
+     * expresses. AUTO_AIM is the exception: the launcher's unlock animation is a uniform scale
+     * about its own pivot point, so the Dock's origin has to travel along the ray that joins the
+     * pivot to the Dock's resting centre. Scaling about the pivot is what makes the background
+     * fly in with the icons instead of growing in place.
+     */
+    private fun revealShiftX(layer: Layer, scaleX: Float, restX: Float): Float {
+        if (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM && layer.parentWidth > 0) {
+            val pivot = layer.parentWidth * DockUnlockReveal.REVEAL_PIVOT_X_FRACTION
+            return (pivot - restX) * (1f - scaleX)
+        }
+        return layer.width * pivotOffset(scaleX)
+    }
+
+    private fun revealShiftY(layer: Layer, scaleY: Float, restY: Float): Float {
+        if (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM && layer.parentHeight > 0) {
+            val pivot = layer.parentHeight * DockUnlockReveal.REVEAL_PIVOT_Y_FRACTION
+            return (pivot - restY) * (1f - scaleY)
+        }
+        return layer.height * pivotOffset(scaleY)
+    }
+
+    /**
+     * The launcher's projected first footprint for this Dock.
+     *
+     * <p>The Dock sits a fixed radius away from the unlock pivot, so the launcher's own depth rule
+     * and camera distance give the exact footprint it would draw the Hotseat row at on the first
+     * frame. Falls back to the resting footprint when the geometry is not known yet, which leaves
+     * the style showing its old behaviour rather than guessing.
+     */
+    private fun autoAimStartScale(layer: Layer): Float {
+        if (layer.parentWidth <= 0 || layer.parentHeight <= 0 ||
+            layer.baseY <= 0 || !layer.x.isFinite()) {
+            return 1f
+        }
+        val pivotX = layer.parentWidth * DockUnlockReveal.REVEAL_PIVOT_X_FRACTION
+        val pivotY = layer.parentHeight * DockUnlockReveal.REVEAL_PIVOT_Y_FRACTION
+        val centerX = layer.x + layer.width * 0.5f
+        val centerY = layer.baseY + layer.height * 0.5f
+        val radius = kotlin.math.hypot(
+            (centerX - pivotX).toDouble(), (centerY - pivotY).toDouble())
+        return DockUnlockReveal.projectedStartScale(radius)
+    }
+
     /** Undo every trace of a reveal so a cancelled or superseded one cannot leave a residue. */
     private fun restoreRestingTransform(transaction: Any, layer: Layer) {
         // setWindowCrop is the established full-bounds path and also clears any prior Rect crop.
@@ -1377,8 +1430,9 @@ class HomeDockWindow : BaseHook() {
      * Resolve the container pose from its sole owner.
      *
      * AUTO_AIM consumes the latest authenticated Hotseat projection setter sample. The mapping is
-     * one-to-one: an icon scale of 0.43 produces a 0.43 x 0.43 Dock surface matrix. A missing,
-     * pre-unlock or stale sample resolves to identity rather than a guessed keyframe.
+     * one-to-one: a projected icon footprint becomes the same Dock surface footprint. This ROM
+     * never publishes that sample per frame, so a missing sample falls back to the measured icon
+     * fly-in envelope instead of leaving the Dock at rest.
      */
     private fun revealContainerPose(layer: Layer, now: Long,
         nowNs: Long = System.nanoTime()): DockUnlockReveal.ContainerPose {
@@ -1387,16 +1441,20 @@ class HomeDockWindow : BaseHook() {
             if (layer.autoAimLive || layer.autoAimDeadlineNs != 0L) layer.resetAutoAim()
             return layer.reveal.containerPose(now)
         }
-        val sample = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
+        val sample = nativeMotionEndpoint.latestAutoAim(layer.nativeUid, layer.nativePid)
         val projected = DockNativeMotion.autoAimScale(
             sample, layer.reveal.eventEpochMillis(), nowNs)
         if (projected == null) {
             if (layer.autoAimLive) {
                 layer.autoAimLive = false
                 layer.autoAimDeadlineNs = 0L
-                glassClient.record("auto aim native projection lost; restoring identity")
+                glassClient.record("auto aim native projection lost; using timed fallback")
             }
-            return DockUnlockReveal.ContainerPose.identity()
+            // This ROM never publishes the per-frame launcher projection through a hookable setter,
+            // so a missing live sample is the normal case. Keep the style on the icons' trajectory
+            // by scaling the Dock about the launcher's unlock pivot from the footprint that pivot
+            // projects for the Dock's own radius.
+            return layer.reveal.autoAimProjectedPose(now, autoAimStartScale(layer))
         }
         layer.autoAimDeadlineNs = sample!!.uptimeNanos() + DockNativeMotion.AUTO_AIM_MAX_AGE_NS
         if (sample.sequence() != layer.autoAimSequence) {
@@ -1584,11 +1642,11 @@ class HomeDockWindow : BaseHook() {
                             frame.appliedScaleX = applied.scaleX
                             frame.appliedScaleY = applied.scaleY
                             if (alpha != layer.revealAlpha) transaction.callMethod("setAlpha", layer.effect, alpha)
-                            val shiftX = pivotOffset(applied.scaleX)
-                            val shiftY = pivotOffset(applied.scaleY)
+                            val shiftX = revealShiftX(layer, applied.scaleX, layer.x)
+                            val shiftY = revealShiftY(layer, applied.scaleY, y)
                             transaction.callMethod(SET_POSITION, layer.effect,
-                                layer.x + layer.width * shiftX + slide,
-                                y + layer.height * shiftY)
+                                layer.x + shiftX + slide,
+                                y + shiftY)
                             // TODO(twitch-diag): trace frame-loop writes right after an unlock.
                             if (revealDebugActive() && (alpha != layer.revealAlpha ||
                                 SystemClock.uptimeMillis() - lastFrameDbgUptime > 40L)) {
@@ -1853,11 +1911,12 @@ class HomeDockWindow : BaseHook() {
                 // pending across repeated lost callbacks, including a rise-only residue.
                 val revealNeedsFrame = layer.reveal.needsFrame(now)
                 val latest = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
-                val nativeNeedsFrame = latest != null &&
-                    (latest.scene() != DockNativeMotion.SCENE_AUTO_AIM ||
-                        (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM &&
-                            DockNativeMotion.autoAimScale(
-                                latest, layer.reveal.eventEpochMillis(), nowNs) != null))
+                val latestAutoAim = nativeMotionEndpoint.latestAutoAim(
+                    layer.nativeUid, layer.nativePid)
+                val nativeNeedsFrame = latest != null ||
+                    (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM &&
+                        DockNativeMotion.autoAimScale(latestAutoAim,
+                            layer.reveal.eventEpochMillis(), nowNs) != null)
                 revealNeedsFrame || (layer.lastVisible == true &&
                     (layer.reveal.hasPendingPose() ||
                         layer.revealAlpha != 1f || !hasRestingContainer(layer) ||

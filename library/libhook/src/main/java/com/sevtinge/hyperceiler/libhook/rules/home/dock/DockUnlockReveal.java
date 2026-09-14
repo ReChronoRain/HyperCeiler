@@ -22,11 +22,12 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
  * Unlock reveal for our background, timed to the launcher's own "user present" animation.
  *
  * <p>The launcher plays its unlock fly-in entirely inside its Flutter scene. On HyperOS 4 the whole
- * workspace is projected in 3D and every item - the dock row included - travels forward through
- * {@code conversionValueFrom3DTo2D}. The {@link Style#AUTO_AIM} mode is deliberately not sampled
- * from this class's clock: the native motion channel publishes the real projected scale passed to
- * each Hotseat icon's {@code _UnlockWidgetState.scaleValue=} setter, and WMS applies that value to
- * the Dock container on the same display-frame path.
+ * workspace is projected in 3D and every item - the dock row included - is a uniform scale about the
+ * point the launcher calls {@code pivotPoint}. {@link Style#AUTO_AIM} therefore does not sample a
+ * clock-authored curve: it takes the launcher's own projected first pose for the Dock's radius from
+ * that pivot and scales the Dock about the pivot, so the background leaves and lands on the icons'
+ * trajectory. Per-frame scale cannot be mirrored (see {@link #autoAimProjectedPose}); the live native
+ * sample still wins whenever one arrives.
  *
  * <p>The other styles remain clock-authored because a child SurfaceControl cannot join a transform
  * rasterised inside the launcher's buffer. They use the measured 821 ms window starting from the
@@ -51,7 +52,8 @@ public final class DockUnlockReveal {
      *       only, with no sway and no overshoot.</li>
      *   <li>{@link #PERSPECTIVE_FOLD} — a strong 3D fold whose container opens with it.</li>
      *   <li>{@link #CAPSULE_FISSION} — a centre capsule morphs into the full Dock.</li>
-     *   <li>{@link #AUTO_AIM} — no authored curve; follows the Dock icons' live 3D projection.</li>
+     *   <li>{@link #AUTO_AIM} — no authored curve; the Dock is scaled about the launcher's own
+     *       unlock pivot from the footprint that pivot projects for the Dock's radius.</li>
      * </ul>
      */
     public enum Style {
@@ -97,6 +99,50 @@ public final class DockUnlockReveal {
      * The return overshoot below is bounded separately so the landing stays close to the icons.
      */
     public static final float RISE_DP = 96f;
+
+    /**
+     * Where the launcher's unlock fly-in grows out of, as a fraction of the launcher frame.
+     *
+     * <p>The launcher's own {@code _UnlockWidgetState.prepareUserPresentAnimation} log prints the
+     * point it calls {@code pivotPoint}; on a 1200x2670 frame it is {@code (600.0, 869.6667)},
+     * i.e. the horizontal centre and 0.32572 of the frame height. Every transformed item -
+     * Hotseat row included - turns out to be a uniform scale about exactly that point, so the
+     * Dock has to be scaled about it too instead of about its own middle.
+     */
+    public static final float REVEAL_PIVOT_X_FRACTION = 0.5f;
+    public static final float REVEAL_PIVOT_Y_FRACTION = 0.32572f;
+    /**
+     * The launcher's camera distance, in frame pixels, and the depth it gives an item per pixel of
+     * radius from the pivot.
+     *
+     * <p>Both are read straight out of {@code prepareUserPresentAnimation}: {@code camDis} is
+     * printed as {@code 346.41016151377556} (200*sqrt(3) to the last digit) for all 29 items, and
+     * {@code zPosition / |child - pivot|} is {@code 1.7188} for every one of them. The projected
+     * footprint is then {@code camDis / (camDis - depthPerRadius * radius)}, which reproduces the
+     * launcher's own {@code UserPresentAnimation[prepare]} scale for {@code 设置}
+     * ({@code -0.4613999207096218}) to ten significant digits.
+     */
+    public static final double PROJECTION_CAMERA_DISTANCE = 346.41016151377556d;
+    public static final double PROJECTION_DEPTH_PER_RADIUS = 1.71882d;
+    /**
+     * The projected footprint at which the Dock becomes visible, as a fraction of the resting one.
+     *
+     * <p>The launcher draws every item at {@code pivot + (rest - pivot) * scale}, so {@code scale}
+     * is also how far along its journey from the unlock point the item is: zero is the pivot itself,
+     * one is the resting place. The launcher's own first pose has {@code alpha = 0} on top of a
+     * mirrored footprint that passes through zero, so its items contribute nothing to the screen
+     * until they have travelled well out. The Dock holds opacity at zero for the same reason: a
+     * full-width glass panel that streaks away from the unlock point reads as a floating slab,
+     * while one that materialises over the last quarter of the journey reads as part of the fly-in.
+     */
+    public static final float AUTO_AIM_VISIBLE_FROM = 0.75f;
+    /**
+     * Projected footprint of this reveal's last {@link Style#AUTO_AIM} pose.
+     *
+     * <p>Opacity has to follow the same geometry as the pose, and the pose is resolved first in
+     * every caller. A resting footprint is the safe default: it leaves opacity alone.
+     */
+    private float autoAimStartScale = 1f;
     /**
      * Ease-out-back tension: one roughly 5.5dp overshoot, then a zero-velocity landing.
      * This is an artistic position curve, not a sample of the launcher's icon transform.
@@ -257,9 +303,12 @@ public final class DockUnlockReveal {
     }
 
     public float alpha(long nowMillis) {
-        // AUTO_AIM has no local entrance animation at all. Its only changing property is the
-        // real projection scale supplied by the launcher; opacity must never invent a second cue.
-        if (style == Style.AUTO_AIM) return 1f;
+        if (style == Style.AUTO_AIM) {
+            float footprint = autoAimStartScale
+                    + (1f - autoAimStartScale) * progress(nowMillis);
+            float t = clamp01((footprint - AUTO_AIM_VISIBLE_FROM) / (1f - AUTO_AIM_VISIBLE_FROM));
+            return t * t * (3f - 2f * t);
+        }
         float elapsed = elapsedFraction(nowMillis) * DURATION_MS;
         float t;
         if (style == Style.CAPSULE_FISSION) {
@@ -508,6 +557,51 @@ public final class DockUnlockReveal {
         return containerPose(style, elapsedFraction(nowMillis));
     }
 
+    /**
+     * Start footprint of the launcher's projection for an item {@code radiusPx} away from the
+     * unlock pivot.
+     *
+     * <p>The launcher puts every workspace item at {@code z = -depthPerRadius * radius} and draws
+     * it with the projection {@code camDis / (camDis + z)}; both constants are printed by its own
+     * {@code prepareUserPresentAnimation} log. The expression is negative once an item is deeper
+     * than the camera, which is exactly the shrunken mirrored first pose the icons are drawn in -
+     * the sign matters because it also decides which side of the pivot the item starts on. Only
+     * within {@code 2 * camDis / depthPerRadius} pixels of the pivot is the magnitude above one,
+     * and the Dock is never there, so the value is only bounded to keep a degenerate geometry from
+     * feeding an infinite matrix to SurfaceControl.
+     */
+    public static float projectedStartScale(double radiusPx) {
+        if (!Double.isFinite(radiusPx) || radiusPx <= 0d) return 1f;
+        double denominator = PROJECTION_CAMERA_DISTANCE
+                - PROJECTION_DEPTH_PER_RADIUS * radiusPx;
+        if (!Double.isFinite(denominator) || Math.abs(denominator) < 1d) return 1f;
+        double scale = PROJECTION_CAMERA_DISTANCE / denominator;
+        if (!Double.isFinite(scale)) return 1f;
+        return (float) Math.max(-8d, Math.min(8d, scale));
+    }
+
+    /**
+     * Authored fallback envelope for {@link Style#AUTO_AIM}.
+     *
+     * <p>AUTO_AIM exists to follow the launcher's live 3D-to-2D Hotseat projection. On this ROM that
+     * projection is applied inside the Flutter widget tree only: the double setter the native
+     * resolver hooks is called a handful of times per unlock (never per frame) and reports 0, so no
+     * live sample is ever available. This envelope reuses the measured fly-in timing (10 ms lead,
+     * 821 ms) and the launcher's own projected first pose so the Dock still leaves the unlock point
+     * exactly where the icons do instead of growing in place. A real projection always wins.
+     */
+    public ContainerPose autoAimProjectedPose(long nowMillis, float startScale) {
+        autoAimStartScale = Float.isFinite(startScale) ? startScale : 1f;
+        float fraction = elapsedFraction(nowMillis);
+        if (fraction >= 1f) return ContainerPose.identity();
+        float eased = progress(nowMillis);
+        float scale = autoAimStartScale + (1f - autoAimStartScale) * eased;
+        if (!Float.isFinite(scale) || Math.abs(scale - 1f) < 0.000001f) {
+            return ContainerPose.identity();
+        }
+        return new ContainerPose(scale, scale, 1f, 1f, 1f, true);
+    }
+
     /** Pure sampler used by tests and by any late-created surface joining the shared epoch. */
     public static ContainerPose containerPose(Style style, long startedAtMillis, long nowMillis) {
         return containerPose(style, timelineFraction(startedAtMillis, nowMillis));
@@ -648,8 +742,10 @@ public final class DockUnlockReveal {
                         0f, true);
             }
             case AUTO_AIM:
-                // The WMS-owned parent follows the real icon footprint. Applying a second
-                // RenderNode transform here would square the native scale.
+                // The launcher's fly-in is a plain uniform scale about its unlock pivot, so this
+                // style carries no RenderNode rotation or depth at all: the perspective the eye
+                // reads comes from the scale divergence around the pivot, which the caller
+                // reproduces by scaling the layer about that same point.
                 return Pose3D.identity();
             default:
                 // Daybreak is position-only, and so is Gale: its motion is the horizontal slide
@@ -673,6 +769,7 @@ public final class DockUnlockReveal {
                 return new Pose3D(0f, 0f, 0f, CAPSULE_CONTENT_SCALE_X,
                         CAPSULE_CONTENT_SCALE_Y, 0f, true);
             case AUTO_AIM:
+                // Axis-aligned grow out of the unlock pivot; no rotation, no depth offset.
                 return Pose3D.identity();
             default:
                 return Pose3D.identity();

@@ -23,6 +23,7 @@ public final class DockUnlockRevealTest {
         shapeStylesMapAndKeepLegacyFallback();
         perspectiveFoldSynchronizesContainer();
         capsuleFissionMorphsTheActualContainer();
+        autoAimHasNoAuthoredCurve();
         cancellationRestoresEveryShapeProperty();
         lateLayerJoinsLandingAfterSkippedFrames();
         System.out.println("DockUnlockReveal tests passed");
@@ -566,6 +567,126 @@ public final class DockUnlockRevealTest {
         DockUnlockReveal.ContainerPose end = reveal.containerPose(start + DockUnlockReveal.TOTAL_MS);
         check(!end.active && end.cornerRadius(24f, 120f) == 24f,
                 "capsule morph restores the configured radius exactly");
+    }
+
+    private static void autoAimHasNoAuthoredCurve() {
+        long start = 90000;
+        DockUnlockReveal reveal = new DockUnlockReveal();
+        reveal.setStyle(DockUnlockReveal.Style.AUTO_AIM);
+        reveal.arm(start);
+        reveal.startIfArmed(start);
+        // The Dock itself sits inside the Hotseat row, so its first pose is the row's, not a guess.
+        float dockStart = DockUnlockReveal.projectedStartScale(
+                radius(587.1943121004105, 2419.3249988555913));
+        for (long elapsed : new long[] {0, 90, 410, DockUnlockReveal.TOTAL_MS - 1}) {
+            long now = start + elapsed;
+            DockUnlockReveal.ContainerPose authored = reveal.containerPose(now);
+            DockUnlockReveal.Pose3D view = DockUnlockReveal.pose3D(
+                    DockUnlockReveal.Style.AUTO_AIM, start, now);
+            check(!authored.active && authored.scaleX == 1f && authored.scaleY == 1f
+                            && authored.cropWidth == 1f && authored.cropHeight == 1f,
+                    "auto aim has no clock-authored container keyframe");
+            check(!view.active && view.scaleX == 1f && view.scaleY == 1f
+                            && view.rotationX == 0f && view.rotationY == 0f
+                            && view.rotationZ == 0f && view.depthHeights == 0f,
+                    "auto aim carries no invented tilt: the perspective is the scale about the pivot");
+            check(reveal.risePx(3f, now) == 0f && reveal.slidePx(1080f, now) == 0f,
+                    "auto aim never offsets the Dock; the radius from the pivot does that");
+            DockUnlockReveal.ContainerPose projected = reveal.autoAimProjectedPose(now, dockStart);
+            if (projected.scaleX < DockUnlockReveal.AUTO_AIM_VISIBLE_FROM) {
+                check(reveal.alpha(now) == 0f,
+                        "auto aim stays invisible while it is still near the unlock point");
+            }
+        }
+        // The launcher's icons start fully transparent, so the Dock may not streak out of the
+        // pivot fully opaque either: opacity follows the projected footprint and only arrives in
+        // the last quarter of the journey.
+        check(reveal.autoAimProjectedPose(start, dockStart).scaleX < 0f
+                        && reveal.alpha(start) == 0f,
+                "auto aim starts from the launcher's own transparent, mirrored first frame");
+        check(reveal.alpha(start + DockUnlockReveal.TOTAL_MS) == 1f,
+                "auto aim reaches full opacity at the resting pose");
+        float previousAlpha = 0f;
+        for (long elapsed = 1; elapsed < DockUnlockReveal.TOTAL_MS; elapsed += 11) {
+            long now = start + elapsed;
+            float footprint = reveal.autoAimProjectedPose(now, dockStart).scaleX;
+            float alpha = reveal.alpha(now);
+            check(alpha >= previousAlpha - 0.000001f && alpha >= 0f && alpha <= 1f,
+                    "auto aim opacity is monotone and bounded");
+            if (footprint < DockUnlockReveal.AUTO_AIM_VISIBLE_FROM) {
+                check(alpha == 0f, "auto aim is still hidden at footprint " + footprint);
+            }
+            previousAlpha = alpha;
+        }
+
+        // The launcher's own projection, replayed on the numbers its log prints. For every item it
+        // records childX/childY/pivotX/pivotY and zPosition = -1.7188 * radius, and draws the item
+        // with camDis / (camDis + zPosition).
+        checkClose(DockUnlockReveal.projectedStartScale(radius(1023.0, 392.0)),
+                camDis / (camDis - 1097.1908746552194),
+                "settings row reproduces the launcher's prepared footprint");
+        checkClose(DockUnlockReveal.projectedStartScale(radius(164.1943121004105, 2419.3249988555913)),
+                camDis / (camDis - 2766.901998231364),
+                "left-most Hotseat icon reproduces the launcher's prepared footprint");
+        checkClose(DockUnlockReveal.projectedStartScale(radius(1010.1943121004103, 2419.3249988555913)),
+                camDis / (camDis - 2755.3138553057943),
+                "right-most Hotseat icon reproduces the launcher's prepared footprint");
+        // The Dock itself sits inside the Hotseat row, so its first pose is the row's, not a guess.
+        check(dockStart < -0.13f && dockStart > -0.17f,
+                "the Dock starts at the Hotseat row's own projected footprint: " + dockStart);
+        check(DockUnlockReveal.projectedStartScale(0d) == 1f
+                        && DockUnlockReveal.projectedStartScale(Double.NaN) == 1f,
+                "a degenerate radius fails open to the resting footprint");
+
+        DockUnlockReveal.ContainerPose live =
+                DockUnlockReveal.ContainerPose.fromProjectedScale(.413);
+        check(live.active && Math.abs(live.scaleX - .413f) < 0.000001f
+                        && live.scaleX == live.scaleY && live.cropWidth == 1f
+                        && live.cropHeight == 1f && live.cornerProgress == 1f,
+                "native icon scale maps one-to-one onto the complete Dock footprint");
+        check(!DockUnlockReveal.ContainerPose.fromProjectedScale(1d).active,
+                "native resting scale becomes exact identity");
+        check(!DockUnlockReveal.ContainerPose.fromProjectedScale(Double.NaN).active
+                        && !DockUnlockReveal.ContainerPose.fromProjectedScale(-.1).active
+                        && !DockUnlockReveal.ContainerPose.fromProjectedScale(2.1).active,
+                "invalid projection values fail open to identity");
+
+        // This ROM never publishes the per-frame launcher projection, so the style also needs the
+        // measured projection envelope in order to animate at all.
+        DockUnlockReveal fallback = new DockUnlockReveal();
+        fallback.setStyle(DockUnlockReveal.Style.AUTO_AIM);
+        fallback.arm(start);
+        fallback.startIfArmed(start);
+        DockUnlockReveal.ContainerPose first =
+                fallback.autoAimProjectedPose(start, dockStart);
+        check(first.active && first.scaleX == first.scaleY
+                        && Math.abs(first.scaleX - dockStart) < 0.000001f
+                        && first.cropWidth == 1f && first.cropHeight == 1f,
+                "auto aim starts from the Dock's own projected footprint");
+        float previous = first.scaleX;
+        for (long elapsed = 1; elapsed < DockUnlockReveal.TOTAL_MS; elapsed += 17) {
+            DockUnlockReveal.ContainerPose pose =
+                    fallback.autoAimProjectedPose(start + elapsed, dockStart);
+            check(pose.scaleX >= previous - 0.000001f && pose.scaleX <= 1f,
+                    "auto aim grows monotonically to the resting footprint");
+            previous = pose.scaleX;
+        }
+        DockUnlockReveal.ContainerPose landed =
+                fallback.autoAimProjectedPose(start + DockUnlockReveal.TOTAL_MS, dockStart);
+        check(!landed.active && landed.scaleX == 1f,
+                "auto aim lands on exact identity");
+    }
+
+    private static final double camDis = DockUnlockReveal.PROJECTION_CAMERA_DISTANCE;
+
+    /** Radius of an item from the unlock pivot the launcher logged for this capture. */
+    private static double radius(double childX, double childY) {
+        return Math.hypot(childX - 600.0, childY - 869.6666666666669);
+    }
+
+    private static void checkClose(float actual, double expected, String what) {
+        check(Math.abs(actual - expected) < 0.002d,
+                what + " (expected " + expected + ", got " + actual + ")");
     }
 
     private static void cancellationRestoresEveryShapeProperty() {

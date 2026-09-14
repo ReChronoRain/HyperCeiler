@@ -41,6 +41,7 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
     SwitchPreference mDockHeight;
     Preference mDockBackgroundBlur;
     DropDownPreference mDockBackgroundBlurEnable;
+    DropDownPreference mDockUnlockStyle;
     ColorPickerPreference mDockBackgroundColor;
 
     @Override
@@ -56,6 +57,14 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
         mDockBackgroundColor = findPreference("prefs_key_home_dock_bg_color");
         mAddDockEnable = findPreference("prefs_key_home_dock_bg_custom_enable");
         mIconAppTitle = findPreference("prefs_key_home_dock_icon_title");
+        mDockUnlockStyle = findPreference("prefs_key_home_dock_unlock_style");
+        // The old keyframe mode was removed rather than retuned. Persist the one-way rename so
+        // an existing installation visibly selects 重力势能 instead of retaining an orphaned value.
+        String revealStyle = PrefsBridge.getString("prefs_key_home_dock_unlock_style", "daybreak");
+        if ("elastic_burst".equalsIgnoreCase(revealStyle)) {
+            PrefsBridge.putString("prefs_key_home_dock_unlock_style", "auto_aim");
+            mDockUnlockStyle.setValue("auto_aim");
+        }
         mDisableRecentIcon.setVisible(isPad());
 
         if (isMoreHyperOSVersion(4f)) {
