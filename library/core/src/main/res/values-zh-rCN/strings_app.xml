@@ -1329,12 +1329,12 @@
     <string name="home_dock_unlock_style">Dock 栏解锁入场动画</string>
     <string name="home_dock_unlock_style_daybreak">上浮轻落</string>
     <string name="home_dock_unlock_style_depth_flip">纵深翻入</string>
-    <string name="home_dock_unlock_style_gale">侧向摆入</string>
-    <string name="home_dock_unlock_style_orbit_sweep">轨道掠入</string>
-    <string name="home_dock_unlock_style_ripple">收拢归位</string>
+    <string name="home_dock_unlock_style_gale">向右泊出</string>
+    <string name="home_dock_unlock_style_orbit_sweep">斜向进入</string>
+    <string name="home_dock_unlock_style_ripple">泰然处之</string>
     <string name="home_dock_unlock_style_perspective_fold">透视折叠</string>
-    <string name="home_dock_unlock_style_capsule_fission">胶囊裂变</string>
-    <string name="home_dock_unlock_style_auto_aim">自瞄</string>
+    <string name="home_dock_unlock_style_capsule_fission">弹性形变</string>
+    <string name="home_dock_unlock_style_auto_aim">重力势能</string>
     <string name="home_dock_bg_enable">添加 Dock 栏背景</string>
     <string name="home_dock_bg_all_app">兼容抽屉模式</string>
     <string name="home_dock_bg_all_app_more">开启可防止 Dock 被截断，但是 Dock 高度会被限制</string>

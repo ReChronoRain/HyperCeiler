@@ -1379,12 +1379,12 @@
     <string name="home_dock_unlock_style">Dock unlock fly-in animation</string>
     <string name="home_dock_unlock_style_daybreak">Rise and settle</string>
     <string name="home_dock_unlock_style_depth_flip">Arrive from depth</string>
-    <string name="home_dock_unlock_style_gale">Swing in from the side</string>
-    <string name="home_dock_unlock_style_orbit_sweep">Orbital sweep</string>
-    <string name="home_dock_unlock_style_ripple">Contract and calm</string>
+    <string name="home_dock_unlock_style_gale">Park out to the right</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Enter diagonally</string>
+    <string name="home_dock_unlock_style_ripple">Calm and composed</string>
     <string name="home_dock_unlock_style_perspective_fold">Perspective fold</string>
-    <string name="home_dock_unlock_style_capsule_fission">Capsule fission</string>
-    <string name="home_dock_unlock_style_auto_aim">Auto aim</string>
+    <string name="home_dock_unlock_style_capsule_fission">Elastic deformation</string>
+    <string name="home_dock_unlock_style_auto_aim">Gravitational potential</string>
     <string name="home_dock_bg_enable">Add background blur to dock</string>
     <string name="home_dock_bg_all_app">Drawer mode compatible</string>
     <string name="home_dock_bg_all_app_more">Turning on prevents the dock from being truncated, but the dock height is limited.</string>
