@@ -180,7 +180,7 @@ public class SystemUIB extends BaseLoad {
 
         // 导航栏
         // Hides the drawn gesture line only. The launcher side (HideNavigationBar) is not
-        // registered for OS 3 because driving NavStubView#mHideGestureLine resizes the
+        // registered here because driving NavStubView#mHideGestureLine resizes the
         // gesture hot space and breaks swipe navigation and Circle to Search.
         // Skipped when the user customizes the line themselves, so their thickness and
         // colour win instead of being overwritten here.

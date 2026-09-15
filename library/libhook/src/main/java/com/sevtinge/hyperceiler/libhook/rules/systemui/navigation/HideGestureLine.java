@@ -37,8 +37,8 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
  *
  * <p>dimen/navigation_handle_radius is deliberately left alone. Forcing it to zero also
  * hides the line, but it feeds hit testing as well as painting, and a zero sized handle
- * stops the long press that starts Circle to Search (measured on HyperOS 3.3). Keeping the
- * stock radius keeps that gesture working.
+ * stops the long press that starts Circle to Search (measured on HyperOS 3.3, and
+ * unchanged on HyperOS 4.0). Keeping the stock radius keeps that gesture working.
  */
 public class HideGestureLine extends BaseHook {
     private static final int TRANSPARENT = 0;
