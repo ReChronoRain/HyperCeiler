@@ -21,15 +21,20 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object HideLockscreenZenMode : BaseHook() {
-    private val zenModeClass by lazy {
-        loadClass("com.android.systemui.statusbar.notification.zen.ZenModeViewController")
-    }
+    private const val ZEN_MODE_VIEW_CONTROLLER =
+        "com.android.systemui.statusbar.notification.zen.ZenModeViewController"
 
     override fun init() {
+        // HyperOS 4.0 (Android 17) dropped ZenModeViewController from SystemUI entirely --
+        // neither the class nor its manuallyDismissed field is left anywhere in
+        // MiuiSystemUI.apk, and no replacement was found in the plugin either. Loading it
+        // unconditionally therefore threw ClassNotFoundError on every SystemUI start, which
+        // only filled the log: there is nothing left to hide on that release.
+        val zenModeClass = findClassIfExists(ZEN_MODE_VIEW_CONTROLLER) ?: return
+
         // hyperOS fix by hyper helper
         zenModeClass.findMethod { filter { name.startsWith("updateVisibility") } }
             .createBeforeHook {
