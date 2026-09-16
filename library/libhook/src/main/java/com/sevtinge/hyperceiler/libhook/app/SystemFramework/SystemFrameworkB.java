@@ -48,6 +48,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylus
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.SetGestureNeedFingerNum;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowDisableProtectedPackage;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.BrightnessBarMaxSystemServer;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowManageAllNotifications;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AllowUntrustedTouchForU;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.AntiQues;
@@ -163,6 +164,7 @@ public class SystemFrameworkB extends BaseLoad {
         initHook(new MiAospImeSystem(), InputMethodConfig.shouldHookAospImeInSystem());
         initHook(new ClipboardWhitelist(), PrefsBridge.getBoolean("system_framework_clipboard_whitelist"));
         initHook(new AllowDisableProtectedPackage(), PrefsBridge.getBoolean("system_framework_allow_disable_protected_package"));
+        initHook(new BrightnessBarMaxSystemServer(), PrefsBridge.getBoolean("system_framework_screen_brightness_unlock"));
         initHook(new BypassUnknownSourcesRestrictions(), PrefsBridge.getBoolean("system_framework_bypass_unknown_sources_restrictions"));
         initHook(new BypassForceMiAppStore(), PrefsBridge.getBoolean("system_framework_bypass_force_mi_appstore") || PrefsBridge.getBoolean("system_framework_market_use_detailmini"));
         initHook(new BypassWakePathChecker(), PrefsBridge.getBoolean("system_framework_bypass_wake_path_checker"));
