@@ -1607,6 +1607,8 @@
     <string name="security_center_battery_unlock_low_temp_ext_endurance">Unlock Cold endurance mode</string>
     <string name="secutity_center_battery_show_more_info">Show more battery info</string>
     <string name="secutity_center_battery_show_more_info_desc">Experimental feature. The additional battery information displayed may vary depending on the device.</string>
+    <string name="secutity_center_battery_saver_enable_haptic_feedback">Enable haptic feedback in battery saver</string>
+    <string name="secutity_center_battery_saver_lock_fps">Battery saver lock FPS</string>
     <string name="security_center_unlock_car_sickness">Unlock Motion sickness relief</string>
     <string name="security_center_unlock_car_sickness_desc">Needs \"Barrage\" support</string>
     <string name="security_center_disable_offline_info_manager">Disable network assistant offline info</string>
