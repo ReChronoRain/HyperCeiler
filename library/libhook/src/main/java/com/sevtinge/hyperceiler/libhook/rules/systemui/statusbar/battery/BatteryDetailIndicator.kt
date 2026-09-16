@@ -225,18 +225,12 @@ object BatteryDetailIndicator : BaseHook() {
                     val unit = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_UNIT_TEXT)
 
                     val v = if (visible) View.VISIBLE else View.GONE
-                    val numberChanged = (number?.visibility ?: -1) != v
-                    val unitChanged = (unit?.visibility ?: -1) != v
-                    val rootChanged = nsView.visibility != v
+                    number?.visibility = v
+                    unit?.visibility = v
+                    nsView.visibility = v
 
-                    if (numberChanged) number?.visibility = v
-                    if (unitChanged) unit?.visibility = v
-                    if (rootChanged) nsView.visibility = v
-
-                    if (numberChanged || unitChanged || rootChanged) {
-                        nsView.invalidate()
-                        nsView.requestLayout()
-                    }
+                    nsView.invalidate()
+                    nsView.requestLayout()
                 }
             }
         }.onFailure {
