@@ -217,10 +217,26 @@ object BatteryDetailIndicator : BaseHook() {
             nsvCls.declaredMethods.filter { it.name == "setVisibleState" }.createBeforeHooks { param ->
                 val nsView = param.thisObject as? View
                 if (nsView != null && ViewHelper.isCustomTextIcon(nsView)) {
-                    val state = param.args[0] as? Int ?: 0
+                    val state = param.args.getOrNull(0) as? Int ?: 0
                     val visible = state != 2
-                    val number = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT) ?: (nsView as? TextView)
-                    number?.visibility = if (visible) View.VISIBLE else View.GONE
+
+                    val number = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT)
+                        ?: (nsView as? TextView)
+                    val unit = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_UNIT_TEXT)
+
+                    val v = if (visible) View.VISIBLE else View.GONE
+                    val numberChanged = (number?.visibility ?: -1) != v
+                    val unitChanged = (unit?.visibility ?: -1) != v
+                    val rootChanged = nsView.visibility != v
+
+                    if (numberChanged) number?.visibility = v
+                    if (unitChanged) unit?.visibility = v
+                    if (rootChanged) nsView.visibility = v
+
+                    if (numberChanged || unitChanged || rootChanged) {
+                        nsView.invalidate()
+                        nsView.requestLayout()
+                    }
                 }
             }
         }.onFailure {
@@ -394,7 +410,7 @@ object BatteryDetailIndicator : BaseHook() {
 
         private fun setupIconManager(nsvCls: Class<*>) {
             val iconManagerCls = loadClassOrNull("com.android.systemui.statusbar.phone.ui.IconManager", lpparam.classLoader)
-                ?: loadClassOrNull("com.android.systemui.statusbar.phone.StatusBarIconController\$IconManager", lpparam.classLoader)
+                ?: loadClassOrNull("com.android.systemui.statusbar.phone.ui.IconManager", lpparam.classLoader)
                 ?: return
 
             runCatching {
@@ -762,10 +778,6 @@ object BatteryDetailIndicator : BaseHook() {
             return iconView
         }
 
-        private fun isMultiLineContent(contentMode: Int): Boolean {
-            return contentMode == 1 || contentMode == 4 || contentMode == 5
-        }
-
         @SuppressLint("DiscouragedApi")
         fun initStatusbarTextIcon(
             mContext: Context,
@@ -823,6 +835,10 @@ object BatteryDetailIndicator : BaseHook() {
                 4 -> iconTextView.gravity = Gravity.END or Gravity.CENTER_VERTICAL
                 else -> iconTextView.gravity = Gravity.START or Gravity.CENTER_VERTICAL
             }
+        }
+
+        private fun isMultiLineContent(contentMode: Int): Boolean {
+            return contentMode == 1 || contentMode == 4 || contentMode == 5
         }
     }
 }
