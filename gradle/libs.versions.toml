@@ -19,8 +19,8 @@ viewpager2 = "1.1.0"
 miuix = "1.0.13.0"
 
 # Xposed & Hooks
-xposed-api = "101.0.1"
-xposed-service = "101.0.0"
+xposed-api = "102.0.0"
+xposed-service = "102.0.0"
 dexkit = "2.2.0"
 ezhooktool = "1.3.0"
 hiddenapibypass = "6.1"
@@ -68,6 +68,7 @@ miuix-transition = { module = "fan.miuix:transition", version.ref = "miuix" }
 # Xposed & Hooks
 dexkit = { module = "org.luckypray:dexkit", version.ref = "dexkit" }
 ezhooktool-core = { module = "io.github.lingqiqi5211.ezhooktool:core", version.ref = "ezhooktool" }
+ezhooktool-xposed102 = { module = "io.github.lingqiqi5211.ezhooktool:hook-xposed-102", version.ref = "ezhooktool" }
 hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenapibypass" }
 libxposed-api = { module = "io.github.libxposed:api", version.ref = "xposed-api" }
 libxposed-service = { module = "io.github.libxposed:service", version.ref = "xposed-service" }

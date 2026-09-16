@@ -63,8 +63,8 @@ dependencies {
     api(libs.expansion)
     compileOnlyApi(projects.library.hiddenApi)
 
-    // libxposed API 101
-    api(projects.library.xposedApi101)
+    // libxposed API 102（运行基线 101）
+    api(libs.ezhooktool.xposed102)
     compileOnlyApi(libs.libxposed.api)
     api(libs.libxposed.service)
 

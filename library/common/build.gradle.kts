@@ -33,6 +33,6 @@ kotlin.jvmToolchain(25)
 
 dependencies {
     api(libs.bundles.miuix)
-    // libxposed API 101
+    // libxposed API 102（运行基线 101）
     compileOnlyApi(libs.libxposed.api)
 }
