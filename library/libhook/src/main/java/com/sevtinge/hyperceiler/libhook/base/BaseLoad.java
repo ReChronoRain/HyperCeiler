@@ -22,13 +22,13 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Objects;
 import java.util.function.BooleanSupplier;
 
+import io.github.lingqiqi5211.ezhooktool.xposed.EzResources;
 import io.github.libxposed.api.XposedInterface;
 import io.github.libxposed.api.XposedModule;
 import io.github.libxposed.api.XposedModuleInterface.PackageReadyParam;
@@ -51,7 +51,6 @@ public abstract class BaseLoad {
     private static volatile SystemServerStartingParam sSystemServerParam;
     private static volatile XposedInterface sXposed;
     private static volatile String sCurrentHookTag = "BaseLoad";
-    public static ResourcesTool mResHook;
     private boolean mDexKitSessionPrepared = false;
 
     /**
@@ -117,7 +116,6 @@ public abstract class BaseLoad {
             sLpparam = lpparam;
             sSystemServerParam = null;
             sCurrentHookTag = this.getClass().getSimpleName();
-            mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
             mDexKitSessionPrepared = false;
         }
 
@@ -137,7 +135,6 @@ public abstract class BaseLoad {
             sLpparam = null;
             sSystemServerParam = lpparam;
             sCurrentHookTag = this.getClass().getSimpleName();
-            mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
             mDexKitSessionPrepared = false;
         }
 
@@ -152,7 +149,7 @@ public abstract class BaseLoad {
                 boolean isAndroid = SYSTEM_SERVER.equals(pkgName);
                 ContextUtils.getWaitContext(context -> {
                     if (context != null) {
-                        mResHook.loadModuleRes(context);
+                        EzResources.inject(context);
                     }
                 }, isAndroid);
             }
