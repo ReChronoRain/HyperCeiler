@@ -38,7 +38,13 @@ public class DisableUploadAppListNew extends BaseHook {
 
     @Override
     protected boolean initDexKit() {
-        mAntiDefraudAppManagerMethod = requiredMember("AntiDefraudAppManager", bridge -> bridge.findMethod(FindMethod.create()
+        // Both anchor strings ("AntiDefraudAppManager" and
+        // "https://flash.sec.miui.com/detect/app") are completely absent from the global
+        // guardprovider on HyperOS 3.3 -- the app-list upload code is not in this package
+        // any more, so there is nothing to hook. Use optionalMember instead of
+        // requiredMember so a miss is skipped quietly rather than throwing and leaving
+        // "Skip hook because initDexKit failed" behind.
+        mAntiDefraudAppManagerMethod = optionalMember("AntiDefraudAppManager", bridge -> bridge.findMethod(FindMethod.create()
             .matcher(MethodMatcher.create()
                 .usingStrings("AntiDefraudAppManager", "https://flash.sec.miui.com/detect/app")
             )).singleOrNull());
@@ -47,6 +53,9 @@ public class DisableUploadAppListNew extends BaseHook {
 
     @Override
     public void init() {
+        if (mAntiDefraudAppManagerMethod == null) {
+            return;
+        }
         com.sevtinge.hyperceiler.libhook.base.BaseHook.hookMethod(mAntiDefraudAppManagerMethod, new IReplaceHook() {
             @Override
             public Object replace(HookParam param) {

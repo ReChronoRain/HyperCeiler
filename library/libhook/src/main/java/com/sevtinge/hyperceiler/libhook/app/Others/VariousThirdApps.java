@@ -50,6 +50,9 @@ public class VariousThirdApps extends BaseLoad {
     private static final String XIAOMI_BAIDU_PACKAGE = "com.baidu.input_mi";
     private static final String BAIDU_PACKAGE = "com.baidu.input";
 
+    /** How many causes to walk before giving up, so a self-referential chain cannot loop. */
+    private static final int MAX_CAUSE_DEPTH = 16;
+
     private static Set<String> sEnabledInputMethodPackages = Collections.emptySet();
 
     private String mPackageName;
@@ -76,12 +79,38 @@ public class VariousThirdApps extends BaseLoad {
                 setStaticObjectField(mBuild, "DEVICE", "caiman");
                 XposedLog.d("GoogleQuickSearchBox", "Spoofed device info to Pixel 9 Pro success");
             } catch (Throwable e) {
-                XposedLog.e("GoogleQuickSearchBox", "Failed to spoof device info: " + e.getMessage());
+                // android.os.Build's fields are public static final. ART used to allow a
+                // reflective write, but Android 17 rejects it, and clearing the FINAL bit
+                // in Field.accessFlags does not help either because finality is enforced
+                // below that mirror. There is no pure-Java way to spoof these fields on
+                // this release, so report it as a warning rather than an error.
+                if (isFinalFieldRejection(e)) {
+                    XposedLog.w("GoogleQuickSearchBox",
+                        "Build field spoofing is not supported on this Android version: " + e.getMessage());
+                } else {
+                    XposedLog.e("GoogleQuickSearchBox", "Failed to spoof device info: " + e.getMessage());
+                }
             }
             return;
         }
 
         initMusicHooks();
+    }
+
+    /** True when a throwable (or one of its causes) is the runtime refusing a final write. */
+    private static boolean isFinalFieldRejection(Throwable t) {
+        Throwable current = t;
+        for (int depth = 0; current != null && depth < MAX_CAUSE_DEPTH; depth++) {
+            if (current instanceof IllegalAccessException) {
+                return true;
+            }
+            String message = current.getMessage();
+            if (message != null && message.contains("static final")) {
+                return true;
+            }
+            current = current.getCause();
+        }
+        return false;
     }
 
     private void initInputMethodHooks() {

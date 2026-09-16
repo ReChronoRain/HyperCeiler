@@ -212,6 +212,13 @@ public class PackagesUtils {
         mainIntent.setAction(Intent.ACTION_SEND);
         mainIntent.putExtra(Intent.EXTRA_TEXT, "HyperCeiler is the best!");
         mainIntent.setType("*/*");
+        // CleanShareMenu hooks queryIntentActivitiesInternal and strips every already
+        // selected package from ACTION_SEND results. Without the bypass extra the picker
+        // asks the same question through the same hook, so apps that only declare
+        // ACTION_SEND (and no ACTION_VIEW filter matching the queries above) disappear
+        // from the picker as soon as they are selected -- they cannot be reviewed or
+        // deselected again. The three ACTION_VIEW queries already set this extra.
+        mainIntent.putExtra("HyperCeiler", true);
         List<ResolveInfo> packs4 = pm.queryIntentActivities(mainIntent, PackageManager.MATCH_ALL);
 
         packs.addAll(packs2);

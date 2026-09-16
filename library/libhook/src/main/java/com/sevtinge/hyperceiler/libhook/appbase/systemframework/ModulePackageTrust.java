@@ -32,6 +32,17 @@ import java.util.List;
 import io.github.libxposed.api.XposedInterface;
 
 public class ModulePackageTrust extends BaseHook {
+    /** Legacy permission backend: shouldGrantPermissionBySignature(AndroidPackage, Permission). */
+    private static final String PERMISSION_SERVICE_IMPL =
+        "com.android.server.pm.permission.PermissionManagerServiceImpl";
+    /**
+     * Android 17 permission backend. The method moved to the new access based policy and gained a
+     * leading MutateStateScope parameter: shouldGrantPermissionBySignature(MutateStateScope,
+     * PackageState, Permission).
+     */
+    private static final String APP_ID_PERMISSION_POLICY =
+        "com.android.server.permission.access.permission.AppIdPermissionPolicy";
+
     private final ArrayList<String> systemPackages = new ArrayList<>();
 
     @Override
@@ -39,18 +50,11 @@ public class ModulePackageTrust extends BaseHook {
     public void init() {
         systemPackages.add(ProjectApi.mAppModulePkg);
 
-        chainAllMethods("com.android.server.pm.permission.PermissionManagerServiceImpl",
-            "shouldGrantPermissionBySignature",
-            new XposedInterface.Hooker() {
-                @Override
-                public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                    String packageName = (String) callMethod(chain.getArg(0), "getPackageName");
-                    if (systemPackages.contains(packageName)) {
-                        return true;
-                    }
-                    return chain.proceed();
-                }
-            });
+        if (findClassIfExists(APP_ID_PERMISSION_POLICY) != null) {
+            hookGrantBySignature(APP_ID_PERMISSION_POLICY, 1);
+        } else {
+            hookGrantBySignature(PERMISSION_SERVICE_IMPL, 0);
+        }
 
         chainAllMethods("com.android.server.pm.PackageManagerServiceUtils",
             "verifySignatures",
@@ -122,5 +126,20 @@ public class ModulePackageTrust extends BaseHook {
         } catch (Throwable t) {
             XposedLog.w(TAG, getPackageName(), t);
         }
+    }
+
+    private void hookGrantBySignature(String className, int packageArgIndex) {
+        chainAllMethods(className, "shouldGrantPermissionBySignature",
+            new XposedInterface.Hooker() {
+                @Override
+                public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    String packageName =
+                        (String) callMethod(chain.getArg(packageArgIndex), "getPackageName");
+                    if (systemPackages.contains(packageName)) {
+                        return true;
+                    }
+                    return chain.proceed();
+                }
+            });
     }
 }
