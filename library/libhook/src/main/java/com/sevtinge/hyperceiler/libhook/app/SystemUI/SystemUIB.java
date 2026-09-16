@@ -82,6 +82,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.HideStatusBarBeforeScreenshot;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.clock.StatusBarClockNew;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.battery.BatteryDetailIndicator;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.IconsFromSystemManager;
@@ -93,6 +94,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.WifiNe
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.b.HideBatteryIconB;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.v.WifiStandard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island.HideStrongToast;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.island.UnlockFocus;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.DualRowSignalHookV;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.MobilePublicHookV;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.mobile.MobileTypeSingle2Hook;
@@ -148,6 +150,7 @@ public class SystemUIB extends BaseLoad {
         initHook(HideBatteryIconB.INSTANCE, isHideBatteryIcon);
         initHook(BatteryStyle.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_battery_style_enable_custom") ||
             PrefsBridge.getBoolean("system_ui_status_bar_battery_style_change_location"));
+        initHook(BatteryDetailIndicator.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_battery_detail_enable"));
 
         // 网速指示器
         if (PrefsBridge.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {
@@ -165,6 +168,11 @@ public class SystemUIB extends BaseLoad {
             initHook(FocusNotifLyric.INSTANCE);
             initHook(HideFakeStatusBar.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_music_hide_clock") && !isPad());
         }*/
+
+        if (PrefsBridge.getBoolean("system_ui_unlock_all_focus")) {
+            initHook(new UnlockFocus());
+        }
+
 
         // 灵动舞台
         initHook(HideStrongToast.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_hide_smart_strong_toast"));

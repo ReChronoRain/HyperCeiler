@@ -19,8 +19,8 @@
 package com.sevtinge.hyperceiler.libhook.rules.various
 
 import com.hchen.superlyricapi.SuperLyricData
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.MusicBaseHook
-import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -50,7 +50,7 @@ object MusicHooks : MusicBaseHook() {
     }
 
     override fun onSuperLyric(packageName: String?, data: SuperLyricData) {
-        if (packageName == context.packageName) {
+        if (packageName == context.packageName && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app")) {
             if (data.lyric!!.text.isNotEmpty()) {
                 CoroutineScope(Dispatchers.Main).launch {
                     sendNotification(data.lyric!!.text, data)
@@ -60,7 +60,9 @@ object MusicHooks : MusicBaseHook() {
     }
 
     override fun onStop() {
-        cancelNotification()
+        if (packageName == context.packageName && PrefsBridge.getBoolean("system_ui_statusbar_music_show_app")) {
+            cancelNotification()
+        }
     }
 
 }

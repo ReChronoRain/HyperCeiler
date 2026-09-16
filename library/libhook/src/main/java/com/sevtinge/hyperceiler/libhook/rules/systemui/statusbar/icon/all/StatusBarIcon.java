@@ -18,8 +18,8 @@
  */
 package com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all;
 
-import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
 import java.util.List;
 
@@ -64,8 +64,9 @@ public class StatusBarIcon extends BaseHook {
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_tv", 0), "tv", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wireless_headset", 0), "wireless_headset", statusBarList, ctrlCenterList);
 
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "RIGHT_BLOCK_LIST", statusBarList);
-        com.sevtinge.hyperceiler.libhook.base.BaseHook.setStaticObjectField(mMiuiIconManagerUtils, "CONTROL_CENTER_BLOCK_LIST", ctrlCenterList);
+        // setIcon 已直接修改 ArrayList 引用内容（remove/add），
+        // OS4 上 RIGHT_BLOCK_LIST/CONTROL_CENTER_BLOCK_LIST 为 public static final，
+        // 反射写回会抛 IllegalAccessException，且写回同一引用本就多余。
     }
 
     private void setIcon(int value, String name, List<String> statusBarList, List<String> controlList){

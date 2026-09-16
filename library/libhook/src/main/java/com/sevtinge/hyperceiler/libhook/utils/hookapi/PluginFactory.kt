@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi
 
 import android.content.ComponentName
 import android.content.Context
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isHyperOSVersion
 import java.lang.ref.WeakReference
 
 // https://github.com/buffcow/Hyper5GSwitch/blob/master/app/src/main/kotlin/cn/buffcow/hyper5g/hooker/PluginLoader.kt
@@ -31,7 +32,12 @@ internal class PluginFactory(obj: Any) {
     }
 
     lateinit var pluginCtxRef: WeakReference<Context>
-    val mComponentName: Any? = com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj , "mComponentName")
+    val mComponentName: Any? =
+        if (isHyperOSVersion(4f)) {
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "componentName")
+        } else {
+            com.sevtinge.hyperceiler.libhook.base.BaseHook.getObjectField(obj, "mComponentName")
+        }
 
     fun componentNames(type: Int, str: String): ComponentName {
         return when (type) {

@@ -27,10 +27,10 @@ import android.widget.SeekBar;
 
 import androidx.preference.Preference;
 
-import com.sevtinge.hyperceiler.prefs.RecommendPreference;
+import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
-import com.sevtinge.hyperceiler.common.log.AndroidLog;
+import com.sevtinge.hyperceiler.prefs.RecommendPreference;
 import com.sevtinge.hyperceiler.sub.SubPickerActivity;
 
 import fan.preference.SeekBarPreferenceCompat;
@@ -38,6 +38,7 @@ import fan.preference.SeekBarPreferenceCompat;
 public class ControlCenterSettings extends DashboardFragment {
 
     Preference mExpandNotification;
+    Preference mFocusNotificationList;
     RecommendPreference mRecommend;
 
     @Override
@@ -57,6 +58,18 @@ public class ControlCenterSettings extends DashboardFragment {
                     startActivity(intent);
                     return true;
                 }
+        );
+
+        mFocusNotificationList = findPreference("prefs_key_system_ui_focus_notification_list");
+
+        mFocusNotificationList.setOnPreferenceClickListener(
+            preference -> {
+                Intent intent = new Intent(getActivity(), SubPickerActivity.class);
+                intent.putExtra("mode", ALL_APPS_MODE);
+                intent.putExtra("key", preference.getKey());
+                startActivity(intent);
+                return true;
+            }
         );
 
         ((SeekBarPreferenceCompat) findPreference("prefs_key_system_control_center_old_qs_grid_columns")).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {

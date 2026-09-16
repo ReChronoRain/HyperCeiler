@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ This file is part of HyperCeiler.
+  ~
+  ~ HyperCeiler is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU Affero General Public License as
+  ~ published by the Free Software Foundation, either version 3 of the
+  ~ License.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU Affero General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Affero General Public License
+  ~ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+  ~
+  ~ Copyright (C) 2023-2026 HyperCeiler Contributions
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/system_ui_statusbar_battery_detail_title"
+    app:quick_restart="com.android.systemui">
+
+    <PreferenceCategory>
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_enable"
+            android:title="@string/system_ui_statusbar_battery_detail_enable" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:dependency="prefs_key_system_ui_statusbar_battery_detail_enable"
+        android:title="@string/settings">
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_content"
+            android:title="@string/system_ui_statusbar_battery_detail_content_title"
+            app:entries="@array/system_ui_statusbar_battery_detail_content_entries"
+            app:entryValues="@array/system_ui_statusbar_battery_detail_content_values" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="0"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_hide_unit"
+            android:title="@string/system_ui_statusbar_battery_detail_hide_unit_title"
+            app:entries="@array/system_ui_statusbar_battery_detail_hide_unit_entries"
+            app:entryValues="@array/system_ui_statusbar_battery_detail_hide_unit_values" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_at_right"
+            android:title="@string/system_ui_statusbar_battery_detail_at_right_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_temp_decimal"
+            android:title="@string/system_ui_statusbar_battery_detail_temp_decimal_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_positive"
+            android:title="@string/system_ui_statusbar_battery_detail_positive_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_fix_current_ratio"
+            android:title="@string/system_ui_statusbar_battery_detail_fix_current_ratio_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_single_row"
+            android:title="@string/system_ui_statusbar_battery_detail_single_row_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_reverse_order"
+            android:title="@string/system_ui_statusbar_battery_detail_reverse_order_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_in_charge"
+            android:title="@string/system_ui_statusbar_battery_detail_in_charge_title" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_update_spacing"
+            android:title="@string/system_ui_statusbar_battery_detail_update_spacing_title"
+            app:defaultValue="2"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s s"
+            app:maxValue="10"
+            app:minValue="1"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_font_size"
+            android:title="@string/system_ui_statusbar_battery_detail_font_size_title"
+            app:defaultValue="16"
+            app:defaultValueTitle="@string/array_default"
+            app:dividerValue="2"
+            app:format="%.1f dp"
+            app:maxValue="40"
+            app:minValue="14"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_bold"
+            android:title="@string/system_ui_statusbar_battery_detail_bold_title" />
+
+        <fan.preference.DropDownPreference
+            android:defaultValue="1"
+            android:key="prefs_key_system_ui_statusbar_battery_detail_align"
+            android:title="@string/system_ui_statusbar_battery_detail_align_title"
+            app:entries="@array/system_ui_status_bar_horizontal_align"
+            app:entryValues="@array/system_ui_status_bar_horizontal_align_value" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_fixed_width"
+            android:title="@string/system_ui_statusbar_battery_detail_fixed_width_title"
+            app:defaultValue="10"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%.1f dp"
+            app:maxValue="120"
+            app:minValue="10"
+            app:stepValue="2" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_left_margin"
+            android:title="@string/system_ui_statusbar_battery_detail_left_margin_title"
+            app:defaultValue="8"
+            app:defaultValueTitle="@string/array_default"
+            app:dividerValue="2"
+            app:format="%.1f dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_right_margin"
+            android:title="@string/system_ui_statusbar_battery_detail_right_margin_title"
+            app:defaultValue="8"
+            app:defaultValueTitle="@string/array_default"
+            app:dividerValue="2"
+            app:format="%.1f dp"
+            app:maxValue="10"
+            app:minValue="0"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:key="prefs_key_system_ui_statusbar_battery_detail_vertical_offset"
+            android:title="@string/system_ui_statusbar_battery_detail_vertical_offset_title"
+            app:defaultValue="8"
+            app:defaultValueTitle="@string/array_default"
+            app:dividerValue="2"
+            app:format="%.1f dp"
+            app:maxValue="20"
+            app:minValue="0"
+            app:negativeShift="8"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

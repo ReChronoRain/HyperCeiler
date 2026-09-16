@@ -35,6 +35,20 @@ public class NetworkSpeedSpacing extends BaseHook {
     @Override
     public void init() {
         if (tryHookPostUpdateMethod()) return;
+
+        try {
+            Class<?> nscClass = findClass("com.android.systemui.statusbar.policy.NetworkSpeedController");
+            if (nscClass != null) {
+                for (Class<?> innerClass : nscClass.getDeclaredClasses()) {
+                    if (android.os.Handler.class.isAssignableFrom(innerClass) && tryHookHandlerClass(innerClass.getName())) {
+                        return;
+                    }
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+
+        if (tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$5")) return;
         if (tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$4")) return;
         tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$2");
     }

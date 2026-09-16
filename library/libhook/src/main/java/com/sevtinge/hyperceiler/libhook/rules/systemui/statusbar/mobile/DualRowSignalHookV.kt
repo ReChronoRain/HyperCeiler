@@ -43,15 +43,15 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.mobileSignalController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MobileClass.networkController
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getModuleRes
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
-import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.findViewByIdName
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.getIdByName
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
+import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createInterceptHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getBooleanField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 
 class DualRowSignalHookV : MobileSignalHook() {
@@ -115,6 +115,15 @@ class DualRowSignalHookV : MobileSignalHook() {
             syncDualSignalVisibility(rootView, false)
             return
         }
+
+        // 双排模式下只保留 slot0 的视图，slot1+ 整组隐藏，
+        // 避免 MobilePublicHookV 的 isVisible 替换失效时出现两组双排图标
+        val slotIndex = runCatching { SubscriptionManager.getSlotIndex(subId) }.getOrDefault(-1)
+        if (slotIndex > 0) {
+            rootView.visibility = View.GONE
+            return
+        }
+
         ensureDualSignalResLoaded(rootView.context)
 
         mobileGroup.setPadding(
