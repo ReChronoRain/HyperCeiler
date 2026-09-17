@@ -28,13 +28,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.RequiresPermission
 import com.sevtinge.hyperceiler.common.log.XposedLog
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.base.BaseLoad
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.getStateFlowValue
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.setStateFlowValue
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getIntField
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.concurrent.ConcurrentHashMap
 import java.util.function.Consumer
 
@@ -184,10 +186,11 @@ object MobileViewHelper {
 
     fun collectFlow(view: View, flow: Any, consumer: Consumer<Any>) {
         try {
-            val javaAdapterKt = loadClass("com.android.systemui.util.kotlin.JavaAdapterKt")
-            com.sevtinge.hyperceiler.libhook.base.BaseHook.callStaticMethod(
-                javaAdapterKt, "collectFlow", view, flow, consumer
+            val javaAdapterKt = loadClass(
+                "com.android.systemui.util.kotlin.JavaAdapterKt",
+                BaseLoad.getClassLoader()
             )
+            BaseHook.callStaticMethod(javaAdapterKt, "collectFlow", view, flow, consumer)
         } catch (e: Throwable) {
             XposedLog.e(TAG, "com.android.systemui", "collectFlow error", e)
         }
