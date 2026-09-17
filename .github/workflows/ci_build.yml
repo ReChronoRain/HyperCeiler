@@ -28,6 +28,9 @@ on:
 
 jobs:
   build_app:
+    permissions:
+      contents: read
+      packages: read
     if: |
       (
         startsWith(github.event.head_commit.message, 'app: update version ')
@@ -41,11 +44,22 @@ jobs:
     runs-on: macos-latest
     name: Build App
     steps:
+      - name: Checkout trusted base for dependency warmup
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          fetch-depth: 0
+          submodules: true
+          persist-credentials: false
+
       - name: Checkout Git Repository
+        if: github.event_name != 'pull_request'
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
           submodules: true
+          persist-credentials: false
 
       - name: Setup JDK
         uses: actions/setup-java@v5
@@ -57,6 +71,23 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           cache-overwrite-existing: true
+
+      - name: Warm dependency cache from trusted base
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          GIT_ACTOR: ${{ github.actor }}
+          GIT_TOKEN: ${{ github.token }}
+        run: ./gradlew assembleDebug
+
+      - name: Checkout pull request merge commit
+        if: github.event_name == 'pull_request'
+        uses: actions/checkout@v6
+        with:
+          ref: refs/pull/${{ github.event.pull_request.number }}/merge
+          fetch-depth: 0
+          submodules: true
+          persist-credentials: false
 
       - name: Create Sign File
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
@@ -81,7 +112,7 @@ jobs:
         if: github.event_name == 'pull_request'
         shell: bash
         run: |
-          ./gradlew assembleDebug
+          ./gradlew --offline assembleDebug
           echo "IS_DEBUG=true" >> $GITHUB_ENV
 
       - name: Find APKs
@@ -326,6 +357,7 @@ jobs:
   push_to_debug_group:
     if: |
       github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
       (
         startsWith(github.event.head_commit.message, 'app: update version ')
         ||

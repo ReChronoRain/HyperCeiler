@@ -52,6 +52,9 @@ import java.io.File
  * 缓存未命中时：通过 [RecyclableBridge.withBridge] 获取原生桥，执行用户查询，
  * 再把结果序列化后写回缓存。
  *
+ * 如果缓存 descriptor 已损坏或无法在当前 ClassLoader 中解析，会只淘汰对应 key，
+ * 并在同一次会话中回退到 DexKit 查询，而不是让整个 hook 初始化失败。
+ *
  * 线程安全约束：所有公开方法都可以跨线程调用。
  * DexKit 2.2.0 已支持同桥并发访问，框架层会在 Hook 初始化阶段自动并行调度。
  * 生命周期方法（[init] / [releaseBridge] / [clearAllCache]）使用内部锁保护状态。
@@ -135,10 +138,12 @@ internal object DexKitCacheManager {
         val currentTarget = target ?: throw IllegalStateException("DexKit not ready")
         val classLoader = currentTarget.classLoader
 
-        // 缓存 key 不带前缀，由 strings / lists 分组隐式区分
-        // 先尝试命中内存缓存，命中时不创建原生桥
+        // 缓存 key 不带前缀，由 strings / lists 分组隐式区分。
+        // 如果 descriptor 已失效，只淘汰当前 key 并继续走 miss 路径。
         cache?.getString(key, null)?.let { cached ->
-            return deserializeAndResolve(cached, classLoader) as T
+            resolveCachedEntry(key) {
+                deserializeAndResolve(cached, classLoader) as T
+            }?.let { return it }
         }
 
         // 缓存未命中，获取原生桥执行查询
@@ -164,10 +169,11 @@ internal object DexKitCacheManager {
         val currentTarget = target ?: throw IllegalStateException("DexKit not ready")
         val classLoader = currentTarget.classLoader
 
-        // 缓存 key 不带前缀，由 strings / lists 分组隐式区分
-        // 先尝试命中缓存
+        // 列表中任一 descriptor 无法解析时，整组淘汰并重新查询，避免返回部分旧结果。
         cache?.getStringList(key, null)?.let { cachedList ->
-            return cachedList.map { deserializeAndResolve(it, classLoader) as T }
+            resolveCachedEntry(key) {
+                cachedList.map { deserializeAndResolve(it, classLoader) as T }
+            }?.let { return it }
         }
 
         // 缓存未命中，获取原生桥执行查询
@@ -265,9 +271,19 @@ internal object DexKitCacheManager {
         if (!cacheDir.exists()) cacheDir.mkdirs()
         val cacheFile = File(cacheDir, DEXKIT_CACHE_FILE)
 
-        val pkgVersionName = AppsTool.getPackageVersionName(target)
-        val pkgVersionCode = AppsTool.getPackageVersionCode(target)
-        val hasPkgVersion = pkgVersionName.isNotEmpty() && pkgVersionCode != -1
+        // Resolve PackageInfo once. The previous path performed two separate PackageManager lookups
+        // and narrowed longVersionCode to Int, which could disable version-based invalidation for
+        // packages whose version code exceeds Int.MAX_VALUE.
+        val packageInfo = runCatching {
+            AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID)
+                ?.packageManager
+                ?.getPackageInfo(target.packageName, 0)
+        }.onFailure {
+            XposedLog.w(tag, "Failed to resolve package version for ${target.packageName}", it)
+        }.getOrNull()
+        val pkgVersionName = packageInfo?.versionName.orEmpty()
+        val pkgVersionCode = packageInfo?.longVersionCode ?: -1L
+        val hasPkgVersion = pkgVersionName.isNotEmpty() && pkgVersionCode != -1L
         val pkgVersion = if (hasPkgVersion) "$pkgVersionName($pkgVersionCode)" else null
 
         val isSystemUI = "com.android.systemui" == target.packageName
@@ -287,6 +303,21 @@ internal object DexKitCacheManager {
             DexKitCacheBridge.create(appTag, classLoader)
         } else {
             DexKitCacheBridge.create(appTag, appInfo.sourceDir)
+        }
+    }
+
+    /**
+     * 尝试解析缓存项；若 descriptor 已损坏/过期则仅删除该 key，让调用方走正常 DexKit miss 路径。
+     * VM 级致命错误不吞掉。
+     */
+    private inline fun <T> resolveCachedEntry(key: String, resolver: () -> T): T? {
+        return try {
+            resolver()
+        } catch (t: Throwable) {
+            if (t is VirtualMachineError || t is ThreadDeath) throw t
+            XposedLog.w(tag, "DexKitCacheManager: stale cache entry '$key', resolving again", t)
+            cache?.remove(key)
+            null
         }
     }
 
@@ -339,5 +370,4 @@ internal object DexKitCacheManager {
         }
         file.delete()
     }
-
 }

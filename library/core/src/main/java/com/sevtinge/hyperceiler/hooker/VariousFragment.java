@@ -143,7 +143,7 @@ public class VariousFragment extends DashboardFragment {
     }
 
     private void restartClipboardInputMethods() {
-        ThreadPoolManager.getInstance().submit(() ->
+        ThreadPoolManager.submit(() ->
             AppsTool.killApps(
                 "com.sohu.inputmethod.sogou.xiaomi",
                 "com.sohu.inputmethod.sogou",

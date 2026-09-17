@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.utils.api;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.os.SystemClock;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.Nullable;
@@ -43,6 +44,8 @@ public class ContextUtils {
     }
 
     private static final String TAG = "HyperCeiler";
+    private static final long WAIT_CONTEXT_TIMEOUT_MS = 10_000L;
+    private static final long WAIT_CONTEXT_RETRY_INTERVAL_MS = 50L;
     // 尝试全部
     public static final int FLAG_ALL = 0;
     // 仅获取当前应用
@@ -90,23 +93,23 @@ public class ContextUtils {
      * @author 焕晨HChen
      */
     public static void getWaitContext(IContext iContext, boolean isSystem) {
-        ThreadPoolManager.getInstance().submit(() -> {
-            Context context = getContextNoError(isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP);
+        ThreadPoolManager.submit(() -> {
+            int flag = isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP;
+            Context context = getContextNoError(flag);
             if (context == null) {
-                long time = System.currentTimeMillis();
-                long timeout = 10000; // 10秒
-                while (true) {
-                    long nowTime = System.currentTimeMillis();
-                    context = getContextNoError(isSystem ? FlAG_ONLY_ANDROID : FLAG_CURRENT_APP);
-                    // AndroidLog.i(TAG, "getWaitContext: " + context);
-                    if (context != null || nowTime - time > timeout) {
+                long deadline = SystemClock.uptimeMillis() + WAIT_CONTEXT_TIMEOUT_MS;
+                while (context == null && SystemClock.uptimeMillis() < deadline) {
+                    try {
+                        Thread.sleep(WAIT_CONTEXT_RETRY_INTERVAL_MS);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
                         break;
                     }
+                    context = getContextNoError(flag);
                 }
             }
             iContext.hadContext(context);
         });
-        ThreadPoolManager.shutdown();
     }
 
     public interface IContext {
@@ -149,7 +152,7 @@ public class ContextUtils {
         if (context == null) {
             Method getSystemUiContext = clz.getDeclaredMethod("getSystemUiContext");
             getSystemUiContext.setAccessible(true);
-            context = (Context) getSystemContext.invoke(o);
+            context = (Context) getSystemUiContext.invoke(o);
         }
         return context;
     }

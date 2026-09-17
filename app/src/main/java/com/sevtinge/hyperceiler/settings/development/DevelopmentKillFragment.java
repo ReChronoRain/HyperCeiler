@@ -40,7 +40,6 @@ import com.sevtinge.hyperceiler.utils.PackagesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
 
 import fan.appcompat.app.AlertDialog;
 
@@ -70,11 +69,10 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         mCheck = findPreference("prefs_key_development_kill_find_process");
         mKillPackage = findPreference("prefs_key_development_kill_package");
         mName = findPreference("prefs_key_development_kill_app_name");
-        ExecutorService executorService = ThreadPoolManager.getInstance();
         handler = new Handler(requireContext().getMainLooper());
         if (ensureInstalledAppsPermission()) {
             ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_data));
-            initApp(executorService);
+            initApp();
         }
         mCheck.setOnPreferenceClickListener(this);
         mName.setOnPreferenceClickListener(this);
@@ -192,19 +190,13 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         return AppsTool.killApps(kill);
     }
 
-    private void initApp(ExecutorService executorService) {
-        executorService.submit(new Runnable() {
-            @Override
-            public void run() {
-                appData = PackagesUtils.getInstalledPackagesByFlag(0);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        init = true;
-                        ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_done));
-                    }
-                });
-            }
+    private void initApp() {
+        ThreadPoolManager.submit(() -> {
+            appData = PackagesUtils.getInstalledPackagesByFlag(0);
+            handler.post(() -> {
+                init = true;
+                ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_done));
+            });
         });
     }
 
@@ -259,7 +251,7 @@ public class DevelopmentKillFragment extends SettingsPreferenceFragment implemen
         if (PermissionUtils.canReadInstalledApps(requireContext())
             || PermissionUtils.isInstalledAppsPermissionGranted(permissions, grantResults)) {
             ToastHelper.makeText(ContextUtils.getContext(ContextUtils.FLAG_CURRENT_APP), getString(R.string.development_kill_loading_data));
-            initApp(ThreadPoolManager.getInstance());
+            initApp();
             return;
         }
 

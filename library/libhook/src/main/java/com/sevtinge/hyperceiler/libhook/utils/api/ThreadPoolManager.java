@@ -19,8 +19,9 @@
 package com.sevtinge.hyperceiler.libhook.utils.api;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -28,24 +29,37 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadPoolManager {
     private static final int NUM_THREADS = 5;
-    private static volatile ExecutorService executor;
+    private static final long KEEP_ALIVE_SECONDS = 30L;
+    private static ExecutorService executor;
 
-    public static ExecutorService getInstance() {
+    /** Creates the shared worker pool and allows idle core threads to retire. */
+    private static ExecutorService createExecutor() {
+        ThreadPoolExecutor pool = new ThreadPoolExecutor(
+            NUM_THREADS,
+            NUM_THREADS,
+            KEEP_ALIVE_SECONDS,
+            TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>()
+        );
+        pool.allowCoreThreadTimeOut(true);
+        return pool;
+    }
+
+    /** Returns the current worker pool, recreating it after a completed shutdown. */
+    public static synchronized ExecutorService getInstance() {
         if (executor == null || executor.isShutdown()) {
-            synchronized (ThreadPoolManager.class) {
-                if (executor == null || executor.isShutdown()) {
-                    executor = Executors.newFixedThreadPool(NUM_THREADS);
-                }
-            }
+            executor = createExecutor();
         }
         return executor;
     }
 
-    public static void execute(Runnable task) {
+    /** Submits a fire-and-forget task without racing a concurrent hot-reload shutdown. */
+    public static synchronized void execute(Runnable task) {
         getInstance().execute(task);
     }
 
-    public static Future<?> submit(Runnable task) {
+    /** Submits a task without racing a concurrent hot-reload shutdown. */
+    public static synchronized Future<?> submit(Runnable task) {
         return getInstance().submit(task);
     }
 
