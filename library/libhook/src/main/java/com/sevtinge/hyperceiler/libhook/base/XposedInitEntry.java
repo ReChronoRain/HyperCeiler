@@ -33,7 +33,6 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -134,11 +133,6 @@ public class XposedInitEntry extends XposedModule {
         String initializationBlockReason = BaseLoad.getHotReloadBlockReason();
         if (initializationBlockReason != null) {
             XposedLog.w(TAG, processName, "Hot reload rejected: " + initializationBlockReason);
-            return false;
-        }
-        if (ResourcesTool.requiresProcessRestartForHotReload()) {
-            XposedLog.w(TAG, processName,
-                "Hot reload rejected: active resource replacements require a full process restart.");
             return false;
         }
 
