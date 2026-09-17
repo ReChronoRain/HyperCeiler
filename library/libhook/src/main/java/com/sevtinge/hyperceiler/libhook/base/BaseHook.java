@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -981,6 +982,9 @@ public abstract class BaseHook {
     public static Set<XposedInterface.HookHandle> chainAllMethods(Class<?> clazz, String methodName, XposedInterface.Hooker hooker) {
         Set<XposedInterface.HookHandle> handles = new LinkedHashSet<>();
         for (Method method : Methods.find(clazz).filterByName(methodName).toList()) {
+            // 抽象方法没有方法体，libxposed 102 会直接拒绝 hook（IllegalArgumentException）；
+            // 具体实现由子类候选单独挂接，这里跳过即可。
+            if (Modifier.isAbstract(method.getModifiers())) continue;
             handles.add(Hooks.intercept(method, hooker));
         }
         return handles;
