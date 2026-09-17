@@ -161,6 +161,9 @@ object BatteryDetailIndicator : BaseHook() {
     private val textIconTagId = getFakeResId("battery_text_icon_tag")
     private val mStatusbarTextIcons = CopyOnWriteArrayList<View>()
 
+    private val lastVisibleStates = java.util.Collections.synchronizedMap(java.util.WeakHashMap<View, Int>())
+    private val lastShowStates = java.util.Collections.synchronizedMap(java.util.WeakHashMap<View, Boolean>())
+
     private var workerThread: HandlerThread? = null
     private var workerHandler: Handler? = null
     private var mainHandler: Handler? = null
@@ -219,18 +222,27 @@ object BatteryDetailIndicator : BaseHook() {
                 if (nsView != null && ViewHelper.isCustomTextIcon(nsView)) {
                     val state = param.args.getOrNull(0) as? Int ?: 0
                     val visible = state != 2
+                    val v = if (visible) View.VISIBLE else View.GONE
+                    if (lastVisibleStates[nsView] == state && nsView.visibility == v) {
+                        return@createBeforeHooks
+                    }
+                    lastVisibleStates[nsView] = state
 
                     val number = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT)
                         ?: (nsView as? TextView)
                     val unit = nsView.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_UNIT_TEXT)
 
-                    val v = if (visible) View.VISIBLE else View.GONE
                     number?.visibility = v
                     unit?.visibility = v
                     nsView.visibility = v
-
                     nsView.invalidate()
-                    nsView.requestLayout()
+
+                    runCatching {
+                        number?.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+                        number?.invalidate()
+                        number?.setLayerType(View.LAYER_TYPE_NONE, null)
+                        number?.invalidate()
+                    }
                 }
             }
         }.onFailure {
@@ -298,17 +310,23 @@ object BatteryDetailIndicator : BaseHook() {
 
     private fun updateStatusbarViews(tii: TextIconInfo) {
         for (tv in mStatusbarTextIcons) {
-            runCatching { tv.callMethod(METHOD_SET_VISIBILITY_BY_CONTROLLER, tii.iconShow) }
-                .onFailure { tv.visibility = if (tii.iconShow) View.VISIBLE else View.GONE }
-            if (tii.iconShow) {
+            if (lastShowStates[tv] != tii.iconShow) {
+                lastShowStates[tv] = tii.iconShow
+                runCatching { tv.callMethod(METHOD_SET_VISIBILITY_BY_CONTROLLER, tii.iconShow) }
+                    .onFailure { tv.visibility = if (tii.iconShow) View.VISIBLE else View.GONE }
+            }
+            if (!tii.iconShow) {
+                continue
+            }
+            val number = tv.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT)
+                ?: (tv as? TextView)
+            if (number?.text?.toString() != tii.iconText) {
                 runCatching { tv.callMethod(METHOD_SET_NETWORK_SPEED, tii.iconText, "") }
                     .onFailure {
-                        val number = tv.getObjectFieldOrNullAs<TextView>(FIELD_NETWORK_SPEED_NUMBER_TEXT)
-                            ?: (tv as? TextView)
                         number?.text = tii.iconText
                     }
-                syncColorWithClock(tv)
             }
+            syncColorWithClock(tv)
         }
     }
 
