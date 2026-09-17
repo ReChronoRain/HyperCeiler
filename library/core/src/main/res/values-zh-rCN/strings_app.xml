@@ -1472,6 +1472,12 @@
     <string name="security_center_reduce_bright_colors_tile">极暗磁贴图标替换</string>
     <string name="security_center_flash_light">手电筒亮度控制</string>
     <string name="security_center_flash_light_more">开启手电筒时劫持亮度条，拖动亮度条即可控制手电筒亮度</string>
+    <string name="security_center_disable_ads">停用手机管家广告</string>
+    <string name="security_center_disable_ads_desc">跳过广告卡片和国际版广告 SDK 加载</string>
+    <string name="security_center_disable_telemetry">停用手机管家使用统计</string>
+    <string name="security_center_disable_telemetry_desc">跳过使用事件采集与统计上报</string>
+    <string name="security_center_skip_home_scan">跳过首页自动体检</string>
+    <string name="security_center_skip_home_scan_desc">保持 100 分，打开首页时不启动体检；需开启禁用体验优化</string>
     <string name="security_center_simplify_home">精简手机管家首页</string>
     <string name="security_center_simplify_home_desc">移除以下卡片:\n - 功能推荐\n - 大家都在用</string>
     <string name="security_center_applock_pin_scramble">应用锁乱序 PIN</string>
@@ -1800,4 +1806,10 @@
     <string name="custom_hook_mode">选择模式</string>
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
+    <string name="system_settings_hide_system_apps_updater">隐藏系统升级器</string>
+    <string name="system_settings_hide_camera_mr">隐藏大师变焦环</string>
+    <string name="system_settings_hide_home_entry_desc">仅隐藏系统设置首页入口，保留功能本身。重启设置应用后生效。</string>
+    <string name="system_ui_status_bar_hide_garmin_icon">隐藏 Garmin 通知图标</string>
+    <string name="system_ui_status_bar_hide_lsposed_icon">隐藏 LSPosed 状态图标</string>
+    <string name="system_ui_status_bar_hide_persistent_icon_desc">适用于 Android 17 状态栏，保留通知和后台服务。重启系统界面后生效。</string>
 </resources>

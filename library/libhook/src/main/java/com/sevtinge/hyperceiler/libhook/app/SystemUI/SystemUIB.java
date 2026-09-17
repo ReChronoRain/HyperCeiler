@@ -87,6 +87,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.Batter
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.HideVoWiFiIcon;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.IconsFromSystemManager;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.NotificationIconColumns;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.HidePersistentNotificationIcons;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.SelectiveHideIconForAlarmClock;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.StatusBarIcon;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.SwapWiFiAndMobileNetwork;
@@ -139,6 +140,8 @@ public class SystemUIB extends BaseLoad {
         initHook(HideVoWiFiIcon.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_icon_vowifi") || PrefsBridge.getBoolean("system_ui_status_bar_icon_volte"));
         initHook(new SelectiveHideIconForAlarmClock(), PrefsBridge.getStringAsInt("system_ui_status_bar_icon_alarm_clock", 0) == 3 && PrefsBridge.getInt("system_ui_status_bar_icon_alarm_clock_n", 0) > 0);
         initHook(new NotificationIconColumns(), PrefsBridge.getBoolean("system_ui_status_bar_notification_icon_maximum_enable"));
+        initHook(new HidePersistentNotificationIcons(), PrefsBridge.getBoolean("system_ui_status_bar_hide_garmin_icon")
+            || PrefsBridge.getBoolean("system_ui_status_bar_hide_lsposed_icon"));
         initHook(NotificationImportanceHyperOSFix.INSTANCE, PrefsBridge.getBoolean("system_settings_more_notification_settings"));
         initHook(new MoreNotificationSettings(), PrefsBridge.getBoolean("system_settings_more_notification_settings"));
 

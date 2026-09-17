@@ -40,6 +40,9 @@ jobs:
       )
     runs-on: macos-latest
     name: Build App
+    permissions:
+      contents: read
+      packages: read
     steps:
       - name: Checkout Git Repository
         uses: actions/checkout@v6
@@ -80,6 +83,9 @@ jobs:
       - name: Build with Gradle (Debug)
         if: github.event_name == 'pull_request'
         shell: bash
+        env:
+          GIT_ACTOR: ${{ github.actor }}
+          GIT_TOKEN: ${{ github.token }}
         run: |
           ./gradlew assembleDebug
           echo "IS_DEBUG=true" >> $GITHUB_ENV
@@ -326,6 +332,7 @@ jobs:
   push_to_debug_group:
     if: |
       github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
       (
         startsWith(github.event.head_commit.message, 'app: update version ')
         ||

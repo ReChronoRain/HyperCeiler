@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.libhook.rules.home.layout;
 
 import static com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.AppsTool.getPackageVersionCode;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
 import android.content.Context;
 
@@ -37,6 +38,12 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     @Override
     public void initBase() {
+        if (!isPad() && getPackageVersionCode(getLpparam()) >= 600000000) {
+            // LayoutRules owns outer padding on the new phone grid. CellScreen adds
+            // these legacy cell insets again, so using both doubles the first-row gap.
+            XposedLog.i(TAG, getPackageName(), "Workspace padding handled by LayoutRules");
+            return;
+        }
         mDeviceConfig = findClassIfExists(getPackageVersionCode(getLpparam()) < 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
 
         findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new IMethodHook() {

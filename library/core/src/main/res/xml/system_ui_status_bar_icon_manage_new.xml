@@ -160,6 +160,18 @@
     <PreferenceCategory android:title="@string/system_ui_statusbar_iconmanage_notify_title">
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_garmin_icon"
+            android:title="@string/system_ui_status_bar_hide_garmin_icon"
+            android:summary="@string/system_ui_status_bar_hide_persistent_icon_desc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_system_ui_status_bar_hide_lsposed_icon"
+            android:title="@string/system_ui_status_bar_hide_lsposed_icon"
+            android:summary="@string/system_ui_status_bar_hide_persistent_icon_desc" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_system_ui_status_bar_notification_icon_maximum_enable"
             android:title="@string/system_ui_status_bar_notification_icon_maximum" />
 

@@ -24,6 +24,8 @@ import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.various.dialog.DialogCustom;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.CollapseMiuiTitle;
 import com.sevtinge.hyperceiler.libhook.rules.various.system.MiuiAppNoOverScroll;
+import com.sevtinge.hyperceiler.libhook.rules.various.system.DisableSystemAds;
+import com.sevtinge.hyperceiler.libhook.rules.various.system.DisableSystemTelemetry;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 import java.util.Arrays;
@@ -38,6 +40,10 @@ public class VariousSystemApps extends BaseLoad {
     @Override
     public void onPackageLoaded() {
         mPackageName = getPackageName();
+        initHook(new DisableSystemAds(), DisableSystemAds.supports(mPackageName)
+            && PrefsBridge.getBoolean("various_disable_system_ads"));
+        initHook(new DisableSystemTelemetry(), DisableSystemTelemetry.supports(mPackageName)
+            && PrefsBridge.getBoolean("various_disable_system_telemetry"));
         isMiuiApps = mPackageName.startsWith("com.miui") || mPackageName.startsWith("com.xiaomi") || miuiDialogCustomApps.contains(mPackageName);
         initHook(new DialogCustom(), isMiuiDialogCustom());
         initHook(new MiuiAppNoOverScroll(), isMiuiOverScrollApps());

@@ -64,6 +64,9 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.LockOneHundre
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.NoLowBatteryWarning;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.RemoveSIMLockSuccessDialog;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.SimplifyMainFragment;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.DisableSecurityAds;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.DisableSecurityTelemetry;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.SkipHomeScan;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.other.SkipCountDownLimit;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.AddSideBarExpandReceiver;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.sidebar.BlurSecurity;
@@ -115,6 +118,10 @@ public class SecurityCenter extends BaseLoad {
         initHook(new DisableRootedCheck(), PrefsBridge.getBoolean("security_center_disable_root_check_environment"));
         initHook(new DisableSafepayAutoScan(), PrefsBridge.getBoolean("security_center_disable_safepay_auto_check"));
         initHook(SimplifyMainFragment.INSTANCE, PrefsBridge.getBoolean("security_center_simplify_home"));
+        initHook(new DisableSecurityAds(), PrefsBridge.getBoolean("security_center_disable_ads"));
+        initHook(new DisableSecurityTelemetry(), PrefsBridge.getBoolean("security_center_disable_telemetry"));
+        initHook(new SkipHomeScan(), PrefsBridge.getBoolean("security_center_skip_home_scan")
+            && PrefsBridge.getBoolean("security_center_score"));
         initHook(new InstallIntercept(), PrefsBridge.getBoolean("security_center_install_intercept"));
         initHook(LockOneHundredPoints.INSTANCE, PrefsBridge.getBoolean("security_center_score"));
         initHook(new SkipCountDownLimit(), PrefsBridge.getBoolean("security_center_skip_count_down_limit"));

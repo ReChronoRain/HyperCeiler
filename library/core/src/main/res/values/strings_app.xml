@@ -1519,6 +1519,12 @@
     <string name="security_center_reduce_bright_colors_tile">Extra dim tile icon replacement</string>
     <string name="security_center_flash_light">Flashlight brightness control</string>
     <string name="security_center_flash_light_more">Allows you to control the flashlight brightness by dragging the brightness slider</string>
+    <string name="security_center_disable_ads">Disable Security ads</string>
+    <string name="security_center_disable_ads_desc">Skip ad cards and Global ad SDK loading</string>
+    <string name="security_center_disable_telemetry">Disable Security usage statistics</string>
+    <string name="security_center_disable_telemetry_desc">Skip usage event collection and reporting</string>
+    <string name="security_center_skip_home_scan">Skip automatic home scan</string>
+    <string name="security_center_skip_home_scan_desc">Keep the score at 100 without starting a home scan; requires Lock score at 100</string>
     <string name="security_center_simplify_home">Simplify the Security home screen</string>
     <string name="security_center_simplify_home_desc">Remove function recommendation card</string>
     <string name="security_center_applock_pin_scramble">App lock with scrambled PIN</string>
@@ -1840,4 +1846,10 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open source projects</string>
     <string name="close_source">Close source projects</string>
+    <string name="system_settings_hide_system_apps_updater">Hide System apps updater</string>
+    <string name="system_settings_hide_camera_mr">Hide Master zoom ring</string>
+    <string name="system_settings_hide_home_entry_desc">Hide only the entry on the Settings home page. The feature stays available. Restart Settings to apply.</string>
+    <string name="system_ui_status_bar_hide_garmin_icon">Hide Garmin notification icons</string>
+    <string name="system_ui_status_bar_hide_lsposed_icon">Hide LSPosed status icon</string>
+    <string name="system_ui_status_bar_hide_persistent_icon_desc">For the Android 17 status bar. Keep notifications and background services running. Restart System UI to apply.</string>
 </resources>

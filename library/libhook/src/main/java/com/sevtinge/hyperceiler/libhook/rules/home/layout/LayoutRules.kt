@@ -93,6 +93,9 @@ object LayoutRules : HomeBaseHookNew() {
             Context::class.java, Int::class.java, Int::class.java, Int::class.java, Boolean::class.java, Int::class.java
         ) { param ->
             val rules = param.thisObject
+            // calGridSize also runs during Application.onCreate, before appContext
+            // is available from the hook framework.
+            val context = param.args[0] as Context
 
             val maxGridWidth = rules.getIntField("mScreenWidth")
             val mCellWidth = rules.getIntField("mCellWidth")
@@ -106,6 +109,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingTop = if (isSetWSPaddingTopHook) {
                 DisplayUtils.dp2px(
+                    context,
                     PrefsBridge.getInt(
                         "home_layout_workspace_padding_top",
                         0
@@ -117,6 +121,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspacePaddingBottom = if (isSetWSPaddingBottomHook) {
                 DisplayUtils.dp2px(
+                    context,
                     PrefsBridge.getInt(
                         "home_layout_workspace_padding_bottom",
                         0
@@ -128,6 +133,7 @@ object LayoutRules : HomeBaseHookNew() {
 
             val sWorkspaceCellSide = if (isSetWSPaddingSideHook) {
                 DisplayUtils.dp2px(
+                    context,
                     PrefsBridge.getInt(
                         "home_layout_workspace_padding_horizontal",
                         0

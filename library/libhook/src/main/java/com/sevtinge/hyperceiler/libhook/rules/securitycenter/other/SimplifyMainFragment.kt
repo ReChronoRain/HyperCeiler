@@ -25,21 +25,25 @@ import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 
 object SimplifyMainFragment : BaseHook() {
+    private val removedModels = setOf(
+        "com.miui.common.card.models.FuncListBannerCardModel",
+        "com.miui.common.card.models.PopularActionCardModel"
+    )
+
     override fun init() {
         loadClass("com.miui.common.card.CardViewRvAdapter").findMethod { name("addAll"); parameterTypes(List::class.java) }
             .createBeforeHook { param ->
-                val oldModelList = param.args[0] as List<*>
-                val removedModel = listOf(
-                    // 功能推荐
-                    "com.miui.common.card.models.FuncListBannerCardModel",
-                    // 常用功能
-                    // "com.miui.common.card.models.CommonlyUsedFunctionCardModel",
-                    // 大家都在用
-                    "com.miui.common.card.models.PopularActionCardModel"
-                )
-
-                param.args[0] = oldModelList.filterNot { model ->
-                    removedModel.contains(model!!.javaClass.name)
+                val oldModelList = param.args[0] as? List<*>
+                if (oldModelList != null) {
+                    val first = oldModelList.indexOfFirst { it?.javaClass?.name in removedModels }
+                    if (first >= 0) {
+                        val filtered = ArrayList<Any?>(oldModelList.size - 1)
+                        for (index in oldModelList.indices) {
+                            val model = oldModelList[index]
+                            if (index < first || model?.javaClass?.name !in removedModels) filtered.add(model)
+                        }
+                        param.args[0] = filtered
+                    }
                 }
             }
     }

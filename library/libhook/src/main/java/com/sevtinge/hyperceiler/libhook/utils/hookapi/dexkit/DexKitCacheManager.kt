@@ -145,12 +145,16 @@ internal object DexKitCacheManager {
         val currentBridge = bridge ?: throw IllegalStateException("DexKit not initialized")
         var result: Any? = null
         currentBridge.withBridge { rawBridge ->
-            val baseData: BaseData = try {
+            val baseData: BaseData? = try {
                 iDexKit.dexkit(rawBridge)
             } catch (e: ReflectiveOperationException) {
                 throw RuntimeException(e)
             }
-            result = resolveAndCache(baseData, key, classLoader)
+            // An optional query can legitimately miss a feature absent from a ROM.
+            // Leave it uncached and let requiredMember enforce its own contract.
+            if (baseData != null) {
+                result = resolveAndCache(baseData, key, classLoader)
+            }
         }
 
         return result as T
