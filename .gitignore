@@ -16,3 +16,5 @@ local.properties
 signing.properties
 /.kotlin
 /library/hook
+.vscode
+.reasonix
