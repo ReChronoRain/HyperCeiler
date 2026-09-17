@@ -8,6 +8,7 @@
 
 #include <android/log.h>
 #include <pthread.h>
+#include <sys/stat.h>
 #include <sys/system_properties.h>
 
 // Launcher tweaks (targets/home/tweaks). The planner locates every site from the image's own
@@ -16,6 +17,7 @@
 namespace hometweaks {
 void PushTweaksConfig(const Config &config);
 bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize);
+bool HomeTweaksTargetImage(char *path, size_t cap);
 }
 
 /*
@@ -174,6 +176,15 @@ struct KnobRuntime {
     int max_dp = 0;
     uint32_t getter = 0;
     /*
+     * The live build's size for `getter`'s symbol, straight out of the same lookup that produced the
+     * address. It is reported because a stale analysis symbol table is otherwise invisible: the
+     * launcher image changes under the module (same versionName, new bytes) and every offset, size
+     * and xref taken from the older copy silently describes a function that is no longer there.
+     * With this on the log line, "is the thing I hooked the thing I analysed" is answerable from
+     * logcat alone.
+     */
+    uint32_t getter_size = 0;
+    /*
      * The field path is published atomically because the background worker derives it while the Dart
      * thread reads it inside the trampoline. A torn read here would mean a write to an unrelated
      * address, so the packed value is the only thing the trampoline trusts:
@@ -235,23 +246,52 @@ constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
      * gated behind the debug channel.
      */
     /*
-     * Enabled here: the two getters whose entry shape passed the prologue check on the current build
-     * and whose hook survived a live desktop (top padding +120dp was visibly applied, icons intact).
-     * WorkspaceTop returns an int-typed field, so its configured value goes out as a double delta -
-     * the runtime proof is the settings-page delta landing on screen, which is the only standard we
-     * can hold without a full ABI write-up.
-     *
-     * The rest still have no standard entry (mid-entry / dedup-shared bodies), so binding them would
-     * be refused by the prologue check anyway. Keep them null until each is validated the same way.
+     * WorkspaceTop is deliberately **inert**: hooking it is safe (0 crashes) but the semantics are
+     * wrong. Measured on the current build with a read-only probe:
+     *   - `GridController.titleMarginTop` (833 hits, caller `ShortcutIconWidget._buildTextWidget`):
+     *     a +20 delta translated the whole icon grid by -30 px. The user clarified the semantics:
+     *     this is the *icon ↔ its title* spacing, which scales the icon cell and shifts the grid -
+     *     it is NOT the workspace's own top padding, so it must not answer a "top margin" slider.
+     *   - `GridConfig.workspacePaddingTop`: 0 hits - the workspace reads the config object's fields
+     *     directly (disassembly of `GridConfig.calGridSize`: `ldur w4,[x3,#0x1f]` → decompress →
+     *     class id 0x73c → `ldur w1,[x4,#0x3f]`, which is again an object reference, not a number).
+     *     So the real top padding lives in a nested padding object, and the numeric leaf has not been
+     *     reached yet. Writing it means touching the Dart heap - the exact thing the first crash was
+     *     made of - so the object chain has to be dumped and verified at runtime first.
+     * Until that dump exists, this knob stays inert rather than shipping a mislabeled lever.
      */
     /* HotseatMargin   */ nullptr,
     /* HotseatHeight   */ nullptr,
-    /* WorkspaceTop    */ "GridConfig.workspacePaddingTop",
+    /* WorkspaceTop    */ nullptr,
     /* WorkspaceBottom */ nullptr,
     /* WorkspaceSide   */ nullptr,
     /* IndicatorMargin */ nullptr,
     /* SearchBarMargin */ "GridController.searchBarMarginBottom",
     /* SearchBarWidth  */ nullptr,
+};
+
+/*
+ * Multiplier applied to a knob's delta when it is published to the trampoline.
+ *
+ * A "top margin" slider should push content *down* as it grows. `titleMarginTop` does the opposite
+ * and by a factor: the measured response on the current build is Δy ≈ -1.5 × delta, because the grid
+ * is anchored at the bottom, so growing the icon cell lifts the block. Feeding the raw delta through
+ * would make the slider move the workspace the wrong way, faster than the user asked for.
+ *
+ * The number is a measurement, not a guess: -20 → +29 px, +5 → -7 px, +20 → -30 px, each verified
+ * twice with a zero-delta control run in between (control: Δy = 0). A launcher OTA that changes the
+ * layout will change this constant; the probe (`debug.hyperceiler.layout.hook*`) is how to re-measure
+ * it, and the failure mode is "the slider moves things the wrong way", which is visible, not fatal.
+ */
+constexpr double kKnobDeltaGain[HC_LAYOUT_KNOB_COUNT] = {
+    1.0,             // HotseatMargin   (inert)
+    1.0,             // HotseatHeight   (inert)
+    -1.0 / 1.5,      // WorkspaceTop   : titleMarginTop, inverted with a 1.5x gain
+    1.0,             // WorkspaceBottom (inert)
+    1.0,             // WorkspaceSide   (inert)
+    1.0,             // IndicatorMargin (inert)
+    1.0,             // SearchBarMargin : startup-only, uncalibrated
+    1.0,             // SearchBarWidth  (inert)
 };
 
 std::array<KnobRuntime, HC_LAYOUT_KNOB_COUNT> g_knobs = {{
@@ -532,6 +572,19 @@ std::optional<std::string> launcher_apk(const std::vector<nhk::FileMapping> &all
         if (path && *path != candidate) return {};
         path = std::string(candidate);
     }
+    if (path) return path;
+    /*
+     * The /data upgrade pattern above is not the only shape a launcher APK has: the 7654 desktop
+     * ships from /product/priv-app/MiuiHome, which no directory guess should have to know. The
+     * tweaks module has already proven which image is actually loaded (dl_iterate_phdr), so hand
+     * its answer over instead of a second, wrong guess. Without this fallback every geometry site
+     * and every hook knob lost its image anchor on 7654 — "layout targets unavailable" plus a
+     * silent knobs=0/8.
+     */
+    char proven[512]{};
+    if (hometweaks::HomeTweaksTargetImage(proven, sizeof(proven))) {
+        return std::string(proven);
+    }
     return path;
 }
 
@@ -595,9 +648,25 @@ bool ensure_dart_library() {
     g_dart_container_path = g_dart->path;
     g_dart_view_begin = g_dart->view_begin;
     g_dart_view_end = g_dart->view_end;
-    __android_log_print(ANDROID_LOG_INFO, kTag, "layout dart container base=%p entry=%#llx",
-        reinterpret_cast<void *>(static_cast<uintptr_t>(g_dart->load_base)),
-        static_cast<unsigned long long>(g_dart->view_begin));
+    /*
+     * Identity of the Dart image this process is running, reported so that static analysis material
+     * can be checked against it instead of assumed. The launcher image changes under the module -
+     * same versionName, new bytes - and yesterday's symbol table then describes functions that are
+     * no longer there: an address can land inside a *different* function while still looking like a
+     * plausible entry. Entry offset, entry size and the APK's own mtime are enough to tell the two
+     * apart from logcat alone.
+     */
+    {
+        struct stat apk {};
+        const bool have_apk = stat(g_dart->path.c_str(), &apk) == 0;
+        __android_log_print(ANDROID_LOG_INFO, kTag,
+            "layout dart container base=%p entry=%#llx size=%#llx apk_size=%llu apk_mtime=%lld",
+            reinterpret_cast<void *>(static_cast<uintptr_t>(g_dart->load_base)),
+            static_cast<unsigned long long>(g_dart->view_begin),
+            static_cast<unsigned long long>(g_dart->view_end - g_dart->view_begin),
+            have_apk ? static_cast<unsigned long long>(apk.st_size) : 0ULL,
+            have_apk ? static_cast<long long>(apk.st_mtime) : 0LL);
+    }
     return true;
 }
 
@@ -909,6 +978,7 @@ size_t bind_knobs() {
             continue;
         }
         knob.getter = va;
+        knob.getter_size = size;
     }
     if (!g_field_writes_enabled.load(std::memory_order_relaxed)) {
         size_t hooked = 0;
@@ -1010,14 +1080,17 @@ size_t arm_hooks(std::vector<size_t> &order) {
  */
 size_t publish_hooks() {
     size_t live = 0;
-    for (KnobRuntime &knob : g_knobs) {
+    for (size_t index = 0; index < g_knobs.size(); ++index) {
+        KnobRuntime &knob = g_knobs[index];
         if (!knob.hook_mode || knob.hook_enabled == nullptr || knob.hook_delta == nullptr) continue;
         const int delta = knob.delta_px.load(std::memory_order_relaxed);
         if (delta == 0 || !knob.hook_armed) {
             *knob.hook_enabled = 0;
             continue;
         }
-        const double value = static_cast<double>(delta);
+        // The slider is in the user's units; the accessor is not always, so the gain is what makes a
+        // step read the way the label says (see kKnobDeltaGain).
+        const double value = static_cast<double>(delta) * kKnobDeltaGain[index];
         uint64_t bits = 0;
         std::memcpy(&bits, &value, sizeof(bits));
         *knob.hook_delta = bits;
@@ -1166,7 +1239,18 @@ void *worker(void *) {
         g_knobs[2].hook_original = &hc_layout_passthrough_original;
     }
 
-    if (!config.grid_enabled && !any_knob && !top_probe) {
+    /*
+     * Whether any code-patch feature (the tweaks half of the panel) asked for something. The gate
+     * below used to check only the grid and the knobs, so a desktop with only, say, the icon scale
+     * enabled pushed no config at all: every tweaks feature silently read as "not enabled" no
+     * matter what the page said - which is exactly how "folder columns / icon scale do nothing"
+     * presented on a live device. The tweaks pipeline consumes this same Config, so its ask
+     * belongs in this gate, not after it.
+     */
+    const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
+        || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
+        || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear;
+    if (!config.grid_enabled && !any_knob && !top_probe && !any_tweak) {
         __android_log_print(ANDROID_LOG_INFO, kTag, "layout preferences disabled; no hooks installed");
         return attempt_finished();
     }
@@ -1181,16 +1265,24 @@ void *worker(void *) {
         delay_ms(100);
     }
     if (!located) {
+        /*
+         * The geometry sites are only the first two slots (the grid cell replacements). A launcher
+         * build whose xref sites moved costs the grid knobs, not the whole worker: the hook-mode
+         * knobs below are symbol-resolved against the same image and can still bind, which is
+         * exactly what a probe run on a moved launcher needs. The 6309→7654-260904 rollback hit
+         * this: tweaks patches landed (they are symbol-named) while the worker quit here and the
+         * probe hooks never armed.
+         */
         __android_log_print(ANDROID_LOG_WARN, kTag,
-            "layout targets unavailable; leaving launcher unmodified");
-        return attempt_finished();
+            "layout targets unavailable; continuing with hook knobs only");
+    } else {
+        g_container_path = located->container_path;
+        g_view_begin = located->view_begin;
+        g_view_end = located->view_end;
+        g_dart_container_path = located->dart_container_path;
+        g_dart_view_begin = located->dart_view_begin;
+        g_dart_view_end = located->dart_view_end;
     }
-    g_container_path = located->container_path;
-    g_view_begin = located->view_begin;
-    g_view_end = located->view_end;
-    g_dart_container_path = located->dart_container_path;
-    g_dart_view_begin = located->dart_view_begin;
-    g_dart_view_end = located->dart_view_end;
 
     /*
      * Calibration channel, read once per process and gated on `debug.hyperceiler.layout.override=1`.
@@ -1296,7 +1388,7 @@ void *worker(void *) {
     bind_knobs();
 
     std::vector<size_t> order;
-    if (config.grid_enabled && located->x != 0 && located->y != 0) {
+    if (config.grid_enabled && located && located->x != 0 && located->y != 0) {
         g_slots[0] = {located->x, reinterpret_cast<void *>(cell_x_replacement), &g_original_x,
             located->x_source, located->x_words};
         g_slots[1] = {located->y, reinterpret_cast<void *>(cell_y_replacement), &g_original_y,
@@ -1324,7 +1416,8 @@ void *worker(void *) {
     }
     arm_hooks(order);
     publish_hooks();
-    const bool grid_live = config.grid_enabled && located->x != 0 && located->y != 0;
+    const bool grid_live =
+        config.grid_enabled && located && located->x != 0 && located->y != 0;
     g_ready.store(grid_live, std::memory_order_release);
     g_dart_ready.store(g_captures_armed || !order.empty(), std::memory_order_release);
     {
@@ -1339,8 +1432,10 @@ void *worker(void *) {
         for (const KnobRuntime &knob : g_knobs) {
             const uint32_t packed = knob.path.load(std::memory_order_relaxed);
             __android_log_print(ANDROID_LOG_INFO, kTag,
-                "layout knob %s mode=%s va=%#x addr=%p object=%u off0=%d off1=%d delta=%d",
+                "layout knob %s mode=%s va=%#x sym_size=%u w0=%08x addr=%p object=%u off0=%d "
+                "off1=%d delta=%d",
                 knob.symbol.c_str(), knob.hook_mode ? "hook" : "field", knob.getter,
+                knob.getter_size, knob.hook_words[0],
                 reinterpret_cast<void *>(knob.hook_address), packed & 0xFFu,
                 static_cast<int>((packed >> 8) & 0xFFu) - 1,
                 static_cast<int>((packed >> 16) & 0xFFFFu),
@@ -1409,7 +1504,7 @@ void *worker(void *) {
         if (iterations % 10 == 0) {
             home_layout::Config latest;
             if (home_layout::query_config(latest)) {
-                if (latest.grid_enabled && located->x != 0 && located->y != 0
+                if (latest.grid_enabled && located && located->x != 0 && located->y != 0
                     && std::find(order.begin(), order.end(), size_t{0}) == order.end()) {
                     g_slots[0] = {located->x, reinterpret_cast<void *>(cell_x_replacement),
                         &g_original_x, located->x_source, located->x_words};
@@ -1427,8 +1522,8 @@ void *worker(void *) {
                 if (cell_changed) {
                     g_cell_x.store(config.cell_x, std::memory_order_relaxed);
                     g_cell_y.store(config.cell_y, std::memory_order_relaxed);
-                    g_ready.store(config.grid_enabled && located->x != 0 && located->y != 0,
-                        std::memory_order_release);
+                    g_ready.store(config.grid_enabled && located && located->x != 0
+                        && located->y != 0, std::memory_order_release);
                 }
                 if (tweaks_changed) push_tweaks(config);
                 (void) knobs_changed;
@@ -1462,13 +1557,32 @@ void *worker(void *) {
                 static_cast<unsigned long long>(hc_layout_heap_base),
                 static_cast<unsigned long long>(hc_layout_config_capture_hits),
                 static_cast<unsigned long long>(hc_layout_dock_capture_hits), bound, deltas);
+            /*
+             * Per-knob probe readout. `hits` alone can only say "the hook runs"; the verdict a
+             * read-only probe has to support is "this function is the control point for that value",
+             * which needs the launcher's own return value and the caller as well. `last` is the raw
+             * double the patched call returned, `caller` the Dart return address (reported as an
+             * image VA so the symbol table can name it), `d` the delta currently requested for the
+             * knob (zero until a preference enables it) - so a passthrough probe is distinguishable
+             * from an active one at a glance.
+             */
             std::string hits;
             for (const KnobRuntime &knob : g_knobs) {
                 if (!knob.hook_mode || knob.hook_hits == nullptr) continue;
-                hits += " ";
-                hits += knob.symbol;
-                hits += "=";
-                hits += std::to_string(*knob.hook_hits);
+                double last = 0;
+                uint64_t caller = 0;
+                if (knob.hook_last != nullptr) {
+                    std::memcpy(&last, knob.hook_last, sizeof(last));
+                }
+                if (knob.hook_caller != nullptr) caller = *knob.hook_caller;
+                const uint64_t in_image =
+                    g_dart && caller >= g_dart->load_base ? caller - g_dart->load_base : 0;
+                char entry[256] = {};
+                snprintf(entry, sizeof(entry), " %s=%llu last=%.4f caller=%#llx d=%d",
+                    knob.symbol.c_str(), static_cast<unsigned long long>(*knob.hook_hits), last,
+                    static_cast<unsigned long long>(in_image),
+                    knob.delta_px.load(std::memory_order_relaxed));
+                hits += entry;
             }
             if (!hits.empty()) {
                 __android_log_print(ANDROID_LOG_INFO, kTag, "layout hook hits%s", hits.c_str());
@@ -1596,6 +1710,7 @@ bool adopt_layout_state() {
         knob.symbol.clear();
         knob.path.store(0, std::memory_order_relaxed);
         knob.getter = 0;
+        knob.getter_size = 0;
         knob.pristine_valid = false;
         knob.delta_px.store(0, std::memory_order_relaxed);
     }
@@ -1709,6 +1824,13 @@ void prime_home_layout_probe(HookFunction hook, UnhookFunction unhook) {
         __android_log_print(ANDROID_LOG_WARN, kTag, "layout probe: bind failed va=%#x", va);
         return;
     }
+    /*
+     * Fill the same two diagnostic fields bind_knobs fills, so this slot's log line reports the
+     * address it actually hooked instead of a zero. The worker's per-knob line is the one place a
+     * reader checks "what did we hook, in which build" - a zero there is worse than useless.
+     */
+    g_knobs[2].getter = va;
+    g_knobs[2].getter_size = size;
     static std::vector<size_t> order;
     const size_t slot = kKnobHookSlotBase + 2;
     g_slots[slot] = {g_knobs[2].hook_address, g_knobs[2].hook_entry, g_knobs[2].hook_original,

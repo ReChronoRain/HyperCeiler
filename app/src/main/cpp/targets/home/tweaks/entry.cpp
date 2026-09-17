@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/mman.h>
+#include <sys/system_properties.h>
 #include <sys/types.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -105,6 +106,16 @@ uint64_t NowMs() {
     clock_gettime(CLOCK_MONOTONIC, &ts);
     return static_cast<uint64_t>(ts.tv_sec) * 1000ull +
            static_cast<uint64_t>(ts.tv_nsec / 1000000);
+}
+
+/*
+ * Render a count that may legitimately be unset. "0" in the status report or in the load line would
+ * read as a setting someone deliberately chose, which is the one thing this value never is
+ * (see kColsUnset).
+ */
+std::string DescribeCount(uint32_t count) {
+    if (count == kColsUnset) return std::string("未设置");
+    return std::to_string(count);
 }
 
 bool IsLauncherProcess() {
@@ -363,11 +374,41 @@ void Watchdog(State* state) {
     }
 }
 
+/*
+ * Whether the legacy on-disk configuration channel may be read (see RefreshConfigLocked).
+ *
+ * Cached in a function-local static on purpose: the answer is a pure function of a system property,
+ * so unlike the state HomeTweaksPrepareForLauncherChild resets, inheriting it across the fork is
+ * correct rather than poison - and the question is asked on every monitor pass.
+ */
+bool config_blob_channel_enabled() {
+    static const bool enabled = [] {
+        char value[PROP_VALUE_MAX] = {};
+        return __system_property_get("debug.hyperceiler.hometweaks.blob", value) > 0
+            && value[0] == '1';
+    }();
+    return enabled;
+}
+
 bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
     Config config;
     std::vector<uint8_t> bytes;
     char path[512]{};
     uint64_t mtime = 0;
+
+    /*
+     * The on-disk configuration channel is opt-in, and off by default.
+     *
+     * It reads eight candidate paths - two of them world-writable, plus /data/local/tmp and /data/adb,
+     * the two places a "push this file and restart" guide would tell someone to use - and the values
+     * it finds win over the settings page on every pass, because the push path (PushTweaksConfig) sets
+     * configLoaded without setting configBytes, so the read below always looks like a change. A file
+     * left behind by an older build therefore kept configuring the desktop of a user who had set
+     * nothing: that is exactly how a "why is my layout five columns after I open a folder" report is
+     * produced. The settings page pushed over the module's own channel is the single source of truth;
+     * this channel stays for calibration runs and is enabled with the property below.
+     */
+    if (!config_blob_channel_enabled()) return state->configLoaded;
 
     /*
      * Early exit on an unchanged candidate set.
@@ -415,9 +456,9 @@ bool RefreshConfigLocked(State* state, bool allowBakedFallback, bool fast) {
         }
         if (bytesChanged) {
             state->repatchNeeded = true;
-            LOGI("已加载配置 %s（总开关=%s，功能 %zu 项，文件夹每行 %u 个）", path,
-                 config.masterEnabled() ? "开" : "关", config.enabled.size(),
-                 config.folderCols);
+            LOGI("已加载配置 %s（总开关=%s，功能 %zu 项，文件夹每行 %s 个）[文件通道]",
+                 path, config.masterEnabled() ? "开" : "关", config.enabled.size(),
+                 DescribeCount(config.folderCols).c_str());
 
             if (strcmp(path, kLocalConfigPath) != 0) {
                 if (MirrorConfigToPath(kLocalConfigPath, bytes.data(), bytes.size(), mtime)) {
@@ -676,9 +717,11 @@ std::string BuildStatusText(const State* state) {
                  cfg.masterEnabled() ? "开" : "关", JoinEnabled(cfg).c_str());
         s += line;
         snprintf(line, sizeof(line),
-                 "数值: 文件夹每行 %u；手机 %u 列 × %u 行（0=自动）；折叠屏 %u×%u；平板 %u×%u；图标 ×%.4g\n",
-                 cfg.folderCols, cfg.phoneCols, cfg.phoneRows, cfg.foldMajor, cfg.foldMinor,
-                 cfg.padMajor, cfg.padMinor, IconScaleValueFromCode(cfg.iconScaleCode));
+                 "数值: 文件夹每行 %s；手机 %s 列 × %u 行（0=自动）；折叠屏 %u×%u；平板 %u×%u；图标 ×%.4g\n",
+                 DescribeCount(cfg.folderCols).c_str(), DescribeCount(cfg.phoneCols).c_str(),
+                 cfg.phoneRows,
+                 cfg.foldMajor, cfg.foldMinor, cfg.padMajor, cfg.padMinor,
+                 IconScaleValueFromCode(cfg.iconScaleCode));
         s += line;
     }
 
@@ -695,9 +738,9 @@ std::string BuildStatusText(const State* state) {
         } else if (FeatureOk(state->sites, f.num)) {
             value = "已生效";
             if (f.num == kFeatureFolderCols) {
-                value += "（每行 " + std::to_string(cfg.folderCols) + " 个）";
+                value += "（每行 " + std::string(DescribeCount(cfg.folderCols)) + " 个）";
             } else if (f.num == kFeaturePhoneGrid) {
-                value += "（" + std::to_string(cfg.phoneCols) + " 列 × ";
+                value += "（" + std::string(DescribeCount(cfg.phoneCols)) + " 列 × ";
                 value += (cfg.phoneRows == kPhoneRowsAuto)
                          ? std::string("官方自动行")
                          : std::to_string(cfg.phoneRows) + " 行";
@@ -1012,6 +1055,23 @@ bool HomeTweaksFindSymbol(const char *name, uint32_t *outVa, uint32_t *outSize) 
     SymbolIndex &index = SymbolIndex::Instance();
     if (!index.EnsureLoaded(g_state.image)) return false;
     return index.Find(name, outVa, outSize);
+}
+
+/**
+ * Report the launcher image this module resolved.
+ *
+ * The layout module's own APK discovery matches a fixed /data directory pattern; the 7654 desktop
+ * ships from /product/priv-app/MiuiHome, which that pattern can never match, so its geometry sites
+ * and every hook knob lost their image anchor. This hands over the path dl_iterate_phdr actually
+ * proved — the same image the symbol table above is read from — instead of a second guess.
+ */
+bool HomeTweaksTargetImage(char *path, size_t cap) {
+    if (path == nullptr || cap == 0) return false;
+    TryDiscoverImage();
+    std::lock_guard<std::mutex> work(g_workMutex);
+    if (!g_state.imageFound || g_state.image.path[0] == '\0') return false;
+    snprintf(path, cap, "%s", g_state.image.path);
+    return true;
 }
 
 void PushPhoneGrid(uint32_t cols, uint32_t rows) {

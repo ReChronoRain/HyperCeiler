@@ -39,10 +39,18 @@ target_sources(HyperCeilerNative PRIVATE
     ${HYPERCEILER_TWEAKS_DIR}/xz/xz_dec_stream.c)
 # Third-party sources are held to the project's warning level only as far as they compile:
 # their style is not this repository's to fix, and -Werror would otherwise block the build.
+#
+# But -Wno-everything also silences diagnostics that are on by default and that no group the project
+# re-enables brings back - notably -Wnon-pod-varargs. That one is not style: it is what catches a
+# std::string (any non-trivial object) reaching a %s conversion, which is undefined behaviour at
+# runtime. Its absence is exactly how a std::string passed to snprintf in entry.cpp reached a device
+# and trapped the launcher (SIGTRAP/BRKPT at entry.cpp:721, four deaths in three seconds, and the
+# desktop then entered its own safe mode). Re-enable that class by name so this exemption stays about
+# third-party style and never about correctness.
 file(GLOB HYPERCEILER_TWEAKS_SOURCES
     ${HYPERCEILER_TWEAKS_DIR}/*.cpp ${HYPERCEILER_TWEAKS_DIR}/xz/*.c)
 set_source_files_properties(${HYPERCEILER_TWEAKS_SOURCES} PROPERTIES
-    COMPILE_OPTIONS "-Wno-everything")
+    COMPILE_OPTIONS "-Wno-everything;-Wnon-pod-varargs;-Wformat;-Werror=format-security")
 
 option(HYPERCEILER_DOCK_NATIVE_MOTION "Dynamically resolve OS4 native recents animation" ON)
 if(HYPERCEILER_DOCK_NATIVE_MOTION)

@@ -194,8 +194,23 @@ inline bool valid_tag_abi(const TagAbi &abi) {
         abi.size_shift, abi.size_bits);
 }
 
+/**
+ * Recognize an allocation stub behind a call.
+ *
+ * The stub materializes the pre-filled object header (the tag) and jumps to the
+ * allocator; on 6309-style builds it also reads the object header back and
+ * extracts the class id right there (ldur x?, [x0, #-1]; ubfx …). 7654-style
+ * builds devirtualize that guard away at exactly the allocation site this
+ * resolver needs - the stub is just movz/movk/b - while the tag and the
+ * allocator are unchanged. The class field's position is a property of the
+ * snapshot's object header, shared by every stub in the same image, so a stub
+ * without its own guard borrows the header ABI from the image's other stubs
+ * (the caller supplies it after a first full pass; `borrowed == nullptr`
+ * preserves the old strict behavior). resolve() still verifies the derived ids
+ * against live behavior downstream, so a wrong borrow cannot silently hook.
+ */
 inline std::optional<Allocation> allocation(std::span<const CodeRange> ranges,
-    uintptr_t address) {
+    uintptr_t address, const TagAbi *borrowed = nullptr) {
     const auto stub = at(ranges, address, 12);
     const auto tag = materialized_u32(stub, 2);
     if (!tag || stub.size() < 8 || !is_b(stub[2])) return {};
@@ -211,7 +226,12 @@ inline std::optional<Allocation> allocation(std::span<const CodeRange> ranges,
         }
     }
     const auto allocator_address = branch_target(address + 2 * sizeof(uint32_t), stub[2], false);
-    if (!header || !class_bits || !allocator_address) return {};
+    if (!header || !class_bits) {
+        /* No own guard: only the borrowed header ABI makes the tag decodable. */
+        if (!borrowed || !allocator_address) return {};
+        header = borrowed->header_offset;
+        class_bits = std::make_pair(borrowed->class_shift, borrowed->class_bits);
+    }
     const auto allocator = at(ranges, *allocator_address, 2);
     if (allocator.size() != 2) return {};
     const auto size_bits = ubfx(allocator[0], 2, rd(allocator[0]));
@@ -282,67 +302,91 @@ struct Factory {
 };
 
 inline std::vector<Factory> factories(std::span<const CodeRange> ranges) {
+    /*
+     * Two passes because a stub can ship without its own class guard (7654
+     * devirtualized the header read away at the site this resolver needs): pass
+     * one collects the header ABI from the stubs that still carry it, pass two
+     * re-runs the shape match letting guard-less stubs borrow that ABI. A
+     * borrowed id is still verified by resolve()'s class checks against live
+     * behavior, so a bad borrow refuses instead of hooking.
+     */
+    const TagAbi *borrowed = nullptr;
+    TagAbi borrowed_storage{};
     std::vector<Factory> result;
-    for (const auto &range : ranges) {
-        for (size_t start = 0; start < range.words.size(); ++start) {
-            if (!is_bl(range.words[start])) continue;
-            const uintptr_t address = range.address + start * sizeof(uint32_t);
-            const auto target = branch_target(address, range.words[start], true);
-            const auto created = target ? allocation(ranges, *target) : std::nullopt;
-            if (!created) continue;
-            const size_t available = std::min<size_t>(40, range.words.size() - start);
-            size_t length = 0;
-            for (size_t i = 1; i < available; ++i) {
-                if (is_ret(range.words[start + i])) {
-                    length = i + 1;
-                    break;
+    for (int pass = 0; pass < 2; ++pass) {
+        result.clear();
+        for (const auto &range : ranges) {
+            for (size_t start = 0; start < range.words.size(); ++start) {
+                if (!is_bl(range.words[start])) continue;
+                const uintptr_t address = range.address + start * sizeof(uint32_t);
+                const auto target = branch_target(address, range.words[start], true);
+                const auto created = target
+                    ? allocation(ranges, *target, borrowed)
+                    : std::nullopt;
+                if (!created) continue;
+                const size_t available = std::min<size_t>(40, range.words.size() - start);
+                size_t length = 0;
+                for (size_t i = 1; i < available; ++i) {
+                    if (is_ret(range.words[start + i])) {
+                        length = i + 1;
+                        break;
+                    }
                 }
+                if (length == 0) continue;
+                const auto body = range.words.subspan(start, length);
+                std::optional<int> alpha;
+                std::optional<int> scale;
+                std::optional<int> surface;
+                std::optional<int> recents;
+                std::optional<uint32_t> false_from_null;
+                for (size_t i = 1; i < body.size(); ++i) {
+                    const uint32_t word = body[i];
+                    if (is_stur_x(word) && rd(word) == 31 && rn(word) == 0) {
+                        alpha = memory_offset(word);
+                    }
+                    if (i + 1 < body.size() && is_stur_d(word) && is_stur_d(body[i + 1])
+                        && rn(word) == 0 && rn(body[i + 1]) == 0 && rd(word) == rd(body[i + 1])
+                        && memory_offset(body[i + 1]) == memory_offset(word) + 8) {
+                        scale = memory_offset(word);
+                    }
+                    if (i + 1 < body.size() && is_ldur_x(word) && rn(word) == 29
+                        && memory_offset(word) < 0 && is_stur_w(body[i + 1])
+                        && rd(body[i + 1]) == rd(word) && rn(body[i + 1]) == 0) {
+                        surface = memory_offset(body[i + 1]);
+                    }
+                    if (i + 1 < body.size() && is_add_imm_x(word) && rn(word) == 22
+                        && is_stur_w(body[i + 1]) && rd(body[i + 1]) == rd(word)
+                        && rn(body[i + 1]) == 0) {
+                        recents = memory_offset(body[i + 1]);
+                        false_from_null = add_imm(word);
+                    }
+                }
+                if (!alpha || !scale || !surface || !recents || !false_from_null) continue;
+                const uint32_t size = object_size(created->tag, created->abi);
+                const auto alpha_field = scalar_field(*alpha, created->abi.header_offset,
+                    size, 8, 8);
+                const auto scale_field = scalar_field(*scale, created->abi.header_offset,
+                    size, 16, 8);
+                const auto surface_field = scalar_field(*surface, created->abi.header_offset,
+                    size, 4, 4);
+                const auto recents_field = scalar_field(*recents, created->abi.header_offset,
+                    size, 4, 4);
+                if (!alpha_field || !scale_field || !surface_field || !recents_field
+                    || !scalar_fields_disjoint(std::array{
+                        *alpha_field, *scale_field, *surface_field, *recents_field})) continue;
+                result.push_back({{address, body}, *created, *alpha, *scale, *surface,
+                    *recents, *false_from_null});
             }
-            if (length == 0) continue;
-            const auto body = range.words.subspan(start, length);
-            std::optional<int> alpha;
-            std::optional<int> scale;
-            std::optional<int> surface;
-            std::optional<int> recents;
-            std::optional<uint32_t> false_from_null;
-            for (size_t i = 1; i < body.size(); ++i) {
-                const uint32_t word = body[i];
-                if (is_stur_x(word) && rd(word) == 31 && rn(word) == 0) {
-                    alpha = memory_offset(word);
-                }
-                if (i + 1 < body.size() && is_stur_d(word) && is_stur_d(body[i + 1])
-                    && rn(word) == 0 && rn(body[i + 1]) == 0 && rd(word) == rd(body[i + 1])
-                    && memory_offset(body[i + 1]) == memory_offset(word) + 8) {
-                    scale = memory_offset(word);
-                }
-                if (i + 1 < body.size() && is_ldur_x(word) && rn(word) == 29
-                    && memory_offset(word) < 0 && is_stur_w(body[i + 1])
-                    && rd(body[i + 1]) == rd(word) && rn(body[i + 1]) == 0) {
-                    surface = memory_offset(body[i + 1]);
-                }
-                if (i + 1 < body.size() && is_add_imm_x(word) && rn(word) == 22
-                    && is_stur_w(body[i + 1]) && rd(body[i + 1]) == rd(word)
-                    && rn(body[i + 1]) == 0) {
-                    recents = memory_offset(body[i + 1]);
-                    false_from_null = add_imm(word);
-                }
-            }
-            if (!alpha || !scale || !surface || !recents || !false_from_null) continue;
-            const uint32_t size = object_size(created->tag, created->abi);
-            const auto alpha_field = scalar_field(*alpha, created->abi.header_offset,
-                size, 8, 8);
-            const auto scale_field = scalar_field(*scale, created->abi.header_offset,
-                size, 16, 8);
-            const auto surface_field = scalar_field(*surface, created->abi.header_offset,
-                size, 4, 4);
-            const auto recents_field = scalar_field(*recents, created->abi.header_offset,
-                size, 4, 4);
-            if (!alpha_field || !scale_field || !surface_field || !recents_field
-                || !scalar_fields_disjoint(std::array{
-                    *alpha_field, *scale_field, *surface_field, *recents_field})) continue;
-            result.push_back({{address, body}, *created, *alpha, *scale, *surface,
-                *recents, *false_from_null});
         }
+        if (!result.empty() && borrowed == nullptr) {
+            /* Any accepted factory's header ABI describes the same snapshot
+             * object header; pass two rescans everything letting the
+             * guard-less stubs borrow it. */
+            borrowed_storage = result.front().allocation.abi;
+            borrowed = &borrowed_storage;
+            continue;
+        }
+        break;
     }
     return result;
 }

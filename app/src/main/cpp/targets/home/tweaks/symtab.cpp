@@ -125,12 +125,49 @@ const TargetFunction kTargets[] = {
          "候选 指示器高度"},
         {"GridSizeCalRules.screenMarginTop", "GridSizeCalRules.screenMarginTop",
          "候选 屏幕上边距"},
+        /*
+         * Two names added for read-only probing after the 6309 xref pass (see
+         * LAYOUT_HOOK_EVIDENCE.md §5.2). Neither is a shipped target: they exist here so the
+         * calibration channel can resolve them, because a name that is absent from this table can
+         * not be probed at all - the lookup is an exact match against these needles.
+         *
+         * `GridConfig.getScreenMarginTop` is the strongest candidate for the workspace's top
+         * whitespace: on the current build its only layout-path caller is `GridConfig.calGridSize`
+         * (twice), the entry of the size calculation, while the previously assumed candidates are
+         * consumed by the search bar and the indicator instead.
+         * `PhoneDeviceRules.getScreenTopRation` is the ratio the variable-height grid path reads;
+         * whether the phone uses that path at all is exactly what a hit count will tell us.
+         */
+        {"GridConfig.getScreenMarginTop", "GridConfig.getScreenMarginTop",
+         "候选 屏幕上边距（网格尺寸路径）"},
+        {"PhoneDeviceRules.getScreenTopRation", "PhoneDeviceRules.getScreenTopRation",
+         "候选 屏幕顶部比例（可变高度路径）"},
         {"GridController.currentConfig", "GridController.currentConfig", "候选 当前配置访问器"},
         {"HotSeatsConstants2._dockGridConfig", "HotSeatsConstants2._dockGridConfig",
          "候选 dock 配置访问器"},
         {"GridController.iconConfig", "GridController.iconConfig", "候选 图标配置访问器"},
         {"GridController.getOrientationType", "GridController.getOrientationType",
          "候选 方向类型"},
+        /*
+         * Folder padding accessors, added for the read-only probe of the folder-interior margins
+         * (LAYOUT_HOOK_EVIDENCE.md §17). The settings page has no folder-margin knobs yet; before a
+         * knob can be wired, the probe has to show which of these the open-folder layout actually
+         * calls, how often, and with which caller. Standard Dart prologues (verified offline against
+         * the 6309 image), so the hook path can bind them; `newPadding*` are shared-entry thunks and
+         * are deliberately absent - bind_dart_target refuses their prologue.
+         */
+        {"FolderGridViewGetxController.folderGridPaddingTop",
+         "FolderGridViewGetxController.folderGridPaddingTop", "候选 文件夹网格上边距"},
+        {"FolderGridViewGetxController.folderGridPaddingBottom",
+         "FolderGridViewGetxController.folderGridPaddingBottom", "候选 文件夹网格下边距"},
+        {"FolderGridViewGetxController.folderGridPaddingLeft",
+         "FolderGridViewGetxController.folderGridPaddingLeft", "候选 文件夹网格左边距"},
+        {"FolderGridViewGetxController.folderGridOuterHorizontalPadding",
+         "FolderGridViewGetxController.folderGridOuterHorizontalPadding", "候选 文件格外层水平边距"},
+        {"FolderClingGetxController.getCommonFolderHeaderPaddingTop",
+         "FolderClingGetxController.getCommonFolderHeaderPaddingTop", "候选 文件夹头部上边距"},
+        {"FolderClingGetxController.getCommonFolderHeaderPaddingBottom",
+         "FolderClingGetxController.getCommonFolderHeaderPaddingBottom", "候选 文件夹头部下边距"},
         /*
          * Layout aggregators: too large for Dart to inline, so hooking one of these is actually
          * reached. They are the calibration targets for the geometry knobs whose small accessors are
