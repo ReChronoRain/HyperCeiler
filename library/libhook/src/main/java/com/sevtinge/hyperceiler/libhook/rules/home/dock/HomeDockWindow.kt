@@ -28,6 +28,7 @@ import android.os.Handler
 import android.os.Bundle
 import android.os.IBinder
 import android.os.Parcel
+import android.os.PowerManager
 import android.os.SystemClock
 import android.provider.Settings
 import android.view.Display
@@ -262,6 +263,8 @@ class HomeDockWindow : BaseHook() {
         },
         glassClient::record)
     private val nativeMotionReply = ThreadLocal<Int>()
+    private val layoutEndpoint = HomeLayoutNativeEndpointOS4()
+    private val layoutReply = ThreadLocal<HomeLayoutNativeEndpointOS4.Snapshot>()
     private data class ScheduledFrame(val epoch: Long, val tick: Runnable)
     /** One background transform for one frame. The pose is identity unless the reveal is live. */
     private data class FrameUpdate(val layer: Layer, val y: Float,
@@ -309,6 +312,35 @@ class HomeDockWindow : BaseHook() {
     private fun resetSweepCadence() {
         sweepIntervalMs = NATIVE_BIND_SWEEP_MS
     }
+
+    /**
+     * Resolved once and kept: the native health worker asks for the panel state on every pass, and
+     * resolving the service again each time would add a reflective field read per second for no
+     * benefit. system_server's own context outlives every hook installed here.
+     */
+    @Volatile private var powerManager: PowerManager? = null
+
+    /**
+     * Whether the panel is in an interactive state, answered to the launcher's native health worker.
+     *
+     * <p>With the panel in doze the launcher cannot draw, so no patched call site can run and
+     * maintaining those patches once a second is pure cost - it kept the launcher process waking
+     * through the whole night for a desktop nobody could see. The launcher's native side cannot
+     * read this itself: every path that carries the panel state (backlight, the DRM connector) is
+     * root-only on this ROM. system_server is where PowerManagerService lives, so answering here is
+     * a local read rather than a cross-process one.
+     *
+     * <p>Fail-open on purpose: a context or service that cannot be resolved answers "interactive",
+     * which keeps the worker running exactly as before instead of silently switching Dock
+     * maintenance off.
+     */
+    private fun screenInteractive(): Boolean = runCatching {
+        val manager = powerManager ?: run {
+            val context = service?.getObjectFieldAs<Context>("mContext")
+            context?.getSystemService(PowerManager::class.java)?.also { powerManager = it }
+        }
+        if (manager == null) true else manager.isInteractive
+    }.getOrDefault(true)
 
     override fun init() {
         refreshSettings()
@@ -417,32 +449,70 @@ class HomeDockWindow : BaseHook() {
                         // endpoint can observe the same frame, including the newest hook.
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
-                        if (!DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
+                        val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
+                        if (!layout && !DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
                         val data = param.args[1] as Parcel
                         val position = data.dataPosition()
-                        nativeMotionReply.remove()
+                        if (layout) layoutReply.remove() else nativeMotionReply.remove()
                         runCatching {
-                            nativeMotionReply.set(
-                                nativeMotionEndpoint.receive(code, data, param.args[3] as Int))
+                            if (layout) {
+                                layoutReply.set(layoutEndpoint.receive(data, param.args[3] as Int))
+                            } else {
+                                nativeMotionReply.set(nativeMotionEndpoint.receive(
+                                    code, data, param.args[3] as Int))
+                            }
                         }.onFailure {
-                            if (observed.add("native-motion-transaction-error")) {
-                                glassClient.record("native motion transaction rejected=${it.javaClass.simpleName}")
+                            val diagnostic = if (layout) "native-layout-transaction-error"
+                                else "native-motion-transaction-error"
+                            if (observed.add(diagnostic)) {
+                                glassClient.record("native transaction rejected=${it.javaClass.simpleName}")
                             }
                         }.also {
                             data.setDataPosition(position)
                         }
                     }
                 transact.createAfterHook { param ->
-                    if (stopped || !DockNativeMotionEndpoint.handles(param.args[0] as Int)) {
+                    val code = param.args[0] as Int
+                    val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
+                    val state = code == DockNativeMotionEndpoint.STATE_TRANSACTION_CODE
+                    if (stopped
+                        || (!layout && !state && !DockNativeMotionEndpoint.handles(code))) {
                         return@createAfterHook
                     }
-                    // The original Stub sees an unknown private code. Confirm it only after all
-                    // before callbacks have had a chance to consume the restored input Parcel.
-                    val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
-                    nativeMotionReply.remove()
                     val reply = param.args[2] as? Parcel ?: return@createAfterHook
                     reply.setDataPosition(0)
-                    reply.writeInt(acknowledgment)
+                    if (state) {
+                        // Answered here, not pushed: system_server is the only side that knows
+                        // whether the panel is interactive, and the launcher-native side has no
+                        // reverse channel to be told. The body is empty, so there is nothing to
+                        // parse in the before hook - it only has to leave the code alone.
+                        reply.writeInt(DockNativeMotionEndpoint.STATE_ACK)
+                        reply.writeInt(if (screenInteractive()) 1 else 0)
+                    } else if (layout) {
+                        val result = layoutReply.get()
+                        layoutReply.remove()
+                        reply.writeInt(result?.acknowledgment() ?: HomeLayoutNativeEndpointOS4.ACK)
+                        reply.writeInt(result?.gridEnabled() ?: 0)
+                        reply.writeInt(result?.cellX() ?: 0)
+                        reply.writeInt(result?.cellY() ?: 0)
+                        val knobEnabled = result?.knobEnabled() ?: IntArray(0)
+                        val knobDeltas = result?.knobDeltaPx() ?: IntArray(0)
+                        reply.writeInt(knobEnabled.size)
+                        for (index in knobEnabled.indices) {
+                            reply.writeInt(knobEnabled[index])
+                            reply.writeInt(if (index < knobDeltas.size) knobDeltas[index] else 0)
+                        }
+                        // The code-patch features ride along as a fixed run of values; the native
+                        // side refuses the whole snapshot when any of them is out of range.
+                        val tweaks = result?.tweaks() ?: IntArray(0)
+                        for (index in 0 until HomeLayoutNativeEndpointOS4.TWEAK_COUNT) {
+                            reply.writeInt(if (index < tweaks.size) tweaks[index] else 0)
+                        }
+                    } else {
+                        val acknowledgment = nativeMotionReply.get() ?: DockNativeMotionEndpoint.ACK
+                        nativeMotionReply.remove()
+                        reply.writeInt(acknowledgment)
+                    }
                     param.result = true
                 }
                 glassClient.record("native motion IWindowManager endpoint ready")

@@ -34,6 +34,20 @@ public final class DockNativeMotionEndpoint {
     public static final int AUTO_AIM_TRANSACTION_CODE = 0x0048434B;
     public static final int ACK = 0x48434B32;
     public static final int ACK_REVALIDATE = 0x48434B33;
+    /*
+     * Panel-interactive query, answered over the same IWindowManager transport the samples use.
+     *
+     * The launcher's native side cannot read the panel state itself: every path that carries it
+     * (backlight, the DRM connector) is root-only on this ROM, and the one process that knows the
+     * answer without a cross-process call is system_server, which is where PowerManagerService
+     * lives. The native health worker uses this to stop maintaining hooks while the panel is in
+     * doze - the launcher cannot draw then, so no patched call site can run and there is nothing
+     * to maintain. The value is fail-open: an unanswered or malformed reply keeps the previous
+     * state instead of silently switching the worker off.
+     */
+    public static final int STATE_TRANSACTION_CODE = 0x0048434D;
+    /** Distinct from [ACK] and [ACK_REVALIDATE] so a state reply can never be read as an ack. */
+    public static final int STATE_ACK = 0x48435331;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
 
     private record Identity(int uid, int pid) { }

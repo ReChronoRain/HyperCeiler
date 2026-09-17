@@ -20,7 +20,10 @@
  *    foreign edit and must be left alone, never overwritten.
  *  - Every read that can observe a concurrently-refilled page goes through
  *    the host's stable read (double inventory validation); this layer never
- *    touches memory directly.
+ *    touches memory directly. The one exception is the steady-state health
+ *    check, where the host may pass its cheap live-word read instead: a torn
+ *    read there can only cost a repair attempt, and the repair itself is the
+ *    validated path (`ensure_slots_live`).
  *
  * The host (feature) supplies memory access, the hook entry points and the
  * logging sink; this layer owns only the state machine.
@@ -115,10 +118,34 @@ template<size_t kPatchWords>
 inline bool install_slot(InlineSlot<kPatchWords> &slot,
     const InlineHookHost<kPatchWords> &host) {
     if (slot.registered) return true;
-    if (host.hook_install == nullptr || slot.original == nullptr) return false;
-    if (host.read_slot == nullptr || host.write_words == nullptr) return false;
+    if (host.hook_install == nullptr || slot.original == nullptr) {
+        if (host.on_guard != nullptr) {
+            host.on_guard({"motion hook install precondition failed", 0});
+        }
+        return false;
+    }
+    if (host.read_slot == nullptr || host.write_words == nullptr) {
+        if (host.on_guard != nullptr) {
+            host.on_guard({"motion hook install io missing", 0});
+        }
+        return false;
+    }
     SlotWords<kPatchWords> before{};
-    if (!host.read_slot(slot, before) || before != slot.original_words) return false;
+    if (!host.read_slot(slot, before)) return false;
+    if (before != slot.original_words) {
+        if (slot.patch_known) return false;
+        /*
+         * First install, and the live words differ from the file. The Dart runtime relocates pool
+         * references while mapping a snapshot, so the loaded code is the truth about what executes -
+         * adopt it as the prologue the continuation replays. A foreign hook is refused instead: a
+         * live branch-and-link pair at the entry is the shape our own backend and every other inline
+         * hooker leaves behind, and replaying it inside the trampoline would branch to its target
+         * twice. The prologue check the caller already ran guarantees the entry was a plain frame
+         * setup in the file, so anything branchy here is someone else's patch, not loader state.
+         */
+        if ((before[0] & 0xFFE00000u) == 0x58000000u || before[0] == 0xD61F0200u) return false;
+        slot.original_words = before;
+    }
     // Register the patched range with the page-lifetime policy before the
     // backend touches it: a trampoline page that a concurrent MADV_DONTNEED can
     // discard is not a working hook. Failure here refuses the slot.
@@ -314,6 +341,61 @@ inline bool slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
             slot.patch_words = observed[i];
             slot.patch_known = true;
         } else if (observed[i] != slot.patch_words) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Health verification for the subset of a bank that is actually armed.
+ *
+ * `slots_healthy` above covers a bank whose every slot must be armed. A feature
+ * that arms an optional subset needs the same verdict restricted to `order`,
+ * because an unarmed slot is not a broken one: the launcher layout arms its
+ * cell-count hooks, its geometry knobs and its two object captures
+ * independently, and a knob with no resolved target is deliberately inert.
+ *
+ * `read_all` here is the host's *cheap* batched live-word read - no mapping
+ * inventory. That split is the point: proving the image generation still holds
+ * is what costs a full /proc/self/maps parse, and that proof belongs to the
+ * repair path (`ensure_slots_live`, which reads through the host's validated
+ * `read_slot`), not to a check that runs several times a second. A lost patch
+ * fails here - the live words no longer match - and drops straight into that
+ * repair. See the desktop layout worker for the incident this encodes.
+ */
+template<size_t kTargets, size_t kPatchWords, typename ReadAll>
+inline bool ordered_slots_healthy(std::array<InlineSlot<kPatchWords>, kTargets> &slots,
+    std::span<const size_t> order, ReadAll read_all) {
+    std::array<uintptr_t, kTargets> addresses{};
+    std::array<CodeSource, kTargets> sources{};
+    std::array<SlotWords<kPatchWords>, kTargets> observed{};
+    size_t armed = 0;
+    for (const size_t index : order) {
+        if (index >= kTargets) return false;
+        auto &slot = slots[index];
+        if (!slot.registered || !continuation_exists(slot)) return false;
+        addresses[armed] = slot.address;
+        sources[armed] = slot.source;
+        ++armed;
+    }
+    if (armed == 0) return true;
+    if (!read_all(std::span<const uintptr_t>(addresses.data(), armed),
+            std::span<const CodeSource>(sources.data(), armed),
+            std::span<SlotWords<kPatchWords>>(observed.data(), armed))) {
+        return false;
+    }
+    size_t cursor = 0;
+    for (const size_t index : order) {
+        auto &slot = slots[index];
+        const SlotWords<kPatchWords> &live = observed[cursor++];
+        if (!slot.patch_known) {
+            // A hook that landed after the bank was reported partial: adopt the
+            // live words instead of rewriting them for process life.
+            if (live == slot.original_words) return false;
+            slot.patch_words = live;
+            slot.patch_known = true;
+        } else if (live != slot.patch_words) {
             return false;
         }
     }

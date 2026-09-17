@@ -279,4 +279,109 @@
             app:stepValue="1" />
     </PreferenceCategory>
 
+    <!--
+        Experimental group: the features whose sites are located from the launcher image's own
+        symbol table. Kept apart from the groups above because they rewrite constants inside the
+        launcher rather than redirecting an accessor, and because the folder column count they
+        change already has a home in the folder settings page.
+    -->
+    <PreferenceCategory android:title="@string/home_layout_experimental_title">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_folder_cols_enable"
+            android:summary="@string/home_layout_folder_cols_desc"
+            android:title="@string/home_layout_folder_cols_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_pad_grid_enable"
+            android:summary="@string/home_layout_pad_grid_desc"
+            android:title="@string/home_layout_pad_grid_title" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="8"
+            android:dependency="prefs_key_home_layout_pad_grid_enable"
+            android:key="prefs_key_home_layout_pad_major"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            android:title="@string/home_layout_pad_major_title"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="16"
+            app:minValue="2"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="5"
+            android:dependency="prefs_key_home_layout_pad_grid_enable"
+            android:key="prefs_key_home_layout_pad_minor"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            android:title="@string/home_layout_pad_minor_title"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="16"
+            app:minValue="2"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_fold_grid_enable"
+            android:summary="@string/home_layout_fold_grid_desc"
+            android:title="@string/home_layout_fold_grid_title" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="8"
+            android:dependency="prefs_key_home_layout_fold_grid_enable"
+            android:key="prefs_key_home_layout_fold_major"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            android:title="@string/home_layout_fold_major_title"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="16"
+            app:minValue="2"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="5"
+            android:dependency="prefs_key_home_layout_fold_grid_enable"
+            android:key="prefs_key_home_layout_fold_minor"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            android:title="@string/home_layout_fold_minor_title"
+            app:defaultValueTitle="@string/array_default"
+            app:maxValue="16"
+            app:minValue="2"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_icon_scale_enable"
+            android:summary="@string/home_layout_icon_scale_desc"
+            android:title="@string/home_layout_icon_scale_title" />
+
+        <SeekBarPreferenceCompat
+            android:defaultValue="100"
+            android:dependency="prefs_key_home_layout_icon_scale_enable"
+            android:key="prefs_key_home_layout_icon_scale"
+            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="140"
+            app:minValue="60"
+            app:showSeekBarValue="true"
+            app:stepValue="5" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_recents_hide_clear"
+            android:summary="@string/home_layout_recents_hide_clear_desc"
+            android:title="@string/home_layout_recents_hide_clear_title" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_layout_recents_no_clear"
+            android:summary="@string/home_layout_recents_no_clear_desc"
+            android:title="@string/home_layout_recents_no_clear_title" />
+    </PreferenceCategory>
+
 </PreferenceScreen>

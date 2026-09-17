@@ -27,8 +27,10 @@ import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Binder;
 import android.os.ParcelFileDescriptor;
 import android.os.Bundle;
+import android.os.SystemProperties;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -55,7 +57,67 @@ public class SharedPrefsProvider extends ContentProvider {
         if (method != null && method.startsWith("dock_glass_")) {
             return dockGlassHost.call(getContext(), method, arg, extras);
         }
+        if ("hc_debug_put".equals(method)) {
+            return debugPut(arg);
+        }
         return super.call(method, arg, extras);
+    }
+
+    /**
+     * Debug-only preference writer.
+     *
+     * The settings page is the only other writer, and it is a UI: exercising a layout knob without a
+     * tap needs a path that still goes through the real chain. This calls the very same
+     * {@link PrefsBridge#putBoolean} / {@link PrefsBridge#putInt} the preference framework calls, so
+     * physical storage, the remote snapshot and the change notification all behave exactly as they do
+     * for a user tap - unlike a system property, which the launcher reads directly and which therefore
+     * proves nothing about the real path.
+     *
+     * Off unless `debug.hyperceiler.prefs_write` is 1, and restricted to the shell/root caller, so a
+     * normal application can never write another app's preferences through it.
+     *
+     * Usage from adb:
+     *   adb shell setprop debug.hyperceiler.prefs_write 1
+     *   adb shell content call --uri content://com.sevtinge.hyperceiler.provider.sharedprefs \
+     *       --method hc_debug_put --arg boolean:home_layout_workspace_padding_top_enable:true
+     */
+    private Bundle debugPut(String arg) {
+        final Bundle result = new Bundle();
+        final int uid = Binder.getCallingUid();
+        if (!SystemProperties.getBoolean("debug.hyperceiler.prefs_write", false)) {
+            result.putBoolean("ok", false);
+            result.putString("why", "debug.hyperceiler.prefs_write is not 1");
+            return result;
+        }
+        if (uid != 2000 && uid != 0) {
+            result.putBoolean("ok", false);
+            result.putString("why", "caller uid " + uid + " is neither shell nor root");
+            return result;
+        }
+        final String[] parts = arg == null ? new String[0] : arg.split(":", 3);
+        if (parts.length != 3) {
+            result.putBoolean("ok", false);
+            result.putString("why", "argument must be <type>:<key>:<value>");
+            return result;
+        }
+        try {
+            switch (parts[0]) {
+                case "boolean" -> PrefsBridge.putBoolean(parts[1], Boolean.parseBoolean(parts[2]));
+                case "integer" -> PrefsBridge.putInt(parts[1], Integer.parseInt(parts[2]));
+                case "string" -> PrefsBridge.putString(parts[1], parts[2]);
+                default -> {
+                    result.putBoolean("ok", false);
+                    result.putString("why", "unknown type " + parts[0]);
+                    return result;
+                }
+            }
+        } catch (RuntimeException exception) {
+            result.putBoolean("ok", false);
+            result.putString("why", exception.getClass().getSimpleName());
+            return result;
+        }
+        result.putBoolean("ok", true);
+        return result;
     }
 
     static {
@@ -130,6 +192,18 @@ public class SharedPrefsProvider extends ContentProvider {
                 }
                 String prefType = parts.get(1);
                 String prefName = parts.get(2);
+                /*
+                 * A key that was never written answers with no row, not with a type default.
+                 *
+                 * The reader is the layout endpoint, and "no row" is what lets it fall back to the
+                 * settings page's own default. Answering 0 for every absent integer turned each
+                 * untouched preference into a real zero, and a single out-of-range zero anywhere in
+                 * the snapshot made the launcher reject the whole thing - so a settings page change
+                 * had no effect at all. `prefs.contains` is the only way to tell absent from zero.
+                 */
+                if (prefs == null || !prefs.contains(prefName)) {
+                    return cursor;
+                }
                 switch (prefType) {
                     case "string" -> cursor.newRow().add("data", prefs.getString(prefName, ""));
                     case "integer" -> cursor.newRow().add("data", prefs.getInt(prefName, 0));

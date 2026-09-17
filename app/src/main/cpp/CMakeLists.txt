@@ -9,9 +9,43 @@ project(HyperCeilerNative LANGUAGES CXX)
 # `System.loadLibrary` name in NativeHomeHooksOS4.
 add_library(HyperCeilerNative SHARED targets/home/hyperceiler_home.cpp)
 
+# The Dart-side trampolines are hand-written: they follow the Dart AOT register
+# rules (x15 stack, x16/x17 scratch) rather than AAPCS, so the layout feature needs
+# its own assembly sources independent of the dock option below.
+enable_language(ASM)
+
+target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_targets.cpp)
+target_sources(HyperCeilerNative PRIVATE targets/home/home_layout_config.cpp
+    targets/home/home_layout_hooks.cpp
+    targets/home/home_layout_dart_arm64.S)
+
+# Launcher tweaks: the sign- and symbol-table-driven plan/apply path for the grid,
+# icon-size and recents-clear features. Its files are third-party (Apache-2.0) and keep
+# their own headers; the resolver locates every site from the image's own symbol table or
+# from a signature that must match exactly once, so nothing here carries a fixed address.
+enable_language(C)
+set(HYPERCEILER_TWEAKS_DIR ${CMAKE_CURRENT_SOURCE_DIR}/targets/home/tweaks)
+target_sources(HyperCeilerNative PRIVATE
+    ${HYPERCEILER_TWEAKS_DIR}/entry.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/blob.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/image.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/scanner.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/symtab.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/ht_plan.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/htcache.cpp
+    ${HYPERCEILER_TWEAKS_DIR}/xz/xz_crc32.c
+    ${HYPERCEILER_TWEAKS_DIR}/xz/xz_crc64.c
+    ${HYPERCEILER_TWEAKS_DIR}/xz/xz_dec_lzma2.c
+    ${HYPERCEILER_TWEAKS_DIR}/xz/xz_dec_stream.c)
+# Third-party sources are held to the project's warning level only as far as they compile:
+# their style is not this repository's to fix, and -Werror would otherwise block the build.
+file(GLOB HYPERCEILER_TWEAKS_SOURCES
+    ${HYPERCEILER_TWEAKS_DIR}/*.cpp ${HYPERCEILER_TWEAKS_DIR}/xz/*.c)
+set_source_files_properties(${HYPERCEILER_TWEAKS_SOURCES} PROPERTIES
+    COMPILE_OPTIONS "-Wno-everything")
+
 option(HYPERCEILER_DOCK_NATIVE_MOTION "Dynamically resolve OS4 native recents animation" ON)
 if(HYPERCEILER_DOCK_NATIVE_MOTION)
-    enable_language(ASM)
     target_sources(HyperCeilerNative PRIVATE
         targets/home/dock_native_hooks.cpp
         targets/home/dock_native_motion.cpp

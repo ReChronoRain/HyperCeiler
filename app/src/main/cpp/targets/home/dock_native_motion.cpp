@@ -42,8 +42,10 @@ namespace {
 constexpr char kTag[] = "HyperCeiler.DockNative";
 constexpr transaction_code_t kMotionTransaction = 0x0048434A;
 constexpr transaction_code_t kAutoAimTransaction = 0x0048434B;
+constexpr transaction_code_t kStateTransaction = 0x0048434D;
 constexpr int32_t kMotionAck = 0x48434B32;
 constexpr int32_t kMotionAckRevalidate = 0x48434B33;
+constexpr int32_t kStateAck = 0x48435331;
 constexpr char kWindowDescriptor[] = "android.view.IWindowManager";
 std::atomic<uint64_t> motion_sequence{0};
 std::atomic<uint64_t> auto_aim_sequence{0};
@@ -230,6 +232,68 @@ bool dock_motion_feature_active() {
     return dock_motion_feature_enabled.load(std::memory_order_acquire);
 }
 
+/*
+ * Panel-interactive gate for the maintenance worker.
+ *
+ * The launcher cannot read this itself: every path that carries the panel state on this ROM - the
+ * backlight node, the DRM connector - is root-only, so a native read is not an option. system_server
+ * is where PowerManagerService lives, so the answer arrives over the same IWindowManager transport
+ * the motion samples already use, on its own transaction code and with its own acknowledgment, so a
+ * state reply can never be mistaken for a motion ack.
+ *
+ * Fail-open, like the Dock preference above: it starts true and a failed query keeps the previous
+ * value. A missing endpoint then costs the saving, never the hooks.
+ */
+std::atomic<bool> dock_motion_screen_interactive{true};
+
+bool dock_motion_screen_active() {
+    return dock_motion_screen_interactive.load(std::memory_order_acquire);
+}
+
+/* Refresh the cached panel state. False means the query failed and the cache is unchanged. */
+bool refresh_dock_screen_state() {
+    using GetService = AIBinder *(*)(const char *);
+    const auto get_service = reinterpret_cast<GetService>(
+        dlsym(RTLD_DEFAULT, "AServiceManager_getService"));
+    if (get_service == nullptr) return false;
+    AIBinder *window = get_service("window");
+    if (window == nullptr) return false;
+
+    const AIBinder_Class *clazz = AIBinder_getClass(window);
+    bool associated = false;
+    if (clazz != nullptr) {
+        const char *descriptor = AIBinder_Class_getDescriptor(clazz);
+        associated = descriptor != nullptr && std::strcmp(descriptor, kWindowDescriptor) == 0;
+    } else {
+        clazz = window_manager_class();
+        associated = clazz != nullptr && AIBinder_associateClass(window, clazz);
+    }
+    if (!associated) {
+        AIBinder_decStrong(window);
+        return false;
+    }
+    AParcel *input = nullptr;
+    if (AIBinder_prepareTransaction(window, &input) != STATUS_OK || input == nullptr) {
+        AIBinder_decStrong(window);
+        return false;
+    }
+    AParcel *output = nullptr;
+    const binder_status_t status = AIBinder_transact(window, kStateTransaction,
+        &input, &output, 0);
+    AIBinder_decStrong(window);
+    int32_t acknowledgment = 0;
+    int32_t interactive = 0;
+    const bool replied = status == STATUS_OK && output != nullptr
+        && AParcel_readInt32(output, &acknowledgment) == STATUS_OK
+        && AParcel_readInt32(output, &interactive) == STATUS_OK
+        && acknowledgment == kStateAck
+        && (interactive == 0 || interactive == 1);
+    if (output != nullptr) AParcel_delete(output);
+    if (!replied) return false;
+    dock_motion_screen_interactive.store(interactive != 0, std::memory_order_release);
+    return true;
+}
+
 uint64_t active_dock_motion_callbacks() {
     return dock_motion_active_callbacks.load(std::memory_order_acquire);
 }
@@ -240,6 +304,15 @@ void run_dock_motion() {
     const int event = dock_motion_event;
     if (event < 0) return;
     constexpr int kPollMs = 1000;
+    /*
+     * While the panel is in doze the launcher draws nothing and no gesture can arrive, so the poll
+     * timeout only bounds how often this thread wakes the process - and one wake per second was
+     * enough to keep the CPU out of its deepest idle state for the whole night. Gestures come in
+     * through the eventfd, which returns from poll immediately, so the long timeout costs no
+     * responsiveness. The state is refreshed by the health worker; until it flips back this stays
+     * coarse, and the first gesture still goes through at once.
+     */
+    constexpr int kDozingPollMs = 30000;
     constexpr uint64_t kKeepAliveNs = 5000000000ULL;
     constexpr uint64_t kRevalidationRetryNs = 750000000ULL;
     constexpr uint64_t kSuspendGapNs = 5000000000ULL;
@@ -308,8 +381,9 @@ void run_dock_motion() {
         while (!disconnected) {
             pollfd descriptor{event, POLLIN, 0};
             int result;
+            const int timeout_ms = dock_motion_screen_active() ? kPollMs : kDozingPollMs;
             do {
-                result = poll(&descriptor, 1, kPollMs);
+                result = poll(&descriptor, 1, timeout_ms);
             } while (result < 0 && errno == EINTR);
             if (result < 0) {
                 disconnected = true;

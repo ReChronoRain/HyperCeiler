@@ -15,6 +15,21 @@
 #include <cstring>
 #include <string_view>
 
+// Runtime-discovered HyperOS 4 launcher layout targets (see home_layout_resolver.h). Gated on
+// debug.hyperceiler.home_layout_resolve so a release build stays silent.
+void resolve_home_layout_targets();
+void start_home_layout_hooks(const char *site, int (*hook)(void *, void *, void **),
+    int (*unhook)(void *));
+void prime_home_layout_probe(int (*hook)(void *, void *, void **), int (*unhook)(void *));
+void home_layout_prepare_for_launcher_child();
+void prime_home_layout_knobs(int (*hook)(void *, void *, void **), int (*unhook)(void *));
+// Launcher tweaks runtime (symbol-table / signature located code patches, see targets/home/tweaks).
+namespace hometweaks {
+void StartHomeTweaks();
+void HomeTweaksOnLibraryLoaded(const char *name);
+void HomeTweaksPrepareForLauncherChild();
+}
+
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
 void start_dock_native_motion(int (*hook)(void *, void *, void **), int (*unhook)(void *));
 void set_dock_motion_feature_enabled(bool enabled);
@@ -125,6 +140,14 @@ int hooked_system_property_get(const char *name, char *value) {
     // HYOS maps its AOT libapp outside the ordinary linker callback path. The
     // inherited property hook is the earliest reliable post-specialization signal.
     start_motion_after_specialization();
+    if (g_hook_function != nullptr && is_launcher_process()) {
+        home_layout_prepare_for_launcher_child();
+        start_home_layout_hooks("property", g_hook_function, g_unhook_function);
+        // The specialization signal means this is the forked desktop itself, not the spawner that
+        // merely shares its cmdline: state inherited across the fork is poison, drop it first.
+        hometweaks::HomeTweaksPrepareForLauncherChild();
+        hometweaks::StartHomeTweaks();
+    }
     if (name != nullptr) {
         const std::string_view property(name);
         if (g_disable_prestart.load(std::memory_order_relaxed) &&
@@ -154,6 +177,15 @@ int hooked_system_property_get(const char *name, char *value) {
 
 void hooked_setprogname(const char *name) {
     if (g_original_setprogname != nullptr) g_original_setprogname(name);
+    if (name != nullptr && std::string_view(name) == "com.miui.home") {
+        home_layout_prepare_for_launcher_child();
+        start_home_layout_hooks("setprogname", g_hook_function, g_unhook_function);
+        if (!is_hyos_spawner_process()) {
+            // See the property-hook site: same signal, same fork poisoning, same fix.
+            hometweaks::HomeTweaksPrepareForLauncherChild();
+            hometweaks::StartHomeTweaks();
+        }
+    }
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     // hyos_spawner calls setprogname after fork and before the launcher enters
     // its native runtime. The hook is inherited by the child, so this is an
@@ -206,11 +238,34 @@ void install_property_hook() {
 
 void on_library_loaded(const char *name, void *) {
     if (name == nullptr) return;
-    const std::string_view library_name(name);
     const bool launcher = is_launcher_process();
+    /*
+     * Adopt the fork handoff before anything primes. prime_home_layout_probe/knobs below publish
+     * hook state (armed flags, registered slots), and the adoption reset wipes exactly that: run
+     * afterwards it would leave the bank unaware of patches that are already in the code pages,
+     * which is how a re-arm attempt lands on an address that is already hooked.
+     */
+    if (launcher) home_layout_prepare_for_launcher_child();
+    // Patch before the desktop computes its first layout: the image has just been loaded, so every
+    // site is available and nothing has read the old constants yet. Scoped to the Dart image, since
+    // every other library loaded here would otherwise cost a Binder round trip each.
+    if (std::string_view(name).ends_with("libapp.so")) {
+        // Patch before the dart runtime runs: the probe target is called exactly once, at start-up.
+        prime_home_layout_probe(g_hook_function, g_unhook_function);
+        prime_home_layout_knobs(g_hook_function, g_unhook_function);
+        hometweaks::HomeTweaksOnLibraryLoaded(name);
+    }
+    const std::string_view library_name(name);
     if ((launcher || is_hyos_spawner_process())
         && is_library(library_name, "libapp_launcher.so")) {
         install_property_hook();
+    }
+    if (launcher) {
+        start_home_layout_hooks("library", g_hook_function, g_unhook_function);
+    }
+    if (launcher) {
+        hometweaks::HomeTweaksPrepareForLauncherChild();
+        hometweaks::StartHomeTweaks();
     }
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     // HYOS can map libapp.so outside the normal linker callback path. Any later
@@ -254,6 +309,12 @@ Java_com_sevtinge_hyperceiler_libhook_rules_home_other_NativeHomeHooksOS4_native
         start_dock_native_motion(g_hook_function, g_unhook_function);
     }
 #endif
+    if (is_launcher_process() && g_hook_function != nullptr) {
+        home_layout_prepare_for_launcher_child();
+        start_home_layout_hooks("configure", g_hook_function, g_unhook_function);
+        hometweaks::HomeTweaksPrepareForLauncherChild();
+        hometweaks::StartHomeTweaks();
+    }
     return native_status();
 }
 
@@ -287,6 +348,15 @@ NativeOnModuleLoaded native_init(const NativeApiEntries *entries) {
     // Install before libapp_launcher/libapp run their static initialization and cache the
     // properties. The load callback remains as a retry path for unusual linker ordering.
     if (spawner || is_launcher_process()) install_property_hook();
+    if (is_launcher_process()) resolve_home_layout_targets();
+    if (is_launcher_process()) {
+        home_layout_prepare_for_launcher_child();
+        start_home_layout_hooks("native-init", g_hook_function, g_unhook_function);
+    }
+    if (is_launcher_process()) {
+        hometweaks::HomeTweaksPrepareForLauncherChild();
+        hometweaks::StartHomeTweaks();
+    }
     if (spawner) install_process_name_hook();
 #ifdef HYPERCEILER_DOCK_NATIVE_MOTION
     // In the normal path the spawner does not contain libapp.so. Starting here
