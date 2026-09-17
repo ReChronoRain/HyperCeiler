@@ -35,6 +35,12 @@
 
         <SwitchPreference
             android:defaultValue="false"
+            android:key="prefs_key_home_other_force_stop_shortcut_menu"
+            android:summary="@string/home_other_force_stop_shortcut_menu_desc"
+            android:title="@string/home_other_force_stop_shortcut_menu" />
+
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="prefs_key_home_other_shortcut_background_blur"
             android:title="@string/home_other_shortcut_background_blur" />
 
