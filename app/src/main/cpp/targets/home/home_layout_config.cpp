@@ -10,10 +10,13 @@
 #include <charconv>
 #include <system_error>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
 #include <dlfcn.h>
+#include <optional>
 #include <string_view>
+#include <vector>
 
 namespace home_layout {
 namespace {
@@ -138,6 +141,122 @@ const AIBinder_Class *window_class() {
         on_create, on_destroy, on_transact);
     return clazz;
 }
+
+/*
+ * Last-known-good configuration cache.
+ *
+ * The Binder endpoint lives in system_server's Java world, and when LSPosed fails to dispatch the
+ * module there (early-boot APK parse failure, no retry) the endpoint is gone for the whole
+ * system_server lifetime — while the native patches that consume this config keep working. A
+ * cache of the last successfully received config lets the consumer-side features (tweaks, knobs)
+ * keep running with the user's last-known values instead of going dark with the endpoint.
+ * Dock-glass/WMS-side hooks cannot be saved this way (they live in the dead process), but they
+ * are the minority.
+ */
+constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
+constexpr uint32_t kCacheVersion = 1;
+constexpr const char *kCachePath = "/data/user/0/com.miui.home/files/layout_config_cache.bin";
+constexpr const char *kCacheTmpPath = "/data/user/0/com.miui.home/files/layout_config_cache.bin.tmp";
+
+void serialize_config(const Config &config, std::vector<uint8_t> &out) {
+    out.clear();
+    auto put_u32 = [&out](uint32_t v) {
+        out.push_back(static_cast<uint8_t>(v));
+        out.push_back(static_cast<uint8_t>(v >> 8));
+        out.push_back(static_cast<uint8_t>(v >> 16));
+        out.push_back(static_cast<uint8_t>(v >> 24));
+    };
+    out.insert(out.end(), kCacheMagic, kCacheMagic + 4);
+    put_u32(kCacheVersion);
+    put_u32(config.grid_enabled ? 1 : 0);
+    put_u32(static_cast<uint32_t>(config.cell_x));
+    put_u32(static_cast<uint32_t>(config.cell_y));
+    for (const auto &knob : config.knobs) {
+        put_u32(knob.enabled ? 1 : 0);
+        put_u32(static_cast<uint32_t>(knob.delta_px));
+    }
+    put_u32(config.tweaks.folder_enabled ? 1 : 0);
+    put_u32(static_cast<uint32_t>(config.tweaks.folder_cols));
+    put_u32(config.tweaks.pad_enabled ? 1 : 0);
+    put_u32(static_cast<uint32_t>(config.tweaks.pad_major));
+    put_u32(static_cast<uint32_t>(config.tweaks.pad_minor));
+    put_u32(config.tweaks.fold_enabled ? 1 : 0);
+    put_u32(static_cast<uint32_t>(config.tweaks.fold_major));
+    put_u32(static_cast<uint32_t>(config.tweaks.fold_minor));
+    put_u32(config.tweaks.icon_scale_enabled ? 1 : 0);
+    put_u32(static_cast<uint32_t>(config.tweaks.icon_scale_code));
+    put_u32(config.tweaks.recents_hide_clear ? 1 : 0);
+    put_u32(config.tweaks.recents_no_clear ? 1 : 0);
+}
+
+bool parse_config(const std::vector<uint8_t> &data, Config &config) {
+    if (data.size() < 4 + 4 + 4 + 4 + 4 + 8 * 8 + 12 * 4) return false;
+    if (std::memcmp(data.data(), kCacheMagic, 4) != 0) return false;
+    uint32_t version = 0;
+    std::memcpy(&version, data.data() + 4, 4);
+    if (version != kCacheVersion) return false;
+    size_t at = 8;
+    auto get_u32 = [&]() -> std::optional<uint32_t> {
+        if (at + 4 > data.size()) return std::nullopt;
+        uint32_t v = 0;
+        std::memcpy(&v, data.data() + at, 4);
+        at += 4;
+        return v;
+    };
+    const auto grid = get_u32();
+    const auto cx = get_u32();
+    const auto cy = get_u32();
+    if (!grid || !cx || !cy || *cx < 3 || *cx > 9 || *cy < 4 || *cy > 13) return false;
+    config.grid_enabled = *grid != 0;
+    config.cell_x = static_cast<int>(*cx);
+    config.cell_y = static_cast<int>(*cy);
+    for (auto &knob : config.knobs) {
+        const auto enabled = get_u32();
+        const auto delta = get_u32();
+        if (!enabled || !delta) return false;
+        knob = KnobConfig{*enabled != 0, static_cast<int>(*delta)};
+    }
+    const auto fe = get_u32();        const auto fc = get_u32();
+    const auto pe = get_u32();        const auto pm = get_u32();
+    const auto pn = get_u32();        const auto fle = get_u32();
+    const auto flm = get_u32();       const auto fln = get_u32();
+    const auto ie = get_u32();        const auto ic = get_u32();
+    const auto rh = get_u32();        const auto rn = get_u32();
+    if (!fe || !fc || !pe || !pm || !pn || !fle || !flm || !fln || !ie || !ic || !rh || !rn)
+        return false;
+    config.tweaks = TweaksConfig{*fe != 0, static_cast<int>(*fc), *pe != 0,
+        static_cast<int>(*pm), static_cast<int>(*pn), *fle != 0,
+        static_cast<int>(*flm), static_cast<int>(*fln), *ie != 0,
+        static_cast<int>(*ic), *rh != 0, *rn != 0};
+    return true;
+}
+
+void write_config_cache(const Config &config) {
+    std::vector<uint8_t> data;
+    serialize_config(config, data);
+    FILE *tmp = std::fopen(kCacheTmpPath, "wb");
+    if (tmp == nullptr) return;
+    const auto written = std::fwrite(data.data(), 1, data.size(), tmp);
+    std::fclose(tmp);
+    if (written != data.size()) {
+        std::remove(kCacheTmpPath);
+        return;
+    }
+    std::rename(kCacheTmpPath, kCachePath);
+}
+
+bool read_config_cache(Config &config) {
+    FILE *file = std::fopen(kCachePath, "rb");
+    if (file == nullptr) return false;
+    std::vector<uint8_t> data;
+    uint8_t buffer[512];
+    size_t read = 0;
+    while ((read = std::fread(buffer, 1, sizeof(buffer), file)) > 0)
+        data.insert(data.end(), buffer, buffer + read);
+    std::fclose(file);
+    return parse_config(data, config);
+}
+
 } // namespace
 
 /* The Binder lane: same synchronous IWindowManager transport as DockNativeMotionEndpoint, with an
@@ -265,8 +384,24 @@ bool query_config(Config &result) {
         result = candidate;
         return true;
     }
-    if (!from_binder) return false;
+    if (!from_binder) {
+        /*
+         * Endpoint gone (LSPosed dispatch failure in system_server — early-boot APK parse
+         * failure, no retry): fall back to the last-known-good config so the consumer-side
+         * features keep running with the user's values instead of going dark with the endpoint.
+         * Only genuine binder configs are cached; the debug-override branch above is calibration
+         * and must not become persistent.
+         */
+        if (read_config_cache(candidate)) {
+            result = candidate;
+            __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+                "layout config from last-known cache (endpoint unavailable)");
+            return true;
+        }
+        return false;
+    }
     result = candidate;
+    write_config_cache(candidate);
     return true;
 }
 
