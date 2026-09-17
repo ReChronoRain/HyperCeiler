@@ -22,11 +22,14 @@ import androidx.annotation.NonNull;
 
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook;
 import io.github.libxposed.api.XposedInterface;
 
 public class AllowDisableProtectedPackage extends BaseHook {
     @Override
     public void init() {
+        // 旧版 MIUI (ProtectedPackages 拦截) —— 保留原有 hook
         findAndChainMethod("com.android.server.pm.ProtectedPackages", "isPackageStateProtected", new XposedInterface.Hooker() {
             @Override
             public Object intercept(@NonNull XposedInterface.Chain chain) throws Throwable {
@@ -39,5 +42,17 @@ public class AllowDisableProtectedPackage extends BaseHook {
                 return chain.proceed();
             }
         }, int.class, String.class);
+
+        // HyperOS (miui-services.jar) 冻结拦截本体
+        // shouldRestrictEnabledSettingsChange(String, int, int) -> void
+        // 命中即跳过原方法（setResult(null)），放行 pm disable / disable-user
+        findAndHookMethod("com.android.server.pm.PackageManagerServiceImpl",
+            "shouldRestrictEnabledSettingsChange", String.class, int.class, int.class,
+            new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    param.setResult(null);
+                }
+            });
     }
 }
