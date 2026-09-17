@@ -265,9 +265,19 @@ internal object DexKitCacheManager {
         if (!cacheDir.exists()) cacheDir.mkdirs()
         val cacheFile = File(cacheDir, DEXKIT_CACHE_FILE)
 
-        val pkgVersionName = AppsTool.getPackageVersionName(target)
-        val pkgVersionCode = AppsTool.getPackageVersionCode(target)
-        val hasPkgVersion = pkgVersionName.isNotEmpty() && pkgVersionCode != -1
+        // Resolve PackageInfo once. The previous path performed two separate PackageManager lookups
+        // and narrowed longVersionCode to Int, which could disable version-based invalidation for
+        // packages whose version code exceeds Int.MAX_VALUE.
+        val packageInfo = runCatching {
+            AppsTool.findContext(AppsTool.FlAG_ONLY_ANDROID)
+                ?.packageManager
+                ?.getPackageInfo(target.packageName, 0)
+        }.onFailure {
+            XposedLog.w(tag, "Failed to resolve package version for ${target.packageName}", it)
+        }.getOrNull()
+        val pkgVersionName = packageInfo?.versionName.orEmpty()
+        val pkgVersionCode = packageInfo?.longVersionCode ?: -1L
+        val hasPkgVersion = pkgVersionName.isNotEmpty() && pkgVersionCode != -1L
         val pkgVersion = if (hasPkgVersion) "$pkgVersionName($pkgVersionCode)" else null
 
         val isSystemUI = "com.android.systemui" == target.packageName

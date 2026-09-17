@@ -57,7 +57,7 @@ public class SearchHelper {
 
     public static void initIndex(Context context, boolean force) {
         AndroidLog.d(TAG, "initIndex: force = " + force);
-        ThreadPoolManager.getInstance().submit(() -> {
+        ThreadPoolManager.submit(() -> {
             ModDao dao = AppDatabase.getInstance(context).modDao();
             if (force || dao.getCount() == 0) {
                 rebuildIndex(context, dao);

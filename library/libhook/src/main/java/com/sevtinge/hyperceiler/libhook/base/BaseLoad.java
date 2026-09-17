@@ -293,7 +293,7 @@ public abstract class BaseLoad {
 
         List<Future<DexKitInitResult>> futures = new ArrayList<>(pendingHooks.size());
         for (BaseHook hook : pendingHooks) {
-            futures.add(ThreadPoolManager.getInstance().submit(() -> runDexKitInit(hook)));
+            futures.add(ThreadPoolManager.submit(() -> runDexKitInit(hook)));
         }
 
         List<DexKitInitResult> results = new ArrayList<>(pendingHooks.size());

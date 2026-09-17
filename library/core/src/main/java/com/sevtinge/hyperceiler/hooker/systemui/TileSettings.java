@@ -111,7 +111,7 @@ public class TileSettings extends DashboardFragment implements Preference.OnPref
     }
 
     public void killTaplus() {
-        ThreadPoolManager.getInstance().submit(() -> handler.post(() ->
+        ThreadPoolManager.submit(() -> handler.post(() ->
                 AppsTool.killApps("com.miui.contentextension")));
     }
 
