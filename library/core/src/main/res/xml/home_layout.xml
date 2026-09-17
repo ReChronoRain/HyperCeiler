@@ -360,7 +360,7 @@
             android:title="@string/home_layout_icon_scale_title" />
 
         <SeekBarPreferenceCompat
-            android:defaultValue="100"
+            android:defaultValue="70"
             android:dependency="prefs_key_home_layout_icon_scale_enable"
             android:key="prefs_key_home_layout_icon_scale"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"

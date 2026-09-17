@@ -1859,7 +1859,7 @@
     <string name="home_layout_fold_major_title">Foldable long side</string>
     <string name="home_layout_fold_minor_title">Foldable short side</string>
     <string name="home_layout_icon_scale_title">Icon scale</string>
-    <string name="home_layout_icon_scale_desc">Percentage of the launcher default; 100 keeps it unchanged</string>
+    <string name="home_layout_icon_scale_desc">Icon size levels: 70 is the system default size, drag right to enlarge and left to shrink</string>
     <string name="home_layout_recents_hide_clear_title">Hide the recents clear button</string>
     <string name="home_layout_recents_hide_clear_desc">Hides the button but keeps its function</string>
     <string name="home_layout_recents_no_clear_title">Disable the recents clear button</string>

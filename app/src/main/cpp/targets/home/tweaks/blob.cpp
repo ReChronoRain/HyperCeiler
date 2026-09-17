@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 #include "blob.h"
 
+#include <algorithm>
 #include <fcntl.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -37,6 +38,46 @@ void NormalizeGrid(uint32_t lo, uint32_t hi, uint32_t defMajor, uint32_t defMino
     *minor = b;
 }
 
+/*
+ * A count from the file: zero means the file said nothing and stays zero (see kColsUnset), anything
+ * else is clamped into its legal range. Clamping an absent value into the range is exactly how a
+ * file that predates a field used to turn into a real setting.
+ */
+uint32_t NormalizeCols(uint32_t raw, uint32_t lo, uint32_t hi) {
+    if (raw == kColsUnset) return kColsUnset;
+    return ClampU32(raw, lo, hi);
+}
+
+/*
+ * Drop features whose numeric fields this format does not carry.
+ *
+ * `enabled` is format-independent while the values are not: version 2 carries the folder column
+ * count and nothing else, version 3 added the phone/pad/fold grids, version 5 the icon scale. A
+ * feature listed by a file that has no field for it therefore has no value behind it, and applying
+ * it means writing a compiled default onto the launcher - which is how a desktop nobody had
+ * configured ended up five columns wide. Leaving it out keeps the launcher's own value, the only
+ * honest reading of "the file does not say".
+ */
+void DropFeaturesWithoutValues(uint32_t format, std::vector<uint32_t>* enabled) {
+    /* Lowest format that carries each feature's value fields (see the parse below). */
+    struct FeatureField {
+        uint32_t num;
+        uint32_t since;
+    };
+    static const FeatureField kNeeds[] = {
+            {kFeaturePadGrid, kBlobFormatV3},
+            {kFeaturePhoneGrid, kBlobFormatV3},
+            {kFeatureFoldGrid, kBlobFormatV3},
+            {kFeatureIconSize, kBlobFormatV5},
+    };
+    for (const FeatureField& need : kNeeds) {
+        const auto at = std::find(enabled->begin(), enabled->end(), need.num);
+        if (at == enabled->end() || format >= need.since) continue;
+        enabled->erase(at);
+        LOGW("配置格式 V%u 里没有功能 %u 的数值，忽略它并保持桌面原值", format, need.num);
+    }
+}
+
 }
 
 bool ParseConfigBlob(const uint8_t* data, size_t size, Config* out) {
@@ -66,11 +107,11 @@ bool ParseConfigBlob(const uint8_t* data, size_t size, Config* out) {
         out->enabled.push_back(ReadU32(data + 16 + i * 4));
     }
     const size_t base = 16u + count * 4u;
-    out->folderCols = ClampU32(ReadU32(data + base), kFolderColsMin, kFolderColsMax);
+    out->folderCols = NormalizeCols(ReadU32(data + base), kFolderColsMin, kFolderColsMax);
 
     out->padMajor = kDefaultPadMajor;
     out->padMinor = kDefaultPadMinor;
-    out->phoneCols = kDefaultPhoneCols;
+    out->phoneCols = kColsUnset;
     out->phoneRows = kPhoneRowsAuto;
     out->foldMajor = kDefaultFoldMajor;
     out->foldMinor = kDefaultFoldMinor;
@@ -83,7 +124,7 @@ bool ParseConfigBlob(const uint8_t* data, size_t size, Config* out) {
                       &padMajor, &padMinor);
         out->padMajor = padMajor;
         out->padMinor = padMinor;
-        out->phoneCols = ClampU32(ReadU32(data + base + 12), kPhoneColsMin, kPhoneColsMax);
+        out->phoneCols = NormalizeCols(ReadU32(data + base + 12), kPhoneColsMin, kPhoneColsMax);
         uint32_t foldMajor = ReadU32(data + base + 16);
         uint32_t foldMinor = ReadU32(data + base + 20);
         NormalizeGrid(kPadGridMin, kPadGridMax, kDefaultFoldMajor, kDefaultFoldMinor,
@@ -103,6 +144,7 @@ bool ParseConfigBlob(const uint8_t* data, size_t size, Config* out) {
         const uint32_t code = ReadU32(data + base + 28);
         out->iconScaleCode = IconScaleCodeValid(code) ? code : kIconScaleCodeDefault;
     }
+    DropFeaturesWithoutValues(format, &out->enabled);
     return true;
 }
 

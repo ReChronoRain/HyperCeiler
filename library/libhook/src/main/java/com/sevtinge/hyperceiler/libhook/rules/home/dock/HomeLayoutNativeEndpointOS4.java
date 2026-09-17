@@ -319,7 +319,9 @@ public final class HomeLayoutNativeEndpointOS4 {
         tweaks[5] = readInt("home_layout_fold_major", 8);
         tweaks[6] = readInt("home_layout_fold_minor", 5);
         tweaks[7] = readBoolean("home_layout_fold_grid_enable", false) ? 1 : 0;
-        tweaks[8] = iconScaleCodeFor(readInt("home_layout_icon_scale", 100));
+        /* Default level 70 = the page's "system default size" level; must match the SeekBar's
+         * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
+        tweaks[8] = iconScaleCodeFor(readInt("home_layout_icon_scale", 70));
         tweaks[9] = readBoolean("home_layout_icon_scale_enable", false) ? 1 : 0;
         tweaks[10] = readBoolean("home_layout_recents_hide_clear", false) ? 1 : 0;
         tweaks[11] = readBoolean("home_layout_recents_no_clear", false) ? 1 : 0;

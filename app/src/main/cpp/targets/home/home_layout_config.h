@@ -30,7 +30,9 @@ struct TweaksConfig {
     int fold_major = 8;
     int fold_minor = 5;
     bool icon_scale_enabled = false;
-    int icon_scale_code = 0x70;
+    /* Settings-page default level 70; nearest acceptable launcher code is 0x66 (0.6875) - see
+     * kIconScaleCodeDefault in tweaks/blob.h for why 0.70 itself is not representable. */
+    int icon_scale_code = 0x66;
     bool recents_hide_clear = false;
     bool recents_no_clear = false;
 };

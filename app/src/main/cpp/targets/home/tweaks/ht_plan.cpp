@@ -976,6 +976,15 @@ void DeriveFeature16(const CodeView& code, const Config& cfg, const LocatedSites
         memcpy(out->why16, s.why16, sizeof(out->why16));
         return;
     }
+    /*
+     * An unset count means nobody asked for this: leaving the launcher's own folder width alone is
+     * the only correct answer, and it is also what keeps a value-less source (an older config file,
+     * a Config nobody filled in) from writing a compiled default onto the desktop.
+     */
+    if (cfg.folderCols == kColsUnset) {
+        SetWhy(out->why16, sizeof(out->why16), "每行应用数未设置：不改动文件夹列数");
+        return;
+    }
     const size_t mark = out->patches.size();
 
     const uint32_t cols = cfg.folderCols;
@@ -1173,6 +1182,16 @@ void DeriveFeature19(const CodeView& code, const Config& cfg, const LocatedSites
                      PlanResult* out) {
     if (!s.ok19) {
         memcpy(out->why19, s.why19, sizeof(out->why19));
+        return;
+    }
+    /*
+     * Unset means "keep the launcher's own two tiers" (see kColsUnset). The clamp below used to turn
+     * an absent value into the *minimum* column count - a one-column desktop - while the parser's
+     * default turned it into five; both are the same mistake of answering a question nobody asked.
+     * phoneRows has always worked this way (kPhoneRowsAuto).
+     */
+    if (cfg.phoneCols == kColsUnset) {
+        SetWhy(out->why19, sizeof(out->why19), "桌面列数未设置：不改动列数");
         return;
     }
     const size_t mark = out->patches.size();

@@ -1819,7 +1819,7 @@
     <string name="home_layout_fold_major_title">折叠屏长边格数</string>
     <string name="home_layout_fold_minor_title">折叠屏短边格数</string>
     <string name="home_layout_icon_scale_title">图标缩放</string>
-    <string name="home_layout_icon_scale_desc">相对桌面默认值的百分比；100 即不变</string>
+    <string name="home_layout_icon_scale_desc">图标大小档位：70 为系统默认大小，往右放大、往左缩小</string>
     <string name="home_layout_recents_hide_clear_title">隐藏最近任务清理键</string>
     <string name="home_layout_recents_hide_clear_desc">隐藏按钮，功能保留</string>
     <string name="home_layout_recents_no_clear_title">关闭最近任务清理键</string>

@@ -35,14 +35,34 @@ constexpr uint32_t kPhoneRowsAuto = 0;
 constexpr uint32_t kPhoneRowsMin = 2;
 constexpr uint32_t kPhoneRowsMax = 16;
 
+/*
+ * "Nobody said what this should be" - the value a count carries when the source has no opinion.
+ *
+ * Every count used to default to a compiled constant instead (5 columns, 3 per folder row), and that
+ * constant was then written onto the launcher as if the user had asked for it: a version-2 config
+ * file that listed the phone-grid feature but predated the column field silently turned a desktop
+ * nobody had configured into a five-column one. A count that was never set must mean "leave the
+ * launcher's own value alone", which is the same rule `phoneRows` has always had (kPhoneRowsAuto).
+ *
+ * Zero is outside every count's legal range, so it can never be confused with a real setting.
+ */
+constexpr uint32_t kColsUnset = 0;
+
 constexpr uint32_t kDefaultPadMajor = 8;
 constexpr uint32_t kDefaultPadMinor = 5;
-constexpr uint32_t kDefaultPhoneCols = 5;
 constexpr uint32_t kDefaultFoldMajor = 8;
 constexpr uint32_t kDefaultFoldMinor = 5;
 
 constexpr uint32_t kIconScaleSlot = 7;
-constexpr uint32_t kIconScaleCodeDefault = 0x70u;
+/*
+ * Default scale for every "the config did not carry a value" path (the file channel's blob, an
+ * older snapshot, a Config nobody filled in). The settings page's own default level is 70, and the
+ * nearest acceptable code to 0.70 is 0x66 (= 0.6875): the launcher's scale field is a packed 8-bit
+ * float whose acceptable set does not contain 0.70 itself, so a default of 0x70 (1.0) here would
+ * silently mean "40% larger than the level the page calls default" - the exact mismatch that made
+ * the old wording misleading.
+ */
+constexpr uint32_t kIconScaleCodeDefault = 0x66u;
 
 inline bool IconScaleCodeValid(uint32_t code) {
     if (code > 0xFFu) return false;
@@ -56,10 +76,10 @@ double IconScaleValueFromCode(uint32_t code);
 struct Config {
     uint32_t flags = 0;
     std::vector<uint32_t> enabled;
-    uint32_t folderCols = 3;
+    uint32_t folderCols = kColsUnset;
     uint32_t padMajor = kDefaultPadMajor;
     uint32_t padMinor = kDefaultPadMinor;
-    uint32_t phoneCols = kDefaultPhoneCols;
+    uint32_t phoneCols = kColsUnset;
     uint32_t phoneRows = kPhoneRowsAuto;
     uint32_t foldMajor = kDefaultFoldMajor;
     uint32_t foldMinor = kDefaultFoldMinor;
