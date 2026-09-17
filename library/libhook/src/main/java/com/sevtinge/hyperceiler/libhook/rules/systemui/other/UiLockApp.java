@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.systemui.other;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -45,6 +46,7 @@ import io.github.libxposed.api.XposedInterface;
  */
 public class UiLockApp extends BaseHook {
     private static final String SETTING_KEY_LOCK_APP = "key_lock_app";
+    private static final String SETTING_HIDE_GESTURE_LINE = "hide_gesture_line";
     private static final String STATE_CONTEXT = "UiLockApp.context";
     private static final String STATE_STATUS_BAR_VIEW = "UiLockApp.statusBarView";
 
@@ -94,6 +96,12 @@ public class UiLockApp extends BaseHook {
             new XposedInterface.Hooker() {
                 @Override
                 public Object intercept(XposedInterface.Chain chain) throws Throwable {
+                    try {
+                        Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
+                        reconcileStaleLockState(context);
+                    } catch (Throwable e) {
+                        XposedLog.w(TAG, "reconcile stale lock state E: " + e);
+                    }
                     Object result = chain.proceed();
                     try {
                         Context context = (Context) callMethod(chain.getThisObject(), "getApplicationContext");
@@ -119,7 +127,27 @@ public class UiLockApp extends BaseHook {
             hookTaskbarDelegateClass(className);
         }
         if (isPad()) {
-            hookLauncherProxyStopScreenPinning();
+            hookISystemUiProxyStopScreenPinning();
+        }
+    }
+
+    /**
+     * 意外重启后 ATMS 的 lock task 状态必然清零，但 key_lock_app 是持久化设置会残留，
+     * 导致 SystemUI 把系统误判为锁定中（状态栏/手势条被隐藏、手势被禁用），无法退出。
+     * 这里以框架真实状态为准：真实锁定中（如 SystemUI 单独重启）不动，残留则清掉镜像设置。
+     */
+    private void reconcileStaleLockState(Context context) {
+        if (context == null || getLockApp(context) == -1) return;
+        try {
+            Object activityManager = context.getSystemService(Context.ACTIVITY_SERVICE);
+            if (activityManager == null) return;
+            int lockTaskState = (Integer) callMethod(activityManager, "getLockTaskModeState");
+            if (lockTaskState == ActivityManager.LOCK_TASK_MODE_LOCKED) return;
+            XposedLog.d(TAG, "clear stale lock state after reboot, lockTaskState=" + lockTaskState);
+            Settings.Global.putInt(context.getContentResolver(), SETTING_KEY_LOCK_APP, -1);
+            Settings.Global.putInt(context.getContentResolver(), SETTING_HIDE_GESTURE_LINE, 0);
+        } catch (Throwable e) {
+            XposedLog.w(TAG, "reconcileStaleLockState E: " + e);
         }
     }
 
@@ -267,20 +295,23 @@ public class UiLockApp extends BaseHook {
         }
     }
 
-    private void hookLauncherProxyStopScreenPinning() {
-        Class<?> launcherProxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
-        if (launcherProxyClass == null) return;
+    private void hookISystemUiProxyStopScreenPinning() {
+        // 动态定位 ISystemUiProxy 接口的实现类，这比硬编码 LauncherProxyService$1 更健壮
+        Class<?> proxyClass = findClassIfExists("com.android.systemui.recents.OverviewProxyService$1");
+        if (proxyClass == null) {
+            proxyClass = findClassIfExists("com.android.systemui.recents.LauncherProxyService$1");
+        }
 
-        chainAllMethods(launcherProxyClass, "verifyCallerAndClearCallingIdentityPostMain", new XposedInterface.Hooker() {
+        if (proxyClass == null) return;
+
+        chainAllMethods(proxyClass, "stopScreenPinning", new XposedInterface.Hooker() {
             @Override
             public Object intercept(XposedInterface.Chain chain) throws Throwable {
-                Object[] args = chain.getArgs().toArray();
-                if (args.length > 0 && "stopScreenPinning".equals(args[0])) {
-                    Context context = resolveContext(chain.getThisObject());
-                    if (context != null && getLockApp(context) != -1) {
-                        XposedLog.d(TAG, "block LauncherProxyService.stopScreenPinning while locked");
-                        return null;
-                    }
+                Context context = resolveContext(chain.getThisObject());
+                int lockApp = getLockApp(context);
+                if (context != null && lockApp != -1) {
+                    XposedLog.d(TAG, "GuidedAccess: Blocked ISystemUiProxy.stopScreenPinning in SystemUI");
+                    return null; // 拦截桌面发来的解锁指令
                 }
                 return chain.proceed();
             }
