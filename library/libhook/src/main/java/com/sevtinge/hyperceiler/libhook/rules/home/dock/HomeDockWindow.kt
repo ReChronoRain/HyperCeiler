@@ -96,6 +96,19 @@ class HomeDockWindow : BaseHook() {
          * a mis-evaluated overlay flag can hold the Dock hidden until the next traversal.
          */
         const val SWEEP_BACKOFF_MAX_MS = 8_000L
+        /**
+         * Sweep interval while the panel is asleep (non-interactive).
+         *
+         * <p>Doze makes everything the sweep maintains moot: the launcher cannot draw, so no
+         * native sample can arrive, no geometry can visibly change, and the rotation gate cannot
+         * flip. 2026-09-17 measured this loop at a 1-2 s cadence through the night in system_server
+         * (each tick also re-reads dock preferences and the display rotation) - exactly the kind of
+         * idle cost a battery report blames on the panel. 30 s matches the native health worker's
+         * own doze gate; waking the screen restores the fast cadence via the first interactive
+         * traversal, which also calls [resetSweepCadence], so the worst case is one heartbeat of
+         * sweep absence after wake - invisible, because the traversal paths do the real work.
+         */
+        const val SWEEP_DOZE_INTERVAL_MS = 30_000L
         /** Reveal (821ms) plus a margin for the keyguard/home wallpaper swap to settle. */
         const val MATERIAL_SETTLE_MS = 1_600L
         /** Slack added to the rotation settle window before asking for the resuming traversal. */
@@ -1832,6 +1845,15 @@ class HomeDockWindow : BaseHook() {
             if (stopped) return@postDelayed
             var keepGoing = false
             runCatching {
+                // Doze gate first: while the panel is asleep nothing below can matter, so spend
+                // one PowerManager read per tick instead of the whole sweep, and stretch the
+                // cadence to the doze interval. The next interactive tick restores the normal
+                // backoff behaviour on its own.
+                if (!screenInteractive()) {
+                    sweepIntervalMs = SWEEP_DOZE_INTERVAL_MS
+                    synchronized(layers) { keepGoing = layers.isNotEmpty() }
+                    return@runCatching
+                }
                 val changed = refreshSettings()
                 // The rotation gate has to be polled here: a rotated app hides the launcher window,
                 // WMS stops traversing it, and nothing else observes the display while that lasts.
