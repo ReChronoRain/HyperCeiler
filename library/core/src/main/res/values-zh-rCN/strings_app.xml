@@ -1428,6 +1428,7 @@
     <string name="powerkeeper">电量与性能</string>
     <string name="powerkeeper_custom_refresh_rate">自定义高刷新率应用</string>
     <string name="powerkeeper_lock_max_fps">锁定当前刷新率上限</string>
+    <string name="powerkeeper_lock_thermal_max_fps">锁定当前温控刷新率上限</string>
     <string name="powerkeeper_do_not_kill_apps">尝试不要杀死后台应用</string>
     <string name="powerkeeper_do_not_kill_apps_desc">可能使耗电量增加</string>
     <string name="powerkeeper_prevent_recovery_of_battery_optimization_whitelist">禁止恢复电池优化白名单</string>
