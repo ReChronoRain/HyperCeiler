@@ -34,6 +34,25 @@ object MobilePrefs {
         // 单独显示-加粗
         PrefsBridge.getBoolean("system_ui_statusbar_mobile_type_bold")
     }
+    val fontWeight by lazy {
+        // 单独显示-字重（100..900）。未设置时返回 -1，内核回退到旧的"加粗"开关。
+        // 用 getInt 而不是 getStringAsInt：滑块存的是 Integer，
+        // 而 getInt 同时兼容 Int 和 String 两种存储（老版本的枚举值）。
+        PrefsBridge.getInt("system_ui_statusbar_mobile_type_font_weight", -1)
+    }
+    val subscriptSize by lazy {
+        // 5GA 下标-A 的尺寸。与字号设置同一约定：存储值 = 实际 dp × 2（÷2 用于显示）
+        PrefsBridge.getInt("system_ui_statusbar_mobile_type_subscript_size", -1)
+    }
+    val subscriptDrop by lazy {
+        // 5GA 下标-A 的下沉量，同样存储 实际 dp × 2
+        PrefsBridge.getInt("system_ui_statusbar_mobile_type_subscript_drop", -1)
+    }
+    val gaRightMargin by lazy {
+        // 5GA 专用右间距修正量。与 vertical_offset 同一约定：
+        // 存储值 10 是中性点，实际 dp = (存储值 - 10) / 2，默认 0（不改变原有间距）
+        PrefsBridge.getInt("system_ui_statusbar_mobile_type_ga_right_margin", 10)
+    }
     val fontSize by lazy {
         // 单独显示-字体大小
         PrefsBridge.getInt("system_ui_statusbar_mobile_type_font_size", 27)
