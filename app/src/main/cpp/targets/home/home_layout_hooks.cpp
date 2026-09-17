@@ -260,8 +260,23 @@ constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
      *     made of - so the object chain has to be dumped and verified at runtime first.
      * Until that dump exists, this knob stays inert rather than shipping a mislabeled lever.
      */
-    /* HotseatMargin   */ nullptr,
-    /* HotseatHeight   */ nullptr,
+    /*
+     * Hotseat margin, wired on 7695 (RELEASE-8.01.02.7695). Measured on device with the
+     * calibration probe: `GridController.hotSeatsMarginBottom` is consumed by
+     * `WidgetPositionUtil._getCellRectInHotSeatPad` — a +20 delta moved the whole hotseat row up
+     * by 20 px, confirmed visually, and the slider tests confirmed it live. On 6309 the same
+     * accessor was a dead lever (overwritten by the Rust side), which is why this entry sat null;
+     * a launcher OTA changed the consumer, so the null is gone.
+     *
+     * Hotseat height stays deliberately null: `HotSeatsConstants2.hotSeatsHeight` is read once by
+     * `GlobalHotseatWindowManager.updateInsets` when the dock window is (re)built. A probe with a
+     * live delta published (d=228) recorded **0 hits** — patching the getter changes nothing for
+     * an already-built window, and the pending delta would land all at once at the next window
+     * rebuild, jumping the dock. Real-time height needs re-running updateDockHierarchy, which is
+     * outside a getter hook's reach.
+     */
+    /* HotseatMargin   */ "GridController.hotSeatsMarginBottom",
+    /* HotseatHeight  */ nullptr,
     /* WorkspaceTop    */ nullptr,
     /* WorkspaceBottom */ nullptr,
     /* WorkspaceSide   */ nullptr,

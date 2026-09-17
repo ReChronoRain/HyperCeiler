@@ -299,6 +299,15 @@ public final class HomeLayoutNativeEndpointOS4 {
             final int fallback = (Integer) KNOB_ROWS[index][1];
             final int min = (Integer) KNOB_ROWS[index][2];
             final int max = (Integer) KNOB_ROWS[index][3];
+            /*
+             * Index 1 (dock height) is retired: hotSeatsHeight is read once by
+             * GlobalHotseatWindowManager.updateInsets at window build time, so a live delta does
+             * nothing to an already-built window, and a pending delta lands all at once at the
+             * next rebuild, jumping the dock (7695 probe: d=228 published, 0 hits). The settings
+             * entry is gone; the row stays in this table only to keep the v3 protocol's 8-slot
+             * shape, and is forced off here so a stale preference cannot resurrect it.
+             */
+            if (index == 1) continue;
             if (!readBoolean(key + "_enable", false)) continue;
             int value = readInt(key, fallback);
             if (value < min || value > max) value = fallback;

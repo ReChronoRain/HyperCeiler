@@ -1027,6 +1027,11 @@ void DeriveFeature16(const CodeView& code, const Config& cfg, const LocatedSites
     }
 
     if (cols != kFolderColsOfficial) {
+        /*
+         * 7695 排查结论：关闭动画的图标错位与正方形修正无关（禁用它后错位依旧）——
+         * 非官方列数本身与桌面的关闭动画冲突，是桌面侧的动画缺陷，记录为已知限制。
+         * 修正恢复启用：它的价值（图标框不纵向拉伸）不受该限制影响。
+         */
         if (!s.ok16sq || s.squareSiteVa == 0 || s.squareCalleeVa == 0) {
             if (s.why16sq[0] != '\0') {
                 memcpy(out->why16sq, s.why16sq, sizeof(out->why16sq));

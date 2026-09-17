@@ -131,22 +131,12 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_layout_hotseats_title">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="prefs_key_home_layout_hotseats_height_enable"
-            android:title="@string/home_layout_hotseats_height" />
-
-        <SeekBarPreferenceCompat
-            android:dependency="prefs_key_home_layout_hotseats_height_enable"
-            android:key="prefs_key_home_layout_hotseats_height"
-            android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
-            app:defaultValue="80"
-            app:defaultValueTitle="@string/array_default"
-            app:format="%s dp"
-            app:maxValue="150"
-            app:minValue="60"
-            app:showSeekBarValue="true" />
-
+        <!--
+            底栏高度已下线（7695）：hotSeatsHeight 只在底栏窗口重建时被
+            GlobalHotseatWindowManager.updateInsets 读取，运行时拖滑块不生效，
+            且挂着的 delta 会在下次窗口重建时一次性生效造成底栏突变。
+            endpoint 的 KNOB_ROWS 保留该槽位以维持 v3 协议的 8 组结构（恒发 disabled）。
+        -->
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_layout_hotseats_margin_bottom_enable"
