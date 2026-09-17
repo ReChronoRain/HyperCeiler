@@ -58,7 +58,6 @@ public class BasicSettingsActivity extends BaseActivity {
     @Override
     public void onNextAminStart() {
         super.onNextAminStart();
-        setResult(-1);
-        finish();
+        navigateForward();
     }
 }

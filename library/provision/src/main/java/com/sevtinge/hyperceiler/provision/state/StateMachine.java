@@ -10,13 +10,13 @@ import android.util.SparseArray;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
-import com.sevtinge.hyperceiler.provision.R;
 import com.sevtinge.hyperceiler.provision.activity.BasicSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.CongratulationActivity;
 import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
 import com.sevtinge.hyperceiler.provision.activity.PermissionSettingsActivity;
 import com.sevtinge.hyperceiler.provision.activity.TermsAndStatementActivity;
 import com.sevtinge.hyperceiler.provision.utils.PageIntercepHelper;
+import com.sevtinge.hyperceiler.provision.utils.OobeTransitionHelper;
 
 import java.util.ArrayList;
 
@@ -209,10 +209,40 @@ public class StateMachine {
             AndroidLog.d(TAG, "transitToNext: PermissionState");
             //OobeUtils.checkAndActivateEsimAfterFactoryReset(mContext);
         } else {
-            mCurrentState.onEnter(mCurrentState.canBackTo(), true);
-            ((DefaultActivity) mContext).overridePendingTransition(R.anim.provision_slide_in_right, R.anim.provision_slide_out_left);
+            mCurrentState.onEnter(
+                mCurrentState.canBackTo(),
+                true,
+                OobeTransitionHelper.createPageOptions(mContext, true)
+            );
         }
         saveState();
+    }
+
+    @Nullable
+    public Intent moveToNextActivity() {
+        State nextState = getNextAvailableState(mCurrentState);
+        if (nextState == null) return null;
+
+        mCurrentState.onLeave();
+        mStateStack.add(mCurrentState);
+        mCurrentState = nextState;
+        int size = mStateStack.size() - 1;
+        Intent intent = mCurrentState.createEnterIntent(
+            size >= 0 && mStateStack.get(size).canBackTo(),
+            true
+        );
+        saveState();
+        return intent;
+    }
+
+    public boolean moveToPreviousActivity() {
+        if (mStateStack.isEmpty()) return false;
+
+        State leavingState = mCurrentState;
+        mCurrentState = getPreviousAvailableState(mStateStack);
+        leavingState.onLeave();
+        saveState();
+        return true;
     }
 
     private boolean needFinish() {
@@ -221,16 +251,20 @@ public class StateMachine {
 
     private void transitToPrevious() {
         if (mStateStack.size() <= 0) return;
+        State leavingState = mCurrentState;
         mCurrentState = getPreviousAvailableState(mStateStack);
+        leavingState.onLeave();
         if (mCurrentState instanceof StartupState) {
             ((StartupState) mCurrentState).setBooted(true);
+            int size = mStateStack.size() - 1;
+            mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), false);
         } else {
-            mCurrentState.onLeave();
-        }
-        int size = mStateStack.size() - 1;
-        mCurrentState.onEnter(size >= 0 && mStateStack.get(size).canBackTo(), false);
-        if (!(mCurrentState instanceof PermissionState)) {
-            ((DefaultActivity) this.mContext).overridePendingTransition(R.anim.provision_slide_in_left, R.anim.provision_slide_out_right);
+            int size = mStateStack.size() - 1;
+            mCurrentState.onEnter(
+                size >= 0 && mStateStack.get(size).canBackTo(),
+                false,
+                OobeTransitionHelper.createPageOptions(mContext, false)
+            );
         }
         saveState();
     }

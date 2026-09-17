@@ -46,4 +46,5 @@
 
     <color name="anim_foreground_color">#99000000</color>
     <color name="anim_foreground_color_blur_enable">#00ffffff</color>
+    <color name="provision_home_transition_background">@color/miuix_default_color_surface_low_light</color>
 </resources>

@@ -25,7 +25,7 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 
 import com.sevtinge.hyperceiler.home.safemode.AppCrashStore;
-import com.sevtinge.hyperceiler.provision.activity.DefaultActivity;
+import com.sevtinge.hyperceiler.provision.utils.OobeTransitionHelper;
 
 import fan.appcompat.app.AppCompatActivity;
 import fan.provision.OobeUtils;
@@ -52,8 +52,9 @@ public class SplashActivity extends AppCompatActivity {
             // 跳转到主页
             intent = new Intent(this, HomePageActivity.class);
         } else {
-            // 跳转到引导页
-            intent = new Intent(this, DefaultActivity.class);
+            // 主页先在 OOBE 下层完成布局，结束引导时直接复用。
+            intent = new Intent(this, HomePageActivity.class);
+            intent.putExtra(OobeTransitionHelper.EXTRA_PREPARE_HOME, true);
         }
         startActivity(intent);
         // 3. 必须 finish，否则用户按返回键会回到空白的 Splash 页面

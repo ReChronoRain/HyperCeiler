@@ -41,6 +41,7 @@ import androidx.annotation.Nullable;
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.provision.R;
+import com.sevtinge.hyperceiler.provision.activity.BaseActivity;
 import com.sevtinge.hyperceiler.provision.text.style.TermsTitleSpan;
 import com.sevtinge.hyperceiler.provision.utils.NoticeProvider;
 import com.sevtinge.hyperceiler.provision.utils.ProvisionManager;
@@ -237,9 +238,8 @@ public class TermsAndStatementFragment extends BaseFragment {
     }
 
     public void goNext() {
-        if (getActivity() != null) {
-            getActivity().setResult(-1);
-            getActivity().finish();
+        if (getActivity() instanceof BaseActivity activity) {
+            activity.navigateForward();
         }
     }
 

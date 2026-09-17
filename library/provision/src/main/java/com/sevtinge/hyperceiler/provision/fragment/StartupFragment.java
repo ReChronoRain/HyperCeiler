@@ -57,8 +57,12 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         }
 
     private final boolean IS_SUPPORT_WELCOME_ANIM = !OobeUtils.isLiteOrLowDevice();
+    private static final long PERMISSION_LAUNCH_TIMEOUT_MS = 1200L;
 
     private long lastClickTime = 0;
+    private boolean mLaunchPending;
+    private boolean mPermissionLaunchStarted;
+    private PickPageAnimationContext mPendingAnimationContext;
 
     private ImageView mBackgroundImage;
     private View mMiuiEnterLayout;
@@ -96,8 +100,18 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         restoreNextButtonState();
         Utils.IS_START_ANIMA = false;
     };
+    private final Runnable mPermissionLaunchFallbackRunnable = () -> {
+        PickPageAnimationContext context = mPendingAnimationContext;
+        if (!mLaunchPending || mPermissionLaunchStarted || context == null) return;
+        AndroidLog.w(TAG, "permission page capture timed out, using fallback animation");
+        launchPermissionPickPage(context, null);
+    };
 
     private final View.OnClickListener mNextClickListener = v -> {
+        if (mLaunchPending) {
+            AndroidLog.d(TAG, "permission page launch is already pending");
+            return;
+        }
         long jCurrentTimeMillis = System.currentTimeMillis();
         if (Math.abs(jCurrentTimeMillis - lastClickTime) < 2000) {
             AndroidLog.d(TAG, "click too fast");
@@ -111,9 +125,17 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             AndroidLog.w(TAG, "click next button: activity or next view is unavailable");
             return;
         }
+        mLaunchPending = true;
+        setNextButtonInteractionEnabled(false);
         Utils.isFirstBoot = false;
         PickPageAnimationContext pickPageAnimationContext = buildPickPageAnimationContext(defaultActivity, nextView);
+        mPendingAnimationContext = pickPageAnimationContext;
         defaultActivity.run(-1);
+        mMainHandler.removeCallbacks(mPermissionLaunchFallbackRunnable);
+        mMainHandler.postDelayed(
+            mPermissionLaunchFallbackRunnable,
+            PERMISSION_LAUNCH_TIMEOUT_MS
+        );
         enterLanguagePickPage(pickPageAnimationContext);
     };
 
@@ -227,8 +249,19 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     @Override
     public void onResume() {
         super.onResume();
+        if (mLaunchPending) return;
         lastClickTime = 0;
         syncNextButtonState();
+    }
+
+    public void onReturnToStartup() {
+        mMainHandler.removeCallbacks(mPermissionLaunchFallbackRunnable);
+        mLaunchPending = false;
+        mPermissionLaunchStarted = false;
+        mPendingAnimationContext = null;
+        lastClickTime = 0;
+        Utils.IS_START_ANIMA = false;
+        restoreNextButtonState();
     }
 
     @Override
@@ -290,6 +323,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
         AndroidLog.i(TAG, "onDestroy");
         mMainHandler.removeCallbacks(mDisplayOsAndoRunnable);
         mMainHandler.removeCallbacks(mRestoreNextButtonRunnable);
+        mMainHandler.removeCallbacks(mPermissionLaunchFallbackRunnable);
         if (mAnimationHandler != null) {
             mAnimationHandler.removeCallbacksAndMessages(null);
         }
@@ -316,32 +350,30 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     private void hideNextButtonState() {
         if (mNextLayout != null) {
             mNextLayout.setVisibility(View.INVISIBLE);
-            mNextLayout.setEnabled(false);
-            mNextLayout.setClickable(false);
         }
-        if (mNext != null) {
-            mNext.setEnabled(false);
-            mNext.setClickable(false);
-        }
-        if (mNextArrow != null) {
-            mNextArrow.setEnabled(false);
-            mNextArrow.setClickable(false);
-        }
+        setNextButtonInteractionEnabled(false);
     }
 
     private void restoreNextButtonState() {
+        if (mLaunchPending) return;
         if (mNextLayout != null) {
             mNextLayout.setVisibility(View.VISIBLE);
-            mNextLayout.setEnabled(true);
-            mNextLayout.setClickable(true);
+        }
+        setNextButtonInteractionEnabled(true);
+    }
+
+    private void setNextButtonInteractionEnabled(boolean enabled) {
+        if (mNextLayout != null) {
+            mNextLayout.setEnabled(enabled);
+            mNextLayout.setClickable(enabled);
         }
         if (mNext != null) {
-            mNext.setEnabled(true);
-            mNext.setClickable(true);
+            mNext.setEnabled(enabled);
+            mNext.setClickable(enabled);
         }
         if (mNextArrow != null) {
-            mNextArrow.setEnabled(true);
-            mNextArrow.setClickable(true);
+            mNextArrow.setEnabled(enabled);
+            mNextArrow.setClickable(enabled);
         }
     }
 
@@ -375,13 +407,20 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
 
 
     private void launchPermissionPickPage(@NonNull PickPageAnimationContext animationContext, @Nullable Bitmap bitmap) {
+        if (!mLaunchPending || mPermissionLaunchStarted) {
+            recycleBitmap(bitmap);
+            return;
+        }
         DefaultActivity activity = animationContext.activity;
         if (activity.isFinishing() || activity.isDestroyed()) {
             AndroidLog.w(TAG, "launchPermissionPickPage: activity unavailable after bitmap capture");
+            recycleBitmap(bitmap);
             return;
         }
 
-        ActivityOptions activityOptions = bitmap != null ? buildPickPageAnimation(animationContext, bitmap) : null;
+        ActivityOptions activityOptions = bitmap != null
+            ? buildPickPageAnimation(animationContext, bitmap)
+            : buildFallbackPageAnimation(animationContext);
 
         if (activityOptions == null) {
             if (bitmap == null) {
@@ -389,13 +428,52 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
             } else {
                 AndroidLog.w(TAG, "launchPermissionPickPage: scale-up animation is unavailable, launching without ActivityOptions");
             }
+            recycleBitmap(bitmap);
             Utils.IS_START_ANIMA = false;
-            activity.enterCurrentState(null);
-            return;
+        } else if (bitmap == null) {
+            Utils.IS_START_ANIMA = false;
         }
 
-        AndroidLog.d(TAG, "launchPermissionPickPage: start activity with scale-up animation");
-        activity.enterCurrentState(activityOptions.toBundle());
+        mPermissionLaunchStarted = true;
+        mMainHandler.removeCallbacks(mPermissionLaunchFallbackRunnable);
+        try {
+            AndroidLog.d(TAG, "launchPermissionPickPage: start permission activity");
+            activity.enterCurrentState(
+                activityOptions == null ? null : activityOptions.toBundle()
+            );
+            if (mNextLayout != null) {
+                mNextLayout.setVisibility(View.INVISIBLE);
+            }
+        } catch (RuntimeException exception) {
+            AndroidLog.e(TAG, "launchPermissionPickPage failed: " + exception);
+            mPermissionLaunchStarted = false;
+            activity.run(0);
+            onReturnToStartup();
+        }
+    }
+
+    @Nullable
+    private ActivityOptions buildFallbackPageAnimation(
+        @NonNull PickPageAnimationContext animationContext
+    ) {
+        try {
+            return ActivityOptions.makeScaleUpAnimation(
+                animationContext.nextView,
+                0,
+                0,
+                animationContext.nextView.getWidth(),
+                animationContext.nextView.getHeight()
+            );
+        } catch (RuntimeException exception) {
+            AndroidLog.w(TAG, "fallback scale-up animation is unavailable: " + exception);
+            return null;
+        }
+    }
+
+    private void recycleBitmap(@Nullable Bitmap bitmap) {
+        if (bitmap != null && bitmap != Utils.CACHE_BITMAP && !bitmap.isRecycled()) {
+            bitmap.recycle();
+        }
     }
 
     @Nullable
@@ -445,7 +523,7 @@ public class StartupFragment extends BaseFragment implements IOnFocusListener {
     private Runnable buildExitFinishCallback(@Nullable View nextLayout) {
         return () -> {
             if (nextLayout != null) {
-                nextLayout.setVisibility(View.VISIBLE);
+                nextLayout.setVisibility(mLaunchPending ? View.INVISIBLE : View.VISIBLE);
                 AndroidLog.d(TAG, "exitFinishCallback: " + nextLayout.getVisibility());
             }
         };
