@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.FreeformB
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.freeform.UnForegroundPin;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiAospImeSystem;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.MiuiImeUnlockSystem;
+import com.sevtinge.hyperceiler.libhook.rules.systemframework.input.RearAlipayGestures;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.IgnoreStylusKeyGesture;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RemoveStylusBluetoothRestriction;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.mipad.RestoreEsc;
@@ -106,6 +107,7 @@ public class SystemFrameworkB extends BaseLoad {
         // 手势初始化
         initHook(new ModulePackageTrust(), PrefsBridge.getBoolean("home_gesture_enable"));
         initHook(new GlobalActionBootstrap(), PrefsBridge.getBoolean("home_gesture_enable"));
+        initHook(new RearAlipayGestures(), RearAlipayGestures.isEnabled());
 
         // 修复 A16 移植包开启核心破解后掉指纹，仅作备选项
         initHook(DisableRemoveFingerprintSensorConfig.INSTANCE, PrefsBridge.getBoolean("system_framework_core_patch_unloss_fingerprint"));

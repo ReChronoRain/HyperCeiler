@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rear_alipay_component_title">System features plug-in</string>
+    <string name="rear_alipay_gestures_summary">For independent rear displays on Android 17. Both features are off by default. Include System Framework and System features plug-in in the module scope, then restart after changing either feature switch to apply changes. The top-right button restarts the entire device.</string>
+    <string name="rear_alipay_power_category">Double press power button</string>
+    <string name="rear_alipay_power_title">Also show an Alipay code on the rear display</string>
+    <string name="rear_alipay_power_summary">Set the system power double press action to Transit / Mi Pay / Access cards. Enable to choose the rear display code while keeping the wallet on the main display, after unlocking when required.</string>
+    <string name="rear_alipay_power_code_title">Rear display content</string>
+    <string name="rear_alipay_payment_code">Alipay payment code</string>
+    <string name="rear_alipay_transit_code">Alipay transit code</string>
+    <string-array name="rear_alipay_power_code_entries">
+        <item>@string/rear_alipay_payment_code</item>
+        <item>@string/rear_alipay_transit_code</item>
+    </string-array>
+    <string-array name="rear_alipay_power_code_values" translatable="false">
+        <item>launch_alipay_payment_code</item>
+        <item>launch_alipay_bus_code</item>
+    </string-array>
+    <string name="rear_alipay_power_settings">Open power double press settings</string>
+    <string name="rear_alipay_back_title">Back tap</string>
+    <string name="rear_alipay_back_enable_title">Add rear Alipay code options</string>
+    <string name="rear_alipay_back_summary">Add Alipay payment code (rear display) and Alipay transit code (rear display) to the system double and triple back tap lists. The ordinary payment code still uses the main display. Select another system action before turning this feature off.</string>
+    <string name="rear_alipay_back_settings">Open system back tap settings</string>
+</resources>
