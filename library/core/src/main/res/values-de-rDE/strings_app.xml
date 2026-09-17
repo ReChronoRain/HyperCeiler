@@ -1550,4 +1550,7 @@
     <string name="custom_hook_mode">Modus auswählen</string>
     <string name="open_source">Open-Source-Projekte</string>
     <string name="close_source">Closed-Source-Projekte</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">Automatische Helligkeit über Helligkeitssymbol umschalten</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">Auf das Symbol des Helligkeitsreglers im Kontrollzentrum tippen, um die automatische Helligkeit umzuschalten</string>
+    <string name="miui_package_installer_disable_registration_check">ICP-Registrierungswarnung deaktivieren</string>
 </resources>

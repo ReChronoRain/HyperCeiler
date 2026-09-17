@@ -652,4 +652,7 @@
     <string name="various_unlock_ime_ui_count">你家定制版输入法就占得切换输入法槽位不够用了</string>
     <string name="various_unlock_ime_show_all">第三方输入法怎么了你</string>
     <string name="various_unlock_ime_show_all_desc">凭什么切换输入法列表只有小米输入法? 过滤了一次就算了还从系统框架再过滤一次</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">亮度图标切换自动亮度</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">点击控制中心亮度滑块图标切换自动亮度</string>
+    <string name="miui_package_installer_disable_registration_check">禁用 ICP 备案提示</string>
 </resources>

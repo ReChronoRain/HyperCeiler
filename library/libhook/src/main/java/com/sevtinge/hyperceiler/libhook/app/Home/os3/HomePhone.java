@@ -52,6 +52,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.layout.SearchBarMarginWidth;
 import com.sevtinge.hyperceiler.libhook.rules.home.layout.WorkspacePadding;
 import com.sevtinge.hyperceiler.libhook.rules.home.navigation.BackGestureAreaHeight;
 import com.sevtinge.hyperceiler.libhook.rules.home.navigation.BackGestureAreaWidth;
+import com.sevtinge.hyperceiler.libhook.rules.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.home.navigation.DisableFullScreenBackGesture;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.AllowShareApk;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.FreeformShortcutMenu;
@@ -121,6 +122,7 @@ public class HomePhone extends BaseLoad {
         initHook(GestureLine.INSTANCE, gesturesEnabled && hasGestureLineAction);
         initHook(new BackGestureAreaHeight(), PrefsBridge.getInt("home_navigation_back_area_height", 60) != 60);
         initHook(new BackGestureAreaWidth(), PrefsBridge.getInt("home_navigation_back_area_width", 100) != 100);
+        initHook(new HideNavigationBar(), PrefsBridge.getBoolean("system_ui_hide_navigation_bar"));
 
         // 布局
         initHook(new SeekPoints(), PrefsBridge.getStringAsInt("home_other_seek_points", 0) > 0);

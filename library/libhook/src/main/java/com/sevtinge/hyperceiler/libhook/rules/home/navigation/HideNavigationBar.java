@@ -20,6 +20,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.navigation;
 
 import static com.sevtinge.hyperceiler.libhook.base.BaseHook.getBooleanField;
 import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setBooleanField;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import android.provider.Settings;
 import android.view.MotionEvent;
@@ -33,6 +34,17 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class HideNavigationBar extends BaseHook {
     @Override
     public void init() {
+        if (isMoreHyperOSVersion(3f)) {
+            // OS3 keeps the navigation input window. Preserve the landscape handle's touch forwarding.
+            hookAllConstructors("com.miui.home.recents.views.FakeNavigationBarView", new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    ((View) param.getThisObject()).setWillNotDraw(true);
+                }
+            });
+            return;
+        }
+
         findAndHookMethod("com.miui.home.recents.views.RecentsContainer", "showLandscapeOverviewGestureView", boolean.class,
             new IMethodHook() {
                 @Override

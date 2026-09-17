@@ -23,6 +23,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
 import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableRootedCheck;
 import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableUploadAppListNew;
+import com.sevtinge.hyperceiler.libhook.rules.guardprovider.DisableVirusScan;
 
 @HookBase(targetPackage = "com.miui.guardprovider")
 public class GuardProvider extends BaseLoad {
@@ -30,5 +31,7 @@ public class GuardProvider extends BaseLoad {
     public void onPackageLoaded() {
         initHook(new DisableRootedCheck(), PrefsBridge.getBoolean("guard_provider_disable_root_check"));
         initHook(new DisableUploadAppListNew(), PrefsBridge.getBoolean("disable_upload_applist"));
+        // The installer risk switch must also cover the guardprovider Binder scan entry.
+        initHook(new DisableVirusScan(), PrefsBridge.getBoolean("miui_package_installer_install_risk"));
     }
 }

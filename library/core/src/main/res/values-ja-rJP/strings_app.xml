@@ -1642,4 +1642,7 @@
     <string name="settings_float_nav">フローティングボトムバー</string>
     <string name="system_framework_bypass_force_mi_appstore_desc">確認なしに Xiaomi アプリストアに直接リダイレクトすることを回避して、サードパーティのアプリストアを選択できるようにします</string>
     <string name="health_unlock_foucs_app_sign_white_list_title">すべてのアプリがスマートウォッチやスマートバンドにフォーカス通知を送信できるようにする</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">明るさアイコンで自動調整を切り替え</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">コントロールセンターの明るさスライダーアイコンをタップして自動調整を切り替えます</string>
+    <string name="miui_package_installer_disable_registration_check">ICP登録警告を無効化</string>
 </resources>

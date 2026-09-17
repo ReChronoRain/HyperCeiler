@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.CCGridFor
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.CustomCardTiles
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.DefaultPluginTheme
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.DisableDeviceManagedNew
+import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.BrightnessIconAutoToggle
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.EnableVolumeBlur
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.HideCollpasedFootButton
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.HideEditButton
@@ -161,6 +162,10 @@ object NewPluginHelperKt : BaseHook() {
                             VolumeOrQSBrightnessValue::initVolumeOrQSBrightnessValue
                         )
                     )
+                }
+
+                if (PrefsBridge.getBoolean("system_ui_control_center_brightness_icon_toggle_auto")) {
+                    enabledLoaders.add(Pair("BrightnessIconAutoToggle", BrightnessIconAutoToggle::initLoaderHook))
                 }
 
                 if (PrefsBridge.getBoolean("misound_bluetooth") && !isSupportFW()) {

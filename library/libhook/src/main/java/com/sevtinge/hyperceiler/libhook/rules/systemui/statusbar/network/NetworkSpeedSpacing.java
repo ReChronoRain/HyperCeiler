@@ -34,6 +34,7 @@ public class NetworkSpeedSpacing extends BaseHook {
 
     @Override
     public void init() {
+        if (tryHookUpdateTextMethod()) return;
         if (tryHookPostUpdateMethod()) return;
 
         try {
@@ -51,6 +52,25 @@ public class NetworkSpeedSpacing extends BaseHook {
         if (tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$5")) return;
         if (tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$4")) return;
         tryHookHandlerClass("com.android.systemui.statusbar.policy.NetworkSpeedController$2");
+    }
+
+    /**
+     * OS3 calculates the speed on the background handler, then delivers the
+     * result through NetworkSpeedController.updateText(). Re-arm the next
+     * background update after that delivery so the original 4-second delay
+     * cannot overwrite the configured interval.
+     */
+    private boolean tryHookUpdateTextMethod() {
+        try {
+            Class<?> nscClass = findClass("com.android.systemui.statusbar.policy.NetworkSpeedController");
+            if (nscClass == null) return false;
+
+            nscClass.getDeclaredMethod("updateText", String[].class);
+            findAndHookMethod(nscClass, "updateText", String[].class, new UpdateTextHook());
+            return true;
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     private boolean tryHookPostUpdateMethod() {
@@ -85,6 +105,13 @@ public class NetworkSpeedSpacing extends BaseHook {
         }
     }
 
+    private class UpdateTextHook implements IMethodHook {
+        @Override
+        public void after(HookParam param) {
+            scheduleNextUpdate(param.getThisObject());
+        }
+    }
+
     private class HandleMessageHook implements IMethodHook {
         @Override
         public void after(HookParam param) {
@@ -92,12 +119,12 @@ public class NetworkSpeedSpacing extends BaseHook {
             if (message.what != MSG_UPDATE_NETWORK_SPEED) return;
 
             Object controller = getObjectField(param.getThisObject(), "this$0");
-            Object bgHandler = getObjectField(controller, "mBgHandler");
-            scheduleNextUpdate(bgHandler);
+            scheduleNextUpdate(controller);
         }
     }
 
-    private void scheduleNextUpdate(Object handler) {
+    private void scheduleNextUpdate(Object controller) {
+        Object handler = getObjectField(controller, "mBgHandler");
         callMethod(handler, "removeMessages", MSG_UPDATE_NETWORK_SPEED);
         callMethod(handler, "sendEmptyMessageDelayed", MSG_UPDATE_NETWORK_SPEED, getCustomInterval());
     }
@@ -106,4 +133,3 @@ public class NetworkSpeedSpacing extends BaseHook {
         return PrefsBridge.getInt("system_ui_statusbar_network_speed_update_spacings", DEFAULT_INTERVAL) * 100L;
     }
 }
-
