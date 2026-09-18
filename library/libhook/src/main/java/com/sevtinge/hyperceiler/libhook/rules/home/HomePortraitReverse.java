@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
+
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -29,8 +31,24 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class HomePortraitReverse extends BaseHook {
 
+    private static final String LAUNCHER_ACTIVITY = "com.miui.home.launcher.Launcher";
+
     @Override
     public void init() {
+        if (isMoreHyperOSVersion(4.0F)) {
+            findAndHookMethod(Activity.class, "onCreate", Bundle.class, new IMethodHook() {
+                @Override
+                public void after(HookParam param) {
+                    Activity activity = (Activity) param.getThisObject();
+                    if (activity.getComponentName() != null
+                        && LAUNCHER_ACTIVITY.equals(activity.getComponentName().getClassName())) {
+                        activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+                    }
+                }
+            });
+            return;
+        }
+
         findAndHookMethod("com.miui.home.launcher.Launcher", "onCreate", Bundle.class, new IMethodHook() {
                 @Override
                 public void after(HookParam param) {

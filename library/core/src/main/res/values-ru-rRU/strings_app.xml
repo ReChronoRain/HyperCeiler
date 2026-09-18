@@ -1193,6 +1193,12 @@
     <string name="home_dock_bg_custom">Размытие фона</string>
     <string name="home_dock_icon_bottom_margin">Расстояние значка от нижней границы</string>
     <string name="home_dock_margin_bottom">Индикатор страниц в нижней части экрана</string>
+    <string name="home_dock_unlock_style">Анимация появления дока при разблокировке</string>
+    <string name="home_dock_unlock_style_daybreak">Всплытие и оседание</string>
+    <string name="home_dock_unlock_style_depth_flip">Появление из глубины</string>
+    <string name="home_dock_unlock_style_gale">Вход сбоку с раскачиванием</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Орбитальный пролёт</string>
+    <string name="home_dock_unlock_style_ripple">Сжатие и успокоение</string>
     <string name="home_dock_unlock_hotseat">Убрать ограничение по количеству значков в доке</string>
     <string name="home_dock_icon_title">Показать название иконки в док-баре</string>
     <string name="home_dock_disable_recents_icon">Скрыть иконки последних приложений из док-бара</string>

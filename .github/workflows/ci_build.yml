@@ -361,3 +361,28 @@ jobs:
           ESCAPED=$(python3 -c 'import json,os,urllib.parse; print(urllib.parse.quote(json.dumps(os.environ["COMMIT_MESSAGE"])))')
           cd ${{ github.workspace }}
           curl -v "https://api.telegram.org/bot${BOT_TOKEN}/sendMediaGroup?chat_id=${GROUP_DEBUG_ID}&media=%5B%7B%22type%22:%22document%22,%20%22media%22:%22attach://debug%22,%22parse_mode%22:%22MarkdownV2%22,%22caption%22:${ESCAPED}%7D%5D" -F debug="@${DEBUG}"
+
+  # Host-side NativeHookRuntime tests (app/src/main/cpp/nativehook/ + the
+  # desktop Dart hook's host-testable layers). No device, no Android SDK: the
+  # script compiles with the system clang++.
+  #
+  # Coverage note: this runner is x86_64, so the script SKIPS the ARM64
+  # assembly harness test (it executes AArch64 instructions and needs an aarch64
+  # host). That test therefore has no CI coverage here - the skip is reported,
+  # not hidden.
+  native_host_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run host native tests
+        shell: bash
+        run: bash tests/run_host_native_tests.sh
+
+      - name: Upload test logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: host-native-test-logs
+          path: /tmp/nativehook-host-tests/*.log
+          if-no-files-found: ignore

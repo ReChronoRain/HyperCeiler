@@ -47,7 +47,7 @@ import java.lang.reflect.Method
 import java.util.function.Consumer
 
 object DockCustomNew : BaseHook() {
-    override fun useDexKit() = true
+    override fun useDexKit() = !isMoreHyperOSVersion(4f)
 
     override fun initDexKit(): Boolean {
         showAnimationLambda
@@ -64,7 +64,7 @@ object DockCustomNew : BaseHook() {
     }
 
     private val folderBlurUtilsClass by lazy {
-        findClass("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
+        loadClassOrNull("com.miui.home.common.utils.MiuixMaterialBlurUtilities")
     }
 
 
@@ -91,6 +91,11 @@ object DockCustomNew : BaseHook() {
 
     @Suppress("UNCHECKED_CAST")
     override fun init() {
+        if (isMoreHyperOSVersion(4f)) {
+            XposedLog.w(TAG, lpparam.packageName, "OS4 dock background is owned by HomeDockWindow in system_server")
+            return
+        }
+
         val dockBgStyle = PrefsBridge.getStringAsInt("home_dock_add_blur", 0)
         var dockBlurView: View? = null
 
@@ -105,7 +110,7 @@ object DockCustomNew : BaseHook() {
             val dockBottomMargin = dp2px(PrefsBridge.getInt("home_dock_bg_margin_bottom", 30) - 92)
 
             isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
-                folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+                folderBlurUtilsClass?.callStaticMethod("isSupportHyperMaterialBlur") as? Boolean ?: false
             } else {
                 false
             }
@@ -151,7 +156,7 @@ object DockCustomNew : BaseHook() {
             }.createAfterHook {
 
                 isSupportHyperMaterialBlur = if (isMoreHyperOSVersion(3f)) {
-                    folderBlurUtilsClass.callStaticMethod("isSupportHyperMaterialBlur") as Boolean
+                    folderBlurUtilsClass?.callStaticMethod("isSupportHyperMaterialBlur") as? Boolean ?: false
                 } else {
                     false
                 }
@@ -179,13 +184,7 @@ object DockCustomNew : BaseHook() {
     }
 
     private fun View.addBlur() {
-        val isDarkMode by lazy {
-            if (AppsTool.isDarkMode(context) && PrefsBridge.getStringAsInt("home_other_home_mode", 0) == 0) {
-                AppsTool.isDarkMode(context)
-            } else {
-                PrefsBridge.getStringAsInt("home_other_home_mode", 0) == 2
-            }
-        }
+        val isDarkMode = isDarkDockMode()
 
         clearMiBackgroundBlendColor()
         setMiViewBlurMode(1)
@@ -214,5 +213,12 @@ object DockCustomNew : BaseHook() {
             }
         }
     }
-}
 
+    private fun View.isDarkDockMode(): Boolean {
+        return when (PrefsBridge.getStringAsInt("home_other_home_mode", 0)) {
+            1 -> false
+            2 -> true
+            else -> AppsTool.isDarkMode(context)
+        }
+    }
+}

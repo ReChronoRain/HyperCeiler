@@ -71,6 +71,18 @@ android {
             // noinspection ChromeOsAbiSupport
             abiFilters += "arm64-v8a"
         }
+
+        externalNativeBuild {
+            cmake {
+                cppFlags += listOf("-std=c++20", "-fvisibility=hidden")
+            }
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path = file("src/main/cpp/CMakeLists.txt")
+        }
     }
 
     buildFeatures {
@@ -86,6 +98,9 @@ android {
         resources {
             merges += listOf("META-INF/xposed/*")
             excludes += listOf("**")
+        }
+        jniLibs {
+            useLegacyPackaging = false
         }
         dex {
             useLegacyPackaging = true
@@ -202,4 +217,27 @@ dependencies {
     // FTS 支持
     api (libs.room.ktx)
     annotationProcessor (libs.room.compiler)
+}
+
+/**
+ * Host-side native tests for the NativeHookRuntime (app/src/main/cpp/nativehook/)
+ * and the desktop Dart hook's host-testable layers.
+ *
+ * These run on the build machine, not on Android: they need no device and no
+ * Android SDK. On Linux they also build the ARM64 assembly harness test; on
+ * macOS that single test is skipped by the script (eventfd / GNU as).
+ *
+ * Usage: ./gradlew :app:hostNativeTests
+ * Optional: ./gradlew :app:hostNativeTests -PlibappSo=/path/to/libapp.so
+ */
+tasks.register<Exec>("hostNativeTests") {
+    group = "verification"
+    description = "Compiles and runs the host native tests (no device required)"
+    workingDir = rootProject.projectDir
+    val script = rootProject.file("tests/run_host_native_tests.sh")
+    commandLine(buildList {
+        add("bash")
+        add(script.absolutePath)
+        (project.findProperty("libappSo") as String?)?.let { add(it) }
+    })
 }

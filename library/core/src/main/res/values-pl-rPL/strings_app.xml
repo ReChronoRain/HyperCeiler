@@ -1099,6 +1099,12 @@
     <string name="home_dock_bg_custom">Rozmycie tła</string>
     <string name="home_dock_icon_bottom_margin">Odległość ikony od dolnego marginesu</string>
     <string name="home_dock_margin_bottom">Margines wskaźnika strony od dołu ekranu</string>
+    <string name="home_dock_unlock_style">Animacja wlatywania po odblokowaniu</string>
+    <string name="home_dock_unlock_style_daybreak">Wznoszenie i osiadanie</string>
+    <string name="home_dock_unlock_style_depth_flip">Nadejście z głębi</string>
+    <string name="home_dock_unlock_style_gale">Wychylenie z boku</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Przelot orbitalny</string>
+    <string name="home_dock_unlock_style_ripple">Kurczenie i uspokajanie</string>
     <string name="home_dock_unlock_hotseat">Usuń ograniczenie ilości ikon w doku</string>
     <string name="home_dock_icon_title">Pokaż nazwę aplikacji w doku</string>
     <string name="home_dock_disable_recents_icon">Ukryj ostatnie ikony aplikacji w doku</string>

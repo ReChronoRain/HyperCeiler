@@ -130,6 +130,7 @@
     <string name="uninstall_title">卸载 HyperCeiler</string>
     <string name="uninstall_summary">从此入口卸载 HyperCeiler 后，您的模块配置将仍然保留在 Xposed 框架数据库中，如需彻底清除请先前往模块设置中重置模块配置，再进行卸载。</string>
     <string name="unsupported_func_tips">当前目标作用域来源可能并不是 Xiaomi 官方，出于安全考虑，已停止加载此作用域的所有功能，请尝试更改为 Xiaomi 官方发布的应用包，或前往 \"HyperCeiler 设置-开发者选项-调试模式\" 指定挂载版本后重试。</string>
+    <string name="home_is_rust_tips">当前系统桌面为 Rust 版本 需要 Lsposed 支持注入 HyperOS RunTime 才可以 Hook。</string>
     <string name="help_framework_warning_title">当前框架兼容情况</string>
     <string name="help_framework_warning_unknown_framework">当前框架</string>
     <string name="help_framework_warning_card_compatible">当前框架满足 HyperCeiler 的运行要求，未见 Hook 加载异常。</string>

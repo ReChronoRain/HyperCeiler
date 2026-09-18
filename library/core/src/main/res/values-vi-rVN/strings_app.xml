@@ -1194,6 +1194,12 @@
     <string name="home_dock_bg_custom">Mờ nền</string>
     <string name="home_dock_icon_bottom_margin">Khoảng cách biểu tượng từ lề dưới màn hình</string>
     <string name="home_dock_margin_bottom">Lề của chỉ báo trang từ cuối màn hình</string>
+    <string name="home_dock_unlock_style">Hoạt ảnh bay vào khi mở khóa</string>
+    <string name="home_dock_unlock_style_daybreak">Trồi lên và định vị</string>
+    <string name="home_dock_unlock_style_depth_flip">Đến từ chiều sâu</string>
+    <string name="home_dock_unlock_style_gale">Lắc từ bên hông đi vào</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Lướt quỹ đạo</string>
+    <string name="home_dock_unlock_style_ripple">Thu nhỏ và lắng lại</string>
     <string name="home_dock_unlock_hotseat">Mở khóa giới hạn số biểu tượng thanh dock</string>
     <string name="home_dock_icon_title">Hiển thị tiêu đề ứng dụng</string>
     <string name="home_dock_disable_recents_icon">Ẩn ứng dụng gần đây khỏi thanh Dock</string>

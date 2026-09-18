@@ -26,6 +26,12 @@
         android:layout="@layout/headtip_warn"
         android:title="@string/unsupported_func_tips" />
 
+    <com.sevtinge.hyperceiler.prefs.LayoutPreference
+        android:enabled="false"
+        android:key="prefs_key_home_is_rust"
+        android:layout="@layout/headtip_tip"
+        android:title="@string/home_is_rust_tips" />
+
     <PreferenceCategory>
         <com.sevtinge.hyperceiler.prefs.XmlPreference
             android:fragment="com.sevtinge.hyperceiler.hooker.home.HomeGestureSettings"

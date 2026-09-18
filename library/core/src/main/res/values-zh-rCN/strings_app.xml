@@ -1326,6 +1326,15 @@
     <string name="home_widget_resizable">解除小部件大小限制</string>
     <string name="home_widget_widget_blur_opt">优化小部件背景模糊</string>
     <string name="home_dock">底栏</string>
+    <string name="home_dock_unlock_style">Dock 栏解锁入场动画</string>
+    <string name="home_dock_unlock_style_daybreak">上浮轻落</string>
+    <string name="home_dock_unlock_style_depth_flip">纵深翻入</string>
+    <string name="home_dock_unlock_style_gale">向右泊出</string>
+    <string name="home_dock_unlock_style_orbit_sweep">斜向进入</string>
+    <string name="home_dock_unlock_style_ripple">泰然处之</string>
+    <string name="home_dock_unlock_style_perspective_fold">透视折叠</string>
+    <string name="home_dock_unlock_style_capsule_fission">弹性形变</string>
+    <string name="home_dock_unlock_style_auto_aim">重力势能</string>
     <string name="home_dock_bg_enable">添加 Dock 栏背景</string>
     <string name="home_dock_bg_all_app">兼容抽屉模式</string>
     <string name="home_dock_bg_all_app_more">开启可防止 Dock 被截断，但是 Dock 高度会被限制</string>
@@ -1800,4 +1809,21 @@
     <string name="custom_hook_mode">选择模式</string>
     <string name="open_source">开源项目</string>
     <string name="close_source">闭源项目</string>
+    <string name="home_layout_experimental_title">实验性</string>
+    <string name="home_layout_pad_grid_title">平板网格行列</string>
+    <string name="home_layout_pad_grid_desc">改写平板布局的行列数；手机不受影响</string>
+    <string name="home_layout_pad_major_title">平板长边格数</string>
+    <string name="home_layout_pad_minor_title">平板短边格数</string>
+    <string name="home_layout_fold_grid_title">折叠屏网格行列</string>
+    <string name="home_layout_fold_grid_desc">改写折叠屏布局的行列数；手机不受影响</string>
+    <string name="home_layout_fold_major_title">折叠屏长边格数</string>
+    <string name="home_layout_fold_minor_title">折叠屏短边格数</string>
+    <string name="home_layout_icon_scale_title">图标缩放</string>
+    <string name="home_layout_icon_scale_desc">图标大小档位：70 为系统默认大小，往右放大、往左缩小</string>
+    <string name="home_layout_recents_hide_clear_title">隐藏最近任务清理键</string>
+    <string name="home_layout_recents_hide_clear_desc">隐藏按钮，功能保留</string>
+    <string name="home_layout_recents_no_clear_title">关闭最近任务清理键</string>
+    <string name="home_layout_recents_no_clear_desc">移除按钮及其功能</string>
+    <string name="home_layout_folder_cols_title">文件夹列数</string>
+    <string name="home_layout_folder_cols_desc">列数取「文件夹」设置页里的那一项</string>
 </resources>

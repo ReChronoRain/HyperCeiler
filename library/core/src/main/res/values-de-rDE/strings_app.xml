@@ -1148,6 +1148,12 @@
     <string name="home_dock_bg_custom">Hintergrund-Unschärfe</string>
     <string name="home_dock_icon_bottom_margin">Symbol-Abstand vom unteren Rand</string>
     <string name="home_dock_margin_bottom">Rand des Seiten-Indikators vom unteren Bildschirmrand</string>
+    <string name="home_dock_unlock_style">Fly-in-Animation beim Entsperren</string>
+    <string name="home_dock_unlock_style_daybreak">Aufsteigen und setzen</string>
+    <string name="home_dock_unlock_style_depth_flip">Aus der Tiefe eintreffen</string>
+    <string name="home_dock_unlock_style_gale">Von der Seite hereinschwingen</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Orbitale Streifung</string>
+    <string name="home_dock_unlock_style_ripple">Zusammenziehen und beruhigen</string>
     <string name="home_dock_unlock_hotseat">Symbol-Anzahl-Beschränkung von Dock entfernen</string>
     <string name="home_dock_icon_title">App-Namen in Dock anzeigen</string>
     <string name="home_dock_disable_recents_icon">Letzte App-Symbole aus der Dock ausblenden</string>

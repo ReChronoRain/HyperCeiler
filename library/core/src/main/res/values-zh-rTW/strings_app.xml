@@ -1244,6 +1244,15 @@
     <string name="home_dock_bg_custom">背景模糊</string>
     <string name="home_dock_icon_bottom_margin">圖示距離底部邊距</string>
     <string name="home_dock_margin_bottom">頁面指示器距螢幕底部邊距</string>
+    <string name="home_dock_unlock_style">Dock 欄解鎖入場動畫</string>
+    <string name="home_dock_unlock_style_daybreak">上浮輕落</string>
+    <string name="home_dock_unlock_style_depth_flip">縱深翻入</string>
+    <string name="home_dock_unlock_style_gale">向右泊出</string>
+    <string name="home_dock_unlock_style_orbit_sweep">斜向進入</string>
+    <string name="home_dock_unlock_style_ripple">泰然處之</string>
+    <string name="home_dock_unlock_style_perspective_fold">透視摺疊</string>
+    <string name="home_dock_unlock_style_capsule_fission">彈性形變</string>
+    <string name="home_dock_unlock_style_auto_aim">重力位能</string>
     <string name="home_dock_unlock_hotseat">解鎖底欄圖示數量限制</string>
     <string name="home_dock_icon_title">顯示應用程式標題</string>
     <string name="home_dock_disable_recents_icon">在 Dock 欄中隱藏最近應用圖示</string>

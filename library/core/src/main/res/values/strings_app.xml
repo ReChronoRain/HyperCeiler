@@ -1376,6 +1376,15 @@
     <string name="home_widget_resizable">Remove any widget size limitations</string>
     <string name="home_widget_widget_blur_opt">Optimize widget blur</string>
     <string name="home_dock">Dock</string>
+    <string name="home_dock_unlock_style">Dock unlock fly-in animation</string>
+    <string name="home_dock_unlock_style_daybreak">Rise and settle</string>
+    <string name="home_dock_unlock_style_depth_flip">Arrive from depth</string>
+    <string name="home_dock_unlock_style_gale">Park out to the right</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Enter diagonally</string>
+    <string name="home_dock_unlock_style_ripple">Calm and composed</string>
+    <string name="home_dock_unlock_style_perspective_fold">Perspective fold</string>
+    <string name="home_dock_unlock_style_capsule_fission">Elastic deformation</string>
+    <string name="home_dock_unlock_style_auto_aim">Gravitational potential</string>
     <string name="home_dock_bg_enable">Add background blur to dock</string>
     <string name="home_dock_bg_all_app">Drawer mode compatible</string>
     <string name="home_dock_bg_all_app_more">Turning on prevents the dock from being truncated, but the dock height is limited.</string>
@@ -1840,4 +1849,21 @@
     <string name="custom_hook_mode">Select mode</string>
     <string name="open_source">Open source projects</string>
     <string name="close_source">Close source projects</string>
+    <string name="home_layout_experimental_title">Experimental</string>
+    <string name="home_layout_pad_grid_title">Tablet grid</string>
+    <string name="home_layout_pad_grid_desc">Rewrite the tablet layout grid; no effect on phones</string>
+    <string name="home_layout_pad_major_title">Tablet long side</string>
+    <string name="home_layout_pad_minor_title">Tablet short side</string>
+    <string name="home_layout_fold_grid_title">Foldable grid</string>
+    <string name="home_layout_fold_grid_desc">Rewrite the foldable layout grid; no effect on phones</string>
+    <string name="home_layout_fold_major_title">Foldable long side</string>
+    <string name="home_layout_fold_minor_title">Foldable short side</string>
+    <string name="home_layout_icon_scale_title">Icon scale</string>
+    <string name="home_layout_icon_scale_desc">Icon size levels: 70 is the system default size, drag right to enlarge and left to shrink</string>
+    <string name="home_layout_recents_hide_clear_title">Hide the recents clear button</string>
+    <string name="home_layout_recents_hide_clear_desc">Hides the button but keeps its function</string>
+    <string name="home_layout_recents_no_clear_title">Disable the recents clear button</string>
+    <string name="home_layout_recents_no_clear_desc">Removes the button and what it does</string>
+    <string name="home_layout_folder_cols_title">Folder columns</string>
+    <string name="home_layout_folder_cols_desc">Uses the folder column count from the folder settings page</string>
 </resources>

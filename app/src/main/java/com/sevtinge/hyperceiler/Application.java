@@ -22,6 +22,7 @@ import static android.os.Process.killProcess;
 
 import android.content.Context;
 import android.os.Process;
+import android.os.UserManager;
 
 import androidx.annotation.NonNull;
 
@@ -59,7 +60,7 @@ public class Application extends fan.app.Application
         super.onCreate();
         // 应用启动阶段，预热非 UI 任务（如 Shell、语言包、权限检查）
         AppInitializer.initOnAppCreate(this);
-        OobeUtils.syncHookAvailability(this);
+        syncHookAvailabilityIfUnlocked();
         FrameworkStatusManager.init();
 
         LogManager.init(
@@ -76,7 +77,7 @@ public class Application extends fan.app.Application
         synchronized (this) {
             setModuleActivated(true);
             PrefsBridge.setRemotePrefs(service.getRemotePreferences(PrefsBridge.REMOTE_PREFS_GROUP));
-            OobeUtils.syncHookAvailability(this);
+            syncHookAvailabilityIfUnlocked();
             FrameworkStatusManager.onServiceBound(service);
             AndroidLog.d(TAG, "XposedService connected: " + describeFrameworkStatus());
             ScopeManager.setService(service);
@@ -105,6 +106,11 @@ public class Application extends fan.app.Application
     private static void refreshHomePageBanner() {
         HomePageBannerManager.invalidateCache();
         HomePageBannerManager.requestRefresh();
+    }
+
+    private void syncHookAvailabilityIfUnlocked() {
+        UserManager users = getSystemService(UserManager.class);
+        if (users == null || users.isUserUnlocked()) OobeUtils.syncHookAvailability(this);
     }
 
     @NonNull
