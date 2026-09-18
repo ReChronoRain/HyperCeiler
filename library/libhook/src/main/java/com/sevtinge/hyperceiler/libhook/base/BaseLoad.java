@@ -25,7 +25,6 @@ import com.sevtinge.hyperceiler.common.utils.api.ProjectApi;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -38,6 +37,7 @@ import java.util.concurrent.Future;
 import java.util.function.BooleanSupplier;
 
 import io.github.libxposed.api.XposedInterface;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzResources;
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
 
 /**
@@ -59,7 +59,6 @@ public abstract class BaseLoad {
     private static final List<String> sHotReloadInitializationFailures =
         Collections.synchronizedList(new ArrayList<>());
     private static volatile boolean sVerifyingHotReload = false;
-    public static ResourcesTool mResHook;
     private boolean mDexKitSessionPrepared = false;
     private final List<BaseHook> mPendingDexKitHooks = new ArrayList<>();
 
@@ -137,14 +136,11 @@ public abstract class BaseLoad {
     }
 
     public static void prepareHotReload() {
-        // 新 generation 会用同 ID 原子替换 Resources 方法 hook；这里仅移除旧 APK 的
-        // ResourcesLoader，确保之后的资源查询不会继续命中上一版模块资源。
-        ResourcesTool.prepareHotReload();
+        // 模块资源的跨代迁移由 EzResources 自己完成，这里只清本项目的状态。
         BaseHook.prepareHotReload();
         synchronized (sLock) {
             sTarget = null;
             sCurrentHookTag = "BaseLoad";
-            mResHook = null;
         }
     }
 
@@ -191,7 +187,6 @@ public abstract class BaseLoad {
         synchronized (sLock) {
             sTarget = target;
             sCurrentHookTag = this.getClass().getSimpleName();
-            mResHook = ResourcesTool.getInstance(getXposed().getModuleApplicationInfo().sourceDir);
             mDexKitSessionPrepared = false;
             mPendingDexKitHooks.clear();
         }
@@ -208,13 +203,13 @@ public abstract class BaseLoad {
                 // 这对 SystemUI 这类长生命周期进程尤为重要。
                 Context activeContext = EzXposed.getAppContextOrNull();
                 if (activeContext != null) {
-                    mResHook.loadModuleRes(activeContext);
+                    EzResources.inject(activeContext);
                     return;
                 }
                 boolean isAndroid = SYSTEM_SERVER.equals(pkgName);
                 ContextUtils.getWaitContext(context -> {
                     if (context != null) {
-                        mResHook.loadModuleRes(context);
+                        EzResources.inject(context);
                     }
                 }, isAndroid);
             }
