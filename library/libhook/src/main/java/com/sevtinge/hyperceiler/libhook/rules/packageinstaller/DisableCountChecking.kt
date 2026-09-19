@@ -21,11 +21,14 @@ package com.sevtinge.hyperceiler.libhook.rules.packageinstaller
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
+import com.sevtinge.hyperceiler.common.log.XposedLog
 
 object DisableCountChecking : BaseHook() {
     override fun init() {
-        findClass("com.miui.packageInstaller.model.RiskControlRules").findAllMethods { name("getCurrentLevel") }.single().createHook {
-                returnConstant(0)
-            }
+        XposedLog.i(TAG, getPackageName(), "DisableCountChecking init")
+        val clazz = findClass("com.miui.packageInstaller.model.RiskControlRules")
+        // Use the exact no-argument method.  The previous findAllMethods().single()
+        // path is sensitive to synthetic/bridge methods in newer OS3 builds.
+        findAndHookMethod(clazz, "getCurrentLevel", returnConstant(0))
     }
 }

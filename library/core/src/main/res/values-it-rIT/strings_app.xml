@@ -1184,4 +1184,7 @@
     <string name="custom_hook_mode">Seleziona modalità</string>
     <string name="open_source">Progetti Open Source</string>
     <string name="close_source">Chiudi Progetti Source</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">Attiva o disattiva la luminosità automatica dall\'icona della luminosità</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">Tocca l\'icona del cursore della luminosità nel Centro di controllo per attivare o disattivare la luminosità automatica</string>
+    <string name="miui_package_installer_disable_registration_check">Disabilita avviso di registrazione ICP</string>
 </resources>

@@ -71,13 +71,24 @@ public class VolumeDisableSafe extends BaseHook {
         findAndHookMethod(SoundDoseHelper, "safeMediaVolumeIndex", int.class, new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                if (mode == 1) {
-                    param.setResult(2147483646);
-                    return;
-                }
-                if (isHeadsetOn) param.setResult(2147483646);
+                if (isDisabledForCurrentOutput()) param.setResult(2147483646);
             }
         });
+
+        // Android 16 checks the safe-volume limit through these boolean methods before
+        // displaying the warning. Raising safeMediaVolumeIndex() alone is not sufficient.
+        IMethodHook disableSafeCheck = new IMethodHook() {
+            @Override
+            public void before(HookParam param) {
+                if (isDisabledForCurrentOutput()) param.setResult(false);
+            }
+        };
+        findAndHookMethod(SoundDoseHelper, "checkSafeMediaVolume",
+            int.class, int.class, int.class, disableSafeCheck);
+        findAndHookMethod(SoundDoseHelper, "willDisplayWarningAfterCheckVolume",
+            int.class, int.class, int.class, int.class, disableSafeCheck);
+        findAndHookMethod(SoundDoseHelper, "raiseVolumeDisplaySafeMediaVolume",
+            int.class, int.class, int.class, int.class, disableSafeCheck);
 
         hookAllConstructors(SoundDoseHelper, new IMethodHook() {
             @Override
@@ -90,6 +101,10 @@ public class VolumeDisableSafe extends BaseHook {
             }
         });
 
+    }
+
+    private static boolean isDisabledForCurrentOutput() {
+        return mode == 1 || isHeadsetOn;
     }
 
     private void registerHeadsetReceiver(Context context) {

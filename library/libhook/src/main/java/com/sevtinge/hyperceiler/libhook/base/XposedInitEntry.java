@@ -83,11 +83,7 @@ public class XposedInitEntry extends XposedModule {
 
     @Override
     public void onModuleLoaded(@NonNull ModuleLoadedParam param) {
-        initModule(param);
-    }
-
-    private void initModule(@NonNull ModuleLoadedParam param) {
-        initializeRuntime(param, true);
+        initializeRuntime(param);
     }
 
     /**
@@ -97,17 +93,23 @@ public class XposedInitEntry extends XposedModule {
      * 所有同步规则初始化统一注册为 {@code onTargetReady} 回调，因此初次加载与热重载使用同一条路径；
      * 个别需要稳定语义 ID 的规则仍可自行声明 {@code reloadKey}。</p>
      */
-    private void initializeRuntime(@NonNull ModuleLoadedParam param, boolean initializeEzXposed) {
+    private void initializeRuntime(@NonNull ModuleLoadedParam param) {
+        initializeModuleState(param);
+        EzXposed.initOnModuleLoaded(this, param);
+        registerTargetReadyCallback();
+    }
+
+    private void initializeModuleState(@NonNull ModuleLoadedParam param) {
         processName = param.getProcessName();
         try {
             initPrefs();
         } catch (Throwable t) {
             XposedLog.w(TAG, processName, "Failed to initialize prefs during module bootstrap, will retry later.", t);
         }
-        if (initializeEzXposed) {
-            EzXposed.initOnModuleLoaded(this, param);
-        }
         BaseLoad.init(this);
+    }
+
+    private void registerTargetReadyCallback() {
         if (!runtimeInitialized) {
             EzXposed.onTargetReady(this::installCurrentTargetHooks);
             runtimeInitialized = true;
@@ -170,14 +172,14 @@ public class XposedInitEntry extends XposedModule {
 
     @Override
     public void onHotReloaded(@NonNull HotReloadedParam param) {
-        // API 102 不会为热重载自动重放 onModuleLoaded；这里重建新 generation 的运行时并注册
-        // onTargetReady。重复调用保持幂等，避免重复注册回调。
-        initializeRuntime(param, true);
+        // EzHookTool 1.3.0 要求由 helper 统一完成新 generation 初始化、状态恢复和 target-ready 分发。
+        initializeModuleState(param);
         BaseLoad.beginHotReloadVerification();
         try {
-            AutomaticHotReloadResult result = EzXposed.restoreHotReloadedAutomatically(
+            AutomaticHotReloadResult result = EzXposed.handleHotReloadedWithTargetReady(
                 this,
                 param,
+                this::installCurrentTargetHooks,
                 extras -> {
                     HotReloadExtras restored = restoreHotReloadExtras(extras);
                     if (restored == null) {

@@ -968,6 +968,8 @@
     <string name="system_ui_control_center_opt_notification_element_background_color_advanced">Enhance focus on the notification background</string>
     <string name="system_ui_control_center_opt_notification_element_background_color_advanced_desc">May be incompatible with full-screen AOD</string>
     <string name="system_ui_control_center_qs_brightness_top_value_show_title">Display brightness value</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">Brightness icon toggles auto brightness</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">Tap the brightness slider icon in Control Center to toggle auto-brightness</string>
     <string name="system_ui_control_center_qs_volume_top_value_show_title">Display volume value</string>
     <string name="system_ui_control_center_zen_fix">DND mode fix</string>
     <string name="system_ui_control_center_zen_fix_desc">Fix some devices still ring when in DND mode</string>
@@ -1448,6 +1450,7 @@
     <string name="miui_package_installer_modify">Clean page</string>
     <string name="miui_package_installer_disable_ad">Disable ads</string>
     <string name="miui_package_installer_install_risk">Disable risk detection</string>
+    <string name="miui_package_installer_disable_registration_check">Disable ICP registration warning</string>
     <string name="miui_package_installer_disable_cloud_check">Block cloud config fetch</string>
     <string name="miui_package_installer_disable_cloud_check_desc">Intercepts cloud configuration requests during app installation and spoofs an empty response. This improves loading speed and bypasses offline installation restrictions</string>
     <string name="miui_package_installer_safe_model_tip">Disable the security guard prompt</string>

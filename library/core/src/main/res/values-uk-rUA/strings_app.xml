@@ -1537,4 +1537,7 @@
     <string name="custom_hook_mode">Вибрати режим</string>
     <string name="open_source">Проєкти з відкритим кодом</string>
     <string name="close_source">Проєкти із закритим кодом</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto">Перемикання автояскравості значком яскравості</string>
+    <string name="system_ui_control_center_brightness_icon_toggle_auto_desc">Торкніться значка повзунка яскравості в Центрі керування, щоб перемкнути автояскравість</string>
+    <string name="miui_package_installer_disable_registration_check">Вимкнути попередження про реєстрацію ICP</string>
 </resources>

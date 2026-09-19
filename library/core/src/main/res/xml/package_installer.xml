@@ -38,6 +38,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:key="prefs_key_miui_package_installer_disable_registration_check"
+            android:title="@string/miui_package_installer_disable_registration_check"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:key="prefs_key_miui_package_installer_disable_cloud_check"
             android:title="@string/miui_package_installer_disable_cloud_check"
             android:summary="@string/miui_package_installer_disable_cloud_check_desc"

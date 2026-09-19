@@ -30,6 +30,7 @@
         <item>com.android.incallui</item> <!--电话-->
         <item>com.android.mms</item> <!--短信-->
         <item>com.android.nfc</item> <!--NFC 服务-->
+        <item>com.android.packageinstaller</item> <!--原生应用包管理组件-->
         <item>com.android.phone</item> <!--电话服务-->
         <item>com.android.providers.downloads</item> <!--下载管理程序-->
         <item>com.android.providers.downloads.ui</item> <!--下载管理-->

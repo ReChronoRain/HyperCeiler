@@ -29,6 +29,8 @@ import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableAppInfoUpl
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCloudCheck;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableCountChecking;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableInstallerFullSafeVersion;
+import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableRegistrationCheck;
+import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableRiskVerificationUi;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisableSafeModelTip;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.DisplayMoreApkInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.packageinstaller.InstallRiskDisable;
@@ -39,7 +41,6 @@ public class PackageInstaller extends BaseLoad {
 
 
     public void onPackageLoaded() {
-
         //
         /*initHook(new MiuiPackageInstallModify(), PrefsBridge.getBoolean("miui_package_installer_modify"));*/
 
@@ -48,6 +49,10 @@ public class PackageInstaller extends BaseLoad {
 
         // 禁用风险检测
         initHook(InstallRiskDisable.INSTANCE, PrefsBridge.getBoolean("miui_package_installer_install_risk"));
+        initHook(new DisableRiskVerificationUi(), PrefsBridge.getBoolean("miui_package_installer_install_risk"));
+
+        // 禁用 OS3 新增的 ICP/未备案应用拦截提示
+        initHook(new DisableRegistrationCheck(), PrefsBridge.getBoolean("miui_package_installer_disable_registration_check"));
 
         // 阻断云端配置下发
         initHook(DisableCloudCheck.INSTANCE, PrefsBridge.getBoolean("miui_package_installer_disable_cloud_check"));

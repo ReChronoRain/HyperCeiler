@@ -9,6 +9,7 @@ com.android.htmlviewer
 com.android.incallui
 com.android.mms
 com.android.nfc
+com.android.packageinstaller
 com.android.phone
 com.android.photopicker
 com.android.providers.downloads
@@ -69,4 +70,3 @@ com.miui.voicetrigger
 com.xiaomi.simactivate.service
 miui.systemui.plugin
 com.xiaomi.xmsf
-

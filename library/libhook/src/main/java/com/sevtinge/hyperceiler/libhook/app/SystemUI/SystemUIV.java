@@ -27,7 +27,6 @@ import com.hchen.database.HookBase;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.appbase.systemui.StatusBarActionBootstrap;
 import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
-import com.sevtinge.hyperceiler.libhook.rules.home.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.UnlockAlwaysOnDisplay;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.volume.VolumeMediaSteps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.AllowManageAllNotifications;
@@ -83,6 +82,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.NotificationSh
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.RemoveCamera;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.lockscreen.ScramblePIN;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.HandleLineCustom;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.HideNavigationBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.NavigationCustom;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.navigation.RotationButton;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.other.AutoSEffSwitchForSystemUi;
