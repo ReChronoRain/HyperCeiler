@@ -46,6 +46,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDetails;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDisable;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppRestrict;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.OpenByDefaultSetting;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.UninstallWithDefaultPackageManager;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.BatteryHealth;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.MoreBatteryInfoNew;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.battery.PowerConsumptionRanking;
@@ -91,6 +92,7 @@ public class SecurityCenter extends BaseLoad {
         initHook(new OpenByDefaultSetting(), PrefsBridge.getBoolean("security_center_app_default_setting"));
         initHook(AddAppInfoEntry.INSTANCE, PrefsBridge.getBoolean("security_center_aosp_app_info"));
         initHook(AddAppManagerEntry.INSTANCE, PrefsBridge.getBoolean("security_center_aosp_app_manager"));
+        initHook(new UninstallWithDefaultPackageManager(), PrefsBridge.getBoolean("security_center_uninstall_with_default_package_manager"));
 
         // 省电与电池
         initHook(ShowBatteryTemperatureNew.INSTANCE, PrefsBridge.getBoolean("security_center_show_battery_temperature"));

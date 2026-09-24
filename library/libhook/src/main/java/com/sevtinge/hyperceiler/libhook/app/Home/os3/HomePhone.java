@@ -59,6 +59,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.other.HomeMode;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.InfiniteScroll;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.ShortcutItemCount;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.ShowAllHideApp;
+import com.sevtinge.hyperceiler.libhook.rules.home.other.UninstallWithDefaultPackageManager;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.AlwaysShowCleanUp;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.BackgroundBlur;
 import com.sevtinge.hyperceiler.libhook.rules.home.recent.CardTextColor;
@@ -213,6 +214,7 @@ public class HomePhone extends BaseLoad {
         // 其他
         initHook(new FreeformShortcutMenu(), (PrefsBridge.getBoolean("home_other_freeform_shortcut_menu") || (PrefsBridge.getBoolean("home_other_tasks_shortcut_menu"))));
         initHook(new AllowShareApk(), PrefsBridge.getBoolean("home_other_allow_share_apk"));
+        initHook(new UninstallWithDefaultPackageManager(), PrefsBridge.getBoolean("home_other_uninstall_with_default_package_manager"));
         initHook(ShortcutItemCount.INSTANCE, PrefsBridge.getBoolean("home_other_shortcut_remove_restrictions"));
 
         initHook(SetDeviceLevel.INSTANCE, PrefsBridge.getBoolean("home_other_high_models"));

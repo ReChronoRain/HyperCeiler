@@ -76,6 +76,19 @@
             android:key="prefs_key_home_other_shortcut_remove_restrictions"
             android:title="@string/home_other_shortcut_remove_restrictions" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_other_uninstall_with_default_package_manager"
+            android:summary="@string/home_other_uninstall_summary"
+            android:title="@string/home_other_uninstall_title" />
+
+        <fan.preference.DropDownPreference
+            android:key="prefs_key_home_other_uninstaller"
+            android:summary="@string/security_uninstaller_summary"
+            android:title="@string/security_uninstaller_title"
+            app:entries="@array/security_uninstaller"
+            app:entryValues="@array/security_uninstaller_value" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_other">
