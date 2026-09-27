@@ -440,49 +440,81 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
         worker.post {
             guard("geometry query") {
                 catchingRecoverable({
-                    context.contentResolver.query(
+                    val cursor = context.contentResolver.query(
                         Uri.parse("$uri/dock_geometry"), null, null, null, null
-                    )?.use { cursor ->
-                        if (!cursor.moveToFirst()) return@use
-                        // Column order must match SharedPrefsProvider.DOCK_GEOMETRY_COLUMNS.
-                        val snapshot = GeometrySnapshot(
-                            customEnable = cursor.optInt(0)?.let { it != 0 },
-                            addBlur = cursor.optInt(1),
-                            bgColor = cursor.optInt(2),
-                            bgHeight = cursor.optInt(3),
-                            marginHorizontal = cursor.optInt(4),
-                            marginBottom = cursor.optInt(5),
-                            bgRadius = cursor.optInt(6),
-                            homeMode = cursor.optInt(7)
-                        )
-                        if (snapshot != liveGeometry) {
-                            liveGeometry = snapshot
-                            // The provider answered from the settings file, so it is the most
-                            // trustworthy source this process has. Publishing the same values into
-                            // PrefsBridge's hook cache is what makes the *next* synchronous
-                            // refreshSettings() - and every other DockGlass read - agree with it
-                            // instead of falling back to LSPosed's frozen snapshot.
-                            snapshot.applyToHookCache()
-                            record("geometry queried height=${snapshot.bgHeight} " +
-                                "margin=${snapshot.marginHorizontal} bottom=${snapshot.marginBottom} " +
-                                "radius=${snapshot.bgRadius} color=${snapshot.bgColor}")
-                            // Apply on the next traversal instead of waiting for the sweep, and
-                            // reset the throttle so the very next sweep re-reads it too.
-                            changed()
-                        }
+                    )
+                    if (cursor == null) {
+                        /*
+                         * A null cursor is the shape that used to leave no trace at all: `?.use`
+                         * would skip the whole block, so neither the success line nor the refusal
+                         * line was ever written and a refusal read as "the provider was never
+                         * asked". The platform's FLAG_ONEWAY message is only a warning - the call
+                         * can still come back empty - so it has to be reported like any other
+                         * refusal instead of being swallowed by null-safe navigation.
+                         */
+                        noteGeometryFailure("null cursor")
+                    } else {
+                        cursor.use(::applyGeometrySnapshot)
                     }
                 }) {
-                    // Report the refusal once per distinct reason. Silently swallowing it is what
-                    // hid the FLAG_ONEWAY rejection: the exception never reached any log we read,
-                    // so the failure looked like "no output" rather than "rejected".
-                    val reason = "${it.javaClass.simpleName}: ${it.message?.take(100)}"
-                    if (geometryFailReason != reason) {
-                        geometryFailReason = reason
-                        record("geometry query refused=$reason")
-                    }
+                    noteGeometryFailure("${it.javaClass.simpleName}: ${it.message?.take(100)}")
                 }
             }
         }
+    }
+
+    /**
+     * Record a geometry read failure once per distinct reason.
+     *
+     * <p>Three shapes reach this: a thrown exception, a null cursor and an empty cursor. Routing
+     * all of them through one gate is the point - the null case used to bypass the handler
+     * entirely, so a refusal could look exactly like "the provider was never asked".
+     */
+    private fun noteGeometryFailure(reason: String) {
+        if (geometryFailReason == reason) return
+        geometryFailReason = reason
+        record("geometry query refused=$reason")
+    }
+
+    /**
+     * Apply one `dock_geometry` cursor, reporting an empty answer as a refusal.
+     *
+     * <p>Split out of [refreshGeometry] so the cursor's lifetime stays inside `use` and the read
+     * path needs no early return across the inline catch helper.
+     */
+    private fun applyGeometrySnapshot(cursor: Cursor) {
+        if (!cursor.moveToFirst()) {
+            // Reached the provider, but it answered nothing: also a refusal.
+            noteGeometryFailure("empty cursor")
+            return
+        }
+        // Column order must match SharedPrefsProvider.DOCK_GEOMETRY_COLUMNS.
+        val snapshot = GeometrySnapshot(
+            customEnable = cursor.optInt(0)?.let { value -> value != 0 },
+            addBlur = cursor.optInt(1),
+            bgColor = cursor.optInt(2),
+            bgHeight = cursor.optInt(3),
+            marginHorizontal = cursor.optInt(4),
+            marginBottom = cursor.optInt(5),
+            bgRadius = cursor.optInt(6),
+            homeMode = cursor.optInt(7)
+        )
+        if (snapshot == liveGeometry) return
+        liveGeometry = snapshot
+        // The provider answered from the settings file, so it is the most trustworthy source this
+        // process has. Publishing the same values into PrefsBridge's hook cache is what makes the
+        // *next* synchronous refreshSettings() - and every other DockGlass read - agree with it
+        // instead of falling back to LSPosed's frozen snapshot.
+        snapshot.applyToHookCache()
+        // A successful read clears the last failure, so a later one is reported again instead of
+        // being suppressed as a repeat of the same reason.
+        geometryFailReason = null
+        record("geometry queried height=${snapshot.bgHeight} " +
+            "margin=${snapshot.marginHorizontal} bottom=${snapshot.marginBottom} " +
+            "radius=${snapshot.bgRadius} color=${snapshot.bgColor}")
+        // Apply on the next traversal instead of waiting for the sweep, and reset the throttle so
+        // the very next sweep re-reads it too.
+        changed()
     }
 
     /** A null column means "the user never set this", as opposed to a stored zero. */
