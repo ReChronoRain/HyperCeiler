@@ -1336,6 +1336,7 @@
     <string name="home_title_notif_color">Notification dot background color customize</string>
     <string name="home_title_notif_color_picker">Custom color</string>
     <string name="home_title_icon_size">Icon size</string>
+    <string name="home_title_icon_size_moved">From HyperOS 4 on the icon size is adjusted under Layout → Icon scale. Please change it there.</string>
     <string name="home_recent">Recents</string>
     <string name="home_recent_animation_speed">Animation speed</string>
     <string name="home_recent_unlock_pin">Unlock pinned apps</string>
