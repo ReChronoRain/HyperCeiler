@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.mediaeditor
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
@@ -140,7 +141,18 @@ object CustomSticker : BaseHook() {
         lp.rightMargin = Math.round(16 * density)
         lp.bottomMargin = Math.round(16 * density)
         btn.scaleType = ImageView.ScaleType.CENTER
-        btn.setOnClickListener { launchPicker(activity, panel) }
+        btn.setOnClickListener {
+            pendingPanel = panel
+            val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = "image/*"
+            }
+            runCatching {
+                activity.startActivityForResult(intent, REQ_PICK)
+            }.onFailure { t ->
+                XposedLog.w(TAG_NAME, PKG_NAME, "start picker failed", t)
+            }
+        }
         rootView.addView(btn, lp)
         XposedLog.d(TAG_NAME, PKG_NAME, "custom sticker add button injected")
     }
@@ -182,19 +194,6 @@ object CustomSticker : BaseHook() {
             c = runCatching { (c as android.content.ContextWrapper).baseContext }.getOrNull()
         }
         return null
-    }
-
-    private fun launchPicker(activity: Activity, panel: Any) {
-        pendingPanel = panel
-        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "image/*"
-        }
-        runCatching {
-            activity.startActivityForResult(intent, REQ_PICK)
-        }.onFailure { t ->
-            XposedLog.w(TAG_NAME, PKG_NAME, "start picker failed", t)
-        }
     }
 
     private fun handlePickResult(activity: Activity, requestCode: Int, resultCode: Int, data: Intent?) {
