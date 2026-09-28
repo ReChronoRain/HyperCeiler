@@ -46,14 +46,21 @@ abstract class MobileSignalHook : StatusBarHook() {
     protected fun hookConstructAndBind(callback: (ViewGroup, Int) -> Unit) {
         modernStatusBarMobileView.findMethod { name("constructAndBind") }
             .createAfterHook { param ->
-                val rootView = param.result as? ViewGroup ?: return@createAfterHook
-                val subId = rootView.getIntField("subId")
-                try {
-                    callback(rootView, subId)
-                } catch (e: Throwable) {
-                    XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
-                }
+                handleConstructAndBind(param.result, callback)
             }
+    }
+
+    private fun handleConstructAndBind(
+        result: Any?,
+        callback: (ViewGroup, Int) -> Unit
+    ) {
+        val rootView = result as? ViewGroup ?: return
+        val subId = rootView.getIntField("subId")
+        try {
+            callback(rootView, subId)
+        } catch (e: Throwable) {
+            XposedLog.e(TAG, lpparam.packageName, "hookConstructAndBind callback error", e)
+        }
     }
 
     /**
