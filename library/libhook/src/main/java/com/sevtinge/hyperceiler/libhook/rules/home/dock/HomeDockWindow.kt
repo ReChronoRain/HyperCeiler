@@ -411,7 +411,7 @@ class HomeDockWindow : BaseHook() {
 
     override fun init() {
         refreshSettings()
-        glassClient.record("hook init diagnosticVersion=34 enabled=${settings.enabled} mode=${settings.mode}")
+        glassClient.record("hook init diagnosticVersion=37 enabled=${settings.enabled} mode=${settings.mode}")
         glassClient.record("glass capture warmup=positive-alpha-v1 idleWait=retain-producer-v1")
         glassClient.record("glass rotation return=retained-capture-v3 pause=before-wallpaper-zoom resume=pose-committed")
         runCatching { processGuard.install() }
@@ -1475,8 +1475,11 @@ class HomeDockWindow : BaseHook() {
                     " msg=${it.message?.take(120)}; using matrix fallback")
             }
         }
-        val scaleX = pose.scaleX * if (cropApplied) 1f else pose.cropWidth
-        val scaleY = pose.scaleY * if (cropApplied) 1f else pose.cropHeight
+        // The native Hotseat scale is the clock for recents. Compose it on the common
+        // background parent, not on the glass/tint children, so neither can drift inside it.
+        val recentsScale = motionScale(layer)
+        val scaleX = pose.scaleX * recentsScale * (if (cropApplied) 1f else pose.cropWidth)
+        val scaleY = pose.scaleY * recentsScale * (if (cropApplied) 1f else pose.cropHeight)
         if (revealScalingAvailable && (force || scaleX != layer.revealScaleX ||
                 scaleY != layer.revealScaleY)) {
             runCatching {
@@ -1512,13 +1515,14 @@ class HomeDockWindow : BaseHook() {
             layer.revealCornerProgress == 1f
 
     private fun containerChanged(layer: Layer, pose: DockUnlockReveal.ContainerPose): Boolean =
-        pose.scaleX * (if (revealCropAvailable) 1f else pose.cropWidth) != layer.revealScaleX ||
-            pose.scaleY * (if (revealCropAvailable) 1f else pose.cropHeight) != layer.revealScaleY ||
+        pose.scaleX * motionScale(layer) * (if (revealCropAvailable) 1f else pose.cropWidth) != layer.revealScaleX ||
+            pose.scaleY * motionScale(layer) * (if (revealCropAvailable) 1f else pose.cropHeight) != layer.revealScaleY ||
             pose.cropWidth != layer.revealCropWidth || pose.cropHeight != layer.revealCropHeight ||
             pose.cornerProgress != layer.revealCornerProgress
 
-    /** Half of `1 - scale`, which is what a centre-anchored scale shifts the layer origin by. */
-    private fun pivotOffset(scale: Float): Float = (1f - scale) / 2f
+    /** The fallback continues from native progress, so the matrix has no hand-off jump. */
+    private fun motionScale(layer: Layer): Float = if (layer.nativeApplied)
+        layer.nativeMotion.scale() else 1f - .05f * layer.motion.progress(layer.motionTime)
 
     /**
      * Absolute position shift for one axis of the reveal.
@@ -1534,7 +1538,7 @@ class HomeDockWindow : BaseHook() {
             val pivot = layer.parentWidth * DockUnlockReveal.REVEAL_PIVOT_X_FRACTION
             return (pivot - restX) * (1f - scaleX)
         }
-        return layer.width * pivotOffset(scaleX)
+        return DockNativeMotion.centerShift(layer.width.toFloat(), scaleX)
     }
 
     private fun revealShiftY(layer: Layer, scaleY: Float, restY: Float): Float {
@@ -1542,7 +1546,7 @@ class HomeDockWindow : BaseHook() {
             val pivot = layer.parentHeight * DockUnlockReveal.REVEAL_PIVOT_Y_FRACTION
             return (pivot - restY) * (1f - scaleY)
         }
-        return layer.height * pivotOffset(scaleY)
+        return DockNativeMotion.centerShift(layer.height.toFloat(), scaleY)
     }
 
     /**
@@ -1569,6 +1573,9 @@ class HomeDockWindow : BaseHook() {
 
     /** Undo every trace of a reveal so a cancelled or superseded one cannot leave a residue. */
     private fun restoreRestingTransform(transaction: Any, layer: Layer) {
+        val now = SystemClock.uptimeMillis()
+        layer.motionTime = now
+        motionOffset(layer, now)
         // setWindowCrop is the established full-bounds path and also clears any prior Rect crop.
         transaction.callMethod(SET_CROP, layer.effect, layer.width, layer.height)
         val identity = DockUnlockReveal.ContainerPose.identity()
@@ -1637,16 +1644,17 @@ class HomeDockWindow : BaseHook() {
      * transaction that shows the layer.
      */
     private fun applyRevealPose(transaction: Any, layer: Layer, now: Long, force: Boolean = false) {
+        layer.motionTime = now
+        val motionY = motionOffset(layer, now)
         val pose = revealContainerPose(layer, now)
         val alpha = layer.reveal.alpha(now)
         val applied = applyRevealContainer(transaction, layer, pose, force)
         transaction.callMethod("setAlpha", layer.effect, alpha)
         if (layer.baseY > 0 && layer.x.isFinite()) {
-            val restY = layer.baseY + motionOffset(layer, now) + layer.reveal.risePx(layer.density, now)
-            val shiftX = pivotOffset(applied.scaleX)
-            val shiftY = pivotOffset(applied.scaleY)
+            val restY = layer.baseY + motionY + layer.reveal.risePx(layer.density, now)
             transaction.callMethod(SET_POSITION, layer.effect,
-                layer.x + layer.width * shiftX, restY + layer.height * shiftY)
+                layer.x + revealShiftX(layer, applied.scaleX, layer.x),
+                restY + revealShiftY(layer, applied.scaleY, restY))
             layer.y = restY
         }
         rememberContainer(layer, pose, applied)
@@ -1983,6 +1991,9 @@ class HomeDockWindow : BaseHook() {
 
     // Called only under the layer lock. The authenticated Binder receiver publishes an
     // immutable latest sample; intermediate queued values never become a second animation.
+    // The effect is a child of the launcher window and already inherits its upward motion.
+    // The earlier extra -20dp lift visibly moved the background above the icons in a phone
+    // recording. Only the measured progress-linked centre correction remains, shared with fallback.
     private fun motionOffset(layer: Layer, now: Long): Float {
         val sample = nativeMotionEndpoint.latest(layer.nativeUid, layer.nativePid)
         if (sample?.scene() == DockNativeMotion.SCENE_AUTO_AIM) {
@@ -1995,7 +2006,7 @@ class HomeDockWindow : BaseHook() {
                 layer.nativeSampleDeadlineNs = 0
                 layer.motion.finish()
             }
-            return layer.motion.offsetY(layer.density, layer.baseY, now)
+            return DockNativeMotion.relativeOffsetY(layer.density, layer.motion.progress(now))
         }
         if (sample != null) {
             layer.nativeMotion.accept(sample, layer.overview)
@@ -2014,13 +2025,13 @@ class HomeDockWindow : BaseHook() {
                     glassClient.record("native motion scene=${sample.scene()} scale=${sample.scale()}")
                 }
             }
-            return layer.nativeMotion.offsetY(layer.density, layer.baseY)
+            return layer.nativeMotion.relativeOffsetY(layer.density)
         }
         if (layer.nativeApplied) {
             // A held recents gesture legitimately produces no changing scale samples.
             // Once the verified overview target has cleared, resume the local return
             // curve from the exact native position instead of freezing or snapping.
-            if (layer.overview) return layer.nativeMotion.offsetY(layer.density, layer.baseY)
+            if (layer.overview) return layer.nativeMotion.relativeOffsetY(layer.density)
             layer.motion.resumeFrom(layer.nativeMotion.progress(), false, now)
             layer.nativeApplied = false
             layer.nativeMotion.reset()
@@ -2031,7 +2042,7 @@ class HomeDockWindow : BaseHook() {
             scheduleAnimationFrame()
             glassClient.record("native motion idle after overview exit; resuming return")
         }
-        return layer.motion.offsetY(layer.density, layer.baseY, now)
+        return DockNativeMotion.relativeOffsetY(layer.density, layer.motion.progress(now))
     }
 
 

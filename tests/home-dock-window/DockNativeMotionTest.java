@@ -79,13 +79,33 @@ public class DockNativeMotionTest {
         near(motion.progress(), 0); // Folder/home return cannot start a recents lift.
         motion.accept(sample(2, now, 1, .99, 0, now));
         near(motion.progress(), .2f); // Follows drag before wallpaper overview arrives.
-        near(motion.offsetY(3.25f, 2000), -13);
+        near(motion.scale(), .99f); // Background matrix uses the icon's live scale.
+        float width = 640f;
+        float origin = 80f;
+        float shift = DockNativeMotion.centerShift(width, motion.scale());
+        near(origin + shift + width * motion.scale() * .5f, origin + width * .5f);
+        float iconFraction = .25f;
+        float iconAtRest = origin + width * iconFraction;
+        float iconDuringScale = origin + shift + width * iconFraction * motion.scale();
+        near((iconDuringScale - origin - shift) / (width * motion.scale()), iconFraction);
+        check(iconDuringScale != iconAtRest); // It follows the container, not a fixed screen point.
+        float height = 180f;
+        float lift = motion.relativeOffsetY(3.25f);
+        float yShift = DockNativeMotion.centerShift(height, motion.scale());
+        float iconY = 1400f + lift + yShift + height * .7f * motion.scale();
+        near((iconY - 1400f - lift - yShift) / (height * motion.scale()), .7f);
+        near(motion.relativeOffsetY(3.25f), 5.2f); // Only a centre correction.
         motion.accept(sample(3, now, 1, .95, 0, now));
         near(motion.progress(), 1);
+        near(motion.scale(), .95f);
+        near(motion.relativeOffsetY(3.25f), 26f); // 8dp at the normal endpoint.
         motion.accept(sample(4, now, 1, .945, 0, now));
         near(motion.progress(), 1.1f); // Preserve measured small native spring overshoot.
+        near(motion.scale(), .945f);
         motion.accept(sample(5, now, 1, .91, 0, now));
-        near(motion.progress(), 1.2f); // Independent safety limit of 24dp.
+        near(motion.progress(), 1.2f); // Fallback hand-off remains bounded.
+        near(motion.scale(), .91f); // The matrix must not clamp a valid icon sample.
+        near(motion.relativeOffsetY(3.25f), 31.2f);
         motion.accept(sample(6, now, 2, .98, 0, now));
         near(motion.progress(), .4f);
         check(!motion.accept(sample(5, now, 1, .95, 0, now)));
@@ -110,8 +130,8 @@ public class DockNativeMotionTest {
         motion.reset();
         motion.accept(sample(1, now, 1, .98, 0, now));
         near(motion.progress(), .4f);
-        near(motion.offsetY(Float.NaN, 2000), 0);
-        near(motion.offsetY(3.25f, 1), -1);
+        near(motion.relativeOffsetY(Float.NaN), 0);
+        near(DockNativeMotion.relativeOffsetY(3.25f, .4f), 10.4f);
         DockRecentsMotion fallback = new DockRecentsMotion();
         fallback.resumeFrom(.4f, false, 100);
         near(fallback.progress(100), .4f);

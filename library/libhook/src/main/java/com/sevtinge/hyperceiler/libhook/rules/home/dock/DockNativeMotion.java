@@ -109,10 +109,28 @@ public final class DockNativeMotion {
     public boolean accept(Sample sample) { return accept(sample, false); }
 
     public float progress() { return progress; }
-    public float offsetY(float density, int baseY) {
-        if (!Float.isFinite(density) || density <= 0 || baseY <= 0) return 0;
-        return -Math.min(baseY, DockRecentsMotion.LIFT_DP * density * progress);
+    /** Follow the published icon footprint directly; progress is only the fallback hand-off. */
+    public float scale() {
+        if (recents && lastSample != null && lastSample.scale() >= .8
+                && lastSample.scale() <= 1.05) return (float) lastSample.scale();
+        return 1f - .05f * progress;
     }
+
+    /** Keep the background's centre fixed while applying the icon's uniform scale. */
+    public static float centerShift(float extent, float scale) {
+        return extent * (1f - scale) * .5f;
+    }
+    /**
+     * The launcher window already carries the row's upward motion. On OS4 the icon centres
+     * sit below a centre-scaled background during recents. Consecutive device frames show the
+     * residual growing with native progress; 8dp per full progress removes that drift without
+     * restoring the old independent -20dp lift.
+     */
+    public static float relativeOffsetY(float density, float progress) {
+        if (!Float.isFinite(density) || density <= 0f || !Float.isFinite(progress)) return 0f;
+        return 8f * density * Math.max(0f, Math.min(1.2f, progress));
+    }
+    public float relativeOffsetY(float density) { return relativeOffsetY(density, progress); }
     public void reset() {
         sequence = 0;
         recents = false;
