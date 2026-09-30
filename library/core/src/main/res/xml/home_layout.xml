@@ -345,7 +345,7 @@
             app:maxValue="140"
             app:minValue="60"
             app:showSeekBarValue="true"
-            app:stepValue="5" />
+            app:stepValue="1" />
 
         <SwitchPreference
             android:defaultValue="false"

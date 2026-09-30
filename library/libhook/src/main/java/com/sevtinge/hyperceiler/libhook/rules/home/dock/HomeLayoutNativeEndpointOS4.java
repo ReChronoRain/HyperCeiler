@@ -354,6 +354,15 @@ public final class HomeLayoutNativeEndpointOS4 {
      * the settings page has to be turned into the nearest code the launcher already accepts. The
      * packing is the launcher's own: a one-bit flag selects between two exponent forms, and the low
      * nibble carries the mantissa bits.
+     *
+     * <p>Note that only 80 codes are legal, and inside the settings page's 60..140 window they
+     * collapse to just 19 distinct footprints - 62.5, 65.625, 68.75, 71.875, 75, ... on a 3.125
+     * step up to 100 and a 6.25 step above it (the exponent boundary). The slider was narrowed to a
+     * 1% step so the value can be <i>set</i> at that granularity, but the launcher quantises it back
+     * to the code: several adjacent percentages resolve to the same code and therefore render
+     * identically. Do not "fix" a reported "it does not change" by widening the step again - the
+     * quantisation is the launcher's, not the page's. Anything that wants a visible per-detent
+     * change has to snap the slider to one of these 19 values instead.
      */
     private static int iconScaleCodeFor(int percent) {
         final double wanted = percent / 100.0d;
