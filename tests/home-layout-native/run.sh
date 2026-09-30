@@ -20,6 +20,9 @@ build() {
 build unwind_test
 build dart_targets_test
 build workspace_geometry_test
+build folder_geometry_test
+build indicator_pair_test
+build hotseat_capacity_test
 
 # unwind_test <libapp_launcher.so> verifies the Rust-side resolver against the
 # extracted launcher image; dart_targets_test <libapp.so> verifies the Dart-side
@@ -36,3 +39,12 @@ else
 fi
 
 "$build_dir/workspace_geometry_test"
+"$build_dir/folder_geometry_test"
+
+"$build_dir/indicator_pair_test"
+
+"$build_dir/hotseat_capacity_test"
+
+python3 "$project_dir/tests/home-layout-native/check_indicator_policy.py"
+
+python3 "$project_dir/tests/home-layout-native/check_folder_geometry.py"

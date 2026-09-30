@@ -1,0 +1,51 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+#pragma once
+#include <cstdint>
+#include <cstring>
+#include <cmath>
+
+namespace hc::indicator {
+inline bool wrapper_valid(uint64_t object, uint64_t heap, uint64_t dart_null) {
+    if ((object & 1u) == 0 || object == dart_null || (object >> 32) != static_cast<uint32_t>(heap)) return false;
+    uint64_t header = 0;
+    std::memcpy(&header, reinterpret_cast<const void *>(object - 1), 8);
+    if (((header >> 12) & 0xfffffu) != 0x2183) return false;
+    uint32_t child = 0;
+    std::memcpy(&child, reinterpret_cast<const void *>(object + 0x37), 4);
+    return (child & 1u) != 0 && child != static_cast<uint32_t>(dart_null);
+}
+inline uint64_t padding(uint64_t start, uint64_t child, uint64_t dart_null, double delta) {
+    std::memset(reinterpret_cast<void *>(start), 0, 0x50);
+    const uint64_t edge_header = 0x15c931cu, padding_header = 0x1e2521cu;
+    const uint64_t edge = start + 1, widget = start + 0x31;
+    const double bottom = -delta;
+    std::memcpy(reinterpret_cast<void *>(start), &edge_header, 8);
+    std::memcpy(reinterpret_cast<void *>(edge + 0xf), &delta, 8);
+    std::memcpy(reinterpret_cast<void *>(edge + 0x1f), &bottom, 8);
+    std::memcpy(reinterpret_cast<void *>(widget - 1), &padding_header, 8);
+    const uint32_t key = static_cast<uint32_t>(dart_null);
+    const uint32_t compressed_child = static_cast<uint32_t>(child);
+    const uint32_t compressed_edge = static_cast<uint32_t>(edge);
+    std::memcpy(reinterpret_cast<void *>(widget + 7), &key, 4);
+    std::memcpy(reinterpret_cast<void *>(widget + 0xb), &compressed_child, 4);
+    std::memcpy(reinterpret_cast<void *>(widget + 0xf), &compressed_edge, 4);
+    return widget;
+}
+// Validate the entire pair before consuming any bump space or replacing either branch.
+inline bool wrap_pair(uint64_t &capsule, uint64_t &dots, uint64_t &top, uint64_t end,
+    uint64_t heap, uint64_t dart_null, double delta) {
+    if (!std::isfinite(delta) || delta < -630 || delta > 370 || delta == 0
+        // Dart's bump cursor is word-aligned (8 bytes), not necessarily 16-byte aligned.
+        // Both 0x50-byte allocations preserve that alignment. Launcher 7722 has
+        // been observed with top=...0e28; requiring 16 bytes rejects both branches.
+        || top > end || end - top <= 0xa0 || (top & 7u) != 0
+        || (top >> 32) != static_cast<uint32_t>(heap) || ((top + 0x9f) >> 32) != static_cast<uint32_t>(heap)
+        || !wrapper_valid(capsule, heap, dart_null) || !wrapper_valid(dots, heap, dart_null)) return false;
+    const auto new_capsule = padding(top, capsule, dart_null, delta);
+    const auto new_dots = padding(top + 0x50, dots, dart_null, delta);
+    capsule = new_capsule;
+    dots = new_dots;
+    top += 0xa0;
+    return true;
+}
+}

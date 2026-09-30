@@ -144,24 +144,6 @@ capture_trampoline hc_layout_dock_capture_entry, \
 HC_LAYOUT_KNOBS(HC_ASM_KNOB)
 #undef HC_ASM_KNOB
 
-/*
- * Page-dot companion for the OS4 indicator knob.
- *
- * The settings slider drives the capsule, but the page-dot row is a different tree that the launcher
- * positions on its own (`GridController.workspaceIndicatorMarginBottom` -> the indicator margin
- * chain). Moving only the capsule therefore breaks the vertical alignment the two share when the
- * desktop swaps between them (capsule at rest, dots in edit mode). This trampoline carries the same
- * slider delta to the dot accessor so both move together; its gain is a separate constant because
- * the dot margin and the capsule Padding do not share a unit or a sign.
- *
- * Reuses the standard geometry trampoline: call the original accessor, add the delta to its double
- * result. Nothing is written into a live object, so refusing the bind leaves the dots untouched.
- */
-geometry_trampoline hc_layout_dart_IndicatorDot_entry, \
-    hc_layout_dart_IndicatorDot_original, hc_layout_dart_IndicatorDot_delta, \
-    hc_layout_dart_IndicatorDot_enabled, hc_layout_dart_IndicatorDot_hits, \
-    hc_layout_dart_IndicatorDot_last, hc_layout_dart_IndicatorDot_caller
-
 /* Interior original RenderBox layout splices. Preserve all live Dart registers
  * and NZCV; the helper writes only verified local frame slots, never heap fields.
  * Original loops retain constraints, hit testing and ParentData.offset ownership. */
@@ -207,8 +189,14 @@ geometry_trampoline hc_layout_dart_IndicatorDot_entry, \
     stp q30, q31, [sp, #640]
     mov x0, x29
     mov x1, x28
+    .if \occupied == 3
+    mov x2, x26
+    mov x3, x22
+    bl hc_layout_indicator_pair
+    .else
     mov x2, #\occupied
     bl hc_layout_workspace_layout
+    .endif
     ldp q0, q1, [sp, #160]
     ldp q2, q3, [sp, #192]
     ldp q4, q5, [sp, #224]
@@ -244,69 +232,190 @@ geometry_trampoline hc_layout_dart_IndicatorDot_entry, \
 .endm
 workspace_layout_splice hc_layout_workspace_entry, WorkspaceTop, 0
 workspace_layout_splice hc_layout_workspace_occupied_entry, WorkspaceBottom, 1
+workspace_layout_splice hc_layout_hotseat_horizontal_entry, WorkspaceSide, 2
 
-/*
- * OS4 capsule-specific path. Only the third _wrapWithAnimation call returns the capsule branch.
- * Wrap that entire branch in a fresh Padding with zero-sum EdgeInsets; the original Flutter code
- * then moves paint and hit target together without changing the Dock/grid geometry. Allocation
- * stays in the Dart UI thread's bump region; a full region simply skips this one build.
- */
-.globl hc_layout_capsule_entry
+/* Original coordinate/size arithmetic, not a getter-return interceptor.
+ * No Dart call is relocated: all five windows contain only loads/arithmetic.
+ * Native SP stays 16-byte aligned; Dart x15 retains its 8-byte ABI alignment.
+ * The helper replays the verified outputs, then resumes at patch+16. */
+.macro folder_geometry_splice name, kind
+.globl \name
 .p2align 4
-hc_layout_capsule_entry:
+\name:
     dart_save
-    adrp x9, hc_layout_dart_IndicatorMargin_caller
-    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_caller
-    str x30, [x9]
-    adrp x9, hc_layout_dart_IndicatorMargin_hits
-    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_hits
+    adrp x9, hc_layout_folder_enabled
+    add x9, x9, :lo12:hc_layout_folder_enabled
+    ldar w10, [x9]
+    cbz w10, 2f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x29
+    mov x1, x28
+    mov x2, sp
+    mov x3, #\kind
+    bl hc_layout_folder_body
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+    dart_restore
+    adrp x16, hc_layout_folder_resume
+    add x16, x16, :lo12:hc_layout_folder_resume
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+2:
+    // Partial registration must use untouched original arithmetic, including
+    // the screen-index local; never run a half-installed scalar carry path.
+    dart_restore
+    adrp x16, hc_layout_folder_original
+    add x16, x16, :lo12:hc_layout_folder_original
+    ldr x16, [x16, #(\kind * 8)]
+    br x16
+.endm
+folder_geometry_splice hc_layout_folder_0_entry, 0
+folder_geometry_splice hc_layout_folder_1_entry, 1
+folder_geometry_splice hc_layout_folder_2_entry, 2
+folder_geometry_splice hc_layout_folder_3_entry, 3
+folder_geometry_splice hc_layout_folder_4_entry, 4
+
+/* Both finished animation branches receive the same fresh outer Padding. */
+workspace_layout_splice hc_layout_capsule_entry, IndicatorMargin, 3
+
+/* The original screen-indicator builder owns its Dart frame and every Dart call.
+ * For edit-only mode, route its existing isInEditing call through both page-count
+ * paths, then choose its original empty-widget or original dot-builder branch.
+ * No foreign call frame, cached editing state, timer, or getter-return override. */
+.globl hc_layout_indicator_policy_entry
+.p2align 4
+hc_layout_indicator_policy_entry:
+    dart_save
+    adrp x9, hc_layout_indicator_mode
+    add x9, x9, :lo12:hc_layout_indicator_mode
+    ldar w10, [x9]
+    cmp w10, #2
+    b.ne 1f
+    dart_restore
+    adrp x16, hc_layout_indicator_edit_call
+    add x16, x16, :lo12:hc_layout_indicator_edit_call
+    ldr x16, [x16]
+    br x16
+1:
+    dart_restore
+    adrp x16, hc_layout_dart_SearchBarMargin_original
+    add x16, x16, :lo12:hc_layout_dart_SearchBarMargin_original
+    ldr x16, [x16]
+    br x16
+
+.globl hc_layout_indicator_edit_result_entry
+.p2align 4
+hc_layout_indicator_edit_result_entry:
+    dart_save
+    adrp x9, hc_layout_indicator_mode
+    add x9, x9, :lo12:hc_layout_indicator_mode
+    ldar w10, [x9]
+    cmp w10, #2
+    b.ne 1f
+    adrp x9, hc_layout_dart_IndicatorDot_hits
+    add x9, x9, :lo12:hc_layout_dart_IndicatorDot_hits
     ldr x10, [x9]
     add x10, x10, #1
     str x10, [x9]
-    stp x30, xzr, [x15, #-16]!
-    adrp x9, hc_layout_dart_IndicatorMargin_original
-    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_original
-    ldr x9, [x9]
-    blr x9
-    ldp x30, xzr, [x15], #16
-    stp x0, x30, [x15, #-16]!
-    adrp x9, hc_layout_dart_IndicatorMargin_enabled
-    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_enabled
-    ldrb w10, [x9]
-    cbz w10, 1f
-    adrp x9, hc_layout_capsule_expected_caller
-    add x9, x9, :lo12:hc_layout_capsule_expected_caller
-    ldr x9, [x9]
-    cmp x30, x9
-    b.ne 1f
-    ldp x9, x10, [x26, #0x60]
-    add x11, x9, #0x50
-    cmp x10, x11
-    b.ls 1f
-    str x11, [x26, #0x60]
-    mov x10, #0x931c
-    movk x10, #0x15c, lsl #16
-    str x10, [x9]
-    mov x10, #0x521c
-    movk x10, #0x1e2, lsl #16
-    str x10, [x9, #0x30]
-    add x1, x9, #1
-    add x2, x9, #0x31
-    ldr x0, [x15]
-    mov x3, x28
-    mov x4, x22
-    adrp x9, hc_layout_dart_IndicatorMargin_delta
-    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_delta
-    ldr d0, [x9]
-    stp x15, xzr, [sp, #-16]!
-    bl hc_layout_capsule_wrap
-    ldp x15, xzr, [sp], #16
-    cbz x0, 1f
-    str x0, [x15]
-1:
-    ldp x0, x30, [x15], #16
+    /* Dart true = null+0x20 (bit 4 clear), false = null+0x30 (bit 4 set). */
+    tbnz w0, #4, 2f
     dart_restore
-    ret
+    adrp x16, hc_layout_indicator_build_dots
+    add x16, x16, :lo12:hc_layout_indicator_build_dots
+    ldr x16, [x16]
+    br x16
+2:
+    dart_restore
+    /* +0x408 lies inside the 16-byte patched window. Replay its verified pool load
+     * here, then enter the untouched epilogue at +0x40c, never the patch literal. */
+    ldr x0, [x27, #0x6250]
+    adrp x16, hc_layout_indicator_build_empty
+    add x16, x16, :lo12:hc_layout_indicator_build_empty
+    ldr x16, [x16]
+    br x16
+1:
+    dart_restore
+    adrp x16, hc_layout_dart_IndicatorDot_original
+    add x16, x16, :lo12:hc_layout_dart_IndicatorDot_original
+    ldr x16, [x16]
+    br x16
+
+/* Slide-only policy at the original selected-type decision. A normal idle
+ * refresh requesting dots uses hidden state 3; the original hide/animate switch
+ * and timeout closure already leave all visible flags false for that state.
+ * Swipe, editing, capsule and all-apps requests retain their original type. */
+.globl hc_layout_indicator_slide_only_entry
+.p2align 4
+hc_layout_indicator_slide_only_entry:
+    dart_save
+    adrp x9, hc_layout_indicator_mode
+    add x9, x9, :lo12:hc_layout_indicator_mode
+    ldar w10, [x9]
+    cmp w10, #1
+    b.ne 1f
+    cbnz x3, 1f
+    ldr x10, [x29, #8]
+    adrp x9, hc_layout_indicator_idle_caller
+    add x9, x9, :lo12:hc_layout_indicator_idle_caller
+    ldr x9, [x9]
+    cmp x10, x9
+    b.ne 1f
+    mov x3, #3
+1:
+    dart_restore
+    adrp x16, hc_layout_dart_SearchBarWidth_original
+    add x16, x16, :lo12:hc_layout_dart_SearchBarWidth_original
+    ldr x16, [x16]
+    br x16
 
 /* Read-only slot-2 calibration: was the capsule's new Container.margin consumed by Flutter? */
 .globl hc_layout_container_probe_entry

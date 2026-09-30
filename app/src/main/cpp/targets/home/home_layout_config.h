@@ -42,6 +42,7 @@ struct TweaksConfig {
     int animation_open_rate_percent = 100;
     bool animation_recents_enabled = false;
     int animation_recents_rate_percent = 100;
+    bool hotseat_unlimited = false;
 };
 
 inline bool operator==(const TweaksConfig &a, const TweaksConfig &b) {
@@ -56,7 +57,8 @@ inline bool operator==(const TweaksConfig &a, const TweaksConfig &b) {
         && a.animation_open_enabled == b.animation_open_enabled
         && a.animation_open_rate_percent == b.animation_open_rate_percent
         && a.animation_recents_enabled == b.animation_recents_enabled
-        && a.animation_recents_rate_percent == b.animation_recents_rate_percent;
+        && a.animation_recents_rate_percent == b.animation_recents_rate_percent
+        && a.hotseat_unlimited == b.hotseat_unlimited;
 }
 
 struct Config {

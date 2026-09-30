@@ -71,6 +71,77 @@ int main() {
     }
     workspace_write(grid, 0x23, int64_t{1});
     assert(!home_layout::inset_workspace_frame(fp, grid >> 32, true, 20, 30, 15, g));
+
+    // The real Dock uses HotSeatLayoutDelegate, not either workspace delegate.
+    // Reproduce its compressed per-item chain and final Offset.x stack local.
+    const uintptr_t closure = grid;
+    const uintptr_t item = reinterpret_cast<uintptr_t>(storage + 768);
+    workspace_write(fp, -8, delegate);
+    workspace_write(fp, -0x50, closure);
+    workspace_write(closure, 0xf, static_cast<uint32_t>(item));
+    workspace_write(item, 7, static_cast<uint32_t>(info));
+    const double sides[] = {-20, 0, 15, 80};
+    unsigned char snapshot[sizeof(storage)];
+    for (int64_t columns = 1; columns <= 8; ++columns) {
+        workspace_write(delegate, 0x13, columns);
+        for (const double side : sides) {
+            double total_shift = 0;
+            for (int64_t column = 0; column < columns; ++column) {
+                workspace_write(info, 0x37, column);
+                const double x = 20 + column * 90;
+                workspace_write(fp, -0x80, x);
+                workspace_write(fp, -0x88, 37.0);
+                workspace_write(fp, -0x70, 100.0);
+                std::memcpy(snapshot, storage, sizeof(storage));
+                const bool changed = home_layout::inset_hotseat_frame(fp, info >> 32, side, g);
+                assert(changed == (side != 0));
+                const double shift = side * (1 - (2.0 * column + 1) / columns);
+                eq(workspace_read<double>(fp, -0x80), x + shift);
+                total_shift += shift;
+                // No other stack, heap, vertical or size bytes may change.
+                std::memcpy(snapshot + 256 - 0x80, storage + 256 - 0x80, sizeof(double));
+                assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
+                if (columns == 1) eq(shift, 0);
+            }
+            eq(total_shift, 0);
+        }
+    }
+    // Each original layout recomputes x before the splice; 1000 frames cannot drift.
+    workspace_write(delegate, 0x13, int64_t{4});
+    workspace_write(info, 0x37, int64_t{3});
+    for (int i = 0; i < 1000; ++i) {
+        workspace_write(fp, -0x80, 290.0);
+        assert(home_layout::inset_hotseat_frame(fp, info >> 32, 15, g));
+        eq(workspace_read<double>(fp, -0x80), 278.75);
+    }
+    // Disabled/extreme-invalid/non-finite inputs and column/count guards are no-ops.
+    const double invalid_sides[] = {0, -21, 81, std::numeric_limits<double>::quiet_NaN()};
+    for (const double side : invalid_sides) {
+        std::memcpy(snapshot, storage, sizeof(storage));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, side, g));
+        assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
+    }
+    const int64_t invalid_columns[] = {-1, 4};
+    for (const int64_t column : invalid_columns) {
+        workspace_write(info, 0x37, column);
+        std::memcpy(snapshot, storage, sizeof(storage));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g));
+        assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
+    }
+    workspace_write(info, 0x37, int64_t{0});
+    const int64_t invalid_counts[] = {0, 33};
+    for (const int64_t columns : invalid_counts) {
+        workspace_write(delegate, 0x13, columns);
+        std::memcpy(snapshot, storage, sizeof(storage));
+        assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g));
+        assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
+    }
+    workspace_write(delegate, 0x13, int64_t{4});
+    workspace_write(fp, -0x80, std::numeric_limits<double>::quiet_NaN());
+    std::memcpy(snapshot, storage, sizeof(storage));
+    assert(!home_layout::inset_hotseat_frame(fp, info >> 32, 15, g));
+    assert(std::memcmp(snapshot, storage, sizeof(storage)) == 0);
     std::puts("workspace geometry: neutral/top/bottom/symmetric-side/combined/extremes/guards/rebuild ok");
     std::puts("workspace frame: grid/occupied/pristine-per-child/hotseat-exclusion ok");
+    std::puts("dock horizontal: 1..8-icons/symmetric/signed-extremes/1000-frames/no-heap-or-Y-or-size-writes/guards ok");
 }

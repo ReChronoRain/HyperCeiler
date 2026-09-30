@@ -69,6 +69,17 @@ public final class HomeLayoutNativeEndpointOS4Test {
         check(snapshot.knobEnabled()[7] == 0);
         check(snapshot.knobDeltaDp()[6] == 0);
         check(snapshot.knobDeltaDp()[7] == 0);
+        for (int mode = 0; mode <= 3; ++mode) {
+            rows.put("prefs_key_home_other_seek_points", mode);
+            ContentResolver.setRows(rows);
+            check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+            final var policy = HomeLayoutNativeEndpointOS4.readPreferences();
+            final int acceptedMode = mode == 3 ? 0 : mode;
+            check(policy.knobDeltaDp()[6] == acceptedMode);
+            check(policy.knobDeltaDp()[7] == acceptedMode);
+            check(policy.knobEnabled()[6] == (acceptedMode == 0 ? 0 : 1));
+        }
+        rows.remove("prefs_key_home_other_seek_points");
         // Plus the tweaks run the provider also carries.
         check(snapshot.tweaks().length == HomeLayoutNativeEndpointOS4.TWEAK_COUNT);
         check(snapshot.tweaks()[0] == 5);
@@ -78,6 +89,15 @@ public final class HomeLayoutNativeEndpointOS4Test {
         check(snapshot.tweaks()[13] == 65);
         check(snapshot.tweaks()[14] == 1);
         check(snapshot.tweaks()[15] == 40);
+        check(snapshot.tweaks()[16] == 0);
+        rows.put("prefs_key_home_dock_unlock_hotseat", 1);
+        ContentResolver.setRows(rows);
+        check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+        check(HomeLayoutNativeEndpointOS4.readPreferences().tweaks()[16] == 1);
+        rows.put("prefs_key_home_dock_unlock_hotseat", 0);
+        ContentResolver.setRows(rows);
+        check(HomeLayoutNativeEndpointOS4.refreshFromProvider());
+        check(HomeLayoutNativeEndpointOS4.readPreferences().tweaks()[16] == 0);
 
         // The new negative end moves the capsule in the opposite direction from 700.
         rows.put("prefs_key_home_layout_indicator_margin_bottom", -300);
@@ -136,7 +156,7 @@ public final class HomeLayoutNativeEndpointOS4Test {
 
     /** A tweaks run that is inside every range: folder 5/on, pad 8/5, fold 8/5, icon, animation. */
     private static int[] tweaksOk() {
-        return new int[]{5, 1, 8, 5, 0, 8, 5, 0, 0x70, 0, 0, 0, 0, 100, 0, 100};
+        return new int[]{5, 1, 8, 5, 0, 8, 5, 0, 0x70, 0, 0, 0, 0, 100, 0, 100, 0};
     }
 
     private static void checkTransactionBoundary() {
@@ -198,6 +218,13 @@ public final class HomeLayoutNativeEndpointOS4Test {
             () -> new HomeLayoutNativeEndpointOS4.Snapshot(0, 0, 4, 6, new int[count],
                 new int[count], wildFolder));
         check(badFolder.receive(new Parcel(DESCRIPTOR), 0).gridEnabled() == 0);
+
+        final int[] wildCapacity = tweaksOk();
+        wildCapacity[16] = 2;
+        final var badCapacity = new HomeLayoutNativeEndpointOS4((uid, pid) -> true,
+            () -> new HomeLayoutNativeEndpointOS4.Snapshot(0, 1, 4, 6, new int[count],
+                new int[count], wildCapacity));
+        check(badCapacity.receive(new Parcel(DESCRIPTOR), 0).gridEnabled() == 0);
 
         final int[] wildAnimation = tweaksOk();
         wildAnimation[15] = 201;

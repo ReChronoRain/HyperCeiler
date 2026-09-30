@@ -33,7 +33,7 @@ constexpr char kDescriptor[] = "android.view.IWindowManager";
  *   debug.hyperceiler.layout.override = 1
  *   debug.hyperceiler.layout.grid     = <enabled>,<cellX>,<cellY>
  *   debug.hyperceiler.layout.knobs    = <enabled>:<deltaPx>,...   (HC_LAYOUT_KNOBS order)
- *   debug.hyperceiler.layout.tweaks   = <16 ints, protocol order>
+ *   debug.hyperceiler.layout.tweaks   = <17 ints, protocol order; legacy 16 keeps capacity locked>
  *
  * A malformed or missing property is ignored field by field, never fatal. This is a build-time
  * constant-free diagnostics path: it cannot change behaviour unless the property is set, so a
@@ -77,10 +77,10 @@ void apply_knob_override(Config &config) {
 void apply_tweaks_override(Config &config) {
     const std::string_view text = property_text("debug.hyperceiler.layout.tweaks");
     if (text.empty()) return;
-    int values[16] = {};
+    int values[17] = {};
     size_t cursor = 0;
     size_t count = 0;
-    while (count < 16 && cursor <= text.size()) {
+    while (count < 17 && cursor <= text.size()) {
         const size_t comma = text.find(',', cursor);
         const std::string_view entry = text.substr(cursor,
             comma == std::string_view::npos ? std::string_view::npos : comma - cursor);
@@ -91,14 +91,14 @@ void apply_tweaks_override(Config &config) {
         if (comma == std::string_view::npos) break;
         cursor = comma + 1;
     }
-    if (count != 16) return;
+    if (count != 16 && count != 17) return;
     config.tweaks = TweaksConfig{
         values[1] != 0, values[0],
         values[4] != 0, values[2], values[3],
         values[7] != 0, values[5], values[6],
         values[9] != 0, values[8],
         values[10] != 0, values[11] != 0,
-        values[12] != 0, values[13], values[14] != 0, values[15]};
+        values[12] != 0, values[13], values[14] != 0, values[15], values[16] == 1};
 }
 
 void apply_debug_override(Config &config) {
@@ -155,7 +155,7 @@ const AIBinder_Class *window_class() {
  * are the minority.
  */
 constexpr char kCacheMagic[4] = {'H', 'C', 'L', 'C'};
-constexpr uint32_t kCacheVersion = 4;
+constexpr uint32_t kCacheVersion = 5;
 constexpr const char *kCachePath = "/data/user/0/com.miui.home/files/layout_config_cache.bin";
 constexpr const char *kCacheTmpPath = "/data/user/0/com.miui.home/files/layout_config_cache.bin.tmp";
 
@@ -192,6 +192,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(static_cast<uint32_t>(config.tweaks.animation_open_rate_percent));
     put_u32(config.tweaks.animation_recents_enabled ? 1 : 0);
     put_u32(static_cast<uint32_t>(config.tweaks.animation_recents_rate_percent));
+    put_u32(config.tweaks.hotseat_unlimited ? 1 : 0);
 }
 
 bool parse_config(const std::vector<uint8_t> &data, Config &config) {
@@ -199,7 +200,7 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     if (std::memcmp(data.data(), kCacheMagic, 4) != 0) return false;
     uint32_t version = 0;
     std::memcpy(&version, data.data() + 4, 4);
-    if (version != kCacheVersion) return false;
+    if (version != 4 && version != kCacheVersion) return false;
     size_t at = 8;
     auto get_u32 = [&]() -> std::optional<uint32_t> {
         if (at + 4 > data.size()) return std::nullopt;
@@ -229,15 +230,16 @@ bool parse_config(const std::vector<uint8_t> &data, Config &config) {
     const auto rh = get_u32();        const auto rn = get_u32();
     const auto oe = get_u32();        const auto op = get_u32();
     const auto re = get_u32();        const auto rr = get_u32();
+    const auto hu = version == 4 ? std::optional<uint32_t>{0} : get_u32();
     if (!fe || !fc || !pe || !pm || !pn || !fle || !flm || !fln || !ie || !ic || !rh || !rn
-        || !oe || !op || !re || !rr || *oe > 1 || *re > 1
+        || !oe || !op || !re || !rr || !hu || *hu > 1 || *oe > 1 || *re > 1
         || *op < 30 || *op > 200 || *rr < 30 || *rr > 200)
         return false;
     config.tweaks = TweaksConfig{*fe != 0, static_cast<int>(*fc), *pe != 0,
         static_cast<int>(*pm), static_cast<int>(*pn), *fle != 0,
         static_cast<int>(*flm), static_cast<int>(*fln), *ie != 0,
         static_cast<int>(*ic), *rh != 0, *rn != 0,
-        *oe != 0, static_cast<int>(*op), *re != 0, static_cast<int>(*rr)};
+        *oe != 0, static_cast<int>(*op), *re != 0, static_cast<int>(*rr), *hu != 0};
     return true;
 }
 
@@ -339,13 +341,14 @@ static bool query_binder(Config &result) {
      * rather than a key/value list so every field has a range that can be checked here: a value
      * outside its range is refused outright instead of being applied to the launcher.
      */
-    int32_t tweaks[16] = {};
-    for (int32_t &value : tweaks) {
-        if (!valid || AParcel_readInt32(output, &value) != STATUS_OK) {
+    int32_t tweaks[17] = {};
+    for (int i = 0; i < 16; ++i) {
+        if (!valid || AParcel_readInt32(output, &tweaks[i]) != STATUS_OK) {
             valid = false;
             break;
         }
     }
+    if (valid && AParcel_readInt32(output, &tweaks[16]) != STATUS_OK) tweaks[16] = 0;
     const auto flag = [](int32_t value) { return value == 0 || value == 1; };
     const auto within = [](int32_t value, int32_t lo, int32_t hi) {
         return value >= lo && value <= hi;
@@ -356,7 +359,7 @@ static bool query_binder(Config &result) {
         && flag(tweaks[9]) && within(tweaks[8], 0, 0xFF)
         && flag(tweaks[10]) && flag(tweaks[11])
         && flag(tweaks[12]) && within(tweaks[13], 30, 200)
-        && flag(tweaks[14]) && within(tweaks[15], 30, 200);
+        && flag(tweaks[14]) && within(tweaks[15], 30, 200) && flag(tweaks[16]);
     if (output != nullptr) AParcel_delete(output);
     if (!valid || !tweaks_ok) {
         /*
@@ -378,7 +381,7 @@ static bool query_binder(Config &result) {
         tweaks[7] != 0, tweaks[5], tweaks[6],
         tweaks[9] != 0, tweaks[8],
         tweaks[10] != 0, tweaks[11] != 0,
-        tweaks[12] != 0, tweaks[13], tweaks[14] != 0, tweaks[15]};
+        tweaks[12] != 0, tweaks[13], tweaks[14] != 0, tweaks[15], tweaks[16] != 0};
     result = candidate;
     return true;
 }

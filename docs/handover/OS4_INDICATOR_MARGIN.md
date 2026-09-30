@@ -423,3 +423,134 @@ constexpr double kIndicatorDotDeltaGain = -1.0;   // home_layout_hooks.cpp
 1. 正常桌面调「桌面搜索 → 底部边距」，胶囊上移；
 2. 进编辑模式，页面圆点**同幅**上移；
 3. 若两者不同步 → **先量差值**，再按差值调 `kIndicatorDotDeltaGain`。
+
+## 19. 水平边距同步 Dock 图标（2026-09-30）
+
+- Dock 实际使用独立的 `HotSeatLayoutDelegate.performLayout → cellLayout`，不是
+  `GridCellDelegate` 的一行分支；仅移除 workspace 的 `rows < 2` 排除并不能覆盖此路径。
+- 复用水平边距 slot 4，绑定 `HotSeatLayoutDelegate.cellLayout`（7722 VA
+  `0x16f63f0`、size `0x72c`），在 **+0x568 / VA 0x16f6958** 注入原代码逻辑。
+  此处原版已计算当前图标 X 并存入 FP−0x80，随后读回写入新建的 `Offset.x`。
+  不改 getter、不写共享配置、不增加 Flutter 包装或新轮询线程。
+- 从当前帧的 delegate 读取 Dock 配置列数（+0x13），从 closure → item → ItemInfo
+  读取当前列（+0x37）；原版 X 加 `sideDelta * (1 - (2*column+1)/columns)`。
+  与桌面网格的对称格中心位移一致：正值向内收，负值向外扩，单列中心不移动。
+  只写 FP−0x80，Y、图标约束/大小、胶囊与 Dock 背景几何均保持原版。
+- 保留原 workspace 的 hotseat 排除，避免对可能共享网格代理的单行树重复施加增量。
+  slot 2/3 仍负责桌面网格；slot 4 只在水平增量非零且绑定成功时启用。
+- 新绑定逐字校验 55 条原指令和函数大小，覆盖栈帧、列数、ItemInfo 压缩指针链、
+  列索引及最终 Offset.x/y 写入；使用已有完整 GPR/SIMD/NZCV 保留的布局 trampoline。
+- 本机 C++ 回归覆盖 1..8 个配置列、正负/极值、中性关闭、对称位移、单列居中、
+  1000 次原始布局重算无累积、非法数值/列数/索引，以及除 X 栈槽外全内存不变。
+- 本轮不操作手机。离线指令核验、宿主测试和编译不等价于真机已验证，实际 Dock
+  命中及交互/动画效果仍待用户允许设备验证后确认。APK 签名沿用现有本地密钥，
+  不作为旧发布签名兼容性问题的修复；原私钥仍需另行确认。
+
+
+## 20. 胶囊/滑动圆点统一位置与页面指示器原逻辑注入（2026-09-30）
+
+第 18 节的 getter companion 实验被本节替代，不能按该节继续做增益标定。
+7722 实际在 build 后的匿名 GetX builder 同时构建箭头、圆点、胶囊三个动画分支，
+不是 build 中二选一；三个 wrapper 按顺序放进 Stack。
+
+- `LauncherIndicatorState.build +0x230`（VA 0x11749ac）位于第三次 wrapper 及原 Array 分配之后。
+  原胶囊在 FP−8，圆点在 FP−0x18，Array 返回值保留在 x0。slot 5 在这里注入，给两者各加同样的零和 Padding：
+  top=`−(底部边距−70)`、bottom=相反数，背景、文字、点击区域一起移动，原 Stack 继续运行。
+  不再绑定 `workspaceIndicatorMarginBottom` getter；不改 Dock 或桌面网格。
+  注入点不搬移 Array 分配 BL，避免 GC 返回地址落入外部 trampoline；独立槽继承状态在 fork 时清零。
+- 两个 wrapper CID/child、160 字节 bump 空间、压缩指针 heap 高位及增量范围全部先验证；
+  任一条件不满足，两分支均保持原版。x28 的高 32 位写屏障掩码不当作 heap 地址。
+  禁用或值 70 时不分配；只有原 builder 重建时分配 160 B，不新增定时器/线程。
+- 原有「页面指示器」键 `home_other_seek_points` 为字符串 0/1/2。
+  endpoint 用 string provider 读取，复用已退休的 wire 列 6/7，Binder 数组仍为 8/16。
+  旧搜索框边距、宽度保存值仍被忽略；所有控制流 gate 都安装成功才发布模式。
+- 默认 0：原逻辑；模式 1：在 `_showIndicator +0xe0` 判断正常 idle refresh 的圆点请求。
+  此请求使用隐藏状态 3，原 hide/animate 的默认分支与 timer 无 3 显示分支保留隐藏；
+  下一次 swipe 的 type 0 与 3 不同，仍启动原动画。胶囊、箭头和编辑刷新不变。
+- 模式 2：在 `_buildScreenIndicator` 后匿名 builder 的 +0x3d8/+0x3fc 两处改原分支。
+  复用原 `isInEditing` 调用和原 Dart 栈帧，编辑时进入原圆点构建，非编辑走原空 widget 返回；
+  不从 C++ 调 Dart，不缓存编辑状态，不用经验 getter 挂点。
+- 各站点严格核验原指令、原调用目标和函数大小。位置 stub 保存全部 SIMD、GPR 与 NZCV，
+  显示策略 stub 只改本阶段的选定状态或分支，原 Rx setter/监听/动画/定时生命周期继续运行。
+- 主仓库版本号 APK 使用现有本地签名密钥，不改变签名。安装后需 zygote 重启加载新的
+  system_server endpoint；用户已明确同意本轮重启。真机结果记录在本任务 VERIFICATION.txt。
+
+## 21. 桌面搜索位置失效回归：Dart bump 游标对齐（2026-09-30）
+
+- 首次构建通过 LLDB 在既有 `hc_layout_indicator_pair` 入口只读取样，未新增 getter 挂点。
+  真机 x28=0x800000073、top=0x7300250e28、end=0x730027ffe8，两个 wrapper CID 均为 0x2183，child 均有效。
+  分配区剩余 192960 B，唯一被错误拒绝的是 top%16=8；Dart 游标合法对齐单位为 8 B。
+- `wrap_pair` 将 `(top & 0xf)` 改为 `(top & 7)`，保留两分支原子验证、CID、child、heap、增量及容量边界。
+  两次 0x50 B 分配仍保持 8 B 对齐。原 builder +0x230 注入、FP−8/FP−0x18 数据流及原动画生命周期均不改变。
+- 回归测试用相同的 top%16=8、delta=-114 输入：旧版 valid=0，新版 valid=1；同时覆盖合法16字节对齐和非法4字节对齐。
+- 当前设备旧版页面模式及 Dock 水平站点未全部绑定；本次只修复已执行但校验拒绝的搜索/圆点统一位置路径，勿宣称其它站点已经真机通过。
+- 编译版安装及 zygote 重启后完成独立 A/B，不再依赖临时 native 内存补丁：
+  70→150 时胶囊 dy=-245 px（相关系数0.9855），滑动圆点 dy=-245 px（0.9837），Dock 电话图标 dy=0 px（0.9988）。
+  所有用户偏好恢复且逐项相等：底部边距184、启用true、页面模式字符串0。
+  当前进程日志 delta=-114 valid=1，TracerPid=0、显示密度520无override、测试写入口恢复0。
+  APK SHA256=960df75762dcc0b870c0d1a5ebcb724ca8275295919f25dc1b435142c659d0e6，安装文件回读一致；签名不变。
+
+## 22. 页面指示器与底栏数量：原逻辑注入补齐（2026-09-30）
+
+- 页面模式键仍为字符串 `home_other_seek_points=0/1/2`，不新增开关；底栏数量使用原有 bool `home_dock_unlock_hotseat`。
+- 六个关键原逻辑符号此前未进入 `HomeTweaksFindSymbol` 的固定目标表，导致代码存在但完全未绑定。
+  现登记页面构建/编辑判断/show/animate/refresh 与 Dock cellLayout，以及容量分支所需函数；目标槽容量提升为 128。
+- Dart true=null+0x20（bit4 清零）、false=null+0x30（bit4 置位）。模式2按这个编码选择原圆点/原空组件分支。
+- 真机发现并修复空组件分支崩溃：第二注入窗 `[+0x3fc,+0x40c)` 覆盖了原 `+0x408` pool 读取，
+  直接跳 +0x408 等于进入注入跳板/NOP，返回 Dart bool 而非 Widget，最终在 Element.inflateWidget 崩溃。
+  汇编现重放严格核验过的 `ldr x0,[x27,#0x6250]`，跳到未覆盖的 +0x40c 原返回序列；圆点入口 +0x418 不变。
+  宿主检查会拒绝“跳 +0x408”“漏 pool load”“布尔判定反转”三个故障变体。
+- loader 在首个 Dart 布局之前同步登记和发布；worker 有最多5秒的启动等待并接管已登记槽，重复 loader 回调幂等退出。
+  不增加持续线程或定时器；修复只开数量开关时 worker 误认为全关闭而退出的问题。
+- 底栏不是把 hotSeatMaxCount getter 改成巨大数字。它的 getter 保持原字节，直接改8处原消费者：
+  宽度除数在超出原容量时采用实际图标数；3处满员判断走原 false；加载裁剪、数据库超量删除、拖动计数截断、满员替换走原保留/追加分支。
+  每个站点核验函数大小和连续4条原指令，只写已对齐的1条ARM64指令；原分支目的地保持不变。
+- 8处容量开关整组先验/写后读回，失败回滚至调用前字节（包含发生写入后才报告失败的站点）。
+  关闭时恢复原版，未知修改拒绝覆盖，相同启用状态不持续读写代码页。宿主测试覆盖每一站点部分失败回滚及 off/on/off。
+- endpoint 数值尾部新增第17项（数量 bool），原16项保留。native接受旧16项且数量默认关闭；缓存v5兼容读取v4。
+- Dart bump 游标继续按 **8 字节**验证，native SP仍16字节；没有改回错误的16字节 Dart 判断。
+- 页面策略属于原 builder 产物，修改后用布局页现有“快速重启桌面”重新构建，真机测试必须先等配置回读再重启桌面。
+  仅缓存 mode=2、PID稳定或注入 registered=1 都不能代替截图验证；锁屏截图与早期注入未加载的测试不计成功。
+- 最新真机记录、APK签名/哈希及用户设置恢复状态以本任务 `indicator-policy-hotseat/VERIFICATION.txt` 为准。
+
+### 本轮最终真机结果
+
+- 最终安装包 SHA256 `f26828f87cc7f48861cc85e26cb74c72bf10a8bf7bc8f0c89234ad76545b0b4f`，回读已安装 APK 字节一致。
+  版本号文件仍在 `D:/repo/HyperCeiler/app/build/outputs/apk/release/HyperCeiler-2.10.166-20260930-release.apk`。
+- mode2：滑动截图无圆点，编辑截图有圆点；mode1：滑动有圆点，停止后恢复搜索胶囊；mode0恢复原版。
+  三组都先确认 native缓存6/7等于所选模式，重启桌面后记录 registered=1 / mode=N，测试期间各自PID不变。
+- 最终版本真机拖入第5、第6个图标成功，重启桌面后六个仍存在；铁路12306与小黑盒均放回原来的工作区格子，Dock恢复原4图标及顺序。
+- 容量开→关→开逐一回读原逻辑8条ARM64指令，24次全部一致，hotSeatMaxCount原48字节始终不变，整个切换期间PID=409不变。
+- 389个已有用户配置逐项恢复：页面模式字符串0、数量开关true、搜索底部边距184且启用false。
+  应用本次启动另外保存了5个原先未出现的 safe_mode_enable=false 默认项，没有覆盖任何已有配置。
+  最终 TracerPid=0，debug.hyperceiler.prefs_write=0；没有修改屏幕超时值。
+- 崩溃版（空分支跳+0x408）及其崩溃栈保留为故障证据，不作为交付；修复包不再进入覆盖窗。
+  这些是本轮有限时长的功能/稳定性验证，不等价于长时间全场景稳定性或电量基准。
+
+## 23. 修改工作区边距后的文件夹关闭回弹（2026-09-30）
+
+- 真机基线关闭末段从 y=620.53 切到915.36，单帧跳294.84px。
+- 第一版仅改 getCellPosition / folderIconSize，真机仍跳233.76px；这个方案不算修复。
+  其录屏另存 partial-cell-size-close.mp4，APK另存PARTIAL_CELL_SIZE.apk。
+- 继续沿原代码调用链得到实际预览终点：_setupFolderClosePreview →
+  folderPreviewIconRects → getPreviewIconRects → calPreviewIconLoc → calOriginPreviewIconLoc。
+  calOriginPreviewIconLoc自己读取原stride和margin Rx，未调用getCellPosition。
+- 当前修正版保留getCellPosition +128/+140/+1cc，另改
+  calOriginPreviewIconLoc +11c/+1d4，原folderIconSize字节不再注入。
+  +11c同步本帧width/height stride与origin.x；+1d4在原Rx margin读取后加top，重放row*height。
+  原编辑/RTL/screen transform仍执行，不修改共享GridInfo，不增加Dart组件或分配。
+- 完整原方法129/169条指令、5个覆盖窗与原frame核验后整组登记；不搬移Dart BL/GC PC。
+  原getCellPosition通过dead unboxed FP−18携带top，禁止跨Inst.find保留outgoing FP−30。
+  全Q/GPR/x15/LR/NZCV保存恢复，native SP16；Dart bump cursor继续8字节。
+- 宿主1536组cell与实际preview双路径、1000次重建、共享堆不变及旧功能回归通过。
+  rollback脚本在独立副本真实运行，baseline文件SHA256恢复、旧偏差再现、当前工作区保留修改。
+- 当前8e9b91dc807aaf92534848841c2c3a0d7d1edb2d30d60dfd270e17ccf2870d6c
+  已编译并覆盖安装，签名保持6cb2fc...9b314；重启zygote后PID5911，五种body均ready=1/valid=1。
+  三次实际打开/关闭录屏、同一YouTube预览区域追踪通过，末段最大逐帧变化均低于1px。
+  记录基于真实视频帧；最初脚本误选邻近红色通知标记，新增x坐标身份门限，
+  相同门限用于原版与修正版。原版294.84px大跳变仍复现。
+  实机结果仅覆盖这组三边距启用的正常桌面小文件夹，不代表全OTA/编辑/大文件夹穷尽。
+  最终状态以folder-margin-bounce/VERIFICATION.txt为准。
+- 测试暂时启用了三个workspace边距bool，原值均false；恢复时只恢复这三个键，保留用户新设置。
+  测试结束只恢复三个bool=false及debug.hyperceiler.prefs_write=0，逐项核对其余已有设置不变。
+  未改屏幕超时/图标位置。原修改工作区保留，未提交/推送。

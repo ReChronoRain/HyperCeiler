@@ -70,4 +70,28 @@ inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
     if (out) std::memcpy(out, g, sizeof(g));
     return true;
 }
+
+// HotSeatLayoutDelegate.cellLayout uses a different RenderBox layout from the
+// workspace delegates. Move its final ParentData.offset.x, not its shared
+// config or icon constraints. Match the workspace's symmetric cell-center
+// displacement: side * (1 - (2 * column + 1) / columns).
+inline bool inset_hotseat_frame(uintptr_t fp, uint64_t heap, double side,
+    double *out) {
+    if (!std::isfinite(side) || side < -20 || side > 80 || side == 0) return false;
+    const uintptr_t delegate = workspace_read<uintptr_t>(fp, -8);
+    const int64_t columns = workspace_read<int64_t>(delegate, 0x13);
+    const uintptr_t closure = workspace_read<uintptr_t>(fp, -0x50);
+    const uintptr_t item = workspace_read<uint32_t>(closure, 0xf) + (heap << 32);
+    const uintptr_t info = workspace_read<uint32_t>(item, 7) + (heap << 32);
+    const int64_t column = workspace_read<int64_t>(info, 0x37);
+    const double original_x = workspace_read<double>(fp, -0x80);
+    if (columns < 1 || columns > 32 || column < 0 || column >= columns
+        || !std::isfinite(original_x)) return false;
+    const double offset = side * (1 - (2.0 * column + 1) / columns);
+    const double x = original_x + offset;
+    if (!std::isfinite(x)) return false;
+    workspace_write(fp, -0x80, x);
+    if (out) { out[0] = original_x; out[1] = x; out[2] = offset; out[3] = columns; }
+    return true;
+}
 } // namespace home_layout

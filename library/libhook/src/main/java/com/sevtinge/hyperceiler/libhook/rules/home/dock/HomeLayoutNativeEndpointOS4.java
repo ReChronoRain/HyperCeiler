@@ -61,6 +61,8 @@ public final class HomeLayoutNativeEndpointOS4 {
         {"integer", "home_layout_workspace_padding_horizontal"},
         {"boolean", "home_layout_indicator_margin_bottom_enable"},
         {"integer", "home_layout_indicator_margin_bottom"},
+        {"string", "home_other_seek_points"},
+        {"boolean", "home_dock_unlock_hotseat"},
         {"boolean", "home_layout_searchbar_margin_bottom_enable"},
         {"integer", "home_layout_searchbar_margin_bottom"},
         {"boolean", "home_layout_searchbar_width_enable"},
@@ -314,6 +316,13 @@ public final class HomeLayoutNativeEndpointOS4 {
             enabled[index] = 1;
             deltas[index] = clampDelta(value - fallback);
         }
+        // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
+        final Integer cachedMode = cached("home_other_seek_points");
+        int indicatorMode = cachedMode != null ? cachedMode
+            : PrefsBridge.getStringAsInt("home_other_seek_points", 0);
+        if (indicatorMode < 0 || indicatorMode > 2) indicatorMode = 0;
+        enabled[6] = enabled[7] = indicatorMode == 0 ? 0 : 1;
+        deltas[6] = deltas[7] = indicatorMode;
         final int[] tweaks = new int[TWEAK_COUNT];
         /* The existing folder-column slider is the single control. Its default keeps the launcher
          * untouched; choosing any other value enables the native patch automatically. */
@@ -340,14 +349,15 @@ public final class HomeLayoutNativeEndpointOS4 {
         tweaks[13] = Math.max(30, Math.min(200, readInt("home_animation_open_rate", 100)));
         tweaks[14] = readBoolean("home_animation_recents_enable", false) ? 1 : 0;
         tweaks[15] = Math.max(30, Math.min(200, readInt("home_animation_recents_rate", 100)));
+        tweaks[16] = readBoolean("home_dock_unlock_hotseat", false) ? 1 : 0;
         return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks);
     }
 
     /** Number of code-patch feature values, in the order the native side reads them. */
-    static final int TWEAK_COUNT = 16;
+    static final int TWEAK_COUNT = 17;
     /** Accepted range per entry, so a bad value is refused here rather than applied to the launcher. */
-    private static final int[] TWEAK_MIN = {1, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 30, 0, 30};
-    private static final int[] TWEAK_MAX = {16, 1, 16, 16, 1, 16, 16, 1, 0xFF, 1, 1, 1, 1, 200, 1, 200};
+    private static final int[] TWEAK_MIN = {1, 0, 2, 2, 0, 2, 2, 0, 0, 0, 0, 0, 0, 30, 0, 30, 0};
+    private static final int[] TWEAK_MAX = {16, 1, 16, 16, 1, 16, 16, 1, 0xFF, 1, 1, 1, 1, 200, 1, 200, 1};
 
     /**
      * The launcher stores an icon scale as a packed code, not as a size, so the percentage shown on

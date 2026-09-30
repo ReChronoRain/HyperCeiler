@@ -2,6 +2,9 @@
 #include "home_layout_config.h"
 #include "home_layout_knobs.h"
 #include "home_workspace_geometry.h"
+#include "home_folder_geometry.h"
+#include "home_indicator_pair.h"
+#include "home_hotseat_capacity.h"
 #include "home_layout_elf_targets.h"
 #include "nativehook/hook_bank.h"
 #include "nativehook/memory_io.h"
@@ -98,21 +101,33 @@ void hc_layout_dock_capture_entry();
 void hc_layout_passthrough_entry();
 void *hc_layout_passthrough_original = nullptr;
 void hc_layout_capsule_entry();
+void hc_layout_indicator_policy_entry();
+void hc_layout_indicator_edit_result_entry();
+void hc_layout_indicator_slide_only_entry();
+uintptr_t hc_layout_indicator_idle_caller = 0;
+uint32_t hc_layout_indicator_mode = 0;
+uintptr_t hc_layout_indicator_edit_call = 0;
+uintptr_t hc_layout_indicator_build_empty = 0;
+uintptr_t hc_layout_indicator_build_dots = 0;
+void hc_layout_indicator_pair(uintptr_t frame, uint64_t heap, uintptr_t thread,
+    uint64_t dart_null);
+void hc_layout_folder_0_entry();
+void hc_layout_folder_1_entry();
+void hc_layout_folder_2_entry();
+void hc_layout_folder_3_entry();
+void hc_layout_folder_4_entry();
+uintptr_t hc_layout_folder_resume[5]{};
+uint64_t hc_layout_folder_hits[5]{};
+void *hc_layout_folder_original[5]{};
+uint32_t hc_layout_folder_enabled = 0;
+void hc_layout_folder_body(uintptr_t frame, uint64_t heap, uintptr_t saved, unsigned kind);
 void hc_layout_workspace_entry();
 void hc_layout_workspace_occupied_entry();
+void hc_layout_hotseat_horizontal_entry();
 void hc_layout_container_probe_entry();
-/*
- * Page-dot companion trampoline (see home_layout_dart_arm64.S). It carries the OS4 indicator
- * knob's delta to `GridController.workspaceIndicatorMarginBottom` so the page-dot row keeps step
- * with the capsule instead of drifting away from it when the desktop swaps which one it shows.
- */
-uint8_t hc_layout_dart_IndicatorDot_enabled = 0;
-uint64_t hc_layout_dart_IndicatorDot_delta = 0;
+/* Independent second gate inside the original page-indicator builder. */
 uint64_t hc_layout_dart_IndicatorDot_hits = 0;
-uint64_t hc_layout_dart_IndicatorDot_last = 0;
-uint64_t hc_layout_dart_IndicatorDot_caller = 0;
 void *hc_layout_dart_IndicatorDot_original = nullptr;
-void hc_layout_dart_IndicatorDot_entry();
 /* Slot bookkeeping for the companion, filled once by `bind_indicator_dot_target` and consumed by
  * `arm_hooks`. Kept beside the trampoline globals because the four fields always move together; the
  * `Words` payload is declared below, next to the other slot payloads, because it needs that type. */
@@ -121,9 +136,6 @@ uint32_t hc_layout_dart_IndicatorDot_getter = 0;
 uint32_t hc_layout_dart_IndicatorDot_size = 0;
 nhk::CodeSource hc_layout_dart_IndicatorDot_source{};
 bool hc_layout_dart_IndicatorDot_armed = false;
-uint64_t hc_layout_capsule_wrap(uint64_t widget, uint64_t edge, uint64_t padding,
-    uint64_t heap, uint64_t dart_null, double delta);
-uint64_t hc_layout_capsule_expected_caller = 0;
 void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int occupied);
 void hc_layout_probe_container(uint64_t widget, uint64_t heap, uint64_t dart_null);
 /* Probe readings, written by the passthrough stub itself. */
@@ -178,11 +190,13 @@ constexpr size_t kAnimationMagicSlot = kAnimationHookSlot + 1;
  * index-to-slot mapping (and the rollback scan in the slot verdict loop) untouched.
  */
 constexpr size_t kIndicatorDotSlot = kAnimationMagicSlot + 1;
-constexpr size_t kSlotCount = kIndicatorDotSlot + 1;
+constexpr size_t kFolderGeometrySlotBase = kIndicatorDotSlot + 1;
+constexpr size_t kSlotCount = kFolderGeometrySlotBase + 5;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
 /* The companion slot's payload, declared here because `Words` only exists from this line down. */
 Words hc_layout_dart_IndicatorDot_words{};
+
 using HookFunction = int (*)(void *, void *, void **);
 using UnhookFunction = int (*)(void *);
 
@@ -338,14 +352,14 @@ constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
     /* WorkspaceTop owns an internal code splice; its local geometry uses slots 2..4. */
     /* WorkspaceTop    */ "GridCellDelegate.performLayout",
     /* WorkspaceBottom */ "GridOccupiedCellDelegate.performLayout",
-    /* WorkspaceSide   */ nullptr,
+    /* WorkspaceSide   */ "HotSeatLayoutDelegate.cellLayout",
     /* IndicatorMargin: intercept only the third animation wrapper return (the capsule subtree),
      * then wrap it in a zero-sum Padding. This changes the original tree's position without
      * touching the shared Dock/grid geometry or hiding the inner capsule label.
-     * SearchBarMargin and SearchBarWidth retain their existing accessor hooks. */
+     * Retired search controls instead carry page-indicator policy in the unchanged wire ABI. */
     /* IndicatorMargin */ "LauncherIndicatorState._wrapWithAnimation",
-    /* SearchBarMargin */ "GridController.searchBarMarginBottom",
-    /* SearchBarWidth  */ "GridController.searchBarWidthPx",
+    /* PageIndicatorMode (retired wire slot 6) */ "LauncherIndicatorState._buildScreenIndicator",
+    /* PageIndicatorIdleGate (retired wire slot 7) */ "LauncherIndicatorState._showIndicator",
 };
 
 /*
@@ -362,25 +376,9 @@ constexpr double kKnobDeltaGain[HC_LAYOUT_KNOB_COUNT] = {
     1.0,             // WorkspaceSide  : consumed by the coordinate splice
     -1.0,            // IndicatorMargin: a larger bottom margin lifts the capsule, independent
                        // of the workspace/dock; the Container's zero-sum margin uses this delta.
-    1.0,             // SearchBarMargin : searchBarMarginBottom, confirmed hit=1
-    1.0,             // SearchBarWidth  : searchBarWidthPx, uncalibrated
+    1.0,             // Retired wire column 6: page-indicator mode
+    1.0,             // Retired wire column 7: independent idle-policy gate
 };
-
-/*
- * The page-dot companion's gain, applied to the same slider delta the capsule consumes.
- *
- * The two targets do not share a unit. The capsule knob publishes its delta into a Flutter
- * `EdgeInsets.top`, i.e. logical pixels added to a render-box position; the page-dot companion adds
- * its delta to `GridController.workspaceIndicatorMarginBottom`, which the launcher treats as a
- * *bottom margin* - the same sign convention as the old search-bar margin. A larger margin therefore
- * moves the dot up, exactly like the capsule, so -1.0 keeps the two moving the same way.
- *
- * The magnitude is the honest open question: there is no device to A/B the two offsets against each
- * other yet, so 1.0 assumes the two accessors are both in dp at the same density. If on-device
- * calibration shows the dot drifting relative to the capsule, this constant (and only this one) is
- * the knob to turn - do not touch the capsule's own gain, which is calibrated.
- */
-constexpr double kIndicatorDotDeltaGain = -1.0;
 
 std::array<KnobRuntime, HC_LAYOUT_KNOB_COUNT> g_knobs = {{
 #define HC_KNOB_ROW(name, column, symbol, dflt, lo, hi) {symbol, dflt, lo, hi},
@@ -845,10 +843,8 @@ bool bl_target(uint32_t word, uint32_t pc, uint32_t *target);
 
 bool capsule_wrapper_layout_compatible(uint32_t wrapper_va, uint32_t wrapper_size,
     uint32_t *caller_va) {
-    // The third call to _wrapWithAnimation is the capsule branch. Its returned 0x2183 widget
-    // contains the entire capsule subtree, so an outer Padding shifts background and label
-    // together. Verify the call site, widget allocator, and Flutter Padding class layout before
-    // hooking; a launcher OTA that changes any one of them leaves the knob inert.
+    // Verify both finished branches at the original builder splice, the wrapper allocator,
+    // and Flutter Padding layout. A changed launcher image declines this precise path.
     if (wrapper_size != 0xf4 || caller_va == nullptr) return false;
     uint32_t launcher_va = 0, launcher_size = 0;
     uint32_t container_va = 0, container_size = 0;
@@ -874,7 +870,19 @@ bool capsule_wrapper_layout_compatible(uint32_t wrapper_va, uint32_t wrapper_siz
         || !dart_words(padding_alloc_va, 2, padding_alloc)
         || wrapper_alloc[0] != 0xd2868382u || wrapper_alloc[1] != 0xf2a04302u
         || padding_alloc[0] != 0xd28a4382u || padding_alloc[1] != 0xf2a03c42u) return false;
-    *caller_va = launcher_va + 0x220;
+    constexpr uint32_t pair_words[] = {
+        0xaa1603e1u, 0xd28000c2u, 0xf81f83a0u, 0x94278e38u,
+        0xaa0003e2u, 0xf85f03a0u, 0xf81e03a2u, 0xb800f040u,
+        0xf85e83a0u, 0xb8013040u, 0xf85f83a0u, 0xb8017040u};
+    std::vector<uint32_t> pair;
+    if (!dart_words(launcher_va + 0x220, std::size(pair_words), pair)
+        || !std::equal(std::begin(pair_words), std::end(pair_words), pair.begin())) return false;
+    if (!dart_words(launcher_va + 0x1e0, 1, parent_call)
+        || !bl_target(parent_call[0], launcher_va + 0x1e0, &called_va)
+        || called_va != wrapper_va) return false;
+    // Do not relocate the Array allocator BL: a GC inside a relocated Dart call
+    // would return to an alien code PC. Splice after that original call instead.
+    *caller_va = launcher_va + 0x230;
     return true;
 }
 
@@ -905,6 +913,24 @@ bool workspace_geometry_code_compatible(uint32_t va, uint32_t size, bool occupie
         return matches(0x90, words0) && matches(0xc4, words1) && matches(0x1fc, words2) && matches(0x440, words3);
     }
     return false;
+}
+
+bool hotseat_geometry_code_compatible(uint32_t va, uint32_t size) {
+    // OS4 7722: final Dock ParentData.offset.x, after original per-icon calculation.
+    // Verify delegate count, compressed ItemInfo chain, column and Offset stores.
+    if (size != 0x72c) return false;
+    std::vector<uint32_t> code;
+    const auto matches = [&](uint32_t offset, const auto &expected) {
+        return dart_words(va + offset, std::size(expected), code)
+            && code.size() >= std::size(expected)
+            && std::equal(std::begin(expected), std::end(expected), code.begin());
+    };
+    constexpr uint32_t words0[] = {0xa9bf79fdu, 0xaa0f03fdu, 0xd10281efu, 0xf81f83a1u, 0xf81f03a2u, 0xd28000c1u, 0x9411837cu, 0xaa0003e1u};
+    constexpr uint32_t words1[] = {0xf85f83a5u, 0xf81c03a4u, 0xf84130a6u, 0x937f78c0u, 0xeb8004dfu, 0x54000060u, 0x941187bcu, 0xf8007006u, 0xf81c83a0u, 0xfc42b0a0u, 0xfc1883a0u, 0xd2800001u, 0xfc5903a1u, 0xf81d03a2u};
+    constexpr uint32_t words2[] = {0xf85b03a2u, 0x97c6e9ecu, 0xaa0003e3u, 0xf85b03a2u, 0xb840f040u, 0x8b1c8000u, 0xb8407001u, 0x8b1c8021u, 0xf8437024u, 0x937f7880u, 0xeb80049fu, 0x54000060u, 0x94118778u, 0xf8007004u, 0xf85c83b0u};
+    constexpr uint32_t words3[] = {0xfc1783a2u, 0xa9461340u, 0x91004000u, 0xeb00009fu, 0x54001529u};
+    constexpr uint32_t words4[] = {0x97c6c09eu, 0xf85b03a2u, 0xb8413040u, 0x8b1c8000u, 0xfc407000u, 0xfc1803a0u, 0x9406fdaeu, 0xfc5803a0u, 0xf81983a0u, 0xfc007000u, 0xfc5783a0u, 0xfc00f000u, 0xf85f83a3u};
+    return matches(0x0, words0) && matches(0x218, words1) && matches(0x310, words2) && matches(0x43c, words3) && matches(0x54c, words4);
 }
 
 bool bind_target(const Library &library, uint64_t va, uintptr_t &address,
@@ -1207,37 +1233,81 @@ bool g_captures_armed = false;
 bool g_probe_primed = false;
 int g_device_object_offset = -1;
 
-/*
- * Resolve and bind the page-dot companion accessor.
- *
- * `GridController.workspaceIndicatorMarginBottom` is the accessor the launcher consults when it lays
- * out the edit-mode page-dot row; the capsule knob rides `LauncherIndicatorState._wrapWithAnimation`
- * instead. The companion has no calibration property of its own - it is not a knob, it has no slider
- * - so its symbol is fixed. That is a deliberate limit: retargeting it would need a second
- * `debug.hyperceiler.layout.hook*` index that the knob table does not have.
- *
- * Binding only ever happens once: a non-zero `_address` means the slot already owns the address, and
- * re-binding would reset its bookkeeping (the same trap `prime_home_layout_probe` documents).
- */
+/* Bind only verified interior control-flow sites, never a margin getter. */
+bool indicator_policy_compatible(uint32_t va, uint32_t size) {
+    uint32_t editing_va = 0, editing_size = 0;
+    if (size != 0x90 || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState.isInEditing",
+        &editing_va, &editing_size) || editing_va != va + 0x4b4 || editing_size != 0xb8) return false;
+    constexpr uint32_t gate[] = {0xf100041fu, 0x540001ecu, 0xf85e83a3u, 0x362001a3u,
+        0xf85f83a1u, 0xb840f024u, 0x8b1c8084u, 0xaa0403e1u};
+    constexpr uint32_t result[] = {0x362000e0u, 0xf85e03a0u, 0x362000a0u,
+        0xf9712b60u, 0xaa1d03efu, 0xa8c179fdu, 0xd65f03c0u,
+        0xf85c83a2u, 0xf85c03a0u, 0xf85e83a1u};
+    std::vector<uint32_t> code;
+    uint32_t target = 0;
+    return dart_words(va + 0x3d8, std::size(gate), code)
+        && std::equal(std::begin(gate), std::end(gate), code.begin())
+        && dart_words(va + 0x3f8, 1, code)
+        && bl_target(code[0], va + 0x3f8, &target) && target == editing_va
+        && dart_words(va + 0x3fc, std::size(result), code)
+        && std::equal(std::begin(result), std::end(result), code.begin());
+}
+
 void bind_indicator_dot_target() {
     if (hc_layout_dart_IndicatorDot_address != 0) return;
-    uint32_t va = 0;
-    uint32_t size = 0;
-    if (!hometweaks::HomeTweaksFindSymbol("GridController.workspaceIndicatorMarginBottom", &va,
-            &size) || size < 16) {
-        return;
-    }
+    uint32_t va = 0, size = 0;
+    if (!hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._buildScreenIndicator", &va,
+        &size) || !indicator_policy_compatible(va, size)) return;
     uintptr_t address = 0;
-    if (!bind_dart_target(va, address, hc_layout_dart_IndicatorDot_source,
-            hc_layout_dart_IndicatorDot_words)) {
-        return;
-    }
+    if (!bind_dart_target(va + 0x3fc, address, hc_layout_dart_IndicatorDot_source,
+        hc_layout_dart_IndicatorDot_words)) return;
     hc_layout_dart_IndicatorDot_address = address;
-    hc_layout_dart_IndicatorDot_getter = va;
+    hc_layout_dart_IndicatorDot_getter = va + 0x3fc;
     hc_layout_dart_IndicatorDot_size = size;
+    hc_layout_indicator_edit_call = g_dart->load_base + va + 0x3e8;
+    // Empty-widget pool load at +0x408 is overwritten by the 16-byte bank.
+    // The assembly replays it and jumps to the untouched epilogue, not patch bytes.
+    hc_layout_indicator_build_empty = g_dart->load_base + va + 0x40c;
+    hc_layout_indicator_build_dots = g_dart->load_base + va + 0x418;
     __android_log_print(ANDROID_LOG_INFO, kTag,
-        "layout indicator dot bound va=%#x size=%#x addr=%p", va, size,
-        reinterpret_cast<void *>(address));
+        "layout indicator visibility interior va=%#x", va + 0x3fc);
+}
+
+void bind_folder_geometry() {
+    if (g_slots[kFolderGeometrySlotBase].address != 0 || !g_dart) return;
+    const void *entries[] = {reinterpret_cast<void *>(hc_layout_folder_0_entry),
+        reinterpret_cast<void *>(hc_layout_folder_1_entry),
+        reinterpret_cast<void *>(hc_layout_folder_2_entry),
+        reinterpret_cast<void *>(hc_layout_folder_3_entry), reinterpret_cast<void *>(hc_layout_folder_4_entry)};
+    std::array<Slot, 5> candidates{};
+    for (size_t i = 0; i < candidates.size(); ++i) {
+        const auto &spec = home_layout::kFolderGeometrySites[i];
+        uint32_t va = 0, size = 0;
+        std::vector<uint32_t> words;
+        if (!hometweaks::HomeTweaksFindSymbol(spec.symbol, &va, &size)
+            || size != spec.size || !dart_words(va + spec.offset, 4, words)
+            || !std::equal(std::begin(spec.words), std::end(spec.words), words.begin())) return;
+        // The scalar carry crosses original Dart calls. Admit only the complete
+        // known bodies, including the outgoing-argument writes and last screen read.
+        const auto full = i < 2 || i == 4
+            ? std::span<const uint32_t>(home_layout::kFolderPositionOriginal)
+            : std::span<const uint32_t>(home_layout::kFolderSizeOriginal);
+        std::vector<uint32_t> body;
+        if (!dart_words(va, full.size(), body)
+            || !std::equal(full.begin(), full.end(), body.begin())) return;
+        // Validate the owning frame. The continuation is exactly patch+16.
+        std::vector<uint32_t> frame;
+        if (!dart_words(va, 3, frame) || frame[0] != kDartPrologue
+            || frame[1] != 0xaa0f03fd || frame[2] != full[2]) return;
+        auto &slot = candidates[i];
+        if (!bind_dart_target(va + spec.offset, slot.address, slot.source, slot.original_words)) return;
+        slot.replacement = const_cast<void *>(entries[i]);
+        slot.original = &hc_layout_folder_original[i];
+    }
+    for (size_t i = 0; i < candidates.size(); ++i) {
+        g_slots[kFolderGeometrySlotBase + i] = candidates[i];
+        hc_layout_folder_resume[i] = candidates[i].address + 16;
+    }
 }
 
 size_t bind_knobs() {
@@ -1258,20 +1328,53 @@ size_t bind_knobs() {
         if (!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(), &va, &size) || size < 16) {
             continue;
         }
+        uint32_t capsule_patch_va = 0;
         if (&knob == &g_knobs[5]) {
             if (knob.symbol == "LauncherIndicatorState._wrapWithAnimation") {
                 uint32_t caller_va = 0;
                 if (!capsule_wrapper_layout_compatible(va, size, &caller_va)) continue;
-                hc_layout_capsule_expected_caller = g_dart->load_base + caller_va;
+                capsule_patch_va = caller_va;
                 knob.hook_entry = reinterpret_cast<void *>(hc_layout_capsule_entry);
             } else {
                 knob.hook_entry = reinterpret_cast<void *>(hc_layout_dart_IndicatorMargin_entry);
             }
         }
+        const bool indicator_policy = &knob == &g_knobs[6]
+            && knob.symbol == "LauncherIndicatorState._buildScreenIndicator";
+        if (indicator_policy) {
+            if (!indicator_policy_compatible(va, size)) continue;
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_policy_entry);
+        }
+        const bool indicator_slide = &knob == &g_knobs[7]
+            && knob.symbol == "LauncherIndicatorState._showIndicator";
+        if (indicator_slide) {
+            uint32_t refresh_va = 0, refresh_size = 0, animate_va = 0, animate_size = 0;
+            std::vector<uint32_t> code;
+            constexpr uint32_t decision[] = {0xf85f83a0u, 0xf81f03a3u, 0xf841b002u, 0xeb03005fu};
+            // Internal hidden state 3 follows the original controller default but the original
+            // timeout closure has no 3 branch: all three visible flags remain false.
+            constexpr uint32_t fallback[] = {0x7100103fu, 0x54000081u, 0xb846b061u,
+                0x8b1c8021u, 0x14000003u, 0xb8463061u, 0x8b1c8021u};
+            if (size != 0x144 || !dart_words(va + 0xe0, std::size(decision), code)
+                || !std::equal(std::begin(decision), std::end(decision), code.begin())
+                || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._animateIndicator",
+                    &animate_va, &animate_size) || animate_size != 0x170
+                || !dart_words(animate_va + 0xdc, std::size(fallback), code)
+                || !std::equal(std::begin(fallback), std::end(fallback), code.begin())
+                || !hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState._refreshIndicator",
+                    &refresh_va, &refresh_size) || refresh_size != 0x198) continue;
+            uint32_t target = 0;
+            if (!dart_words(refresh_va + 0x13c, 1, code)
+                || !bl_target(code[0], refresh_va + 0x13c, &target) || target != va) continue;
+            hc_layout_indicator_idle_caller = g_dart->load_base + refresh_va + 0x140;
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_slide_only_entry);
+        }
         const bool workspace_cell = &knob == &g_knobs[2]
             && knob.symbol == "GridCellDelegate.performLayout";
         const bool workspace_occupied = &knob == &g_knobs[3]
             && knob.symbol == "GridOccupiedCellDelegate.performLayout";
+        const bool hotseat_horizontal = &knob == &g_knobs[4]
+            && knob.symbol == "HotSeatLayoutDelegate.cellLayout";
         if (workspace_cell || workspace_occupied) {
             if (!workspace_geometry_code_compatible(va, size, workspace_occupied)) continue;
             knob.hook_entry = workspace_cell
@@ -1281,8 +1384,14 @@ size_t bind_knobs() {
         if (&knob == &g_knobs[2] && knob.symbol == "Container.build") {
             knob.hook_entry = reinterpret_cast<void *>(hc_layout_container_probe_entry);
         }
-        const bool workspace_splice = workspace_cell || workspace_occupied;
-        const uint32_t patch_va = va + (workspace_cell ? 0xd8 : workspace_occupied ? 0x234 : 0);
+        if (hotseat_horizontal) {
+            if (!hotseat_geometry_code_compatible(va, size)) continue;
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_hotseat_horizontal_entry);
+        }
+        const bool workspace_splice = workspace_cell || workspace_occupied || hotseat_horizontal
+            || capsule_patch_va != 0 || indicator_policy || indicator_slide;
+        const uint32_t patch_va = capsule_patch_va != 0 ? capsule_patch_va : va + (indicator_slide ? 0xe0 : indicator_policy ? 0x3d8 : workspace_cell ? 0xd8 : workspace_occupied ? 0x234
+            : hotseat_horizontal ? 0x568 : 0);
         if (!bind_dart_target(patch_va, knob.hook_address, knob.hook_source, knob.hook_words)) continue;
         if (!workspace_splice && knob.hook_words[0] != kDartPrologue) {
             knob.hook_address = 0;
@@ -1294,6 +1403,7 @@ size_t bind_knobs() {
     // The page-dot companion is independent of the field-write experiments: it is a hook target, so
     // it binds and arms even when the field-write channel is off (the default).
     bind_indicator_dot_target();
+    bind_folder_geometry();
     if (!g_field_writes_enabled.load(std::memory_order_relaxed)) {
         size_t hooked = 0;
         for (const KnobRuntime &knob : g_knobs) {
@@ -1405,11 +1515,73 @@ size_t arm_captures() {
  * Install the hook trampolines for every knob calibrated onto a layout aggregator. A knob whose
  * aggregator is not resolved yet is simply skipped and retried by the health loop.
  */
+// Capacity patches are ordinary aligned original-image instructions. No Dart
+// getter replacement, heap edits, extra hook slots, per-frame helper, or timer.
+// Loader owns the first synchronous bank publication; the maintenance worker
+// starts binding only after it has finished. No two setup threads can claim
+// hook_armed before the first continuation is registered.
+std::atomic<bool> g_loader_prime_finished{false};
+std::atomic_flag g_loader_priming = ATOMIC_FLAG_INIT;
+std::atomic_flag g_capacity_busy = ATOMIC_FLAG_INIT;
+home_layout::CapacityWord g_capacity_words[home_layout::kCapacitySiteCount]{};
+bool g_capacity_bound = false;
+bool g_capacity_enabled = false;
+bool g_capacity_known = true;
+
+bool sync_hotseat_capacity(bool enabled) {
+    if (g_capacity_busy.test_and_set(std::memory_order_acquire)) return false;
+    struct Release { ~Release() { g_capacity_busy.clear(std::memory_order_release); } } release;
+    if (!g_dart) return false;
+    if (!g_capacity_bound) {
+        home_layout::CapacityWord candidate[home_layout::kCapacitySiteCount]{};
+        for (int i = 0; i < home_layout::kCapacitySiteCount; ++i) {
+            const auto &site = home_layout::kCapacitySites[i];
+            uint32_t va = 0, size = 0;
+            std::vector<uint32_t> guard, prologue;
+            if (!hometweaks::HomeTweaksFindSymbol(site.symbol, &va, &size) || size != site.size
+                || site.offset < 12 || site.offset + 4 > size
+                || !dart_words(va, 4, prologue) || prologue[0] != kDartPrologue
+                || !dart_words(va + site.offset - 12, 4, guard)
+                || std::memcmp(guard.data(), site.guard, sizeof(site.guard)) != 0) return false;
+            // source() pins the runtime address to this loaded image, not another libapp mapping.
+            if (g_dart->load_base > UINTPTR_MAX - va - site.offset) return false;
+            const uintptr_t address = g_dart->load_base + va + site.offset;
+            const auto file = dart_file_offset(va + site.offset, 4);
+            const auto origin = nhk::source_at(g_dart->owned, address, 4);
+            if (!file || !origin || origin->file_offset != *file || (address & 3)) return false;
+            candidate[i] = {address, site.guard[3], site.replacement};
+        }
+        std::copy(std::begin(candidate), std::end(candidate), std::begin(g_capacity_words));
+        g_capacity_bound = true;
+        __android_log_print(ANDROID_LOG_INFO, kTag, "hotseat capacity original-code bank bound sites=%d",
+            home_layout::kCapacitySiteCount);
+    }
+    if (g_capacity_known && enabled == g_capacity_enabled) return true;
+    const auto read = [](uintptr_t address, uint32_t &word) {
+        return nhk::safe_read(address, std::as_writable_bytes(std::span(&word, 1)));
+    };
+    const auto write = [](uintptr_t address, uint32_t word) {
+        return nhk::write_code_bytes(address, std::as_bytes(std::span(&word, 1)));
+    };
+    const bool applied = home_layout::apply_capacity_words(g_capacity_words, enabled, read, write);
+    g_capacity_known = applied;
+    if (applied) g_capacity_enabled = enabled;
+    __android_log_print(applied ? ANDROID_LOG_INFO : ANDROID_LOG_WARN, kTag,
+        "hotseat capacity original-code requested=%d applied=%d sites=%d getters=unchanged",
+        enabled ? 1 : 0, applied ? 1 : 0, home_layout::kCapacitySiteCount);
+    return applied;
+}
+
 size_t arm_hooks(std::vector<size_t> &order) {
     size_t added = 0;
     for (size_t index = 0; index < g_knobs.size(); ++index) {
         KnobRuntime &knob = g_knobs[index];
-        if (!knob.hook_mode || knob.hook_address == 0 || knob.hook_armed) continue;
+        if (!knob.hook_mode || knob.hook_address == 0) continue;
+        const size_t owned_slot = kKnobHookSlotBase + index;
+        if (knob.hook_armed) {
+            if (std::find(order.begin(), order.end(), owned_slot) == order.end()) order.push_back(owned_slot);
+            continue;
+        }
         // `prime_home_layout_knobs` can bind before the worker initializes generic pointers.
         // Choose the specialized entry at the final slot assignment, not only during binding.
         if (index == 5 && knob.symbol == "LauncherIndicatorState._wrapWithAnimation") {
@@ -1423,6 +1595,12 @@ size_t arm_hooks(std::vector<size_t> &order) {
         }
         if (index == 2 && knob.symbol == "Container.build") {
             knob.hook_entry = reinterpret_cast<void *>(hc_layout_container_probe_entry);
+        }
+        if (index == 6 && knob.symbol == "LauncherIndicatorState._buildScreenIndicator") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_policy_entry);
+        }
+        if (index == 7 && knob.symbol == "LauncherIndicatorState._showIndicator") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_indicator_slide_only_entry);
         }
         const size_t slot = kKnobHookSlotBase + index;
         g_slots[slot] = {knob.hook_address, knob.hook_entry, knob.hook_original, knob.hook_source,
@@ -1438,12 +1616,24 @@ size_t arm_hooks(std::vector<size_t> &order) {
      */
     if (hc_layout_dart_IndicatorDot_address != 0 && !hc_layout_dart_IndicatorDot_armed) {
         g_slots[kIndicatorDotSlot] = {hc_layout_dart_IndicatorDot_address,
-            reinterpret_cast<void *>(hc_layout_dart_IndicatorDot_entry),
+            reinterpret_cast<void *>(hc_layout_indicator_edit_result_entry),
             &hc_layout_dart_IndicatorDot_original, hc_layout_dart_IndicatorDot_source,
             hc_layout_dart_IndicatorDot_words};
         order.push_back(kIndicatorDotSlot);
         hc_layout_dart_IndicatorDot_armed = true;
         ++added;
+    }
+    if (hc_layout_dart_IndicatorDot_armed
+        && std::find(order.begin(), order.end(), kIndicatorDotSlot) == order.end()) {
+        order.push_back(kIndicatorDotSlot);
+    }
+    for (size_t i = 0; i < 5; ++i) {
+        const size_t index = kFolderGeometrySlotBase + i;
+        if (g_slots[index].address != 0
+            && std::find(order.begin(), order.end(), index) == order.end()) {
+            order.push_back(index);
+            ++added;
+        }
     }
     return added;
 }
@@ -1478,33 +1668,23 @@ size_t publish_hooks() {
         ++live;
     }
     publish_indicator_dot_delta();
+    bool folder_ready = true;
+    for (size_t i = 0; i < 5; ++i) folder_ready &= g_slots[kFolderGeometrySlotBase + i].registered;
+    folder_ready &= g_slots[kKnobHookSlotBase + 2].registered
+        && g_slots[kKnobHookSlotBase + 3].registered;
+    __atomic_store_n(&hc_layout_folder_enabled, folder_ready ? 1u : 0u, __ATOMIC_RELEASE);
     return live;
 }
 
-/*
- * Mirror the indicator knob's delta onto the page-dot companion.
- *
- * The companion is not a knob of its own: it has no slider, no field path and no calibration
- * property. It exists only so that the one indicator slider reaches both render targets, which is why
- * it re-reads the knob's published `delta_dp` instead of carrying state. The gate therefore has to
- * match `publish_hooks` exactly - enabled only when the indicator knob is armed and non-zero - or a
- * desktop would keep a stale dot offset after the slider was returned to its default.
- */
+/* Publish a policy only after all original-code continuations exist. */
 void publish_indicator_dot_delta() {
-    const KnobRuntime &knob = g_knobs[5];
-    const bool live = hc_layout_dart_IndicatorDot_address != 0 && hc_layout_dart_IndicatorDot_armed
-        && knob.hook_armed
-        && knob.delta_dp.load(std::memory_order_relaxed) != 0;
-    if (!live) {
-        hc_layout_dart_IndicatorDot_enabled = 0;
-        return;
-    }
-    const double delta = static_cast<double>(knob.delta_dp.load(std::memory_order_relaxed));
-    const double value = delta * kIndicatorDotDeltaGain;
-    uint64_t bits = 0;
-    std::memcpy(&bits, &value, sizeof(bits));
-    hc_layout_dart_IndicatorDot_delta = bits;
-    __atomic_store_n(&hc_layout_dart_IndicatorDot_enabled, static_cast<uint8_t>(1), __ATOMIC_RELEASE);
+    const int mode = g_knobs[6].delta_dp.load(std::memory_order_relaxed);
+    const bool ready = g_slots[kKnobHookSlotBase + 6].registered
+        && g_slots[kKnobHookSlotBase + 7].registered && g_slots[kIndicatorDotSlot].registered
+        && hc_layout_dart_SearchBarMargin_original != nullptr
+        && hc_layout_dart_SearchBarWidth_original != nullptr && hc_layout_dart_IndicatorDot_original != nullptr;
+    __atomic_store_n(&hc_layout_indicator_mode,
+        ready && mode >= 0 && mode <= 2 ? static_cast<uint32_t>(mode) : 0u, __ATOMIC_RELEASE);
 }
 
 /*
@@ -1640,6 +1820,10 @@ void *worker(void *) {
             "layout config unavailable; leaving launcher unmodified");
         return attempt_finished();
     }
+    // The early loader callback must win first layout. Bounded startup wait,
+    // not a new polling thread; the existing worker adopts the loader's slots.
+    for (int attempt = 0; attempt < 200
+        && !g_loader_prime_finished.load(std::memory_order_acquire); ++attempt) delay_ms(25);
     auto sync_requested = [&]() {
         bool any = false;
         for (size_t index = 0; index < HC_LAYOUT_KNOB_COUNT; ++index) {
@@ -1682,7 +1866,8 @@ void *worker(void *) {
     const bool any_tweak = config.tweaks.folder_enabled || config.tweaks.pad_enabled
         || config.tweaks.fold_enabled || config.tweaks.icon_scale_enabled
         || config.tweaks.recents_hide_clear || config.tweaks.recents_no_clear
-        || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled;
+        || config.tweaks.animation_open_enabled || config.tweaks.animation_recents_enabled
+        || config.tweaks.hotseat_unlimited;
     if (!config.grid_enabled && !any_knob && !top_probe && !any_tweak) {
         __android_log_print(ANDROID_LOG_INFO, kTag, "layout preferences disabled; no hooks installed");
         return attempt_finished();
@@ -1853,6 +2038,7 @@ void *worker(void *) {
     }
     arm_hooks(order);
     publish_hooks();
+    (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
     const bool grid_live =
         config.grid_enabled && located && located->x != 0 && located->y != 0;
     g_ready.store(grid_live, std::memory_order_release);
@@ -1894,17 +2080,11 @@ void *worker(void *) {
          * which is exactly the ambiguity this file's verdicts exist to kill.
          */
         if (hc_layout_dart_IndicatorDot_address != 0 || hc_layout_dart_IndicatorDot_armed) {
-            double dot_delta = 0.0;
-            std::memcpy(&dot_delta, &hc_layout_dart_IndicatorDot_delta, sizeof(dot_delta));
             __android_log_print(ANDROID_LOG_INFO, kTag,
-                "layout indicator dot va=%#x sym_size=%u addr=%p armed=%d enabled=%d delta=%.4f "
-                "hits=%llu caller=%#llx",
-                hc_layout_dart_IndicatorDot_getter, hc_layout_dart_IndicatorDot_size,
-                reinterpret_cast<void *>(hc_layout_dart_IndicatorDot_address),
-                hc_layout_dart_IndicatorDot_armed ? 1 : 0,
-                hc_layout_dart_IndicatorDot_enabled ? 1 : 0, dot_delta,
-                static_cast<unsigned long long>(hc_layout_dart_IndicatorDot_hits),
-                static_cast<unsigned long long>(hc_layout_dart_IndicatorDot_caller));
+                "layout indicator policy va=%#x registered=%d mode=%u hits=%llu",
+                hc_layout_dart_IndicatorDot_getter, g_slots[kIndicatorDotSlot].registered ? 1 : 0,
+                __atomic_load_n(&hc_layout_indicator_mode, __ATOMIC_ACQUIRE),
+                static_cast<unsigned long long>(hc_layout_dart_IndicatorDot_hits));
         }
     }
 
@@ -2013,7 +2193,9 @@ void *worker(void *) {
                 if (tweaks_changed) {
                     publish_animation_rate(config.tweaks);
                     push_tweaks(config);
+
                 }
+                (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
                 (void) knobs_changed;
             }
             any_knob = sync_requested();
@@ -2169,15 +2351,30 @@ void *worker(void *) {
 }
 } // namespace
 
+extern "C" void hc_layout_folder_body(uintptr_t frame, uint64_t heap, uintptr_t saved,
+    unsigned kind) {
+    const bool ready = __atomic_load_n(&hc_layout_folder_enabled, __ATOMIC_ACQUIRE) != 0;
+    const int top = ready ? g_knobs[2].delta_dp.load(std::memory_order_relaxed) : 0;
+    const int bottom = ready ? g_knobs[3].delta_dp.load(std::memory_order_relaxed) : 0;
+    const int side = ready ? g_knobs[4].delta_dp.load(std::memory_order_relaxed) : 0;
+    const bool valid = home_layout::folder_geometry_body(frame, heap, saved, kind, top, bottom, side);
+    const uint64_t count = __atomic_fetch_add(&hc_layout_folder_hits[kind], uint64_t{1}, __ATOMIC_RELAXED);
+    if (count < 4) __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+        "folder geometry body kind=%u ready=%d delta=%d/%d/%d valid=%d",
+        kind, ready ? 1 : 0, top, bottom, side, valid ? 1 : 0);
+}
+
 extern "C" void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int occupied) {
     const int top = g_knobs[2].delta_dp.load(std::memory_order_relaxed);
     const int bottom = g_knobs[3].delta_dp.load(std::memory_order_relaxed);
     const int side = g_knobs[4].delta_dp.load(std::memory_order_relaxed);
     double geometry[4] = {};
-    const bool valid = home_layout::inset_workspace_frame(frame, heap, occupied != 0,
-        top, bottom, side, geometry);
-    static std::atomic<uint32_t> reports[2]{};
-    if (reports[occupied != 0].fetch_add(1, std::memory_order_relaxed) < 8) {
+    const bool hotseat = occupied == 2;
+    const bool valid = hotseat ? home_layout::inset_hotseat_frame(frame, heap, side, geometry)
+        : home_layout::inset_workspace_frame(frame, heap, occupied != 0,
+            top, bottom, side, geometry);
+    static std::atomic<uint32_t> reports[3]{};
+    if (reports[hotseat ? 2 : occupied != 0].fetch_add(1, std::memory_order_relaxed) < 8) {
         __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
             "workspace layout splice occupied=%d delta=%d/%d/%d valid=%d "
             "origin=%.3f,%.3f stride=%.3f,%.3f",
@@ -2186,53 +2383,25 @@ extern "C" void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int o
     }
 }
 
-extern "C" uint64_t hc_layout_capsule_wrap(uint64_t widget, uint64_t edge, uint64_t padding,
-    uint64_t heap, uint64_t dart_null, double delta) {
-    // Called only for the third _wrapWithAnimation return. The 0x2183 wrapper holds the entire
-    // capsule branch; construct a fresh outer Padding so the original launcher layout code moves
-    // background, text and hit target together without touching their internal constraints.
-    static std::atomic<uint32_t> reports{0};
-    const auto cid = [](uint64_t object) -> uint32_t {
-        if ((object & 1u) == 0) return 0;
-        uint64_t header = 0;
-        std::memcpy(&header, reinterpret_cast<const void *>(object - 1), sizeof(header));
-        return static_cast<uint32_t>((header >> 12) & 0xfffffu);
-    };
-    const uint32_t widget_cid = cid(widget);
-    const uint32_t edge_cid = cid(edge);
-    const uint32_t padding_cid = cid(padding);
-    uint64_t child = dart_null;
-    if (widget_cid == 0x2183) {
-        uint32_t compressed = 0;
-        std::memcpy(&compressed, reinterpret_cast<const void *>(widget + 0x37), 4);
-        child = (heap << 32) + compressed;
+extern "C" void hc_layout_indicator_pair(uintptr_t frame, uint64_t heap, uintptr_t thread,
+    uint64_t dart_null) {
+    uint64_t capsule = 0, dots = 0, top = 0, end = 0;
+    std::memcpy(&capsule, reinterpret_cast<const void *>(frame - 8), 8);
+    std::memcpy(&dots, reinterpret_cast<const void *>(frame - 0x18), 8);
+    std::memcpy(&top, reinterpret_cast<const void *>(thread + 0x60), 8);
+    std::memcpy(&end, reinterpret_cast<const void *>(thread + 0x68), 8);
+    double delta = 0;
+    const uint64_t bits = __atomic_load_n(&hc_layout_dart_IndicatorMargin_delta, __ATOMIC_ACQUIRE);
+    std::memcpy(&delta, &bits, 8);
+    const bool valid = hc::indicator::wrap_pair(capsule, dots, top, end, heap, dart_null, delta);
+    if (valid) {
+        std::memcpy(reinterpret_cast<void *>(frame - 8), &capsule, 8);
+        std::memcpy(reinterpret_cast<void *>(frame - 0x18), &dots, 8);
+        std::memcpy(reinterpret_cast<void *>(thread + 0x60), &top, 8);
     }
-    const bool valid = widget_cid == 0x2183 && edge_cid == 0x15c9
-        && padding_cid == 0x1e25 && child != dart_null && std::isfinite(delta)
-        && delta >= -630.0 && delta <= 370.0;
-    if (reports.fetch_add(1, std::memory_order_relaxed) < 8) {
-        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
-            "capsule wrapper cid=%#x child_cid=%#x edge_cid=%#x padding_cid=%#x delta=%.2f valid=%d",
-            widget_cid, cid(child), edge_cid, padding_cid, delta, valid ? 1 : 0);
-    }
-    if (!valid) return 0;
-    const double left = 0.0;
-    const double right = 0.0;
-    const double bottom = -delta;
-    std::memcpy(reinterpret_cast<void *>(edge + 7), &left, sizeof(left));
-    std::memcpy(reinterpret_cast<void *>(edge + 0xf), &delta, sizeof(delta));
-    std::memcpy(reinterpret_cast<void *>(edge + 0x17), &right, sizeof(right));
-    std::memcpy(reinterpret_cast<void *>(edge + 0x1f), &bottom, sizeof(bottom));
-    std::memset(reinterpret_cast<void *>(padding - 1), 0, 0x20);
-    const uint64_t padding_header = 0x1e2521cu;
-    std::memcpy(reinterpret_cast<void *>(padding - 1), &padding_header, 8);
-    const uint32_t key = static_cast<uint32_t>(dart_null);
-    const uint32_t wrapped = static_cast<uint32_t>(widget);
-    const uint32_t insets = static_cast<uint32_t>(edge);
-    std::memcpy(reinterpret_cast<void *>(padding + 7), &key, 4);
-    std::memcpy(reinterpret_cast<void *>(padding + 0xb), &wrapped, 4);
-    std::memcpy(reinterpret_cast<void *>(padding + 0xf), &insets, 4);
-    return padding;
+    static uint32_t reports = 0;
+    if (reports++ < 8) __android_log_print(ANDROID_LOG_INFO, kTag,
+        "indicator shared-position delta=%.2f valid=%d", delta, valid ? 1 : 0);
 }
 
 extern "C" void hc_layout_probe_container(uint64_t widget, uint64_t heap,
@@ -2330,7 +2499,30 @@ bool adopt_layout_state() {
     hc_layout_magic_hits = 0;
     hc_layout_magic_original = nullptr;
     g_magic_hook_armed = false;
+    g_loader_prime_finished.store(false, std::memory_order_release);
+    g_loader_priming.clear(std::memory_order_release);
+    g_capacity_busy.clear(std::memory_order_release);
+    g_capacity_bound = g_capacity_enabled = false;
+    g_capacity_known = true;
+    for (auto &word : g_capacity_words) word = {};
     g_captures_armed = false;
+    __atomic_store_n(&hc_layout_indicator_mode, uint32_t{0}, __ATOMIC_RELEASE);
+    hc_layout_dart_IndicatorDot_address = 0;
+    hc_layout_dart_IndicatorDot_getter = 0;
+    hc_layout_dart_IndicatorDot_size = 0;
+    hc_layout_dart_IndicatorDot_source = {};
+    hc_layout_dart_IndicatorDot_words = {};
+    hc_layout_dart_IndicatorDot_original = nullptr;
+    hc_layout_dart_IndicatorDot_armed = false;
+    hc_layout_dart_IndicatorDot_hits = 0;
+    hc_layout_indicator_edit_call = 0;
+    hc_layout_indicator_build_empty = 0;
+    hc_layout_indicator_build_dots = 0;
+    hc_layout_indicator_idle_caller = 0;
+    __atomic_store_n(&hc_layout_folder_enabled, 0u, __ATOMIC_RELEASE);
+    for (size_t i = 0; i < 5; ++i) {
+        hc_layout_folder_resume[i] = 0; hc_layout_folder_hits[i] = 0; hc_layout_folder_original[i] = nullptr;
+    }
     g_probe_primed = false;
     g_hook_globals_inited = false;
     init_knob_hooks();
@@ -2372,7 +2564,10 @@ void home_layout_prepare_for_launcher_child() {
  * called again, which is exactly how a "successfully armed" knob ends up invisible on screen.
  */
 void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
-    if (hook == nullptr) return;
+    if (hook == nullptr || g_loader_prime_finished.load(std::memory_order_acquire)) return;
+    if (g_loader_priming.test_and_set(std::memory_order_acquire)) return;
+    struct ReleasePrime { ~ReleasePrime() { g_loader_priming.clear(std::memory_order_release); } } release;
+
     g_hook_function = hook;
     g_unhook_function = unhook;
     if (!ensure_dart_library()) return;
@@ -2413,7 +2608,7 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
                 std::memory_order_relaxed);
         }
     }
-    static std::vector<size_t> order; // callback-owned, the same pattern as the probe
+    std::vector<size_t> order; // worker adopts these same registered slots after publication
     const size_t added = arm_hooks(order);
     if (added == 0 && order.empty()) return;
     /*
@@ -2443,6 +2638,8 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
         }
     }
     publish_hooks();
+    (void) sync_hotseat_capacity(config.tweaks.hotseat_unlimited);
+    g_loader_prime_finished.store(true, std::memory_order_release);
 }
 
 void prime_home_layout_probe(HookFunction hook, UnhookFunction unhook) {

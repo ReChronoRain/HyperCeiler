@@ -19,6 +19,23 @@ namespace hometweaks {
 namespace {
 
 const TargetFunction kTargets[] = {
+        {"WidgetPositionUtil.getCellPosition", "WidgetPositionUtil.getCellPosition", "OS4 文件夹动画坐标原逻辑"},
+        {"FolderIconGetxController.calOriginPreviewIconLoc", "FolderIconGetxController.calOriginPreviewIconLoc", "OS4 文件夹动画尺寸原逻辑"},
+        // OS4 original-body splice/branch guards. Registration does not hook getters.
+        {"HotSeatLayoutDelegate.cellLayout", "HotSeatLayoutDelegate.cellLayout", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState._buildScreenIndicator", "LauncherIndicatorState._buildScreenIndicator", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState.isInEditing", "LauncherIndicatorState.isInEditing", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState._showIndicator", "LauncherIndicatorState._showIndicator", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState._animateIndicator", "LauncherIndicatorState._animateIndicator", "OS4 原逻辑注入校验"},
+        {"LauncherIndicatorState._refreshIndicator", "LauncherIndicatorState._refreshIndicator", "OS4 原逻辑注入校验"},
+        {"HotseatLayerGetxController._isSeatsFull", "HotseatLayerGetxController._isSeatsFull", "OS4 原逻辑注入校验"},
+        {"HotseatDragHandler._isSeatsFull", "HotseatDragHandler._isSeatsFull", "OS4 原逻辑注入校验"},
+        {"HotseatLayerGetxController.setHotSeatItems", "HotseatLayerGetxController.setHotSeatItems", "OS4 原逻辑注入校验"},
+        {"HotseatLayerGetxController.resetAnimationAndUpdateDatabase", "HotseatLayerGetxController.resetAnimationAndUpdateDatabase", "OS4 原逻辑注入校验"},
+        {"HotseatLayerGetxController._updateDragItemCount", "HotseatLayerGetxController._updateDragItemCount", "OS4 原逻辑注入校验"},
+        {"HotseatLayerGetxController._pushDragItem", "HotseatLayerGetxController._pushDragItem", "OS4 原逻辑注入校验"},
+        {"DeviceConfig.hotSeatMaxCount", "DeviceConfig.hotSeatMaxCount", "OS4 原逻辑注入校验"},
+
         {"_insertClearButtonOverlay", "RecentsPageState._insertClearButtonOverlay",
          "功能9 插入清理按钮"},
         {"_buildFoldDockClearContainer", "RecentsPageState._buildFoldDockClearContainer",
