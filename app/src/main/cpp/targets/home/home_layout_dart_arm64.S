@@ -144,6 +144,24 @@ capture_trampoline hc_layout_dock_capture_entry, \
 HC_LAYOUT_KNOBS(HC_ASM_KNOB)
 #undef HC_ASM_KNOB
 
+/*
+ * Page-dot companion for the OS4 indicator knob.
+ *
+ * The settings slider drives the capsule, but the page-dot row is a different tree that the launcher
+ * positions on its own (`GridController.workspaceIndicatorMarginBottom` -> the indicator margin
+ * chain). Moving only the capsule therefore breaks the vertical alignment the two share when the
+ * desktop swaps between them (capsule at rest, dots in edit mode). This trampoline carries the same
+ * slider delta to the dot accessor so both move together; its gain is a separate constant because
+ * the dot margin and the capsule Padding do not share a unit or a sign.
+ *
+ * Reuses the standard geometry trampoline: call the original accessor, add the delta to its double
+ * result. Nothing is written into a live object, so refusing the bind leaves the dots untouched.
+ */
+geometry_trampoline hc_layout_dart_IndicatorDot_entry, \
+    hc_layout_dart_IndicatorDot_original, hc_layout_dart_IndicatorDot_delta, \
+    hc_layout_dart_IndicatorDot_enabled, hc_layout_dart_IndicatorDot_hits, \
+    hc_layout_dart_IndicatorDot_last, hc_layout_dart_IndicatorDot_caller
+
 /* Interior original RenderBox layout splices. Preserve all live Dart registers
  * and NZCV; the helper writes only verified local frame slots, never heap fields.
  * Original loops retain constraints, hit testing and ParentData.offset ownership. */

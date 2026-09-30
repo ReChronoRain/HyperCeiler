@@ -101,6 +101,26 @@ void hc_layout_capsule_entry();
 void hc_layout_workspace_entry();
 void hc_layout_workspace_occupied_entry();
 void hc_layout_container_probe_entry();
+/*
+ * Page-dot companion trampoline (see home_layout_dart_arm64.S). It carries the OS4 indicator
+ * knob's delta to `GridController.workspaceIndicatorMarginBottom` so the page-dot row keeps step
+ * with the capsule instead of drifting away from it when the desktop swaps which one it shows.
+ */
+uint8_t hc_layout_dart_IndicatorDot_enabled = 0;
+uint64_t hc_layout_dart_IndicatorDot_delta = 0;
+uint64_t hc_layout_dart_IndicatorDot_hits = 0;
+uint64_t hc_layout_dart_IndicatorDot_last = 0;
+uint64_t hc_layout_dart_IndicatorDot_caller = 0;
+void *hc_layout_dart_IndicatorDot_original = nullptr;
+void hc_layout_dart_IndicatorDot_entry();
+/* Slot bookkeeping for the companion, filled once by `bind_indicator_dot_target` and consumed by
+ * `arm_hooks`. Kept beside the trampoline globals because the four fields always move together; the
+ * `Words` payload is declared below, next to the other slot payloads, because it needs that type. */
+uintptr_t hc_layout_dart_IndicatorDot_address = 0;
+uint32_t hc_layout_dart_IndicatorDot_getter = 0;
+uint32_t hc_layout_dart_IndicatorDot_size = 0;
+nhk::CodeSource hc_layout_dart_IndicatorDot_source{};
+bool hc_layout_dart_IndicatorDot_armed = false;
 uint64_t hc_layout_capsule_wrap(uint64_t widget, uint64_t edge, uint64_t padding,
     uint64_t heap, uint64_t dart_null, double delta);
 uint64_t hc_layout_capsule_expected_caller = 0;
@@ -149,9 +169,20 @@ constexpr size_t kDockCaptureSlot = 3;
 constexpr size_t kKnobHookSlotBase = 4;
 constexpr size_t kAnimationHookSlot = kKnobHookSlotBase + HC_LAYOUT_KNOB_COUNT;
 constexpr size_t kAnimationMagicSlot = kAnimationHookSlot + 1;
-constexpr size_t kSlotCount = kAnimationMagicSlot + 1;
+/*
+ * The page-dot indicator accessor rides its own slot, outside the per-knob range.
+ *
+ * The capsule knob (index 5) already spends slot 9 on `LauncherIndicatorState._wrapWithAnimation`,
+ * so the companion that moves the edit-mode page-dot indicator cannot reuse it: one slot holds one
+ * patched address. Keeping it out of `kKnobHookSlotBase + index` also keeps `arm_hooks`'s
+ * index-to-slot mapping (and the rollback scan in the slot verdict loop) untouched.
+ */
+constexpr size_t kIndicatorDotSlot = kAnimationMagicSlot + 1;
+constexpr size_t kSlotCount = kIndicatorDotSlot + 1;
 using Slot = nhk::InlineSlot<kPatchWords>;
 using Words = nhk::SlotWords<kPatchWords>;
+/* The companion slot's payload, declared here because `Words` only exists from this line down. */
+Words hc_layout_dart_IndicatorDot_words{};
 using HookFunction = int (*)(void *, void *, void **);
 using UnhookFunction = int (*)(void *);
 
@@ -334,6 +365,22 @@ constexpr double kKnobDeltaGain[HC_LAYOUT_KNOB_COUNT] = {
     1.0,             // SearchBarMargin : searchBarMarginBottom, confirmed hit=1
     1.0,             // SearchBarWidth  : searchBarWidthPx, uncalibrated
 };
+
+/*
+ * The page-dot companion's gain, applied to the same slider delta the capsule consumes.
+ *
+ * The two targets do not share a unit. The capsule knob publishes its delta into a Flutter
+ * `EdgeInsets.top`, i.e. logical pixels added to a render-box position; the page-dot companion adds
+ * its delta to `GridController.workspaceIndicatorMarginBottom`, which the launcher treats as a
+ * *bottom margin* - the same sign convention as the old search-bar margin. A larger margin therefore
+ * moves the dot up, exactly like the capsule, so -1.0 keeps the two moving the same way.
+ *
+ * The magnitude is the honest open question: there is no device to A/B the two offsets against each
+ * other yet, so 1.0 assumes the two accessors are both in dp at the same density. If on-device
+ * calibration shows the dot drifting relative to the capsule, this constant (and only this one) is
+ * the knob to turn - do not touch the capsule's own gain, which is calibrated.
+ */
+constexpr double kIndicatorDotDeltaGain = -1.0;
 
 std::array<KnobRuntime, HC_LAYOUT_KNOB_COUNT> g_knobs = {{
 #define HC_KNOB_ROW(name, column, symbol, dflt, lo, hi) {symbol, dflt, lo, hi},
@@ -1160,6 +1207,39 @@ bool g_captures_armed = false;
 bool g_probe_primed = false;
 int g_device_object_offset = -1;
 
+/*
+ * Resolve and bind the page-dot companion accessor.
+ *
+ * `GridController.workspaceIndicatorMarginBottom` is the accessor the launcher consults when it lays
+ * out the edit-mode page-dot row; the capsule knob rides `LauncherIndicatorState._wrapWithAnimation`
+ * instead. The companion has no calibration property of its own - it is not a knob, it has no slider
+ * - so its symbol is fixed. That is a deliberate limit: retargeting it would need a second
+ * `debug.hyperceiler.layout.hook*` index that the knob table does not have.
+ *
+ * Binding only ever happens once: a non-zero `_address` means the slot already owns the address, and
+ * re-binding would reset its bookkeeping (the same trap `prime_home_layout_probe` documents).
+ */
+void bind_indicator_dot_target() {
+    if (hc_layout_dart_IndicatorDot_address != 0) return;
+    uint32_t va = 0;
+    uint32_t size = 0;
+    if (!hometweaks::HomeTweaksFindSymbol("GridController.workspaceIndicatorMarginBottom", &va,
+            &size) || size < 16) {
+        return;
+    }
+    uintptr_t address = 0;
+    if (!bind_dart_target(va, address, hc_layout_dart_IndicatorDot_source,
+            hc_layout_dart_IndicatorDot_words)) {
+        return;
+    }
+    hc_layout_dart_IndicatorDot_address = address;
+    hc_layout_dart_IndicatorDot_getter = va;
+    hc_layout_dart_IndicatorDot_size = size;
+    __android_log_print(ANDROID_LOG_INFO, kTag,
+        "layout indicator dot bound va=%#x size=%#x addr=%p", va, size,
+        reinterpret_cast<void *>(address));
+}
+
 size_t bind_knobs() {
     if (!ensure_dart_library()) return 0;
 
@@ -1211,6 +1291,9 @@ size_t bind_knobs() {
         knob.getter = va;
         knob.getter_size = size;
     }
+    // The page-dot companion is independent of the field-write experiments: it is a hook target, so
+    // it binds and arms even when the field-write channel is off (the default).
+    bind_indicator_dot_target();
     if (!g_field_writes_enabled.load(std::memory_order_relaxed)) {
         size_t hooked = 0;
         for (const KnobRuntime &knob : g_knobs) {
@@ -1348,6 +1431,20 @@ size_t arm_hooks(std::vector<size_t> &order) {
         knob.hook_armed = true;
         ++added;
     }
+    /*
+     * The page-dot companion rides its own slot. It is armed from the same call so the two indicator
+     * targets install or fail together - a desktop that shows the capsule and page-dots from the same
+     * knob is only coherent if both hooks are live.
+     */
+    if (hc_layout_dart_IndicatorDot_address != 0 && !hc_layout_dart_IndicatorDot_armed) {
+        g_slots[kIndicatorDotSlot] = {hc_layout_dart_IndicatorDot_address,
+            reinterpret_cast<void *>(hc_layout_dart_IndicatorDot_entry),
+            &hc_layout_dart_IndicatorDot_original, hc_layout_dart_IndicatorDot_source,
+            hc_layout_dart_IndicatorDot_words};
+        order.push_back(kIndicatorDotSlot);
+        hc_layout_dart_IndicatorDot_armed = true;
+        ++added;
+    }
     return added;
 }
 
@@ -1355,6 +1452,8 @@ size_t arm_hooks(std::vector<size_t> &order) {
  * Publish the hook delta only after its slot is installed: a knob whose hook was refused keeps a zero
  * delta and a cleared enable flag, so the launcher behaves exactly as unpatched.
  */
+void publish_indicator_dot_delta();
+
 size_t publish_hooks() {
     size_t live = 0;
     for (size_t index = 0; index < g_knobs.size(); ++index) {
@@ -1378,7 +1477,34 @@ size_t publish_hooks() {
         *knob.hook_enabled = 1;
         ++live;
     }
+    publish_indicator_dot_delta();
     return live;
+}
+
+/*
+ * Mirror the indicator knob's delta onto the page-dot companion.
+ *
+ * The companion is not a knob of its own: it has no slider, no field path and no calibration
+ * property. It exists only so that the one indicator slider reaches both render targets, which is why
+ * it re-reads the knob's published `delta_dp` instead of carrying state. The gate therefore has to
+ * match `publish_hooks` exactly - enabled only when the indicator knob is armed and non-zero - or a
+ * desktop would keep a stale dot offset after the slider was returned to its default.
+ */
+void publish_indicator_dot_delta() {
+    const KnobRuntime &knob = g_knobs[5];
+    const bool live = hc_layout_dart_IndicatorDot_address != 0 && hc_layout_dart_IndicatorDot_armed
+        && knob.hook_armed
+        && knob.delta_dp.load(std::memory_order_relaxed) != 0;
+    if (!live) {
+        hc_layout_dart_IndicatorDot_enabled = 0;
+        return;
+    }
+    const double delta = static_cast<double>(knob.delta_dp.load(std::memory_order_relaxed));
+    const double value = delta * kIndicatorDotDeltaGain;
+    uint64_t bits = 0;
+    std::memcpy(&bits, &value, sizeof(bits));
+    hc_layout_dart_IndicatorDot_delta = bits;
+    __atomic_store_n(&hc_layout_dart_IndicatorDot_enabled, static_cast<uint8_t>(1), __ATOMIC_RELEASE);
 }
 
 /*
@@ -1761,6 +1887,24 @@ void *worker(void *) {
                 last,
                 static_cast<unsigned long long>(
                     knob.hook_caller != nullptr ? *knob.hook_caller : 0));
+        }
+        /*
+         * The companion's own line. It has no slider to read back, so without this the only way to
+         * tell "the page-dot hook is live" from "it never bound" would be the absence of a line -
+         * which is exactly the ambiguity this file's verdicts exist to kill.
+         */
+        if (hc_layout_dart_IndicatorDot_address != 0 || hc_layout_dart_IndicatorDot_armed) {
+            double dot_delta = 0.0;
+            std::memcpy(&dot_delta, &hc_layout_dart_IndicatorDot_delta, sizeof(dot_delta));
+            __android_log_print(ANDROID_LOG_INFO, kTag,
+                "layout indicator dot va=%#x sym_size=%u addr=%p armed=%d enabled=%d delta=%.4f "
+                "hits=%llu caller=%#llx",
+                hc_layout_dart_IndicatorDot_getter, hc_layout_dart_IndicatorDot_size,
+                reinterpret_cast<void *>(hc_layout_dart_IndicatorDot_address),
+                hc_layout_dart_IndicatorDot_armed ? 1 : 0,
+                hc_layout_dart_IndicatorDot_enabled ? 1 : 0, dot_delta,
+                static_cast<unsigned long long>(hc_layout_dart_IndicatorDot_hits),
+                static_cast<unsigned long long>(hc_layout_dart_IndicatorDot_caller));
         }
     }
 

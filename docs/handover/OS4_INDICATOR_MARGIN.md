@@ -363,3 +363,63 @@ C++ host 测试仍跑不了（本机无主机端 clang++，NDK 工具链缺 Wind
 - 14 个已有语言资源共 28 处文本完成更新；资源 ID 和持久偏好 key 保持不变，避免丢失已保存的值。
 - 桌面搜索底部边距保持默认 70 dp、范围 -300..700 dp；OS4 顶部、底部、水平边距沿用第 16 节的原始布局逻辑注入。
 - 本次分支发布只编译和同步代码，不再次操作手机或修改用户偏好。签名密钥、临时 ADB 探针脚本及本地证据目录不纳入提交。
+
+## 18. 同一滑块驱动胶囊 + 页面圆点（2026-09-30，静态实现，未装机）
+
+### 需求与语义
+
+用户要求「让指示器的位置跟随搜索框」。三轮澄清后锁定：**跟随** = **同一垂直基准**，
+对象 = **胶囊** 与 **页面指示圆点**，驱动方式 = **同一个滑块同时驱动两者**。
+
+### 为什么必须挂两个 hook
+
+`LauncherIndicatorState.build` 内 `_getCurrentIndicatorType` **二选一**：
+- 正常桌面 → `_buildCapsuleIndicator`（胶囊，第 9/11 节的 `_wrapWithAnimation` 第三次返回）；
+- 编辑模式 → `_buildScreenIndicator`（页面圆点）。
+
+两者**互斥且渲染链独立**，只是"桌面此刻显示哪个"的切换，所以一个 hook 够不到另一个。
+第 8/9 节已把「胶囊」这条链做通，本次补上「页面圆点」这条链。
+
+### 实现
+
+| 目标 | symbol | 槽位 / 入口 |
+|---|---|---|
+| 胶囊（已有） | `LauncherIndicatorState._wrapWithAnimation` | knob 5 → slot 9，`hc_layout_capsule_entry`，gain −1.0 |
+| 页面圆点（本次） | `GridController.workspaceIndicatorMarginBottom` | **`kIndicatorDotSlot`（新）**，`hc_layout_dart_IndicatorDot_entry` |
+
+- **asm**：`home_layout_dart_arm64.S` 追加一条 `geometry_trampoline hc_layout_dart_IndicatorDot_entry, ...`，
+  完全复用现成宏（caller 返回值 + delta）。`workspaceIndicatorMarginBottom` 是"base + 传入 d0"式的
+  dp 访问器（7722 VA `0x95eecc`），shape 与其它 geometry trampoline 目标一致。
+- **slot**：`kIndicatorDotSlot = kAnimationMagicSlot + 1`，`kSlotCount` 由 13 增到 14。
+  companion **刻意不放进 `kKnobHookSlotBase + index` 区间**，因此 `arm_hooks` 的
+  index→slot 映射、slot verdict 循环里的回滚扫描、`prime_home_layout_probe` 全部无需改动。
+- **绑定**：新增 `bind_indicator_dot_target()`，在 `bind_knobs()` 的 per-knob 循环之后调用。
+  幂等（`_address != 0` 直接 return）；不受 `g_field_writes_enabled` 门控（它是 hook 不是 field write）。
+- **发布**：`publish_hooks()` 末尾调 `publish_indicator_dot_delta()`，重读 knob 5 的 `delta_dp`，
+  门控与 `publish_hooks` 完全一致（address 非 0 && armed && knob.hook_armed && delta != 0），
+  否则 `_enabled = 0` —— 否则滑块归零后页面圆点会留着 stale 偏移。
+- **诊断**：worker 周期行追加 `layout indicator dot ...` 一行（va / size / addr / armed / enabled /
+  delta / hits / caller），否则"hook 没绑上"与"绑上了没命中"在日志上无法区分。
+
+### 未标定值（唯一）
+
+```cpp
+constexpr double kIndicatorDotDeltaGain = -1.0;   // home_layout_hooks.cpp
+```
+
+**符号有依据**：两个访问器都是"margin 越大越往上"，与胶囊同向。
+**幅值 1.0 是假设**：胶囊吃的是 Flutter `EdgeInsets.top`（逻辑像素），页面圆点吃的是
+`workspaceIndicatorMarginBottom`（dp）。**无设备可 A/B，需真机标定**。
+要调整只动这一个常量，**不要碰已标定的胶囊 gain（`kKnobDeltaGain[5] = -1.0`）**。
+
+### 构建与验证
+
+`./gradlew :app:assembleRelease --offline` → `BUILD SUCCESSFUL in 58s`。
+`HyperCeiler-2.10.166-20260930-release.apk` = **8,773,111 B**；
+`lib/arm64-v8a/libHyperCeilerNative.so` = **1,382,864 B**（较上次 +504 B = 新增 trampoline + helper，
+符合预期；**不是** 20.4 MB 的 strip 静默失效）。
+
+**未装机**（无线调试掉线，且本轮为纯静态改动）。真机待验证：
+1. 正常桌面调「桌面搜索 → 底部边距」，胶囊上移；
+2. 进编辑模式，页面圆点**同幅**上移；
+3. 若两者不同步 → **先量差值**，再按差值调 `kIndicatorDotDeltaGain`。
