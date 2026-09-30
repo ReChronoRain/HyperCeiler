@@ -116,7 +116,14 @@ public final class DockNativeMotion {
         return 1f - .05f * progress;
     }
 
-    /** Keep the background's centre fixed while applying the icon's uniform scale. */
+    /**
+     * Keep the background's centre fixed while applying the icon's uniform scale.
+     *
+     * <p>Only a fallback: while the launcher frame is known, the reveal compensates about the
+     * launcher's own unlock pivot instead, because that is the point the launcher scales the
+     * Hotseat icons about. This centre form is correct only for a scale that pivots on the
+     * layer's own middle, which is not what either the fly-in or the follow uses.
+     */
     public static float centerShift(float extent, float scale) {
         return extent * (1f - scale) * .5f;
     }

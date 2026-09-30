@@ -958,9 +958,10 @@ class HomeDockWindow : BaseHook() {
                 // Move the common parent: glass, tint and fallback blur stay aligned. The size/key
                 // remains unchanged, so a frame of motion never recreates the glass host or texture.
                 // The reveal's pivot compensation rides along, otherwise a traversal landing
-                // mid-reveal would drop it and visibly shift the dock.
+                // mid-reveal would drop it and visibly shift the dock. The rest edge is the
+                // resting origin, not the lifted y: the compensation must not compensate itself.
                 val shiftX = revealShiftX(layer, layer.revealScaleX, x)
-                val shiftY = revealShiftY(layer, layer.revealScaleY, y)
+                val shiftY = revealShiftY(layer, layer.revealScaleY, layer.baseY.toFloat())
                 // The slide is added at write time and never cached, so layer.x stays the
                 // resting position and the frame loop below cannot apply it twice.
                 transaction.callMethod(SET_POSITION, layer.effect,
@@ -1527,27 +1528,49 @@ class HomeDockWindow : BaseHook() {
     /**
      * Absolute position shift for one axis of the reveal.
      *
-     * Most styles scale about the layer's own centre, which is what the width/height compensation
-     * expresses. AUTO_AIM is the exception: the launcher's unlock animation is a uniform scale
-     * about its own pivot point, so the Dock's origin has to travel along the ray that joins the
-     * pivot to the Dock's resting centre. Scaling about the pivot is what makes the background
-     * fly in with the icons instead of growing in place.
+     * <p>Everything that reaches this method is a {@code setMatrix} scale about the layer's own
+     * top-left corner, and in both cases the move the Dock has to copy belongs to the launcher,
+     * not to the layer:
+     *
+     * <ul>
+     *   <li><b>Unlock fly-in</b> ({@code pose.scale*}). On this ROM the launcher's unlock animation
+     *       is a uniform scale about its own {@code pivotPoint}; the Dock inherits that transform
+     *       and only has to travel the residual ray from the pivot to its resting edge. Most styles
+     *       animate a container of their own, but the travel they need is the same ray - the pivot
+     *       is the launcher's, not the style's.</li>
+     *   <li><b>Follow scale</b> ({@link #motionScale}). It mirrors the Hotseat icons shrinking as
+     *       the user drags up. The Hotseat row is bottom-anchored, so a shrunken icon moves
+     *       <em>up</em> - which is the same direction the launcher's unlock pivot sends the Dock.
+     *       Compensating the follow scale about the layer's own centre (the old fallback) moved it
+     *       <em>down</em> instead, and that is the reversal seen on every style except AUTO_AIM:
+     *       only AUTO_AIM reached the pivot branch, so only it moved with the icons.</li>
+     * </ul>
+     *
+     * <p>The pivot term therefore applies to every style, and {@code rest*} must be the resting
+     * edge ({@code layer.x} / {@code layer.baseY}), never the current already-lifted position:
+     * feeding the follow lift into its own compensation is what overshot on the earlier attempt.
      */
     private fun revealShiftX(layer: Layer, scaleX: Float, restX: Float): Float {
-        if (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM && layer.parentWidth > 0) {
-            val pivot = layer.parentWidth * DockUnlockReveal.REVEAL_PIVOT_X_FRACTION
-            return (pivot - restX) * (1f - scaleX)
-        }
+        val pivot = launcherPivotX(layer)
+        if (pivot != null) return (pivot - restX) * (1f - scaleX)
         return DockNativeMotion.centerShift(layer.width.toFloat(), scaleX)
     }
 
     private fun revealShiftY(layer: Layer, scaleY: Float, restY: Float): Float {
-        if (layer.reveal.getStyle() == DockUnlockReveal.Style.AUTO_AIM && layer.parentHeight > 0) {
-            val pivot = layer.parentHeight * DockUnlockReveal.REVEAL_PIVOT_Y_FRACTION
-            return (pivot - restY) * (1f - scaleY)
-        }
+        val pivot = launcherPivotY(layer)
+        if (pivot != null) return (pivot - restY) * (1f - scaleY)
         return DockNativeMotion.centerShift(layer.height.toFloat(), scaleY)
     }
+
+    /** Launcher unlock pivot on X, or null while the parent frame is still unknown. */
+    private fun launcherPivotX(layer: Layer): Float? =
+        if (layer.parentWidth > 0) layer.parentWidth * DockUnlockReveal.REVEAL_PIVOT_X_FRACTION
+        else null
+
+    /** Launcher unlock pivot on Y, or null while the parent frame is still unknown. */
+    private fun launcherPivotY(layer: Layer): Float? =
+        if (layer.parentHeight > 0) layer.parentHeight * DockUnlockReveal.REVEAL_PIVOT_Y_FRACTION
+        else null
 
     /**
      * The launcher's projected first footprint for this Dock.
@@ -1587,7 +1610,11 @@ class HomeDockWindow : BaseHook() {
         layer.resetAutoAim()
         if (layer.baseY > 0 && layer.x.isFinite()) {
             val restY = layer.baseY + motionOffset(layer, SystemClock.uptimeMillis())
-            transaction.callMethod(SET_POSITION, layer.effect, layer.x, restY)
+            // Same pivot compensation as every other write: the follow scale survives the
+            // restore, so its pivot term has to survive with it or the Dock drops on release.
+            transaction.callMethod(SET_POSITION, layer.effect,
+                layer.x + revealShiftX(layer, applied.scaleX, layer.x),
+                restY + revealShiftY(layer, applied.scaleY, layer.baseY.toFloat()))
             layer.y = restY
             // TODO(twitch-diag): every restore is suspicious while investigating the twitch.
             glassClient.record("reveal dbg restore yOff=${restY - layer.baseY}")
@@ -1652,9 +1679,10 @@ class HomeDockWindow : BaseHook() {
         transaction.callMethod("setAlpha", layer.effect, alpha)
         if (layer.baseY > 0 && layer.x.isFinite()) {
             val restY = layer.baseY + motionY + layer.reveal.risePx(layer.density, now)
+            // Compensate about the resting origin, never the current lifted edge.
             transaction.callMethod(SET_POSITION, layer.effect,
                 layer.x + revealShiftX(layer, applied.scaleX, layer.x),
-                restY + revealShiftY(layer, applied.scaleY, restY))
+                restY + revealShiftY(layer, applied.scaleY, layer.baseY.toFloat()))
             layer.y = restY
         }
         rememberContainer(layer, pose, applied)
@@ -1807,8 +1835,11 @@ class HomeDockWindow : BaseHook() {
                             frame.appliedScaleX = applied.scaleX
                             frame.appliedScaleY = applied.scaleY
                             if (alpha != layer.revealAlpha) transaction.callMethod("setAlpha", layer.effect, alpha)
+                            // The position always carries the pivot compensation, which is zero
+                            // once scale reaches 1. Compensate about the resting origin so a
+                            // lift is not folded back into its own compensation.
                             val shiftX = revealShiftX(layer, applied.scaleX, layer.x)
-                            val shiftY = revealShiftY(layer, applied.scaleY, y)
+                            val shiftY = revealShiftY(layer, applied.scaleY, layer.baseY.toFloat())
                             transaction.callMethod(SET_POSITION, layer.effect,
                                 layer.x + shiftX + slide,
                                 y + shiftY)
