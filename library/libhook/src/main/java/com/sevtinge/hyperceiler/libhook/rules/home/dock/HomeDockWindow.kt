@@ -45,6 +45,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import java.util.IdentityHashMap
+import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
@@ -279,6 +280,8 @@ class HomeDockWindow : BaseHook() {
         }
     }
     private val layers = IdentityHashMap<Any, Layer>()
+    // Protected by layers; do not retain retired launcher windows when the dock is disabled.
+    private var revealStyleWindow = WeakReference<Any>(null)
     private val observed = HashSet<String>()
     @Volatile private var stopped = false
     @Volatile private var settings = Settings.read()
@@ -634,6 +637,12 @@ class HomeDockWindow : BaseHook() {
                 // read-only content queries, so binding it while the dock is disabled costs one
                 // object reference and nothing else.
                 glassClient.bindDiagnostics(service!!.getObjectFieldAs<Context>("mContext"))
+                if (revealStyleWindow.get() !== window) {
+                    revealStyleWindow = WeakReference(window)
+                    // system_server survives a launcher restart. Bypass its old 30 s style limit
+                    // once per new window, asynchronously, never query under WMS/layers locks.
+                    glassClient.refreshRevealStyle(force = true)
+                }
                 registerDisplayListener()
                 updateLayer(window)
                 scheduleNativeBindSweep()

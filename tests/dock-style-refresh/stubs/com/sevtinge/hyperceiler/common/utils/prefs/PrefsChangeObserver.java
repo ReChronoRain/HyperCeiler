@@ -1,0 +1,3 @@
+package com.sevtinge.hyperceiler.common.utils.prefs;
+import android.net.Uri;
+public class PrefsChangeObserver { public static class PrefToUri { private static String path(PrefType t){return switch(t){case String -> "string";case StringSet -> "stringset";case Integer -> "integer";case Boolean -> "boolean";default -> "pref";};} public static Uri prefToUri(PrefType t,String k){return Uri.parse("content://com.sevtinge.hyperceiler.provider.sharedprefs/"+path(t)+"/"+k);} public static Uri anyPrefToUri(PrefType t,String k){return Uri.parse("content://com.sevtinge.hyperceiler.provider.sharedprefs/pref/"+path(t)+"/"+k);} } }

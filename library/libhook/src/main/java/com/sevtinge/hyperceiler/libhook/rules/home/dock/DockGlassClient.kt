@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock
 import android.content.Context
 import android.content.ContentProviderClient
 import android.database.Cursor
+import android.database.ContentObserver
 import android.net.Uri
 import android.os.Binder
 import android.os.Bundle
@@ -200,8 +201,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     @Volatile private var styleContext: Context? = null
     @Volatile private var liveRevealStyle: String? = null
     /** Dropped by [close], so a hot reload cannot accumulate observer registrations. */
-    @Volatile private var styleObserver: PrefsChangeObserver? = null
-    private var styleQueryAt = 0L
+    @Volatile private var styleObserver: ContentObserver? = null
+    private val styleRefreshGate = DockRevealStyleRefreshGate(STYLE_QUERY_INTERVAL_MS)
     /**
      * One observer per geometry key, also dropped by [close].
      *
@@ -296,6 +297,8 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
             journal.bind(context)
             watchRevealStyle(context)
             watchGeometry(context)
+            // Bootstrap the style as well; the caller's pre-bind refresh had no context.
+            refreshRevealStyle()
             // Kick the first provider read from here as well. Callers reach this from a traversal,
             // and their own refreshGeometry() call runs *before* this one (the traversal reads the
             // parameters first), so at that point styleContext was still null and the read was
@@ -308,23 +311,22 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
     /**
      * Follow the settings file instead of polling it.
      *
-     * <p>The provider notifies its observers whenever the UI writes, and [PrefsChangeObserver]
-     * also subscribes to LSPosed's in-process remote listener when that is available, so a style
-     * change arrives without any traffic of our own. Registered once, from the first traversal
-     * that knows the WMS context, and released by [close] on hot reload.
+     * <p>Use the provider notification even when a remote prefs listener is available: that
+     * listener's presence must not suppress notifications from the physical settings file.
+     * Registered once and released by [close]; the callback only queues an IPC-worker read.
      */
     private fun watchRevealStyle(context: Context) {
         if (styleObserver != null || closed) return
         catchingRecoverable({
-            val observer = object : PrefsChangeObserver(context, Handler(worker.looper), false,
-                PrefType.String, REVEAL_STYLE_KEY, null) {
-                override fun onChange(type: PrefType, changed: Uri?, name: String?, def: Any?) {
-                    // The notification carries no value this endpoint can use - the provider still
-                    // owns the read - so drop the fallback throttle and let the read happen now.
-                    styleQueryAt = 0L
-                    refreshRevealStyle()
+            val observer = object : ContentObserver(Handler(worker.looper)) {
+                override fun onChange(selfChange: Boolean, changed: Uri?) {
+                    guard("style notification") {
+                        if (!selfChange) refreshRevealStyle(force = true)
+                    }
                 }
             }
+            context.contentResolver.registerContentObserver(
+                Uri.parse("$uri/string/$REVEAL_STYLE_KEY"), false, observer)
             styleObserver = observer
             record("reveal style observer registered")
         }) {
@@ -541,32 +543,38 @@ internal class DockGlassClient(private val processGuard: DockGlassProcessGuard, 
      * change take effect at all - but reading it on a timer is not: [watchRevealStyle] asks for
      * this read when the settings actually change, and the interval below is only the fallback.
      */
-    fun refreshRevealStyle() {
+    fun refreshRevealStyle(force: Boolean = false) {
         val context = styleContext ?: return
         if (closed) return
-        val now = SystemClock.uptimeMillis()
-        if (now - styleQueryAt < STYLE_QUERY_INTERVAL_MS) return
-        styleQueryAt = now
-        worker.post {
-            guard("style query") {
-                catchingRecoverable({
-                    context.contentResolver.query(
-                        Uri.parse("$uri/string/$REVEAL_STYLE_KEY"),
-                        null, null, null, null
-                    )?.use { cursor ->
-                        if (cursor.moveToFirst()) {
-                            val value = cursor.getString(0)
-                            if (liveRevealStyle != value) {
-                                liveRevealStyle = value
-                                record("reveal style queried=$value")
-                                // Apply it on the next traversal instead of waiting for the sweep.
-                                changed()
+        if (!styleRefreshGate.request(SystemClock.uptimeMillis(), force)) return
+        val posted = worker.post {
+            try {
+                if (closed) return@post
+                styleRefreshGate.begin(SystemClock.uptimeMillis())
+                guard("style query") {
+                    catchingRecoverable({
+                        context.contentResolver.query(
+                            Uri.parse("$uri/string/$REVEAL_STYLE_KEY"),
+                            null, null, null, null
+                        )?.use { cursor ->
+                            if (cursor.moveToFirst()) {
+                                val value = cursor.getString(0)
+                                if (liveRevealStyle != value) {
+                                    liveRevealStyle = value
+                                    record("reveal style queried=$value")
+                                    // Apply it on the next traversal instead of waiting for the sweep.
+                                    changed()
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
+            } finally {
+                // A write during IPC must get a follow-up read, not be lost to the fallback limit.
+                if (styleRefreshGate.finish() && !closed) refreshRevealStyle()
             }
         }
+        if (!posted) styleRefreshGate.finish()
     }
 
     /**
