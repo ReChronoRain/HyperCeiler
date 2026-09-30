@@ -1,0 +1,1 @@
+package fan.appcompat.app; public class AlertDialog { public static int shown,visible,dismissed; private boolean open=true; public AlertDialog(){shown++;visible++;} public void dismiss(){if(open){open=false;visible--;dismissed++;}} public static void reset(){shown=visible=dismissed=0;} }

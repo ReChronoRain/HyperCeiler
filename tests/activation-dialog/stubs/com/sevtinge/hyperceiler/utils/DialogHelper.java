@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.utils; public class DialogHelper {public static android.content.Context last;public static fan.appcompat.app.AlertDialog showXposedActivateDialog(android.content.Context c){last=c;return new fan.appcompat.app.AlertDialog();}}
