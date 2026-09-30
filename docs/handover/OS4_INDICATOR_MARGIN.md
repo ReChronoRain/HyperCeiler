@@ -554,3 +554,25 @@ constexpr double kIndicatorDotDeltaGain = -1.0;   // home_layout_hooks.cpp
 - 测试暂时启用了三个workspace边距bool，原值均false；恢复时只恢复这三个键，保留用户新设置。
   测试结束只恢复三个bool=false及debug.hyperceiler.prefs_write=0，逐项核对其余已有设置不变。
   未改屏幕超时/图标位置。原修改工作区保留，未提交/推送。
+
+
+## 24. 桌面搜索胶囊延时下沉：保留完整最后有效配置（2026-09-30）
+
+- 宿主使用真实 `HomeLayoutNativeEndpointOS4` 复现：已启用边距184（增量114dp），
+  下一轮36项查询在第15项边距值处失败，旧实现把前14项写进 `cachedValues`。
+  启用键仍在，但值键丢失，读取退回70，增量变0；下次原builder重建回到原位置。
+  其它失败位置也会丢掉后续键，不能仅给胶囊单项加补丁。
+- 查询、游标移动、数值读取、close异常，或者 null cursor，均丢弃整轮候选结果，
+  保留上一份完整缓存；只有36次查询全部回答后才发布不可变Map。
+  非null空游标表示真实缺省，null表示未能获取数据；provider prefs句柄未初始化时返回null。
+- `readPreferences()` 开始只捕获一次volatile缓存引用，所有开关、数值、模式、tweaks
+  从同一份已发布缓存读取，避免刷新线程在一个Binder数据包中插入另一代配置。
+- 一旦已有完整provider缓存，真实缺省键使用设置页默认，不再回退LSPosed旧值。
+  全部键缺省属于有效重置；真实关闭开关、值70、重新设置新边距仍能正常生效。
+- 宿主回归：5类故障×36个位置、3600个模拟失败刷新周期、恢复/关闭/删除/重置、
+  确定性的跨代交错，共10组通过；旧实现1组通过/9组失败。
+  周期测试没有真实等待数小时，不能替代真机长时间待机观察。
+- 原有胶囊/圆点原代码注入、零和Padding、Dart bump **8字节**对齐保持不变。
+  未增加getter挂点、native轮询、线程、服务、唤醒锁；设置端点原有失败退避不变。
+- 新设置端点在system_server；覆盖安装后仅重启桌面不会替换旧端点，需要重载zygote。
+  本轮安装、重载与设备验证状态以 `capsule-idle-sinking/VERIFICATION.txt` 为准。

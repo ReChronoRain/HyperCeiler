@@ -136,22 +136,21 @@ public final class HomeLayoutNativeEndpointOS4 {
             final android.net.Uri uri = android.net.Uri.parse(
                 "content://" + PREFS_AUTHORITY + "/pref/" + spec[0] + "/prefs_key_" + spec[1]);
             try (final android.database.Cursor cursor = resolver.query(uri, null, null, null, null)) {
-                if (cursor == null || !cursor.moveToFirst()) continue;
+                // Null means the provider did not answer, not that this preference was deleted.
+                // An empty, non-null cursor is the provider's explicit "key absent" response.
+                if (cursor == null) return false;
+                if (!cursor.moveToFirst()) continue;
                 values.put(spec[1], cursor.getInt(0));
             } catch (RuntimeException | Error refused) {
-                // One unreadable key must not cost the rest - but a provider that refuses the first
-                // one refuses them all: keep whatever was read and report the cycle as unanswered.
-                if (!values.isEmpty()) cachedValues = values;
+                // Never publish a prefix of a failed cycle. In particular, publishing only the
+                // capsule enable key without its margin replaced the previous offset with 0dp.
+                // Retain the entire last-good snapshot, including failures while closing a cursor.
                 return false;
             }
         }
-        if (values.isEmpty()) {
-            // Either every key is genuinely absent or the provider answered nothing: the caller
-            // should treat this like a failure and slow down, because the settings-page fallback
-            // (the LSPosed snapshot) already covers "no value".
-            return false;
-        }
-        cachedValues = values;
+        // All requests answered, including explicit absences. Empty is a legitimate settings
+        // reset; null remains the only "no successful provider snapshot yet" state.
+        cachedValues = java.util.Collections.unmodifiableMap(values);
         return true;
     }
 
@@ -294,9 +293,13 @@ public final class HomeLayoutNativeEndpointOS4 {
      * distance from that neutral point.
      */
     static Snapshot readPreferences() {
-        boolean gridEnabled = readBoolean("home_layout_unlock_grids_new", false);
-        int cellX = readInt("home_layout_unlock_grids_cell_x", 4);
-        int cellY = readInt("home_layout_unlock_grids_cell_y", 6);
+        ensureRefresher();
+        // Capture once: the refresher may publish during this Binder transaction. Mixing an old
+        // enable with a new value would otherwise produce a position nobody actually selected.
+        final java.util.Map<String, Integer> values = cachedValues;
+        boolean gridEnabled = readBoolean(values, "home_layout_unlock_grids_new", false);
+        int cellX = readInt(values, "home_layout_unlock_grids_cell_x", 4);
+        int cellY = readInt(values, "home_layout_unlock_grids_cell_y", 6);
 
         final int count = KNOB_ROWS.length;
         final int[] enabled = new int[count];
@@ -310,46 +313,46 @@ public final class HomeLayoutNativeEndpointOS4 {
             final int fallback = (Integer) KNOB_ROWS[index][1];
             final int min = (Integer) KNOB_ROWS[index][2];
             final int max = (Integer) KNOB_ROWS[index][3];
-            if (!readBoolean(key + "_enable", false)) continue;
-            int value = readInt(key, fallback);
+            if (!readBoolean(values, key + "_enable", false)) continue;
+            int value = readInt(values, key, fallback);
             if (value < min || value > max) value = fallback;
             enabled[index] = 1;
             deltas[index] = clampDelta(value - fallback);
         }
         // Reuse the two retired search-bar wire columns; no Binder payload/array ABI change.
-        final Integer cachedMode = cached("home_other_seek_points");
+        final Integer cachedMode = cached(values, "home_other_seek_points");
         int indicatorMode = cachedMode != null ? cachedMode
-            : PrefsBridge.getStringAsInt("home_other_seek_points", 0);
+            : values != null ? 0 : PrefsBridge.getStringAsInt("home_other_seek_points", 0);
         if (indicatorMode < 0 || indicatorMode > 2) indicatorMode = 0;
         enabled[6] = enabled[7] = indicatorMode == 0 ? 0 : 1;
         deltas[6] = deltas[7] = indicatorMode;
         final int[] tweaks = new int[TWEAK_COUNT];
         /* The existing folder-column slider is the single control. Its default keeps the launcher
          * untouched; choosing any other value enables the native patch automatically. */
-        final int folderColumns = readIntInRange("home_folder_columns", 3, 0);
+        final int folderColumns = readIntInRange(values, "home_folder_columns", 3, 0);
         tweaks[0] = folderColumns;
         tweaks[1] = folderColumns != 3 ? 1 : 0;
-        tweaks[2] = readIntInRange("home_layout_pad_major", 8, 2);
-        tweaks[3] = readIntInRange("home_layout_pad_minor", 5, 3);
-        tweaks[4] = readBoolean("home_layout_pad_grid_enable", false) ? 1 : 0;
-        tweaks[5] = readIntInRange("home_layout_fold_major", 8, 5);
-        tweaks[6] = readIntInRange("home_layout_fold_minor", 5, 6);
-        tweaks[7] = readBoolean("home_layout_fold_grid_enable", false) ? 1 : 0;
+        tweaks[2] = readIntInRange(values, "home_layout_pad_major", 8, 2);
+        tweaks[3] = readIntInRange(values, "home_layout_pad_minor", 5, 3);
+        tweaks[4] = readBoolean(values, "home_layout_pad_grid_enable", false) ? 1 : 0;
+        tweaks[5] = readIntInRange(values, "home_layout_fold_major", 8, 5);
+        tweaks[6] = readIntInRange(values, "home_layout_fold_minor", 5, 6);
+        tweaks[7] = readBoolean(values, "home_layout_fold_grid_enable", false) ? 1 : 0;
         /* Default level 70 = the page's "system default size" level; must match the SeekBar's
          * android:defaultValue and the native kIconScaleCodeDefault (both 0x66 for this level). */
-        tweaks[8] = iconScaleCodeFor(readInt("home_layout_icon_scale", 70));
-        tweaks[9] = readBoolean("home_layout_icon_scale_enable", false) ? 1 : 0;
-        tweaks[10] = readBoolean("home_layout_recents_hide_clear", false) ? 1 : 0;
-        tweaks[11] = readBoolean("home_layout_recents_no_clear", false) ? 1 : 0;
+        tweaks[8] = iconScaleCodeFor(readInt(values, "home_layout_icon_scale", 70));
+        tweaks[9] = readBoolean(values, "home_layout_icon_scale_enable", false) ? 1 : 0;
+        tweaks[10] = readBoolean(values, "home_layout_recents_hide_clear", false) ? 1 : 0;
+        tweaks[11] = readBoolean(values, "home_layout_recents_no_clear", false) ? 1 : 0;
         /* Two fully independent animation controls, each with its own gate and duration ratio.
          * The page enforces 30..200 on both sliders (above 100 deliberately allowed so animations
          * can run slower); a stale or hand-edited value is clamped into that window here rather
          * than falling back to identity, so "as fast as allowed" survives a schema change. */
-        tweaks[12] = readBoolean("home_animation_open_rate_enable", false) ? 1 : 0;
-        tweaks[13] = Math.max(30, Math.min(200, readInt("home_animation_open_rate", 100)));
-        tweaks[14] = readBoolean("home_animation_recents_enable", false) ? 1 : 0;
-        tweaks[15] = Math.max(30, Math.min(200, readInt("home_animation_recents_rate", 100)));
-        tweaks[16] = readBoolean("home_dock_unlock_hotseat", false) ? 1 : 0;
+        tweaks[12] = readBoolean(values, "home_animation_open_rate_enable", false) ? 1 : 0;
+        tweaks[13] = Math.max(30, Math.min(200, readInt(values, "home_animation_open_rate", 100)));
+        tweaks[14] = readBoolean(values, "home_animation_recents_enable", false) ? 1 : 0;
+        tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)));
+        tweaks[16] = readBoolean(values, "home_dock_unlock_hotseat", false) ? 1 : 0;
         return new Snapshot(ACK, gridEnabled ? 1 : 0, cellX, cellY, enabled, deltas, tweaks);
     }
 
@@ -404,7 +407,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     /**
-     * A cached value from the module app, or null when it has not delivered one yet.
+     * A value from the captured provider snapshot, or null when this key is absent.
      *
      * The cache is keyed the way the provider answers - without the module's `prefs_key_` prefix -
      * while the knob table stores keys exactly as the settings page spells them. Normalising here is
@@ -412,26 +415,26 @@ public final class HomeLayoutNativeEndpointOS4 {
      * and every geometry knob silently fell back to the stale LSPosed snapshot, which is why the grid
      * (read through unprefixed keys) worked while the margins did not.
      */
-    private static Integer cached(String key) {
-        ensureRefresher();
-        final java.util.Map<String, Integer> values = cachedValues;
+    private static Integer cached(java.util.Map<String, Integer> values, String key) {
         if (values == null) return null;
         final String normalized = key != null && key.startsWith("prefs_key_")
             ? key.substring("prefs_key_".length()) : key;
         return values.get(normalized);
     }
 
-    /** Reads a boolean: the module's own provider when it has answered, else the LSPosed snapshot. */
-    private static boolean readBoolean(String key, boolean def) {
-        final Integer value = cached(key);
+    /** Reads a boolean from one provider snapshot; known absence uses the page default. */
+    private static boolean readBoolean(java.util.Map<String, Integer> values, String key, boolean def) {
+        final Integer value = cached(values, key);
         if (value != null) return value != 0;
+        if (values != null) return def;
         return PrefsBridge.getBoolean(key, def);
     }
 
-    /** Reads an int: the module's own provider when it has answered, else the LSPosed snapshot. */
-    private static int readInt(String key, int def) {
-        final Integer value = cached(key);
+    /** Reads an int from one provider snapshot; LSPosed is only the startup fallback. */
+    private static int readInt(java.util.Map<String, Integer> values, String key, int def) {
+        final Integer value = cached(values, key);
         if (value != null) return value;
+        if (values != null) return def;
         return PrefsBridge.getInt(key, def);
     }
 
@@ -444,8 +447,8 @@ public final class HomeLayoutNativeEndpointOS4 {
      * out-of-range condition the knob rows already treat as "use the default" is resolved here
      * rather than being allowed to take the whole snapshot down.
      */
-    private static int readIntInRange(String key, int def, int index) {
-        final int value = readInt(key, def);
+    private static int readIntInRange(java.util.Map<String, Integer> values, String key, int def, int index) {
+        final int value = readInt(values, key, def);
         return value < TWEAK_MIN[index] || value > TWEAK_MAX[index] ? def : value;
     }
 

@@ -188,7 +188,9 @@ public class SharedPrefsProvider extends ContentProvider {
             return DockGlassDiagnostics.query();
         }
         if (prefs == null) {
-            return new MatrixCursor(new String[]{"data"});
+            // A missing preference handle is unavailable, not a successful all-keys deletion.
+            // Layout readers retain their last-good snapshot when the provider returns null.
+            return null;
         }
         List<String> parts = uri.getPathSegments();
         MatrixCursor cursor = new MatrixCursor(new String[]{"data"});
