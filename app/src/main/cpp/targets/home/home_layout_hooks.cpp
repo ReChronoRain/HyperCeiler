@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
 #include "home_layout_knobs.h"
+#include "home_workspace_geometry.h"
 #include "home_layout_elf_targets.h"
 #include "nativehook/hook_bank.h"
 #include "nativehook/memory_io.h"
@@ -40,6 +41,7 @@ bool dock_motion_screen_active();
 #include <array>
 #include <atomic>
 #include <cerrno>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -95,6 +97,15 @@ void hc_layout_config_capture_entry();
 void hc_layout_dock_capture_entry();
 void hc_layout_passthrough_entry();
 void *hc_layout_passthrough_original = nullptr;
+void hc_layout_capsule_entry();
+void hc_layout_workspace_entry();
+void hc_layout_workspace_occupied_entry();
+void hc_layout_container_probe_entry();
+uint64_t hc_layout_capsule_wrap(uint64_t widget, uint64_t edge, uint64_t padding,
+    uint64_t heap, uint64_t dart_null, double delta);
+uint64_t hc_layout_capsule_expected_caller = 0;
+void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int occupied);
+void hc_layout_probe_container(uint64_t widget, uint64_t heap, uint64_t dart_null);
 /* Probe readings, written by the passthrough stub itself. */
 uint64_t hc_layout_probe_caller = 0;
 uint64_t hc_layout_probe_value = 0;
@@ -228,7 +239,7 @@ struct KnobRuntime {
      *   bits 0..7 object (1 config, 2 dock), 8..15 off0 + 1 (0 means direct), 16..31 off1.
      */
     std::atomic<uint32_t> path{0};
-    std::atomic<int> delta_px{0};
+    std::atomic<int> delta_dp{0};
     /*
      * Trampoline-thread only, never touched by the worker.
      *
@@ -273,30 +284,8 @@ struct KnobRuntime {
  * Order matches HC_LAYOUT_KNOBS.
  */
 constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
-    /*
-     * Every entry is null on purpose, and this is the shipped state.
-     *
-     * Hooking `GridSizeCalRules.stableWorkspaceCellPaddingTop` for the workspace top margin was tried
-     * on device and the launcher died with a native tombstone. Until that is understood the geometry
-     * knobs stay inert: an unconvincing feature is acceptable, an unstable launcher is not. A
-     * calibration run can still name a target through `debug.hyperceiler.layout.hook0..7`, which is
-     * gated behind the debug channel.
-     */
-    /*
-     * WorkspaceTop is deliberately **inert**: hooking it is safe (0 crashes) but the semantics are
-     * wrong. Measured on the current build with a read-only probe:
-     *   - `GridController.titleMarginTop` (833 hits, caller `ShortcutIconWidget._buildTextWidget`):
-     *     a +20 delta translated the whole icon grid by -30 px. The user clarified the semantics:
-     *     this is the *icon ↔ its title* spacing, which scales the icon cell and shifts the grid -
-     *     it is NOT the workspace's own top padding, so it must not answer a "top margin" slider.
-     *   - `GridConfig.workspacePaddingTop`: 0 hits - the workspace reads the config object's fields
-     *     directly (disassembly of `GridConfig.calGridSize`: `ldur w4,[x3,#0x1f]` → decompress →
-     *     class id 0x73c → `ldur w1,[x4,#0x3f]`, which is again an object reference, not a number).
-     *     So the real top padding lives in a nested padding object, and the numeric leaf has not been
-     *     reached yet. Writing it means touching the Dart heap - the exact thing the first crash was
-     *     made of - so the object chain has to be dumped and verified at runtime first.
-     * Until that dump exists, this knob stays inert rather than shipping a mislabeled lever.
-     */
+    /* Workspace margins rewrite the final original RenderBox layout arithmetic in its body,
+     * not getter returns or a whole-Workspace Padding. Indicator and Dock are separate trees. */
     /*
      * Hotseat margin, wired on 7695 (RELEASE-8.01.02.7695). Measured on device with the
      * calibration probe: `GridController.hotSeatsMarginBottom` is consumed by
@@ -315,22 +304,15 @@ constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
      */
     /* HotseatMargin   */ "GridController.hotSeatsMarginBottom",
     /* FolderRowSpacing */ "FolderGridViewGetxController.folderCellHeight",
-    /* WorkspaceTop    */ nullptr,
-    /* WorkspaceBottom */ nullptr,
+    /* WorkspaceTop owns an internal code splice; its local geometry uses slots 2..4. */
+    /* WorkspaceTop    */ "GridCellDelegate.performLayout",
+    /* WorkspaceBottom */ "GridOccupiedCellDelegate.performLayout",
     /* WorkspaceSide   */ nullptr,
-    /*
-     * IndicatorMargin: `GridController.workspaceIndicatorMarginBottom` — the page indicator's
-     * bottom margin accessor. Symbol present in the launcher's .gnu_debugdata; if Dart AOT inlines
-     * it (small getter), bind_dart_target will reject the prologue and the knob stays inert — safe.
-     * The field-path decode in bind_knobs() may also resolve it for field-write mode.
-     *
-     * SearchBarMargin: wired on 7695, confirmed with hook hit=1 on device.
-     *
-     * SearchBarWidth: `GridController.searchBarWidthPx` — the search bar width accessor. Same
-     * strategy as IndicatorMargin: enable the symbol, let the framework validate the prologue.
-     * If inlined, falls back to field-path decode or stays inert.
-     */
-    /* IndicatorMargin */ "GridController.workspaceIndicatorMarginBottom",
+    /* IndicatorMargin: intercept only the third animation wrapper return (the capsule subtree),
+     * then wrap it in a zero-sum Padding. This changes the original tree's position without
+     * touching the shared Dock/grid geometry or hiding the inner capsule label.
+     * SearchBarMargin and SearchBarWidth retain their existing accessor hooks. */
+    /* IndicatorMargin */ "LauncherIndicatorState._wrapWithAnimation",
     /* SearchBarMargin */ "GridController.searchBarMarginBottom",
     /* SearchBarWidth  */ "GridController.searchBarWidthPx",
 };
@@ -338,23 +320,17 @@ constexpr const char *kKnobHookSymbols[HC_LAYOUT_KNOB_COUNT] = {
 /*
  * Multiplier applied to a knob's delta when it is published to the trampoline.
  *
- * A "top margin" slider should push content *down* as it grows. `titleMarginTop` does the opposite
- * and by a factor: the measured response on the current build is Δy ≈ -1.5 × delta, because the grid
- * is anchored at the bottom, so growing the icon cell lifts the block. Feeding the raw delta through
- * would make the slider move the workspace the wrong way, faster than the user asked for.
- *
- * The number is a measurement, not a guess: -20 → +29 px, +5 → -7 px, +20 → -30 px, each verified
- * twice with a zero-delta control run in between (control: Δy = 0). A launcher OTA that changes the
- * layout will change this constant; the probe (`debug.hyperceiler.layout.hook*`) is how to re-measure
- * it, and the failure mode is "the slider moves things the wrong way", which is visible, not fatal.
+ * The workspace splice rewrites the original local origin/stride before the child-position loop.
+ * Its helper consumes the three independent raw deltas; no Dart object allocation or field writes.
  */
 constexpr double kKnobDeltaGain[HC_LAYOUT_KNOB_COUNT] = {
     1.0,             // HotseatMargin   (inert)
     1.0,             // FolderRowSpacing: extra row extent in px
-    -1.0 / 1.5,      // WorkspaceTop   : titleMarginTop, inverted with a 1.5x gain
-    1.0,             // WorkspaceBottom (inert)
-    1.0,             // WorkspaceSide   (inert)
-    1.0,             // IndicatorMargin : workspaceIndicatorMarginBottom, uncalibrated
+    1.0,             // WorkspaceTop   : original coordinate code splice
+    1.0,             // WorkspaceBottom: consumed by the coordinate splice
+    1.0,             // WorkspaceSide  : consumed by the coordinate splice
+    -1.0,            // IndicatorMargin: a larger bottom margin lifts the capsule, independent
+                       // of the workspace/dock; the Container's zero-sum margin uses this delta.
     1.0,             // SearchBarMargin : searchBarMarginBottom, confirmed hit=1
     1.0,             // SearchBarWidth  : searchBarWidthPx, uncalibrated
 };
@@ -818,6 +794,72 @@ bool bind_dart_target(uint32_t va, uintptr_t &address, nhk::CodeSource &source, 
     return true;
 }
 
+bool bl_target(uint32_t word, uint32_t pc, uint32_t *target);
+
+bool capsule_wrapper_layout_compatible(uint32_t wrapper_va, uint32_t wrapper_size,
+    uint32_t *caller_va) {
+    // The third call to _wrapWithAnimation is the capsule branch. Its returned 0x2183 widget
+    // contains the entire capsule subtree, so an outer Padding shifts background and label
+    // together. Verify the call site, widget allocator, and Flutter Padding class layout before
+    // hooking; a launcher OTA that changes any one of them leaves the knob inert.
+    if (wrapper_size != 0xf4 || caller_va == nullptr) return false;
+    uint32_t launcher_va = 0, launcher_size = 0;
+    uint32_t container_va = 0, container_size = 0;
+    uint32_t padding_create_va = 0, padding_create_size = 0;
+    if (!hometweaks::HomeTweaksFindSymbol("LauncherIndicatorState.build", &launcher_va,
+            &launcher_size) || launcher_size != 0x58
+        || !hometweaks::HomeTweaksFindSymbol("Container.build", &container_va,
+            &container_size) || container_size < 0x314
+        || !hometweaks::HomeTweaksFindSymbol("Padding.createRenderObject", &padding_create_va,
+            &padding_create_size) || padding_create_size < 0x18) return false;
+    std::vector<uint32_t> wrapper_call, parent_call, padding_call, padding_read;
+    uint32_t wrapper_alloc_va = 0, padding_alloc_va = 0, called_va = 0;
+    if (!dart_words(wrapper_va + 0x94, 1, wrapper_call)
+        || !dart_words(launcher_va + 0x21c, 1, parent_call)
+        || !dart_words(container_va + 0x310, 1, padding_call)
+        || !dart_words(padding_create_va + 0x14, 1, padding_read)
+        || !bl_target(wrapper_call[0], wrapper_va + 0x94, &wrapper_alloc_va)
+        || !bl_target(parent_call[0], launcher_va + 0x21c, &called_va)
+        || !bl_target(padding_call[0], container_va + 0x310, &padding_alloc_va)
+        || called_va != wrapper_va || padding_read[0] != 0xb840f002u) return false;
+    std::vector<uint32_t> wrapper_alloc, padding_alloc;
+    if (!dart_words(wrapper_alloc_va, 2, wrapper_alloc)
+        || !dart_words(padding_alloc_va, 2, padding_alloc)
+        || wrapper_alloc[0] != 0xd2868382u || wrapper_alloc[1] != 0xf2a04302u
+        || padding_alloc[0] != 0xd28a4382u || padding_alloc[1] != 0xf2a03c42u) return false;
+    *caller_va = launcher_va + 0x220;
+    return true;
+}
+
+bool workspace_geometry_code_compatible(uint32_t va, uint32_t size, bool occupied) {
+    // OS4 7722: actual RenderBox layout/ParentData.offset consumers. Verify the
+    // original loads, frame slots, displaced code and final constraint stores.
+    // The earlier _buildChildren splice was overwritten by these delegates.
+    std::vector<uint32_t> code;
+    const auto matches = [&](uint32_t offset, const auto &expected) {
+        return dart_words(va + offset, std::size(expected), code)
+            && code.size() >= std::size(expected)
+            && std::equal(std::begin(expected), std::end(expected), code.begin());
+    };
+    if (occupied == false) {
+        if (size != 0x5cc) return false;
+        constexpr uint32_t words0[] = {0xb841b003u, 0x8b1c8063u, 0xf81f83a3u, 0xfc42b060u, 0xfc1b03a0u, 0xfc433061u, 0xfc1b83a1u, 0xb846b061u};
+        constexpr uint32_t words1[] = {0xf85f83a0u, 0xf81d83a2u, 0xb843b003u, 0x8b1c8063u, 0xf81e03a3u, 0xfc407060u, 0xfc1a83a0u, 0xf85f03a4u, 0xfc5b03a1u, 0xfc5b83a2u, 0xfc5c03a3u, 0xf85ff040u, 0xd34c7c00u};
+        constexpr uint32_t words2[] = {0xfc5a83a0u, 0xf8407002u, 0x9e620044u, 0x1e610885u, 0x1e652804u, 0xfc1983a4u, 0xf840f002u, 0x9e620045u, 0x1e6208a6u, 0x1e6328c5u, 0xfc1a03a5u};
+        constexpr uint32_t words3[] = {0xfc5b03a0u, 0xf81d03a0u, 0xfc007000u, 0xfc00f000u, 0xfc5b83a1u, 0xfc017001u, 0xfc01f001u, 0xf85f03a3u};
+        return matches(0x18, words0) && matches(0xbc, words1) && matches(0x1d4, words2) && matches(0x2c8, words3);
+    }
+    if (occupied == true) {
+        if (size != 0x6ac) return false;
+        constexpr uint32_t words0[] = {0xf85f83a2u, 0xb8417040u, 0x8b1c8000u, 0xfc42b000u, 0xfc1a03a0u, 0xfc433001u, 0xfc1a83a1u, 0xb840f043u};
+        constexpr uint32_t words1[] = {0xb843b001u, 0x8b1c8021u, 0xfc407022u, 0xfc1b03a2u, 0xa9460345u, 0x910040a5u, 0xeb05001fu, 0x54002a09u};
+        constexpr uint32_t words2[] = {0xfc5a03a0u, 0xfc5a83a1u, 0xfc5b03a2u, 0xf85f03a0u, 0xf85e83a1u, 0xf8437002u, 0x9e620043u, 0x1e600864u, 0x1e642843u, 0xfc1903a3u, 0xf843f002u, 0x9e620044u, 0x1e610885u, 0xfc1983a5u, 0xf9403f40u, 0xf9524800u, 0xf9402370u, 0x6b10001fu};
+        constexpr uint32_t words3[] = {0xfc5803a0u, 0xf81c83a0u, 0xfc007000u, 0xfc00f000u, 0xfc5883a0u, 0xfc017000u, 0xfc01f000u, 0xf85f83a3u, 0xb840b064u, 0x8b1c8084u};
+        return matches(0x90, words0) && matches(0xc4, words1) && matches(0x1fc, words2) && matches(0x440, words3);
+    }
+    return false;
+}
+
 bool bind_target(const Library &library, uint64_t va, uintptr_t &address,
     nhk::CodeSource &source, Words &words) {
     const auto at = library.at(va);
@@ -1136,8 +1178,33 @@ size_t bind_knobs() {
         if (!hometweaks::HomeTweaksFindSymbol(knob.symbol.c_str(), &va, &size) || size < 16) {
             continue;
         }
-        if (!bind_dart_target(va, knob.hook_address, knob.hook_source, knob.hook_words)) continue;
-        if (knob.hook_words[0] != kDartPrologue) {
+        if (&knob == &g_knobs[5]) {
+            if (knob.symbol == "LauncherIndicatorState._wrapWithAnimation") {
+                uint32_t caller_va = 0;
+                if (!capsule_wrapper_layout_compatible(va, size, &caller_va)) continue;
+                hc_layout_capsule_expected_caller = g_dart->load_base + caller_va;
+                knob.hook_entry = reinterpret_cast<void *>(hc_layout_capsule_entry);
+            } else {
+                knob.hook_entry = reinterpret_cast<void *>(hc_layout_dart_IndicatorMargin_entry);
+            }
+        }
+        const bool workspace_cell = &knob == &g_knobs[2]
+            && knob.symbol == "GridCellDelegate.performLayout";
+        const bool workspace_occupied = &knob == &g_knobs[3]
+            && knob.symbol == "GridOccupiedCellDelegate.performLayout";
+        if (workspace_cell || workspace_occupied) {
+            if (!workspace_geometry_code_compatible(va, size, workspace_occupied)) continue;
+            knob.hook_entry = workspace_cell
+                ? reinterpret_cast<void *>(hc_layout_workspace_entry)
+                : reinterpret_cast<void *>(hc_layout_workspace_occupied_entry);
+        }
+        if (&knob == &g_knobs[2] && knob.symbol == "Container.build") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_container_probe_entry);
+        }
+        const bool workspace_splice = workspace_cell || workspace_occupied;
+        const uint32_t patch_va = va + (workspace_cell ? 0xd8 : workspace_occupied ? 0x234 : 0);
+        if (!bind_dart_target(patch_va, knob.hook_address, knob.hook_source, knob.hook_words)) continue;
+        if (!workspace_splice && knob.hook_words[0] != kDartPrologue) {
             knob.hook_address = 0;
             continue;
         }
@@ -1260,6 +1327,20 @@ size_t arm_hooks(std::vector<size_t> &order) {
     for (size_t index = 0; index < g_knobs.size(); ++index) {
         KnobRuntime &knob = g_knobs[index];
         if (!knob.hook_mode || knob.hook_address == 0 || knob.hook_armed) continue;
+        // `prime_home_layout_knobs` can bind before the worker initializes generic pointers.
+        // Choose the specialized entry at the final slot assignment, not only during binding.
+        if (index == 5 && knob.symbol == "LauncherIndicatorState._wrapWithAnimation") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_capsule_entry);
+        }
+        if (index == 2 && knob.symbol == "GridCellDelegate.performLayout") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_workspace_entry);
+        }
+        if (index == 3 && knob.symbol == "GridOccupiedCellDelegate.performLayout") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_workspace_occupied_entry);
+        }
+        if (index == 2 && knob.symbol == "Container.build") {
+            knob.hook_entry = reinterpret_cast<void *>(hc_layout_container_probe_entry);
+        }
         const size_t slot = kKnobHookSlotBase + index;
         g_slots[slot] = {knob.hook_address, knob.hook_entry, knob.hook_original, knob.hook_source,
             knob.hook_words};
@@ -1279,8 +1360,12 @@ size_t publish_hooks() {
     for (size_t index = 0; index < g_knobs.size(); ++index) {
         KnobRuntime &knob = g_knobs[index];
         if (!knob.hook_mode || knob.hook_enabled == nullptr || knob.hook_delta == nullptr) continue;
-        const int delta = knob.delta_px.load(std::memory_order_relaxed);
-        if (delta == 0 || !knob.hook_armed) {
+        const int delta = knob.delta_dp.load(std::memory_order_relaxed);
+        const bool workspace_active = (index == 2 || index == 3)
+            && (g_knobs[2].delta_dp.load(std::memory_order_relaxed) != 0
+            || g_knobs[3].delta_dp.load(std::memory_order_relaxed) != 0
+            || g_knobs[4].delta_dp.load(std::memory_order_relaxed) != 0);
+        if ((!workspace_active && delta == 0) || !knob.hook_armed) {
             *knob.hook_enabled = 0;
             continue;
         }
@@ -1329,7 +1414,7 @@ size_t apply_knob_fields() {
     for (KnobRuntime &knob : g_knobs) {
         const uint32_t packed = knob.path.load(std::memory_order_acquire);
         if (packed == 0) continue;
-        const int delta = knob.delta_px.load(std::memory_order_relaxed);
+        const int delta = knob.delta_dp.load(std::memory_order_relaxed);
         const uint8_t object = packed & 0xFFu;
         const int off0 = static_cast<int>((packed >> 8) & 0xFFu) - 1;
         const int off1 = static_cast<int>((packed >> 16) & 0xFFFFu);
@@ -1433,7 +1518,7 @@ void *worker(void *) {
         bool any = false;
         for (size_t index = 0; index < HC_LAYOUT_KNOB_COUNT; ++index) {
             const bool enabled = config.knobs[index].enabled;
-            g_knobs[index].delta_px.store(enabled ? config.knobs[index].delta_px : 0,
+            g_knobs[index].delta_dp.store(enabled ? config.knobs[index].delta_dp : 0,
                 std::memory_order_relaxed);
             any = any || enabled;
         }
@@ -1454,7 +1539,7 @@ void *worker(void *) {
     if (top_probe) {
         g_knobs[2].hook_mode = true;
         g_knobs[2].symbol = "GridSizeCalRules.stableWorkspaceCellPaddingTop";
-        g_knobs[2].delta_px.store(0, std::memory_order_relaxed);
+        g_knobs[2].delta_dp.store(0, std::memory_order_relaxed);
         /* Minimal stub: proves whether the hook itself can run here at all. */
         g_knobs[2].hook_entry = reinterpret_cast<void *>(hc_layout_passthrough_entry);
         g_knobs[2].hook_original = &hc_layout_passthrough_original;
@@ -1671,7 +1756,7 @@ void *worker(void *) {
                 reinterpret_cast<void *>(knob.hook_address), packed & 0xFFu,
                 static_cast<int>((packed >> 8) & 0xFFu) - 1,
                 static_cast<int>((packed >> 16) & 0xFFFFu),
-                knob.delta_px.load(std::memory_order_relaxed),
+                knob.delta_dp.load(std::memory_order_relaxed),
                 static_cast<unsigned long long>(knob.hook_hits != nullptr ? *knob.hook_hits : 0),
                 last,
                 static_cast<unsigned long long>(
@@ -1806,7 +1891,7 @@ void *worker(void *) {
             int deltas = 0;
             for (const KnobRuntime &knob : g_knobs) {
                 if (knob_ready(knob)) ++bound;
-                if (knob.delta_px.load(std::memory_order_relaxed) != 0) ++deltas;
+                if (knob.delta_dp.load(std::memory_order_relaxed) != 0) ++deltas;
             }
             /*
              * `writes=applied/same/refused` is the field-write read-back: `same` non-zero means a
@@ -1877,7 +1962,7 @@ void *worker(void *) {
                 snprintf(entry, sizeof(entry), " %s=%llu last=%.4f caller=%#llx d=%d",
                     knob.symbol.c_str(), static_cast<unsigned long long>(*knob.hook_hits), last,
                     static_cast<unsigned long long>(in_image),
-                    knob.delta_px.load(std::memory_order_relaxed));
+                    knob.delta_dp.load(std::memory_order_relaxed));
                 hits += entry;
             }
             if (!hits.empty()) {
@@ -1939,6 +2024,114 @@ void *worker(void *) {
     }
 }
 } // namespace
+
+extern "C" void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int occupied) {
+    const int top = g_knobs[2].delta_dp.load(std::memory_order_relaxed);
+    const int bottom = g_knobs[3].delta_dp.load(std::memory_order_relaxed);
+    const int side = g_knobs[4].delta_dp.load(std::memory_order_relaxed);
+    double geometry[4] = {};
+    const bool valid = home_layout::inset_workspace_frame(frame, heap, occupied != 0,
+        top, bottom, side, geometry);
+    static std::atomic<uint32_t> reports[2]{};
+    if (reports[occupied != 0].fetch_add(1, std::memory_order_relaxed) < 8) {
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "workspace layout splice occupied=%d delta=%d/%d/%d valid=%d "
+            "origin=%.3f,%.3f stride=%.3f,%.3f",
+            occupied, top, bottom, side, valid ? 1 : 0,
+            geometry[0], geometry[1], geometry[2], geometry[3]);
+    }
+}
+
+extern "C" uint64_t hc_layout_capsule_wrap(uint64_t widget, uint64_t edge, uint64_t padding,
+    uint64_t heap, uint64_t dart_null, double delta) {
+    // Called only for the third _wrapWithAnimation return. The 0x2183 wrapper holds the entire
+    // capsule branch; construct a fresh outer Padding so the original launcher layout code moves
+    // background, text and hit target together without touching their internal constraints.
+    static std::atomic<uint32_t> reports{0};
+    const auto cid = [](uint64_t object) -> uint32_t {
+        if ((object & 1u) == 0) return 0;
+        uint64_t header = 0;
+        std::memcpy(&header, reinterpret_cast<const void *>(object - 1), sizeof(header));
+        return static_cast<uint32_t>((header >> 12) & 0xfffffu);
+    };
+    const uint32_t widget_cid = cid(widget);
+    const uint32_t edge_cid = cid(edge);
+    const uint32_t padding_cid = cid(padding);
+    uint64_t child = dart_null;
+    if (widget_cid == 0x2183) {
+        uint32_t compressed = 0;
+        std::memcpy(&compressed, reinterpret_cast<const void *>(widget + 0x37), 4);
+        child = (heap << 32) + compressed;
+    }
+    const bool valid = widget_cid == 0x2183 && edge_cid == 0x15c9
+        && padding_cid == 0x1e25 && child != dart_null && std::isfinite(delta)
+        && delta >= -630.0 && delta <= 370.0;
+    if (reports.fetch_add(1, std::memory_order_relaxed) < 8) {
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "capsule wrapper cid=%#x child_cid=%#x edge_cid=%#x padding_cid=%#x delta=%.2f valid=%d",
+            widget_cid, cid(child), edge_cid, padding_cid, delta, valid ? 1 : 0);
+    }
+    if (!valid) return 0;
+    const double left = 0.0;
+    const double right = 0.0;
+    const double bottom = -delta;
+    std::memcpy(reinterpret_cast<void *>(edge + 7), &left, sizeof(left));
+    std::memcpy(reinterpret_cast<void *>(edge + 0xf), &delta, sizeof(delta));
+    std::memcpy(reinterpret_cast<void *>(edge + 0x17), &right, sizeof(right));
+    std::memcpy(reinterpret_cast<void *>(edge + 0x1f), &bottom, sizeof(bottom));
+    std::memset(reinterpret_cast<void *>(padding - 1), 0, 0x20);
+    const uint64_t padding_header = 0x1e2521cu;
+    std::memcpy(reinterpret_cast<void *>(padding - 1), &padding_header, 8);
+    const uint32_t key = static_cast<uint32_t>(dart_null);
+    const uint32_t wrapped = static_cast<uint32_t>(widget);
+    const uint32_t insets = static_cast<uint32_t>(edge);
+    std::memcpy(reinterpret_cast<void *>(padding + 7), &key, 4);
+    std::memcpy(reinterpret_cast<void *>(padding + 0xb), &wrapped, 4);
+    std::memcpy(reinterpret_cast<void *>(padding + 0xf), &insets, 4);
+    return padding;
+}
+
+extern "C" void hc_layout_probe_container(uint64_t widget, uint64_t heap,
+    uint64_t dart_null) {
+    static std::atomic<uint32_t> seen{0};
+    const uint32_t ordinal = seen.fetch_add(1, std::memory_order_relaxed);
+    if ((widget & 1u) == 0) {
+        if (ordinal < 12) __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "container build probe n=%u untagged=%#llx", ordinal,
+            static_cast<unsigned long long>(widget));
+        return;
+    }
+    uint64_t header = 0;
+    std::memcpy(&header, reinterpret_cast<const void *>(widget - 1), 8);
+    const uint32_t widget_cid = static_cast<uint32_t>((header >> 12) & 0xfffffu);
+    if (ordinal < 12) __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+        "container build probe n=%u cid=%#x widget=%#llx", ordinal, widget_cid,
+        static_cast<unsigned long long>(widget));
+    if (widget_cid != 0x2017) return;
+    uint32_t compressed = 0;
+    std::memcpy(&compressed, reinterpret_cast<const void *>(widget + 0x27), 4);
+    const uint64_t margin = (heap << 32) + compressed;
+    if (ordinal < 12) {
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "container build probe n=%u widget=%#llx margin=%#llx null=%#llx",
+            ordinal, static_cast<unsigned long long>(widget),
+            static_cast<unsigned long long>(margin), static_cast<unsigned long long>(dart_null));
+    }
+    if (margin == dart_null || (margin & 1u) == 0) return;
+    std::memcpy(&header, reinterpret_cast<const void *>(margin - 1), 8);
+    if (((header >> 12) & 0xfffffu) != 0x15c9) return;
+    double top = 0, bottom = 0;
+    std::memcpy(&top, reinterpret_cast<const void *>(margin + 0xf), 8);
+    std::memcpy(&bottom, reinterpret_cast<const void *>(margin + 0x1f), 8);
+    if (top == 0 && bottom == 0) return;
+    static std::atomic<uint32_t> reports{0};
+    if (reports.fetch_add(1, std::memory_order_relaxed) < 12) {
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "container probe widget=%#llx margin=%#llx top=%.2f bottom=%.2f",
+            static_cast<unsigned long long>(widget),
+            static_cast<unsigned long long>(margin), top, bottom);
+    }
+}
 
 /*
  * Install the stage-one probe synchronously, from the loader callback for libapp.so.
@@ -2020,7 +2213,7 @@ bool adopt_layout_state() {
         knob.getter = 0;
         knob.getter_size = 0;
         knob.pristine_valid = false;
-        knob.delta_px.store(0, std::memory_order_relaxed);
+        knob.delta_dp.store(0, std::memory_order_relaxed);
     }
     return true;
 }
@@ -2072,7 +2265,7 @@ void prime_home_layout_knobs(HookFunction hook, UnhookFunction unhook) {
     home_layout::Config config;
     if (home_layout::query_config(config)) {
         for (size_t index = 0; index < HC_LAYOUT_KNOB_COUNT; ++index) {
-            g_knobs[index].delta_px.store(config.knobs[index].delta_px,
+            g_knobs[index].delta_dp.store(config.knobs[index].delta_dp,
                 std::memory_order_relaxed);
         }
     }

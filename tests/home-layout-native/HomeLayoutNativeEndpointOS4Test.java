@@ -23,17 +23,21 @@ public final class HomeLayoutNativeEndpointOS4Test {
         if (!condition) throw new AssertionError();
     }
 
-    /** Mirrors the settings page: default 30, so 60 becomes +30 dp at the stub's 2.75 density. */
+    /** Mirrors the settings page: default 30, so 60 becomes +30 dp of native delta. */
     private static void checkProviderMapping() {
         final java.util.Map<String, Integer> rows = new java.util.HashMap<>();
         rows.put("prefs_key_home_layout_workspace_padding_top_enable", 1);
         rows.put("prefs_key_home_layout_workspace_padding_top", 60);
+        rows.put("prefs_key_home_layout_indicator_margin_bottom_enable", 1);
+        rows.put("prefs_key_home_layout_indicator_margin_bottom", 700);
         rows.put("prefs_key_home_layout_hotseats_margin_bottom_enable", 1);
         rows.put("prefs_key_home_layout_hotseats_margin_bottom", 0);
         rows.put("prefs_key_home_folder_vertical_spacing_enable", 1);
         rows.put("prefs_key_home_folder_vertical_spacing", 12);
         rows.put("prefs_key_home_folder_columns", 5);
         rows.put("prefs_key_home_layout_searchbar_width_enable", 1);
+        rows.put("prefs_key_home_layout_searchbar_margin_bottom_enable", 1);
+        rows.put("prefs_key_home_layout_searchbar_margin_bottom", 80);
         // 430 is outside the page's 0..400 range, so it must fall back to the neutral default.
         rows.put("prefs_key_home_layout_searchbar_width", 430);
         rows.put("prefs_key_home_animation_open_rate_enable", 1);
@@ -48,18 +52,23 @@ public final class HomeLayoutNativeEndpointOS4Test {
 
         check(snapshot.acknowledgment() == HomeLayoutNativeEndpointOS4.ACK);
         check(snapshot.knobEnabled().length == 8);
-        // index 2 = workspace top: (60 - 30) * 2.75 = 82.5 -> 83
+        // index 2 = workspace top: 60 - 30 = 30 dp, forwarded unscaled
         check(snapshot.knobEnabled()[2] == 1);
-        check(snapshot.knobDeltaPx()[2] == 83);
-        // index 0 = hotseat margin: (0 - 70) * 2.75 = -192.5 -> Math.round rounds toward +inf
+        check(snapshot.knobDeltaDp()[2] == 30);
+        // The enlarged slider endpoint maps 700 to +630 dp before the capsule hook inverts it.
+        check(snapshot.knobEnabled()[5] == 1);
+        check(snapshot.knobDeltaDp()[5] == 630);
+        // index 0 = hotseat margin: 0 - 70 = -70 dp
         check(snapshot.knobEnabled()[0] == 1);
-        check(snapshot.knobDeltaPx()[0] == -192);
-        // index 1 = folder row spacing: 12 dp is an additive value, so 12 * 2.75 = 33 px
+        check(snapshot.knobDeltaDp()[0] == -70);
+        // index 1 = folder row spacing: 12 dp is an additive value, forwarded as-is
         check(snapshot.knobEnabled()[1] == 1);
-        check(snapshot.knobDeltaPx()[1] == 33);
-        // index 7 = search bar width: out of range -> default -> neutral
-        check(snapshot.knobEnabled()[7] == 1);
-        check(snapshot.knobDeltaPx()[7] == 0);
+        check(snapshot.knobDeltaDp()[1] == 12);
+        // OS4 search-bar controls are retired; even persisted values stay inert.
+        check(snapshot.knobEnabled()[6] == 0);
+        check(snapshot.knobEnabled()[7] == 0);
+        check(snapshot.knobDeltaDp()[6] == 0);
+        check(snapshot.knobDeltaDp()[7] == 0);
         // Plus the tweaks run the provider also carries.
         check(snapshot.tweaks().length == HomeLayoutNativeEndpointOS4.TWEAK_COUNT);
         check(snapshot.tweaks()[0] == 5);
@@ -69,6 +78,24 @@ public final class HomeLayoutNativeEndpointOS4Test {
         check(snapshot.tweaks()[13] == 65);
         check(snapshot.tweaks()[14] == 1);
         check(snapshot.tweaks()[15] == 40);
+
+        // The new negative end moves the capsule in the opposite direction from 700.
+        rows.put("prefs_key_home_layout_indicator_margin_bottom", -300);
+        ContentResolver.setRows(rows);
+        HomeLayoutNativeEndpointOS4.refreshFromProvider();
+        final HomeLayoutNativeEndpointOS4.Snapshot lowEnd =
+            HomeLayoutNativeEndpointOS4.readPreferences();
+        check(lowEnd.knobEnabled()[5] == 1);
+        check(lowEnd.knobDeltaDp()[5] == -370);
+
+        // An unset value with the switch enabled resolves to 70, the neutral default.
+        rows.remove("prefs_key_home_layout_indicator_margin_bottom");
+        ContentResolver.setRows(rows);
+        HomeLayoutNativeEndpointOS4.refreshFromProvider();
+        final HomeLayoutNativeEndpointOS4.Snapshot defaultIndicator =
+            HomeLayoutNativeEndpointOS4.readPreferences();
+        check(defaultIndicator.knobEnabled()[5] == 1);
+        check(defaultIndicator.knobDeltaDp()[5] == 0);
 
         final java.util.Map<String, Integer> defaults = new java.util.HashMap<>();
         defaults.put("prefs_key_home_folder_columns", 3);
@@ -123,8 +150,8 @@ public final class HomeLayoutNativeEndpointOS4Test {
         final var good = endpoint.receive(new Parcel(DESCRIPTOR), 0);
         check(good.acknowledgment() == HomeLayoutNativeEndpointOS4.ACK);
         check(good.gridEnabled() == 1 && good.cellX() == 5 && good.cellY() == 7);
-        check(good.knobEnabled()[0] == 1 && good.knobDeltaPx()[0] == 30);
-        check(good.knobEnabled()[count - 1] == 1 && good.knobDeltaPx()[count - 1] == -20);
+        check(good.knobEnabled()[0] == 1 && good.knobDeltaDp()[0] == 30);
+        check(good.knobEnabled()[count - 1] == 1 && good.knobDeltaDp()[count - 1] == -20);
         check(endpoint.receive(new Parcel(DESCRIPTOR), IBinder.FLAG_ONEWAY).gridEnabled() == 0);
         check(endpoint.receive(new Parcel(DESCRIPTOR, 1L), 0).gridEnabled() == 0);
         Binder.setCallingIdentityForTest(10200, 42);

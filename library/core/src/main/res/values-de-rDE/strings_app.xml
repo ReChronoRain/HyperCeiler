@@ -984,8 +984,8 @@
     <string name="home_gesture_multi_choose_app_none">Keine</string>
     <string name="home_layout">Layout</string>
     <string name="home_layout_home_title">Startbildschirm</string>
-    <string name="home_layout_indicator_title">Indikator</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Indikator-Abstand zum unteren Bildschirmrand</string>
+    <string name="home_layout_indicator_title">Startbildschirm-Suche</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Abstand zwischen der Startbildschirm-Suche und dem unteren Bildschirmrand anpassen</string>
     <string name="home_layout_hotseats_title">Dock</string>
     <string name="home_layout_searchbar_title">Suchleiste</string>
     <string name="home_layout_searchbar_width">Höhe</string>

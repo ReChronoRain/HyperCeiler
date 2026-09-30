@@ -174,7 +174,7 @@ void serialize_config(const Config &config, std::vector<uint8_t> &out) {
     put_u32(static_cast<uint32_t>(config.cell_y));
     for (const auto &knob : config.knobs) {
         put_u32(knob.enabled ? 1 : 0);
-        put_u32(static_cast<uint32_t>(knob.delta_px));
+        put_u32(static_cast<uint32_t>(knob.delta_dp));
     }
     put_u32(config.tweaks.folder_enabled ? 1 : 0);
     put_u32(static_cast<uint32_t>(config.tweaks.folder_cols));
@@ -312,9 +312,9 @@ static bool query_binder(Config &result) {
     int32_t y = 0;
     int32_t count = 0;
     Config candidate;
-    // The deltas arrive in pixels already scaled by the display density, so the
-    // native bound is a sanity limit on the pixel span, not a dp range.
-    constexpr int32_t kMaxDeltaPx = 2400;
+    // The deltas arrive in dp, the unit the launcher's own accessors answer in, so this bound is
+    // a sanity limit on the requested span rather than a page-range re-check.
+    constexpr int32_t kMaxDeltaDp = 2400;
     bool valid = status == STATUS_OK && output != nullptr
         && AParcel_readInt32(output, &ack) == STATUS_OK
         && AParcel_readInt32(output, &grid_enabled) == STATUS_OK
@@ -327,12 +327,12 @@ static bool query_binder(Config &result) {
         && count >= 0 && count <= HC_LAYOUT_KNOB_COUNT;
     for (int32_t index = 0; valid && index < count; ++index) {
         int32_t enabled = 0;
-        int32_t delta_px = 0;
+        int32_t delta_dp = 0;
         valid = AParcel_readInt32(output, &enabled) == STATUS_OK
-            && AParcel_readInt32(output, &delta_px) == STATUS_OK
-            && (enabled == 0 || enabled == 1) && std::abs(delta_px) <= kMaxDeltaPx;
+            && AParcel_readInt32(output, &delta_dp) == STATUS_OK
+            && (enabled == 0 || enabled == 1) && std::abs(delta_dp) <= kMaxDeltaDp;
         if (!valid) break;
-        candidate.knobs[static_cast<size_t>(index)] = KnobConfig{enabled != 0, delta_px};
+        candidate.knobs[static_cast<size_t>(index)] = KnobConfig{enabled != 0, delta_dp};
     }
     /*
      * The protocol appends the code-patch features as a fixed run of values. A fixed order is used

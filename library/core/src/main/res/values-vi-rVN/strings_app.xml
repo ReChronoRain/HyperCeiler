@@ -1028,8 +1028,8 @@
     <string name="home_gesture_multi_choose_app_none">Không</string>
     <string name="home_layout">Bố cục</string>
     <string name="home_layout_home_title">Màn hình chính</string>
-    <string name="home_layout_indicator_title">Chỉ báo</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Khoảng cách chỉ báo từ lề dưới màn hình</string>
+    <string name="home_layout_indicator_title">Tìm kiếm trên màn hình chính</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Điều chỉnh khoảng cách giữa tìm kiếm trên màn hình chính và cạnh dưới màn hình</string>
     <string name="home_layout_hotseats_title">Thanh dock</string>
     <string name="home_layout_searchbar_title">Thanh tìm kiếm</string>
     <string name="home_layout_searchbar_width">Chiều cao</string>

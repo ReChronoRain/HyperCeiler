@@ -39,7 +39,7 @@
     X(WorkspaceTop, WorkspaceTop, "GridSizeCalRules.stableWorkspaceCellPaddingTop", 30, 0, 150)   \
     X(WorkspaceBottom, WorkspaceBottom, "GridController.workspaceCellPaddingBottom", 120, 0, 240) \
     X(WorkspaceSide, WorkspaceSide, "GridController.workspaceCellPaddingSide", 20, 0, 100)        \
-    X(IndicatorMargin, IndicatorMargin, "GridController.workspaceIndicatorMarginBottom", 70, 0, 150) \
+    X(IndicatorMargin, IndicatorMargin, "GridController.workspaceIndicatorMarginBottom", 70, -300, 700) \
     X(SearchBarMargin, SearchBarMargin, "GridController.searchBarMarginBottom", 30, 0, 150)       \
     X(SearchBarWidth, SearchBarWidth, "GridController.searchBarWidthPx", 30, 0, 400)
 

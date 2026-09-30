@@ -124,9 +124,11 @@
             android:dependency="prefs_key_home_layout_indicator_margin_bottom_enable"
             android:key="prefs_key_home_layout_indicator_margin_bottom"
             android:layout="@layout/miuix_preference_widget_seekbar_compat_no_title"
+            app:defaultValue="70"
             app:defaultValueTitle="@string/array_default"
             app:format="%s dp"
-            app:maxValue="150"
+            app:maxValue="700"
+            app:minValue="-300"
             app:stepValue="1" />
     </PreferenceCategory>
 

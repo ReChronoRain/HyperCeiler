@@ -980,8 +980,8 @@
     <string name="home_gesture_multi_choose_app_none">Немає</string>
     <string name="home_layout">Макет</string>
     <string name="home_layout_home_title">Головний екран</string>
-    <string name="home_layout_indicator_title">Індикатор</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Відстань індикатора від нижнього краю екрана</string>
+    <string name="home_layout_indicator_title">Пошук на робочому столі</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Налаштування відстані між пошуком на робочому столі та нижнім краєм екрана</string>
     <string name="home_layout_hotseats_title">Док-панель</string>
     <string name="home_layout_searchbar_title">Панель пошуку</string>
     <string name="home_layout_searchbar_width">Висота</string>

@@ -1024,8 +1024,8 @@
     <string name="home_gesture_multi_choose_app_none">Nenhum</string>
     <string name="home_layout">Layout</string>
     <string name="home_layout_home_title">Tela inicial</string>
-    <string name="home_layout_indicator_title">Indicador</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Distância do indicador da margem inferior da tela</string>
+    <string name="home_layout_indicator_title">Pesquisa na tela inicial</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Ajustar a distância entre a pesquisa na tela inicial e a parte inferior da tela</string>
     <string name="home_layout_hotseats_title">Dock</string>
     <string name="home_layout_searchbar_title">Barra de pesquisa</string>
     <string name="home_layout_searchbar_width">Altura</string>

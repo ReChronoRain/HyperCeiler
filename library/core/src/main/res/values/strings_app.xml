@@ -1223,10 +1223,11 @@
     <string name="home_gesture_multi_choose_app_none">None</string>
     <string name="home_layout">Layout</string>
     <string name="home_layout_home_title">Home screen</string>
-    <string name="home_layout_indicator_title">Indicator</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Indicator distance from screen bottom margin</string>
+    <string name="home_layout_indicator_title">Desktop search</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Adjust the distance between desktop search and the bottom of the screen.</string>
     <string name="home_layout_hotseats_title">Dock</string>
     <string name="home_layout_searchbar_title">Search bar</string>
+    <string name="home_layout_searchbar_os4_hint">On OS4, adjust the search capsule under Layout → Desktop search.</string>
     <string name="home_layout_searchbar_width">Height</string>
     <string name="home_layout_seek_points">Page indicator</string>
     <string name="home_layout_unlock_grids">Unlock layout</string>

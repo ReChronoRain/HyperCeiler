@@ -7,10 +7,10 @@
 
 namespace home_layout {
 
-/* One knob's requested state, in pixels. */
+/* One knob's requested state, in logical pixels (dp) - the launcher's own unit. */
 struct KnobConfig {
     bool enabled = false;
-    int delta_px = 0;
+    int delta_dp = 0;
 
     bool operator==(const KnobConfig &other) const = default;
 };

@@ -892,7 +892,7 @@
     <string name="home_gesture_multi_choose_app_none">Hiçbiri</string>
     <string name="home_layout">Düzen</string>
     <string name="home_layout_home_title">Ana ekran</string>
-    <string name="home_layout_indicator_title">Gösterge</string>
+    <string name="home_layout_indicator_title">Ana ekran araması</string>
     <string name="home_layout_hotseats_title">Yuva</string>
     <string name="home_layout_searchbar_title">Arama çubuğu</string>
     <string name="home_layout_searchbar_width">Yükseklik</string>

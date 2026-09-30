@@ -1027,8 +1027,8 @@
     <string name="home_gesture_multi_choose_app_none">なし</string>
     <string name="home_layout">レイアウト</string>
     <string name="home_layout_home_title">ホーム画面</string>
-    <string name="home_layout_indicator_title">インジケーター</string>
-    <string name="home_layout_indicator_margin_bottom_desc">画面下部の余白からのインジケーターの距離</string>
+    <string name="home_layout_indicator_title">ホーム画面検索</string>
+    <string name="home_layout_indicator_margin_bottom_desc">ホーム画面検索と画面下端の間隔を調整</string>
     <string name="home_layout_hotseats_title">ドック</string>
     <string name="home_layout_searchbar_title">検索バー</string>
     <string name="home_layout_searchbar_width">高さ</string>

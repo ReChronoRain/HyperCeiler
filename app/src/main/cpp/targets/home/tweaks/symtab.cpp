@@ -67,8 +67,29 @@ const TargetFunction kTargets[] = {
          "布局 工作区底部边距"},
         {"GridController.workspaceCellPaddingSide", "GridController.workspaceCellPaddingSide",
          "布局 工作区水平边距"},
+        {"GridCellDelegate.performLayout", "GridCellDelegate.performLayout", "布局 网格实际布局代码注入"},
+        {"GridOccupiedCellDelegate.performLayout", "GridOccupiedCellDelegate.performLayout", "布局 图标实际布局代码注入"},
+        /*
+         * The OS4 indicator's own bottom offset. Read out of launcher 7722: it is the only getter
+         * between the indicator update paths (`startIndictorAnimation`, `onOrientationChanged`) and
+         * the GridController margin chain, so a delta here reaches the indicator alone. The upstream
+         * `GridController.workspaceIndicatorMarginBottom` stays listed for the calibration probe —
+         * it has exactly one caller, which sits on this same path. The earlier
+         * `WidgetLocationCalculator.calIndicatorCenterPosition` entry was dropped: it only feeds the
+         * dot indicator at creation time, which OS4 no longer shows.
+         */
         {"GridController.workspaceIndicatorMarginBottom",
-         "GridController.workspaceIndicatorMarginBottom", "布局 指示器底部边距"},
+         "GridController.workspaceIndicatorMarginBottom", "布局 指示器底部边距(上游)"},
+        {"_CapsuleIndicatorState.build", "_CapsuleIndicatorState.build", "布局 胶囊组件构建探针"},
+        {"Container.build", "Container.build", "布局 胶囊外边距字段布局校验"},
+        {"LauncherIndicatorState.build", "LauncherIndicatorState.build",
+         "布局 胶囊第三动画包装调用点"},
+        {"Padding.createRenderObject", "Padding.createRenderObject",
+         "布局 胶囊整体位移包装校验"},
+        {"LauncherIndicatorState._wrapWithAnimation",
+         "LauncherIndicatorState._wrapWithAnimation", "布局 指示器组件包装探针"},
+        {"WorkspaceGetxController.indicatorOffsetBottomPortrait",
+         "WorkspaceGetxController.indicatorOffsetBottomPortrait", "布局 指示器底部边距"},
         {"GridController.searchBarMarginBottom", "GridController.searchBarMarginBottom",
          "布局 搜索框底部边距"},
         {"GridController.searchBarWidthPx", "GridController.searchBarWidthPx", "布局 搜索框宽度"},

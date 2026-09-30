@@ -820,7 +820,7 @@
     <string name="home_gesture_multi_choose_app_none">Ninguna</string>
     <string name="home_layout">Disposición</string>
     <string name="home_layout_home_title">Pantalla de inicio</string>
-    <string name="home_layout_indicator_title">Indicador</string>
+    <string name="home_layout_indicator_title">Búsqueda de la pantalla de inicio</string>
     <string name="home_layout_hotseats_title">Base</string>
     <string name="home_layout_searchbar_title">Barra de búsqueda</string>
     <string name="home_layout_seek_points">Indicador de página</string>

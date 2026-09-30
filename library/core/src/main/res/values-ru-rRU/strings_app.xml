@@ -1027,8 +1027,8 @@
     <string name="home_gesture_multi_choose_app_none">Нет</string>
     <string name="home_layout">Макеты</string>
     <string name="home_layout_home_title">Рабочий стол</string>
-    <string name="home_layout_indicator_title">Индикатор</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Расстояние индикатора от нижнего края экрана</string>
+    <string name="home_layout_indicator_title">Поиск на рабочем столе</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Настройка расстояния между поиском на рабочем столе и нижним краем экрана</string>
     <string name="home_layout_hotseats_title">Док-бар</string>
     <string name="home_layout_searchbar_title">Панель поиска</string>
     <string name="home_layout_searchbar_width">Высота</string>

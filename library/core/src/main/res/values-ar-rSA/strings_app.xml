@@ -1016,8 +1016,8 @@
     <string name="home_gesture_multi_choose_app_none">لا شيء</string>
     <string name="home_layout">التخطيط</string>
     <string name="home_layout_home_title">الشاشة الرئيسية</string>
-    <string name="home_layout_indicator_title">المؤشر</string>
-    <string name="home_layout_indicator_margin_bottom_desc">المسافة بين المؤشر وحافة أسفل الشاشة</string>
+    <string name="home_layout_indicator_title">البحث على الشاشة الرئيسية</string>
+    <string name="home_layout_indicator_margin_bottom_desc">ضبط المسافة بين البحث على الشاشة الرئيسية والحافة السفلية للشاشة</string>
     <string name="home_layout_hotseats_title">شريط التطبيقات</string>
     <string name="home_layout_searchbar_title">شريط البحث</string>
     <string name="home_layout_searchbar_width">الارتفاع</string>

@@ -144,6 +144,181 @@ capture_trampoline hc_layout_dock_capture_entry, \
 HC_LAYOUT_KNOBS(HC_ASM_KNOB)
 #undef HC_ASM_KNOB
 
+/* Interior original RenderBox layout splices. Preserve all live Dart registers
+ * and NZCV; the helper writes only verified local frame slots, never heap fields.
+ * Original loops retain constraints, hit testing and ParentData.offset ownership. */
+.macro workspace_layout_splice name, slot, occupied
+.globl \name
+.p2align 4
+\name:
+    dart_save
+    adrp x9, hc_layout_dart_\slot\()_hits
+    add x9, x9, :lo12:hc_layout_dart_\slot\()_hits
+    ldr x10, [x9]
+    add x10, x10, #1
+    str x10, [x9]
+    adrp x9, hc_layout_dart_\slot\()_enabled
+    add x9, x9, :lo12:hc_layout_dart_\slot\()_enabled
+    ldrb w10, [x9]
+    cbz w10, 1f
+    sub sp, sp, #704
+    stp x0, x1, [sp, #0]
+    stp x2, x3, [sp, #16]
+    stp x4, x5, [sp, #32]
+    stp x6, x7, [sp, #48]
+    stp x8, x9, [sp, #64]
+    stp x10, x11, [sp, #80]
+    stp x12, x13, [sp, #96]
+    stp x14, x18, [sp, #112]
+    stp x15, x30, [sp, #128]
+    stp q0, q1, [sp, #160]
+    stp q2, q3, [sp, #192]
+    stp q4, q5, [sp, #224]
+    stp q6, q7, [sp, #256]
+    stp q8, q9, [sp, #288]
+    stp q10, q11, [sp, #320]
+    stp q12, q13, [sp, #352]
+    stp q14, q15, [sp, #384]
+    stp q16, q17, [sp, #416]
+    stp q18, q19, [sp, #448]
+    stp q20, q21, [sp, #480]
+    stp q22, q23, [sp, #512]
+    stp q24, q25, [sp, #544]
+    stp q26, q27, [sp, #576]
+    stp q28, q29, [sp, #608]
+    stp q30, q31, [sp, #640]
+    mov x0, x29
+    mov x1, x28
+    mov x2, #\occupied
+    bl hc_layout_workspace_layout
+    ldp q0, q1, [sp, #160]
+    ldp q2, q3, [sp, #192]
+    ldp q4, q5, [sp, #224]
+    ldp q6, q7, [sp, #256]
+    ldp q8, q9, [sp, #288]
+    ldp q10, q11, [sp, #320]
+    ldp q12, q13, [sp, #352]
+    ldp q14, q15, [sp, #384]
+    ldp q16, q17, [sp, #416]
+    ldp q18, q19, [sp, #448]
+    ldp q20, q21, [sp, #480]
+    ldp q22, q23, [sp, #512]
+    ldp q24, q25, [sp, #544]
+    ldp q26, q27, [sp, #576]
+    ldp q28, q29, [sp, #608]
+    ldp q30, q31, [sp, #640]
+    ldp x0, x1, [sp, #0]
+    ldp x2, x3, [sp, #16]
+    ldp x4, x5, [sp, #32]
+    ldp x6, x7, [sp, #48]
+    ldp x8, x9, [sp, #64]
+    ldp x10, x11, [sp, #80]
+    ldp x12, x13, [sp, #96]
+    ldp x14, x18, [sp, #112]
+    ldp x15, x30, [sp, #128]
+    add sp, sp, #704
+1:
+    dart_restore
+    adrp x16, hc_layout_dart_\slot\()_original
+    add x16, x16, :lo12:hc_layout_dart_\slot\()_original
+    ldr x16, [x16]
+    br x16
+.endm
+workspace_layout_splice hc_layout_workspace_entry, WorkspaceTop, 0
+workspace_layout_splice hc_layout_workspace_occupied_entry, WorkspaceBottom, 1
+
+/*
+ * OS4 capsule-specific path. Only the third _wrapWithAnimation call returns the capsule branch.
+ * Wrap that entire branch in a fresh Padding with zero-sum EdgeInsets; the original Flutter code
+ * then moves paint and hit target together without changing the Dock/grid geometry. Allocation
+ * stays in the Dart UI thread's bump region; a full region simply skips this one build.
+ */
+.globl hc_layout_capsule_entry
+.p2align 4
+hc_layout_capsule_entry:
+    dart_save
+    adrp x9, hc_layout_dart_IndicatorMargin_caller
+    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_caller
+    str x30, [x9]
+    adrp x9, hc_layout_dart_IndicatorMargin_hits
+    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_hits
+    ldr x10, [x9]
+    add x10, x10, #1
+    str x10, [x9]
+    stp x30, xzr, [x15, #-16]!
+    adrp x9, hc_layout_dart_IndicatorMargin_original
+    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_original
+    ldr x9, [x9]
+    blr x9
+    ldp x30, xzr, [x15], #16
+    stp x0, x30, [x15, #-16]!
+    adrp x9, hc_layout_dart_IndicatorMargin_enabled
+    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_enabled
+    ldrb w10, [x9]
+    cbz w10, 1f
+    adrp x9, hc_layout_capsule_expected_caller
+    add x9, x9, :lo12:hc_layout_capsule_expected_caller
+    ldr x9, [x9]
+    cmp x30, x9
+    b.ne 1f
+    ldp x9, x10, [x26, #0x60]
+    add x11, x9, #0x50
+    cmp x10, x11
+    b.ls 1f
+    str x11, [x26, #0x60]
+    mov x10, #0x931c
+    movk x10, #0x15c, lsl #16
+    str x10, [x9]
+    mov x10, #0x521c
+    movk x10, #0x1e2, lsl #16
+    str x10, [x9, #0x30]
+    add x1, x9, #1
+    add x2, x9, #0x31
+    ldr x0, [x15]
+    mov x3, x28
+    mov x4, x22
+    adrp x9, hc_layout_dart_IndicatorMargin_delta
+    add x9, x9, :lo12:hc_layout_dart_IndicatorMargin_delta
+    ldr d0, [x9]
+    stp x15, xzr, [sp, #-16]!
+    bl hc_layout_capsule_wrap
+    ldp x15, xzr, [sp], #16
+    cbz x0, 1f
+    str x0, [x15]
+1:
+    ldp x0, x30, [x15], #16
+    dart_restore
+    ret
+
+/* Read-only slot-2 calibration: was the capsule's new Container.margin consumed by Flutter? */
+.globl hc_layout_container_probe_entry
+.p2align 4
+hc_layout_container_probe_entry:
+    dart_save
+    adrp x9, hc_layout_dart_WorkspaceTop_hits
+    add x9, x9, :lo12:hc_layout_dart_WorkspaceTop_hits
+    ldr x10, [x9]
+    add x10, x10, #1
+    str x10, [x9]
+    stp x1, x2, [x15, #-16]!
+    stp x30, xzr, [x15, #-16]!
+    mov x0, x1
+    mov x1, x28
+    mov x2, x22
+    stp x15, xzr, [sp, #-16]!
+    bl hc_layout_probe_container
+    ldp x15, xzr, [sp], #16
+    ldp x30, xzr, [x15], #16
+    ldp x1, x2, [x15], #16
+    stp x30, xzr, [x15, #-16]!
+    adrp x9, hc_layout_dart_WorkspaceTop_original
+    add x9, x9, :lo12:hc_layout_dart_WorkspaceTop_original
+    ldr x9, [x9]
+    blr x9
+    ldp x30, xzr, [x15], #16
+    dart_restore
+    ret
+
 /*
  * Dart consumer of the Rust-owned ratio: the shared `getAnimDurationRatio` entry when it binds,
  * else the flight-only `FlightCohort.animDurationRatio` (see bind_animation_consumer). The

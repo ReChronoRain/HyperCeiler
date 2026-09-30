@@ -580,7 +580,7 @@ class HomeDockWindow : BaseHook() {
                         reply.writeInt(result?.cellX() ?: 0)
                         reply.writeInt(result?.cellY() ?: 0)
                         val knobEnabled = result?.knobEnabled() ?: IntArray(0)
-                        val knobDeltas = result?.knobDeltaPx() ?: IntArray(0)
+                        val knobDeltas = result?.knobDeltaDp() ?: IntArray(0)
                         reply.writeInt(knobEnabled.size)
                         for (index in knobEnabled.indices) {
                             reply.writeInt(knobEnabled[index])

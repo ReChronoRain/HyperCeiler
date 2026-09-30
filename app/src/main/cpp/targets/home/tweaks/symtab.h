@@ -15,7 +15,7 @@ struct TargetFunction {
 size_t TargetFunctionCount();
 const TargetFunction& TargetFunctionAt(size_t index);
 
-constexpr size_t kMaxTargetSlots = 96;
+constexpr size_t kMaxTargetSlots = 104;
 
 class SymbolIndex {
 public:

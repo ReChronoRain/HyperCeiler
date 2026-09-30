@@ -939,8 +939,8 @@
     <string name="home_gesture_multi_choose_app_none">Brak</string>
     <string name="home_layout">Układ</string>
     <string name="home_layout_home_title">Ekran główny</string>
-    <string name="home_layout_indicator_title">Wskaźnik</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Odległość wskaźnika od dolnego marginesu ekranu</string>
+    <string name="home_layout_indicator_title">Wyszukiwanie na ekranie głównym</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Dostosuj odległość między wyszukiwaniem na ekranie głównym a dolną krawędzią ekranu</string>
     <string name="home_layout_hotseats_title">Dok</string>
     <string name="home_layout_searchbar_title">Pasek wyszukiwania</string>
     <string name="home_layout_searchbar_width">Wysokość</string>

@@ -165,12 +165,12 @@ public final class HomeLayoutNativeEndpointOS4 {
         {"prefs_key_home_layout_workspace_padding_top", 30, 0, 150},
         {"prefs_key_home_layout_workspace_padding_bottom", 120, 0, 240},
         {"prefs_key_home_layout_workspace_padding_horizontal", 20, 0, 100},
-        {"prefs_key_home_layout_indicator_margin_bottom", 70, 0, 150},
+        {"prefs_key_home_layout_indicator_margin_bottom", 70, -300, 700},
         {"prefs_key_home_layout_searchbar_margin_bottom", 30, 0, 150},
         {"prefs_key_home_layout_searchbar_width", 30, 0, 400},
     };
-    /** Upper bound the native side also enforces, in pixels. */
-    private static final int MAX_DELTA_PX = 2400;
+    /** The largest per-knob delta the wire accepts, in dp; the native side re-checks the same bound. */
+    private static final int MAX_DELTA_DP = 2400;
 
     /**
      * The number of geometry knobs, so the host test can pin the length that must equal the native
@@ -182,7 +182,7 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     public record Snapshot(int acknowledgment, int gridEnabled, int cellX, int cellY,
-        int[] knobEnabled, int[] knobDeltaPx, int[] tweaks) { }
+        int[] knobEnabled, int[] knobDeltaDp, int[] tweaks) { }
 
     @FunctionalInterface
     interface CallerVerifier {
@@ -224,15 +224,15 @@ public final class HomeLayoutNativeEndpointOS4 {
                     || read.cellX() < 3 || read.cellX() > 9
                     || read.cellY() < 4 || read.cellY() > 13
                     || read.knobEnabled().length != KNOB_ROWS.length
-                    || read.knobDeltaPx().length != KNOB_ROWS.length
+                    || read.knobDeltaDp().length != KNOB_ROWS.length
                     || read.tweaks().length != TWEAK_COUNT) {
                 return denied("snapshot shape is wrong: " + describe(read));
             }
             for (int index = 0; index < KNOB_ROWS.length; ++index) {
                 final int enabled = read.knobEnabled()[index];
                 if (enabled != 0 && enabled != 1) return denied("knob " + index + " enable=" + enabled);
-                if (Math.abs(read.knobDeltaPx()[index]) > MAX_DELTA_PX) {
-                    return denied("knob " + index + " delta=" + read.knobDeltaPx()[index]);
+                if (Math.abs(read.knobDeltaDp()[index]) > MAX_DELTA_DP) {
+                    return denied("knob " + index + " delta=" + read.knobDeltaDp()[index]);
                 }
             }
             for (int index = 0; index < TWEAK_COUNT; ++index) {
@@ -242,7 +242,7 @@ public final class HomeLayoutNativeEndpointOS4 {
                 }
             }
             final Snapshot accepted = new Snapshot(ACK, read.gridEnabled(), read.cellX(), read.cellY(),
-                read.knobEnabled(), read.knobDeltaPx(), read.tweaks());
+                read.knobEnabled(), read.knobDeltaDp(), read.tweaks());
             final String summary = describe(accepted);
             if (!summary.equals(lastAccepted)) {
                 lastAccepted = summary;
@@ -268,13 +268,13 @@ public final class HomeLayoutNativeEndpointOS4 {
         if (snapshot == null) return "null";
         final StringBuilder text = new StringBuilder("grid=").append(snapshot.gridEnabled())
             .append(" cell=").append(snapshot.cellX()).append('x').append(snapshot.cellY());
-        if (snapshot.knobEnabled() != null && snapshot.knobDeltaPx() != null) {
+        if (snapshot.knobEnabled() != null && snapshot.knobDeltaDp() != null) {
             text.append(" knobs=[");
             for (int index = 0; index < snapshot.knobEnabled().length
-                     && index < snapshot.knobDeltaPx().length; ++index) {
+                     && index < snapshot.knobDeltaDp().length; ++index) {
                 if (index != 0) text.append(',');
                 text.append(snapshot.knobEnabled()[index]).append(':')
-                    .append(snapshot.knobDeltaPx()[index]);
+                    .append(snapshot.knobDeltaDp()[index]);
             }
             text.append(']');
         }
@@ -283,10 +283,13 @@ public final class HomeLayoutNativeEndpointOS4 {
     }
 
     /**
-     * The launcher reads these values in pixels, so the dp stored by the settings page is
-     * scaled once here, where the default display's density is authoritative. A value
-     * outside the page's own range falls back to its default, which keeps the neutral point
-     * exact; the resulting deltas are the knob's distance from that neutral point.
+     * The launcher's own geometry is in logical pixels (dp): `GridController.searchBarWidthPx`
+     * answers 337 on a 369 dp-wide panel, `hotSeatsMarginBottom` 32, and every accessor wraps its
+     * result in `PixelPerfect.alignPixel`, which only means anything for dp. The dp stored by the
+     * settings page is therefore forwarded as-is: multiplying by the display density here used to
+     * make every slider move 3.25x further than it said. A value outside the page's own range falls
+     * back to its default, which keeps the neutral point exact; the resulting deltas are the knob's
+     * distance from that neutral point.
      */
     static Snapshot readPreferences() {
         boolean gridEnabled = readBoolean("home_layout_unlock_grids_new", false);
@@ -296,8 +299,11 @@ public final class HomeLayoutNativeEndpointOS4 {
         final int count = KNOB_ROWS.length;
         final int[] enabled = new int[count];
         final int[] deltas = new int[count];
-        final double density = density();
         for (int index = 0; index < count; ++index) {
+            // OS4 renders the old search bar as the Indicator capsule. Retired controls remain
+            // visible but disabled in settings; ignore saved values too, so a previously enabled
+            // search-bar tweak cannot keep moving the capsule behind that disabled UI.
+            if (index == 6 || index == 7) continue;
             final String key = (String) KNOB_ROWS[index][0];
             final int fallback = (Integer) KNOB_ROWS[index][1];
             final int min = (Integer) KNOB_ROWS[index][2];
@@ -306,7 +312,7 @@ public final class HomeLayoutNativeEndpointOS4 {
             int value = readInt(key, fallback);
             if (value < min || value > max) value = fallback;
             enabled[index] = 1;
-            deltas[index] = toPixels(value - fallback, density);
+            deltas[index] = clampDelta(value - fallback);
         }
         final int[] tweaks = new int[TWEAK_COUNT];
         /* The existing folder-column slider is the single control. Its default keeps the launcher
@@ -429,20 +435,8 @@ public final class HomeLayoutNativeEndpointOS4 {
         return key.startsWith("prefs_key_") ? key : "prefs_key_" + key;
     }
 
-    private static int toPixels(int deltaDp, double density) {
-        final int pixels = (int) Math.round(deltaDp * density);
-        return Math.max(-MAX_DELTA_PX, Math.min(MAX_DELTA_PX, pixels));
-    }
-
-    private static double density() {
-        try {
-            final android.util.DisplayMetrics metrics =
-                android.content.res.Resources.getSystem().getDisplayMetrics();
-            if (metrics != null && metrics.density > 0f) return metrics.density;
-        } catch (RuntimeException ignored) {
-            // Fall through to the neutral scaling below.
-        }
-        return 1.0d;
+    private static int clampDelta(int deltaDp) {
+        return Math.max(-MAX_DELTA_DP, Math.min(MAX_DELTA_DP, deltaDp));
     }
 
     /** Binder's synchronous PID plus its exact process name identify this caller before WMS binds a window. */

@@ -19,6 +19,7 @@ build() {
 
 build unwind_test
 build dart_targets_test
+build workspace_geometry_test
 
 # unwind_test <libapp_launcher.so> verifies the Rust-side resolver against the
 # extracted launcher image; dart_targets_test <libapp.so> verifies the Dart-side
@@ -33,3 +34,5 @@ if [ "$#" -ge 2 ]; then
 else
     "$build_dir/dart_targets_test"
 fi
+
+"$build_dir/workspace_geometry_test"

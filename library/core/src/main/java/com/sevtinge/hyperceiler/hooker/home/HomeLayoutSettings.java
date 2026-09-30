@@ -19,6 +19,7 @@
 package com.sevtinge.hyperceiler.hooker.home;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
 
 import androidx.preference.PreferenceCategory;
 import androidx.preference.SwitchPreference;
@@ -60,10 +61,29 @@ public class HomeLayoutSettings extends DashboardFragment {
         mPadH = findPreference("prefs_key_home_folder_horizontal_padding_pad_h");
         mPadV = findPreference("prefs_key_home_folder_horizontal_padding_pad_v");
 
+        // fan.miuix 1.0.13.0 clamps XML minValue below zero in its constructor, but its
+        // setter supports signed bounds. Apply it after inflation so both the slider and
+        // the value-entry dialog expose -300..700 without shifting persisted dp values.
+        SeekBarPreferenceCompat indicatorMargin =
+            findPreference("prefs_key_home_layout_indicator_margin_bottom");
+        indicatorMargin.setMinValue(-300);
+
         if (isPad()) {
             setPreVisible(mSearch, false);
             setFuncHint(mLayoutH, 1);
             setFuncHint(mIconLayoutNew, 1);
+        }
+
+        if (isMoreHyperOSVersion(4f)) {
+            // The OS4 home-screen capsule is controlled by Indicator, not the old search bar.
+            mSearch.setSummary(R.string.home_layout_searchbar_os4_hint);
+            mSearch.setEnabled(false);
+            findPreference("prefs_key_home_layout_searchbar_width_enable")
+                .setSummary(R.string.home_layout_searchbar_os4_hint);
+            findPreference("prefs_key_home_layout_searchbar_width_enable").setEnabled(false);
+            findPreference("prefs_key_home_layout_searchbar_width").setEnabled(false);
+            findPreference("prefs_key_home_layout_searchbar_margin_bottom_enable").setEnabled(false);
+            findPreference("prefs_key_home_layout_searchbar_margin_bottom").setEnabled(false);
         }
 
         BiConsumer<Boolean, Boolean> updateVisibility = (widthEnabled, paddingEnabled) -> {
