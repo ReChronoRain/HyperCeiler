@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * DexKit 工具类 — 薄 Java 静态门面
  * <p>
- * 所有实际工作委托给 {@link DexKitCacheManager}，后者基于 DexKit 2.2.0
+ * 所有实际工作委托给 {@link DexKitCacheManager}，后者基于 DexKit 2.3.0
  * 的 {@code DexKitCacheBridge} + {@code RecyclableBridge} 实现
  * 缓存与原生桥生命周期管理。
  *
