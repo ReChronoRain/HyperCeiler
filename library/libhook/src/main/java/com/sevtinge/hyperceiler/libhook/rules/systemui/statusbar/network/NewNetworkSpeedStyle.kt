@@ -29,6 +29,7 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DisplayUtils.dp2px
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 
 object NewNetworkSpeedStyle : BaseHook() {
@@ -58,7 +59,8 @@ object NewNetworkSpeedStyle : BaseHook() {
     }
 
     override fun init() {
-        Constructors.find(findClass("com.android.systemui.statusbar.views.NetworkSpeedView"))
+        val nsvCls = loadClassOrNull("com.android.systemui.statusbar.views.NetworkSpeedView", lpparam.classLoader) ?: return
+        Constructors.find(nsvCls)
             .toList().createAfterHooks { param ->
                     val meter = param.thisObject as View
                     if (meter.getTag(viewInitedTag) != null || "slot_text_icon" == meter.tag) {
@@ -88,29 +90,7 @@ object NewNetworkSpeedStyle : BaseHook() {
                             if (number != null && unit != null) {
                                 // 成功获取视图后，移除监听器以避免重复执行
                                 v.removeOnLayoutChangeListener(this)
-
-                                if (networkStyle != 0) {
-                                    unit.visibility = View.GONE
-                                    if (networkStyle == 2 || networkStyle == 4) {
-                                        number.isSingleLine = false
-                                        number.maxLines = 2
-                                    }
-                                    textFont(number) // 加粗
-                                    margin(number) // 偏移量设置
-                                    align(number) // 水平对齐
-                                    textSize(number) // 网速字体大小调整
-                                    textLineSpacing(number) // 网速行间距调整
-                                } else {
-                                    // 加粗
-                                    textFont(number)
-                                    textFont(unit)
-                                    // 偏移量设置
-                                    margin(number)
-                                    margin(unit)
-                                    // 水平对齐官方的寄，改不了
-                                    textSize(number) // 网速字体大小调整
-                                    textSize(unit) // 网速字体大小调整
-                                }
+                                applyStyle(meter, number, unit)
                             }
                         }
                     }
@@ -120,6 +100,43 @@ object NewNetworkSpeedStyle : BaseHook() {
                     }
             }
 
+        runCatching {
+            nsvCls.declaredMethods.filter {
+                it.name in listOf("onFinishInflate", "onDensityOrFontScaleChanged", "onMiuiThemeChanged") || it.name.startsWith("updateResources")
+            }.createAfterHooks {
+                val meter = it.thisObject as? View
+                val number = meter?.getObjectField("mNetworkSpeedNumberText") as? TextView
+                val unit = meter?.getObjectField("mNetworkSpeedUnitText") as? TextView
+                if (meter != null && number != null && unit != null) {
+                    applyStyle(meter, number, unit)
+                }
+            }
+        }
+    }
+
+    private fun applyStyle(meter: View, number: TextView, unit: TextView) {
+        if (networkStyle != 0) {
+            unit.visibility = View.GONE
+            if (networkStyle == 2 || networkStyle == 4) {
+                number.isSingleLine = false
+                number.maxLines = 2
+            }
+            textFont(number) // 加粗
+            margin(number) // 偏移量设置
+            align(number) // 水平对齐
+            textSize(number) // 网速字体大小调整
+            textLineSpacing(number) // 网速行间距调整
+        } else {
+            // 加粗
+            textFont(number)
+            textFont(unit)
+            // 偏移量设置
+            margin(number)
+            margin(unit)
+            // 水平对齐官方的寄，改不了
+            textSize(number) // 网速字体大小调整
+            textSize(unit) // 网速字体大小调整
+        }
     }
 
 

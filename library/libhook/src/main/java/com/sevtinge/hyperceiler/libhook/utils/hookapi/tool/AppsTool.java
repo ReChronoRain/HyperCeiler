@@ -58,6 +58,8 @@ import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import io.github.lingqiqi5211.ezhooktool.xposed.EzResources;
+
 public class AppsTool {
 
     private static final String TAG = "AppsTool";
@@ -86,7 +88,8 @@ public class AppsTool {
     }
 
     public static Resources getModuleRes(Context context) {
-        return ResourcesTool.getInstance().loadModuleRes(context);
+        EzResources.inject(context);
+        return context.getResources();
     }
 
     public static Context findContext(@ContextUtils.Duration int flag) {

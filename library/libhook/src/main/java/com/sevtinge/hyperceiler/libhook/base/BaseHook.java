@@ -35,7 +35,6 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.DexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKit;
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.dexkit.IDexKitList;
-import com.sevtinge.hyperceiler.libhook.utils.hookapi.tool.ResourcesTool;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -57,6 +56,7 @@ import io.github.lingqiqi5211.ezhooktool.core.ClassUtils;
 import io.github.lingqiqi5211.ezhooktool.core.java.Constructors;
 import io.github.lingqiqi5211.ezhooktool.core.java.Fields;
 import io.github.lingqiqi5211.ezhooktool.core.java.Methods;
+import io.github.lingqiqi5211.ezhooktool.xposed.EzResources;
 import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 import io.github.lingqiqi5211.ezhooktool.xposed.java.Deoptimizers;
@@ -1331,37 +1331,28 @@ public abstract class BaseHook {
      * 获取虚拟资源 ID
      */
     public static int getFakeResId(String resourceName) {
-        return ResourcesTool.getFakeResId(resourceName);
+        return EzResources.fakeResId(resourceName);
     }
 
     /**
      * 设置资源替换
      */
     public static void setResReplacement(String pkg, String type, String name, int replacementResId) {
-        ResourcesTool resTool = ResourcesTool.getInstance();
-        if (resTool != null) {
-            resTool.setResReplacement(pkg, type, name, replacementResId);
-        }
+        EzResources.setResReplacement(pkg, type, name, replacementResId);
     }
 
     /**
      * 设置密度资源替换
      */
     public static void setDensityReplacement(String pkg, String type, String name, float replacementResValue) {
-        ResourcesTool resTool = ResourcesTool.getInstance();
-        if (resTool != null) {
-            resTool.setDensityReplacement(pkg, type, name, replacementResValue);
-        }
+        EzResources.setDensityReplacement(pkg, type, name, replacementResValue);
     }
 
     /**
      * 设置对象资源替换
      */
     public static void setObjectReplacement(String pkg, String type, String name, Object replacementResValue) {
-        ResourcesTool resTool = ResourcesTool.getInstance();
-        if (resTool != null) {
-            resTool.setObjectReplacement(pkg, type, name, replacementResValue);
-        }
+        EzResources.setObjectReplacement(pkg, type, name, replacementResValue);
     }
 
 }

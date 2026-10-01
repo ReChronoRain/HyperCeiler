@@ -42,6 +42,10 @@
             android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.FocusNotificationSettings"
             android:title="@string/system_ui_statusbar_focus_notif_title" />
 
+        <Preference
+            android:fragment="com.sevtinge.hyperceiler.hooker.systemui.statusbar.BatteryDetailIndicatorSettings"
+            android:title="@string/system_ui_statusbar_battery_detail" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/system_ui_other_title">

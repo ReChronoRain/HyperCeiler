@@ -38,7 +38,7 @@ import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHooks
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import java.net.NetworkInterface
 import kotlin.math.roundToLong
@@ -76,7 +76,7 @@ object NewNetworkSpeed : BaseHook() {
     }
     // 网速图标
     private val icons by lazy {
-        PrefsBridge.getString("system_ui_statusbar_network_speed_icon", "2").toInt()
+        PrefsBridge.getStringAsInt("system_ui_statusbar_network_speed_icon", 2)
     }
     // 网速指示器样式
     private val networkStyle by lazy {
@@ -93,6 +93,7 @@ object NewNetworkSpeed : BaseHook() {
     private var cachedUnitSuffix: String? = null
     private const val KB = 1024.0
     private const val MB = KB * KB
+    private const val GB = MB * 1024.0
 
     private val nscCls by lazy {
         loadClassOrNull("com.android.systemui.statusbar.policy.NetworkSpeedController", lpparam.classLoader)
@@ -103,19 +104,29 @@ object NewNetworkSpeed : BaseHook() {
 
     @RequiresPermission(Manifest.permission.ACCESS_NETWORK_STATE)
     override fun init() {
-        runCatching {
-            if (isMoreHyperOSVersion(3f) && networkStyle != 0) {
-                // 仅 HyperOS 3+ 出现末尾加空格的情况
-                nsvCls!!.findMethod {
-                    name("updateNetworkSpeed")
-                }.createAfterHook {
-                    val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
-                    val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
-                    if (!TextUtils.equals(mNetworkSpeedNumber, mNetworkSpeedNumberText.text)) {
-                        mNetworkSpeedNumberText.text = mNetworkSpeedNumber
+        if (isMoreHyperOSVersion(3f) && networkStyle != 0) {
+            // 仅 HyperOS 3+ 出现末尾加空格的情况
+            nsvCls?.let { cls ->
+                runCatching {
+                    cls.declaredMethods.filter {
+                        (it.name.startsWith("updateNetworkSpeed") && it.parameterCount == 0) ||
+                        (it.name == "setNetworkSpeed" && it.parameterCount == 2)
+                    }.createAfterHooks {
+                        val mNetworkSpeedNumberText = it.thisObject.getObjectFieldAs<TextView>("mNetworkSpeedNumberText")
+                        val mNetworkSpeedNumber = it.thisObject.getObjectFieldAs<CharSequence>("mNetworkSpeedNumber")
+                        if (mNetworkSpeedNumber != null && mNetworkSpeedNumberText != null) {
+                            if (!TextUtils.equals(mNetworkSpeedNumber, mNetworkSpeedNumberText.text)) {
+                                mNetworkSpeedNumberText.text = mNetworkSpeedNumber
+                            }
+                        }
                     }
+                }.onFailure { e ->
+                    XposedLog.e(TAG, lpparam.packageName, "failed to hook NetworkSpeedView space fix: ${e.message}", e)
                 }
             }
+        }
+
+        runCatching {
             nscCls!!.findMethod { name("updateText"); paramCount(1) }.createBeforeHook {
                 // 获取该方法中的 Context
                 val mContext = it.thisObject.getObjectField("mContext") as Context
@@ -144,6 +155,9 @@ object NewNetworkSpeed : BaseHook() {
                 }
 
                 val strArr = sharedStrArr
+                strArr[0] = ""
+                strArr[1] = ""
+
                 // 设置 tx/rx 字符串
                 val txStr = if (hideLow && !allHideLow && txLow) "" else {
                     if (swapPlaces) "$txArrow${humanReadableByteCount(mContext, txSpeed)}"
@@ -190,6 +204,7 @@ object NewNetworkSpeed : BaseHook() {
                     else -> {
                         if (isLowSpeed) {
                             strArr[0] = ""
+                            strArr[1] = ""
                             it.args[0] = strArr
                         }
                     }
@@ -232,7 +247,7 @@ object NewNetworkSpeed : BaseHook() {
                 val unitsStr = modRes.getString(R.string.system_ui_statusbar_network_speed_speedunits)
                 cachedUnits = when {
                     unitsStr.isNotEmpty() -> unitsStr.toCharArray()
-                    else -> charArrayOf('K', 'M')
+                    else -> charArrayOf('K', 'M', 'G')
                 }
             }
 
@@ -242,7 +257,10 @@ object NewNetworkSpeed : BaseHook() {
             val value: Double
             val expIndex: Int
 
-            if (bytes >= MB) {
+            if (bytes >= GB) {
+                value = bytes / GB
+                expIndex = 2
+            } else if (bytes >= MB) {
                 value = bytes / MB
                 expIndex = 1
             } else {
@@ -251,7 +269,7 @@ object NewNetworkSpeed : BaseHook() {
             }
 
             val valueStr = if (value < 100.0f) String.format("%.1f", value) else String.format("%.0f", value)
-            val pre = units.getOrElse(expIndex) { if (expIndex == 1) 'M' else 'K' }
+            val pre = units.getOrElse(expIndex) { if (expIndex >= 2) 'G' else if (expIndex == 1) 'M' else 'K' }
             return if (networkStyle == 2) {
                 "$valueStr\n${pre}$unitSuffix"
             } else {

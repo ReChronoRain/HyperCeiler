@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.callStaticMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getFirstFieldByExactType
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 
 object StateFlowHelper {
      private val STATE_FLOW by lazy {
@@ -65,7 +66,10 @@ object StateFlowHelper {
         when (stateFlow::class.java.simpleName) {
             "ReadonlyStateFlow" -> {
                 if (isMoreAndroidVersion(36)) {
-                    stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
+                    // OS4: 字段名为 $$delegate_0，声明类型为 StateFlow 接口，
+                    // 按精确类型 MutableStateFlow 找不到，需先按字段名取
+                    runCatching { stateFlow.getObjectField("$\$delegate_0") }.getOrNull()
+                        ?: stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
                 } else {
                     stateFlow.getFirstFieldByExactType(STATE_FLOW)
                 }

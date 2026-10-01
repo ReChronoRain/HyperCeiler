@@ -102,6 +102,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.NewPluginHelperKt;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.plugin.systemui.QSColor;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.DoubleTapToSleep;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.HideStatusBarBeforeScreenshot;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.battery.BatteryDetailIndicator;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.clock.StatusBarClockNew;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.BatteryStyle;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.icon.all.DataSaverIcon;
@@ -179,6 +180,7 @@ public class SystemUIV extends BaseLoad {
         initHook(HideBatteryIcon.INSTANCE, isHideBatteryIcon);
         initHook(BatteryStyle.INSTANCE, PrefsBridge.getBoolean("system_ui_status_bar_battery_style_enable_custom") ||
                 PrefsBridge.getBoolean("system_ui_status_bar_battery_style_change_location"));
+        initHook(BatteryDetailIndicator.INSTANCE, PrefsBridge.getBoolean("system_ui_statusbar_battery_detail_enable"));
 
         // 网速指示器
         if (PrefsBridge.getBoolean("system_ui_statusbar_network_speed_all_status_enable")) {

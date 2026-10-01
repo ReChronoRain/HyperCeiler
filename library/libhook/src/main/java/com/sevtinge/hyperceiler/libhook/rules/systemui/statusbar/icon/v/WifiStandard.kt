@@ -26,14 +26,14 @@ import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndr
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.StateFlowHelper.newReadonlyStateFlow
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.MiuiStub
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
+import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectField
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setObjectField
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
-import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHook
-import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
 import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
@@ -49,14 +49,14 @@ object WifiStandard : BaseHook() {
     }
 
     private val makeWifiStandardZero by lazy {
-        requiredMember("makeWifiStandardZero") { bridge ->
+        optionalMember("makeWifiStandardZero") { bridge ->
             bridge.findMethod {
                 matcher {
                     declaredClass {
                         if (isMoreAndroidVersion(36)) {
-                            className($$"WifiViewModelInject$special$", StringMatchType.Contains)
+                            className("WifiViewModelInject\$special\$", StringMatchType.Contains)
                         } else {
-                            className($$"viewmodel.WifiViewModel$special", StringMatchType.Contains)
+                            className("viewmodel.WifiViewModel\$special", StringMatchType.Contains)
                         }
                     }
                     usingNumbers(5, 0)
@@ -64,7 +64,7 @@ object WifiStandard : BaseHook() {
 
                     if (isMoreAndroidVersion(36)) {
                         addUsingField {
-                            name($$"$this_unsafeFlow")
+                            name("\$this_unsafeFlow")
                         }
                     }
                 }
@@ -73,23 +73,43 @@ object WifiStandard : BaseHook() {
     }
 
     override fun init() {
-        Constructors.find(loadClass("com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.WifiViewModel"))
-            .first()
-            .createAfterHook {
-                if (showWifi == 1) {
-                    if (isDebug()) {
-                        val wifiStandard = it.thisObject.getObjectFieldAs<Any>("wifiStandard")
-                        MiuiStub.javaAdapter.alwaysCollectFlow<Int>(wifiStandard) { i ->
-                            XposedLog.d(TAG, lpparam.packageName, "wifiStandard $i")
+        try {
+            Constructors.find(loadClass("com.android.systemui.statusbar.pipeline.wifi.ui.viewmodel.WifiViewModel"))
+                .first()
+                .createAfterHook {
+                    if (showWifi == 1) {
+                        if (isDebug()) {
+                            try {
+                                val wifiStandard =
+                                    it.thisObject.getObjectFieldAs<Any>("wifiStandard")
+                                MiuiStub.javaAdapter.alwaysCollectFlow<Int>(wifiStandard) { i ->
+                                    XposedLog.d(TAG, lpparam.packageName, "wifiStandard $i")
+                                }
+                            } catch (e: Throwable) {
+                                XposedLog.e(
+                                    TAG,
+                                    lpparam.packageName,
+                                    "Failed to hook wifiStandard field",
+                                    e
+                                )
+                            }
                         }
-
-                        // it.thisObject.setObjectField("inoutLeft", newReadonlyStateFlow(true))
+                    } else if (showWifi == 2) {
+                        try {
+                            it.thisObject.setObjectField("wifiStandard", newReadonlyStateFlow(0))
+                        } catch (e: Throwable) {
+                            XposedLog.e(
+                                TAG,
+                                lpparam.packageName,
+                                "Failed to set wifiStandard field",
+                                e
+                            )
+                        }
                     }
-                } else if (showWifi == 2) {
-                    it.thisObject.setObjectField("wifiStandard", newReadonlyStateFlow(0))
                 }
-            }
-
+        } catch (e: Throwable) {
+            XposedLog.e(TAG, lpparam.packageName, "Failed to hook WifiViewModel constructor", e)
+        }
 
         if (showWifi == 1) {
             val coroutineSingletons = loadClass("kotlin.coroutines.intrinsics.CoroutineSingletons")
@@ -100,7 +120,7 @@ object WifiStandard : BaseHook() {
                 val wifiStandard = it.args[0]
                 val continuation = it.args[1]
                 if (wifiStandard != 0 && continuation?.getObjectField("label") != 0) {
-                    val flow = it.thisObject.getObjectFieldAs<Any>($$"$this_unsafeFlow")
+                    val flow = it.thisObject.getObjectFieldAs<Any>("\$this_unsafeFlow")
                     val obj = flow.callMethod("emit", wifiStandard, continuation)
                     it.result = if (obj == suspended) {
                         suspended
@@ -112,4 +132,3 @@ object WifiStandard : BaseHook() {
         }
     }
 }
-

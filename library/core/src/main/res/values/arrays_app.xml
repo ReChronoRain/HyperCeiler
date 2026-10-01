@@ -1032,4 +1032,34 @@
         <item>misound</item>
         <item>keep</item>
     </string-array>
+
+    <string-array name="system_ui_statusbar_battery_detail_content_entries">
+        <item>@string/array_temp_current</item>
+        <item>@string/array_power</item>
+        <item>@string/array_current</item>
+        <item>@string/array_temp_power</item>
+        <item>@string/array_power_current</item>
+    </string-array>
+
+    <string-array name="system_ui_statusbar_battery_detail_content_values">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+    </string-array>
+
+    <string-array name="system_ui_statusbar_battery_detail_hide_unit_entries">
+        <item>@string/array_hide_unit_none</item>
+        <item>@string/array_hide_unit_all</item>
+        <item>@string/array_hide_unit_temp</item>
+        <item>@string/array_hide_unit_power_current</item>
+    </string-array>
+
+    <string-array name="system_ui_statusbar_battery_detail_hide_unit_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+    </string-array>
 </resources>
