@@ -3,6 +3,7 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+#include "home_workspace_snapshot.h"
 
 namespace home_layout {
 // Original RenderBox layout's local geometry, not a shared Dart heap object.
@@ -38,7 +39,8 @@ template <typename T> inline void workspace_write(uintptr_t p, intptr_t off, T v
 // Occupied cells are recalculated from pristine GridInfo on EVERY iteration:
 // the preceding iteration's changed constraint locals must never compound.
 inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
-    double top, double bottom, double side, double *out) {
+    double top, double bottom, double side, double *out,
+    WorkspaceRenderSnapshot *rendered = nullptr) {
     uintptr_t grid = workspace_read<uintptr_t>(fp, -8);
     if (occupied) grid = workspace_read<uint32_t>(grid, 0x17) + (heap << 32);
     const int64_t columns = workspace_read<int64_t>(grid, 0x1b);
@@ -67,6 +69,11 @@ inline bool inset_workspace_frame(uintptr_t fp, uint64_t heap, bool occupied,
         workspace_write(fp, -0x50, g[2]);
         workspace_write(fp, -0x48, g[3]);
     }
+    // Publish only the geometry this original layout actually used, including
+    // zero insets when disabled. Latest settings alone are not a rendered frame.
+    if (rendered) rendered->rendered(grid, columns, rows,
+        workspace_read<double>(grid, 0x2b), workspace_read<double>(grid, 0x33),
+        side, top, g[2], g[3]);
     if (out) std::memcpy(out, g, sizeof(g));
     return true;
 }

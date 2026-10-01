@@ -81,13 +81,14 @@ inline constexpr uint32_t kFolderSizeOriginal[] = {
 };
 
 inline bool folder_grid_geometry(uintptr_t grid, double top, double bottom,
-    double side, double *g) {
+    double side, double *g, const WorkspaceRenderSnapshot *rendered = nullptr) {
     const int64_t columns = workspace_read<int64_t>(grid, 0x1b);
     const int64_t rows = workspace_read<int64_t>(grid, 0x23);
     if (rows < 2) return false;
     g[0] = g[1] = 0;
     g[2] = workspace_read<double>(grid, 0x2b);
     g[3] = workspace_read<double>(grid, 0x33);
+    if (rendered && rendered->geometry(grid, columns, rows, g[2], g[3], g)) return true;
     return inset_workspace(g, columns, rows, top, bottom, side);
 }
 
@@ -96,7 +97,8 @@ inline bool folder_grid_geometry(uintptr_t grid, double top, double bottom,
 // outputs of the five strictly verified displaced instructions. Upper SIMD
 // lanes retain their original contents (LDUR D clears the upper 64 bits).
 inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
-    uintptr_t saved, unsigned kind, double top, double bottom, double side) {
+    uintptr_t saved, unsigned kind, double top, double bottom, double side,
+    WorkspaceRenderSnapshot *rendered = nullptr) {
     const uintptr_t x0 = workspace_read<uintptr_t>(saved, 0);
     const auto d = [saved](int n, double v, bool clear = true) {
         workspace_write(saved, 160 + n * 16, v);
@@ -107,7 +109,7 @@ inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
         // +128: origin pointer, decompression, origin.x, saved column.
         const uintptr_t origin = workspace_read<uint32_t>(x0, 0x3b) + (heap << 32);
         double g[4];
-        valid = folder_grid_geometry(x0, top, bottom, side, g);
+        valid = folder_grid_geometry(x0, top, bottom, side, g, rendered);
         workspace_write(saved, 8, origin);
         d(0, workspace_read<double>(origin, 7) + (valid ? g[0] : 0));
         workspace_write(saved, 0, workspace_read<uintptr_t>(fp, -8));
@@ -143,7 +145,8 @@ inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
     } else if (kind == 2) {
         // calOriginPreviewIconLoc +11c, not the rendered folder widget size.
         const uintptr_t origin = workspace_read<uint32_t>(x0, 0x3b) + (heap << 32);
-        double g[4]; valid = folder_grid_geometry(x0, top, bottom, side, g);
+        double g[4]; valid = folder_grid_geometry(x0, top, bottom, side, g, rendered);
+        if (rendered) rendered->begin_preview(fp, valid ? g[1] : 0);
         workspace_write(saved, 8, workspace_read<uintptr_t>(fp, -8));
         d(0, workspace_read<double>(origin, 7) + (valid ? g[0] : 0));
         if (valid) {
@@ -156,6 +159,7 @@ inline bool folder_geometry_body(uintptr_t fp, uint64_t heap,
         const uintptr_t margin = workspace_read<uintptr_t>(saved, 8);
         const int64_t row = workspace_read<int64_t>(saved, 24);
         const double height = workspace_read<double>(fp, -0x20);
+        if (rendered) top = rendered->finish_preview(fp, top);
         valid = std::isfinite(top) && top >= -30 && top <= 120
             && std::isfinite(height) && height >= 1 && row >= 0 && row < 32;
         d(0, workspace_read<double>(margin, 7) + (valid ? top : 0));

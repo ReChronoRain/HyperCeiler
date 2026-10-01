@@ -1645,13 +1645,19 @@ size_t arm_hooks(std::vector<size_t> &order) {
 void publish_indicator_dot_delta();
 
 size_t publish_hooks() {
+    bool folder_ready = true;
+    for (size_t i = 0; i < 5; ++i) folder_ready &= g_slots[kFolderGeometrySlotBase + i].registered;
+    folder_ready &= g_slots[kKnobHookSlotBase + 2].registered
+        && g_slots[kKnobHookSlotBase + 3].registered;
     size_t live = 0;
     for (size_t index = 0; index < g_knobs.size(); ++index) {
         KnobRuntime &knob = g_knobs[index];
         if (!knob.hook_mode || knob.hook_enabled == nullptr || knob.hook_delta == nullptr) continue;
         const int delta = knob.delta_dp.load(std::memory_order_relaxed);
+        // Once the complete folder bank is available, also observe stock (zero
+        // inset) layouts. Otherwise off/on can reuse a stale rendered margin.
         const bool workspace_active = (index == 2 || index == 3)
-            && (g_knobs[2].delta_dp.load(std::memory_order_relaxed) != 0
+            && (folder_ready || g_knobs[2].delta_dp.load(std::memory_order_relaxed) != 0
             || g_knobs[3].delta_dp.load(std::memory_order_relaxed) != 0
             || g_knobs[4].delta_dp.load(std::memory_order_relaxed) != 0);
         if ((!workspace_active && delta == 0) || !knob.hook_armed) {
@@ -1668,10 +1674,6 @@ size_t publish_hooks() {
         ++live;
     }
     publish_indicator_dot_delta();
-    bool folder_ready = true;
-    for (size_t i = 0; i < 5; ++i) folder_ready &= g_slots[kFolderGeometrySlotBase + i].registered;
-    folder_ready &= g_slots[kKnobHookSlotBase + 2].registered
-        && g_slots[kKnobHookSlotBase + 3].registered;
     __atomic_store_n(&hc_layout_folder_enabled, folder_ready ? 1u : 0u, __ATOMIC_RELEASE);
     return live;
 }
@@ -2351,17 +2353,27 @@ void *worker(void *) {
 }
 } // namespace
 
+// Both callbacks run on the corresponding Dart thread. Settings publication
+// never accesses this cache; different isolates cannot mix rendered geometry.
+static thread_local home_layout::WorkspaceRenderSnapshot rendered_workspace;
+
 extern "C" void hc_layout_folder_body(uintptr_t frame, uint64_t heap, uintptr_t saved,
     unsigned kind) {
     const bool ready = __atomic_load_n(&hc_layout_folder_enabled, __ATOMIC_ACQUIRE) != 0;
     const int top = ready ? g_knobs[2].delta_dp.load(std::memory_order_relaxed) : 0;
     const int bottom = ready ? g_knobs[3].delta_dp.load(std::memory_order_relaxed) : 0;
     const int side = ready ? g_knobs[4].delta_dp.load(std::memory_order_relaxed) : 0;
-    const bool valid = home_layout::folder_geometry_body(frame, heap, saved, kind, top, bottom, side);
+    const uint64_t hits_before = rendered_workspace.hits;
+    const bool valid = home_layout::folder_geometry_body(frame, heap, saved, kind, top, bottom, side,
+        &rendered_workspace);
+    const bool render_hit = rendered_workspace.hits != hits_before;
     const uint64_t count = __atomic_fetch_add(&hc_layout_folder_hits[kind], uint64_t{1}, __ATOMIC_RELAXED);
-    if (count < 4) __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
-        "folder geometry body kind=%u ready=%d delta=%d/%d/%d valid=%d",
-        kind, ready ? 1 : 0, top, bottom, side, valid ? 1 : 0);
+    if (count < 4 || (render_hit && !(rendered_workspace.logged_hits & (1u << kind)))) {
+        if (render_hit) rendered_workspace.logged_hits |= 1u << kind;
+        __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",
+            "folder geometry body kind=%u ready=%d delta=%d/%d/%d valid=%d render-hit=%d",
+            kind, ready ? 1 : 0, top, bottom, side, valid ? 1 : 0, render_hit ? 1 : 0);
+    }
 }
 
 extern "C" void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int occupied) {
@@ -2372,7 +2384,7 @@ extern "C" void hc_layout_workspace_layout(uintptr_t frame, uint64_t heap, int o
     const bool hotseat = occupied == 2;
     const bool valid = hotseat ? home_layout::inset_hotseat_frame(frame, heap, side, geometry)
         : home_layout::inset_workspace_frame(frame, heap, occupied != 0,
-            top, bottom, side, geometry);
+            top, bottom, side, geometry, &rendered_workspace);
     static std::atomic<uint32_t> reports[3]{};
     if (reports[hotseat ? 2 : occupied != 0].fetch_add(1, std::memory_order_relaxed) < 8) {
         __android_log_print(ANDROID_LOG_INFO, "HyperCeiler.HomeLayout",

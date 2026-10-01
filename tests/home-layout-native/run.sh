@@ -21,6 +21,7 @@ build unwind_test
 build dart_targets_test
 build workspace_geometry_test
 build folder_geometry_test
+build folder_render_snapshot_test
 build indicator_pair_test
 build hotseat_capacity_test
 
@@ -40,6 +41,7 @@ fi
 
 "$build_dir/workspace_geometry_test"
 "$build_dir/folder_geometry_test"
+"$build_dir/folder_render_snapshot_test"
 
 "$build_dir/indicator_pair_test"
 
