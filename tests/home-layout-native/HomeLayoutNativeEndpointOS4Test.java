@@ -25,6 +25,10 @@ public final class HomeLayoutNativeEndpointOS4Test {
 
     /** Mirrors the settings page: default 30, so 60 becomes +30 dp of native delta. */
     private static void checkProviderMapping() {
+        try {
+            var specs = HomeLayoutNativeEndpointOS4.class.getDeclaredField("PREF_KEYS");
+            specs.setAccessible(true); ContentResolver.setSpecs((String[][]) specs.get(null));
+        } catch (ReflectiveOperationException error) { throw new AssertionError(error); }
         final java.util.Map<String, Integer> rows = new java.util.HashMap<>();
         rows.put("prefs_key_home_layout_workspace_padding_top_enable", 1);
         rows.put("prefs_key_home_layout_workspace_padding_top", 60);

@@ -6,6 +6,8 @@ import android.os.IBinder;
 import android.os.Parcel;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,66 +44,51 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
     private static Thread refresher;
+    private static boolean paused;
+    private static long refreshEpoch;
+    private static final String RELOAD_CACHE_KEY = "OS4.HomeLayout.ProviderSnapshot.v1";
     private static final Object refresherLock = new Object();
 
     /** Every key this endpoint reads, without the module's own key prefix. */
-    private static final String[][] PREF_KEYS = {
-        {"boolean", "home_layout_unlock_grids_new"},
-        {"integer", "home_layout_unlock_grids_cell_x"},
-        {"integer", "home_layout_unlock_grids_cell_y"},
-        {"boolean", "home_layout_hotseats_margin_bottom_enable"},
-        {"integer", "home_layout_hotseats_margin_bottom"},
-        {"boolean", "home_folder_vertical_spacing_enable"},
-        {"integer", "home_folder_vertical_spacing"},
-        {"boolean", "home_layout_workspace_padding_top_enable"},
-        {"integer", "home_layout_workspace_padding_top"},
-        {"boolean", "home_layout_workspace_padding_bottom_enable"},
-        {"integer", "home_layout_workspace_padding_bottom"},
-        {"boolean", "home_layout_workspace_padding_horizontal_enable"},
-        {"integer", "home_layout_workspace_padding_horizontal"},
-        {"boolean", "home_layout_indicator_margin_bottom_enable"},
-        {"integer", "home_layout_indicator_margin_bottom"},
-        {"string", "home_other_seek_points"},
-        {"boolean", "home_dock_unlock_hotseat"},
-        {"boolean", "home_layout_searchbar_margin_bottom_enable"},
-        {"integer", "home_layout_searchbar_margin_bottom"},
-        {"boolean", "home_layout_searchbar_width_enable"},
-        {"integer", "home_layout_searchbar_width"},
-        {"integer", "home_folder_columns"},
-        {"boolean", "home_layout_pad_grid_enable"},
-        {"integer", "home_layout_pad_major"},
-        {"integer", "home_layout_pad_minor"},
-        {"boolean", "home_layout_fold_grid_enable"},
-        {"integer", "home_layout_fold_major"},
-        {"integer", "home_layout_fold_minor"},
-        {"boolean", "home_layout_icon_scale_enable"},
-        {"integer", "home_layout_icon_scale"},
-        {"boolean", "home_layout_recents_hide_clear"},
-        {"boolean", "home_layout_recents_no_clear"},
-        {"boolean", "home_animation_open_rate_enable"},
-        {"integer", "home_animation_open_rate"},
-        {"boolean", "home_animation_recents_enable"},
-        {"integer", "home_animation_recents_rate"},
-    };
+    private static final String[][] PREF_KEYS = HomeLayoutPrefsSnapshot.specs();
+
+    private static void restoreProviderSnapshot() {
+        if (cachedValues != null) return;
+        synchronized (refresherLock) {
+            if (cachedValues != null) return;
+            final java.util.Map<?, ?> saved = BaseHook.getHotReloadRuntimeState(
+                RELOAD_CACHE_KEY, java.util.Map.class);
+            if (saved == null) return;
+            final java.util.Map<String, Integer> restored = new java.util.HashMap<>();
+            for (java.util.Map.Entry<?, ?> entry : saved.entrySet()) {
+                if (!(entry.getKey() instanceof String key)
+                    || !(entry.getValue() instanceof Integer value)) return;
+                restored.put(key, value);
+            }
+            cachedValues = java.util.Collections.unmodifiableMap(restored);
+        }
+    }
 
     private static void ensureRefresher() {
+        restoreProviderSnapshot();
         synchronized (refresherLock) {
-            if (refresher != null) return;
+            if (refresher != null || paused) return;
+            final long epoch = refreshEpoch;
             refresher = new Thread(() -> {
                 long period = PREFS_REFRESH_MS;
-                for (;;) {
-                    /*
-                     * A cycle that reached the provider keeps the normal period, so a settings change
-                     * is still picked up in about a second. A cycle that could not reach it doubles
-                     * the wait up to the cap: the provider lives in the module app, and MIUI's app
-                     * freezer blocks it outright, which made the fixed period retry a refusal forever.
-                     */
-                    period = refreshFromProvider() ? PREFS_REFRESH_MS
-                        : Math.min(period * 2, MAX_REFRESH_BACKOFF_MS);
-                    try {
-                        Thread.sleep(period);
-                    } catch (InterruptedException ignored) {
-                        return;
+                try {
+                    for (;;) {
+                        synchronized (refresherLock) {
+                            if (paused || refreshEpoch != epoch) return;
+                        }
+                        period = refreshFromProvider() ? PREFS_REFRESH_MS
+                            : Math.min(period * 2, MAX_REFRESH_BACKOFF_MS);
+                        try { Thread.sleep(period); }
+                        catch (InterruptedException cancelled) { return; }
+                    }
+                } finally {
+                    synchronized (refresherLock) {
+                        if (refresher == Thread.currentThread()) refresher = null;
                     }
                 }
             }, "hc-layout-prefs");
@@ -110,47 +97,74 @@ public final class HomeLayoutNativeEndpointOS4 {
         }
     }
 
-    /**
-     * Ask the module app for every value in one pass. A failure leaves the previous cache intact
-     * rather than clearing it: a moment without the module app must not turn every knob off.
-     *
-     * Returns whether the provider answered at all; false makes the caller back off.
-     *
-     * Only the first failing key is attempted: a refused query is a property of the provider, not of
-     * the key. The module app being frozen answers every key with the same "Outgoing transactions
-     * from this process must be FLAG_ONEWAY", and the Binder framework logs a stack trace for each
-     * attempt, so walking the other eighteen keys bought eighteen more synchronous cross-process
-     * calls and eighteen more stack traces for a result that could not differ. At the original fixed
-     * period that was measured on device as a permanent twelve-calls-per-second rate with a matching
-     * log flood inside system_server - and it never succeeded.
-     */
+    /** Pause before the entry captures cross-generation state, never under WMS locks. */
+    public static boolean pauseForHotReload() {
+        final Thread worker;
+        synchronized (refresherLock) {
+            paused = true;
+            ++refreshEpoch; // A query already in flight must not publish after retirement.
+            worker = refresher;
+            if (worker == null) return true;
+            worker.interrupt();
+        }
+        try { worker.join(500); }
+        catch (InterruptedException interrupted) { Thread.currentThread().interrupt(); return false; }
+        synchronized (refresherLock) {
+            if (worker.isAlive()) return false; // A stuck Binder query rejects the reload.
+            if (refresher == worker) refresher = null;
+            return true;
+        }
+    }
+
+    public static void resumeAfterRejectedHotReload() {
+        synchronized (refresherLock) { paused = false; }
+    }
+
+    /** A missing provider revision is NOT an authoritative zero/default native configuration. */
+    private static Snapshot readReadyPreferences() {
+        ensureRefresher();
+        if (cachedValues == null) return null;
+        return readPreferences();
+    }
+
+    /** One Binder query / one physical settings revision, including an explicit empty reset. */
     static boolean refreshFromProvider() {
+        final long epoch;
+        synchronized (refresherLock) {
+            if (paused) return false;
+            epoch = refreshEpoch;
+        }
         final android.content.Context context =
             com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
                 com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
         if (context == null) return false;
-        final android.content.ContentResolver resolver = context.getContentResolver();
-        if (resolver == null) return false;
         final java.util.Map<String, Integer> values = new java.util.HashMap<>();
-        for (final String[] spec : PREF_KEYS) {
-            final android.net.Uri uri = android.net.Uri.parse(
-                "content://" + PREFS_AUTHORITY + "/pref/" + spec[0] + "/prefs_key_" + spec[1]);
-            try (final android.database.Cursor cursor = resolver.query(uri, null, null, null, null)) {
-                // Null means the provider did not answer, not that this preference was deleted.
-                // An empty, non-null cursor is the provider's explicit "key absent" response.
-                if (cursor == null) return false;
-                if (!cursor.moveToFirst()) continue;
-                values.put(spec[1], cursor.getInt(0));
-            } catch (RuntimeException | Error refused) {
-                // Never publish a prefix of a failed cycle. In particular, publishing only the
-                // capsule enable key without its margin replaced the previous offset with 0dp.
-                // Retain the entire last-good snapshot, including failures while closing a cursor.
-                return false;
+        try {
+            final android.content.ContentResolver resolver = context.getContentResolver();
+            if (resolver == null) return false;
+            try (final android.database.Cursor cursor = resolver.query(android.net.Uri.parse(
+                    "content://" + PREFS_AUTHORITY + "/home_layout"), null, null, null, null)) {
+                // Older providers return an empty / one-column cursor for an unknown path.
+                // It must not erase a complete cache, especially while an APK is being replaced.
+                if (cursor == null || !cursor.moveToFirst()
+                    || cursor.getColumnCount() != PREF_KEYS.length + 1
+                    || !"schema".equals(cursor.getColumnName(0))
+                    || cursor.isNull(0) || cursor.getInt(0) != HomeLayoutPrefsSnapshot.SCHEMA) return false;
+                for (int index = 0; index < PREF_KEYS.length; ++index) {
+                    final String key = PREF_KEYS[index][1];
+                    final int column = index + 1;
+                    if (!key.equals(cursor.getColumnName(column))) return false;
+                    if (!cursor.isNull(column)) values.put(key, cursor.getInt(column));
+                }
             }
+        } catch (RuntimeException | Error unavailable) { return false; }
+        final java.util.Map<String, Integer> complete = java.util.Collections.unmodifiableMap(values);
+        synchronized (refresherLock) {
+            if (paused || refreshEpoch != epoch) return false;
+            // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
+            BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
+            cachedValues = complete;
         }
-        // All requests answered, including explicit absences. Empty is a legitimate settings
-        // reset; null remains the only "no successful provider snapshot yet" state.
-        cachedValues = java.util.Collections.unmodifiableMap(values);
         return true;
     }
 
@@ -200,7 +214,7 @@ public final class HomeLayoutNativeEndpointOS4 {
 
     public HomeLayoutNativeEndpointOS4() {
         this(HomeLayoutNativeEndpointOS4::verifyLauncherProcess,
-            HomeLayoutNativeEndpointOS4::readPreferences);
+            HomeLayoutNativeEndpointOS4::readReadyPreferences);
     }
 
     HomeLayoutNativeEndpointOS4(CallerVerifier verifier, PreferenceReader preferences) {

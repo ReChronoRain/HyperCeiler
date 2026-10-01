@@ -57,7 +57,7 @@ public final class HomeLayoutIdleSnapshotTest {
             ContentResolver.failAt(index, mode);
             boolean success = HomeLayoutNativeEndpointOS4.refreshFromProvider();
             if (success || !same(initial, HomeLayoutNativeEndpointOS4.readPreferences())) lost++;
-            check(ContentResolver.queryCount() == index + 1, "must stop at first failed key " + index);
+            check(ContentResolver.queryCount() == 1, "must use one atomic provider query");
         }
         check(lost == 0, "incomplete refresh lost last-good snapshot at " + lost + "/" + keys.length + " failure positions");
     }
@@ -65,6 +65,7 @@ public final class HomeLayoutIdleSnapshotTest {
         Class<?> type = HomeLayoutNativeEndpointOS4.class;
         cache = type.getDeclaredField("cachedValues"); cache.setAccessible(true);
         Field prefKeys = type.getDeclaredField("PREF_KEYS"); prefKeys.setAccessible(true); keys = (String[][]) prefKeys.get(null);
+        ContentResolver.setSpecs(keys);
         // Host tests drive refresh explicitly; no real sleeping background worker races the fixture.
         Field refresher = type.getDeclaredField("refresher"); refresher.setAccessible(true); refresher.set(null, new Thread());
         for (String mode : new String[]{"query", "null", "move", "read", "close"}) {

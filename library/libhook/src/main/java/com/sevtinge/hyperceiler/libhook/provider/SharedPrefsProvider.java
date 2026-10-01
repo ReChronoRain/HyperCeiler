@@ -139,6 +139,7 @@ public class SharedPrefsProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, "stringset/*", 4);
         uriMatcher.addURI(AUTHORITY, "pref/*/*", 7);
         uriMatcher.addURI(AUTHORITY, "dock_geometry", 8);
+        uriMatcher.addURI(AUTHORITY, "home_layout", 9);
         uriMatcher.addURI(AUTHORITY, "test/*", 5);
         uriMatcher.addURI(AUTHORITY, "shortcut_icon/*", 6);
     }
@@ -174,7 +175,8 @@ public class SharedPrefsProvider extends ContentProvider {
         try {
             prefs = PrefsBridge.getSharedPreferences();
             if (prefs == null && getContext() != null) {
-                prefs = getContext().getSharedPreferences(PrefsBridge.PREFS_NAME, Context.MODE_PRIVATE);
+                prefs = PrefsBridge.getProtectedContext(getContext())
+                    .getSharedPreferences(PrefsBridge.PREFS_NAME, Context.MODE_PRIVATE);
             }
             return true;
         } catch (Throwable throwable) {
@@ -186,6 +188,9 @@ public class SharedPrefsProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         if (AUTHORITY.equals(uri.getAuthority()) && "/diagnostics/dock_glass_api".equals(uri.getPath())) {
             return DockGlassDiagnostics.query();
+        }
+        if (AUTHORITY.equals(uri.getAuthority()) && "/home_layout".equals(uri.getPath())) {
+            return HomeLayoutPrefsSnapshot.cursor(prefs);
         }
         if (prefs == null) {
             // A missing preference handle is unavailable, not a successful all-keys deletion.

@@ -9,6 +9,8 @@ endpoint = "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules
 with tempfile.TemporaryDirectory(prefix="hc-idle-snapshot-") as out:
     # Always use the enhanced fault stubs with the requested production source revision.
     sources = list((tests / "stubs").rglob("*.java")) + list((workspace / "tests/home-dock-window/stubs").rglob("*.java")) + [tests / "HomeLayoutIdleSnapshotTest.java", tests / "HomeLayoutNativeEndpointOS4Test.java", root / endpoint]
+    helper = root / "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/provider/HomeLayoutPrefsSnapshot.java"
+    if helper.exists(): sources.append(helper)
     result = subprocess.run([str(jdk / "javac.exe"), "-encoding", "UTF-8", "-d", out] + [str(s) for s in sources], capture_output=True, text=True)
     if result.returncode:
         print(result.stderr); sys.exit(result.returncode)

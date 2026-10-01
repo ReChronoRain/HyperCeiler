@@ -32,6 +32,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
 import com.sevtinge.hyperceiler.libhook.rules.home.other.NativeHomeHooksOS4;
+import com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeLayoutNativeEndpointOS4;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
@@ -136,6 +137,23 @@ public class XposedInitEntry extends XposedModule {
 
     @Override
     public boolean onHotReloading(@NonNull HotReloadingParam param) {
+        final PackageTarget target = BaseLoad.getTarget();
+        final boolean layoutHost = target != null && target.isSystemServer();
+        if (layoutHost && !HomeLayoutNativeEndpointOS4.pauseForHotReload()) {
+            HomeLayoutNativeEndpointOS4.resumeAfterRejectedHotReload();
+            XposedLog.w(TAG, processName, "Hot reload rejected: layout provider query is still in flight.");
+            return false;
+        }
+        boolean accepted = false;
+        try {
+            accepted = prepareHotReloadState(param);
+            return accepted;
+        } finally {
+            if (layoutHost && !accepted) HomeLayoutNativeEndpointOS4.resumeAfterRejectedHotReload();
+        }
+    }
+
+    private boolean prepareHotReloadState(@NonNull HotReloadingParam param) {
         String initializationBlockReason = BaseLoad.getHotReloadBlockReason();
         if (initializationBlockReason != null) {
             XposedLog.w(TAG, processName, "Hot reload rejected: " + initializationBlockReason);

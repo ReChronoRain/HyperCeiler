@@ -5,6 +5,9 @@ public interface Cursor extends AutoCloseable {
     boolean moveToFirst();
 
     int getInt(int columnIndex);
+    default int getColumnCount() { return 1; }
+    default String getColumnName(int index) { return "data"; }
+    default boolean isNull(int index) { return false; }
 
     @Override
     void close();
