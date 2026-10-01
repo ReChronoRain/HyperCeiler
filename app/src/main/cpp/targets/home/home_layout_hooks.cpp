@@ -1076,7 +1076,7 @@ bool interval_due(uint64_t last, uint64_t now, uint64_t interval) {
 }
 
 /*
- * Ask the panel state and answer whether the desktop can be drawn.
+ * Ask whether the panel is interactive and the launcher window can be drawn.
  *
  * Fail-open in both directions: built without the dock transport there is nobody to ask, and with it
  * a failed query keeps the transport's previous answer (which starts at "interactive"). A missing
@@ -2100,8 +2100,9 @@ void *worker(void *) {
     for (;;) {
         const uint64_t now = monotonic_ms();
         /*
-         * Panel gate, the same one the dock maintenance worker uses. While the panel dozes the
-         * desktop is not drawn, so not one patched call site can run and there is nothing to
+         * Drawable-desktop gate, the same one the dock maintenance worker uses. While the panel
+         * dozes or another app covers home, the desktop is not drawn, so no patched call site can
+         * affect a visible frame and there is nothing to
          * maintain - yet this loop kept asking system_server for its configuration over a synchronous
          * Binder transaction and re-verifying every slot, twice a second, for the whole night. The
          * dock measured that exact pattern as essentially the entire cost of the launcher process

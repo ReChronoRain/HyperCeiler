@@ -1794,14 +1794,14 @@ void *health_worker(void *) {
             continue;
         }
         /*
-         * Panel gate. While the panel is in doze the launcher cannot draw, so not one patched call
-         * site can run and there is nothing to maintain - yet this loop kept waking once a second
-         * for the whole night, and it was measured as essentially the entire CPU cost of the
-         * launcher process while the screen was off.
+         * Drawable-desktop gate. While the panel sleeps or another app covers the launcher, no
+         * patched call site can affect a visible frame. In either state the expensive health pass
+         * has nothing to maintain, but this loop used to run it once a second anyway. On this
+         * device a covered launcher spent 25-32 CPU ticks per 10 seconds in hc-dock-health.
          *
          * The state is asked of system_server (PowerManagerService lives there and the panel nodes
          * are root-only, so a native read is not an option). The query is a synchronous
-         * IWindowManager transaction, which is what a maintenance pass already costs; while dozing
+         * IWindowManager transaction, which is what a maintenance pass already costs; while idle
          * the cadence below makes it one call every 30 s, so the cost rounds to nothing. The wake
          * latency is bounded by that same interval, and a dozing launcher draws nothing for a
          * missing patch to be visible in - the first interactive pass repairs before the desktop

@@ -412,6 +412,27 @@ class HomeDockWindow : BaseHook() {
         if (manager == null) true else manager.isInteractive
     }.getOrDefault(true)
 
+    /**
+     * The panel can remain interactive for hours while another app covers the launcher. In that
+     * state its native health/layout workers have no visible code to maintain, yet their old
+     * panel-only state reply kept the most expensive health pass running once per second.
+     *
+     * WMS already owns the tracked launcher WindowState. Read its current visibility under the
+     * same WM -> layers lock order as the sweep; do not rely on lastVisible, which can lag a
+     * traversal. Before the first Dock layer exists (or if reflection fails), fail open so startup
+     * and unsupported builds retain their original maintenance behavior.
+     */
+    private fun launcherWindowVisible(): Boolean = runCatching {
+        val wm = service ?: return@runCatching true
+        synchronized(wm.getObjectFieldAs<Any>(WM_LOCK)) {
+            synchronized(layers) {
+                layers.isEmpty() || layers.keys.any { it.callMethod("isVisible") == true }
+            }
+        }
+    }.getOrDefault(true)
+
+    private fun desktopDrawable(): Boolean = screenInteractive() && launcherWindowVisible()
+
     override fun init() {
         refreshSettings()
         glassClient.record("hook init diagnosticVersion=37 enabled=${settings.enabled} mode=${settings.mode}")
@@ -570,11 +591,12 @@ class HomeDockWindow : BaseHook() {
                     reply.setDataPosition(0)
                     if (state) {
                         // Answered here, not pushed: system_server is the only side that knows
-                        // whether the panel is interactive, and the launcher-native side has no
-                        // reverse channel to be told. The body is empty, so there is nothing to
+                        // whether the panel is interactive and its own WindowState is visible.
+                        // The launcher-native side has no reverse channel to be told. The body is
+                        // empty, so there is nothing to
                         // parse in the before hook - it only has to leave the code alone.
                         reply.writeInt(DockNativeMotionEndpoint.STATE_ACK)
-                        reply.writeInt(if (screenInteractive()) 1 else 0)
+                        reply.writeInt(if (desktopDrawable()) 1 else 0)
                     } else if (layout) {
                         val result = layoutReply.get()
                         layoutReply.remove()
@@ -1967,11 +1989,10 @@ class HomeDockWindow : BaseHook() {
             if (stopped) return@postDelayed
             var keepGoing = false
             runCatching {
-                // Doze gate first: while the panel is asleep nothing below can matter, so spend
-                // one PowerManager read per tick instead of the whole sweep, and stretch the
-                // cadence to the doze interval. The next interactive tick restores the normal
-                // backoff behaviour on its own.
-                if (!screenInteractive()) {
+                // A covered launcher is as idle as a sleeping panel: neither the native identity
+                // nor the glass geometry can affect a visible frame. WMS traversal refreshes the
+                // layer immediately when home returns; this timer is only a background backstop.
+                if (!desktopDrawable()) {
                     sweepIntervalMs = SWEEP_DOZE_INTERVAL_MS
                     synchronized(layers) { keepGoing = layers.isNotEmpty() }
                     return@runCatching

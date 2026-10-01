@@ -233,7 +233,7 @@ bool dock_motion_feature_active() {
 }
 
 /*
- * Panel-interactive gate for the maintenance worker.
+ * Desktop-drawable gate for the maintenance worker.
  *
  * The launcher cannot read this itself: every path that carries the panel state on this ROM - the
  * backlight node, the DRM connector - is root-only, so a native read is not an option. system_server
@@ -242,7 +242,8 @@ bool dock_motion_feature_active() {
  * state reply can never be mistaken for a motion ack.
  *
  * Fail-open, like the Dock preference above: it starts true and a failed query keeps the previous
- * value. A missing endpoint then costs the saving, never the hooks.
+ * value. The system endpoint answers false for a sleeping panel or a covered launcher window;
+ * a missing endpoint costs the saving, never the hooks.
  */
 std::atomic<bool> dock_motion_screen_interactive{true};
 
@@ -250,7 +251,7 @@ bool dock_motion_screen_active() {
     return dock_motion_screen_interactive.load(std::memory_order_acquire);
 }
 
-/* Refresh the cached panel state. False means the query failed and the cache is unchanged. */
+/* Refresh the cached desktop visibility. False means the query failed and the cache is unchanged. */
 bool refresh_dock_screen_state() {
     using GetService = AIBinder *(*)(const char *);
     const auto get_service = reinterpret_cast<GetService>(
@@ -305,7 +306,7 @@ void run_dock_motion() {
     if (event < 0) return;
     constexpr int kPollMs = 1000;
     /*
-     * While the panel is in doze the launcher draws nothing and no gesture can arrive, so the poll
+     * While the panel sleeps or another app covers home, no visible gesture can arrive, so the poll
      * timeout only bounds how often this thread wakes the process - and one wake per second was
      * enough to keep the CPU out of its deepest idle state for the whole night. Gestures come in
      * through the eventfd, which returns from poll immediately, so the long timeout costs no
