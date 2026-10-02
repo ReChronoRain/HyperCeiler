@@ -94,7 +94,6 @@
     <string name="search_apps_hint">Search %d apps</string>
     <string name="load_apps_failed">Failed to load application list</string>
     <string name="unsupported_func_tips">The current target scope source may not be official Xiaomi. For security reasons, all functions of this scope have been disabled. Please try switching to an app package released by official Xiaomi, or go to "HyperCeiler Settings - Developer options - Debug mode" to specify the mounted version and try again.</string>
-    <string name="home_is_rust_tips">The system desktop is running Rust. Lsposed must support injecting into the HyperOS Runtime in order to hook it.</string>
     <string name="debug_mode_running">The current target scope is in debug mode. If not necessary, please go and turn it off.\nCurrent app version: %1$s\nSelected target version: %2$s\nSuccessfully hooked: %3$s</string>
     <string name="debug_mode_switch">Debug version</string>
 
