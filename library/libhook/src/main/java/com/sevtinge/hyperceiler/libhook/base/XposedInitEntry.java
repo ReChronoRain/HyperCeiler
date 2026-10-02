@@ -21,6 +21,7 @@ package com.sevtinge.hyperceiler.libhook.base;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,8 @@ import com.sevtinge.hyperceiler.common.log.XposedLog;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.app.CorePatch.CorePatch;
 import com.sevtinge.hyperceiler.libhook.rules.systemframework.others.FlagSecure;
+import com.sevtinge.hyperceiler.libhook.rules.home.other.NativeHomeHooksOS4;
+import com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeLayoutNativeEndpointOS4;
 import com.sevtinge.hyperceiler.libhook.safecrash.CrashMonitor;
 import com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils;
 import com.sevtinge.hyperceiler.libhook.utils.api.ThreadPoolManager;
@@ -50,6 +53,9 @@ import io.github.lingqiqi5211.ezhooktool.xposed.EzXposed;
 public class XposedInitEntry extends XposedModule {
 
     private static final String TAG = "HyperCeiler";
+    /** Unconditional logcat tag for launcher-entry stages; raw {@link Log} bypasses the log-level gate. */
+    private static final String LAUNCHER_ENTRY_TAG = "HyperCeiler.HomeEntry";
+    private static final String LAUNCHER_PACKAGE = "com.miui.home";
     private static final String PREF_ALLOW_HOOK = "allow_hook";
     private static final String PREF_FRAMEWORK_ALLOW_HOOK = "framework_api_allow_hook";
     private static final String PREF_FRAMEWORK_REASON = "framework_check_reason";
@@ -104,6 +110,7 @@ public class XposedInitEntry extends XposedModule {
         } catch (Throwable t) {
             XposedLog.w(TAG, processName, "Failed to initialize prefs during module bootstrap, will retry later.", t);
         }
+        probeLauncherNativeEntry();
         if (initializeEzXposed) {
             EzXposed.initOnModuleLoaded(this, param);
         }
@@ -130,6 +137,23 @@ public class XposedInitEntry extends XposedModule {
 
     @Override
     public boolean onHotReloading(@NonNull HotReloadingParam param) {
+        final PackageTarget target = BaseLoad.getTarget();
+        final boolean layoutHost = target != null && target.isSystemServer();
+        if (layoutHost && !HomeLayoutNativeEndpointOS4.pauseForHotReload()) {
+            HomeLayoutNativeEndpointOS4.resumeAfterRejectedHotReload();
+            XposedLog.w(TAG, processName, "Hot reload rejected: layout provider query is still in flight.");
+            return false;
+        }
+        boolean accepted = false;
+        try {
+            accepted = prepareHotReloadState(param);
+            return accepted;
+        } finally {
+            if (layoutHost && !accepted) HomeLayoutNativeEndpointOS4.resumeAfterRejectedHotReload();
+        }
+    }
+
+    private boolean prepareHotReloadState(@NonNull HotReloadingParam param) {
         String initializationBlockReason = BaseLoad.getHotReloadBlockReason();
         if (initializationBlockReason != null) {
             XposedLog.w(TAG, processName, "Hot reload rejected: " + initializationBlockReason);
@@ -203,6 +227,30 @@ public class XposedInitEntry extends XposedModule {
             throw new IllegalStateException("Hot reload re-init failed", t);
         } finally {
             BaseLoad.endHotReloadVerification();
+        }
+    }
+
+    /**
+     * Start the launcher's native motion chain from the module entry instead of the launcher rule.
+     *
+     * <p>LSPosed only calls the module's {@code native_init} when the module itself dlopens the
+     * native library inside the target process; there is no framework-side automatic load. Until
+     * this change the only caller was {@code HomePhone.onPackageLoaded()}, which sits behind rule
+     * matching, crash safe mode and the per-package modification check. Whenever any of those
+     * refused, the library was never loaded, {@code native_init} never ran, system_server received
+     * no native sample and the Dock silently fell back to the {@code miui.wallpaper.animation}
+     * spring. Probing here — before rule selection, on the plain module entry — removes that whole
+     * class of failure and makes the outcome observable in logcat.</p>
+     */
+    private void probeLauncherNativeEntry() {
+        final String name = processName;
+        if (name == null || !name.startsWith(LAUNCHER_PACKAGE)) return;
+        try {
+            Log.i(LAUNCHER_ENTRY_TAG,
+                "stage=module-entry pkg=" + LAUNCHER_PACKAGE + " process=" + name);
+            NativeHomeHooksOS4.INSTANCE.ensureLoadedFromModuleEntry(name);
+        } catch (Throwable t) {
+            Log.w(LAUNCHER_ENTRY_TAG, "stage=module-entry probe failed", t);
         }
     }
 

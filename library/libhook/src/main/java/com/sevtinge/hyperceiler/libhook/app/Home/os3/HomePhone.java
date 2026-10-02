@@ -95,7 +95,7 @@ import com.sevtinge.hyperceiler.libhook.rules.home.widget.AlwaysShowMiuiWidget;
 
 import java.util.Objects;
 
-@HookBase(targetPackage = "com.miui.home", deviceType = 2, minOSVersion = 3.0F)
+@HookBase(targetPackage = "com.miui.home", deviceType = 2, minOSVersion = 3.0F, maxOSVersion = 3.0F)
 public class HomePhone extends BaseLoad {
 
     @Override

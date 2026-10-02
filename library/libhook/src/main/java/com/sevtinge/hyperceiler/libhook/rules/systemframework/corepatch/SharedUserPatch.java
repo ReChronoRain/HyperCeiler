@@ -8,6 +8,7 @@ import static com.sevtinge.hyperceiler.libhook.base.BaseHook.setIntField;
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion;
 
 import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.util.Log;
 
 import com.sevtinge.hyperceiler.common.log.XposedLog;
@@ -41,7 +42,11 @@ public class SharedUserPatch extends CorePatchHelper {
                     setIntField(field, "accessFlags", accessFlags & ~Modifier.FINAL);
                     field.set(null, true);
                 } catch (Throwable e) {
-                    XposedLog.e(TAG, "system", "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS failed" + Log.getStackTraceString(e));
+                    String message = "ALLOW_NON_PRELOADS_SYSTEM_SHAREDUIDS write failed";
+                    if (e instanceof IllegalAccessException && Build.VERSION.SDK_INT >= 37) {
+                        message += ": Android 17 / targetSdk 37 ART restriction; sharedUser bypass is inactive";
+                    }
+                    XposedLog.w(TAG, "system", message + Log.getStackTraceString(e));
                 }
             }
         } catch (Throwable t) {

@@ -820,7 +820,7 @@
     <string name="home_gesture_multi_choose_app_none">Ninguna</string>
     <string name="home_layout">Disposición</string>
     <string name="home_layout_home_title">Pantalla de inicio</string>
-    <string name="home_layout_indicator_title">Indicador</string>
+    <string name="home_layout_indicator_title">Búsqueda de la pantalla de inicio</string>
     <string name="home_layout_hotseats_title">Base</string>
     <string name="home_layout_searchbar_title">Barra de búsqueda</string>
     <string name="home_layout_seek_points">Indicador de página</string>
@@ -965,6 +965,12 @@
     <string name="home_dock_bg_custom">Desenfoque del fondo</string>
     <string name="home_dock_icon_bottom_margin">Distancia desde el fondo de iconos en la base hasta el de la pantalla</string>
     <string name="home_dock_margin_bottom">Margen del indicador de página desde el fondo de la pantalla</string>
+    <string name="home_dock_unlock_style">Animación de entrada al desbloquear</string>
+    <string name="home_dock_unlock_style_daybreak">Subir y asentar</string>
+    <string name="home_dock_unlock_style_depth_flip">Llegar desde la profundidad</string>
+    <string name="home_dock_unlock_style_gale">Entrar balanceándose desde un lado</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Barrido orbital</string>
+    <string name="home_dock_unlock_style_ripple">Contraer y calmar</string>
     <string name="home_dock_unlock_hotseat">Permitir que en la base se ponen iconos cuántos quiera</string>
     <string name="home_dock_icon_title">Mostrar títulos de iconos en la base</string>
     <string name="home_dock_disable_recents_icon">Ocultar iconos de aplicaciones recientes en la base</string>

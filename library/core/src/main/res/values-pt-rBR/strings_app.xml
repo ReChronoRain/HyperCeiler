@@ -1024,8 +1024,8 @@
     <string name="home_gesture_multi_choose_app_none">Nenhum</string>
     <string name="home_layout">Layout</string>
     <string name="home_layout_home_title">Tela inicial</string>
-    <string name="home_layout_indicator_title">Indicador</string>
-    <string name="home_layout_indicator_margin_bottom_desc">Distância do indicador da margem inferior da tela</string>
+    <string name="home_layout_indicator_title">Pesquisa na tela inicial</string>
+    <string name="home_layout_indicator_margin_bottom_desc">Ajustar a distância entre a pesquisa na tela inicial e a parte inferior da tela</string>
     <string name="home_layout_hotseats_title">Dock</string>
     <string name="home_layout_searchbar_title">Barra de pesquisa</string>
     <string name="home_layout_searchbar_width">Altura</string>
@@ -1190,6 +1190,12 @@
     <string name="home_dock_bg_custom">Blur de fundo</string>
     <string name="home_dock_icon_bottom_margin">Distância do ícone da margem inferior</string>
     <string name="home_dock_margin_bottom">Margem do indicador de página da parte inferior da tela</string>
+    <string name="home_dock_unlock_style">Animação de entrada ao desbloquear</string>
+    <string name="home_dock_unlock_style_daybreak">Subir e assentar</string>
+    <string name="home_dock_unlock_style_depth_flip">Chegar da profundidade</string>
+    <string name="home_dock_unlock_style_gale">Entrar balançando pelo lado</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Varredura orbital</string>
+    <string name="home_dock_unlock_style_ripple">Contrair e acalmar</string>
     <string name="home_dock_unlock_hotseat">Remover restrição de ícones na dock</string>
     <string name="home_dock_icon_title">Exibir nome do app na dock</string>
     <string name="home_dock_disable_recents_icon">Ocultar ícones de apps recentes da dock</string>

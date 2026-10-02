@@ -28,6 +28,7 @@ import androidx.preference.SwitchPreference;
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
+import com.sevtinge.hyperceiler.libhook.rules.home.dock.DockWindowPolicy;
 
 import fan.preference.ColorPickerPreference;
 import fan.preference.DropDownPreference;
@@ -40,6 +41,7 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
     SwitchPreference mDockHeight;
     Preference mDockBackgroundBlur;
     DropDownPreference mDockBackgroundBlurEnable;
+    DropDownPreference mDockUnlockStyle;
     ColorPickerPreference mDockBackgroundColor;
 
     @Override
@@ -55,7 +57,20 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
         mDockBackgroundColor = findPreference("prefs_key_home_dock_bg_color");
         mAddDockEnable = findPreference("prefs_key_home_dock_bg_custom_enable");
         mIconAppTitle = findPreference("prefs_key_home_dock_icon_title");
+        mDockUnlockStyle = findPreference("prefs_key_home_dock_unlock_style");
+        // The old keyframe mode was removed rather than retuned. Persist the one-way rename so
+        // an existing installation visibly selects 重力势能 instead of retaining an orphaned value.
+        String revealStyle = PrefsBridge.getString("prefs_key_home_dock_unlock_style", "daybreak");
+        if ("elastic_burst".equalsIgnoreCase(revealStyle)) {
+            PrefsBridge.putString("prefs_key_home_dock_unlock_style", "auto_aim");
+            mDockUnlockStyle.setValue("auto_aim");
+        }
         mDisableRecentIcon.setVisible(isPad());
+
+        if (isMoreHyperOSVersion(4f)) {
+            mAddDockEnable.setSummary(R.string.home_dock_os4_window_hint);
+            mDockHeight.setVisible(false);
+        }
 
         if (isPad()) {
             setFuncHint(mAddDockEnable, 1);
@@ -67,7 +82,12 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
         int mBlurMode = PrefsBridge.getStringAsInt("prefs_key_home_dock_add_blur", 0);
         mDockBackgroundBlurEnable = findPreference("prefs_key_home_dock_add_blur");
 
-        if (isMoreHyperOSVersion(3f)) {
+        if (isMoreHyperOSVersion(4f)) {
+            mDockBackgroundBlurEnable.setEntries(R.array.home_dock_os4_styles);
+            mDockBackgroundBlurEnable.setEntryValues(R.array.home_dock_os4_style_values);
+            mBlurMode = DockWindowPolicy.normalizeBackgroundMode(mBlurMode);
+            mDockBackgroundBlurEnable.setValue(String.valueOf(mBlurMode));
+        } else if (isMoreHyperOSVersion(3f)) {
             if (mBlurMode == 2) {
                 cleanKey(mDockBackgroundBlurEnable.getKey());
             }
@@ -89,7 +109,7 @@ public class HomeDockSettings extends DashboardFragment implements Preference.On
     }
 
     private void setCanBeVisible(int mode) {
-        mDockBackgroundBlur.setVisible(mode == 2);
-        mDockBackgroundColor.setVisible(mode == 0);
+        mDockBackgroundBlur.setVisible(mode == 2 && !isMoreHyperOSVersion(4f));
+        mDockBackgroundColor.setVisible(mode == 0 && !isMoreHyperOSVersion(4f));
     }
 }

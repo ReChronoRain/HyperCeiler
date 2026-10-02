@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:myLocation="@string/home_animation"
+    app:quick_restart="com.miui.home">
+
+    <PreferenceCategory android:title="@string/home_animation_open_category">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_animation_open_rate_enable"
+            android:summary="@string/home_animation_open_rate_enable_desc"
+            android:title="@string/home_animation_open_rate_enable" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_animation_open_rate_enable"
+            android:key="prefs_key_home_animation_open_rate"
+            android:summary="@string/home_animation_open_rate_desc"
+            android:title="@string/home_animation_open_rate"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="200"
+            app:minValue="30"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/home_animation_recents_category">
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="prefs_key_home_animation_recents_enable"
+            android:summary="@string/home_animation_recents_enable_desc"
+            android:title="@string/home_animation_recents_enable" />
+
+        <SeekBarPreferenceCompat
+            android:dependency="prefs_key_home_animation_recents_enable"
+            android:key="prefs_key_home_animation_recents_rate"
+            android:summary="@string/home_animation_open_rate_desc"
+            android:title="@string/home_animation_open_rate"
+            app:defaultValue="100"
+            app:defaultValueTitle="@string/array_default"
+            app:format="%s%%"
+            app:maxValue="200"
+            app:minValue="30"
+            app:showSeekBarValue="true"
+            app:stepValue="1" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

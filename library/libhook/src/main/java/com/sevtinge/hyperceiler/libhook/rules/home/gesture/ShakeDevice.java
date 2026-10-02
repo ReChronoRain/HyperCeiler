@@ -18,6 +18,8 @@
 */
 package com.sevtinge.hyperceiler.libhook.rules.home.gesture;
 
+import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion;
+
 import android.app.Activity;
 import android.content.Context;
 import android.hardware.Sensor;
@@ -32,12 +34,18 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 
 public class ShakeDevice extends HomeBaseHookNew {
 
+    private static final String LAUNCHER_ACTIVITY = "com.miui.home.launcher.Launcher";
     private static final String STATE_LAUNCHER_ACTIVITY = "ShakeDevice.launcherActivity";
     private final String shakeMgrKey = "MIUIZER_SHAKE_MGR";
 
     @Version(isPad = false, min = 600000000)
     private void initOS3Hook() {
         restoreShakeListener();
+
+        if (isMoreHyperOSVersion(4.0F)) {
+            initOS4Hook();
+            return;
+        }
 
         findAndHookMethod("com.miui.home.launcher.BaseLauncher", "onResume", new IMethodHook() {
             @Override
@@ -52,6 +60,29 @@ public class ShakeDevice extends HomeBaseHookNew {
                 unregisterShakeListener((Activity) param.getThisObject());
             }
         });
+    }
+
+    private void initOS4Hook() {
+        findAndHookMethod(Activity.class, "onResume", new IMethodHook() {
+            @Override
+            public void after(HookParam param) {
+                Activity activity = (Activity) param.getThisObject();
+                if (isLauncherActivity(activity)) registerShakeListener(activity);
+            }
+        });
+
+        findAndHookMethod(Activity.class, "onPause", new IMethodHook() {
+            @Override
+            public void after(HookParam param) {
+                Activity activity = (Activity) param.getThisObject();
+                if (isLauncherActivity(activity)) unregisterShakeListener(activity);
+            }
+        });
+    }
+
+    private boolean isLauncherActivity(Activity activity) {
+        return activity.getComponentName() != null
+            && LAUNCHER_ACTIVITY.equals(activity.getComponentName().getClassName());
     }
 
     @Override

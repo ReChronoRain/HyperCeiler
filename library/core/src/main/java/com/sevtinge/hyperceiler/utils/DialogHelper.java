@@ -79,8 +79,8 @@ public class DialogHelper {
                 .show();
     }
 
-    public static void showXposedActivateDialog(Context context) {
-        new AlertDialog.Builder(context)
+    public static AlertDialog showXposedActivateDialog(Context context) {
+        return new AlertDialog.Builder(context)
                 .setCancelable(false)
                 .setTitle(R.string.tip)
                 .setMessage(R.string.hook_failed)

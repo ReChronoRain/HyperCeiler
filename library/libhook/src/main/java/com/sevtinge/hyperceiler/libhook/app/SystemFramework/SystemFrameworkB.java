@@ -93,6 +93,9 @@ public class SystemFrameworkB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        // HYOS/Flutter launcher has no Java Activity entry. WMS owns its backdrop instead.
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeDockWindow(),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
         // 核心破解
         initHook(BypassSignCheckForT.INSTANCE,
             (PrefsBridge.getBoolean("system_framework_core_patch_auth_creak") || PrefsBridge.getBoolean("system_framework_core_patch_disable_integrity"))

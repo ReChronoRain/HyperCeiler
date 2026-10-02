@@ -16,3 +16,6 @@ local.properties
 signing.properties
 /.kotlin
 /library/hook
+*.apk
+/handover/
+/.workbuddy/

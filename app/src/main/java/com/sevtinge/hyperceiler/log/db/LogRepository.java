@@ -19,12 +19,14 @@
 package com.sevtinge.hyperceiler.log.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Room;
 
 import com.sevtinge.hyperceiler.common.log.AndroidLog;
 import com.sevtinge.hyperceiler.log.XposedLogLoader;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -46,9 +48,17 @@ public class LogRepository {
     private final ExecutorService mIoExecutor;
 
     private LogRepository(Context context) {
+        Context appContext = context.getApplicationContext();
+        // Room opens the database lazily; ensure its parent exists before any DAO task can run.
+        File databaseDir = appContext.getDatabasePath(DATABASE_NAME).getParentFile();
+        if (databaseDir == null || (!databaseDir.isDirectory()
+            && !databaseDir.mkdirs() && !databaseDir.isDirectory())) {
+            AndroidLog.e(TAG, "Failed to create database directory: " + databaseDir);
+        }
+
         // 1. 初始化 Room 数据库 (全项目仅此一处)
         LogDatabase db = Room.databaseBuilder(
-                context.getApplicationContext(),
+                appContext,
                 LogDatabase.class,
                 DATABASE_NAME
             )
@@ -56,7 +66,7 @@ public class LogRepository {
             .build();
 
         mLogDao = db.logDao();
-        mAppContext = context;
+        mAppContext = appContext;
         mIoExecutor = Executors.newSingleThreadExecutor(r -> {
             Thread t = new Thread(r, "LogDbThread");
             t.setPriority(Thread.NORM_PRIORITY);
@@ -96,28 +106,28 @@ public class LogRepository {
      * 异步插入单条日志
      */
     public void insertLog(LogEntry entry) {
-        mIoExecutor.execute(() -> mLogDao.insert(entry));
+        executeIo("insert log", () -> mLogDao.insert(entry));
     }
 
     /**
      * 异步清空指定模块日志
      */
     public void deleteLogsByModule(String module) {
-        mIoExecutor.execute(() -> mLogDao.deleteByModule(module));
+        executeIo("delete module logs", () -> mLogDao.deleteByModule(module));
     }
 
     /**
      * 异步清空所有日志
      */
     public void clearAllLogs() {
-        mIoExecutor.execute(mLogDao::clearAll);
+        executeIo("clear all logs", mLogDao::clearAll);
     }
 
     /**
      * 自动裁剪日志，防止数据库过大 (保留最近 5000 条)
      */
     public void autoTrim() {
-        mIoExecutor.execute(mLogDao::autoTrim);
+        executeIo("auto-trim logs", mLogDao::autoTrim);
     }
 
     /**
@@ -166,16 +176,14 @@ public class LogRepository {
      * 执行同步操作（将文件搬运到数据库）
      */
     public void syncXposedLogs() {
-        mIoExecutor.execute(() -> {
-            XposedLogLoader.syncLogsToDatabase(mAppContext);
-        });
+        executeIo("sync Xposed logs", () -> XposedLogLoader.syncLogsToDatabase(mAppContext));
     }
 
     /**
      * 清理指定模块的日志
      */
     public void clearLogs(String module) {
-        mIoExecutor.execute(() -> {
+        executeIo("clear logs", () -> {
             if (module == null) {
                 mLogDao.clearAll();
             } else {
@@ -188,7 +196,22 @@ public class LogRepository {
      * 自动裁剪数据库，防止无限增长
      */
     public void trimDatabase() {
-        mIoExecutor.execute(() -> mLogDao.autoTrim());
+        executeIo("trim database", mLogDao::autoTrim);
+    }
+
+    private void executeIo(String operation, Runnable task) {
+        try {
+            mIoExecutor.execute(() -> {
+                try {
+                    task.run();
+                } catch (RuntimeException e) {
+                    // AndroidLog is persisted by this repository; logging through it here would enqueue forever.
+                    Log.e(TAG, "Failed to " + operation, e);
+                }
+            });
+        } catch (RuntimeException e) {
+            Log.e(TAG, "Failed to schedule " + operation, e);
+        }
     }
 
     public Context getContext() {

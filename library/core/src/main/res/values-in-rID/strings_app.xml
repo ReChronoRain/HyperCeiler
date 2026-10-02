@@ -904,6 +904,12 @@
     <string name="home_dock_bg_custom">Latar belakang kabur</string>
     <string name="home_dock_icon_bottom_margin">Jarak ikon dari margin bawah</string>
     <string name="home_dock_margin_bottom">Indikator margin halaman dari bawah layar</string>
+    <string name="home_dock_unlock_style">Animasi masuk saat membuka kunci</string>
+    <string name="home_dock_unlock_style_daybreak">Naik dan menetap</string>
+    <string name="home_dock_unlock_style_depth_flip">Datang dari kedalaman</string>
+    <string name="home_dock_unlock_style_gale">Masuk dari samping dengan ayunan</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Sapuan orbit</string>
+    <string name="home_dock_unlock_style_ripple">Menguncup dan tenang</string>
     <string name="home_dock_unlock_hotseat">Hapus batasan nomor ikon dari dok</string>
     <string name="home_dock_icon_title">Tampilkan judul ikon di dok</string>
     <string name="home_dock_disable_recents_icon">Sembunyikan ikon aplikasi terkini dari Dock</string>

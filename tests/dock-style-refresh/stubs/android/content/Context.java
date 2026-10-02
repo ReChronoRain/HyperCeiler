@@ -1,0 +1,2 @@
+package android.content;
+public class Context { public static final int MODE_PRIVATE=0; public final SharedPreferences prefs; public final ContentResolver resolver=new ContentResolver(); public Context(SharedPreferences p){prefs=p;} public Context createDeviceProtectedStorageContext(){return this;} public SharedPreferences getSharedPreferences(String n,int m){return prefs;} public ContentResolver getContentResolver(){return resolver;} }

@@ -60,6 +60,14 @@
             android:key="prefs_key_home_dock_bg_custom_enable"
             android:title="@string/home_dock_bg_enable" />
 
+        <fan.preference.DropDownPreference
+            android:defaultValue="daybreak"
+            android:dependency="prefs_key_home_dock_bg_custom_enable"
+            android:key="prefs_key_home_dock_unlock_style"
+            android:title="@string/home_dock_unlock_style"
+            app:entries="@array/home_dock_unlock_style"
+            app:entryValues="@array/home_dock_unlock_style_value" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="prefs_key_home_dock_bg_all_app"

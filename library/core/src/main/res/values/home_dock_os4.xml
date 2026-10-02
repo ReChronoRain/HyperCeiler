@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_dock_os4_window_hint">HyperOS 4 requires the System Framework scope and a reboot after updating. Soft-light glass uses the native system material, with system blur as fallback if initialization fails.</string>
+    <string name="home_dock_os4_style_glass">Soft-light glass</string>
+    <string-array name="home_dock_os4_styles">
+        <item>@string/miui_blur</item>
+        <item>@string/home_dock_os4_style_glass</item>
+    </string-array>
+    <string-array name="home_dock_os4_style_values" translatable="false">
+        <item>1</item>
+        <item>3</item>
+    </string-array>
+</resources>

@@ -866,6 +866,12 @@
     <string name="home_dock_bg_custom">Sfocatura dello sfondo</string>
     <string name="home_dock_icon_bottom_margin">Distanza dell\'icona dal margine inferiore</string>
     <string name="home_dock_margin_bottom">Indicatore del margine della pagina dalla parte inferiore dello schermo</string>
+    <string name="home_dock_unlock_style">Animazione di ingresso allo sblocco</string>
+    <string name="home_dock_unlock_style_daybreak">Salire e assestarsi</string>
+    <string name="home_dock_unlock_style_depth_flip">Arrivare dalla profondità</string>
+    <string name="home_dock_unlock_style_gale">Entrare oscillando dal lato</string>
+    <string name="home_dock_unlock_style_orbit_sweep">Sweep orbitale</string>
+    <string name="home_dock_unlock_style_ripple">Contrarsi e calmarsi</string>
     <string name="home_dock_unlock_hotseat">Rimuovi limitazione del numero di icone dal dock</string>
     <string name="home_dock_icon_title">Mostra il titolo dell\'icona nel dock</string>
     <string name="home_dock_disable_recents_icon">Nascondi le icone delle app recenti dal Dock</string>
