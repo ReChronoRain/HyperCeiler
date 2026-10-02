@@ -39,6 +39,7 @@ import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveConversationB
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.RemoveOpenAppConfirmationPopup;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.SidebarLineCustom;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.UnlockCarSicknessRelief;
+import com.sevtinge.hyperceiler.libhook.rules.securitycenter.UnlockGameSpeed;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AddAppInfoEntry;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AddAppManagerEntry;
 import com.sevtinge.hyperceiler.libhook.rules.securitycenter.app.AppDefaultSort;
@@ -127,6 +128,9 @@ public class SecurityCenter extends BaseLoad {
         initHook(new UnlockCarSicknessRelief(), PrefsBridge.getBoolean("security_center_unlock_car_sickness"));
         initHook(new DisableNetworkAssistantOfflineInfoManager(), PrefsBridge.getBoolean("security_center_disable_offline_info_manager"));
         initHook(new DisableAutoTurnAccessibilityOff(), PrefsBridge.getBoolean("security_center_disable_auto_turn_accessibility_off"));
+
+        // 解锁游戏“二倍速”启动
+        initHook(UnlockGameSpeed.INSTANCE, PrefsBridge.getBoolean("security_center_game_speed"));
 
         // 小窗和气泡通知
         initHook(new RemoveConversationBubbleSettingsRestriction(), PrefsBridge.getBoolean("security_center_remove_conversation_bubble_settings_restriction"));
