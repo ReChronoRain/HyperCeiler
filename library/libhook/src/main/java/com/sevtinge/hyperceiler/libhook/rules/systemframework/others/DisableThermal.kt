@@ -23,11 +23,19 @@ import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createBeforeHooks
 
 object DisableThermal : BaseHook() {
+    // Android 17 moved the service into its own package and renamed the dispatch method.
+    private const val SERVICE_OLD = "com.android.server.power.ThermalManagerService"
+    private const val SERVICE_NEW = "com.android.server.power.thermal.ThermalManagerService"
+
     override fun init() {
-        findClass("com.android.server.power.ThermalManagerService").findAllMethods { name("postEventListener") }
+        val service = findClassIfExists(SERVICE_NEW) ?: findClassIfExists(SERVICE_OLD) ?: return
+        service.findAllMethods { name("postEventListener") }
             .createBeforeHooks {
                 it.result = null
             }
-
+        service.findAllMethods { name("postEventListenerLocked") }
+            .createBeforeHooks {
+                it.result = null
+            }
     }
 }

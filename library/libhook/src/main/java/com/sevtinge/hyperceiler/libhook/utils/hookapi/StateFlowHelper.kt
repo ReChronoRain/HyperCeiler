@@ -64,19 +64,40 @@ object StateFlowHelper {
         stateFlow ?: return
 
         when (stateFlow::class.java.simpleName) {
-            "ReadonlyStateFlow" -> {
-                if (isMoreAndroidVersion(36)) {
-                    // OS4: 字段名为 $$delegate_0，声明类型为 StateFlow 接口，
-                    // 按精确类型 MutableStateFlow 找不到，需先按字段名取
-                    runCatching { stateFlow.getObjectField("$\$delegate_0") }.getOrNull()
-                        ?: stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
-                } else {
-                    stateFlow.getFirstFieldByExactType(STATE_FLOW)
-                }
-            }
+            "ReadonlyStateFlow" -> resolveDelegateFlow(stateFlow)
             "StateFlowImpl" -> stateFlow
             else -> null
         }?.callMethod("setValue", value)
+    }
+
+    // Returns the mutable flow that a ReadonlyStateFlow delegates to.
+    //
+    // ReadonlyStateFlow delegates to exactly one field, the Kotlin synthetic
+    // $$delegate_0, but its *declared* type moved around between the kotlinx.coroutines
+    // builds shipped with each release, and getFirstFieldByExactType matches on that
+    // declared type:
+    //  - on Android 16 it is declared as MutableStateFlow;
+    //  - on HyperOS 3.3 / HyperOS 4.0 (Android 17) it is declared as the StateFlow
+    //    interface again (the constructor parameter is still MutableStateFlow, so
+    //    newReadonlyStateFlow is unaffected), and matching MutableStateFlow exactly then
+    //    throws MemberNotFoundException.
+    //
+    // The field name is stable across all of them, so it is tried first and the two
+    // type based lookups stay as fallbacks in case a future build renames it. The
+    // instance actually stored in the field is always a StateFlowImpl, so setValue works
+    // whichever lookup wins.
+    private fun resolveDelegateFlow(stateFlow: Any): Any? {
+        runCatching {
+            stateFlow.getObjectField("$\$delegate_0")
+        }.getOrNull()?.let { return it }
+        if (isMoreAndroidVersion(36)) {
+            runCatching {
+                stateFlow.getFirstFieldByExactType(MUTABLE_STATE_FLOW)
+            }.getOrNull()?.let { return it }
+        }
+        return runCatching {
+            stateFlow.getFirstFieldByExactType(STATE_FLOW)
+        }.getOrNull()
     }
 
     @JvmStatic

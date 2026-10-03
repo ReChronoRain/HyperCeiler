@@ -25,6 +25,10 @@ import io.github.lingqiqi5211.ezhooktool.core.loadClass
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createHook
 
 object AnimDurationRatio : BaseHook() {
+    // HyperOS 3 moved the launcher helper out of com.miui.home.launcher.common.
+    private const val DEVICE_LEVEL_UTILS_OLD = "com.miui.home.launcher.common.DeviceLevelUtils"
+    private const val DEVICE_LEVEL_UTILS_NEW = "com.miui.home.common.utils.DeviceLevelUtils"
+
     override fun init() {
         var value1 = PrefsBridge.getInt("home_title_animation_speed", 100).toFloat()
         var value2 = PrefsBridge.getInt("home_recent_animation_speed", 100).toFloat()
@@ -38,7 +42,9 @@ object AnimDurationRatio : BaseHook() {
         }
         if (value2 != 100f) {
             value2 /= 100f
-            loadClass("com.miui.home.launcher.common.DeviceLevelUtils").findMethod { name("getDeviceLevelTransitionAnimRatio") }.createHook {
+            val deviceLevelUtils = findClassIfExists(DEVICE_LEVEL_UTILS_NEW)
+                ?: findClassIfExists(DEVICE_LEVEL_UTILS_OLD)
+            deviceLevelUtils?.findMethod { name("getDeviceLevelTransitionAnimRatio") }?.createHook {
                     before {
                         it.result = value2
                     }

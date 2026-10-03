@@ -64,9 +64,11 @@ public class StatusBarIcon extends BaseHook {
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_tv", 0), "tv", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wireless_headset", 0), "wireless_headset", statusBarList, ctrlCenterList);
 
-        // setIcon 已直接修改 ArrayList 引用内容（remove/add），
-        // OS4 上 RIGHT_BLOCK_LIST/CONTROL_CENTER_BLOCK_LIST 为 public static final，
-        // 反射写回会抛 IllegalAccessException，且写回同一引用本就多余。
+        // setIcon()已直接修改这两个 ArrayList 实例的内容（remove/add），消费者也是直接
+        // 读取静态字段（sget），所以无需再反射写回同一个引用。
+        // 且在 HyperOS 3.3 / HyperOS 4.0（Android 17）上 RIGHT_BLOCK_LIST 与
+        // CONTROL_CENTER_BLOCK_LIST 是 public static final，反射写回会抛
+        // IllegalAccessException，未捕获时会中断 init()。
     }
 
     private void setIcon(int value, String name, List<String> statusBarList, List<String> controlList){

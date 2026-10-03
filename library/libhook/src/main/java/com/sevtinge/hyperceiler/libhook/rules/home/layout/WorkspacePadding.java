@@ -37,20 +37,46 @@ public class WorkspacePadding extends HomeBaseHookNew {
 
     @Override
     public void initBase() {
-        mDeviceConfig = findClassIfExists(getPackageVersionCode(getLpparam()) < 600000000 ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
+        // The workspace padding getters live on DeviceConfig (old) on some launcher
+        // versions and on DeviceConfigs (new) on others. The original code picked the
+        // class with `versionCode < 600000000 ? NEW : OLD`, which is inverted with respect
+        // to how every other home rule maps versions (@Version(min = 600000000) -> NEW).
+        // On a HyperOS 3.3 launcher (e.g. 750062372) that resolved the old class, where
+        // getWorkspaceCellPadding* no longer exists, so initBase() aborted with
+        // MemberNotFoundException.
+        // Rather than relying on a version number at all, pick whichever class actually
+        // declares the getters. That keeps older launchers on exactly the class they
+        // already worked with, whichever one that is.
+        mDeviceConfig = resolveDeviceConfigClass();
 
-        findAndHookMethod(mDeviceConfig, "Init", Context.class, boolean.class, new IMethodHook() {
+        // Capture a Context for dp2px. The signature differs between versions:
+        //   old class: Init(Context, boolean) / Init(Context, int, boolean)
+        //   new class: init(Context, boolean)  (lower-case first letter)
+        // So hook every overload of either name and take the first Context argument.
+        IMethodHook captureContext = new IMethodHook() {
             @Override
             public void before(HookParam param) {
-                mContext = (Context) param.getArgs()[0];
+                for (Object arg : param.getArgs()) {
+                    if (arg instanceof Context) {
+                        mContext = (Context) arg;
+                        break;
+                    }
+                }
             }
-        });
+        };
+        hookAllMethods(mDeviceConfig, "Init", captureContext);
+        hookAllMethods(mDeviceConfig, "init", captureContext);
 
         if (PrefsBridge.getBoolean("home_layout_workspace_padding_bottom_enable")) {
             findAndHookMethod(mDeviceConfig, "getWorkspaceCellPaddingBottom", new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
-                    param.setResult(DisplayUtils.dp2px(mContext, PrefsBridge.getInt("home_layout_workspace_padding_bottom", 0)));
+                    int dp = PrefsBridge.getInt("home_layout_workspace_padding_bottom", 0);
+                    // Init/init does not necessarily run before the getter, so mContext
+                    // may still be null here
+                    param.setResult(mContext != null
+                        ? DisplayUtils.dp2px(mContext, dp)
+                        : DisplayUtils.dp2px(dp));
                 }
             });
         }
@@ -83,5 +109,35 @@ public class WorkspacePadding extends HomeBaseHookNew {
                 }
             });
         }
+    }
+
+    /**
+     * Picks the DeviceConfig class that actually declares the workspace padding getters.
+     *
+     * Falls back to the version-based choice used elsewhere in the home rules
+     * (>= 600000000 -> DeviceConfigs) if neither class exposes them, so behaviour stays
+     * defined even on a launcher this was never tested against.
+     */
+    private Class<?> resolveDeviceConfigClass() {
+        for (String name : new String[]{DEVICE_CONFIG_NEW, DEVICE_CONFIG_OLD}) {
+            Class<?> clazz = findClassIfExists(name);
+            if (clazz != null && declaresPaddingGetter(clazz)) {
+                return clazz;
+            }
+        }
+        return findClassIfExists(getPackageVersionCode(getLpparam()) >= 600000000
+            ? DEVICE_CONFIG_NEW : DEVICE_CONFIG_OLD);
+    }
+
+    private boolean declaresPaddingGetter(Class<?> clazz) {
+        for (java.lang.reflect.Method method : clazz.getDeclaredMethods()) {
+            String name = method.getName();
+            if (name.equals("getWorkspaceCellPaddingBottom")
+                || name.equals("getWorkspaceCellPaddingTop")
+                || name.equals("getWorkspaceCellPaddingSide")) {
+                return true;
+            }
+        }
+        return false;
     }
 }
