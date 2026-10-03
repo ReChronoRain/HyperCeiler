@@ -63,5 +63,15 @@
             android:key="prefs_key_security_center_unlock_smart_charge"
             android:title="@string/security_center_unlock_smart_charge_title" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="secutity_center_battery_saver_enable_haptic_feedback"
+            android:title="@string/secutity_center_battery_saver_enable_haptic_feedback" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="secutity_center_battery_saver_lock_fps"
+            android:title="@string/secutity_center_battery_saver_lock_fps" />
+
     </PreferenceCategory>
 </PreferenceScreen>
