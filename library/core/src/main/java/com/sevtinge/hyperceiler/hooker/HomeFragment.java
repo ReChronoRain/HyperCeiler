@@ -83,9 +83,9 @@ public class HomeFragment extends DashboardFragment {
         long XposedVersionCode = getSharedPreferences().getLong(PREF_KEY_VERSION_CODE, 0);
         int XposedApiVersion = getSharedPreferences().getInt(PREF_KEY_API_VERSION, 0);
 
-        boolean isRustNoSupport = isHyperOsPackage && !(XposedApiVersion >= 102
+        boolean isRustNoSupport = !(XposedApiVersion >= 102
             && XposedVersionCode >= 7846
-            && XposedVersion.contains("it"));
+            && (XposedVersionCode >= 7854 || XposedVersion.contains("it")));
 
         mHeader.setVisible(check && !isDebugMode);
         mHeaderHomeIsRust.setVisible(isHyperOsPackage);

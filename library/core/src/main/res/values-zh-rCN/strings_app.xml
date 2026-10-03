@@ -1837,6 +1837,6 @@
     <string name="home_layout_recents_no_clear_desc">移除按钮及其功能</string>
     <string name="home_layout_folder_cols_title">文件夹列数</string>
     <string name="home_layout_folder_cols_desc">列数取「文件夹」设置页里的那一项</string>
-    <string name="home_is_rust_tips">如遇修改当前界面下的参数无法生效，请重新启动设备。</string>
+    <string name="home_is_rust_tips">如遇修改当前界面下的参数重启应用后无法生效，请重新启动设备。</string>
     <string name="home_is_rust_no_support">当前 LSPosed 版本不支持 HyperOS Runtime 的Hook。请尝试更新 LSPosed 后重试。</string>
 </resources>
