@@ -907,6 +907,7 @@
     <string name="system_settings_novelty_haptic_title">解鎖新版觸感調節頁面</string>
     <string name="system_settings_novelty_haptic_desc">僅供有「聲音與觸感-觸感」頁面的裝置使用</string>
     <string name="system_settings_unlock_google_header">禁止隱藏 Google 入口</string>
+    <string name="system_settings_hide_xiaomi_account">隱藏小米帳號</string>
     <string name="system_settings_unlock_ui_mode">解鎖應用程式佈局最佳化</string>
     <string name="system_settings_usb_mode">接入 USB 時不彈跳視窗</string>
     <string name="system_settings_usb_mode_choose">USB 預設選項</string>
