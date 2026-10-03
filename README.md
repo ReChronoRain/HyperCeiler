@@ -54,6 +54,7 @@ Xiaomi HyperOS 3 or 4 将是本项目的一个终点，就目前来说，小米�
 | Joyose             | com.xiaomi.joyose                  |
 | 小米设置               | com.xiaomi.misettings              |
 | 安全服务 (手机管家、平板管家)   | com.miui.securitycenter            |
+| 系统功能组件（背部轻敲选项）    | com.miui.securitycore              |
 | 壁纸                 | com.miui.miwallpaper               |
 | 传送门                | com.miui.contentextension          |
 | 弹幕通知               | com.xiaomi.barrage                 |
