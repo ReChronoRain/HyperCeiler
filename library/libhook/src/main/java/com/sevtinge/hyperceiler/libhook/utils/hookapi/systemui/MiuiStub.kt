@@ -20,11 +20,14 @@ package com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui
 
 import android.content.Context
 import android.os.Handler
+import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.base.BaseLoad
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.loadClass
+import io.github.lingqiqi5211.ezhooktool.core.loadClassOrNull
+import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getStaticObjectFieldAs
-import io.github.lingqiqi5211.ezhooktool.core.loadClass
-import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.createAfterHook
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -32,23 +35,51 @@ import kotlinx.coroutines.SupervisorJob
 import java.util.concurrent.Executor
 
 /**
- * Only for HyperOS2
+ * 提供不同 HyperOS SystemUI 实现中的 MiuiStub 与 JavaAdapter 访问能力。
  */
 @Suppress("unused")
 object MiuiStub {
+    private const val JAVA_ADAPTER = "com.android.systemui.util.kotlin.JavaAdapter"
+
     private val INSTANCE by lazy {
         loadClass("miui.stub.MiuiStub").getStaticObjectFieldAs<Any>("INSTANCE")
     }
 
+    @Volatile
     private var systemJavaAdapter: JavaAdapter? = null
+
+    private val javaAdapterClass by lazy {
+        loadClassOrNull(JAVA_ADAPTER, BaseLoad.getClassLoader())
+    }
 
     private val fallbackJavaAdapter by lazy {
         val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
-        JavaAdapter(scope)
+        val clazz = requireNotNull(javaAdapterClass) { "$JAVA_ADAPTER is unavailable" }
+        val constructor = clazz.getDeclaredConstructor(CoroutineScope::class.java)
+        constructor.isAccessible = true
+        JavaAdapter(constructor.newInstance(scope))
     }
 
     val javaAdapter: JavaAdapter
-        get() = systemJavaAdapter ?: fallbackJavaAdapter
+        get() {
+            systemJavaAdapter?.let { return it }
+
+            val clazz = javaAdapterClass
+            if (clazz != null) {
+                val dependencyClass = loadClassOrNull(
+                    "com.android.systemui.Dependency",
+                    BaseLoad.getClassLoader()
+                )
+                val adapter = runCatching {
+                    dependencyClass?.let { BaseHook.callStaticMethod(it, "get", clazz) }
+                }.getOrNull()
+                if (adapter != null) {
+                    return JavaAdapter(adapter).also { systemJavaAdapter = it }
+                }
+            }
+
+            return fallbackJavaAdapter
+        }
 
     val baseProvider by lazy {
         BaseProvider(INSTANCE.getObjectFieldAs("mBaseProvider"))
@@ -64,9 +95,13 @@ object MiuiStub {
 
     @JvmStatic
     fun createHook() {
-        Constructors.find(loadClass("com.android.systemui.util.kotlin.JavaAdapter"))
-            .first()
-            .createAfterHook {
+        val clazz = javaAdapterClass ?: return
+        Constructors.find(clazz)
+            .filter {
+                it.parameterTypes.contentEquals(arrayOf(CoroutineScope::class.java))
+            }
+            .firstOrNull()
+            ?.createAfterHook {
                 systemJavaAdapter = JavaAdapter(it.thisObject)
             }
     }
