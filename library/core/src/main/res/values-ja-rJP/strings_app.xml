@@ -856,6 +856,7 @@
     <string name="system_settings_novelty_haptic_title">新しいバージョンの触覚フィードバックページをアンロック</string>
     <string name="system_settings_novelty_haptic_desc">サウンドとバイブレーション - 触覚フィードバックの設定があるデバイスのみ対応しています</string>
     <string name="system_settings_unlock_google_header">Google 項目をアンロック</string>
+    <string name="system_settings_hide_xiaomi_account">Xiaomi アカウントを非表示</string>
     <string name="system_settings_unlock_ui_mode">アプリのレイアウト最適化をアンロック</string>
     <string name="system_settings_usb_mode">USB 接続時にポップアップウインドウを非表示</string>
     <string name="system_settings_usb_mode_choose">USB のデフォルトオプション</string>
