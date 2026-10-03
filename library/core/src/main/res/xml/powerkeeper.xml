@@ -32,6 +32,11 @@
             android:defaultValue="false" />
 
         <SwitchPreference
+            android:title="@string/powerkeeper_lock_thermal_max_fps"
+            android:key="prefs_key_powerkeeper_lock_thermal_max_fps"
+            android:defaultValue="false" />
+
+        <SwitchPreference
             android:title="@string/powerkeeper_disable_get_display_ctrl_code"
             android:key="prefs_key_powerkeeper_disable_get_display_ctrl_code"
             android:defaultValue="false" />
