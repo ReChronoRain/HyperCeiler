@@ -594,6 +594,7 @@
     <string name="phone_unlock_voice_link_desc">仅支持支持 WLAN 通话的 SIM 卡</string>
     <!--下载管理程序-->
     <string name="downloads">下载管理程序</string>
+    <string name="downloads_disable_xunlei_engine">禁用迅雷下载引擎</string>
     <string name="various_fuck_xlDownload">阻止创建 .xlDownload 文件夹</string>
     <string name="various_fuck_xlDownload_desc">防止下载管理程序在内部存储的根目录上生成 .xlDownload 文件夹</string>
     <!--下载管理-->

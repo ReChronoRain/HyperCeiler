@@ -632,6 +632,7 @@
     <string name="phone_unlock_voice_link_desc">Unlock Voice link for some SIMs which support Wi-Fi calling</string>
     <!--Download management program-->
     <string name="downloads">Downloads</string>
+    <string name="downloads_disable_xunlei_engine">Disable Xunlei download engine</string>
     <string name="various_fuck_xlDownload">Block generate of .xlDownload folder</string>
     <string name="various_fuck_xlDownload_desc">Prevent Downloads from creating the .xlDownload folder in the root of internal storage</string>
     <!--Download UI-->
