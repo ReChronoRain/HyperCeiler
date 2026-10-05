@@ -78,7 +78,7 @@ public class HomeFragment extends DashboardFragment {
         boolean check = CheckModifyUtils.INSTANCE.getCheckResult(getContext(), "com.miui.home");
         boolean isDebugMode = getSharedPreferences().getBoolean("prefs_key_development_debug_mode", false);
         boolean isHyperOsPackage = isHyperOsPackage(getContext(), "com.miui.home");
-        boolean isFrameworkLSPosed = getSharedPreferences().getString(PREF_KEY_FNAME, "Unknown") == "LSPosed";
+        boolean isFrameworkLSPosed = "LSPosed".equals(getSharedPreferences().getString(PREF_KEY_FNAME, "Unknown"));
 
         String XposedVersion = getSharedPreferences().getString(PREF_KEY_VERSION, "Unknown");
         long XposedVersionCode = getSharedPreferences().getLong(PREF_KEY_VERSION_CODE, 0);
