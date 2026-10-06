@@ -1610,6 +1610,8 @@
     <string name="security_center_unlock_memc">Unlock MEMC</string>
     <string name="security_center_unlock_enhance_contours">Unlock Enhanced contours</string>
     <string name="security_center_unlock_s_resolution">Unlock Super resolution</string>
+    <string name="security_center_remove_vb_temp_limit">Remove image enhancement temperature limit</string>
+    <string name="security_center_remove_vb_temp_limit_summary">Features such as Super resolution and Image enhancement will no longer be automatically disabled at high temperatures</string>
     <string name="security_center_hide_sidebar">Hide sidebar</string>
     <string name="security_center_leave_open">Leave the slide unfolded</string>
     <string name="security_center_sidebar_show_suggest">Disable show suggest apps</string>
