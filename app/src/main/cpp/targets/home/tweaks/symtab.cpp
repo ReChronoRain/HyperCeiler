@@ -157,6 +157,8 @@ const TargetFunction kTargets[] = {
         {"GridController.folderCellHeight", "GridController.folderCellHeight", "候选 文件夹格高"},
         {"FolderGridViewGetxController.folderCellHeight",
          "FolderGridViewGetxController.folderCellHeight", "文件夹行间距"},
+        {"FolderIconGetxController.folderIconSize",
+         "FolderIconGetxController.folderIconSize", "文件夹图标宽高基准"},
         {"GridController.folderCellWidth", "GridController.folderCellWidth", "候选 文件夹格宽"},
         {"GridController.screenMarginBottom", "GridController.screenMarginBottom",
          "候选 屏幕下边距"},
@@ -384,6 +386,10 @@ SymbolIndex& SymbolIndex::Instance() {
 }
 
 void SymbolIndex::ResetForTest() {
+    // Also called after the HYOS spawner forks the launcher. A cleared index
+    // must permit a new read in the child instead of retaining the parent's
+    // one-shot attempt flag and permanently returning loaded_ == false.
+    attempted_ = false;
     loaded_ = false;
     foundCount_ = 0;
     status_[0] = '\0';

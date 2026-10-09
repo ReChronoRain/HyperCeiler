@@ -1,0 +1,1 @@
+path=/system_ext/bin/hyos_spawner lib/arm64-v8a/libHyperCeilerHyos.so

@@ -1,5 +1,8 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #include "home_layout_config.h"
+#ifdef HYPERCEILER_HYOS_BACKEND
+#include "targets/hyos/hyos_control.h"
+#else
 
 #include <android/binder_ibinder.h>
 #include <android/log.h>
@@ -17,8 +20,10 @@
 #include <optional>
 #include <string_view>
 #include <vector>
+#endif
 
 namespace home_layout {
+#ifndef HYPERCEILER_HYOS_BACKEND
 namespace {
 constexpr transaction_code_t kLayoutTransaction = 0x0048434C;
 constexpr int32_t kLayoutAck = 0x48434C34;
@@ -386,7 +391,16 @@ static bool query_binder(Config &result) {
     return true;
 }
 
+#endif
+
 bool query_config(Config &result) {
+#ifdef HYPERCEILER_HYOS_BACKEND
+    // The native-only path never performs a second Binder read, property
+    // override, or last-known file fallback. Configuration and authorization
+    // come from the same fresh HCS1 publication; unavailable is neutral.
+    (void) hyos_control::layout_config(result);
+    return true;
+#else
     Config candidate;
     const bool from_binder = query_binder(candidate);
     /*
@@ -419,6 +433,7 @@ bool query_config(Config &result) {
     result = candidate;
     write_config_cache(candidate);
     return true;
+#endif
 }
 
 } // namespace home_layout

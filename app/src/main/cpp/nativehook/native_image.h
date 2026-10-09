@@ -298,7 +298,7 @@ inline std::optional<std::pair<uint64_t, uint64_t>> zip_stored_entry(
         const uint16_t extra_bytes = load_le16(directory.data() + at + 30);
         const uint16_t comment_bytes = load_le16(directory.data() + at + 32);
         const uint32_t local_offset = load_le32(directory.data() + at + 42);
-        if (name_bytes + extra_bytes + comment_bytes
+        if (static_cast<size_t>(name_bytes) + extra_bytes + comment_bytes
             > directory.size() - at - kCentralHeaderBytes) return {};
         const std::string_view name(
             reinterpret_cast<const char *>(directory.data() + at + kCentralHeaderBytes),

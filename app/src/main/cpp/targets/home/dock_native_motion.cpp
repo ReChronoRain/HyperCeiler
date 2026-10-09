@@ -11,6 +11,9 @@
 #include <poll.h>
 #include <sys/eventfd.h>
 #include <time.h>
+#ifdef HYPERCEILER_HYOS_BACKEND
+#include "targets/hyos/hyos_control.h"
+#endif
 
 extern "C" {
 // Low two bits carry scene: 0=unrelated, 1=recents, 2=home return.
@@ -218,6 +221,12 @@ void deactivate_dock_motion() {
 // or stale push keeps the previous behaviour instead of silently disabling real-time following.
 std::atomic<bool> dock_motion_feature_enabled{true};
 
+// The Hyos lease publisher calls this under a short state lock. Keep it to one
+// atomic write: no logger, Binder, eventfd, hook installer or other external call.
+void set_dock_motion_feature_enabled_quiet(bool enabled) {
+    dock_motion_feature_enabled.store(enabled, std::memory_order_release);
+}
+
 void set_dock_motion_feature_enabled(bool enabled) {
     const bool previous = dock_motion_feature_enabled.exchange(enabled, std::memory_order_acq_rel);
     if (previous != enabled) {
@@ -229,6 +238,9 @@ void set_dock_motion_feature_enabled(bool enabled) {
 }
 
 bool dock_motion_feature_active() {
+#ifdef HYPERCEILER_HYOS_BACKEND
+    if (hyos_control::active() && !hyos_control::feature_enabled(hyos_control::kDock)) return false;
+#endif
     return dock_motion_feature_enabled.load(std::memory_order_acquire);
 }
 
@@ -435,7 +447,7 @@ void run_dock_motion() {
                 __android_log_print(ANDROID_LOG_INFO, kTag,
                     "device resume detected; reusing motion Binder transport");
             }
-            if (!dock_motion_feature_enabled.load(std::memory_order_acquire)) {
+            if (!dock_motion_feature_active()) {
                 // Preference off: publish nothing and leave the baselines untouched, so the first
                 // sample after re-enabling looks changed and following resumes immediately. The
                 // transport and the suspend handling above keep running either way.

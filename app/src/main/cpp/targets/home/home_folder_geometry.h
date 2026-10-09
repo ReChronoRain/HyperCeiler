@@ -1,6 +1,7 @@
 /* SPDX-License-Identifier: AGPL-3.0-or-later */
 #pragma once
 #include "home_workspace_geometry.h"
+#include "home_layout_code_variants.h"
 
 namespace home_layout {
 // Five original-body windows, after currentConfig returns and before any
@@ -79,6 +80,53 @@ inline constexpr uint32_t kFolderSizeOriginal[] = {
     0xfc00f000, 0xaa1d03ef, 0xa8c179fd, 0xd65f03c0, 0x91402769, 0xf9470d29,
     0x94437207,
 };
+
+
+// OTA OS4.0.0.44.XPBCNXM, launcher 8.01.02.7719; libapp.so SHA-256:
+// a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992.
+// These two complete functions have the same size, frames, fields and non-call
+// instructions as 7722. Only the listed BL displacements changed. Accept either
+// complete known body, never arbitrary calls or a mixture of the two bodies.
+inline constexpr CallWordVariant kFolderPositionCalls7719[] = {
+    {0x48, 0x944484a8},
+    {0x5c, 0x9403abb7},
+    {0x6c, 0x940395e7},
+    {0xa0, 0x94448492},
+    {0xb4, 0x9403aba1},
+    {0xc4, 0x940395d1},
+    {0xf8, 0x9444847c},
+    {0x10c, 0x9403ab8b},
+    {0x124, 0x940395b9},
+    {0x184, 0x94448459},
+    {0x198, 0x9403ab68},
+    {0x1c0, 0x943670d9},
+    {0x1e4, 0x943a03b0},
+};
+inline constexpr CallWordVariant kFolderSizeCalls7719[] = {
+    {0x3c, 0x944366a7},
+    {0x50, 0x94028db6},
+    {0x60, 0x940277e6},
+    {0x94, 0x94436691},
+    {0xa8, 0x94028da0},
+    {0xb8, 0x940277d0},
+    {0xec, 0x9443667b},
+    {0x100, 0x94028d8a},
+    {0x118, 0x940277b8},
+    {0x180, 0x94436656},
+    {0x194, 0x94028d65},
+    {0x1bc, 0x943552d6},
+    {0x1f8, 0x97fee1ff},
+    {0x220, 0x97fa1d21},
+    {0x278, 0x9438e587},
+    {0x2a0, 0x94437056},
+};
+inline bool folder_original_body_matches(std::span<const uint32_t> body, bool position) {
+    const auto original = position ? std::span<const uint32_t>(kFolderPositionOriginal)
+                                   : std::span<const uint32_t>(kFolderSizeOriginal);
+    const auto calls = position ? std::span<const CallWordVariant>(kFolderPositionCalls7719)
+                                : std::span<const CallWordVariant>(kFolderSizeCalls7719);
+    return exact_call_variant(body, original, {}) || exact_call_variant(body, original, calls);
+}
 
 inline bool folder_grid_geometry(uintptr_t grid, double top, double bottom,
     double side, double *g, const WorkspaceRenderSnapshot *rendered = nullptr) {

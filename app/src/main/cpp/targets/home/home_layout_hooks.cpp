@@ -5,6 +5,9 @@
 #include "home_folder_geometry.h"
 #include "home_indicator_pair.h"
 #include "home_hotseat_capacity.h"
+#ifdef HYPERCEILER_HYOS_BACKEND
+#include "home_startup.h"
+#endif
 #include "home_layout_elf_targets.h"
 #include "nativehook/hook_bank.h"
 #include "nativehook/memory_io.h"
@@ -875,8 +878,11 @@ bool capsule_wrapper_layout_compatible(uint32_t wrapper_va, uint32_t wrapper_siz
         0xaa0003e2u, 0xf85f03a0u, 0xf81e03a2u, 0xb800f040u,
         0xf85e83a0u, 0xb8013040u, 0xf85f83a0u, 0xb8017040u};
     std::vector<uint32_t> pair;
+    // 7719 moves only the original Array allocator BL within this guarded window.
+    constexpr home_layout::CallWordVariant pair_calls_7719[] = {{0x0c, 0x94278da0u}};
     if (!dart_words(launcher_va + 0x220, std::size(pair_words), pair)
-        || !std::equal(std::begin(pair_words), std::end(pair_words), pair.begin())) return false;
+        || (!home_layout::exact_call_variant(pair, pair_words, {})
+            && !home_layout::exact_call_variant(pair, pair_words, pair_calls_7719))) return false;
     if (!dart_words(launcher_va + 0x1e0, 1, parent_call)
         || !bl_target(parent_call[0], launcher_va + 0x1e0, &called_va)
         || called_va != wrapper_va) return false;
@@ -920,17 +926,29 @@ bool hotseat_geometry_code_compatible(uint32_t va, uint32_t size) {
     // Verify delegate count, compressed ItemInfo chain, column and Offset stores.
     if (size != 0x72c) return false;
     std::vector<uint32_t> code;
-    const auto matches = [&](uint32_t offset, const auto &expected) {
+    const auto matches = [&](uint32_t offset, const auto &expected,
+        std::span<const home_layout::CallWordVariant> calls = {}) {
         return dart_words(va + offset, std::size(expected), code)
-            && code.size() >= std::size(expected)
-            && std::equal(std::begin(expected), std::end(expected), code.begin());
+            && home_layout::exact_call_variant(code, expected, calls);
     };
     constexpr uint32_t words0[] = {0xa9bf79fdu, 0xaa0f03fdu, 0xd10281efu, 0xf81f83a1u, 0xf81f03a2u, 0xd28000c1u, 0x9411837cu, 0xaa0003e1u};
     constexpr uint32_t words1[] = {0xf85f83a5u, 0xf81c03a4u, 0xf84130a6u, 0x937f78c0u, 0xeb8004dfu, 0x54000060u, 0x941187bcu, 0xf8007006u, 0xf81c83a0u, 0xfc42b0a0u, 0xfc1883a0u, 0xd2800001u, 0xfc5903a1u, 0xf81d03a2u};
     constexpr uint32_t words2[] = {0xf85b03a2u, 0x97c6e9ecu, 0xaa0003e3u, 0xf85b03a2u, 0xb840f040u, 0x8b1c8000u, 0xb8407001u, 0x8b1c8021u, 0xf8437024u, 0x937f7880u, 0xeb80049fu, 0x54000060u, 0x94118778u, 0xf8007004u, 0xf85c83b0u};
     constexpr uint32_t words3[] = {0xfc1783a2u, 0xa9461340u, 0x91004000u, 0xeb00009fu, 0x54001529u};
     constexpr uint32_t words4[] = {0x97c6c09eu, 0xf85b03a2u, 0xb8413040u, 0x8b1c8000u, 0xfc407000u, 0xfc1803a0u, 0x9406fdaeu, 0xfc5803a0u, 0xf81983a0u, 0xfc007000u, 0xfc5783a0u, 0xfc00f000u, 0xf85f83a3u};
-    return matches(0x0, words0) && matches(0x218, words1) && matches(0x310, words2) && matches(0x43c, words3) && matches(0x54c, words4);
+    // Complete 7719 window set; only these five original BL words differ from
+    // 7722. The image and the unchanged frame/field code are documented with
+    // the folder variants. Each version must match as a whole, without masking.
+    constexpr home_layout::CallWordVariant calls0[] = {{0x18, 0x9411831cu}};
+    constexpr home_layout::CallWordVariant calls1[] = {{0x18, 0x9411875cu}};
+    constexpr home_layout::CallWordVariant calls2[] = {
+        {0x04, 0x97c6eb2cu}, {0x30, 0x94118718u}};
+    constexpr home_layout::CallWordVariant calls4[] = {{0x00, 0x97c6c1deu}};
+    return (matches(0x0, words0) && matches(0x218, words1) && matches(0x310, words2)
+            && matches(0x43c, words3) && matches(0x54c, words4))
+        || (matches(0x0, words0, calls0) && matches(0x218, words1, calls1)
+            && matches(0x310, words2, calls2) && matches(0x43c, words3)
+            && matches(0x54c, words4, calls4));
 }
 
 bool bind_target(const Library &library, uint64_t va, uintptr_t &address,
@@ -1294,7 +1312,7 @@ void bind_folder_geometry() {
             : std::span<const uint32_t>(home_layout::kFolderSizeOriginal);
         std::vector<uint32_t> body;
         if (!dart_words(va, full.size(), body)
-            || !std::equal(full.begin(), full.end(), body.begin())) return;
+            || !home_layout::folder_original_body_matches(body, i < 2 || i == 4)) return;
         // Validate the owning frame. The continuation is exactly patch+16.
         std::vector<uint32_t> frame;
         if (!dart_words(va, 3, frame) || frame[0] != kDartPrologue
@@ -2570,6 +2588,87 @@ bool adopt_layout_state() {
 void home_layout_prepare_for_launcher_child() {
     (void) adopt_layout_state();
 }
+
+#ifdef HYPERCEILER_HYOS_BACKEND
+// The dedicated Hyos owner never enters the legacy resolver/slot bank. This
+// bridge shares only the already-tested Dart ABI's original pointers and atomic
+// parameters; legacy ART startup and maintenance continue to use their old bank.
+extern "C" {
+#define HC_STARTUP_DECL(n) void hc_home_startup_##n();
+HC_STARTUP_DECL(0) HC_STARTUP_DECL(1) HC_STARTUP_DECL(2) HC_STARTUP_DECL(3)
+HC_STARTUP_DECL(4) HC_STARTUP_DECL(5) HC_STARTUP_DECL(6) HC_STARTUP_DECL(7)
+HC_STARTUP_DECL(8) HC_STARTUP_DECL(9) HC_STARTUP_DECL(10) HC_STARTUP_DECL(11)
+HC_STARTUP_DECL(12) HC_STARTUP_DECL(13) HC_STARTUP_DECL(14)
+#undef HC_STARTUP_DECL
+}
+namespace home_startup::detail {
+HookBinding binding(unsigned index) noexcept {
+    static const HookBinding bindings[] = {
+        {reinterpret_cast<void *>(hc_home_startup_0), &hc_layout_dart_HotseatMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_1), &hc_layout_dart_FolderRowSpacing_original},
+        {reinterpret_cast<void *>(hc_home_startup_2), &hc_layout_dart_WorkspaceTop_original},
+        {reinterpret_cast<void *>(hc_home_startup_3), &hc_layout_dart_WorkspaceBottom_original},
+        {reinterpret_cast<void *>(hc_home_startup_4), &hc_layout_dart_WorkspaceSide_original},
+        {reinterpret_cast<void *>(hc_home_startup_5), &hc_layout_dart_IndicatorMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_6), &hc_layout_dart_SearchBarMargin_original},
+        {reinterpret_cast<void *>(hc_home_startup_7), &hc_layout_dart_SearchBarWidth_original},
+        {reinterpret_cast<void *>(hc_home_startup_8), &hc_layout_dart_IndicatorDot_original},
+        {reinterpret_cast<void *>(hc_home_startup_9), &hc_layout_folder_original[0]},
+        {reinterpret_cast<void *>(hc_home_startup_10), &hc_layout_folder_original[1]},
+        {reinterpret_cast<void *>(hc_home_startup_11), &hc_layout_folder_original[2]},
+        {reinterpret_cast<void *>(hc_home_startup_12), &hc_layout_folder_original[3]},
+        {reinterpret_cast<void *>(hc_home_startup_13), &hc_layout_folder_original[4]},
+        {reinterpret_cast<void *>(hc_home_startup_14), &hc_layout_magic_original},
+    };
+    return index < std::size(bindings) ? bindings[index] : HookBinding{};
+}
+void initialize_consumers(uintptr_t base, uintptr_t edit, uintptr_t empty,
+    uintptr_t dots, uintptr_t idle, const uint32_t *resume) noexcept {
+    hc_layout_indicator_edit_call = base + edit;
+    hc_layout_indicator_build_empty = base + empty;
+    hc_layout_indicator_build_dots = base + dots;
+    hc_layout_indicator_idle_caller = base + idle;
+    for (size_t i = 0; i < 5; ++i) hc_layout_folder_resume[i] = base + resume[i];
+}
+void publish_consumers(const home_layout::Config &config, uint64_t applied) noexcept {
+    constexpr uint64_t groups[] = {HotseatMargin, FolderSpacing, Workspace, Workspace,
+        Workspace, CapsuleMargin, IndicatorPolicy, IndicatorPolicy};
+    for (size_t i = 0; i < g_knobs.size(); ++i) {
+        const int delta = (applied & groups[i]) && config.knobs[i].enabled
+            ? config.knobs[i].delta_dp : 0;
+        g_knobs[i].delta_dp.store(delta, std::memory_order_relaxed);
+        const double scaled = static_cast<double>(delta) * kKnobDeltaGain[i];
+        uint64_t bits = 0; std::memcpy(&bits, &scaled, sizeof(bits));
+        // Do not use init_knob_hooks or strings in the startup window.
+        uint64_t *deltas[] = {&hc_layout_dart_HotseatMargin_delta,
+            &hc_layout_dart_FolderRowSpacing_delta, &hc_layout_dart_WorkspaceTop_delta,
+            &hc_layout_dart_WorkspaceBottom_delta, &hc_layout_dart_WorkspaceSide_delta,
+            &hc_layout_dart_IndicatorMargin_delta, &hc_layout_dart_SearchBarMargin_delta,
+            &hc_layout_dart_SearchBarWidth_delta};
+        uint8_t *enabled[] = {&hc_layout_dart_HotseatMargin_enabled,
+            &hc_layout_dart_FolderRowSpacing_enabled, &hc_layout_dart_WorkspaceTop_enabled,
+            &hc_layout_dart_WorkspaceBottom_enabled, &hc_layout_dart_WorkspaceSide_enabled,
+            &hc_layout_dart_IndicatorMargin_enabled, &hc_layout_dart_SearchBarMargin_enabled,
+            &hc_layout_dart_SearchBarWidth_enabled};
+        __atomic_store_n(deltas[i], bits, __ATOMIC_RELAXED);
+        const bool workspace = (i == 2 || i == 3) && (applied & FolderGeometry);
+        __atomic_store_n(enabled[i], static_cast<uint8_t>(workspace || delta != 0), __ATOMIC_RELEASE);
+    }
+    const int mode = config.knobs[6].enabled ? config.knobs[6].delta_dp : 0;
+    __atomic_store_n(&hc_layout_indicator_mode,
+        static_cast<uint32_t>((applied & IndicatorPolicy) && mode >= 0 && mode <= 2 ? mode : 0),
+        __ATOMIC_RELEASE);
+    __atomic_store_n(&hc_layout_folder_enabled, (applied & FolderGeometry) ? 1u : 0u, __ATOMIC_RELEASE);
+    auto tweaks = config.tweaks;
+    tweaks.animation_recents_enabled = false; // Earlier Rust deadline is not established.
+    tweaks.animation_open_enabled = (applied & OpenAnimation) && tweaks.animation_open_enabled;
+    publish_animation_rate(tweaks);
+}
+void clear_consumers() noexcept {
+    publish_consumers(home_layout::Config{}, 0);
+}
+} // namespace home_startup::detail
+#endif
 
 /*
  * Bind and arm the geometry hooks inside the same callback window as the probe. The desktop computes

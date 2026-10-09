@@ -9,6 +9,27 @@ project(HyperCeilerNative LANGUAGES CXX)
 # `System.loadLibrary` name in NativeHomeHooksOS4.
 add_library(HyperCeilerNative SHARED targets/home/hyperceiler_home.cpp)
 
+option(HYPERCEILER_HYOS_BACKEND "Build the separate Zygisk Next native-only companion" OFF)
+if(HYPERCEILER_HYOS_BACKEND)
+    set_target_properties(HyperCeilerNative PROPERTIES OUTPUT_NAME HyperCeilerHyos)
+    if(NOT EXISTS "${HYPERCEILER_ZYGISK_NEXT_API_DIR}/zygisk_next_api.h")
+        message(FATAL_ERROR "Supply the pinned Zygisk Next API 4 SDK header directory")
+    endif()
+    target_sources(HyperCeilerNative PRIVATE targets/hyos/hyos_entry.cpp targets/hyos/hyos_control.cpp
+        targets/hyos/hyos_app_entry_arm64.S
+        targets/hyos/hyos_report_runtime.cpp
+        targets/weather/weather_runtime.cpp
+        targets/weather/weather_material_runtime.cpp
+        targets/weather/weather_card_runtime.cpp
+        targets/weather/weather_card_lifetime.cpp
+        targets/weather/weather_card_arm64.S
+        targets/home/home_startup.cpp targets/home/home_startup_arm64.S
+        targets/home/recents_runtime.cpp targets/home/recents_gateway_arm64.S
+        targets/home/home_report_hooks.cpp targets/home/home_report_dart_arm64.S)
+    target_include_directories(HyperCeilerNative PRIVATE ${HYPERCEILER_ZYGISK_NEXT_API_DIR})
+    target_compile_definitions(HyperCeilerNative PRIVATE HYPERCEILER_HYOS_BACKEND=1)
+endif()
+
 # The Dart-side trampolines are hand-written: they follow the Dart AOT register
 # rules (x15 stack, x16/x17 scratch) rather than AAPCS, so the layout feature needs
 # its own assembly sources independent of the dock option below.
@@ -72,3 +93,12 @@ target_compile_options(HyperCeilerNative PRIVATE
 )
 
 target_link_libraries(HyperCeilerNative PRIVATE android binder_ndk log)
+
+# SystemUI's isolated palette backend has no Home/Hyos initialization contract.
+# It is loaded on demand by AmbientNativeColorOS4 and is absent from the companion.
+if(NOT HYPERCEILER_HYOS_BACKEND)
+    add_library(HyperCeilerAmbientOS4 SHARED targets/systemui/ambient_color_os4.cpp)
+    target_compile_features(HyperCeilerAmbientOS4 PRIVATE cxx_std_20)
+    target_compile_options(HyperCeilerAmbientOS4 PRIVATE -Wall -Wextra -Werror -fvisibility=hidden)
+    target_link_libraries(HyperCeilerAmbientOS4 PRIVATE dl log)
+endif()
