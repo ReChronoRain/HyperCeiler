@@ -1611,6 +1611,7 @@
     <string name="barrage_global_enable">允许全局使用弹幕通知</string>
     <string name="barrage_not_touchable">弹幕通知不可点击</string>
     <string name="barrage_custom_barrage_length">自定义弹幕长度</string>
+    <string name="barrage_custom_barrage_length_desc">省略号前的文本长度上限。默认沿用系统限制，部分表情占多个长度单位。修改后需重启弹幕通知。</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">云控</string>

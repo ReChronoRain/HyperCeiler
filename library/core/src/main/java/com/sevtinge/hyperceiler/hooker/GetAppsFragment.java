@@ -20,13 +20,16 @@ package com.sevtinge.hyperceiler.hooker;
 
 import static com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.Miui.isPad;
 
+import android.os.Bundle;
+
 import androidx.preference.EditTextPreference;
 import androidx.preference.SwitchPreference;
 
 import com.sevtinge.hyperceiler.core.R;
 import com.sevtinge.hyperceiler.dashboard.DashboardFragment;
 
-import fan.preference.DropDownPreference;
+import com.sevtinge.hyperceiler.common.utils.GetAppsDeviceConfig;
+import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 
 public class GetAppsFragment extends DashboardFragment {
 
@@ -41,6 +44,12 @@ public class GetAppsFragment extends DashboardFragment {
     }
 
     @Override
+    public void onCreatePreferencesBefore(Bundle savedInstanceState, String rootKey) {
+        GetAppsDeviceConfig.prepareUi(PrefsBridge.getAll()).forEach(PrefsBridge::putByApp);
+        super.onCreatePreferencesBefore(savedInstanceState, rootKey);
+    }
+
+    @Override
     public void initPrefs() {
         mDevice = findPreference("prefs_key_market_device_modify_device");
         mModel = findPreference("prefs_key_market_device_modify_model");
@@ -51,16 +60,10 @@ public class GetAppsFragment extends DashboardFragment {
             setFuncHint(mRiskCheck, 1);
         }
 
-        int currentValue = Integer.parseInt(getSharedPreferences().getString("prefs_key_market_device_modify_new", "0"));
-
-        if (currentValue == 1) {
-            mDevice.setVisible(true);
-            mModel.setVisible(true);
-            mManufacturer.setVisible(true);
-        } else {
-            mDevice.setVisible(false);
-            mModel.setVisible(false);
-            mManufacturer.setVisible(false);
-        }
+        // The XML dependency follows the Boolean switch; never hide custom fields
+        // behind the obsolete enumerated preference.
+        mDevice.setVisible(true);
+        mModel.setVisible(true);
+        mManufacturer.setVisible(true);
     }
 }

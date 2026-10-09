@@ -22,6 +22,7 @@ import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreAndroidVersion
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
+import io.github.lingqiqi5211.ezhooktool.core.callMethodOrNull
 import io.github.lingqiqi5211.ezhooktool.core.findAllMethods
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.loadClass
@@ -76,7 +77,20 @@ object AutoDismissExpandedPopupsHook : BaseHook() {
 
         loadClass("com.android.systemui.statusbar.phone.StatusBarNotificationPresenter").findAllMethods { name("onExpandClicked") }.createHooks {
                 after {
-                    val expanded = it.args[1] as Boolean
+                    // API 37 passes (row, EntryAdapter, expanded); older builds pass
+                    // (NotificationEntry, expanded). Do not cast the adapter to Boolean.
+                    if (it.args.size !in 2..3) return@after
+                    val expanded = it.args.lastOrNull() as? Boolean ?: return@after
+                    val entry = if (it.args.size == 3) {
+                        it.args[1]?.callMethodOrNull("getEntry")
+                    } else {
+                        it.args[0]
+                    } ?: return@after
+                    val key = if (it.args.size == 3) {
+                        it.args[1]?.callMethodOrNull("getKey")
+                    } else {
+                        entry.getObjectFieldOrNull("mKey")
+                    } as? String ?: return@after
                     val mKeyguardStateController = it.thisObject.getObjectField("mKeyguardStateController") ?: return@after
                     val mShowing =
                         mKeyguardStateController.getBooleanField("mShowing")
@@ -86,16 +100,18 @@ object AutoDismissExpandedPopupsHook : BaseHook() {
                             it.thisObject.getObjectField("mHeadsUpManager") ?: return@after
                         val headsUpEntry = headsUpManagerPhone.callMethod(
                             "getHeadsUpEntry",
-                            it.args[0]?.getObjectField("mKey")
+                            key
                         )
 
                         if (headsUpEntry != null) {
-                            val isRowPinned = it.args[0]?.callMethod("isRowPinned") as Boolean
-                            if (isRowPinned) {
+                            val isRowPinned = entry.callMethod("isRowPinned") as? Boolean ?: return@after
+                            val remoteInputActive = headsUpEntry.getBooleanFieldOrNull("mRemoteInputActive")
+                                ?: headsUpEntry.getBooleanFieldOrNull("remoteInputActive") ?: false
+                            if (isRowPinned && !remoteInputActive) {
                                 val mRemoveAlertRunnable = (
                                     headsUpEntry.getObjectFieldOrNull("mRemoveRunnable") ?:
                                     headsUpEntry.getObjectFieldOrNull("mRemoveAlertRunnable")
-                                ) as Runnable
+                                ) as? Runnable ?: return@after
 
                                 // Android 15 开始没有 Handler
                                 android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(

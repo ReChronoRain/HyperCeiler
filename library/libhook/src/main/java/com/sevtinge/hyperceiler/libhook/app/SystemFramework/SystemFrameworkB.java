@@ -93,6 +93,8 @@ public class SystemFrameworkB extends BaseLoad {
 
     @Override
     public void onPackageLoaded() {
+        initHook(new com.sevtinge.hyperceiler.libhook.rules.weather.WeatherNativeBridgeOS4(),
+            com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));
         // HYOS/Flutter launcher has no Java Activity entry. WMS owns its backdrop instead.
         initHook(new com.sevtinge.hyperceiler.libhook.rules.home.dock.HomeDockWindow(),
             com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f));

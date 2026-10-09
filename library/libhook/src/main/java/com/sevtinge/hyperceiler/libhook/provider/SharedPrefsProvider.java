@@ -140,6 +140,7 @@ public class SharedPrefsProvider extends ContentProvider {
         uriMatcher.addURI(AUTHORITY, "pref/*/*", 7);
         uriMatcher.addURI(AUTHORITY, "dock_geometry", 8);
         uriMatcher.addURI(AUTHORITY, "home_layout", 9);
+        uriMatcher.addURI(AUTHORITY, "weather_config", 10);
         uriMatcher.addURI(AUTHORITY, "test/*", 5);
         uriMatcher.addURI(AUTHORITY, "shortcut_icon/*", 6);
     }
@@ -186,6 +187,9 @@ public class SharedPrefsProvider extends ContentProvider {
 
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+        if (AUTHORITY.equals(uri.getAuthority()) && "/weather_config".equals(uri.getPath())) {
+            return WeatherPrefsSnapshot.cursor(prefs);
+        }
         if (AUTHORITY.equals(uri.getAuthority()) && "/diagnostics/dock_glass_api".equals(uri.getPath())) {
             return DockGlassDiagnostics.query();
         }

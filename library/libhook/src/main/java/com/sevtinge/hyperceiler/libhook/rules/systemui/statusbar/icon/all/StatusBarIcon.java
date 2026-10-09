@@ -60,7 +60,7 @@ public class StatusBarIcon extends BaseHook {
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_soundbox", 0), "sound_box", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_soundbox_screen", 0), "sound_box_screen", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_soundbox_group", 0), "sound_box_group", statusBarList, ctrlCenterList);
-        setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_soundbox_stereo", 0), "stereo", statusBarList, ctrlCenterList);
+        setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_soundbox_group_stereo", 0), "stereo", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_tv", 0), "tv", statusBarList, ctrlCenterList);
         setIcon(PrefsBridge.getStringAsInt("system_ui_status_bar_icon_wireless_headset", 0), "wireless_headset", statusBarList, ctrlCenterList);
 

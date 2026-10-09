@@ -42,6 +42,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemsettings.RunningServices;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.ShowAutoUIMode;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UnlockMaxFps;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UnlockNeverSleepScreen;
+import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UnlockNeverSleepScreenOS4;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UnlockTaplusForSettings;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UnlockXiaomiHyperAIEntranceKt;
 import com.sevtinge.hyperceiler.libhook.rules.systemsettings.UsbModeChoose;
@@ -75,7 +76,9 @@ public class SystemSettingsB extends BaseLoad {
         initHook(UnlockTaplusForSettings.INSTANCE, PrefsBridge.getBoolean("content_extension_unlock_taplus"));
 
         // 显示与息屏
-        initHook(new UnlockNeverSleepScreen(), PrefsBridge.getBoolean("system_settings_allow_never_lock_screen"));
+        initHook(com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion(4f)
+            ? new UnlockNeverSleepScreenOS4() : new UnlockNeverSleepScreen(),
+            PrefsBridge.getBoolean("system_settings_allow_never_lock_screen"));
         initHook(new UnlockSuperResolution(), PrefsBridge.getBoolean("system_settings_ai_image_unlock_sr"));
         initHook(new UnlockAi(), PrefsBridge.getBoolean("system_settings_ai_image_unlock_ai"));
         initHook(new UnlockMemc(), PrefsBridge.getBoolean("system_settings_ai_image_unlock_memc"));

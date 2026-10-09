@@ -1660,6 +1660,7 @@
     <string name="barrage_global_enable">Allow global use of barrage notifications</string>
     <string name="barrage_not_touchable">Barrage notification not touchable</string>
     <string name="barrage_custom_barrage_length">Custom barrage notification length</string>
+    <string name="barrage_custom_barrage_length_desc">Maximum displayed text length before the ellipsis. Default keeps the system limit. Some emoji use multiple length units. Restart Barrage after changing.</string>
     <!--Joyose-->
     <string name="joyose">Joyose</string>
     <string name="joyose_cloud_control_title">Cloud control</string>
