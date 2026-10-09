@@ -4,9 +4,12 @@ package com.sevtinge.hyperceiler.libhook.rules.home.dock;
 import android.os.Binder;
 import android.os.IBinder;
 import android.os.Parcel;
+import android.os.SystemClock;
 
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge;
 import com.sevtinge.hyperceiler.libhook.base.BaseHook;
+import com.sevtinge.hyperceiler.libhook.base.BaseLoad;
+import com.sevtinge.hyperceiler.libhook.base.FrameworkHookGate;
 import com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot;
 
 import java.io.FileInputStream;
@@ -16,6 +19,19 @@ import java.io.IOException;
 public final class HomeLayoutNativeEndpointOS4 {
     public static final int TRANSACTION_CODE = 0x0048434C;
     public static final int ACK = 0x48434C34;
+    /** Separate versioned reply; older layout clients keep their existing wire format. */
+    public static final int HYOS_TRANSACTION_CODE = 0x00484359;
+    public static final int HYOS_ACK = 0x48435931;
+    public static final int HYOS_ALLOWED = 1;
+    public static final int HYOS_HIGH_MODELS = 2;
+    public static final int HYOS_DISABLE_PRESTART = 4;
+    public static final int HYOS_SOFT_GLASS = 8;
+    public static final int HYOS_DOCK = 16;
+    public static final int HYOS_HIDE_REPORT = 32;
+    /** HCS1 is a fixed 188-byte atomic authorization + layout reply. HCY1/HCL4 stay unchanged. */
+    public static final int COMBINED_TRANSACTION_CODE = 0x00484353;
+    public static final int COMBINED_ACK = 0x48435331;
+    public static final int COMBINED_REPLY_BYTES = 188;
     private static final String DESCRIPTOR = "android.view.IWindowManager";
     /**
      * Where the current values come from.
@@ -41,16 +57,65 @@ public final class HomeLayoutNativeEndpointOS4 {
     private static final long MAX_REFRESH_BACKOFF_MS = 30000;
     private static final String TAG = "HyperCeiler.HomeLayoutEndpoint";
     private static volatile java.util.Map<String, Integer> cachedValues;
+    // These fields publish under refresherLock with the matching numeric revision. They are
+    // deliberately not restored from old-generation cache: Hyos needs a live provider revision.
+    private static String cachedFrameworkReason;
+    private static FrameworkHookGate.Fingerprint cachedFrameworkFingerprint;
+    private static boolean hyosSnapshotLive;
+    private static long hyosSnapshotAtNanos;
+    private static final long HYOS_MAX_SNAPSHOT_AGE_NANOS = 5_000_000_000L;
     private static volatile String lastDenied;
     private static volatile String lastAccepted;
     private static Thread refresher;
-    private static boolean paused;
+    private static volatile boolean paused;
     private static long refreshEpoch;
+    private static long refreshTicket;
+    private static long combinedEpoch;
+    private static long combinedRevision;
+    private static volatile PublishedSnapshot combinedPublished;
     private static final String RELOAD_CACHE_KEY = "OS4.HomeLayout.ProviderSnapshot.v1";
     private static final Object refresherLock = new Object();
 
     /** Every key this endpoint reads, without the module's own key prefix. */
     private static final String[][] PREF_KEYS = HomeLayoutPrefsSnapshot.specs();
+
+    // A publication sequence, not a SharedPreferences disk commit number. All fields come from
+    // one getAll cursor. The immutable numeric map and private layout never cross reload.
+    private record PublishedSnapshot(java.util.Map<String, Integer> values, String reason,
+        FrameworkHookGate.Fingerprint framework, Snapshot layout, long epoch, long revision,
+        long deadline) { }
+
+    public record CombinedSnapshot(int available, int flags, long epoch, long revision,
+        long deadline, Snapshot layout) {
+        public CombinedSnapshot { layout = copyLayout(layout); }
+        @Override public Snapshot layout() { return copyLayout(layout); }
+    }
+
+    private static Snapshot emptyLayout() {
+        return new Snapshot(ACK, 0, 0, 0, new int[KNOB_ROWS.length],
+            new int[KNOB_ROWS.length], new int[TWEAK_COUNT]);
+    }
+
+    private static Snapshot copyLayout(Snapshot value) {
+        if (value == null) return emptyLayout();
+        return new Snapshot(value.acknowledgment(), value.gridEnabled(), value.cellX(), value.cellY(),
+            value.knobEnabled().clone(), value.knobDeltaDp().clone(), value.tweaks().clone());
+    }
+
+    private static CombinedSnapshot unavailableCombined(PublishedSnapshot value) {
+        return new CombinedSnapshot(0, 0, value == null ? 0 : value.epoch(),
+            value == null ? 0 : value.revision(), 0, null);
+    }
+
+    /** Caller holds refresherLock. Invalidations are publications too. */
+    private static void invalidateCombinedLocked() {
+        if (combinedEpoch == 0) { combinedPublished = null; return; }
+        combinedPublished = new PublishedSnapshot(null, null, null, null, combinedEpoch,
+            ++combinedRevision, 0);
+    }
+
+    /** Start the one background query worker after installing WMS routing, before Home asks. */
+    public static void startCombinedPrefetch() { ensureRefresher(); }
 
     private static void restoreProviderSnapshot() {
         if (cachedValues != null) return;
@@ -103,6 +168,7 @@ public final class HomeLayoutNativeEndpointOS4 {
         synchronized (refresherLock) {
             paused = true;
             ++refreshEpoch; // A query already in flight must not publish after retirement.
+            invalidateCombinedLocked();
             worker = refresher;
             if (worker == null) return true;
             worker.interrupt();
@@ -130,15 +196,49 @@ public final class HomeLayoutNativeEndpointOS4 {
     /** One Binder query / one physical settings revision, including an explicit empty reset. */
     static boolean refreshFromProvider() {
         final long epoch;
+        final long ticket;
         synchronized (refresherLock) {
             if (paused) return false;
             epoch = refreshEpoch;
+            ticket = ++refreshTicket;
+        }
+        // The lease begins BEFORE the provider call. A slow response cannot renew stale data.
+        final long started = SystemClock.elapsedRealtimeNanos();
+        boolean success;
+        try { success = tryRefreshFromProvider(epoch, ticket, started); }
+        catch (RuntimeException | Error unavailable) { success = false; }
+        synchronized (refresherLock) {
+            if (!success && refreshEpoch == epoch && refreshTicket == ticket) {
+                hyosSnapshotLive = false;
+                invalidateCombinedLocked();
+            }
+        }
+        return success;
+    }
+
+    private static boolean tryRefreshFromProvider(long epoch, long ticket, long started) {
+        if (started <= 0 || started > Long.MAX_VALUE - HYOS_MAX_SNAPSHOT_AGE_NANOS) return false;
+        final boolean needsEpoch;
+        synchronized (refresherLock) {
+            if (paused || refreshEpoch != epoch || refreshTicket != ticket) return false;
+            needsEpoch = combinedEpoch == 0;
+        }
+        if (needsEpoch) {
+            // Once per generation, on the provider worker, outside publication/WMS locks.
+            long nonce = java.util.UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
+            if (nonce == 0) nonce = 1;
+            synchronized (refresherLock) {
+                if (paused || refreshEpoch != epoch || refreshTicket != ticket) return false;
+                if (combinedEpoch == 0) combinedEpoch = nonce;
+            }
         }
         final android.content.Context context =
             com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
                 com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
         if (context == null) return false;
         final java.util.Map<String, Integer> values = new java.util.HashMap<>();
+        final java.util.Map<String, String> frameworkText = new java.util.HashMap<>();
+        long frameworkVersionCode = Long.MIN_VALUE;
         try {
             final android.content.ContentResolver resolver = context.getContentResolver();
             if (resolver == null) return false;
@@ -154,16 +254,33 @@ public final class HomeLayoutNativeEndpointOS4 {
                     final String key = PREF_KEYS[index][1];
                     final int column = index + 1;
                     if (!key.equals(cursor.getColumnName(column))) return false;
-                    if (!cursor.isNull(column)) values.put(key, cursor.getInt(column));
+                    if (cursor.isNull(column)) continue;
+                    switch (PREF_KEYS[index][0]) {
+                        case "text" -> frameworkText.put(key, cursor.getString(column));
+                        case "long" -> frameworkVersionCode = cursor.getLong(column);
+                        default -> values.put(key, cursor.getInt(column));
+                    }
                 }
             }
         } catch (RuntimeException | Error unavailable) { return false; }
         final java.util.Map<String, Integer> complete = java.util.Collections.unmodifiableMap(values);
+        final Snapshot layout = decodeLayout(complete);
+        final long deadline = started + HYOS_MAX_SNAPSHOT_AGE_NANOS;
         synchronized (refresherLock) {
-            if (paused || refreshEpoch != epoch) return false;
+            final long now = SystemClock.elapsedRealtimeNanos();
+            if (paused || refreshEpoch != epoch || refreshTicket != ticket
+                || now < started || now >= deadline) return false;
             // Boot-classloader Map/String/Integer only; no endpoint, callback or Thread crosses reload.
             BaseHook.putHotReloadRuntimeState(RELOAD_CACHE_KEY, complete);
             cachedValues = complete;
+            cachedFrameworkReason = frameworkText.get("framework_check_reason");
+            cachedFrameworkFingerprint = new FrameworkHookGate.Fingerprint(
+                frameworkText.get("framework_check_name"),
+                frameworkText.get("framework_check_version"), frameworkVersionCode);
+            hyosSnapshotAtNanos = System.nanoTime();
+            hyosSnapshotLive = true;
+            combinedPublished = new PublishedSnapshot(complete, cachedFrameworkReason,
+                cachedFrameworkFingerprint, layout, combinedEpoch, ++combinedRevision, deadline);
         }
         return true;
     }
@@ -220,6 +337,128 @@ public final class HomeLayoutNativeEndpointOS4 {
     HomeLayoutNativeEndpointOS4(CallerVerifier verifier, PreferenceReader preferences) {
         this.verifier = verifier;
         this.preferences = preferences;
+    }
+
+    /** -1 means unavailable/denied, 0 is an authoritative disabled configuration. */
+    public int receiveHyosFlags(Parcel data, int flags) {
+        data.enforceInterface(DESCRIPTOR);
+        if ((flags & IBinder.FLAG_ONEWAY) != 0 || data.dataAvail() != 0) return -1;
+        final int uid = Binder.getCallingUid();
+        final int pid = Binder.getCallingPid();
+        if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid)) return -1;
+        return readHyosFlags();
+    }
+
+    static int readHyosFlags() {
+        ensureRefresher();
+        final java.util.Map<String, Integer> values;
+        final String frameworkReason;
+        final FrameworkHookGate.Fingerprint checkedFramework;
+        synchronized (refresherLock) {
+            if (!hyosSnapshotLive || paused
+                || System.nanoTime() - hyosSnapshotAtNanos > HYOS_MAX_SNAPSHOT_AGE_NANOS) return -1;
+            values = cachedValues;
+            frameworkReason = cachedFrameworkReason;
+            checkedFramework = cachedFrameworkFingerprint;
+        }
+        // No JNI/remote-preference fallback in a Rust child. Activation requires
+        // the module application's authoritative snapshot and normal hook gates.
+        if (values == null) return -1;
+        return deriveHyosFlags(values, frameworkReason, checkedFramework);
+    }
+
+    private static int deriveHyosFlags(java.util.Map<String, Integer> values, String frameworkReason,
+        FrameworkHookGate.Fingerprint checkedFramework) {
+        if (!readBoolean(values, "allow_hook", false)) return 0;
+        if (!FrameworkHookGate.isAllowed(readBoolean(values, "framework_api_allow_hook", true),
+                frameworkReason, () -> {
+                    final var framework = BaseLoad.getXposed();
+                    if (framework == null) return null;
+                    return new FrameworkHookGate.Fingerprint(framework.getFrameworkName(),
+                        framework.getFrameworkVersion(), framework.getFrameworkVersionCode());
+                }, () -> checkedFramework)) return 0;
+        int flags = HYOS_ALLOWED;
+        if (readBoolean(values, "home_other_high_models", false)) flags |= HYOS_HIGH_MODELS;
+        if (readBoolean(values, "home_other_disable_prestart", false)) flags |= HYOS_DISABLE_PRESTART;
+        final boolean dock = readBoolean(values, "home_dock_bg_custom_enable", false);
+        if (dock) {
+            flags |= HYOS_DOCK;
+            if (readInt(values, "home_dock_add_blur", 0) == 1) flags |= HYOS_SOFT_GLASS;
+        }
+        if (readBoolean(values, "home_title_hide_report_text", false)) flags |= HYOS_HIDE_REPORT;
+        return flags;
+    }
+
+    public CombinedSnapshot receiveCombinedSnapshot(Parcel data, int flags) {
+        data.enforceInterface(DESCRIPTOR);
+        if ((flags & IBinder.FLAG_ONEWAY) != 0 || data.dataAvail() != 0)
+            return unavailableCombined(null);
+        final int uid = Binder.getCallingUid(), pid = Binder.getCallingPid();
+        if (uid < 10000 || pid <= 0 || !verifier.isLauncher(uid, pid))
+            return unavailableCombined(null);
+        return readCombinedSnapshot();
+    }
+
+    static CombinedSnapshot readCombinedSnapshot() {
+        ensureRefresher();
+        // Framework inspection is outside the publication lock. A concurrent invalidation or
+        // refresh makes this attempt unusable; never combine old flags with a newer layout.
+        for (int attempt = 0; attempt < 2; ++attempt) {
+            final PublishedSnapshot value = combinedPublished;
+            final long now = SystemClock.elapsedRealtimeNanos();
+            if (value == null || paused || value.values() == null || now <= 0
+                || now >= value.deadline()
+                || value.deadline() - now > HYOS_MAX_SNAPSHOT_AGE_NANOS) return unavailableCombined(value);
+            final int flags = deriveHyosFlags(value.values(), value.reason(), value.framework());
+            final long finished = SystemClock.elapsedRealtimeNanos();
+            if (combinedPublished != value || paused) continue;
+            if (finished < now || finished >= value.deadline()) return unavailableCombined(value);
+            if (flags == 0) return new CombinedSnapshot(1, 0, value.epoch(), value.revision(), 0, null);
+            if (!validCombinedLayout(value.layout())) return unavailableCombined(value);
+            return new CombinedSnapshot(1, flags, value.epoch(), value.revision(),
+                value.deadline(), value.layout());
+        }
+        return unavailableCombined(combinedPublished);
+    }
+
+    private static boolean validCombinedLayout(Snapshot value) {
+        if (value == null || (value.gridEnabled() != 0 && value.gridEnabled() != 1)
+            || value.cellX() < 3 || value.cellX() > 9 || value.cellY() < 4 || value.cellY() > 13
+            || value.knobEnabled().length != KNOB_ROWS.length
+            || value.knobDeltaDp().length != KNOB_ROWS.length || value.tweaks().length != TWEAK_COUNT)
+            return false;
+        for (int i = 0; i < KNOB_ROWS.length; ++i) {
+            int enabled = value.knobEnabled()[i], delta = value.knobDeltaDp()[i];
+            if ((enabled != 0 && enabled != 1) || delta < -MAX_DELTA_DP || delta > MAX_DELTA_DP
+                || (enabled == 0 && delta != 0)) return false;
+        }
+        for (int i = 0; i < TWEAK_COUNT; ++i)
+            if (value.tweaks()[i] < TWEAK_MIN[i] || value.tweaks()[i] > TWEAK_MAX[i]) return false;
+        return true;
+    }
+
+    /** Fixed HCS1 wire, including the canonical zero payload for denied/unavailable replies. */
+    public static void writeCombinedReply(Parcel reply, CombinedSnapshot result) {
+        final CombinedSnapshot value = result == null ? unavailableCombined(null) : result;
+        final Snapshot layout = value.layout();
+        reply.setDataSize(0);
+        reply.setDataPosition(0);
+        reply.writeInt(COMBINED_ACK);
+        reply.writeInt(value.available());
+        reply.writeInt(value.flags());
+        reply.writeLong(value.epoch());
+        reply.writeLong(value.revision());
+        reply.writeLong(value.deadline());
+        reply.writeInt(layout.gridEnabled());
+        reply.writeInt(layout.cellX());
+        reply.writeInt(layout.cellY());
+        reply.writeInt(KNOB_ROWS.length);
+        for (int i = 0; i < KNOB_ROWS.length; ++i) {
+            reply.writeInt(layout.knobEnabled()[i]);
+            reply.writeInt(layout.knobDeltaDp()[i]);
+        }
+        reply.writeInt(TWEAK_COUNT);
+        for (int valuePart : layout.tweaks()) reply.writeInt(valuePart);
     }
 
     public Snapshot receive(Parcel data, int flags) {
@@ -311,6 +550,10 @@ public final class HomeLayoutNativeEndpointOS4 {
         // Capture once: the refresher may publish during this Binder transaction. Mixing an old
         // enable with a new value would otherwise produce a position nobody actually selected.
         final java.util.Map<String, Integer> values = cachedValues;
+        return decodeLayout(values);
+    }
+
+    private static Snapshot decodeLayout(java.util.Map<String, Integer> values) {
         boolean gridEnabled = readBoolean(values, "home_layout_unlock_grids_new", false);
         int cellX = readInt(values, "home_layout_unlock_grids_cell_x", 4);
         int cellY = readInt(values, "home_layout_unlock_grids_cell_y", 6);
@@ -475,9 +718,23 @@ public final class HomeLayoutNativeEndpointOS4 {
         return Math.max(-MAX_DELTA_DP, Math.min(MAX_DELTA_DP, deltaDp));
     }
 
-    /** Binder's synchronous PID plus its exact process name identify this caller before WMS binds a window. */
+    /** Bind Binder's UID to the Home package as well as checking its exact live process name. */
+    static boolean uidBelongsToLauncher(int uid) {
+        if (uid < 10000) return false;
+        try {
+            final android.content.Context context =
+                com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.getContextNoError(
+                    com.sevtinge.hyperceiler.libhook.utils.api.ContextUtils.FlAG_ONLY_ANDROID);
+            if (context == null || context.getPackageManager() == null) return false;
+            final String[] packages = context.getPackageManager().getPackagesForUid(uid);
+            if (packages == null) return false;
+            for (String name : packages) if ("com.miui.home".equals(name)) return true;
+        } catch (RuntimeException unavailable) { return false; }
+        return false;
+    }
+
     private static boolean verifyLauncherProcess(int uid, int pid) {
-        if (uid < 10000 || pid <= 0) return false;
+        if (pid <= 0 || !uidBelongsToLauncher(uid)) return false;
         final byte[] command = new byte[64];
         try (FileInputStream input = new FileInputStream("/proc/" + pid + "/cmdline")) {
             final int count = input.read(command);

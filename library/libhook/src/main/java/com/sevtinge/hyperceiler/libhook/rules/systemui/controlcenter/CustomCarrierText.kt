@@ -24,6 +24,13 @@ import androidx.core.view.isVisible
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
 import com.sevtinge.hyperceiler.libhook.utils.api.PropUtils
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
+import io.github.libxposed.api.XposedInterface
+import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam
+import io.github.lingqiqi5211.ezhooktool.xposed.java.IMethodHook
+import java.lang.reflect.Method
+import java.lang.reflect.Modifier
+import java.util.concurrent.atomic.AtomicBoolean
 import io.github.lingqiqi5211.ezhooktool.core.callMethod
 import io.github.lingqiqi5211.ezhooktool.core.callMethodAs
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
@@ -34,7 +41,7 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldAs
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.setIntField
 
 /**
- * OS3 控制中心运行商名称自定义
+ * 控制中心运营商名称自定义；设置变更后重启系统界面。
  */
 object CustomCarrierText : BaseHook() {
 
@@ -43,6 +50,10 @@ object CustomCarrierText : BaseHook() {
     }
 
     override fun init() {
+        if (isMoreHyperOSVersion(4f)) {
+            hookOS4()
+            return
+        }
         loadClass("com.android.systemui.statusbar.policy.HDController").findMethod { name("isVisible") }.createBeforeHook { param ->
                 param.result = false
             }
@@ -55,6 +66,102 @@ object CustomCarrierText : BaseHook() {
             2 -> hideCarrierText()
         }
     }
+
+    private fun hookOS4() {
+        val mode = PrefsBridge.getStringAsInt("system_ui_control_center_hide_operator", 0)
+        if (mode !in 1..3) return
+        val active = AtomicBoolean(false)
+        val handles = ArrayList<XposedInterface.HookHandle>()
+        try {
+            val callback = exactMethod(
+                requiredClass($$"com.android.systemui.controlcenter.shade.ControlCenterCarrierText$mCarrierTextCallback$1"),
+                "onCarrierTextChanged", Int::class.java, String::class.java, Int::class.java
+            )
+            val layout = requiredClass("com.android.systemui.controlcenter.shade.MiuiCarrierTextLayout")
+            val additional: Method?
+            val views: List<java.lang.reflect.Field>
+            if (mode == 1) {
+                additional = exactMethod(layout, "onMeasure", Int::class.java, Int::class.java)
+                views = listOf(viewField(layout, "carrierSeparatorView"), viewField(layout, "carrierSeparatorText"))
+            } else if (mode == 2) {
+                val header = requiredClass("com.android.systemui.controlcenter.shade.ControlCenterHeaderController")
+                val privacy = "com.android.systemui.plugins.miui.statusbar.MiuiPrivacyController"
+                additional = exactMethod(header, "updateCarrierAndPrivacyVisible",
+                    requiredClass(privacy + "\$MiuiPromptInfo"), requiredClass(privacy + "\$AndroidPromptInfo"))
+                views = listOf(viewField(header, "carrierLayout"))
+            } else {
+                additional = null
+                views = emptyList()
+            }
+            handles.add(checkNotNull(hookMethod(callback, object : IMethodHook {
+                override fun before(param: HookParam) {
+                    if (!active.get() || param.isSkipped) return
+                    try {
+                        // ROM contract: available carrier count, text, physical SIM slot. Never replace either int.
+                        val carrierCount = param.args[0] as? Int ?: return
+                        val text = param.args[1] as? String
+                        val slot = param.args[2] as? Int ?: return
+                        if (carrierCount !in 0..2 || slot !in 0..1) return
+                        if (mode != 3 && text.isNullOrEmpty()) return
+                        param.args[1] = when (mode) {
+                            1 -> text!!.replace("  |  ", "").replace(" | ", "")
+                            2 -> ""
+                            // Keep one fixed display slot even when only SIM2 is active. The
+                            // producer deduplicates each text using a shared carrier count.
+                            // A count-dependent display slot can miss the second callback.
+                            else -> if (carrierCount == 0) text else {
+                                val name = PropUtils.getProp("persist.private.device_name")
+                                if (name.isNullOrBlank()) text else if (slot == 0) name else ""
+                            }
+                        }
+                    } catch (error: RuntimeException) {
+                        debugCallbackError("OS4 carrier text", error)
+                    }
+                }
+            })))
+            if (additional != null) {
+                handles.add(checkNotNull(hookMethod(additional, object : IMethodHook {
+                    override fun after(param: HookParam) {
+                        if (!active.get() || param.hasThrowable) return
+                        try {
+                            // Preserve the ROM's full measurement/privacy/accessibility work.
+                            // INVISIBLE keeps its measured spacing; a GONE view stays GONE.
+                            for (field in views) {
+                                val view = field.get(param.thisObject) as? View ?: continue
+                                if (view.visibility == View.VISIBLE) view.visibility = View.INVISIBLE
+                            }
+                        } catch (error: ReflectiveOperationException) {
+                            debugCallbackError("OS4 carrier visibility", error)
+                        } catch (error: RuntimeException) {
+                            debugCallbackError("OS4 carrier visibility", error)
+                        }
+                    }
+                })))
+            }
+            active.set(true)
+        } catch (error: Exception) {
+            active.set(false)
+            for (handle in handles) {
+                try { handle.unhook() } catch (rollback: RuntimeException) { error.addSuppressed(rollback) }
+            }
+            throw IllegalStateException("OS4 carrier callback shape or registration unavailable", error)
+        }
+    }
+
+    private fun requiredClass(name: String): Class<*> =
+        findClassIfExists(name) ?: throw IllegalStateException("Missing OS4 carrier class: $name")
+
+    private fun exactMethod(owner: Class<*>, name: String, vararg args: Class<*>): Method =
+        owner.getDeclaredMethod(name, *args).also {
+            check(it.returnType == Void.TYPE && !Modifier.isStatic(it.modifiers))
+            it.isAccessible = true
+        }
+
+    private fun viewField(owner: Class<*>, name: String): java.lang.reflect.Field =
+        owner.getDeclaredField(name).also {
+            check(View::class.java.isAssignableFrom(it.type) && !Modifier.isStatic(it.modifiers))
+            it.isAccessible = true
+        }
 
     private fun hookLegacyCarrierText() {
         runCatching {

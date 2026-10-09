@@ -40,8 +40,9 @@
         <SeekBarPreferenceCompat
             android:key="prefs_key_barrage_custom_barrage_length"
             android:title="@string/barrage_custom_barrage_length"
+            android:summary="@string/barrage_custom_barrage_length_desc"
             android:defaultValue="36"
-            app:format="%s dp"
+            app:format="%s"
             app:defaultValueTitle="@string/array_default"
             app:maxValue="108"
             app:minValue="12" />

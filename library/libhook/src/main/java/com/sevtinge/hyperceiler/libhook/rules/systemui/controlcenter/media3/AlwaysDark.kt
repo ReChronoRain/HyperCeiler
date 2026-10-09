@@ -22,6 +22,7 @@ import android.content.Context
 import android.content.res.Configuration
 import com.sevtinge.hyperceiler.common.utils.PrefsBridge
 import com.sevtinge.hyperceiler.libhook.base.BaseHook
+import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion
 import com.sevtinge.hyperceiler.libhook.utils.hookapi.systemui.controlcenter.PublicClass.miuiMediaViewControllerImpl
 import io.github.lingqiqi5211.ezhooktool.core.findMethod
 import io.github.lingqiqi5211.ezhooktool.core.java.Constructors
@@ -41,6 +42,10 @@ object AlwaysDark : BaseHook() {
     }
 
     override fun init() {
+        if (isMoreHyperOSVersion(4f)) {
+            AlwaysDarkOS4.init()
+            return
+        }
         if (backgroundStyle != 0 || !alwaysDark) return
 
         val fldListeners = findClassIfExists(

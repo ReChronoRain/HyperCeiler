@@ -335,6 +335,8 @@ class HomeDockWindow : BaseHook() {
     private val nativeMotionReply = ThreadLocal<Int>()
     private val layoutEndpoint = HomeLayoutNativeEndpointOS4()
     private val layoutReply = ThreadLocal<HomeLayoutNativeEndpointOS4.Snapshot>()
+    private val combinedReply = ThreadLocal<HomeLayoutNativeEndpointOS4.CombinedSnapshot>()
+    private val hyosReply = ThreadLocal<Int>()
     private data class ScheduledFrame(val epoch: Long, val tick: Runnable)
     /** One background transform for one frame. The pose is identity unless the reveal is live. */
     private data class FrameUpdate(val layer: Layer, val y: Float,
@@ -558,12 +560,19 @@ class HomeDockWindow : BaseHook() {
                         if (stopped) return@createBeforeHook
                         val code = param.args[0] as Int
                         val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
-                        if (!layout && !DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
+                        val hyos = code == HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE
+                        val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
+                        if (!layout && !hyos && !combined && !DockNativeMotionEndpoint.handles(code)) return@createBeforeHook
                         val data = param.args[1] as Parcel
                         val position = data.dataPosition()
-                        if (layout) layoutReply.remove() else nativeMotionReply.remove()
+                        if (layout) layoutReply.remove() else if (hyos) hyosReply.remove()
+                        else if (combined) combinedReply.remove() else nativeMotionReply.remove()
                         runCatching {
-                            if (layout) {
+                            if (combined) {
+                                combinedReply.set(layoutEndpoint.receiveCombinedSnapshot(data, param.args[3] as Int))
+                            } else if (hyos) {
+                                hyosReply.set(layoutEndpoint.receiveHyosFlags(data, param.args[3] as Int))
+                            } else if (layout) {
                                 layoutReply.set(layoutEndpoint.receive(data, param.args[3] as Int))
                             } else {
                                 nativeMotionReply.set(nativeMotionEndpoint.receive(
@@ -582,14 +591,26 @@ class HomeDockWindow : BaseHook() {
                 transact.createAfterHook { param ->
                     val code = param.args[0] as Int
                     val layout = code == HomeLayoutNativeEndpointOS4.TRANSACTION_CODE
+                    val hyos = code == HomeLayoutNativeEndpointOS4.HYOS_TRANSACTION_CODE
+                    val combined = code == HomeLayoutNativeEndpointOS4.COMBINED_TRANSACTION_CODE
                     val state = code == DockNativeMotionEndpoint.STATE_TRANSACTION_CODE
                     if (stopped
-                        || (!layout && !state && !DockNativeMotionEndpoint.handles(code))) {
+                        || (!layout && !hyos && !combined && !state && !DockNativeMotionEndpoint.handles(code))) {
                         return@createAfterHook
                     }
                     val reply = param.args[2] as? Parcel ?: return@createAfterHook
                     reply.setDataPosition(0)
-                    if (state) {
+                    if (combined) {
+                        val result = combinedReply.get()
+                        combinedReply.remove()
+                        HomeLayoutNativeEndpointOS4.writeCombinedReply(reply, result)
+                    } else if (hyos) {
+                        val flags = hyosReply.get() ?: -1
+                        hyosReply.remove()
+                        reply.writeInt(HomeLayoutNativeEndpointOS4.HYOS_ACK)
+                        reply.writeInt(if (flags >= 0) 1 else 0)
+                        reply.writeInt(if (flags >= 0) flags else 0)
+                    } else if (state) {
                         // Answered here, not pushed: system_server is the only side that knows
                         // whether the panel is interactive and its own WindowState is visible.
                         // The launcher-native side has no reverse channel to be told. The body is
@@ -624,6 +645,7 @@ class HomeDockWindow : BaseHook() {
                     }
                     param.result = true
                 }
+                HomeLayoutNativeEndpointOS4.startCombinedPrefetch()
                 glassClient.record("native motion IWindowManager endpoint ready")
             }.onFailure {
                 glassClient.record("native motion IWindowManager endpoint unavailable=${it.javaClass.simpleName}")
