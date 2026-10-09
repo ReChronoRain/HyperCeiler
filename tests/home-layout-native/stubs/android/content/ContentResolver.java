@@ -2,7 +2,7 @@ package android.content;
 
 /** Legacy per-key and atomic single-row provider fixtures; no Android/device dependency. */
 public class ContentResolver {
-    private static final java.util.Map<String, Integer> ROWS = new java.util.HashMap<>();
+    private static final java.util.Map<String, Object> ROWS = new java.util.HashMap<>();
     private static String[][] specs = new String[0][];
     private static int failureIndex = -1, queries;
     private static String failureMode;
@@ -14,7 +14,7 @@ public class ContentResolver {
     public static void putRow(String key, int value) { ROWS.put(key, value); }
     public static void wrongSchema(boolean value) { wrongSchema = value; }
     public static void emptyBatch(boolean value) { emptyBatch = value; }
-    public static void setRows(java.util.Map<String, Integer> rows) {
+    public static void setRows(java.util.Map<String, ?> rows) {
         ROWS.clear(); if (rows != null) ROWS.putAll(rows);
         wrongSchema = emptyBatch = false; afterRead = null; failAt(-1, null);
     }
@@ -39,9 +39,18 @@ public class ContentResolver {
                     return !snapshot.containsKey(key);
                 }
                 public int getInt(int i) {
-                    if (i == 0) return wrongSchema ? 999 : 1;
+                    if (i == 0) return wrongSchema ? 999
+                        : com.sevtinge.hyperceiler.libhook.provider.HomeLayoutPrefsSnapshot.SCHEMA;
                     if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cell");
-                    return snapshot.get("prefs_key_" + specs[i-1][1]);
+                    return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).intValue();
+                }
+                public String getString(int i) {
+                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor string");
+                    return (String)snapshot.get("prefs_key_" + specs[i-1][1]);
+                }
+                public long getLong(int i) {
+                    if (i-1 == failureIndex && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor long");
+                    return ((Number)snapshot.get("prefs_key_" + specs[i-1][1])).longValue();
                 }
                 public void close() {
                     if (failureIndex >= 0 && "close".equals(failureMode)) throw new IllegalStateException("close failed");
@@ -49,7 +58,7 @@ public class ContentResolver {
             };
         }
         final String key = path.substring(path.lastIndexOf('/') + 1);
-        final Integer value = ROWS.get(key);
+        final Object value = ROWS.get(key);
         final boolean fail = queries++ == failureIndex;
         if (fail && "query".equals(failureMode)) throw new IllegalStateException("provider frozen");
         if (fail && "null".equals(failureMode)) return null;
@@ -61,7 +70,7 @@ public class ContentResolver {
             }
             public int getInt(int i) {
                 if (fail && "read".equals(failureMode)) throw new IllegalStateException("invalid cursor");
-                return value;
+                return ((Number)value).intValue();
             }
             public void close() {
                 if (fail && "close".equals(failureMode)) throw new IllegalStateException("close failed");

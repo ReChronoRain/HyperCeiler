@@ -34,5 +34,10 @@ if len(sys.argv)>1:
  assert all(not any(a<=b<b2 for a,b2 in windows) for _,b in windows)
  for name,label in [('WidgetPositionUtil.getCellPosition','kFolderPositionOriginal'),('FolderIconGetxController.calOriginPreviewIconLoc','kFolderSizeOriginal')]:
   text=h.split(label+'[] = {')[1].split('};')[0];expect=b''.join(int(w,16).to_bytes(4,'little') for w in re.findall('0x[0-9a-f]+',text))
-  va,z=max([(v,z) for v,z,n in s.entries if n==name],key=lambda t:t[1]);assert len(expect)==z and e.read(va,z)==expect
- print('launcher 7722 full bodies: PASS (129 + 169 original instructions)')
+  va,z=max([(v,z) for v,z,n in s.entries if n==name],key=lambda t:t[1]);assert len(expect)==z
+  variant=bytearray(expect)
+  calls=h.split(label.replace('Original','Calls7719')+'[] = {')[1].split('};')[0]
+  for offset,word in re.findall(r'\{(0x[0-9a-f]+), (0x[0-9a-f]+)\}',calls):
+   at=int(offset,16);variant[at:at+4]=int(word,16).to_bytes(4,'little')
+  assert e.read(va,z) in (expect,variant)
+ print('launcher 7719/7722 exact full bodies: PASS (129 + 169 original instructions)')

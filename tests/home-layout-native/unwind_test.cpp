@@ -2,6 +2,7 @@
 #include "targets/home/home_layout_unwind.h"
 #include "targets/home/home_layout_elf_targets.h"
 #include "nativehook/elf_image.h"
+#include "fixture_expectations.h"
 
 #include <cassert>
 #include <cstddef>
@@ -38,9 +39,11 @@ int main(int argc, char **argv) {
     header[3] = std::byte{0xff};
     assert(!home_layout::unwind::lookup(header, base, base + 0x240));
 
-    // Optional OTA calibration fixture. The addresses below are assertions about this extracted
-    // build, not target offsets used by the module. The index location itself comes from ELF.
+    // Optional OTA calibration fixture. Expectations come independently from its symbol table;
+    // the resolver only receives the ELF bytes and never the expected addresses.
     if (argc > 1) {
+        assert(argc == 3); // image plus independently generated symbol expectations
+        const auto expected = fixture_expectations(argv[2]);
         std::ifstream file(argv[1], std::ios::binary);
         assert(file);
         const std::string raw(std::istreambuf_iterator<char>{file}, {});
@@ -50,21 +53,17 @@ int main(int argc, char **argv) {
         assert(programs);
         const auto targets = home_layout::elf_targets::resolve(image);
         assert(targets);
-        // Symbol-table ground truth for this extracted build (launcher 8.01.02.6305), demangled from
-        // .gnu_debugdata: `<GridConfig>::instance`, `PhoneDeviceRules::get_grid_height_with_search_
-        // and_indicator`, `DeviceConfigs::get_cell_count_x/_y`, `device_utils::resolve_dimen_px`.
-        // They are the independent second path the resolver is checked against; the resolver itself
-        // carries no address.
-        assert(targets->grid_config_initializer == 0x58f588);
-        assert(targets->grid_height == 0x63bed4);
-        assert(targets->cell_count_x == 0x620f34);
-        assert(targets->cell_count_y == 0x620fe0);
-        assert(targets->resolve_dimen_px == 0x8217c0);
+        assert(targets->grid_config_initializer == expected.at("grid_config_initializer"));
+        assert(targets->grid_height == expected.at("grid_height"));
+        assert(targets->cell_count_x == expected.at("cell_count_x"));
+        assert(targets->cell_count_y == expected.at("cell_count_y"));
+        assert(targets->resolve_dimen_px == expected.at("resolve_dimen_px"));
+        std::printf("Rust resolver matches all 5 independent symbol addresses\n");
 
         /*
          * Every resolved entry must be a function begin according to the image's own
          * `.eh_frame_hdr`, which is discovered from the program headers rather than hardcoded. This is
-         * what keeps the fixture meaningful across an OTA: the expected values above change, but the
+         * what keeps the fixture meaningful across an OTA: the symbol-derived expected values change, but the
          * invariant does not.
          */
         bool checked = false;
