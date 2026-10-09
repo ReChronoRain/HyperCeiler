@@ -5,6 +5,8 @@ public interface Cursor extends AutoCloseable {
     boolean moveToFirst();
 
     int getInt(int columnIndex);
+    default long getLong(int columnIndex) { return getInt(columnIndex); }
+    default String getString(int columnIndex) { throw new UnsupportedOperationException(); }
     default int getColumnCount() { return 1; }
     default String getColumnName(int index) { return "data"; }
     default boolean isNull(int index) { return false; }

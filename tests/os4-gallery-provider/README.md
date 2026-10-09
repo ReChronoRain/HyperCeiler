@@ -1,0 +1,9 @@
+# Gallery creation availability in the OS4 MediaEditor provider
+
+Run `python3 tests/os4-gallery-provider/run.py` from the source root with JDK 21 or newer. `JAVA_HOME` can select a local JDK. The runner compiles the actual `GalleryCreationAvailabilityOS4.java` and `app/MediaEditor.java` into a temporary directory. Android, preference transport, hook registration, and the six unrelated MediaEditor rules are test fixtures; none are production dependencies or APK contents.
+
+The 47 cases cover the four exact protocol methods and switches, strict Gallery caller identity, unrelated queries/callers, original exceptions and skipped calls, missing/null/wrongly typed results, preservation of the original Bundle, exception recovery, per-request preference changes, and OS4/OS3 entry registration. These tests exercise the production callback and registration; they do not execute Binder, the vendor provider, LSPosed, or the Gallery UI.
+
+Run `python3 tests/os4-gallery-provider/mutations.py --output /absolute/new/output/path` for four negative controls. The runner changes only temporary production copies: no result override, missing caller guard, ignoring the original exception, and mutating the original Bundle. All four must fail the callback regression. The ordinary tests and controls are separate so a negative-control run never rewrites production.
+
+Actual target-ROM evidence is in `acceptance/gallery-weather-next/` in the parent workspace, including the native FRB/vtable/ContentResolver chain, provider manifest/smali, and a separate real-dependency `javac --release 21` compilation. Availability does not guarantee that downloaded algorithms, feature assets, or other Gallery capability gates are present. The ROM Vlog provider response is already true. MediaEditor must be enabled in LSPosed's module scope; enabling only Gallery cannot inject its native Hyos process.
