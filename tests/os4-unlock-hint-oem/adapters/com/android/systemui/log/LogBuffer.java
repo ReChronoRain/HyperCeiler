@@ -1,0 +1,2 @@
+package com.android.systemui.log;
+public class LogBuffer{public final java.util.ArrayList<LogMessageImpl>commits=new java.util.ArrayList<>();public com.android.systemui.log.core.LogMessage obtain(String tag,com.android.systemui.log.core.LogLevel level,kotlin.jvm.functions.Function1 fn,Throwable t){return new LogMessageImpl();}public void commit(com.android.systemui.log.core.LogMessage m){commits.add((LogMessageImpl)m);}}

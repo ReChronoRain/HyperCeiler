@@ -1,0 +1,1 @@
+package android.graphics;public class Paint{public static final int FILTER_BITMAP_FLAG=2;public Paint(){}public Paint(int f){}public ColorMatrixColorFilter getColorFilter(){return null;}public void setColorFilter(ColorMatrixColorFilter c){}}

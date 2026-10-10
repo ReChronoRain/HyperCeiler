@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="local.hyperceiler.ambientreloadprobe">
+ <uses-sdk android:minSdkVersion="35" android:targetSdkVersion="37"/>
+ <application android:label="Ambient native reload probe" android:debuggable="true" android:extractNativeLibs="true">
+  <activity android:name=".MainActivity" android:exported="true"/>
+ </application>
+</manifest>

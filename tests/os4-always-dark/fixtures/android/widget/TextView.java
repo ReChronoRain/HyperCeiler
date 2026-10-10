@@ -1,0 +1,1 @@
+package android.widget;import android.content.res.ColorStateList;public class TextView extends android.view.View{public ColorStateList colors=ColorStateList.valueOf(1);public static Runnable onSet;public ColorStateList getTextColors(){return colors;}public void setTextColor(ColorStateList c){colors=c;if(onSet!=null && c.color!=0xff111111){Runnable r=onSet;onSet=null;r.run();}} }

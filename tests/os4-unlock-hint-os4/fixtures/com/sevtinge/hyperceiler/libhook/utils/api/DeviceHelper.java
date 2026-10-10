@@ -1,0 +1,7 @@
+package com.sevtinge.hyperceiler.libhook.utils.api;
+public class DeviceHelper {
+    public static class System {
+        public static float version = 4;
+        public static boolean isMoreHyperOSVersion(float minimum) { return version >= minimum; }
+    }
+}

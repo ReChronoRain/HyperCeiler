@@ -1,0 +1,1 @@
+package android.content.res;public class Configuration{public static final int UI_MODE_NIGHT_MASK=48,UI_MODE_NIGHT_YES=32;public int uiMode=16,densityDpi=480;public float fontScale=1;public Configuration(){}public Configuration(Configuration c){uiMode=c.uiMode;densityDpi=c.densityDpi;fontScale=c.fontScale;} }

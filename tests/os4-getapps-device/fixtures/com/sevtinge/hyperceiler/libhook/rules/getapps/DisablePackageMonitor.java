@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.libhook.rules.getapps;import com.sevtinge.hyperceiler.libhook.base.BaseHook;public class DisablePackageMonitor extends BaseHook{public static final DisablePackageMonitor INSTANCE=new DisablePackageMonitor(); public void init(){}}

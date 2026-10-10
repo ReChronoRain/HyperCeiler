@@ -1,0 +1,2 @@
+package com.android.systemui.util.concurrency;
+public class ExecutorImpl {public static class ExecutionToken implements Runnable {public boolean cancelled,fired;public int cancellations;public final Runnable task;public final long delay;public ExecutionToken(Runnable r,long d){task=r;delay=d;}public void run(){cancelled=true;cancellations++;}public void fire(){if(!cancelled&&!fired){fired=true;task.run();}}}}

@@ -1,0 +1,1 @@
+package android.graphics; public class Canvas {public final java.util.List<ColorFilter> filters=new java.util.ArrayList<>();public void drawRect(float l,float t,float r,float b,Paint p){filters.add(p.getColorFilter());}}

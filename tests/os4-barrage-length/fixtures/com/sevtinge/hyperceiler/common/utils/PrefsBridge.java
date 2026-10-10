@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.common.utils;public class PrefsBridge {public static int limit=48,oldAlias=36;public static String lastKey;public static int getInt(String k,int d){lastKey=k;return k.equals("barrage_custom_barrage_length")?limit:k.equals("barrage_length")?oldAlias:d;}}

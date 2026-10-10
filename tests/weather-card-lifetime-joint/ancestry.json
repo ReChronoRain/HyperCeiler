@@ -1,0 +1,9 @@
+{
+  "source": "source/tests/weather-card-joint-runtime",
+  "files": {
+    "source/tests/weather-card-joint-runtime/runtime_test.cpp": "d776099113568f7fa8f1a1c6dcb64ffa7ccb7288691f02b4a65dbb169b628160",
+    "source/tests/weather-card-joint-runtime/calls.S": "87a126729a02c32484848837892ec8ac15112e179b54b41460495efed177cf00",
+    "source/tests/weather-card-joint-runtime/run.py": "1587e5cd92d891c1079069bd4aaa443a7823b7d1ce31f4fe11ecf4e7a3076dcb"
+  },
+  "reuse": "Only transport/old identity/ROM-mapping/template harness scaffolding. Lifetime adapter and old tests removed; four production runtimes included."
+}

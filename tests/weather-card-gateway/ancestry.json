@@ -1,0 +1,8 @@
+{
+  "scope": "Fixture source ancestry only; v3 full-function guard claim is not inherited",
+  "sources": {
+    "acceptance/weather-card-next/gateway-candidate-v3/gateway_harness.cpp": "3b2d2337af60ede484785fe64f63f907f1822ba15dd059e3710ec953b073fa36",
+    "acceptance/weather-card-next/gateway-candidate-v3/adapters.S": "c6a38d18efce6af3b73aaa327f76ef56f082a3d7ae905bf5c980cdc5f1806970",
+    "acceptance/weather-card-next/gateway-candidate-v3/card_epilogue.S": "dfbb843cd8ed7b6a81eac5edab3729baaa5a7978b515ece538ef11a531f04fe9"
+  }
+}
