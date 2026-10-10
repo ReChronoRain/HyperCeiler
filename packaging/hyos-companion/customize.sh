@@ -1,3 +1,4 @@
+#!/system/bin/sh
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Sourced by the root manager's standard module installer.
 [ "$BOOTMODE" = true ] || abort "Install through the root manager app; recovery installation is unsupported."
