@@ -79,8 +79,13 @@ for maintainer review.
 
 Use the project's usual `assembleDebug` process for the APK. Upstream settings
 require GitHub Packages credentials (`GIT_ACTOR` / `GIT_TOKEN`); keep those outside
-source control. The existing PR workflow may require maintainer configuration
-for package access. This contribution does not add credentials or alter CI trust.
+source control. The PR job supplies its automatic repository token with only
+`contents: read` and `packages: read` permissions. Fork contributions stay on the
+`pull_request` event without signing or publication secrets. Package access must
+be granted to the repository by the package owner.
+
+The stereo preference harness uses `defusedxml` to reject unsafe XML constructs.
+Install its Python dependency with `python3 -m pip install -r tests/requirements.txt`.
 
 For the optional companion, obtain the external Zygisk Next API header from
 commit `22fe320814656e7b44715b5f32c967ceb51cda08`. Its SHA-256 must be

@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-or-later
-"""Independent ELF symbol evidence for native launcher fixture tests.
+"""Independent ELF symbol evidence for native launcher fixture tests."""
 
-Reads .gnu_debugdata with Python's XZ implementation, never the production
-resolver. No fixed launcher addresses participate. The audit mode lists all
-function symbols, including Rust mangled names, for offline examination.
-"""
+# Read .gnu_debugdata using XZ, independently of the production resolver.
+# No fixed launcher addresses participate. Audit mode lists all function
+# symbols, including Rust mangled names, for binary inspection.
 import argparse
 import lzma
 import struct
