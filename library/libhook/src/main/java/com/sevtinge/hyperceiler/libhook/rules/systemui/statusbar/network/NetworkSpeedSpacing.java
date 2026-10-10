@@ -116,21 +116,7 @@ public class NetworkSpeedSpacing extends BaseHook {
                 boolean visibility = target == ui && isVisibilityMessage(message.what);
                 if (!periodic && !visibility) return;
 
-                RefreshState state;
-                synchronized (refreshStates) {
-                    state = refreshStates.get(controller);
-                    if (state == null) {
-                        state = new RefreshState(controller, bg, ui);
-                        refreshStates.put(controller, state);
-                    }
-                }
-                synchronized (state) {
-                    if (visibility) state.visibilityGeneration++;
-                    Dispatch current = new Dispatch(param.getArgs(), state, periodic,
-                        state.visibilityGeneration, periodic ? ++state.startedCycle : 0, dispatch.get());
-                    dispatch.set(current);
-                    if (periodic) state.running++;
-                }
+                beginDispatch(param.getArgs(), controller, bg, ui, periodic, visibility);
             } catch (Throwable t) {
                 warnOnce(t);
             }
@@ -173,6 +159,25 @@ public class NetworkSpeedSpacing extends BaseHook {
         }
     }
 
+    private void beginDispatch(Object[] args, Object controller, Handler bg, Handler ui,
+                               boolean periodic, boolean visibility) {
+        RefreshState state;
+        synchronized (refreshStates) {
+            state = refreshStates.get(controller);
+            if (state == null) {
+                state = new RefreshState(controller, bg, ui);
+                refreshStates.put(controller, state);
+            }
+        }
+        synchronized (state) {
+            if (visibility) state.visibilityGeneration++;
+            Dispatch current = new Dispatch(args, state, periodic,
+                state.visibilityGeneration, periodic ? ++state.startedCycle : 0, dispatch.get());
+            dispatch.set(current);
+            if (periodic) state.running++;
+        }
+    }
+
     private static boolean isVisibilityMessage(int what) {
         return what == 100001 || what == 100002 || what == 100003 || what == 100005;
     }
@@ -193,29 +198,33 @@ public class NetworkSpeedSpacing extends BaseHook {
             // Reflection and preference IPC stay outside the module state lock.
             // Visibility only changes on this UI Looper in the target ROM.
             long interval = active ? getCustomInterval() : 0L;
-            synchronized (state) {
-                // Module state only: never acquire Handler/MessageQueue monitors.
-                // Recheck after the unlocked reads: a running original BG callback
-                // will publish its own completion. Holding this short lock through
-                // queue submission prevents another BG before from entering then.
-                if (state.running != 0 || state.completedCycle != state.startedCycle
-                    || state.handledCycle == state.completedCycle) return;
-                state.handledCycle = state.completedCycle;
-                if (!active) {
-                    // The ROM BG callback checks hidden but not visible, so it can
-                    // itself enqueue after a UI cancellation. Clean up on the UI
-                    // queue, where every ROM visibility cancellation is serialized.
-                    bg.removeMessages(MSG_UPDATE_NETWORK_SPEED);
-                    return;
-                }
-                if (state.completedGeneration != state.visibilityGeneration) return;
-                if (!bg.hasMessages(MSG_UPDATE_NETWORK_SPEED)) return;
-                long elapsed = Math.max(0L, SystemClock.uptimeMillis() - state.completedAt);
-                bg.removeMessages(MSG_UPDATE_NETWORK_SPEED);
-                bg.sendEmptyMessageDelayed(MSG_UPDATE_NETWORK_SPEED, Math.max(0L, interval - elapsed));
-            }
+            retimeCompletedCycle(state, bg, active, interval);
         } catch (Throwable t) {
             warnOnce(t);
+        }
+    }
+
+    private static void retimeCompletedCycle(RefreshState state, Handler bg, boolean active, long interval) {
+        synchronized (state) {
+            // Module state only: never acquire Handler/MessageQueue monitors.
+            // Recheck after the unlocked reads: a running original BG callback
+            // will publish its own completion. Holding this short lock through
+            // queue submission prevents another BG before from entering then.
+            if (state.running != 0 || state.completedCycle != state.startedCycle
+                || state.handledCycle == state.completedCycle) return;
+            state.handledCycle = state.completedCycle;
+            if (!active) {
+                // The ROM BG callback checks hidden but not visible, so it can
+                // itself enqueue after a UI cancellation. Clean up on the UI
+                // queue, where every ROM visibility cancellation is serialized.
+                bg.removeMessages(MSG_UPDATE_NETWORK_SPEED);
+                return;
+            }
+            if (state.completedGeneration != state.visibilityGeneration) return;
+            if (!bg.hasMessages(MSG_UPDATE_NETWORK_SPEED)) return;
+            long elapsed = Math.max(0L, SystemClock.uptimeMillis() - state.completedAt);
+            bg.removeMessages(MSG_UPDATE_NETWORK_SPEED);
+            bg.sendEmptyMessageDelayed(MSG_UPDATE_NETWORK_SPEED, Math.max(0L, interval - elapsed));
         }
     }
 

@@ -40,6 +40,11 @@ import io.github.lingqiqi5211.ezhooktool.xposed.dsl.afterHookMethod
 import io.github.lingqiqi5211.ezhooktool.xposed.dsl.getObjectFieldOrNull
 
 object MediaViewSize : BaseHook() {
+    private const val TITLE_TEXT = "titleText"
+    private const val ARTIST_TEXT = "artistText"
+    private const val ELAPSED_TIME_VIEW = "elapsedTimeView"
+    private const val TOTAL_TIME_VIEW = "totalTimeView"
+
 
     // ==================== 通知中心配置 ====================
 
@@ -104,6 +109,8 @@ object MediaViewSize : BaseHook() {
         }
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun initOS4() {
         val active = AtomicBoolean(false)
         val plans = ArrayList<Pair<Method, IMethodHook>>()
@@ -119,7 +126,7 @@ object MediaViewSize : BaseHook() {
                 val names = if (island) listOf("miuiPlayerHolder", "miuiDummyPlayerHolder") else listOf("mediaViewHolder")
                 val time = readSize(prefix + "_time_view_text_size", 130, 50..200)
                 val group = TextGroup(owner, holder, names.map { requiredField(owner, it, holder) },
-                    listOf("titleText", "artistText", "elapsedTimeView", "totalTimeView")
+                    listOf(TITLE_TEXT, ARTIST_TEXT, ELAPSED_TIME_VIEW, TOTAL_TIME_VIEW)
                         .map { requiredField(holder, it, TextView::class.java) },
                     floatArrayOf(readSize(prefix + "_title_size", 180, 120..360),
                         readSize(prefix + "_artist_size", 120, 80..240), time, time))
@@ -146,8 +153,11 @@ object MediaViewSize : BaseHook() {
 
     private fun afterOriginal(active: AtomicBoolean, owner: Class<*>, apply: (Any) -> Unit): IMethodHook =
         object : IMethodHook {
+            // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+            @Suppress("TooGenericExceptionCaught")
             override fun after(param: HookParam) {
-                if (!active.get() || param.hasThrowable || param.isSkipped || param.thisObject?.javaClass != owner) return
+                if (!active.get() || param.hasThrowable || param.isSkipped) return
+                if (param.thisObject?.javaClass != owner) return
                 try {
                     apply(param.thisObject!!)
                 } catch (error: ReflectiveOperationException) {
@@ -187,8 +197,8 @@ object MediaViewSize : BaseHook() {
                 clz.afterHookMethod(method.name) {
                     val mediaViewHolder = it.thisObject.getObjectFieldOrNull("mediaViewHolder")
                         ?: return@afterHookMethod
-                    val titleText = mediaViewHolder.getMediaViewHolderFieldAs<TextView>("titleText", false)
-                    val artistText = mediaViewHolder.getMediaViewHolderFieldAs<TextView>("artistText", false)
+                    val titleText = mediaViewHolder.getMediaViewHolderFieldAs<TextView>(TITLE_TEXT, false)
+                    val artistText = mediaViewHolder.getMediaViewHolderFieldAs<TextView>(ARTIST_TEXT, false)
                     titleText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, ncTitleSize)
                     artistText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, ncArtistSize)
                 }
@@ -197,10 +207,10 @@ object MediaViewSize : BaseHook() {
 
         mediaViewHolderNew?.afterHookConstructor { param ->
             val holder = param.thisObject
-            val titleText = holder.getMediaViewHolderFieldAs<TextView>("titleText", false)
-            val artistText = holder.getMediaViewHolderFieldAs<TextView>("artistText", false)
-            val elapsedTimeView = holder.getMediaViewHolderFieldAs<TextView>("elapsedTimeView", false)
-            val totalTimeView = holder.getMediaViewHolderFieldAs<TextView>("totalTimeView", false)
+            val titleText = holder.getMediaViewHolderFieldAs<TextView>(TITLE_TEXT, false)
+            val artistText = holder.getMediaViewHolderFieldAs<TextView>(ARTIST_TEXT, false)
+            val elapsedTimeView = holder.getMediaViewHolderFieldAs<TextView>(ELAPSED_TIME_VIEW, false)
+            val totalTimeView = holder.getMediaViewHolderFieldAs<TextView>(TOTAL_TIME_VIEW, false)
             titleText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, ncTitleSize)
             artistText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, ncArtistSize)
             elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_SP, ncTimeSize)
@@ -213,10 +223,10 @@ object MediaViewSize : BaseHook() {
     private fun initDynamicIsland() {
         miuiIslandMediaViewHolder?.afterHookConstructor { param ->
             val holder = param.thisObject
-            val titleText = holder.getMediaViewHolderFieldAs<TextView>("titleText", true)
-            val artistText = holder.getMediaViewHolderFieldAs<TextView>("artistText", true)
-            val elapsedTimeView = holder.getMediaViewHolderFieldAs<TextView>("elapsedTimeView", true)
-            val totalTimeView = holder.getMediaViewHolderFieldAs<TextView>("totalTimeView", true)
+            val titleText = holder.getMediaViewHolderFieldAs<TextView>(TITLE_TEXT, true)
+            val artistText = holder.getMediaViewHolderFieldAs<TextView>(ARTIST_TEXT, true)
+            val elapsedTimeView = holder.getMediaViewHolderFieldAs<TextView>(ELAPSED_TIME_VIEW, true)
+            val totalTimeView = holder.getMediaViewHolderFieldAs<TextView>(TOTAL_TIME_VIEW, true)
             titleText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, diTitleSize)
             artistText?.setTextSize(TypedValue.COMPLEX_UNIT_SP, diArtistSize)
             elapsedTimeView?.setTextSize(TypedValue.COMPLEX_UNIT_SP, diTimeSize)

@@ -5,6 +5,8 @@ public class NetworkSpeedController {
     // ROM OS4 uses one Handler subclass for both instances after R8 merging.
     public final CombinedHandler mBgHandler = new CombinedHandler(this, true);
     public final CombinedHandler mHandler;
+    public boolean mIsStatusBarHidden;
+    public final SpeedState mNetworkSpeedState = new SpeedState();
     public NetworkSpeedController() { this(false); }
     public NetworkSpeedController(boolean separateClasses) {
         mHandler = separateClasses ? new SeparateUiHandler(this) : new CombinedHandler(this,false);
@@ -12,8 +14,6 @@ public class NetworkSpeedController {
     public static class SeparateUiHandler extends CombinedHandler {
         public SeparateUiHandler(NetworkSpeedController owner) { super(owner,false); }
     }
-    public boolean mIsStatusBarHidden;
-    public final SpeedState mNetworkSpeedState = new SpeedState();
     public static class SpeedState { public boolean visible = true; }
     public static class CombinedHandler extends Handler {
         public final NetworkSpeedController this$0;

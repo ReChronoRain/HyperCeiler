@@ -29,6 +29,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 
 /** Night selection for the OS4 notification media card; never changes a controller Context. */
+// Keep this owner-specific lifecycle and its private rollback helpers in one auditable scope.
+@Suppress("TooManyFunctions")
 object AlwaysDarkOS4 : BaseHook() {
     private const val NC = "com.android.systemui.statusbar.notification.mediacontrol."
     private const val AOD = "com.android.systemui.statusbar.notification.fullaod."
@@ -36,13 +38,15 @@ object AlwaysDarkOS4 : BaseHook() {
     private const val PREF = "system_ui_control_center_media_control"
     private enum class Kind { EFFECT, FOREGROUND, LAYOUT, DETACH, FRAME, RESET }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     override fun init() {
         if (PrefsBridge.getStringAsInt(PREF + "_background_mode", 0) != 0 ||
             !PrefsBridge.getBoolean(PREF + "_always_dark")) return
         val plan = Plan()
         val handles = ArrayList<XposedInterface.HookHandle>()
         try {
-            for ((method, kind) in plan.hooks) handles.add(checkNotNull(hookMethod(method, callback(plan, method, kind))))
+            for ((method, kind) in plan.hooks) handles.add(checkNotNull(hookMethod(method, Callback(plan, method, kind))))
             registerHotReloadCleanup {
                 plan.active.set(false)
                 val cleanup = Runnable { plan.clear() }
@@ -108,6 +112,8 @@ object AlwaysDarkOS4 : BaseHook() {
             hooks.add(method(owner, "updateForegroundColors", Void.TYPE) to Kind.FOREGROUND)
             hooks.add(method(layoutOwner, "updateLayout\$1", Void.TYPE) to Kind.LAYOUT)
             hooks.add(method(owner, "detach", Void.TYPE) to Kind.DETACH)
+            // Reflection requires the complete fixed ROM signature during registration.
+            @Suppress("SpreadOperator")
             hooks.add(method(listener, "updateFullAodAnimState", Void.TYPE,
                 *Array(10) { Int::class.java }, FloatArray::class.java, FloatArray::class.java, Boolean::class.java, Float::class.java) to Kind.FRAME)
             hooks.add(method(aod, "resetRowFullAodStyle", Void.TYPE) to Kind.RESET)
@@ -142,8 +148,10 @@ object AlwaysDarkOS4 : BaseHook() {
         fun undoArgs() { for ((index, value) in saved) if (args[index] === replacement[index]) args[index] = value }
     }
 
-    private fun callback(plan: Plan, method: Method, kind: Kind) = object : IMethodHook {
+    private class Callback(private val plan: Plan, private val method: Method, private val kind: Kind) : IMethodHook {
         private val frames = ThreadLocal<ArrayDeque<Frame>>()
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         override fun before(param: HookParam) {
             val receiver = param.thisObject
             val eligible = plan.active.get() && main() && !param.isSkipped && receiver?.javaClass == method.declaringClass
@@ -168,24 +176,7 @@ object AlwaysDarkOS4 : BaseHook() {
                         frame.contextOrigin = ContextOrigin(original, replacement).also(stack::addLast)
                         frame.replace(1, replacement)
                     } else if (kind == Kind.FRAME) {
-                        val owner = plan.listenerOwner.get(receiver)
-                        val dark = night(plan.context.get(owner) as Context)
-                        val aod = plan.lazyGet.invoke(plan.controllerAod.get(owner))
-                        check(aod?.javaClass == plan.aod)
-                        val reset = plan.resets.get()?.any { it === aod } == true
-                        val f = if (reset) 1f else plan.fraction.getFloat(aod)
-                        check(f.isFinite() && f in 0f..1f)
-                        val fromDesktop = plan.desktop.getBoolean(aod) && !reset
-                        val endpoint = arrayOf("focus_notification_element_blend_keyguard_color_1", "focus_notification_element_blend_keyguard_color_2", "focus_notification_element_blend_keyguard_color_3")
-                        val start = arrayOf("focus_notification_element_blend_shade_color_1", "focus_notification_element_blend_shade_color_2", "focus_notification_element_blend_shade_color_3")
-                        val values = endpoint.indices.map { i ->
-                            val end = color(dark, endpoint[i])
-                            if (fromDesktop) ArgbEvaluator().evaluate(f, color(dark, start[i]), end) as Int else end
-                        }
-                        // Only values consumed by this media listener; modes, glass arrays,
-                        // animation alpha, global state and every other listener remain original.
-                        frame.replace(2, color(dark, "notification_focus_bg_color"))
-                        for (i in values.indices) frame.replace(4 + i * 2, values[i])
+                        applyFrameColors(receiver, frame)
                     }
                 }
             } catch (failure: Exception) {
@@ -193,6 +184,29 @@ object AlwaysDarkOS4 : BaseHook() {
                 debugCallbackError("media night before", failure)
             }
         }
+        private fun applyFrameColors(receiver: Any?, frame: Frame) {
+            val owner = plan.listenerOwner.get(receiver)
+            val dark = night(plan.context.get(owner) as Context)
+            val aod = plan.lazyGet.invoke(plan.controllerAod.get(owner))
+            check(aod?.javaClass == plan.aod)
+            val reset = plan.resets.get()?.any { it === aod } == true
+            val f = if (reset) 1f else plan.fraction.getFloat(aod)
+            check(f.isFinite() && f in 0f..1f)
+            val fromDesktop = plan.desktop.getBoolean(aod) && !reset
+            val endpoint = arrayOf("focus_notification_element_blend_keyguard_color_1", "focus_notification_element_blend_keyguard_color_2", "focus_notification_element_blend_keyguard_color_3")
+            val start = arrayOf("focus_notification_element_blend_shade_color_1", "focus_notification_element_blend_shade_color_2", "focus_notification_element_blend_shade_color_3")
+            val values = endpoint.indices.map { i ->
+                val end = color(dark, endpoint[i])
+                if (fromDesktop) ArgbEvaluator().evaluate(f, color(dark, start[i]), end) as Int else end
+            }
+            // Only values consumed by this media listener; modes, glass arrays,
+            // animation alpha, global state and every other listener remain original.
+            frame.replace(2, color(dark, "notification_focus_bg_color"))
+            for (i in values.indices) frame.replace(4 + i * 2, values[i])
+        }
+
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         override fun after(param: HookParam) {
             val stack = frames.get(); val frame = stack?.pollLast()
             if (stack?.isEmpty() == true) frames.remove()
@@ -208,7 +222,8 @@ object AlwaysDarkOS4 : BaseHook() {
                 }
                 val target = if (kind == Kind.EFFECT) param.args[0]!! else param.thisObject!!
                 if (plan.current(target, kind) !== holder) return
-                if ((kind == Kind.FOREGROUND || kind == Kind.LAYOUT) && !param.hasThrowable && plan.active.get()) foreground(plan, target, holder, kind)
+                val updatesForeground = kind == Kind.FOREGROUND || kind == Kind.LAYOUT
+                if (updatesForeground && !param.hasThrowable && plan.active.get()) foreground(plan, target, holder, kind)
                 else if ((kind == Kind.EFFECT || kind == Kind.FRAME) && frame.saved.isNotEmpty()) {
                     // A platform setter may write before throwing. Keep its original
                     // parameters for bounded cleanup while leaving that exception intact.
@@ -228,6 +243,8 @@ object AlwaysDarkOS4 : BaseHook() {
         }
     }
 
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     private class Replay(method: Method, receiver: Any, target: Any, holder: Any, background: ImageView, args: Array<Any?>, val kind: Kind, originalContext: Context?) {
         private val method = method
         private val receiver = WeakReference(receiver)
@@ -237,6 +254,8 @@ object AlwaysDarkOS4 : BaseHook() {
         private val drawable = WeakReference(background.background)
         private val context = if (kind == Kind.EFFECT) WeakReference(originalContext ?: args[1] as Context) else null
         private val args = if (kind == Kind.FRAME) args.map { if (it is FloatArray) it.clone() else it }.toTypedArray() else null
+        // Invocation replays the captured ROM signature; the defensive array copy is intentional.
+        @Suppress("SpreadOperator")
         fun restore(plan: Plan) {
             val receiver = receiver.get() ?: return; val target = target.get() ?: return
             val holder = holder.get() ?: return; val bg = background.get() ?: return
@@ -251,6 +270,8 @@ object AlwaysDarkOS4 : BaseHook() {
         fun apply() { target.get()?.let { write(it, value) } }
         fun undo() { target.get()?.let { if (read(it) == value) write(it, original) } }
     }
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun foreground(plan: Plan, owner: Any, holder: Any, kind: Kind) {
         val layout = kind == Kind.LAYOUT
         val dark = night((if (layout) plan.layoutContext else plan.context).get(owner) as Context)
@@ -312,6 +333,8 @@ object AlwaysDarkOS4 : BaseHook() {
     private fun staticMethod(type: Class<*>, name: String, result: Class<*>, vararg args: Class<*>) = type.getDeclaredMethod(name, *args).also {
         check(it.returnType == result && Modifier.isStatic(it.modifiers)); it.isAccessible = true
     }
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun clean(actions: List<() -> Unit>) {
         var failure: IllegalStateException? = null
         for (action in actions) try { action() } catch (error: Exception) {

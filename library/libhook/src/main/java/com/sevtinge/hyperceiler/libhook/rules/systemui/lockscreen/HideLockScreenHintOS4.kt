@@ -22,6 +22,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Other/default-theme text producers are not inferred from their wording.
  */
 object HideLockScreenHintOS4 : BaseHook() {
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     override fun init() {
         if (!PrefsBridge.getBoolean("system_ui_lock_screen_unlock_tip")) return
         val owner = required("com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController")
@@ -50,10 +52,13 @@ object HideLockScreenHintOS4 : BaseHook() {
         var handle: XposedInterface.HookHandle? = null
         try {
             handle = checkNotNull(hookMethod(method, object : IMethodHook {
+                // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+                @Suppress("TooGenericExceptionCaught")
                 override fun before(param: HookParam) {
                     if (!active.get() || param.isSkipped || Looper.myLooper() !== Looper.getMainLooper()) return
                     try {
-                        if (param.thisObject.javaClass != owner || param.args.size != 3 || param.args[0] != 13 || param.args[2] != true) return
+                        if (param.thisObject.javaClass != owner || param.args.size != 3) return
+                        if (param.args[0] != 13 || param.args[2] != true) return
                         val indication = param.args[1] ?: return
                         if (indication.javaClass != value || theme.invoke(null) != true) return
                         val bottom = view.get(param.thisObject) as? View ?: return
@@ -66,7 +71,8 @@ object HideLockScreenHintOS4 : BaseHook() {
                         // The actual producer uses Resources.getString, not arbitrary styled text.
                         val text = message.get(indication)
                         if (text !is String || text.isEmpty() || text != resources.getString(textId)) return
-                        if (color.get(indication) == null || action.get(indication) != null || background.get(indication) != null || minimum.get(indication) != null || assertive.getBoolean(indication)) return
+                        if (color.get(indication) == null || action.get(indication) != null) return
+                        if (background.get(indication) != null || minimum.get(indication) != null || assertive.getBoolean(indication)) return
                         if (!active.get() || param.args[1] !== indication) return
                         // A before-argument substitution, not a replacement hook: the OEM
                         // removes its own map/queue entry and performs its pending transition.

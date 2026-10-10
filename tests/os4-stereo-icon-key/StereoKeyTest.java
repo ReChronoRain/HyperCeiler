@@ -57,7 +57,8 @@ public final class StereoKeyTest {
                     check(unrelated.equals(seed(false)), "unrelated icon or ordering changed");
                     check(Collections.frequency(list, "stereo") <= 1, "duplicate stereo");
                 }
-                List<String> savedRight = List.copyOf(right), savedControl = List.copyOf(control);
+                List<String> savedRight = List.copyOf(right);
+                List<String> savedControl = List.copyOf(control);
                 new StatusBarIcon().init();
                 check(right.equals(savedRight) && control.equals(savedControl), "repeat init not idempotent");
                 scenarios++;

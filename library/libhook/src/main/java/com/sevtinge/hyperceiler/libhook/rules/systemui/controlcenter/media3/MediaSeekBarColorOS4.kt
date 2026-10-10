@@ -37,7 +37,11 @@ internal class MediaSeekBarColorOS4 private constructor(
     /** colorFor must only select the caller's current, privately owned media presentation. */
     fun callback(colorFor: (Any) -> Int?, error: (Exception) -> Unit): IMethodHook = object : IMethodHook {
         private val frames = ThreadLocal<ArrayDeque<Frame>>()
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         private fun restore(frame: Frame) { try { frame.restore() } catch (failure: Exception) { error(failure) } }
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         override fun before(param: HookParam) {
             val stack = frames.get() ?: ArrayDeque<Frame>().also(frames::set)
             val frame = Frame(param.thisObject, param.args)
