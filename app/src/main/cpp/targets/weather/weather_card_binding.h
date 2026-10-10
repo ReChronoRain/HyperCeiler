@@ -78,7 +78,7 @@ inline bool plan(const Binding &binding, const BranchWords &words) noexcept {
 
 template <class Read>
 bool match(uintptr_t base, uintptr_t extent, const weather_card_guard::GuardBytes &guard,
-           const BranchWords &words, unsigned owned_mask, bool dart, Read &read) {
+           const BranchWords &words, unsigned owned_mask, bool dart, Read &read_bytes) {
     uintptr_t start;
     if (guard.va > extent || guard.bytes.size() > extent - guard.va
         || !address(base, guard.va, guard.bytes.size(), start)) return false;
@@ -86,7 +86,7 @@ bool match(uintptr_t base, uintptr_t extent, const weather_card_guard::GuardByte
     for (size_t offset = 0; offset < guard.bytes.size();) {
         const size_t left = guard.bytes.size() - offset;
         const size_t count = left < actual.size() ? left : actual.size();
-        if (!read(start + offset, std::span<std::byte>(actual.data(), count))) return false;
+        if (!read_bytes(start + offset, std::span(actual).first(count))) return false;
         if (dart) for (size_t i = 0; i < 2; ++i) {
             if ((owned_mask & (1u << i)) == 0) continue;
             const uintptr_t site = weather_card_guard::kEpilogueVa[i];
@@ -108,36 +108,36 @@ bool match(uintptr_t base, uintptr_t extent, const weather_card_guard::GuardByte
 }
 
 template <class Read>
-bool verify(const Binding &binding, const BranchWords &words, unsigned owned_mask, Read &read) {
+bool verify(const Binding &binding, const BranchWords &words, unsigned owned_mask, Read &read_bytes) {
     if (!shape(binding) || (owned_mask & ~3u) != 0) return false;
     for (const auto &guard : weather_card_guard::kDartGuards)
-        if (!match(binding.dart_base, weather_card_guard::kDartImageSpan, guard, words, owned_mask, true, read)) return false;
+        if (!match(binding.dart_base, weather_card_guard::kDartImageSpan, guard, words, owned_mask, true, read_bytes)) return false;
     for (const auto &guard : weather_card_guard::kFlutterGuards)
-        if (!match(binding.flutter_base, weather_card_guard::kFlutterImageSpan, guard, words, 0, false, read)) return false;
+        if (!match(binding.flutter_base, weather_card_guard::kFlutterImageSpan, guard, words, 0, false, read_bytes)) return false;
     // Detect word ownership changes during the bounded full-image checks.
     // This is a final reread, not an atomic transaction or a lifetime reservation.
     for (size_t i = 0; i < 2; ++i) {
         std::array<std::byte, 4> bytes{};
-        if (!read(binding.epilogue[i], std::span<std::byte>(bytes))) return false;
+        if (!read_bytes(binding.epilogue[i], std::span<std::byte>(bytes))) return false;
         uint32_t observed;
         std::memcpy(&observed, bytes.data(), 4);
-        const uint32_t expected = owned_mask & (1u << i) ? words[i] : weather_card_guard::kOriginalEpilogueWord;
+        const uint32_t expected = (owned_mask & (1u << i)) != 0 ? words[i] : weather_card_guard::kOriginalEpilogueWord;
         if (observed != expected) return false;
     }
     return true;
 }
 } // namespace detail
 
-// read(address, span<byte>) must fail for inaccessible spans. No heap, loader,
+// read_bytes(address, span<byte>) must fail for inaccessible spans. No heap, loader,
 // Binder, lock, object call or mutation is performed. Each read is at most 256B.
 // The only output publication occurs after complete original guards pass.
 template <class Read>
-bool resolve(uintptr_t dart_base, uintptr_t flutter_base, Read &&read, Binding &out) {
+bool resolve(uintptr_t dart_base, uintptr_t flutter_base, Read &&read_bytes, Binding &out) {
     if (!detail::bases(dart_base, flutter_base)) return false;
     Binding candidate{dart_base, flutter_base, {}};
     for (size_t i = 0; i < 2; ++i)
         if (!detail::address(dart_base, weather_card_guard::kEpilogueVa[i], 16, candidate.epilogue[i])) return false;
-    if (!detail::verify(candidate, BranchWords{}, 0, read)) return false;
+    if (!detail::verify(candidate, BranchWords{}, 0, read_bytes)) return false;
     out = candidate;
     return true;
 }
@@ -147,12 +147,12 @@ bool resolve(uintptr_t dart_base, uintptr_t flutter_base, Read &&read, Binding &
 // Bit0 = recompute, bit1 = constructor; unset bits require the original word.
 // Even mask0 validates the supplied plan; use resolve before a plan exists.
 template <class Read>
-bool verify_state(const Binding &binding, Read &&read, const BranchWords &expected_branch, unsigned owned_mask) {
+bool verify_state(const Binding &binding, Read &&read_bytes, const BranchWords &expected_branch, unsigned owned_mask) {
     return detail::shape(binding) && detail::plan(binding, expected_branch)
-        && detail::verify(binding, expected_branch, owned_mask, read);
+        && detail::verify(binding, expected_branch, owned_mask, read_bytes);
 }
 template <class Read>
-bool verify_owned(const Binding &binding, Read &&read, const BranchWords &expected_branch) {
-    return verify_state(binding, read, expected_branch, 3);
+bool verify_owned(const Binding &binding, Read &&read_bytes, const BranchWords &expected_branch) {
+    return verify_state(binding, read_bytes, expected_branch, 3);
 }
 } // namespace weather_card

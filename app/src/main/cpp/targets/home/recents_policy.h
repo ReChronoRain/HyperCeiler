@@ -34,7 +34,7 @@ inline uint64_t project(const hyos_snapshot::Snapshot &snapshot, int64_t now) no
 class Lease {
 public:
     explicit Lease(uint64_t &word) noexcept : word_(word) {}
-    uint64_t read() const noexcept { return __atomic_load_n(&word_, __ATOMIC_ACQUIRE); }
+    uint64_t load() const noexcept { return __atomic_load_n(&word_, __ATOMIC_ACQUIRE); }
     void cancel() noexcept { __atomic_exchange_n(&word_, kDenied, __ATOMIC_ACQ_REL); }
     bool arm(const hyos_snapshot::Snapshot &snapshot, int64_t now) noexcept {
         const auto value = project(snapshot, now);
@@ -46,7 +46,7 @@ public:
         return true;
     }
     bool refresh(const hyos_snapshot::Snapshot &snapshot, int64_t now) noexcept {
-        auto expected = read();
+        auto expected = load();
         if (expected <= kDenied) return false;
         const auto value = project(snapshot, now);
         // Never revive an expired lease even if the worker finally replies.

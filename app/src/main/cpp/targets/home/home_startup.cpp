@@ -491,7 +491,8 @@ Result maintenance(const home_layout::Config *value, bool authorized,
     if (!live(generation, check, context)) return failure(Error::Revoked, mask, false);
     const uint64_t declined = mask & ~supported;
     g_state.result = {Outcome::Applied, mask, supported, declined,
-        declined & ~kUnsupported ? Error::LateConfiguration : declined ? Error::EarlierRustDeadline : Error::None};
+        (declined & ~kUnsupported) != 0 ? Error::LateConfiguration
+            : declined != 0 ? Error::EarlierRustDeadline : Error::None};
     return g_state.result;
 }
 } // namespace home_startup

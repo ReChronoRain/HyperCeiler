@@ -103,7 +103,10 @@ WriteResult exchange_slot(uintptr_t expected, uintptr_t desired, int protection)
         return {false, false};
     const bool changed = __atomic_compare_exchange_n(reinterpret_cast<uintptr_t *>(g_binding.slot),
         &expected, desired, false, __ATOMIC_ACQ_REL, __ATOMIC_ACQUIRE);
-    const bool restored = mprotect(reinterpret_cast<void *>(page), nhk::host_page_size(), protection) == 0;
+    // Restoration includes a fresh kernel-mapping observation, not only the
+    // mprotect return code. Never reuse the pre-write permission observation.
+    const bool restored = mprotect(reinterpret_cast<void *>(page), nhk::host_page_size(), protection) == 0
+        && nhk::read_protection(page) == protection;
     return {changed, restored};
 }
 } // namespace
@@ -138,7 +141,7 @@ bool start_before_entry(uintptr_t weather_base, ReadFresh read_fresh, DartBase d
     const auto replacement = reinterpret_cast<uintptr_t>(hooked_get_bool);
     const auto written = exchange_slot(original, replacement, protection);
     auto preparing = Phase::Preparing;
-    if (written.changed && written.restored && nhk::read_protection(page) == protection
+    if (written.changed && written.restored
         && same_binding() && weather_material_binding::cold_state(binding, read_memory)
         && g_phase.compare_exchange_strong(preparing, Phase::Installed, std::memory_order_acq_rel)) {
         return true;

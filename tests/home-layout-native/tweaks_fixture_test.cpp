@@ -158,8 +158,12 @@ int main(int argc, char **argv) {
     std::vector<std::byte> mapped(extent);
     hometweaks::Image image{};
     image.base = reinterpret_cast<uintptr_t>(mapped.data());
-    assert(std::strlen(argv[1]) < sizeof(image.path));
-    std::strcpy(image.path, argv[1]);
+    const size_t path_size = strnlen(argv[1], sizeof(image.path));
+    if (path_size == sizeof(image.path)) {
+        std::fprintf(stderr, "Fixture path exceeds image path capacity\n");
+        return 2;
+    }
+    std::copy_n(argv[1], path_size + 1, image.path);
     for (const auto &s : *segments) {
         if (s.type != nhk::elf::kProgramTypeLoad) continue;
         assert(nhk::in_image(bytes.size(), s.offset, s.filesz));

@@ -242,7 +242,7 @@ bool fail(Error error, bool attempted) noexcept {
 }
 
 bool publish_current() noexcept {
-    const uint64_t expected = g_lease.read();
+    const uint64_t expected = g_lease.load();
     weather_snapshot::Snapshot snapshot;
     if (!current(snapshot)) return g_lease.clear(expected);
     return g_lease.publish(expected, snapshot, now());

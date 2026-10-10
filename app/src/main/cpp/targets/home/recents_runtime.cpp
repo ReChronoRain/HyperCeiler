@@ -152,15 +152,15 @@ bool page_locked(uintptr_t address) noexcept {
     syscall(SYS_close,fd);return found;
 }
 
+#if defined(HOME_RECENTS_RUNTIME_TEST) || defined(__aarch64__)
 bool atomic_isa() noexcept {
 #ifdef HOME_RECENTS_RUNTIME_TEST
     return home_recents_test::atomics();
-#elif defined(__aarch64__)
-    return (getauxval(AT_HWCAP)&HWCAP_ATOMICS)!=0;
 #else
-    return false;
+    return (getauxval(AT_HWCAP)&HWCAP_ATOMICS)!=0;
 #endif
 }
+#endif
 void event(unsigned stage) noexcept {
 #ifdef HOME_RECENTS_RUNTIME_TEST
     home_recents_test::event(stage);
@@ -169,7 +169,7 @@ void event(unsigned stage) noexcept {
 #endif
 }
 bool fresh(hyos_snapshot::Snapshot &s) noexcept {
-    return g_lease.read()!=home_recents_policy::kDenied && g_read && g_read(s)
+    return g_lease.load()!=home_recents_policy::kDenied && g_read && g_read(s)
         && home_recents_policy::project(s,now())!=home_recents_policy::kDenied;
 }
 bool same(const hyos_snapshot::Snapshot &initial) noexcept {
@@ -274,6 +274,11 @@ bool prepare_before_entry(uintptr_t base,ReadFresh read,PinImage pin) noexcept {
     if(!g_phase.compare_exchange_strong(cold,Phase::Installing,std::memory_order_acq_rel)){cancel();return false;}
     g_read=read;hyos_snapshot::Snapshot initial;
     if(!fresh(initial))return fail(Error::NotAuthorized,false);
+#if !defined(HOME_RECENTS_RUNTIME_TEST) && !defined(__aarch64__)
+    // The gateway contains A64 LSE instructions. Other architectures cannot
+    // install it, independently of any runtime capability observation.
+    return fail(Error::UnsupportedAtomicIsa,false);
+#else
     if(!atomic_isa())return fail(Error::UnsupportedAtomicIsa,false);
     const long size=sysconf(_SC_PAGESIZE);
     if(size<4096 || size>65536 || (size&(size-1))!=0)return fail(Error::ProtectionFailed,false);
@@ -309,8 +314,9 @@ bool prepare_before_entry(uintptr_t base,ReadFresh read,PinImage pin) noexcept {
     auto installing=Phase::Installing;
     if(!g_phase.compare_exchange_strong(installing,Phase::Installed,std::memory_order_acq_rel))
         return fail(Error::Cancelled,true);
-    if(g_lease.read()<=home_recents_policy::kDenied)return fail(Error::Cancelled,true);
+    if(g_lease.load()<=home_recents_policy::kDenied)return fail(Error::Cancelled,true);
     return true;
+#endif
 }
 void service() noexcept {
     if(g_phase.load(std::memory_order_acquire)!=Phase::Installed)return;

@@ -34,8 +34,8 @@ inline uint64_t project(const weather_snapshot::Snapshot &snapshot, int64_t now)
 class Lease {
 public:
     explicit Lease(uint64_t &word) noexcept : word_(word) {}
-    uint64_t read() const noexcept { return __atomic_load_n(&word_, __ATOMIC_ACQUIRE); }
-    bool terminal() const noexcept { return read() == kTerminal; }
+    uint64_t load() const noexcept { return __atomic_load_n(&word_, __ATOMIC_ACQUIRE); }
+    bool terminal() const noexcept { return load() == kTerminal; }
     void cancel() noexcept { __atomic_exchange_n(&word_, kTerminal, __ATOMIC_ACQ_REL); }
     bool publish(uint64_t expected, const weather_snapshot::Snapshot &snapshot,
                  int64_t now) noexcept {

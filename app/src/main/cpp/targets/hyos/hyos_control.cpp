@@ -92,7 +92,7 @@ bool same_authorization(void *context) {
     hyos_snapshot::Snapshot current;
     return identity != nullptr && !g_startup_cancelled.load(std::memory_order_acquire)
         && !g_startup_fault.load(std::memory_order_acquire)
-        && g_snapshot.read(boottime_now(), current)
+        && g_snapshot.load_snapshot(boottime_now(), current)
         && current.available && (current.flags & hyos_control::kAllowed) != 0
         && current.epoch == identity->epoch && current.revision == identity->revision;
 }
@@ -265,7 +265,7 @@ void poll_flags() {
         // excluded from the Hyos build's startup and loader callbacks.
         if (g_startup_phase.load(std::memory_order_acquire) == StartupPhase::Applied) {
             hyos_snapshot::Snapshot snapshot;
-            const bool authorized = g_snapshot.read(boottime_now(), snapshot)
+            const bool authorized = g_snapshot.load_snapshot(boottime_now(), snapshot)
                 && snapshot.available && (snapshot.flags & hyos_control::kAllowed) != 0;
             PublicationIdentity identity{snapshot.epoch, snapshot.revision};
             const auto result = home_startup::maintenance(authorized ? &snapshot.config : nullptr,
@@ -354,11 +354,11 @@ bool feature_enabled(uint32_t flag) {
 }
 bool allowed() { return feature_enabled(kAllowed); }
 bool read_snapshot(hyos_snapshot::Snapshot &result) noexcept {
-    return g_snapshot.read(boottime_now(), result);
+    return g_snapshot.load_snapshot(boottime_now(), result);
 }
 bool layout_config(home_layout::Config &result) noexcept {
     hyos_snapshot::Snapshot snapshot;
-    const bool ready = g_snapshot.read(boottime_now(), snapshot)
+    const bool ready = g_snapshot.load_snapshot(boottime_now(), snapshot)
         && snapshot.available && (snapshot.flags & kAllowed) != 0;
     result = ready ? snapshot.config : hyos_snapshot::neutral_config();
     return ready;
@@ -392,7 +392,7 @@ void on_first_home_snapshot(uintptr_t dart_load_bias) noexcept {
     hyos_snapshot::Snapshot snapshot;
     const bool prepared = g_startup_prepared.load(std::memory_order_acquire);
     const bool authorized = prepared && api != nullptr
-        && g_snapshot.read(boottime_now(), snapshot) && snapshot.available
+        && g_snapshot.load_snapshot(boottime_now(), snapshot) && snapshot.available
         && (snapshot.flags & kAllowed) != 0;
     if (!authorized) {
         g_startup_error.store(prepared ? home_startup::Error::NotAuthorized
@@ -446,7 +446,7 @@ bool hyperceiler_hyos_start_home_control(const ZygiskNextAPI *api) {
     hyos_snapshot::Snapshot snapshot;
     const bool ready = completed && g_received_available.load(std::memory_order_acquire)
         && now > 0 && received_at > 0 && now >= received_at
-        && now - received_at < kLeaseNanos && g_snapshot.read(now, snapshot) && snapshot.available;
+        && now - received_at < kLeaseNanos && g_snapshot.load_snapshot(now, snapshot) && snapshot.available;
     if (!ready) __android_log_print(ANDROID_LOG_INFO, kTag,
         "control not ready at application entry; original defaults retained");
     return ready;
