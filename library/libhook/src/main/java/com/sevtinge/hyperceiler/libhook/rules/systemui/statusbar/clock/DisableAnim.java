@@ -32,5 +32,16 @@ public class DisableAnim extends BaseHook {
                 param.setResult(null);
             }
         });
+
+        // OS4: 下拉拉伸回调迁到 ControlCenterExpandControllerDelegate（ROM DEX 核验：onStretchHeightChanged(float)）
+        Class<?> os4ExpandDelegate = findClassIfExists("com.miui.systemui.controlcenter.container.ControlCenterExpandControllerDelegate");
+        if (os4ExpandDelegate != null) {
+            findAndHookMethod(os4ExpandDelegate, "onStretchHeightChanged", float.class, new IMethodHook() {
+                @Override
+                public void before(final HookParam param) {
+                    param.setResult(null);
+                }
+            });
+        }
     }
 }

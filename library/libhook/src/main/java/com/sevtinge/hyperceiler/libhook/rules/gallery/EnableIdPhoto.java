@@ -26,6 +26,19 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class EnableIdPhoto extends BaseHook {
     @Override
     public void init() {
+        // OS4: 证件照功能整体移到相机（ROM DEX 核验：MiuiCamera.apk 含
+        // com.android.camera.features.mode.idphoto.IdPhotoModuleEntry，设备能力判断为 support()）。
+        Class<?> os4Entry = findClassIfExists("com.android.camera.features.mode.idphoto.IdPhotoModuleEntry");
+        if (os4Entry != null) {
+            hookAllMethods(os4Entry, "support", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    param.setResult(true);
+                }
+            });
+            return;
+        }
+        // OS3 旧路径
         findAndHookMethod("com.miui.mediaeditor.api.MediaEditorApiHelper", "isIDPhotoAvailable", new IMethodHook() {
             @Override
             public void before(HookParam param) {

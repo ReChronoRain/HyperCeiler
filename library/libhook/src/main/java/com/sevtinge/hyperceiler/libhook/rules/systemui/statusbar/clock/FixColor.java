@@ -31,6 +31,27 @@ import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class FixColor extends BaseHook {
     @Override
     public void init() {
+        // OS4: 假时钟头迁到 CcFakeStatusBarIcons（ROM DEX 核验：updateHeaderColor()/onDarkChanged(ArrayList, float, int)，
+        // 字段 mTintAreas/mDarkIntensity/mDarkColor；OS3 的 bigTimeColor/mWhiteFraction/mAreas 字段已不存在）
+        Class<?> os4Clock = findClassIfExists("com.android.systemui.controlcenter.header.CcFakeStatusBarIcons");
+        if (os4Clock != null) {
+            findAndHookMethod(os4Clock, "updateHeaderColor", new IMethodHook() {
+                @Override
+                public void before(HookParam param) {
+                    try {
+                        Object self = param.getThisObject();
+                        ArrayList<?> areas = (ArrayList<?>) getObjectField(self, "mTintAreas");
+                        float darkIntensity = (float) getObjectField(self, "mDarkIntensity");
+                        int clockColor = (int) getObjectField(self, "mDarkColor");
+                        callMethod(self, "onDarkChanged", areas, darkIntensity, clockColor);
+                    } catch (Throwable ignored) {
+                    }
+                    param.setResult(null);
+                }
+            });
+            return;
+        }
+        // OS3 旧路径
         findAndHookMethod("com.android.systemui.controlcenter.phone.widget.NotificationShadeFakeStatusBarClock", "updateHeaderColor", new IMethodHook() {
             @Override
             public void before(HookParam param) {
