@@ -3,9 +3,12 @@
 #include "weather_card_lifetime_guard.generated.h"
 #include <atomic>
 #include <cerrno>
+#include <climits>
 #include <cstddef>
 #include <cstring>
 #include <fcntl.h>
+#include <span>
+#include <type_traits>
 #include <sys/mman.h>
 #include <sys/syscall.h>
 #include <sys/uio.h>
@@ -62,23 +65,28 @@ long tid() noexcept { return call(SYS_gettid); }
 bool range(uintptr_t address, size_t length) noexcept {
     return address != 0 && length != 0 && address <= UINTPTR_MAX - length;
 }
-bool read(uintptr_t address, void *output, size_t length) noexcept {
-    if (!range(address, length)) return false;
-    iovec local{output, length}, remote{reinterpret_cast<void *>(address), length};
+// Every caller supplies a view of its real destination object. The kernel
+// validates the remote range; a short/failed transfer never counts as a match.
+bool read_bytes(uintptr_t address, std::span<std::byte> output) noexcept {
+    if (output.data() == nullptr || !range(address, output.size())
+        || output.size() > static_cast<size_t>(LONG_MAX)) return false;
+    iovec local{output.data(), output.size()}, remote{reinterpret_cast<void *>(address), output.size()};
     return call(SYS_process_vm_readv, pid(), reinterpret_cast<uintptr_t>(&local), 1,
-                reinterpret_cast<uintptr_t>(&remote), 1, 0) == static_cast<long>(length);
+                reinterpret_cast<uintptr_t>(&remote), 1, 0) == static_cast<long>(output.size());
 }
-template<class T> bool read(uintptr_t address, T &out) noexcept {
-    return read(address, &out, sizeof(out));
+template<class T> bool read_object(uintptr_t address, T &out) noexcept {
+    static_assert(std::is_trivially_copyable_v<T>);
+    return read_bytes(address, std::as_writable_bytes(std::span<T, 1>(&out, 1)));
 }
 template<size_t N> bool guards(uintptr_t base, const std::array<guard::Guard, N> &ranges) noexcept {
     std::array<uint8_t, 256> actual{};
     for (const auto &item : ranges) {
         if (base > UINTPTR_MAX - item.va || !range(base + item.va, item.size)) return false;
-        for (size_t at = 0; at < item.size; at += actual.size()) {
+        for (size_t at = 0; at < item.size;) {
             const size_t length = item.size - at < actual.size() ? item.size - at : actual.size();
-            if (!read(base + item.va + at, actual.data(), length)
+            if (!read_bytes(base + item.va + at, std::as_writable_bytes(std::span(actual).first(length)))
                 || std::memcmp(actual.data(), item.data + at, length) != 0) return false;
+            at += length;
         }
     }
     return true;
@@ -170,7 +178,7 @@ bool images() noexcept {
 }
 bool slot_is(uintptr_t expected) noexcept {
     uintptr_t actual = 0;
-    return read(g_image.slot, actual) && actual == expected;
+    return read_object(g_image.slot, actual) && actual == expected;
 }
 
 bool single_thread() noexcept {
@@ -307,7 +315,7 @@ void observe_parent_load(const char *path) noexcept {
         && candidate.flutter <= UINTPTR_MAX - guard::kMadviseSlotVa;
     if (valid) {
         candidate.slot = candidate.flutter + guard::kMadviseSlotVa;
-        valid = candidate.slot % alignof(uintptr_t) == 0 && read(candidate.slot, candidate.original)
+        valid = candidate.slot % alignof(uintptr_t) == 0 && read_object(candidate.slot, candidate.original)
             && candidate.original > guard::kMadviseVa;
     }
     if (valid) {
@@ -349,7 +357,7 @@ bool protect(uintptr_t dart, uintptr_t flutter, const std::array<uintptr_t, 2> &
     for (unsigned index = 0; index < 2; ++index) {
         uint32_t original = 0;
         if (dart > UINTPTR_MAX - guard::kSites[index] || sites[index] != dart + guard::kSites[index]
-            || !read(sites[index], original) || original != guard::kOriginalWord) return false;
+            || !read_object(sites[index], original) || original != guard::kOriginalWord) return false;
         descriptor.pages[index] = page(sites[index]);
         if (!range(descriptor.pages[index], g_image.page_size)
             || protection(descriptor.pages[index], g_image.page_size) != (PROT_READ | PROT_EXEC)) return false;
@@ -372,7 +380,7 @@ bool release_pages() noexcept {
     if (!(g_readers.load(std::memory_order_acquire) & 1)) return false;
     for (uintptr_t site : g_pages.sites) {
         uint32_t word = 0;
-        if (!read(site, word) || word != guard::kOriginalWord) return false;
+        if (!read_object(site, word) || word != guard::kOriginalWord) return false;
     }
     uint64_t expected = 1;
     return g_readers.compare_exchange_strong(expected, 0, std::memory_order_acq_rel);

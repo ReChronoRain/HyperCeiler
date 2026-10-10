@@ -134,7 +134,7 @@ void *worker(void *) {
 
 bool fresh(weather_snapshot::Snapshot &out) {
     return g_phase.load(std::memory_order_acquire) == Phase::Installed
-        && !g_dart_rejected.load(std::memory_order_acquire) && g_cache.read(now(), out);
+        && !g_dart_rejected.load(std::memory_order_acquire) && g_cache.load_snapshot(now(), out);
 }
 
 uintptr_t observed_dart() {
@@ -218,7 +218,7 @@ bool install() {
     if (protection != PROT_READ || (resolved.slot & (alignof(uintptr_t) - 1)) != 0) return false;
     weather_snapshot::Snapshot authorization;
     if (g_dart_rejected.load(std::memory_order_acquire)
-        || !g_cache.read(now(), authorization) || !weather_device_level::selected(authorization)) return false;
+        || !g_cache.load_snapshot(now(), authorization) || !weather_device_level::selected(authorization)) return false;
     g_binding = resolved;
     g_binding_ready.store(true, std::memory_order_release);
     const auto original = reinterpret_cast<uintptr_t>(resolved.api.get);
@@ -272,7 +272,7 @@ bool start_before_entry(uintptr_t weather_base) {
         g_initial_condition.wait_for(lock, std::chrono::milliseconds(1000), [] { return g_initial_completed; });
     }
     weather_snapshot::Snapshot snapshot;
-    if (!g_cache.read(now(), snapshot) || !snapshot.available) {
+    if (!g_cache.load_snapshot(now(), snapshot) || !snapshot.available) {
         g_phase.store(Phase::Missed, std::memory_order_release);
         g_stop.store(true, std::memory_order_release);
         __android_log_print(ANDROID_LOG_WARN, kTag, "startup configuration unavailable; cold Weather restart required");

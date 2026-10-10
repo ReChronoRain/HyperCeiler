@@ -16,16 +16,18 @@ inline bool address(uintptr_t base, uintptr_t va, size_t length, uintptr_t &out)
 // The only masked byte region is our one aligned instruction, and callers must
 // supply its exact currently owned value. No foreign detour is normalized away.
 template<class Read>
-bool verify(uintptr_t base, Read &&read, uint32_t patch_word=home_recents_guard::kOriginalWord) noexcept {
+bool verify(uintptr_t base, Read &&read_bytes, uint32_t patch_word=home_recents_guard::kOriginalWord) noexcept {
     using namespace home_recents_guard;
     uintptr_t end=0;
     if ((base&0xfff)!=0 || !address(base,kImageSpan,1,end)) return false;
     std::array<std::byte,256> actual{};
     for (const auto &guard:kGuards) {
+        // Validate the complete source span before forming any chunk offset.
+        if (guard.va > kImageSpan || guard.bytes.size() > kImageSpan - guard.va) return false;
         for (size_t offset=0;offset<guard.bytes.size();) {
             const size_t count=guard.bytes.size()-offset<actual.size()?guard.bytes.size()-offset:actual.size();
             uintptr_t at=0;
-            if (!address(base,guard.va+offset,count,at) || !read(at,std::span(actual.data(),count))) return false;
+            if (!address(base,guard.va+offset,count,at) || !read_bytes(at,std::span(actual).first(count))) return false;
             for (size_t i=0;i<count;++i) {
                 const auto va=guard.va+offset+i;
                 const auto expected=va>=kPatch && va<kPatch+4
@@ -38,14 +40,14 @@ bool verify(uintptr_t base, Read &&read, uint32_t patch_word=home_recents_guard:
     for (const auto &pointer:kPointers) {
         uintptr_t slot=0,target=0,value=0;
         if (!address(base,pointer.slot,sizeof(value),slot) || !address(base,pointer.target,1,target)
-            || !read(slot,std::as_writable_bytes(std::span(&value,1))) || value!=target) return false;
+            || !read_bytes(slot,std::as_writable_bytes(std::span(&value,1))) || value!=target) return false;
     }
     return true;
 }
 template<class Read>
-bool resolve(uintptr_t base, Read &&read, Binding &out) noexcept {
+bool resolve(uintptr_t base, Read &&read_bytes, Binding &out) noexcept {
     using namespace home_recents_guard;
-    if (!verify(base,read)) return false;
+    if (!verify(base,read_bytes)) return false;
     Binding result{base};
     if (!address(base,kEntry,1,result.entry) || !address(base,kPatch,4,result.patch)
         || !address(base,kResume,4,result.resume) || !address(base,kOwner,16,result.owner)
@@ -53,13 +55,13 @@ bool resolve(uintptr_t base, Read &&read, Binding &out) noexcept {
     out=result; return true;
 }
 template<class Read>
-bool cold(const Binding &binding, Read &&read) noexcept {
+bool cold(const Binding &binding, Read &&read_bytes) noexcept {
     // An observation, never a lock or a reservation. The original lifecycle and
     // the gateway's pending->denied CAS supply separate admission constraints.
     std::array<uintptr_t,2> pointers{};
     uint32_t once=0;
-    return binding.base!=0 && read(binding.once,std::as_writable_bytes(std::span(&once,1)))
-        && once==3 && read(binding.owner,std::as_writable_bytes(std::span(pointers)))
+    return binding.base!=0 && read_bytes(binding.once,std::as_writable_bytes(std::span(&once,1)))
+        && once==3 && read_bytes(binding.owner,std::as_writable_bytes(std::span(pointers)))
         && pointers[0]==0 && pointers[1]==0;
 }
 inline bool branch(uintptr_t from, uintptr_t to, uint32_t &word) noexcept {

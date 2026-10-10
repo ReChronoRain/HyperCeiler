@@ -113,7 +113,10 @@ bool initialize() {
     // dynamic MainColor/material/ThreadPool references of the exact vendor DSO.
     for(const auto& binding:kSelfBindings)
         if(dlsym(RTLD_DEFAULT,binding.name)!=nullptr)return fail(Stage::GlobalSymbolVisible);
-    CloseFd file{open(kPath,O_RDONLY|O_CLOEXEC|O_NOFOLLOW)};
+    // No path-based check/use pair: inspect and hash this descriptor, then give
+    // this same held descriptor to ANDROID_DLEXT_USE_LIBRARY_FD below. Reject
+    // symlinks, non-regular files and changed identity before the loader runs.
+    CloseFd file{open(kPath,O_RDONLY|O_CLOEXEC|O_NOFOLLOW)}; // nosemgrep: c_misc_rule-fopen-open
     if(file.fd<0)return fail(Stage::FileOpen);
     struct stat before{},after{};
     if(fstat(file.fd,&before)!=0||!S_ISREG(before.st_mode)||before.st_size!=kFileSize)return fail(Stage::FileStat);

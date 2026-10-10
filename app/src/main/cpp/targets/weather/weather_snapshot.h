@@ -98,7 +98,7 @@ public:
         store_locked(unavailable_words());
     }
 
-    bool read(int64_t now, Snapshot &result) const {
+    bool load_snapshot(int64_t now, Snapshot &result) const {
         Words words{};
         for (int attempt = 0; attempt < 3; ++attempt) {
             const auto before = sequence_.load();
