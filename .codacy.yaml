@@ -1,0 +1,4 @@
+# 离线回归测试夹具（stubs/fixtures/探针脚本）不参与生产代码质量门禁
+engine:
+  exclude_paths:
+    - 'tests/**'
