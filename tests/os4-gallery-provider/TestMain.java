@@ -1,3 +1,5 @@
+package fixture;
+
 import android.content.ContentProvider;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,11 +11,14 @@ import com.sevtinge.hyperceiler.libhook.rules.mediaeditor.GalleryCreationAvailab
 import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class TestMain {
- static int passed,failed;
+ static int passed;
+ static int failed;
  static final String AVAILABLE="key_common_is_available";
  static final String[][] MAPPING={{"method_is_id_photo_available","gallery_enable_id_photo"},{"method_is_magic_matting_available","gallery_enable_magic_matting"},{"method_is_video_post_available","gallery_enable_video_post"},{"method_is_vlog_available","gallery_enable_video_editor"}};
  static void test(String name,Runnable body){try{reset();body.run();passed++;System.out.println("PASS "+name);}catch(Throwable e){failed++;System.out.println("FAIL "+name+" "+e);}}
  static void eq(Object x,Object y){if(!java.util.Objects.equals(x,y))throw new AssertionError(x+" != "+y);}
+ // This assertion checks that provider failures preserve the exact original bundle/reference.
+ @SuppressWarnings("PMD.CompareObjectsWithEquals")
  static void same(Object x,Object y){if(x!=y)throw new AssertionError("identity changed");}
  static void reset(){PrefsBridge.enabled.clear();PrefsBridge.fail=false;PrefsBridge.reads=0;Log.warnings=0;BaseHook.registered=null;BaseLoad.installed.clear();DeviceHelper.System.version=4f;new GalleryCreationAvailabilityOS4().init();}
  static Bundle result(Object value){Bundle b=new Bundle();b.values.put(AVAILABLE,value);b.values.put("unrelated","keep");return b;}
@@ -24,7 +29,7 @@ public class TestMain {
    test(m[0]+" enabled changes only availability in a copied bundle",()->{PrefsBridge.enabled.add(m[1]);Bundle original=result(false);Object extra=new Object();original.values.put("extra",extra);HookParam p=call(new ContentProvider(),m[0],original);Bundle b=(Bundle)p.result;eq(b.get(AVAILABLE),true);eq(original.get(AVAILABLE),false);eq(b.get("unrelated"),"keep");same(b.get("extra"),extra);eq(b.values.size(),original.values.size());eq(p.resultSets,1);});
    test(m[0]+" disabled preserves original false",()->{Bundle b=result(false);HookParam p=call(new ContentProvider(),m[0],b);same(p.result,b);eq(p.resultSets,0);});
    test(m[0]+" already true remains identical",()->{PrefsBridge.enabled.add(m[1]);Bundle b=result(true);same(call(new ContentProvider(),m[0],b).result,b);});
-   test(m[0]+" other feature switch has no effect",()->{for(String[] other:MAPPING)if(other!=m)PrefsBridge.enabled.add(other[1]);Bundle b=result(false);same(call(new ContentProvider(),m[0],b).result,b);});
+   test(m[0]+" other feature switch has no effect",()->{for(String[] other:MAPPING)if(!other[0].equals(m[0]))PrefsBridge.enabled.add(other[1]);Bundle b=result(false);same(call(new ContentProvider(),m[0],b).result,b);});
   }
   for(String caller:new String[]{"com.miui.mediaeditor","com.xiaomi.aicr","com.xiaomi.mihomemanager","com.miui.gallery.fake","android","",null})test("other caller unchanged "+caller,()->{enableAll();ContentProvider c=new ContentProvider();c.caller=caller;Bundle b=result(false);same(call(c,MAPPING[0][0],b).result,b);eq(PrefsBridge.reads,0);});
   for(String method:new String[]{"method_is_photo_movie_available","method_is_device_support_id_photo","method_is_device_support_capabilities","method_can_access_secret_album","method_is_document_available","method_is_id_photo_available_extra","",null})test("unmatched query unchanged "+method,()->{enableAll();Bundle b=result(false);same(call(new ContentProvider(),method,b).result,b);eq(PrefsBridge.reads,0);});

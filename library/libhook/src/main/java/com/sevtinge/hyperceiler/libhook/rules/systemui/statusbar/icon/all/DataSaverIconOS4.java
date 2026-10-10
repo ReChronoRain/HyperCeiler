@@ -34,43 +34,86 @@ public final class DataSaverIconOS4 extends BaseHook {
 
         List<XposedInterface.HookHandle> handles = new ArrayList<>();
         try {
+            Os4Bindings bindings = new Os4Bindings(mode);
+            handles.add(requireHandle(bindings.hookBlockList()));
+            handles.add(requireHandle(bindings.hookAddGroup()));
+            handles.add(requireHandle(bindings.hookVisibility()));
+            installed = true;
+        } catch (ReflectiveOperationException | RuntimeException error) {
+            installed = false;
+            for (XposedInterface.HookHandle handle : handles) {
+                try { handle.unhook(); } catch (RuntimeException rollback) { error.addSuppressed(rollback); }
+            }
+            throw new IllegalStateException("OS4 data-saver hook shape or registration unavailable", error);
+        }
+    }
+
+    private final class Os4Bindings {
+        private final Class<?> controller;
+        private final Class<?> manager;
+        private final Class<?> holder;
+        private final Field policySlot;
+        private final Field policyController;
+        private final Field policyResources;
+        private final Field controllerIcons;
+        private final Field holderType;
+        private final Field holderIcon;
+        private final Field managerLocation;
+        private final Field managerBlocked;
+        private final Enum<?> home;
+        private final Enum<?> keyguard;
+        private final Enum<?> fake;
+        private final Enum<?> qs;
+        private final Method callback;
+        private final Method blockList;
+        private final Method addGroup;
+        private final Method getHolder;
+        private final Method setIcon;
+        private final int mode;
+        private final String slot;
+
+        Os4Bindings(int mode) throws ReflectiveOperationException {
+            this.mode = mode;
             Class<?> policy = required(PREFIX + "phone.PhoneStatusBarPolicy");
-            Class<?> controller = required(PREFIX + "phone.ui.StatusBarIconControllerImpl");
+            controller = required(PREFIX + "phone.ui.StatusBarIconControllerImpl");
             Class<?> controllerInterface = required(PREFIX + "phone.ui.StatusBarIconController");
-            Class<?> manager = required(PREFIX + "phone.ui.IconManager");
+            manager = required(PREFIX + "phone.ui.IconManager");
             Class<?> location = required(PREFIX + "phone.StatusBarLocation");
             Class<?> iconList = required(PREFIX + "phone.ui.StatusBarIconList");
-            Class<?> holder = required(PREFIX + "phone.StatusBarIconHolder");
+            holder = required(PREFIX + "phone.StatusBarIconHolder");
             Class<?> icon = required("com.android.internal.statusbar.StatusBarIcon");
             if (!location.isEnum() || !controllerInterface.isAssignableFrom(controller)) {
                 throw new IllegalStateException("Unrecognized OS4 data-saver controller shape");
             }
-            Field policySlot = field(policy, "mSlotDataSaver", String.class);
-            Field policyController = field(policy, "mIconController", controllerInterface);
-            Field policyResources = field(policy, "mResources", Resources.class);
-            Field controllerIcons = field(controller, "mStatusBarIconList", iconList);
-            Field holderType = field(holder, "type", int.class);
-            Field holderIcon = field(holder, "icon", icon);
-            Field managerLocation = field(manager, "mLocation", location);
-            Field managerBlocked = field(manager, "mBlockList", ArrayList.class);
-            Object home = enumValue(location, "HOME");
-            Object keyguard = enumValue(location, "KEYGUARD");
-            Object fake = enumValue(location, "QS_FAKE");
-            Object qs = enumValue(location, "QS");
-            Method callback = method(policy, "onDataSaverChanged", void.class, boolean.class);
-            Method blockList = method(manager, "setBlockList", void.class, List.class);
-            Method addGroup = method(controller, "addIconGroup", void.class, manager);
-            Method getHolder = method(iconList, "getIconHolder", holder, int.class, String.class);
-            Method setIcon = method(controller, "setIcon", void.class, CharSequence.class, String.class, int.class);
+            policySlot = field(policy, "mSlotDataSaver", String.class);
+            policyController = field(policy, "mIconController", controllerInterface);
+            policyResources = field(policy, "mResources", Resources.class);
+            controllerIcons = field(controller, "mStatusBarIconList", iconList);
+            holderType = field(holder, "type", int.class);
+            holderIcon = field(holder, "icon", icon);
+            managerLocation = field(manager, "mLocation", location);
+            managerBlocked = field(manager, "mBlockList", ArrayList.class);
+            home = enumValue(location, "HOME");
+            keyguard = enumValue(location, "KEYGUARD");
+            fake = enumValue(location, "QS_FAKE");
+            qs = enumValue(location, "QS");
+            callback = method(policy, "onDataSaverChanged", void.class, boolean.class);
+            blockList = method(manager, "setBlockList", void.class, List.class);
+            addGroup = method(controller, "addIconGroup", void.class, manager);
+            getHolder = method(iconList, "getIconHolder", holder, int.class, String.class);
+            setIcon = method(controller, "setIcon", void.class, CharSequence.class, String.class, int.class);
 
             Resources system = Resources.getSystem();
             int slotId = system.getIdentifier("status_bar_data_saver", "string", "android");
-            final String slot = slotId == 0 ? null : system.getString(slotId);
+            slot = slotId == 0 ? null : system.getString(slotId);
             if (!"data_saver".equals(slot)) {
                 throw new IllegalStateException("Unrecognized OS4 data-saver slot resource");
             }
 
-            handles.add(requireHandle(hookMethod(blockList, new IMethodHook() {
+        }
+
+        XposedInterface.HookHandle hookBlockList() {
+            return hookMethod(blockList, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (!installed || param.isSkipped()) return;
@@ -85,8 +128,11 @@ public final class DataSaverIconOS4 extends BaseHook {
                         debugCallbackError("data saver block-list", error);
                     }
                 }
-            })));
-            handles.add(requireHandle(hookMethod(addGroup, new IMethodHook() {
+            });
+        }
+
+        XposedInterface.HookHandle hookAddGroup() {
+            return hookMethod(addGroup, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (!installed || param.isSkipped()) return;
@@ -109,8 +155,11 @@ public final class DataSaverIconOS4 extends BaseHook {
                         debugCallbackError("data saver initial icon group", error);
                     }
                 }
-            })));
-            handles.add(requireHandle(hookMethod(callback, new IMethodHook() {
+            });
+        }
+
+        XposedInterface.HookHandle hookVisibility() {
+            return hookMethod(callback, new IMethodHook() {
                 @Override
                 public void before(HookParam param) {
                     if (!installed || param.isSkipped()) return;
@@ -118,45 +167,42 @@ public final class DataSaverIconOS4 extends BaseHook {
                         Object target = param.getThisObject();
                         if (!slot.equals(policySlot.get(target))) return;
                         boolean visible = mode == 1 || (mode != 2 && (boolean) param.getArgs()[0]);
-                        if (visible) {
-                            Object owner = policyController.get(target);
-                            if (!controller.isInstance(owner)) return;
-                            Object icons = controllerIcons.get(owner);
-                            Object current = getHolder.invoke(icons, 0, slot);
-                            if (current == null) {
-                                Resources resources = (Resources) policyResources.get(target);
-                                if (resources == null) return;
-                                int drawable = resources.getIdentifier("stat_sys_data_saver", "drawable", "com.android.systemui");
-                                int description = resources.getIdentifier("data_saver", "string", "com.android.systemui");
-                                if (drawable == 0 || description == 0) return;
-                                // This ROM still dispatches onDataSaverChanged, but
-                                // start() no longer creates its legacy icon holder.
-                                setIcon.invoke(owner, resources.getString(description), slot, drawable);
-                                current = getHolder.invoke(icons, 0, slot);
-                            }
-                            // Do not reinterpret or replace a bindable/mobile/foreign holder.
-                            if (current == null || current.getClass() != holder
-                                || holderType.getInt(current) != 0 || holderIcon.get(current) == null) return;
-                        }
+                        if (visible && !ensureLegacyIcon(target)) return;
                         param.getArgs()[0] = visible;
                     } catch (ReflectiveOperationException | RuntimeException error) {
                         debugCallbackError("data saver visibility", error);
                     }
                 }
-            })));
-            installed = true;
-        } catch (ReflectiveOperationException | RuntimeException error) {
-            installed = false;
-            for (XposedInterface.HookHandle handle : handles) {
-                try { handle.unhook(); } catch (RuntimeException rollback) { error.addSuppressed(rollback); }
-            }
-            throw new IllegalStateException("OS4 data-saver hook shape or registration unavailable", error);
+            });
         }
+
+        private boolean ensureLegacyIcon(Object target) throws ReflectiveOperationException {
+            Object owner = policyController.get(target);
+            if (!controller.isInstance(owner)) return false;
+            Object icons = controllerIcons.get(owner);
+            Object current = getHolder.invoke(icons, 0, slot);
+            if (current == null) {
+                Resources resources = (Resources) policyResources.get(target);
+                if (resources == null) return false;
+                int drawable = resources.getIdentifier("stat_sys_data_saver", "drawable", "com.android.systemui");
+                int description = resources.getIdentifier("data_saver", "string", "com.android.systemui");
+                if (drawable == 0 || description == 0) return false;
+                // This ROM still dispatches onDataSaverChanged, but
+                // start() no longer creates its legacy icon holder.
+                setIcon.invoke(owner, resources.getString(description), slot, drawable);
+                current = getHolder.invoke(icons, 0, slot);
+            }
+            // Do not reinterpret or replace a bindable/mobile/foreign holder.
+            if (current == null || current.getClass() != holder
+                || holderType.getInt(current) != 0 || holderIcon.get(current) == null) return false;
+            return true;
+        }
+
     }
 
-    private static int region(Object value, Object home, Object keyguard, Object fake, Object qs) {
-        if (value == qs) return 2;
-        if (value == home || value == keyguard || value == fake) return 1;
+    private static int region(Object value, Enum<?> home, Enum<?> keyguard, Enum<?> fake, Enum<?> qs) {
+        if (qs.equals(value)) return 2;
+        if (home.equals(value) || keyguard.equals(value) || fake.equals(value)) return 1;
         return 0;
     }
 
@@ -178,6 +224,8 @@ public final class DataSaverIconOS4 extends BaseHook {
         return type;
     }
 
+    // Exact private ROM fields are part of this hook's validated compatibility contract.
+    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
     private static Field field(Class<?> owner, String name, Class<?> type) throws ReflectiveOperationException {
         Field field = owner.getDeclaredField(name);
         if (field.getType() != type || Modifier.isStatic(field.getModifiers())) {
@@ -187,14 +235,16 @@ public final class DataSaverIconOS4 extends BaseHook {
         return field;
     }
 
-    private static Object enumValue(Class<?> owner, String name) throws ReflectiveOperationException {
+    private static Enum<?> enumValue(Class<?> owner, String name) throws ReflectiveOperationException {
         Field field = owner.getDeclaredField(name);
         if (field.getType() != owner || !Modifier.isStatic(field.getModifiers()) || !field.isEnumConstant()) {
             throw new IllegalStateException("Unrecognized OS4 icon location: " + name);
         }
-        return field.get(null);
+        return (Enum<?>) field.get(null);
     }
 
+    // getIconHolder/setIcon are invoked reflectively after exact signature and instance checks.
+    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
     private static Method method(Class<?> owner, String name, Class<?> result, Class<?>... args)
         throws ReflectiveOperationException {
         Method method = owner.getDeclaredMethod(name, args);

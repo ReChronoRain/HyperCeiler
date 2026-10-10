@@ -43,18 +43,7 @@ object SwapWiFiAndMobileNetwork : BaseHook() {
             loadClass("com.android.systemui.statusbar.dagger.CentralSurfacesDependenciesModule_ProvideStatusBarIconListFactory")
                 .findMethod { name("provideStatusBarIconList") }
                 .createAfterHook { param ->
-                    val slots = param.result?.getObjectFieldOrNull("mSlots") as? MutableList<*>
-                        ?: return@createAfterHook
-                    val names = slots.map { it?.getObjectFieldOrNull("mName") as? String }
-                    val order = listOf("wifi", "demo_wifi", "mobile", "demo_mobile", "no_sim")
-                    // Preserve unfamiliar slots and avoid duplicating/inventing any slot.
-                    if (order.any { name -> names.count { it == name } != 1 }) return@createAfterHook
-                    val indices = names.indices.filter { names[it] in order }
-                    val reordered = order.map { name -> slots[names.indexOf(name)] }
-                    @Suppress("UNCHECKED_CAST")
-                    val mutableSlots = slots as MutableList<Any?>
-                    indices.forEachIndexed { index, position -> mutableSlots[position] = reordered[index] }
-                    // mViewOnlySlots wraps this same list; keep its identity and Slot holders.
+                    reorderOS4Slots(param.result)
                 }
             return
         }
@@ -82,5 +71,20 @@ object SwapWiFiAndMobileNetwork : BaseHook() {
                     param.args[0] = allStatusIcons.map { it as String }.toTypedArray()
                 }
             }
+    }
+
+    private fun reorderOS4Slots(result: Any?) {
+        val slots = result?.getObjectFieldOrNull("mSlots") as? MutableList<*>
+            ?: return
+        val names = slots.map { it?.getObjectFieldOrNull("mName") as? String }
+        val order = listOf("wifi", "demo_wifi", "mobile", "demo_mobile", "no_sim")
+        // Preserve unfamiliar slots and avoid duplicating/inventing any slot.
+        if (order.any { name -> names.count { it == name } != 1 }) return
+        val indices = names.indices.filter { names[it] in order }
+        val reordered = order.map { name -> slots[names.indexOf(name)] }
+        @Suppress("UNCHECKED_CAST")
+        val mutableSlots = slots as MutableList<Any?>
+        indices.forEachIndexed { index, position -> mutableSlots[position] = reordered[index] }
+        // mViewOnlySlots wraps this same list; keep its identity and Slot holders.
     }
 }

@@ -33,7 +33,9 @@ public final class WeatherNativeEndpointOS4 {
     private final CallerVerifier verifier;
     private volatile boolean retired;
     private volatile Published published;
-    private long epoch, revision, ticket;
+    private long epoch;
+    private long revision;
+    private long ticket;
 
     @FunctionalInterface interface CallerVerifier { boolean isWeather(int uid, int pid); }
     private record Values(int level, int card, int blur, boolean allow, boolean frameworkAllow,
@@ -57,6 +59,8 @@ public final class WeatherNativeEndpointOS4 {
         }
     }
 
+    // Owner changes are lifecycle transitions between endpoint instances, irrespective of equality.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
     private static void workerLoop() {
         long delay = 1500;
         try {
@@ -124,41 +128,8 @@ public final class WeatherNativeEndpointOS4 {
 
     private boolean refresh(long attempt, long started) {
         if (started <= 0 || started > Long.MAX_VALUE - LEASE_NS) return false;
-        final Context context = ContextUtils.getContextNoError(ContextUtils.FlAG_ONLY_ANDROID);
-        if (context == null || context.getContentResolver() == null) return false;
-        Object[] row = new Object[SPECS.length];
-        try (Cursor cursor = context.getContentResolver().query(Uri.parse(
-                "content://com.sevtinge.hyperceiler.provider.sharedprefs/weather_config"),
-                null, null, null, null)) {
-            if (cursor == null || cursor.getCount() != 1 || !cursor.moveToFirst()
-                || cursor.getColumnCount() != SPECS.length + 1
-                || !"schema".equals(cursor.getColumnName(0))
-                || cursor.getType(0) != Cursor.FIELD_TYPE_INTEGER
-                || cursor.getInt(0) != WeatherPrefsSnapshot.SCHEMA) return false;
-            for (int i = 0; i < SPECS.length; i++) {
-                int c = i + 1;
-                if (!SPECS[i][1].equals(cursor.getColumnName(c))) return false;
-                if (cursor.isNull(c)) continue;
-                if (SPECS[i][0].equals("text")) {
-                    if (cursor.getType(c) != Cursor.FIELD_TYPE_STRING) return false;
-                    row[i] = cursor.getString(c);
-                } else {
-                    if (cursor.getType(c) != Cursor.FIELD_TYPE_INTEGER) return false;
-                    if (SPECS[i][0].equals("long")) row[i] = cursor.getLong(c);
-                    else {
-                        long n = cursor.getLong(c);
-                        if (n < Integer.MIN_VALUE || n > Integer.MAX_VALUE) return false;
-                        row[i] = (int) n;
-                    }
-                }
-            }
-        }
-        int level = number(row[0], 3), card = number(row[1], 0), blur = number(row[2], 0);
-        int allow = number(row[3], 0), frameworkAllow = number(row[4], 1);
-        if (!validPayload(level, card, blur) || !bit(allow) || !bit(frameworkAllow)) return false;
-        Values values = new Values(level, card, blur, allow == 1, frameworkAllow == 1,
-            (String) row[5], new FrameworkHookGate.Fingerprint((String) row[6], (String) row[7],
-                row[8] == null ? Long.MIN_VALUE : (Long) row[8]));
+        Values values = queryProviderValues();
+        if (values == null) return false;
         long nonce = UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE;
         if (nonce == 0) nonce = 1;
         synchronized (lock) {
@@ -169,6 +140,59 @@ public final class WeatherNativeEndpointOS4 {
             published = new Published(values, epoch, ++revision, started + LEASE_NS);
         }
         return true;
+    }
+
+    private static Values queryProviderValues() {
+        final Context context = ContextUtils.getContextNoError(ContextUtils.FlAG_ONLY_ANDROID);
+        if (context == null || context.getContentResolver() == null) return null;
+        Object[] row = new Object[SPECS.length];
+        try (Cursor cursor = context.getContentResolver().query(Uri.parse(
+                "content://com.sevtinge.hyperceiler.provider.sharedprefs/weather_config"),
+                null, null, null, null)) {
+            if (!isProviderSchema(cursor)) return null;
+            for (int i = 0; i < SPECS.length; i++) {
+                int c = i + 1;
+                if (!SPECS[i][1].equals(cursor.getColumnName(c))) return null;
+                row[i] = readColumn(cursor, c, SPECS[i][0]);
+            }
+        }
+        return decodeValues(row);
+    }
+
+    private static boolean isProviderSchema(Cursor cursor) {
+        return !(cursor == null || cursor.getCount() != 1 || !cursor.moveToFirst()
+                || cursor.getColumnCount() != SPECS.length + 1
+                || !"schema".equals(cursor.getColumnName(0))
+                || cursor.getType(0) != Cursor.FIELD_TYPE_INTEGER
+                || cursor.getInt(0) != WeatherPrefsSnapshot.SCHEMA);
+    }
+
+    private static Object readColumn(Cursor cursor, int column, String type) {
+        if (cursor.isNull(column)) return null;
+        if ("text".equals(type)) {
+            if (cursor.getType(column) != Cursor.FIELD_TYPE_STRING)
+                throw new IllegalArgumentException("Weather text column has unexpected type");
+            return cursor.getString(column);
+        }
+        if (cursor.getType(column) != Cursor.FIELD_TYPE_INTEGER)
+            throw new IllegalArgumentException("Weather numeric column has unexpected type");
+        long value = cursor.getLong(column);
+        if ("long".equals(type)) return value;
+        if (value < Integer.MIN_VALUE || value > Integer.MAX_VALUE)
+            throw new IllegalArgumentException("Weather integer column is out of range");
+        return (int) value;
+    }
+
+    private static Values decodeValues(Object[] row) {
+        int level = number(row[0], 3);
+        int card = number(row[1], 0);
+        int blur = number(row[2], 0);
+        int allow = number(row[3], 0);
+        int frameworkAllow = number(row[4], 1);
+        if (!validPayload(level, card, blur) || !bit(allow) || !bit(frameworkAllow)) return null;
+        return new Values(level, card, blur, allow == 1, frameworkAllow == 1,
+            (String) row[5], new FrameworkHookGate.Fingerprint((String) row[6], (String) row[7],
+                row[8] == null ? Long.MIN_VALUE : (Long) row[8]));
     }
 
     private static int number(Object value, int fallback) { return value == null ? fallback : (Integer) value; }
@@ -182,33 +206,48 @@ public final class WeatherNativeEndpointOS4 {
     }
 
     Snapshot readSnapshot() {
-        for (int i = 0; i < 2; i++) {
-            Published value = published;
-            long now = SystemClock.elapsedRealtimeNanos();
-            if (retired || value == null || value.values() == null || now <= 0
-                || now >= value.deadline() || value.deadline() - now > LEASE_NS)
-                return unavailable(value);
-            Values v = value.values();
-            boolean allowed = v.allow() && FrameworkHookGate.isAllowed(v.frameworkAllow(), v.reason(),
-                () -> {
-                    var current = BaseLoad.getXposed();
-                    return current == null ? null : new FrameworkHookGate.Fingerprint(
-                        current.getFrameworkName(), current.getFrameworkVersion(), current.getFrameworkVersionCode());
-                }, v::framework);
-            long finished = SystemClock.elapsedRealtimeNanos();
-            if (retired || published != value) continue;
-            if (finished < now || finished >= value.deadline()) return unavailable(value);
-            if (!allowed) return new Snapshot(1, 0, value.epoch(), value.revision(), 0, 3, 0, 0);
-            return new Snapshot(1, 1, value.epoch(), value.revision(), value.deadline(),
-                v.level(), v.card(), v.blur());
-        }
-        return unavailable(published);
+        Snapshot result = tryReadSnapshot();
+        if (result != null) return result;
+        result = tryReadSnapshot();
+        return result == null ? unavailable(published) : result;
+    }
+
+    /** Null requests one retry after retirement or a concurrent publication. */
+    // A refreshed record with equal contents is still a new publication; validate its identity.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private Snapshot tryReadSnapshot() {
+        Published value = published;
+        long now = SystemClock.elapsedRealtimeNanos();
+        if (!isLeaseLive(value, now)) return unavailable(value);
+        Values v = value.values();
+        boolean allowed = isAllowed(v);
+        long finished = SystemClock.elapsedRealtimeNanos();
+        if (retired || published != value) return null;
+        if (finished < now || finished >= value.deadline()) return unavailable(value);
+        if (!allowed) return new Snapshot(1, 0, value.epoch(), value.revision(), 0, 3, 0, 0);
+        return new Snapshot(1, 1, value.epoch(), value.revision(), value.deadline(),
+            v.level(), v.card(), v.blur());
+    }
+
+    private boolean isLeaseLive(Published value, long now) {
+        return !retired && value != null && value.values() != null && now > 0
+            && now < value.deadline() && value.deadline() - now <= LEASE_NS;
+    }
+
+    private static boolean isAllowed(Values values) {
+        return values.allow() && FrameworkHookGate.isAllowed(values.frameworkAllow(), values.reason(),
+            () -> {
+                var current = BaseLoad.getXposed();
+                return current == null ? null : new FrameworkHookGate.Fingerprint(
+                    current.getFrameworkName(), current.getFrameworkVersion(), current.getFrameworkVersionCode());
+            }, values::framework);
     }
 
     public Snapshot receive(Parcel data, int flags) {
         data.enforceInterface("android.view.IWindowManager");
         if ((flags & IBinder.FLAG_ONEWAY) != 0 || data.dataAvail() != 0) return unavailable(null);
-        int uid = Binder.getCallingUid(), pid = Binder.getCallingPid();
+        int uid = Binder.getCallingUid();
+        int pid = Binder.getCallingPid();
         if (uid < 10000 || pid <= 0 || !verifier.isWeather(uid, pid)) return unavailable(null);
         return readSnapshot();
     }

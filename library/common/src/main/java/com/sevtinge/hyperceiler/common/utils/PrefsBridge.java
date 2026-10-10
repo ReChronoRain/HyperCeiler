@@ -215,19 +215,26 @@ public class PrefsBridge {
             values.put(wrap("framework_check_version_code"), versionCode);
             values.put(wrap("framework_check_api_version"), apiVersion);
             values.put(wrap("framework_check_detail"), detail);
-            Map<String, PrefType> notifications = new LinkedHashMap<>();
-            for (Map.Entry<String, Object> entry : values.entrySet()) {
-                // The old writer notified the allow bit only when absent or changed.
-                if (entry.getKey().equals(allowKey) && Objects.equals(before.get(allowKey), allowHook)) continue;
-                Object value = entry.getValue() != null ? entry.getValue() : before.get(entry.getKey());
-                notifications.put(entry.getKey(), resolvePrefType(value));
-            }
+            Map<String, PrefType> notifications = frameworkStatusNotifications(values, before, allowKey);
             if (!commitFrameworkStatus(mPhysicalPrefs, values, before, "physical")) return;
             if (mRemotePrefs != null) commitFrameworkStatus(mRemotePrefs, values, null, "remote");
             for (Map.Entry<String, PrefType> entry : notifications.entrySet()) {
                 notifyPrefChanged(entry.getKey(), entry.getValue());
             }
         }
+    }
+
+    private static Map<String, PrefType> frameworkStatusNotifications(Map<String, Object> values,
+                                                                      Map<String, ?> before, String allowKey) {
+        Map<String, PrefType> notifications = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
+            // The old writer notified the allow bit only when absent or changed.
+            if (entry.getKey().equals(allowKey)
+                && Objects.equals(before.get(allowKey), entry.getValue())) continue;
+            Object value = entry.getValue() != null ? entry.getValue() : before.get(entry.getKey());
+            notifications.put(entry.getKey(), resolvePrefType(value));
+        }
+        return notifications;
     }
 
     private static boolean commitFrameworkStatus(SharedPreferences prefs, Map<String, Object> values,

@@ -84,7 +84,6 @@ public class ScramblePIN extends BaseHook {
             if (inflate.getReturnType() != void.class || Modifier.isStatic(inflate.getModifiers())) {
                 throw new IllegalStateException("Unknown OS4 PIN inflate method");
             }
-            inflate.setAccessible(true);
             if (hookMethod(inflate, new IMethodHook() {
                 @Override public void after(HookParam param) {
                     if (param.getHasThrowable() || param.getThisObject().getClass() != pin) return;
@@ -102,6 +101,8 @@ public class ScramblePIN extends BaseHook {
         }
     }
 
+    // The hook must read the ROM's private animation matrices and digit field; keep exact shape checks.
+    @SuppressWarnings("PMD.AvoidAccessibilityAlteration")
     private static Field instanceField(Class<?> owner, String name, Class<?> type) throws NoSuchFieldException {
         Field field = owner.getDeclaredField(name);
         if (field.getType() != type || Modifier.isStatic(field.getModifiers())) {
@@ -113,42 +114,82 @@ public class ScramblePIN extends BaseHook {
 
     private void shuffleOS4(View root, Class<?> key, Field digit, View[][] views, View[][] numbers)
         throws IllegalAccessException {
-        // This exact phone layout has two animation matrices sharing the first
-        // three digit rows. Tiny/fold subclasses and unknown shapes stay original.
-        if (views == null || numbers == null || views.length != 6 || numbers.length != 4
-            || views[4] == null || views[4].length != 3
-            || numbers[3] == null || numbers[3].length != 3
-            || views[4][1] != numbers[3][1]) return;
-        ViewGroup[] rows = new ViewGroup[4];
+        if (!hasPhoneMatrices(views, numbers)) return;
+        ViewGroup[] rows = validatedRows(root, views, numbers);
+        if (rows == null) return;
         ArrayList<View> original = new ArrayList<>(10);
-        IdentityHashMap<View, Boolean> identities = new IdentityHashMap<>();
-        boolean[] digits = new boolean[10];
         ViewGroup.LayoutParams[] positions = new ViewGroup.LayoutParams[10];
-        for (int row = 0; row < 4; row++) {
-            int id = root.getResources().getIdentifier("row" + (row + 1), "id", "com.android.systemui");
-            View candidate = id == 0 ? null : root.findViewById(id);
-            if (!(candidate instanceof ViewGroup group) || group.getChildCount() != 3) return;
-            for (int earlier = 0; earlier < row; earlier++) if (rows[earlier] == group) return;
-            rows[row] = group;
-            if (row < 3 && (views[row + 1] == null || views[row + 1].length != 3
-                || numbers[row] != views[row + 1])) return;
-            for (int column = row == 3 ? 1 : 0; column < (row == 3 ? 2 : 3); column++) {
-                View view = group.getChildAt(column);
-                if (view == null || view.getClass() != key || view != views[row + 1][column]
-                    || view.getParent() != group || identities.put(view, Boolean.TRUE) != null) return;
-                int value = digit.getInt(view);
-                if (value < 0 || value > 9 || digits[value]) return;
-                digits[value] = true;
-                positions[original.size()] = view.getLayoutParams();
-                if (positions[original.size()] == null) return;
-                original.add(view);
-            }
-        }
+        if (!collectDigits(rows, views, key, digit, original, positions)) return;
         // Preserve the bottom spacer/confirm control. Never move input/delete,
         // emergency, verification listeners, digit values, labels, or view IDs.
         if (key.isInstance(rows[3].getChildAt(0)) || key.isInstance(rows[3].getChildAt(2))) return;
         ArrayList<View> shuffled = new ArrayList<>(original);
         Collections.shuffle(shuffled);
+        moveDigitsWithRollback(rows, original, shuffled, positions);
+        int index = 0;
+        for (int row = 1; row <= 3; row++) {
+            for (int column = 0; column < 3; column++) views[row][column] = shuffled.get(index++);
+        }
+        views[4][1] = shuffled.get(9);
+        numbers[3][1] = shuffled.get(9);
+    }
+
+    // The animation matrices must share the same digit view, even if views override equals.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private static boolean hasPhoneMatrices(View[][] views, View[][] numbers) {
+        // This exact phone layout has two animation matrices sharing the first
+        // three digit rows. Tiny/fold subclasses and unknown shapes stay original.
+        return views != null && numbers != null && views.length == 6 && numbers.length == 4
+            && views[4] != null && views[4].length == 3
+            && numbers[3] != null && numbers[3].length == 3
+            && views[4][1] == numbers[3][1];
+    }
+
+    private static ViewGroup[] validatedRows(View root, View[][] views, View[][] numbers) {
+        ViewGroup[] rows = new ViewGroup[4];
+        IdentityHashMap<ViewGroup, Boolean> identities = new IdentityHashMap<>();
+        for (int row = 0; row < 4; row++) {
+            int id = root.getResources().getIdentifier("row" + (row + 1), "id", "com.android.systemui");
+            View candidate = id == 0 ? null : root.findViewById(id);
+            if (!(candidate instanceof ViewGroup group) || group.getChildCount() != 3) return null;
+            if (identities.put(group, Boolean.TRUE) != null) return null;
+            if (row < 3 && (views[row + 1] == null || views[row + 1].length != 3
+                || numbers[row] != views[row + 1])) return null;
+            rows[row] = group;
+        }
+        return rows;
+    }
+
+    private static boolean collectDigits(ViewGroup[] rows, View[][] views, Class<?> key, Field digit,
+                                         List<View> original, ViewGroup.LayoutParams[] positions)
+        throws IllegalAccessException {
+        IdentityHashMap<View, Boolean> identities = new IdentityHashMap<>();
+        boolean[] digits = new boolean[10];
+        for (int index = 0; index < 10; index++) {
+            int row = index < 9 ? index / 3 : 3;
+            int column = index < 9 ? index % 3 : 1;
+            ViewGroup group = rows[row];
+            View view = group.getChildAt(column);
+            if (!isOriginalDigit(view, key, views[row + 1][column], group)
+                || identities.put(view, Boolean.TRUE) != null) return false;
+            int value = digit.getInt(view);
+            if (value < 0 || value > 9 || digits[value]) return false;
+            digits[value] = true;
+            positions[index] = view.getLayoutParams();
+            if (positions[index] == null) return false;
+            original.add(view);
+        }
+        return true;
+    }
+
+    // Only the original view and its actual parent may be moved; value equality is insufficient.
+    @SuppressWarnings("PMD.CompareObjectsWithEquals")
+    private static boolean isOriginalDigit(View view, Class<?> key, View expected, ViewGroup group) {
+        return view != null && view.getClass() == key && view == expected && view.getParent() == group;
+    }
+
+    private static void moveDigitsWithRollback(ViewGroup[] rows, List<View> original,
+                                               List<View> shuffled, ViewGroup.LayoutParams[] positions) {
         try {
             moveDigits(rows, original, shuffled, positions);
         } catch (RuntimeException error) {
@@ -156,12 +197,6 @@ public class ScramblePIN extends BaseHook {
             catch (RuntimeException rollback) { error.addSuppressed(rollback); }
             throw error;
         }
-        int index = 0;
-        for (int row = 1; row <= 3; row++) {
-            for (int column = 0; column < 3; column++) views[row][column] = shuffled.get(index++);
-        }
-        views[4][1] = shuffled.get(9);
-        numbers[3][1] = shuffled.get(9);
     }
 
     private static void moveDigits(ViewGroup[] rows, List<View> all, List<View> order,

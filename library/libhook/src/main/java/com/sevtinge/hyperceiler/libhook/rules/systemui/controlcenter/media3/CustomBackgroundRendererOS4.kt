@@ -39,6 +39,9 @@ import kotlin.math.roundToInt
 import kotlin.random.Random
 
 /** Stateless, task-local rendering. No preferences, holders, or global image cache. */
+// Keep this owner-specific lifecycle and its private rollback helpers in one auditable scope.
+// This immutable contract records the complete validated ROM shape or captured invocation.
+@Suppress("LongParameterList", "TooManyFunctions")
 internal class CustomBackgroundRendererOS4 private constructor(
     val mediaDataClass: Class<*>,
     private val artwork: Field,
@@ -51,6 +54,8 @@ internal class CustomBackgroundRendererOS4 private constructor(
     data class Options(val colorAnimation: Boolean = false, val inverse: Boolean = false, val blurPercent: Int = 10)
 
     /** Only immutable software pixels escape the task. Each holder gets its own Drawable. */
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     class Frame internal constructor(
         private val resources: Resources,
         private val background: Bitmap,
@@ -74,35 +79,37 @@ internal class CustomBackgroundRendererOS4 private constructor(
     }
 
     /** A null result is failure, including GPU failure; never a transparent success. */
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     fun render(context: Context, mediaData: Any, style: Int, options: Options, width: Int, height: Int): Frame? {
-        if (Looper.myLooper() === Looper.getMainLooper() || Thread.currentThread().isInterrupted ||
-            mediaData.javaClass !== mediaDataClass || style !in selectedStyles || options.blurPercent !in 0..20 ||
-            width < 0 || height < 0 || width > 16384 || height > 16384) return null
+        if (Looper.myLooper() === Looper.getMainLooper() || Thread.currentThread().isInterrupted) return null
+        if (mediaData.javaClass !== mediaDataClass || style !in selectedStyles || options.blurPercent !in 0..20) return null
+        if (width !in 0..16384 || height !in 0..16384) return null
         return recover {
             val tasks = OwnedBitmaps()
             try {
                 val icon = artwork.get(mediaData) as? Icon
                 val image = recover { icon?.loadDrawable(context)?.let { snapshot(context, it, tasks) } }
                     ?: recover { (acquireIcon.invoke(null, context, mediaData) as? Drawable)?.let { snapshot(context, it, tasks) } }
-                    ?: return@recover null
+                    ?: return null
                 val targetWidth = if (width > 0) width else image.width
                 val targetHeight = if (height > 0) height else image.height
-                val palette = palette(image) ?: return@recover null
+                val palette = palette(image) ?: return null
                 val color = colorConfig(style, options.inverse, image, palette)
-                if (Thread.currentThread().isInterrupted) return@recover null
+                if (Thread.currentThread().isInterrupted) return null
                 val processed = when (style) {
                     1 -> coverArt(context, image, color, tasks)
                     2 -> blurredCover(image, color, targetHeight, options.blurPercent, tasks)
                     3 -> square(image, false, color.bgStartColor, tasks)
                     4 -> square(image, true, color.bgStartColor, tasks)
-                    else -> return@recover null
-                } ?: return@recover null
-                if (Thread.currentThread().isInterrupted) return@recover null
+                    else -> return null
+                } ?: return null
+                if (Thread.currentThread().isInterrupted) return null
                 // Copies cannot alias the mutable task images. Do not recycle
                 // successfully published pixels, even when another request wins.
-                val background = processed.copy(Bitmap.Config.ARGB_8888, false) ?: return@recover null
+                val background = processed.copy(Bitmap.Config.ARGB_8888, false) ?: return null
                 tasks.add(background)
-                if (background === processed || background.isMutable) return@recover null
+                if (background === processed || background.isMutable) return null
                 val frame = Frame(context.resources, background, color, targetWidth, targetHeight, style, options.colorAnimation)
                 tasks.release(background)
                 frame
@@ -321,28 +328,30 @@ internal class CustomBackgroundRendererOS4 private constructor(
         private val STATIC_DRAWABLES = setOf("android.graphics.drawable.ColorDrawable", "android.graphics.drawable.GradientDrawable",
             "android.graphics.drawable.VectorDrawable", "android.graphics.drawable.NinePatchDrawable", "android.graphics.drawable.ShapeDrawable")
 
-        fun create(loader: ClassLoader, selectedStyles: Set<Int>): CustomBackgroundRendererOS4? = recover {
-            if (selectedStyles.isEmpty() || selectedStyles.any { it !in 1..4 }) return@recover null
-            fun type(name: String) = Class.forName(name, false, loader)
-            val media = type("com.android.systemui.media.controls.shared.model.MediaData")
-            val art = media.getDeclaredField("artwork").also {
-                require(it.type === Icon::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
-            }
-            val acquire = type("com.android.systemui.statusbar.notification.utils.NotificationUtil")
-                .getDeclaredMethod("acquireApplicationIcon", Context::class.java, media).also {
-                    require(it.returnType === Drawable::class.java && Modifier.isPublic(it.modifiers) && Modifier.isStatic(it.modifiers)); it.isAccessible = true
+        fun create(loader: ClassLoader, selectedStyles: Set<Int>): CustomBackgroundRendererOS4? {
+            return recover {
+                if (selectedStyles.isEmpty() || selectedStyles.any { it !in 1..4 }) return null
+                fun type(name: String) = Class.forName(name, false, loader)
+                val media = type("com.android.systemui.media.controls.shared.model.MediaData")
+                val art = media.getDeclaredField("artwork").also {
+                    require(it.type === Icon::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
                 }
-            val scheme = type("com.android.systemui.monet.ColorScheme")
-            val tonal = type("com.android.systemui.monet.TonalPalette")
-            val constructor = scheme.getDeclaredConstructor(WallpaperColors::class.java, Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!)
-            require(Modifier.isPublic(constructor.modifiers))
-            val palettes = listOf("mNeutral1", "mNeutral2", "mAccent1", "mAccent2").map { name -> scheme.getDeclaredField(name).also {
-                require(it.type === tonal && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
-            } }
-            val shades = tonal.getDeclaredField("allShades").also {
-                require(it.type === List::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
+                val acquire = type("com.android.systemui.statusbar.notification.utils.NotificationUtil")
+                    .getDeclaredMethod("acquireApplicationIcon", Context::class.java, media).also {
+                        require(it.returnType === Drawable::class.java && Modifier.isPublic(it.modifiers) && Modifier.isStatic(it.modifiers)); it.isAccessible = true
+                    }
+                val scheme = type("com.android.systemui.monet.ColorScheme")
+                val tonal = type("com.android.systemui.monet.TonalPalette")
+                val constructor = scheme.getDeclaredConstructor(WallpaperColors::class.java, Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!)
+                require(Modifier.isPublic(constructor.modifiers))
+                val palettes = listOf("mNeutral1", "mNeutral2", "mAccent1", "mAccent2").map { name -> scheme.getDeclaredField(name).also {
+                    require(it.type === tonal && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
+                } }
+                val shades = tonal.getDeclaredField("allShades").also {
+                    require(it.type === List::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers)); it.isAccessible = true
+                }
+                CustomBackgroundRendererOS4(media, art, acquire, constructor, palettes, shades, selectedStyles.toSet())
             }
-            CustomBackgroundRendererOS4(media, art, acquire, constructor, palettes, shades, selectedStyles.toSet())
         }
 
         private inline fun cleanup(block: () -> Unit) { try { block() } catch (_: Exception) {} catch (_: LinkageError) {} }

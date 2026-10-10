@@ -1,3 +1,5 @@
+package fixture;
+
 import android.os.Message;
 import android.os.Looper;
 import android.os.SystemClock;
@@ -8,7 +10,8 @@ import com.sevtinge.hyperceiler.libhook.base.BaseHook;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.statusbar.network.NetworkSpeedSpacing;
 import io.github.lingqiqi5211.ezhooktool.xposed.common.HookParam;
 public class TestMain {
-    static int passes, failures;
+    static int passes;
+    static int failures;
     static void test(String name, Runnable body) {
         try { body.run(); passes++; System.out.println("PASS "+name); }
         catch(Throwable t) { failures++; System.out.println("FAIL "+name+" "+t); }
@@ -51,7 +54,7 @@ public class TestMain {
         try { if(!latch.await(2,java.util.concurrent.TimeUnit.SECONDS)) throw new AssertionError("latch timeout"); }
         catch(InterruptedException e) { throw new AssertionError(e); }
     }
-    public static void main(String[] args) {
+    private static void testSchedulingBasics() {
         test("OS4 fallback selects real Handler method",()->init(false));
         for(int value:new int[]{10,15,40,100}) test("visible periodic delay "+value,()->{
             init(false); PrefsBridge.value=value; var c=new NetworkSpeedController(); periodic(c); c.mHandler.drain();
@@ -90,6 +93,9 @@ public class TestMain {
             init(true); PrefsBridge.value=0; HookParam p=new HookParam(new BaseHook.LegacyController(),4000L);
             BaseHook.registered.before(p); equal(p.getArgs()[0],4000L);
         });
+    }
+
+    private static void testCancellationAndRestart() {
         test("BG completion leaves original timer until UI runnable",()->{
             init(false); var c=new NetworkSpeedController(); periodic(c); delay(c,4000L); equal(c.mHandler.tasks.size(),1);
         });
@@ -136,6 +142,9 @@ public class TestMain {
         test("sample UI message does not invalidate periodic delay",()->{
             init(false); var c=new NetworkSpeedController(); periodic(c); invoke(c.mHandler,100004); c.mHandler.drain(); delay(c,1500L);
         });
+    }
+
+    private static void testQueueRaces() {
         test("UI backlog coalesces and uses latest completed cycle",()->{
             init(false); var c=new NetworkSpeedController(); periodic(c); SystemClock.now=4000; periodic(c);
             equal(c.mHandler.tasks.size(),1); SystemClock.now=4500; c.mHandler.drain(); delay(c,1000L);
@@ -147,6 +156,9 @@ public class TestMain {
             init(false); var c=new NetworkSpeedController(); periodic(c); var p=begin(c.mBgHandler,200001);
             c.mHandler.drain(); empty(c); original(p); finish(p); equal(c.mHandler.tasks.size(),1); c.mHandler.drain(); delay(c,1500L);
         });
+    }
+
+    private static void testFailureRecovery() {
         for(boolean throwing:new boolean[]{false,true}) test("failed UI post retains original and later retries "+throwing,()->{
             init(false); var c=new NetworkSpeedController(); c.mHandler.rejectPost=!throwing; c.mHandler.throwPost=throwing;
             periodic(c); delay(c,4000L); equal(c.mHandler.tasks.size(),0);
@@ -181,6 +193,9 @@ public class TestMain {
             init(false); var c=new NetworkSpeedController(); BaseHook.failedField="mHandler"; periodic(c); delay(c,4000L);
             BaseHook.failedField=null; periodic(c); c.mHandler.drain(); delay(c,1500L);
         });
+    }
+
+    private static void testPhysicalThreadRaces() {
         test("new BG completes on another thread during unlocked preference read",()->{
             init(false); var c=new NetworkSpeedController(); periodic(c);
             PrefsBridge.onRead=()->{
@@ -212,6 +227,14 @@ public class TestMain {
             if(failure.get()!=null) throw new AssertionError(failure.get());
             c.mHandler.drain(); delay(c,0L);
         });
+    }
+
+    public static void main(String[] args) {
+        testSchedulingBasics();
+        testCancellationAndRestart();
+        testQueueRaces();
+        testFailureRecovery();
+        testPhysicalThreadRaces();
         System.out.println("RESULT passes="+passes+" failures="+failures);
         if(failures!=0) System.exit(1);
     }

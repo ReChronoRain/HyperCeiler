@@ -16,7 +16,8 @@ public final class WeatherNativeBridgeOS4 extends BaseHook {
             int.class, Parcel.class, Parcel.class, int.class, new IMethodHook() {
                 @Override public void before(HookParam param) {
                     if ((int) param.getArgs()[0] != WeatherNativeEndpointOS4.TRANSACTION_CODE) return;
-                    Parcel data = (Parcel) param.getArgs()[1], reply = (Parcel) param.getArgs()[2];
+                    Parcel data = (Parcel) param.getArgs()[1];
+                    Parcel reply = (Parcel) param.getArgs()[2];
                     if (reply == null) { param.setResult(false); return; }
                     if (data == null) {
                         WeatherNativeEndpointOS4.writeReply(reply, null);

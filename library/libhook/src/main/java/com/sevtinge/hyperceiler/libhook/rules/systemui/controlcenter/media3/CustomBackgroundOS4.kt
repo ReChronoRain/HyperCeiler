@@ -38,6 +38,8 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /** OS4 view ownership is local to one controller's current attach generation. */
+// Keep this owner-specific lifecycle and its private rollback helpers in one auditable scope.
+@Suppress("TooManyFunctions")
 object CustomBackgroundOS4 : BaseHook() {
     private const val NC = "com.android.systemui.statusbar.notification.mediacontrol."
     private const val DI = "com.android.systemui.statusbar.notification.mediaisland."
@@ -45,6 +47,8 @@ object CustomBackgroundOS4 : BaseHook() {
     private const val DP = "system_ui_island_media_control"
     private enum class Event { ATTACH, DETACH, BIND, FOREGROUND, AOD, PULL, LAYOUT }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     override fun init() {
         val ncStyle = PrefsBridge.getStringAsInt(NP + "_background_mode", 0)
         val diStyle = if (CustomBackground.isIsland) PrefsBridge.getStringAsInt(DP + "_background_mode", 0) else 0
@@ -64,7 +68,7 @@ object CustomBackgroundOS4 : BaseHook() {
             // All selected endpoints preflight before the first registration. A
             // partially installed transaction stays inert, including failed unhooks.
             for (group in groups) for ((method, event) in group.methods) {
-                handles.add(checkNotNull(hookMethod(method, callback(group, event))) { "OS4 custom background registration failed" })
+                handles.add(checkNotNull(hookMethod(method, Callback(group, event))) { "OS4 custom background registration failed" })
             }
             handles.add(checkNotNull(hookMethod(shader.method, shader.callback({ seek ->
                 if (active.get()) shaderColor(groups, seek) else null
@@ -90,6 +94,8 @@ object CustomBackgroundOS4 : BaseHook() {
         }
     }
 
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     private class Group(
         val island: Boolean, val style: Int, val options: CustomBackgroundRendererOS4.Options,
         val active: AtomicBoolean, val renderer: CustomBackgroundRendererOS4, val owner: Class<*>,
@@ -150,10 +156,14 @@ object CustomBackgroundOS4 : BaseHook() {
         var attachListener: View.OnAttachStateChangeListener? = null
         var syncing = false
     }
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     private class Frame(val receiver: Any?, val args: Array<Any?>, val state: State?, val session: Session?, val ticket: Long, val eligible: Boolean, var ownsBusy: Boolean)
 
-    private fun callback(group: Group, event: Event) = object : IMethodHook {
+    private class Callback(private val group: Group, private val event: Event) : IMethodHook {
         private val frames = ThreadLocal<ArrayDeque<Frame>>()
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         override fun before(param: HookParam) {
             var state: State? = null
             var eligible = false
@@ -161,16 +171,28 @@ object CustomBackgroundOS4 : BaseHook() {
                 eligible = group.active.get() && !param.isSkipped && mainThread() &&
                     param.thisObject.javaClass == when (event) { Event.PULL -> group.collector; Event.LAYOUT -> group.layoutOwner; else -> group.owner }
                 if (eligible) {
-                    val owner = when (event) { Event.PULL -> group.collectorOwner!!.get(param.thisObject); Event.LAYOUT -> group.layoutController!!.get(param.thisObject); else -> param.thisObject }
-                    if (owner?.javaClass == group.owner) {
-                        state = group.state(owner)
-                        if (event == Event.ATTACH || event == Event.DETACH) { state.structure++; state.busy++; state.pending = null }
-                    } else eligible = false
+                    state = captureState(param)
+                    eligible = state != null
                 }
             } catch (error: Exception) { eligible = false; debugCallbackError("custom background before", error) }
             val stack = frames.get() ?: ArrayDeque<Frame>().also(frames::set)
             stack.addLast(Frame(param.thisObject, param.args, state, state?.session, state?.structure ?: -1, eligible, eligible && state != null && (event == Event.ATTACH || event == Event.DETACH)))
         }
+
+        private fun captureState(param: HookParam): State? {
+            val owner = when (event) { Event.PULL -> group.collectorOwner!!.get(param.thisObject); Event.LAYOUT -> group.layoutController!!.get(param.thisObject); else -> param.thisObject }
+            if (owner?.javaClass != group.owner) return null
+            val state = group.state(owner)
+            if (event == Event.ATTACH || event == Event.DETACH) {
+                state.structure++
+                state.busy++
+                state.pending = null
+            }
+            return state
+        }
+
+        // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+        @Suppress("TooGenericExceptionCaught")
         override fun after(param: HookParam) {
             val stack = frames.get() ?: return
             val frame = stack.pollLast()
@@ -191,67 +213,81 @@ object CustomBackgroundOS4 : BaseHook() {
                 if (param.isSkipped || param.hasThrowable) {
                     // An original that throws after clearing/replacing its holder
                     // still loses authority over the captured old generation.
-                    if (frame.session != null && !matches(frame.session, owner)) {
-                        retire(frame.session)
-                        if (state.session === frame.session) state.session = null
-                    }
+                    retireChangedSession(frame, state, owner)
                     return
                 }
-                when (event) {
-                    Event.ATTACH -> {
-                        if (state.structure == frame.ticket) {
-                            val values = group.actualHolders(owner)
-                            if (values.indices.all { values[it] === param.args.getOrNull(it) }) state.pending = Pending(frame.ticket, values)
-                        }
-                    }
-                    Event.DETACH -> {
-                        frame.session?.let(::retire)
-                        if (state.session === frame.session) state.session = null
-                    }
-                    Event.BIND -> {
-                        val session = state.session ?: return
-                        if (!current(session, owner) || state.busy != 0) return
-                        val data = param.args.getOrNull(0)
-                        if (data == null) {
-                            // DI accepts a null bind and clears mediaData; NC's
-                            // null bind is a no-op. Only the actual cleared owner
-                            // revokes the current palette and pending result.
-                            if (group.media.get(owner) == null) clearMedia(session, owner)
-                            return
-                        }
-                        if (data.javaClass != group.renderer.mediaDataClass || group.media.get(owner) !== data) return
-                        session.data = WeakReference(data)
-                        sync(session)
-                        requestColor(session, owner, data)
-                    }
-                    Event.FOREGROUND, Event.AOD, Event.LAYOUT -> state.session?.let {
-                        if (state.busy == 0 && (event != Event.LAYOUT || group.layoutHolder!!.get(param.thisObject) === it.holders[0].get())) {
-                            applyForeground(it); sync(it)
-                        }
-                    }
-                    Event.PULL -> {
-                        val session = state.session ?: return
-                        if (!current(session, owner) || state.busy != 0 || group.collectorHolders.indices.any {
-                                group.collectorHolders[it].get(param.thisObject) !== session.holders[it].get()
-                            }) return
-                        val pair = param.args.getOrNull(0) ?: return
-                        if (!group.pair!!.isInstance(pair)) return
-                        when (group.pairFirst!!.invoke(pair)) {
-                            "pull_down_type_start" -> session.dragging = true
-                            "pull_down_type_finish" -> session.dragging = false
-                            "pull_down_type_update" -> Unit // Original code owns dummy translation and bounds.
-                            else -> return
-                        }
-                        sync(session)
-                    }
-                }
+                handleEvent(param, frame, state, owner)
             } catch (error: Exception) {
                 state.session?.let { try { failVisual(it) } catch (cleanup: Exception) { error.addSuppressed(cleanup) } }
                 debugCallbackError("custom background $event", error)
             }
             finally {
-                if ((event == Event.ATTACH || event == Event.DETACH) && state.busy == 0) {
-                    guarded("custom background attach commit") { param.thisObject?.let { commitAttach(group, state, it) } }
+                commitPendingAttach(param, state)
+            }
+        }
+
+        private fun retireChangedSession(frame: Frame, state: State, owner: Any) {
+            val session = frame.session ?: return
+            if (matches(session, owner)) return
+            retire(session)
+            if (state.session === session) state.session = null
+        }
+
+        private fun commitPendingAttach(param: HookParam, state: State) {
+            if (event != Event.ATTACH && event != Event.DETACH) return
+            if (state.busy != 0) return
+            guarded("custom background attach commit") {
+                param.thisObject?.let { commitAttach(group, state, it) }
+            }
+        }
+
+        private fun handleEvent(param: HookParam, frame: Frame, state: State, owner: Any) {
+            when (event) {
+                Event.ATTACH -> {
+                    if (state.structure == frame.ticket) {
+                        val values = group.actualHolders(owner)
+                        if (values.indices.all { values[it] === param.args.getOrNull(it) }) state.pending = Pending(frame.ticket, values)
+                    }
+                }
+                Event.DETACH -> {
+                    frame.session?.let(::retire)
+                    if (state.session === frame.session) state.session = null
+                }
+                Event.BIND -> {
+                    val session = state.session ?: return
+                    if (!current(session, owner) || state.busy != 0) return
+                    val data = param.args.getOrNull(0)
+                    if (data == null) {
+                        // DI accepts a null bind and clears mediaData; NC's
+                        // null bind is a no-op. Only the actual cleared owner
+                        // revokes the current palette and pending result.
+                        if (group.media.get(owner) == null) clearMedia(session, owner)
+                        return
+                    }
+                    if (data.javaClass != group.renderer.mediaDataClass || group.media.get(owner) !== data) return
+                    session.data = WeakReference(data)
+                    sync(session)
+                    requestColor(session, owner, data)
+                }
+                Event.FOREGROUND, Event.AOD, Event.LAYOUT -> state.session?.let {
+                    if (state.busy == 0 && (event != Event.LAYOUT || group.layoutHolder!!.get(param.thisObject) === it.holders[0].get())) {
+                        applyForeground(it); sync(it)
+                    }
+                }
+                Event.PULL -> {
+                    val session = state.session ?: return
+                    if (!current(session, owner) || state.busy != 0 || group.collectorHolders.indices.any {
+                            group.collectorHolders[it].get(param.thisObject) !== session.holders[it].get()
+                        }) return
+                    val pair = param.args.getOrNull(0) ?: return
+                    if (!group.pair!!.isInstance(pair)) return
+                    when (group.pairFirst!!.invoke(pair)) {
+                        "pull_down_type_start" -> session.dragging = true
+                        "pull_down_type_finish" -> session.dragging = false
+                        "pull_down_type_update" -> Unit // Original code owns dummy translation and bounds.
+                        else -> return
+                    }
+                    sync(session)
                 }
             }
         }
@@ -261,18 +297,21 @@ object CustomBackgroundOS4 : BaseHook() {
         if (frame.ownsBusy) { frame.ownsBusy = false; frame.state?.let { it.busy = (it.busy - 1).coerceAtLeast(0) } }
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun commitAttach(group: Group, state: State, owner: Any) {
         val pending = state.pending ?: return
         state.pending = null
-        if (!group.active.get() || state.busy != 0 || state.structure != pending.ticket || owner.javaClass != group.owner) return
+        if (!group.active.get() || state.busy != 0) return
+        if (state.structure != pending.ticket || owner.javaClass != group.owner) return
         val values = group.actualHolders(owner)
         if (values.indices.any { values[it] !== pending.holders[it].get() }) return
         val previous = state.session
         previous?.let(::retire)
         // Removing an owned old view can reenter attach. That newer successful
         // generation must survive this outer commit's return.
-        if (state.structure != pending.ticket || state.busy != 0 ||
-            state.session !== previous || values.indices.any { group.holders[it].get(owner) !== values[it] }) return
+        if (state.structure != pending.ticket || state.busy != 0) return
+        if (state.session !== previous || values.indices.any { group.holders[it].get(owner) !== values[it] }) return
         state.session = null
         val session = Session(group, owner, state, values)
         for ((role, value) in values.withIndex()) {
@@ -300,6 +339,8 @@ object CustomBackgroundOS4 : BaseHook() {
         }
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun requestColor(session: Session, owner: Any, data: Any) {
         val group = session.group
         val context = group.context.get(owner) as? Context ?: return
@@ -321,8 +362,8 @@ object CustomBackgroundOS4 : BaseHook() {
                 if (!group.active.get() || !session.live.get()) null else {
                     val frames = try {
                         val frame = renderer.render(context, data, group.style, group.options,
-                            sizes.maxOf { it.first }, sizes.maxOf { it.second }) ?: return@execute Outcome(null)
-                        List(sizes.size) { frame }
+                            sizes.maxOf { it.first }, sizes.maxOf { it.second })
+                        frame?.let { List(sizes.size) { frame } }
                     }
                     catch (error: Exception) { debugCallbackError("custom background resolver", error); null }
                     Outcome(frames)
@@ -340,12 +381,14 @@ object CustomBackgroundOS4 : BaseHook() {
         }
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun applyResult(session: Session, outcome: Outcome, eligible: () -> Boolean) {
         guarded("custom background color result") {
-            if (!eligible()) return@guarded
+            if (!eligible()) return
             // add/removeView may synchronously reenter another bind/result.
             // Defer that latest result until the current view journal closes.
-            if (session.installing) { session.pendingResult = { applyResult(session, outcome, eligible) }; return@guarded }
+            if (session.installing) { session.pendingResult = { applyResult(session, outcome, eligible) }; return }
             session.installing = true
             try {
                 val frames = outcome.frames
@@ -407,13 +450,7 @@ object CustomBackgroundOS4 : BaseHook() {
             val listener = View.OnLayoutChangeListener { _, _, _, _, _, _, _, _, _ ->
                 guardSession("background layout", session) {
                     sync(session)
-                    val owner = session.owner.get()
-                    val data = session.data.get()
-                    val measured = slot.original.get()
-                    if (!slot.syncing && owner != null && data != null && measured != null && current(session, owner) &&
-                        (measured.width != slot.renderWidth || measured.height != slot.renderHeight)) {
-                        requestColor(session, owner, data)
-                    }
+                    renderIfSizeChanged(session, slot)
                 }
             }
             slot.layoutListener = listener
@@ -427,6 +464,17 @@ object CustomBackgroundOS4 : BaseHook() {
             ensureCurrent(session); check(eligible())
             observeDraw(session, slot)
             followBounds(slot)
+        }
+    }
+
+    private fun renderIfSizeChanged(session: Session, slot: Slot) {
+        if (slot.syncing) return
+        val owner = session.owner.get() ?: return
+        val data = session.data.get() ?: return
+        val measured = slot.original.get() ?: return
+        if (!current(session, owner)) return
+        if (measured.width != slot.renderWidth || measured.height != slot.renderHeight) {
+            requestColor(session, owner, data)
         }
     }
 
@@ -478,7 +526,8 @@ object CustomBackgroundOS4 : BaseHook() {
 
     private fun sync(session: Session) {
         val group = session.group
-        if (!mainThread() || session.state.busy != 0 || session.installing && session.frames == null) return
+        if (!mainThread() || session.state.busy != 0) return
+        if (session.installing && session.frames == null) return
         val owner = session.owner.get()
         if (!group.active.get() || owner == null || !current(session, owner)) { retire(session); return }
         val data = group.media.get(owner)
@@ -490,8 +539,7 @@ object CustomBackgroundOS4 : BaseHook() {
             val view = slot.overlay.get() ?: continue
             val drawer = slot.drawable.get() ?: continue
             val original = slot.original.get()
-            if (view.parent !== slot.parent.get() || view.drawable !== drawer ||
-                original?.parent !== slot.parent.get() || slot.holder.get()?.let { group.background.get(it) === original } != true) {
+            if (!ownsBackground(slot, view, drawer, original)) {
                 session.frames = null
                 cleanAll(session.slots.asReversed().map { owned -> { undo(owned) } })
                 return
@@ -501,6 +549,16 @@ object CustomBackgroundOS4 : BaseHook() {
         }
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
+    private fun ownsBackground(slot: Slot, view: ImageView, drawer: CustomBackgroundDrawableOS4, original: View?): Boolean {
+        if (view.parent !== slot.parent.get() || view.drawable !== drawer) return false
+        if (original?.parent !== slot.parent.get()) return false
+        return slot.holder.get()?.let { slot.background.get(it) === original } == true
+    }
+
+    // Receiver registration may fail after mutation; always attempt its matching rollback.
+    @Suppress("TooGenericExceptionCaught")
     private fun watchScreen(session: Session, context: Context) {
         val group = session.group
         if (group.screenReceiver != null) return
@@ -544,11 +602,15 @@ object CustomBackgroundOS4 : BaseHook() {
             { slot.layoutListener?.let { original?.removeOnLayoutChangeListener(it) }; Unit },
             { slot.layoutListener?.let { view?.removeOnLayoutChangeListener(it) }; Unit },
             { slot.attachListener?.let { view?.removeOnAttachStateChangeListener(it) }; Unit },
-            { if (view != null && view.parent === parent) parent?.removeView(view); Unit }
+            { removeOwnedOverlay(view, parent) }
         ))
         slot.overlay.clear(); slot.drawable.clear()
         slot.layoutListener = null; slot.attachListener = null
     }
+    private fun removeOwnedOverlay(view: ImageView?, parent: ViewGroup?) {
+        if (view != null && view.parent === parent) parent?.removeView(view)
+    }
+
     private fun retire(session: Session) {
         if (session.live.getAndSet(false)) session.state.request++
         session.frames = null
@@ -561,12 +623,16 @@ object CustomBackgroundOS4 : BaseHook() {
         session.frames = null
         cleanAll(session.slots.asReversed().map { slot -> { undo(slot) } })
     }
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private inline fun guardSession(where: String, session: Session, action: () -> Unit) {
         try { action() } catch (error: Exception) {
             try { failVisual(session) } catch (cleanup: Exception) { error.addSuppressed(cleanup) }
             debugCallbackError(where, error)
         }
     }
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private fun cleanAll(actions: List<() -> Unit>) {
         var failure: IllegalStateException? = null
         for (action in actions) try { action() } catch (error: Throwable) {
@@ -626,6 +692,8 @@ object CustomBackgroundOS4 : BaseHook() {
             owns = false; before = null; applied = null
         }
     }
+    // This immutable contract records the complete validated ROM shape or captured invocation.
+    @Suppress("LongParameterList")
     private fun tint(slot: Slot, target: Any, kind: Int, color: Any, read: Field? = null, write: Method? = null) {
         val entry = slot.colors.firstOrNull { it.target.get() === target && it.kind == kind }
             ?: OwnedColor(target, kind, read, write).also(slot.colors::add)
@@ -662,24 +730,36 @@ object CustomBackgroundOS4 : BaseHook() {
         }
     }
     private fun shaderColor(groups: List<Group>, seek: Any): Int? {
-        for (group in groups) for (state in group.states.values.toList()) {
-            val session = state.session ?: continue
-            val owner = session.owner.get() ?: continue
-            val frames = session.frames ?: continue
-            if (state.busy != 0 || !current(session, owner)) continue
-            for ((index, slot) in session.slots.withIndex()) {
-                val holder = slot.holder.get() ?: continue
-                val overlay = slot.overlay.get() ?: continue
-                if (overlay.parent === slot.parent.get() && group.seek.get(holder) === seek) return frames[index].colors.textPrimary
+        for (group in groups) {
+            for (state in group.states.values.toList()) {
+                val session = state.session ?: continue
+                colorForSeek(session, seek)?.let { return it }
             }
         }
         return null
     }
+
+    private fun colorForSeek(session: Session, seek: Any): Int? {
+        val owner = session.owner.get() ?: return null
+        val frames = session.frames ?: return null
+        if (session.state.busy != 0 || !current(session, owner)) return null
+        for ((index, slot) in session.slots.withIndex()) {
+            val holder = slot.holder.get() ?: continue
+            val overlay = slot.overlay.get() ?: continue
+            if (overlay.parent === slot.parent.get() && session.group.seek.get(holder) === seek) {
+                return frames[index].colors.textPrimary
+            }
+        }
+        return null
+    }
+
     private fun restoreColors(slot: Slot) {
         cleanAll(slot.colors.asReversed().map { entry -> { entry.restore() } })
         slot.colors.clear()
     }
 
+    // Reflection consumes the exact validated argument array once during registration.
+    @Suppress("SpreadOperator")
     private fun plan(island: Boolean, style: Int, active: AtomicBoolean, renderer: CustomBackgroundRendererOS4): Group {
         val owner = required(if (island) DI + "MiuiIslandMediaViewBinderImpl" else NC + "MiuiMediaViewControllerImpl")
         val holder = required(if (island) DI + "MiuiIslandMediaViewHolder" else NC + "MiuiMediaViewHolder")
@@ -738,6 +818,8 @@ object CustomBackgroundOS4 : BaseHook() {
     private fun method(type: Class<*>, name: String, result: Class<*>, vararg args: Class<*>) = type.getDeclaredMethod(name, *args).also {
         check(it.returnType == result && !Modifier.isStatic(it.modifiers)) { "OS4 custom background method changed: $name" }; it.isAccessible = true
     }
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     private inline fun guarded(where: String, action: () -> Unit) {
         try { action() } catch (error: Exception) { debugCallbackError(where, error) }
     }

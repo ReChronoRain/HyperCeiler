@@ -59,6 +59,8 @@ object CustomBarrageLength : BaseHook() {
         var consumed = false
     }
 
+    // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+    @Suppress("TooGenericExceptionCaught")
     override fun init() {
         if (!isMoreHyperOSVersion(4f)) {
             initLegacy()
@@ -113,8 +115,8 @@ object CustomBarrageLength : BaseHook() {
             register(cut, object : IMethodHook {
                 override fun after(param: HookParam) {
                     val frame = current() ?: return
-                    if (!active.get() || !frame.enabled || !frame.notification || param.isSkipped ||
-                        param.throwable != null || frame.receiver !== param.thisObject) return
+                    if (!active.get() || !frame.enabled || !frame.notification) return
+                    if (param.isSkipped || param.throwable != null || frame.receiver !== param.thisObject) return
                     val input = param.args.getOrNull(0) as? String ?: return
                     val output = param.result as? String ?: return
                     frame.wechatInput = input
@@ -122,10 +124,13 @@ object CustomBarrageLength : BaseHook() {
                 }
             })
             register(span, object : IMethodHook {
+                // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+                @Suppress("TooGenericExceptionCaught")
                 override fun after(param: HookParam) {
                     val frame = current() ?: return
-                    if (!active.get() || !frame.enabled || !frame.notification || frame.consumed ||
-                        frame.receiver !== param.thisObject || param.isSkipped || param.throwable != null) return
+                    if (!active.get() || !frame.enabled || !frame.notification) return
+                    if (frame.consumed || frame.receiver !== param.thisObject) return
+                    if (param.isSkipped || param.throwable != null) return
                     try {
                         val notice = frame.input as? StatusBarNotification ?: return
                         val extras = notice.notification.extras ?: return
@@ -150,10 +155,12 @@ object CustomBarrageLength : BaseHook() {
                 }
             })
             register(publish, object : IMethodHook {
+                // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+                @Suppress("TooGenericExceptionCaught")
                 override fun before(param: HookParam) {
                     val frame = current() ?: return
-                    if (!active.get() || !frame.enabled || frame.consumed || param.isSkipped ||
-                        param.thisObject?.javaClass != manager) return
+                    if (!active.get() || !frame.enabled || frame.consumed) return
+                    if (param.isSkipped || param.thisObject?.javaClass != manager) return
                     try {
                         if (managerField.get(frame.receiver) !== param.thisObject) return
                         val item = param.args.getOrNull(0) ?: return
@@ -234,7 +241,7 @@ object CustomBarrageLength : BaseHook() {
             paramCount(2)
         }.createHook {
             before { param ->
-                if (Throwable().stackTrace.any { it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" }) {
+                if (Throwable().stackTrace.any { it.className == WINDOW }) {
                     param.args[1] = minOf(barrageLength, (param.thisObject as String).length)
                 }
             }
@@ -260,7 +267,7 @@ object CustomBarrageLength : BaseHook() {
                     )
                 }) return@after
                 if (stacktrace.any {
-                    it.className == "com.xiaomi.barrage.utils.BarrageWindowUtils" && it.methodName in setOf(
+                    it.className == WINDOW && it.methodName in setOf(
                         "addBarrageNotification", "sendBarrage"
                     )
                 }) {

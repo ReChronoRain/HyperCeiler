@@ -163,9 +163,9 @@ object NativeHomeHooksOS4 {
 
     /** Called only after a failed bootstrap preference bind recovers and entry gates pass. */
     fun onPreferencesReadyAfterRetry() {
-        if (!libraryLoaded || !preferencesRecoveryPending.get()
-            || PrefsBridge.getSharedPreferences() == null
-            || !preferencesRecoveryRunning.compareAndSet(false, true)) return
+        if (!libraryLoaded || !preferencesRecoveryPending.get()) return
+        if (PrefsBridge.getSharedPreferences() == null) return
+        if (!preferencesRecoveryRunning.compareAndSet(false, true)) return
         try {
             // A concurrent caller may have observed pending=true before the previous recovery
             // finished and released running. Recheck after acquiring the recovery slot.

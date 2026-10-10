@@ -47,13 +47,15 @@ internal class AmbientColorResolverOS4 private constructor(
     fun resolve(context: Context, mediaData: Any, optimized: Boolean): Colors? {
         if (Looper.myLooper() === Looper.getMainLooper() || Thread.currentThread().isInterrupted) return null
         if (mediaData.javaClass !== mediaDataClass) return null
-        if (optimized && this.optimized == null || !optimized && standard == null) return null
+        if (optimized) {
+            if (this.optimized == null) return null
+        } else if (standard == null) return null
         return recover {
             val icon = artwork.get(mediaData) as? Icon
             val drawable = recover { icon?.loadDrawable(context)?.let { privateDrawable(context, it) } }
                 ?: recover { (acquireIcon.invoke(null, context, mediaData) as? Drawable)?.let { privateDrawable(context, it) } }
-                ?: return@recover null
-            if (Thread.currentThread().isInterrupted) return@recover null
+                ?: return null
+            if (Thread.currentThread().isInterrupted) return null
             if (optimized) optimizedColors(drawable) else standardColors(drawable)
         }
     }
@@ -175,8 +177,8 @@ internal class AmbientColorResolverOS4 private constructor(
         // bridge also isolates the vendor algorithm's mutable native instance.
         val pixels = IntArray(capacity)
         val sampled = api.getPixels.invoke(null, pixels, bitmap, null) as? Bitmap ?: return null
-        if (sampled.isRecycled || sampled.width != expectedWidth || sampled.height != expectedHeight ||
-            api.maxArea.getInt(null) != maxArea || Thread.currentThread().isInterrupted) return null
+        if (sampled.isRecycled || sampled.width != expectedWidth || sampled.height != expectedHeight) return null
+        if (api.maxArea.getInt(null) != maxArea || Thread.currentThread().isInterrupted) return null
         val color = AmbientNativeColorOS4.resolve(pixels, sampled.width, sampled.height) ?: return null
         return Colors(color, color)
     }
@@ -190,49 +192,51 @@ internal class AmbientColorResolverOS4 private constructor(
 
     companion object {
         /** No class initialization or unselected mode lookup is performed here. */
-        fun create(loader: ClassLoader, needsStandard: Boolean, needsOptimized: Boolean): AmbientColorResolverOS4? = recover {
-            if (!needsStandard && !needsOptimized) return@recover null
-            fun type(name: String) = Class.forName(name, false, loader)
-            val media = type("com.android.systemui.media.controls.shared.model.MediaData")
-            val icon = media.getDeclaredField("artwork").also {
-                require(it.type === Icon::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
-                it.isAccessible = true
+        fun create(loader: ClassLoader, needsStandard: Boolean, needsOptimized: Boolean): AmbientColorResolverOS4? {
+            return recover {
+                if (!needsStandard && !needsOptimized) return null
+                fun type(name: String) = Class.forName(name, false, loader)
+                val media = type("com.android.systemui.media.controls.shared.model.MediaData")
+                val icon = media.getDeclaredField("artwork").also {
+                    require(it.type === Icon::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
+                    it.isAccessible = true
+                }
+                val utility = type("com.android.systemui.statusbar.notification.utils.NotificationUtil")
+                val acquire = method(utility, "acquireApplicationIcon", Drawable::class.java, Context::class.java, media)
+                val normal = if (needsStandard) {
+                    val utils = type("com.miui.utils.DrawableUtils")
+                    val palette = type("miuix.mipalette.MiPalette")
+                    val pixels = palette.getDeclaredMethod("getPixels", IntArray::class.java, Bitmap::class.java, List::class.java).also {
+                        require(it.returnType === Bitmap::class.java && Modifier.isStatic(it.modifiers) && Modifier.isPrivate(it.modifiers) && !Modifier.isNative(it.modifiers))
+                        it.isAccessible = true
+                    }
+                    method(palette, "getMainColorHCT", Int::class.javaPrimitiveType!!, IntArray::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
+                        require(Modifier.isNative(it.modifiers))
+                    }
+                    val maxArea = palette.getDeclaredField("MAX_AREA").also {
+                        require(it.type === Int::class.javaPrimitiveType && Modifier.isStatic(it.modifiers))
+                        it.isAccessible = true
+                    }
+                    Standard(method(utils, "drawable2Bitmap", Bitmap::class.java, Drawable::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!), pixels, maxArea)
+                } else null
+                val opt = if (needsOptimized) {
+                    val scheme = type("com.android.systemui.monet.ColorScheme")
+                    val tonal = type("com.android.systemui.monet.TonalPalette")
+                    val constructor = scheme.getDeclaredConstructor(WallpaperColors::class.java, Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
+                        require(Modifier.isPublic(it.modifiers))
+                    }
+                    val accent = scheme.getDeclaredField("mAccent1").also {
+                        require(it.type === tonal && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
+                        it.isAccessible = true
+                    }
+                    val shades = tonal.getDeclaredField("allShades").also {
+                        require(it.type === List::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
+                        it.isAccessible = true
+                    }
+                    Optimized(constructor, accent, shades)
+                } else null
+                AmbientColorResolverOS4(media, icon, acquire, normal, opt)
             }
-            val utility = type("com.android.systemui.statusbar.notification.utils.NotificationUtil")
-            val acquire = method(utility, "acquireApplicationIcon", Drawable::class.java, Context::class.java, media)
-            val normal = if (needsStandard) {
-                val utils = type("com.miui.utils.DrawableUtils")
-                val palette = type("miuix.mipalette.MiPalette")
-                val pixels = palette.getDeclaredMethod("getPixels", IntArray::class.java, Bitmap::class.java, List::class.java).also {
-                    require(it.returnType === Bitmap::class.java && Modifier.isStatic(it.modifiers) && Modifier.isPrivate(it.modifiers) && !Modifier.isNative(it.modifiers))
-                    it.isAccessible = true
-                }
-                method(palette, "getMainColorHCT", Int::class.javaPrimitiveType!!, IntArray::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
-                    require(Modifier.isNative(it.modifiers))
-                }
-                val maxArea = palette.getDeclaredField("MAX_AREA").also {
-                    require(it.type === Int::class.javaPrimitiveType && Modifier.isStatic(it.modifiers))
-                    it.isAccessible = true
-                }
-                Standard(method(utils, "drawable2Bitmap", Bitmap::class.java, Drawable::class.java, Int::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!), pixels, maxArea)
-            } else null
-            val opt = if (needsOptimized) {
-                val scheme = type("com.android.systemui.monet.ColorScheme")
-                val tonal = type("com.android.systemui.monet.TonalPalette")
-                val constructor = scheme.getDeclaredConstructor(WallpaperColors::class.java, Boolean::class.javaPrimitiveType!!, Int::class.javaPrimitiveType!!).also {
-                    require(Modifier.isPublic(it.modifiers))
-                }
-                val accent = scheme.getDeclaredField("mAccent1").also {
-                    require(it.type === tonal && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
-                    it.isAccessible = true
-                }
-                val shades = tonal.getDeclaredField("allShades").also {
-                    require(it.type === List::class.java && !Modifier.isStatic(it.modifiers) && Modifier.isFinal(it.modifiers))
-                    it.isAccessible = true
-                }
-                Optimized(constructor, accent, shades)
-            } else null
-            AmbientColorResolverOS4(media, icon, acquire, normal, opt)
         }
 
         private fun method(owner: Class<*>, name: String, result: Class<*>, vararg args: Class<*>): Method =

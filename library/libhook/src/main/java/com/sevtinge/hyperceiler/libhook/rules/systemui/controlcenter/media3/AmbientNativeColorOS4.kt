@@ -30,7 +30,8 @@ internal object AmbientNativeColorOS4 {
     fun resolve(pixels: IntArray, width: Int, height: Int): Int? {
         if (Looper.myLooper() === Looper.getMainLooper() || Thread.currentThread().isInterrupted) return null
         val count = width.toLong() * height.toLong()
-        if (width <= 0 || height <= 0 || count > pixels.size || !ensureLoaded()) return null
+        if (width <= 0 || height <= 0 || count > pixels.size) return null
+        if (!ensureLoaded()) return null
         return try {
             val encoded = nativeResolve(pixels, width, height)
             if (encoded ushr 32 == 1L) encoded.toInt() else null

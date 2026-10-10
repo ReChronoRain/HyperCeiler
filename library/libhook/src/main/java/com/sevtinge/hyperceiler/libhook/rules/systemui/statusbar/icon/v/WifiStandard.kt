@@ -177,6 +177,8 @@ object WifiStandard : BaseHook() {
             .getField("COROUTINE_SUSPENDED").get(null)
         val unit = requiredClass("kotlin.Unit").getField("INSTANCE").get(null)
         checkNotNull(hookMethod(method, object : IMethodHook {
+            // ROM calls and rollback can throw arbitrary runtime failures; preserve the host and cleanup boundary.
+            @Suppress("TooGenericExceptionCaught")
             override fun before(param: HookParam) {
                 if (param.isSkipped) return
                 val upstream: Any
