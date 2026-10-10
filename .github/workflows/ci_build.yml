@@ -28,6 +28,9 @@ on:
 
 jobs:
   build_app:
+    permissions:
+      contents: read
+      packages: read
     if: |
       (
         startsWith(github.event.head_commit.message, 'app: update version ')
@@ -80,6 +83,10 @@ jobs:
       - name: Build with Gradle (Debug)
         if: github.event_name == 'pull_request'
         shell: bash
+        # Fork PRs receive this read-only token, but do not receive repository secrets.
+        env:
+          GIT_ACTOR: ${{ github.actor }}
+          GIT_TOKEN: ${{ github.token }}
         run: |
           ./gradlew assembleDebug
           echo "IS_DEBUG=true" >> $GITHUB_ENV
@@ -326,6 +333,7 @@ jobs:
   push_to_debug_group:
     if: |
       github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
       (
         startsWith(github.event.head_commit.message, 'app: update version ')
         ||
