@@ -1,0 +1,1 @@
+package io.github.lingqiqi5211.ezhooktool.xposed.common;public class HookParam {final Object[]args;public Object result;public boolean skipped;public HookParam(Object...a){args=a;}public Object[]getArgs(){return args;}public void setResult(Object r){result=r;skipped=true;}}

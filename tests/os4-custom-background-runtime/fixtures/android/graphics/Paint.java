@@ -1,0 +1,1 @@
+package android.graphics; public class Paint {public ColorFilter filter;public static boolean failWrite;public ColorFilter getColorFilter(){return filter;}public ColorFilter setColorFilter(ColorFilter f){filter=f;if(failWrite){failWrite=false;throw new IllegalStateException("paint write");}return f;}}

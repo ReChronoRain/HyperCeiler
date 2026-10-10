@@ -1,0 +1,1 @@
+package android.graphics; public class Rect { public int left,top,right,bottom; public Rect(){this(0,0,0,0);} public Rect(int a,int b,int c,int d){left=a;top=b;right=c;bottom=d;} public Rect(Rect r){this(r.left,r.top,r.right,r.bottom);} public boolean equals(Object o){return o instanceof Rect r&&left==r.left&&top==r.top&&right==r.right&&bottom==r.bottom;} }

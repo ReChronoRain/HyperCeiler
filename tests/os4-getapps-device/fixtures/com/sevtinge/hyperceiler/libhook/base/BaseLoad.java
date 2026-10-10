@@ -1,0 +1,1 @@
+package com.sevtinge.hyperceiler.libhook.base;import java.util.*;public abstract class BaseLoad {public static final List<String> enabled=new ArrayList<>();public abstract void onPackageLoaded();protected void initHook(BaseHook h,boolean b){if(b){enabled.add(h.getClass().getSimpleName());h.init();}}}

@@ -1,0 +1,125 @@
+#!/usr/bin/env python3
+"""Generate a fixed first-layout plan from the pinned ROM and actual planner.
+
+The host-only C++ fixture executes production lookup, guards and DerivePatches.
+Runtime contains only exact words and fixed arrays, never ROM/APK bytes beyond
+the minimal instruction/identity guards needed by those supported features.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import struct
+import subprocess
+import sys
+
+sys.dont_write_bytecode = True
+SOURCE = Path(__file__).resolve().parents[2]
+BASE = SOURCE.parent
+CPP = SOURCE / 'app/src/main/cpp'
+PINNED = 'a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
+
+def run(args, cwd=None):
+    return subprocess.run([str(a) for a in args],cwd=cwd,check=True,capture_output=True,text=True).stdout
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--image',type=Path,default=BASE/'firmware/launcher-native/lib/arm64-v8a/libapp.so')
+    parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--header',type=Path,default=CPP/'targets/home/home_startup_plan.generated.h')
+    args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=False)
+    raw=args.image.read_bytes();assert hashlib.sha256(raw).hexdigest()==PINNED
+    build=args.output/'build';build.mkdir()
+    run([sys.executable,SOURCE/'tests/home-layout-native/extract_compatibility_guards.py',
+         CPP/'targets/home/home_layout_hooks.cpp',build/'production_compatibility_guards.inc'])
+    tweaks=CPP/'targets/home/tweaks';objects=[]
+    for name in ('xz_crc32','xz_crc64','xz_dec_lzma2','xz_dec_stream'):
+        obj=build/(name+'.o');objects.append(obj)
+        run([os.environ.get('CC','cc'),'-std=c99','-O2','-I'+str(tweaks/'xz'),'-c',tweaks/'xz'/(name+'.c'),'-o',obj])
+    binary=build/'plan_fixture'
+    run([os.environ.get('CXX','c++'),'-std=c++20','-O2','-Wall','-Wextra',
+         '-I'+str(CPP),'-I'+str(build),'-I'+str(SOURCE/'tests/home-layout-native/stubs'),
+         SOURCE/'tests/home-startup/plan_fixture.cpp',*[tweaks/(n+'.cpp') for n in ('symtab','scanner','image','ht_plan','blob')],
+         *objects,'-o',binary])
+    result=subprocess.run([str(binary),str(args.image)],capture_output=True,text=True)
+    (args.output/'production-plans.jsonl').write_text(result.stdout)
+    (args.output/'fixture-stderr.txt').write_text(result.stderr)
+    if result.returncode:raise RuntimeError(f'Actual planner failed {result.returncode}: {result.stderr}')
+    output=result.stdout
+    records=[json.loads(line) for line in output.splitlines()]
+    phoff=struct.unpack_from('<Q',raw,32)[0];phentsize,phnum=struct.unpack_from('<HH',raw,54)
+    assert phentsize==56
+    loads=[]
+    for i in range(phnum):
+        typ,flags,offset,va,_,filesz,memsz,align=struct.unpack_from('<IIQQQQQQ',raw,phoff+i*56)
+        if typ==1:loads.append((va,filesz,memsz,offset,flags,align))
+    def read(va,size):
+        for start,filesz,_,offset,_,_ in loads:
+            if start<=va and va+size<=start+filesz:return raw[offset+va-start:offset+va-start+size]
+        raise ValueError(f'Unmapped file range {va:x}+{size:x}')
+    ranges=sorted((r['va'],r['va']+r['size']) for r in records if r['type']=='guard')
+    merged=[]
+    for a,b in ranges:
+        if merged and a<=merged[-1][1]:merged[-1]=(merged[-1][0],max(b,merged[-1][1]))
+        else:merged.append((a,b))
+    # Every executable guard is read from the actual RX file bytes.
+    guards=[];guard_bytes=bytearray()
+    for a,b in merged:
+        assert a%4==0 and b%4==0
+        assert any(s<=a and b<=s+n and f&1 for s,n,_,_,f,_ in loads)
+        guards.append((a,len(guard_bytes),b-a));guard_bytes.extend(read(a,b-a))
+    hooks=[r for r in records if r['type']=='hook'];assert [h['index'] for h in hooks]==list(range(15))
+    capacities=[(r['va'],r['before'],r['after']) for r in records if r['type']=='capacity'];assert len(capacities)==8
+    words=[];variants=[];wordsets={}
+    for r in records:
+        if r['type']!='variant':continue
+        key=tuple(tuple(w) for w in r['words'])
+        if key not in wordsets:wordsets[key]=len(words);words.extend(key)
+        variants.append((r['family'],r['key'],wordsets[key],len(key)))
+    code_sites=set(w[0] for w in words)|{w[0] for w in capacities}
+    for h in hooks:
+        assert not any(h['va']<=a<h['va']+16 for a in code_sites),'Constant/inline overlap'
+    for i,h in enumerate(hooks):
+        for other in hooks[i+1:]:assert h['va']+16<=other['va'] or other['va']+16<=h['va'],'Inline overlap'
+    branches=next(r['values'] for r in records if r['type']=='branches')
+    def rows(items,fmt):return '\n'.join('    {'+fmt(x)+'},' for x in items)
+    def byte_array(name,b):
+        return 'inline constexpr uint8_t '+name+'[] = {\n'+ '\n'.join('    '+','.join(f'0x{x:02x}' for x in b[i:i+24])+',' for i in range(0,len(b),24))+'\n};\n'
+    text='''/* SPDX-License-Identifier: AGPL-3.0-or-later */
+// GENERATED by tests/home-startup/generate_plan.py. Do not hand-edit.
+// Exact popsicle OS4.0.0.44 launcher 7719, read-only offline planner output.
+#pragma once
+#include <cstdint>
+namespace home_startup::plan {
+struct Guard { uint32_t va, offset, size; };
+struct Hook { uint32_t index, va; uint64_t feature; };
+struct Word { uint32_t va, original, replacement; };
+struct Variant { uint32_t family, key, begin, count; };
+struct Segment { uint32_t va, file_size, memory_size, flags; };
+'''
+    text+=f'inline constexpr char kImageSha256[] = "{PINNED}";\n'
+    text+=byte_array('kIdentity',raw[:512])+byte_array('kGuardBytes',guard_bytes)
+    text+='inline constexpr Segment kSegments[] = {\n'+rows(loads,lambda x:f'0x{x[0]:x},0x{x[1]:x},0x{x[2]:x},{x[4]}')+'\n};\n'
+    text+='inline constexpr Guard kGuards[] = {\n'+rows(guards,lambda x:','.join(hex(n) for n in x))+'\n};\n'
+    text+='inline constexpr Hook kHooks[] = {\n'+rows(hooks,lambda x:f'{x["index"]},0x{x["va"]:x},{x["feature"]}ull')+'\n};\n'
+    text+='inline constexpr Word kWords[] = {\n'+rows(words,lambda x:','.join(hex(n) for n in x))+'\n};\n'
+    text+='inline constexpr Variant kVariants[] = {\n'+rows(variants,lambda x:','.join(str(n) for n in x))+'\n};\n'
+    text+='inline constexpr Word kCapacity[] = {\n'+rows(capacities,lambda x:','.join(hex(n) for n in x))+'\n};\n'
+    text+='inline constexpr uint32_t kIndicatorBranches[] = {'+','.join(hex(n) for n in branches)+'};\n'
+    text+='inline constexpr uint32_t kFolderResume[] = {'+','.join(hex(h['va']+16) for h in hooks[9:14])+'};\n'
+    text+='} // namespace home_startup::plan\n'
+    args.header.write_text(text)
+    report={'image_sha256':PINNED,'generator_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'header':str(args.header),'header_sha256':hashlib.sha256(text.encode()).hexdigest(),
+        'variants':len(variants),'unique_word_records':len(words),'unique_constant_sites':len(code_sites),
+        'hook_sites':len(hooks),'capacity_sites':len(capacities),'guard_ranges':len(guards),'guard_bytes':len(guard_bytes),
+        'production_fixture_passed':True,'all_hook_and_constant_sites_disjoint':True,
+        'limits':['No live device execution.','Rust X/Y and Rust animation-owner deadlines remain unproven and are not installed by this Dart plan.']}
+    inputs=[Path(__file__),SOURCE/'tests/home-startup/plan_fixture.cpp',
+        SOURCE/'tests/home-layout-native/extract_compatibility_guards.py',
+        CPP/'targets/home/home_layout_hooks.cpp',CPP/'nativehook/elf_image.h']
+    inputs+=sorted(p for p in tweaks.rglob('*') if p.is_file() and p.suffix in {'.h','.cpp','.c'})
+    report['source_inputs']={str(p.relative_to(SOURCE)):hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs}
+    (args.output/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report))
+if __name__=='__main__':main()

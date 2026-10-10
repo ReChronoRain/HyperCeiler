@@ -1,0 +1,1 @@
+package android.os;public class PowerManager{public static boolean interactive=true;public boolean isInteractive(){return interactive;}}

@@ -1,0 +1,9 @@
+# Framework authorization transaction regression
+
+Run `python3 tests/framework-status-transaction/run.py --output <new-directory>` from the source checkout. The runner compiles the complete production `FrameworkStatusManager`, `PrefsBridge` and shared gate, then drives `onServiceBound` with deterministic service/Android adapters and recording SharedPreferences Editors.
+
+The writer publishes the allow bit plus the six metadata fields in one Editor commit in each preference store. Physical preferences and the remote libxposed service are two stores: this is **not** a distributed transaction. A physical commit failure suppresses remote writes and observer notifications; a successful physical write remains observable if the remote is absent, read-only or fails. Android may publish its in-memory map before a disk commit reports failure, so the fixture includes that case and requires a whole revision, without claiming disk rollback/durability.
+
+The tests inspect reads after every commit, callback observers after notification, type/null preservation, legacy per-key URI counts, unchanged ordinary single-key writes, hook-process write rejection, bootstrap default, service errors, concurrent service callbacks, and remote binding while a writer is in flight. The service and SharedPreferences implementation are host fixtures; actual Android service callbacks, remote Binder ordering, disk durability and device injection remain untested. An independent compilation against the real SDK and libxposed API/service checks source compatibility separately.
+
+Negative control: pass the unchanged upstream `FrameworkStatusManager.java` via `--manager-source`. The current bridge stays in use so failures isolate the old manager's separate `putByApp` calls. Evidence directories preserve earlier runner revisions; only the latest named report is authoritative.

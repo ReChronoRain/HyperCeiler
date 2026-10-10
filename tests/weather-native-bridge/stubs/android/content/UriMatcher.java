@@ -1,0 +1,1 @@
+package android.content;public class UriMatcher{public static final int NO_MATCH=-1;public UriMatcher(int n){}public void addURI(String a,String p,int n){}public int match(android.net.Uri u){return -1;}}

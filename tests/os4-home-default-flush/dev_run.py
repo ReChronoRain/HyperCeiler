@@ -1,0 +1,5 @@
+from pathlib import Path
+import os,subprocess,resource,sys
+resource.setrlimit(resource.RLIMIT_CORE,(0,0));root=Path(__file__).resolve().parents[3];here=Path(__file__).resolve().parent;out=root/'acceptance/home-grid-next/default-flush-test16/development-v1';arm=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root');env=dict(os.environ,LD_LIBRARY_PATH=str(arm/'usr/lib/x86_64-linux-gnu'),TRACE_ADAPTER='1');b=out/'flush_test'
+r=subprocess.run([str(arm/'usr/bin/aarch64-linux-gnu-g++-13'),'--sysroot='+str(arm),'-std=c++20','-O2','-Wall','-Wextra','-Werror',str(here/'flush_test.cpp'),str(here/'placement_probe.S'),'-o',str(b)],env=env,capture_output=True,text=True);(out/'build.log').write_text(r.stdout+r.stderr);assert r.returncode==0,r.stderr
+r=subprocess.run([str(arm/'usr/bin/qemu-aarch64-static'),'-L',str(arm/'usr/aarch64-linux-gnu'),str(b),str(root/'firmware/launcher-native/lib/arm64-v8a/libapp.so')],env=env,capture_output=True,text=True,timeout=30);(out/'run.log').write_text(r.stdout+r.stderr);print('EXIT',r.returncode,r.stdout[-1500:],r.stderr[-3500:]);sys.exit(r.returncode)

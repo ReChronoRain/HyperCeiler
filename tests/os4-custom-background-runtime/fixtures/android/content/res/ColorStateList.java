@@ -1,0 +1,1 @@
+package android.content.res;public class ColorStateList{public final int value;public ColorStateList(int v){value=v;}public static ColorStateList valueOf(int v){return new ColorStateList(v);}public int getDefaultColor(){return value;}}

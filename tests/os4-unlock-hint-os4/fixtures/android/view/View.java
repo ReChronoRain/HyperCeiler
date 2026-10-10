@@ -1,0 +1,1 @@
+package android.view;public class View {public interface OnClickListener{void onClick(View v);} public int id=0x7f0b05f7;public android.content.res.Resources resources=new android.content.res.Resources();public int getId(){return id;}public android.content.res.Resources getResources(){return resources;} }

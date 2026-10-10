@@ -1,0 +1,1 @@
+package android.graphics;public class Probe{public static String failAt="",nullAt="";public static java.util.List<String> hits=new java.util.ArrayList<>();public static void hit(String s){hits.add(s);if(failAt.equals(s))throw new IllegalStateException(s);}public static void reset(){hits.clear();failAt="";nullAt="";}}
