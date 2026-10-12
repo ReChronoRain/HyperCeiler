@@ -30,8 +30,10 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.function.BooleanSupplier;
@@ -58,6 +60,8 @@ public abstract class BaseLoad {
         Collections.synchronizedList(new ArrayList<>());
     private static final List<String> sHotReloadInitializationFailures =
         Collections.synchronizedList(new ArrayList<>());
+    /** 当前 generation 里已经执行过 init() 的规则类，用于拦下重复注册。 */
+    private static final Set<Class<?>> sInitializedHookClasses = new HashSet<>();
     private static volatile boolean sVerifyingHotReload = false;
     private boolean mDexKitSessionPrepared = false;
     private final List<BaseHook> mPendingDexKitHooks = new ArrayList<>();
@@ -83,6 +87,9 @@ public abstract class BaseLoad {
     public static void beginHookInitialization() {
         synchronized (sGenerationInitializationFailures) {
             sGenerationInitializationFailures.clear();
+        }
+        synchronized (sInitializedHookClasses) {
+            sInitializedHookClasses.clear();
         }
     }
 
@@ -276,6 +283,7 @@ public abstract class BaseLoad {
 
     private void initHookInternal(BaseHook hook, boolean shouldInit) {
         if (hook == null || !shouldInit) return;
+        if (!markHookClassInitialized(hook)) return;
         if (hook.useDexKit() && !isSystemServer()) {
             prepareDexKitSession(hook.TAG);
             mPendingDexKitHooks.add(hook);
@@ -283,6 +291,27 @@ public abstract class BaseLoad {
         }
         flushPendingDexKitHooks();
         runHookInit(hook);
+    }
+
+    /**
+     * 同一条规则被 {@code initHook} 注册两次时，只有第一次真正初始化。
+     *
+     * <p>两次 init() 会挂载同一批方法、注册同一批 receiver，而规则内部的实例字段彼此独立：
+     * 谁先谁后会互相覆盖状态（截屏隐藏状态栏就因此在收尾时又把状态栏设回隐藏），因此这里按
+     * 规则类去重，并留下告警，避免同类重复注册悄悄回归。</p>
+     *
+     * @return true 表示这是本 generation 中该规则类的第一次初始化
+     */
+    private boolean markHookClassInitialized(BaseHook hook) {
+        Class<?> hookClass = hook.getClass();
+        synchronized (sInitializedHookClasses) {
+            if (sInitializedHookClasses.add(hookClass)) {
+                return true;
+            }
+        }
+        XposedLog.w(hook.TAG, getPackageName(),
+            "Skip duplicated hook registration: " + hookClass.getName());
+        return false;
     }
 
     private void flushPendingDexKitHooks() {
