@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent;CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME
 RULE=SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/MediaViewSize.kt'
-DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','core-1.3.0.jar','api-102.0.0.jar']]+[KH/'lib/kotlin-stdlib.jar',CACHE/'android-sdk/platforms/android-37.0/android.jar']+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.9.0').glob('*/*.jar'))
+DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','core-1.3.0.jar','api-102.0.0.jar']]+[KH/'lib/kotlin-stdlib.jar',test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlinx/kotlinx-coroutines-core-jvm/1.9.0').glob('*/*.jar'))
 ROUTE=SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/app/SystemUI/SystemUIB.java'
 XML=[SOURCE/'library/core/src/main/res/xml'/n for n in ['system_ui_control_center_media_cards.xml','system_ui_status_bar_island_media_card.xml']]
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-def inputs():return {str(p.relative_to(ROOT)):sha(p) for p in [RULE,ROUTE,*XML,Path(__file__),*sorted((BASE/'fixtures').rglob('*'))]if p.is_file()}
+def inputs():return {str(test_paths.report_path(p, ROOT)):sha(p) for p in [RULE,ROUTE,*XML,Path(__file__),*sorted((BASE/'fixtures').rglob('*'))]if p.is_file()}
 def run(out,mutation=None):
  out.mkdir(parents=True,exist_ok=False);before=inputs();body=RULE.read_text()
  if mutation == 'ignore_exact_receiver':

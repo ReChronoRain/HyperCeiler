@@ -1,8 +1,13 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess,zipfile
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent;CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc';SDK=CACHE/'android-sdk';BT=SDK/'build-tools/37.0.0';ANDROID=SDK/'platforms/android-37.0/android.jar'
-REL='library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundDrawableOS4.kt';MATH='library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/utils/hookapi/systemui/controlcenter/media/MediaViewColorConfig.kt';SNAP=CACHE/'source-os4-hyos-test12-20261009-r1';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME;SDK=test_paths.ANDROID_HOME;BT=SDK/'build-tools/37.0.0';ANDROID=SDK/'platforms/android-37.0/android.jar'
+REL='library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundDrawableOS4.kt';MATH='library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/utils/hookapi/systemui/controlcenter/media/MediaViewColorConfig.kt';SNAP=test_paths.SNAPSHOT_ROOT / 'source-os4-hyos-test12-20261009-r1';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();o=a.output.resolve();o.mkdir(parents=True,exist_ok=False)
  source=BASE/'MainActivity.java';inputs={str(q):sha(q)for q in [source,BASE/'AndroidManifest.xml',Path(__file__)]};(o/'classes').mkdir();(o/'dex').mkdir();commands=[]
@@ -18,7 +23,7 @@ def main():
   for item in z.infolist():dest.writestr(item,z.read(item.filename))
   for dex in sorted((o/'dex').glob('*.dex')):dest.write(dex,dex.name,compress_type=zipfile.ZIP_DEFLATED)
  run([BT/'zipalign','-f','-P','16','4',o/'unaligned.apk',o/'aligned.apk'])
- run([BT/'apksigner','sign','--ks',ROOT/'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',o/'custombg-overlay-probe.apk',o/'aligned.apk']);run([BT/'apksigner','verify','--verbose',o/'custombg-overlay-probe.apk'])
+ run([BT/'apksigner','sign','--ks',test_paths.TEST_DATA_ROOT / 'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',o/'custombg-overlay-probe.apk',o/'aligned.apk']);run([BT/'apksigner','verify','--verbose',o/'custombg-overlay-probe.apk'])
  assert all(sha(Path(n))==h for n,h in inputs.items())
  dependencies={str(q):sha(q) for q in [ANDROID,KH/'lib/kotlin-compiler.jar']};report=dict(passed=True,inputs=inputs,dependencies=dependencies,commands=commands,apk_sha256=sha(o/'custombg-overlay-probe.apk'),device_status='NOT_TESTED',scope='Compile isolated Android View compositing prerequisite, no production module code.')
  (o/'build-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2))

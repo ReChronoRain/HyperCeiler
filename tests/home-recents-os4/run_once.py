@@ -2,9 +2,14 @@
 """Execute exact vendor Once and its actual argument shims with two real ARM threads."""
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess
-ROOT=Path(__file__).resolve().parents[3];HERE=Path(__file__).resolve().parent
-EMU=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp_launcher.so'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;HERE=Path(__file__).resolve().parent
+EMU=test_paths.BUILD_CACHE / 'arm64-emulation/root'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp_launcher.so'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path);a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)

@@ -2,12 +2,17 @@
 """Exercise the actual Hyos-to-Home report adapter against the supplied ELF."""
 import argparse, hashlib, json, subprocess
 from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--sdk',type=Path,required=True)
 p.add_argument('--output',type=Path,required=True)
 a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
-here=Path(__file__).resolve().parent;source=here.parents[1];root=source.parent
-cpp=source/'app/src/main/cpp';rom=root/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+here=Path(__file__).resolve().parent;source=here.parents[1];root=test_paths.TEST_DATA_ROOT
+cpp=source/'app/src/main/cpp';rom=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 assert hashlib.sha256(rom.read_bytes()).hexdigest()=='a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
 binary=out/'report_test'
 checks=[]

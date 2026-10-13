@@ -1,13 +1,18 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent;CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME
 RULE=SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/AmbientLightOS4.kt'
 ROUTE=RULE.with_name('AmbientLight.kt')
-PEER=CACHE/'source-os4-hyos-test12-20261009-r1/library/libhook/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar'
-DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','core-1.3.0.jar','api-102.0.0.jar']]+[KH/'lib/kotlin-stdlib.jar',CACHE/'android-sdk/platforms/android-37.0/android.jar']
+PEER=test_paths.SNAPSHOT_ROOT / 'source-os4-hyos-test12-20261009-r1/library/libhook/build/intermediates/compile_library_classes_jar/debug/bundleLibCompileToJarDebug/classes.jar'
+DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','core-1.3.0.jar','api-102.0.0.jar']]+[KH/'lib/kotlin-stdlib.jar',test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-def inputs():return {str(p.relative_to(ROOT)):sha(p)for p in [RULE,ROUTE,ROOT/'acceptance/java-test13/ambient-runtime-v1/sdk-first-v1/report.json',Path(__file__),*sorted((BASE/'fixtures').rglob('*'))]if p.is_file()}
+def inputs():return {str(test_paths.report_path(p, ROOT)):sha(p)for p in [RULE,ROUTE,test_paths.TEST_DATA_ROOT / 'acceptance/java-test13/ambient-runtime-v1/sdk-first-v1/report.json',Path(__file__),*sorted((BASE/'fixtures').rglob('*'))]if p.is_file()}
 def run(out,mutation=None):
  out.mkdir(parents=True,exist_ok=False);before=inputs();body=RULE.read_text();commands=[];logs=''
  if mutation and mutation!='route_OS4_to_legacy':
@@ -21,7 +26,7 @@ def run(out,mutation=None):
   cmd([str(JAVA/'javac'),'--release','21','-proc:none','-cp',cp,'-d',str(classes),*map(str,files)])
   prod=w/RULE.name;prod.write_text(body)
   cmd([str(JAVA/'java'),'-cp',str(KH/'lib/kotlin-compiler.jar'),'org.jetbrains.kotlin.cli.jvm.K2JVMCompiler','-kotlin-home',str(KH),'-jvm-target','21','-classpath',allcp,'-d',str(classes),str(prod),*map(str,(BASE/'fixtures').rglob('*.kt'))])
-  sdk_deps=list(json.loads((ROOT/'acceptance/java-test13/ambient-runtime-v1/sdk-first-v1/report.json').read_text())['dependencies'])
+  sdk_deps=list(json.loads((test_paths.TEST_DATA_ROOT / 'acceptance/java-test13/ambient-runtime-v1/sdk-first-v1/report.json').read_text())['dependencies'])
   routeclasses=w/'routeclasses';routeclasses.mkdir()
   routesrc=w/ROUTE.name;routesrc.write_text(ROUTE.read_text().replace('if (isMoreHyperOSVersion(4f)) {','if (false) {')if mutation=='route_OS4_to_legacy'else ROUTE.read_text())
   cmd([str(JAVA/'java'),'-cp',str(KH/'lib/kotlin-compiler.jar'),'org.jetbrains.kotlin.cli.jvm.K2JVMCompiler','-kotlin-home',str(KH),'-jvm-target','21','-classpath',os.pathsep.join([*sdk_deps,str(classes)]),'-d',str(routeclasses),str(routesrc)])

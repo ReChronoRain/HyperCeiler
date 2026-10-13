@@ -8,19 +8,24 @@ from pathlib import Path
 import subprocess
 import tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 ROOT = Path(__file__).resolve().parents[2]
 TESTS = Path(__file__).resolve().parent
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument("--source", type=Path, default=ROOT / "library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/base/XposedInitEntry.java")
-parser.add_argument("--build-cache", type=Path, default=Path.home() / ".cache/hyperceiler-build")
+parser.add_argument("--build-cache", type=Path, default=test_paths.BUILD_CACHE)
 parser.add_argument("--cases", help="Comma-separated scenario names; default runs the full regression")
 args = parser.parse_args()
 cache = args.build_cache
-jdk = Path(os.environ.get("JAVA_HOME", cache / "jdk-25.0.4.1")) / "bin"
+jdk = test_paths.java_home(cache) / "bin"
 deps = cache / "changed-hooks-compile"
 stdlib = next((cache / "gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10").rglob("*.jar"))
 jars = [deps / "api-102.0.0.jar", deps / "hook-xposed-102-1.3.0.jar", stdlib,
-        cache / "android-sdk/platforms/android-37.0/android.jar"]
+        test_paths.android_home(cache) / 'platforms/android-37.0/android.jar']
 
 STUBS = {
     "android/content/pm/ApplicationInfo.java": "package android.content.pm; public class ApplicationInfo { public String dataDir, sourceDir; }",

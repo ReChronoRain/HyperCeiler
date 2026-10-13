@@ -9,8 +9,14 @@ import re
 import resource
 import subprocess
 
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-ARM = pathlib.Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
+ARM = test_paths.BUILD_CACHE / 'arm64-emulation/root'
 TEST = ROOT / 'tests/home-startup'
 ASM = ROOT / 'app/src/main/cpp/targets/home/home_startup_arm64.S'
 
@@ -24,7 +30,7 @@ def main():
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
     inputs = [ASM, pathlib.Path(__file__).resolve()] + [TEST / f for f in (
         'gateway_test.cpp', 'gateway_probe.S', 'gateway_shared_entry.cpp', 'gateway_shared_driver.cpp')]
-    hashes = {str(p.relative_to(ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs}
+    hashes = {str(test_paths.report_path(p, ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs}
     env = os.environ.copy()
     env['LD_LIBRARY_PATH'] = str(ARM / 'usr/lib/x86_64-linux-gnu')
     cxx = ARM / 'usr/bin/aarch64-linux-gnu-g++-13'

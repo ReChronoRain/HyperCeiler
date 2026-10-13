@@ -7,12 +7,17 @@ from pathlib import Path
 import subprocess
 import tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 ROOT=Path(__file__).resolve().parents[2]
 TESTS=Path(__file__).resolve().parent
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--production',type=Path,default=ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/other/NativeHomeHooksOS4.kt')
-parser.add_argument('--kotlin-home',type=Path,default=ROOT.parent/'tools-cache/kotlin-2.4.10/kotlinc')
-parser.add_argument('--jdk',type=Path,default=Path(os.environ.get('JAVA_HOME',str(Path.home()/'.cache/hyperceiler-build/jdk-25.0.4.1'))))
+parser.add_argument('--kotlin-home',type=Path,default=test_paths.KOTLIN_HOME)
+parser.add_argument('--jdk',type=Path,default=test_paths.JAVA_HOME)
 args=parser.parse_args()
 with tempfile.TemporaryDirectory(prefix='hc-native-prefs-') as temp:
     temp=Path(temp)

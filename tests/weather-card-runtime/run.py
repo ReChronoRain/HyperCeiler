@@ -3,14 +3,19 @@
 from pathlib import Path
 import argparse, hashlib, json, re, struct, subprocess, tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parents[1]
-ROOT = SOURCE.parent
+ROOT = test_paths.TEST_DATA_ROOT
 CPP = SOURCE / 'app/src/main/cpp'
 WEATHER = CPP / 'targets/weather'
-NDK = Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
-DART = ROOT / 'acceptance/native-evidence/weather-libapp.so'
-FLUTTER = ROOT / 'firmware/components/system_ext/lib64/libhyper_os_flutter.so'
+NDK = test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
+DART = test_paths.TEST_DATA_ROOT / 'acceptance/native-evidence/weather-libapp.so'
+FLUTTER = test_paths.ROM_ROOT / 'components/system_ext/lib64/libhyper_os_flutter.so'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 
 def linked_templates(path):
@@ -65,7 +70,7 @@ def main():
         cross = command([NDK/'aarch64-linux-android35-clang', '-fPIC', '-shared', '-nostdlib', WEATHER/'weather_card_arm64.S', '-o', temp/'templates.so'], out/'arm-template-link')
         assert cross.returncode == 0, cross.stderr
         content = linked_templates(temp/'templates.so')
-        approved_path = ROOT/'acceptance/weather-card-next/production-gateway-v1/compiled-v2/report.json'
+        approved_path = test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/production-gateway-v1/compiled-v2/report.json'
         approved = json.loads(approved_path.read_text())
         assert approved['passed']
         host_asm = ['.section .rodata', '.p2align 3']

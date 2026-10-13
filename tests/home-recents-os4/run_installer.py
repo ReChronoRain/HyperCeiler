@@ -2,13 +2,18 @@
 """Real production installer and exact-ROM binding; host queue/events are explicit fixtures."""
 from pathlib import Path
 import argparse,hashlib,json,re,struct,subprocess
-ROOT=Path(__file__).resolve().parents[3]
-CPP=ROOT/'source/app/src/main/cpp'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
+CPP=test_paths.SOURCE_ROOT / 'app/src/main/cpp'
 HERE=Path(__file__).resolve().parent
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp_launcher.so'
-NDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp_launcher.so'
+NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-EXECUTED=ROOT/'acceptance/home-recents-next/test10-v1/components-v2/abi-arm64'
+EXECUTED=test_paths.TEST_DATA_ROOT / 'acceptance/home-recents-next/test10-v1/components-v2/abi-arm64'
 
 def linked_template(path):
     data=path.read_bytes();assert data[:6]==b'\x7fELF\x02\x01' and struct.unpack_from('<H',data,16)[0] in (2,3)

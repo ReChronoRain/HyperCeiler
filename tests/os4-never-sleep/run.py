@@ -2,9 +2,14 @@
 """Run complete production hook classes against a reviewed ROM-method host model."""
 import argparse, os, subprocess, tempfile
 from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 ROOT=Path(__file__).resolve().parents[2]
 p=argparse.ArgumentParser();p.add_argument('--baseline',action='store_true');args=p.parse_args()
-java=Path(os.environ.get('JAVA_HOME','/home/hgn284/.cache/hyperceiler-build/jdk-25.0.4.1'))/'bin'
+java=test_paths.JAVA_HOME/'bin'
 with tempfile.TemporaryDirectory(prefix='hc-never-sleep-') as tmp:
     work=Path(tmp)
     for source in (Path(__file__).parent/'fixtures').rglob('*.java'):

@@ -2,13 +2,18 @@
 """Extract complete pinned Rust owner/lifecycle guards, never source-level guesses."""
 from pathlib import Path
 import argparse, hashlib, importlib.util, json, struct
-ROOT = Path(__file__).resolve().parents[3]
-READER = ROOT / 'source/tests/weather-binding/generate.py'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT = test_paths.TEST_DATA_ROOT
+READER = test_paths.SOURCE_ROOT / 'tests/weather-binding/generate.py'
 spec = importlib.util.spec_from_file_location('recents_elf_reader', READER)
 reader = importlib.util.module_from_spec(spec); spec.loader.exec_module(reader)
-HEADER = ROOT / 'source/app/src/main/cpp/targets/home/recents_guard.generated.h'
-REPORT = ROOT / 'acceptance/home-recents-next/post-test8-v1/static-final-v4/report.json'
-ELF = ROOT / 'firmware/launcher-native/lib/arm64-v8a/libapp_launcher.so'
+HEADER = test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/home/recents_guard.generated.h'
+REPORT = test_paths.TEST_DATA_ROOT / 'acceptance/home-recents-next/post-test8-v1/static-final-v4/report.json'
+ELF = test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp_launcher.so'
 SHA = '4dc9fa82371dda8a0a8b9eff48301469d2f84752b52b71635b84e5fc0c47fa6e'
 sha = lambda b: hashlib.sha256(b).hexdigest()
 
@@ -28,7 +33,7 @@ def generate():
         add(r['name'], int(va, 0), r['size'], r['body_sha256'])
     # Complete concrete Once implementation and its outlined argument shims.
     # Function sizes are independently read from the ELF's debug symbol table.
-    symbol_reader_path = ROOT / 'source/tests/home-layout-native/fixture_symbols.py'
+    symbol_reader_path = test_paths.SOURCE_ROOT / 'tests/home-layout-native/fixture_symbols.py'
     sym_spec = importlib.util.spec_from_file_location('recents_symbols', symbol_reader_path)
     sym_reader = importlib.util.module_from_spec(sym_spec); sym_spec.loader.exec_module(sym_reader)
     symbols = {va:(size,name) for va,size,name in sym_reader.symbols(ELF)}

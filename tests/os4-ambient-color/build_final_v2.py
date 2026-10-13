@@ -3,25 +3,30 @@
 from pathlib import Path
 import argparse, hashlib, json
 
-ROOT = Path(__file__).resolve().parents[3]
-BASE = ROOT/'acceptance/java-test13/ambient-color-v1'
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
+ROOT = test_paths.TEST_DATA_ROOT
+BASE = test_paths.TEST_DATA_ROOT / 'acceptance/java-test13/ambient-color-v1'
 PREFIX = 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/'
 SOURCES = [PREFIX+'AmbientColorResolverOS4.kt', PREFIX+'AmbientNativeColorOS4.kt']
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
-sources = {p: sha(ROOT/'source'/p) for p in SOURCES}
+sources = {p: sha(test_paths.SOURCE_ROOT/p) for p in SOURCES}
 checks, evidence = [], {}
 def check(name, value):
     checks.append({'name': name, 'passed': bool(value)})
 def read(name, relative, passed=True):
     p = BASE/relative; d = json.loads(p.read_text())
-    evidence[name] = {'path': str(p.relative_to(ROOT)), 'sha256': sha(p)}
+    evidence[name] = {'path': str(test_paths.report_path(p, ROOT)), 'sha256': sha(p)}
     if passed: check(name+' reports success', d.get('passed') is True)
     return d
 def current_inputs(name, d):
     before, after = d['inputs_before'], d['inputs_after']
     check(name+' before/after source inputs identical', before == after)
     check(name+' both complete current Kotlin sources',
-          all(before.get('source/'+p) == h for p,h in sources.items()))
+          all(before.get(str(test_paths.report_path(test_paths.SOURCE_ROOT/p, ROOT))) == h for p,h in sources.items()))
     check(name+' all recorded source/fixture bytes still current',
           all((ROOT/p).is_file() and sha(ROOT/p) == h for p,h in before.items()))
 
@@ -59,7 +64,7 @@ check('actual ART binds current Kotlin source pair', art['source_sha256'] == sou
       and art['wrapper_sha256'] == sources[SOURCES[1]])
 build_path = Path(art['build']['path']); build = json.loads(build_path.read_text())
 check('ART exact APK build input source binding', build['passed'] is True and sha(build_path) == art['build']['sha256']
-      and all(build['inputs'].get(str(ROOT/'source'/p)) == h for p,h in sources.items()))
+      and all(build['inputs'].get(str(test_paths.SOURCE_ROOT/p)) == h for p,h in sources.items()))
 check('ART native implementation inputs match frozen current native source', all(Path(p).is_file() and sha(Path(p)) == h for p,h in build['inputs'].items() if '/targets/systemui/' in p))
 for name in ['android-report.json', 'hidden-api-policy.json']:
     read('actual_art_'+name, 'android-art-v7/'+name)
@@ -78,7 +83,7 @@ for directory, reason in [
     ('android-art-v5','Fixed namespace topology works; preserved three uninitialized-OEM differences among 48 checks.')]:
     p = BASE/directory/'report.json'; d = json.loads(p.read_text())
     check(directory+' original failed result preserved', d['passed'] is False)
-    historical.append({'path':str(p.relative_to(ROOT)), 'sha256':sha(p), 'passed':False, 'meaning':reason})
+    historical.append({'path':str(test_paths.report_path(p, ROOT)), 'sha256':sha(p), 'passed':False, 'meaning':reason})
 
 report = {'passed':all(x['passed'] for x in checks), 'sources':sources,
     'checks':checks, 'check_count':len(checks), 'evidence':evidence,
@@ -98,7 +103,7 @@ report = {'passed':all(x['passed'] for x in checks), 'sources':sources,
       'A loaded standard backend cannot migrate to another live module classloader; the entry must reject hotreload before cleanup. Wrapper admission is independently tested here, but entry integration is not.',
       'No actual Xiaomi phone, LSPosed injection, work-profile user, NC/DI animation, restart or long-term-stability pass exists.'],
     'device_status':'NOT_TESTED','physical_device_pass_count':0,'artifact_runtime_approval':False,
-    'builder':{'path':str(Path(__file__).relative_to(ROOT)),'sha256':sha(Path(__file__))}}
+    'builder':{'path':str(test_paths.report_path(Path(__file__), ROOT)),'sha256':sha(Path(__file__))}}
 p = argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args()
 with a.output.open('x') as f: json.dump(report,f,ensure_ascii=False,indent=2);f.write('\n')
 print(json.dumps({'passed':report['passed'],'check_count':len(checks),

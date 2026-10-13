@@ -9,6 +9,11 @@ import re
 import subprocess
 import tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 HERE = Path(__file__).resolve().parent
 SOURCE = HERE.parents[1]
 CPP = SOURCE / 'app/src/main/cpp'
@@ -37,7 +42,7 @@ def main():
     runner = []
     flags = ['-std=c++20','-O2','-Wall','-Wextra','-Werror','-pthread']
     if a.arm64:
-        arm = Path.home()/'.cache/hyperceiler-build/arm64-emulation/root'
+        arm = test_paths.BUILD_CACHE / 'arm64-emulation/root'
         compiler = str(arm/'usr/bin/aarch64-linux-gnu-g++-13')
         runner = [str(arm/'usr/bin/qemu-aarch64-static')]
         env['LD_LIBRARY_PATH'] = str(arm/'usr/lib/x86_64-linux-gnu')

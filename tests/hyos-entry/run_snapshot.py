@@ -3,6 +3,11 @@
 """Test the actual snapshot observer; keep host syscall and ARM fixture evidence separate."""
 import argparse,hashlib,json,os,subprocess,tempfile
 from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 p=argparse.ArgumentParser(description=__doc__)
 p.add_argument('--sdk',type=Path,required=True)
 p.add_argument('--output',type=Path,required=True)
@@ -13,7 +18,7 @@ here=Path(__file__).resolve().parent;source=here.parents[1];cpp=source/'app/src/
 env=dict(os.environ);compiler='g++';runner=[]
 flags=['-std=c++20','-O2','-Wall','-Wextra','-Werror','-pthread']
 if a.arm64:
- r=Path.home()/'.cache/hyperceiler-build/arm64-emulation/root'
+ r=test_paths.BUILD_CACHE / 'arm64-emulation/root'
  compiler=str(r/'usr/bin/aarch64-linux-gnu-g++-13');runner=[str(r/'usr/bin/qemu-aarch64-static')]
  env['LD_LIBRARY_PATH']=str(r/'usr/lib/x86_64-linux-gnu')
  flags+=['--sysroot='+str(r),'-static','-DHC_ARM64_FIXTURE_READS=1']

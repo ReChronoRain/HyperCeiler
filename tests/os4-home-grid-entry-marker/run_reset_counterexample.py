@@ -2,18 +2,22 @@
 """Bounded injected original reset, not proof that OTA schedules it at this cut."""
 import argparse,hashlib,json,os,resource,subprocess,sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-W=Path(__file__).resolve().parent;R=W.parents[2]
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-ROM=R/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+W=Path(__file__).resolve().parent;R=test_paths.TEST_DATA_ROOT
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def one(s,old,new):
  assert s.count(old)==1,(old,s.count(old));return s.replace(old,new,1)
 def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();o=a.output.resolve();o.mkdir(parents=True,exist_ok=False);resource.setrlimit(resource.RLIMIT_CORE,(0,0))
- inputs=[Path(__file__).resolve(),W/'fixture.cpp',W/'leaf.S',R/'source/tests/os4-home-grid-singlepoint/fixture_v2.cpp',R/'source/tests/os4-home-grid-singlepoint/leaf_v2.S',R/'source/tests/os4-home-grid-revoke-routing/router.S',R/'source/tests/os4-home-grid-secondary-spacing/probe.S',ROM]
- before={str(x.relative_to(R)):sha(x)for x in inputs};assert before[str(ROM.relative_to(R))]=='a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
- s=(W/'fixture.cpp').read_text();s=one(s,'#include "../os4-home-grid-singlepoint/fixture_v2.cpp"','#include "'+str(R/'source/tests/os4-home-grid-singlepoint/fixture_v2.cpp')+'"')
+ inputs=[Path(__file__).resolve(),W/'fixture.cpp',W/'leaf.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-singlepoint/fixture_v2.cpp',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-singlepoint/leaf_v2.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-revoke-routing/router.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-secondary-spacing/probe.S',ROM]
+ before={str(test_paths.report_path(x, R)):sha(x)for x in inputs};assert before[str(test_paths.report_path(ROM, R))]=='a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
+ s=(W/'fixture.cpp').read_text();s=one(s,'#include "../os4-home-grid-singlepoint/fixture_v2.cpp"','#include "'+str(test_paths.SOURCE_ROOT / 'tests/os4-home-grid-singlepoint/fixture_v2.cpp')+'"')
  s=one(s,'unsigned admitted=0,closed=0,invalid_safe=0;','unsigned leaks=0,finished=0;\n const bool sourceGuard=mutant!="domain-only";')
  start=s.index(' for(int route=0;');end=s.index('  ++cases;',start)
  s=s[:start]+''' for(int selectedFlag=0;selectedFlag<2;selectedFlag++)for(int64_t layout:std::array<int64_t,4>{-1,0,1,2}){
@@ -68,11 +72,11 @@ def main():
  env=dict(os.environ,LD_LIBRARY_PATH=str(ARM/'usr/lib/x86_64-linux-gnu'));runs=[]
  for variant in ('source-reread','domain-only'):
   binary=o/variant
-  cmd=[ARM/'usr/bin/aarch64-linux-gnu-g++-13','--sysroot='+str(ARM),'-std=c++20','-O2','-Wall','-Wextra','-Werror',o/'counterexample.cpp',o/(variant+'.S'),R/'source/tests/os4-home-grid-revoke-routing/router.S',R/'source/tests/os4-home-grid-secondary-spacing/probe.S',R/'source/tests/os4-home-grid-singlepoint/leaf_v2.S','-o',binary]
+  cmd=[ARM/'usr/bin/aarch64-linux-gnu-g++-13','--sysroot='+str(ARM),'-std=c++20','-O2','-Wall','-Wextra','-Werror',o/'counterexample.cpp',o/(variant+'.S'),test_paths.SOURCE_ROOT / 'tests/os4-home-grid-revoke-routing/router.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-secondary-spacing/probe.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-singlepoint/leaf_v2.S','-o',binary]
   for kind,c in [('compile',cmd),('execute',[ARM/'usr/bin/qemu-aarch64-static','-L',ARM/'usr/aarch64-linux-gnu',binary,ROM,variant])]:
    r=subprocess.run(list(map(str,c)),env=env,capture_output=True,text=True,timeout=90);(o/(variant+'-'+kind+'.stdout')).write_text(r.stdout);(o/(variant+'-'+kind+'.stderr')).write_text(r.stderr);assert r.returncode==0,(variant,kind,r.stderr[-4000:])
   runs.append(dict(variant=variant,binary_sha256=sha(binary),result=json.loads(r.stdout)))
- after={str(x.relative_to(R)):sha(x)for x in inputs};assert before==after
+ after={str(test_paths.report_path(x, R)):sha(x)for x in inputs};assert before==after
  report=dict(passed=True,status='NEGATIVE_COUNTEREXAMPLE_NOT_FEATURE_PASS',device_status='NOT_TESTED',inputs_before=before,inputs_after=after,inputs_unchanged=True,runs=runs,tool_inputs={str(p):sha(p)for p in [ARM/'usr/bin/aarch64-linux-gnu-g++-13',ARM/'usr/bin/qemu-aarch64-static']},scope=['Actual original 28-byte CellCountXY.reset executes synchronously at an explicit TEST-ONLY cut after admission and before quantizer; original full fixed/correct/tail arithmetic remains. This does NOT prove any actual OTA callback invokes reset at this cut.','Source-reread candidate leaks reserved layout marker for admitted original layouts 0/1/2 after reset; -1 and all closed frames keep original layout. This candidate must not be promoted as unconditional improvement.','Domain-only decoder restores the originally captured per-frame layout despite resetting source; it still requires the true input domain excluding artificial reserved-int64 collisions and is not a production backend/whole-VM proof.'])
  (o/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'report':str(o/'report.json'),'sha256':sha(o/'report.json'),'runs':runs}))
 if __name__=='__main__':main()

@@ -5,7 +5,12 @@ and must produce an explicit failed assertion/result (not a compiler failure).
 """
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess,time,zipfile
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];SDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk');BIN=SDK/'ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin';BT=SDK/'build-tools/37.0.0';ADB=SDK/'platform-tools/adb';JAVA=Path('/home/hgn284/.cache/hyperceiler-build/jdk-25.0.4.1');CORE=ROOT/'source/app/src/main/cpp/targets/systemui';PKG='local.hyperceiler.colorprobe';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+HERE=Path(__file__).resolve().parent;ROOT=test_paths.TEST_DATA_ROOT;SDK=test_paths.ANDROID_HOME;BIN=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin';BT=SDK/'build-tools/37.0.0';ADB=SDK/'platform-tools/adb';JAVA=test_paths.JAVA_HOME;CORE=test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/systemui';PKG='local.hyperceiler.colorprobe';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--baseline',type=Path,required=True);p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.build.mkdir(parents=True,exist_ok=False);a.output.mkdir(parents=True,exist_ok=False)
 base=json.loads(a.baseline.read_text());assert base['passed'] and len(base['execution'])==24;apk=Path(base['apk']['path']);assert sha(apk)==base['apk']['sha256'];source=(CORE/'ambient_color_os4.cpp').read_text()
 mutants=[
@@ -30,7 +35,7 @@ for name,scenario,old,new in mutants:
   for i in z.infolist():
    if i.filename.startswith('META-INF/'):continue
    w.writestr(i,so.read_bytes()if i.filename=='lib/arm64-v8a/libHyperCeilerAmbientOS4.so'else z.read(i.filename))
- run([BT/'zipalign','-f','-P','16','4',b/'raw.apk',b/'aligned.apk']);run([BT/'apksigner','sign','--ks',ROOT/'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',b/'probe.apk',b/'aligned.apk']);adb('install','--no-incremental','-r','--abi','arm64-v8a',b/'probe.apk');adb('shell','am','force-stop',PKG);adb('shell','run-as',PKG,'rm','-f','files/report.json');adb('shell','am','start','-S','-W','-n',PKG+'/.MainActivity','--ei','scenario',scenario)
+ run([BT/'zipalign','-f','-P','16','4',b/'raw.apk',b/'aligned.apk']);run([BT/'apksigner','sign','--ks',test_paths.TEST_DATA_ROOT / 'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',b/'probe.apk',b/'aligned.apk']);adb('install','--no-incremental','-r','--abi','arm64-v8a',b/'probe.apk');adb('shell','am','force-stop',PKG);adb('shell','run-as',PKG,'rm','-f','files/report.json');adb('shell','am','start','-S','-W','-n',PKG+'/.MainActivity','--ei','scenario',scenario)
  end=time.monotonic()+60;raw=b''
  while time.monotonic()<end:
   r=adb('exec-out','run-as',PKG,'cat','files/report.json',check=False)

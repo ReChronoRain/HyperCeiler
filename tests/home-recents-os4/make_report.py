@@ -2,7 +2,12 @@
 """Bind completed Recents evidence without upgrading it to a device or APK approval."""
 from pathlib import Path
 import argparse,hashlib,json
-ROOT=Path(__file__).resolve().parents[3]
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
@@ -19,27 +24,27 @@ def main():
     }
     reports={name:json.loads((ROOT/path).read_text())for name,path in relative.items()}
     assert all(r['passed'] is True for r in reports.values())
-    production=sorted((ROOT/'source/app/src/main/cpp/targets/home').glob('recents_*'))
+    production=sorted((test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/home').glob('recents_*'))
     assert len(production)==6
-    sources={str(path.relative_to(ROOT)):sha(path)for path in production}
+    sources={str(test_paths.report_path(path, ROOT)):sha(path)for path in production}
     for path in production:
         for key in ['installer','joint','independent_installer_replay']:
             assert reports[key]['inputs'][str(path)]==sha(path),(key,path)
-    assert reports['guards']['header']['sha256']==sha(ROOT/'source/app/src/main/cpp/targets/home/recents_guard.generated.h')
+    assert reports['guards']['header']['sha256']==sha(test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/home/recents_guard.generated.h')
     assert reports['installer']['scenarios']==40 and len(reports['installer']['negative_controls'])==11
     assert reports['joint']['scenarios']==11 and len(reports['joint']['negative_controls'])==4
     assert reports['arm_components']['positive_checks']==dict(owner=2354,abi=8208,policy=398)
     assert reports['original_once']['checks']==9
-    supporting=[ROOT/'source/library/core/src/main/res/xml/home_animation.xml',
-        ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java']
+    supporting=[test_paths.SOURCE_ROOT / 'library/core/src/main/res/xml/home_animation.xml',
+        test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/home/dock/HomeLayoutNativeEndpointOS4.java']
     xml=supporting[0].read_text();assert 'app:quick_restart="com.miui.home"'in xml
     keys=['prefs_key_home_animation_recents_enable','prefs_key_home_animation_recents_rate'];assert all('android:key="'+key+'"'in xml for key in keys)
     endpoint=supporting[1].read_text();assert 'tweaks[14] = readBoolean(values, "home_animation_recents_enable", false)'in endpoint
     assert 'tweaks[15] = Math.max(30, Math.min(200, readInt(values, "home_animation_recents_rate", 100)))'in endpoint
     report=dict(passed=True,status='COMPONENT_AND_REAL_CONTROLLER_INSTALLER_JOINT_VERIFIED_OFFLINE',device_status='NOT_TESTED',
         production_sources=sources,evidence={name:dict(path=path,sha256=sha(ROOT/path))for name,path in relative.items()},
-        supporting_inputs={str(path.relative_to(ROOT)):sha(path)for path in supporting},
-        source_tests={str(path.relative_to(ROOT)):sha(path)for path in sorted(Path(__file__).resolve().parent.iterdir())if path.is_file()},
+        supporting_inputs={str(test_paths.report_path(path, ROOT)):sha(path)for path in supporting},
+        source_tests={str(test_paths.report_path(path, ROOT)):sha(path)for path in sorted(Path(__file__).resolve().parent.iterdir())if path.is_file()},
         settings=dict(keys=keys,count_keys=2,feature='Home Recents shared animation duration ratio',range_percent=[30,200],all_integer_selections=171,
             mapping='absolute f32 percentage/100 after original OEM normalization, before shared owner publication',
             restart='The existing screen already requests com.miui.home quick restart; change/disable/lapse/miss requires a fresh Home process.',
@@ -73,7 +78,7 @@ def main():
             'mlock does not exclude explicit munmap/mremap/munlock/DONTNEED_LOCKED, foreign writes, or altered kernels. The actual observed Flutter advice4 path is the protected path.',
             'A native copied frame temporarily changes SP; synchronous ABI is fully tested but arbitrary asynchronous signal/unwind/profiler behavior is not established.',
             'This report is neither complete APK/ELF artifact approval nor evidence that other previously declined Home settings are supported.'],
-        generator=dict(path=str(Path(__file__).resolve().relative_to(ROOT)),sha256=sha(Path(__file__).resolve())))
+        generator=dict(path=str(test_paths.report_path(Path(__file__).resolve(), ROOT)),sha256=sha(Path(__file__).resolve())))
     (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps(dict(passed=True,report=str(out/'report.json'),sha256=sha(out/'report.json')),indent=2))
 if __name__=='__main__':main()

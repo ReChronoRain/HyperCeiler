@@ -9,10 +9,15 @@ import resource
 import subprocess
 import tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 ROOT = Path(__file__).resolve().parents[2]
-ARM = Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-PUBLIC = Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libhyper_os_system_public.so')
-STANDARD = Path('/tmp/hyperceiler-rom/extracted/system/system/lib64/libstd.dylib.so')
+ARM = test_paths.BUILD_CACHE / 'arm64-emulation/root'
+PUBLIC = test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libhyper_os_system_public.so'
+STANDARD = test_paths.EXTRACTED_ROM_ROOT / 'system/system/lib64/libstd.dylib.so'
 EXPECTED = {
     PUBLIC: 'f1a4a3efc287207004fb487e5d525ca797d6a6e6616317a462d58115066c14f2',
     STANDARD: '1b656d82be749751208de1625dff0ca40f477009c368d639a792f467461528b1',

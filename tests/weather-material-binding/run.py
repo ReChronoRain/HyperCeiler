@@ -3,9 +3,13 @@
 from pathlib import Path
 import argparse, hashlib, importlib.util, json, re, subprocess, sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[2]
-CPP = ROOT / 'source/app/src/main/cpp'
+ROOT = test_paths.TEST_DATA_ROOT
+CPP = test_paths.SOURCE_ROOT / 'app/src/main/cpp'
 TARGET = CPP / 'targets/weather'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 
@@ -96,7 +100,7 @@ def main():
         detected = result.returncode != 0 and test_counts is not None and test_counts['failed'] > 0 and ('FAIL ' + witness) in result.stdout
         negative.append(dict(name=name, detected=detected, witness=witness, exit_code=result.returncode,
                              tests=test_counts, mutated_header_sha256=sha(dest / headers[0].name)))
-    compiler = Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android35-clang++')
+    compiler = test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android35-clang++'
     ndk = command([str(compiler), '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', '-fno-exceptions',
         '-fno-rtti', '-I', str(CPP), '-c', str(HERE / 'compile_probe.cpp'), '-o', str(output / 'ndk-api35.o')], 'ndk-api35')
     after = {str(p): sha(p) for p in inputs}

@@ -2,13 +2,17 @@
 """Bounded actual ARM primary entry routing; no installer or Dart VM approval."""
 import argparse, bisect, hashlib, importlib.util, json, os, resource, struct, subprocess, sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3]; HERE=Path(__file__).resolve().parent
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-NDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+ROOT=test_paths.TEST_DATA_ROOT; HERE=Path(__file__).resolve().parent
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
+NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 PIN='a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
-SPACING=ROOT/'acceptance/home-grid-next/spacing-review-test16/pixel-arm-final-v2/report.json'
+SPACING=test_paths.TEST_DATA_ROOT / 'acceptance/home-grid-next/spacing-review-test16/pixel-arm-final-v2/report.json'
 SPACING_PIN='5c5186d5ccc603313a7554dcaf7b98f9752b678eab3533ff28b37025746a5b05'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def elf(path):
@@ -33,7 +37,7 @@ def elf(path):
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
  resource.setrlimit(resource.RLIMIT_CORE,(0,0));assert sha(ROM)==PIN
- inputs=[HERE/'router.S',HERE/'probe.S',HERE/'fixture.cpp',Path(__file__).resolve(),ROOT/'source/tests/os4-home-grid-spacing/spacing_v3_probe.S',ROOT/'source/tests/os4-home-grid-spacing/spacing_v3_fixture.cpp',ROOT/'source/tests/os4-home-grid-spacing/pixel_provenance.py',SPACING,ROOT/'firmware/components/system_ext/lib64/libhyper_os_flutter.so',ROM,ARM/'usr/bin/aarch64-linux-gnu-g++-13',ARM/'usr/bin/qemu-aarch64-static',NDK/'aarch64-linux-android35-clang',NDK/'llvm-objdump']
+ inputs=[HERE/'router.S',HERE/'probe.S',HERE/'fixture.cpp',Path(__file__).resolve(),test_paths.SOURCE_ROOT / 'tests/os4-home-grid-spacing/spacing_v3_probe.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-spacing/spacing_v3_fixture.cpp',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-spacing/pixel_provenance.py',SPACING,test_paths.ROM_ROOT / 'components/system_ext/lib64/libhyper_os_flutter.so',ROM,ARM/'usr/bin/aarch64-linux-gnu-g++-13',ARM/'usr/bin/qemu-aarch64-static',NDK/'aarch64-linux-android35-clang',NDK/'llvm-objdump']
  before={str(p):sha(p)for p in inputs};report={'passed':False,'device_status':'NOT_TESTED','production_changed':False,'inputs_before':before,'runs':[],'checks':[],'mutations':[]}
  def save():(out/'report.json').write_text(json.dumps(report,indent=2)+'\n')
  def check(name,b):report['checks'].append({'name':name,'passed':b is True});save();assert b,name
@@ -47,7 +51,7 @@ def main():
   gcc=ARM/'usr/bin/aarch64-linux-gnu-g++-13';binary=out/'fixture';so=out/'router.so';ndkso=out/'router-ndk.so'
   run('compile-gnu-dso',[gcc,'--sysroot='+str(ARM),'-shared','-nostdlib','-Wl,--no-undefined',HERE/'router.S','-o',so])
   run('compile-ndk-dso',[NDK/'aarch64-linux-android35-clang','-shared','-nostdlib','-Wl,--no-undefined',HERE/'router.S','-o',ndkso])
-  run('compile-fixture',[gcc,'--sysroot='+str(ARM),'-std=c++20','-O2','-Wall','-Wextra','-Werror',HERE/'fixture.cpp',HERE/'probe.S',ROOT/'source/tests/os4-home-grid-spacing/spacing_v3_probe.S','-o',binary,'-ldl'])
+  run('compile-fixture',[gcc,'--sysroot='+str(ARM),'-std=c++20','-O2','-Wall','-Wextra','-Werror',HERE/'fixture.cpp',HERE/'probe.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-spacing/spacing_v3_probe.S','-o',binary,'-ldl'])
   rom,_,read,_,rom_ph=elf(ROM);prefix,_=read(0x15228e8,44)
   table=0x62d150;head=struct.unpack_from('<4I',rom,table)
   check('actual InstructionsTable expected header',head[1:]==(102289,89682,0))
@@ -75,7 +79,7 @@ def main():
   report['direct_entry_callers']=entries
   check('frozen original pixel provenance report',sha(SPACING)==SPACING_PIN)
   inherited=json.loads(SPACING.read_text());check('pixel provenance successful and stable',inherited['passed'] is True and inherited['inputs_unchanged'] is True)
-  spec=importlib.util.spec_from_file_location('pixel_provenance',ROOT/'source/tests/os4-home-grid-spacing/pixel_provenance.py');pixel=importlib.util.module_from_spec(spec);spec.loader.exec_module(pixel)
+  spec=importlib.util.spec_from_file_location('pixel_provenance',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-spacing/pixel_provenance.py');pixel=importlib.util.module_from_spec(spec);spec.loader.exec_module(pixel)
   report['pixel_native_binding']=pixel.prove();check('current engine import chain matches frozen proof',report['pixel_native_binding']==inherited['pixel_native_binding'])
   report['layout_identity_inherited']=inherited['provenance']['layout_identity_fields']
   check('fixture enum raw fields match original decoded instances',[r['tagged_raw_field_0x13'] for r in report['layout_identity_inherited']]==[1,0,2])

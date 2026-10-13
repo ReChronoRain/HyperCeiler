@@ -2,11 +2,16 @@
 """Production lifetime component: exact guards, transaction faults and bounded reclaim splitting."""
 import argparse,hashlib,json,re,subprocess,tempfile
 from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 HERE=Path(__file__).resolve().parent
 SOURCE=HERE.parents[1]
-ROOT=SOURCE.parent
+ROOT=test_paths.TEST_DATA_ROOT
 WEATHER=SOURCE/'app/src/main/cpp/targets/weather'
-NDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
+NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--negative-controls',action='store_true');a=p.parse_args()

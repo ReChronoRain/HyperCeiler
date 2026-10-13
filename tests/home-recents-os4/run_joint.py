@@ -2,13 +2,18 @@
 """Actual shared controller, complete HCS cache and real Recents installer in one process."""
 from pathlib import Path
 import argparse,hashlib,importlib.util,json,re,subprocess
-ROOT=Path(__file__).resolve().parents[3];HERE=Path(__file__).resolve().parent;CPP=ROOT/'source/app/src/main/cpp'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;HERE=Path(__file__).resolve().parent;CPP=test_paths.SOURCE_ROOT / 'app/src/main/cpp'
 spec=importlib.util.spec_from_file_location('recents_linked_template',HERE/'run_installer.py');helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',required=True,type=Path);a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
-    sdk=ROOT/'acceptance/runtime-routing-next/zygisk-next-api'
-    stubs=ROOT/'source/tests/hyos-control/stubs'
+    sdk=test_paths.TEST_DATA_ROOT / 'acceptance/runtime-routing-next/zygisk-next-api'
+    stubs=test_paths.SOURCE_ROOT / 'tests/hyos-control/stubs'
     inputs=[Path(__file__).resolve(),HERE/'joint_test.cpp',HERE/'run_installer.py',helper.ROM,helper.EXECUTED,sdk/'zygisk_next_api.h',*sorted(stubs.rglob('*.h')),
         *sorted((CPP/'targets/home').glob('recents_*')),
         *[CPP/'targets/hyos'/n for n in ['hyos_control.cpp','hyos_control.h','hyos_entry.h','hyos_report_runtime.h','hyos_snapshot.h']],

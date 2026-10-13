@@ -2,17 +2,21 @@
 """Bounded full STT_FUNC extraction for original default placement research."""
 import argparse,hashlib,json,subprocess,sys,struct,bisect
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3]
-sys.path.insert(0,str(ROOT/'source/tests/hyos-entry'));from extract_runtime_guard import Elf
-sys.path.insert(0,str(ROOT/'source/tests/home-layout-native'));from fixture_symbols import symbols
+ROOT=test_paths.TEST_DATA_ROOT
+sys.path.insert(0,str(test_paths.SOURCE_ROOT / 'tests/hyos-entry'));from extract_runtime_guard import Elf
+sys.path.insert(0,str(test_paths.SOURCE_ROOT / 'tests/home-layout-native'));from fixture_symbols import symbols
 IMAGES={'dart':('libapp.so','a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'),'rust':('libapp_launcher.so','4dc9fa82371dda8a0a8b9eff48301469d2f84752b52b71635b84e5fc0c47fa6e')}
-OBJ=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump')
+OBJ=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--kind',choices=IMAGES,required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('va',nargs='+');a=ap.parse_args();a.output.mkdir(parents=True,exist_ok=False)
- name,digest=IMAGES[a.kind];p=ROOT/'firmware/launcher-native/lib/arm64-v8a'/name;e=Elf(p,digest);ss=symbols(p);by={va:(size,name)for va,size,name in ss};rows=[]
- inputs=[p,Path(__file__),OBJ,ROOT/'source/tests/hyos-entry/extract_runtime_guard.py',ROOT/'source/tests/home-layout-native/fixture_symbols.py'];before={str(p):sha(p)for p in inputs}
+ name,digest=IMAGES[a.kind];p=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a'/name;e=Elf(p,digest);ss=symbols(p);by={va:(size,name)for va,size,name in ss};rows=[]
+ inputs=[p,Path(__file__),OBJ,test_paths.SOURCE_ROOT / 'tests/hyos-entry/extract_runtime_guard.py',test_paths.SOURCE_ROOT / 'tests/home-layout-native/fixture_symbols.py'];before={str(p):sha(p)for p in inputs}
  for va in [int(x,0)for x in a.va]:
   boundary='fresh actual ELF embedded debug STT_FUNC'
   if va in by:size,name=by[va]

@@ -7,8 +7,8 @@ APK, native image, production hook or preference protocol.
 
 ```sh
 python3 tests/native-remaining-audit/audit.py \
-  --project /mnt/e/codex/hyperceiler-os4 \
-  --objdump /home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump
+  --project "$HYPERCEILER_TEST_DATA" \
+  --objdump "$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump"
 ```
 
 Requires the verified `firmware/component-inventory.json`, the three extracted

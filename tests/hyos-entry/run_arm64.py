@@ -7,6 +7,11 @@ import os
 from pathlib import Path
 import subprocess
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 p = argparse.ArgumentParser(description=__doc__)
 p.add_argument('--output', type=Path, required=True)
 a = p.parse_args()
@@ -14,7 +19,7 @@ out = a.output.resolve()
 out.mkdir(parents=True, exist_ok=False)
 here = Path(__file__).resolve().parent
 production = here.parents[1] / 'app/src/main/cpp/targets/hyos/hyos_app_entry_arm64.S'
-runtime = Path.home() / '.cache/hyperceiler-build/arm64-emulation/root'
+runtime = test_paths.BUILD_CACHE / 'arm64-emulation/root'
 env = dict(os.environ, LD_LIBRARY_PATH=str(runtime / 'usr/lib/x86_64-linux-gnu'))
 compiler = runtime / 'usr/bin/aarch64-linux-gnu-g++-13'
 emulator = runtime / 'usr/bin/qemu-aarch64-static'

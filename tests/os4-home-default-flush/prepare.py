@@ -5,14 +5,18 @@ vendor image and parse ending at the actual vendor snapshot declared end.
 """
 import argparse,contextlib,hashlib,json,struct,sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3]
+ROOT=test_paths.TEST_DATA_ROOT
 import snapshot_parser as parser
 
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();a.output.mkdir(parents=True,exist_ok=False)
- rom=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp.so';src=ROOT/'acceptance/home-grid-next/snapshot-parser';inputs=[rom,Path(__file__),Path(parser.__file__),parser.BASE/'official-dart-3.10.1/runtime_vm_class_id.h',parser.BASE/'official-dart-3.10.1/runtime_vm_object_store.h']
+ rom=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so';src=test_paths.TEST_DATA_ROOT / 'acceptance/home-grid-next/snapshot-parser';inputs=[rom,Path(__file__),Path(parser.__file__),parser.BASE/'official-dart-3.10.1/runtime_vm_class_id.h',parser.BASE/'official-dart-3.10.1/runtime_vm_object_store.h']
  before={str(p):sha(p)for p in inputs};assert before[str(rom)]=='a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992';b=rom.read_bytes()
  with (a.output/'parser.log').open('w')as log,contextlib.redirect_stdout(log):
   allocation=parser.alloc(b,0x4ac0);objects,spans=parser.first_fills(b,allocation,len(allocation['clusters']));roots=parser.roots(b,allocation,spans)

@@ -2,7 +2,12 @@
 """Finite exact-OTA shape/control-flow anchors + source/UI contract. Not ART execution."""
 from pathlib import Path
 import argparse,hashlib,json,re,subprocess,xml.etree.ElementTree as ET
-ROOT=Path(__file__).resolve().parents[3];SRC=ROOT/'source';ROM=ROOT/'acceptance/java-test12/barrage-v1/rom-v1';SM=ROM/'smali/com/xiaomi/barrage'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;SRC=test_paths.SOURCE_ROOT;ROM=test_paths.TEST_DATA_ROOT / 'acceptance/java-test12/barrage-v1/rom-v1';SM=ROM/'smali/com/xiaomi/barrage'
 RULE=SRC/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/barrage/CustomBarrageLength.kt'
 PRODUCTION=[RULE,SRC/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/app/Barrage.java',*[SRC/'library/core/src/main/res'/p for p in ['xml/barrage.xml','values/strings_app.xml','values-zh-rCN/strings_app.xml']]]
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
@@ -11,7 +16,7 @@ def main(out):
  def ck(name,value):checks.append({'name':name,'passed':bool(value)})
  def method(path,signature):
   p=SM/path;text=p.read_text();hits=[m for m in re.finditer(r'(?ms)^\.method [^\n]+\n.*?^\.end method',text)if m[0].splitlines()[0].endswith(' '+signature)]
-  assert len(hits)==1,(path,signature);m=hits[0];b=m[0];methods.append({'path':str(p.relative_to(ROOT)),'method':signature,'start_line':text[:m.start()].count('\n')+1,'end_line':text[:m.end()].count('\n')+1,'complete_body_sha256':hashlib.sha256(b.encode()).hexdigest()});return b
+  assert len(hits)==1,(path,signature);m=hits[0];b=m[0];methods.append({'path':str(test_paths.report_path(p, ROOT)),'method':signature,'start_line':text[:m.start()].count('\n')+1,'end_line':text[:m.end()].count('\n')+1,'complete_body_sha256':hashlib.sha256(b.encode()).hexdigest()});return b
  extraction=json.loads((ROM/'rom-extraction.json').read_text());ck('actual_APK_sha256',sha(Path(extraction['apk']))==extraction['sha256']=='a5224991c3d8d1682863bc6cd3354fa69eefbd09fafd5b3a24b503b1a26fa9d5')
  ck('all_extracted_classes_current',all(sha(ROM/p)==h for p,h in extraction['files'].items()))
  w='utils/BarrageWindowUtils.smali';b='danmu/model/BaseBarrage.smali';f='danmu/model/android/DanmuFactory.smali';manager='manager/BarrageShowManager.smali'
@@ -53,7 +58,7 @@ def main(out):
  old=subprocess.check_output(['git','show','HEAD:library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/barrage/CustomBarrageLength.kt'],cwd=SRC,text=True);expected=old[old.index('    private val barrageLength by lazy'):].replace('"barrage_length"','"barrage_custom_barrage_length"').replace('    override fun init() {','    private fun initLegacy() {');ck('OS3_legacy_body_exact_except_correct_UI_key_and_method_name',rule[rule.index('    private val barrageLength by lazy'):]==expected)
  for p in PRODUCTION[3:]:ck(p.parent.name+'_summary_default_units_restart',any(e.get('name')=='barrage_custom_barrage_length_desc'and e.text for e in ET.parse(p).getroot()))
  inputs=[Path(__file__),ROM/'extract_rom.py',ROM/'rom-extraction.json',ROM/'DexRefs.java',ROM/'all-dex-xrefs.txt',*PRODUCTION,*[ROM/p for p in extraction['files']]]
- report={'passed':all(x['passed']for x in checks),'checks':checks,'sources':{str(p.relative_to(SRC)):sha(p)for p in PRODUCTION},'inputs':{str(p.relative_to(ROOT)):sha(p)for p in inputs},'actual_apk':{'path':extraction['apk'],'sha256':extraction['sha256']},'complete_methods':methods,'extracted_classes':len(extraction['files']),'xref_scope':'Every instruction in every DEX in this APK; only five named methods plus BaseBarrage.text/barrageMsg selected. 45 references. Not reflection/native/dynamic-code completeness.','scope':'Finite deterministic anchors plus saved complete method bodies, supplementing the manual chain review. No ART, LSPosed or device execution.','device_status':'NOT_TESTED'}
+ report={'passed':all(x['passed']for x in checks),'checks':checks,'sources':{str(p.relative_to(SRC)):sha(p)for p in PRODUCTION},'inputs':{str(test_paths.report_path(p, ROOT)):sha(p)for p in inputs},'actual_apk':{'path':extraction['apk'],'sha256':extraction['sha256']},'complete_methods':methods,'extracted_classes':len(extraction['files']),'xref_scope':'Every instruction in every DEX in this APK; only five named methods plus BaseBarrage.text/barrageMsg selected. 45 references. Not reflection/native/dynamic-code completeness.','scope':'Finite deterministic anchors plus saved complete method bodies, supplementing the manual chain review. No ART, LSPosed or device execution.','device_status':'NOT_TESTED'}
  (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print('checks',len(checks),'failed',[x['name']for x in checks if not x['passed']]);assert report['passed']
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);main(p.parse_args().output)

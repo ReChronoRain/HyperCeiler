@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc'
-SOURCE=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/AmbientColorResolverOS4.kt';NATIVE_SOURCE=SOURCE.with_name('AmbientNativeColorOS4.kt');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-def inputs():return{str(p.relative_to(ROOT)):sha(p)for p in [SOURCE,NATIVE_SOURCE,Path(__file__),HERE/'native.cpp',*sorted((HERE/'fixtures').rglob('*'))]if p.is_file()}
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+HERE=Path(__file__).resolve().parent;ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME
+SOURCE=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/AmbientColorResolverOS4.kt';NATIVE_SOURCE=SOURCE.with_name('AmbientNativeColorOS4.kt');sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+def inputs():return{str(test_paths.report_path(p, ROOT)):sha(p)for p in [SOURCE,NATIVE_SOURCE,Path(__file__),HERE/'native.cpp',*sorted((HERE/'fixtures').rglob('*'))]if p.is_file()}
 def run(out,mutation=None):
  out.mkdir(parents=True,exist_ok=False);before=inputs();body=SOURCE.read_text();commands=[]
  if mutation:

@@ -9,11 +9,16 @@ import struct
 import subprocess
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 W = Path(__file__).resolve().parent
-R = W.parents[2]
-ARM = Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-OBJ = Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump')
-ROM = R / 'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+R = test_paths.TEST_DATA_ROOT
+ARM = test_paths.BUILD_CACHE / 'arm64-emulation/root'
+OBJ = test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump'
+ROM = test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 PIN = 'a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 
@@ -26,14 +31,14 @@ def main():
     out = args.output.resolve()
     out.mkdir(exist_ok=False, parents=True)
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
-    catalog_path = R / 'acceptance/home-grid-next/dart-v5/extraction.json'
-    inputs = [Path(__file__).resolve(), W / 'fixture_v2.cpp', R/'source/tests/os4-home-grid-secondary-spacing/probe.S', catalog_path,W/'leaf_v2.S',R/'source/tests/os4-home-grid-protocol/quantized_fixture.cpp']
+    catalog_path = test_paths.TEST_DATA_ROOT / 'acceptance/home-grid-next/dart-v5/extraction.json'
+    inputs = [Path(__file__).resolve(), W / 'fixture_v2.cpp', test_paths.SOURCE_ROOT / 'tests/os4-home-grid-secondary-spacing/probe.S', catalog_path,W/'leaf_v2.S',test_paths.SOURCE_ROOT / 'tests/os4-home-grid-protocol/quantized_fixture.cpp']
     report = dict(passed=False, device_status='NOT_TESTED', artifact_runtime_approval=False,
-                  inputs_before={str(p.relative_to(R)): sha(p) for p in inputs}, runs=[])
+                  inputs_before={str(test_paths.report_path(p, R)): sha(p) for p in inputs}, runs=[])
     save = lambda: (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     save()
     assert sha(ROM) == PIN
-    report['rom'] = dict(path=str(ROM.relative_to(R)), sha256=PIN)
+    report['rom'] = dict(path=str(test_paths.report_path(ROM, R)), sha256=PIN)
     data = ROM.read_bytes()
     phoff = struct.unpack_from('<Q', data, 32)[0]
     entsize, count = struct.unpack_from('<HH', data, 54)
@@ -103,14 +108,14 @@ def main():
         return result
 
     binary = out / 'probe'
-    run('compile', [ARM / 'usr/bin/aarch64-linux-gnu-g++-13', '--sysroot=' + str(ARM), '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', W / 'fixture_v2.cpp', R/'source/tests/os4-home-grid-secondary-spacing/probe.S',W/'leaf_v2.S', '-o', binary])
+    run('compile', [ARM / 'usr/bin/aarch64-linux-gnu-g++-13', '--sysroot=' + str(ARM), '-std=c++20', '-O2', '-Wall', '-Wextra', '-Werror', W / 'fixture_v2.cpp', test_paths.SOURCE_ROOT / 'tests/os4-home-grid-secondary-spacing/probe.S',W/'leaf_v2.S', '-o', binary])
     command = [ARM / 'usr/bin/qemu-aarch64-static', '-L', ARM / 'usr/aarch64-linux-gnu', binary, ROM]
     report['positive'] = json.loads(run('positive', command).stdout)
     assert report['positive']['passed'] and report['positive']['cases'] == 20160
     if not args.positive_only:
         for name,witness in {'lost-raw-store':'selected gate/caller controls cell truncation','round-instead-of-trunc':'selected gate/caller controls cell truncation','lost-stride-store':'original top margin consumes pixel rounded remaining height','lost-original-multiply':'original horizontal centering consumes current pixel cell','ignore-closed-gate':'selected gate/caller controls cell truncation','ignore-caller':'selected gate/caller controls cell truncation','old-row-capture':'row Rx retains original selected Smi publication'}.items():
             run(name,command+[name],3,witness)
-    report['inputs_after'] = {str(p.relative_to(R)): sha(p) for p in inputs}
+    report['inputs_after'] = {str(test_paths.report_path(p, R)): sha(p) for p in inputs}
     report['inputs_unchanged'] = report['inputs_before'] == report['inputs_after']
     assert report['inputs_unchanged'] and sha(ROM) == PIN
     report['binary_sha256'] = sha(binary)

@@ -2,10 +2,15 @@
 """Re-extract actual OS4 resources and bind complete reviewed local consumer bodies."""
 from pathlib import Path
 import argparse,hashlib,json,re,subprocess,zipfile
-ROOT=Path(__file__).resolve().parents[3]
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);a=p.parse_args();out=a.output;out.mkdir(parents=True,exist_ok=False)
-apk=ROOT/'firmware/components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk';aapt=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/build-tools/37.0.0/aapt2')
+apk=test_paths.ROM_ROOT / 'components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk';aapt=test_paths.ANDROID_HOME / 'build-tools/37.0.0/aapt2'
 inputs={str(apk):sha(apk),str(aapt):sha(aapt),str(Path(__file__).resolve()):sha(Path(__file__))};checks=[]
 def check(name,value):checks.append({'name':name,'passed':bool(value)});assert value,name
 check('actual_supplied_OTA_SystemUI',sha(apk)=='7da817a4c65299f7362fd530d72c09c0a4785c98cf2732395c721f2740e7662a')
@@ -23,11 +28,11 @@ check('NC_normal_style_explicit_primary','progressBarMode(0x7f04085d)=0'in block
 check('DI_day_night_base_no_explicit_mode',all('progressBarMode'not in blocks[x]for x in [0x7f1509bd,0x7f1509be,0x7f1509bf,0x7f1509c0]))
 check('DI_day_night_parent_edges',all(text in blocks[x]for x,text in [(0x7f1509bf,'0x7f1509c0'),(0x7f1509bf,'0x7f1509be'),(0x7f1509be,'0x7f1509bd'),(0x7f1509c0,'0x7f1509bd')]))
 paths={
- 'NC':ROOT/'acceptance/java-test14/always-dark-v1/rom/smali/com/android/systemui/statusbar/notification/mediacontrol/MiuiMediaViewControllerImpl.smali',
- 'Layout':ROOT/'acceptance/java-test14/always-dark-v1/rom-writers/smali/com/android/systemui/statusbar/notification/mediacontrol/MiuiMediaNotificationControllerImpl.smali',
- 'DI':ROOT/'acceptance/java-test12/media-text-v1/rom/smali/com/android/systemui/statusbar/notification/mediaisland/MiuiIslandMediaViewBinderImpl.smali',
- 'Pull':ROOT/'acceptance/java-test12/media-text-v1/rom/smali/com/android/systemui/statusbar/notification/mediaisland/MiuiIslandMediaViewBinderImpl$attach$4$1.smali',
- 'Seek':ROOT/'acceptance/java-test14/always-dark-v1/rom-seekbar/smali/miuix/miuixbasewidget/widget/HyperProgressSeekBar.smali'}
+ 'NC':test_paths.TEST_DATA_ROOT / 'acceptance/java-test14/always-dark-v1/rom/smali/com/android/systemui/statusbar/notification/mediacontrol/MiuiMediaViewControllerImpl.smali',
+ 'Layout':test_paths.TEST_DATA_ROOT / 'acceptance/java-test14/always-dark-v1/rom-writers/smali/com/android/systemui/statusbar/notification/mediacontrol/MiuiMediaNotificationControllerImpl.smali',
+ 'DI':test_paths.TEST_DATA_ROOT / 'acceptance/java-test12/media-text-v1/rom/smali/com/android/systemui/statusbar/notification/mediaisland/MiuiIslandMediaViewBinderImpl.smali',
+ 'Pull':test_paths.TEST_DATA_ROOT / 'acceptance/java-test12/media-text-v1/rom/smali/com/android/systemui/statusbar/notification/mediaisland/MiuiIslandMediaViewBinderImpl$attach$4$1.smali',
+ 'Seek':test_paths.TEST_DATA_ROOT / 'acceptance/java-test14/always-dark-v1/rom-seekbar/smali/miuix/miuixbasewidget/widget/HyperProgressSeekBar.smali'}
 selection={'NC':['attach(','detach(','bindMediaData(','updateForegroundColors(','onFullAodStateChanged('], 'Layout':['updateLayout$1('], 'DI':['attach(','detach(','bindMediaData(','updateForegroundColors('], 'Pull':['emit('], 'Seek':['<init>(Landroid/content/Context;Landroid/util/AttributeSet;I)','onDraw(','drawPrimaryMode(','drawHighEndMode(','initShaderConfig(','updatePrimaryColor$1(','setForegroundPrimaryColor(','setForegroundPrimaryDisableColor(','setBackgroundPrimaryColor(','setBackgroundPrimaryDisableColor(']}
 methods={};review=[]
 for key,path in paths.items():
@@ -52,8 +57,8 @@ with zipfile.ZipFile(apk)as z:
  # Record resource bytes hashes; raw vendor assets are external APK prerequisites.
  for name in ['res/raw/music_player_tracker.frag','res/raw/music_player_tracker_middle.frag']:
   text=z.read(name).decode();check(name+'_geometry_alpha_no_palette_uniform','uniform shader uTex;'in text and 'uniform vec2 uTrackSize;'in text and 'uniform'not in '\n'.join(x for x in text.splitlines()if 'Color' in x))
-source=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3'
-route=source/'CustomBackground.kt';old=Path('/home/hgn284/.cache/hyperceiler-build/source-os4-hyos-test13-20261009-r1/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackground.kt')
+source=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3'
+route=source/'CustomBackground.kt';old=test_paths.SNAPSHOT_ROOT / 'source-os4-hyos-test13-20261009-r1/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackground.kt'
 body=route.read_text();delta='''        if (isMoreHyperOSVersion(4f)) {
             CustomBackgroundOS4.init()
             return
@@ -62,7 +67,7 @@ body=route.read_text();delta='''        if (isMoreHyperOSVersion(4f)) {
 check('OS3_route_exact_previous_body',body.replace('import com.sevtinge.hyperceiler.libhook.utils.api.DeviceHelper.System.isMoreHyperOSVersion\n','').replace(delta,'')==old.read_text())
 inputs[str(old)]=sha(old)
 for n in ['CustomBackground.kt','CustomBackgroundOS4.kt','MediaSeekBarColorOS4.kt']:inputs[str(source/n)]=sha(source/n)
-xml=ROOT/'source/library/core/src/main/res/xml'
+xml=test_paths.SOURCE_ROOT / 'library/core/src/main/res/xml'
 for name,prefix in [('system_ui_control_center_media_cards.xml','system_ui_control_center_media_control'),('system_ui_status_bar_island_media_card.xml','system_ui_island_media_control')]:
  p=xml/name;inputs[str(p)]=sha(p);t=p.read_text()
  for suffix in ['_background_mode','_control_color_anim','_inverse_color','_panel_background_blur']:check(name+suffix,'prefs_key_'+prefix+suffix in t)

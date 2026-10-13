@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess,zipfile,importlib.util,sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent;CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc';SDK=CACHE/'android-sdk';BT=SDK/'build-tools/37.0.0';ANDROID=SDK/'platforms/android-37.0/android.jar';OTA=ROOT/'firmware/components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk'
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME;SDK=test_paths.ANDROID_HOME;BT=SDK/'build-tools/37.0.0';ANDROID=SDK/'platforms/android-37.0/android.jar';OTA=test_paths.ROM_ROOT / 'components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--rule-source',type=Path);a=p.parse_args();o=a.output.resolve();o.mkdir(parents=True,exist_ok=False)
@@ -20,7 +24,7 @@ def main():
  run([BT/'d8','--min-api','35','--lib',ANDROID,'--output',o/'adapter-dex',o/'adapter-classes.jar'])
  with zipfile.ZipFile(o/'adapters.jar','w')as z:
   for d in (o/'adapter-dex').glob('*.dex'):z.write(d,d.name)
- sp=importlib.util.spec_from_file_location('dexinv',ROOT/'tools/dex_inventory.py');m=importlib.util.module_from_spec(sp);sp.loader.exec_module(m)
+ sp=importlib.util.spec_from_file_location('dexinv',test_paths.TEST_DATA_ROOT / 'tools/dex_inventory.py');m=importlib.util.module_from_spec(sp);sp.loader.exec_module(m)
  original_names=['com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController','com.android.systemui.keyguard.KeyguardIndication','com.android.systemui.util.ViewController']
  classes={}
  with zipfile.ZipFile(o/'adapters.jar')as z:
@@ -42,9 +46,9 @@ def main():
   dest.write(OTA,'assets/oem.apk',compress_type=zipfile.ZIP_DEFLATED);dest.write(o/'adapters.jar','assets/adapters.jar',compress_type=zipfile.ZIP_DEFLATED)
   for dex in sorted((o/'dex').glob('*.dex')):dest.write(dex,dex.name,compress_type=zipfile.ZIP_DEFLATED)
  run([BT/'zipalign','-f','-P','16','4',o/'unaligned.apk',o/'aligned.apk'])
- run([BT/'apksigner','sign','--ks',ROOT/'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',o/'unlock-hint-oem-probe.apk',o/'aligned.apk']);run([BT/'apksigner','verify','--verbose',o/'unlock-hint-oem-probe.apk'])
+ run([BT/'apksigner','sign','--ks',test_paths.TEST_DATA_ROOT / 'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',o/'unlock-hint-oem-probe.apk',o/'aligned.apk']);run([BT/'apksigner','verify','--verbose',o/'unlock-hint-oem-probe.apk'])
  assert all(sha(Path(n))==h for n,h in inputs.items())
  with zipfile.ZipFile(OTA)as z:dexhash={n:hashlib.sha256(z.read(n)).hexdigest()for n in z.namelist()if n.endswith('.dex')}
- report=dict(passed=True,inputs=inputs,dependencies={str(q):sha(q)for q in [ANDROID,*deps,KH/'lib/kotlin-compiler.jar',ROOT/'tools/dex_inventory.py']},commands=commands,apk_sha256=sha(o/'unlock-hint-oem-probe.apk'),ota=dict(path=str(OTA),sha256=sha(OTA),dex=dexhash),adapters=dict(path=str(o/'adapters.jar'),sha256=sha(o/'adapters.jar'),classes=sorted(classes),main_dex_classes=sorted(main_classes),forbidden_prefixes=original_names,original_target_classes_absent_from_adapters_and_parent=True),production=dict(path=str(production),sha256=sha(production),canonical_path=str(original),canonical_sha256=sha(original),research_mutation=production!=original),device_status='NOT_TESTED',scope='Full unmodified OTA APK asset; explicit dependency adapters; original controller and indication classes excluded from adapters and main DEX.')
+ report=dict(passed=True,inputs=inputs,dependencies={str(q):sha(q)for q in [ANDROID,*deps,KH/'lib/kotlin-compiler.jar',test_paths.TEST_DATA_ROOT / 'tools/dex_inventory.py']},commands=commands,apk_sha256=sha(o/'unlock-hint-oem-probe.apk'),ota=dict(path=str(OTA),sha256=sha(OTA),dex=dexhash),adapters=dict(path=str(o/'adapters.jar'),sha256=sha(o/'adapters.jar'),classes=sorted(classes),main_dex_classes=sorted(main_classes),forbidden_prefixes=original_names,original_target_classes_absent_from_adapters_and_parent=True),production=dict(path=str(production),sha256=sha(production),canonical_path=str(original),canonical_sha256=sha(original),research_mutation=production!=original),device_status='NOT_TESTED',scope='Full unmodified OTA APK asset; explicit dependency adapters; original controller and indication classes excluded from adapters and main DEX.')
  (o/'build-report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(dict(passed=True,apk_sha256=report['apk_sha256'],adapter_classes=len(classes))))
 if __name__=='__main__':main()

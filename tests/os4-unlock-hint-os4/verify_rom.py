@@ -2,7 +2,12 @@
 """Bind the narrow stock consumer contract to complete fresh OTA smali methods."""
 from pathlib import Path
 import argparse,hashlib,json,re
-ROOT=Path(__file__).resolve().parents[3]; SOURCE=ROOT/'source'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT; SOURCE=test_paths.SOURCE_ROOT
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def run(rom,out):
  rom=rom.resolve();out=out.resolve()
@@ -11,7 +16,7 @@ def run(rom,out):
  def check(n,v):checks.append(dict(name=n,passed=bool(v)))
  def method(owner,sig):
   p=sm/(owner.replace('.','/')+'.smali');text=pin(p);rows=[x.group(0)for x in re.finditer(r'^\.method .*?^\.end method',text,re.M|re.S)if x.group(0).splitlines()[0].endswith(' '+sig)];assert len(rows)==1,(owner,sig)
-  body=rows[0];file=out/(str(len(methods)+1)+'-'+sig.split('(')[0].replace('<','').replace('>','')+'.smali.txt');file.write_text(body+'\n');methods.append(dict(owner=owner,signature=sig,full_body_sha256=hashlib.sha256(body.encode()).hexdigest(),excerpt=str(file.relative_to(ROOT)),line=text[:text.index(body)].count('\n')+1));return body
+  body=rows[0];file=out/(str(len(methods)+1)+'-'+sig.split('(')[0].replace('<','').replace('>','')+'.smali.txt');file.write_text(body+'\n');methods.append(dict(owner=owner,signature=sig,full_body_sha256=hashlib.sha256(body.encode()).hexdigest(),excerpt=str(test_paths.report_path(file, ROOT)),line=text[:text.index(body)].count('\n')+1));return body
  R='com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController';C='com.android.systemui.statusbar.KeyguardIndicationController'
  ex=json.loads(pin(rom/'extraction.json'));apk=Path(ex['apk']);inputs[str(apk)]=sha(apk)
  check('fresh actual OTA APK pinned',sha(apk)==ex['apk_sha256']=='7da817a4c65299f7362fd530d72c09c0a4785c98cf2732395c721f2740e7662a')

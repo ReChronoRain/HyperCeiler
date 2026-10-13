@@ -2,10 +2,15 @@
 """Execute actual production templates copied to RX pages, not a device/VM test."""
 import argparse,hashlib,json,os,resource,subprocess
 from pathlib import Path
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[2]
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-NDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
+ROOT=test_paths.TEST_DATA_ROOT
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
+NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
 SHA='5b458c7a5a34bc64336b4895229f3a04e8a21edafd8c8b2c6d7926258f90b7fc'
 EXPECTED={'passed':14392,'failed':0,'original_cases':720,'original_abi_cases':16,'guarded_original_cases':2016,'guarded_abi_cases':84,'device_tested':False}
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
@@ -13,8 +18,8 @@ def main():
  resource.setrlimit(resource.RLIMIT_CORE,(0,0))
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--negative-controls',action='store_true');args=p.parse_args()
  out=args.output.resolve();out.mkdir(parents=True,exist_ok=False)
- asm=ROOT/'source/app/src/main/cpp/targets/weather/weather_card_arm64.S';header=asm.with_name('weather_card_gateway.h')
- rom=ROOT/'acceptance/native-evidence/weather-libapp.so';assert sha(rom)==SHA
+ asm=test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/weather/weather_card_arm64.S';header=asm.with_name('weather_card_gateway.h')
+ rom=test_paths.TEST_DATA_ROOT / 'acceptance/native-evidence/weather-libapp.so';assert sha(rom)==SHA
  inputs={str(f):sha(f)for f in [asm,header,rom,HERE/'run.py',HERE/'gateway_harness.cpp',HERE/'adapters.S',HERE/'ancestry.json']}
  for name,h in json.loads((HERE/'ancestry.json').read_text())['sources'].items():assert sha(ROOT/name)==h
  env=os.environ.copy();env['LD_LIBRARY_PATH']=str(ARM/'usr/lib/x86_64-linux-gnu')
@@ -25,7 +30,7 @@ def main():
  def run(label,path=asm,flags=(),negative=False,include=None):
   cmd=[ARM/'usr/bin/aarch64-linux-gnu-g++-13','--sysroot='+str(ARM),'-O2','-std=c++20','-Wall','-Wextra','-Werror']
   if include:cmd+=['-I'+str(include)]
-  cmd+=['-I'+str(ROOT/'source/app/src/main/cpp'),*flags,HERE/'gateway_harness.cpp',HERE/'adapters.S',path,'-o',out/label]
+  cmd+=['-I'+str(test_paths.SOURCE_ROOT / 'app/src/main/cpp'),*flags,HERE/'gateway_harness.cpp',HERE/'adapters.S',path,'-o',out/label]
   c=command(cmd,label+'-build.txt');assert c.returncode==0,(label,c.stderr)
   r=command([ARM/'usr/bin/qemu-aarch64-static','-L',ARM/'usr/aarch64-linux-gnu',out/label,rom],label+'-run.txt')
   summary=json.loads(r.stdout.splitlines()[-1])if r.stdout.splitlines()else None

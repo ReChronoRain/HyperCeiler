@@ -2,7 +2,12 @@
 """Audit complete actual template bytes from GCC executable and Android PIC ELF."""
 import argparse,hashlib,json,struct
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[3]
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 class Elf:
  def __init__(self,p):
@@ -26,7 +31,7 @@ def main():
  ap=argparse.ArgumentParser();ap.add_argument('--run',type=Path,required=True);ap.add_argument('--output',type=Path,required=True);a=ap.parse_args()
  out=a.output.resolve();out.mkdir(parents=True,exist_ok=False);run=a.run.resolve()
  paths=[run/'normal',run/'libweather-card-template.so'];images=[Elf(p)for p in paths]
- previous=ROOT/'acceptance/weather-card-next/gateway-independent-v3/emitted/report.json'
+ previous=test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/gateway-independent-v3/emitted/report.json'
  old=json.loads(previous.read_text());items=[]
  for index,part in enumerate(('recompute','constructor')):
   name='hc_weather_card_'+part+'_template';allbytes=[]

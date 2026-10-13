@@ -13,13 +13,17 @@ from pathlib import Path
 import subprocess
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 sys.dont_write_bytecode = True
 SOURCE = Path(__file__).resolve().parents[2]
-PROJECT = SOURCE.parent
+PROJECT = test_paths.TEST_DATA_ROOT
 HERE = Path(__file__).parent
 CPP = SOURCE / 'app/src/main/cpp'
 HOME = CPP / 'targets/home'
-RUNTIME = Path.home() / '.cache/hyperceiler-build/arm64-emulation/root'
+RUNTIME = test_paths.BUILD_CACHE / 'arm64-emulation/root'
 SCENARIOS = ['guard', 'not_loaded_then_retry', 'invalid_runtime', 'unreadable',
              'wrong_size', 'unaligned', 'mutated_body', 'wrong_name', 'duplicate_address',
              'duplicate_size', 'duplicate_same', 'failure_then_retry',
@@ -37,7 +41,7 @@ def main():
     spec = importlib.util.spec_from_file_location('elf', SOURCE/'tests/home-layout-native/fixture_symbols.py')
     elf = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(elf)
-    image = PROJECT/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+    image = test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
     raw = image.read_bytes()
     digest = hashlib.sha256(raw).hexdigest()
     if digest != 'a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992':

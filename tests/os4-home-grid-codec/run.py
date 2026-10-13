@@ -4,19 +4,23 @@ No translated target implementation, production edits, Android install or flashi
 """
 import argparse,hashlib,json,os,subprocess,sys,time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3]
+ROOT=test_paths.TEST_DATA_ROOT
 HERE=Path(__file__).resolve().parent
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
 CC=ARM/'usr/bin/aarch64-linux-gnu-g++-13'
 QEMU=ARM/'usr/bin/qemu-aarch64-static'
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a'
 EXECUTED={'dart':[0x8bb7bc,0x8bb864,0x86ea54,0x86ead4], 'rust':[0x7ed3b8,0x84152c,0x965f98,0x965ffc,0xaa40f8,0x6c46e0,0x6c567c,0x6c44d8,0x6c4584,0x9aa6f8]}
 MUTANTS={'constant-two':'writes X Y literal4 Ymin', 'wrong-y-field':'writes X Y literal4 Ymin','raw-payload-shift':'writes X Y literal4 Ymin','skip-byte-copy':'writes X Y literal4 Ymin','decoder-no-advance':'valid full dispatcher/FRB must not panic','save-skip-copy':'original save and getter expose full decoded DeviceParam','decoder-skip-truncation':'truncated decoder reaches panic adapter','end-ignore-length':'full FRB rejects trailing declared data'}
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
- inputs=[*sorted(HERE.glob('*.py')),*sorted(HERE.glob('*.cpp')),*sorted(HERE.glob('*.S')),ROOT/'source/tests/hyos-entry/extract_runtime_guard.py',ROOT/'source/tests/home-layout-native/fixture_symbols.py',ROOT/'source/library/core/src/main/res/xml/home_layout.xml',ROM/'libapp.so',ROM/'libapp_launcher.so',CC,QEMU]
+ inputs=[*sorted(HERE.glob('*.py')),*sorted(HERE.glob('*.cpp')),*sorted(HERE.glob('*.S')),test_paths.SOURCE_ROOT / 'tests/hyos-entry/extract_runtime_guard.py',test_paths.SOURCE_ROOT / 'tests/home-layout-native/fixture_symbols.py',test_paths.SOURCE_ROOT / 'library/core/src/main/res/xml/home_layout.xml',ROM/'libapp.so',ROM/'libapp_launcher.so',CC,QEMU]
  before={str(p):sha(p)for p in inputs};report={'passed':False,'device_status':'NOT_TESTED','inputs_before':before,'commands':[],'checks':[],'mutations':[]}
  env=dict(os.environ,LD_LIBRARY_PATH=str(ARM/'usr/lib/x86_64-linux-gnu'),PYTHONDONTWRITEBYTECODE='1')
  def run(cmd,name,timeout=45):
