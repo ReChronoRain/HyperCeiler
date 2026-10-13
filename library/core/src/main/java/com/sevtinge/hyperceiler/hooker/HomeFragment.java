@@ -114,13 +114,9 @@ public class HomeFragment extends DashboardFragment {
         mHeaderHomeIsRustNoSupport.setVisible(shouldWarnRuntimeUnsupported(mHomeIsRuntime, api, code));
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mFrameworkPrefs = getSharedPreferences();
-        if (mFrameworkPrefs != null) mFrameworkPrefs.registerOnSharedPreferenceChangeListener(mFrameworkListener);
-        updateRuntimeSupportWarning();
-    }
+        boolean isRustNoSupport = !(XposedApiVersion >= 102
+            && XposedVersionCode >= 7846
+            && (XposedVersionCode >= 7854 || XposedVersion.contains("it")));
 
     @Override
     public void onPause() {
