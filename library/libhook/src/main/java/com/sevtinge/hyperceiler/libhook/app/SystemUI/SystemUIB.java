@@ -43,6 +43,7 @@ import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.ZenModeFix;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AlwaysDark;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.AmbientLight;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.CustomBackground;
+import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.HideMediaCard;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaSeekBar;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaViewLayout;
 import com.sevtinge.hyperceiler.libhook.rules.systemui.controlcenter.media3.MediaViewSize;
@@ -213,6 +214,7 @@ public class SystemUIB extends BaseLoad {
         // Media Card
         int ncBgMode = PrefsBridge.getStringAsInt("system_ui_control_center_media_control_background_mode", 0);
         int diBgMode = PrefsBridge.getStringAsInt("system_ui_island_media_control_background_mode", 0);
+        initHook(HideMediaCard.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_hide_media_card"));
         initHook(NewUnlockCustomActions.INSTANCE, PrefsBridge.getBoolean("system_ui_control_center_media_control_unlock_custom_actions"));
         initHook(MediaControlBgFactory.INSTANCE, ncBgMode != 0 || diBgMode != 0);
         initHook(CustomBackground.INSTANCE, ncBgMode != 0 || diBgMode != 0);
