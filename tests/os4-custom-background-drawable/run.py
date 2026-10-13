@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,subprocess,time
-ROOT=Path(__file__).resolve().parents[3];ADB=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/platform-tools/adb');PKG='local.hyperceiler.custombgdrawableprobe';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;ADB=test_paths.ANDROID_HOME / 'platform-tools/adb';PKG='local.hyperceiler.custombgdrawableprobe';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False);build=json.loads((a.build/'build-report.json').read_text());variant='results';assert build['passed']is True and sha(a.build/'custombg-drawable-probe.apk')==build['apk_sha256'];commands=[]
 def adb(*args,check=True):
  cmd=[str(ADB),'-s',SERIAL,*map(str,args)];commands.append(cmd);r=subprocess.run(cmd,capture_output=True,timeout=45)
@@ -22,7 +27,7 @@ while time.monotonic()<end:
  time.sleep(1)
 log=adb('logcat','-d','-t','400','-s','CustomBgProbe:I','AndroidRuntime:E');(a.output/'logcat.txt').write_bytes(log.stdout)
 assert data,'Probe did not publish a report; inspect logcat'
-d=json.loads(data);assert d['source_sha256']==build['inputs'][str(ROOT/'source'/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundDrawableOS4.kt')]
+d=json.loads(data);assert d['source_sha256']==build['inputs'][str(test_paths.SOURCE_ROOT/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundDrawableOS4.kt')]
 (a.output/'android-report.json').write_bytes(data)
 for f in d['frames']:
  assert '/'not in f['png'] and f['png'].endswith('.png');(a.output/f['png']).write_bytes(adb('exec-out','run-as',PKG,'cat',f'files/{variant}/'+f['png']).stdout)

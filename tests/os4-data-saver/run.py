@@ -4,13 +4,18 @@ ROM-shaped targets/resources are explicit host fixtures, not execution of ROM DE
 """
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT
 PKG=SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
 RULE=PKG/'rules/systemui/statusbar/icon/all/DataSaverIconOS4.java';ROUTE=PKG/'app/SystemUI/SystemUIB.java'
-CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin'
-DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10').rglob('*.jar'))+[CACHE/'android-sdk/platforms/android-37.0/android.jar']
+CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin'
+DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10').rglob('*.jar'))+[test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
-def inputs():return {str(p.relative_to(ROOT)):sha(p)for p in [RULE,ROUTE,Path(__file__),*sorted((BASE/'fixtures').rglob('*.java'))]}
+def inputs():return {str(test_paths.report_path(p, ROOT)):sha(p)for p in [RULE,ROUTE,Path(__file__),*sorted((BASE/'fixtures').rglob('*.java'))]}
 def write(w,name,text):
  p=w/(name.replace('.','/')+'.java');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
 def replace_once(s,old,new):
@@ -53,7 +58,7 @@ def run(out,mutation=None):
   if z.returncode:print(z.stdout);raise RuntimeError('fixture compile failed')
   z=subprocess.run([str(JAVA/'java'),'-ea','-cp',str(w/'classes')+os.pathsep+cp,'TestMain'],text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=60);(out/'tests.txt').write_text(z.stdout);print(z.stdout,end='');m=re.search(r'RESULT passes=(\d+) failures=(\d+)',z.stdout)
   if not m:raise RuntimeError('fixture did not complete')
-  after=inputs();report={'passed':z.returncode==0 and int(m[2])==0 and int(m[1])==93 and before==after,'tests':{'passed':int(m[1]),'failed':int(m[2])},'exit_code':z.returncode,'mutation':mutation,'production_inputs':{str(p.relative_to(ROOT)):sha(p)for p in [RULE,ROUTE]},'inputs_before':before,'inputs_after':after,'inputs_unchanged':before==after,'dependencies':{str(p):sha(p)for p in DEPS},'limits':['Whole production rule and SystemUIB compiled/executed with real EzHook1.3.0/API102 hook chain.','ROM classes, resources and registration backend are host fixtures; not ART, actual SystemUI DEX, LSPosed, screenshot or device execution.','Reactive list tests execute successive original setter and refresh/group callbacks, not the Kotlin coroutine engine.'],'device_status':'NOT_TESTED'}
+  after=inputs();report={'passed':z.returncode==0 and int(m[2])==0 and int(m[1])==93 and before==after,'tests':{'passed':int(m[1]),'failed':int(m[2])},'exit_code':z.returncode,'mutation':mutation,'production_inputs':{str(test_paths.report_path(p, ROOT)):sha(p)for p in [RULE,ROUTE]},'inputs_before':before,'inputs_after':after,'inputs_unchanged':before==after,'dependencies':{str(p):sha(p)for p in DEPS},'limits':['Whole production rule and SystemUIB compiled/executed with real EzHook1.3.0/API102 hook chain.','ROM classes, resources and registration backend are host fixtures; not ART, actual SystemUI DEX, LSPosed, screenshot or device execution.','Reactive list tests execute successive original setter and refresh/group callbacks, not the Kotlin coroutine engine.'],'device_status':'NOT_TESTED'}
   (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');return report
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--negative-controls',action='store_true');a=p.parse_args();r=run(a.output)

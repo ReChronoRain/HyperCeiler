@@ -2,12 +2,17 @@
 """Actual production config/UI/route/rule through the real API102/EzHook callback chain."""
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile,xml.etree.ElementTree as ET
-BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=SOURCE.parent;CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+BASE=Path(__file__).resolve().parent;SOURCE=BASE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin'
 FILES=[SOURCE/'library/common/src/main/java/com/sevtinge/hyperceiler/common/utils/GetAppsDeviceConfig.java',SOURCE/'library/core/src/main/java/com/sevtinge/hyperceiler/hooker/GetAppsFragment.java',SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/app/GetApps.java',SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/getapps/DeviceModify.java']
 XML=SOURCE/'library/core/src/main/res/xml/getapps.xml'
-DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+[ROOT/'tools-cache/kotlin-2.4.10/kotlinc/lib/kotlin-stdlib.jar',CACHE/'android-sdk/platforms/android-37.0/android.jar']
+DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+[test_paths.KOTLIN_HOME / 'lib/kotlin-stdlib.jar',test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
-def inputs():return{str(p.relative_to(ROOT)):sha(p)for p in [*FILES,XML,Path(__file__),*sorted((BASE/'fixtures').rglob('*.java')),*sorted((ROOT/'acceptance/java-test12/getapps-v1/original-source').glob('*.java'))]}
+def inputs():return{str(test_paths.report_path(p, ROOT)):sha(p)for p in [*FILES,XML,Path(__file__),*sorted((BASE/'fixtures').rglob('*.java')),*sorted((test_paths.TEST_DATA_ROOT / 'acceptance/java-test12/getapps-v1/original-source').glob('*.java'))]}
 MUTANTS={
  'legacy_enable_override':(0,'enabled = Boolean.TRUE.equals(values.get(ENABLED));','enabled = Boolean.TRUE.equals(values.get(ENABLED)) || "111".equals(values.get(LEGACY));'),
  'wrong_boolean_key':(0,'values.get(ENABLED));','values.get(LEGACY));'),
@@ -32,7 +37,7 @@ def run(out,mutation=None,original=False):
   work=Path(folder);sources=[]
   for i,p in enumerate(FILES):
    body=p.read_text()
-   if original and i>0:body=(ROOT/'acceptance/java-test12/getapps-v1/original-source'/p.name).read_text()
+   if original and i>0:body=(test_paths.TEST_DATA_ROOT / 'acceptance/java-test12/getapps-v1/original-source'/p.name).read_text()
    if mutation and i==MUTANTS[mutation][0]:
     _,a,b=MUTANTS[mutation];assert body.count(a)==1,(mutation,body.count(a));body=body.replace(a,b)
    dest=work/p.name;dest.write_text(body);sources.append(dest)

@@ -14,12 +14,13 @@ The setting changes require restarting SystemUI. No new live preference listener
 
 ## Reproduce
 
-Run from `/mnt/e/codex/hyperceiler-os4`, using a new output directory on every execution:
+Run from the repository root, using a new output directory on every execution.
+See `tests/PORTABILITY.md` for toolchain and external input configuration.
 
 ```sh
-python3 source/tests/os4-wifi-standard/run.py --output acceptance/java-test10/wifi-v1/host-new --negative-controls
-python3 source/tests/os4-wifi-standard/check_rom.py --output acceptance/java-test10/wifi-v1/rom-new
-python3 source/tests/os4-wifi-standard/compile_android.py --output acceptance/java-test10/wifi-v1/compile-new
+python3 tests/os4-wifi-standard/run.py --output acceptance/java-test10/wifi-v1/host-new --negative-controls
+python3 tests/os4-wifi-standard/check_rom.py --output acceptance/java-test10/wifi-v1/rom-new
+python3 tests/os4-wifi-standard/compile_android.py --output acceptance/java-test10/wifi-v1/compile-new
 ```
 
 `check_rom.py` rechecks the pinned OTA APK / DEX hashes and twelve complete manually reviewed method bodies against `rom-reviewed-methods.json`, plus UI/registration linkage and the unchanged OS3 init body. The input full classes can be regenerated with `acceptance/java-test10/candidates-v1/extract_rom.py`. These static contracts are separate from the host callback suite. The twelve in-memory method changes test the static checker, not Android behavior.

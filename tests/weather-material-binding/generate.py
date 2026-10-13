@@ -2,14 +2,19 @@
 """Generate independent material capability guards from four pinned ROM ELFs."""
 from pathlib import Path
 import argparse,hashlib,importlib.util,json,struct
-ROOT=Path(__file__).resolve().parents[3]
-HEADER=ROOT/'source/app/src/main/cpp/targets/weather/weather_material_guard.generated.h'
-OLD=ROOT/'source/tests/weather-binding/generate.py'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
+HEADER=test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/weather/weather_material_guard.generated.h'
+OLD=test_paths.SOURCE_ROOT / 'tests/weather-binding/generate.py'
 spec=importlib.util.spec_from_file_location('weather_elf_reader',OLD);reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
 sha=lambda b:hashlib.sha256(b).hexdigest()
 def generate():
- evidence=ROOT/'acceptance/weather-blur-next/evidence-v4/guard-inputs.json';report=json.loads(evidence.read_text())
- paths={'Weather':ROOT/'acceptance/native-evidence/weather-libweather_app.so','Public':Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libhyper_os_system_public.so'),'Private':Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libhyper_os_core_system_private.dylib.so'),'Dart':ROOT/'acceptance/native-evidence/weather-libapp.so'}
+ evidence=test_paths.TEST_DATA_ROOT / 'acceptance/weather-blur-next/evidence-v4/guard-inputs.json';report=json.loads(evidence.read_text())
+ paths={'Weather':test_paths.TEST_DATA_ROOT / 'acceptance/native-evidence/weather-libweather_app.so','Public':test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libhyper_os_system_public.so','Private':test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libhyper_os_core_system_private.dylib.so','Dart':test_paths.TEST_DATA_ROOT / 'acceptance/native-evidence/weather-libapp.so'}
  els={n:reader.Elf(p,report['inputs'][str(p)])for n,p in paths.items()}
  regions={n:[]for n in els}
  def add(image,name,va,size,expected=None):

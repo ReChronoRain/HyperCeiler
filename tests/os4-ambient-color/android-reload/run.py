@@ -3,15 +3,20 @@
 from pathlib import Path
 import argparse, hashlib, json, os, subprocess, time, zipfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+import hyperceiler_test_paths as test_paths
+
+
 HERE = Path(__file__).resolve().parent
-ROOT = HERE.parents[3]
-CACHE = Path('/home/hgn284/.cache/hyperceiler-build')
-SDK = CACHE / 'android-sdk'
-NDK = SDK / 'ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin'
-JAVA = CACHE / 'jdk-25.0.4.1/bin'
+ROOT = test_paths.TEST_DATA_ROOT
+CACHE = test_paths.BUILD_CACHE
+SDK = test_paths.ANDROID_HOME
+NDK = test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
+JAVA = test_paths.JAVA_HOME / 'bin'
 BT = SDK / 'build-tools/37.0.0'
 ANDROID = SDK / 'platforms/android-37.0/android.jar'
-CORE = ROOT / 'source/app/src/main/cpp/targets/systemui'
+CORE = test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/systemui'
 PKG = 'local.hyperceiler.ambientreloadprobe'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 p = argparse.ArgumentParser()
@@ -54,7 +59,7 @@ with zipfile.ZipFile(b/'resources.apk') as z, zipfile.ZipFile(b/'unaligned.apk',
         (NDK.parent/'sysroot/usr/lib/aarch64-linux-android/libc++_shared.so','lib/arm64-v8a/libc++_shared.so')]:
         w.write(f, name, compress_type=zipfile.ZIP_DEFLATED)
 run([BT/'zipalign', '-f', '-P', '16', '4', b/'unaligned.apk', b/'aligned.apk'])
-run([BT/'apksigner', 'sign', '--ks', ROOT/'emulation/native-probe/build/test-only.keystore',
+run([BT/'apksigner', 'sign', '--ks', test_paths.TEST_DATA_ROOT / 'emulation/native-probe/build/test-only.keystore',
      '--ks-key-alias', 'nativeprobe', '--ks-pass', 'pass:android', '--key-pass', 'pass:android',
      '--out', b/'probe.apk', b/'aligned.apk'])
 run([BT/'apksigner', 'verify', '--verbose', b/'probe.apk'])

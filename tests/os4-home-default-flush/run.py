@@ -4,11 +4,15 @@ The final FRB producer boundary is captured; this is not SQLite persistence.
 """
 import argparse,hashlib,json,os,resource,subprocess,sys,time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3];HERE=Path(__file__).resolve().parent
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
+ROOT=test_paths.TEST_DATA_ROOT;HERE=Path(__file__).resolve().parent
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
 CC=ARM/'usr/bin/aarch64-linux-gnu-g++-13';QEMU=ARM/'usr/bin/qemu-aarch64-static'
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 FUNCTIONS=[0x8dd2dc,0x8991e8,0x898fa0,0x898c2c,0xaa8cf4,0x8af730,0x8b062c,0xaa9118,0xaa9194,0xaa9444,0x8f8990,
  0x19553c8,0x19559f4,0xaef6b0,0xaef838,0xaeebd0,0x8e0b24,0x8f6f24,0xa8cd30,0xa8dbf8,0x8fda88,
  0x99a79c,0x18525f8,0x1852c34,0x18523e8,0x185213c,0x8d4658,0x8d470c]
@@ -24,8 +28,8 @@ def main():
  resource.setrlimit(resource.RLIMIT_CORE,(0,0))
  ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
  inputs=[*sorted(p for p in HERE.iterdir()if p.suffix in ('.py','.cpp','.h','.S')),
- ROOT/'source/tests/hyos-entry/extract_runtime_guard.py',ROOT/'source/tests/home-layout-native/fixture_symbols.py',ROM,CC,QEMU,
- ROOT/'acceptance/weather-port-next/dart-consumer/official-dart-3.10.1/runtime_vm_class_id.h',ROOT/'acceptance/weather-port-next/dart-consumer/official-dart-3.10.1/runtime_vm_object_store.h']
+ test_paths.SOURCE_ROOT / 'tests/hyos-entry/extract_runtime_guard.py',test_paths.SOURCE_ROOT / 'tests/home-layout-native/fixture_symbols.py',ROM,CC,QEMU,
+ test_paths.TEST_DATA_ROOT / 'acceptance/weather-port-next/dart-consumer/official-dart-3.10.1/runtime_vm_class_id.h',test_paths.TEST_DATA_ROOT / 'acceptance/weather-port-next/dart-consumer/official-dart-3.10.1/runtime_vm_object_store.h']
  before={str(p):sha(p)for p in inputs};report={'passed':False,'kind':'ORIGINAL_ARM_DEFAULT_INVALID_POSITION_FLUSH','device_status':'NOT_TESTED','inputs_before':before,'commands':[],'checks':[],'mutations':[]}
  env=dict(os.environ,LD_LIBRARY_PATH=str(ARM/'usr/lib/x86_64-linux-gnu'),PYTHONDONTWRITEBYTECODE='1');env.pop('TRACE_ADAPTER',None)
  def run(cmd,name,timeout=180):

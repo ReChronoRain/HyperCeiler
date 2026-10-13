@@ -17,6 +17,10 @@ import subprocess
 import sys
 import zipfile
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[2]
 SPEC = importlib.util.spec_from_file_location(
@@ -33,7 +37,7 @@ def sha(data):
 
 def source(path):
     data = path.read_bytes()
-    return {"path": str(path.relative_to(ROOT)), "sha256": sha(data)}
+    return {"path": str(test_paths.report_path(path, ROOT)), "sha256": sha(data)}
 
 
 def uncomment(text):
@@ -222,10 +226,11 @@ def render(report):
 
 
 def audit(project, objdump):
-    out = project / "acceptance"
+    out = project / 'acceptance'
+    rom_root = test_paths.configured_path('HYPERCEILER_ROM_ROOT', project / 'firmware')
     evidence = out / "native-evidence"
     evidence.mkdir(parents=True, exist_ok=True)
-    inventory = json.loads((project / "firmware/component-inventory.json").read_text())
+    inventory = json.loads((rom_root / 'component-inventory.json').read_text())
     by_package = {x["package"]: x for x in inventory if "package" in x}
     applications, libraries, exports = [], [], {}
     app_specs = [("com.miui.home", "home", ["libapp.so", "libapp_launcher.so"]),
@@ -233,7 +238,7 @@ def audit(project, objdump):
                  ("com.miui.weather2", "weather", ["libapp.so", "libweather_app.so"])]
     for package, tag, libs in app_specs:
         entry = by_package[package]
-        apk = project / "firmware" / entry["path"]
+        apk = rom_root / entry["path"]
         actual_hash = sha(apk.read_bytes())
         if actual_hash != entry["sha256"]:
             raise ValueError(f"APK differs from verified partition inventory: {apk}")
@@ -246,7 +251,7 @@ def audit(project, objdump):
                                  "native_entries": sorted(x for x in names if x.startswith("lib/") and x.endswith(".so"))})
             for lib in libs:
                 archived = archive.read("lib/arm64-v8a/" + lib)
-                target = (project / "firmware/launcher-native/lib/arm64-v8a" / lib
+                target = (rom_root / 'launcher-native/lib/arm64-v8a' / lib
                           if tag == "home" else evidence / f"{tag}-{lib}")
                 if tag != "home" and not target.exists():
                     target.write_bytes(archived)
@@ -282,7 +287,7 @@ def audit(project, objdump):
         row.update(status="legacy_java_without_native_port", native_candidates=[],
                    assessment="The supplied Weather APK has no DEX. The legacy hook uses Java/DexKit targets, and current native injection is Home-only. Exported renderer APIs do not establish a corresponding preference/feature hook.")
 
-    home_image = project / "firmware/launcher-native/lib/arm64-v8a/libapp.so"
+    home_image = rom_root / 'launcher-native/lib/arm64-v8a/libapp.so'
     symbols = ELF.symbols(home_image)
     candidates = []
     candidate_specs = [
@@ -379,7 +384,7 @@ def audit(project, objdump):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--project", type=Path, default=ROOT.parent)
+    parser.add_argument("--project", type=Path, default=test_paths.TEST_DATA_ROOT)
     parser.add_argument("--objdump", type=Path, required=True)
     args = parser.parse_args()
     report = audit(args.project.resolve(), args.objdump.resolve())

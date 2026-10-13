@@ -2,16 +2,20 @@
 """Emit exact pinned engine/libc guards for the early two-page lifetime observer."""
 import argparse,hashlib,importlib.util,json,struct,sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
 SOURCE=Path(__file__).resolve().parents[2]
-ROOT=SOURCE.parent
+ROOT=test_paths.TEST_DATA_ROOT
 OUT=SOURCE/'app/src/main/cpp/targets/weather/weather_card_lifetime_guard.generated.h'
 SHA=lambda b:hashlib.sha256(b).hexdigest()
 
 def main():
  p=argparse.ArgumentParser();p.add_argument('--check',action='store_true');p.add_argument('--manifest',type=Path);a=p.parse_args()
- helper=ROOT/'acceptance/weather-card-next/guard-v4/extract.py';spec=importlib.util.spec_from_file_location('frozen',helper);g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
- paths={'Flutter':ROOT/'firmware/components/system_ext/lib64/libhyper_os_flutter.so','Libc':ROOT/'acceptance/weather-card-next/page-lifetime-next/libc.so'}
+ helper=test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/guard-v4/extract.py';spec=importlib.util.spec_from_file_location('frozen',helper);g=importlib.util.module_from_spec(spec);spec.loader.exec_module(g)
+ paths={'Flutter':test_paths.ROM_ROOT / 'components/system_ext/lib64/libhyper_os_flutter.so','Libc':test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/page-lifetime-next/libc.so'}
  shas={'Flutter':g.FLUTTER_SHA,'Libc':'b963b539545b64aa8fbcaed3228d04bcb6466bfd47055aa16e4ccdcadfdc461e'}
  elfs={k:g.Elf(v.read_bytes(),shas[k]) for k,v in paths.items()}
  fs=[(0,832),(0x10aedb0,84),(0xea430c,96),(0x10aee04,168),(0x10aeeac,2076),(0x10af6c8,292),(0x10b05e0,16)]
@@ -42,7 +46,7 @@ def main():
  if a.check:assert OUT.read_text()==text
  else:OUT.write_text(text)
  if a.manifest:
-  assert not a.manifest.exists();a.manifest.parent.mkdir(parents=True,exist_ok=True);a.manifest.write_text(json.dumps(dict(passed=True,header_sha256=SHA(text.encode()),inputs={str(v.relative_to(ROOT)):shas[k] for k,v in paths.items()},helper_sha256=SHA(helper.read_bytes()),script_sha256=SHA(Path(__file__).read_bytes()),guards=records),indent=2)+'\n')
+  assert not a.manifest.exists();a.manifest.parent.mkdir(parents=True,exist_ok=True);a.manifest.write_text(json.dumps(dict(passed=True,header_sha256=SHA(text.encode()),inputs={str(test_paths.report_path(v, ROOT)):shas[k] for k,v in paths.items()},helper_sha256=SHA(helper.read_bytes()),script_sha256=SHA(Path(__file__).read_bytes()),guards=records),indent=2)+'\n')
  print(SHA(text.encode()))
 
 if __name__=='__main__':main()

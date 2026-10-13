@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];CACHE=Path('/home/hgn284/.cache/hyperceiler-build');JAVA=CACHE/'jdk-25.0.4.1/bin';KH=ROOT/'tools-cache/kotlin-2.4.10/kotlinc';SOURCE=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundRendererOS4.kt';CONFIG=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/utils/hookapi/systemui/controlcenter/media/MediaViewColorConfig.kt';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+HERE=Path(__file__).resolve().parent;ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;JAVA=test_paths.JAVA_HOME / 'bin';KH=test_paths.KOTLIN_HOME;SOURCE=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundRendererOS4.kt';CONFIG=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/utils/hookapi/systemui/controlcenter/media/MediaViewColorConfig.kt';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 MUTANTS={
  'wrong_palette_style':('newInstance(wallpaper, true, 6)','newInstance(wallpaper, true, 5)'),
  'drop_four_palette_size':('entries.size != 13 || entries.any { it !is Int }','entries.any { it !is Int }'),
@@ -13,7 +18,7 @@ MUTANTS={
  'missing_cross_user_fallback':('acquireIcon.invoke(null, context, mediaData)','null'),
  'mutable_output_published':('val background = processed.copy(Bitmap.Config.ARGB_8888, false)','val background = processed.copy(Bitmap.Config.ARGB_8888, true)'),
 }
-def inputs():return{str(p.relative_to(ROOT)):sha(p)for p in [SOURCE,CONFIG,Path(__file__),*sorted((HERE/'fixtures').rglob('*'))]if p.is_file()}
+def inputs():return{str(test_paths.report_path(p, ROOT)):sha(p)for p in [SOURCE,CONFIG,Path(__file__),*sorted((HERE/'fixtures').rglob('*'))]if p.is_file()}
 def run(out,mutation=None):
  out.mkdir(parents=True,exist_ok=False);before=inputs();body=SOURCE.read_text();commands=[]
  if mutation:

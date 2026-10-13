@@ -4,17 +4,21 @@ Only the external services, allocation, logging, and policy edges are adapters.
 """
 import argparse,hashlib,json,os,subprocess,sys,time
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3];HERE=Path(__file__).resolve().parent
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
+ROOT=test_paths.TEST_DATA_ROOT;HERE=Path(__file__).resolve().parent
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
 CC=ARM/'usr/bin/aarch64-linux-gnu-g++-13';QEMU=ARM/'usr/bin/qemu-aarch64-static'
-ROM=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+ROM=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 FUNCTIONS=[0x8dd2dc,0x8991e8,0x898fa0,0x898c2c,0xaa8cf4,0x8af730,0x8b062c,0xaa9118,0xaa9194,0xaa9444,0x8f8990]
 MUTANTS={'ignore-x-bound':'actual occupancy rejects overwide or overtall fallback','force-no-fallback':'actual force flag returns fallback even empty region list','skip-maml-clamp':'original MAML ctor uses phone span policy','lose-original-span':'original MAML original spans retained independent of display span'}
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  ap=argparse.ArgumentParser();ap.add_argument('--output',type=Path,required=True);a=ap.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
- inputs=[*sorted(HERE.glob('*.py')),*sorted(HERE.glob('*.cpp')),*sorted(HERE.glob('*.S')),*sorted(HERE.glob('*.h')),ROOT/'source/tests/hyos-entry/extract_runtime_guard.py',ROOT/'source/tests/home-layout-native/fixture_symbols.py',ROM,CC,QEMU]
+ inputs=[*sorted(HERE.glob('*.py')),*sorted(HERE.glob('*.cpp')),*sorted(HERE.glob('*.S')),*sorted(HERE.glob('*.h')),test_paths.SOURCE_ROOT / 'tests/hyos-entry/extract_runtime_guard.py',test_paths.SOURCE_ROOT / 'tests/home-layout-native/fixture_symbols.py',ROM,CC,QEMU]
  before={str(p):sha(p)for p in inputs};report={'passed':False,'device_status':'NOT_TESTED','inputs_before':before,'commands':[],'checks':[],'mutations':[]}
  env=dict(os.environ,LD_LIBRARY_PATH=str(ARM/'usr/lib/x86_64-linux-gnu'),PYTHONDONTWRITEBYTECODE='1')
  def run(cmd,name,timeout=90):

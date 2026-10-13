@@ -13,13 +13,17 @@ import struct
 import subprocess
 import sys
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 sys.dont_write_bytecode = True
-ROOT = Path(__file__).resolve().parents[3]
-HEADER = ROOT / 'source/app/src/main/cpp/targets/weather/weather_card_guard.generated.h'
-V4 = ROOT / 'acceptance/weather-card-next/guard-v4'
-SEMANTICS = ROOT / 'acceptance/weather-card-next/evidence-v1/report.json'
-PARSER = ROOT / 'acceptance/weather-port-next/dart-consumer/snapshot_probe.py'
-ELF_READER = ROOT / 'source/tests/weather-binding/generate.py'
+ROOT = test_paths.TEST_DATA_ROOT
+HEADER = test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/weather/weather_card_guard.generated.h'
+V4 = test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/guard-v4'
+SEMANTICS = test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/evidence-v1/report.json'
+PARSER = test_paths.TEST_DATA_ROOT / 'acceptance/weather-port-next/dart-consumer/snapshot_probe.py'
+ELF_READER = test_paths.SOURCE_ROOT / 'tests/weather-binding/generate.py'
 SHA = lambda b: hashlib.sha256(b).hexdigest()
 
 
@@ -37,8 +41,8 @@ def generate():
     semantics = json.loads(SEMANTICS.read_text())
     prior = json.loads((V4 / 'evidence-final/report.json').read_text())
     assert prior['passed'] and prior['range_count'] == 11
-    paths = {'Dart': ROOT / 'acceptance/native-evidence/weather-libapp.so',
-             'Flutter': ROOT / 'firmware/components/system_ext/lib64/libhyper_os_flutter.so'}
+    paths = {'Dart': test_paths.TEST_DATA_ROOT / 'acceptance/native-evidence/weather-libapp.so',
+             'Flutter': test_paths.ROM_ROOT / 'components/system_ext/lib64/libhyper_os_flutter.so'}
     hashes = {'Dart': v4.DART_SHA, 'Flutter': v4.FLUTTER_SHA}
     elves = {name: reader.Elf(path, hashes[name]) for name, path in paths.items()}
     dart = v4.Elf(elves['Dart'].data, hashes['Dart'])

@@ -8,23 +8,28 @@ from pathlib import Path
 import subprocess
 import tempfile
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 BASE = Path(__file__).resolve().parent
 SOURCE = BASE.parents[1]
-ROOT = SOURCE.parent
-CACHE = Path('/home/hgn284/.cache/hyperceiler-build')
-JAVA = CACHE / 'jdk-25.0.4.1/bin'
-KOTLIN = ROOT / 'tools-cache/kotlin-2.4.10/kotlinc'
+ROOT = test_paths.TEST_DATA_ROOT
+CACHE = test_paths.BUILD_CACHE
+JAVA = test_paths.JAVA_HOME / 'bin'
+KOTLIN = test_paths.KOTLIN_HOME
 RULE = SOURCE / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/lockscreen/HideLockScreenHint.kt'
 DEPS = [CACHE / 'changed-hooks-compile' / name for name in [
     'hook-xposed-102-1.3.0.jar', 'core-1.3.0.jar', 'api-102.0.0.jar']]
-DEPS += [KOTLIN / 'lib/kotlin-stdlib.jar', CACHE / 'android-sdk/platforms/android-37.0/android.jar']
+DEPS += [KOTLIN / 'lib/kotlin-stdlib.jar', test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']
 sha = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def run(output):
     output.mkdir(parents=True, exist_ok=False)
     sources = [RULE, Path(__file__), *sorted((BASE / 'fixtures').rglob('*.java'))]
-    before = {str(path.relative_to(ROOT)): sha(path) for path in sources}
+    before = {str(test_paths.report_path(path, ROOT)): sha(path) for path in sources}
     checks = []
     commands = []
     with tempfile.TemporaryDirectory(prefix='hc-hint-decline-') as directory:
@@ -58,7 +63,7 @@ def run(output):
             (output / (name + '-execution.txt')).write_text(process.stdout + process.stderr)
             passed = process.returncode != 0 and 'No fingerprint hook on OS 4.0' in process.stderr if mutation else process.returncode == 0 and 'PASS 9' in process.stdout
             checks.append(dict(name=name, passed=passed, returncode=process.returncode))
-    after = {str(path.relative_to(ROOT)): sha(path) for path in sources}
+    after = {str(test_paths.report_path(path, ROOT)): sha(path) for path in sources}
     checks.append(dict(name='Source files unchanged throughout', passed=before == after))
     report = dict(passed=all(row['passed'] for row in checks), checks=checks,
         inputs_before=before, inputs_after=after, dependencies={str(p): sha(p) for p in DEPS},

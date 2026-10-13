@@ -4,8 +4,8 @@
 python3 tests/os4-init-prefs/run.py
 python3 tests/os4-init-prefs/run_native.py
 python3 tests/native-home-dock-listener/run.py \
-  --kotlin-home /mnt/e/codex/hyperceiler-os4/tools-cache/kotlin-2.4.10/kotlinc \
-  --java /home/hgn284/.cache/hyperceiler-build/jdk-25.0.4.1/bin/java
+  --kotlin-home "$KOTLIN_HOME" \
+  --java "$JAVA_HOME/bin/java"
 ```
 
 The Java suite compiles the **unmodified full production source files**

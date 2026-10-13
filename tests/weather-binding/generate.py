@@ -2,8 +2,13 @@
 """Generate every pinned guard byte from the actual four ROM ELFs; standard library only."""
 from pathlib import Path
 import argparse,hashlib,json,struct
-ROOT=Path(__file__).resolve().parents[3]
-HEADER=ROOT/'source/app/src/main/cpp/targets/weather/weather_guard.generated.h'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT
+HEADER=test_paths.SOURCE_ROOT / 'app/src/main/cpp/targets/weather/weather_guard.generated.h'
 sha=lambda b:hashlib.sha256(b).hexdigest()
 class Elf:
  def __init__(self,path,expected):

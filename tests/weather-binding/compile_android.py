@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,subprocess
-p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);b=Path(__file__).resolve().parent;src=b.parents[1];llvm=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin');test=a.output/'compile.cpp';test.write_text('''#include "targets/weather/weather_binding.h"
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True);b=Path(__file__).resolve().parent;src=b.parents[1];llvm=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin';test=a.output/'compile.cpp';test.write_text('''#include "targets/weather/weather_binding.h"
 using Read = bool(*)(uintptr_t,std::span<std::byte>);
 extern "C" bool weather_test_resolve(uintptr_t base,Read read,weather_binding::Binding& out){return weather_binding::resolve(base,read,out);}
 extern "C" bool weather_test_verify(uintptr_t base,Read read){return weather_binding::verify_weather(base,read);}

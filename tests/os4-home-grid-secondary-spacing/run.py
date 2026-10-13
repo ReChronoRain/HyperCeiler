@@ -9,11 +9,16 @@ import struct
 import subprocess
 from pathlib import Path
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 W = Path(__file__).resolve().parent
-R = W.parents[2]
-ARM = Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-OBJ = Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump')
-ROM = R / 'firmware/launcher-native/lib/arm64-v8a/libapp.so'
+R = test_paths.TEST_DATA_ROOT
+ARM = test_paths.BUILD_CACHE / 'arm64-emulation/root'
+OBJ = test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump'
+ROM = test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp.so'
 PIN = 'a37339e922e0dbebda37d0e10aba599bdec449a0bb8d170305b6cb7d5cfec992'
 sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
 
@@ -26,14 +31,14 @@ def main():
     out = args.output.resolve()
     out.mkdir(exist_ok=False, parents=True)
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
-    catalog_path = R / 'acceptance/home-grid-next/dart-v5/extraction.json'
+    catalog_path = test_paths.TEST_DATA_ROOT / 'acceptance/home-grid-next/dart-v5/extraction.json'
     inputs = [Path(__file__).resolve(), W / 'fixture.cpp', W / 'probe.S', catalog_path]
     report = dict(passed=False, device_status='NOT_TESTED', artifact_runtime_approval=False,
-                  inputs_before={str(p.relative_to(R)): sha(p) for p in inputs}, runs=[])
+                  inputs_before={str(test_paths.report_path(p, R)): sha(p) for p in inputs}, runs=[])
     save = lambda: (out / 'report.json').write_text(json.dumps(report, indent=2) + '\n')
     save()
     assert sha(ROM) == PIN
-    report['rom'] = dict(path=str(ROM.relative_to(R)), sha256=PIN)
+    report['rom'] = dict(path=str(test_paths.report_path(ROM, R)), sha256=PIN)
     data = ROM.read_bytes()
     phoff = struct.unpack_from('<Q', data, 32)[0]
     entsize, count = struct.unpack_from('<HH', data, 54)
@@ -106,7 +111,7 @@ def main():
             'wrong-final-sum': 'final field sum uses both current Rx values',
         }.items():
             run(name, command + [name], 3, witness)
-    report['inputs_after'] = {str(p.relative_to(R)): sha(p) for p in inputs}
+    report['inputs_after'] = {str(test_paths.report_path(p, R)): sha(p) for p in inputs}
     report['inputs_unchanged'] = report['inputs_before'] == report['inputs_after']
     assert report['inputs_unchanged'] and sha(ROM) == PIN
     report['binary_sha256'] = sha(binary)

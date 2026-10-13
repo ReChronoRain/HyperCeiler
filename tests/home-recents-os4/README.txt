@@ -1,12 +1,13 @@
 OS4 Home Recents animation multiplier: component and joint reproduction
 
-Run from /mnt/e/codex/hyperceiler-os4, with a NEW output directory each time:
+Run from the repository root, with a NEW output directory each time.
+See tests/PORTABILITY.md for toolchain and external input configuration.
 
-python3 -B source/tests/home-recents-os4/generate.py --check --output NEW_GUARD_DIR
-python3 -B source/tests/home-recents-os4/run.py --output NEW_ARM_DIR
-python3 -B source/tests/home-recents-os4/run_once.py --output NEW_ONCE_DIR
-python3 -B source/tests/home-recents-os4/run_installer.py --output NEW_INSTALLER_DIR
-python3 -B source/tests/home-recents-os4/run_joint.py --output NEW_JOINT_DIR
+python3 -B tests/home-recents-os4/generate.py --check --output NEW_GUARD_DIR
+python3 -B tests/home-recents-os4/run.py --output NEW_ARM_DIR
+python3 -B tests/home-recents-os4/run_once.py --output NEW_ONCE_DIR
+python3 -B tests/home-recents-os4/run_installer.py --output NEW_INSTALLER_DIR
+python3 -B tests/home-recents-os4/run_joint.py --output NEW_JOINT_DIR
 
 The generator reads the exact supplied ROM ELF, not guessed symbol offsets. It
 binds 85 complete immutable spans and 58 relocated pointers, including all 53

@@ -1,21 +1,25 @@
 #!/usr/bin/env python3
 import hashlib,importlib.util,json,subprocess,sys,zipfile
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-ROOT=Path(__file__).resolve().parents[3]
+ROOT=test_paths.TEST_DATA_ROOT
 import argparse
 a=argparse.ArgumentParser();a.add_argument('--output',type=Path,required=True);OUT=a.parse_args().output
 OUT.mkdir(parents=True,exist_ok=False)
-APK=ROOT/'firmware/components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk'
-CACHE=Path.home()/'.cache/hyperceiler-build'
-MODULE=ROOT/'tools/dex_inventory.py'
+APK=test_paths.ROM_ROOT / 'components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk'
+CACHE=test_paths.BUILD_CACHE
+MODULE=test_paths.TEST_DATA_ROOT / 'tools/dex_inventory.py'
 sp=importlib.util.spec_from_file_location('dex_fresh',MODULE);dex=importlib.util.module_from_spec(sp);sp.loader.exec_module(dex)
 sha=lambda b:hashlib.sha256(b).hexdigest()
 PREFIXES=('com.android.systemui.keyguard.KeyguardIndicationRotateTextViewController','com.android.systemui.util.ViewController')
 EXACT={'com.android.systemui.keyguard.KeyguardIndication','com.android.systemui.statusbar.KeyguardIndicationController','com.android.systemui.statusbar.phone.KeyguardIndicationTextView','com.android.systemui.util.ViewController'}
-lib=CACHE/'android-sdk/cmdline-tools/latest/lib/external'
+lib=test_paths.ANDROID_HOME / 'cmdline-tools/latest/lib/external'
 jars=sorted(p for pat in ('**/smali-*.jar','**/guava-*.jar','**/failureaccess-*.jar','**/jcommander-*.jar') for p in lib.glob(pat))
-cp=':'.join(map(str,jars));java=CACHE/'jdk-25.0.4.1/bin/java'
+cp=':'.join(map(str,jars));java=test_paths.JAVA_HOME / 'bin/java'
 records=[];selected=set();allclasses={};commands=[]
 with zipfile.ZipFile(APK) as z:
  for entry in z.namelist():
@@ -29,12 +33,12 @@ with zipfile.ZipFile(APK) as z:
    commands.append(dict(argv=command,exit_code=p.returncode,stdout=p.stdout.decode(),stderr=p.stderr.decode()))
   records.append(rec)
 assert not EXACT-selected,sorted(EXACT-selected)
-AAPT=CACHE/'android-sdk/build-tools/37.0.0/aapt2'
+AAPT=test_paths.ANDROID_HOME / 'build-tools/37.0.0/aapt2'
 for member in ():
  p=subprocess.run([str(AAPT),'dump','xmltree',str(APK),'--file',member],capture_output=True);assert p.returncode==0,p.stdout+p.stderr
  (OUT/(Path(member).name+'.txt')).write_bytes(p.stdout)
  commands.append(dict(argv=[str(AAPT),'dump','xmltree',str(APK),'--file',member],exit_code=p.returncode))
-source=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/lockscreen/HideLockScreenHint.kt'
+source=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/lockscreen/HideLockScreenHint.kt'
 report=dict(device_status='NOT_TESTED',apk=str(APK),apk_sha256=sha(APK.read_bytes()),source={},
  extractor_sha256=sha(Path(__file__).read_bytes()),parser_sha256=sha(MODULE.read_bytes()),dependencies={str(p):sha(p.read_bytes())for p in jars+[AAPT,java]},
  complete_selected_class_count=len(selected),missing_requested_classes=sorted(EXACT-selected),dex=records,commands=commands,files={str(p.relative_to(OUT)):sha(p.read_bytes())for p in sorted((OUT/'smali').rglob('*.smali'))},

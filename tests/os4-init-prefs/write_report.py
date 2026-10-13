@@ -6,9 +6,14 @@ import json
 from pathlib import Path
 import re
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 ROOT=Path(__file__).resolve().parents[2]
-PROJECT=ROOT.parent
-OUT=PROJECT/'acceptance'
+PROJECT=test_paths.TEST_DATA_ROOT
+OUT=test_paths.TEST_DATA_ROOT / 'acceptance'
 def digest(path): return hashlib.sha256(path.read_bytes()).hexdigest()
 def record(path): return {'path':str(path),'sha256':digest(path)}
 def result(name, pattern):
@@ -48,7 +53,7 @@ report={
  'affected_home_preferences':[{'key':key,'device_status':'NOT_TESTED','offline_evidence':'pending bootstrap recovery reads current preferences and passes expected values to the host JNI recorder'} for key in [
   'home_other_high_models','home_other_disable_prestart','home_dock_bg_custom_enable','home_dock_add_blur']],
  'commands':['python3 tests/os4-init-prefs/run.py','python3 tests/os4-init-prefs/run_native.py',
-  'python3 tests/os4-init-prefs/run.py --source /mnt/e/codex/hyperceiler-os4/acceptance/os4-init-prefs-baseline/XposedInitEntry.java'],
+  'python3 tests/os4-init-prefs/run.py --source '+str(baseline)],
  'test_sources':[record(p) for p in sorted((ROOT/'tests/os4-init-prefs').iterdir()) if p.is_file()],
  'limits':[
   'No APK was rebuilt by this subtask; no device, real LSPosed injection or long-run OS4 stability was tested.',

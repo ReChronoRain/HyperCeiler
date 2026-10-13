@@ -2,7 +2,11 @@
 """Temporary policy only on this project's emulator; always restore exact previous setting."""
 from pathlib import Path
 import argparse,hashlib,json,subprocess,sys
-HERE=Path(__file__).resolve().parent;ADB=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/platform-tools/adb');SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+import hyperceiler_test_paths as test_paths
+
+HERE=Path(__file__).resolve().parent;ADB=test_paths.ANDROID_HOME / 'platform-tools/adb';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--single-loader',action='store_true');p.add_argument('--oem-media-init',action='store_true');a=p.parse_args();out=a.output.resolve();assert not out.exists();commands=[]
 def adb(*x):
  cmd=[str(ADB),'-s',SERIAL,*x];commands.append(cmd);r=subprocess.run(cmd,capture_output=True,text=True,timeout=30);assert r.returncode==0,(cmd,r.stdout,r.stderr);return r.stdout.strip()

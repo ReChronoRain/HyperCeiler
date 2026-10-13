@@ -8,13 +8,18 @@ from pathlib import Path
 import re
 import subprocess
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+
 HERE=Path(__file__).resolve().parent
-ROOT=HERE.parents[2]
-CPP=ROOT/'source/app/src/main/cpp'
+ROOT=test_paths.TEST_DATA_ROOT
+CPP=test_paths.SOURCE_ROOT / 'app/src/main/cpp'
 PROD=CPP/'targets/home'
-ARM=Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
-NDK=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin')
-RUST=ROOT/'firmware/launcher-native/lib/arm64-v8a/libapp_launcher.so'
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
+NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin'
+RUST=test_paths.ROM_ROOT / 'launcher-native/lib/arm64-v8a/libapp_launcher.so'
 DART=RUST.with_name('libapp.so')
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 

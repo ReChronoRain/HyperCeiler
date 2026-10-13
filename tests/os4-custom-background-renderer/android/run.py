@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,subprocess,time
-ROOT=Path(__file__).resolve().parents[4];ADB=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/platform-tools/adb');PKG='local.hyperceiler.backgroundprobe';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;ADB=test_paths.ANDROID_HOME / 'platform-tools/adb';PKG='local.hyperceiler.backgroundprobe';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--build',required=True,type=Path);p.add_argument('--output',required=True,type=Path);p.add_argument('--single-loader',action='store_true');p.add_argument('--oem-media-init',action='store_true');a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False);build=json.loads((a.build/'report.json').read_text());assert build['passed']and sha(a.build/'probe.apk')==build['apk_sha256'];commands=[]
 def adb(*args,check=True):
  cmd=[str(ADB),'-s',SERIAL,*map(str,args)];commands.append(cmd);r=subprocess.run(cmd,capture_output=True,timeout=90)
@@ -19,4 +24,4 @@ if data:
   assert '/'not in f and f.endswith('.png');(out/f).write_bytes(adb('exec-out','run-as',PKG,'cat','files/run/'+f).stdout)
  report={'passed':d['passed'],'android_check_count':d['check_count'],'failed_checks':[c for c in d['checks']if not c['passed']],'build':{'path':str((a.build/'report.json').resolve()),'sha256':sha(a.build/'report.json')},'commands':commands,'scope':d['scope'],'device_status':'NOT_TESTED','oem_media_init':d['oem_media_init'],'single_color_loader':d['single_color_loader'],'drawable_sha256':d['drawable_sha256'],'source_sha256':d['source_sha256'],'ota_sha256':d['ota_sha256'],'color_config_sha256':d['color_config_sha256']}
 else:report={'passed':False,'failure':'No app report; inspect preserved logcat/start logs','commands':commands,'device_status':'NOT_TESTED'}
-report['runner']={'path':str(Path(__file__).resolve().relative_to(ROOT)),'sha256':sha(Path(__file__))};(out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));raise SystemExit(0 if report['passed']else 1)
+report['runner']={'path':str(test_paths.report_path(Path(__file__).resolve(), ROOT)),'sha256':sha(Path(__file__))};(out/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps(report,indent=2));raise SystemExit(0 if report['passed']else 1)

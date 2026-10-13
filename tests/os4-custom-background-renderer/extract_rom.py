@@ -2,14 +2,18 @@
 """Read-only fresh OTA DEX/native ABI extraction; no proprietary code execution."""
 from pathlib import Path
 import argparse,hashlib,importlib.util,json,re,struct,subprocess,sys,zipfile
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];CACHE=Path('/home/hgn284/.cache/hyperceiler-build');APK=ROOT/'firmware/components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk';NATIVE=Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libMiMainColor.so');OBJDUMP=CACHE/'android-sdk/ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump'
+HERE=Path(__file__).resolve().parent;ROOT=test_paths.TEST_DATA_ROOT;CACHE=test_paths.BUILD_CACHE;APK=test_paths.ROM_ROOT / 'components/system_ext/priv-app/MiuiSystemUI/MiuiSystemUI.apk';NATIVE=test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libMiMainColor.so';OBJDUMP=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-objdump'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 def module(name,path):
  s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
-DEX=module('ambient_dex',ROOT/'tools/dex_inventory.py');ELF=module('ambient_elf',ROOT/'tools/verify-test4-deliverables.py')
+DEX=module('ambient_dex',test_paths.TEST_DATA_ROOT / 'tools/dex_inventory.py');ELF=module('ambient_elf',test_paths.TEST_DATA_ROOT / 'tools/verify-test4-deliverables.py')
 p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);a=p.parse_args();out=a.output.resolve();out.mkdir(parents=True,exist_ok=False)
-lib=CACHE/'android-sdk/cmdline-tools/latest/lib/external';cp=':'.join(str(p)for pattern in ['**/smali-*.jar','**/guava-*.jar','**/failureaccess-*.jar','**/jcommander-*.jar']for p in lib.glob(pattern))
+lib=test_paths.ANDROID_HOME / 'cmdline-tools/latest/lib/external';cp=':'.join(str(p)for pattern in ['**/smali-*.jar','**/guava-*.jar','**/failureaccess-*.jar','**/jcommander-*.jar']for p in lib.glob(pattern))
 exact={'com.android.systemui.monet.ColorScheme','com.android.systemui.monet.TonalPalette','com.android.systemui.monet.Style','com.miui.utils.DrawableUtils','miuix.mipalette.MiPalette','com.android.systemui.media.controls.shared.model.MediaData','com.android.systemui.statusbar.notification.utils.NotificationUtil'}
 found={};commands=[]
 with zipfile.ZipFile(APK)as z:
@@ -18,7 +22,7 @@ with zipfile.ZipFile(APK)as z:
   raw=z.read(n);classes=DEX.dex_classes(raw);selected=sorted(c for c in classes if c in exact or c.startswith(('com.android.systemui.monet.ColorScheme$', 'com.android.systemui.monet.TonalPalette$')))
   found.update({c:{'dex':n,'dex_sha256':hashlib.sha256(raw).hexdigest(),'members':classes[c]}for c in selected})
   if not selected:continue
-  cmd=[str(CACHE/'jdk-25.0.4.1/bin/java'),'-cp',cp,'com.android.tools.smali.baksmali.Main','disassemble','--classes',','.join('L'+c.replace('.','/')+';'for c in selected),'-o',str(out/'smali'),str(APK)+'/'+n];r=subprocess.run(cmd,capture_output=True,text=True);(out/(n+'.log')).write_text(r.stdout+r.stderr);assert r.returncode==0;commands.append(cmd)
+  cmd=[str(test_paths.JAVA_HOME / 'bin/java'),'-cp',cp,'com.android.tools.smali.baksmali.Main','disassemble','--classes',','.join('L'+c.replace('.','/')+';'for c in selected),'-o',str(out/'smali'),str(APK)+'/'+n];r=subprocess.run(cmd,capture_output=True,text=True);(out/(n+'.log')).write_text(r.stdout+r.stderr);assert r.returncode==0;commands.append(cmd)
 checks=[];methods=[]
 def check(n,b,d=None):checks.append({'name':n,'passed':bool(b),'detail':d})
 def cls(n):return(out/'smali'/Path(n.replace('.','/')+'.smali')).read_text()
@@ -41,6 +45,6 @@ check('cross-user app fallback retains original package/user and exception drawa
 check('media artwork field exact type immutable','.field public final artwork:Landroid/graphics/drawable/Icon;'in cls(M))
 for name in ['mNeutral1','mNeutral2','mAccent1','mAccent2']:
  check('four palette typed publication '+name,'.field public final '+name+':Lcom/android/systemui/monet/TonalPalette;'in cls(C) and 'ColorScheme;->'+name+':'in cl)
-source=ROOT/'source/library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundRendererOS4.kt'
-r={'passed':all(c['passed']for c in checks),'checks':checks,'check_count':len(checks),'apk':{'path':str(APK.relative_to(ROOT)),'sha256':sha(APK)},'found':found,'complete_methods':methods,'full_smali':{str(f.relative_to(ROOT)):sha(f)for f in sorted((out/'smali').rglob('*.smali'))},'commands':commands,'sources':{str(source.relative_to(ROOT/'source')):sha(source)},'runner':{'path':str(Path(__file__).relative_to(ROOT)),'sha256':sha(Path(__file__))},'limits':['Full selected method identities plus constructor style6/common palette publication reviewed; no exhaustive mathematical audit of every other libmonet variant.','Actual graphics/Monet execution is separately tested on the dedicated API37 emulator. No physical device PASS.','Renderer deliberately snapshots quiet static MAML content; shared fancy clone/tick is excluded.','Private Canvas snapshot replaces borrowed original converter use; no native MiPalette singleton or vendor algorithm is invoked.'],'device_status':'NOT_TESTED'}
+source=test_paths.SOURCE_ROOT / 'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/rules/systemui/controlcenter/media3/CustomBackgroundRendererOS4.kt'
+r={'passed':all(c['passed']for c in checks),'checks':checks,'check_count':len(checks),'apk':{'path':str(test_paths.report_path(APK, ROOT)),'sha256':sha(APK)},'found':found,'complete_methods':methods,'full_smali':{str(test_paths.report_path(f, ROOT)):sha(f)for f in sorted((out/'smali').rglob('*.smali'))},'commands':commands,'sources':{str(source.relative_to(test_paths.SOURCE_ROOT)):sha(source)},'runner':{'path':str(test_paths.report_path(Path(__file__), ROOT)),'sha256':sha(Path(__file__))},'limits':['Full selected method identities plus constructor style6/common palette publication reviewed; no exhaustive mathematical audit of every other libmonet variant.','Actual graphics/Monet execution is separately tested on the dedicated API37 emulator. No physical device PASS.','Renderer deliberately snapshots quiet static MAML content; shared fancy clone/tick is excluded.','Private Canvas snapshot replaces borrowed original converter use; no native MiPalette singleton or vendor algorithm is invoked.'],'device_status':'NOT_TESTED'}
 (out/'report.json').write_text(json.dumps(r,indent=2)+'\n');print({'passed':r['passed'],'checks':len(checks),'failed':[c['name']for c in checks if not c['passed']]});raise SystemExit(0 if r['passed']else 1)

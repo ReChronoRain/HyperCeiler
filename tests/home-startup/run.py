@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 """Compile actual startup owner/gateways, fault tests and source mutation controls."""
 import argparse, hashlib, json, os, pathlib, resource, subprocess
+
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 ROOT=pathlib.Path(__file__).resolve().parents[2]
 BASE=ROOT.parent
 CPP=ROOT/'app/src/main/cpp'
 TEST=ROOT/'tests/home-startup'
-ARM=pathlib.Path('/home/hgn284/.cache/hyperceiler-build/arm64-emulation/root')
+ARM=test_paths.BUILD_CACHE / 'arm64-emulation/root'
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=pathlib.Path,required=True)
@@ -19,7 +25,7 @@ def main():
         CPP/'targets/home/home_layout_hooks.cpp',CPP/'targets/home/tweaks/symtab.cpp',
         CPP/'targets/home/home_layout_config.h',CPP/'targets/home/home_layout_knobs.h',
         CPP/'nativehook/elf_image.h',CPP/'nativehook/nhk_base.h']
-    initial_hashes={str(p.relative_to(ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs if p.is_file()}
+    initial_hashes={str(test_paths.report_path(p, ROOT)):hashlib.sha256(p.read_bytes()).hexdigest() for p in inputs if p.is_file()}
     report['source_files']=initial_hashes
     image=BASE/'firmware/launcher-native/lib/arm64-v8a/libapp.so'
     report['rom_image_sha256']=hashlib.sha256(image.read_bytes()).hexdigest()

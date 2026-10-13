@@ -2,9 +2,14 @@
 """Compile complete production framework-status writer and bridge; Android/service fixtures."""
 from pathlib import Path
 import argparse, subprocess, tempfile, json, hashlib, re
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);p.add_argument('--manager-source',type=Path);a=p.parse_args()
 b=Path(__file__).resolve().parent;r=b.parents[1];a.output.mkdir(parents=True,exist_ok=True)
-j=Path('/home/hgn284/.cache/hyperceiler-build/jdk-25.0.4.1/bin')
+j=test_paths.JAVA_HOME / 'bin'
 manager=a.manager_source or r/'app/src/main/java/com/sevtinge/hyperceiler/utils/FrameworkStatusManager.java'
 prod=[manager,r/'library/common/src/main/java/com/sevtinge/hyperceiler/common/utils/PrefsBridge.java',r/'library/common/src/main/java/com/sevtinge/hyperceiler/common/utils/prefs/PrefType.java',r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook/base/FrameworkHookGate.java']
 stubs=[x for x in (r/'tests/dock-style-refresh/stubs').rglob('*.java') if x.name not in ('Context.java','ContentResolver.java','AndroidLog.java')]

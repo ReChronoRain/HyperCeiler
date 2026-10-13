@@ -2,11 +2,15 @@
 """Reproduce the exact OTA's self-owned algorithm relocations, never vendor bytes."""
 from pathlib import Path
 import argparse, hashlib, importlib.util, json, struct, sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 sys.dont_write_bytecode=True
 ROOT=Path(__file__).resolve().parents[2]
 FILE_SHA='652eb3fb8850b46a4df0865c1abf4f3ca5b0084d828dceb5ce547be86e1d1852'
-p=argparse.ArgumentParser();p.add_argument('--library',type=Path,default=Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libMiMainColor.so'));p.add_argument('--check',action='store_true');p.add_argument('--report',type=Path);a=p.parse_args()
-s=importlib.util.spec_from_file_location('elf_reader',ROOT.parent/'tools/verify-test4-deliverables.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
+p=argparse.ArgumentParser();p.add_argument('--library',type=Path,default=test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libMiMainColor.so');p.add_argument('--check',action='store_true');p.add_argument('--report',type=Path);a=p.parse_args()
+s=importlib.util.spec_from_file_location('elf_reader',test_paths.TEST_DATA_ROOT / 'tools/verify-test4-deliverables.py');m=importlib.util.module_from_spec(s);s.loader.exec_module(m)
 b=a.library.read_bytes();assert hashlib.sha256(b).hexdigest()==FILE_SHA;e=m.Elf(b);rows=[]
 for sec in e.sections:
  if sec[1]!=4:continue

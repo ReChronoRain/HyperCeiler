@@ -2,8 +2,13 @@
 """Run unchanged existing layout endpoint/idle-cache/atomic-reload tests with current production code."""
 from pathlib import Path
 import argparse,subprocess,tempfile,os,json,hashlib
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 p=argparse.ArgumentParser();p.add_argument('--output',required=True,type=Path);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=True)
-b=Path(__file__).resolve().parent;r=b.parents[1];j=Path(os.environ.get('JAVA_HOME','/home/hgn284/.cache/hyperceiler-build/jdk-25.0.4.1'))/'bin'
+b=Path(__file__).resolve().parent;r=b.parents[1];j=test_paths.JAVA_HOME/'bin'
 prod=[r/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'/f for f in ['rules/home/dock/HomeLayoutNativeEndpointOS4.java','provider/HomeLayoutPrefsSnapshot.java','base/FrameworkHookGate.java']]
 tests=['HomeLayoutNativeEndpointOS4Test','HomeLayoutIdleSnapshotTest','HomeLayoutAtomicReloadTest'];old=r/'tests/home-layout-native'
 stubs=list((old/'stubs').rglob('*.java'))+[r/'tests/home-dock-window/stubs/android/os'/f for f in ['Binder.java','IBinder.java','Parcel.java']]

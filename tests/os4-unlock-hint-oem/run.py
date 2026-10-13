@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import argparse,hashlib,json,subprocess,time
-ROOT=Path(__file__).resolve().parents[3];ADB=Path('/home/hgn284/.cache/hyperceiler-build/android-sdk/platform-tools/adb');PKG='local.hyperceiler.unlockhintoem';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+ROOT=test_paths.TEST_DATA_ROOT;ADB=test_paths.ANDROID_HOME / 'platform-tools/adb';PKG='local.hyperceiler.unlockhintoem';SERIAL='emulator-5580';sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.mkdir(parents=True,exist_ok=False);build=json.loads((a.build/'build-report.json').read_text());variant='results';assert build['passed']is True and sha(a.build/'unlock-hint-oem-probe.apk')==build['apk_sha256'];commands=[]
 def adb(*args,check=True):
  cmd=[str(ADB),'-s',SERIAL,*map(str,args)];commands.append(cmd);r=subprocess.run(cmd,capture_output=True,timeout=45)
@@ -26,6 +31,6 @@ while time.monotonic()<end:
 log=adb('logcat','-d','-t','400','-s','UnlockOemProbe:I','AndroidRuntime:E');(a.output/'logcat.txt').write_bytes(log.stdout)
 assert data,'Probe did not publish a report; inspect logcat'
 policy_after=adb('shell','settings','get','global','hidden_api_policy').stdout.decode().strip();assert policy_before==policy_after
-d=json.loads(data);assert d['source_sha256']==build['inputs'][str(ROOT/'source'/'tests/os4-unlock-hint-oem/MainActivity.java')]
+d=json.loads(data);assert d['source_sha256']==build['inputs'][str(test_paths.SOURCE_ROOT/'tests/os4-unlock-hint-oem/MainActivity.java')]
 (a.output/'android-report.json').write_bytes(data)
 report=dict(run_complete=True,passed=d['passed'],variant=variant,android_check_count=d['check_count'],failed_checks=d['failed_checks'],apk_sha256=build['apk_sha256'],build_report=dict(path=str(a.build/'build-report.json'),sha256=sha(a.build/'build-report.json')),inputs={str(Path(__file__).resolve()):sha(Path(__file__).resolve())},commands=commands,installed_apk_sha256=hashlib.sha256(installed).hexdigest(),hidden_api_policy=dict(before=policy_before,after=policy_after,changed=False),outputs={q.name:sha(q)for q in sorted(a.output.iterdir())if q.is_file()},avd=identity.strip(),device_status='NOT_TESTED',scope=d['scope']);(a.output/'report.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:report[k]for k in ['run_complete','passed','variant','android_check_count','failed_checks']},indent=2))

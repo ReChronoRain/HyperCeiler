@@ -4,7 +4,12 @@ Actual OTA ARM64 algorithm through API37 libndk_translation, never a phone PASS.
 """
 from pathlib import Path
 import argparse,hashlib,json,os,subprocess,time,zipfile
-HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[2];SRC=ROOT/'source';CACHE=Path('/home/hgn284/.cache/hyperceiler-build');SDK=CACHE/'android-sdk';BT=SDK/'build-tools/37.0.0';JAVA=CACHE/'jdk-25.0.4.1/bin';NDK=SDK/'ndk/28.2.13676358/toolchains/llvm/prebuilt/linux-x86_64/bin';LIB=Path('/tmp/hyperceiler-rom/extracted/system_ext/lib64/libMiMainColor.so');ADB=SDK/'platform-tools/adb';PKG='local.hyperceiler.colorprobe';CORE=SRC/'app/src/main/cpp/targets/systemui';PATH='/data/user/0/'+PKG+'/files/libMiMainColor.so'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+HERE=Path(__file__).resolve().parent;ROOT=test_paths.TEST_DATA_ROOT;SRC=test_paths.SOURCE_ROOT;CACHE=test_paths.BUILD_CACHE;SDK=test_paths.ANDROID_HOME;BT=SDK/'build-tools/37.0.0';JAVA=test_paths.JAVA_HOME / 'bin';NDK=test_paths.ANDROID_NDK_HOME / 'toolchains/llvm/prebuilt/linux-x86_64/bin';LIB=test_paths.EXTRACTED_ROM_ROOT / 'system_ext/lib64/libMiMainColor.so';ADB=SDK/'platform-tools/adb';PKG='local.hyperceiler.colorprobe';CORE=SRC/'app/src/main/cpp/targets/systemui';PATH='/data/user/0/'+PKG+'/files/libMiMainColor.so'
 sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 p=argparse.ArgumentParser();p.add_argument('--build',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--scenarios',default=','.join(map(str,range(24))));a=p.parse_args();b=a.build.resolve();o=a.output.resolve();b.mkdir(parents=True,exist_ok=False);o.mkdir(parents=True,exist_ok=False)
 inputs={str(q):sha(q)for q in [*sorted(HERE.glob('*.*')),*sorted(CORE.glob('*.*')),SRC/'app/src/main/cpp/CMakeLists.txt',LIB] if q.is_file()};assert sha(LIB)=='652eb3fb8850b46a4df0865c1abf4f3ca5b0084d828dceb5ce547be86e1d1852'
@@ -27,7 +32,7 @@ with zipfile.ZipFile(b/'resources.apk')as z,zipfile.ZipFile(b/'unaligned.apk','w
  for i in z.infolist():w.writestr(i,z.read(i.filename))
  w.write(b/'dex/classes.dex','classes.dex',compress_type=zipfile.ZIP_DEFLATED)
  for q,n in [(LIB,'libMiMainColor.so'),(b/'libHyperCeilerAmbientOS4.so','libHyperCeilerAmbientOS4.so'),(b/'liboemprobe.so','liboemprobe.so'),(NDK.parent/'sysroot/usr/lib/aarch64-linux-android/libc++_shared.so','libc++_shared.so')]:w.write(q,'lib/arm64-v8a/'+n,compress_type=zipfile.ZIP_DEFLATED)
-run([BT/'zipalign','-f','-P','16','4',b/'unaligned.apk',b/'aligned.apk']);run([BT/'apksigner','sign','--ks',ROOT/'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',b/'probe.apk',b/'aligned.apk']);run([BT/'apksigner','verify','--verbose',b/'probe.apk']);adb('install','--no-incremental','-r','--abi','arm64-v8a',b/'probe.apk')
+run([BT/'zipalign','-f','-P','16','4',b/'unaligned.apk',b/'aligned.apk']);run([BT/'apksigner','sign','--ks',test_paths.TEST_DATA_ROOT / 'emulation/native-probe/build/test-only.keystore','--ks-key-alias','nativeprobe','--ks-pass','pass:android','--key-pass','pass:android','--out',b/'probe.apk',b/'aligned.apk']);run([BT/'apksigner','verify','--verbose',b/'probe.apk']);adb('install','--no-incremental','-r','--abi','arm64-v8a',b/'probe.apk')
 checks=[];results=[]
 for scenario in map(int,a.scenarios.split(',')):
  adb('shell','am','force-stop',PKG);adb('shell','run-as',PKG,'rm','-f','files/report.json');adb('shell','am','start','-S','-W','-n',PKG+'/.MainActivity','--ei','scenario',str(scenario));end=time.monotonic()+180;raw=b''

@@ -2,8 +2,13 @@
 """Three complete Weather runtimes plus shared HWS cache in one host process."""
 from pathlib import Path
 import argparse, hashlib, importlib.util, json, re, subprocess, tempfile
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 HERE=Path(__file__).resolve().parent
-SOURCE=HERE.parents[1];ROOT=SOURCE.parent;CPP=SOURCE/'app/src/main/cpp';WEATHER=CPP/'targets/weather'
+SOURCE=HERE.parents[1];ROOT=test_paths.TEST_DATA_ROOT;CPP=SOURCE/'app/src/main/cpp';WEATHER=CPP/'targets/weather'
 STUBS=SOURCE/'tests/hyos-control/stubs'
 HELPER=SOURCE/'tests/weather-card-runtime/run.py'
 spec=importlib.util.spec_from_file_location('card_transaction_runner',HELPER);helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
@@ -23,7 +28,7 @@ def main():
   tmp=Path(tmp)
   linked=command([helper.NDK/'aarch64-linux-android35-clang','-fPIC','-shared','-nostdlib',WEATHER/'weather_card_arm64.S','-o',tmp/'templates.so'],out/'template-link')
   assert linked.returncode==0,linked.stderr
-  blobs=helper.linked_templates(tmp/'templates.so');approved_path=ROOT/'acceptance/weather-card-next/production-gateway-v1/compiled-v2/report.json';approved=json.loads(approved_path.read_text());assert approved['passed']
+  blobs=helper.linked_templates(tmp/'templates.so');approved_path=test_paths.TEST_DATA_ROOT / 'acceptance/weather-card-next/production-gateway-v1/compiled-v2/report.json';approved=json.loads(approved_path.read_text());assert approved['passed']
   assembly=['.section .rodata','.p2align 3'];template_hashes={}
   for kind,raw in blobs.items():
    sym='hc_weather_card_'+kind+'_template';entry=next(t for t in approved['templates']if t['name']==sym);assert raw[:284]==bytes.fromhex(entry['code_hex'])and raw[288:]==bytes(8)

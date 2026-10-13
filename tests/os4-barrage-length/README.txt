@@ -1,10 +1,10 @@
 OS4 custom barrage display length: complete production callback regression
 
-From /mnt/e/codex/hyperceiler-os4 (choose new output paths):
- python3 acceptance/java-test12/barrage-v1/rom-v1/extract_rom.py
- python3 source/tests/os4-barrage-length/verify_rom.py --output <new-rom-review>
- python3 source/tests/os4-barrage-length/run.py --output <new-host> --negative-controls
- python3 source/tests/os4-barrage-length/compile_android.py --output <new-sdk-compile>
+From the repository root (choose new output paths; see tests/PORTABILITY.md):
+ python3 "$HYPERCEILER_TEST_DATA/acceptance/java-test12/barrage-v1/rom-v1/extract_rom.py"
+ python3 tests/os4-barrage-length/verify_rom.py --output <new-rom-review>
+ python3 tests/os4-barrage-length/run.py --output <new-host> --negative-controls
+ python3 tests/os4-barrage-length/compile_android.py --output <new-sdk-compile>
 
 External inputs: exact OTA MiuiBarrage.apk at the recorded extracted path, official Android37 SDK and baksmali/dexlib jars, JDK25, Kotlin2.4.10, real EzHook1.3.0/API102 dependencies, and frozen test10 compiled peer classes. The artifact/source release does not redistribute ROM/SDK binaries.
 

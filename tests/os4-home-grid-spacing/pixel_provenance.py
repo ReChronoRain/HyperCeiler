@@ -1,8 +1,13 @@
 """Resolve the two math slots using the supplied engine, not upstream offsets."""
 import hashlib,struct
 from pathlib import Path
-R=Path(__file__).resolve().parents[3]
-ENGINE=R/'firmware/components/system_ext/lib64/libhyper_os_flutter.so'
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
+R=test_paths.TEST_DATA_ROOT
+ENGINE=test_paths.ROM_ROOT / 'components/system_ext/lib64/libhyper_os_flutter.so'
 def prove():
  b=ENGINE.read_bytes();ph=struct.unpack_from('<Q',b,32)[0];psz,pnum=struct.unpack_from('<HH',b,54)
  def read(va,size):
@@ -36,7 +41,7 @@ def prove():
  for args in [(0x657670,10,0x1113000),(0x65768c,8,0x1113000),(0x657680,8,0x1151000),(0x657684,9,0x1151000),(0xf79e48,11,0x1151000),(0xf79e50,9,0x1151000)]:adrp(*args)
  for pc,load,reg,base,offset in [(0x657678,True,10,10,0xaa8),(0x657688,False,10,8,0x528),(0x657694,True,8,8,0xab0),(0x65769c,False,8,9,0x530),(0xf79e54,True,11,11,0x528),(0xf79e68,False,11,0,0x750),(0xf79e58,True,9,9,0x530),(0xf79e70,False,9,0,0x758)]:
   w=guards[pc];assert w&0xffc00000==(0xf9400000 if load else 0xf9000000) and w&31==reg and (w>>5)&31==base and ((w>>10)&4095)*8==offset
- return {'engine':str(ENGINE.relative_to(R)),'engine_sha256':hashlib.sha256(b).hexdigest(),'method':'actual ELF dynamic relocations and exact guarded native load/store chains; no guessed upstream Thread offsets',
+ return {'engine':str(test_paths.report_path(ENGINE, R)),'engine_sha256':hashlib.sha256(b).hexdigest(),'method':'actual ELF dynamic relocations and exact guarded native load/store chains; no guessed upstream Thread offsets',
   'slots':{'0x750':{'global':'0x1151528','got':'0x1113aa8','symbol':'trunc'},'0x758':{'global':'0x1151530','got':'0x1113ab0','symbol':'round'}},
   'guarded_words':{hex(va):hex(word)for va,word in guards.items()},'initializer_slice_sha256':hashlib.sha256(read(0x65766c,0x38)).hexdigest(),'publication_slice_sha256':hashlib.sha256(read(0xf79e48,0x2c)).hexdigest(),
   'execution_scope':'static binding proof; the test supplies C math imports rather than running engine initialization or Android libc'}

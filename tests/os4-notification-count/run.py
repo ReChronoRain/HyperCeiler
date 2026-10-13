@@ -4,15 +4,20 @@ Android registration/target methods are host adapters; this is not a device test
 """
 from pathlib import Path
 import argparse,hashlib,json,os,re,subprocess,tempfile
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+import hyperceiler_test_paths as test_paths
+
 BASE=Path(__file__).resolve().parent
 SOURCE=BASE.parents[1]
-ROOT=SOURCE.parent
+ROOT=test_paths.TEST_DATA_ROOT
 PKG=SOURCE/'library/libhook/src/main/java/com/sevtinge/hyperceiler/libhook'
 RULE=PKG/'rules/systemui/controlcenter/RemoveNotifNumLimitOS4.java'
 ROUTE=PKG/'app/SystemUI/SystemUIB.java'
-CACHE=Path('/home/hgn284/.cache/hyperceiler-build')
-JAVA=CACHE/'jdk-25.0.4.1/bin'
-DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10').rglob('*.jar'))+[CACHE/'android-sdk/platforms/android-37.0/android.jar']
+CACHE=test_paths.BUILD_CACHE
+JAVA=test_paths.JAVA_HOME / 'bin'
+DEPS=[CACHE/'changed-hooks-compile'/x for x in ['hook-xposed-102-1.3.0.jar','api-102.0.0.jar']]+list((CACHE/'gradle-home/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/2.4.10').rglob('*.jar'))+[test_paths.ANDROID_HOME / 'platforms/android-37.0/android.jar']
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def write(w,name,text):
  p=w/(name.replace('.','/')+'.java');p.parent.mkdir(parents=True,exist_ok=True);p.write_text(text)
@@ -49,7 +54,7 @@ public abstract class BaseLoad {public abstract void onPackageLoaded();protected
   if z.returncode:print(z.stdout);raise RuntimeError('fixture compile failed')
   z=subprocess.run([str(JAVA/'java'),'-ea','-cp',str(w/'classes')+os.pathsep+cp,'TestMain'],text=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=60);(out/'tests.txt').write_text(z.stdout);print(z.stdout,end='');m=re.search(r'RESULT passes=(\d+) failures=(\d+)',z.stdout)
   if not m:raise RuntimeError('fixture did not complete')
-  report={'passed':z.returncode==0 and int(m[2])==0,'tests':{'passed':int(m[1]),'failed':int(m[2])},'exit_code':z.returncode,'mutation':mutation,'sources':{str(p.relative_to(ROOT)):sha(p) for p in [RULE,ROUTE]},'test_inputs':{str(p.relative_to(ROOT)):sha(p)for p in [*sorted((BASE/'fixtures').rglob('*.java')),Path(__file__)]},'dependencies':{str(p):sha(p)for p in DEPS},'boundary':'Complete production rule and route; real EzHook Hooks.createHook/HookFactory/InvocationContext and API102 Chain; class resolver/backend and Android ROM methods are adapters. The simple quota fixture is a scope witness, not execution of ROM DEX. No ART, LSPosed, or device evidence.','device_status':'NOT_TESTED'}
+  report={'passed':z.returncode==0 and int(m[2])==0,'tests':{'passed':int(m[1]),'failed':int(m[2])},'exit_code':z.returncode,'mutation':mutation,'sources':{str(test_paths.report_path(p, ROOT)):sha(p) for p in [RULE,ROUTE]},'test_inputs':{str(test_paths.report_path(p, ROOT)):sha(p)for p in [*sorted((BASE/'fixtures').rglob('*.java')),Path(__file__)]},'dependencies':{str(p):sha(p)for p in DEPS},'boundary':'Complete production rule and route; real EzHook Hooks.createHook/HookFactory/InvocationContext and API102 Chain; class resolver/backend and Android ROM methods are adapters. The simple quota fixture is a scope witness, not execution of ROM DEX. No ART, LSPosed, or device evidence.','device_status':'NOT_TESTED'}
   (out/'report.json').write_text(json.dumps(report,indent=2)+'\n');return report
 if __name__=='__main__':
  p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--negative-controls',action='store_true');a=p.parse_args();r=run(a.output)
